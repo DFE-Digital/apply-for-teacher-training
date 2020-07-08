@@ -61,6 +61,8 @@ parameters:
   govukNotifyCallbackAPIKey:
   dsiApiUrl:
   dsiApiSecret:
+  ucasUsername:
+  ucasPassword:
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -247,6 +249,8 @@ jobs:
                 -logRetentionDays ${{parameters.logRetentionDays}}
                 -dsiApiUrl "${{parameters.dsiApiUrl}}"
                 -dsiApiSecret "${{parameters.dsiApiSecret}}"
+                -ucasUsername "${{parameters.ucasUsername}}"
+                -ucasPassword "${{parameters.ucasPassword}}"
                 -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"
                 -sandbox "${{parameters.sandbox}}"'
               deploymentOutputs: DeploymentOutput

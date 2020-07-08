@@ -303,7 +303,7 @@ stages:
       displayName: 'Integration Tests'
       jobId: 'integration_tests'
       jobAttempt: $(System.JobAttempt)
-        
+
   - template: templates/rspec-job.yml
     parameters:
       testCommand: 'unit-tests'
@@ -366,6 +366,8 @@ stages:
       govukNotifyCallbackAPIKey: $(govukNotifyCallbackAPIKey)
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
+      ucasUsername: '$(ucasUsername)'
+      ucasPassword: '$(ucasPassword)'
       sandbox: '$(sandbox)'
 
 
@@ -423,4 +425,6 @@ stages:
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
+      ucasUsername: '$(ucasUsername)'
+      ucasPassword: '$(ucasPassword)'
       sandbox: '$(sandbox)'

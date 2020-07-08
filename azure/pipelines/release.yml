@@ -98,6 +98,8 @@ stages:
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
+      ucasUsername: '$(ucasUsername)'
+      ucasPassword: '$(ucasPassword)'
       sandbox: '$(sandbox)'
 
 - stage: deploy_sandbox
@@ -155,6 +157,8 @@ stages:
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
+      ucasUsername: '$(ucasUsername)'
+      ucasPassword: '$(ucasPassword)'
       sandbox: '$(sandbox)'
 
 
@@ -215,4 +219,6 @@ stages:
       govukNotifyCallbackAPIKey: '$(govukNotifyCallbackAPIKey)'
       dsiApiUrl: '$(dsiApiUrl)'
       dsiApiSecret: '$(dsiApiSecret)'
+      ucasUsername: '$(ucasUsername)'
+      ucasPassword: '$(ucasPassword)'
       sandbox: '$(sandbox)'
