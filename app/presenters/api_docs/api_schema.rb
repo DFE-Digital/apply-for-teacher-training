@@ -52,7 +52,7 @@ module APIDocs
         if type == 'string' && attributes.max_length.present?
           desc << " (limited to #{attributes.max_length} characters)"
         elsif type == 'array' && attributes.max_items.present?
-          desc << " (limited to #{attributes.max_length} elements)"
+          desc << " (limited to #{attributes.max_items} elements)"
         end
 
         desc.join
