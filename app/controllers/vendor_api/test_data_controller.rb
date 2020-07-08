@@ -32,6 +32,12 @@ module VendorAPI
       render json: { data: { message: 'Applications cleared' } }
     end
 
+    def experimental_endpoint_moved
+      new_endpoint_path = request.path.gsub('/experimental', '')
+
+      render json: { data: { message: "Experimental endpoint #{request.path} has moved to #{new_endpoint_path}" } }, status: :gone
+    end
+
   private
 
     def check_this_is_a_test_environment
