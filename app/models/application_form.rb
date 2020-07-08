@@ -41,6 +41,12 @@ class ApplicationForm < ApplicationRecord
     never_asked: 'never_asked',
   }
 
+  enum right_to_work_or_study: {
+    yes: 'yes',
+    no: 'no',
+    decide_later: 'decide_later',
+  }
+
   enum address_type: {
     uk: 'uk',
     international: 'international',
