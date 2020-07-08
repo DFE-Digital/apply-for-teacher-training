@@ -24,4 +24,6 @@ services:
       - STATE_CHANGE_SLACK_URL
       - DSI_API_URL
       - DSI_API_SECRET
+      - UCAS_USERNAME
+      - UCAS_PASSWORD
       - SANDBOX

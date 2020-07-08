@@ -341,6 +341,18 @@
                 "description": "The DfE Sign-in API_SECRET for authenticating API requests"
             }
         },
+        "ucasUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "The username for UCAS data exchange"
+            }
+        },
+        "ucasPassword": {
+            "type": "string",
+            "metadata": {
+                "description": "The password for UCAS data exchange"
+            }
+        },
         "stateChangeSlackUrl": {
             "type": "string",
             "metadata": {
@@ -717,6 +729,14 @@
                             {
                                 "name": "DSI_API_SECRET",
                                 "value": "[parameters('dsiApiSecret')]"
+                            },
+                            {
+                                "name": "UCAS_USERNAME",
+                                "value": "[parameters('ucasUsername')]"
+                            },
+                            {
+                                "name": "UCAS_PASSWORD",
+                                "value": "[parameters('ucasPassword')]"
                             },
                             {
                                 "name": "REDIS_URL",
