@@ -188,6 +188,10 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
+  def return_other_nationality
+    first_nationality if first_nationality != 'British' && first_nationality != 'Irish' && first_nationality != 'Multiple'
+  end
+
 private
 
   def enough_references_have_been_provided?
