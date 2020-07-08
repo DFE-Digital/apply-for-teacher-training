@@ -83,12 +83,18 @@ module CandidateInterface
     end
 
     def formatted_nationalities
-      [
-        @nationalities_form.first_nationality,
-        @nationalities_form.second_nationality,
-      ]
+      if @nationalities_form.multiple_nationalities.present?
+        @nationalities_form.multiple_nationalities
+      elsif FeatureFlag.active?('international_personal_details')
+        @nationalities_form.first_nationality
+      else
+        [
+          @nationalities_form.first_nationality,
+          @nationalities_form.second_nationality,
+        ]
         .reject(&:blank?)
         .to_sentence
+      end
     end
   end
 end
