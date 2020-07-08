@@ -73,10 +73,6 @@ RSpec.feature 'Entering their personal details' do
     click_link t('page_titles.personal_details')
   end
 
-  def then_i_see_the_languages_page
-    expect(page).to have_current_path candidate_interface_languages_path
-  end
-
   def and_i_fill_in_some_details_but_omit_some_required_details
     @scope = 'application_form.personal_details'
     fill_in t('first_name.label', scope: @scope), with: 'Lando'
@@ -155,7 +151,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def then_i_see_the_right_to_work_or_study_page
-    expect(page).to have_current_path candidate_interface_right_to_work_path
+    expect(page).to have_current_path candidate_interface_right_to_work_or_study_path
   end
 
   def when_i_choose_yes
