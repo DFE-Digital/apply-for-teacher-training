@@ -21,6 +21,7 @@ class ApplicationForm < ApplicationRecord
   MINIMUM_COMPLETE_REFERENCES = 2
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
+  ENGLISH_SPEAKING_NATIONALITIES = %w[British Irish].freeze
 
   def equality_and_diversity_answers_provided?
     answered_questions = Hash(equality_and_diversity).keys
@@ -175,6 +176,11 @@ class ApplicationForm < ApplicationRecord
 
   def incomplete_degree_information?
     application_qualifications.degree.any?(&:incomplete_degree_information?)
+  end
+
+  def english_speaking_nationality?
+    ENGLISH_SPEAKING_NATIONALITIES.include?(first_nationality) ||
+      ENGLISH_SPEAKING_NATIONALITIES.include?(second_nationality)
   end
 
 private

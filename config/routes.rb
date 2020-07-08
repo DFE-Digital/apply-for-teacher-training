@@ -320,6 +320,10 @@ Rails.application.routes.draw do
         delete '/delete/:id' => 'other_qualifications/destroy#destroy'
       end
 
+      scope '/english-as-a-foreign-language' do
+        get '/' => 'english_language/start#new', as: :english_language_root
+      end
+
       scope '/referees' do
         get '/' => 'referees#index', as: :referees
 
