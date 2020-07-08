@@ -42,14 +42,20 @@ RSpec.feature 'Entering their personal details' do
     and_i_submit_the_form
     then_i_see_the_right_to_work_or_study_page
 
-    when_i_choose_yes
+    when_i_choose_i_do_not_know
+    and_i_submit_the_form
+    then_i_see_the_personal_details_review_page
+    and_i_can_see_my_updated_details
+
+    when_i_click_change_on_my_right_to_work
+    and_i_choose_yes
     and_i_submit_the_form
     then_i_am_told_i_need_to_provide_details
 
     when_i_fill_in_my_right_to_work_details
     and_i_submit_the_form
     then_i_see_the_personal_details_review_page
-    and_i_can_see_my_updated_details
+    and_i_can_see_my_updated_right_to_work
 
     when_i_mark_the_section_as_completed
     and_i_submit_my_details
@@ -154,8 +160,12 @@ RSpec.feature 'Entering their personal details' do
     expect(page).to have_current_path candidate_interface_right_to_work_or_study_path
   end
 
-  def when_i_choose_yes
+  def and_i_choose_yes
     choose 'Yes'
+  end
+
+  def when_i_choose_i_do_not_know
+    choose "I do not know"
   end
 
   def then_i_am_told_i_need_to_provide_details
@@ -168,7 +178,16 @@ RSpec.feature 'Entering their personal details' do
 
   def and_i_can_see_my_updated_details
     expect(page).to have_content 'German'
+    expect(page).to have_content 'I do not know'
+  end
+
+  def when_i_click_change_on_my_right_to_work
+    all('.govuk-summary-list__actions')[3].click_link 'Change'
+  end
+
+  def and_i_can_see_my_updated_right_to_work
     expect(page).to have_content "Borders? I don't believe in no stinking borders."
+    expect(page).to have_content 'I have the right to work or study in the UK'
   end
 
   def when_i_mark_the_section_as_completed
