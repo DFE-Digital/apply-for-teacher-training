@@ -8,10 +8,12 @@ module CandidateInterface
         @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
         @nationalities_form = NationalitiesForm.build_from_application(current_application)
         @languages_form = LanguagesForm.build_from_application(current_application)
+        @right_to_work_form = RightToWorkOrStudyForm.build_from_application(current_application)
         @personal_details_review = PersonalDetailsReviewPresenter.new(
           personal_details_form: @personal_details_form,
           nationalities_form: @nationalities_form,
           languages_form: @languages_form,
+          right_to_work_form: @right_to_work_form,
         )
       end
 
@@ -19,6 +21,7 @@ module CandidateInterface
         @personal_details_form = PersonalDetailsForm.build_from_application(current_application)
         @nationalities_form = NationalitiesForm.build_from_application(current_application)
         @languages_form = LanguagesForm.build_from_application(current_application)
+        @right_to_work_form = RightToWorkOrStudyForm.build_from_application(current_application)
 
         if @personal_details_form.valid? &&
             @nationalities_form.valid? &&

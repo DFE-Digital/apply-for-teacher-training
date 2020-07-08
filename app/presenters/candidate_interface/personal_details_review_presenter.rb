@@ -1,9 +1,12 @@
 module CandidateInterface
   class PersonalDetailsReviewPresenter
-    def initialize(personal_details_form:, nationalities_form:, languages_form:, editable: true)
+    include ActionView::Helpers::TagHelper
+
+    def initialize(personal_details_form:, nationalities_form:, languages_form:, right_to_work_form:, editable: true)
       @personal_details_form = personal_details_form
       @nationalities_form = nationalities_form
       @languages_form = languages_form
+      @right_to_work_form = right_to_work_form
       @editable = editable
     end
 
@@ -13,6 +16,7 @@ module CandidateInterface
           name_row,
           date_of_birth_row,
           nationality_row,
+          right_to_work_row,
         ]
         .compact
       else
@@ -91,6 +95,17 @@ module CandidateInterface
       }
     end
 
+    def right_to_work_row
+      if @nationalities_form.first_nationality != 'British' && @nationalities_form.first_nationality != 'Irish'
+        {
+          key: 'Residency status',
+          value: "#{formatted_right_to_work_or_study} <br> #{tag.p(@right_to_work_form.right_to_work_or_study_details)}".html_safe,
+          action: ('Right to work or study' if @editable),
+          change_path: Rails.application.routes.url_helpers.candidate_interface_right_to_work_or_study_path,
+        }
+      end
+    end
+
     def formatted_nationalities
       if @nationalities_form.multiple_nationalities.present?
         @nationalities_form.multiple_nationalities
@@ -103,6 +118,17 @@ module CandidateInterface
         ]
         .reject(&:blank?)
         .to_sentence
+      end
+    end
+
+    def formatted_right_to_work_or_study
+      case @right_to_work_form.right_to_work_or_study
+      when 'yes'
+        'I have the right to work or study in the UK'
+      when 'no'
+        'I will need to apply for permission to work or study in the UK'
+      else
+        'I do not know'
       end
     end
   end

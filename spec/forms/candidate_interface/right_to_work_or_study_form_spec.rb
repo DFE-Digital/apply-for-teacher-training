@@ -42,7 +42,6 @@ RSpec.describe CandidateInterface::RightToWorkOrStudyForm, type: :model do
         expect(right_to_work_form.save(ApplicationForm.new)).to eq(false)
       end
 
-
       it 'updates the provided ApplicationForm if valid' do
         application_form = FactoryBot.create(:application_form)
         right_to_work_form = CandidateInterface::RightToWorkOrStudyForm.new(form_data)
