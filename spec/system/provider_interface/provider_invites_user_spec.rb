@@ -5,8 +5,9 @@ RSpec.feature 'Provider invites a new provider user' do
   include DsiAPIHelper
 
   scenario 'Provider sends invite to user' do
+    FeatureFlag.activate(:providers_can_manage_users_and_permissions)
+
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_provider_add_provider_users_feature_is_enabled
     and_i_can_manage_applications_for_two_providers
     and_i_can_manage_users_for_a_provider
     and_i_sign_in_to_the_provider_interface
@@ -41,10 +42,6 @@ RSpec.feature 'Provider invites a new provider user' do
 
   def and_i_can_manage_users_for_a_provider
     @provider_user.provider_permissions.find_by(provider: @provider).update(manage_users: true)
-  end
-
-  def and_the_provider_add_provider_users_feature_is_enabled
-    FeatureFlag.activate('provider_add_provider_users')
   end
 
   def and_i_click_invite_user

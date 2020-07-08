@@ -45,7 +45,7 @@ class NavigationItems
         items << NavigationItem.new('Organisations', provider_interface_organisations_path, is_active(current_controller, %w[organisations provider_relationship_permissions]))
       end
 
-      if FeatureFlag.active?('provider_add_provider_users') && current_provider_user.can_manage_users?
+      if FeatureFlag.active?(:providers_can_manage_users_and_permissions) && current_provider_user.can_manage_users?
         items << NavigationItem.new('Users', provider_interface_provider_users_path, is_active(current_controller, 'provider_users'))
       end
 

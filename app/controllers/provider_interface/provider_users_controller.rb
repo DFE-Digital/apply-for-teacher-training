@@ -1,6 +1,6 @@
 module ProviderInterface
   class ProviderUsersController < ProviderInterfaceController
-    before_action :requires_provider_add_provider_users_feature_flag
+    before_action :require_feature_flag
     before_action :redirect_unless_permitted_to_manage_users
 
     def index
@@ -104,8 +104,8 @@ module ProviderInterface
             .to_h
     end
 
-    def requires_provider_add_provider_users_feature_flag
-      render_404 unless FeatureFlag.active?('provider_add_provider_users')
+    def require_feature_flag
+      render_404 unless FeatureFlag.active?(:providers_can_manage_users_and_permissions)
     end
 
     def redirect_unless_permitted_to_manage_users

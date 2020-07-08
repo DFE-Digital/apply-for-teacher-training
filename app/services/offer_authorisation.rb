@@ -10,20 +10,20 @@ class OfferAuthorisation
     training_provider = course_option.provider
     ratifying_provider = course_option.course.accredited_provider
 
-    # enforce org-level 'make_decisions' restriction
-    return false if ratifying_provider &&
-      FeatureFlag.active?(:enforce_provider_to_provider_permissions) &&
-      FeatureFlag.active?('provider_make_decisions_restriction') &&
-      provider_relationship_permissions_for_actor(
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
-      ).none?(&:make_decisions)
+    if FeatureFlag.active?(:providers_can_manage_users_and_permissions)
+      # enforce user-level 'make_decisions' restriction
+      related_providers = [training_provider, ratifying_provider].compact
+      return false if !actor_has_permission_to_make_decisions?(providers: related_providers)
 
-    # enforce user-level 'make_decisions' restriction
-    related_providers = [training_provider, ratifying_provider].compact
-    return false if
-      FeatureFlag.active?('provider_make_decisions_restriction') &&
-        !actor_has_permission_to_make_decisions?(providers: related_providers)
+      if FeatureFlag.active?(:enforce_provider_to_provider_permissions)
+        # enforce org-level 'make_decisions' restriction
+        return false if ratifying_provider &&
+          provider_relationship_permissions_for_actor(
+            training_provider: training_provider,
+            ratifying_provider: ratifying_provider,
+          ).none?(&:make_decisions)
+      end
+    end
 
     # check (indirect) relationship between course_option and @actor
     if course_option_id != application_choice.course_option.id
