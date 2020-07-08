@@ -28,6 +28,7 @@ module CandidateInterface
 
       def edit
         @nationalities_form = NationalitiesForm.build_from_application(current_application)
+        set_first_nationality_to_other_if_non_uk_or_irish_nationality if FeatureFlag.active?('international_personal_details')
       end
 
       def update
@@ -40,6 +41,7 @@ module CandidateInterface
           redirect_to candidate_interface_personal_details_show_path
         else
           track_validation_error(@nationalities_form)
+          set_first_nationality_to_other_if_non_uk_or_irish_nationality if FeatureFlag.active?('international_personal_details')
           render :edit
         end
       end
@@ -50,6 +52,12 @@ module CandidateInterface
         params.require(:candidate_interface_nationalities_form).permit(
           :first_nationality, :second_nationality, :other_nationality, :multiple_nationalities
         )
+      end
+
+      def set_first_nationality_to_other_if_non_uk_or_irish_nationality
+        @nationalities_form.first_nationality = 'Other' if @nationalities_form.first_nationality != 'British' &&
+          @nationalities_form.first_nationality != 'Irish' &&
+          @nationalities_form.first_nationality != 'Multiple'
       end
     end
   end

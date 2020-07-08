@@ -33,7 +33,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
     end
 
     context 'when first nationality is british and the international_personal_details flag on' do
-      let(:form_data) { { first_nationality: 'british' } }
+      let(:form_data) { { first_nationality: 'British' } }
 
       it 'updates the provided ApplicationForm if valid' do
         FeatureFlag.activate('international_personal_details')
@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
     context 'when first nationality is multiple and the international_personal_details flag on' do
       let(:form_data) do
         {
-          first_nationality: 'multiple',
+          first_nationality: 'Multiple',
           multiple_nationalities: 'German and Austrian',
         }
       end

@@ -25,6 +25,8 @@ module CandidateInterface
       new(
         first_nationality: application_form.first_nationality,
         second_nationality: application_form.second_nationality,
+        multiple_nationalities: application_form.multiple_nationalities_details,
+        other_nationality: application_form.return_other_nationality,
       )
     end
 
@@ -34,7 +36,7 @@ module CandidateInterface
       if FeatureFlag.active?('international_personal_details')
         application_form.update(
           first_nationality: nationality,
-          multiple_nationalities_details: multiple_nationalities,
+          multiple_nationalities_details: populate_multiple_nationalties,
         )
       else
         application_form.update(
@@ -56,18 +58,15 @@ module CandidateInterface
     end
 
     def nationality
-      case first_nationality
-      when 'Other'
-        other_nationality
-      when 'Multiple'
-        first_nationality
-      else
-        first_nationality.capitalize
-      end
+      first_nationality_is_other? ? other_nationality : first_nationality
     end
 
     def populate_multiple_nationalties
-      "#{first_nationality} and #{second_nationality}" if second_nationality.present?
+      if FeatureFlag.active?('international_personal_details') && multiple_nationalities_selected?
+        multiple_nationalities
+      elsif second_nationality.present?
+        "#{first_nationality} and #{second_nationality}"
+      end
     end
 
     def international_flag_is_on?
