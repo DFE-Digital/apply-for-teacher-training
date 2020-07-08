@@ -41,7 +41,7 @@ class NavigationItems
 
       items = [NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes]))]
 
-      if current_provider_user.can_manage_organisations?
+      if current_provider_user.can_manage_organisations? && Provider.with_permissions_visible_to(current_provider_user).exists?
         items << NavigationItem.new('Organisations', provider_interface_organisations_path, is_active(current_controller, %w[organisations provider_relationship_permissions]))
       end
 
