@@ -9,8 +9,7 @@ module VendorAPI
     DEFAULT_COURSES_COUNT = 1
 
     def regenerate
-      GenerateTestData.new(count_param, current_provider).generate
-      render json: { data: { message: 'OK, regenerated the test data' } }
+      render json: { errors: [{ error: 'Functionality for this endpoint has been removed. Please use /test-data/clear and /test-data/generate.' }] }
     end
 
     def generate
