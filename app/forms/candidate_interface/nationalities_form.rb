@@ -40,6 +40,7 @@ module CandidateInterface
         application_form.update(
           first_nationality: first_nationality,
           second_nationality: second_nationality,
+          multiple_nationalities_details: populate_multiple_nationalties,
         )
       end
     end
@@ -63,6 +64,10 @@ module CandidateInterface
       else
         first_nationality.capitalize
       end
+    end
+
+    def populate_multiple_nationalties
+      "#{first_nationality} and #{second_nationality}" if second_nationality.present?
     end
 
     def international_flag_is_on?

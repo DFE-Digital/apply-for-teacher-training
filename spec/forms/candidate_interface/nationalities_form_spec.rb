@@ -82,13 +82,14 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
       end
     end
 
-    context 'with the international_personal_details flag off' do
-      it 'updates the provided ApplicationForm if valid' do
+    context 'with the international_personal_details flag off and a candidate has multiple nationalities' do
+      it 'updates the provided ApplicationForm if valid and populates multiple_nationalities_details' do
         application_form = FactoryBot.create(:application_form)
         nationalities = CandidateInterface::NationalitiesForm.new(form_data)
 
         expect(nationalities.save(application_form)).to eq(true)
         expect(application_form).to have_attributes(data)
+        expect(application_form.multiple_nationalities_details).to eq "#{data[:first_nationality]} and #{data[:second_nationality]}"
       end
     end
   end
