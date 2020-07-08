@@ -632,6 +632,7 @@ Rails.application.routes.draw do
 
     get '/validation-errors' => 'validation_errors#index', as: :validation_errors
     get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search
+    get '/validation-errors/summary' => 'validation_errors#summary', as: :validation_error_summary
 
     scope '/users' do
       get '/' => 'users#index', as: :users

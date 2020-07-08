@@ -1,0 +1,59 @@
+<% content_for :title, 'Validation error summary' %>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter" colspan="2">All time</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter" colspan="2">Last month</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter" colspan="2">Last week</th>
+    </tr>
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Unique users</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Unique users</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
+      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Unique users</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% @validation_error_summary.each do |row| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <%= govuk_link_to(
+          row['form_object'].to_s.demodulize.underscore.humanize,
+          support_interface_validation_error_search_path(form_object: row['form_object'].to_s),
+        ) %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= govuk_link_to(
+          row['attribute'].to_s.humanize,
+          support_interface_validation_error_search_path(form_object: row['form_object'], attribute: row['attribute']),
+        ) %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['incidents_all_time'] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['unique_users_all_time'] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['incidents_last_month'] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['unique_users_last_month'] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['incidents_last_week'] %>
+      </td>
+      <td class="govuk-table__cell">
+        <%= row['unique_users_last_week'] %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

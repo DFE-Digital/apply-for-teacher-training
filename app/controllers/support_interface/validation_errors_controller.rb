@@ -13,6 +13,10 @@ module SupportInterface
         .page(params[:page] || 1)
     end
 
+    def summary
+      @validation_error_summary = ::ValidationErrorSummaryQuery.new.call
+    end
+
     class ValidationErrorSearch
       def self.search(params)
         scope = ValidationError
