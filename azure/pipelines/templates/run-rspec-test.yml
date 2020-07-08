@@ -33,6 +33,7 @@ steps:
         exit 1
       fi
     displayName: 'Execute ${{ parameters.testCommand }}'
+    timeoutInMinutes: 10
     env:
       testResultFile: ${{ parameters.testResultsFile }}
       dockerHubUsername: $(dockerHubUsername)
