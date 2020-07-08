@@ -1,0 +1,56 @@
+require 'rails_helper'
+
+RSpec.describe CandidateInterface::RightToWorkOrStudyForm, type: :model do
+  describe '#validations' do
+    let(:form) { subject }
+
+    before do
+      allow(form).to receive(:has_right_to_work_or_study?).and_return(true)
+    end
+
+    it { is_expected.to validate_presence_of(:right_to_work_or_study) }
+    it { is_expected.to validate_presence_of(:right_to_work_or_study_details) }
+
+    describe '.build_from_application' do
+      let(:form_data) do
+        {
+          right_to_work_or_study: 'yes',
+          right_to_work_or_study_details: 'I come from the land down under.',
+        }
+      end
+
+      it 'creates an object based on the provided ApplicationForm' do
+        application_form = ApplicationForm.new(form_data)
+        right_to_work_form = CandidateInterface::RightToWorkOrStudyForm.build_from_application(
+          application_form,
+        )
+        expect(right_to_work_form).to have_attributes(form_data)
+      end
+    end
+
+    describe '#save' do
+      let(:form_data) do
+        {
+          right_to_work_or_study: 'no',
+          right_to_work_or_study_details: '',
+        }
+      end
+
+      it 'returns false if not valid' do
+        right_to_work_form = CandidateInterface::RightToWorkOrStudyForm.new
+
+        expect(right_to_work_form.save(ApplicationForm.new)).to eq(false)
+      end
+
+
+      it 'updates the provided ApplicationForm if valid' do
+        application_form = FactoryBot.create(:application_form)
+        right_to_work_form = CandidateInterface::RightToWorkOrStudyForm.new(form_data)
+
+        expect(right_to_work_form.save(application_form)).to eq(true)
+        expect(application_form.right_to_work_or_study).to eq 'no'
+        expect(application_form.right_to_work_or_study_details).to eq ''
+      end
+    end
+  end
+end
