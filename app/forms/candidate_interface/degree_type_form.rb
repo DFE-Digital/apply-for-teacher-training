@@ -3,12 +3,15 @@ module CandidateInterface
     include ActiveModel::Model
 
     attr_accessor :type_description
+    attr_accessor :international_type_description
     attr_accessor :uk_degree
     attr_accessor :application_form, :degree
 
     validates :uk_degree, presence: true, if: -> { FeatureFlag.active?(:international_degrees) }
-    validates :type_description, presence: true
+    validates :type_description, presence: true, unless: -> { international? }
     validates :type_description, length: { maximum: 255 }
+    validates :international_type_description, presence: true, if: -> { international? }
+    validates :international_type_description, length: { maximum: 255 }
 
     def save
       return false unless valid?
@@ -16,8 +19,8 @@ module CandidateInterface
 
       self.degree = application_form.application_qualifications.degree.create!(
         international: international?,
-        qualification_type: type_description,
-        qualification_type_hesa_code: hesa_code,
+        qualification_type: international? ? international_type_description : type_description,
+        qualification_type_hesa_code: international? ? nil : hesa_code,
       )
     end
 
@@ -27,14 +30,15 @@ module CandidateInterface
 
       degree.update!(
         international: international?,
-        qualification_type: type_description,
-        qualification_type_hesa_code: hesa_code,
+        qualification_type: international? ? international_type_description : type_description,
+        qualification_type_hesa_code: international? ? nil : hesa_code,
       )
     end
 
     def fill_form_values
-      self.uk_degree = !degree.international?
-      self.type_description = degree.qualification_type
+      self.uk_degree = degree.international? ? 'no' : 'yes'
+      self.type_description = degree.international? ? nil : degree.qualification_type
+      self.international_type_description = degree.international? ? degree.qualification_type : nil
       self
     end
 

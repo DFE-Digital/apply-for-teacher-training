@@ -149,7 +149,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
       end
 
       let(:form) do
-        described_class.new(degree: degree, type_description: 'Doctor of Rap Battles', uk_degree: 'no')
+        described_class.new(degree: degree, international_type_description: 'Doctor of Rap Battles', uk_degree: 'no')
       end
 
       before { FeatureFlag.activate(:international_degrees) }

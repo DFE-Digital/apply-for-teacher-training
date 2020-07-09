@@ -132,6 +132,10 @@ en:
         button: Save and continue
       qualification:
         change_action: qualification
+      uk_degree:
+        label: UK degree
+      non_uk_degree:
+        label: Non-UK degree
       qualification_type:
         label: Type of degree
         review_label: Degree type
@@ -139,6 +143,10 @@ en:
           undergraduate: For example, BA, BSc or other
           another: For example, Masters, PhD, or other
           all: For example, BA, BSc, Masters, PhD, or other
+      international_qualification_type:
+        label: Type of qualification
+        review_label: Degree type
+        hint_text: For example, Bachelor degree, Bachelor of Arts, Diplôme, Licenciatura
       subject:
         label: What subject is your degree?
         review_label: Subject
@@ -468,9 +476,14 @@ en:
               too_many_words: Explanation for why you’ve been out of the workplace must be %{count} words or fewer
         candidate_interface/degree_type_form:
           attributes:
+            uk_degree:
+              blank: Select if this is a UK degree or not
             type_description:
               blank: Enter your degree type
               too_long: Type of degree must be %{count} characters or fewer
+            international_type_description:
+              blank: Enter your qualification type
+              too_long: Type of qualification must be %{count} characters or fewer
         candidate_interface/degree_subject_form:
           attributes:
             subject:
