@@ -14,9 +14,15 @@
         <% select_gcse_qualification_type_options.each_with_index do |option, i| %>
           <%= f.govuk_radio_divider if i == select_gcse_qualification_type_options.count - 1 %>
           <% if option.id == :other_uk %>
-
             <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label }, link_errors: i.zero? do %>
               <% f.govuk_text_field :other_uk_qualification_type, label: { text: t('application_form.gcse.other_uk.label'), size: 's' } %>
+            <% end %>
+
+          <% elsif option.id == :non_uk %>
+            <% if FeatureFlag.active?('international_gcses') %>
+              <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label }, link_errors: i.zero? do %>
+                <% f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.other_uk.label'), size: 's' }, hint_text: t('application_form.gcse.other_uk.hint_text') %>
+              <% end %>
             <% end %>
 
           <% elsif option.id == :missing %>
