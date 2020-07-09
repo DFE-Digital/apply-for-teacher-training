@@ -13,7 +13,7 @@ module CandidateInterface
       @languages_form = CandidateInterface::LanguagesForm.build_from_application(
         application_form,
       )
-      @right_to_work_form = CandidateInterface::RightToWorkOrStudyForm.build_from_application(
+      @right_to_work_or_study_form = CandidateInterface::RightToWorkOrStudyForm.build_from_application(
         application_form,
       )
       @editable = editable
@@ -22,7 +22,7 @@ module CandidateInterface
 
     def rows
       CandidateInterface::PersonalDetailsReviewPresenter
-        .new(personal_details_form: @personal_details_form, nationalities_form: @nationalities_form, languages_form: @languages_form, right_to_work_form: @right_to_work_form)
+        .new(personal_details_form: @personal_details_form, nationalities_form: @nationalities_form, languages_form: @languages_form, right_to_work_form: @right_to_work_or_study_form)
         .rows
     end
 

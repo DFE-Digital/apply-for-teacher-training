@@ -6,7 +6,7 @@ module CandidateInterface
       @personal_details_form = personal_details_form
       @nationalities_form = nationalities_form
       @languages_form = languages_form
-      @right_to_work_form = right_to_work_form
+      @right_to_work_or_study_form = right_to_work_form
       @editable = editable
     end
 
@@ -99,7 +99,7 @@ module CandidateInterface
       if @nationalities_form.first_nationality != 'British' && @nationalities_form.first_nationality != 'Irish'
         {
           key: 'Residency status',
-          value: "#{formatted_right_to_work_or_study} <br> #{tag.p(@right_to_work_form.right_to_work_or_study_details)}".html_safe,
+          value: "#{formatted_right_to_work_or_study} <br> #{tag.p(@right_to_work_or_study_form.right_to_work_or_study_details)}".html_safe,
           action: ('Right to work or study' if @editable),
           change_path: Rails.application.routes.url_helpers.candidate_interface_edit_right_to_work_or_study_path,
         }
@@ -122,7 +122,7 @@ module CandidateInterface
     end
 
     def formatted_right_to_work_or_study
-      case @right_to_work_form.right_to_work_or_study
+      case @right_to_work_or_study_form.right_to_work_or_study
       when 'yes'
         'I have the right to work or study in the UK'
       when 'no'
