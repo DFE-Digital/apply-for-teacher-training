@@ -465,8 +465,11 @@ Rails.application.routes.draw do
     post '/applications/:application_id/confirm-enrolment' => 'decisions#confirm_enrolment'
 
     post '/test-data/regenerate' => 'test_data#regenerate'
-    post '/experimental/test-data/generate' => 'test_data#generate'
-    post '/experimental/test-data/clear' => 'test_data#clear!'
+    post '/test-data/generate' => 'test_data#generate'
+    post '/test-data/clear' => 'test_data#clear!'
+
+    post '/experimental/test-data/generate' => 'test_data#experimental_endpoint_moved'
+    post '/experimental/test-data/clear' => 'test_data#experimental_endpoint_moved'
 
     get '/ping', to: 'ping#ping'
   end

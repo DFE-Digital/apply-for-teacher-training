@@ -9,8 +9,7 @@ module VendorAPI
     DEFAULT_COURSES_COUNT = 1
 
     def regenerate
-      GenerateTestData.new(count_param, current_provider).generate
-      render json: { data: { message: 'OK, regenerated the test data' } }
+      render json: { errors: [{ error: 'Functionality for this endpoint has been removed. Please use /test-data/clear and /test-data/generate.' }] }
     end
 
     def generate
@@ -31,6 +30,12 @@ module VendorAPI
       current_provider.application_choices.map(&:application_form).map(&:candidate).map(&:destroy!)
 
       render json: { data: { message: 'Applications cleared' } }
+    end
+
+    def experimental_endpoint_moved
+      new_endpoint_path = request.path.gsub('/experimental', '')
+
+      render json: { data: { message: "Experimental endpoint #{request.path} has moved to #{new_endpoint_path}" } }, status: :gone
     end
 
   private

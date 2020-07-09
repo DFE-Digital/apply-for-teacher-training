@@ -1,11 +1,5 @@
 paths:
-  "/test-data/regenerate":
-    post:
-      deprecated: true
-      description: |
-        Deletes all applications and generates 100 new applications. Only
-        available on the Sandbox. DEPRECATED: See /test-data/generate and /test-data/clear
-  "/experimental/test-data/generate":
+  "/test-data/generate":
     post:
       tags:
       - Testing
@@ -36,12 +30,12 @@ paths:
           "$ref": "#/components/responses/TestDataGenerated"
         '401':
           "$ref": "#/components/responses/Unauthorized"
-  "/experimental/test-data/clear":
+  "/test-data/clear":
     post:
       tags:
       - Testing
       summary: Clear test data
-      description: 'Clears all application data for the current provider. Only available
+      description: 'Deletes ALL application data for the current provider regardless of how it was created. Only available
         on the Sandbox. EXPERIMENTAL — this endpoint may change or disappear.
 
         '
