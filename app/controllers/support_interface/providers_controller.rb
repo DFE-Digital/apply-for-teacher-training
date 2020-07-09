@@ -48,10 +48,6 @@ module SupportInterface
       update_provider('Successfully updated provider') { |provider| provider.update!(sync_courses: true) }
     end
 
-    def relationships
-      @diagram = SupportInterface::ProviderRelationshipsDiagram.new
-    end
-
   private
 
     def update_provider(success_message)

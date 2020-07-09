@@ -594,7 +594,6 @@ Rails.application.routes.draw do
 
     get '/providers' => 'providers#index', as: :providers
     get '/providers/other' => 'providers#other_providers', as: :other_providers
-    get '/providers/relationships' => 'providers#relationships', as: :provider_relationships
 
     get '/providers/:provider_id' => 'providers#show', as: :provider
     get '/providers/:provider_id/courses' => 'providers#courses', as: :provider_courses
