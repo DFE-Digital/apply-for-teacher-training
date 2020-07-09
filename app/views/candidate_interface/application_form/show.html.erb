@@ -80,10 +80,12 @@
       <li class="app-task-list__item">
         <%= render(TaskListItemComponent.new(text: t('page_titles.other_qualification'), completed: @application_form_presenter.other_qualifications_completed?, path: @application_form_presenter.other_qualification_path, show_incomplete: false)) %>
       </li>
-      <% unless @application_form.english_speaking_nationality? %>
-        <li class="app-task-list__item">
-          <%= render(TaskListItemComponent.new(text: 'English as a foreign language', completed: @application_form_presenter.english_as_a_foreign_language_completed?, path: @application_form_presenter.english_as_a_foreign_language_path, show_incomplete: false)) %>
-        </li>
+      <% if FeatureFlag.active? :efl_section %>
+        <% unless @application_form.english_speaking_nationality? %>
+          <li class="app-task-list__item">
+            <%= render(TaskListItemComponent.new(text: 'English as a foreign language', completed: @application_form_presenter.english_as_a_foreign_language_completed?, path: @application_form_presenter.english_as_a_foreign_language_path, show_incomplete: false)) %>
+          </li>
+        <% end %>
       <% end %>
     </ul>
 
