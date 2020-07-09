@@ -123,9 +123,9 @@ module CandidateInterface
 
     def formatted_right_to_work_or_study
       case @right_to_work_form.right_to_work_or_study
-      when 'Yes – I have the right to work or study in the UK'
+      when 'yes'
         'I have the right to work or study in the UK'
-      when 'Not yet – I will need to apply for permission to work or study in the UK'
+      when 'no'
         'I will need to apply for permission to work or study in the UK'
       else
         'I do not know'

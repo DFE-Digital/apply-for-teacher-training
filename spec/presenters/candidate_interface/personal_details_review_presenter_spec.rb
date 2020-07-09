@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
           multiple_nationalities: 'British and Spanish',
         )
 
-        expect(rows(personal_details_form, nationalities_form, languages_form)).to include(
+        expect(rows(personal_details_form, nationalities_form, languages_form, right_to_work_form)).to include(
           row_for(:nationality, 'British and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
         )
       end

@@ -48,6 +48,10 @@ module CandidateInterface
       end
     end
 
+    def nationality
+      first_nationality_is_other? ? other_nationality : first_nationality
+    end
+
   private
 
     def first_nationality_is_other?
@@ -56,10 +60,6 @@ module CandidateInterface
 
     def multiple_nationalities_selected?
       first_nationality == 'Multiple'
-    end
-
-    def nationality
-      first_nationality_is_other? ? other_nationality : first_nationality
     end
 
     def populate_multiple_nationalties

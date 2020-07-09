@@ -68,6 +68,11 @@ module CandidateInterface
           @nationalities_form.first_nationality != 'Irish' &&
           @nationalities_form.first_nationality != 'Multiple'
       end
+
+      def british_or_irish?
+        NationalitiesForm::UK_AND_IRISH_NATIONALITIES.include?(@nationalities_form.first_nationality) ||
+          NationalitiesForm::UK_AND_IRISH_NATIONALITIES.include?(@nationalities_form.other_nationality)
+      end
     end
   end
 end

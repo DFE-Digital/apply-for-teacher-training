@@ -28,29 +28,29 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
   describe '.nationality' do
     context 'when first nationality is british' do
       it 'returns British' do
-        nationalities = CandidateInterface::NationalitiesForm.new(first_nationality: 'british')
+        nationalities = CandidateInterface::NationalitiesForm.new(first_nationality: 'British')
         expect(nationalities.nationality).to eq 'British'
       end
     end
 
     context 'when firt nationality is irish' do
       it 'returns Irish' do
-        nationalities = CandidateInterface::NationalitiesForm.new(first_nationality: 'irish')
+        nationalities = CandidateInterface::NationalitiesForm.new(first_nationality: 'Irish')
         expect(nationalities.nationality).to eq 'Irish'
       end
     end
 
     context 'when first nationality is other' do
       it 'returns British' do
-        nationalities = CandidateInterface::NationalitiesForm.new(first_nationality: 'other', other_nationality: 'German')
+        nationalities = CandidateInterface::NationalitiesForm.new(first_nationality: 'Other', other_nationality: 'German')
         expect(nationalities.nationality).to eq 'German'
       end
     end
 
     context 'when first nationality is multiple' do
       it 'returns British' do
-        nationalities = CandidateInterface::NationalitiesForm.new(first_nationality: 'multiple', multiple_nationalities: 'German and Dutch')
-        expect(nationalities.nationality).to eq 'multiple'
+        nationalities = CandidateInterface::NationalitiesForm.new(first_nationality: 'Multiple', multiple_nationalities: 'German and Dutch')
+        expect(nationalities.nationality).to eq 'Multiple'
       end
     end
   end
