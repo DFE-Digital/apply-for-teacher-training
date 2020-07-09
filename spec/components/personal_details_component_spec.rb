@@ -30,7 +30,7 @@ RSpec.describe PersonalDetailsComponent do
   end
 
   it 'renders the candidate nationality' do
-    expect(result.css('.govuk-summary-list__value').text).to include(application_form.first_nationality)
+    expect(result.css('.govuk-summary-list__value').text).to include(application_form.nationality)
   end
 
   it 'renders the candidate phone number' do

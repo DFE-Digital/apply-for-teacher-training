@@ -43,7 +43,7 @@ module CandidateInterface
 
       def nationalities_params
         params.require(:candidate_interface_nationalities_form).permit(
-          :first_nationality, :second_nationality
+          :nationality, :second_nationality
         )
       end
     end

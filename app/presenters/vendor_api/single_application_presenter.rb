@@ -89,7 +89,7 @@ module VendorAPI
 
     def nationalities
       [
-        application_form.first_nationality,
+        application_form.nationality,
         application_form.second_nationality,
       ].map { |n| NATIONALITIES_BY_NAME[n] }.compact.uniq
     end

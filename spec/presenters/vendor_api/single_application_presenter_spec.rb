@@ -6,7 +6,7 @@ require 'rails_helper'
 RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'attributes.withdrawal' do
     it 'returns a withdrawal object' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
+      application_form = create(:completed_application_form, :with_completed_references, nationality: 'British', second_nationality: 'American')
       application_choice = create(:application_choice, status: 'withdrawn', application_form: application_form, withdrawn_at: '2019-01-01')
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -18,7 +18,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.rejection' do
     it 'returns a rejection object' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
+      application_form = create(:completed_application_form, :with_completed_references, nationality: 'British', second_nationality: 'American')
       application_choice = create(:application_choice, status: 'rejected', application_form: application_form, rejected_at: '2019-01-01', rejection_reason: 'Course full')
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -30,7 +30,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.rejection with a withdrawn offer' do
     it 'returns a rejection object' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
+      application_form = create(:completed_application_form, :with_completed_references, nationality: 'British', second_nationality: 'American')
       application_choice = create(:application_choice, status: 'rejected', application_form: application_form, offer_withdrawn_at: '2019-01-01', offer_withdrawal_reason: 'Course full')
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -126,7 +126,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.candidate.nationality' do
     it 'compacts two nationalities with the same ISO value' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Welsh', second_nationality: 'Scottish')
+      application_form = create(:completed_application_form, :with_completed_references, nationality: 'Welsh', second_nationality: 'Scottish')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -135,7 +135,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'returns nationality in the correct format' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
+      application_form = create(:completed_application_form, :with_completed_references, nationality: 'British', second_nationality: 'American')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json

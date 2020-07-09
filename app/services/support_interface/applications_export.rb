@@ -27,7 +27,7 @@ module SupportInterface
           disclose_disability
           english_main_language
           first_name
-          first_nationality
+          nationality
           further_information
           interview_preferences
           last_name

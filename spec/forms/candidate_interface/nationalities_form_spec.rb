@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
   let(:data) do
     {
-      first_nationality: NATIONALITY_DEMONYMS.sample,
+      nationality: NATIONALITY_DEMONYMS.sample,
       second_nationality: NATIONALITY_DEMONYMS.sample,
     }
   end
 
   let(:form_data) do
     {
-      first_nationality: data[:first_nationality],
+      nationality: data[:nationality],
       second_nationality: data[:second_nationality],
     }
   end
@@ -43,26 +43,26 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:first_nationality) }
+    it { is_expected.to validate_presence_of(:nationality) }
 
     it 'validates nationalities against the NATIONALITY_DEMONYMS list' do
       details_with_invalid_nationality = CandidateInterface::NationalitiesForm.new(
-        first_nationality: 'Tralfamadorian',
+        nationality: 'Tralfamadorian',
         second_nationality: 'Czechoslovakian',
       )
 
       details_with_valid_nationality = CandidateInterface::NationalitiesForm.new(
-        first_nationality: NATIONALITY_DEMONYMS.sample,
+        nationality: NATIONALITY_DEMONYMS.sample,
         second_nationality: NATIONALITY_DEMONYMS.sample,
       )
 
       details_with_valid_nationality.validate
       details_with_invalid_nationality.validate
 
-      expect(details_with_valid_nationality.errors.keys).not_to include :first_nationality
+      expect(details_with_valid_nationality.errors.keys).not_to include :nationality
       expect(details_with_valid_nationality.errors.keys).not_to include :second_nationality
 
-      expect(details_with_invalid_nationality.errors.keys).to include :first_nationality
+      expect(details_with_invalid_nationality.errors.keys).to include :nationality
       expect(details_with_invalid_nationality.errors.keys).to include :second_nationality
     end
   end

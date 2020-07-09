@@ -14,7 +14,7 @@ end
 
 FactoryBot.define do
   factory :nationalities_form, class: 'CandidateInterface::NationalitiesForm' do
-    first_nationality { NATIONALITY_DEMONYMS.sample }
+    nationality { NATIONALITY_DEMONYMS.sample }
     second_nationality { NATIONALITY_DEMONYMS.sample }
   end
 end
@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       it 'includes a hash for a single nationality' do
         nationalities_form = build(
           :nationalities_form,
-          first_nationality: 'British',
+          nationality: 'British',
           second_nationality: nil,
         )
 
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       it 'includes a hash for dual nationalities' do
         nationalities_form = build(
           :nationalities_form,
-          first_nationality: 'British',
+          nationality: 'British',
           second_nationality: 'Spanish',
         )
 

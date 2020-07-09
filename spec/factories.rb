@@ -18,7 +18,7 @@ FactoryBot.define do
       first_name { Faker::Name.first_name }
       last_name { Faker::Name.last_name }
       date_of_birth { Faker::Date.birthday }
-      first_nationality { NATIONALITY_DEMONYMS.sample }
+      nationality { NATIONALITY_DEMONYMS.sample }
       second_nationality { [nil, NATIONALITY_DEMONYMS.sample].sample }
       english_main_language { %w[true false].sample }
       english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }

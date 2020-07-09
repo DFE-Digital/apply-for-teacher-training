@@ -84,7 +84,7 @@ module CandidateInterface
 
     def formatted_nationalities
       [
-        @nationalities_form.first_nationality,
+        @nationalities_form.nationality,
         @nationalities_form.second_nationality,
       ]
         .reject(&:blank?)

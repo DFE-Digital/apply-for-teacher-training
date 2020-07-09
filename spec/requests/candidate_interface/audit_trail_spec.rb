@@ -14,7 +14,7 @@ RSpec.describe 'Candidate interface - audit trail', type: :request, with_audited
       first_name: 'Bob',
       last_name: 'Smith',
       english_main_language: 'yes',
-      first_nationality: 'British',
+      nationality: 'British',
       'date_of_birth(1i)': '2000',
       'date_of_birth(2i)': '1',
       'date_of_birth(3i)': '1',

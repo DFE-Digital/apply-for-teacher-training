@@ -3,16 +3,16 @@ module CandidateInterface
     include ActiveModel::Model
     include ValidationUtils
 
-    attr_accessor :first_nationality, :second_nationality
+    attr_accessor :nationality, :second_nationality
 
-    validates :first_nationality, presence: true
+    validates :nationality, presence: true
 
-    validates :first_nationality, :second_nationality,
+    validates :nationality, :second_nationality,
               inclusion: { in: NATIONALITY_DEMONYMS, allow_blank: true }
 
     def self.build_from_application(application_form)
       new(
-        first_nationality: application_form.first_nationality,
+        nationality: application_form.nationality,
         second_nationality: application_form.second_nationality,
       )
     end
@@ -21,7 +21,7 @@ module CandidateInterface
       return false unless valid?
 
       application_form.update(
-        first_nationality: first_nationality,
+        nationality: nationality,
         second_nationality: second_nationality,
       )
     end

@@ -390,7 +390,7 @@ en:
               below_lower_age_limit: Enter a date of birth before %{date} – you must be over 16 years old to Apply for teacher training
         candidate_interface/nationalities_form:
           attributes:
-            first_nationality:
+            nationality:
               blank: Select your nationality from the list
               inclusion: Select your nationality from the list
             second_nationality:
