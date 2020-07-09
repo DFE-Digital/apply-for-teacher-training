@@ -3,6 +3,7 @@ en:
     begin_button: Start now
     completed_checkbox: I have completed this section
     continue: Continue
+    complete_form_button: Save and continue
     review:
       role_involved_working_with_children: This role involved working with children
     courses:

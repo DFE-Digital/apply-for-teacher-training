@@ -9,6 +9,10 @@ en:
     application_dashboard: Application dashboard
     application_edit: Editing your application
     eligibility: Check we’re ready for you to use this service
+    efl:
+      start: English as a foreign language
+      type: What English language qualification do you have?
+      ielts: Add IELTS qualification
     error_prefix: "Error: "
     success_prefix: "Success: "
     not_eligible_yet: We’re sorry, but we’re not ready for you yet
