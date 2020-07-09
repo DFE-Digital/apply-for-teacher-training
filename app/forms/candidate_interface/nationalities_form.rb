@@ -70,16 +70,6 @@ module CandidateInterface
       end
     end
 
-  private
-
-    def first_nationality_is_other?
-      first_nationality == 'other'
-    end
-
-    def multiple_nationalities_selected?
-      first_nationality == 'multiple'
-    end
-
     def international_flag_is_on?
       FeatureFlag.active?('international_personal_details')
     end
