@@ -21,7 +21,7 @@ class ApplicationForm < ApplicationRecord
   MINIMUM_COMPLETE_REFERENCES = 2
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
-  ENGLISH_SPEAKING_NATIONALITIES = %w[British Irish].freeze
+  ENGLISH_SPEAKING_NATIONALITIES = %w[GB IE].freeze
 
   def equality_and_diversity_answers_provided?
     answered_questions = Hash(equality_and_diversity).keys
@@ -179,8 +179,12 @@ class ApplicationForm < ApplicationRecord
   end
 
   def english_speaking_nationality?
-    ENGLISH_SPEAKING_NATIONALITIES.include?(first_nationality) ||
-      ENGLISH_SPEAKING_NATIONALITIES.include?(second_nationality)
+    first_nationality_code = NATIONALITIES_BY_NAME[first_nationality]
+    second_nationality_code = NATIONALITIES_BY_NAME[second_nationality]
+
+    [first_nationality_code, second_nationality_code].any? do |code|
+      code.in? ENGLISH_SPEAKING_NATIONALITIES
+    end
   end
 
 private
