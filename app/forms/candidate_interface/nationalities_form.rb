@@ -20,7 +20,7 @@ module CandidateInterface
               inclusion: { in: NATIONALITY_DEMONYMS, allow_blank: true },
               if: :international_flag_is_on?
 
-    UK_AND_IRISH_NATIONALITIES = ['British', 'Welsh', 'Scottish', 'Northern Irish', 'Irish', 'English']
+    UK_AND_IRISH_NATIONALITIES = ['British', 'Welsh', 'Scottish', 'Northern Irish', 'Irish', 'English'].freeze
 
     def self.build_from_application(application_form)
       new(

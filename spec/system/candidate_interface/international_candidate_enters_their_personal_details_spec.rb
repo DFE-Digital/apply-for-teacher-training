@@ -165,7 +165,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def when_i_choose_i_do_not_know
-    choose "I do not know"
+    choose 'I do not know'
   end
 
   def then_i_am_told_i_need_to_provide_details
