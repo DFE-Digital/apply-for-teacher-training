@@ -78,6 +78,8 @@ Rails.application.routes.draw do
         post '/languages/edit' => 'personal_details/languages#update'
         get '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#new', as: :right_to_work_or_study
         post '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#create'
+        get '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#edit', as: :edit_right_to_work_or_study
+        post '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#update'
         get '/review' => 'personal_details/review#show', as: :personal_details_show
         post '/review' => 'personal_details/review#complete', as: :personal_details_complete
       end

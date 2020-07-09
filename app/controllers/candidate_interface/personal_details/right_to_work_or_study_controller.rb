@@ -4,7 +4,7 @@ module CandidateInterface
       before_action :redirect_to_dashboard_if_submitted
 
       def new
-        @right_to_work_form = RightToWorkOrStudyForm.new
+        @right_to_work_form = RightToWorkOrStudyForm.build_from_application(current_application)
       end
 
       def create
@@ -15,6 +15,21 @@ module CandidateInterface
         else
           track_validation_error(@right_to_work_form)
           render :new
+        end
+      end
+
+      def edit
+        @right_to_work_form = RightToWorkOrStudyForm.build_from_application(current_application)
+      end
+
+      def update
+        @right_to_work_form = RightToWorkOrStudyForm.new(right_to_work_params)
+
+        if @right_to_work_form.save(current_application)
+          redirect_to candidate_interface_personal_details_show_path
+        else
+          track_validation_error(@right_to_work_form)
+          render :edit
         end
       end
 
