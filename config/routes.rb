@@ -321,14 +321,14 @@ Rails.application.routes.draw do
       end
 
       scope '/english-as-a-foreign-language' do
-        get '/' => 'english_language/start#new', as: :english_language_root
-        post '/' => 'english_language/start#create'
+        get '/' => 'english_foreign_language/start#new', as: :english_foreign_language_root
+        post '/' => 'english_foreign_language/start#create'
 
-        get '/type' => 'english_language/type#new', as: :english_language_type
-        post '/type' => 'english_language/type#create'
+        get '/type' => 'english_foreign_language/type#new', as: :english_foreign_language_type
+        post '/type' => 'english_foreign_language/type#create'
 
-        get '/ielts' => 'english_language/ielts#new', as: :ielts
-        post '/ielts' => 'english_language/ielts#create'
+        get '/ielts' => 'english_foreign_language/ielts#new', as: :ielts
+        post '/ielts' => 'english_foreign_language/ielts#create'
       end
 
       scope '/referees' do

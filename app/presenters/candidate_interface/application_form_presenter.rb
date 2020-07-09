@@ -140,7 +140,7 @@ module CandidateInterface
     end
 
     def english_as_a_foreign_language_path
-      Rails.application.routes.url_helpers.candidate_interface_english_language_root_path
+      Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_root_path
     end
 
     def volunteering_path

@@ -1,5 +1,5 @@
 module CandidateInterface
-  module EnglishLanguage
+  module EnglishForeignLanguage
     class IeltsController < CandidateInterfaceController
       def new
         render_404 unless FeatureFlag.active?(:efl_section)
@@ -11,7 +11,7 @@ module CandidateInterface
         @ielts_form = EnglishForeignLanguage::IeltsForm.new(ielts_params)
 
         if @ielts_form.save
-          redirect_to candidate_interface_english_language_review_path
+          redirect_to candidate_interface_english_foreign_language_review_path
         else
           render :new
         end

@@ -1,5 +1,5 @@
 module CandidateInterface
-  module EnglishLanguage
+  module EnglishForeignLanguage
     class StartController < CandidateInterfaceController
       def new
         render_404 unless FeatureFlag.active?(:efl_section)
@@ -11,7 +11,7 @@ module CandidateInterface
         @start_form = EnglishForeignLanguage::StartForm.new(start_params)
 
         if @start_form.save
-          redirect_to candidate_interface_english_language_type_path
+          redirect_to candidate_interface_english_foreign_language_type_path
         else
           render :new
         end

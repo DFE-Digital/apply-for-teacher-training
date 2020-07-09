@@ -1,5 +1,5 @@
 module CandidateInterface
-  module EnglishLanguage
+  module EnglishForeignLanguage
     class TypeController < CandidateInterfaceController
       def new
         render_404 unless FeatureFlag.active?(:efl_section)

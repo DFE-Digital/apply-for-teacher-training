@@ -8,7 +8,7 @@
       <%= t('page_titles.efl.type') %>
     </h1>
 
-    <%= form_with(model: @type_form, url: candidate_interface_english_language_type_path) do |f| %>
+    <%= form_with(model: @type_form, url: candidate_interface_english_foreign_language_type_path) do |f| %>
       <%= f.govuk_radio_buttons_fieldset :type do %>
         <%= f.govuk_radio_button :type, 'ielts', label: { text: 'International English Language Testing System (IELTS)' } %>
       <% end %>
