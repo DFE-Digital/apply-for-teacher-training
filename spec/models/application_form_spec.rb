@@ -230,4 +230,42 @@ RSpec.describe ApplicationForm do
       expect(application_form.course_choices_that_need_replacing).to match_array [application_choice1, application_choice2, application_choice4]
     end
   end
+
+  describe '#english_speaking_nationality?' do
+    context 'when either applicant nationality is listed as "English-speaking"' do
+      let(:nationality_permutations) do
+        [
+          { first_nationality: 'British', second_nationality: 'Pakistani' },
+          { first_nationality: 'Pakistani', second_nationality: 'British' },
+          { first_nationality: 'British', second_nationality: nil },
+          { first_nationality: 'Irish', second_nationality: 'Pakistani' },
+          { first_nationality: 'Pakistani', second_nationality: 'Irish' },
+          { first_nationality: 'Irish', second_nationality: nil },
+        ]
+      end
+
+      it 'returns true' do
+        nationality_permutations.each do |permutation|
+          application_form = build(:application_form, permutation)
+          expect(application_form.english_speaking_nationality?).to eq true
+        end
+      end
+    end
+
+    context 'when the applicant nationality is not listed as "English-speaking"' do
+      let(:nationality_permutations) do
+        [
+          { first_nationality: 'Pakistani', second_nationality: nil },
+          { first_nationality: 'Chinese', second_nationality: 'Pakistani' },
+        ]
+      end
+
+      it 'return false' do
+        nationality_permutations.each do |permutation|
+          application_form = build(:application_form, permutation)
+          expect(application_form.english_speaking_nationality?).to eq false
+        end
+      end
+    end
+  end
 end

@@ -139,6 +139,10 @@ module CandidateInterface
       end
     end
 
+    def english_as_a_foreign_language_path
+      Rails.application.routes.url_helpers.candidate_interface_english_language_root_path
+    end
+
     def volunteering_path
       if show_review_volunteering?
         Rails.application.routes.url_helpers.candidate_interface_review_volunteering_path
@@ -173,6 +177,10 @@ module CandidateInterface
 
     def other_qualifications_added?
       @application_form.application_qualifications.other.any?
+    end
+
+    def english_as_a_foreign_language_completed?
+      @application_form.efl_completed?
     end
 
     def becoming_a_teacher_completed?
