@@ -11,7 +11,7 @@ begin
   end
 
   integration_test_pattern = 'spec/{system,requests}/**/*_spec.rb'
-  RSpec::Core::RakeTask.new(:rspec_acceptance_tests) do |t|
+  RSpec::Core::RakeTask.new(:acceptance_tests) do |t|
     t.rspec_opts = "--pattern #{integration_test_pattern}"
   end
 
@@ -48,9 +48,6 @@ desc 'Compile assets for testing'
 task :compile_assets do
   sh 'RAILS_ENV=test rails webpacker:compile'
 end
-
-desc 'Run all acceptance tests'
-task acceptance_tests: %i[rspec_acceptance_tests cucumber]
 
 desc 'Run all the tests'
 task run_tests: %i[compile_assets linting spec_without_performance brakeman jest]
