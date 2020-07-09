@@ -38,15 +38,19 @@ private
 
   def ratifying_provider_can_view_safeguarding_information?(course:)
     @actor.providers.include?(course.accredited_provider) &&
-      RatifyingProviderPermissions
-        .view_safeguarding_information
-        .exists?(ratifying_provider: course.accredited_provider, training_provider: course.provider)
+      ProviderRelationshipPermissions.exists?(
+          ratifying_provider_can_view_safeguarding_information: true,
+          ratifying_provider: course.accredited_provider,
+          training_provider: course.provider,
+        )
   end
 
   def training_provider_can_view_safeguarding_information?(course:)
     @actor.providers.include?(course.provider) &&
-      TrainingProviderPermissions
-        .view_safeguarding_information
-        .exists?(ratifying_provider: course.accredited_provider, training_provider: course.provider)
+      ProviderRelationshipPermissions.exists?(
+        training_provider_can_view_safeguarding_information: true,
+        ratifying_provider: course.accredited_provider,
+        training_provider: course.provider,
+      )
   end
 end

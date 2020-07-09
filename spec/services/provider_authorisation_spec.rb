@@ -47,17 +47,16 @@ RSpec.describe ProviderAuthorisation do
       )
     end
 
-    let(:training_provider_permissions) do
-      create(:training_provider_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
-    end
-    let(:ratifying_provider_permissions) do
-      create(:ratifying_provider_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+    let(:provider_relationship_permissions) do
+      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
     end
 
     # org-level 'make_decisions' are now required for happy path
     before do
-      training_provider_permissions.update(make_decisions: true)
-      ratifying_provider_permissions.update(make_decisions: true)
+      provider_relationship_permissions.update!(
+        training_provider_can_make_decisions: true,
+        ratifying_provider_can_make_decisions: true,
+      )
     end
 
     def can_make_offer?(actor:, choice: application_choice)
@@ -75,14 +74,14 @@ RSpec.describe ProviderAuthorisation do
       end
 
       it 'training_provider without make_decisions' do
-        training_provider_permissions.update(make_decisions: false)
+        provider_relationship_permissions.update(training_provider_can_make_decisions: false)
 
         expect(can_make_offer?(actor: ratifying_provider_user)).to be_truthy
         expect(can_make_offer?(actor: training_provider_user)).to be_falsy
       end
 
       it 'ratifying_provider without make_decisions' do
-        ratifying_provider_permissions.update(make_decisions: false)
+        provider_relationship_permissions.update(ratifying_provider_can_make_decisions: false)
 
         expect(can_make_offer?(actor: training_provider_user)).to be_truthy
         expect(can_make_offer?(actor: ratifying_provider_user)).to be_falsy
@@ -163,7 +162,7 @@ RSpec.describe ProviderAuthorisation do
       end
 
       it 'is false for training_provider without make_decisions' do
-        training_provider_permissions.update(make_decisions: false)
+        provider_relationship_permissions.update(training_provider_can_make_decisions: false)
 
         vendor_api_token = create(:vendor_api_token, provider: training_provider)
         vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
@@ -171,7 +170,7 @@ RSpec.describe ProviderAuthorisation do
       end
 
       it 'is false for ratifying_provider without make_decisions' do
-        ratifying_provider_permissions.update(make_decisions: false)
+        provider_relationship_permissions.update(ratifying_provider_can_make_decisions: false)
 
         vendor_api_token = create(:vendor_api_token, provider: ratifying_provider)
         vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
@@ -185,16 +184,9 @@ RSpec.describe ProviderAuthorisation do
     let(:training_provider) { create(:provider) }
     let(:ratifying_provider) { create(:provider) }
     let(:accredited_provider) { ratifying_provider }
-    let(:ratifying_permissions) do
+    let(:provider_relationship_permissions) do
       create(
-        :ratifying_provider_permissions,
-        ratifying_provider: ratifying_provider,
-        training_provider: training_provider,
-      )
-    end
-    let(:training_permissions) do
-      create(
-        :training_provider_permissions,
+        :provider_relationship_permissions,
         ratifying_provider: ratifying_provider,
         training_provider: training_provider,
       )
@@ -221,10 +213,10 @@ RSpec.describe ProviderAuthorisation do
         # These permissions are intentionally unrelated to test
         # that the correct permissions are checked.
         create(
-          :training_provider_permissions,
+          :provider_relationship_permissions,
           ratifying_provider: create(:provider),
           training_provider: training_provider,
-          view_safeguarding_information: true,
+          training_provider_can_view_safeguarding_information: true,
         )
       end
 
@@ -235,13 +227,13 @@ RSpec.describe ProviderAuthorisation do
       end
 
       context 'the course training provider is not permitted, the course accredited provider is permitted' do
-        before { ratifying_permissions.update!(view_safeguarding_information: true) }
+        before { provider_relationship_permissions.update!(ratifying_provider_can_view_safeguarding_information: true) }
 
         it { is_expected.to be false }
       end
 
       context 'the course accredited provider is not permitted, the course training provider is permitted' do
-        before { training_permissions.update!(view_safeguarding_information: true) }
+        before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: true) }
 
         it { is_expected.to be true }
       end
@@ -258,21 +250,21 @@ RSpec.describe ProviderAuthorisation do
         # These permissions are intentionally unrelated to test
         # that the correct permissions are checked.
         create(
-          :ratifying_provider_permissions,
+          :provider_relationship_permissions,
           ratifying_provider: ratifying_provider,
           training_provider: create(:provider),
-          view_safeguarding_information: true,
+          ratifying_provider_can_view_safeguarding_information: true,
         )
       end
 
       context 'the course training provider is not permitted, the course accredited provider is permitted' do
-        before { ratifying_permissions.update!(view_safeguarding_information: true) }
+        before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: false, ratifying_provider_can_view_safeguarding_information: true) }
 
         it { is_expected.to be true }
       end
 
       context 'the course accredited provider is not permitted, the course training provider is permitted' do
-        before { training_permissions.update!(view_safeguarding_information: true) }
+        before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: true, ratifying_provider_can_view_safeguarding_information: false) }
 
         it { is_expected.to be false }
       end
@@ -283,8 +275,7 @@ RSpec.describe ProviderAuthorisation do
       let(:provider_user) { create(:provider_user, providers: [training_provider]) }
 
       before do
-        ratifying_permissions.update!(view_safeguarding_information: true)
-        training_permissions.update!(view_safeguarding_information: true)
+        provider_relationship_permissions.update!(training_provider_can_make_decisions: true, ratifying_provider_can_make_decisions: true)
       end
 
       it { is_expected.to be false }
