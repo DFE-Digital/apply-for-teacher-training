@@ -39,6 +39,6 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def and_i_see_a_link_to_dfe_signin_to_change_details
-    expect(page).to have_link('Change your details in DfE Sign-in', href: 'https://profile.signin.education.gov.uk')
+    expect(page).to have_link('Change your details or password in DfE Sign-in', href: 'https://profile.signin.education.gov.uk')
   end
 end
