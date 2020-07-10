@@ -14,6 +14,7 @@ class ProviderPermissions < ActiveRecord::Base
   audited associated_with: :provider_user
 
   scope :manage_users, -> { where(manage_users: true) }
+  scope :manage_organisations, -> { where(manage_organisations: true) }
   scope :view_safeguarding_information, -> { where(view_safeguarding_information: true) }
   scope :make_decisions, -> { where(make_decisions: true) }
 
@@ -31,5 +32,9 @@ class ProviderPermissions < ActiveRecord::Base
         provider_user_id: provider_user&.id,
       )
     end
+  end
+
+  def view_applications_only?
+    VALID_PERMISSIONS.map { |permission| send(permission) }.all?(false)
   end
 end

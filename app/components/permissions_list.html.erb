@@ -15,5 +15,7 @@
     <li><%= render CheckIcon.new %> View safeguarding information</li>
   <% end %>
 
-  <li><%= render CheckIcon.new %> View applications</li>
+  <% if @permission_model.view_applications_only? %>
+    <li>View applications only</li>
+  <% end %>
 </ul>
