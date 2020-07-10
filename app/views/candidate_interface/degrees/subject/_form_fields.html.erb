@@ -4,7 +4,9 @@
   hint_text: t('application_form.degree.subject.hint_text')
 ) %>
 <% if FeatureFlag.active? :hesa_degree_data %>
-  <%= tag.div(id: 'degree-subject-autocomplete', class: 'govuk-form-group', data: { source: @subjects }) %>
+  <% unless @degree_subject_form.international? %>
+    <%= tag.div(id: 'degree-subject-autocomplete', class: 'govuk-form-group', data: { source: @subjects }) %>
+  <% end %>
 <% end %>
 
 <%= f.govuk_submit t('application_form.degree.base.button') %>

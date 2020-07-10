@@ -4,6 +4,8 @@ module CandidateInterface
 
     attr_accessor :subject, :degree
 
+    delegate :international?, to: :degree
+
     validates :subject, presence: true
     validates :subject, length: { maximum: 255 }
 
