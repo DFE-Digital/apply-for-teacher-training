@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_10_101438) do
+ActiveRecord::Schema.define(version: 2020_07_10_113941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -286,6 +286,7 @@ ActiveRecord::Schema.define(version: 2020_07_10_101438) do
     t.bigint "efl_qualification_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "qualification_status", null: false
     t.index ["application_form_id"], name: "index_english_language_proficiencies_on_application_form_id", unique: true
     t.index ["efl_qualification_type", "efl_qualification_id"], name: "index_elp_on_efl_qualification_type_and_id"
   end
