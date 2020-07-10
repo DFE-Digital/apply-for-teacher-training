@@ -56,9 +56,6 @@ RSpec.feature 'Add IELTS qualification' do
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
     expect(page).to have_content 'IELTS'
     expect(page).to have_content '123456'
-    expect(page).to have_checked_field 'I have completed this section'
-    click_button 'Continue'
-    # expect EFL section to be marked complete
   end
 
 private

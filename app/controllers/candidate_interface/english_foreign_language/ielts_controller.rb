@@ -21,8 +21,9 @@ module CandidateInterface
 
       def ielts_params
         params
-          .require(:candidate_interface_english_foreign_language_ielts_form)
+          .fetch(:candidate_interface_english_foreign_language_ielts_form, {})
           .permit(:trf_number, :band_score, :award_year)
+          .merge(application_form: current_application)
       end
     end
   end

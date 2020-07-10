@@ -11,7 +11,7 @@ module CandidateInterface
         @type_form = EnglishForeignLanguage::TypeForm.new(type_params)
 
         if @type_form.save
-          redirect_to @type_form.path_for_next_form
+          redirect_to @type_form.next_form_path
         else
           render :new
         end
@@ -21,7 +21,7 @@ module CandidateInterface
 
       def type_params
         params
-          .require(:candidate_interface_english_foreign_language_type_form)
+          .fetch(:candidate_interface_english_foreign_language_type_form, {})
           .permit(:type)
       end
     end

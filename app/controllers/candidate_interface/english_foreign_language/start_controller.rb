@@ -11,7 +11,7 @@ module CandidateInterface
         @start_form = EnglishForeignLanguage::StartForm.new(start_params)
 
         if @start_form.save
-          redirect_to candidate_interface_english_foreign_language_type_path
+          redirect_to @start_form.next_path
         else
           render :new
         end
@@ -21,8 +21,8 @@ module CandidateInterface
 
       def start_params
         params
-          .require(:candidate_interface_english_foreign_language_start_form)
-          .permit(:efl_qualification)
+          .fetch(:candidate_interface_english_foreign_language_start_form, {})
+          .permit(:has_efl_qualification)
       end
     end
   end

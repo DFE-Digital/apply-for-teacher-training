@@ -2,6 +2,7 @@ module CandidateInterface
   module EnglishForeignLanguage
     class TypeForm
       include ActiveModel::Model
+      include Rails.application.routes.url_helpers
 
       attr_accessor :type
 
@@ -13,8 +14,11 @@ module CandidateInterface
         true
       end
 
-      def path_for_next_form
-        Rails.application.routes.url_helpers.candidate_interface_ielts_path
+      def next_form_path
+        case type
+        when 'ielts'
+          candidate_interface_ielts_path
+        end
       end
     end
   end
