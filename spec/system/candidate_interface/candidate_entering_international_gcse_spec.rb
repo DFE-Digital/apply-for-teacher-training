@@ -18,6 +18,18 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
     when_i_select_non_uk_qualification
     and_i_fill_in_my_qualification_type
     and_i_click_save_and_continue
+    then_i_see_the_add_institution_country_page
+
+    when_i_do_not_select_a_country
+    and_i_click_save_and_continue
+    then_i_see_the_country_blank_error
+
+    when_i_fill_in_a_non_existent_country
+    and_i_click_save_and_continue
+    then_i_see_the_select_a_valid_country_error
+
+    when_i_fill_in_a_valid_country
+    and_i_click_save_and_continue
     then_i_see_the_add_grade_page
 
     when_i_fill_in_the_grade
@@ -71,6 +83,28 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
 
   def when_i_visit_the_candidate_application_page
     visit '/candidate/application'
+  end
+
+  def then_i_see_the_add_institution_country_page
+    expect(page).to have_current_path candidate_interface_gcse_details_edit_institution_country_path('maths')
+  end
+
+  def when_i_do_not_select_a_country; end
+
+  def then_i_see_the_country_blank_error
+    expect(page).to have_content 'Enter the country you studied in'
+  end
+
+  def when_i_fill_in_a_non_existent_country
+    fill_in :institution_country, with: 'Caprica City'
+  end
+
+  def then_i_see_the_select_a_valid_country_error
+    expect(page).to have_content 'Select the country you studied in from the list'
+  end
+
+  def when_i_fill_in_a_valid_country
+    fill_in :institution_country, with: 'United States'
   end
 
   def then_i_see_the_add_grade_page
