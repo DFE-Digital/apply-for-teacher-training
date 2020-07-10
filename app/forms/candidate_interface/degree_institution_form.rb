@@ -4,7 +4,7 @@ module CandidateInterface
 
     attr_accessor :degree, :institution_name, :institution_country
 
-    delegate :international?, to: :degree
+    delegate :international?, to: :degree, allow_nil: true
 
     validates :institution_name, presence: true
     validates :institution_name, length: { maximum: 255 }
