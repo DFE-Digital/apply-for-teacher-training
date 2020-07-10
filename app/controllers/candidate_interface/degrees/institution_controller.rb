@@ -2,7 +2,7 @@ module CandidateInterface
   module Degrees
     class InstitutionController < CandidateInterfaceController
       before_action :redirect_to_dashboard_if_submitted
-      before_action :set_institution_names
+      before_action :set_institution_names, :set_countries
 
       def new
         @degree_institution_form = DegreeInstitutionForm.new(degree: degree)
@@ -39,6 +39,10 @@ module CandidateInterface
         @degree ||= ApplicationQualification.find(params[:id])
       end
 
+      def set_countries
+        @countries = COUNTRIES
+      end
+
       def set_institution_names
         @institutions = Hesa::Institution.names
       end
@@ -46,7 +50,7 @@ module CandidateInterface
       def institution_params
         params
           .require(:candidate_interface_degree_institution_form)
-          .permit(:institution_name)
+          .permit(:institution_name, :institution_country)
           .merge(degree: degree)
       end
     end

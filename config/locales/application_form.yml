@@ -152,8 +152,14 @@ en:
         review_label: Subject
         hint_text: For example, History with French, Maths, Film studies
         change_action: subject
+      international_institution_name:
+        label: Institution name
       institution_name:
         label: What institution did you study at?
+        review_label: Institution
+        change_action: institution
+      institution_country:
+        label: In which country is this institution based?
         review_label: Institution
         change_action: institution
       grade:
