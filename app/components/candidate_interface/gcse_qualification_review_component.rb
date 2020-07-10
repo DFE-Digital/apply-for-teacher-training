@@ -72,6 +72,7 @@ module CandidateInterface
     def gcse_qualification_types
       t('application_form.gcse.qualification_types').merge(
         other_uk: application_qualification.other_uk_qualification_type,
+        non_uk: application_qualification.non_uk_qualification_type,
       )
     end
   end

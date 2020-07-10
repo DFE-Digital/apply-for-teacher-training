@@ -60,7 +60,7 @@ module CandidateInterface
 
     def qualification_params
       params.require(:candidate_interface_gcse_qualification_type_form)
-        .permit(:qualification_type, :other_uk_qualification_type, :missing_explanation)
+        .permit(:qualification_type, :other_uk_qualification_type, :missing_explanation, :non_uk_qualification_type)
         .transform_values(&:strip)
     end
   end
