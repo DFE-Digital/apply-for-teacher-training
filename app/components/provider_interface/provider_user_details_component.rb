@@ -14,22 +14,22 @@ module ProviderInterface
       [
         { key: 'Name', value: @provider_user.full_name },
         { key: 'Email', value: @provider_user.email_address },
-        permissions_row,
-      ]
+      ] + permission_rows
     end
 
-    def permissions_row
-      {
-        key: 'Permissions',
-        value: render(
-          ProviderInterface::ProviderPermissionsListComponent.new(
-            provider_permissions: @provider_permissions,
-            possible_permissions: @possible_permissions,
-          ),
-        ),
-        change_path: provider_interface_provider_user_edit_providers_path(@provider_user),
-        action: 'Change',
-      }
+    def visible_provider_permissions
+      @possible_permissions & @provider_permissions
+    end
+
+    def permission_rows
+      visible_provider_permissions.map do |permission|
+        {
+          key: "Permissions: #{permission.provider.name}",
+          value: render(PermissionsList.new(permission)),
+          change_path: provider_interface_provider_user_edit_providers_path(@provider_user),
+          action: 'Change',
+        }
+      end
     end
   end
 end
