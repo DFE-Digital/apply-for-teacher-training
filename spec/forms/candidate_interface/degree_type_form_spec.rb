@@ -114,5 +114,53 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         expect(form.errors.full_messages).to eq ['Degree is missing']
       end
     end
+
+    context 'when UK degree is selected and international_degrees feature flag is active' do
+      let(:degree) do
+        create(
+          :degree_qualification,
+          application_form: create(:application_form),
+          qualification_type: 'BSc',
+        )
+      end
+
+      let(:form) do
+        described_class.new(degree: degree, type_description: 'Doctor of Rap Battles', uk_degree: 'yes')
+      end
+
+      before { FeatureFlag.activate(:international_degrees) }
+
+      it 'updates the qualification_type and sets international to false' do
+        form.update
+
+        expect(degree.qualification_type).to eq 'Doctor of Rap Battles'
+        expect(degree.qualification_type_hesa_code).to eq nil
+        expect(degree.international).to be false
+      end
+    end
+
+    context 'when non-UK degree is selected and international_degrees feature flag is active' do
+      let(:degree) do
+        create(
+          :degree_qualification,
+          application_form: create(:application_form),
+          qualification_type: 'BSc',
+        )
+      end
+
+      let(:form) do
+        described_class.new(degree: degree, international_type_description: 'Doctor of Rap Battles', uk_degree: 'no')
+      end
+
+      before { FeatureFlag.activate(:international_degrees) }
+
+      it 'updates the qualification_type and sets international to false' do
+        form.update
+
+        expect(degree.qualification_type).to eq 'Doctor of Rap Battles'
+        expect(degree.qualification_type_hesa_code).to eq nil
+        expect(degree.international).to be true
+      end
+    end
   end
 end
