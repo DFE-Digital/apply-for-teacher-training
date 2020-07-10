@@ -592,6 +592,8 @@ en:
             other_uk_qualification_type:
               blank: Enter the type of qualification
               too_long: Type of degree must be %{count} characters or fewer
+            non_uk_qualification_type:
+              blank: Enter the type of qualification
             missing_explanation:
               blank: Give us some details
               too_many_words: Details must be %{count} words or fewer

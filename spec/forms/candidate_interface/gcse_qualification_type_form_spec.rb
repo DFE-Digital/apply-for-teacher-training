@@ -65,6 +65,38 @@ RSpec.describe CandidateInterface::GcseQualificationTypeForm, type: :model do
       end
     end
 
+    context 'the type of qualification is non_uk ' do
+      it 'gets error if non_uk_qualification_type is empty' do
+        application_form = create(:application_form)
+        qualification = application_form.application_qualifications.create!(
+          level: 'gcse',
+          subject: 'maths',
+          qualification_type: 'non_uk',
+        )
+
+        form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
+
+        expect(form.valid?).to eq false
+        expect(form.errors[:non_uk_qualification_type]).to include('Enter the type of qualification')
+      end
+
+      it 'saves when non_uk_qualification_type is present' do
+        application_form = create(:application_form)
+        qualification = application_form.application_qualifications.create!(
+          level: 'gcse',
+          subject: 'maths',
+          qualification_type: 'non_uk',
+          non_uk_qualification_type: 'High School Diploma',
+        )
+
+        form = CandidateInterface::GcseQualificationTypeForm.build_from_qualification(qualification)
+        form.save_base(application_form)
+
+        expect(application_form.application_qualifications.first.qualification_type).to eq 'non_uk'
+        expect(application_form.application_qualifications.first.non_uk_qualification_type).to eq 'High School Diploma'
+      end
+    end
+
     it 'update the existing qualification model' do
       application_form = create(:application_form)
       qualification = application_form.application_qualifications.create!(
