@@ -36,5 +36,27 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
         expect(form.degree.institution_hesa_code).to eq nil
       end
     end
+
+    context 'when non-UK degree is selected and international_degrees feature flag is active' do
+      before { FeatureFlag.activate(:international_degrees) }
+
+      it 'updates the instituation_name and country' do
+        degree = create(
+          :degree_qualification,
+          international: true,
+          application_form: create(:application_form),
+        )
+        form = described_class.new(
+          degree: degree,
+          institution_name: 'University of Pune',
+          institution_country: 'IN',
+        )
+        form.save
+
+        expect(degree.institution_name).to eq 'University of Pune'
+        expect(degree.institution_country).to eq 'IN'
+        expect(degree.international).to be true
+      end
+    end
   end
 end
