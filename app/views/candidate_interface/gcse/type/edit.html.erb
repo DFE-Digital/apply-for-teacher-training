@@ -21,7 +21,7 @@
           <% elsif option.id == :non_uk %>
             <% if FeatureFlag.active?('international_gcses') %>
               <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label }, link_errors: i.zero? do %>
-                <% f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.other_uk.label'), size: 's' }, hint_text: t('application_form.gcse.other_uk.hint_text') %>
+                <% f.govuk_text_field :non_uk_qualification_type, label: { text: t('application_form.gcse.non_uk.label'), size: 's' }, hint_text: t('application_form.gcse.non_uk.hint_text') %>
               <% end %>
             <% end %>
 

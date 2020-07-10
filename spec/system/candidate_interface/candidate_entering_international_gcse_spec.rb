@@ -18,10 +18,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
     when_i_select_non_uk_qualification
     and_i_fill_in_my_qualification_type
     and_i_click_save_and_continue
-    then_i_see_accrediting_country_page
-
-    when_i_fill_in_the_accrediting_country
-    and_i_click_save_and_continue
+    then_i_see_the_add_grade_page
 
     when_i_fill_in_the_grade
     and_i_click_save_and_continue
@@ -63,11 +60,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def and_i_fill_in_my_qualification_type
-    fill_in :other_non_uk_qualification, with: 'High School Diploma'
-  end
-
-  def then_i_see_accrediting_country_page
-    expect(page).to have_current_path candidate_interface_gcse_accrediting_country_path
+    fill_in 'candidate-interface-gcse-qualification-type-form-non-uk-qualification-type-field', with: 'High School Diploma'
   end
 
   def and_i_click_save_and_continue
@@ -80,11 +73,15 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
     visit '/candidate/application'
   end
 
+  def then_i_see_the_add_grade_page
+    expect(page).to have_current_path candidate_interface_gcse_details_edit_grade_path('maths')
+  end
+
   def then_i_see_the_review_page_with_correct_details
     expect(page).to have_content 'Maths GCSE or equivalent'
 
     expect(page).to have_content 'High School Diploma'
-    expect(page).to have_content 'Pass'
+    expect(page).to have_content 'PASS'
     expect(page).to have_content '1990'
   end
 

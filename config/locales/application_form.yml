@@ -199,6 +199,8 @@ en:
         missing: I don’t have this qualification yet
       other_uk:
         label: Enter type of qualification
+      non_uk:
+        label: Enter type of qualification
         hint_text: For example, High School Diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
       missing_explanation:
         label: If you are working towards this qualification, give us details (optional)
