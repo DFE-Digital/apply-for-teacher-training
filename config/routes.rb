@@ -329,6 +329,8 @@ Rails.application.routes.draw do
 
         get '/ielts' => 'english_foreign_language/ielts#new', as: :ielts
         post '/ielts' => 'english_foreign_language/ielts#create'
+
+        get '/review' => 'english_foreign_language/review#show', as: :english_foreign_language_review
       end
 
       scope '/referees' do

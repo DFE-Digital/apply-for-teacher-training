@@ -13,6 +13,7 @@ en:
       start: English as a foreign language
       type: What English language qualification do you have?
       ielts: Add IELTS qualification
+      review: English as a foreign language
     error_prefix: "Error: "
     success_prefix: "Success: "
     not_eligible_yet: We’re sorry, but we’re not ready for you yet
