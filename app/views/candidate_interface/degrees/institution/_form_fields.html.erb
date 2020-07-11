@@ -8,11 +8,16 @@
     :institution_name,
     label: { text: t('application_form.degree.international_institution_name.label') }
   ) %>
-  <%= f.govuk_text_field(
+
+  <%= f.govuk_collection_select(
     :institution_country,
+    select_country_options,
+    :id,
+    :name,
     label: { text: t('application_form.degree.institution_country.label') }
   ) %>
-  <%= tag.div(id: 'degree-institution-country-autocomplete', class: 'govuk-form-group', data: { source: @countries }) %>
+
+  <%# <%= tag.div(id: 'degree-institution-country-autocomplete', class: 'govuk-form-group', data: { source: @countries }) %1> %>
 
 <% else %>
 
