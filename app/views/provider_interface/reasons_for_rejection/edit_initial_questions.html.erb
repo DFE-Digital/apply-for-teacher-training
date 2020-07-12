@@ -1,0 +1,175 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_reasons_for_rejection_update_initial_questions_path do |f| %>
+
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset(:candidate_behaviour_y_n, legend: { size: 'm', text: 'Was it related to candidate behaviour?' }) do %>
+        <%= f.govuk_radio_button :candidate_behaviour_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_check_boxes_fieldset :candidate_behaviour_what_did_the_candidate_do, small: true, legend: { text: "What did the candidate do?", size: "s" } do %>
+            <%= f.govuk_check_box :candidate_behaviour_what_did_the_candidate_do,
+              'didnt_reply_to_interview_offer',
+              label: { text: "Didn’t reply to our interview offer" },
+              link_errors: true %>
+
+            <%= f.govuk_check_box :candidate_behaviour_what_did_the_candidate_do,
+              'didnt_attend_interview',
+              label: { text: "Didn’t attend interview" } %>
+
+            <%= f.govuk_check_box :candidate_behaviour_what_did_the_candidate_do,
+              'other',
+              label: { text: "Other" } do %>
+
+              <%= f.govuk_text_area :candidate_behaviour_other, label: { text: 'Please give details' }, max_words: 100 %>
+              <%= f.govuk_text_area :candidate_behaviour_what_to_improve, label: { text: 'What could they do to improve?' }, max_words: 100 %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= f.govuk_radio_button :candidate_behaviour_y_n, 'No', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset(:quality_of_application_y_n, legend: { size: 'm', text: 'Was it related to the quality of their application?' }) do %>
+        <%= f.govuk_radio_button :quality_of_application_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_check_boxes_fieldset :quality_of_application_which_parts_needed_improvement, small: true, legend: { text: "What did the candidate do?", size: "s" } do %>
+            <%= f.govuk_check_box :quality_of_application_which_parts_needed_improvement,
+              'personal_statement',
+              label: { text: "Personal statement" },
+              link_errors: true do %>
+              <%= f.govuk_text_area :quality_of_application_personal_statement_what_to_improve,
+                label: { text: 'What could they do to improve?' }, max_words: 100 %>
+            <% end %>
+
+            <%= f.govuk_check_box :quality_of_application_which_parts_needed_improvement,
+              'subject_knowledge',
+              label: { text: "Subject knowledge" } do %>
+              <%= f.govuk_text_area :quality_of_application_subject_knowledge_what_to_improve,
+                label: { text: 'What could they do to improve?' }, max_words: 100 %>
+            <% end %>
+
+            <%= f.govuk_check_box :quality_of_application_which_parts_needed_improvement,
+              'other',
+              label: { text: "Other" } do %>
+
+              <%= f.govuk_text_area :quality_of_application_other_details, label: { text: 'Please give details' }, max_words: 100 %>
+              <%= f.govuk_text_area :quality_of_application_other_what_to_improve, label: { text: 'What could they do to improve?' }, max_words: 100 %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= f.govuk_radio_button :quality_of_application_y_n, 'No', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset(:qualifications_y_n, legend: { size: 'm', text: 'Was it related to qualifications?' }) do %>
+        <%= f.govuk_radio_button :qualifications_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_check_boxes_fieldset :qualifications_which_qualifications, small: true, legend: { text: "Which qualifications?", size: "s" } do %>
+            <%= f.govuk_check_box :qualifications_which_qualifications,
+              'no_maths_gcse',
+              label: { text: "No Maths GCSE grade 4 (C) or above, or valid equivalent" },
+              link_errors: true %>
+
+            <%= f.govuk_check_box :qualifications_which_qualifications,
+              'no_english_gcse',
+              label: { text: "No English GCSE grade 4 (C) or above, or valid equivalent" } %>
+
+            <%= f.govuk_check_box :qualifications_which_qualifications,
+              'no_science_gcse',
+              label: { text: "No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)" } %>
+
+            <%= f.govuk_check_box :qualifications_which_qualifications,
+              'no_degree',
+              label: { text: "No degree" } %>
+
+            <%= f.govuk_check_box :qualifications_which_qualifications,
+              'other',
+              label: { text: "Other" } do %>
+              <%= f.govuk_text_area :qualifications_other_details,
+                label: { text: 'Please give details' }, max_words: 100 %>
+              <% end %>
+            <% end %>
+          <% end %>
+            <%= f.govuk_radio_button :qualifications_y_n, 'No', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset(:performance_at_interview_y_n, legend: { size: 'm', text: 'Was it related to their performance at interview?' }) do %>
+        <%= f.govuk_radio_button :performance_at_interview_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_text_area :performance_at_interview_what_to_improve,
+            label: { text: 'What could they do to improve?' }, max_words: 100 %>
+        <% end %>
+        <%= f.govuk_radio_button :performance_at_interview_y_n, 'No', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset(:course_full_y_n, legend: { size: 'm', text: 'Was it because this course is full?' }) do %>
+        <%= f.govuk_radio_button :course_full_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true %>
+        <%= f.govuk_radio_button :course_full_y_n, 'No', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset(:offered_on_another_course_y_n, legend: { size: 'm', text: 'Was it because you offered them a place on another course?' }) do %>
+        <%= f.govuk_radio_button :offered_on_another_course_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true %>
+        <%= f.govuk_radio_button :offered_on_another_course_y_n, 'No', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset(:honesty_and_professionalism_y_n, legend: { size: 'm', text: 'Was it related to concerns about the candidate’s honesty and professionalism' }) do %>
+        <%= f.govuk_radio_button :honesty_and_professionalism_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_check_boxes_fieldset :honesty_and_professionalism_concerns, small: true, legend: { text: "Which qualifications?", size: "s" } do %>
+            <%= f.govuk_check_box :honesty_and_professionalism_concerns,
+              'information_false_or_inaccurate',
+              label: { text: "Information given on application form false or inaccurate" } do %>
+              <%= f.govuk_text_area :honesty_and_professionalism_concerns_information_false_or_inaccurate_details,
+                label: { text: 'Please give details' }, max_words: 100 %>
+            <% end %>
+
+            <%= f.govuk_check_box :honesty_and_professionalism_concerns,
+              'plagiarism',
+              label: { text: "Evidence of plagiarism in personal statement or elsewhere" } do %>
+              <%= f.govuk_text_area :honesty_and_professionalism_concerns_plagiarism_details,
+                label: { text: 'Please give details' }, max_words: 100 %>
+            <% end %>
+
+            <%= f.govuk_check_box :honesty_and_professionalism_concerns,
+              'references',
+              label: { text: "References didn’t support application" } do %>
+              <%= f.govuk_text_area :honesty_and_professionalism_concerns_references_details,
+                label: { text: 'Please give details' }, max_words: 100 %>
+            <% end %>
+
+            <%= f.govuk_check_box :honesty_and_professionalism_concerns,
+              'other',
+              label: { text: "Other" } do %>
+              <%= f.govuk_text_area :honesty_and_professionalism_concerns_other_details,
+                label: { text: 'Please give details' }, max_words: 100 %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= f.govuk_radio_button :honesty_and_professionalism_y_n, 'No', label: { text: 'No' } %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset(:safeguarding_y_n, legend: { size: 'm', text: 'Was it related to safeguarding' }) do %>
+        <%= f.govuk_radio_button :safeguarding_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_check_boxes_fieldset :safeguarding_concerns, small: true, legend: { text: "Which safeguarding issues in particular?", size: "s" } do %>
+            <%= f.govuk_check_box :safeguarding_concerns,
+              'candidate_disclosed_information',
+              label: { text: "Information disclosed by candidate makes them unsuitable to work with children" } do %>
+              <%= f.govuk_text_area :safeguarding_concerns_candidate_disclosed_information_details,
+                label: { text: 'Please give details' }, max_words: 100 %>
+            <% end %>
+
+            <%= f.govuk_check_box :safeguarding_concerns,
+              'vetting_disclosed_information',
+              label: { text: "Information revealed by our vetting process makes the candidate unsuitable to work with children" } do %>
+              <%= f.govuk_text_area :safeguarding_concerns_vetting_disclosed_information_details,
+                label: { text: 'Please give details' }, max_words: 100 %>
+            <% end %>
+
+            <%= f.govuk_check_box :safeguarding_concerns,
+              'other',
+              label: { text: "Other" } do %>
+              <%= f.govuk_text_area :safeguarding_concerns_other_details,
+                label: { text: 'Please give details' }, max_words: 100 %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <%= f.govuk_radio_button :safeguarding_y_n, 'No', label: { text: 'No' } %>
+      <% end %>
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

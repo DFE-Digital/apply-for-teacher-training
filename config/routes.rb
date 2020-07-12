@@ -568,6 +568,12 @@ Rails.application.routes.draw do
       post '/feedback' => 'feedback#create', as: :application_choice_feedback
 
       resources :notes, only: %i[index show new create], as: :application_choice_notes
+      get '/reject' => 'reasons_for_rejection#edit_initial_questions', as: :reasons_for_rejection_initial_questions
+      post '/reject' => 'reasons_for_rejection#update_initial_questions', as: :reasons_for_rejection_update_initial_questions
+      get '/reject/other-reasons-for-rejection' => 'reasons_for_rejection#edit_other_reasons', as: :reasons_for_rejection_other_reasons
+      post '/reject/other-reasons-for-rejection' => 'reasons_for_rejection#update_other_reasons', as: :reasons_for_rejection_update_other_reasons
+      get '/reject/check' => 'reasons_for_rejection#check', as: :reasons_for_rejection_check
+      post '/reject/commit' => 'reasons_for_rejection#commit', as: :reasons_for_rejection_commit
     end
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate

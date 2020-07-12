@@ -1,0 +1,27 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_reasons_for_rejection_commit_path do |f| %>
+      <h1 class="govuk-heading-xl">Check your feedback and reject application</h1>
+
+      <p class="govuk-body">
+      Your feedback will be given to the candidate in the format below.
+      </p>
+
+      <div class="app-feedback">
+        <div class="app-feedback__panel">
+          <h2 class="govuk-heading-m">
+            Training provider feedback
+          </h2>
+        </div>
+        <p>Here’s why your application was unsuccessful.</p>
+
+        <div class="app-feedback__panel">
+          <%= @wizard.to_prose %>
+          <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
+        </div>
+      </div>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>
