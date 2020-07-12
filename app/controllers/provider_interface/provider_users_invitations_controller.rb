@@ -36,7 +36,7 @@ module ProviderInterface
     end
 
     def edit_details
-      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'details', returning_to_answered_question: params[:change]))
+      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'details'))
       save_wizard_state!
     end
 
@@ -52,7 +52,7 @@ module ProviderInterface
     end
 
     def edit_providers
-      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'providers', returning_to_answered_question: params[:change]))
+      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'providers'))
       save_wizard_state!
 
       @available_providers = current_provider_user.providers
@@ -71,7 +71,7 @@ module ProviderInterface
     end
 
     def edit_permissions
-      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'permissions', returning_to_answered_question: params[:change]))
+      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'permissions'))
       save_wizard_state!
 
       @permissions_form = ProviderPermissionsForm.new(@wizard.permissions_for(params[:provider_id]))
@@ -86,6 +86,7 @@ module ProviderInterface
 
     def check
       @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'check'))
+      save_wizard_state!
     end
 
     def commit
@@ -116,7 +117,7 @@ module ProviderInterface
   class ProviderUserInvitationWizard
     include ActiveModel::Model
 
-    attr_accessor :current_step, :first_name, :returning_to_answered_question
+    attr_accessor :current_step, :first_name, :checking_answers
     attr_writer :providers, :provider_permissions, :_state
 
     validates :first_name, presence: true, on: :details
@@ -126,6 +127,11 @@ module ProviderInterface
       state = attrs[:_state].presence || '{}'
       attrs_incl_state = JSON.parse(state).deep_merge(attrs)
       super(attrs_incl_state)
+
+      if current_step == 'check'
+        # this is set for good now
+        @checking_answers = true
+      end
     end
 
     def valid_for_current_step?
@@ -137,7 +143,7 @@ module ProviderInterface
     # this way the wizard is responsible for its own routing
     # but it doesn't need to know about HTTP routes
     def next_step
-      if returning_to_answered_question
+      if checking_answers
         if any_provider_needs_permissions_setup
           [:permissions, next_provider_needing_permissions_setup]
         else
