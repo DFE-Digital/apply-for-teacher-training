@@ -1,19 +1,19 @@
 name <%= @wizard.first_name %><br />
 
-<%= govuk_link_to 'Change', provider_interface_edit_invitation_basic_details_path(change: true) %>
+<%= govuk_link_to 'Change', provider_interface_edit_invitation_basic_details_path %>
 
 <br />
 
 providers <%= @wizard.providers.map { |p| Provider.find(p).name } %><br />
 
-<%= govuk_link_to 'Change', provider_interface_edit_invitation_providers_path(change: true) %>
+<%= govuk_link_to 'Change', provider_interface_edit_invitation_providers_path %>
 
 <br />
 
 permissions
 <% @wizard.applicable_provider_permissions.map do |p, details| %>
   <%= "#{Provider.find(p).name}, perms: #{details['permissions'].reject(&:blank?).join(',')}" %>
-  <%= govuk_link_to 'Change', provider_interface_edit_invitation_provider_permissions_path(change: true, provider_id: p) %>
+  <%= govuk_link_to 'Change', provider_interface_edit_invitation_provider_permissions_path(provider_id: p) %>
 <% end %>
 
 
