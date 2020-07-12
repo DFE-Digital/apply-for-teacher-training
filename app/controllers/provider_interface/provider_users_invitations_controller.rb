@@ -98,21 +98,13 @@ module ProviderInterface
     end
 
     def next_redirect(wizard)
-      if wizard.returning_to_answered_question
-        if wizard.has_permissions_to_set?
-          { action: :edit_permissions, provider_id: wizard.next_provider_requiring_permissions_setup }
-       else # carry on back to the check answers page
-          { action: :check }
-        end
-      elsif wizard.current_step == 'details'
-        { action: :edit_providers }
-      elsif wizard.current_step == 'providers' && wizard.has_permissions_to_set?
-        { action: :edit_permissions, provider_id: wizard.next_provider_requiring_permissions_setup }
-      elsif wizard.current_step == 'permissions' && wizard.has_permissions_to_set?
-        { action: :edit_permissions, provider_id: wizard.next_provider_requiring_permissions_setup }
-      else
-        { action: :check }
-      end
+      step, provider_id = wizard.next_step
+
+      {
+        check: { action: :check },
+        providers: { action: :edit_providers },
+        permissions: { action: :edit_permissions, provider_id: provider_id },
+      }.fetch(step)
     end
 
     def wizard_params
@@ -138,6 +130,26 @@ module ProviderInterface
 
     def valid_for_current_step?
       valid?(current_step.to_sym)
+    end
+
+    # returns [step, *params] for the next step.
+    #
+    # this way the wizard is responsible for its own routing
+    # but it doesn't need to know about HTTP routes
+    def next_step
+      if returning_to_answered_question
+        if any_provider_needs_permissions_setup
+          [:permissions, next_provider_needing_permissions_setup]
+        else
+          [:check]
+        end
+      elsif current_step == 'details'
+        [:providers]
+      elsif %w[providers permissions].include?(current_step) && any_provider_needs_permissions_setup
+        [:permissions, next_provider_needing_permissions_setup]
+      else
+        [:check]
+      end
     end
 
     def save!
@@ -170,12 +182,14 @@ module ProviderInterface
       provider_permissions[provider_id].presence || { provider_id: provider_id, permissions: [] }
     end
 
-    def next_provider_requiring_permissions_setup
+  private
+
+    def next_provider_needing_permissions_setup
       providers.find { |p| provider_permissions.keys.exclude?(p.to_s) }
     end
 
-    def has_permissions_to_set?
-      next_provider_requiring_permissions_setup.present?
+    def any_provider_needs_permissions_setup
+      next_provider_needing_permissions_setup.present?
     end
   end
 end
