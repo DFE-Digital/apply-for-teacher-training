@@ -1,7 +1,5 @@
 module ProviderInterface
   class ProviderUsersInvitationsController < ProviderInterfaceController
-    WIZARD_STATE_SESSION_KEY = :provider_user_invitation_wizard
-
     class ProviderPermissionsForm
       include ActiveModel::Model
 
@@ -23,28 +21,16 @@ module ProviderInterface
       alias_method :id, :provider_id
     end
 
-    def wizard_state
-      { _state: session[WIZARD_STATE_SESSION_KEY].presence || {} }
-    end
-
-    def save_wizard_state!
-      session[WIZARD_STATE_SESSION_KEY] = @wizard.state
-    end
-
-    def clear_wizard_state!
-      session.delete(WIZARD_STATE_SESSION_KEY)
-    end
-
     def edit_details
-      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'details'))
-      save_wizard_state!
+      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'details')
+      @wizard.save_state!
     end
 
     def update_details
-      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(wizard_params))
+      @wizard = ProviderUserInvitationWizard.new(session, wizard_params)
 
       if @wizard.valid_for_current_step?
-        save_wizard_state!
+        @wizard.save_state!
         redirect_to next_redirect(@wizard)
       else
         render :edit_details
@@ -52,18 +38,18 @@ module ProviderInterface
     end
 
     def edit_providers
-      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'providers'))
-      save_wizard_state!
+      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'providers')
+      @wizard.save_state!
 
       @available_providers = current_provider_user.providers
     end
 
     def update_providers
-      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(wizard_params))
+      @wizard = ProviderUserInvitationWizard.new(session, wizard_params)
       @available_providers = current_provider_user.providers
 
       if @wizard.valid_for_current_step?
-        save_wizard_state!
+        @wizard.save_state!
         redirect_to next_redirect(@wizard)
       else
         render :edit_providers
@@ -71,28 +57,28 @@ module ProviderInterface
     end
 
     def edit_permissions
-      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'permissions'))
-      save_wizard_state!
+      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'permissions')
+      @wizard.save_state!
 
       @permissions_form = ProviderPermissionsForm.new(@wizard.permissions_for(params[:provider_id]))
     end
 
     def update_permissions
-      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(wizard_params))
-      save_wizard_state!
+      @wizard = ProviderUserInvitationWizard.new(session, wizard_params)
+      @wizard.save_state!
 
       redirect_to next_redirect(@wizard)
     end
 
     def check
-      @wizard = ProviderUserInvitationWizard.new(wizard_state.merge(current_step: 'check'))
-      save_wizard_state!
+      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'check')
+      @wizard.save_state!
     end
 
     def commit
-      @wizard = ProviderUserInvitationWizard.new(wizard_state)
-
-      clear_wizard_state!
+      @wizard = ProviderUserInvitationWizard.new(session)
+      # wizard.save!
+      @wizard.clear_state!
 
       flash[:success] = 'User successfully invited'
       redirect_to provider_interface_provider_users_path
@@ -116,54 +102,20 @@ module ProviderInterface
 
   class ProviderUserInvitationWizard
     include ActiveModel::Model
+    STATE_STORE_KEY = :provider_user_invitation_wizard
 
     attr_accessor :current_step, :first_name, :checking_answers
-    attr_writer :providers, :provider_permissions, :_state
+    attr_writer :providers, :provider_permissions, :state_store
 
     validates :first_name, presence: true, on: :details
     validates :providers, presence: true, on: :providers
 
-    def initialize(attrs)
-      state = attrs[:_state].presence || '{}'
-      attrs_incl_state = JSON.parse(state).deep_merge(attrs)
-      super(attrs_incl_state)
+    def initialize(state_store, attrs = {})
+      @state_store = state_store
 
-      if current_step == 'check'
-        # this is set for good now
-        @checking_answers = true
-      end
-    end
+      super(JSON.parse(last_saved_state).deep_merge(attrs))
 
-    def valid_for_current_step?
-      valid?(current_step.to_sym)
-    end
-
-    # returns [step, *params] for the next step.
-    #
-    # this way the wizard is responsible for its own routing
-    # but it doesn't need to know about HTTP routes
-    def next_step
-      if checking_answers
-        if any_provider_needs_permissions_setup
-          [:permissions, next_provider_needing_permissions_setup]
-        else
-          [:check]
-        end
-      elsif current_step == 'details'
-        [:providers]
-      elsif %w[providers permissions].include?(current_step) && any_provider_needs_permissions_setup
-        [:permissions, next_provider_needing_permissions_setup]
-      else
-        [:check]
-      end
-    end
-
-    def save!
-      raise '💾'
-    end
-
-    def state
-      as_json(except: %w[_state change_answer errors validation_context]).to_json
+      @checking_answers = true if current_step == 'check'
     end
 
     def providers
@@ -188,7 +140,52 @@ module ProviderInterface
       provider_permissions[provider_id].presence || { provider_id: provider_id, permissions: [] }
     end
 
+    def valid_for_current_step?
+      valid?(current_step.to_sym)
+    end
+
+    # returns [step, *params] for the next step.
+    #
+    # this way the wizard is responsible for its own routing
+    # but it doesn't need to know about HTTP, so we can test it
+    # in isolation
+    def next_step
+      if checking_answers
+        if any_provider_needs_permissions_setup
+          [:permissions, next_provider_needing_permissions_setup]
+        else
+          [:check]
+        end
+      elsif current_step == 'details'
+        [:providers]
+      elsif %w[providers permissions].include?(current_step) && any_provider_needs_permissions_setup
+        [:permissions, next_provider_needing_permissions_setup]
+      else
+        [:check]
+      end
+    end
+
+    def save!
+      raise '💾'
+    end
+
+    def save_state!
+      @state_store[STATE_STORE_KEY] = state
+    end
+
+    def clear_state!
+      @state_store.delete(STATE_STORE_KEY)
+    end
+
   private
+
+    def state
+      as_json(except: %w[state_store errors validation_context]).to_json
+    end
+
+    def last_saved_state
+      @state_store[STATE_STORE_KEY].presence || '{}'
+    end
 
     def next_provider_needing_permissions_setup
       providers.find { |p| provider_permissions.keys.exclude?(p.to_s) }
