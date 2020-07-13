@@ -588,11 +588,22 @@ FactoryBot.define do
       association :efl_qualification, factory: :ielts_qualification
       qualification_status { 'yes' }
     end
+
+    trait :with_toefl_qualification do
+      association :efl_qualification, factory: :toefl_qualification
+      qualification_status { 'yes' }
+    end
   end
 
   factory :ielts_qualification do
     trf_number { '123456' }
     band_score { '6.5' }
+    award_year { '1999' }
+  end
+
+  factory :toefl_qualification do
+    registration_number { '123456' }
+    total_score { 20 }
     award_year { '1999' }
   end
 end
