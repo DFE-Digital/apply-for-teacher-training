@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_10_113941) do
+ActiveRecord::Schema.define(version: 2020_07_13_130635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 2020_07_10_113941) do
     t.string "multiple_nationalities_details"
     t.boolean "efl_completed", default: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
+    t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
 
   create_table "application_qualifications", force: :cascade do |t|
