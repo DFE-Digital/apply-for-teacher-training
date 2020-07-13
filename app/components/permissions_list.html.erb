@@ -1,4 +1,4 @@
-<ul class='govuk-list'>
+<ul class="govuk-list" id="provider-<%= @permission_model.provider.id %>-enabled-permissions">
   <li><%= render CheckIcon.new %> View applications</li>
 
   <% if @permission_model.manage_users? %>
