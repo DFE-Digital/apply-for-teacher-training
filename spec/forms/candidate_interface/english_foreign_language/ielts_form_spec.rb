@@ -18,12 +18,14 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsForm, type: :mod
       form = valid_form.tap { |f| f.trf_number = nil }
 
       expect(form).not_to be_valid
+      expect(form.errors.full_messages) .to eq ['Trf number Enter your TRF number']
     end
 
     it 'is invalid if given an invalid year' do
       form = valid_form.tap { |f| f.award_year = 111 }
 
       expect(form).not_to be_valid
+      expect(form.errors.full_messages) .to eq ['Award year Enter a real year']
     end
   end
 
@@ -47,6 +49,10 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsForm, type: :mod
       valid_form.save
 
       expect(application_form.english_language_proficiency.qualification_status).to eq 'yes'
+      qualification = application_form.english_language_proficiency.efl_qualification
+      expect(qualification.trf_number).to eq '12345'
+      expect(qualification.band_score).to eq '6.5'
+      expect(qualification.award_year).to eq 2000
     end
 
     context 'application_form already has an EnglishLanguageProficiency record' do
