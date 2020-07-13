@@ -122,6 +122,9 @@ Rails.application.routes.draw do
         get '/' => 'gcse/type#edit', as: :gcse_details_edit_type
         post '/' => 'gcse/type#update', as: :gcse_details_update_type
 
+        get '/country' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
+        post '/country' => 'gcse/institution_country#update', as: :gcse_details_update_institution_country
+
         get '/grade' => 'gcse/grade#edit', as: :gcse_details_edit_grade
         patch '/grade' => 'gcse/grade#update', as: :gcse_details_update_grade
 
