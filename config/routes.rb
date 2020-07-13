@@ -330,6 +330,9 @@ Rails.application.routes.draw do
         get '/ielts' => 'english_foreign_language/ielts#new', as: :ielts
         post '/ielts' => 'english_foreign_language/ielts#create'
 
+        get '/toefl' => 'english_foreign_language/toefl#new', as: :toefl
+        post '/toefl' => 'english_foreign_language/toefl#create'
+
         get '/review' => 'english_foreign_language/review#show', as: :english_foreign_language_review
       end
 
