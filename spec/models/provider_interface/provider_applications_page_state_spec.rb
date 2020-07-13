@@ -129,4 +129,35 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       it { is_expected.to eq('days_left_to_respond') }
     end
   end
+
+  it 'can load and persist its own state' do
+    state_store = {}
+
+    state_one = described_class.new(
+      params: ActionController::Parameters.new({ 'sort_by' => 'days_left_to_respond' }),
+      provider_user: provider_user,
+      state_store: state_store,
+    )
+
+    # The state is what we passed in
+    expect(state_one.applied_filters).to eq({ 'sort_by' => 'days_left_to_respond' })
+
+    state_two = described_class.new(
+      params: ActionController::Parameters.new, # empty params
+      provider_user: provider_user,
+      state_store: state_store,
+    )
+
+    # The state is kept from last time
+    expect(state_two.applied_filters).to eq({ 'sort_by' => 'days_left_to_respond' })
+
+    state_three = described_class.new(
+      params: ActionController::Parameters.new({ 'candidate_name' => 'Tom Thumb' }),
+      provider_user: provider_user,
+      state_store: state_store,
+    )
+
+    # Providing new params replaces the saved state
+    expect(state_three.applied_filters).to eq({ 'candidate_name' => 'Tom Thumb' })
+  end
 end
