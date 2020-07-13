@@ -247,7 +247,7 @@
         "customHostName": {
             "type": "string",
             "metadata": {
-                "description": "The top level common domain for the service, e.g. apply-for-teacher-training.education.gov.uk."
+                "description": "The top level common domain for the service, e.g. apply-for-teacher-training.service.gov.uk."
             }
         },
         "railsServeStaticFiles": {

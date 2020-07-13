@@ -4,8 +4,8 @@ class AddReplacementToReferences < ActiveRecord::Migration[6.0]
 
     # We added new references manually for these:
     #
-    # https://www.apply-for-teacher-training.education.gov.uk/support/applications/60
-    # https://www.apply-for-teacher-training.education.gov.uk/support/applications/172
+    # https://www.apply-for-teacher-training.service.gov.uk/support/applications/60
+    # https://www.apply-for-teacher-training.service.gov.uk/support/applications/172
     execute 'UPDATE "references" SET replacement = true WHERE id IN (47, 62)'
   end
 

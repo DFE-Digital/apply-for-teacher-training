@@ -4,7 +4,7 @@ Date: 2020-03-30
 
 ## Context
 
-Members of the Apply team have access to a section of the service called [Support](https://www.apply-for-teacher-training.education.gov.uk/support). It exposes a lot of data and allows make changes to the site. We use DfE Signin for access to the support interface.
+Members of the Apply team have access to a section of the service called [Support](https://www.apply-for-teacher-training.service.gov.uk/support). It exposes a lot of data and allows make changes to the site. We use DfE Signin for access to the support interface.
 
 There are 2 concerns around the security of Support:
 

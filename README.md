@@ -1,6 +1,6 @@
 # Apply for teacher training
 
-A service for candidates to [apply for teacher training](https://www.apply-for-teacher-training.education.gov.uk/candidate). We're currently in private beta.
+A service for candidates to [apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate). We're currently in private beta.
 
 ![Screenshot of the candidate-facing interface](docs/screenshot.png)
 
@@ -8,11 +8,11 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 | Name       | URL                                                                              | Description                                                             | Azure ID  |
 | ---------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------- |
-| Production | [www](https://www.apply-for-teacher-training.education.gov.uk/candidate) | Public site                                                             | `s106p01` |
-| Staging    | [staging](https://staging.apply-for-teacher-training.education.gov.uk)   | For internal use by DfE to test deploys                                 | `s106t01` |
-| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.education.gov.uk)   | Demo environment for software vendors who integrate with our API        | `s106t02` |
-| QA         | [qa](https://qa.apply-for-teacher-training.education.gov.uk)             | For internal use by DfE for testing. Automatically deployed from master | `s106d01` |
-| DevOps         | [s106d02](https://s106d02-apply-as.azurewebsites.net)             | For testing infrastructure changes | `s106d02` |
+| Production | [www](https://www.apply-for-teacher-training.service.gov.uk) | Public site                                                             | `s106p01` |
+| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk)   | For internal use by DfE to test deploys                                 | `s106t01` |
+| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk)   | Demo environment for software vendors who integrate with our API        | `s106t02` |
+| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)             | For internal use by DfE for testing. Automatically deployed from master | `s106d01` |
+| DevOps         | [s106d02](https://dev.apply-for-teacher-training.service.gov.uk)             | For testing infrastructure changes | `s106d02` |
 
 ## Table of Contents
 
