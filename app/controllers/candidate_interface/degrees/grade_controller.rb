@@ -4,6 +4,7 @@ module CandidateInterface
       before_action :redirect_to_dashboard_if_submitted
       before_action :set_main_grades
       before_action :set_other_grades
+      before_action :set_international_main_grades
 
       def new
         @degree_grade_form = DegreeGradeForm.new(degree: degree)
@@ -45,6 +46,10 @@ module CandidateInterface
         @main_grades = Hesa::Grade.grouping_for(
           degree_type_code: degree.qualification_type_hesa_code,
         ).map(&:description)
+      end
+
+      def set_international_main_grades
+        @international_main_grades = DegreeGradeForm::INTERNATIONAL_OPTIONS
       end
 
       def set_other_grades

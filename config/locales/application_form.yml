@@ -170,6 +170,7 @@ en:
           label: Other
           conditional:
             label: Enter your degree grade
+            international_hint_text: For example, ‘A’, ‘4.5’, ‘94%’, ‘Distinction’
         predicted:
           label: I am still studying for my degree
           conditional:

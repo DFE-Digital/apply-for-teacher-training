@@ -1,26 +1,59 @@
-<%= f.govuk_radio_buttons_fieldset :grade, legend: { tag: 'span' } do %>
+<% if FeatureFlag.active?(:international_degrees) && @degree_grade_form.international? %>
 
-  <% @main_grades.each do |grade| %>
-    <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>
-  <% end %>
+  <%= f.govuk_radio_buttons_fieldset :grade, legend: { tag: 'span' } do %>
 
-  <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
-    <%= f.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') }, width: 10 %>
-    <% if FeatureFlag.active? :hesa_degree_data %>
-      <%= tag.div(id: 'degree-grade-autocomplete', class: 'govuk-form-group', data: { source: @other_grades }) %>
+    <% @international_main_grades.each do |grade| %>
+      <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>
+    <% end %>
+
+    <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
+      <%= f.govuk_text_field(
+        :other_grade,
+        label: { text: t('application_form.degree.grade.other.conditional.label') },
+        hint_text: t('application_form.degree.grade.other.conditional.international_hint_text'),
+        width: 10,
+      ) %>
+    <% end %>
+
+    <%= f.govuk_radio_divider %>
+
+    <%= f.govuk_radio_button :grade, 'predicted', label: { text: t('application_form.degree.grade.predicted.label') } do %>
+      <%= f.govuk_text_field(
+        :predicted_grade,
+        label: { text: t('application_form.degree.grade.predicted.conditional.label') },
+        hint_text: t('application_form.degree.grade.predicted.conditional.hint_text'),
+        width: 10
+      ) %>
     <% end %>
   <% end %>
 
-  <%= f.govuk_radio_divider %>
+<% else %>
 
-  <%= f.govuk_radio_button :grade, 'predicted', label: { text: t('application_form.degree.grade.predicted.label') } do %>
-    <%= f.govuk_text_field(
-      :predicted_grade,
-      label: { text: t('application_form.degree.grade.predicted.conditional.label') },
-      hint_text: t('application_form.degree.grade.predicted.conditional.hint_text'),
-      width: 10
-    ) %>
+  <%= f.govuk_radio_buttons_fieldset :grade, legend: { tag: 'span' } do %>
+
+    <% @main_grades.each do |grade| %>
+      <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>
+    <% end %>
+
+    <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
+      <%= f.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') }, width: 10 %>
+      <% if FeatureFlag.active? :hesa_degree_data %>
+        <%= tag.div(id: 'degree-grade-autocomplete', class: 'govuk-form-group', data: { source: @other_grades }) %>
+      <% end %>
+    <% end %>
+
+    <%= f.govuk_radio_divider %>
+
+    <%= f.govuk_radio_button :grade, 'predicted', label: { text: t('application_form.degree.grade.predicted.label') } do %>
+      <%= f.govuk_text_field(
+        :predicted_grade,
+        label: { text: t('application_form.degree.grade.predicted.conditional.label') },
+        hint_text: t('application_form.degree.grade.predicted.conditional.hint_text'),
+        width: 10
+      ) %>
+    <% end %>
   <% end %>
+
 <% end %>
 
 <%= f.govuk_submit t('application_form.degree.base.button') %>

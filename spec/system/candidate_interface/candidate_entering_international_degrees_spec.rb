@@ -34,6 +34,7 @@ RSpec.feature 'Entering their degrees' do
     and_i_fill_in_the_country
     and_i_click_on_save_and_continue
 
+    # Add NARIC statement
     then_i_can_see_the_naric_page
     when_i_click_on_save_and_continue
     then_i_see_validation_errors_for_naric_question
@@ -43,6 +44,23 @@ RSpec.feature 'Entering their degrees' do
     and_i_fill_in_naric_reference
     and_i_fill_in_comparable_uk_degree_type
     and_i_click_on_save_and_continue
+
+    # Add grade
+    then_i_can_see_the_degree_grade_page
+    when_i_click_on_save_and_continue
+    then_i_see_validation_errors_for_degree_grade
+    when_i_check_other
+    and_i_enter_my_grade
+    and_i_click_on_save_and_continue
+
+    # Add years
+    then_i_can_see_the_start_and_graduation_year_page
+    when_i_click_on_save_and_continue
+    then_i_see_validation_errors_for_graduation_year
+    when_i_fill_in_the_start_and_graduation_year
+    and_i_click_on_save_and_continue
+
+    # TODO: Review page
   end
 
   def given_the_international_degrees_feature_flag_is_active
@@ -141,5 +159,36 @@ RSpec.feature 'Entering their degrees' do
 
   def and_i_fill_in_comparable_uk_degree_type
     choose 'Doctor of Philosophy degree'
+  end
+
+  def then_i_can_see_the_degree_grade_page
+    expect(page).to have_content('What grade is your degree?')
+  end
+
+  def then_i_see_validation_errors_for_degree_grade
+    expect(page).to have_content 'Enter your degree grade'
+  end
+
+  def when_i_check_other
+    choose 'Other'
+  end
+
+  def and_i_enter_my_grade
+    fill_in 'Enter your degree grade', with: '100'
+  end
+
+  def then_i_can_see_the_start_and_graduation_year_page
+    expect(page).to have_content('When did you study for your degree?')
+  end
+
+  def then_i_see_validation_errors_for_graduation_year
+    expect(page).to have_content 'Enter your graduation year'
+  end
+
+  def when_i_fill_in_the_start_and_graduation_year
+    year_with_trailing_space = '2006 '
+    year_with_preceding_space = ' 2009'
+    fill_in 'Year started course', with: year_with_trailing_space
+    fill_in 'Graduation year', with: year_with_preceding_space
   end
 end
