@@ -151,6 +151,38 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     end
   end
 
+  context 'when degrees are editable and first degree is international' do
+    let(:degree1) do
+      build_stubbed(
+        :degree_qualification,
+        qualification_type: 'BA',
+        subject: 'Woof',
+        institution_name: 'University of Doge',
+        institution_country: 'DE',
+        grade: 'erste Klasse',
+        predicted_grade: false,
+        start_year: '2005',
+        award_year: '2008',
+        international: true,
+      )
+    end
+
+    before { FeatureFlag.activate(:international_degrees) }
+
+    it 'renders component with correct values for an internationl institution' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
+      expect(result.css('.govuk-summary-list__value')[2].text.strip).to eq('University of Doge, Germany')
+      expect(result.css('.govuk-summary-list__actions a')[2].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_edit_degree_institution_path(degree1),
+      )
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+      )
+    end
+  end
+
   context 'when degrees are not editable' do
     it 'renders component without an edit link' do
       result = render_inline(described_class.new(application_form: application_form, editable: false))

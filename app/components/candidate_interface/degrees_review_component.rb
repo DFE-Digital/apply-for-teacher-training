@@ -63,10 +63,22 @@ module CandidateInterface
     def institution_row(degree)
       {
         key: t('application_form.degree.institution_name.review_label'),
-        value: degree.institution_name,
+        value: institution_value(degree),
         action: generate_action(degree: degree, attribute: t('application_form.degree.institution_name.change_action')),
         change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_institution_path(degree.id),
       }
+    end
+
+    def institution_value(degree)
+      if international?(degree) && degree.institution_country.present?
+        "#{degree.institution_name}, #{COUNTRIES[degree.institution_country]}"
+      else
+        degree.institution_name
+      end
+    end
+
+    def international?(degree)
+      degree.international? && FeatureFlag.active?(:international_degrees)
     end
 
     def start_year_row(degree)
