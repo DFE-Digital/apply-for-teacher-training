@@ -30,6 +30,8 @@ en:
         scottish_national_5: For example, ‘C’ or ‘4’
   gcse_edit_year:
     page_title: When was your %{subject} qualification awarded?
+  gcse_edit_institution_country:
+    page_title: In which country did you study for your %{subject} qualification?
   gcse_summary:
     page_titles:
       maths: Maths GCSE or equivalent
