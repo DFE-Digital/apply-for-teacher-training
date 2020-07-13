@@ -12,7 +12,11 @@ module CandidateInterface
         @degree_institution_form = DegreeInstitutionForm.new(institution_params)
 
         if @degree_institution_form.save
-          redirect_to candidate_interface_degree_grade_path
+          if @degree_institution_form.international?
+            redirect_to candidate_interface_degree_naric_path
+          else
+            redirect_to candidate_interface_degree_grade_path
+          end
         else
           render :new
         end
