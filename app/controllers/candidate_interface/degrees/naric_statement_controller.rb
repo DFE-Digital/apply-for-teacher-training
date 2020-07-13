@@ -1,6 +1,6 @@
 module CandidateInterface
   module Degrees
-    class NaricStatementsController < CandidateInterfaceController
+    class NaricStatementController < CandidateInterfaceController
       before_action :redirect_to_dashboard_if_submitted
 
       def new
@@ -41,7 +41,7 @@ module CandidateInterface
       def naric_statement_params
         params
           .require(:candidate_interface_degree_naric_statement_form)
-          .permit(:naric_reference, :comparable_uk_degree)
+          .permit(:have_naric_reference, :naric_reference, :comparable_uk_degree)
           .merge(degree: degree)
       end
     end

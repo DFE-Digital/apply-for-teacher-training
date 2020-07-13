@@ -27,6 +27,15 @@ class ApplicationQualification < ApplicationRecord
     other: 'other',
   }
 
+  enum comparable_uk_degree: {
+    bachelor_ordinary_degree: 'bachelor_ordinary_degree',
+    bachelor_honours_degree: 'bachelor_honours_degree',
+    postgraduate_certificate_or_diploma: 'postgraduate_certificate_or_diploma',
+    masters_degree: 'masters_degree',
+    doctor_of_philosophy: 'doctor_of_philosophy',
+    post_doctoral_award: 'post_doctoral_award',
+  }
+
   audited associated_with: :application_form
 
   def missing_qualification?

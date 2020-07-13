@@ -13,7 +13,7 @@ module CandidateInterface
 
         if @degree_institution_form.save
           if @degree_institution_form.international?
-            redirect_to candidate_interface_degree_naric_path
+            redirect_to candidate_interface_degree_naric_statement_path
           else
             redirect_to candidate_interface_degree_grade_path
           end
