@@ -16,6 +16,7 @@ require 'view_component/engine'
 Bundler.require(*Rails.groups)
 
 require './app/lib/hosting_environment'
+require './app/middlewares/redirect_to_service_gov_uk_middleware'
 
 require 'pdfkit'
 
@@ -51,6 +52,7 @@ module ApplyForPostgraduateTeacherTraining
 
     config.active_job.queue_adapter = :sidekiq
 
+    config.middleware.insert_after ActionDispatch::RequestId, RedirectToServiceGovUkMiddleware
     config.middleware.use PDFKit::Middleware, { print_media_type: true }, disposition: 'attachment', only: [%r[^/provider/applications/\d+]]
   end
 end
