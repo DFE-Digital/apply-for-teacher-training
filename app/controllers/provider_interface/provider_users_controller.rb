@@ -1,7 +1,7 @@
 module ProviderInterface
   class ProviderUsersController < ProviderInterfaceController
     before_action :require_feature_flag!
-    before_action :require_manage_user_permission!
+    before_action :require_manage_users_permission!
 
     def index
       users = ProviderUser.includes(:providers).visible_to(current_provider_user)
@@ -27,7 +27,7 @@ module ProviderInterface
       @form = ProviderUserForm.new(
         provider_user_params.merge(
           current_provider_user: current_provider_user,
-          provider_permissions: provider_permissions_params,
+          provider_permissions: provider_initial_permissions_params,
         ),
       )
       provider_user = @form.build
@@ -60,7 +60,7 @@ module ProviderInterface
       @form = ProviderUserForm.new(
         provider_user: provider_user,
         current_provider_user: current_provider_user,
-        provider_permissions: provider_permissions_params,
+        provider_permissions: provider_initial_permissions_params,
       )
 
       service = SaveProviderUser.new(
@@ -73,6 +73,31 @@ module ProviderInterface
 
       flash[:success] = 'Providers updated'
       redirect_to provider_interface_provider_user_path(provider_user)
+    end
+
+    def edit_permissions
+      provider_permissions = find_provider_permissions_model!
+      assert_current_user_can_manage_users_for provider_permissions.provider
+
+      @form = ProviderInterface::ProviderUserPermissionsForm.from provider_permissions
+      if @form.invalid?
+        redirect_to provider_interface_provider_user_path(find_provider_user)
+      end
+    end
+
+    def update_permissions
+      provider_permissions = find_provider_permissions_model!
+      assert_current_user_can_manage_users_for provider_permissions.provider
+
+      @form = ProviderInterface::ProviderUserPermissionsForm.from provider_permissions
+      @form.update_from_params provider_update_permissions_params
+
+      if @form.save
+        flash[:success] = 'Permissions updated'
+        redirect_to provider_interface_provider_user_path(find_provider_user)
+      else
+        render action: :edit_permissions
+      end
     end
 
     def confirm_remove
@@ -97,19 +122,45 @@ module ProviderInterface
             .permit(:email_address, :first_name, :last_name)
     end
 
-    def provider_permissions_params
+    def provider_initial_permissions_params
       params.require(:provider_interface_provider_user_form)
             .permit(provider_permissions_forms: {})
             .fetch(:provider_permissions_forms, {})
             .to_h
     end
 
+    def provider_update_permissions_params
+      params.require(:provider_interface_provider_user_permissions_form)
+            .permit(*ProviderPermissions::VALID_PERMISSIONS)
+    end
+
     def require_feature_flag!
       render_404 unless FeatureFlag.active?(:providers_can_manage_users_and_permissions)
     end
 
-    def require_manage_user_permission!
-      render_404 unless current_provider_user.authorisation.can_manage_users_for_at_least_one_provider?
+    def require_manage_users_permission!
+      render_403 unless current_provider_user.authorisation.can_manage_users_for_at_least_one_provider?
+    end
+
+    def assert_current_user_can_manage_users_for(provider)
+      access_denied_for_provider(provider) unless current_user_can_manage_users_for?(provider)
+    end
+
+    def current_user_can_manage_users_for?(provider)
+      ProviderPermissions.exists?(
+        provider_user: current_provider_user,
+        provider: provider,
+        manage_users: true,
+      )
+    end
+
+    def access_denied_for_provider(provider)
+      raise ProviderInterface::AccessDenied.new({
+        permission: 'manage_users',
+        training_provider: provider,
+        ratifying_provider: provider,
+        provider_user: current_provider_user,
+      }), 'manage_users required'
     end
 
     def find_provider_user
@@ -118,6 +169,13 @@ module ProviderInterface
         .find(params[:provider_user_id] || params[:id])
     rescue ActiveRecord::RecordNotFound
       render_404
+    end
+
+    def find_provider_permissions_model!
+      ProviderPermissions.find_by!(
+        provider_user: find_provider_user,
+        provider: Provider.find(params[:provider_id]),
+      )
     end
   end
 end

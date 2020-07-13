@@ -22,21 +22,21 @@ RSpec.describe 'ProviderUserController actions' do
     it 'redirects GET requests to index' do
       get provider_interface_provider_users_path
 
-      expect(response).to be_not_found
+      expect(response).to be_forbidden
     end
 
     it 'redirects GET requests to show' do
       another_user = create(:provider_user, providers: [provider])
       get provider_interface_provider_user_path(another_user)
 
-      expect(response).to be_not_found
+      expect(response).to be_forbidden
     end
 
     it 'redirects GET requests to edit-providers' do
       another_user = create(:provider_user, providers: [provider])
       get provider_interface_provider_user_edit_providers_path(another_user)
 
-      expect(response).to be_not_found
+      expect(response).to be_forbidden
     end
   end
 

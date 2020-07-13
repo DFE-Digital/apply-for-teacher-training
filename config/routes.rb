@@ -562,6 +562,9 @@ Rails.application.routes.draw do
       get 'edit-providers' => 'provider_users#edit_providers', as: :edit_providers
       patch 'update-providers' => 'provider_users#update_providers', as: :update_providers
 
+      get 'providers/:provider_id/permissions' => 'provider_users#edit_permissions', as: :edit_permissions
+      patch 'providers/:provider_id/permissions' => 'provider_users#update_permissions', as: :update_permissions
+
       get '/remove' => 'provider_users#confirm_remove', as: :confirm_remove_provider_user
       delete '/remove' => 'provider_users#remove', as: :remove_provider_user
     end
