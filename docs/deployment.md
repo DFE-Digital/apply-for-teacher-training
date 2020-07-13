@@ -26,8 +26,6 @@ Make sure to check the diff on GitHub to see if there's anything risky.
 
 You also have to make sure that you're deploying only work that is safe to deploy. It should be either behind a feature flag or product reviewed.
 
-[Check the QA monitoring dashboard in Azure](https://portal.azure.com/#@platform.education.gov.uk/dashboard/arm/subscriptions/289869cc-7183-46bd-8131-f673c5eb94ba/resourcegroups/s106d01-apply/providers/microsoft.portal/dashboards/s106d01-apply-dashboard) for anomalies before you proceed.
-
 ## 2. Tell the team ![](https://cultofthepartyparrot.com/parrots/shipitparrot.gif)
 
 Summarise what you're deploying and tell the team in Slack on the `#twd_apply` channel. Use `:ship_it_parrot:` as required.
