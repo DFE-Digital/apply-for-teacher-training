@@ -1,10 +1,15 @@
 module ProviderInterface
   class ProviderApplicationsPageState
     attr_accessor :available_filters, :filter_selections, :provider_user
+    attr_reader :applied_filters
 
     def initialize(params:, provider_user:)
-      @params = params
+      @applied_filters = parse_params(params)
       @provider_user = provider_user
+    end
+
+    def parse_params(params)
+      params.permit(:candidate_name, :sort_by, provider: [], status: [], accredited_provider: [], provider_location: []).to_h
     end
 
     def filters
@@ -15,12 +20,8 @@ module ProviderInterface
       applied_filters.values.any?
     end
 
-    def applied_filters
-      @params.permit(:candidate_name, :sort_by, provider: [], status: [], accredited_provider: [], provider_location: []).to_h
-    end
-
     def sort_by
-      sort_options.map(&:last).flatten.include?(@params[:sort_by]) ? @params[:sort_by] : 'last_changed'
+      sort_options.map(&:last).flatten.include?(applied_filters[:sort_by]) ? applied_filters[:sort_by] : 'last_changed'
     end
 
     def sort_options
