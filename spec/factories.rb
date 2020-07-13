@@ -579,4 +579,20 @@ FactoryBot.define do
   factory :feature do
     name { 'feature_x' }
   end
+
+  factory :english_language_proficiency do
+    application_form
+    qualification_status { 'no' }
+
+    trait :with_ielts_qualification do
+      association :efl_qualification, factory: :ielts_qualification
+      qualification_status { 'yes' }
+    end
+  end
+
+  factory :ielts_qualification do
+    trf_number { '123456' }
+    band_score { '6.5' }
+    award_year { '1999' }
+  end
 end

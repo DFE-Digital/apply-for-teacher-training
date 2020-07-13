@@ -3,6 +3,7 @@ en:
     begin_button: Start now
     completed_checkbox: I have completed this section
     continue: Continue
+    complete_form_button: Save and continue
     review:
       role_involved_working_with_children: This role involved working with children
     courses:
@@ -515,6 +516,15 @@ en:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
               greater_than_limit: 'Enter a year before %{date}'
+        candidate_interface/english_foreign_language/ielts_form:
+          attributes:
+            trf_number:
+              blank: Enter your TRF number
+            band_score:
+              blank: Enter your overall band score
+            award_year:
+              blank: Enter year the qualification was awarded
+              invalid: Enter a real year
         candidate_interface/other_qualification_type_form:
           attributes:
             qualification_type:
