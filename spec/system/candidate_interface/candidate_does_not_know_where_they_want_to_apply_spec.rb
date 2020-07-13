@@ -46,6 +46,6 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_am_sent_to_find
-    expect(page.current_url).to include('https://find-postgraduate-teacher-training.education.gov.uk')
+    expect(page.current_url).to include('https://www.find-postgraduate-teacher-training.service.gov.uk')
   end
 end

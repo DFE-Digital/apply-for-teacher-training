@@ -1,6 +1,6 @@
 module CandidateInterface
   # The Apply from Find page is the landing page for candidates coming from the
-  # Find postgraduate teacher training (https://find-postgraduate-teacher-training.education.gov.uk/)
+  # Find postgraduate teacher training (https://www.find-postgraduate-teacher-training.service.gov.uk/)
   class ApplyFromFindController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
 
