@@ -198,3 +198,5 @@ COUNTRIES = {
   'ZM' => 'Zambia',
   'ZW' => 'Zimbabwe',
 }.freeze
+
+COUNTRIES_BY_NAME = COUNTRIES.map(&:second)
