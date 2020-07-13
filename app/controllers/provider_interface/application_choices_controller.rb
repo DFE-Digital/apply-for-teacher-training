@@ -6,6 +6,7 @@ module ProviderInterface
       @page_state = ProviderApplicationsPageState.new(
         params: params,
         provider_user: current_provider_user,
+        state_store: session,
       )
 
       application_choices = GetApplicationChoicesForProviders.call(

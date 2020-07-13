@@ -20,6 +20,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       page_state = described_class.new(
         params: ActionController::Parameters.new,
         provider_user: provider_user,
+        state_store: {},
       )
 
       expected_number_of_filters = 3
@@ -35,6 +36,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       page_state = described_class.new(
         params: ActionController::Parameters.new,
         provider_user: another_provider_user,
+        state_store: {},
       )
 
       expected_number_of_filters = 2
@@ -49,6 +51,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       page_state = described_class.new(
         params: ActionController::Parameters.new({ provider: [provider1.id] }),
         provider_user: another_provider_user,
+        state_store: {},
       )
 
       headings = page_state.filters.map { |filter| filter[:heading] }
@@ -77,7 +80,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'returns a has of permitted parameters' do
-      page_state = described_class.new(params: params, provider_user: provider_user)
+      page_state = described_class.new(params: params, provider_user: provider_user, state_store: {})
 
       expect(page_state.applied_filters).to be_a(Hash)
       expect(page_state.applied_filters.keys).to include('status')
@@ -95,12 +98,12 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     let(:empty_params) { ActionController::Parameters.new }
 
     it 'returns true if filers have been applied' do
-      page_state = described_class.new(params: params, provider_user: provider_user)
+      page_state = described_class.new(params: params, provider_user: provider_user, state_store: {})
       expect(page_state.filtered?).to be(true)
     end
 
     it 'returns false if filters have not been applied' do
-      page_state = described_class.new(params: empty_params, provider_user: provider_user)
+      page_state = described_class.new(params: empty_params, provider_user: provider_user, state_store: {})
       expect(page_state.filtered?).to be(false)
     end
   end
@@ -108,7 +111,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
   describe '#sort_options' do
     let(:params) { ActionController::Parameters.new }
 
-    subject(:sort_options) { described_class.new(params: params, provider_user: provider_user).sort_options }
+    subject(:sort_options) { described_class.new(params: params, provider_user: provider_user, state_store: {}).sort_options }
 
     it { is_expected.to eq([['Last changed', 'last_changed'], ['Days left to respond', 'days_left_to_respond']]) }
   end
@@ -116,7 +119,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
   describe '#sort_by' do
     let(:params) { ActionController::Parameters.new }
 
-    subject(:sort_by) { described_class.new(params: params, provider_user: provider_user).sort_by }
+    subject(:sort_by) { described_class.new(params: params, provider_user: provider_user, state_store: {}).sort_by }
 
     it { is_expected.to eq('last_changed') }
 

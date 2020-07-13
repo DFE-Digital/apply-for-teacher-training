@@ -3,13 +3,11 @@ module ProviderInterface
     attr_accessor :available_filters, :filter_selections, :provider_user
     attr_reader :applied_filters
 
-    def initialize(params:, provider_user:)
-      @applied_filters = parse_params(params)
-      @provider_user = provider_user
-    end
 
-    def parse_params(params)
-      params.permit(:candidate_name, :sort_by, provider: [], status: [], accredited_provider: [], provider_location: []).to_h
+    def initialize(params:, provider_user:, state_store:)
+      @provider_user = provider_user
+      @applied_filters = parse_params(params)
+      @state_store = state_store
     end
 
     def filters

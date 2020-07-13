@@ -42,6 +42,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     page_state = ProviderInterface::ProviderApplicationsPageState.new(
       params: applied_filters,
       provider_user: current_provider_user,
+      state_store: {},
     )
 
     result = render_inline described_class.new(page_state: page_state)
@@ -62,6 +63,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     page_state = ProviderInterface::ProviderApplicationsPageState.new(
       params: ActionController::Parameters.new({}),
       provider_user: current_provider_user,
+      state_store: {},
     )
     result = render_inline described_class.new(page_state: page_state)
 
@@ -81,6 +83,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     page_state = ProviderInterface::ProviderApplicationsPageState.new(
       params: applied_filters,
       provider_user: current_provider_user,
+      state_store: {},
     )
 
     result = render_inline described_class.new(page_state: page_state)
@@ -92,6 +95,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     page_state = ProviderInterface::ProviderApplicationsPageState.new(
       params: ActionController::Parameters.new({}),
       provider_user: current_provider_user,
+      state_store: {},
     )
 
     result = render_inline described_class.new(page_state: page_state)
@@ -103,6 +107,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     page_state = ProviderInterface::ProviderApplicationsPageState.new(
       params: ActionController::Parameters.new({ sort_by: 'last_changed' }),
       provider_user: current_provider_user,
+      state_store: {},
     )
 
     component = described_class.new(page_state: page_state)
@@ -115,6 +120,7 @@ RSpec.describe ProviderInterface::FilterComponent do
     page_state = ProviderInterface::ProviderApplicationsPageState.new(
       params: ActionController::Parameters.new({ sort_by: 'last_changed' }),
       provider_user: current_provider_user,
+      state_store: {},
     )
 
     result = render_inline described_class.new(page_state: page_state)
