@@ -24,10 +24,6 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
     and_i_click_save_and_continue
     then_i_see_the_country_blank_error
 
-    when_i_fill_in_a_non_existent_country
-    and_i_click_save_and_continue
-    then_i_see_the_select_a_valid_country_error
-
     when_i_fill_in_a_valid_country
     and_i_click_save_and_continue
     then_i_see_the_add_grade_page
@@ -95,16 +91,8 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
     expect(page).to have_content 'Enter the country you studied in'
   end
 
-  def when_i_fill_in_a_non_existent_country
-    fill_in :institution_country, with: 'Caprica City'
-  end
-
-  def then_i_see_the_select_a_valid_country_error
-    expect(page).to have_content 'Select the country you studied in from the list'
-  end
-
   def when_i_fill_in_a_valid_country
-    fill_in :institution_country, with: 'United States'
+    select 'United States'
   end
 
   def then_i_see_the_add_grade_page

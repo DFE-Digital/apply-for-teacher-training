@@ -4,6 +4,8 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
   let(:form_data) { { institution_country: COUNTRIES_BY_NAME.sample } }
 
   describe 'validations' do
+    it { is_expected.to validate_presence_of(:institution_country) }
+
     it 'validates nationalities against the COUNTRIES_BY_NAME list' do
       invalid_nationality = CandidateInterface::GcseInstitutionCountryForm.new(
         institution_country: 'Tralfamadorian',

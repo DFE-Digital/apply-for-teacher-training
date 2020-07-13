@@ -4,6 +4,8 @@ module CandidateInterface
 
     attr_accessor :institution_country
 
+    validates :institution_country, presence: true
+
     validates :institution_country,
               inclusion: { in: COUNTRIES_BY_NAME }
 

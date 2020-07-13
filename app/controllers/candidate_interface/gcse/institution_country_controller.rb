@@ -10,7 +10,7 @@ module CandidateInterface
     def update
       @institution_country = find_or_build_qualification_form
 
-      @current_qualification = params['institution_country']
+      @institution_country.institution_country = params.dig('candidate_interface_gcse_institution_country_form', 'institution_country')
 
       if @institution_country.save(@current_qualification)
         update_gcse_completed(false)
@@ -41,8 +41,8 @@ module CandidateInterface
       @details_form = GcseQualificationDetailsForm.build_from_qualification(
         current_application.qualification_in_subject(:gcse, subject_param),
       )
-      if @details_form.qualification.naric_reference.nil?
-        candidate_interface_gcse_details_edit_naric_reference_path
+      if @details_form.qualification.grade.nil?
+        candidate_interface_gcse_details_edit_grade_path
       else
         candidate_interface_gcse_review_path
       end
