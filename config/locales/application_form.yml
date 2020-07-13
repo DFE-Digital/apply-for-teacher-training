@@ -196,9 +196,13 @@ en:
         gce_o_level: GCE O Level
         scottish_national_5: Scottish National 5
         other_uk: Other UK qualification
+        non_uk: Non-UK qualification
         missing: I don’t have this qualification yet
       other_uk:
         label: Enter type of qualification
+      non_uk:
+        label: Enter type of qualification
+        hint_text: For example, High School Diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
       missing_explanation:
         label: If you are working towards this qualification, give us details (optional)
       grade:
@@ -600,6 +604,8 @@ en:
             other_uk_qualification_type:
               blank: Enter the type of qualification
               too_long: Type of degree must be %{count} characters or fewer
+            non_uk_qualification_type:
+              blank: Enter the type of qualification
             missing_explanation:
               blank: Give us some details
               too_many_words: Details must be %{count} words or fewer
