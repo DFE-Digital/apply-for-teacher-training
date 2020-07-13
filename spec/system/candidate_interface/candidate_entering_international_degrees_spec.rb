@@ -35,6 +35,14 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_save_and_continue
 
     then_i_can_see_the_naric_page
+    when_i_click_on_save_and_continue
+    then_i_see_validation_errors_for_naric_question
+    when_i_check_yes_for_naric_statement
+    and_i_click_on_save_and_continue
+    then_i_see_validation_errors_for_naric_reference_and_comparable_uk_degree
+    and_i_fill_in_naric_reference
+    and_i_fill_in_comparable_uk_degree_type
+    and_i_click_on_save_and_continue
   end
 
   def given_the_international_degrees_feature_flag_is_active
@@ -111,7 +119,27 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_see_the_naric_page
-    # pending 'not implemented yet'
     expect(page).to have_content 'Do you have a NARIC statement of comparability for your degree?'
+  end
+
+  def then_i_see_validation_errors_for_naric_question
+    expect(page).to have_content 'Select whether you have a UK NARIC reference number or not'
+  end
+
+  def when_i_check_yes_for_naric_statement
+    choose 'Yes'
+  end
+
+  def then_i_see_validation_errors_for_naric_reference_and_comparable_uk_degree
+    expect(page).to have_content 'Enter the UK NARIC reference number'
+    expect(page).to have_content 'Select the comparable UK degree'
+  end
+
+  def and_i_fill_in_naric_reference
+    fill_in 'UK NARIC reference number', with: '0123456789'
+  end
+
+  def and_i_fill_in_comparable_uk_degree_type
+    choose 'Doctor of Philosophy degree'
   end
 end
