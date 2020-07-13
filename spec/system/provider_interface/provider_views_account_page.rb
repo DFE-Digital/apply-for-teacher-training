@@ -10,6 +10,7 @@ RSpec.feature 'Managing provider user permissions' do
 
     when_i_click_on_the_account_link
     then_i_see_account_page_with_user_details
+    and_i_see_users_permissions
     and_i_see_a_link_to_dfe_signin_to_change_details
   end
 
@@ -31,14 +32,18 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def then_i_see_account_page_with_user_details
-    rows = find('div .govuk-summary-list').all('dd')
-    expect(rows[0].text).to eq(@user.first_name)
-    expect(rows[1].text).to eq(@user.last_name)
-    expect(rows[2].text).to eq(@user.email_address)
-    expect(rows[3].text).to include(@example_provider.name, @another_provider.name)
+    @rows = find('div .govuk-summary-list').all('dd')
+    expect(@rows[0].text).to eq(@user.first_name)
+    expect(@rows[1].text).to eq(@user.last_name)
+    expect(@rows[2].text).to eq(@user.email_address)
+    expect(@rows[3].text).to include(@example_provider.name, @another_provider.name)
+  end
+
+  def and_i_see_users_permissions
+    expect(@rows[4].text).to include('View applications only')
   end
 
   def and_i_see_a_link_to_dfe_signin_to_change_details
-    expect(page).to have_link('Change your details in DfE Sign-in', href: 'https://profile.signin.education.gov.uk')
+    expect(page).to have_link('Change your details or password in DfE Sign-in', href: 'https://profile.signin.education.gov.uk')
   end
 end

@@ -1,19 +1,21 @@
 <ul class="govuk-list" id="provider-<%= @permission_model.provider.id %>-enabled-permissions">
-  <li><%= render CheckIcon.new %> View applications</li>
+  <% if @permission_model.manage_organisations? %>
+    <li><%= render CheckIcon.new %> Manage organisations</li>
+  <% end %>
 
   <% if @permission_model.manage_users? %>
     <li><%= render CheckIcon.new %> Manage users</li>
   <% end %>
 
-  <% if @permission_model.manage_organisations? %>
-    <li><%= render CheckIcon.new %> Manage organisations</li>
+  <% if @permission_model.make_decisions? %>
+    <li><%= render CheckIcon.new %> Make decisions</li>
   <% end %>
 
   <% if @permission_model.view_safeguarding_information? %>
     <li><%= render CheckIcon.new %> View safeguarding information</li>
   <% end %>
 
-  <% if @permission_model.make_decisions? %>
-    <li><%= render CheckIcon.new %> Make decisions</li>
+  <% if @permission_model.view_applications_only? %>
+    <li>View applications only</li>
   <% end %>
 </ul>

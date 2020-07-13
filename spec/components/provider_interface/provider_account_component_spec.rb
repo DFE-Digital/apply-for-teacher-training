@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderAccountComponent do
-  let(:provider1) { build(:provider) }
-  let(:provider2) { build(:provider) }
-  let(:current_provider_user) { build(:provider_user, providers: [provider1, provider2]) }
+  let(:provider1) { create(:provider) }
+  let(:provider2) { create(:provider) }
+  let(:current_provider_user) { create(:provider_user, providers: [provider1, provider2]) }
 
   subject(:result) { render_inline(described_class.new(current_provider_user: current_provider_user)) }
 
@@ -31,5 +31,10 @@ RSpec.describe ProviderInterface::ProviderAccountComponent do
 
   it 'renders correct link to the DfE Sign-in profile page in non-qa environments' do
     expect(result.css('.govuk-link').attribute('href').value).to eq('https://profile.signin.education.gov.uk')
+  end
+
+  it 'renders permissions' do
+    expect(result.css('.govuk-summary-list__key').text).to include('Permissions: ')
+    expect(result.css('.govuk-summary-list__value').text).to include('View applications only')
   end
 end
