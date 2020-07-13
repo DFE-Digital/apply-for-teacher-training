@@ -17,9 +17,14 @@ module CandidateInterface
       end
 
       def derive_component_instance(english_language_proficiency)
-        case english_language_proficiency.efl_qualification_type
+        qualification = english_language_proficiency.efl_qualification
+        type = english_language_proficiency.efl_qualification_type
+
+        case type
         when 'IeltsQualification'
-          IeltsReviewComponent.new(english_language_proficiency.efl_qualification)
+          IeltsReviewComponent.new(qualification)
+        when 'ToeflQualification'
+          ToeflReviewComponent.new(qualification)
         end
       end
     end
