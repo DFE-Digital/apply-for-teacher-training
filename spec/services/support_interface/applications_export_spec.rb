@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
   describe '#applications' do
-    it 'returns the correct last changed dates' do
+    it 'returns the correct last changed dates', with_audited: true do
       candidate = create(:candidate, created_at: '2020-01-01')
       application_form = create(
         :application_form,
@@ -15,8 +15,11 @@ RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
       create(:application_choice, :awaiting_provider_decision, application_form: application_form, updated_at: Time.zone.now - 1.year)
       create(:application_choice, :awaiting_provider_decision, application_form: application_form, updated_at: '2020-01-10')
 
-      Timecop.freeze(Time.zone.now + 1.day) do
+      time_to_freeze = (Time.zone.now + 1.day).beginning_of_hour # avoid microsecond weirdness on Azure
+
+      Timecop.freeze(time_to_freeze) do
         application_form.update! volunteering_experience: 'I have been a volunteer!'
+        create(:application_choice, :awaiting_provider_decision, application_form: application_form)
       end
 
       row = described_class.new.applications.first
@@ -26,9 +29,10 @@ RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
       expect(row[:submitted_form_at].to_s).to start_with('2020-01-03')
       expect(row[:support_reference]).to eql('PJ9825')
       expect(row[:process_state]).to be(:awaiting_provider_decisions)
-      expect(row[:form_updated_at]).to eql(application_form.updated_at)
+      expect(row[:form_updated_at]).to eql(time_to_freeze)
       expect(row[:subject_knowledge_last_updated_at]).to be_nil
-      expect(row[:volunteering_experience_last_updated_at]).to eql(application_form.updated_at)
+      expect(row[:volunteering_experience_last_updated_at]).to eql(time_to_freeze)
+      expect(row[:courses_last_updated_at]).to eql(time_to_freeze)
     end
   end
 end
