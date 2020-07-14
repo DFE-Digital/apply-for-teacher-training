@@ -154,7 +154,7 @@ stages:
   - group: APPLY - ENV - QA
   jobs:
   - job: test_docker_image_batch_1
-    displayName: 'Test Docker Image - Rubocop, Cucumber & Brakeman'
+    displayName: 'Test Docker Image - Rubocop & Brakeman'
     condition: and(succeeded(), eq(variables['deployOnly'], false))
     pool:
       vmImage: 'Ubuntu-16.04'
