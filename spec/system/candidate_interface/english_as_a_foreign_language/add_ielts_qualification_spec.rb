@@ -11,7 +11,8 @@ RSpec.feature 'Add IELTS qualification' do
 
     and_i_select_the_options_for_ielts
     when_i_provide_my_ielts_details
-    then_i_have_completed_the_efl_section
+    then_i_can_review_my_qualification
+    and_i_can_complete_this_section
   end
 
   def given_i_am_signed_in
@@ -52,10 +53,20 @@ RSpec.feature 'Add IELTS qualification' do
     click_button 'Save and continue'
   end
 
-  def then_i_have_completed_the_efl_section
+  def then_i_can_review_my_qualification
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
     expect(page).to have_content 'IELTS'
     expect(page).to have_content '123456'
+    expect(page).to have_content 'I have completed this section'
+  end
+
+  def and_i_can_complete_this_section
+    click_button 'Continue'
+    expect(page).to have_css('#english-as-a-foreign-language-badge-id', text: 'Incomplete')
+    click_link efl_link_text
+    check 'I have completed this section'
+    click_button 'Continue'
+    expect(page).to have_css('#english-as-a-foreign-language-badge-id', text: 'Completed')
   end
 
 private

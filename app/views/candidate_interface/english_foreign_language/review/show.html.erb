@@ -6,3 +6,12 @@
 </h1>
 
 <%= render(@component_instance) %>
+
+<%= form_with model: current_application, url: candidate_interface_english_foreign_language_complete_path do |f| %>
+  <div class='govuk-form-group'>
+    <%= f.hidden_field :efl_completed, value: false %>
+    <%= f.govuk_check_box :efl_completed, true, multiple: false, label: { text: t('application_form.degree.review.completed_checkbox') } %>
+  </div>
+
+  <%= f.govuk_submit t('application_form.degree.review.button') %>
+<% end %>

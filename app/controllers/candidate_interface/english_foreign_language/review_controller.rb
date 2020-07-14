@@ -4,14 +4,22 @@ module CandidateInterface
       before_action :check_for_english_language_proficiency
 
       def show
-        @english_language_proficiency = current_application.english_language_proficiency
-        @component_instance = derive_component_instance(@english_language_proficiency)
+        @component_instance = derive_component_instance(english_language_proficiency)
+      end
+
+      def complete
+        current_application.update!(completion_params)
+        redirect_to candidate_interface_application_form_path
       end
 
     private
 
+      def english_language_proficiency
+        current_application.english_language_proficiency
+      end
+
       def check_for_english_language_proficiency
-        if current_application.english_language_proficiency.blank?
+        if english_language_proficiency.blank?
           redirect_to candidate_interface_english_foreign_language_root_path
         end
       end
@@ -26,6 +34,12 @@ module CandidateInterface
         when 'ToeflQualification'
           ToeflReviewComponent.new(qualification)
         end
+      end
+
+      def completion_params
+        params
+          .require(:application_form)
+          .permit(:efl_completed)
       end
     end
   end
