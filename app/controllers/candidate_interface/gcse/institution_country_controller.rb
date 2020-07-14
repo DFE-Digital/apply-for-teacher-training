@@ -1,7 +1,6 @@
 module CandidateInterface
   class Gcse::InstitutionCountryController < Gcse::DetailsController
-    before_action :redirect_to_dashboard_if_submitted
-    before_action :set_subject
+    before_action :redirect_to_dashboard_if_submitted, :set_subject, :render_404_if_flag_is_inactive
 
     def edit
       @institution_country = find_or_build_qualification_form
@@ -23,6 +22,10 @@ module CandidateInterface
     end
 
   private
+
+    def render_404_if_flag_is_inactive
+      render_404 and return unless FeatureFlag.active?('international_gcses')
+    end
 
     def find_or_build_qualification_form
       @current_qualification = current_application.qualification_in_subject(:gcse, subject_param)

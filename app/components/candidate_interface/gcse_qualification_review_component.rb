@@ -13,6 +13,13 @@ module CandidateInterface
     def gcse_qualification_rows
       if application_qualification.missing_qualification?
         [missing_qualification_row]
+      elsif FeatureFlag.active?('international_gcses')
+        [
+          qualification_row,
+          award_year_row,
+          grade_row,
+          country_row,
+        ]
       else
         [
           qualification_row,
@@ -74,6 +81,15 @@ module CandidateInterface
         other_uk: application_qualification.other_uk_qualification_type,
         non_uk: application_qualification.non_uk_qualification_type,
       )
+    end
+
+    def country_row
+      {
+        key: 'Country',
+        value: application_qualification.institution_country,
+        action: 'Country that you studied in',
+        change_path: candidate_interface_gcse_details_edit_institution_country_path(subject: subject),
+      }
     end
   end
 end
