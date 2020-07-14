@@ -9,7 +9,6 @@ const initDegreeInstitutionCountryAutocomplete = () => {
 
     inputIds.forEach(inputId => {
       const select = document.querySelector(inputId);
-      console.log(inputId, select);
 
       if (!select) return;
 
