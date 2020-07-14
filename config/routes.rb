@@ -195,6 +195,11 @@ Rails.application.routes.draw do
         get '/:id/institution/edit' => 'degrees/institution#edit', as: :edit_degree_institution
         patch '/:id/institution/edit' => 'degrees/institution#update'
 
+        get '/:id/naric-statement' => 'degrees/naric_statement#new', as: :degree_naric_statement
+        post '/:id/naric-statement' => 'degrees/naric_statement#create'
+        get '/:id/naric-statement/edit' => 'degrees/naric_statement#edit', as: :edit_degree_naric_statement
+        patch '/:id/naric-statement/edit' => 'degrees/naric_statement#update'
+
         get '/:id/grade' => 'degrees/grade#new', as: :degree_grade
         post '/:id/grade' => 'degrees/grade#create'
         get '/:id/grade/edit' => 'degrees/grade#edit', as: :edit_degree_grade

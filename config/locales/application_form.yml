@@ -153,8 +153,14 @@ en:
         review_label: Subject
         hint_text: For example, History with French, Maths, Film studies
         change_action: subject
+      international_institution_name:
+        label: Institution name
       institution_name:
         label: What institution did you study at?
+        review_label: Institution
+        change_action: institution
+      institution_country:
+        label: In which country is this institution based?
         review_label: Institution
         change_action: institution
       grade:
@@ -186,6 +192,23 @@ en:
         button: Add another degree
       delete: Delete degree
       confirm_delete: Yes I’m sure - delete this degree
+      naric_reference:
+        label: UK NARIC reference number
+        hint_text: For example ‘4000228363’
+        review_label: UK NARIC reference number
+        change_action: naric_statement
+      comparable_uk_degree:
+        label: Select the comparable UK degree
+        hint_text: As shown on your statement
+        review_label: Comparable UK degree
+        change_action: naric_statement
+        values:
+          bachelor_ordinary_degree: 'Bachelor (Ordinary) degree'
+          bachelor_honours_degree: 'Bachelor (Honours) degree'
+          postgraduate_certificate_or_diploma: 'Postgraduate Certificate / Postgraduate Diploma'
+          masters_degree: 'Master’s degree / Integrated Master’s degree'
+          doctor_of_philosophy: 'Doctor of Philosophy degree'
+          post_doctoral_award: 'Post Doctoral award'
     gcse:
       qualification:
         label: Qualification
@@ -499,6 +522,17 @@ en:
             institution_name:
               blank: Enter the institution where you studied
               too_long: The institution where you studied must be %{count} characters or fewer
+            institution_country:
+              blank: Enter the country where the institution is based
+              too_long: The country where you studied must be %{count} characters or fewer
+        candidate_interface/degree_naric_statement_form:
+          attributes:
+            have_naric_reference:
+              blank: Select whether you have a UK NARIC reference number or not
+            naric_reference:
+              blank: Enter the UK NARIC reference number
+            comparable_uk_degree:
+              blank: Select the comparable UK degree
         candidate_interface/degree_grade_form:
           attributes:
             grade_name:

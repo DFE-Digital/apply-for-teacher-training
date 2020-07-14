@@ -1,9 +1,32 @@
-<%= f.govuk_text_field(
-  :institution_name,
-  label: { text: t('application_form.degree.institution_name.label'), size: 'xl' }
-) %>
-<% if FeatureFlag.active? :hesa_degree_data %>
-  <%= tag.div(id: 'degree-institution-autocomplete', class: 'govuk-form-group', data: { source: @institutions }) %>
-<% end %>
+<% if FeatureFlag.active?(:international_degrees) && @degree_institution_form.international? %>
 
+  <h1 class="govuk-heading-xl">
+    <%= t('page_titles.degree_institution') %>
+  </h1>
+
+  <%= f.govuk_text_field(
+    :institution_name,
+    label: { text: t('application_form.degree.international_institution_name.label') }
+  ) %>
+
+  <%= f.govuk_collection_select(
+    :institution_country,
+    select_country_options,
+    :id,
+    :name,
+    label: { text: t('application_form.degree.institution_country.label') }
+  ) %>
+
+
+<% else %>
+
+  <%= f.govuk_text_field(
+    :institution_name,
+    label: { text: t('application_form.degree.institution_name.label'), size: 'xl' }
+  ) %>
+  <% if FeatureFlag.active? :hesa_degree_data %>
+    <%= tag.div(id: 'degree-institution-autocomplete', class: 'govuk-form-group', data: { source: @institutions }) %>
+  <% end %>
+
+<% end %>
 <%= f.govuk_submit t('application_form.degree.base.button') %>
