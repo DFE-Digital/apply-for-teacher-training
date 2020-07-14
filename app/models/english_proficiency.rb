@@ -1,4 +1,4 @@
-class EnglishLanguageProficiency < ApplicationRecord
+class EnglishProficiency < ApplicationRecord
   belongs_to :application_form
   belongs_to :efl_qualification, polymorphic: true, optional: true, dependent: :destroy
 

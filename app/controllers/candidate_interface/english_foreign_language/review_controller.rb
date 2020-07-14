@@ -1,10 +1,10 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class ReviewController < CandidateInterfaceController
-      before_action :check_for_english_language_proficiency
+      before_action :check_for_english_proficiency
 
       def show
-        @component_instance = derive_component_instance(english_language_proficiency)
+        @component_instance = derive_component_instance(english_proficiency)
       end
 
       def complete
@@ -14,19 +14,19 @@ module CandidateInterface
 
     private
 
-      def english_language_proficiency
-        current_application.english_language_proficiency
+      def english_proficiency
+        current_application.english_proficiency
       end
 
-      def check_for_english_language_proficiency
-        if english_language_proficiency.blank?
+      def check_for_english_proficiency
+        if english_proficiency.blank?
           redirect_to candidate_interface_english_foreign_language_root_path
         end
       end
 
-      def derive_component_instance(english_language_proficiency)
-        qualification = english_language_proficiency.efl_qualification
-        type = english_language_proficiency.efl_qualification_type
+      def derive_component_instance(english_proficiency)
+        qualification = english_proficiency.efl_qualification
+        type = english_proficiency.efl_qualification_type
 
         case type
         when 'IeltsQualification'

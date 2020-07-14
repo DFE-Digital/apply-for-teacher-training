@@ -48,17 +48,17 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflForm, type: :mod
 
       valid_form.save
 
-      expect(application_form.english_language_proficiency.qualification_status).to eq 'yes'
-      qualification = application_form.english_language_proficiency.efl_qualification
+      expect(application_form.english_proficiency.qualification_status).to eq 'yes'
+      qualification = application_form.english_proficiency.efl_qualification
       expect(qualification.registration_number).to eq '12345'
       expect(qualification.total_score).to eq 20
       expect(qualification.award_year).to eq 2000
     end
 
-    context 'application_form already has an EnglishLanguageProficiency record' do
+    context 'application_form already has an EnglishProficiency record' do
       it 'replaces the record' do
         proficiency = create(
-          :english_language_proficiency,
+          :english_proficiency,
           :with_toefl_qualification,
           efl_qualification: create(:toefl_qualification, total_score: 5),
         )
@@ -68,8 +68,8 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflForm, type: :mod
         valid_form.total_score = 25
         valid_form.save
 
-        expect(application_form.english_language_proficiency.efl_qualification.total_score).to eq 25
-        expect(EnglishLanguageProficiency.count).to eq 1
+        expect(application_form.english_proficiency.efl_qualification.total_score).to eq 25
+        expect(EnglishProficiency.count).to eq 1
         expect(ToeflQualification.count).to eq 1
       end
     end
