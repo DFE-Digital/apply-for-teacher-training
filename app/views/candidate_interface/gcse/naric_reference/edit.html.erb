@@ -14,7 +14,13 @@
 
       <%= f.govuk_radio_buttons_fieldset :naric_details do %>
         <%= f.govuk_radio_button :naric_reference_choice, 'Yes', label: { text: 'Yes' } do %>
-          <%=  f.govuk_text_field :naric_reference, label: { text: 'UK NARIC reference number' }, hint_text: 'For example ‘4000228363’' %>
+          <%=  f.govuk_text_field :naric_reference, label: { text: 'UK NARIC reference number', size: 's' }, hint_text: 'For example ‘4000228363’', width: 20 %>
+          <%= f.govuk_radio_buttons_fieldset :comparable_uk_qualification, legend: { text: 'Select the comparable UK qualification', size: 's'}, hint_text: 'As shown on your statement' do %>
+            <%= f.govuk_radio_button :comparable_uk_qualification, 'GCSE (grades A*-C / 9-4)', label: { text: 'GCSE (grades A*-C / 9-4)' } %>
+            <%= f.govuk_radio_button :comparable_uk_qualification, 'Between GCSE and GCE AS level', label: { text: 'Between GCSE and GCE AS level' } %>
+            <%= f.govuk_radio_button :comparable_uk_qualification, 'GCE Advanced Subsidiary (AS) level', label: { text: 'GCE Advanced Subsidiary (AS) level' } %>
+            <%= f.govuk_radio_button :comparable_uk_qualification, 'GCE Advanced (A) level', label: { text: 'GCE Advanced (A) level' } %>
+          <% end %>
         <% end %>
         <%= f.govuk_radio_button :naric_reference_choice, 'No', label: { text: 'No' } do %>
           <p class='govuk-body'> Ask your training provider if they need a NARIC statement of comparability. Register with <%= govuk_link_to 'Get Into Teaching', 'https://register.getintoteaching.education.gov.uk/register' %> for help if you need to get one.</p>

@@ -45,7 +45,6 @@ module CandidateInterface
     end
 
     def naric_reference_params
-      binding.pry
       params.require(:candidate_interface_naric_reference_form)
         .permit(:naric_reference_choice, :naric_reference, :comparable_uk_qualification,
         )

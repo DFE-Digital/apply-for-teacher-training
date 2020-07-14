@@ -25,16 +25,16 @@ module CandidateInterface
       )
     end
 
-  private
-
-    def chose_to_provide_naric_reference?
-      naric_reference_choice == 'Yes'
-    end
-
     def set_attributes(params)
       @naric_reference_choice = params['naric_reference_choice']
       @naric_reference = params['naric_reference']
       @comparable_uk_qualification = params['comparable_uk_qualification']
+    end
+
+  private
+
+    def chose_to_provide_naric_reference?
+      naric_reference_choice == 'Yes'
     end
   end
 end
