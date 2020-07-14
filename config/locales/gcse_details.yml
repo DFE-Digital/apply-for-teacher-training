@@ -33,7 +33,7 @@ en:
   gcse_edit_institution_country:
     page_title: In which country did you study for your %{subject} qualification?
   gcse_edit_naric_reference:
-    Do you have a NARIC statement of comparability for your %{subject} qualification?
+    page_title: Do you have a NARIC statement of comparability for your %{subject} qualification?
   gcse_summary:
     page_titles:
       maths: Maths GCSE or equivalent
