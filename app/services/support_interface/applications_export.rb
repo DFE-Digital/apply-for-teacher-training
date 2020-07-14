@@ -1,7 +1,25 @@
 module SupportInterface
   class ApplicationsExport
     def applications
-      relevant_applications.map do |application_form|
+      # Load the ApplicationForm audits into memory first, which is faster.
+      # Avoid the overhead of object creation and storage using #pluck.
+      audits = Audited::Audit.where(action: 'update', auditable_type: 'ApplicationForm')
+        .order(created_at: :desc).pluck(:auditable_id, :audited_changes, :created_at).to_a
+
+      applications_of_interest = ApplicationForm.includes(
+        :candidate,
+        :application_choices, # required to avoid an n+1 query when calculating ProcessState
+      ).where(
+        'candidates.hide_in_reporting' => false,
+      )
+
+      applications_of_interest.map do |application_form|
+        # Preload every associated audit for this application
+        associated_audits = Audited::Audit.where(
+          associated_type: 'ApplicationForm',
+          associated_id: application_form.id,
+        ).order(created_at: :desc).pluck(:auditable_type, :created_at).to_a
+
         output = {
           support_reference: application_form.support_reference,
           process_state: ProcessState.new(application_form).state,
@@ -9,13 +27,13 @@ module SupportInterface
           first_signed_in_at: application_form.created_at,
           submitted_form_at: application_form.submitted_at,
           form_updated_at: application_form.updated_at,
-          courses_last_updated_at: application_form.application_choices.max_by(&:updated_at)&.updated_at,
-          qualifications_last_updated_at: application_form.application_qualifications.max_by(&:updated_at)&.updated_at,
-          work_history_last_updated_at: application_form.application_work_experiences.max_by(&:updated_at)&.updated_at,
-          references_last_updated_at: application_form.application_references.max_by(&:updated_at)&.updated_at,
+          courses_last_updated_at: associated_audits.find { |a| a[0] == 'ApplicationChoice' }&.dig(1),
+          qualifications_last_updated_at: associated_audits.find { |a| a[0] == 'ApplicationQualification' }&.dig(1),
+          work_history_last_updated_at: associated_audits.find { |a| a[0] == 'ApplicationExperience' }&.dig(1),
+          references_last_updated_at: associated_audits.find { |a| a[0] == 'ApplicationReference' }&.dig(1),
         }
 
-        audits = application_form.own_and_associated_audits
+        this_application_audits = audits.select { |a| a[0] == application_form.id }
 
         %w[
           address_line1
@@ -41,29 +59,14 @@ module SupportInterface
           work_history_breaks
           work_history_completed
         ].each do |column|
-          output[:"#{column}_last_updated_at"] = last_change_to_form(audits, column)
+          # these are sorted by audit date, so the first time a given field appears
+          # in the audit set is the last time it was touched
+          value = this_application_audits.find { |audit| audit[1].key?(column) }&.dig(2)
+          output[:"#{column}_last_updated_at"] = value
         end
 
         output
       end
-    end
-
-  private
-
-    def last_change_to_form(audits, column)
-      audits.find { |audit| audit.action == 'update' && audit.audited_changes.key?(column) }&.created_at
-    end
-
-    def relevant_applications
-      ApplicationForm
-        .includes(
-          :candidate,
-          :application_choices,
-          :application_qualifications,
-          :application_work_experiences,
-          :application_references,
-        )
-        .where('candidates.hide_in_reporting' => false)
     end
   end
 end
