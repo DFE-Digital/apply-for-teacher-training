@@ -15,16 +15,11 @@
                 "decsription": "A object containing the common tags that should be applied to all Azure resources."
             }
         },
-        "serviceName": {
-            "type": "string",
+        "customDomains":{
+            "type": "array",
+            "defaultValue": [],
             "metadata": {
-                "description": "The abbreviation of the service name to be used when naming a resource."
-            }
-        },
-        "dockerHubUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "the username associated with the dockerhub account"
+                "decsription": "JSON array holding the custom domain name and certificate thumbprint; [{domainName: certificateThumbprint:}]"
             }
         },
         "containerImageReference": {
@@ -104,7 +99,6 @@
     },
     "variables": {
         "appServiceRuntimeStack": "[concat('DOCKER|', parameters('containerImageReference'))]",
-        "rubyAuthHosts": "[if(greater(length(parameters('customHostName')), 0), concat(parameters('authorisedHosts'), ',', parameters('customHostName')), parameters('authorisedHosts'))]",
         "environmentVariablesWeb": "[concat(parameters('appEnvironmentVariables'), array(json('{\"name\": \"SERVICE_TYPE\", \"value\": \"web\"}')))]",
         "environmentVariablesClk": "[concat(parameters('appEnvironmentVariables'), array(json('{\"name\": \"SERVICE_TYPE\", \"value\": \"clock\"}')))]",
         "environmentVariablesWkr": "[concat(parameters('appEnvironmentVariables'), array(json('{\"name\": \"SERVICE_TYPE\", \"value\": \"worker\"}')))]"
@@ -133,11 +127,8 @@
                     "appServicePlanName": {
                         "value": "[parameters('appServicePlanName')]"
                     },
-                    "customHostName": {
-                        "value": "[parameters('customHostName')]"
-                    },
-                    "certificateThumbprint": {
-                        "value": "[parameters('certificateThumbprint')]"
+                    "customDomains": {
+                        "value": "[parameters('customDomains')]"
                     },
                     "runtimeStack": {
                         "value": "[variables('appServiceRuntimeStack')]"

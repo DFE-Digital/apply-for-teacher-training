@@ -47,6 +47,7 @@ stages:
   jobs:
   - job: build_docker_image
     displayName: 'Build Docker Image'
+    cancelTimeoutInMinutes: 1
     condition: eq(variables['deployOnly'], false)
     pool:
       vmImage: 'Ubuntu-16.04'
@@ -330,9 +331,6 @@ stages:
       redisCacheSKU: 'Premium'
       redisCacheFamily: 'P'
       containerImageReference: '$(dockerHubUsername)/$(imageName):$(build.buildNumber)'
-      keyVaultName: 's106d01-shared-kv-01'
-      keyVaultResourceGroup: 's106d01-shared-rg'
-      customHostName: '$(govukHostname)'
       databaseName: 'apply'
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
@@ -390,8 +388,6 @@ stages:
         containerImageReference: '$(dockerHubUsername)/$(imageName):latest'
       ${{ if eq(variables['deployOnly'], false) }}:
         containerImageReference: '$(dockerHubUsername)/$(imageName):$(build.buildNumber)'
-      keyVaultName: 's106d01-shared-kv-01'
-      keyVaultResourceGroup: 's106d01-shared-rg'
       databaseName: 'apply'
       databaseUsername: 'applyadm512'
       databasePassword: '$(databasePassword)'
