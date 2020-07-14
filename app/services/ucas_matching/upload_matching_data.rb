@@ -4,17 +4,14 @@ module UCASMatching
   class UploadMatchingData
     include Sidekiq::Worker
 
-    # The `dfe_apply_itt_applications` folder in Movit. This will probably
-    # change for the production version.
-    UPLOAD_FOLDER = 685520099
-
     def perform
       if ENV['UCAS_USERNAME'].blank?
         Rails.logger.info 'UCAS credentials aren\'t configured, assuming that this this is a test environment. Not uploading data.'
         return
       end
 
-      filename = "/tmp/dfe_apply_itt_applications_#{DateTime.now}.csv"
+      timestamp = DateTime.now.strftime('%Y%m%d_%H%M%S_%z').gsub('+', '')
+      filename = "/tmp/dfe_apply_itt_applications_#{timestamp}.csv"
 
       File.open(filename, 'w') do |f|
         f.write(csv_as_string)
@@ -24,7 +21,7 @@ module UCASMatching
       response = HTTP
         .auth(UCASAPI.auth_string)
         .post(
-          "#{UCASAPI.base_url}/folders/#{UPLOAD_FOLDER}/files",
+          "#{UCASAPI.base_url}/folders/#{UCASAPI.upload_folder}/files",
           form: { file: HTTP::FormData::File.new(filename) },
         )
 

@@ -26,4 +26,6 @@ services:
       - DSI_API_SECRET
       - UCAS_USERNAME
       - UCAS_PASSWORD
+      - UCAS_UPLOAD_BASEURL
+      - UCAS_UPLOAD_FOLDER
       - SANDBOX

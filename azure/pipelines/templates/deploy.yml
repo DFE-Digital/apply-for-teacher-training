@@ -243,6 +243,8 @@ jobs:
                 -dsiApiSecret "${{parameters.dsiApiSecret}}"
                 -ucasUsername "${{parameters.ucasUsername}}"
                 -ucasPassword "${{parameters.ucasPassword}}"
+                -ucasUploadBaseurl "$(ucasUploadBaseurl)"
+                -ucasUploadFolder "$(ucasUploadFolder)"
                 -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"
                 -sandbox "${{parameters.sandbox}}"'
               deploymentOutputs: DeploymentOutput

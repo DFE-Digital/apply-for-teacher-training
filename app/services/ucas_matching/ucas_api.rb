@@ -24,7 +24,11 @@ module UCASMatching
     end
 
     def self.base_url
-      'https://transfer.ucasenvironments.com/api/v1'
+      ENV.fetch('UCAS_UPLOAD_BASEURL')
+    end
+
+    def self.upload_folder
+      ENV.fetch('UCAS_UPLOAD_FOLDER')
     end
   end
 
