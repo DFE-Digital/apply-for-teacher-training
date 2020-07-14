@@ -155,7 +155,7 @@ stages:
   - group: APPLY - ENV - QA
   jobs:
   - job: test_docker_image_batch_1
-    displayName: 'Test Docker Image - Rubocop, Cucumber & Brakeman'
+    displayName: 'Test Docker Image - Rubocop & Brakeman'
     condition: and(succeeded(), eq(variables['deployOnly'], false))
     pool:
       vmImage: 'Ubuntu-16.04'
@@ -209,67 +209,6 @@ stages:
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
-    - script: |
-        make ci.cucumber
-        test_result=$?
-        if [ "$test_result" == "0" ]
-        then
-          if [ $(find testArtifacts/ -type f -name TEST*.xml | wc -l) -gt 0 ]
-          then
-            errors=0
-            warnings=0
-
-            for line in $(grep "^<testsuite " testArtifacts/TEST*.xml)
-            do
-              if [[ $line == failure* ]]
-              then
-                test_failures=$(echo $line | cut -d '"' -f2)
-                errors=$((errors+test_failures))
-              fi
-              if [[ $line == error* ]]
-              then
-                test_errors=$(echo $line | cut -d '"' -f2)
-                errors=$((errors+test_errors))
-              fi
-              if [[ $line == skipped* ]]
-              then
-                test_skipped=$(echo $line | cut -d '"' -f2)
-                warnings=$((warning+test_skipped))
-              fi
-            done
-
-            if [ $errors -gt 0 ]
-            then
-              echo "##vso[task.logissue type=error]One or more cucumber tests failed."
-              exit 1
-            fi
-            if [ $warnings -gt 0 ]
-            then
-              echo "##vso[task.logissue type=warning]One or more cucumber tests were skipped."
-            fi
-
-          else
-            echo "##vso[task.logissue type=error]Cucumber test result files not found."
-            exit 1
-          fi
-          exit 0
-        else
-          echo "##vso[task.logissue type=error]Cucumber test task exited abnormally."
-          exit 1
-        fi
-      name: ci_cucumber
-      displayName: 'Cucumber specs'
-      env:
-        dockerHubUsername: $(dockerHubUsername)
-        dockerHubImageName: $(imageName)
-        dockerHubImageTag: $(Build.BuildNumber)
-        RAILS_ENV: test
-        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
-        AUTHORISED_HOSTS: $(authorisedHosts)
-        FIND_BASE_URL: $(findBaseUrl)
-        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
-        SANDBOX: $(sandbox)
-
     - script: make ci.brakeman
       name: ci_brakeman
       displayName: 'Brakeman'
@@ -283,20 +222,6 @@ stages:
         FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
-
-    - task: PublishTestResults@2
-      displayName: 'Publish test results'
-      condition: succeededOrFailed()
-      inputs:
-        testRunner: JUnit
-        testResultsFiles: 'testArtifacts/**/TEST-*.xml'
-
-    - task: PublishPipelineArtifact@1
-      displayName: 'Publish Cucumber Results XML'
-      condition: succeededOrFailed()
-      inputs:
-        path: '$(System.DefaultWorkingDirectory)/testArtifacts/'
-        artifactName: 'cucumber-results-$(System.JobAttempt)'
 
   - template: templates/rspec-job.yml
     parameters:

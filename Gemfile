@@ -94,7 +94,6 @@ group :test do
   gem 'webmock'
   gem 'simplecov', require: false
   gem 'simplecov-cobertura', require: false
-  gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'clockwork-test'
   gem 'deepsort'

@@ -16,7 +16,6 @@ AllCops:
     - 'config/puma.rb'
     - 'config/environments/*'
     - 'config/initializers/nationalities.rb'
-    - 'lib/tasks/cucumber.rake'
     - 'features/support/env.rb'
     - 'vendor/**/*'
 

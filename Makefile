@@ -1,4 +1,3 @@
-CUCUMBER_RESULTS_PATH=/cucumber-results
 RSPEC_RESULTS_PATH=/rspec-results
 INTEGRATION_TEST_PATTERN=spec/{system,requests}/**/*_spec.rb
 COVERAGE_RESULT_PATH=/app/coverage
@@ -43,13 +42,6 @@ serve: ## Run the service
 .PHONY: ci.lint-ruby
 ci.lint-ruby: ## Run Rubocop with results formatted for CI
 	docker-compose run --rm web /bin/sh -c "bundle exec rubocop --format clang --parallel"
-
-.PHONY: ci.cucumber
-ci.cucumber: ## Run the Cucumber specs
-	docker-compose run web /bin/sh -c 'mkdir $(CUCUMBER_RESULTS_PATH) && \
-		bundle exec cucumber --format junit --out $(CUCUMBER_RESULTS_PATH)'
-	$(call copy_to_host,$(CUCUMBER_RESULTS_PATH))
-	docker-compose rm -f -v web
 
 .PHONY: ci.brakeman
 ci.brakeman: ## Run Brakeman tests
