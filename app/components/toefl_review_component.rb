@@ -1,4 +1,6 @@
 class ToeflReviewComponent < ViewComponent::Base
+  include Rails.application.routes.url_helpers
+
   attr_reader :toefl_qualification
 
   def initialize(toefl_qualification)
@@ -11,13 +13,13 @@ class ToeflReviewComponent < ViewComponent::Base
         key: 'Do you have an English as a foreign language qualification?',
         value: 'Yes',
         action: 'Change',
-        change_path: '',
+        change_path: candidate_interface_english_foreign_language_root_path,
       },
       {
         key: 'Type of qualification',
         value: 'TOEFL',
         action: 'Change',
-        change_path: '',
+        change_path: candidate_interface_english_foreign_language_type_path,
       },
       {
         key: 'TOEFL registration number',
