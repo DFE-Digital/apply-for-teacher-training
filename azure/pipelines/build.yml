@@ -291,8 +291,6 @@ stages:
       dsiApiSecret: '$(dsiApiSecret)'
       ucasUsername: '$(ucasUsername)'
       ucasPassword: '$(ucasPassword)'
-      ucasUploadBaseurl: '$(ucasUploadBaseurl)'
-      ucasUploadFolder: '$(ucasUploadFolder)'
       sandbox: '$(sandbox)'
 
 
@@ -350,6 +348,4 @@ stages:
       dsiApiSecret: '$(dsiApiSecret)'
       ucasUsername: '$(ucasUsername)'
       ucasPassword: '$(ucasPassword)'
-      ucasUploadBaseurl: '$(ucasUploadBaseurl)'
-      ucasUploadFolder: '$(ucasUploadFolder)'
       sandbox: '$(sandbox)'
