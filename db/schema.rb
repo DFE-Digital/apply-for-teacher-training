@@ -441,6 +441,14 @@ ActiveRecord::Schema.define(version: 2020_07_13_130635) do
     t.index ["email_address"], name: "index_support_users_on_email_address", unique: true
   end
 
+  create_table "toefl_qualifications", force: :cascade do |t|
+    t.string "registration_number", null: false
+    t.integer "total_score", null: false
+    t.integer "award_year", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "validation_errors", force: :cascade do |t|
     t.string "form_object", null: false
     t.integer "user_id"

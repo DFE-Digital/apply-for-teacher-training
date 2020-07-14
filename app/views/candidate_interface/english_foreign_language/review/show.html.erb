@@ -5,7 +5,14 @@
   <%= t('page_titles.efl.review') %>
 </h1>
 
-<p class='govuk-body'><%= @english_language_proficiency.efl_qualification.name %> </p>
-<p class='govuk-body'><%= @english_language_proficiency.efl_qualification.trf_number %></p>
-<p class='govuk-body'><%= @english_language_proficiency.efl_qualification.band_score %></p>
-<p class='govuk-body'><%= @english_language_proficiency.efl_qualification.award_year %></p>
+<% if @english_language_proficiency.efl_qualification_type == 'IeltsQualification' %>
+  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.name %> </p>
+  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.trf_number %></p>
+  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.band_score %></p>
+  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.award_year %></p>
+<% elsif @english_language_proficiency.efl_qualification_type == 'ToeflQualification' %>
+  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.name %> </p>
+  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.registration_number %></p>
+  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.total_score %></p>
+  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.award_year %></p>
+<% end %>

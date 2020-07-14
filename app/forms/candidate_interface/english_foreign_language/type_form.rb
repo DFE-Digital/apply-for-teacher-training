@@ -18,6 +18,8 @@ module CandidateInterface
         case type
         when 'ielts'
           candidate_interface_ielts_path
+        when 'toefl'
+          candidate_interface_toefl_path
         end
       end
     end

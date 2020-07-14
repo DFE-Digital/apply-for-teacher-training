@@ -1,0 +1,34 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.efl.toefl'), @toefl_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class='govuk-heading-xl class='govuk-heading-xl''>
+      <span class="govuk-caption-xl"><%= t('page_titles.efl.start') %></span>
+      <%= t('page_titles.efl.toefl') %>
+    </h1>
+
+    <%= form_with(model: @toefl_form, url: candidate_interface_toefl_path) do |f| %>
+      <%= f.govuk_text_field(
+        :registration_number,
+        label: { text: 'TOEFL registration number', size: 'm' },
+        hint_text: 'For example, 0000 0000 2500 2147') %>
+
+      <%= f.govuk_text_field(
+        :total_score,
+        label: { text: 'Total score', size: 'm' },
+        hint_text: 'For example, 92',
+        width: 4) %>
+
+      <%= f.govuk_text_field(
+        :award_year,
+        label: { text: 'Year qualification was awarded', size: 'm' },
+        type: :number,
+        width: 4) %>
+
+      <%= f.govuk_submit t('application_form.complete_form_button') %>
+    <% end %>
+
+  </div>
+</div>
+
