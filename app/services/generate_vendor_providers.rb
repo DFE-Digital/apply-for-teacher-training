@@ -16,7 +16,7 @@ class GenerateVendorProviders
     ]
 
     providers.each do |provider|
-      Provider.find_or_create_by(provider)
+      GenerateFakeProvider.generate_provider(provider)
     end
   end
 end
