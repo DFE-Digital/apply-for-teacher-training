@@ -6,6 +6,21 @@
     <%= form_with model: @naric_reference_form, url: candidate_interface_gcse_details_update_naric_reference_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.gcse_naric_reference') %>
+      </h1>
+
+      <p class='govuk-body'>This shows how your qualifications compare to UK qualifications. Not all providers ask for a NARIC statement of comparability.</p>
+
+      <%= f.govuk_radio_buttons_fieldset :naric_details do %>
+        <%= f.govuk_radio_button :naric_reference_choice, 'Yes', label: { text: 'Yes' } do %>
+          <%=  f.govuk_text_field :naric_reference, label: { text: 'UK NARIC reference number' }, hint_text: 'For example ‘4000228363’' %>
+        <% end %>
+        <%= f.govuk_radio_button :naric_reference_choice, 'No', label: { text: 'No' } do %>
+          <p class='govuk-body'> Ask your training provider if they need a NARIC statement of comparability. Register with <%= govuk_link_to 'Get Into Teaching', 'https://register.getintoteaching.education.gov.uk/register' %> for help if you need to get one.</p>
+        <% end %>
+      <% end %>
+
       <%= f.submit t('application_form.gcse.complete_form_button'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
     <% end %>
   </div>
