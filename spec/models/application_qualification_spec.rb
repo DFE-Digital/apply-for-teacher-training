@@ -105,4 +105,21 @@ RSpec.describe ApplicationQualification, type: :model do
       end
     end
   end
+
+  describe '#naric_reference_choice' do
+    it 'returns No when naric reference = Not entered' do
+      qualification = build_stubbed(:application_qualification, naric_reference: 'Not entered')
+      expect(qualification.naric_reference_choice).to eq('No')
+    end
+
+    it 'returns Yes when reference number provided' do
+      qualification = build_stubbed(:application_qualification, naric_reference: '12345')
+      expect(qualification.naric_reference_choice).to eq('Yes')
+    end
+
+    it 'returns nil when field not submitted' do
+      qualification = build_stubbed(:application_qualification, naric_reference: nil)
+      expect(qualification.naric_reference_choice).to eq(nil)
+    end
+  end
 end

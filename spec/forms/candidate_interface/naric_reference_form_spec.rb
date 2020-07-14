@@ -39,6 +39,14 @@ RSpec.describe CandidateInterface::NaricReferenceForm do
     end
 
     describe '#save' do
+      let(:form_data) do
+        {
+          naric_reference: '12345',
+          comparable_uk_qualification: 'GCSE (grades A*-C / 9-4)',
+          naric_reference_choice: 'Yes',
+        }
+      end
+
       it 'returns false if not valid' do
         naric_reference_form = CandidateInterface::NaricReferenceForm.new
 
@@ -46,12 +54,12 @@ RSpec.describe CandidateInterface::NaricReferenceForm do
       end
 
       it 'updates the provided ApplicationQualification if valid' do
-        qualification = create(:application_form)
-        naric_reference_form = CandidateInterface::NaricReferenceForm.new(qualification_data)
+        qualification = create(:gcse_qualification)
+        naric_reference_form = CandidateInterface::NaricReferenceForm.new(form_data)
 
         expect(naric_reference_form.save(qualification)).to eq(true)
-        expect(qualification.naric_reference).to eq qualification_data['naric_reference']
-        expect(qualification.comparable_uk_qualification).to eq qualification_data['comparable_uk_qualification']
+        expect(qualification.naric_reference).to eq form_data[:naric_reference]
+        expect(qualification.comparable_uk_qualification).to eq form_data[:comparable_uk_qualification]
       end
     end
   end

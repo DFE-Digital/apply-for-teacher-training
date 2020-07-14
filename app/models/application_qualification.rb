@@ -60,4 +60,15 @@ class ApplicationQualification < ApplicationRecord
       send(field_name).blank?
     end
   end
+
+  def naric_reference_choice
+    case naric_reference
+    when 'Not entered'
+      'No'
+    when nil
+      nil
+    else
+      'Yes'
+    end
+  end
 end
