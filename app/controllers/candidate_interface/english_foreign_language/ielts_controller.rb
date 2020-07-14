@@ -17,6 +17,21 @@ module CandidateInterface
         end
       end
 
+      def edit
+        ielts = current_application.english_proficiency.efl_qualification
+        @ielts_form = EnglishForeignLanguage::IeltsForm.new.fill(ielts: ielts)
+      end
+
+      def update
+        @ielts_form = EnglishForeignLanguage::IeltsForm.new(ielts_params)
+
+        if @ielts_form.save
+          redirect_to candidate_interface_english_foreign_language_review_path
+        else
+          render :new
+        end
+      end
+
     private
 
       def ielts_params

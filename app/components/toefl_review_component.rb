@@ -23,19 +23,19 @@ class ToeflReviewComponent < ViewComponent::Base
         key: 'TOEFL registration number',
         value: toefl_qualification.registration_number,
         action: 'Change',
-        change_path: '',
+        change_path: candidate_interface_edit_toefl_path,
       },
       {
         key: 'Year awarded',
         value: toefl_qualification.award_year,
         action: 'Change',
-        change_path: '',
+        change_path: candidate_interface_edit_toefl_path,
       },
       {
         key: 'Total score',
         value: toefl_qualification.total_score,
         action: 'Change',
-        change_path: '',
+        change_path: candidate_interface_edit_toefl_path,
       },
     ]
   end

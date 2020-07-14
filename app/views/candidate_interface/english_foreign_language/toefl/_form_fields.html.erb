@@ -1,0 +1,18 @@
+<%= f.govuk_text_field(
+  :registration_number,
+  label: { text: 'TOEFL registration number', size: 'm' },
+  hint_text: 'For example, 0000 0000 2500 2147') %>
+
+<%= f.govuk_text_field(
+  :total_score,
+  label: { text: 'Total score', size: 'm' },
+  hint_text: 'For example, 92',
+  width: 4) %>
+
+<%= f.govuk_text_field(
+  :award_year,
+  label: { text: 'Year qualification was awarded', size: 'm' },
+  type: :number,
+  width: 4) %>
+
+<%= f.govuk_submit t('application_form.complete_form_button') %>

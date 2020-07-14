@@ -30,6 +30,13 @@ module CandidateInterface
         end
       end
 
+      def fill(ielts:)
+        self.trf_number = ielts.trf_number
+        self.band_score = ielts.band_score
+        self.award_year = ielts.award_year
+        self
+      end
+
     private
 
       def award_year_is_a_valid_year

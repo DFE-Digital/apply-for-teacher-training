@@ -23,19 +23,19 @@ class IeltsReviewComponent < ViewComponent::Base
         key: 'Test report form (TRF) number',
         value: ielts_qualification.trf_number,
         action: 'Change',
-        change_path: '',
+        change_path: candidate_interface_edit_ielts_path,
       },
       {
         key: 'Year awarded',
         value: ielts_qualification.award_year,
         action: 'Change',
-        change_path: '',
+        change_path: candidate_interface_edit_ielts_path,
       },
       {
         key: 'Overall band score',
         value: ielts_qualification.band_score,
         action: 'Change',
-        change_path: '',
+        change_path: candidate_interface_edit_ielts_path,
       },
     ]
   end
