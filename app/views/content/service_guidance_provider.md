@@ -1,6 +1,6 @@
 Thank you for signing up to the Department for Education’s Manage teacher training applications service.
 
-The service is now being rolled out to training providers throughout England. By October 2021, all teacher training applications will be made through [Apply for teacher training](https://www.apply-for-teacher-training.education.gov.uk) and processed through [Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider).
+The service is now being rolled out to training providers throughout England. By October 2021, all teacher training applications will be made through [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk) and processed through [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider).
 
 Until that date, Apply for teacher training will run alongside UCAS Teacher Training. You’ll find more information about the dual running of the services in [Deadlines and terms of use](#deadlines-and-terms-of-use) and [Troubleshooting](#troubleshooting).
 
@@ -51,11 +51,11 @@ For now, we don't provide fraud and plagiarism checks on candidate applications.
 
 Onboarding is quick and easy, usually taking place over a single working day.
 
-1. We’ll ask for contact details for your admissions team so we can add them to [Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) as admin users. We’ll also ask you for the names of any other organisations you partner with – for example, accredited bodies who ratify your courses.
+1. We’ll ask for contact details for your admissions team so we can add them to [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) as admin users. We’ll also ask you for the names of any other organisations you partner with – for example, accredited bodies who ratify your courses.
 
 2. Taking data from [Publish teacher training courses](https://www.publish-teacher-training-courses.service.gov.uk/), we’ll upload your courses to Manage teacher training applications.
 
-3. We’ll then update [Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) so that candidates know they can apply for your courses through [Apply for teacher training](https://www.apply-for-teacher-training.education.gov.uk/candidate).
+3. We’ll then update [Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) so that candidates know they can apply for your courses through [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate).
 
 4. We’ll ask you to sign a data-sharing agreement and create a DfE Sign-in account (if you don’t already have one).
 
@@ -64,7 +64,7 @@ Onboarding is quick and easy, usually taking place over a single working day.
 We’re available to give you full support at every stage.
 
 ##<a name="using-the-service"></a>Using the service
-[Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) allows you to process applications from submission through to offer.
+[Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) allows you to process applications from submission through to offer.
 
 ###Viewing applications
 
@@ -124,7 +124,7 @@ Once they’ve accepted your offer, you can’t change these things without thei
 
 ###Apply again (Apply 2)
 
-Candidates can now use [Apply for teacher training](https://www.apply-for-teacher-training.education.gov.uk/candidate) to apply again if they are rejected by all their providers, or decline by default or withdraw their applications.
+Candidates can now use [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate) to apply again if they are rejected by all their providers, or decline by default or withdraw their applications.
 
 In UCAS this phase is called ‘Apply 2’. Our data shows that 70% of candidates do not enter Apply 2. By creating a more supportive user journey, we hope to see greater numbers of candidates reapply.
 
@@ -139,7 +139,7 @@ Candidates will also be able to use UCAS’s Apply 2 service for this part of th
 
 ###Informing candidates your courses are on Apply
 
-Your courses will automatically be uploaded to [Apply for teacher training](https://www.apply-for-teacher-training.education.gov.uk) as part of our onboarding process.
+Your courses will automatically be uploaded to [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk) as part of our onboarding process.
 
 When candidates use [Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) and select one of your courses, they will have the option to continue via Apply for teacher training. (They will also be able to apply via UCAS, if you’ve decided to keep your courses listed on both services.)
 
@@ -164,13 +164,13 @@ We provide a clear route to UCAS for candidates who choose non-onboarded provide
 
 3. We suggest candidates use Apply for teacher training if all their chosen training providers are available through the service and they are interested in becoming an early adopter. We suggest candidates use UCAS Teacher Training if they’ve already started applying via UCAS, or some of their chosen training providers are not available through Apply for teacher training.
 
-4. Within [Apply for teacher training](https://www.apply-for-teacher-training.education.gov.uk), if candidates select a non-onboarded provider as one of their additional course choices, they are directed back to UCAS to apply using that service.
+4. Within [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk), if candidates select a non-onboarded provider as one of their additional course choices, they are directed back to UCAS to apply using that service.
 
 ###Onboarding for providers with courses ratified by an accredited body
 
 If your courses are ratified by an accredited body, or you are part of a partnership of teacher training organisations, you will need to make sure your partners are ready to be onboarded to Manage.
 
-They may find our [introduction to the service](https://www.apply-for-teacher-training.education.gov.uk/provider) helpful. We’re available to answer any questions they may have on <becomingateacher@digital.education.gov.uk>.
+They may find our [introduction to the service](https://www.apply-for-teacher-training.service.gov.uk/provider) helpful. We’re available to answer any questions they may have on <becomingateacher@digital.education.gov.uk>.
 
 ###Candidates who apply for your courses through UCAS
 

@@ -55,4 +55,4 @@ We will update our [release notes](/api-docs/release-notes) with all breaking an
 
 ## Testing
 
-To get familiar with our system and perform testing, you can use [our sandbox environment](https://sandbox.apply-for-teacher-training.education.gov.uk).
+To get familiar with our system and perform testing, you can use [our sandbox environment](https://sandbox.apply-for-teacher-training.service.gov.uk).

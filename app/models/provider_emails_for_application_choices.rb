@@ -25,7 +25,7 @@ private
     name = choice.application_form.full_name
     ref = choice.application_form.support_reference
     status = I18n.t("provider_application_states.#{choice.status}")
-    url = "https://www.apply-for-teacher-training.education.gov.uk/provider/applications/#{choice.id}"
+    url = "https://www.apply-for-teacher-training.service.gov.uk/provider/applications/#{choice.id}"
     "* #{name} (#{ref}) (#{status}) — #{url}"
   end
 

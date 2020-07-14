@@ -55,7 +55,7 @@ end
 
 desc 'Copy feature flags from production to your local dev env'
 task copy_feature_flags_from_production: :environment do
-  flags = JSON.parse(HTTP.get('https://www.apply-for-teacher-training.education.gov.uk/integrations/feature-flags')).fetch('feature_flags')
+  flags = JSON.parse(HTTP.get('https://www.apply-for-teacher-training.service.gov.uk/integrations/feature-flags')).fetch('feature_flags')
 
   puts 'Synchronising feature flags with production...'
 
