@@ -1,0 +1,18 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.efl.start'), @start_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class='govuk-heading-xl class='govuk-heading-xl''><%= t('page_titles.efl.start') %></h1>
+
+    <%= form_with(model: @start_form, url: candidate_interface_english_foreign_language_root_path) do |f| %>
+      <%= f.govuk_radio_buttons_fieldset :has_efl_qualification, legend: { size: 'm', text: 'Do you have an English as a foreign language qualification?', tag: 'span' } do %>
+        <%= f.govuk_radio_button :has_efl_qualification, 'yes', label: { text: 'Yes' } %>
+      <% end %>
+
+      <%= f.govuk_submit t('application_form.continue') %>
+    <% end %>
+
+  </div>
+</div>
+

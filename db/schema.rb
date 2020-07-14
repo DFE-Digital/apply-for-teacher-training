@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_08_121600) do
+ActiveRecord::Schema.define(version: 2020_07_13_130635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -125,6 +125,7 @@ ActiveRecord::Schema.define(version: 2020_07_08_121600) do
     t.string "multiple_nationalities_details"
     t.boolean "efl_completed", default: false
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
+    t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
 
   create_table "application_qualifications", force: :cascade do |t|
@@ -151,6 +152,8 @@ ActiveRecord::Schema.define(version: 2020_07_08_121600) do
     t.boolean "international", default: false, null: false
     t.string "naric_reference"
     t.string "comparable_uk_degree"
+    t.string "non_uk_qualification_type"
+    t.string "comparable_uk_qualification"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
     t.index ["grade_hesa_code"], name: "qualifications_by_grade_hesa_code"
     t.index ["institution_hesa_code"], name: "qualifications_by_institution_hesa_code"
@@ -278,12 +281,31 @@ ActiveRecord::Schema.define(version: 2020_07_08_121600) do
     t.index ["application_form_id"], name: "index_emails_on_application_form_id"
   end
 
+  create_table "english_language_proficiencies", force: :cascade do |t|
+    t.bigint "application_form_id", null: false
+    t.string "efl_qualification_type"
+    t.bigint "efl_qualification_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "qualification_status", null: false
+    t.index ["application_form_id"], name: "index_english_language_proficiencies_on_application_form_id", unique: true
+    t.index ["efl_qualification_type", "efl_qualification_id"], name: "index_elp_on_efl_qualification_type_and_id"
+  end
+
   create_table "features", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "active", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name"], name: "index_features_on_name", unique: true
+  end
+
+  create_table "ielts_qualifications", force: :cascade do |t|
+    t.string "trf_number", null: false
+    t.string "band_score", null: false
+    t.integer "award_year", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "notes", force: :cascade do |t|

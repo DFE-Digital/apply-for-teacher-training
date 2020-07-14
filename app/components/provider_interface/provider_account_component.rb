@@ -14,7 +14,8 @@ module ProviderInterface
         { key: 'Last name', value: current_provider_user.last_name },
         { key: 'Email address', value: current_provider_user.email_address },
         organisations_row,
-      ]
+        permissions_rows,
+      ].flatten
     end
 
     def dsi_profile_url
@@ -34,6 +35,15 @@ module ProviderInterface
 
     def organisations
       current_provider_user.providers.map(&:name)
+    end
+
+    def permissions_rows
+      current_provider_user.provider_permissions.includes([:provider]).map do |permission|
+        {
+          key: "Permissions: #{permission.provider.name}",
+          value: render(PermissionsList.new(permission)),
+        }
+      end
     end
   end
 end

@@ -3,6 +3,7 @@ en:
     begin_button: Start now
     completed_checkbox: I have completed this section
     continue: Continue
+    complete_form_button: Save and continue
     review:
       role_involved_working_with_children: This role involved working with children
     courses:
@@ -195,9 +196,13 @@ en:
         gce_o_level: GCE O Level
         scottish_national_5: Scottish National 5
         other_uk: Other UK qualification
+        non_uk: Non-UK qualification
         missing: I don’t have this qualification yet
       other_uk:
         label: Enter type of qualification
+      non_uk:
+        label: Enter type of qualification
+        hint_text: For example, High School Diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
       missing_explanation:
         label: If you are working towards this qualification, give us details (optional)
       grade:
@@ -515,6 +520,15 @@ en:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
               greater_than_limit: 'Enter a year before %{date}'
+        candidate_interface/english_foreign_language/ielts_form:
+          attributes:
+            trf_number:
+              blank: Enter your TRF number
+            band_score:
+              blank: Enter your overall band score
+            award_year:
+              blank: Enter year the qualification was awarded
+              invalid: Enter a real year
         candidate_interface/other_qualification_type_form:
           attributes:
             qualification_type:
@@ -590,6 +604,8 @@ en:
             other_uk_qualification_type:
               blank: Enter the type of qualification
               too_long: Type of degree must be %{count} characters or fewer
+            non_uk_qualification_type:
+              blank: Enter the type of qualification
             missing_explanation:
               blank: Give us some details
               too_many_words: Details must be %{count} words or fewer

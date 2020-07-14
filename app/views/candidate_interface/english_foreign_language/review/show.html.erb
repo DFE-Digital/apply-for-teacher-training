@@ -1,0 +1,11 @@
+<% content_for :title, t('page_titles.efl.review') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.efl.review') %>
+</h1>
+
+<p class='govuk-body'><%= @english_language_proficiency.efl_qualification.name %> </p>
+<p class='govuk-body'><%= @english_language_proficiency.efl_qualification.trf_number %></p>
+<p class='govuk-body'><%= @english_language_proficiency.efl_qualification.band_score %></p>
+<p class='govuk-body'><%= @english_language_proficiency.efl_qualification.award_year %></p>

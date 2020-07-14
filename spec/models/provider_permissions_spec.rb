@@ -24,4 +24,18 @@ RSpec.describe ProviderPermissions do
       expect(expected_provider_names).to eq(%w[AAA ABB ABC])
     end
   end
+
+  describe '#view_applications_only?' do
+    let(:current_provider_user) { create(:provider_user, providers: [create(:provider)]) }
+
+    it 'returns true when there are not permissions' do
+      expect(current_provider_user.provider_permissions.first.view_applications_only?).to eq(true)
+    end
+
+    it 'returns false if there is at least one permission' do
+      current_provider_user.provider_permissions.update(make_decisions: true)
+
+      expect(current_provider_user.provider_permissions.first.view_applications_only?).to eq(false)
+    end
+  end
 end

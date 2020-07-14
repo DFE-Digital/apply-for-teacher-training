@@ -1,17 +1,18 @@
 module CandidateInterface
   class GcseQualificationTypeForm
     OTHER_UK_QUALIFICATION_TYPE = 'other_uk'.freeze
-
+    NON_UK_QUALIFICATION_TYPE = 'non_uk'.freeze
     include ActiveModel::Model
 
     attr_accessor :subject, :level, :qualification_type, :other_uk_qualification_type,
-                  :missing_explanation, :qualification_id
+                  :missing_explanation, :qualification_id, :non_uk_qualification_type
 
     validates :subject, :level, :qualification_type, presence: true
 
     validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == OTHER_UK_QUALIFICATION_TYPE }
+    validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == NON_UK_QUALIFICATION_TYPE }
     validates :qualification_type, length: { maximum: 255 }
-    validates :other_uk_qualification_type, length: { maximum: 255 }
+    validates :other_uk_qualification_type, :non_uk_qualification_type, length: { maximum: 255 }
 
     validates :missing_explanation, word_count: { maximum: 200 }
 
@@ -21,6 +22,7 @@ module CandidateInterface
       return false unless valid?
 
       reset_other_uk_qualification_type
+      reset_non_uk_qualification_type
 
       if new_record?
         application_form.application_qualifications.create(
@@ -28,6 +30,7 @@ module CandidateInterface
           subject: subject,
           qualification_type: qualification_type,
           other_uk_qualification_type: other_uk_qualification_type,
+          non_uk_qualification_type: non_uk_qualification_type,
           missing_explanation: missing_explanation,
         )
       else
@@ -38,6 +41,7 @@ module CandidateInterface
           subject: subject,
           qualification_type: qualification_type,
           other_uk_qualification_type: other_uk_qualification_type,
+          non_uk_qualification_type: non_uk_qualification_type,
           missing_explanation: missing_explanation,
         )
       end
@@ -46,6 +50,7 @@ module CandidateInterface
     def set_attributes(params)
       @qualification_type = params[:qualification_type]
       @other_uk_qualification_type = params[:other_uk_qualification_type]
+      @non_uk_qualification_type = params[:non_uk_qualification_type]
       @missing_explanation = params[:missing_explanation]
     end
 
@@ -59,6 +64,7 @@ module CandidateInterface
         subject: qualification.subject,
         qualification_type: qualification.qualification_type,
         other_uk_qualification_type: qualification.other_uk_qualification_type,
+        non_uk_qualification_type: qualification.non_uk_qualification_type,
         qualification_id: qualification.id,
         missing_explanation: qualification.missing_explanation,
       )
@@ -73,6 +79,12 @@ module CandidateInterface
     def reset_other_uk_qualification_type
       if qualification_type != OTHER_UK_QUALIFICATION_TYPE
         @other_uk_qualification_type = nil
+      end
+    end
+
+    def reset_non_uk_qualification_type
+      if qualification_type != NON_UK_QUALIFICATION_TYPE
+        @non_uk_qualification_type = nil
       end
     end
   end
