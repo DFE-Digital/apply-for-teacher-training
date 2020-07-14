@@ -10,7 +10,7 @@ RSpec.describe ProviderInterface::SortOrderComponent do
       })
     end
     let(:page_state) do
-      ProviderInterface::ProviderApplicationsPageState.new(params: params, provider_user: provider_user)
+      ProviderInterface::ProviderApplicationsPageState.new(params: params, provider_user: provider_user, state_store: {})
     end
 
     subject(:rendered_result) { render_inline(described_class.new(page_state: page_state)) }

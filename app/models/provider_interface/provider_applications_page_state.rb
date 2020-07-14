@@ -1,10 +1,20 @@
 module ProviderInterface
   class ProviderApplicationsPageState
     attr_accessor :available_filters, :filter_selections, :provider_user
+    attr_reader :applied_filters
 
-    def initialize(params:, provider_user:)
-      @params = params
+    STATE_STORE_KEY = :provider_interface_applications_page_state
+
+    def initialize(params:, provider_user:, state_store:)
       @provider_user = provider_user
+      @applied_filters = parse_params(params)
+      @state_store = state_store
+
+      if @applied_filters.empty?
+        @applied_filters = last_saved_filter_state
+      else
+        save_filter_state!
+      end
     end
 
     def filters
@@ -15,12 +25,8 @@ module ProviderInterface
       applied_filters.values.any?
     end
 
-    def applied_filters
-      @params.permit(:candidate_name, :sort_by, provider: [], status: [], accredited_provider: [], provider_location: []).to_h
-    end
-
     def sort_by
-      sort_options.map(&:last).flatten.include?(@params[:sort_by]) ? @params[:sort_by] : 'last_changed'
+      sort_options.map(&:last).flatten.include?(applied_filters[:sort_by]) ? applied_filters[:sort_by] : 'last_changed'
     end
 
     def sort_options
@@ -28,6 +34,18 @@ module ProviderInterface
     end
 
   private
+
+    def parse_params(params)
+      params.permit(:candidate_name, :sort_by, provider: [], status: [], accredited_provider: [], provider_location: []).to_h
+    end
+
+    def save_filter_state!
+      @state_store[STATE_STORE_KEY] = @applied_filters.to_json
+    end
+
+    def last_saved_filter_state
+      JSON.parse(@state_store[STATE_STORE_KEY] || '{}').with_indifferent_access
+    end
 
     def search_filter
       {
