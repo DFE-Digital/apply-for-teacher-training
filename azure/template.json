@@ -324,6 +324,18 @@
                 "description": "The password for UCAS data exchange"
             }
         },
+        "ucasUploadBaseurl": {
+            "type": "string",
+            "metadata": {
+                "description": "The upload baseurl for UCAS data exchange"
+            }
+        },
+        "ucasUploadFolder": {
+            "type": "string",
+            "metadata": {
+                "description": "The upload folder for UCAS data exchange"
+            }
+        },
         "stateChangeSlackUrl": {
             "type": "string",
             "metadata": {
@@ -672,6 +684,14 @@
                             {
                                 "name": "UCAS_PASSWORD",
                                 "value": "[parameters('ucasPassword')]"
+                            },
+                            {
+                                "name": "UCAS_UPLOAD_BASEURL",
+                                "value": "[parameters('ucasUploadBaseurl')]"
+                            },
+                            {
+                                "name": "UCAS_UPLOAD_FOLDER",
+                                "value": "[parameters('ucasUploadFolder')]"
                             },
                             {
                                 "name": "REDIS_URL",
