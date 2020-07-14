@@ -16,10 +16,12 @@ module CandidateInterface
         degree_type_row(degree),
         subject_row(degree),
         institution_row(degree),
+        naric_reference_row(degree),
+        comparable_uk_degree_row(degree),
         start_year_row(degree),
         award_year_row(degree),
         grade_row(degree),
-      ]
+      ].compact
     end
 
     def show_missing_banner?
@@ -79,6 +81,28 @@ module CandidateInterface
 
     def international?(degree)
       degree.international? && FeatureFlag.active?(:international_degrees)
+    end
+
+    def naric_reference_row(degree)
+      return nil unless international?(degree)
+
+      {
+        key: t('application_form.degree.naric_reference.review_label'),
+        value: degree.naric_reference,
+        action: generate_action(degree: degree, attribute: t('application_form.degree.naric_reference.change_action')),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree.id),
+      }
+    end
+
+    def comparable_uk_degree_row(degree)
+      return nil unless international?(degree)
+
+      {
+        key: t('application_form.degree.comparable_uk_degree.review_label'),
+        value: t("application_form.degree.comparable_uk_degree.values.#{degree.comparable_uk_degree}", default: ''),
+        action: generate_action(degree: degree, attribute: t('application_form.degree.comparable_uk_degree.change_action')),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree.id),
+      }
     end
 
     def start_year_row(degree)

@@ -159,6 +159,8 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         subject: 'Woof',
         institution_name: 'University of Doge',
         institution_country: 'DE',
+        naric_reference: '0123456789',
+        comparable_uk_degree: 'bachelor_honours_degree',
         grade: 'erste Klasse',
         predicted_grade: false,
         start_year: '2005',
@@ -176,6 +178,23 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       expect(result.css('.govuk-summary-list__value')[2].text.strip).to eq('University of Doge, Germany')
       expect(result.css('.govuk-summary-list__actions a')[2].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_degree_institution_path(degree1),
+      )
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+      )
+    end
+
+    it 'renders component with correct values for NARIC statement' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
+      expect(result.css('.govuk-summary-list__value')[3].text.strip).to eq('0123456789')
+      expect(result.css('.govuk-summary-list__actions a')[3].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree1),
+      )
+      expect(result.css('.govuk-summary-list__value')[4].text.strip).to eq('Bachelor (Honours) degree')
+      expect(result.css('.govuk-summary-list__actions a')[4].attr('href')).to include(
+        Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
         "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
