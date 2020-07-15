@@ -367,7 +367,8 @@ private
   def application_choice_with_offer
     FactoryBot.build_stubbed(:application_choice, :with_offer,
                              course_option: course_option,
-                             decline_by_default_at: Time.zone.now)
+                             decline_by_default_at: Time.zone.now,
+                             sent_to_provider_at: 1.day.ago)
   end
 
   def application_choice_awaiting_references

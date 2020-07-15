@@ -142,6 +142,7 @@ class CandidateMailer < ApplicationMailer
   def chase_candidate_decision(application_form)
     @application_choices = application_form.application_choices.select(&:offer?)
     @dbd_date = @application_choices.first.decline_by_default_at.to_s(:govuk_date).strip
+    @days_until_chaser = TimeLimitCalculator.new(rule: :chase_candidate_before_dbd, effective_date: @application_choices.first.sent_to_provider_at).call.fetch(:days)
 
     subject_pluralisation = @application_choices.count > 1 ? 'plural' : 'singular'
 
