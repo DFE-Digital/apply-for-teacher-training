@@ -5,14 +5,13 @@
   <%= t('page_titles.efl.review') %>
 </h1>
 
-<% if @english_language_proficiency.efl_qualification_type == 'IeltsQualification' %>
-  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.name %> </p>
-  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.trf_number %></p>
-  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.band_score %></p>
-  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.award_year %></p>
-<% elsif @english_language_proficiency.efl_qualification_type == 'ToeflQualification' %>
-  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.name %> </p>
-  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.registration_number %></p>
-  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.total_score %></p>
-  <p class='govuk-body'><%= @english_language_proficiency.efl_qualification.award_year %></p>
+<%= render(@component_instance) %>
+
+<%= form_with model: current_application, url: candidate_interface_english_foreign_language_complete_path do |f| %>
+  <div class='govuk-form-group'>
+    <%= f.hidden_field :efl_completed, value: false %>
+    <%= f.govuk_check_box :efl_completed, true, multiple: false, label: { text: t('application_form.degree.review.completed_checkbox') } %>
+  </div>
+
+  <%= f.govuk_submit t('application_form.degree.review.button') %>
 <% end %>

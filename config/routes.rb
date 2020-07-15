@@ -339,6 +339,7 @@ Rails.application.routes.draw do
         post '/toefl' => 'english_foreign_language/toefl#create'
 
         get '/review' => 'english_foreign_language/review#show', as: :english_foreign_language_review
+        patch '/review' => 'english_foreign_language/review#complete', as: :english_foreign_language_complete
       end
 
       scope '/referees' do

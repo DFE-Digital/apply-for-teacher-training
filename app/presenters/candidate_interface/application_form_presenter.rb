@@ -140,7 +140,11 @@ module CandidateInterface
     end
 
     def english_as_a_foreign_language_path
-      Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_root_path
+      if @application_form.english_language_proficiency.present?
+        Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_review_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_root_path
+      end
     end
 
     def volunteering_path
