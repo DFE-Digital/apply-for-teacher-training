@@ -3,10 +3,12 @@ module ProviderInterface
     include ActiveModel::Model
     STATE_STORE_KEY = :provider_user_invitation_wizard
 
-    attr_accessor :current_step, :first_name, :checking_answers
+    attr_accessor :current_step, :first_name, :last_name, :email_address, :checking_answers
     attr_writer :providers, :provider_permissions, :state_store
 
     validates :first_name, presence: true, on: :details
+    validates :last_name, presence: true, on: :details
+    validates :email_address, presence: true, on: :details
     validates :providers, presence: true, on: :providers
 
     def initialize(state_store, attrs = {})

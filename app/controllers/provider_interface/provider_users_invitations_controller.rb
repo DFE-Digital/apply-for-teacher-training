@@ -78,7 +78,7 @@ module ProviderInterface
 
     def wizard_params
       params.require(:provider_interface_provider_user_invitation_wizard)
-        .permit(:change_answer, :first_name, providers: [], provider_permissions: {})
+        .permit(:change_answer, :first_name, :last_name, :email_address, :first_name, providers: [], provider_permissions: {})
     end
 
   private

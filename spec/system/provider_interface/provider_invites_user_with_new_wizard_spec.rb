@@ -26,13 +26,16 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     and_i_click_invite_user
     then_i_see_the_basic_details_form
 
+    when_i_press_continue
+    then_i_see_validation_errors_for_names_and_email_address
+
     when_i_fill_in_email_address_and_name
     and_i_press_continue
     then_i_see_the_select_organisations_form
 
-    when_i_select_one_provider
-    and_i_press_continue
-    then_i_see_the_select_permissions_form_for_selected_provider
+    # when_i_select_one_provider
+    # and_i_press_continue
+    # then_i_see_the_select_permissions_form_for_selected_provider
 
     # TODO: TBC
   end
@@ -90,13 +93,21 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   def and_i_press_continue
     click_on 'Continue'
   end
+  alias_method :when_i_press_continue, :and_i_press_continue
+
+  def then_i_see_validation_errors_for_names_and_email_address
+    expect(page).to have_content('Enter the user\'s first name')
+    expect(page).to have_content('Enter the user\'s last name')
+    expect(page).to have_content('Enter the user\'s email address')
+  end
 
   def then_i_see_the_select_organisations_form
+    expect(page).to have_content('Select organisations this user will have access to')
   end
 
-  def when_i_select_one_provider
-  end
+  # def when_i_select_one_provider
+  # end
 
-  def then_i_see_the_select_permissions_form_for_selected_provider
-  end
+  # def then_i_see_the_select_permissions_form_for_selected_provider
+  # end
 end
