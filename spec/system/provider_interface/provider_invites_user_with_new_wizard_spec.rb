@@ -12,8 +12,15 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_applications_for_two_providers
-    and_i_can_manage_users_for_a_provider
     and_i_sign_in_to_the_provider_interface
+
+    when_i_try_to_visit_the_users_page
+    then_i_see_a_404_page
+    when_i_try_to_visit_the_invite_user_wizard
+    then_i_see_a_404_page
+
+    and_i_can_manage_users_for_a_provider
+    and_i_sign_in_again_to_the_provider_interface
 
     when_i_click_on_the_users_link
     and_i_click_invite_user
@@ -28,6 +35,18 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     then_i_see_the_select_permissions_form_for_selected_provider
 
     # TODO: TBC
+  end
+
+  def when_i_try_to_visit_the_users_page
+    visit provider_interface_provider_users_path
+  end
+
+  def then_i_see_a_404_page
+    expect(page).to have_content('Page not found')
+  end
+
+  def when_i_try_to_visit_the_invite_user_wizard
+    visit provider_interface_edit_invitation_basic_details_path
   end
 
   def when_i_click_on_the_users_link
@@ -47,6 +66,11 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
   def and_i_can_manage_users_for_a_provider
     @provider_user.provider_permissions.find_by(provider: @provider).update(manage_users: true)
+  end
+
+  def and_i_sign_in_again_to_the_provider_interface
+    click_link('Sign out')
+    and_i_sign_in_to_the_provider_interface
   end
 
   def and_i_click_invite_user
