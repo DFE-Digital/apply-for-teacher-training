@@ -655,6 +655,14 @@ en:
             institution_country:
               blank: Enter the country you studied in
               inclusion: Select the country you studied in from the list
+        candidate_interface/naric_reference_form:
+          attributes:
+            naric_reference_choice:
+              blank: Select if you have a NARIC statement of comparability
+            naric_reference:
+              blank: Enter your NARIC reference number
+            comparable_uk_qualification:
+              blank: Choose a comparable UK qualification
         candidate_interface/volunteering_experience_form:
           attributes:
             experience:
