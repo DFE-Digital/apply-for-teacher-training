@@ -12,6 +12,7 @@ RSpec.feature 'Add TOEFL qualification' do
     and_i_select_the_options_for_toefl
     when_i_provide_my_toefl_details
     then_i_can_review_my_qualification
+    and_i_can_edit_my_qualification
     and_i_can_complete_this_section
   end
 
@@ -57,6 +58,20 @@ RSpec.feature 'Add TOEFL qualification' do
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
     expect(page).to have_content 'TOEFL'
     expect(page).to have_content '123456'
+    expect(page).to have_content 'I have completed this section'
+  end
+
+  def and_i_can_edit_my_qualification
+    within(all('.govuk-summary-list__row')[2]) do
+      click_link 'Change registration number'
+    end
+
+    expect(page).to have_field('TOEFL registration number', with: '123456')
+    fill_in 'TOEFL registration number', with: '888'
+    click_button 'Save and continue'
+
+    expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
+    expect(page).to have_content '888'
     expect(page).to have_content 'I have completed this section'
   end
 

@@ -12,6 +12,7 @@ RSpec.feature 'Add IELTS qualification' do
     and_i_select_the_options_for_ielts
     when_i_provide_my_ielts_details
     then_i_can_review_my_qualification
+    and_i_can_edit_my_qualification
     and_i_can_complete_this_section
   end
 
@@ -47,7 +48,7 @@ RSpec.feature 'Add IELTS qualification' do
   end
 
   def when_i_provide_my_ielts_details
-    fill_in 'Test report form', with: '123456'
+    fill_in 'Test report form (TRF) number', with: '123456'
     fill_in 'Overall band score', with: '7.5'
     fill_in 'Year qualification was awarded', with: '1999'
     click_button 'Save and continue'
@@ -57,6 +58,20 @@ RSpec.feature 'Add IELTS qualification' do
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
     expect(page).to have_content 'IELTS'
     expect(page).to have_content '123456'
+    expect(page).to have_content 'I have completed this section'
+  end
+
+  def and_i_can_edit_my_qualification
+    within(all('.govuk-summary-list__row')[2]) do
+      click_link 'Change TRF number'
+    end
+
+    expect(page).to have_field('Test report form (TRF) number', with: '123456')
+    fill_in 'Test report form (TRF) number', with: '888'
+    click_button 'Save and continue'
+
+    expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
+    expect(page).to have_content '888'
     expect(page).to have_content 'I have completed this section'
   end
 
