@@ -34,7 +34,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_submitted.subject'),
       'heading' => 'Application submitted',
       'support reference' => 'SUPPORT-REFERENCE',
-      'RBD time limit' => "to make an offer within #{TimeLimitConfig.limits_for(:reject_by_default).first.limit} working days",
+      'RBD time limit' => "to make an offer within #{TimeLimitCalculator.new(rule: :reject_by_default, effective_date: Time.zone.today).call.fetch(:days)} working days",
       'magic link to authenticate' => 'http://localhost:3000/candidate/authenticate?token=raw_token&u=encrypted_id',
     )
 
@@ -104,7 +104,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content', :chase_candidate_decision,
         I18n.t!('chase_candidate_decision_email.subject_singular'),
         'heading' => 'Dear Bob',
-        'days left to respond' => "#{TimeLimitConfig.limits_for(:chase_candidate_before_dbd).first.limit} working days",
+        'days left to respond' => "#{TimeLimitCalculator.new(rule: :chase_candidate_before_dbd, effective_date: Time.zone.today).call.fetch(:days)} working days",
         'dbd date' => 10.business_days.from_now.to_s(:govuk_date).strip,
         'course name and code' => 'Applied Science (Psychology)',
         'provider name' => 'Brighthurst Technical College'
