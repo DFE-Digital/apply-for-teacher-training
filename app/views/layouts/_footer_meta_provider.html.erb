@@ -1,13 +1,15 @@
-<h2 class="govuk-heading-m">Support and guidance</h2>
+<h2 class="govuk-heading-m">Help and support</h2>
 <div class="govuk-footer__meta-custom">
-  If you have a question, or you’ve had a problem using this service, please email us at <%= link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk', class: 'govuk-footer__link' %>
+  <p class="govuk-body">
+    <%= link_to t('layout.service_guidance'), provider_interface_service_guidance_path, class: 'govuk-footer__link' %>
+  </p>
+  <p class="govuk-body">
+  For questions or to report a problem, email us on <%= link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk', class: 'govuk-footer__link' %>
+  </p>
 </div>
 <ul class="govuk-footer__inline-list">
   <li class="govuk-footer__inline-list-item">
     <%= link_to t('layout.accessibility'), provider_interface_accessibility_path, class: 'govuk-footer__link' %>
-  </li>
-  <li class="govuk-footer__inline-list-item">
-    <%= link_to t('layout.service_guidance'), provider_interface_service_guidance_path, class: 'govuk-footer__link' %>
   </li>
   <li class="govuk-footer__inline-list-item">
     <%= link_to t('layout.privacy_policy'), provider_interface_privacy_policy_path, class: 'govuk-footer__link' %>
