@@ -20,7 +20,8 @@ module CandidateInterface
 
         ActiveRecord::Base.transaction do
           application_form.english_proficiency&.destroy!
-          application_form.build_english_proficiency(qualification_status: :yes)
+          application_form.build_english_proficiency
+          application_form.english_proficiency.has_qualification!
           toefl = ToeflQualification.create!(
             registration_number: registration_number,
             total_score: total_score,

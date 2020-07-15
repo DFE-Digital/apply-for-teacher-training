@@ -20,7 +20,8 @@ module CandidateInterface
 
         ActiveRecord::Base.transaction do
           application_form.english_proficiency&.destroy!
-          application_form.build_english_proficiency(qualification_status: :yes)
+          application_form.build_english_proficiency
+          application_form.english_proficiency.has_qualification!
           ielts = IeltsQualification.create!(
             trf_number: trf_number,
             band_score: band_score,
