@@ -97,7 +97,7 @@ module CandidateInterface
     def naric_row
       {
         key: 'NARIC reference number',
-        value: application_qualification.naric_reference,
+        value: application_qualification.naric_reference || 'Not provided',
         action: 'Change the NARIC reference number',
         change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
       }
@@ -106,7 +106,7 @@ module CandidateInterface
     def comparable_uk_qualification
       {
         key: 'Comparable UK qualification',
-        value: application_qualification.comparable_uk_qualification,
+        value: application_qualification.comparable_uk_qualification || 'Not provided',
         action: 'Change the comparable uk qualification',
         change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
       }

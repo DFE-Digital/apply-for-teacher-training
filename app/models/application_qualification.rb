@@ -62,13 +62,10 @@ class ApplicationQualification < ApplicationRecord
   end
 
   def naric_reference_choice
-    case naric_reference
-    when 'Not entered'
-      'No'
-    when nil
-      nil
-    else
+    if naric_reference.present?
       'Yes'
+    elsif naric_reference.nil? && grade.present?
+      'No'
     end
   end
 end

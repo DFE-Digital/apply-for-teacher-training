@@ -27,8 +27,8 @@ module CandidateInterface
 
     def set_attributes(params)
       @naric_reference_choice = params['naric_reference_choice']
-      @naric_reference = params['naric_reference']
-      @comparable_uk_qualification = params['comparable_uk_qualification']
+      @naric_reference = chose_to_provide_naric_reference? ? params['naric_reference'] : nil
+      @comparable_uk_qualification = chose_to_provide_naric_reference? ? params['comparable_uk_qualification'] : nil
     end
 
   private
