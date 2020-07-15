@@ -11,7 +11,6 @@ module CandidateInterface
 
       @naric_reference_form.set_attributes(naric_reference_params)
 
-
       if @naric_reference_form.save(@current_qualification)
         update_gcse_completed(false)
 
@@ -46,8 +45,7 @@ module CandidateInterface
 
     def naric_reference_params
       params.require(:candidate_interface_naric_reference_form)
-        .permit(:naric_reference_choice, :naric_reference, :comparable_uk_qualification,
-        )
+        .permit(:naric_reference_choice, :naric_reference, :comparable_uk_qualification)
     end
   end
 end
