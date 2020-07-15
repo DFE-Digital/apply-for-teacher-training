@@ -27,7 +27,7 @@ module HostingEnvironment
 
   def self.phase_banner_text
     if sandbox_mode?
-      return 'This is a <a href="/">test version of Apply</a> for providers and software vendors'.html_safe
+      return 'This is a <a href="/" class="govuk-link">test version of Apply</a> for providers and software vendors'.html_safe
     end
 
     case environment_name
