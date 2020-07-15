@@ -1,6 +1,6 @@
 # Creating and Deploying to a new environment in Azure
 
-All the steps required to create and deploy to an Azure environment are written in the [Pipelines deploy template file](https://github.com/DFE-Digital/apply-for-teacher-training/blob/master/azure-pipelines-deploy-template.yml). This template is referenced inside the main Azure Pipelines configuration file and reused with appropriate parameters for the required environment.
+All the steps required to create and deploy to an Azure environment are written in the [Pipelines deploy template file](../azure/pipelines/templates/deploy.yml). This template is referenced inside the main Azure Pipelines configuration file and reused with appropriate parameters for the required environment.
 
 ## Configure Variable Groups in Azure DevOps
 For deploying to a new environment, we need to configure the required variables in a variable group that will hold the values to be passed as parameters to the pipeline deployment steps.
@@ -21,11 +21,11 @@ To create a new environment, clone an existing environment specific variable gro
 
 ## Create a new stage in the deployment pipeline for the new environment
 
-There are two deployment stages defined in `azure-pipelines.yml`, `deploy_qa` and `deploy_devops` to deploy to QA and DevOps environment respectively. `deploy_qa` stage is run only if the build is triggered for the `master` branch and `deploy_devops` stage only if the build is triggered from a branch name defined in `devDeployBranchNameOverride` variable inside the `APPLY - ENV - DevOps` variable group.
+There are two deployment stages defined in `build.yml`, `deploy_qa` and `deploy_devops` to deploy to QA and DevOps environment respectively. `deploy_qa` stage is run only if the build is triggered for the `master` branch and `deploy_devops` stage only if the build is triggered from a branch name defined in `devDeployBranchNameOverride` variable inside the `APPLY - ENV - DevOps` variable group.
 
 To create or deploy to a new environment, create a new stage in the pipeline by cloning an existing stage and modifying the run conditions and variables.
 
-Use `azure-pipelines.yml` for new test environments and `azure-pipelines-release.yml` for environments in production.
+Use [build.yml](../azure/pipelines/build.yml) for new dev/test environments and [release.yml](../azure/pipelines/release.yml) for environments in production.
 
 Make sure to change the `subscriptionPrefix` and `subscriptionName` to reflect the correct Azure Subscription to be used for the new environment.  
 
