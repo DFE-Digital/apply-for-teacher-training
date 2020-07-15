@@ -9,6 +9,7 @@ module ProviderInterface
     validates :first_name, presence: true, on: :details
     validates :last_name, presence: true, on: :details
     validates :email_address, presence: true, on: :details
+    validates :email_address, email: true, on: :details
     validates :providers, presence: true, on: :providers
 
     def initialize(state_store, attrs = {})
