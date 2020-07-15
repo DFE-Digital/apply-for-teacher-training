@@ -9,7 +9,7 @@ module ProviderInterface
     end
 
     def update_details
-      @wizard = ProviderUserInvitationWizard.new(session, wizard_params)
+      @wizard = ProviderUserInvitationWizard.new(session, details_params)
 
       if @wizard.valid_for_current_step?
         @wizard.save_state!
@@ -27,7 +27,7 @@ module ProviderInterface
     end
 
     def update_providers
-      @wizard = ProviderUserInvitationWizard.new(session, wizard_params)
+      @wizard = ProviderUserInvitationWizard.new(session, providers_params)
       @available_providers = current_provider_user.providers
 
       if @wizard.valid_for_current_step?
@@ -46,7 +46,7 @@ module ProviderInterface
     end
 
     def update_permissions
-      @wizard = ProviderUserInvitationWizard.new(session, wizard_params)
+      @wizard = ProviderUserInvitationWizard.new(session, permissions_params)
       @wizard.save_state!
 
       redirect_to next_redirect(@wizard)
@@ -66,6 +66,8 @@ module ProviderInterface
       redirect_to provider_interface_provider_users_path
     end
 
+  private
+
     def next_redirect(wizard)
       step, provider_id = wizard.next_step
 
@@ -76,12 +78,20 @@ module ProviderInterface
       }.fetch(step)
     end
 
-    def wizard_params
+    def details_params
       params.require(:provider_interface_provider_user_invitation_wizard)
-        .permit(:change_answer, :first_name, :last_name, :email_address, :first_name, providers: [], provider_permissions: {})
+        .permit(:first_name, :last_name, :email_address)
     end
 
-  private
+    def providers_params
+      params.require(:provider_interface_provider_user_invitation_wizard)
+        .permit(providers: [])
+    end
+
+    def permissions_params
+      params.require(:provider_interface_provider_user_invitation_wizard)
+        .permit(provider_permissions: {})
+    end
 
     def require_feature_flag
       render_404 unless FeatureFlag.active?(:providers_can_manage_users_and_permissions)

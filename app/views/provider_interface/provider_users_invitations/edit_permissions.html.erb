@@ -5,6 +5,7 @@
     <%= form_with model: @wizard, url: provider_interface_update_invitation_provider_permissions_path do |f| %>
       <%= f.govuk_error_summary %>
 
+      <span class="govuk-caption-xl">Invite user</span>
       <h1 class="govuk-heading-xl">Set permissions for <%= @permissions_form.provider.name %></h1>
 
       <%= f.fields_for "provider_permissions[]", @permissions_form do |pf| %>
