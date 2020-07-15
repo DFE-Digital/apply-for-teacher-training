@@ -41,7 +41,7 @@ module ProviderInterface
     def email_address_row
       {
         key: 'Email address',
-        value: mail_to(email_address),
+        value: mail_to(email_address, email_address, class: 'govuk-link'),
       }
     end
 
