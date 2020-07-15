@@ -118,9 +118,13 @@ As currently, the reject by default deadline changes over the summer. In 2020, f
 
 ###Changing the terms of an offer
 
-Up until the point a candidate accepts your offer, you can change the course, location, training provider and conditions of the offer.
+When you respond to an application, the service allows you change the details of the offer, including the course, main training location and training provider (for example, to another organisation with courses you run or ratify).
 
-Once they’ve accepted your offer, you can’t change these things without their permission.
+You can make these changes, and also amend conditions, even if the offer has already been made, up until the point a candidate accepts it.
+
+The candidate will receive a formal notification of the changed offer, but you should also explain and agree any changes with them directly via email or phone.
+
+Once the candidate has accepted your offer, you can’t change the terms of the offer without their permission.
 
 ###Apply again (Apply 2)
 
