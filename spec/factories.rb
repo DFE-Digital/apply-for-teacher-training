@@ -580,7 +580,7 @@ FactoryBot.define do
     name { 'feature_x' }
   end
 
-  factory :english_language_proficiency do
+  factory :english_proficiency do
     application_form
     qualification_status { 'no' }
 
