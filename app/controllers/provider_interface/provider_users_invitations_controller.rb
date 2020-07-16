@@ -42,7 +42,7 @@ module ProviderInterface
       @wizard = ProviderUserInvitationWizard.new(session, current_step: 'permissions', current_provider_id: params[:provider_id])
       @wizard.save_state!
 
-      @permissions_form = ProviderPermissionsForm.new(@wizard.permissions_for(params[:provider_id]))
+      @permissions_form = ProviderUserPermissionsForm.new(@wizard.permissions_for(params[:provider_id]))
     end
 
     def update_permissions

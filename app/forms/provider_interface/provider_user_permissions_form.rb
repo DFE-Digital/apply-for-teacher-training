@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ProviderPermissionsForm
+  class ProviderUserPermissionsForm
     include ActiveModel::Model
 
     Permission = Struct.new(:slug, :name)

@@ -16,14 +16,15 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
     when_i_try_to_visit_the_users_page
     then_i_see_a_404_page
-    when_i_try_to_visit_the_invite_user_wizard
+    when_i_visit_the_invite_user_wizard
     then_i_see_a_404_page
 
     and_i_can_manage_users_for_a_provider
     and_i_sign_in_again_to_the_provider_interface
 
-    when_i_click_on_the_users_link
-    and_i_click_invite_user
+    # when_i_click_on_the_users_link
+    # and_i_click_invite_user
+    when_i_visit_the_invite_user_wizard
     then_i_see_the_basic_details_form
 
     when_i_press_continue
@@ -52,7 +53,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     expect(page).to have_content('Page not found')
   end
 
-  def when_i_try_to_visit_the_invite_user_wizard
+  def when_i_visit_the_invite_user_wizard
     visit provider_interface_edit_invitation_basic_details_path
   end
 
