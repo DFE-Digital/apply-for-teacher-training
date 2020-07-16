@@ -4,7 +4,6 @@ RSpec.feature 'Provider cannot respond to application' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
-  include ProviderRelationshipPermissionsHelper
 
   let(:training_provider) { Provider.find_by_code('ABC') }
 
@@ -24,8 +23,11 @@ RSpec.feature 'Provider cannot respond to application' do
   end
 
   scenario 'Provider cannot respond to an application they cannot make offer on' do
+    FeatureFlag.activate('enforce_provider_to_provider_permissions')
+
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
+    and_my_provider_relationship_permissions_have_been_set_up
     and_i_sign_in_to_the_provider_interface
 
     when_i_am_permitted_to_make_decisions_for_my_provider
@@ -55,18 +57,27 @@ RSpec.feature 'Provider cannot respond to application' do
     deny_make_decisions!
   end
 
-  def and_my_organisation_is_permitted_to_make_decisions
+  def and_my_provider_relationship_permissions_have_been_set_up
     course = application_awaiting_provider_decision.offered_course
     ratifying_provider = course.accredited_provider
 
-    permit_provider_make_decisions!(
+    @provider_relationship = create(
+      :provider_relationship_permissions,
       training_provider: course.provider,
       ratifying_provider: ratifying_provider,
     )
   end
 
+  def and_my_organisation_is_permitted_to_make_decisions
+    @provider_relationship.update(
+      training_provider_can_make_decisions: true,
+    )
+  end
+
   def and_my_organisation_is_not_permitted_to_make_decisions
-    FeatureFlag.activate 'enforce_provider_to_provider_permissions'
+    @provider_relationship.update(
+      training_provider_can_make_decisions: false,
+    )
   end
 
   def and_i_try_to_respond_to_an_application

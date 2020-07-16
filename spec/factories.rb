@@ -335,6 +335,7 @@ FactoryBot.define do
     type { 'TrainingProviderPermissions' }
     ratifying_provider { create(:provider) }
     training_provider { create(:provider) }
+    setup_at { Time.zone.now }
   end
 
   factory :application_choice do
