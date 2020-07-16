@@ -21,5 +21,5 @@ class Clock
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
   every(1.hour, 'SendCourseFullNotifications', at: '**:45') { SendCourseFullNotificationsWorker.perform_async }
 
-  every(1.day, 'UCASMatching::UploadMatchingData', at: '03:23') { UCASMatching::UploadMatchingData.perform_async }
+  every(1.day, 'UCASMatching::UploadMatchingData', at: '06:23') { UCASMatching::UploadMatchingData.perform_async }
 end
