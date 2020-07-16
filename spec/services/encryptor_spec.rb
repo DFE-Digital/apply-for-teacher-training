@@ -10,4 +10,14 @@ RSpec.describe Encryptor do
   it 'returns false given an invalid encrypted string' do
     expect(Encryptor.decrypt('invalid-input')).to be false
   end
+
+  it 'returns false when the encrypted string fails verification' do
+    encryptor_that_cannot_verify_the_message = double
+    allow(encryptor_that_cannot_verify_the_message).to receive(:decrypt_and_verify)
+      .and_raise(ActiveSupport::MessageVerifier::InvalidSignature.new)
+
+    stub_const('Encryptor::ENCRYPTOR', encryptor_that_cannot_verify_the_message)
+
+    expect(Encryptor.decrypt('any-old-thing')).to be false
+  end
 end
