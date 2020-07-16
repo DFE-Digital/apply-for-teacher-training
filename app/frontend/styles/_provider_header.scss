@@ -1,3 +1,7 @@
+.provider-header {
+  border-bottom: 10px solid;
+}
+
 .provider-header__logo {
   @include govuk-media-query($from: tablet) {
     width: 60%;

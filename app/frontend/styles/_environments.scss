@@ -6,8 +6,10 @@ $app-colour-staging: govuk-colour("red");
 $app-colour-development: govuk-colour("dark-grey", $legacy: "grey-1");
 
 @mixin environment-colour($environment, $colour) {
-  .app-header--#{$environment} .govuk-header__container {
-    border-bottom-color: $colour;
+  .app-header--#{$environment} {
+    .govuk-header__container {
+      border-bottom-color: $colour;
+    }
   }
 
   .app-environment-tag--#{$environment} {
