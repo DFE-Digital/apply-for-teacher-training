@@ -48,7 +48,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsForm, type: :mod
 
       valid_form.save
 
-      expect(application_form.english_proficiency.qualification_status).to eq 'yes'
+      expect(application_form.english_proficiency.qualification_status).to eq 'has_qualification'
       qualification = application_form.english_proficiency.efl_qualification
       expect(qualification.trf_number).to eq '12345'
       expect(qualification.band_score).to eq '6.5'

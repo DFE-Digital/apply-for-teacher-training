@@ -18,17 +18,16 @@ module CandidateInterface
 
         raise_error_unless_application_form
 
-        ActiveRecord::Base.transaction do
-          application_form.english_proficiency&.destroy!
-          application_form.build_english_proficiency
-          application_form.english_proficiency.has_qualification!
-          toefl = ToeflQualification.create!(
-            registration_number: registration_number,
-            total_score: total_score,
-            award_year: award_year,
-          )
-          application_form.english_proficiency.update!(efl_qualification: toefl)
-        end
+        toefl = ToeflQualification.new(
+          registration_number: registration_number,
+          total_score: total_score,
+          award_year: award_year,
+        )
+        UpdateEnglishProficiency.new(
+          application_form,
+          qualification_status: :has_qualification,
+          efl_qualification: toefl,
+        ).call
       end
 
       def fill(toefl:)
