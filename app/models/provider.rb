@@ -7,8 +7,8 @@ class Provider < ApplicationRecord
 
   has_many :provider_permissions, dependent: :destroy
   has_many :provider_users, through: :provider_permissions
-  has_many :training_provider_permissions, foreign_key: :training_provider_id
-  has_many :ratifying_provider_permissions, foreign_key: :ratifying_provider_id
+  has_many :training_provider_permissions, class_name: 'ProviderRelationshipPermissions', foreign_key: :training_provider_id
+  has_many :ratifying_provider_permissions, class_name: 'ProviderRelationshipPermissions', foreign_key: :ratifying_provider_id
   has_many :provider_agreements
 
   enum region_code: {

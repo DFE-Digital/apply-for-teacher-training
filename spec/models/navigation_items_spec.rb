@@ -19,7 +19,7 @@ RSpec.describe NavigationItems do
     context 'when the user can manage organisations and there are provider relationships to manage' do
       before do
         provider_user.provider_permissions.find_by(provider: provider).update!(manage_organisations: true)
-        create(:training_provider_permissions, training_provider: provider)
+        create(:provider_relationship_permissions, training_provider: provider)
       end
 
       it 'includes a link to Organisations' do
