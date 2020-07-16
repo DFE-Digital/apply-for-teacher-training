@@ -1,0 +1,18 @@
+<%= f.govuk_text_field(
+  :trf_number,
+  label: { text: 'Test report form (TRF) number', size: 'm' },
+  hint_text: 'For example, 02GB0674SOOM599A') %>
+
+<%= f.govuk_text_field(
+  :band_score,
+  label: { text: 'Overall band score', size: 'm' },
+  hint_text: 'For example, 7.5',
+  width: 4) %>
+
+<%= f.govuk_text_field(
+  :award_year,
+  label: { text: 'Year qualification was awarded', size: 'm' },
+  type: :number,
+  width: 4) %>
+
+<%= f.govuk_submit t('application_form.complete_form_button') %>

@@ -30,6 +30,13 @@ module CandidateInterface
         end
       end
 
+      def fill(toefl:)
+        self.registration_number = toefl.registration_number
+        self.total_score = toefl.total_score
+        self.award_year = toefl.award_year
+        self
+      end
+
     private
 
       def award_year_is_a_valid_year

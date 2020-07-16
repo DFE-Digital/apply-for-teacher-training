@@ -17,6 +17,21 @@ module CandidateInterface
         end
       end
 
+      def edit
+        toefl = current_application.english_proficiency.efl_qualification
+        @toefl_form = EnglishForeignLanguage::ToeflForm.new.fill(toefl: toefl)
+      end
+
+      def update
+        @toefl_form = EnglishForeignLanguage::ToeflForm.new(toefl_params)
+
+        if @toefl_form.save
+          redirect_to candidate_interface_english_foreign_language_review_path
+        else
+          render :new
+        end
+      end
+
     private
 
       def toefl_params

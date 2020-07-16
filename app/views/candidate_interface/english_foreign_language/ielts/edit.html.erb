@@ -8,7 +8,7 @@
       <%= t('page_titles.efl.ielts') %>
     </h1>
 
-    <%= form_with(model: @ielts_form, url: candidate_interface_ielts_path) do |f| %>
+    <%= form_with(model: @ielts_form, url: candidate_interface_edit_ielts_path, method: :patch) do |f| %>
       <%= render 'form_fields', { f: f } %>
     <% end %>
 
