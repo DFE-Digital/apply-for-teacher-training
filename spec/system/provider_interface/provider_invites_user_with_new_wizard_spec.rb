@@ -33,9 +33,13 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     and_i_press_continue
     then_i_see_the_select_organisations_form
 
-    # when_i_select_one_provider
-    # and_i_press_continue
-    # then_i_see_the_select_permissions_form_for_selected_provider
+    when_i_select_one_provider
+    and_i_press_continue
+    then_i_see_the_select_permissions_form_for_selected_provider
+
+    when_i_select_make_decisions_permission
+    and_i_press_continue
+    then_i_see_the_confirm_page
 
     # TODO: TBC
   end
@@ -105,9 +109,19 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     expect(page).to have_content('Select organisations this user will have access to')
   end
 
-  # def when_i_select_one_provider
-  # end
+  def when_i_select_one_provider
+    check 'Another Provider'
+  end
 
-  # def then_i_see_the_select_permissions_form_for_selected_provider
-  # end
+  def then_i_see_the_select_permissions_form_for_selected_provider
+    expect(page).to have_content('Set permissions for Another Provider')
+  end
+
+  def when_i_select_make_decisions_permission
+    check 'Make decisions'
+  end
+
+  def then_i_see_the_confirm_page
+    expect(page).to have_content('Check permissions before you invite user')
+  end
 end

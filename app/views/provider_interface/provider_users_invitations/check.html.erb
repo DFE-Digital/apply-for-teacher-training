@@ -1,20 +1,17 @@
-name <%= @wizard.first_name %><br />
+<% content_for :before_content, govuk_back_link_to(previous_page, 'Back') %>
+<% content_for :title, 'Check permissions before you invite user' %>
 
-<%= govuk_link_to 'Change', provider_interface_edit_invitation_basic_details_path %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_commit_invitation_path do |f| %>
+      <%= f.govuk_error_summary %>
 
-<br />
+      <span class="govuk-caption-xl">Invite user</span>
+      <h1 class="govuk-heading-xl">Check permissions before you invite user</h1>
 
-providers <%= @wizard.providers.map { |p| Provider.find(p).name } %><br />
+      Details here
 
-<%= govuk_link_to 'Change', provider_interface_edit_invitation_providers_path %>
-
-<br />
-
-permissions
-<% @wizard.applicable_provider_permissions.map do |p, details| %>
-  <%= "#{Provider.find(p).name}, perms: #{details['permissions'].reject(&:blank?).join(',')}" %>
-  <%= govuk_link_to 'Change', provider_interface_edit_invitation_provider_permissions_path(provider_id: p) %>
-<% end %>
-
-
-<%= button_to 'Invite user', provider_interface_commit_invitation_path, class: 'govuk-button' %>
+      <%= f.govuk_submit 'Invite user' %>
+    <% end %>
+  </div>
+</div>

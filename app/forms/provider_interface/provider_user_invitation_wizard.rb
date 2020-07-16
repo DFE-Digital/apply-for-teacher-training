@@ -3,7 +3,7 @@ module ProviderInterface
     include ActiveModel::Model
     STATE_STORE_KEY = :provider_user_invitation_wizard
 
-    attr_accessor :current_step, :first_name, :last_name, :email_address, :checking_answers
+    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :email_address, :checking_answers
     attr_writer :providers, :provider_permissions, :state_store
 
     validates :first_name, presence: true, on: :details
@@ -67,8 +67,24 @@ module ProviderInterface
       end
     end
 
+    def previous_step
+      if checking_answers
+        [:check]
+      elsif current_step == 'details'
+        [:index]
+      elsif current_step == 'providers'
+        [:details]
+      elsif current_step == 'permissions'
+        previous_provider_id_with_permissions.present? ? [:permissions, previous_provider_id_with_permissions] : [:providers]
+      elsif current_step == 'check'
+        [:permissions, previous_provider_id_with_permissions]
+      else
+        [:check]
+      end
+    end
+
     def save!
-      raise '💾'
+      raise NotImplementedError, 'Persistence not implemented yet'
     end
 
     def save_state!
@@ -95,6 +111,15 @@ module ProviderInterface
 
     def any_provider_needs_permissions_setup
       next_provider_needing_permissions_setup.present?
+    end
+
+    def previous_provider_id_with_permissions
+      if current_provider_id.present?
+        index = provider_permissions.keys.find(current_provider_id)
+        index.positive? ? provider_permissions.keys[index - 1] : nil
+      else
+        provider_permissions.keys.last
+      end
     end
   end
 end

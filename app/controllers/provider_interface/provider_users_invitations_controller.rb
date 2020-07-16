@@ -9,11 +9,11 @@ module ProviderInterface
     end
 
     def update_details
-      @wizard = ProviderUserInvitationWizard.new(session, details_params)
+      @wizard = ProviderUserInvitationWizard.new(session, details_params.merge(current_step: 'details'))
 
       if @wizard.valid_for_current_step?
         @wizard.save_state!
-        redirect_to next_redirect(@wizard)
+        redirect_to next_redirect
       else
         render :edit_details
       end
@@ -27,29 +27,29 @@ module ProviderInterface
     end
 
     def update_providers
-      @wizard = ProviderUserInvitationWizard.new(session, providers_params)
+      @wizard = ProviderUserInvitationWizard.new(session, providers_params.merge(current_step: 'providers'))
       @available_providers = current_provider_user.providers
 
       if @wizard.valid_for_current_step?
         @wizard.save_state!
-        redirect_to next_redirect(@wizard)
+        redirect_to next_redirect
       else
         render :edit_providers
       end
     end
 
     def edit_permissions
-      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'permissions')
+      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'permissions', current_provider_id: params[:provider_id])
       @wizard.save_state!
 
       @permissions_form = ProviderPermissionsForm.new(@wizard.permissions_for(params[:provider_id]))
     end
 
     def update_permissions
-      @wizard = ProviderUserInvitationWizard.new(session, permissions_params)
+      @wizard = ProviderUserInvitationWizard.new(session, permissions_params.merge(current_step: 'permissions', current_provider_id: params[:provider_id]))
       @wizard.save_state!
 
-      redirect_to next_redirect(@wizard)
+      redirect_to next_redirect
     end
 
     def check
@@ -66,15 +66,28 @@ module ProviderInterface
       redirect_to provider_interface_provider_users_path
     end
 
+    def next_redirect
+      step, provider_id = @wizard.next_step
+
+      path_for(step, provider_id)
+    end
+
+    def previous_page
+      step, provider_id = @wizard.previous_step
+
+      path_for(step, provider_id)
+    end
+    helper_method :previous_page
+
   private
 
-    def next_redirect(wizard)
-      step, provider_id = wizard.next_step
-
+    def path_for(step, provider_id)
       {
         check: { action: :check },
         providers: { action: :edit_providers },
         permissions: { action: :edit_permissions, provider_id: provider_id },
+        details: { action: :edit_details },
+        index: provider_interface_provider_users_path,
       }.fetch(step)
     end
 
