@@ -9,6 +9,10 @@ RSpec.feature 'Tasks', sidekiq: false do
     when_i_visit_the_support_tasks_page
     and_i_click_on_generate_test_applications
     then_i_see_that_the_job_has_been_scheduled
+
+    and_when_i_click_on_generate_fake_provider
+    then_i_see_new_providers_details_and_api_token
+    and_i_am_able_to_connect_to_the_api_using_the_token
   end
 
   def given_i_am_a_support_user
@@ -25,5 +29,24 @@ RSpec.feature 'Tasks', sidekiq: false do
 
   def then_i_see_that_the_job_has_been_scheduled
     expect(page).to have_content 'Scheduled job to generate test applications'
+  end
+
+  def and_when_i_click_on_generate_fake_provider
+    click_button 'Generate a fake provider for a vendor'
+  end
+
+  def then_i_see_new_providers_details_and_api_token
+    expect(page).to have_content 'Provider name'
+    expect(page).to have_content 'Provider code'
+    expect(page).to have_content 'Vendor API token'
+  end
+
+  def and_i_am_able_to_connect_to_the_api_using_the_token
+    api_token = find('div .govuk-summary-list').all('dd')[2].text
+    page.driver.header 'Authorization', "Bearer #{api_token}"
+
+    visit '/api/v1/ping'
+
+    expect(page).to have_content('pong')
   end
 end

@@ -24,5 +24,15 @@ module SupportInterface
         render_404
       end
     end
+
+    def create_fake_provider
+      @new_provider = GenerateFakeProvider.generate_provider(
+        {
+          name: Faker::Educator.unique.university,
+          code: Faker::Alphanumeric.unique.alphanumeric(number: 3).upcase,
+        },
+      )
+      @vendor_api_token = VendorAPIToken.create_with_random_token!(provider: @new_provider)
+    end
   end
 end

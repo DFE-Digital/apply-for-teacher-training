@@ -1,0 +1,12 @@
+<% content_for :before_content, govuk_back_link_to(support_interface_tasks_path) %>
+<% content_for :title, 'New fake provider' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render SummaryListComponent.new(rows: [
+      { key: 'Provider name', value: @new_provider.name },
+      { key: 'Provider code', value: @new_provider.code },
+      { key: 'Vendor API token', value: @vendor_api_token },
+    ]) %>
+  </div>
+</div>

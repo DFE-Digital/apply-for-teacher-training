@@ -28,8 +28,16 @@
   <div>
     <h2 class='govuk-heading-m'>Vendor providers</h2>
     <div class='govuk-body'>
-      This will generate providers for providers to test with.
+      This will generate providers for providers to test with. It also generates 10 courses run by those providers and 3 courses ratified by them.
     </div>
     <%= button_to 'Generate providers for vendors', support_interface_run_task_path('create_vendor_providers'), class: 'govuk-button' %>
+  </div>
+
+  <div>
+    <h2 class='govuk-heading-m'>Fake provider for vendors</h2>
+    <div class='govuk-body'>
+      This will generate a fake provider with 10 courses and 3 ratified courses. You will be shown their name, code and vendor API token.
+    </div>
+    <%= button_to 'Generate a fake provider for a vendor', support_interface_tasks_create_fake_provider_path, class: 'govuk-button' %>
   </div>
 <% end %>

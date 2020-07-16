@@ -657,6 +657,7 @@ Rails.application.routes.draw do
     get '/performance/candidate-journey-tracking', to: 'performance#candidate_journey_tracking', as: :candidate_journey_tracking
 
     get '/tasks' => 'tasks#index', as: :tasks
+    post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
     post '/tasks/:task' => 'tasks#run', as: :run_task
 
     get '/validation-errors' => 'validation_errors#index', as: :validation_errors
