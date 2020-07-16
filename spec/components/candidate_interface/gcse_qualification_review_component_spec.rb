@@ -49,27 +49,6 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.text).to match(/NARIC reference number\s+Not provided/)
       expect(result.text).to match(/Comparable UK qualification\s+Not provided/)
     end
-
-    it 'displays "Not provided" for naric_reference and comparable_uk_qualification when nil' do
-      application_form = build :application_form
-      @qualification = application_qualification = build(
-        :application_qualification,
-        application_form: application_form,
-        qualification_type: 'non_uk',
-        non_uk_qualification_type: 'High school diploma',
-        level: 'gcse',
-        grade: 'c',
-        institution_country: 'United States',
-        naric_reference: nil,
-        comparable_uk_qualification: nil,
-      )
-      result = render_inline(
-        described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
-      )
-
-      expect(result.text).to match(/NARIC reference number\s+Not provided/)
-      expect(result.text).to match(/Comparable UK qualification\s+Not provided/)
-    end
   end
 
   context 'with the international_gcses flag off' do

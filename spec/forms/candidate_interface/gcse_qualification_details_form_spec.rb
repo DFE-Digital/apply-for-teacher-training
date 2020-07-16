@@ -189,7 +189,7 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
         end
       end
 
-      context 'with the international_gcses feature flag on, the qualification_type in non_uk and grade is not_applicable' do
+      context 'with the international_gcses feature flag on, the qualification_type is non_uk and grade is not_applicable' do
         it 'sets grade to not_applicable and other grade to nil' do
           FeatureFlag.activate('international_gcses')
           qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'n/a')
