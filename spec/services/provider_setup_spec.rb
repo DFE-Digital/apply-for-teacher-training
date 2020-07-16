@@ -55,25 +55,25 @@ RSpec.describe ProviderSetup do
 
     it 'returns a ProviderRelationshipPermissions record in need of setup' do
       create(
-        :training_provider_permissions,
+        :provider_relationship_permissions,
         training_provider: training_provider,
         ratifying_provider: create(:provider),
         setup_at: nil,
       )
 
-      expect(next_relationship_pending).to be_a(TrainingProviderPermissions)
+      expect(next_relationship_pending).to be_a(ProviderRelationshipPermissions)
     end
 
     it 'provides all relationships pending setup for the user when called multiple times' do
       relationships = 3.times.map do
         create(
-          :training_provider_permissions,
+          :provider_relationship_permissions,
           training_provider: training_provider,
           ratifying_provider: create(:provider),
           setup_at: nil,
         )
       end
-      create(:training_provider_permissions) # pending setup but unrelated
+      create(:provider_relationship_permissions, setup_at: nil) # pending setup but unrelated
 
       3.times.each do |idx|
         expected_relationship = relationships[idx]
