@@ -2,8 +2,24 @@ class ProviderRelationshipPermissions < ApplicationRecord
   belongs_to :ratifying_provider, class_name: 'Provider'
   belongs_to :training_provider, class_name: 'Provider'
 
-  VALID_PERMISSIONS = %i[view_safeguarding_information make_decisions].freeze
+  # For ease of use in views, this struct acts like a ProviderPermissions model
+  PermissionsSet = Struct.new(:make_decisions?, :view_safeguarding_information?) do
+    def view_applications_only?
+      values.all?(&:!)
+    end
+  end
 
-  scope :view_safeguarding_information, -> { where(view_safeguarding_information: true) }
-  scope :make_decisions, -> { where(make_decisions: true) }
+  def ratifying_provider_permissions
+    PermissionsSet.new(
+      ratifying_provider_can_make_decisions,
+      ratifying_provider_can_view_safeguarding_information,
+    )
+  end
+
+  def training_provider_permissions
+    PermissionsSet.new(
+      training_provider_can_make_decisions,
+      training_provider_can_view_safeguarding_information,
+    )
+  end
 end
