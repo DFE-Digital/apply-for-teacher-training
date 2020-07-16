@@ -209,7 +209,6 @@ RSpec.describe ProviderAuthorisation do
         .can_view_safeguarding_information?(course: course)
     end
 
-    # rubocop:disable RSpec/NestedGroups
     context 'when a user is permitted to view safeguarding info for a training provider' do
       let(:provider_user) { create(:provider_user, providers: [training_provider]) }
 
@@ -277,7 +276,6 @@ RSpec.describe ProviderAuthorisation do
         it { is_expected.to be false }
       end
     end
-    # rubocop:enable RSpec/NestedGroups
 
     context 'when a user is not permitted to view safeguarding info' do
       let(:provider_user) { create(:provider_user, providers: [training_provider]) }
