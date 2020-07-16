@@ -35,6 +35,10 @@ Bundler/OrderedGems:
 Metrics/BlockLength:
   Enabled: false
 
+RSpec/NestedGroups:
+  Enabled: true
+  Max: 4
+
 RSpec/ExampleLength:
   Enabled: false
 
