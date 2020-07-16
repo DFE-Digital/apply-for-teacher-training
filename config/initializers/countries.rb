@@ -200,3 +200,4 @@ COUNTRIES = {
 }.freeze
 
 COUNTRIES_BY_NAME = COUNTRIES.map(&:second)
+REVERSE_COUNTRIES_HASH = COUNTRIES.map(&:reverse).to_h

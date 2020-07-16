@@ -11,7 +11,9 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         qualification_type: 'GCSE',
         level: 'gcse',
         grade: 'c',
-        institution_country: 'United States',
+        institution_country: 'US',
+        naric_reference: '12345',
+        comparable_uk_qualification: 'Between GCSE and GCE AS level',
       )
       result = render_inline(
         described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
@@ -20,7 +22,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.text).to match(/Qualification\s+GCSE/)
       expect(result.text).to match(/Year awarded\s+#{@qualification.award_year}/)
       expect(result.text).to match(/Grade\s+#{@qualification.grade.upcase}/)
-      expect(result.text).to match(/Country\s+#{@qualification.institution_country}/)
+      expect(result.text).to match(/Country\s+#{COUNTRIES[@qualification.institution_country]}/)
     end
   end
 

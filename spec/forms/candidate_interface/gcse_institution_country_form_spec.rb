@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
       application_qualification = create(:application_qualification)
       institution_country_form = CandidateInterface::GcseInstitutionCountryForm.build_from_qualification(application_qualification)
 
-      expect(institution_country_form.institution_country).to eq application_qualification.institution_country
+      expect(institution_country_form.institution_country).to eq COUNTRIES[application_qualification.institution_country]
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
       institution_country_form = CandidateInterface::GcseInstitutionCountryForm.new(form_data)
 
       expect(institution_country_form.save(application_qualification)).to eq(true)
-      expect(application_qualification.institution_country).to eq form_data[:institution_country]
+      expect(application_qualification.institution_country).to eq REVERSE_COUNTRIES_HASH[form_data[:institution_country]]
     end
   end
 end

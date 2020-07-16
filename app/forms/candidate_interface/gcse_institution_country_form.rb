@@ -11,7 +11,7 @@ module CandidateInterface
 
     def self.build_from_qualification(application_qualification)
       new(
-        institution_country: application_qualification.institution_country,
+        institution_country: COUNTRIES[application_qualification.institution_country],
       )
     end
 
@@ -19,7 +19,7 @@ module CandidateInterface
       return false unless valid?
 
       application_qualification.update!(
-        institution_country: institution_country,
+        institution_country: REVERSE_COUNTRIES_HASH[institution_country],
       )
     end
   end

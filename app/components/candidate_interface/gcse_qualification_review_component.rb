@@ -86,8 +86,8 @@ module CandidateInterface
     def country_row
       {
         key: 'Country',
-        value: application_qualification.institution_country,
-        action: 'Country that you studied in',
+        value: COUNTRIES[application_qualification.institution_country],
+        action: 'Change the country that you studied in',
         change_path: candidate_interface_gcse_details_edit_institution_country_path(subject: subject),
       }
     end
