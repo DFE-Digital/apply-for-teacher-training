@@ -115,8 +115,8 @@ module ProviderInterface
 
     def previous_provider_id_with_permissions
       if current_provider_id.present?
-        index = provider_permissions.keys.find(current_provider_id)
-        index.positive? ? provider_permissions.keys[index - 1] : nil
+        index = provider_permissions.keys.index(current_provider_id)
+        index&.positive? ? provider_permissions.keys[index - 1] : nil
       else
         provider_permissions.keys.last
       end

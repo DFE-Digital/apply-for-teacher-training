@@ -9,7 +9,37 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
     }
   end
 
+  def state_store_for(state)
+    { described_class::STATE_STORE_KEY => state.to_json }
+  end
+
   subject(:wizard) { described_class.new(state_store, form_params) }
+
+  describe 'next_step' do
+    it 'returns the providers page from the basic details page for a new user' do
+      state_store = state_store_for({})
+      wizard = described_class.new(state_store, current_step: 'details')
+      expect(wizard.next_step).to eq([:providers])
+    end
+
+    it 'returns the first provider permissions page from the providers page for a new user' do
+      state_store = state_store_for({ providers: [123, 456] })
+      wizard = described_class.new(state_store, current_step: 'providers')
+      expect(wizard.next_step).to eq([:permissions, 123])
+    end
+
+    it 'returns the second provider permissions page from the first provider permissions page for a new user' do
+      state_store = state_store_for({ providers: [123, 456], provider_permissions: { 123 => [] } })
+      wizard = described_class.new(state_store, current_step: 'providers')
+      expect(wizard.next_step).to eq([:permissions, 456])
+    end
+
+    it 'returns the review page from the last provider permissions page for a new user' do
+      state_store = state_store_for({ providers: [123, 456], provider_permissions: { 123 => [], 456 => [] } })
+      wizard = described_class.new(state_store, current_step: 'providers')
+      expect(wizard.next_step).to eq([:check])
+    end
+  end
 
   describe 'initializer' do
     let(:initial_state) do
