@@ -13,7 +13,8 @@
   <%= render(ProviderInterface::HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  product_name: service_name,
                                  service_url: service_link,
-                                 navigation_items: NavigationItems.for_provider_interface(current_provider_user, controller))) %>
+                                 navigation_items: NavigationItems.for_provider_interface(current_provider_user, controller),
+                                 sub_navigation_items: NavigationItems.for_provider_interface_sub_nav(controller))) %>
 <% when 'api_docs' %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: service_name,
