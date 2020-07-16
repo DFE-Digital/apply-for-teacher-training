@@ -1,55 +1,24 @@
+$app-colour-production: govuk-colour("blue");
 $app-colour-qa: govuk-colour("orange");
 $app-colour-sandbox: govuk-colour("purple");
 $app-colour-review: govuk-colour("purple");
 $app-colour-staging: govuk-colour("red");
 $app-colour-development: govuk-colour("dark-grey", $legacy: "grey-1");
 
-.app-header--production .govuk-header__container {
-  // default blue styling
+@mixin environment-colour($environment, $colour) {
+  .app-header--#{$environment} .govuk-header__container {
+    border-bottom-color: $colour;
+  }
+
+  .app-environment-tag--#{$environment} {
+    background-color: $colour;
+  }
 }
 
-.app-header--qa .govuk-header__container {
-  border-bottom-color: $app-colour-qa;
-}
-
-.app-header--staging .govuk-header__container {
-  border-bottom-color: $app-colour-staging;
-}
-
-.app-header--sandbox .govuk-header__container {
-  border-bottom-color: $app-colour-sandbox;
-}
-
-.app-header--review .govuk-header__container {
-  border-bottom-color: $app-colour-review;
-}
-
-.app-header--development .govuk-header__container,
-.app-header--unknown-environment .govuk-header__container {
-  border-bottom-color: $app-colour-development;
-}
-
-.app-environment-tag--production {
-  // default blue styling
-}
-
-.app-environment-tag--qa {
-  background-color: $app-colour-qa;
-}
-
-.app-environment-tag--staging {
-  background-color: $app-colour-staging;
-}
-
-.app-environment-tag--sandbox {
-  background-color: $app-colour-sandbox;
-}
-
-.app-environment-tag--review {
-  background-color: $app-colour-review;
-}
-
-.app-environment-tag--development,
-.app-environment-tag--unknown-environment {
-  background-color: $app-colour-development;
-}
+@include environment-colour("development", $app-colour-development);
+@include environment-colour("unknown-environment", $app-colour-development);
+@include environment-colour("qa", $app-colour-qa);
+@include environment-colour("staging", $app-colour-staging);
+@include environment-colour("sandbox", $app-colour-sandbox);
+@include environment-colour("review", $app-colour-review);
+@include environment-colour("production", $app-colour-production);
