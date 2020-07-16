@@ -8,7 +8,7 @@
 
       <h1 class="govuk-heading-xl"><%= t('gcse_edit_grade.page_title', subject: @subject) %></h1>
 
-      <% if FeatureFlag.active?('international_gcses') %>
+      <% if FeatureFlag.active?('international_gcses') && @application_qualification.qualification.qualification_type == 'non_uk' %>
         <%= f.govuk_radio_buttons_fieldset :naric_details do %>
           <%= f.govuk_radio_button :grade, 'not_applicable', label: { text: 'Not applicable' }  %>
           <%= f.govuk_radio_button :grade, 'unknown', label: { text: 'Unknown' }  %>

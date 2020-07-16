@@ -638,6 +638,8 @@ en:
               blank: Enter the year you gained your qualification
               invalid: Enter a real year
               in_future: Enter a year before %{date}
+            other_grade:
+              blank: Enter your grade
         candidate_interface/gcse_qualification_type_form:
           attributes:
             qualification_type:

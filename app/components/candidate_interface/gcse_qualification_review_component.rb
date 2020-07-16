@@ -19,14 +19,14 @@ module CandidateInterface
           country_row,
           naric_row,
           comparable_uk_qualification,
-          award_year_row,
           grade_row,
+          award_year_row,
         ]
       else
         [
           qualification_row,
-          award_year_row,
           grade_row,
+          award_year_row,
         ]
       end
     end
