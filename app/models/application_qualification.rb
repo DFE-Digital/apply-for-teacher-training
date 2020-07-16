@@ -68,4 +68,19 @@ class ApplicationQualification < ApplicationRecord
       'No'
     end
   end
+
+  def set_grade
+    case grade
+    when 'n/a'
+      'not_applicable'
+    when 'unknown'
+      'unknown'
+    else
+      'other'
+    end
+  end
+
+  def set_other_grade
+    grade if grade != 'n/a' && grade != 'unknown'
+  end
 end

@@ -141,7 +141,6 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def then_i_see_the_review_page_with_correct_details
-    save_and_open_page
     expect(page).to have_content 'Maths GCSE or equivalent'
     expect(page).to have_content 'High School Diploma'
     expect(page).to have_content 'PASS'
