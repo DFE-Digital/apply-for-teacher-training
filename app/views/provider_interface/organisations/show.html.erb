@@ -1,48 +1,40 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl"><%= @provider.name %></h1>
-    <% @ratifying_permissions.each do |permissions_pair| %>
-      <%
-        ratifying_permission = permissions_pair.ratifying_provider_permissions
-        training_permission = permissions_pair.training_provider_permissions
-      -%>
+    <% @ratifying_permissions.each do |permissions| %>
       <h2 class="govuk-heading-m">
-        For courses ratified by <%= ratifying_permission.ratifying_provider.name %> and run by <%= ratifying_permission.training_provider.name %>
+        For courses ratified by <%= permissions.ratifying_provider.name %> and run by <%= permissions.training_provider.name %>
       </h2>
       <div class="app-banner govuk-!-margin-bottom-4">
         <div class="app-banner__message">
-          Contact <%= ratifying_permission.training_provider.name %> to change permissions.
+          Contact <%= permissions.training_provider.name %> to change permissions.
         </div>
       </div>
 
       <h2 class="govuk-heading-m">
-        For courses ratified by <%= ratifying_permission.ratifying_provider.name %> and run by <%= ratifying_permission.training_provider.name %>
+        For courses ratified by <%= permissions.ratifying_provider.name %> and run by <%= permissions.training_provider.name %>
       </h2>
-      <p class="govuk-!-margin-bottom-1 govuk-body"><%= ratifying_permission.ratifying_provider.name %> can:</p>
-      <%= render 'permissions_list', permission: ratifying_permission %>
+      <p class="govuk-!-margin-bottom-1 govuk-body"><%= permissions.ratifying_provider.name %> can:</p>
+      <%= render ProviderRelationshipPermissionsList.new(permissions.ratifying_provider_permissions) %>
 
-      <p class="govuk-!-margin-bottom-1 govuk-body"><%= ratifying_permission.training_provider.name %> can:</p>
-      <%= render 'permissions_list', permission: training_permission %>
+      <p class="govuk-!-margin-bottom-1 govuk-body"><%= permissions.training_provider.name %> can:</p>
+      <%= render ProviderRelationshipPermissionsList.new(permissions.training_provider_permissions) %>
     <% end %>
 
-    <% @training_permissions.each do |permissions_pair| %>
-      <%
-        ratifying_permission = permissions_pair.ratifying_provider_permissions
-        training_permission = permissions_pair.training_provider_permissions
-      -%>
+    <% @training_permissions.each do |permissions| %>
       <h2 class="govuk-heading-m">
-        For courses run by <%= training_permission.training_provider.name %> and ratified by <%= training_permission.ratifying_provider.name %>
+        For courses run by <%= permissions.training_provider.name %> and ratified by <%= permissions.ratifying_provider.name %>
       </h2>
-      <p class="govuk-!-margin-bottom-1 govuk-body"><%= training_permission.training_provider.name %> can:</p>
-      <%= render 'permissions_list', permission: training_permission %>
+      <p class="govuk-!-margin-bottom-1 govuk-body"><%= permissions.training_provider.name %> can:</p>
+      <%= render ProviderRelationshipPermissionsList.new(permissions.training_provider_permissions) %>
 
-      <p class="govuk-!-margin-bottom-1 govuk-body"><%= ratifying_permission.ratifying_provider.name %> can:</p>
-      <%= render 'permissions_list', permission: ratifying_permission %>
+      <p class="govuk-!-margin-bottom-1 govuk-body"><%= permissions.ratifying_provider.name %> can:</p>
+      <%= render ProviderRelationshipPermissionsList.new(permissions.ratifying_provider_permissions) %>
 
       <p class="govuk-body">
         <%= govuk_link_to 'Change', provider_interface_edit_provider_relationship_permissions_path(
-          training_provider_id: training_permission.training_provider.id,
-          ratifying_provider_id: training_permission.ratifying_provider.id,
+          training_provider_id: permissions.training_provider.id,
+          ratifying_provider_id: permissions.ratifying_provider.id,
         ) if current_provider_user.can_manage_organisations? %>
       </p>
     <% end %>
