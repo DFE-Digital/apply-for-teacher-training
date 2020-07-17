@@ -1,7 +1,6 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class StartForm
-      class MissingApplicationFormError < StandardError; end
       include ActiveModel::Model
       include Rails.application.routes.url_helpers
 
