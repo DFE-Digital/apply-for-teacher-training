@@ -36,6 +36,7 @@ $govuk-breakpoints: (
 
 // Provider
 @import "~@ministryofjustice/frontend/moj/components/pagination/pagination";
+@import "_phase-banner";
 @import "_button";
 @import "_count";
 @import "_masthead";

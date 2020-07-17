@@ -16,7 +16,7 @@
                                  product_name: service_name,
                                  service_url: service_link,
                                  navigation_items: NavigationItems.for_provider_interface(current_provider_user, controller))) %>
-                               <%= render PhaseBanner.new %>
+                               <%= render PhaseBanner.new(stacked: true) %>
 <% when 'api_docs' %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: service_name,
