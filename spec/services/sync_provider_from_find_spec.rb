@@ -140,18 +140,13 @@ RSpec.describe SyncProviderFromFind do
 
         expect {
           SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        }.to change(TrainingProviderPermissions, :count).by(1)
-         .and change(RatifyingProviderPermissions, :count).by(1)
+        }.to change(ProviderRelationshipPermissions, :count).by(1)
 
-        training_provider_permissions = TrainingProviderPermissions.last
-        expect(training_provider_permissions.ratifying_provider.code).to eq('DEF')
-        expect(training_provider_permissions.training_provider.code).to eq('ABC')
-        expect(training_provider_permissions.view_safeguarding_information).to be false
-
-        ratifying_provider_permissions = TrainingProviderPermissions.last
-        expect(ratifying_provider_permissions.ratifying_provider.code).to eq('DEF')
-        expect(ratifying_provider_permissions.training_provider.code).to eq('ABC')
-        expect(ratifying_provider_permissions.view_safeguarding_information).to be false
+        permissions = ProviderRelationshipPermissions.last
+        expect(permissions.ratifying_provider.code).to eq('DEF')
+        expect(permissions.training_provider.code).to eq('ABC')
+        expect(permissions.training_provider_can_view_safeguarding_information).to be false
+        expect(permissions.ratifying_provider_can_view_safeguarding_information).to be false
       end
 
       it 'does not create provider relationships for self ratifying providers' do
@@ -163,8 +158,7 @@ RSpec.describe SyncProviderFromFind do
 
         expect {
           SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        }.to change(TrainingProviderPermissions, :count).by(0)
-         .and change(RatifyingProviderPermissions, :count).by(0)
+        }.not_to change(ProviderRelationshipPermissions, :count)
       end
 
       it 'stores full_time/part_time information within courses' do

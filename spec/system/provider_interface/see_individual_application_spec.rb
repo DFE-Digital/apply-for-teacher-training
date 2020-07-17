@@ -61,10 +61,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
       .provider_permissions.update_all(view_safeguarding_information: true)
 
     create(
-      :training_provider_permissions,
+      :provider_relationship_permissions,
       ratifying_provider: create(:provider),
       training_provider: @application_choice.course.provider,
-      view_safeguarding_information: true,
+      training_provider_can_view_safeguarding_information: true,
       setup_at: Time.current,
     )
   end

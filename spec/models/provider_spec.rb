@@ -20,12 +20,7 @@ RSpec.describe Provider, type: :model do
 
       provider_user = create(:provider_user, providers: [training_provider, ratifying_provider, a_provider])
       create(
-        :ratifying_provider_permissions,
-        ratifying_provider: ratifying_provider,
-        training_provider: training_provider,
-      )
-      create(
-        :training_provider_permissions,
+        :provider_relationship_permissions,
         ratifying_provider: ratifying_provider,
         training_provider: training_provider,
       )

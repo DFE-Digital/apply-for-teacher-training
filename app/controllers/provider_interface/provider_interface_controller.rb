@@ -71,14 +71,14 @@ module ProviderInterface
         redirect_to provider_interface_new_data_sharing_agreement_path
       elsif FeatureFlag.active?('enforce_provider_to_provider_permissions') &&
           provider_setup.next_relationship_pending
-        redirect_to provider_interface_provider_relationship_permissions_setup_path
+        # redirect_to provider_interface_provider_relationship_permissions_setup_path
+        # TODO: Implement this
       end
     end
 
     def performing_provider_organisation_setup?
       [
         ProviderInterface::ProviderAgreementsController,
-        ProviderInterface::ProviderRelationshipPermissionsController,
       ].include?(request.controller_class)
     end
 

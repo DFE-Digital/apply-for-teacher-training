@@ -323,18 +323,10 @@ FactoryBot.define do
     end
   end
 
-  factory :ratifying_provider_permissions,
-          class: 'RatifyingProviderPermissions' do
-    type { 'RatifyingProviderPermissions' }
+  factory :provider_relationship_permissions do
     ratifying_provider { create(:provider) }
     training_provider { create(:provider) }
-  end
-
-  factory :training_provider_permissions,
-          class: 'TrainingProviderPermissions' do
-    type { 'TrainingProviderPermissions' }
-    ratifying_provider { create(:provider) }
-    training_provider { create(:provider) }
+    setup_at { Time.zone.now }
   end
 
   factory :application_choice do

@@ -17,11 +17,12 @@ class OfferAuthorisation
 
       if FeatureFlag.active?(:enforce_provider_to_provider_permissions)
         # enforce org-level 'make_decisions' restriction
-        return false if ratifying_provider &&
-          provider_relationship_permissions_for_actor(
+        if ratifying_provider
+          return false unless actor_has_permissions_via_provider_to_provider_permissions?(
             training_provider: training_provider,
             ratifying_provider: ratifying_provider,
-          ).none?(&:make_decisions)
+          )
+        end
       end
     end
 
@@ -44,31 +45,26 @@ private
     GetApplicationChoicesForProviders.call(providers: @actor.providers).include?(application_choice)
   end
 
+  def actor_has_permissions_via_provider_to_provider_permissions?(training_provider:, ratifying_provider:)
+    relationship = ProviderRelationshipPermissions.find_by!(
+      training_provider: training_provider,
+      ratifying_provider: ratifying_provider,
+    )
+
+    if @actor.providers.include?(training_provider)
+      return true if relationship.training_provider_can_make_decisions?
+    end
+
+    if @actor.providers.include?(ratifying_provider)
+      return true if relationship.ratifying_provider_can_make_decisions?
+    end
+  end
+
   def actor_has_permission_to_make_decisions?(providers:)
     return true if @actor.is_a?(VendorApiUser)
 
     providers.any? do |provider|
       provider.users_with_make_decisions.include? @actor
     end
-  end
-
-  def provider_relationship_permissions_for_actor(training_provider:, ratifying_provider:)
-    permissions = []
-
-    if @actor.providers.include?(training_provider)
-      permissions.push TrainingProviderPermissions.find_by(
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
-      )
-    end
-
-    if ratifying_provider && @actor.providers.include?(ratifying_provider)
-      permissions.push RatifyingProviderPermissions.find_by(
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
-      )
-    end
-
-    permissions.compact
   end
 end
