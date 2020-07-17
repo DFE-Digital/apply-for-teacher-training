@@ -23,7 +23,10 @@ module CandidateInterface
           render :new and return unless @pick_study_mode.valid?
 
           if @pick_study_mode.single_site_course?
-            @replacement_course_option_id = CourseOption.find(params['course_id']).id
+            @replacement_course_option_id = CourseOption.find_by(
+              course_id: params['course_id'],
+              study_mode: @pick_study_mode.study_mode,
+            )
 
             redirect_to candidate_interface_confirm_replacement_course_choice_path(
               @course_choice.id,
