@@ -15,7 +15,7 @@ module ProviderInterface
     def initialize(state_store, attrs = {})
       @state_store = state_store
 
-      super(JSON.parse(last_saved_state).deep_merge(attrs))
+      super(last_saved_state.deep_merge(attrs))
 
       self.checking_answers = false if current_step == 'check'
     end
@@ -77,7 +77,7 @@ module ProviderInterface
       elsif current_step == 'permissions'
         previous_provider_id.present? ? [:permissions, previous_provider_id] : [:providers]
       elsif current_step == 'check'
-        providers.present? ? [:permissions, providers.last] : [:providers]
+        [:permissions, providers.last]
       else
         [:check]
       end
@@ -102,7 +102,7 @@ module ProviderInterface
     end
 
     def last_saved_state
-      @state_store[STATE_STORE_KEY].presence || '{}'
+      JSON.parse(@state_store[STATE_STORE_KEY].presence || '{}')
     end
 
     def next_provider_id
@@ -114,21 +114,21 @@ module ProviderInterface
       end
     end
 
+    def previous_provider_id
+      if current_provider_id.blank?
+        providers.last
+      else
+        index = providers.index(current_provider_id.to_i)
+        index&.positive? ? providers[index - 1] : nil
+      end
+    end
+
     def next_provider_needing_permissions_setup
       providers.find { |p| provider_permissions.keys.exclude?(p.to_s) }
     end
 
     def any_provider_needs_permissions_setup
       next_provider_needing_permissions_setup.present?
-    end
-
-    def previous_provider_id
-      if current_provider_id.present?
-        index = providers.index(current_provider_id.to_i)
-        index&.positive? ? providers[index - 1] : nil
-      else
-        providers.last
-      end
     end
   end
 end
