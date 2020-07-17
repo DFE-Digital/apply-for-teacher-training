@@ -6,8 +6,8 @@ module CandidateInterface
 
       attr_accessor :name, :grade, :award_year, :application_form
 
-      validates :name, presence: true
-      validates :grade, presence: true
+      validates :name, presence: true, length: { maximum: 255 }
+      validates :grade, presence: true, length: { maximum: 255 }
       validates :award_year, presence: true
       validate :award_year_is_a_valid_year
 

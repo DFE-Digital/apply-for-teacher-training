@@ -6,8 +6,8 @@ module CandidateInterface
 
       attr_accessor :trf_number, :band_score, :award_year, :application_form
 
-      validates :trf_number, presence: true
-      validates :band_score, presence: true
+      validates :trf_number, presence: true, length: { maximum: 255 }
+      validates :band_score, presence: true, length: { maximum: 255 }
       validates :award_year, presence: true
       validate :award_year_is_a_valid_year
 
