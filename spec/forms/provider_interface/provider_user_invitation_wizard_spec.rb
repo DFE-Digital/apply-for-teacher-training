@@ -108,7 +108,7 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
     context 'with missing name and email fields' do
       it 'first, last name and email address are required' do
         state_store = state_store_for({})
-        wizard = described_class.new(state_store, {})
+        wizard = described_class.new(state_store, current_step: 'check')
 
         wizard.valid?(:details)
 
@@ -128,6 +128,24 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
 
         expect(wizard.errors[:email_address]).to be_empty
       end
+    end
+  end
+
+  describe 'save!' do
+    it 'invokes a service to persist the current state as a new or existing user' do
+      state_store = state_store_for({
+        first_name: 'Ed',
+        last_name: 'Yewcater',
+        email_address: 'ed@example.com',
+        providers: %w[1 3],
+        provider_permissions: {
+          '1': { provider_id: '1', 'permissions': %w[manage_users] },
+          '3': { provider_id: '3', permissions: %w[make_decisions] },
+        },
+        checking_answers: false,
+      })
+      wizard = described_class.new(state_store, {})
+      expect { wizard.save! }.to change { ProviderUser.count }.by(1)
     end
   end
 end
