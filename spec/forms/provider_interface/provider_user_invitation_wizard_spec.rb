@@ -20,14 +20,46 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
 
     it 'returns the second provider permissions page from the first provider permissions page for a new user' do
       state_store = state_store_for({ providers: [123, 456], provider_permissions: { 123 => [] } })
-      wizard = described_class.new(state_store, current_step: 'providers')
+      wizard = described_class.new(state_store, current_step: 'providers', current_provider_id: '123')
       expect(wizard.next_step).to eq([:permissions, 456])
     end
 
     it 'returns the review page from the last provider permissions page for a new user' do
       state_store = state_store_for({ providers: [123, 456], provider_permissions: { 123 => [], 456 => [] } })
-      wizard = described_class.new(state_store, current_step: 'providers')
+      wizard = described_class.new(state_store, current_step: 'providers', current_provider_id: '456')
       expect(wizard.next_step).to eq([:check])
+    end
+  end
+
+  describe 'previous_step' do
+    it 'returns the providers page from the basic details page for a new user' do
+      state_store = state_store_for({})
+      wizard = described_class.new(state_store, current_step: 'details')
+      expect(wizard.previous_step).to eq([:index])
+    end
+
+    it 'returns the first provider permissions page from the providers page for a new user' do
+      state_store = state_store_for({ providers: [123, 456] })
+      wizard = described_class.new(state_store, current_step: 'providers')
+      expect(wizard.previous_step).to eq([:details])
+    end
+
+    it 'returns the providers page from the first provider permissions page for a new user' do
+      state_store = state_store_for({ providers: [123, 456], provider_permissions: { 123 => [] } })
+      wizard = described_class.new(state_store, current_step: 'permissions', current_provider_id: '123')
+      expect(wizard.previous_step).to eq([:providers])
+    end
+
+    it 'returns the first provider permissions page from the last provider permissions page for a new user' do
+      state_store = state_store_for({ providers: [123, 456], provider_permissions: { 123 => [], 456 => [] } })
+      wizard = described_class.new(state_store, current_step: 'permissions', current_provider_id: '456')
+      expect(wizard.previous_step).to eq([:permissions, 123])
+    end
+
+    it 'returns the last provider permissions page from the review page for a new user' do
+      state_store = state_store_for({ providers: [123, 456], provider_permissions: { 123 => [], 456 => [] } })
+      wizard = described_class.new(state_store, current_step: 'check')
+      expect(wizard.previous_step).to eq([:permissions, 456])
     end
   end
 

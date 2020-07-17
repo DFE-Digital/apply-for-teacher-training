@@ -58,8 +58,8 @@ module ProviderInterface
         end
       elsif current_step == 'details'
         [:providers]
-      elsif %w[providers permissions].include?(current_step) && any_provider_needs_permissions_setup
-        [:permissions, next_provider_needing_permissions_setup]
+      elsif %w[providers permissions].include?(current_step) && next_provider_id.present?
+        [:permissions, next_provider_id]
       else
         [:check]
       end
@@ -73,9 +73,9 @@ module ProviderInterface
       elsif current_step == 'providers'
         [:details]
       elsif current_step == 'permissions'
-        previous_provider_id_with_permissions.present? ? [:permissions, previous_provider_id_with_permissions] : [:providers]
+        previous_provider_id.present? ? [:permissions, previous_provider_id] : [:providers]
       elsif current_step == 'check'
-        [:permissions, previous_provider_id_with_permissions]
+        providers.present? ? [:permissions, providers.last] : [:providers]
       else
         [:check]
       end
@@ -96,11 +96,20 @@ module ProviderInterface
   private
 
     def state
-      as_json(except: %w[state_store errors validation_context]).to_json
+      as_json(except: %w[state_store errors validation_context checking_answers current_step current_provider_id]).to_json
     end
 
     def last_saved_state
       @state_store[STATE_STORE_KEY].presence || '{}'
+    end
+
+    def next_provider_id
+      if current_provider_id.blank?
+        providers.first
+      else
+        index = providers.index(current_provider_id.to_i)
+        index.present? && index < (providers.size - 1) ? providers[index + 1] : nil
+      end
     end
 
     def next_provider_needing_permissions_setup
@@ -111,12 +120,12 @@ module ProviderInterface
       next_provider_needing_permissions_setup.present?
     end
 
-    def previous_provider_id_with_permissions
+    def previous_provider_id
       if current_provider_id.present?
-        index = provider_permissions.keys.index(current_provider_id)
-        index&.positive? ? provider_permissions.keys[index - 1] : nil
+        index = providers.index(current_provider_id.to_i)
+        index&.positive? ? providers[index - 1] : nil
       else
-        provider_permissions.keys.last
+        providers.last
       end
     end
   end
