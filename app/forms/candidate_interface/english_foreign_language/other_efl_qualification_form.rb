@@ -29,6 +29,13 @@ module CandidateInterface
         ).call
       end
 
+      def fill(qualification:)
+        self.name = qualification.name
+        self.grade = qualification.grade
+        self.award_year = qualification.award_year
+        self
+      end
+
     private
 
       def award_year_is_a_valid_year

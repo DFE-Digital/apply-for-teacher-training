@@ -16,6 +16,22 @@ module CandidateInterface
           render :new
         end
       end
+
+      def edit
+        other_qualification = current_application.english_proficiency.efl_qualification
+        @other_qualification_form = EnglishForeignLanguage::OtherEflQualificationForm.new.fill(qualification: other_qualification)
+      end
+
+      def update
+        @other_qualification_form = EnglishForeignLanguage::OtherEflQualificationForm.new(other_params)
+
+        if @other_qualification_form.save
+          redirect_to candidate_interface_english_foreign_language_review_path
+        else
+          render :new
+        end
+      end
+
     private
 
       def other_params
