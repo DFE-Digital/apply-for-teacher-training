@@ -1,0 +1,19 @@
+<div class="moj-primary-navigation">
+  <div class="moj-primary-navigation__container">
+    <div class="moj-primary-navigation__nav">
+      <nav class="moj-primary-navigation" aria-label="Primary navigation">
+        <ul class="moj-primary-navigation__list">
+          <% @navigation_items.each do |nav_item| %>
+            <li class="moj-primary-navigation__item">
+              <a class="moj-primary-navigation__link"
+                <%= nav_item.active ? 'aria-current=page' : '' %>
+                 href="<%= nav_item.href %>">
+                 <%= nav_item.text %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

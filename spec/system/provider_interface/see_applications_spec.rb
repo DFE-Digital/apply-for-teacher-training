@@ -15,6 +15,7 @@ RSpec.feature 'See applications' do
     and_i_sign_in_to_the_provider_interface
     then_i_should_see_the_applications_from_my_organisation
     and_i_should_not_see_a_covid19_information_banner
+    and_i_should_see_the_applications_menu_item_highlighted
 
     when_i_click_on_an_application
     then_i_should_be_on_the_application_view_page
@@ -66,6 +67,11 @@ RSpec.feature 'See applications' do
 
   def and_i_should_not_see_a_covid19_information_banner
     expect(page).not_to have_content 'coronavirus'
+  end
+
+  def and_i_should_see_the_applications_menu_item_highlighted
+    link = page.find_link('Applications', class: 'moj-primary-navigation__link')
+    expect(link['aria-current']).to eq('page')
   end
 
   def when_i_click_on_an_application

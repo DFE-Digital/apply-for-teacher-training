@@ -1,5 +1,5 @@
 class PhaseBanner < ViewComponent::Base
-  def initialize(stacked: false)
-    @stacked = stacked
+  def initialize(no_border: false)
+    @no_border = no_border
   end
 end

@@ -36,10 +36,14 @@ class NavigationItems
       end
     end
 
-    def for_provider_interface(current_provider_user, current_controller)
+    def for_provider_primary_nav(current_controller)
+      [NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes]))]
+    end
+
+    def for_provider_account_nav(current_provider_user, current_controller)
       return [NavigationItem.new('Sign in', provider_interface_sign_in_path, false)] unless current_provider_user
 
-      items = [NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes]))]
+      items = []
 
       if current_provider_user.can_manage_organisations? && Provider.with_permissions_visible_to(current_provider_user).exists?
         items << NavigationItem.new('Organisations', provider_interface_organisations_path, is_active(current_controller, %w[organisations provider_relationship_permissions]))
