@@ -4,21 +4,25 @@
                                  service_name: service_name,
                                  service_url: service_link,
                                  navigation_items: NavigationItems.for_candidate_interface(current_candidate, controller))) %>
+                               <%= render PhaseBanner.new %>
 <% when 'support_interface' %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: service_name,
                                  service_url: service_link,
                                  navigation_items: NavigationItems.for_support_interface(current_support_user, controller))) %>
+                               <%= render PhaseBanner.new %>
 <% when 'provider_interface' %>
   <%= render(ProviderInterface::HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  product_name: service_name,
                                  service_url: service_link,
                                  navigation_items: NavigationItems.for_provider_interface(current_provider_user, controller))) %>
+                               <%= render PhaseBanner.new %>
 <% when 'api_docs' %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: service_name,
                                  service_url: service_link,
                                  navigation_items: NavigationItems.for_api_docs(controller))) %>
+                               <%= render PhaseBanner.new %>
 <% else %>
   <% components_url = '/rails/view_components' if request.path.match(/^\/rails\/view_components/) %>
   <% components_name = 'ViewComponent Previews' if request.path.match(/^\/rails\/view_components/) %>
@@ -26,4 +30,5 @@
                                  service_name: components_name || try(:service_name),
                                  service_url: components_url || try(:service_url),
                                  navigation_items: [])) %>
+                               <%= render PhaseBanner.new %>
 <% end %>
