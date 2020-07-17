@@ -1,7 +1,5 @@
 <% content_for :body do %>
   <div class="govuk-width-container">
-    <%= render 'layouts/phase_banner' %>
-
     <%= yield(:before_content) %>
     <main class="govuk-main-wrapper" id="main-content" role="main">
       <%= render(FlashMessageComponent.new(flash: flash)) %>
