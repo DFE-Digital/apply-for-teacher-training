@@ -16,8 +16,6 @@ module ProviderInterface
       @state_store = state_store
 
       super(JSON.parse(last_saved_state).deep_merge(attrs))
-
-      @checking_answers = true if current_step == 'check'
     end
 
     def providers
