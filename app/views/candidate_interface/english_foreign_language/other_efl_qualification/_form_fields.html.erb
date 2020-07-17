@@ -1,0 +1,17 @@
+<%= f.govuk_text_field(
+  :name,
+  label: { text: 'Qualification name', size: 'm' },
+  hint_text: 'For example, CAE (Cambridge Advanced English), Pearson Test of English') %>
+
+<%= f.govuk_text_field(
+  :grade,
+  label: { text: 'Score or grade', size: 'm' },
+  width: 10) %>
+
+<%= f.govuk_text_field(
+  :award_year,
+  label: { text: 'Year qualification was awarded', size: 'm' },
+  type: :number,
+  width: 4) %>
+
+<%= f.govuk_submit t('application_form.complete_form_button') %>

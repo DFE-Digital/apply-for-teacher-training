@@ -572,6 +572,15 @@ en:
             award_year:
               blank: Enter year the qualification was awarded
               invalid: Enter a real year
+        candidate_interface/english_foreign_language/other_efl_qualification_form:
+          attributes:
+            name:
+              blank: Enter qualification name
+            grade:
+              blank: Enter your grade
+            award_year:
+              blank: Enter year the qualification was awarded
+              invalid: Enter a real year
         candidate_interface/english_foreign_language/toefl_form:
           attributes:
             registration_number:

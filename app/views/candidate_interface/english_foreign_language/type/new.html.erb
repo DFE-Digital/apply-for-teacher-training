@@ -12,6 +12,7 @@
       <%= f.govuk_radio_buttons_fieldset :type do %>
         <%= f.govuk_radio_button :type, 'ielts', label: { text: 'International English Language Testing System (IELTS)' } %>
         <%= f.govuk_radio_button :type, 'toefl', label: { text: 'Test of English as a Foreign Language (TOEFL)' } %>
+        <%= f.govuk_radio_button :type, 'other', label: { text: 'Other' } %>
       <% end %>
 
       <%= f.govuk_submit t('application_form.continue') %>

@@ -20,6 +20,8 @@ module CandidateInterface
           candidate_interface_ielts_path
         when 'toefl'
           candidate_interface_toefl_path
+        when 'other'
+          candidate_interface_other_efl_qualification_path
         end
       end
     end
