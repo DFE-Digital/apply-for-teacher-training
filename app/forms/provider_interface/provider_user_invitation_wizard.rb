@@ -16,6 +16,8 @@ module ProviderInterface
       @state_store = state_store
 
       super(JSON.parse(last_saved_state).deep_merge(attrs))
+
+      self.checking_answers = false if current_step == 'check'
     end
 
     def providers
@@ -96,7 +98,7 @@ module ProviderInterface
   private
 
     def state
-      as_json(except: %w[state_store errors validation_context checking_answers current_step current_provider_id]).to_json
+      as_json(except: %w[state_store errors validation_context current_step current_provider_id]).to_json
     end
 
     def last_saved_state
