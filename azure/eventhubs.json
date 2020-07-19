@@ -1,0 +1,141 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "eventhubs_namespace": {
+            "defaultValue": "[concat(resourceGroup().name, '-eventhubs')]",
+            "type": "string"
+        },
+        "eventhubs": {
+            "defaultValue": [],
+            "type": "array"
+        },
+        "resourceTags":{
+            "defaultValue": {},
+            "type": "object"
+        }
+    },
+    "variables": {
+        "copy":[{
+             "name": "consumerGroups",
+             "count": "[length(parameters('eventhubs'))]",
+             "input": {
+                 "consumerGroupName": "[concat(parameters('eventhubs')[copyIndex('consumerGroups')], '/$Default')]",
+                 "eventHubsName": "[parameters('eventhubs')[copyIndex('consumerGroups')]]"
+             }
+        }]
+    },
+    "resources": [
+        {
+            "type": "Microsoft.EventHub/namespaces",
+            "apiVersion": "2018-01-01-preview",
+            "name": "[parameters('eventhubs_namespace')]",
+            "location": "[resourceGroup().location]",
+            "tags": "[parameters('resourceTags')]",            
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard",
+                "capacity": 1
+            },
+            "properties": {
+                "zoneRedundant": false,
+                "isAutoInflateEnabled": false,
+                "maximumThroughputUnits": 0,
+                "kafkaEnabled": true
+            }
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
+            "apiVersion": "2017-04-01",
+            "name": "[concat(parameters('eventhubs_namespace'), '/RootManageSharedAccessKey')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('eventhubs_namespace'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Listen",
+                    "Manage",
+                    "Send"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/networkRuleSets",
+            "apiVersion": "2018-01-01-preview",
+            "name": "[concat(parameters('eventhubs_namespace'), '/default')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('eventhubs_namespace'))]"
+            ],
+            "properties": {
+                "defaultAction": "Deny",
+                "virtualNetworkRules": [],
+                "ipRules": []
+            }
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs",
+            "apiVersion": "2017-04-01",
+            "tags": "[parameters('resourceTags')]",            
+            "copy":{
+                "name": "eventhubsCopy",
+                "batchSize" : 1,
+                "mode": "serial",
+                "count" : "[length(parameters('eventhubs'))]"
+            },
+            "name": "[concat(parameters('eventhubs_namespace'), '/', parameters('eventhubs')[copyIndex('eventhubsCopy')])]",
+            "condition": "[greater(length(parameters('eventhubs')),0)]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('eventhubs_namespace'))]"
+            ],
+            "properties": {
+                "messageRetentionInDays": 1,
+                "partitionCount": 1,
+                "status": "Active"
+            }
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "apiVersion": "2017-04-01",
+            "copy":{
+                "name": "consumerGroupsCopy",
+                "batchSize" : 1,
+                "mode": "serial",
+                "count" : "[length(variables('consumerGroups'))]"
+            },
+            "name": "[concat(parameters('eventhubs_namespace'), '/', variables('consumerGroups')[copyIndex('consumerGroupsCopy')].consumerGroupName)]",
+            "location": "[resourceGroup().location]",
+            "condition": "[greater(length(parameters('eventhubs')),0)]",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('eventhubs_namespace'), variables('consumerGroups')[copyIndex('consumerGroupsCopy')].eventHubsName)]",
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('eventhubs_namespace'))]"
+            ],
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "apiVersion": "2017-04-01",
+            "copy":{
+                "name": "eventhubsCopy",
+                "batchSize" : 1,
+                "mode": "serial",
+                "count" : "[length(parameters('eventhubs'))]"
+            },
+            "name": "[concat(parameters('eventhubs_namespace'), '/', parameters('eventhubs')[copyIndex('eventhubsCopy')], '/',parameters('eventhubs')[copyIndex('eventhubsCopy')])]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('eventhubs_namespace'), parameters('eventhubs')[copyIndex('eventhubsCopy')])]",
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('eventhubs_namespace'))]"
+            ],
+            "properties": {
+                "rights": [
+                    "Manage",
+                    "Listen",
+                    "Send"
+                ]
+            }
+        }
+    ]
+}

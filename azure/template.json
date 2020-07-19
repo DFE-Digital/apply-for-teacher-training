@@ -264,6 +264,10 @@
                 "description": "Set this to 'true' to use SSL when shipping logs."
             }
         },
+        "logitApikey":{
+            "defaultValue": "",
+            "type": "string"
+        },
         "findBaseUrl": {
             "type": "string",
             "metadata": {
@@ -1077,6 +1081,32 @@
                 "postgresql-server",
 		"app-service-and-containers"
             ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "event-hubs-logit-logic-app",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBaseLocal'),'eventhubs-logic-app.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
+                    "eventhub_name":{
+                        "value": "logstash"
+                    },
+                    "logit_apikey":{
+                        "value": "[parameters('logitApikey')]"
+                    },
+                    "deploymentUrlBaseLocal":{
+                        "value": "[variables('deploymentUrlBaseLocal')]"
+                    }
+                }
+            }
         }
     ],
     "outputs": {
