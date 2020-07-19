@@ -84,7 +84,7 @@ module ProviderInterface
     end
 
     def save!
-      raise NotImplementedError, 'Persistence not implemented yet'
+      SaveNewProviderUserService.new(self).call
     end
 
     def save_state!
@@ -127,6 +127,42 @@ module ProviderInterface
 
     def any_provider_needs_permissions_setup
       next_provider_needing_permissions_setup.present?
+    end
+  end
+
+  class SaveNewProviderUserService
+    attr_accessor :wizard
+
+    def initialize(wizard)
+      self.wizard = wizard
+    end
+
+    def call
+      if email_exists?
+        update_user
+      else
+        create_user
+      end
+    end
+
+  private
+
+    def email_exists?
+      # TODO:
+      false
+    end
+
+    def update_user
+      # TODO:
+    end
+
+    def create_user
+      user = ProviderUser.create(
+        email_address: wizard.email_address,
+        first_name: wizard.first_name,
+        last_name: wizard.last_name,
+      )
+      user
     end
   end
 end
