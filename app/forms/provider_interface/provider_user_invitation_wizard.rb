@@ -109,8 +109,7 @@ module ProviderInterface
       if current_provider_id.blank?
         providers.first
       else
-        index = providers.index(current_provider_id.to_i)
-        index.present? && index < (providers.size - 1) ? providers[index + 1] : nil
+        providers.drop_while { |provider_id| provider_id != current_provider_id.to_i }[1]
       end
     end
 
@@ -118,8 +117,7 @@ module ProviderInterface
       if current_provider_id.blank?
         providers.last
       else
-        index = providers.index(current_provider_id.to_i)
-        index&.positive? ? providers[index - 1] : nil
+        providers.reverse.drop_while { |provider_id| provider_id != current_provider_id.to_i }[1]
       end
     end
 
