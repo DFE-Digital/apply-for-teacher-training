@@ -7,7 +7,7 @@ module CandidateInterface
     validates :institution_country, presence: true
 
     validates :institution_country,
-              inclusion: { in: COUNTRIES_BY_NAME }
+              inclusion: { in: COUNTRY_NAMES }
 
     def self.build_from_qualification(application_qualification)
       new(
@@ -19,7 +19,7 @@ module CandidateInterface
       return false unless valid?
 
       application_qualification.update!(
-        institution_country: REVERSE_COUNTRIES_HASH[institution_country],
+        institution_country: COUNTRY_NAMES_TO_ISO_CODES[institution_country],
       )
     end
   end

@@ -1,17 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
-  let(:form_data) { { institution_country: COUNTRIES_BY_NAME.sample } }
+  let(:form_data) { { institution_country: COUNTRY_NAMES.sample } }
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:institution_country) }
 
-    it 'validates nationalities against the COUNTRIES_BY_NAME list' do
+    it 'validates nationalities against the COUNTRY_NAMES list' do
       invalid_nationality = CandidateInterface::GcseInstitutionCountryForm.new(
         institution_country: 'Tralfamadorian',
       )
       valid_nationality = CandidateInterface::GcseInstitutionCountryForm.new(
-        institution_country: COUNTRIES_BY_NAME.sample,
+        institution_country: COUNTRY_NAMES.sample,
       )
       valid_nationality.validate
       invalid_nationality.validate
@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
       institution_country_form = CandidateInterface::GcseInstitutionCountryForm.new(form_data)
 
       expect(institution_country_form.save(application_qualification)).to eq(true)
-      expect(application_qualification.institution_country).to eq REVERSE_COUNTRIES_HASH[form_data[:institution_country]]
+      expect(application_qualification.institution_country).to eq COUNTRY_NAMES_TO_ISO_CODES[form_data[:institution_country]]
     end
   end
 end

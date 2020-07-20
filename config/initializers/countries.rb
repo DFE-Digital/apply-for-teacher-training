@@ -199,5 +199,5 @@ COUNTRIES = {
   'ZW' => 'Zimbabwe',
 }.freeze
 
-COUNTRIES_BY_NAME = COUNTRIES.map(&:second)
-REVERSE_COUNTRIES_HASH = COUNTRIES.map(&:reverse).to_h
+COUNTRY_NAMES = COUNTRIES.map(&:second)
+COUNTRY_NAMES_TO_ISO_CODES = COUNTRIES.map(&:reverse).to_h
