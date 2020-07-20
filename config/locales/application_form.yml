@@ -89,9 +89,6 @@ en:
       country:
         label: Which country?
         default_option: Select a country
-      international_address:
-        label: Enter your address
-        button: Save and continue
       review:
         button: Continue
     work_history:

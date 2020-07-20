@@ -163,7 +163,7 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def and_fill_in_an_international_address
-    fill_in t('application_form.contact_details.international_address.label'), with: '123 Chandni Chowk, Old Delhi'
+    fill_in t('page_titles.address'), with: '123 Chandni Chowk, Old Delhi'
   end
 
   def then_i_can_check_my_revised_address
