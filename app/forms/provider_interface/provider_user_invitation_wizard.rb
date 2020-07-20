@@ -162,7 +162,21 @@ module ProviderInterface
         first_name: wizard.first_name,
         last_name: wizard.last_name,
       )
+      create_provider_permissions(user)
       user
+    end
+
+    def create_provider_permissions(user)
+      wizard.provider_permissions.each do |provider_id, permission|
+        provider_permission = ProviderPermissions.new(
+          provider_id: provider_id,
+          provider_user_id: user.id,
+        )
+        permission['permissions'].each do |permission_name|
+          provider_permission.send("#{permission_name}=".to_sym, true)
+        end
+        provider_permission.save!
+      end
     end
   end
 end
