@@ -159,16 +159,21 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
     end
 
     it 'invokes a service to persist the current state for an existing user' do
-      providers = create_list(:provider, 2)
+      providers = create_list(:provider, 3)
       existing_user = create(
         :provider_user,
         email_address: 'ed@example.com',
         first_name: 'Edward',
         last_name: 'Yewcater',
       )
-      existing_user.provider_permissions.create(
-        provider_id: providers[0],
+      existing_user.provider_permissions.create!(
+        provider: providers[0],
         manage_users: false,
+        make_decisions: true,
+      )
+      existing_user.provider_permissions.create!(
+        provider: providers[2],
+        manage_users: true,
         make_decisions: true,
       )
       state_store = state_store_for({

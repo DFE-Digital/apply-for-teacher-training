@@ -148,12 +148,17 @@ module ProviderInterface
   private
 
     def email_exists?
-      # TODO:
-      false
+      ProviderUser.find_by(email_address: wizard.email_address).present?
     end
 
     def update_user
-      # TODO:
+      existing_user = ProviderUser.find_by(email_address: wizard.email_address)
+      existing_user.update(
+        email_address: wizard.email_address,
+        first_name: wizard.first_name,
+        last_name: wizard.last_name,
+      )
+      update_provider_permissions(existing_user)
     end
 
     def create_user
@@ -177,6 +182,25 @@ module ProviderInterface
         end
         provider_permission.save!
       end
+    end
+
+    def update_provider_permissions(user)
+      wizard.provider_permissions.each do |provider_id, permission|
+        provider_permission = ProviderPermissions.find_or_initialize_by(
+          provider_id: provider_id,
+          provider_user_id: user.id,
+        )
+        %w[manage_users make_decisions].each do |permission_type|
+          provider_permission.send(
+            "#{permission_type}=",
+            permission['permissions'].include?(permission_type),
+          )
+        end
+        provider_permission.save!
+      end
+
+      deleted_permissions = user.provider_permissions.select { |permission| wizard.provider_permissions[permission.provider_id.to_s].blank? }
+      deleted_permissions.each(&:destroy)
     end
   end
 end
