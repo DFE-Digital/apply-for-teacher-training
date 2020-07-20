@@ -4,12 +4,18 @@ module CandidateInterface
       include ActiveModel::Model
       include ValidationUtils
 
+      BandScore = Struct.new(:value, :option)
+
       attr_accessor :trf_number, :band_score, :award_year, :application_form
 
       validates :trf_number, presence: true, length: { maximum: 255 }
       validates :band_score, presence: true, length: { maximum: 255 }
       validates :award_year, presence: true
       validate :award_year_is_a_valid_year
+
+      def self.band_score_drop_down_options
+        IeltsQualification::VALID_SCORES.map { |s| BandScore.new(s, s) }
+      end
 
       def save
         return false unless valid?
