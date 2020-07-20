@@ -1,0 +1,17 @@
+<% content_for :before_content, govuk_back_link_to(previous_page, 'Back') %>
+<% content_for :title, 'Check permissions before you invite user' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_commit_invitation_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-xl">Invite user</span>
+      <h1 class="govuk-heading-xl">Check permissions before you invite user</h1>
+
+      Details here
+
+      <%= f.govuk_submit 'Invite user' %>
+    <% end %>
+  </div>
+</div>

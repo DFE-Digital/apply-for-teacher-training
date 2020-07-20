@@ -1,0 +1,29 @@
+<% content_for :before_content, govuk_back_link_to(previous_page, 'Back') %>
+<% content_for :title, 'Basic details' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_update_invitation_basic_details_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-xl">Invite user</span>
+      <h1 class="govuk-heading-xl">Basic details</h1>
+
+      <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>
+      <%= f.govuk_text_field :first_name, label: { text: 'First name', size: 'm' } %>
+      <%= f.govuk_text_field :last_name, label: { text: 'Last name', size: 'm' } %>
+
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          Anyone you invite to your organisation will be able to view all applications to courses you
+          look after. They'll be able to make decisions about applications and view sensitive information,
+          if you give them permission.
+        </strong>
+      </div>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>
