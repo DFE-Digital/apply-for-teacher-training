@@ -1,6 +1,8 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class IeltsController < CandidateInterfaceController
+      include EflRootConcern
+
       def new
         render_404 unless FeatureFlag.active?(:efl_section)
 
@@ -18,7 +20,9 @@ module CandidateInterface
       end
 
       def edit
-        ielts = current_application.english_proficiency.efl_qualification
+        ielts = IeltsQualification.where(id: current_application.english_proficiency&.efl_qualification_id).first
+        redirect_to_efl_root and return unless ielts
+
         @ielts_form = EnglishForeignLanguage::IeltsForm.new.fill(ielts: ielts)
       end
 
