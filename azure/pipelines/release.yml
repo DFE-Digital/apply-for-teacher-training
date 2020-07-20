@@ -97,6 +97,7 @@ stages:
       dsiApiSecret: '$(dsiApiSecret)'
       ucasUsername: '$(ucasUsername)'
       ucasPassword: '$(ucasPassword)'
+      ucasZipPassword: '$(ucasZipPassword)'
       sandbox: '$(sandbox)'
 
 - stage: deploy_sandbox
@@ -153,6 +154,7 @@ stages:
       dsiApiSecret: '$(dsiApiSecret)'
       ucasUsername: '$(ucasUsername)'
       ucasPassword: '$(ucasPassword)'
+      ucasZipPassword: '$(ucasZipPassword)'
       sandbox: '$(sandbox)'
 
 
@@ -212,4 +214,5 @@ stages:
       dsiApiSecret: '$(dsiApiSecret)'
       ucasUsername: '$(ucasUsername)'
       ucasPassword: '$(ucasPassword)'
+      ucasZipPassword: '$(ucasZipPassword)'
       sandbox: '$(sandbox)'

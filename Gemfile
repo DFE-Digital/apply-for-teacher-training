@@ -75,6 +75,8 @@ gem 'kaminari'
 gem ENV['WKHTMLTOPDF_GEM'] || 'wkhtmltopdf-binary'
 gem 'pdfkit'
 
+gem 'archive-zip'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.3'

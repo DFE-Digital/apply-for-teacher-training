@@ -31,8 +31,8 @@ RSpec.feature 'Uploading of matching data to UCAS', sidekiq: true do
 
   def when_the_daily_upload_runs
     @latest_exception = nil
-    UCASMatching::UploadMatchingData.perform_async
-  rescue StandardError => e
+    UCASMatching::UploadMatchingData.new.perform
+  rescue UCASMatching::ApiError => e
     @latest_exception = e
   end
 
@@ -79,7 +79,6 @@ RSpec.feature 'Uploading of matching data to UCAS', sidekiq: true do
     expect(@latest_exception).to be_nil
 
     expect(WebMock).to have_requested(:post, 'https://transfer.ucasenvironments.com/api/v1/folders/685520099/files')
-      .with { |req| req.body.match?(@application_choice.application_form.first_name) }
       .at_least_once
   end
 end

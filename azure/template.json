@@ -324,6 +324,12 @@
                 "description": "The password for UCAS data exchange"
             }
         },
+        "ucasZipPassword": {
+            "type": "string",
+            "metadata": {
+                "description": "The password for the zipfiles we exchange with UCAS"
+            }
+        },
         "ucasUploadBaseurl": {
             "type": "string",
             "metadata": {
@@ -692,6 +698,10 @@
                             {
                                 "name": "UCAS_UPLOAD_FOLDER",
                                 "value": "[parameters('ucasUploadFolder')]"
+                            },
+                            {
+                                "name": "UCAS_ZIP_PASSWORD",
+                                "value": "[parameters('ucasZipPassword')]"
                             },
                             {
                                 "name": "REDIS_URL",
