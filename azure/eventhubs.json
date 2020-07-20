@@ -137,5 +137,14 @@
                 ]
             }
         }
-    ]
+    ],
+    "outputs": {
+        "connectionStrings": {
+            "type": "array",
+            "copy": {
+                "count": "[length(parameters('eventhubs'))]",
+                "input":  "[listKeys(resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', parameters('eventhubs_namespace'), parameters('eventhubs')[copyIndex()], parameters('eventhubs')[copyIndex()]), '2017-04-01').primaryConnectionString]"
+            }
+        }
+    }
 }

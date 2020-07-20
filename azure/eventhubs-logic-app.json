@@ -59,6 +59,9 @@
             "tags": "[parameters('resourceTags')]",
             "properties": {
                 "displayName": "[parameters('eventhub_connection_name')]",
+                "parameterValues": {
+                    "connectionString": "[ reference('event-hubs').outputs.connectionStrings.value[0] ]"
+                },
                 "customParameterValues": {},
                 "api": {
                     "id": "[concat(subscription().id,'/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/eventhubs')]"
