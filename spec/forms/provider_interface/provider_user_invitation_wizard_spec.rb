@@ -159,6 +159,40 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
     end
 
     it 'invokes a service to persist the current state for an existing user' do
+      providers = create_list(:provider, 2)
+      existing_user = create(
+        :provider_user,
+        email_address: 'ed@example.com',
+        first_name: 'Edward',
+        last_name: 'Yewcater',
+      )
+      existing_user.provider_permissions.create(
+        provider_id: providers[0],
+        manage_users: false,
+        make_decisions: true,
+      )
+      state_store = state_store_for({
+        first_name: 'Ed',
+        last_name: 'Yewcater',
+        email_address: 'ed@example.com',
+        providers: providers.map { |provider| provider.id.to_s },
+        provider_permissions: {
+          providers[0].id.to_s => { provider_id: providers[0].id.to_s, 'permissions': %w[manage_users] },
+          providers[1].id.to_s => { provider_id: providers[1].id.to_s, permissions: %w[make_decisions] },
+        },
+        checking_answers: false,
+      })
+      wizard = described_class.new(state_store, {})
+      expect { wizard.save! }.not_to(change { ProviderUser.count })
+      existing_user.reload
+      expect(existing_user.provider_permissions.count).to eq 2
+
+      first_permission = existing_user.provider_permissions.find { |permission| permission.provider_id == providers[0].id }
+      second_permission = existing_user.provider_permissions.find { |permission| permission.provider_id == providers[1].id }
+      expect(first_permission.manage_users).to be true
+      expect(first_permission.make_decisions).to be false
+      expect(second_permission.manage_users).to be false
+      expect(second_permission.make_decisions).to be true
     end
   end
 end
