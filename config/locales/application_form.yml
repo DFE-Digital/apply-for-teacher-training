@@ -170,6 +170,7 @@ en:
           label: Other
           conditional:
             label: Enter your degree grade
+            international_hint_text: For example, ‘A’, ‘4.5’, ‘94%’, ‘Distinction’
         predicted:
           label: I am still studying for my degree
           conditional:
@@ -196,12 +197,12 @@ en:
         label: UK NARIC reference number
         hint_text: For example ‘4000228363’
         review_label: UK NARIC reference number
-        change_action: naric_statement
+        change_action: NARIC statement
       comparable_uk_degree:
         label: Select the comparable UK degree
         hint_text: As shown on your statement
         review_label: Comparable UK degree
-        change_action: naric_statement
+        change_action: NARIC statement
         values:
           bachelor_ordinary_degree: 'Bachelor (Ordinary) degree'
           bachelor_honours_degree: 'Bachelor (Honours) degree'

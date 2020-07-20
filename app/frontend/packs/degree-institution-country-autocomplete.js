@@ -21,7 +21,6 @@ const initDegreeInstitutionCountryAutocomplete = () => {
         showAllValues: true,
         confirmOnBlur: false
       });
-      select.name = "";
     });
   } catch (err) {
     console.error("Could not enhance degree institution country select:", err);

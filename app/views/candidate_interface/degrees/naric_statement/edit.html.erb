@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @degree_naric_statement_form,
-      url: candidate_interface_degree_naric_statement_path(@degree_naric_statement_form.degree),
+      url: candidate_interface_edit_degree_naric_statement_path(@degree_naric_statement_form.degree),
       method: :patch
     ) do |f| %>
       <h1 class="govuk-heading-xl">

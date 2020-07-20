@@ -34,6 +34,7 @@ RSpec.feature 'Entering their degrees' do
     and_i_fill_in_the_country
     and_i_click_on_save_and_continue
 
+    # Add NARIC statement
     then_i_can_see_the_naric_page
     when_i_click_on_save_and_continue
     then_i_see_validation_errors_for_naric_question
@@ -43,6 +44,49 @@ RSpec.feature 'Entering their degrees' do
     and_i_fill_in_naric_reference
     and_i_fill_in_comparable_uk_degree_type
     and_i_click_on_save_and_continue
+
+    # Add grade
+    then_i_can_see_the_degree_grade_page
+    when_i_click_on_save_and_continue
+    then_i_see_validation_errors_for_degree_grade
+    when_i_check_other
+    and_i_enter_my_grade
+    and_i_click_on_save_and_continue
+
+    # Add years
+    then_i_can_see_the_start_and_graduation_year_page
+    when_i_click_on_save_and_continue
+    then_i_see_validation_errors_for_graduation_year
+    when_i_fill_in_the_start_and_graduation_year
+    and_i_click_on_save_and_continue
+
+    # Review
+    then_i_can_check_my_undergraduate_degree
+
+    # Edit details
+    when_i_click_to_change_my_undergraduate_degree_type
+    then_i_see_my_undergraduate_degree_type_filled_in
+    when_i_change_my_undergraduate_degree_type
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_undergraduate_degree_type
+
+    when_i_click_to_change_my_undergraduate_degree_institution
+    then_i_see_my_undergraduate_degree_institution_filled_in
+    when_i_change_my_undergraduate_degree_institution_and_country
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_undergraduate_degree_institution
+
+    when_i_click_to_change_my_naric_details
+    then_i_see_my_original_naric_details_filled_in
+    when_i_change_my_reference_number_and_comparable_uk_degree_type
+    and_i_click_on_save_and_continue
+    then_i_can_check_my_revised_naric_details
+
+    # Mark section as complete
+    when_i_mark_this_section_as_completed
+    and_i_click_on_continue
+    then_i_should_see_the_form
+    and_that_the_section_is_completed
   end
 
   def given_the_international_degrees_feature_flag_is_active
@@ -141,5 +185,109 @@ RSpec.feature 'Entering their degrees' do
 
   def and_i_fill_in_comparable_uk_degree_type
     choose 'Doctor of Philosophy degree'
+  end
+
+  def then_i_can_see_the_degree_grade_page
+    expect(page).to have_content('What grade is your degree?')
+  end
+
+  def then_i_see_validation_errors_for_degree_grade
+    expect(page).to have_content 'Enter your degree grade'
+  end
+
+  def when_i_check_other
+    choose 'Other'
+  end
+
+  def and_i_enter_my_grade
+    fill_in 'Enter your degree grade', with: '100'
+  end
+
+  def then_i_can_see_the_start_and_graduation_year_page
+    expect(page).to have_content('When did you study for your degree?')
+  end
+
+  def then_i_see_validation_errors_for_graduation_year
+    expect(page).to have_content 'Enter your graduation year'
+  end
+
+  def when_i_fill_in_the_start_and_graduation_year
+    year_with_trailing_space = '2006 '
+    year_with_preceding_space = ' 2009'
+    fill_in 'Year started course', with: year_with_trailing_space
+    fill_in 'Graduation year', with: year_with_preceding_space
+  end
+
+  def then_i_can_check_my_undergraduate_degree
+    expect(page).to have_current_path candidate_interface_degrees_review_path
+    expect(page).to have_content 'Computer Science'
+  end
+
+  def when_i_click_to_change_my_undergraduate_degree_type
+    page.all('.govuk-summary-list__actions').to_a.first.click_link 'Change qualification'
+  end
+
+  def then_i_see_my_undergraduate_degree_type_filled_in
+    expect(page).to have_selector("input[value='Bachelors degree']")
+  end
+
+  def when_i_change_my_undergraduate_degree_type
+    fill_in 'Type of qualification', with: 'Bachelor of engineering degree'
+  end
+
+  def then_i_can_check_my_revised_undergraduate_degree_type
+    expect(page).to have_content 'Bachelor of engineering degree'
+  end
+
+  def when_i_click_to_change_my_undergraduate_degree_institution
+    page.all('.govuk-summary-list__actions').to_a.third.click_link 'Change institution'
+  end
+
+  def then_i_see_my_undergraduate_degree_institution_filled_in
+    expect(page).to have_selector("input[value='University of Pune']")
+    expect(page).to have_selector("option[selected='selected'][value='IN']")
+  end
+
+  def when_i_change_my_undergraduate_degree_institution_and_country
+    fill_in 'Institution name', with: 'University of Bochum'
+    select('Germany', from: 'In which country is this institution based?')
+  end
+
+  def then_i_can_check_my_revised_undergraduate_degree_institution
+    expect(page).to have_content('University of Bochum, Germany')
+  end
+
+  def when_i_click_to_change_my_naric_details
+    page.all('.govuk-summary-list__actions').to_a.fourth.click_link 'Change NARIC statement'
+  end
+
+  def then_i_see_my_original_naric_details_filled_in
+    expect(page).to have_selector("input[value='0123456789']")
+  end
+
+  def when_i_change_my_reference_number_and_comparable_uk_degree_type
+    fill_in 'UK NARIC reference number', with: '9876543210'
+    choose 'Post Doctoral award'
+  end
+
+  def then_i_can_check_my_revised_naric_details
+    expect(page).to have_content '9876543210'
+    expect(page).to have_content 'Post Doctoral award'
+  end
+
+  def when_i_mark_this_section_as_completed
+    check t('application_form.degree.review.completed_checkbox')
+  end
+
+  def and_i_click_on_continue
+    click_button t('application_form.degree.review.button')
+  end
+
+  def then_i_should_see_the_form
+    expect(page).to have_content(t('page_titles.application_form'))
+  end
+
+  def and_that_the_section_is_completed
+    expect(page).to have_css('#degree-badge-id', text: 'Completed')
   end
 end

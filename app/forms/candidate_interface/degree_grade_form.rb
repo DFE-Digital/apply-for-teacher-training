@@ -4,6 +4,8 @@ module CandidateInterface
 
     attr_accessor :grade, :other_grade, :predicted_grade, :degree
 
+    delegate :international?, to: :degree, allow_nil: true
+
     validates :grade, presence: true
     validates :other_grade, presence: true, if: :other_grade?
     validates :predicted_grade, presence: true, if: :predicted_grade?
@@ -28,6 +30,11 @@ module CandidateInterface
 
       self
     end
+
+    INTERNATIONAL_OPTIONS = [
+      'Not applicable',
+      'Unknown',
+    ].freeze
 
   private
 
