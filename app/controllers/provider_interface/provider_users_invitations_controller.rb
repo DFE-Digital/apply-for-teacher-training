@@ -59,7 +59,14 @@ module ProviderInterface
 
     def commit
       @wizard = ProviderUserInvitationWizard.new(session)
-      # wizard.save!
+      service = SaveAndInviteProviderUser.new(
+        form: @wizard,
+        save_service: ProviderInterface::SaveProviderUserService.new(@wizard),
+        invite_service: InviteProviderUser.new(provider_user: nil),
+        new_user: false,
+      )
+      render :check and return unless service.call
+
       @wizard.clear_state!
 
       flash[:success] = 'User successfully invited'

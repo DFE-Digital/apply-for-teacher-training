@@ -6,7 +6,7 @@ module ProviderInterface
       self.wizard = wizard
     end
 
-    def call
+    def call!
       if email_exists?
         update_user
       else
@@ -46,7 +46,7 @@ module ProviderInterface
           provider_id: provider_id,
           provider_user_id: user.id,
         )
-        permission['permissions'].each do |permission_name|
+        permission['permissions'].reject(&:blank?).each do |permission_name|
           provider_permission.send("#{permission_name}=".to_sym, true)
         end
         provider_permission.save!

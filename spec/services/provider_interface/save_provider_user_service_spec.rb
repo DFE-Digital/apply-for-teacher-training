@@ -17,7 +17,7 @@ RSpec.describe ProviderInterface::SaveProviderUserService do
 
   it 'invokes a service to persist a new ProviderUser for a new user' do
     wizard = setup_wizard_double
-    expect { described_class.new(wizard).call }.to change { ProviderUser.count }.by(1)
+    expect { described_class.new(wizard).call! }.to change { ProviderUser.count }.by(1)
     new_provider_user = ProviderUser.last
     expect(new_provider_user.provider_permissions.count).to eq 2
 
@@ -48,7 +48,7 @@ RSpec.describe ProviderInterface::SaveProviderUserService do
       make_decisions: true,
     )
     wizard = setup_wizard_double
-    expect { described_class.new(wizard).call }.not_to(change { ProviderUser.count })
+    expect { described_class.new(wizard).call! }.not_to(change { ProviderUser.count })
     existing_user.reload
     expect(existing_user.provider_permissions.count).to eq 2
 

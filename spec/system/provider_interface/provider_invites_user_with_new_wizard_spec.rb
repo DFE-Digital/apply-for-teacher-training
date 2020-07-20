@@ -19,7 +19,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     when_i_visit_the_invite_user_wizard
     then_i_see_a_404_page
 
-    and_i_can_manage_users_for_a_provider
+    and_i_can_manage_users_for_two_provider
     and_i_sign_in_again_to_the_provider_interface
 
     # when_i_click_on_the_users_link
@@ -42,7 +42,10 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     and_i_press_continue
     then_i_see_the_confirm_page
 
-    # TODO: TBC
+    # TODO: Assert the state of the confirm page
+
+    when_i_commit_changes
+    then_i_see_the_new_user_on_the_index_page
   end
 
   def when_i_try_to_visit_the_users_page
@@ -72,8 +75,9 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     @another_provider = Provider.find_by(code: 'DEF')
   end
 
-  def and_i_can_manage_users_for_a_provider
+  def and_i_can_manage_users_for_two_provider
     @provider_user.provider_permissions.find_by(provider: @provider).update(manage_users: true)
+    @provider_user.provider_permissions.find_by(provider: @another_provider).update(manage_users: true)
   end
 
   def and_i_sign_in_again_to_the_provider_interface
@@ -90,9 +94,9 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def when_i_fill_in_email_address_and_name
-    fill_in 'Email address', with: 'alice@example.com'
-    fill_in 'First name', with: 'Alice'
-    fill_in 'Last name', with: 'Alistair'
+    fill_in 'Email address', with: 'ed@example.com'
+    fill_in 'First name', with: 'Ed'
+    fill_in 'Last name', with: 'Ucator'
   end
 
   def and_i_press_continue
@@ -124,5 +128,14 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
   def then_i_see_the_confirm_page
     expect(page).to have_content('Check permissions before you invite user')
+  end
+
+  def when_i_commit_changes
+    click_button 'Invite user'
+  end
+
+  def then_i_see_the_new_user_on_the_index_page
+    expect(page).to have_content('User successfully invited')
+    expect(page).to have_content('Ed Ucator')
   end
 end
