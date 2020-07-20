@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe NavigationItems do
-  describe '.for_provider_interface' do
+  describe '.for_provider_account_nav' do
     let(:provider) { create(:provider) }
     let(:provider_user) { create(:provider_user, providers: [provider]) }
     let(:controller) { ProviderInterface::ProviderInterfaceController }
 
-    subject(:navigation_items) { NavigationItems.for_provider_interface(provider_user, controller) }
+    subject(:navigation_items) { NavigationItems.for_provider_account_nav(provider_user, controller) }
 
     context 'when the user can manage organisations and there are no provider relationships to manage' do
       before { provider_user.provider_permissions.find_by(provider: provider).update!(manage_organisations: true) }

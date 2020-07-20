@@ -15,8 +15,17 @@
   <%= render(ProviderInterface::HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  product_name: service_name,
                                  service_url: service_link,
-                                 navigation_items: NavigationItems.for_provider_interface(current_provider_user, controller))) %>
-                               <%= render PhaseBanner.new %>
+                                 navigation_items: NavigationItems.for_provider_account_nav(current_provider_user, controller))) %>
+
+                               <% if controller.controller_name == 'start_page' %>
+                                 <%= render PhaseBanner.new(no_border: true) %>
+                               <% elsif controller.controller_name.in? %w[sessions content start_page provider_agreements] %>
+                                 <%= render PhaseBanner.new %>
+                               <% else %>
+                                 <%= render PhaseBanner.new(no_border: true) %>
+                                 <%= render(ProviderInterface::PrimaryNavigation.new(
+                                   navigation_items: NavigationItems.for_provider_primary_nav(controller))) %>
+                               <% end %>
 <% when 'api_docs' %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: service_name,
