@@ -229,6 +229,7 @@ jobs:
                 -logstashHost "${{parameters.logstashHost}}"
                 -logstashPort "${{parameters.logstashPort}}"
                 -logstashSsl "${{parameters.logstashSsl}}"
+                -logitApikey "$(logitApikey)"
                 -findBaseUrl "${{parameters.findBaseUrl}}"
                 -redisCacheName "$(redisCacheName)"
                 -containerInstanceNamePrefix "$(containerInstanceNamePrefix)"
