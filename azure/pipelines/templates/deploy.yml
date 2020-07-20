@@ -60,6 +60,7 @@ parameters:
   dsiApiSecret:
   ucasUsername:
   ucasPassword:
+  ucasZipPassword:
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -243,6 +244,7 @@ jobs:
                 -dsiApiSecret "${{parameters.dsiApiSecret}}"
                 -ucasUsername "${{parameters.ucasUsername}}"
                 -ucasPassword "${{parameters.ucasPassword}}"
+                -ucasZipPassword "${{parameters.ucasZipPassword}}"
                 -ucasUploadBaseurl "$(ucasUploadBaseurl)"
                 -ucasUploadFolder "$(ucasUploadFolder)"
                 -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"

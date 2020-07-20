@@ -1,5 +1,3 @@
-require 'csv'
-
 module UCASMatching
   class UploadMatchingData
     include Sidekiq::Worker
@@ -10,12 +8,7 @@ module UCASMatching
         return
       end
 
-      timestamp = DateTime.now.strftime('%Y%m%d_%H%M%S_%z').gsub('+', '')
-      filename = "/tmp/dfe_apply_itt_applications_#{timestamp}.csv"
-
-      File.open(filename, 'w') do |f|
-        f.write(csv_as_string)
-      end
+      filename = UCASMatching::MatchingDataFile.new.create_file
 
       # https://transfer.ucasenvironments.com/swagger/ui/index#/Folders/POSTapi%2Fv1%2Ffolders%2F%7BId%7D%2Fmove-1.0
       response = HTTP
@@ -27,21 +20,6 @@ module UCASMatching
 
       unless response.status.success?
         raise ApiError, "HTTP #{response.status} when uploading to Movit: '#{response}'"
-      end
-    end
-
-  private
-
-    def csv_as_string
-      applications = MatchingDataExport.new.applications
-      header_row = MatchingDataExport.csv_header(applications)
-
-      CSV.generate do |rows|
-        rows << header_row
-
-        applications.each do |application|
-          rows << application.values
-        end
       end
     end
   end

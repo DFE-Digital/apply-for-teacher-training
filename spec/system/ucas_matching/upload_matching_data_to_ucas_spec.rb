@@ -31,8 +31,8 @@ RSpec.feature 'Uploading of matching data to UCAS', sidekiq: true do
 
   def when_the_daily_upload_runs
     @latest_exception = nil
-    UCASMatching::UploadMatchingData.perform_async
-  rescue StandardError => e
+    UCASMatching::UploadMatchingData.new.perform
+  rescue UCASMatching::ApiError => e
     @latest_exception = e
   end
 
@@ -79,7 +79,36 @@ RSpec.feature 'Uploading of matching data to UCAS', sidekiq: true do
     expect(@latest_exception).to be_nil
 
     expect(WebMock).to have_requested(:post, 'https://transfer.ucasenvironments.com/api/v1/folders/685520099/files')
-      .with { |req| req.body.match?(@application_choice.application_form.first_name) }
+      .with { |req|
+        tempfile = Rails.root.join('tmp', "#{SecureRandom.hex}.zip")
+
+        File.open(tempfile, 'wb') do |f|
+          # The `req.body` is a HTTP response that looks like this:
+          #
+          #   -----------------------d04a9b3742f0b3809dc6a392e2a91c02d22d1adf6a
+          #   Content-Disposition: form-data; name="file"; filename="dfe_apply_itt_applications_20200720_111327_0100-1acf8a7f568ad745f4d8d7dc08d0425c.zip"
+          #   Content-Type: application/octet-stream
+          #
+          #   P?Y?P??ȇkTdfe_apply_itt_applications_20200720_111327_0100-1acf8a7f568ad745f4d8d7dc08d0425c.csv]?[o?0
+          #
+          #   -----------------------d04a9b3742f0b3809dc6a392e2a91c02d22d1adf6a--
+          #
+          # Remove the first 4 and last 2 lines to get the actual zipfile.
+          f.write(req.body.lines[4..-2].join.chomp)
+        end
+
+        directory_to_extract_to = Rails.root.join('tmp', SecureRandom.hex)
+        Dir.mkdir(directory_to_extract_to)
+
+        Archive::Zip.extract(
+          tempfile.to_s,
+          directory_to_extract_to.to_s,
+          password: ENV.fetch('UCAS_ZIP_PASSWORD'),
+        )
+
+        csv = File.read(Dir.glob("#{directory_to_extract_to}/*.csv").first)
+        csv.match?(@application_choice.application_form.first_name)
+      }
       .at_least_once
   end
 end
