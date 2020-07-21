@@ -1,0 +1,58 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">Change permissions</span>
+    <h1 class="govuk-heading-xl">
+      For courses run by <%= @form.permissions.training_provider.name %> and ratified by
+      <%= @form.permissions.ratifying_provider.name %>
+    </h1>
+    <div class="app-banner">
+      <div class="app-banner__message">
+        <p>All users at your organisation and ratifying organisation(s) will be able to view applications to these courses. You don’t need to set permissions for this.</p>
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              More about permissions
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <h2 class="govuk-heading-m">Permission to make decisions</h2>
+            <p>You can allow this organisation to make offers, amend offers and reject applications.</p>
+
+            <h2 class="govuk-heading-m">Permission to see safeguarding information</h2>
+            <p>You can give this organisation access to information disclosed in:</p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li>the ‘criminal convictions and professional misconduct’ section of the application, which may include highly sensitive material about the candidate</li>
+              <li>the ‘equality and diversity’ section of the application form</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <%= form_with(
+      model: @form,
+      url: provider_interface_update_provider_relationship_permissions_path,
+      method: :patch
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
+        <div class="govuk-form-group <%= permission_name.to_s.dasherize %>">
+          <%= f.govuk_check_boxes_fieldset :permissions, legend: { text: t("provider_relationship_permissions.form.fieldset.#{permission_name}") } do %>
+            <%= f.fields_for :permissions, @form.permissions do |p| %>
+              <%= p.govuk_check_box "training_provider_can_#{permission_name}", true, multiple: false,
+                                    label: { text: @form.permissions.training_provider.name } %>
+
+              <%= p.govuk_check_box "ratifying_provider_can_#{permission_name}", true, multiple: false,
+                                    label: { text: @form.permissions.ratifying_provider.name } %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <button class="govuk-button" data-module="govuk-button">
+        Save permissions
+      </button>
+    <% end %>
+  </div>
+</div>

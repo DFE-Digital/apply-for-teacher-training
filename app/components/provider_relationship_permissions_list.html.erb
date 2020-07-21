@@ -1,12 +1,12 @@
 <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can make decisions:</p>
-<ul class="govuk-list">
+<ul class="govuk-list make-decisions">
   <% providers_that_can('make_decisions').each do |provider| %>
     <li><%= render CheckIcon.new %> <%= provider.name %> </li>
   <% end %>
 </ul>
 
 <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can see safeguarding information:</p>
-<ul class="govuk-list">
+<ul class="govuk-list view-safeguarding-information">
   <% providers_that_can('view_safeguarding_information').each do |provider| %>
     <li><%= render CheckIcon.new %> <%= provider.name %> </li>
   <% end %>
