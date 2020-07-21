@@ -17,10 +17,13 @@ module CandidateInterface
 
         if @nationalities_form.save(current_application)
           current_application.update!(personal_details_completed: false)
+
           if FeatureFlag.active?('international_personal_details') && british_or_irish?
             redirect_to candidate_interface_personal_details_show_path
           elsif FeatureFlag.active?('international_personal_details')
             redirect_to candidate_interface_right_to_work_or_study_path
+          elsif LanguagesSectionPolicy.hide?(current_application)
+            redirect_to candidate_interface_personal_details_show_path
           else
             redirect_to candidate_interface_languages_path
           end

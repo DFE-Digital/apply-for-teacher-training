@@ -21,9 +21,13 @@ module CandidateInterface
     end
 
     def rows
-      CandidateInterface::PersonalDetailsReviewPresenter
-        .new(personal_details_form: @personal_details_form, nationalities_form: @nationalities_form, languages_form: @languages_form, right_to_work_form: @right_to_work_or_study_form)
-        .rows
+      CandidateInterface::PersonalDetailsReviewPresenter.new(
+        personal_details_form: @personal_details_form,
+        nationalities_form: @nationalities_form,
+        languages_form: @languages_form,
+        application_form: @application_form,
+        right_to_work_form: @right_to_work_or_study_form,
+      ).rows
     end
 
     def show_missing_banner?
