@@ -36,6 +36,8 @@ RSpec.feature 'View EFL form' do
     select 'Hong Konger', from: 'Nationality'
     select 'Pakistani', from: 'Second nationality'
     click_button 'Save and continue'
+    click_button 'Save and continue'
+    check t('application_form.completed_checkbox')
     click_button 'Continue'
   end
 
