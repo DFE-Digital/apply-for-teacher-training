@@ -2,11 +2,12 @@ module CandidateInterface
   class PersonalDetailsReviewPresenter
     include ActionView::Helpers::TagHelper
 
-    def initialize(personal_details_form:, nationalities_form:, languages_form:, right_to_work_form:, editable: true)
+    def initialize(personal_details_form:, nationalities_form:, languages_form:, right_to_work_form:, application_form:, editable: true)
       @personal_details_form = personal_details_form
       @nationalities_form = nationalities_form
       @languages_form = languages_form
       @right_to_work_or_study_form = right_to_work_form
+      @application_form = application_form
       @editable = editable
     end
 
@@ -21,8 +22,10 @@ module CandidateInterface
         assembled_rows << right_to_work_row
       end
 
-      assembled_rows << english_main_language_row
-      assembled_rows << language_details_row
+      unless LanguagesSectionPolicy.hide?(@application_form)
+        assembled_rows << english_main_language_row
+        assembled_rows << language_details_row
+      end
 
       assembled_rows.compact
     end
@@ -59,7 +62,7 @@ module CandidateInterface
     def english_main_language_row
       {
         key: I18n.t('application_form.personal_details.english_main_language.label'),
-        value: @languages_form.english_main_language.titleize,
+        value: @languages_form.english_main_language&.titleize,
         action: ('if English is your main language' if @editable),
         change_path: Rails.application.routes.url_helpers.candidate_interface_languages_path,
       }
