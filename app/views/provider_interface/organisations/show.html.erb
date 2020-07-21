@@ -11,25 +11,15 @@
         </div>
       </div>
 
-      <h2 class="govuk-heading-m">
-        For courses ratified by <%= permissions.ratifying_provider.name %> and run by <%= permissions.training_provider.name %>
-      </h2>
-      <p class="govuk-!-margin-bottom-1 govuk-body"><%= permissions.ratifying_provider.name %> can:</p>
-      <%= render ProviderRelationshipPermissionsList.new(permissions.ratifying_provider_permissions) %>
-
-      <p class="govuk-!-margin-bottom-1 govuk-body"><%= permissions.training_provider.name %> can:</p>
-      <%= render ProviderRelationshipPermissionsList.new(permissions.training_provider_permissions) %>
+      <%= render ProviderRelationshipPermissionsList.new(permissions) %>
     <% end %>
 
     <% @training_permissions.each do |permissions| %>
       <h2 class="govuk-heading-m">
         For courses run by <%= permissions.training_provider.name %> and ratified by <%= permissions.ratifying_provider.name %>
       </h2>
-      <p class="govuk-!-margin-bottom-1 govuk-body"><%= permissions.training_provider.name %> can:</p>
-      <%= render ProviderRelationshipPermissionsList.new(permissions.training_provider_permissions) %>
 
-      <p class="govuk-!-margin-bottom-1 govuk-body"><%= permissions.ratifying_provider.name %> can:</p>
-      <%= render ProviderRelationshipPermissionsList.new(permissions.ratifying_provider_permissions) %>
+      <%= render ProviderRelationshipPermissionsList.new(permissions) %>
 
       <p class="govuk-body">
         <%= govuk_link_to 'Change', provider_interface_edit_provider_relationship_permissions_path(

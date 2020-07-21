@@ -1,11 +1,22 @@
+<p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can make decisions:</p>
 <ul class="govuk-list">
-  <li>View applications <% @permission_model.view_applications_only? ? 'only' : nil %></li>
-
-  <% if @permission_model.make_decisions? %>
-    <li><%= render CheckIcon.new %> Make decisions</li>
-  <% end %>
-
-  <% if @permission_model.view_safeguarding_information? %>
-    <li><%= render CheckIcon.new %> View safeguarding information</li>
+  <% providers_that_can('make_decisions').each do |provider| %>
+    <li><%= render CheckIcon.new %> <%= provider.name %> </li>
   <% end %>
 </ul>
+
+<p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can see safeguarding information:</p>
+<ul class="govuk-list">
+  <% providers_that_can('view_safeguarding_information').each do |provider| %>
+    <li><%= render CheckIcon.new %> <%= provider.name %> </li>
+  <% end %>
+</ul>
+
+<% if show_view_applications_only_section? %>
+  <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can only view applications:</p>
+  <ul class="govuk-list">
+    <% providers_that_can('view_applications_only').each do |provider| %>
+      <li><%= render CheckIcon.new %> <%= provider.name %> </li>
+    <% end %>
+  </ul>
+<% end %>
