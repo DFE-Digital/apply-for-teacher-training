@@ -83,16 +83,16 @@ module ProviderInterface
       end
     end
 
-    def save!
-      raise NotImplementedError, 'Persistence not implemented yet'
-    end
-
     def save_state!
       @state_store[STATE_STORE_KEY] = state
     end
 
     def clear_state!
       @state_store.delete(STATE_STORE_KEY)
+    end
+
+    def new_user?
+      email_address.present? && ProviderUser.find_by(email_address: email_address).nil?
     end
 
   private

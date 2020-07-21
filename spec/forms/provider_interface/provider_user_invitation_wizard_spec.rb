@@ -108,7 +108,7 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
     context 'with missing name and email fields' do
       it 'first, last name and email address are required' do
         state_store = state_store_for({})
-        wizard = described_class.new(state_store, {})
+        wizard = described_class.new(state_store, current_step: 'check')
 
         wizard.valid?(:details)
 

@@ -10,6 +10,7 @@ class InviteProviderUser
   end
 
   def call!
+    lookup_provider_user
     invite_user_to_dfe_sign_in
 
     send_welcome_email
@@ -39,6 +40,12 @@ private
 
   def send_welcome_email
     ProviderMailer.account_created(@provider_user).deliver_later
+  end
+
+  def lookup_provider_user
+    if @provider_user.is_a?(String)
+      @provider_user = ProviderUser.find_by!(email_address: @provider_user)
+    end
   end
 end
 

@@ -48,6 +48,17 @@ RSpec.describe InviteProviderUser, sidekiq: true do
     end
   end
 
+  describe '#call! if API response is successful given a ProviderUser#email_address' do
+    before do
+      set_dsi_api_response(success: true)
+      InviteProviderUser.new(provider_user: provider_user.email_address).call!
+    end
+
+    it 'queues an email' do
+      expect(ProviderMailer.deliveries.count).to be 1
+    end
+  end
+
   describe '#call! if API response is not successful' do
     before do
       set_dsi_api_response(success: false)
