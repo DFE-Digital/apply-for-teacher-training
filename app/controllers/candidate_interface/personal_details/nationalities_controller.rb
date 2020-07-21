@@ -70,7 +70,7 @@ module CandidateInterface
       end
 
       def british_or_irish?
-        NationalitiesForm::UK_AND_IRISH_NATIONALITIES.include?(@nationalities_form.candidates_nationalties)
+        (NationalitiesForm::UK_AND_IRISH_NATIONALITIES & current_application.nationalities).present?
       end
     end
   end

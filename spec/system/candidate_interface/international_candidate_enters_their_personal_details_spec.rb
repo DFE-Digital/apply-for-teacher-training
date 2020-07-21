@@ -24,6 +24,7 @@ RSpec.feature 'Entering their personal details' do
     and_i_can_check_my_answers
 
     when_i_click_change_on_my_nationality
+    and_i_uncheck_that_i_am_british
     and_i_check_that_i_am_irish
     and_i_submit_the_form
     then_i_see_the_personal_details_review_page
@@ -32,7 +33,7 @@ RSpec.feature 'Entering their personal details' do
     when_i_click_change_on_my_nationality
     and_i_uncheck_that_i_am_irish
     and_i_check_other
-    and_select_i_am_british
+    and_select_i_am_english
     and_i_submit_the_form
     then_i_see_the_personal_details_review_page
     and_i_see_i_am_english
@@ -129,7 +130,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_i_uncheck_that_i_am_british
-    when_i_check_that_i_am_british
+    uncheck 'British'
   end
 
   def and_i_check_that_i_am_irish
@@ -142,15 +143,17 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_i_uncheck_that_i_am_irish
-    and_i_check_that_i_am_irish
+    uncheck 'Irish'
   end
 
-  def and_i_choose_other
+  def and_i_check_other
     check 'Other'
   end
 
-  def and_select_i_am_british
-    select 'British'
+  def and_select_i_am_english
+    within all('.govuk-form-group')[1] do
+      select 'English'
+    end
   end
 
   def and_i_see_i_am_english
@@ -158,9 +161,15 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_i_select_i_am_german_dutch_and_belgian
-    select 'German'
-    select 'Dutch'
-    select 'Belgian'
+    within all('.govuk-form-group')[1] do
+      select 'Belgian'
+    end
+    within all('.govuk-form-group')[2] do
+      select 'Dutch'
+    end
+    within all('.govuk-form-group')[3] do
+      select 'German'
+    end
   end
 
   def and_i_see_i_am_german
@@ -188,7 +197,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_i_can_see_my_updated_details
-    expect(page).to have_content 'German, Dutch and Belgian'
+    expect(page).to have_content 'Belgian, Dutch, and German'
     expect(page).to have_content 'I do not know'
   end
 
