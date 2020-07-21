@@ -95,6 +95,10 @@ module ProviderInterface
       @state_store.delete(STATE_STORE_KEY)
     end
 
+    def new_user?
+      email_address.present? && ProviderUser.find_by(email_address: email_address).nil?
+    end
+
   private
 
     def state

@@ -46,6 +46,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
     when_i_commit_changes
     then_i_see_the_new_user_on_the_index_page
+    and_new_user_gets_an_invitation_email
   end
 
   def when_i_try_to_visit_the_users_page
@@ -131,11 +132,17 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def when_i_commit_changes
+    set_dsi_api_response(success: true)
     click_button 'Invite user'
   end
 
   def then_i_see_the_new_user_on_the_index_page
     expect(page).to have_content('User successfully invited')
     expect(page).to have_content('Ed Ucator')
+  end
+
+  def and_new_user_gets_an_invitation_email
+    open_email('ed@example.com')
+    expect(current_email.subject).to have_content t('provider_account_created.email.subject')
   end
 end

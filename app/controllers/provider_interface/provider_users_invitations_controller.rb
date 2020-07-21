@@ -62,8 +62,8 @@ module ProviderInterface
       service = SaveAndInviteProviderUser.new(
         form: @wizard,
         save_service: ProviderInterface::SaveProviderUserService.new(@wizard),
-        invite_service: InviteProviderUser.new(provider_user: nil),
-        new_user: false,
+        invite_service: InviteProviderUser.new(provider_user: @wizard.email_address),
+        new_user: @wizard.new_user?,
       )
       render :check and return unless service.call
 
