@@ -60,4 +60,12 @@ class ApplicationQualification < ApplicationRecord
       send(field_name).blank?
     end
   end
+
+  def naric_reference_choice
+    if naric_reference.present?
+      'Yes'
+    elsif naric_reference.nil? && grade.present?
+      'No'
+    end
+  end
 end

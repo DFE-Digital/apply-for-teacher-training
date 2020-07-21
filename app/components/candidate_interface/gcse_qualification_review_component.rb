@@ -13,12 +13,14 @@ module CandidateInterface
     def gcse_qualification_rows
       if application_qualification.missing_qualification?
         [missing_qualification_row]
-      elsif FeatureFlag.active?('international_gcses')
+      elsif FeatureFlag.active?('international_gcses') && @application_qualification.qualification_type == 'non_uk'
         [
           qualification_row,
+          country_row,
+          naric_row,
+          comparable_uk_qualification,
           award_year_row,
           grade_row,
-          country_row,
         ]
       else
         [
@@ -89,6 +91,24 @@ module CandidateInterface
         value: COUNTRIES[application_qualification.institution_country],
         action: 'Change the country that you studied in',
         change_path: candidate_interface_gcse_details_edit_institution_country_path(subject: subject),
+      }
+    end
+
+    def naric_row
+      {
+        key: 'NARIC reference number',
+        value: application_qualification.naric_reference || 'Not provided',
+        action: 'Change the NARIC reference number',
+        change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
+      }
+    end
+
+    def comparable_uk_qualification
+      {
+        key: 'Comparable UK qualification',
+        value: application_qualification.comparable_uk_qualification || 'Not provided',
+        action: 'Change the comparable uk qualification',
+        change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
       }
     end
   end

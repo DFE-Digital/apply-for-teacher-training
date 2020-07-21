@@ -26,6 +26,19 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
 
     when_i_fill_in_a_valid_country
     and_i_click_save_and_continue
+    then_i_see_the_add_naric_reference_page
+
+    when_i_do_not_input_my_naric_reference_or_choose_an_equivalency
+    and_i_click_save_and_continue
+    then_i_see_the_do_you_have_a_naric_reference_error
+
+    when_i_choose_yes
+    and_i_click_save_and_continue
+    then_i_see_the_naric_reference_blank_error
+    and_i_see_the_choose_a_equivalency_option_error
+
+    when_i_fill_in_my_naric_reference_and_choose_an_equivalency
+    and_i_click_save_and_continue
     then_i_see_the_add_grade_page
 
     when_i_fill_in_the_grade
@@ -95,16 +108,45 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
     select 'United States'
   end
 
+  def then_i_see_the_add_naric_reference_page
+    expect(page).to have_current_path candidate_interface_gcse_details_edit_naric_reference_path('maths')
+  end
+
+  def when_i_do_not_input_my_naric_reference_or_choose_an_equivalency; end
+
+  def then_i_see_the_do_you_have_a_naric_reference_error
+    expect(page).to have_content 'Select if you have a NARIC statement of comparability'
+  end
+
+  def when_i_choose_yes
+    choose 'Yes'
+  end
+
+  def then_i_see_the_naric_reference_blank_error
+    expect(page).to have_content 'Enter your NARIC reference number'
+  end
+
+  def and_i_see_the_choose_a_equivalency_option_error
+    expect(page).to have_content 'Choose a comparable UK qualification'
+  end
+
+  def when_i_fill_in_my_naric_reference_and_choose_an_equivalency
+    fill_in 'candidate-interface-naric-reference-form-naric-reference-field-error', with: '12345'
+    choose 'GCSE (grades A*-C / 9-4)'
+  end
+
   def then_i_see_the_add_grade_page
     expect(page).to have_current_path candidate_interface_gcse_details_edit_grade_path('maths')
   end
 
   def then_i_see_the_review_page_with_correct_details
     expect(page).to have_content 'Maths GCSE or equivalent'
-
     expect(page).to have_content 'High School Diploma'
     expect(page).to have_content 'PASS'
     expect(page).to have_content '1990'
+    expect(page).to have_content 'United States'
+    expect(page).to have_content '12345'
+    expect(page).to have_content 'GCSE (grades A*-C / 9-4)'
   end
 
   def then_i_see_add_grade_page
@@ -121,18 +163,6 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
 
   def when_i_fill_in_the_year
     fill_in 'Enter year', with: '1990'
-  end
-
-  def then_i_see_the_non_uk_qualification_option_selected
-    expect(find_field('Non-UK qualification')).to be_checked
-  end
-
-  def then_i_see_the_gcse_grade_entered
-    expect(page).to have_selector("input[value='Pass']")
-  end
-
-  def then_i_see_the_gcse_year_entered
-    expect(page).to have_selector("input[value='1990']")
   end
 
   def when_i_mark_the_section_as_completed

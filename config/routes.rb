@@ -125,6 +125,9 @@ Rails.application.routes.draw do
         get '/country' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
         post '/country' => 'gcse/institution_country#update', as: :gcse_details_update_institution_country
 
+        get '/naric-reference' => 'gcse/naric_reference#edit', as: :gcse_details_edit_naric_reference
+        post '/naric-reference' => 'gcse/naric_reference#update', as: :gcse_details_update_naric_reference
+
         get '/grade' => 'gcse/grade#edit', as: :gcse_details_edit_grade
         patch '/grade' => 'gcse/grade#update', as: :gcse_details_update_grade
 
