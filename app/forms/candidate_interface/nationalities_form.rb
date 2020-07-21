@@ -1,7 +1,6 @@
 module CandidateInterface
   class NationalitiesForm
     include ActiveModel::Model
-    include ValidationUtils
 
     attr_accessor :first_nationality, :second_nationality, :other_nationality, :multiple_nationalities
 
@@ -20,6 +19,8 @@ module CandidateInterface
     validates :other_nationality,
               inclusion: { in: NATIONALITY_DEMONYMS, allow_blank: true },
               if: :international_flag_is_on?
+
+    UK_AND_IRISH_NATIONALITIES = ['British', 'Welsh', 'Scottish', 'Northern Irish', 'Irish', 'English'].freeze
 
     def self.build_from_application(application_form)
       new(
@@ -47,6 +48,10 @@ module CandidateInterface
       end
     end
 
+    def nationality
+      first_nationality_is_other? ? other_nationality : first_nationality
+    end
+
   private
 
     def first_nationality_is_other?
@@ -55,10 +60,6 @@ module CandidateInterface
 
     def multiple_nationalities_selected?
       first_nationality == 'Multiple'
-    end
-
-    def nationality
-      first_nationality_is_other? ? other_nationality : first_nationality
     end
 
     def populate_multiple_nationalties

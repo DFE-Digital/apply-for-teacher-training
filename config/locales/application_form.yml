@@ -50,6 +50,9 @@ en:
       other_language_details:
         label: Other languages spoken
         change_action: other languages
+      right_to_work:
+        label: Residency status
+        change_action: Right to work or study
       complete_form_button: Save and continue
     further_information:
       further_information:
@@ -439,6 +442,11 @@ en:
             english_language_details:
               too_many_words: English language qualifications and other languages spoken must be %{count} words or fewer
             other_language_details:
+              too_many_words: Other languages spoken must be %{count} words or fewer
+        candidate_interface/right_to_work_or_study_form:
+          attributes:
+            right_to_work_or_study_details:
+              blank: Please provide details of your right to work or study in the UK.
               too_many_words: Other languages spoken must be %{count} words or fewer
         candidate_interface/becoming_a_teacher_form:
           attributes:

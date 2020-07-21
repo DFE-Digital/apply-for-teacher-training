@@ -13,13 +13,17 @@ module CandidateInterface
 
       def create
         @application_form = current_application
-
         @nationalities_form = NationalitiesForm.new(nationalities_params)
 
         if @nationalities_form.save(current_application)
           current_application.update!(personal_details_completed: false)
-
-          redirect_to candidate_interface_languages_path
+          if FeatureFlag.active?('international_personal_details') && british_or_irish?
+            redirect_to candidate_interface_personal_details_show_path
+          elsif FeatureFlag.active?('international_personal_details')
+            redirect_to candidate_interface_right_to_work_or_study_path
+          else
+            redirect_to candidate_interface_languages_path
+          end
         else
           track_validation_error(@nationalities_form)
           render :new
@@ -37,8 +41,13 @@ module CandidateInterface
 
         if @nationalities_form.save(current_application)
           current_application.update!(personal_details_completed: false)
-
-          redirect_to candidate_interface_personal_details_show_path
+          if FeatureFlag.active?('international_personal_details') && british_or_irish?
+            redirect_to candidate_interface_personal_details_show_path
+          elsif FeatureFlag.active?('international_personal_details')
+            redirect_to candidate_interface_right_to_work_or_study_path
+          else
+            redirect_to candidate_interface_languages_path
+          end
         else
           track_validation_error(@nationalities_form)
           set_first_nationality_to_other_if_non_uk_or_irish_nationality if FeatureFlag.active?('international_personal_details')
@@ -58,6 +67,11 @@ module CandidateInterface
         @nationalities_form.first_nationality = 'Other' if @nationalities_form.first_nationality != 'British' &&
           @nationalities_form.first_nationality != 'Irish' &&
           @nationalities_form.first_nationality != 'Multiple'
+      end
+
+      def british_or_irish?
+        NationalitiesForm::UK_AND_IRISH_NATIONALITIES.include?(@nationalities_form.first_nationality) ||
+          NationalitiesForm::UK_AND_IRISH_NATIONALITIES.include?(@nationalities_form.other_nationality)
       end
     end
   end

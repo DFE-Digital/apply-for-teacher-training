@@ -1,0 +1,22 @@
+<%= f.govuk_error_summary %>
+
+<%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { size: 'xl', text: t('page_titles.right_to_work'), tag: 'h2' } do %>
+  <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes – I have the right to work or study in the UK' } do %>
+    <%= f.govuk_text_area :right_to_work_or_study_details, label: { text: 'Give details' }, hint_text: 'For example, you have settled status or a permanent residence card' %>
+  <% end %>
+
+  <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet – I will need to apply for permission to work or study in the UK' } do %>
+    <div class="govuk-body">
+      Visit <%= govuk_link_to 'Get Into Teaching', 'https://getintoteaching.education.gov.uk/explore-my-options/overseas-graduates' %> for guidance on immigration.
+      You can also <%= govuk_link_to 'register to talk to an adviser', 'https://register.getintoteaching.education.gov.uk/register' %> if you need help.
+    </div>
+  <% end %>
+  <%= f.govuk_radio_button :right_to_work_or_study, 'decide_later', label: { text: 'I do not know' } do %>
+    <div class="govuk-body">
+      Visit <%= govuk_link_to 'Get Into Teaching', 'https://getintoteaching.education.gov.uk/explore-my-options/overseas-graduates' %> for guidance on immigration.
+      You can also <%= govuk_link_to 'register to talk to an adviser', 'https://register.getintoteaching.education.gov.uk/register' %> if you need help.
+    </div>
+  <% end %>
+<% end %>
+
+<%= f.govuk_submit 'Save and continue' %>
