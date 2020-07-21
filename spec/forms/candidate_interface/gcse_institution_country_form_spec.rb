@@ -41,11 +41,7 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
       institution_country_form = CandidateInterface::GcseInstitutionCountryForm.new(form_data)
 
       expect(institution_country_form.save(application_qualification)).to eq(true)
-<<<<<<< HEAD
       expect(application_qualification.institution_country).to eq COUNTRY_NAMES_TO_ISO_CODES[form_data[:institution_country]]
-=======
-      expect(application_qualification.institution_country).to eq REVERSE_COUNTRIES_HASH[form_data[:institution_country]]
->>>>>>> Rework to store ISO nationality codes
     end
   end
 end
