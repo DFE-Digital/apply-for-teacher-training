@@ -48,11 +48,14 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
         }
       end
 
+      before { FeatureFlag.activate('international_personal_details') }
+
       it 'creates an object based on the provided ApplicationForm' do
         application_form = ApplicationForm.new(data)
         nationalities = CandidateInterface::NationalitiesForm.build_from_application(
           application_form,
         )
+
         expect(nationalities).to have_attributes(form_data)
       end
     end
