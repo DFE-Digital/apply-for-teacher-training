@@ -132,8 +132,8 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
   end
 
   describe '#contextual_date' do
-    let(:reject_by_default_at) { DateTime.parse('2020-06-02T09:05:00+01:00') }
-    let(:updated_at) { DateTime.parse('2020-06-02T09:05:00+01:00') }
+    let(:reject_by_default_at) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
+    let(:updated_at) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
     let(:status) { 'awaiting_provider_decision' }
     let(:show_date) { 'days_left_to_respond' }
     let(:application_choice) do

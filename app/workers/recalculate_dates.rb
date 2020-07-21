@@ -33,7 +33,7 @@ class RecalculateDates
     # All applications submitted to a provider before the 7th of March should
     # have an RBD of the 1st of June.
     #
-    sent_to_provider_at_cutoff = DateTime.parse('2020-03-07')
+    sent_to_provider_at_cutoff = Time.zone.parse('2020-03-07')
     application_choices_that_need_new_rbd = ApplicationChoice
       .where(status: :awaiting_provider_decision)
       .where('sent_to_provider_at <= ?', sent_to_provider_at_cutoff)
@@ -42,7 +42,7 @@ class RecalculateDates
     # All applications that have received an offer before the 20th of April
     # should have a DBD of the 1st of June.
     #
-    offered_at_cutoff = DateTime.parse('2020-04-20')
+    offered_at_cutoff = Time.zone.parse('2020-04-20')
     application_choices_that_need_new_dbd = ApplicationChoice
       .where(status: :offer)
       .where('offered_at <= ?', offered_at_cutoff)

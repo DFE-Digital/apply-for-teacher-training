@@ -51,7 +51,7 @@ module ProviderInterface
 
     def formatted_duration
       start_date = item.start_date.end_of_month
-      end_date = (item.end_date.to_datetime || Time.zone.now).beginning_of_month
+      end_date = (item.end_date || Time.zone.now).beginning_of_month
       number_of_months = ((end_date.year * 12) + end_date.month) - ((start_date.year * 12) + start_date.month)
       format_months_to_years_and_months(number_of_months)
     end

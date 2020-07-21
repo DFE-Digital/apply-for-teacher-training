@@ -18,7 +18,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
   end
 
   def discarded_support_user
-    @discarded_support_user ||= SupportUser.new(email_address: 'discarded@support.com', dfe_sign_in_uid: 'alice', discarded_at: Time.current)
+    @discarded_support_user ||= SupportUser.new(email_address: 'discarded@support.com', dfe_sign_in_uid: 'alice', discarded_at: Time.zone.now)
   end
 
   def audit

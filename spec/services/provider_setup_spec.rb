@@ -78,7 +78,7 @@ RSpec.describe ProviderSetup do
       3.times.each do |idx|
         expected_relationship = relationships[idx]
         expect(next_relationship_pending).to eq(expected_relationship)
-        expected_relationship.update(setup_at: Time.current)
+        expected_relationship.update(setup_at: Time.zone.now)
       end
 
       expect(next_relationship_pending).to be_nil

@@ -58,7 +58,7 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
       create(:application_form) do |form|
         form.application_qualifications.create(
           level: 'other',
-          created_at: DateTime.new(2019, 1, 1, 1, 9, 0, 0),
+          created_at: Time.zone.local(2019, 1, 1, 1, 9, 0, 0),
         )
         form.application_qualifications.create(
           level: 'other',
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
           grade: 'Distinction',
           predicted_grade: false,
           award_year: '2012',
-          created_at: DateTime.new(2019, 1, 1, 21, 0, 0),
+          created_at: Time.zone.local(2019, 1, 1, 21, 0, 0),
         )
         form.application_qualifications.create(level: 'degree')
         form.application_qualifications.create(level: 'gcse')

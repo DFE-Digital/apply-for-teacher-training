@@ -28,7 +28,7 @@ RSpec.describe LogstashLogging do
     end
 
     it 'including a @timestamp' do
-      expect { DateTime.parse log['@timestamp'] }.not_to raise_error
+      expect { Time.zone.parse log['@timestamp'] }.not_to raise_error
     end
 
     it 'including the domain' do

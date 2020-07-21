@@ -5,7 +5,7 @@ module UCASMatching
   class MatchingDataFile
     # @returns filename
     def create_file
-      timestamp = DateTime.now.strftime('%Y%m%d_%H%M%S_%z').gsub('+', '')
+      timestamp = Time.zone.now.strftime('%Y%m%d_%H%M%S_%z').gsub('+', '')
       filename_prefix = "/tmp/dfe_apply_itt_applications_#{timestamp}-#{SecureRandom.hex}"
       csv_filename = "#{filename_prefix}.csv"
       zip_filename = "#{filename_prefix}.zip"

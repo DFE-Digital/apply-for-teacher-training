@@ -122,6 +122,10 @@ Naming/MemoizedInstanceVariableName:
 Style/EachWithObject:
   Enabled: false
 
+# over 250 offences
+Rails/SaveBang:
+  Enabled: false
+
 # Pending cops
 # These will be enabled by default at Rubocop 1.0
 Style/HashEachMethods:

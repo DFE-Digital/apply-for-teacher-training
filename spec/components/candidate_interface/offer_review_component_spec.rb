@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::OfferReviewComponent do
   include CourseOptionHelpers
 
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
-  let(:application_form) { create(:application_form, submitted_at: DateTime.now) }
+  let(:application_form) { create(:application_form, submitted_at: Time.zone.now) }
   let(:application_choice) do
     create(
       :application_choice,

@@ -24,7 +24,7 @@ RSpec.describe SetRejectByDefault do
 
         call_service(choice)
 
-        expect(choice.reload.reject_by_default_at).to be_within(1.second).of(DateTime.parse(correct_rbd))
+        expect(choice.reload.reject_by_default_at).to be_within(1.second).of(Time.zone.parse(correct_rbd))
       end
     end
   end

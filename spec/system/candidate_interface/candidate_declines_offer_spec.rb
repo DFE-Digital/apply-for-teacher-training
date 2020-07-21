@@ -39,7 +39,7 @@ RSpec.feature 'Candidate declines an offer' do
       first_name: 'Harry',
       last_name: 'Potter',
       candidate: @candidate,
-      submitted_at: DateTime.now,
+      submitted_at: Time.zone.now,
     )
 
     provider = create(:provider, code: 'ABC')
