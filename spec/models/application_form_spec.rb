@@ -268,4 +268,34 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#return_other_nationality' do
+    context 'when the first_nationality is British' do
+      it 'returns nil' do
+        application_form = build_stubbed(:application_form, first_nationality: 'British')
+        expect(application_form.return_other_nationality).to eq nil
+      end
+    end
+
+    context 'when the first_nationality is Irish' do
+      it 'returns nil' do
+        application_form = build_stubbed(:application_form, first_nationality: 'Irish')
+        expect(application_form.return_other_nationality).to eq nil
+      end
+    end
+
+    context 'when the first_nationality is Multiple' do
+      it 'returns nil' do
+        application_form = build_stubbed(:application_form, first_nationality: 'Multiple')
+        expect(application_form.return_other_nationality).to eq nil
+      end
+    end
+
+    context 'when the first_nationality any other value' do
+      it 'returns the value' do
+        application_form = build_stubbed(:application_form, first_nationality: 'German')
+        expect(application_form.return_other_nationality).to eq 'German'
+      end
+    end
+  end
 end

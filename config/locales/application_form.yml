@@ -429,6 +429,9 @@ en:
               inclusion: Select your nationality from the list
             second_nationality:
               inclusion: Select your second nationality from the list
+            other_nationality:
+              blank: Select your nationality from the list
+              inclusion: Select your nationality from the list
         candidate_interface/languages_form:
           attributes:
             english_main_language:

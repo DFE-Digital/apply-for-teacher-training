@@ -73,6 +73,19 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
           row_for(:nationality, 'British and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
         )
       end
+
+      it 'includes a hash using the multiple_nationalities details if present' do
+        nationalities_form = build(
+          :nationalities_form,
+          first_nationality: 'multiple',
+          second_nationality: nil,
+          multiple_nationalities: 'British and Spanish',
+        )
+
+        expect(rows(personal_details_form, nationalities_form, languages_form)).to include(
+          row_for(:nationality, 'British and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
+        )
+      end
     end
 
     context 'when presenting English as the main language' do
