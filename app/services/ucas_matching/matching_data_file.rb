@@ -10,9 +10,13 @@ module UCASMatching
       csv_filename = "#{filename_prefix}.csv"
       zip_filename = "#{filename_prefix}.zip"
 
+      Rails.logger.info 'Creating new export for UCAS'
+
       File.open(csv_filename, 'w') do |f|
         f.write(csv_as_string)
       end
+
+      Rails.logger.info "Finished creating export to #{csv_filename}. Archiving..."
 
       Archive::Zip.archive(
         zip_filename,
@@ -20,6 +24,8 @@ module UCASMatching
         encryption_codec: Archive::Zip::Codec::TraditionalEncryption,
         password: ENV.fetch('UCAS_ZIP_PASSWORD'),
       )
+
+      Rails.logger.info "Finished archiving export to #{zip_filename}"
 
       zip_filename
     end
