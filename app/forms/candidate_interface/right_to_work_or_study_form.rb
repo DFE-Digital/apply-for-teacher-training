@@ -22,7 +22,7 @@ module CandidateInterface
 
       application_form.update(
         right_to_work_or_study: right_to_work_or_study,
-        right_to_work_or_study_details: right_to_work_or_study_details,
+        right_to_work_or_study_details: set_right_to_work_or_study_details,
       )
     end
 
@@ -30,6 +30,10 @@ module CandidateInterface
 
     def has_right_to_work_or_study?
       right_to_work_or_study == 'yes'
+    end
+
+    def set_right_to_work_or_study_details
+      has_right_to_work_or_study? ? right_to_work_or_study_details : nil
     end
   end
 end
