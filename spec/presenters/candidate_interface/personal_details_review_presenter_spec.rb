@@ -82,16 +82,19 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         )
       end
 
-      it 'includes a hash using the multiple_nationalities details if present' do
+      it 'includes a hash with up to 5 nationaltties when international_personal_details is on' do
+        FeatureFlag.activate('international_personal_details')
         nationalities_form = build(
           :nationalities_form,
-          first_nationality: 'multiple',
-          second_nationality: nil,
-          multiple_nationalities: 'British and Spanish',
+          british: 'British',
+          irish: nil,
+          other_nationality1: 'French',
+          other_nationality2: 'German',
+          other_nationality3: 'Spanish',
         )
 
         expect(rows(personal_details_form, nationalities_form, languages_form, right_to_work_form)).to include(
-          row_for(:nationality, 'British and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
+          row_for(:nationality, 'British, French, German, and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
         )
       end
     end
