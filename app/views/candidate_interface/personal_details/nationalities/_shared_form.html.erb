@@ -1,18 +1,15 @@
 <%= f.govuk_error_summary %>
 
 <% if FeatureFlag.active?('international_personal_details') %>
-
-  <%= f.govuk_radio_buttons_fieldset :nationality, legend: { size: 'xl', text: t('page_titles.nationalities'), tag: 'h2' } do %>
-    <%= f.govuk_radio_button :first_nationality, :British, label: { text: 'British' } %>
-    <%= f.govuk_radio_button :first_nationality, :Irish, label: { text: 'Irish' } %>
-    <%= f.govuk_radio_button :first_nationality, 'Other', label: { text: 'Other' } do %>
-      <%= f.govuk_collection_select :other_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label'), size: 'm'}%>
-    <% end %>
-    <%= f.govuk_radio_button :first_nationality, 'Multiple', label: { text: 'I have multiple nationalities' } do %>
-      <%= f.govuk_text_area :multiple_nationalities, label: { text: 'Give details' }, value: @nationalities_form.multiple_nationalities %>
+  <%= f.govuk_check_boxes_fieldset :nationalities, legend: { size: 'xl', text:  t('page_titles.nationalities') } do %>
+    <%= f.govuk_check_box 'british', 'British', multiple: false, label: { text: 'British' } %>
+    <%= f.govuk_check_box 'irish', 'Irish', multiple: false, label: { text: 'Irish' } %>
+    <%= f.govuk_check_box 'other', true, multiple: false, label: { text: 'Other' } do %>
+      <%= f.govuk_collection_select :other_nationality1, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
+      <%= f.govuk_collection_select :other_nationality2, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
+      <%= f.govuk_collection_select :other_nationality3, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
     <% end %>
   <% end %>
-
 <% else %>
 
   <h1 class="govuk-heading-xl">
