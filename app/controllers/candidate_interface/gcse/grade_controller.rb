@@ -7,6 +7,7 @@ module CandidateInterface
       @qualification_type = details_form.qualification.qualification_type
 
       details_form.grade = details_params[:grade]
+      details_form.other_grade = details_params[:other_grade]
 
       @application_qualification = details_form.save_grade
 

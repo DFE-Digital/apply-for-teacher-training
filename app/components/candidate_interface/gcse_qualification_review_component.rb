@@ -18,15 +18,15 @@ module CandidateInterface
           qualification_row,
           country_row,
           naric_row,
-          comparable_uk_qualification,
-          award_year_row,
+          comparable_uk_qualification_row,
           grade_row,
+          award_year_row,
         ]
       else
         [
           qualification_row,
-          award_year_row,
           grade_row,
+          award_year_row,
         ]
       end
     end
@@ -63,7 +63,7 @@ module CandidateInterface
     def grade_row
       {
         key: 'Grade',
-        value: application_qualification.grade ? application_qualification.grade.upcase : t('gcse_summary.not_specified'),
+        value: application_qualification.grade || t('gcse_summary.not_specified'),
         action: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
         change_path: candidate_interface_gcse_details_edit_grade_path(subject: subject),
       }
@@ -103,7 +103,7 @@ module CandidateInterface
       }
     end
 
-    def comparable_uk_qualification
+    def comparable_uk_qualification_row
       {
         key: 'Comparable UK qualification',
         value: application_qualification.comparable_uk_qualification || 'Not provided',

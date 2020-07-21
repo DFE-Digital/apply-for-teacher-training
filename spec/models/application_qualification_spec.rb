@@ -122,4 +122,38 @@ RSpec.describe ApplicationQualification, type: :model do
       expect(qualification.naric_reference_choice).to eq(nil)
     end
   end
+
+  describe '#set_grade' do
+    it 'sets grade to not_applicable and other grade to nil when grade is not_applicable' do
+      qualification = build_stubbed(:gcse_qualification, grade: 'n/a')
+      expect(qualification.set_grade).to eq 'not_applicable'
+    end
+
+    it 'sets grade to not_applicable and other grade to nil when grade is unknown' do
+      qualification = build_stubbed(:gcse_qualification, grade: 'unknown')
+      expect(qualification.set_grade).to eq 'unknown'
+    end
+
+    it 'sets grade to other and other grade to grades value when grade is another value' do
+      qualification = build_stubbed(:gcse_qualification, grade: 'D')
+      expect(qualification.set_grade).to eq 'other'
+    end
+  end
+
+  describe '#set_other_grade' do
+    it 'returns nil when grade is not_applicable' do
+      qualification = build_stubbed(:gcse_qualification, grade: 'n/a')
+      expect(qualification.set_other_grade).to eq nil
+    end
+
+    it 'returns nil when grade is unknown' do
+      qualification = build_stubbed(:gcse_qualification, grade: 'unknown')
+      expect(qualification.set_other_grade).to eq nil
+    end
+
+    it 'returns grade when grade is another value' do
+      qualification = build_stubbed(:gcse_qualification, grade: 'D')
+      expect(qualification.set_other_grade).to eq 'D'
+    end
+  end
 end

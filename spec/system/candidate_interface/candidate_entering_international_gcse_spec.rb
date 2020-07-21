@@ -41,7 +41,8 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
     and_i_click_save_and_continue
     then_i_see_the_add_grade_page
 
-    when_i_fill_in_the_grade
+    when_i_choose_other
+    and_i_fill_in_my_grade
     and_i_click_save_and_continue
     then_i_see_add_year_page
 
@@ -142,7 +143,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   def then_i_see_the_review_page_with_correct_details
     expect(page).to have_content 'Maths GCSE or equivalent'
     expect(page).to have_content 'High School Diploma'
-    expect(page).to have_content 'PASS'
+    expect(page).to have_content 'Pass'
     expect(page).to have_content '1990'
     expect(page).to have_content 'United States'
     expect(page).to have_content '12345'
@@ -157,8 +158,12 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
     expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths')
   end
 
-  def when_i_fill_in_the_grade
-    fill_in 'Please specify your grade', with: 'Pass'
+  def when_i_choose_other
+    choose 'Other'
+  end
+
+  def and_i_fill_in_my_grade
+    fill_in 'Grade', with: 'Pass'
   end
 
   def when_i_fill_in_the_year

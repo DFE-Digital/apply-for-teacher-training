@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
       expect(result.text).to match(/Qualification\s+#{@qualification.non_uk_qualification_type}/)
       expect(result.text).to match(/Year awarded\s+#{@qualification.award_year}/)
-      expect(result.text).to match(/Grade\s+#{@qualification.grade.upcase}/)
+      expect(result.text).to match(/Grade\s+#{@qualification.grade}/)
       expect(result.text).to match(/Country\s+#{COUNTRIES[@qualification.institution_country]}/)
     end
 
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
 
       expect(result.text).to match(/Qualification\s+GCSE/)
       expect(result.text).to match(/Year awarded\s+#{@qualification.award_year}/)
-      expect(result.text).to match(/Grade\s+#{@qualification.grade.upcase}/)
+      expect(result.text).to match(/Grade\s+#{@qualification.grade}/)
       expect(result.text).not_to match(/Country\s+#{@qualification.institution_country}/)
     end
   end

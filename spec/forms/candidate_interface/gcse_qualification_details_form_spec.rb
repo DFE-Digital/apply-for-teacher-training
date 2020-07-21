@@ -6,6 +6,14 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
     it { is_expected.to validate_presence_of(:award_year).on(:award_year) }
     it { is_expected.to validate_length_of(:grade).is_at_most(6).on(:grade) }
 
+    context 'when grade is "other"' do
+      let(:form) { subject }
+
+      before { allow(form).to receive(:grade_is_other?).and_return(true) }
+
+      it { is_expected.to validate_presence_of(:other_grade) }
+    end
+
     context 'when qualification type is GCSE' do
       let(:form) { CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification) }
       let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'gcse', level: 'gcse') }
@@ -119,6 +127,20 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
 
         expect(qualification.grade).to eq('AB')
       end
+
+      it 'sets grade to other_grade if candidate selected "other"' do
+        application_form = create(:application_form)
+        qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
+        details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
+
+        details_form.grade = 'other'
+        details_form.other_grade = 'D'
+
+        details_form.save_grade
+        qualification.reload
+
+        expect(qualification.grade).to eq('D')
+      end
     end
 
     describe '#save_year' do
@@ -147,6 +169,57 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
         qualification.reload
 
         expect(qualification.award_year).to eq('1990')
+      end
+    end
+
+    describe '.build_from_qualification' do
+      context 'with the international_gcses feature flag off' do
+        let(:data) do
+          {
+            grade: 'D',
+            award_year: '2012',
+          }
+        end
+
+        it 'creates an object based on the provided ApplicationForm' do
+          qualification = ApplicationQualification.new(data)
+          gcse_details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
+
+          expect(gcse_details_form).to have_attributes(data)
+        end
+      end
+
+      context 'with the international_gcses feature flag on, the qualification_type is non_uk and grade is not_applicable' do
+        it 'sets grade to not_applicable and other grade to nil' do
+          FeatureFlag.activate('international_gcses')
+          qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'n/a')
+          gcse_details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
+
+          expect(gcse_details_form.grade).to eq 'not_applicable'
+          expect(gcse_details_form.other_grade).to eq nil
+        end
+      end
+
+      context 'with the international_gcses feature flag on and grade is unknown' do
+        it 'sets grade to not_applicable and other grade to nil' do
+          FeatureFlag.activate('international_gcses')
+          qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'unknown')
+          gcse_details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
+
+          expect(gcse_details_form.grade).to eq 'unknown'
+          expect(gcse_details_form.other_grade).to eq nil
+        end
+      end
+
+      context 'with the international_gcses feature flag on and grade is another value' do
+        it 'sets grade to other and other grade to grades value' do
+          FeatureFlag.activate('international_gcses')
+          qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'D')
+          gcse_details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
+
+          expect(gcse_details_form.grade).to eq 'other'
+          expect(gcse_details_form.other_grade).to eq 'D'
+        end
       end
     end
   end
