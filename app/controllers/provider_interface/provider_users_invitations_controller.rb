@@ -1,7 +1,7 @@
 module ProviderInterface
   class ProviderUsersInvitationsController < ProviderInterfaceController
-    before_action :require_feature_flag
-    before_action :redirect_unless_permitted_to_manage_users
+    before_action :require_feature_flag!
+    before_action :require_manage_user_permission!
 
     def edit_details
       @wizard = ProviderUserInvitationWizard.new(session, current_step: 'details')
@@ -106,11 +106,11 @@ module ProviderInterface
         .permit(provider_permissions: {})
     end
 
-    def require_feature_flag
+    def require_feature_flag!
       render_404 unless FeatureFlag.active?(:providers_can_manage_users_and_permissions)
     end
 
-    def redirect_unless_permitted_to_manage_users
+    def require_manage_user_permission!
       render_404 unless current_provider_user.authorisation.can_manage_users?
     end
   end
