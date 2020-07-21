@@ -5,7 +5,7 @@ module VendorAPISpecHelpers
       email: 'jane@example.com',
       user_id: '12345',
     },
-    timestamp: Time.now.iso8601,
+    timestamp: Time.zone.now.iso8601,
   }.freeze
 
   def get_api_request(url, options = {})

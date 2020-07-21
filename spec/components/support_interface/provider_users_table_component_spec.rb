@@ -12,7 +12,7 @@ RSpec.describe SupportInterface::ProviderUsersTableComponent do
       [
         create(:provider_user,
                email_address: 'provider@example.com',
-               last_signed_in_at: DateTime.new(2019, 12, 1, 10, 45, 0),
+               last_signed_in_at: Time.zone.local(2019, 12, 1, 10, 45, 0),
                providers: [create(:provider, name: 'The Provider')]),
       ]
     end

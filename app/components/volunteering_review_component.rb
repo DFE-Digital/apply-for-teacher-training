@@ -80,7 +80,7 @@ private
   end
 
   def formatted_end_date(volunteering_role)
-    return 'Present' if volunteering_role.end_date.nil? || volunteering_role.end_date == DateTime.now
+    return 'Present' if volunteering_role.end_date.nil? || volunteering_role.end_date == Time.zone.now
 
     volunteering_role.end_date.to_s(:month_and_year)
   end

@@ -37,7 +37,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_have_2_offers_on_my_choices
-    @application_form = create(:application_form, first_name: 'Harry', last_name: 'Potter', candidate: @candidate, submitted_at: DateTime.now)
+    @application_form = create(:application_form, first_name: 'Harry', last_name: 'Potter', candidate: @candidate, submitted_at: Time.zone.now)
 
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     other_course_option = course_option_for_provider_code(provider_code: 'DEF')

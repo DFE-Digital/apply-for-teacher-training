@@ -46,7 +46,7 @@ RSpec.feature 'See organisation permissions' do
       training_provider: @training_provider,
       ratifying_provider_can_view_safeguarding_information: true,
       training_provider_can_view_safeguarding_information: false,
-      setup_at: Time.current,
+      setup_at: Time.zone.now,
     )
   end
 

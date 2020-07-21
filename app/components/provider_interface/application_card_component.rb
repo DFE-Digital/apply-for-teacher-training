@@ -37,7 +37,7 @@ module ProviderInterface
 
     def reject_by_default_in_future?
       application_choice.reject_by_default_at.present? &&
-        application_choice.reject_by_default_at > Time.current
+        application_choice.reject_by_default_at > Time.zone.now
     end
 
     def days_to_respond
