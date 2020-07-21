@@ -3,6 +3,13 @@ class ProviderAuthorisation
     @actor = actor
   end
 
+  def can_manage_users?
+    ProviderPermissions.exists?(
+      provider_user: @actor,
+      manage_users: true,
+    )
+  end
+
   def can_make_offer?(application_choice:, course_option_id:)
     OfferAuthorisation.new(actor: @actor).can_make_offer?(application_choice: application_choice, course_option_id: course_option_id)
   end

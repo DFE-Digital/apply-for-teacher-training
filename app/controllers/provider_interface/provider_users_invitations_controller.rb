@@ -111,8 +111,7 @@ module ProviderInterface
     end
 
     def redirect_unless_permitted_to_manage_users
-      can_manage_users = ProviderPermissions.exists?(provider_user: current_provider_user, manage_users: true)
-      render_404 unless can_manage_users
+      render_404 unless current_provider_user.authorisation.can_manage_users?
     end
   end
 end

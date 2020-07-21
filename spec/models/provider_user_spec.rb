@@ -64,20 +64,6 @@ RSpec.describe ProviderUser, type: :model do
     end
   end
 
-  describe 'can_manage_users?' do
-    let(:provider_user) { create :provider_user, :with_provider }
-
-    it 'is false for users without the manage users permission' do
-      expect(provider_user.can_manage_users?).to be false
-    end
-
-    it 'is true for users with the manage users permission' do
-      provider_user.provider_permissions.first.update(manage_users: true)
-
-      expect(provider_user.can_manage_users?).to be true
-    end
-  end
-
   describe 'can_manage_organisations?' do
     let(:provider_user) { create :provider_user, :with_provider }
 
