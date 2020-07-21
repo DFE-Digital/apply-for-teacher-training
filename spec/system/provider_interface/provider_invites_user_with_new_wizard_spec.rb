@@ -19,7 +19,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     when_i_visit_the_invite_user_wizard
     then_i_see_a_404_page
 
-    and_i_can_manage_users_for_two_provider
+    and_i_can_manage_users_for_two_providers
     and_i_sign_in_again_to_the_provider_interface
 
     # when_i_click_on_the_users_link
