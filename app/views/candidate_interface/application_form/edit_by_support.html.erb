@@ -7,12 +7,11 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">You have <%= @editable_days %> working days to edit your application.</p>
-    <p class="govuk-body">Tell us what changes you need to make by emailing us at <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.</p>
-    <p class="govuk-body">We can only make changes once.</p>
-    <h2 class="govuk-heading-m">Changing your references</h2>
-    <p class="govuk-body"><%= govuk_link_to 'You can edit your references from your application dashboard.', candidate_interface_application_complete_path %></p>
-    <h2 class="govuk-heading-m">Changing your contact details</h2>
-    <p class="govuk-body">You can ask us to change your contact details at any time by emailing us at <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.</p>
+    <p class="govuk-body">You have until <%= edit_by_date %> to edit your application. You can only make changes once.</p>
+    <p class="govuk-body">Email us at <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %> to make changes.</p>
+    <h2 class="govuk-heading-m">Changing your referees</h2>
+    <p class="govuk-body"><%= govuk_link_to 'You can change your referees from your application dashboard.', candidate_interface_application_complete_path %></p>
+    <h2 class="govuk-heading-m">Change your personal information</h2>
+    <p class="govuk-body">Email us anytime at <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %> to change your personal information.</p>
   </div>
 </div>
