@@ -143,7 +143,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   def then_i_see_the_review_page_with_correct_details
     expect(page).to have_content 'Maths GCSE or equivalent'
     expect(page).to have_content 'High School Diploma'
-    expect(page).to have_content 'PASS'
+    expect(page).to have_content 'Pass'
     expect(page).to have_content '1990'
     expect(page).to have_content 'United States'
     expect(page).to have_content '12345'

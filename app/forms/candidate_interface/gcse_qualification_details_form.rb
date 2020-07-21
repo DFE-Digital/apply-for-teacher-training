@@ -107,7 +107,9 @@ module CandidateInterface
       when 'other'
         other_grade
       when 'not_applicable'
-        'n/a'
+        'N/A'
+      when 'unknown'
+        'Unknown'
       else
         grade
       end
