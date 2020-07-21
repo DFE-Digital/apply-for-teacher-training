@@ -6,15 +6,15 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">You can apply to the following training providers and courses using <%= service_name %>. Providers not signed up to <%= service_name %> can only receive applications through UCAS.</p>
-    <h2 class="govuk-heading-s">We suggest you use Apply for teacher training if:</h2>
+    <p class="govuk-body">Not all training providers are signed up to ‘<%= service_name %>’.</p>
+    <h2 class="govuk-heading-s">You should use Apply for teacher training if:</h2>
     <ul class="govuk-list govuk-list--bullet">
-      <li>you want to try a streamlined service with personalised support</li>
       <li>all your chosen providers are available on the new service</li>
+      <li>you want to try a streamlined service with personalised support</li>
     </ul>
     <p class="govuk-body"><%= govuk_link_to 'Use ' + service_name, candidate_interface_start_path %></p>
 
-    <h2 class="govuk-heading-s">We suggest you use UCAS if:</h2>
+    <h2 class="govuk-heading-s">You should use UCAS if:</h2>
     <ul class="govuk-list govuk-list--bullet">
       <li>you’ve already started applying with UCAS</li>
       <li>some of your chosen providers are not available on <%= service_name %> and you don’t want to use 2 different services.</li>
