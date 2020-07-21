@@ -11,6 +11,8 @@ const initNationalityAutocomplete = () => {
       "#candidate-interface-nationalities-form-other-nationality-field-error",
       "#candidate-interface-contact-details-form-country-field",
       "#candidate-interface-contact-details-form-country-field-error",
+      "#candidate-interface-gcse-institution-country-form-institution-country-field",
+      "#candidate-interface-gcse-institution-country-form-institution-country-field-error",
     ].forEach(id => {
       const nationalitySelect = document.querySelector(id);
 

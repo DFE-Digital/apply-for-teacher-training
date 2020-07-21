@@ -1,0 +1,13 @@
+<% content_for :title, title_with_error_prefix(t("gcse_edit_institution_country.page_title", subject: @subject.capitalize), @institution_country.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @institution_country, url: candidate_interface_gcse_details_update_institution_country_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_collection_select :institution_country, select_institution_country_options, :id, :name, label: { text: t("gcse_edit_institution_country.page_title", subject: @subject.capitalize), size: 'xl' } %>
+      <%= f.submit t('application_form.gcse.complete_form_button'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
+    <% end %>
+  </div>
+</div>

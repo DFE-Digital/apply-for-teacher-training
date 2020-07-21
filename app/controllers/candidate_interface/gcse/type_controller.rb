@@ -47,11 +47,13 @@ module CandidateInterface
     end
 
     def next_gcse_path
-      details_form = GcseQualificationDetailsForm.build_from_qualification(
+      @details_form = GcseQualificationDetailsForm.build_from_qualification(
         current_application.qualification_in_subject(:gcse, subject_param),
       )
 
-      if !@application_qualification.missing_qualification? && details_form.grade.nil?
+      if new_non_uk_qualification?
+        candidate_interface_gcse_details_edit_institution_country_path
+      elsif !@application_qualification.missing_qualification? && @details_form.grade.nil?
         candidate_interface_gcse_details_edit_grade_path
       else
         candidate_interface_gcse_review_path
@@ -62,6 +64,12 @@ module CandidateInterface
       params.require(:candidate_interface_gcse_qualification_type_form)
         .permit(:qualification_type, :other_uk_qualification_type, :missing_explanation, :non_uk_qualification_type)
         .transform_values(&:strip)
+    end
+
+    def new_non_uk_qualification?
+      FeatureFlag.active?('international_gcses') &&
+        @application_qualification.qualification_type == 'non_uk' &&
+        @details_form.qualification.institution_country.nil?
     end
   end
 end

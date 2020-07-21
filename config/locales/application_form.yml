@@ -653,6 +653,11 @@ en:
             missing_explanation:
               blank: Give us some details
               too_many_words: Details must be %{count} words or fewer
+        candidate_interface/gcse_institution_country_form:
+          attributes:
+            institution_country:
+              blank: Enter the country you studied in
+              inclusion: Select the country you studied in from the list
         candidate_interface/volunteering_experience_form:
           attributes:
             experience:
