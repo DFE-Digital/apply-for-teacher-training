@@ -67,9 +67,6 @@ module ProviderInterface
         end
         provider_permission.save!
       end
-
-      deleted_permissions = user.provider_permissions.select { |permission| wizard.provider_permissions[permission.provider_id.to_s].blank? }
-      deleted_permissions.each(&:destroy)
     end
   end
 end

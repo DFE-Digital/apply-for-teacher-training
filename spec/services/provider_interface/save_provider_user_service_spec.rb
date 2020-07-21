@@ -47,16 +47,18 @@ RSpec.describe ProviderInterface::SaveProviderUserService do
       manage_users: true,
       make_decisions: true,
     )
-    wizard = setup_wizard_double
     expect { described_class.new(wizard).call! }.not_to(change { ProviderUser.count })
     existing_user.reload
-    expect(existing_user.provider_permissions.count).to eq 2
+    expect(existing_user.provider_permissions.count).to eq 3
 
     first_permission = existing_user.provider_permissions.find { |permission| permission.provider_id == @providers[0].id }
     second_permission = existing_user.provider_permissions.find { |permission| permission.provider_id == @providers[1].id }
+    third_permission = existing_user.provider_permissions.find { |permission| permission.provider_id == @providers[2].id }
     expect(first_permission.manage_users).to be true
     expect(first_permission.make_decisions).to be false
     expect(second_permission.manage_users).to be false
     expect(second_permission.make_decisions).to be true
+    expect(third_permission.make_decisions).to be true
+    expect(third_permission.manage_users).to be true
   end
 end

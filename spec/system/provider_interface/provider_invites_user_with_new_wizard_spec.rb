@@ -76,7 +76,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     @another_provider = Provider.find_by(code: 'DEF')
   end
 
-  def and_i_can_manage_users_for_two_provider
+  def and_i_can_manage_users_for_two_providers
     @provider_user.provider_permissions.find_by(provider: @provider).update(manage_users: true)
     @provider_user.provider_permissions.find_by(provider: @another_provider).update(manage_users: true)
   end
