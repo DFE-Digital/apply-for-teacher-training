@@ -130,38 +130,4 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
       end
     end
   end
-
-  describe 'save!' do
-    it 'invokes a service to persist a new ProviderUser for a new user' do
-      create_list(:provider, 2)
-      state_store = state_store_for({
-        first_name: 'Ed',
-        last_name: 'Yewcater',
-        email_address: 'ed@example.com',
-      })
-      wizard = described_class.new(state_store, {})
-      expect { wizard.save! }.to change { ProviderUser.count }.by(1)
-    end
-  end
-
-  describe '#new_user?' do
-    it 'returns false if there is no email_address set' do
-      state_store = state_store_for({})
-      wizard = described_class.new(state_store, {})
-      expect(wizard.new_user?).to be false
-    end
-
-    it 'returns false if a user with the given email_address exists' do
-      provider_user = create :provider_user
-      state_store = state_store_for({})
-      wizard = described_class.new(state_store, email_address: provider_user.email_address)
-      expect(wizard.new_user?).to be false
-    end
-
-    it 'returns true if a user with the given email_address does not exist' do
-      state_store = state_store_for({})
-      wizard = described_class.new(state_store, email_address: 'not.a.user@example.com')
-      expect(wizard.new_user?).to be true
-    end
-  end
 end

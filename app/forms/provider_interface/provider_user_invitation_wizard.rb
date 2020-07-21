@@ -83,10 +83,6 @@ module ProviderInterface
       end
     end
 
-    def save!
-      SaveProviderUserService.new(self).call
-    end
-
     def save_state!
       @state_store[STATE_STORE_KEY] = state
     end
