@@ -1099,7 +1099,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('deploymentUrlBaseLocal'),'eventhubs-logic-app.json')]",
+                    "uri": "[concat(variables('deploymentUrlBase'), 'event-hubs-logic-app.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -1112,11 +1112,12 @@
                     "logit_apikey":{
                         "value": "[parameters('logitApikey')]"
                     },
-                    "deploymentUrlBaseLocal":{
-                        "value": "[variables('deploymentUrlBaseLocal')]"
+                    "postgresServerName":{
+                        "value": "[variables('databaseServerName')]"
                     }
                 }
-            }
+            },
+            "dependsOn": ["postgresql-server"]
         }
     ],
     "outputs": {
