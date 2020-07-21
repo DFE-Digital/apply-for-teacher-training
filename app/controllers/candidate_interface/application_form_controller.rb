@@ -29,6 +29,7 @@ module CandidateInterface
 
     def edit
       redirect_to candidate_interface_application_complete_path and return unless current_application.can_edit_after_submission?
+
       @application_form = current_application
       render :edit_by_support
     end
