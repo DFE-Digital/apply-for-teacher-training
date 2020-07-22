@@ -9,7 +9,7 @@
       <span class="govuk-caption-xl">Invite user</span>
       <h1 class="govuk-heading-xl">Check permissions before you invite user</h1>
 
-      Details here
+      <%= render ProviderInterface::ProviderUserInvitationDetailsComponent.new(wizard: @wizard) %>
 
       <%= f.govuk_submit 'Invite user' %>
     <% end %>

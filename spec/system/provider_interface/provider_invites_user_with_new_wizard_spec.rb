@@ -43,6 +43,11 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     then_i_see_the_confirm_page
 
     # TODO: Assert the state of the confirm page
+    when_i_click_to_change_the_users_name
+    then_i_can_see_the_details_form
+    when_i_fill_in_a_new_name
+    and_i_press_continue
+    then_i_see_the_confirm_page_with_the_new_name
 
     when_i_commit_changes
     then_i_see_the_new_user_on_the_index_page
@@ -132,7 +137,31 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def then_i_see_the_confirm_page
-    expect(page).to have_content('Check permissions before you invite user')
+    expect(page).to have_content 'Check permissions before you invite user'
+    expect(page).to have_content 'Ed'
+    expect(page).to have_content 'Ucator'
+    expect(page).to have_content 'ed@example.com'
+  end
+
+  def when_i_click_to_change_the_users_name
+    all('.govuk-summary-list__actions')[0].click_link 'Change'
+  end
+
+  def then_i_can_see_the_details_form
+    expect(page).to have_selector("input[value='Ed']")
+    expect(page).to have_selector("input[value='Ucator']")
+    expect(page).to have_selector("input[value='ed@example.com']")
+  end
+
+  def when_i_fill_in_a_new_name
+    fill_in 'First name', with: 'Eddy'
+  end
+
+  def then_i_see_the_confirm_page_with_the_new_name
+    expect(page).to have_content 'Check permissions before you invite user'
+    expect(page).to have_content 'Eddy'
+    expect(page).to have_content 'Ucator'
+    expect(page).to have_content 'ed@example.com'
   end
 
   def when_i_commit_changes
@@ -142,7 +171,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
   def then_i_see_the_new_user_on_the_index_page
     expect(page).to have_content('User successfully invited')
-    expect(page).to have_content('Ed Ucator')
+    expect(page).to have_content('Eddy Ucator')
   end
 
   def and_new_user_gets_an_invitation_email

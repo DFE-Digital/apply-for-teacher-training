@@ -4,12 +4,12 @@ module ProviderInterface
     before_action :require_manage_user_permission!
 
     def edit_details
-      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'details')
+      @wizard = wizard_for(current_step: 'details')
       @wizard.save_state!
     end
 
     def update_details
-      @wizard = ProviderUserInvitationWizard.new(session, details_params.merge(current_step: 'details'))
+      @wizard = wizard_for(details_params.merge(current_step: 'details'))
 
       if @wizard.valid_for_current_step?
         @wizard.save_state!
@@ -20,14 +20,14 @@ module ProviderInterface
     end
 
     def edit_providers
-      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'providers')
+      @wizard = wizard_for(current_step: 'providers')
       @wizard.save_state!
 
       @available_providers = current_provider_user.providers
     end
 
     def update_providers
-      @wizard = ProviderUserInvitationWizard.new(session, providers_params.merge(current_step: 'providers'))
+      @wizard = wizard_for(providers_params.merge(current_step: 'providers'))
       @available_providers = current_provider_user.providers
 
       if @wizard.valid_for_current_step?
@@ -40,7 +40,7 @@ module ProviderInterface
 
     def edit_permissions
       @provider = Provider.find(params[:provider_id])
-      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'permissions', current_provider_id: @provider.id)
+      @wizard = wizard_for(current_step: 'permissions', current_provider_id: @provider.id)
       @wizard.save_state!
 
       # This is gnarly but meant to mirror the related wizard data structure
@@ -62,19 +62,19 @@ module ProviderInterface
     end
 
     def update_permissions
-      @wizard = ProviderUserInvitationWizard.new(session, permissions_params.merge(current_step: 'permissions', current_provider_id: params[:provider_id]))
+      @wizard = wizard_for(permissions_params.merge(current_step: 'permissions', current_provider_id: params[:provider_id]))
       @wizard.save_state!
 
       redirect_to next_redirect
     end
 
     def check
-      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'check')
+      @wizard = wizard_for(current_step: 'check')
       @wizard.save_state!
     end
 
     def commit
-      @wizard = ProviderUserInvitationWizard.new(session)
+      @wizard = wizard_for({})
       service = SaveAndInviteProviderUser.new(
         form: @wizard,
         save_service: ProviderInterface::SaveProviderUserService.new(@wizard),
@@ -103,6 +103,11 @@ module ProviderInterface
     helper_method :previous_page
 
   private
+
+    def wizard_for(options)
+      options[:checking_answers] = true if params[:checking_answers] == 'true'
+      ProviderUserInvitationWizard.new(session, options)
+    end
 
     def path_for(step, provider_id)
       {
