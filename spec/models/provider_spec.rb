@@ -13,20 +13,37 @@ RSpec.describe Provider, type: :model do
   end
 
   describe '.with_permissions_visible_to' do
-    it 'scopes results to providers the given user can manage permissions for' do
+    it 'scopes results to providers the given user can manage permissions for and which have relationships to manage' do
       a_provider = create(:provider)
-      training_provider = create(:provider, name: 'ZZZ')
-      ratifying_provider = create(:provider, name: 'AAA')
+      training_provider = create(:provider)
+      ratifying_provider = create(:provider)
 
       provider_user = create(:provider_user, providers: [training_provider, ratifying_provider, a_provider])
-      create(
-        :provider_relationship_permissions,
-        ratifying_provider: ratifying_provider,
-        training_provider: training_provider,
+
+      # The user will have manage_organisations for this provider but it has
+      # no relationships so it should not be returned
+      ProviderPermissions.find_by(
+        provider_user: provider_user,
+        provider: a_provider,
+      ).update!(
+        manage_organisations: true,
+      )
+
+      # there is a relationship to manage between these two providers...
+      create(:provider_relationship_permissions,
+             training_provider: training_provider,
+             ratifying_provider: ratifying_provider)
+
+      # ...and the user has manage_organisations permissions for only one of them.
+      ProviderPermissions.find_by(
+        provider_user: provider_user,
+        provider: training_provider,
+      ).update!(
+        manage_organisations: true,
       )
 
       expect(described_class.with_permissions_visible_to(provider_user)).to eq(
-        [ratifying_provider, training_provider],
+        [training_provider],
       )
     end
   end

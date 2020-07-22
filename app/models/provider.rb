@@ -43,7 +43,11 @@ class Provider < ApplicationRecord
       )
       .pluck(:ratifying_provider_id, :training_provider_id).flatten
 
-    where(id: provider_ids).order(:name)
+    manageable_provider_ids = ProviderPermissions
+      .where(provider_id: provider_ids, provider_user: provider_user, manage_organisations: true)
+      .pluck(:provider_id)
+
+    where(id: manageable_provider_ids).order(:name)
   end
 
   def users_with_make_decisions
