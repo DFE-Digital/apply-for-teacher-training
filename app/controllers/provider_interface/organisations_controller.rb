@@ -19,11 +19,11 @@ module ProviderInterface
   private
 
     def manageable_providers
-      @_manageable_providers ||= Provider.with_permissions_visible_to(current_provider_user)
+      @_manageable_providers ||= current_provider_user.authorisation.providers_that_actor_can_manage_organisations_for
     end
 
     def render_403_unless_organisation_valid_for_user
-      render_403 unless Provider.with_permissions_visible_to(current_provider_user).include?(provider)
+      render_403 unless manageable_providers.include?(provider)
     end
 
     def provider

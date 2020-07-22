@@ -33,23 +33,6 @@ class Provider < ApplicationRecord
       .where(ProviderPermissions.table_name => { provider_user_id: provider_user.id, manage_users: true })
   end
 
-  def self.with_permissions_visible_to(provider_user)
-    provider_ids = ProviderRelationshipPermissions
-      .where(training_provider: provider_user.providers)
-      .or(
-        ProviderRelationshipPermissions.where(
-          ratifying_provider_id: provider_user.providers,
-        ),
-      )
-      .pluck(:ratifying_provider_id, :training_provider_id).flatten
-
-    manageable_provider_ids = ProviderPermissions
-      .where(provider_id: provider_ids, provider_user: provider_user, manage_organisations: true)
-      .pluck(:provider_id)
-
-    where(id: manageable_provider_ids).order(:name)
-  end
-
   def users_with_make_decisions
     provider_users.merge provider_permissions.make_decisions
   end
