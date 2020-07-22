@@ -8,11 +8,55 @@
   <% end %>
 
   <% if @permission_model.make_decisions? %>
-    <li><%= render CheckIcon.new %><span class="govuk-!-font-weight-bold">Make decisions</span></li>
+    <li>
+      <%= render CheckIcon.new %><span class="govuk-!-font-weight-bold">Make decisions</span>
+      <% if training_providers_that_can('make_decisions').any? %>
+        <div class="govuk-!-margin-left-5">
+          Applies to courses run by:
+          <ul class="govuk-list">
+            <% training_providers_that_can('make_decisions').each do |provider| %>
+              <li><%= render CheckIcon.new %> <%= provider.name %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if ratifying_providers_that_can('make_decisions').any? %>
+        <div class="govuk-!-margin-left-5">
+          Applies to courses ratified by:
+          <ul class="govuk-list">
+            <% ratifying_providers_that_can('make_decisions').each do |provider| %>
+              <li><%= render CheckIcon.new %> <%= provider.name %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </li>
   <% end %>
 
   <% if @permission_model.view_safeguarding_information? %>
-    <li><%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">View safeguarding information</span></li>
+    <li>
+      <%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">View safeguarding information</span>
+      <% if training_providers_that_can('view_safeguarding_information').any? %>
+        <div class="govuk-!-margin-left-5">
+          Applies to courses run by:
+          <ul class="govuk-list">
+            <% training_providers_that_can('view_safeguarding_information').each do |provider| %>
+              <li><%= render CheckIcon.new %> <%= provider.name %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <% if ratifying_providers_that_can('view_safeguarding_information').any? %>
+        <div class="govuk-!-margin-left-5">
+          Applies to courses ratified by:
+          <ul class="govuk-list">
+            <% ratifying_providers_that_can('view_safeguarding_information').each do |provider| %>
+              <li><%= render CheckIcon.new %> <%= provider.name %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </li>
   <% end %>
 
   <% if @permission_model.view_applications_only? %>
