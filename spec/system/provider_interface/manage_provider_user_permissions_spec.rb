@@ -13,22 +13,22 @@ RSpec.feature 'Managing provider user permissions' do
 
     when_i_click_on_the_users_link
     and_i_click_on_a_user
-    and_i_click_change_providers_and_permissions
+    and_i_click_to_change_permissions
 
-    then_i_see_providers_and_permissions
+    then_i_see_user_permissions_for_this_provider
     and_i_add_permission_to_manage_users_for_a_provider_user
     then_i_can_see_the_manage_users_permission_for_the_provider_user
-    and_i_click_change_providers_and_permissions
+    and_i_click_to_change_permissions
 
     when_i_remove_manage_users_permissions_from_a_provider_user
     then_i_cant_see_the_manage_users_permission_for_the_provider_user
 
-    and_i_click_change_providers_and_permissions
+    and_i_click_to_change_permissions
 
     when_i_add_permission_to_view_safeguarding_for_a_provider_user
     then_i_can_see_the_view_safeguarding_permission_for_the_provider_user
 
-    and_i_click_change_providers_and_permissions
+    and_i_click_to_change_permissions
 
     and_i_add_permission_to_make_decisions_for_a_provider_user
     then_i_can_see_the_make_decisions_permission_for_the_provider_user
@@ -58,28 +58,22 @@ RSpec.feature 'Managing provider user permissions' do
     click_on(@managed_user.full_name)
   end
 
-  def and_i_click_change_providers_and_permissions
+  def and_i_click_to_change_permissions
     click_on('Change')
   end
 
-  def then_i_see_providers_and_permissions
-    within(permissions_fields_id_for_provider(@provider)) do
-      expect(page).to have_unchecked_field 'Manage users'
-    end
+  def then_i_see_user_permissions_for_this_provider
+    expect(page).to have_unchecked_field 'Manage users'
   end
 
   def and_i_add_permission_to_manage_users_for_a_provider_user
     expect(page).not_to have_checked_field 'Manage users'
-
-    within(permissions_fields_id_for_provider(@provider)) do
-      check 'Manage users'
-    end
-
+    check 'Manage users'
     click_on 'Save'
   end
 
   def then_i_can_see_the_manage_users_permission_for_the_provider_user
-    expect(page).to have_content 'Providers updated'
+    expect(page).to have_content 'Permissions updated'
 
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'Manage users'
@@ -87,26 +81,19 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def when_i_remove_manage_users_permissions_from_a_provider_user
-    within(permissions_fields_id_for_provider(@provider)) do
-      expect(page).to have_checked_field 'Manage users'
-      uncheck 'Manage users'
-    end
-
+    expect(page).to have_checked_field 'Manage users'
+    uncheck 'Manage users'
     click_on 'Save'
   end
 
   def then_i_cant_see_the_manage_users_permission_for_the_provider_user
-    expect(page).to have_content 'Providers updated'
+    expect(page).to have_content 'Permissions updated'
     expect(page).not_to have_content 'Manage users'
   end
 
   def when_i_add_permission_to_view_safeguarding_for_a_provider_user
     expect(page).not_to have_checked_field 'View safeguarding information'
-
-    within(permissions_fields_id_for_provider(@provider)) do
-      check 'View safeguarding information'
-    end
-
+    check 'View safeguarding information'
     click_on 'Save'
   end
 
@@ -118,11 +105,7 @@ RSpec.feature 'Managing provider user permissions' do
 
   def and_i_add_permission_to_make_decisions_for_a_provider_user
     expect(page).not_to have_checked_field 'Make decisions'
-
-    within(permissions_fields_id_for_provider(@provider)) do
-      check 'Make decisions'
-    end
-
+    check 'Make decisions'
     click_on 'Save'
   end
 
@@ -130,9 +113,5 @@ RSpec.feature 'Managing provider user permissions' do
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'Make decisions'
     end
-  end
-
-  def permissions_fields_id_for_provider(provider)
-    "#provider-interface-provider-user-form-provider-permissions-forms-#{provider.id}-active-true-conditional"
   end
 end

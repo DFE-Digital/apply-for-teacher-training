@@ -39,10 +39,26 @@ module ProviderInterface
     end
 
     def edit_permissions
-      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'permissions', current_provider_id: params[:provider_id])
+      @provider = Provider.find(params[:provider_id])
+      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'permissions', current_provider_id: @provider.id)
       @wizard.save_state!
 
-      @permissions_form = ProviderUserPermissionsForm.new(@wizard.permissions_for(params[:provider_id]))
+      # This is gnarly but meant to mirror the related wizard data structure
+      # Best refactored as part of an invitation wizard PR
+      # --
+      permission_struct = Struct.new(:slug, :name)
+      @permissions = [
+        permission_struct.new('manage_users', 'Manage users'),
+        permission_struct.new('make_decisions', 'Make decisions'),
+      ]
+
+      permissions_form_struct = Struct.new(:id, :provider_id, :permissions)
+      @permissions_form = permissions_form_struct.new(
+        @provider.id,
+        @provider.id,
+        @permissions,
+      )
+      # --
     end
 
     def update_permissions

@@ -15,7 +15,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     and_i_sign_in_to_the_provider_interface
 
     when_i_try_to_visit_the_users_page
-    then_i_see_a_404_page
+    then_i_see_a_403_page
     when_i_visit_the_invite_user_wizard
     then_i_see_a_404_page
 
@@ -51,6 +51,10 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
   def when_i_try_to_visit_the_users_page
     visit provider_interface_provider_users_path
+  end
+
+  def then_i_see_a_403_page
+    expect(page).to have_content('Access denied')
   end
 
   def then_i_see_a_404_page
