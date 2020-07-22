@@ -27,7 +27,7 @@ module ProviderInterface
           key: "Permissions: #{permission.provider.name}",
           value: render(PermissionsList.new(permission)),
           change_path: provider_interface_provider_user_edit_permissions_path(@provider_user, provider_id: permission.provider.id),
-          action: 'Change',
+          action: "Change permissions for #{permission.provider.name}",
         }
       end
     end
