@@ -47,34 +47,6 @@ module ProviderInterface
       redirect_to provider_interface_provider_users_path
     end
 
-    def edit_providers
-      provider_user = find_provider_user
-
-      @form = ProviderUserForm.from_provider_user(provider_user)
-      @form.current_provider_user = current_provider_user
-    end
-
-    def update_providers
-      provider_user = find_provider_user
-
-      @form = ProviderUserForm.new(
-        provider_user: provider_user,
-        current_provider_user: current_provider_user,
-        provider_permissions: provider_initial_permissions_params,
-      )
-
-      service = SaveProviderUser.new(
-        provider_user: provider_user,
-        provider_permissions: @form.provider_permissions,
-        deselected_provider_permissions: @form.deselected_provider_permissions,
-      )
-
-      render :edit_providers and return unless @form.valid? && service.call!
-
-      flash[:success] = 'Providers updated'
-      redirect_to provider_interface_provider_user_path(provider_user)
-    end
-
     def edit_permissions
       provider_permissions = find_provider_permissions_model!
       assert_current_user_can_manage_users_for provider_permissions.provider
@@ -113,6 +85,31 @@ module ProviderInterface
 
       flash[:success] = 'User’s account successfully deleted' if service.call!
       redirect_to provider_interface_provider_users_path
+    end
+
+    def edit_providers
+      provider_user = find_provider_user
+      @form = ProviderUserProvidersForm.from_provider_user(
+        provider_user: provider_user,
+        current_provider_user: current_provider_user,
+      )
+    end
+
+    def update_providers
+      provider_user = find_provider_user
+
+      @form = ProviderUserProvidersForm.new(
+        provider_user: provider_user,
+        current_provider_user: current_provider_user,
+        provider_ids: params.dig(:provider_interface_provider_user_providers_form, :provider_ids),
+      )
+
+      if @form.save
+        flash[:success] = 'Providers updated'
+        redirect_to provider_interface_provider_user_path(provider_user)
+      else
+        render :edit_providers
+      end
     end
 
   private
