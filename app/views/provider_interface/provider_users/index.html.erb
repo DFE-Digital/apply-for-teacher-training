@@ -8,19 +8,6 @@
   class: 'govuk-button',
 ) %>
 
-<% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to 'Users', provider_interface_provider_users_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        Provider users
-      </li>
-    </ol>
-  </div>
-<% end %>
-
 <div class="govuk-body">
 <% @provider_users_with_providers.each do |provider_user, providers| %>
   <%= render ProviderInterface::UserListCardComponent.new(
