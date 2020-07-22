@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_14_184239) do
+ActiveRecord::Schema.define(version: 2020_07_17_110837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -318,6 +318,14 @@ ActiveRecord::Schema.define(version: 2020_07_14_184239) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["application_choice_id"], name: "index_notes_on_application_choice_id"
     t.index ["provider_user_id"], name: "index_notes_on_provider_user_id"
+  end
+
+  create_table "other_efl_qualifications", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "grade", null: false
+    t.integer "award_year", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "provider_agreements", force: :cascade do |t|

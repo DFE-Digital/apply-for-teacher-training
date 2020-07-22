@@ -352,6 +352,11 @@ Rails.application.routes.draw do
         get '/toefl/edit' => 'english_foreign_language/toefl#edit', as: :edit_toefl
         patch '/toefl/edit' => 'english_foreign_language/toefl#update'
 
+        get '/other' => 'english_foreign_language/other_efl_qualification#new', as: :other_efl_qualification
+        post '/other' => 'english_foreign_language/other_efl_qualification#create'
+        get '/other/edit' => 'english_foreign_language/other_efl_qualification#edit', as: :edit_other_efl_qualification
+        patch '/other/edit' => 'english_foreign_language/other_efl_qualification#update'
+
         get '/review' => 'english_foreign_language/review#show', as: :english_foreign_language_review
         patch '/review' => 'english_foreign_language/review#complete', as: :english_foreign_language_complete
       end

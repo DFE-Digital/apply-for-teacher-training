@@ -21,6 +21,8 @@ module CandidateInterface
         IeltsReviewComponent.new(qualification)
       when 'ToeflQualification'
         ToeflReviewComponent.new(qualification)
+      when 'OtherEflQualification'
+        OtherEflQualificationReviewComponent.new(qualification)
       end
     end
   end

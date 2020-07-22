@@ -590,6 +590,11 @@ FactoryBot.define do
       qualification_status { 'has_qualification' }
     end
 
+    trait :with_other_qualification do
+      association :efl_qualification, factory: :other_efl_qualification
+      qualification_status { 'has_qualification' }
+    end
+
     trait :qualification_not_needed do
       qualification_status { 'qualification_not_needed' }
     end
@@ -605,5 +610,11 @@ FactoryBot.define do
     registration_number { '123456' }
     total_score { 20 }
     award_year { '1999' }
+  end
+
+  factory :other_efl_qualification do
+    name { 'Cockney Rhyming Slang Proficiency Test' }
+    grade { 10 }
+    award_year { 2001 }
   end
 end
