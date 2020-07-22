@@ -61,7 +61,7 @@ RSpec.describe SaveProviderUser do
     it 'adds permissions flags for the saved user' do
       result = service.call!
 
-      expect(result.provider_permissions.manage_users.map(&:provider)).to eq([another_provider])
+      expect(result.authorisation.providers_that_actor_can_manage_users_for).to eq([another_provider])
     end
   end
 end

@@ -3,6 +3,12 @@ class ProviderAuthorisation
     @actor = actor
   end
 
+  def providers_that_actor_can_manage_users_for
+    Provider.where(
+      id: @actor.provider_permissions.where(manage_users: true).select(:provider_id),
+    )
+  end
+
   def can_manage_users_for_at_least_one_provider?
     ProviderPermissions.exists?(
       provider_user: @actor,
