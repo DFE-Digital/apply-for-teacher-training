@@ -1,16 +1,16 @@
 require 'rails_helper'
 
-RSpec.feature 'Managing provider user permissions' do
+RSpec.feature 'Provider views account page' do
   include DfESignInHelpers
 
-  scenario 'Provider manages permissions for users' do
+  scenario 'Provider views their account page' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_applications_for_two_providers
     and_i_sign_in_to_the_provider_interface
 
     when_i_click_on_the_account_link
-    then_i_see_account_page_with_user_details
-    and_i_see_users_permissions
+    then_i_see_the_account_page_with_my_details
+    and_i_see_my_permissions
     and_i_see_a_link_to_dfe_signin_to_change_details
   end
 
@@ -31,7 +31,7 @@ RSpec.feature 'Managing provider user permissions' do
     end
   end
 
-  def then_i_see_account_page_with_user_details
+  def then_i_see_the_account_page_with_my_details
     @rows = find('div .govuk-summary-list').all('dd')
     expect(@rows[0].text).to eq(@user.first_name)
     expect(@rows[1].text).to eq(@user.last_name)
@@ -39,7 +39,7 @@ RSpec.feature 'Managing provider user permissions' do
     expect(@rows[3].text).to include(@example_provider.name, @another_provider.name)
   end
 
-  def and_i_see_users_permissions
+  def and_i_see_my_permissions
     expect(@rows[4].text).to include('View applications only')
   end
 
