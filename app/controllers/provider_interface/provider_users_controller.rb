@@ -143,7 +143,7 @@ module ProviderInterface
     end
 
     def assert_current_user_can_manage_users_for(provider)
-      access_denied_for_provider(provider) unless current_user_can_manage_users_for?(provider)
+      access_denied_for_provider(provider) unless current_provider_user.authorisation.can_manage_users_for?(provider)
     end
 
     def current_user_can_manage_users_for?(provider)
