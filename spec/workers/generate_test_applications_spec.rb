@@ -7,11 +7,12 @@ RSpec.describe GenerateTestApplications do
     create(:course_option, course: create(:course, :open_on_apply))
   end
 
-  it 'generates 15 test candidates with applications in various states' do
+  it 'generates 18 test candidates with applications in various states' do
     GenerateTestApplications.new.perform
 
-    expect(Candidate.count).to be 16
+    expect(Candidate.count).to be 18
     expect(ApplicationChoice.pluck(:status)).to include(
+      'unsubmitted',
       'awaiting_provider_decision',
       'awaiting_references',
       'offer',
@@ -21,6 +22,10 @@ RSpec.describe GenerateTestApplications do
       'recruited',
       'enrolled',
     )
+    # there is at least one unsubmitted application to a full course
+    expect(ApplicationChoice.where(status: 'unsubmitted').any?(&:course_full?)).to eq true
+    # there is at least one awaiting_references application to a full course
+    expect(ApplicationChoice.where(status: 'awaiting_references').any?(&:course_full?)).to eq true
   end
 
   it 'does not notify Slack', sidekiq: true do

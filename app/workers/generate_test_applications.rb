@@ -13,6 +13,8 @@ class GenerateTestApplications
 
     create states: [:unsubmitted]
     create states: [:awaiting_references]
+    create states: [:unsubmitted], course_full: true
+    create states: [:awaiting_references], course_full: true
     create states: [:application_complete]
     create states: [:awaiting_provider_decision] * 3
     create states: [:offer] * 2
@@ -29,11 +31,12 @@ class GenerateTestApplications
     create states: [:awaiting_provider_decision], apply_again: true
   end
 
-  def create(states:, apply_again: false)
+  def create(states:, apply_again: false, course_full: false)
     @test_applications.create_application(
       courses_to_apply_to: @courses_to_apply_to,
       states: states,
       apply_again: apply_again,
+      course_full: course_full,
     )
   end
 end
