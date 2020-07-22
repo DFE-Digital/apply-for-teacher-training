@@ -11,10 +11,10 @@ class ProviderUser < ActiveRecord::Base
   has_associated_audits
 
   scope :visible_to, lambda { |provider_user|
-    providers_that_user_can_manage = provider_user.provider_permissions.manage_users.select(:provider_id)
+    providers_that_actor_can_manage_users_for = provider_user.authorisation.providers_that_actor_can_manage_users_for.select(:id)
 
     users_that_user_can_see = ProviderPermissions.where(
-      provider_id: providers_that_user_can_manage,
+      provider_id: providers_that_actor_can_manage_users_for,
     ).select(:provider_user_id)
 
     where(id: users_that_user_can_see)
