@@ -45,9 +45,6 @@ gem 'holidays'
 # Monitoring
 gem 'okcomputer'
 
-# feature flags
-gem 'rollout'
-
 # Logging
 gem 'lograge'
 gem 'logstash-logger'
