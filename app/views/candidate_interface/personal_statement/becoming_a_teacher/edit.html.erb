@@ -10,16 +10,16 @@
         <%= t('page_titles.becoming_a_teacher') %>
       </h1>
 
-      <p class="govuk-body govuk-!-font-weight-bold">You do not have to cover everything in this list, but suggested topics include:</p>
+      <p class="govuk-body">You can include:</p>
       <ul class="govuk-list govuk-list--bullet">
-        <li>why you want to be a teacher</li>
-        <li>your passion for your subject and the age group you’ve chosen to teach</li>
-        <li>the welfare and education of children and/or young people</li>
-        <li>the demands and rewards of the profession</li>
-        <li>personal qualities that will make you a good teacher</li>
-        <li>your contribution to the life of the school outside the classroom  – for example, running extra-curricular activities and clubs</li>
-        <li>if you have school experience or have worked as a volunteer with children or young people, give details of what this has taught you</li>
+        <li>your interest in the subject or age group</li>
+        <li>the demands and rewards of teaching</li>
+        <li>the personal qualities that would make you a good teacher</li>
+        <li>how you could contribute to a school outside of the classroom</li>
+        <li>any past experience working with children or young people, and what you learnt</li>
+        <li>your thoughts on welfare and education</li>
       </ul>
+      <p class="govuk-body">If you need help, <%= govuk_link_to 'register with GIT to talk to a teacher training adviser', 'https://register.getintoteaching.education.gov.uk/Register' %>.</p>
 
       <%= f.govuk_text_area :becoming_a_teacher, label: { text: t('application_form.personal_statement.becoming_a_teacher.label'), size: 'm' }, rows: 20, max_words: 600 %>
       <%= f.govuk_submit 'Continue' %>
