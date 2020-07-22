@@ -215,7 +215,6 @@ RSpec.describe ProviderAuthorisation do
           :provider_relationship_permissions,
           ratifying_provider: create(:provider),
           training_provider: training_provider,
-          training_provider_can_view_safeguarding_information: true,
         )
       end
 
@@ -226,7 +225,12 @@ RSpec.describe ProviderAuthorisation do
       end
 
       context 'the course training provider is not permitted, the course accredited provider is permitted' do
-        before { provider_relationship_permissions.update!(ratifying_provider_can_view_safeguarding_information: true) }
+        before do
+          provider_relationship_permissions.update!(
+            ratifying_provider_can_view_safeguarding_information: true,
+            training_provider_can_view_safeguarding_information: false,
+          )
+        end
 
         it { is_expected.to be false }
       end

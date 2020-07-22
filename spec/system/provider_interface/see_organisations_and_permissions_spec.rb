@@ -44,6 +44,8 @@ RSpec.feature 'See organisation permissions' do
       :provider_relationship_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
+      training_provider_can_make_decisions: false,
+      ratifying_provider_can_make_decisions: true,
       ratifying_provider_can_view_safeguarding_information: true,
       training_provider_can_view_safeguarding_information: false,
       setup_at: Time.zone.now,
@@ -66,7 +68,7 @@ RSpec.feature 'See organisation permissions' do
 
   def then_i_can_see_permissions_for_the_ratifying_provider
     expect(page).to have_content("For courses ratified by #{@ratifying_provider.name} and run by #{@training_provider.name}")
-    expect(page).to have_content("The following organisation(s) can see safeguarding information:\n#{@ratifying_provider.name}\nThe")
+    expect(page).to have_content("The following organisation(s) can see safeguarding information:\n#{@ratifying_provider.name}")
   end
 
   def and_i_can_see_permissions_for_the_training_provider
@@ -79,7 +81,7 @@ RSpec.feature 'See organisation permissions' do
 
   def then_i_can_see_permissions_for_the_training_provider
     expect(page).to have_content("For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}")
-    expect(page).to have_content("Provider\nThe following organisation(s) can only view applications:\n#{@training_provider.name}\nChange")
+    expect(page).to have_content("The following organisation(s) can only view applications:\n#{@training_provider.name}")
 
     expect(page).to have_link('Change', href: provider_interface_edit_provider_relationship_permissions_path(
       ratifying_provider_id: @ratifying_provider.id, training_provider_id: @training_provider.id,
