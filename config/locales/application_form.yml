@@ -568,6 +568,10 @@ en:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
               greater_than_limit: 'Enter a year before %{date}'
+        candidate_interface/english_foreign_language/type_form:
+          attributes:
+            type:
+              blank: Choose your qualification type
         candidate_interface/english_foreign_language/ielts_form:
           attributes:
             trf_number:
