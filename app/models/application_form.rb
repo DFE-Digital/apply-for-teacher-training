@@ -194,8 +194,12 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
-  def return_other_nationality
-    first_nationality if first_nationality != 'British' && first_nationality != 'Irish' && first_nationality != 'Multiple'
+  def build_nationalties_hash
+    CandidateInterface::GetNationalitiesFormHash.new(application_form: self).call
+  end
+
+  def nationalities
+    [first_nationality, second_nationality, third_nationality, fourth_nationality, fifth_nationality].reject(&:nil?)
   end
 
 private

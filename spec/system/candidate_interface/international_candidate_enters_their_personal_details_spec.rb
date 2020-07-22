@@ -18,27 +18,28 @@ RSpec.feature 'Entering their personal details' do
     and_i_submit_the_form
     then_i_see_the_nationalites_page
 
-    when_i_choose_that_i_am_british
+    when_i_check_that_i_am_british
     and_i_submit_the_form
     then_i_see_the_personal_details_review_page
     and_i_can_check_my_answers
 
     when_i_click_change_on_my_nationality
-    and_i_choose_that_i_am_irish
+    and_i_uncheck_that_i_am_british
+    and_i_check_that_i_am_irish
     and_i_submit_the_form
     then_i_see_the_personal_details_review_page
     and_i_see_my_updated_nationality
 
     when_i_click_change_on_my_nationality
-    and_i_choose_other
-    and_select_i_am_british
+    and_i_uncheck_that_i_am_irish
+    and_i_check_other
+    and_select_i_am_english
     and_i_submit_the_form
     then_i_see_the_personal_details_review_page
-    and_i_see_i_am_british
+    and_i_see_i_am_english
 
     when_i_click_change_on_my_nationality
-    and_i_choose_other
-    and_i_select_i_am_german
+    and_i_select_i_am_german_dutch_and_belgian
     and_i_submit_the_form
     then_i_see_the_right_to_work_or_study_page
 
@@ -110,8 +111,8 @@ RSpec.feature 'Entering their personal details' do
     expect(page).to have_current_path candidate_interface_nationalities_path
   end
 
-  def when_i_choose_that_i_am_british
-    choose 'British'
+  def when_i_check_that_i_am_british
+    check 'British'
   end
 
   def then_i_see_the_personal_details_review_page
@@ -128,28 +129,47 @@ RSpec.feature 'Entering their personal details' do
     all('.govuk-summary-list__actions')[2].click_link 'Change'
   end
 
-  def and_i_choose_that_i_am_irish
-    choose 'Irish'
+  def and_i_uncheck_that_i_am_british
+    uncheck 'British'
+  end
+
+  def and_i_check_that_i_am_irish
+    check 'Irish'
   end
 
   def and_i_see_my_updated_nationality
     expect(page).to have_content 'Irish'
+    expect(page).not_to have_content 'British'
   end
 
-  def and_i_choose_other
-    choose 'Other'
+  def and_i_uncheck_that_i_am_irish
+    uncheck 'Irish'
   end
 
-  def and_select_i_am_british
-    select 'British'
+  def and_i_check_other
+    check 'Other'
   end
 
-  def and_i_see_i_am_british
-    expect(page).to have_content 'British'
+  def and_select_i_am_english
+    within all('.govuk-form-group')[1] do
+      select 'English'
+    end
   end
 
-  def and_i_select_i_am_german
-    select 'German'
+  def and_i_see_i_am_english
+    expect(page).to have_content 'English'
+  end
+
+  def and_i_select_i_am_german_dutch_and_belgian
+    within all('.govuk-form-group')[1] do
+      select 'Belgian'
+    end
+    within all('.govuk-form-group')[2] do
+      select 'Dutch'
+    end
+    within all('.govuk-form-group')[3] do
+      select 'German'
+    end
   end
 
   def and_i_see_i_am_german
@@ -177,7 +197,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_i_can_see_my_updated_details
-    expect(page).to have_content 'German'
+    expect(page).to have_content 'Belgian, Dutch, and German'
     expect(page).to have_content 'I do not know'
   end
 

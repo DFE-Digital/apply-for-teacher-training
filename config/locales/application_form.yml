@@ -432,9 +432,14 @@ en:
               inclusion: Select your nationality from the list
             second_nationality:
               inclusion: Select your second nationality from the list
-            other_nationality:
-              blank: Select your nationality from the list
-              inclusion: Select your nationality from the list
+            other_nationality1:
+              inclusion: Select your third nationality from the list
+            other_nationality2:
+              inclusion: Select your fourth nationality from the list
+            other_nationality3:
+              inclusion: Select your fifth nationality from the list
+            other:
+              blank: Select your nationality
         candidate_interface/languages_form:
           attributes:
             english_main_language:
