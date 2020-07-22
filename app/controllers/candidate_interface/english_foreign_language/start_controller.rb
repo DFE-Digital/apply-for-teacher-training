@@ -22,7 +22,8 @@ module CandidateInterface
       def start_params
         params
           .fetch(:candidate_interface_english_foreign_language_start_form, {})
-          .permit(:has_efl_qualification)
+          .permit(:qualification_status, :no_qualification_details)
+          .merge(application_form: current_application)
       end
     end
   end

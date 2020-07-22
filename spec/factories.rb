@@ -574,16 +574,24 @@ FactoryBot.define do
 
   factory :english_proficiency do
     application_form
-    qualification_status { 'no' }
+    qualification_status { 'no_qualification' }
+
+    trait :no_qualification do
+      qualification_status { 'no_qualification' }
+    end
 
     trait :with_ielts_qualification do
       association :efl_qualification, factory: :ielts_qualification
-      qualification_status { 'yes' }
+      qualification_status { 'has_qualification' }
     end
 
     trait :with_toefl_qualification do
       association :efl_qualification, factory: :toefl_qualification
-      qualification_status { 'yes' }
+      qualification_status { 'has_qualification' }
+    end
+
+    trait :qualification_not_needed do
+      qualification_status { 'qualification_not_needed' }
     end
   end
 

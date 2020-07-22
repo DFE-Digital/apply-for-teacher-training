@@ -4,20 +4,40 @@ module CandidateInterface
       include ActiveModel::Model
       include Rails.application.routes.url_helpers
 
-      attr_accessor :has_efl_qualification
+      attr_accessor :qualification_status, :no_qualification_details, :application_form
 
-      validates :has_efl_qualification, presence: true
+      validates :qualification_status, presence: true
+      validates :no_qualification_details, word_count: { maximum: 200 }
 
       def save
         return false unless valid?
 
-        true
+        raise_error_unless_application_form
+
+        if qualification_status == 'has_qualification'
+          true
+        else
+          UpdateEnglishProficiency.new(
+            application_form,
+            qualification_status: qualification_status,
+            no_qualification_details: no_qualification_details,
+          ).call
+        end
       end
 
       def next_path
-        case has_efl_qualification
-        when 'yes'
+        if qualification_status == 'has_qualification'
           candidate_interface_english_foreign_language_type_path
+        else
+          candidate_interface_english_foreign_language_review_path
+        end
+      end
+
+    private
+
+      def raise_error_unless_application_form
+        if application_form.blank?
+          raise MissingApplicationFormError
         end
       end
     end
