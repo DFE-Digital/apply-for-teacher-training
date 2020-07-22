@@ -1,47 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderRelationshipPermissionsForm do
-  let(:permissions) { create(:provider_relationship_permissions) }
+  let(:permissions) { build_stubbed(:provider_relationship_permissions) }
+  let(:permissions_attrs) { {} }
 
   subject(:form) do
-    described_class.new(permissions: permissions)
+    described_class.new(permissions_attrs.merge(permissions_model: permissions))
   end
 
-  describe '#assign_permissions_attributes' do
-    it 'assigns permissions attributes for accredited and training permissions' do
-      allow(permissions).to receive(:assign_attributes)
-
-      form.assign_permissions_attributes({ training_provider_can_view_safeguarding_information: 'true' })
-
-      expect(permissions).to have_received(:assign_attributes)
-        .with({
-          ratifying_provider_can_make_decisions: false,
-          training_provider_can_make_decisions: false,
-          ratifying_provider_can_view_safeguarding_information: false,
-          training_provider_can_view_safeguarding_information: 'true',
-        })
-    end
-  end
-
-  describe '#update!' do
+  describe '#save!' do
     let(:permissions_attrs) do
-      { ratifying_provider_can_make_decisions: 'true', training_provider_can_make_decisions: 'true' }
+      { make_decisions: %w[ratifying training] }
     end
 
     before do
-      allow(permissions).to receive(:update!).and_return(true)
+      allow(permissions).to receive(:assign_attributes)
+      allow(permissions).to receive(:save!)
     end
 
     it 'updates accredited and training provider permissions models' do
-      form.update!(permissions_attrs)
+      form.save!
 
-      expect(permissions).to have_received(:update!)
+      expect(permissions).to have_received(:assign_attributes)
         .with({
-          ratifying_provider_can_make_decisions: 'true',
-          training_provider_can_make_decisions: 'true',
-          ratifying_provider_can_view_safeguarding_information: false,
-          training_provider_can_view_safeguarding_information: false,
+          'ratifying_provider_can_make_decisions' => true,
+          'training_provider_can_make_decisions' => true,
+          'ratifying_provider_can_view_safeguarding_information' => false,
+          'training_provider_can_view_safeguarding_information' => true,
         })
+
+      expect(permissions).to have_received(:save!)
     end
   end
 end

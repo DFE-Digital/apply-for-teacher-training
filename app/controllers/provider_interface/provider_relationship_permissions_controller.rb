@@ -4,15 +4,15 @@ module ProviderInterface
     before_action :render_403_unless_access_permitted
 
     def edit
-      initialize_form
+      @form = ProviderRelationshipPermissionsForm.new(permissions_model: permissions_model)
     end
 
     def update
-      initialize_form
+      @form = ProviderRelationshipPermissionsForm.new(permissions_params.merge(permissions_model: permissions_model))
 
-      if @form.update!(provider_relationship_permissions_form_params)
+      if @form.save!
         flash[:success] = 'Permissions successfully changed'
-        redirect_to provider_interface_organisation_path(provider_relationship_permissions.training_provider)
+        redirect_to provider_interface_organisation_path(permissions_model.training_provider)
       else
         flash[:warning] = 'Unable to save permissions, please try again. If problems persist please contact support.'
         render :edit
@@ -21,41 +21,27 @@ module ProviderInterface
 
   private
 
-    def initialize_form
-      @form = ProviderRelationshipPermissionsForm.new(permissions: provider_relationship_permissions)
+    def permissions_model
+      ProviderRelationshipPermissions.find_by(
+        ratifying_provider_id: params[:ratifying_provider_id],
+        training_provider_id: params[:training_provider_id],
+      )
     end
 
-    def provider_relationship_permissions
-      @provider_relationship_permissions ||= ProviderRelationshipPermissions.find_by(provider_relationship_params)
-    end
-
-    def provider_relationship_params
-      params.permit(:ratifying_provider_id, :training_provider_id).to_h
-    end
-
-    def provider_relationship_permissions_form_params
+    def permissions_params
       return {} unless params.key?(:provider_interface_provider_relationship_permissions_form)
 
-      params
-        .require(:provider_interface_provider_relationship_permissions_form)
-        .require(:permissions)
-        .permit(*ProviderRelationshipPermissions.permissions_fields)
-        .to_h
-    end
-
-    def provider_relationship_permissions_params
-      provider_relationship_permissions_form_params.fetch(:permissions, {})
+      params.require(:provider_interface_provider_relationship_permissions_form)
+            .permit(make_decisions: [], view_safeguarding_information: []).to_h
     end
 
     def render_404_unless_permissions_found
-      render_404 if provider_relationship_permissions.blank?
+      render_404 if permissions_model.blank?
     end
 
     def render_403_unless_access_permitted
-      training_provider = provider_relationship_permissions.training_provider
-
       render_403 unless ProviderAuthorisation.new(actor: current_provider_user)
-        .can_manage_organisation?(provider: training_provider)
+        .can_manage_organisation?(provider: permissions_model.training_provider)
     end
   end
 end
