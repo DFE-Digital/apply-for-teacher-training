@@ -13,7 +13,7 @@ const initIeltsBandScoreAutocomplete = () => {
       confirmOnBlur: false
     });
   } catch (err) {
-    console.error("Could not enhance courses select:", err);
+    console.error("Could not enhance IELTS score select:", err);
   }
 };
 
