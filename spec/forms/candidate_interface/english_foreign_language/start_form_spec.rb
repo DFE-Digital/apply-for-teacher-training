@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::StartForm, type: :mod
 
     it 'raises an error if no application_form present' do
       expect { valid_form.save }.to raise_error(
-        CandidateInterface::EnglishForeignLanguage::StartForm::MissingApplicationFormError,
+        CandidateInterface::EnglishForeignLanguage::MissingApplicationFormError,
       )
     end
 

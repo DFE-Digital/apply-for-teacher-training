@@ -1,7 +1,5 @@
 module CandidateInterface
   module EnglishForeignLanguage
-    class MissingApplicationFormError < StandardError; end
-
     class ToeflForm
       include ActiveModel::Model
       include ValidationUtils
