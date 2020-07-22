@@ -8,7 +8,7 @@ module CandidateInterface
       {
         british: set_british_attribute,
         irish: set_irish_attribute,
-        other: other_nationalities.present?,
+        other: other_nationalities.present? ? 'other' : nil,
         other_nationality1: other_nationalities[0],
         other_nationality2: other_nationalities[1],
         other_nationality3: other_nationalities[2],
