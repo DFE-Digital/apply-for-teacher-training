@@ -12,25 +12,6 @@ RSpec.describe Provider, type: :model do
     end
   end
 
-  describe '.with_permissions_visible_to' do
-    it 'scopes results to providers the given user can manage permissions for' do
-      a_provider = create(:provider)
-      training_provider = create(:provider, name: 'ZZZ')
-      ratifying_provider = create(:provider, name: 'AAA')
-
-      provider_user = create(:provider_user, providers: [training_provider, ratifying_provider, a_provider])
-      create(
-        :provider_relationship_permissions,
-        ratifying_provider: ratifying_provider,
-        training_provider: training_provider,
-      )
-
-      expect(described_class.with_permissions_visible_to(provider_user)).to eq(
-        [ratifying_provider, training_provider],
-      )
-    end
-  end
-
   describe '#onboarded?' do
     it 'depends on the presence of a signed Data sharing agreement' do
       provider_with_dsa = create(:provider, :with_signed_agreement)

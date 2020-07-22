@@ -24,6 +24,27 @@ class ProviderAuthorisation
     )
   end
 
+  def providers_that_actor_can_manage_organisations_for
+    provider_ids = ProviderRelationshipPermissions
+      .where(training_provider: @actor.providers)
+      .or(
+        ProviderRelationshipPermissions.where(
+          ratifying_provider_id: @actor.providers,
+        ),
+      )
+      .pluck(:ratifying_provider_id, :training_provider_id).flatten
+
+    manageable_provider_ids = ProviderPermissions
+      .where(provider_id: provider_ids, provider_user: @actor, manage_organisations: true)
+      .pluck(:provider_id)
+
+    Provider.where(id: manageable_provider_ids).order(:name)
+  end
+
+  def can_manage_organisations_for_at_least_one_provider?
+    providers_that_actor_can_manage_organisations_for.any?
+  end
+
   def can_make_offer?(application_choice:, course_option_id:)
     OfferAuthorisation.new(actor: @actor).can_make_offer?(application_choice: application_choice, course_option_id: course_option_id)
   end
