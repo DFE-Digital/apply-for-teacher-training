@@ -48,7 +48,7 @@ RSpec.describe GetAllChangeOptionsFromOfferedOption do
       course = course_option.course
       create(:course_option, :part_time, course: course)
 
-      expect(returned_hash[:available_study_modes]).to eq(%w[full_time part_time])
+      expect(returned_hash[:available_study_modes]).to match_array(%w[full_time part_time])
     end
 
     it 'includes all course options for current course (subject to study_mode)' do

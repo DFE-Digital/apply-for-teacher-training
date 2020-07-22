@@ -13,6 +13,21 @@ RSpec.describe ProviderAuthorisation do
     end
   end
 
+  describe '#can_manage_users_for_at_least_one_provider?' do
+    it 'is false for users without the manage users permission' do
+      provider_user = create(:provider_user)
+
+      expect(described_class.new(actor: provider_user).can_manage_users_for_at_least_one_provider?).to be false
+    end
+
+    it 'is true for users with the manage users permission for any organisation' do
+      provider_user = create(:provider_user)
+      create(:provider_permissions, provider_user: provider_user, manage_users: true)
+
+      expect(described_class.new(actor: provider_user).can_manage_users_for_at_least_one_provider?).to be true
+    end
+  end
+
   describe '#can_make_offer?' do
     let(:training_provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
     let(:training_provider) { training_provider_user.providers.first }
