@@ -9,6 +9,7 @@ import initDegreeInstitutionAutocomplete from "./degree-institution-autocomplete
 import initDegreeInstitutionCountryAutocomplete from "./degree-institution-country-autocomplete";
 import initDegreeSubjectAutocomplete from "./degree-subject-autocomplete";
 import initDegreeTypeAutocomplete from "./degree-type-autocomplete";
+import initIeltsBandScoreAutocomplete from "./ielts-band-score-autocomplete";
 import initWarnOnUnsavedChanges from "./warn-on-unsaved-changes";
 import providerFilter from "./provider-filter";
 
@@ -24,5 +25,6 @@ initDegreeInstitutionAutocomplete();
 initDegreeInstitutionCountryAutocomplete();
 initDegreeSubjectAutocomplete();
 initDegreeTypeAutocomplete();
+initIeltsBandScoreAutocomplete();
 initWarnOnUnsavedChanges();
 providerFilter();

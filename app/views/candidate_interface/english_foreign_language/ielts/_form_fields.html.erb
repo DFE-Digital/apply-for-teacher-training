@@ -3,11 +3,14 @@
   label: { text: 'Test report form (TRF) number', size: 'm' },
   hint_text: 'For example, 02GB0674SOOM599A') %>
 
-<%= f.govuk_text_field(
+<%= f.govuk_collection_select(
   :band_score,
+  CandidateInterface::EnglishForeignLanguage::IeltsForm.band_score_drop_down_options,
+  :value,
+  :option,
   label: { text: 'Overall band score', size: 'm' },
   hint_text: 'For example, 7.5',
-  width: 4) %>
+  ) %>
 
 <%= f.govuk_text_field(
   :award_year,

@@ -1,6 +1,8 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class ToeflController < CandidateInterfaceController
+      include EflRootConcern
+
       def new
         render_404 unless FeatureFlag.active?(:efl_section)
 
@@ -18,7 +20,9 @@ module CandidateInterface
       end
 
       def edit
-        toefl = current_application.english_proficiency.efl_qualification
+        toefl = ToeflQualification.where(id: current_application.english_proficiency&.efl_qualification_id).first
+        redirect_to_efl_root and return unless toefl
+
         @toefl_form = EnglishForeignLanguage::ToeflForm.new.fill(toefl: toefl)
       end
 

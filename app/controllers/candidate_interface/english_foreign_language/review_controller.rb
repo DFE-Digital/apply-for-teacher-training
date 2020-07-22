@@ -1,6 +1,8 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class ReviewController < CandidateInterfaceController
+      include EflRootConcern
+
       before_action :check_for_english_proficiency
 
       def show
@@ -20,7 +22,7 @@ module CandidateInterface
 
       def check_for_english_proficiency
         if english_proficiency.blank?
-          redirect_to candidate_interface_english_foreign_language_root_path
+          redirect_to_efl_root
         end
       end
 
