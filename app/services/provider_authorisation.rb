@@ -3,7 +3,7 @@ class ProviderAuthorisation
     @actor = actor
   end
 
-  def can_manage_users?
+  def can_manage_users_for_at_least_one_provider?
     ProviderPermissions.exists?(
       provider_user: @actor,
       manage_users: true,

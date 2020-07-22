@@ -109,7 +109,7 @@ module ProviderInterface
     end
 
     def require_manage_user_permission!
-      render_404 unless current_provider_user.authorisation.can_manage_users?
+      render_404 unless current_provider_user.authorisation.can_manage_users_for_at_least_one_provider?
     end
 
     def find_provider_user
