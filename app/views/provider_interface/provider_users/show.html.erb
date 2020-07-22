@@ -1,6 +1,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render ProviderInterface::ProviderUserDetailsComponent.new(
+      current_provider_user: current_provider_user,
       provider_user: @provider_user,
       provider_permissions: @provider_user.provider_permissions,
       possible_permissions: @possible_permissions,

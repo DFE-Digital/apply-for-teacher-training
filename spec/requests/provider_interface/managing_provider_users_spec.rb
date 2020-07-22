@@ -39,28 +39,4 @@ RSpec.describe 'ProviderUserController actions' do
       expect(response).to be_forbidden
     end
   end
-
-  context 'POST update_providers when no providers are selected' do
-    let(:provider_user_to_edit) { create(:provider_user, providers: [provider]) }
-
-    before { provider_user.provider_permissions.update_all(manage_users: true) }
-
-    it 'renders the edit form with errors' do
-      patch(
-        provider_interface_provider_user_update_providers_path(provider_user_to_edit),
-        params: {
-          provider_interface_provider_user_form: {
-            provider_permissions_forms: {
-              provider.id => { provider_permission: { provider_id: provider.id } },
-            },
-          },
-        },
-      )
-
-      expect(response).to have_http_status(:success)
-
-      errors = request.controller_instance.instance_variable_get(:@form).errors
-      expect(errors[:provider_permissions]).not_to be_empty
-    end
-  end
 end

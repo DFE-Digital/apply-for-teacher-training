@@ -1,35 +1,19 @@
-<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-  <h1 class="govuk-fieldset__heading">
-    <span class="govuk-caption-xl"><%= @form.provider_user.full_name %></span>
-    Change permissions
-  </h1>
-</legend>
+<% content_for :before_content, govuk_back_link_to(provider_interface_provider_user_path(@form.provider_user)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @form, url: provider_interface_provider_user_update_providers_path do |f| %>
       <%= f.govuk_error_summary %>
+      <%= f.govuk_check_boxes_fieldset :provider do %>
 
-      <%= f.govuk_check_boxes_fieldset :provider, legend: { text: 'Provider' } do %>
-        <div class="app-checkboxes-scroll">
-          <% f.object.forms_for_possible_permissions.each do |permission_form| %>
-            <%= f.fields_for "provider_permissions_forms[]", permission_form do |pf| %>
-              <%= pf.govuk_check_box :active, true, multiple: false,
-                                     label: { text: permission_form.provider.name_and_code } do %>
-                <%= pf.fields_for :provider_permission, permission_form.provider_permission do |ppf| %>
-                  <%= ppf.hidden_field :provider_id %>
-                  <%= ppf.govuk_check_boxes_fieldset :permissions, legend: { text: 'Choose permissions', size: 's' } do %>
-                    <%= ppf.govuk_check_box :manage_users, true, multiple: false, label: { text: 'Manage users' } %>
-                    <%= ppf.govuk_check_box :view_safeguarding_information, true, multiple: false,
-                                            label: { text: 'View safeguarding information' } %>
-                    <%= ppf.govuk_check_box :make_decisions, true, multiple: false,
-                                            label: { text: 'Make decisions' } %>
-                  <% end %>
-                <% end %>
-              <% end %>
-            <% end %>
-          <% end %>
-        </div>
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h1 class="govuk-fieldset__heading">
+            <span class="govuk-caption-xl"><%= @form.provider_user.full_name %></span>
+             Change the organisations this user will have access to
+          </h1>
+        </legend>
+
+        <%= f.govuk_collection_check_boxes :provider_ids, @form.providers_that_actor_can_manage_users_for, :id, :name_and_code %>
       <% end %>
 
       <%= f.govuk_submit 'Save' %>
