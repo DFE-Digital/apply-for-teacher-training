@@ -356,8 +356,6 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.4)
-    rollout (2.5.0)
-      redis (~> 4.0)
     rouge (3.21.0)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
@@ -547,7 +545,6 @@ DEPENDENCIES
   redcarpet
   request_store-sidekiq
   request_store_rails
-  rollout
   rouge
   rspec-benchmark
   rspec-rails
