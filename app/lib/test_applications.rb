@@ -13,7 +13,7 @@ class TestApplications
     end
   end
 
-  def create_application(states:, courses_to_apply_to: nil, apply_again: false)
+  def create_application(states:, courses_to_apply_to: nil, apply_again: false, course_full: false)
     candidate = nil
 
     if apply_again
@@ -38,10 +38,17 @@ class TestApplications
       )
     end
 
-    courses_to_apply_to ||= Course.joins(:course_options)
-      .open_on_apply
+    courses_to_apply_to ||= Course.joins(:course_options).open_on_apply
+    courses_to_apply_to =
+      if course_full
+        # Always use the first n courses, so that we can reliably generate
+        # application choices to full courses without randomly affecting the
+        # vacancy status of the entire set of available courses.
 
-    courses_to_apply_to = courses_to_apply_to.sample(states.count)
+        fill_vacancies(courses_to_apply_to.first(states.size))
+      else
+        courses_to_apply_to.sample(states.count)
+      end
 
     # it does not make sense to apply to the same course multiple times
     # in the course of the same application, and it's forbidden in the UI.
@@ -303,5 +310,14 @@ class TestApplications
       audit.update_columns(created_at: time)
       @last_audit_id = audit.id
     end
+  end
+
+  def fill_vacancies(courses)
+    courses.each do |course|
+      unless course.full?
+        course.course_options.update_all(vacancy_status: :no_vacancies)
+      end
+    end
+    courses
   end
 end

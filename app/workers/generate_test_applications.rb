@@ -36,12 +36,7 @@ class GenerateTestApplications
       courses_to_apply_to: @courses_to_apply_to,
       states: states,
       apply_again: apply_again,
+      course_full: course_full,
     )
-
-    if course_full
-      application = ApplicationForm.last
-      choice = application.application_choices.first
-      choice.course.course_options.update_all(vacancy_status: 'no_vacancies')
-    end
   end
 end
