@@ -12,6 +12,7 @@ import initDegreeTypeAutocomplete from "./degree-type-autocomplete";
 import initIeltsBandScoreAutocomplete from "./ielts-band-score-autocomplete";
 import initWarnOnUnsavedChanges from "./warn-on-unsaved-changes";
 import providerFilter from "./provider-filter";
+import nationalitiesComponent from "./nationalities-component";
 
 import "accessible-autocomplete/dist/accessible-autocomplete.min.css";
 import "../styles/application.scss";
@@ -28,3 +29,4 @@ initDegreeTypeAutocomplete();
 initIeltsBandScoreAutocomplete();
 initWarnOnUnsavedChanges();
 providerFilter();
+nationalitiesComponent();
