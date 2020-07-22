@@ -596,6 +596,7 @@ en:
               blank: Enter your registration number
             total_score:
               blank: Enter your total score
+              not_a_number: Enter a number
             award_year:
               blank: Enter year the qualification was awarded
               invalid: Enter a real year

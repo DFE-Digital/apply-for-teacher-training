@@ -7,7 +7,7 @@ module CandidateInterface
       attr_accessor :registration_number, :total_score, :award_year, :application_form
 
       validates :registration_number, presence: true, length: { maximum: 255 }
-      validates :total_score, presence: true, length: { maximum: 255 }
+      validates :total_score, numericality: true, presence: true, length: { maximum: 255 }
       validates :award_year, presence: true
       validate :award_year_is_a_valid_year
 
