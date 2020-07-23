@@ -336,8 +336,10 @@ Rails.application.routes.draw do
       end
 
       scope '/english-as-a-foreign-language' do
-        get '/' => 'english_foreign_language/start#new', as: :english_foreign_language_root
+        get '/' => 'english_foreign_language/start#new', as: :english_foreign_language_start
         post '/' => 'english_foreign_language/start#create'
+        get '/proficiency/edit' => 'english_foreign_language/start#edit', as: :english_foreign_language_edit_start
+        patch '/proficiency/edit' => 'english_foreign_language/start#update'
 
         get '/type' => 'english_foreign_language/type#new', as: :english_foreign_language_type
         post '/type' => 'english_foreign_language/type#create'

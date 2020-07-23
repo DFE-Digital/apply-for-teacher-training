@@ -13,7 +13,7 @@ class IeltsReviewComponent < ViewComponent::Base
         key: 'Do you have an English as a foreign language qualification?',
         value: 'Yes',
         action: 'Change whether or not you have a qualification',
-        change_path: candidate_interface_english_foreign_language_root_path,
+        change_path: candidate_interface_english_foreign_language_edit_start_path,
       },
       {
         key: 'Type of qualification',
