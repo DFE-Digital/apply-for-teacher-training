@@ -15,7 +15,7 @@ class LaunchMakeDecisionsAndManageUsers
   def give_manage_users_to_the_user_who_has_signed_the_dsa!
     ProviderAgreement.data_sharing_agreements.find_each do |a|
       user_permissions = a.provider_user.provider_permissions.find_by(provider: a.provider)
-      user_permissions.update(manage_users: true)
+      user_permissions&.update(manage_users: true)
     end
   end
 
