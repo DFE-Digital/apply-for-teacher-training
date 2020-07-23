@@ -91,6 +91,49 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     when_i_click_replace_course_choice
     then_i_arrive_at_my_dashboard
     and_my_new_course_choice_is_part_time
+
+    given_my_new_course_choice_becomes_full
+
+    given_there_is_a_provider_with_just_the_right_courses
+
+    # @new_course
+    when_i_choose_a_new_provider
+    and_i_choose_a_new_course
+    and_click_continue
+    then_i_see_the_confirm_replacement_course_choice_page_for_my_new_course
+    and_i_can_see_my_new_course
+
+    # @new_course_with_multiple_sites
+    when_i_choose_a_new_provider
+    and_click_continue
+    and_i_choose_a_new_course_with_multiple_sites
+    and_click_continue
+    and_i_choose_a_new_location
+    and_click_continue
+    then_i_see_the_confirm_replacement_course_choice_page_for_my_new_course_with_multiple_sites
+    and_i_can_see_my_new_course_with_multiple_sites
+
+    # @new_course_with_multiple_study_modes
+    when_i_choose_a_new_provider
+    and_click_continue
+    and_i_choose_a_new_course_with_multiple_study_modes
+    and_click_continue
+    and_i_choose_a_new_study_mode
+    and_click_continue
+    then_i_see_the_confirm_replacement_course_choice_page_for_my_new_course_with_multiple_study_modes
+    and_i_can_see_my_new_course_with_multiple_study_modes
+
+    # @new_course_with_multiple_sites_and_study_modes
+    when_i_choose_a_new_provider
+    and_click_continue
+    and_i_choose_a_new_course_with_multiple_sites_and_study_modes
+    and_click_continue
+    and_i_choose_a_new_study_mode
+    and_click_continue
+    and_i_choose_a_new_location
+    and_click_continue
+    then_i_see_the_confirm_replacement_course_choice_page_for_my_new_course_with_multiple_sites_and_study_modes
+    and_i_can_see_my_new_course_with_multiple_sites_and_study_modes
   end
 
   def given_the_replace_full_or_withdrawn_application_choices_is_active?
@@ -254,14 +297,148 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   end
 
   def and_i_can_see_my_new_course_choices_study_mode
-    expect(page).to have_content @application_choice.course_option.study_mode.humanize
+    expect(page).to have_content @part_time_course_option.study_mode.humanize
   end
 
   def and_i_can_see_my_old_course_choices_study_mode
-    expect(page).to have_content @part_time_course_option.study_mode.humanize
+    expect(page).to have_content @application_choice.course_option.study_mode.humanize
   end
 
   def and_my_new_course_choice_is_part_time
     expect(page).to have_content @part_time_course_option.study_mode.humanize
+  end
+
+  def given_my_new_course_choice_becomes_full
+    @part_time_course_option.no_vacancies!
+  end
+
+  def given_there_is_a_provider_with_just_the_right_courses
+    @new_provider = create(:provider, :with_signed_agreement)
+    @site1 = create(:site, provider: @new_provider)
+    @site2 = create(:site, provider: @new_provider)
+
+    @new_course = create(:course, :open_on_apply, provider: @new_provider)
+    create(:course_option, site: @site1, course: @new_course)
+
+    @new_course_with_multiple_sites = create(:course, :open_on_apply, provider: @new_provider)
+    create(:course_option, site: @site1, course: @new_course_with_multiple_sites)
+    create(:course_option, site: @site2, course: @new_course_with_multiple_sites)
+
+    @new_course_with_multiple_study_modes = create(:course, :with_both_study_modes, :open_on_apply, provider: @new_provider)
+    create(:course_option, :full_time, site: @site1, course: @new_course_with_multiple_study_modes)
+    create(:course_option, :part_time, site: @site1, course: @new_course_with_multiple_study_modes)
+
+    @new_course_with_multiple_sites_and_study_modes = create(:course, :with_both_study_modes, :open_on_apply, provider: @new_provider)
+    create(:course_option, :full_time, site: @site1, course: @new_course_with_multiple_sites_and_study_modes)
+    create(:course_option, :full_time, site: @site2, course: @new_course_with_multiple_sites_and_study_modes)
+    create(:course_option, :part_time, site: @site1, course: @new_course_with_multiple_sites_and_study_modes)
+    create(:course_option, :part_time, site: @site2, course: @new_course_with_multiple_sites_and_study_modes)
+  end
+
+  def when_i_choose_a_new_provider
+    when_i_arrive_at_my_application_dashboard
+    then_i_see_that_one_of_my_choices_in_not_available
+
+    when_i_click_update_my_course_choice
+    and_i_choose_a_different_course
+    and_click_continue
+    and_i_know_where_i_want_to_apply
+    and_click_continue
+    and_i_choose_a_new_provider
+    and_click_continue
+  end
+
+  def and_i_choose_a_different_course
+    choose 'Choose a different course'
+  end
+
+  def and_i_know_where_i_want_to_apply
+    choose 'Yes, I know where I want to apply'
+  end
+
+  def and_i_choose_a_new_provider
+    select @new_provider.name_and_code
+  end
+
+  def and_i_choose_a_new_course
+    choose @new_course.name_and_code
+  end
+
+  def and_i_choose_a_new_location
+    choose @site1.name
+  end
+
+  def and_i_choose_a_new_study_mode
+    choose 'Full time'
+  end
+
+  def and_i_choose_a_new_course_with_multiple_sites
+    choose @new_course_with_multiple_sites.name_and_code
+  end
+
+  def and_i_choose_a_new_course_with_multiple_study_modes
+    choose @new_course_with_multiple_study_modes.name_and_code
+  end
+
+  def and_i_choose_a_new_course_with_multiple_sites_and_study_modes
+    choose @new_course_with_multiple_sites_and_study_modes.name_and_code
+  end
+
+  def then_i_see_the_confirm_replacement_course_choice_page_for_my_new_course
+    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice_path(
+      @application.application_choices.last.id,
+      @new_course.course_options.first.id,
+      provider_id: @new_provider.id,
+    )
+  end
+
+  def then_i_see_the_confirm_replacement_course_choice_page_for_my_new_course_with_multiple_sites
+    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice_path(
+      @application.application_choices.last.id,
+      @new_course_with_multiple_sites.course_options.first.id,
+      provider_id: @new_provider.id,
+      course_id: @new_course_with_multiple_sites.id,
+      study_mode: 'full_time',
+    )
+  end
+
+  def then_i_see_the_confirm_replacement_course_choice_page_for_my_new_course_with_multiple_study_modes
+    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice_path(
+      @application.application_choices.last.id,
+      @new_course_with_multiple_study_modes.course_options.first.id,
+      provider_id: @new_provider.id,
+      course_id: @new_course_with_multiple_study_modes.id,
+      study_mode: 'full_time',
+    )
+  end
+
+  def then_i_see_the_confirm_replacement_course_choice_page_for_my_new_course_with_multiple_sites_and_study_modes
+    expect(page).to have_current_path candidate_interface_confirm_replacement_course_choice_path(
+      @application.application_choices.last.id,
+      @new_course_with_multiple_sites_and_study_modes.course_options.first.id,
+      provider_id: @new_provider.id,
+      course_id: @new_course_with_multiple_sites_and_study_modes.id,
+      study_mode: 'full_time',
+    )
+  end
+
+  def and_i_can_see_my_new_course
+    expect(page).to have_content @new_course.name
+  end
+
+  def and_i_can_see_my_new_course_with_multiple_sites
+    expect(page).to have_content @new_course_with_multiple_sites.name
+    expect(page).to have_content @site1.name
+  end
+
+  def and_i_can_see_my_new_course_with_multiple_study_modes
+    expect(page).to have_content @new_course_with_multiple_study_modes.name
+    expect(page).to have_content 'Full time'
+  end
+
+  def and_i_can_see_my_new_course_with_multiple_sites_and_study_modes
+    expect(page).to have_content @new_course_with_multiple_sites_and_study_modes.name
+    expect(page).to have_content @site1.name
+    expect(page).to have_content 'Full time'
   end
 end
