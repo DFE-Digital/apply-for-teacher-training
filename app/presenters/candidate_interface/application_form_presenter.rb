@@ -228,6 +228,11 @@ module CandidateInterface
       incomplete_qualifications.blank?
     end
 
+    def display_efl_link?
+      @application_form.nationalities.present? &&
+        !@application_form.english_speaking_nationality?
+    end
+
   private
 
     def show_review_volunteering?
