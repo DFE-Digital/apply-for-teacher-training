@@ -23,6 +23,12 @@ RSpec.describe LaunchMakeDecisionsAndManageUsers do
     end
   end
 
+  describe 'raising errors' do
+    it 'raises an error if the process is blocked' do
+      expect { described_class.new.perform }.to raise_error('LaunchMakeDecisionsAndManageUsers blocked')
+    end
+  end
+
   describe '#give_manage_users_to_the_user_who_has_signed_the_dsa!' do
     it 'does what it says in the method name' do
       agreement = create(:provider_agreement)

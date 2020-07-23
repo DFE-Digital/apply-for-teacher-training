@@ -1,11 +1,12 @@
 class LaunchMakeDecisionsAndManageUsers
   include Sidekiq::Worker
+  sidekiq_options retry: 0
 
   def perform(*)
     Audited.audit_class.as_user('LaunchMakeDecisionsAndManageUsers task') do
       give_manage_users_to_the_user_who_has_signed_the_dsa!
 
-      return unless all_providers_have_at_least_one_user_with_manage_users?
+      raise('LaunchMakeDecisionsAndManageUsers blocked') unless all_providers_have_at_least_one_user_with_manage_users?
 
       ProviderPermissions.update_all(make_decisions: true)
       FeatureFlag.activate(:providers_can_manage_users_and_permissions)
