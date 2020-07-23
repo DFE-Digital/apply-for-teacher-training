@@ -47,16 +47,17 @@ module ProviderInterface
       # Best refactored as part of an invitation wizard PR
       # --
       permission_struct = Struct.new(:slug, :name)
-      @permissions = [
+      available_permissions = [
         permission_struct.new('manage_users', 'Manage users'),
         permission_struct.new('make_decisions', 'Make decisions'),
       ]
 
-      permissions_form_struct = Struct.new(:id, :provider_id, :permissions)
+      permissions_form_struct = Struct.new(:id, :provider_id, :permissions, :available_permissions)
       @permissions_form = permissions_form_struct.new(
         @provider.id,
         @provider.id,
-        @permissions,
+        @wizard.provider_permissions[@provider.id.to_s]['permissions'],
+        available_permissions,
       )
       # --
     end
