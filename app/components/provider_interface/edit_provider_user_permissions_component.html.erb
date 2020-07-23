@@ -26,13 +26,14 @@
                           label: { text: 'Manage users' },
                           hint_text: 'Invite or delete users and set their permissions' %>
 
+    <%= f.govuk_check_box :make_decisions, true, multiple: false,
+                          label: { text: 'Make decisions' },
+                          hint_text: 'Make offers, amend offers and reject applications' %>
+
     <%= f.govuk_check_box :view_safeguarding_information, true, multiple: false,
                           label: { text: 'View safeguarding information' },
                           hint_text: 'View sensitive material about the candidate' %>
 
-    <%= f.govuk_check_box :make_decisions, true, multiple: false,
-                          label: { text: 'Make decisions' },
-                          hint_text: 'Make offers, amend offers and reject applications' %>
   <% end %>
   <%= f.govuk_submit 'Save' %>
 <% end %>
