@@ -42,12 +42,17 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     and_i_press_continue
     then_i_see_the_confirm_page
 
-    # TODO: Assert the state of the confirm page
     when_i_click_to_change_the_users_name
     then_i_can_see_the_details_form
     when_i_fill_in_a_new_name
     and_i_press_continue
     then_i_see_the_confirm_page_with_the_new_name
+
+    when_i_click_to_change_the_permissions_for_another_provider
+    then_i_can_see_the_permissions_form
+    when_i_change_permissions
+    and_i_press_continue
+    then_i_see_the_confirm_page_with_the_new_permissions
 
     when_i_commit_changes
     then_i_see_the_new_user_on_the_index_page
@@ -141,6 +146,10 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     expect(page).to have_content 'Ed'
     expect(page).to have_content 'Ucator'
     expect(page).to have_content 'ed@example.com'
+    expect(page).not_to have_content 'Example Provider'
+    expect(page).to have_content 'Another Provider'
+    expect(page).to have_content 'Make decisions'
+    expect(page).not_to have_content 'Manage users'
   end
 
   def when_i_click_to_change_the_users_name
@@ -162,6 +171,24 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     expect(page).to have_content 'Eddy'
     expect(page).to have_content 'Ucator'
     expect(page).to have_content 'ed@example.com'
+  end
+
+  def when_i_click_to_change_the_permissions_for_another_provider
+    all('.govuk-summary-list__actions')[4].click_link 'Change'
+  end
+
+  def then_i_can_see_the_permissions_form
+    expect(page).to have_content 'Set permissions for Another Provider'
+  end
+
+  def when_i_change_permissions
+    check 'Manage users'
+  end
+
+  def then_i_see_the_confirm_page_with_the_new_permissions
+    expect(page).to have_content 'Another Provider'
+    expect(page).to have_content 'Make decisions'
+    expect(page).to have_content 'Manage users'
   end
 
   def when_i_commit_changes

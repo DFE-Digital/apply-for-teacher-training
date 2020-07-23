@@ -5,8 +5,6 @@ module ProviderInterface
 
     def initialize(wizard:)
       @wizard = wizard
-      @provider_permissions = @wizard.provider_permissions
-      # @possible_permissions = @wizard.possible_permissions
     end
 
     def rows
@@ -15,11 +13,7 @@ module ProviderInterface
         last_name_row,
         email_address_row,
         providers_row,
-      ] #+ permission_rows
-    end
-
-    def visible_provider_permissions
-      @possible_permissions & @provider_permissions
+      ] + permission_rows
     end
 
     def first_name_row
@@ -59,18 +53,29 @@ module ProviderInterface
     end
 
     def permission_rows
-      visible_provider_permissions.map do |permission|
+      providers.map do |_id, provider|
         {
-          key: "Permissions: #{permission.provider.name}",
-          value: render(PermissionsList.new(permission)),
-          change_path: provider_interface_provider_user_edit_providers_path(@provider_user, checking_answers: true),
+          key: "Permissions: #{provider.name}",
+          value: render(
+            ProviderInterface::ProviderUserInvitationPermissionsComponent.new(
+              @wizard.provider_permissions[provider.id.to_s]['permissions'].reject(&:blank?),
+            ),
+          ),
+          change_path: provider_interface_update_invitation_provider_permissions_path(
+            checking_answers: true,
+            provider_id: provider.id,
+          ),
           action: 'Change',
         }
       end
     end
 
+    def providers
+      @providers ||= Provider.find(@wizard.providers).index_by(&:id)
+    end
+
     def provider_names_list
-      Provider.find(@wizard.providers).map(&:name)
+      providers.values.map(&:name)
     end
   end
 end
