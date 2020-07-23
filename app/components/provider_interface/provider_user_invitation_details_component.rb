@@ -14,6 +14,7 @@ module ProviderInterface
         first_name_row,
         last_name_row,
         email_address_row,
+        providers_row,
       ] #+ permission_rows
     end
 
@@ -48,6 +49,15 @@ module ProviderInterface
       }
     end
 
+    def providers_row
+      {
+        key: 'Organisations this user will have access to',
+        value: provider_names_list,
+        change_path: provider_interface_update_invitation_providers_path(checking_answers: true),
+        action: 'Change',
+      }
+    end
+
     def permission_rows
       visible_provider_permissions.map do |permission|
         {
@@ -57,6 +67,10 @@ module ProviderInterface
           action: 'Change',
         }
       end
+    end
+
+    def provider_names_list
+      Provider.find(@wizard.providers).map(&:name)
     end
   end
 end
