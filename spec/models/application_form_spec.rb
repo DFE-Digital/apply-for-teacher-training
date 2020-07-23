@@ -232,7 +232,7 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#english_speaking_nationality?' do
-    context 'when either applicant nationality is listed as "English-speaking"' do
+    context 'when any applicant nationality is identified as "English-speaking"' do
       let(:nationality_permutations) do
         [
           { first_nationality: 'British', second_nationality: 'Pakistani' },
@@ -241,6 +241,7 @@ RSpec.describe ApplicationForm do
           { first_nationality: 'Irish', second_nationality: 'Pakistani' },
           { first_nationality: 'Pakistani', second_nationality: 'Irish' },
           { first_nationality: 'Irish', second_nationality: nil },
+          { first_nationality: 'Iranian', second_nationality: 'Pakistani', third_nationality: 'Irish' },
         ]
       end
 
@@ -252,11 +253,12 @@ RSpec.describe ApplicationForm do
       end
     end
 
-    context 'when the applicant nationality is not listed as "English-speaking"' do
+    context 'when no applicant nationality is identified as "English-speaking"' do
       let(:nationality_permutations) do
         [
           { first_nationality: 'Pakistani', second_nationality: nil },
           { first_nationality: 'Chinese', second_nationality: 'Pakistani' },
+          { first_nationality: 'Chinese', second_nationality: 'Pakistani', third_nationality: 'Jamaican' },
         ]
       end
 
