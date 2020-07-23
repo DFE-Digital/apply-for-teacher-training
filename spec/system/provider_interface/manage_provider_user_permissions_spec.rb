@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-# https://github.com/DFE-Digital/apply-for-teacher-training/pull/2530 needs to go in first
-RSpec.feature 'Managing provider user permissions', skip: true do
+RSpec.feature 'Managing provider user permissions' do
   include DfESignInHelpers
 
   scenario 'Provider manages permissions for users' do
