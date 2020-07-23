@@ -34,7 +34,7 @@ module ProviderInterface
 
       render_404 and return unless params[:token]
 
-      provider_user = ProviderInterface::MagicLinkAuthentication.get_user_from_token!(token: params[:token])
+      provider_user = TokenSignin.get_user_from_token!(token: params[:token])
 
       # Equivalent to calling DfESignInUser.begin_session!
       session['dfe_sign_in_user'] = {
