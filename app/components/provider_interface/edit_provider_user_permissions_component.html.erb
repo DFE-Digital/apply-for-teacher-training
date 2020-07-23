@@ -29,11 +29,51 @@
     <%= f.govuk_check_box :make_decisions, true, multiple: false,
                           label: { text: 'Make decisions' },
                           hint_text: 'Make offers, amend offers and reject applications' %>
+    <% if training_providers_that_can('make_decisions').any? %>
+      <div class="govuk-!-margin-left-9">
+        <p class="govuk-body govuk-!-margin-bottom-1">Applies to courses run by:</p>
+        <ul class="govuk-list">
+          <% training_providers_that_can('make_decisions').each do |provider| %>
+            <li><%= render CheckIcon.new %> <%= provider.name %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <% if ratifying_providers_that_can('make_decisions').any? %>
+      <div class="govuk-!-margin-left-9">
+        <p class="govuk-body govuk-!-margin-bottom-1">Applies to courses ratified by:</p>
+        <ul class="govuk-list">
+          <% ratifying_providers_that_can('make_decisions').each do |provider| %>
+            <li><%= render CheckIcon.new %> <%= provider.name %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
     <%= f.govuk_check_box :view_safeguarding_information, true, multiple: false,
                           label: { text: 'View safeguarding information' },
                           hint_text: 'View sensitive material about the candidate' %>
-
+    <% if training_providers_that_can('view_safeguarding_information').any? %>
+      <div class="govuk-!-margin-left-8">
+        <p class="govuk-body govuk-!-margin-bottom-1">Applies to courses run by:</p>
+        <ul class="govuk-list">
+          <% training_providers_that_can('view_safeguarding_information').each do |provider| %>
+            <li><%= render CheckIcon.new %> <%= provider.name %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <% if ratifying_providers_that_can('view_safeguarding_information').any? %>
+      <div class="govuk-!-margin-left-9">
+        <p class="govuk-body govuk-!-margin-bottom-1">Applies to courses ratified by:</p>
+        <ul class="govuk-list">
+          <% ratifying_providers_that_can('view_safeguarding_information').each do |provider| %>
+            <li><%= render CheckIcon.new %> <%= provider.name %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   <% end %>
+
   <%= f.govuk_submit 'Save' %>
 <% end %>
