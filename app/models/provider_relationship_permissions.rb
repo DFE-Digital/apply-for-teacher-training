@@ -19,7 +19,7 @@ private
   def at_least_one_active_permission_in_pair
     PERMISSIONS.each do |permission|
       if !send("training_provider_can_#{permission}") && !send("ratifying_provider_can_#{permission}")
-        errors.add(permission, "At least one organisation must have permission to #{permission.to_s.humanize.downcase}")
+        errors.add(permission, "Select which organisations can #{permission.to_s.humanize.downcase}")
       end
     end
   end

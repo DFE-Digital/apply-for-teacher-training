@@ -153,6 +153,6 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def then_i_can_see_a_validation_error_telling_me_to_assign_an_org_to_a_permission
-    expect(page).to have_content('At least one organisation must have permission to view safeguarding information')
+    expect(page).to have_content('Select which organisations can view safeguarding information')
   end
 end
