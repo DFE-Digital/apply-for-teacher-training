@@ -2,6 +2,7 @@ module ProviderInterface
   class ProviderRelationshipPermissionsController < ProviderInterfaceController
     before_action :render_404_unless_permissions_found
     before_action :render_403_unless_access_permitted
+    attr_reader :permissions_model
 
     def edit
       @form = ProviderRelationshipPermissionsForm.new(permissions_model: permissions_model)
@@ -21,13 +22,6 @@ module ProviderInterface
 
   private
 
-    def permissions_model
-      ProviderRelationshipPermissions.find_by(
-        ratifying_provider_id: params[:ratifying_provider_id],
-        training_provider_id: params[:training_provider_id],
-      )
-    end
-
     def permissions_params
       return {} unless params.key?(:provider_interface_provider_relationship_permissions_form)
 
@@ -36,7 +30,9 @@ module ProviderInterface
     end
 
     def render_404_unless_permissions_found
-      render_404 if permissions_model.blank?
+      @permissions_model ||= ProviderRelationshipPermissions.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
 
     def render_403_unless_access_permitted

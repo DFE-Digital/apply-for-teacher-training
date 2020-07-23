@@ -61,7 +61,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def and_the_provider_has_courses_ratified_by_another_provider
-    create(
+    @permissions = create(
       :provider_relationship_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
@@ -95,10 +95,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def when_i_visit_the_edit_provider_relationship_permissions_page
-    visit provider_interface_edit_provider_relationship_permissions_path(
-      ratifying_provider_id: @ratifying_provider.id,
-      training_provider_id: @training_provider.id,
-    )
+    visit provider_interface_edit_provider_relationship_permissions_path(@permissions)
   end
 
   def and_i_allow_my_training_provider_to_view_safeguarding_information

@@ -18,13 +18,10 @@ RSpec.describe 'ProviderRelationshipPermissions', type: :request do
       )
   end
 
-  describe 'invalid provider relationship params' do
+  describe 'invalid provider relationship permissions param' do
     context 'GET edit' do
       it 'responds with 404' do
-        get provider_interface_edit_provider_relationship_permissions_path(
-          ratifying_provider_id: 1,
-          training_provider_id: 1,
-        )
+        get provider_interface_edit_provider_relationship_permissions_path(id: 666)
 
         expect(response.status).to eq(404)
       end
@@ -32,10 +29,7 @@ RSpec.describe 'ProviderRelationshipPermissions', type: :request do
 
     context 'PATCH update' do
       it 'responds with 404' do
-        patch provider_interface_update_provider_relationship_permissions_path(
-          ratifying_provider_id: 1,
-          training_provider_id: 1,
-        )
+        patch provider_interface_update_provider_relationship_permissions_path(id: 666)
 
         expect(response.status).to eq(404)
       end
@@ -46,21 +40,19 @@ RSpec.describe 'ProviderRelationshipPermissions', type: :request do
     let(:ratifying_provider) { create(:provider) }
     let(:training_provider) { create(:provider) }
 
-    before do
-      create(
+    let(:permissions) do
+      permissions = create(
         :provider_relationship_permissions,
         ratifying_provider: ratifying_provider,
         training_provider: training_provider,
       )
       provider_user.provider_permissions.update_all(manage_organisations: true)
+      permissions
     end
 
     context 'GET edit' do
       it 'responds with 403 Forbidden' do
-        get provider_interface_edit_provider_relationship_permissions_path(
-          ratifying_provider_id: ratifying_provider.id,
-          training_provider_id: training_provider.id,
-        )
+        get provider_interface_edit_provider_relationship_permissions_path(permissions)
 
         expect(response.status).to eq(403)
       end
@@ -68,10 +60,7 @@ RSpec.describe 'ProviderRelationshipPermissions', type: :request do
 
     describe 'PATCH update' do
       it 'responds with 403 Forbidden' do
-        patch provider_interface_update_provider_relationship_permissions_path(
-          ratifying_provider_id: ratifying_provider.id,
-          training_provider_id: training_provider.id,
-        )
+        patch provider_interface_update_provider_relationship_permissions_path(permissions)
 
         expect(response.status).to eq(403)
       end

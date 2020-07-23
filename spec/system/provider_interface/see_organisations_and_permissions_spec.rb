@@ -40,7 +40,7 @@ RSpec.feature 'See organisation permissions' do
   end
 
   def and_the_provider_has_courses_ratified_by_another_provider
-    create(
+    @permissions = create(
       :provider_relationship_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
@@ -83,9 +83,7 @@ RSpec.feature 'See organisation permissions' do
     expect(page).to have_content("For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}")
     expect(page).to have_content("The following organisation(s) can only view applications:\n#{@training_provider.name}")
 
-    expect(page).to have_link('Change', href: provider_interface_edit_provider_relationship_permissions_path(
-      ratifying_provider_id: @ratifying_provider.id, training_provider_id: @training_provider.id,
-    ))
+    expect(page).to have_link('Change', href: provider_interface_edit_provider_relationship_permissions_path(@permissions))
   end
 
   def and_i_can_see_permissions_for_the_ratifying_provider
