@@ -20,7 +20,8 @@ class LaunchMakeDecisionsAndManageUsers
   end
 
   def all_providers_have_at_least_one_user_with_manage_users?
-    Provider.find_each.all? do |provider|
+    # ignore providers with no users
+    Provider.joins(:provider_users).distinct.find_each.all? do |provider|
       provider.provider_permissions.any?(&:manage_users)
     end
   end
