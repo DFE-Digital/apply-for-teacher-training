@@ -11,7 +11,7 @@ RSpec.describe LaunchMakeDecisionsAndManageUsers do
     @users.second.provider_permissions.first.update(manage_users: true)
   end
 
-  context '#perform' do
+  describe '#perform' do
     before do
       ProviderPermissions.update_all(manage_users: true)
       described_class.new.perform
@@ -23,7 +23,16 @@ RSpec.describe LaunchMakeDecisionsAndManageUsers do
     end
   end
 
-  context '#all_providers_have_at_least_one_user_with_manage_users?' do
+  describe '#give_manage_users_to_the_user_who_has_signed_the_dsa!' do
+    it 'does what it says in the method name' do
+      agreement = create(:provider_agreement)
+      described_class.new.give_manage_users_to_the_user_who_has_signed_the_dsa!
+      permission = agreement.provider_user.provider_permissions.first
+      expect(permission.manage_users).to be_truthy
+    end
+  end
+
+  describe '#all_providers_have_at_least_one_user_with_manage_users?' do
     it 'returns false if some providers cannot manage their own users' do
       expect(described_class.new.all_providers_have_at_least_one_user_with_manage_users?).to be_falsy
     end
