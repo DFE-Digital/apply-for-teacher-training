@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe NoEflQualificationReviewComponent, type: :component do
+RSpec.describe CandidateInterface::EnglishForeignLanguage::NoEflQualificationReviewComponent, type: :component do
   it 'renders a review summary for a "no qualification" statement of english proficiency' do
     english_proficiency = build(
       :english_proficiency,

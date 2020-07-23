@@ -12,17 +12,17 @@ module CandidateInterface
 
     def call
       if !english_proficiency.has_qualification?
-        return NoEflQualificationReviewComponent.new(english_proficiency)
+        return EnglishForeignLanguage::NoEflQualificationReviewComponent.new(english_proficiency)
       end
 
       qualification = english_proficiency.efl_qualification
       case english_proficiency.efl_qualification_type
       when 'IeltsQualification'
-        IeltsReviewComponent.new(qualification)
+        EnglishForeignLanguage::IeltsReviewComponent.new(qualification)
       when 'ToeflQualification'
-        ToeflReviewComponent.new(qualification)
+        EnglishForeignLanguage::ToeflReviewComponent.new(qualification)
       when 'OtherEflQualification'
-        OtherEflQualificationReviewComponent.new(qualification)
+        EnglishForeignLanguage::OtherEflQualificationReviewComponent.new(qualification)
       end
     end
   end

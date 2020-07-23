@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OtherEflQualificationReviewComponent, type: :component do
+RSpec.describe CandidateInterface::EnglishForeignLanguage::OtherEflQualificationReviewComponent, type: :component do
   it 'renders a review summary for the qualification' do
     other_qualification = build(
       :other_efl_qualification,
