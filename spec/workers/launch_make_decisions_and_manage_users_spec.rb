@@ -11,10 +11,10 @@ RSpec.describe LaunchMakeDecisionsAndManageUsers do
     @users.second.provider_permissions.first.update(manage_users: true)
   end
 
-  describe '#perform' do
+  describe '#update_provider_user_permissions!' do
     before do
       ProviderPermissions.update_all(manage_users: true)
-      described_class.new.perform
+      described_class.new.update_provider_user_permissions!
     end
 
     it 'gives all existing provider users make_decisions for all their providers' do
@@ -23,14 +23,8 @@ RSpec.describe LaunchMakeDecisionsAndManageUsers do
     end
   end
 
-  describe 'raising errors' do
-    it 'raises an error if the process is blocked' do
-      expect { described_class.new.perform }.to raise_error('LaunchMakeDecisionsAndManageUsers blocked')
-    end
-  end
-
   describe '#give_manage_users_to_the_user_who_has_signed_the_dsa!' do
-    it 'does what it says in the method name' do
+    it 'does what it says on the tin' do
       agreement = create(:provider_agreement)
       described_class.new.give_manage_users_to_the_user_who_has_signed_the_dsa!
       permission = agreement.provider_user.provider_permissions.first

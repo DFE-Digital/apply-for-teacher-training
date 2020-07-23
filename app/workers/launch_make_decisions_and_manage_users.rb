@@ -2,14 +2,13 @@ class LaunchMakeDecisionsAndManageUsers
   include Sidekiq::Worker
   sidekiq_options retry: 0
 
-  def perform(*)
+  # This class is temporary code to assist with this launch and will be removed
+
+  def update_provider_user_permissions!
     Audited.audit_class.as_user('LaunchMakeDecisionsAndManageUsers task') do
       give_manage_users_to_the_user_who_has_signed_the_dsa!
 
-      raise('LaunchMakeDecisionsAndManageUsers blocked') unless all_providers_have_at_least_one_user_with_manage_users?
-
       ProviderPermissions.update_all(make_decisions: true)
-      FeatureFlag.activate(:providers_can_manage_users_and_permissions)
     end
   end
 
