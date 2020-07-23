@@ -7,9 +7,6 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   scenario 'Provider sends invite to user' do
     FeatureFlag.activate(:providers_can_manage_users_and_permissions)
 
-    # TODO: test what happens with the feature flag off
-    # TODO: test what happens without necessary permissions
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_applications_for_two_providers
     and_i_sign_in_to_the_provider_interface
@@ -22,9 +19,8 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     and_i_can_manage_users_for_two_providers
     and_i_sign_in_again_to_the_provider_interface
 
-    # when_i_click_on_the_users_link
-    # and_i_click_invite_user
-    when_i_visit_the_invite_user_wizard
+    when_i_click_on_the_users_link
+    and_i_click_invite_user
     then_i_see_the_basic_details_form
 
     when_i_press_continue
