@@ -32,7 +32,7 @@ module SupportInterface
 
       render_404 and return unless params[:token]
 
-      support_user = SupportInterface::MagicLinkAuthentication.get_user_from_token!(token: params.fetch(:token))
+      support_user = TokenSignin.get_user_from_token!(token: params.fetch(:token))
 
       # Equivalent to calling DfESignInUser.begin_session!
       session['dfe_sign_in_user'] = {
