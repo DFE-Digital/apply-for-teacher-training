@@ -1,22 +1,31 @@
-<p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can make decisions:</p>
-<ul class="govuk-list">
-  <% providers_that_can('make_decisions').each do |provider| %>
-    <li><%= render CheckIcon.new %> <%= provider.name %> </li>
-  <% end %>
-</ul>
 
-<p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can see safeguarding information:</p>
-<ul class="govuk-list">
-  <% providers_that_can('view_safeguarding_information').each do |provider| %>
-    <li><%= render CheckIcon.new %> <%= provider.name %> </li>
-  <% end %>
-</ul>
-
-<% if show_view_applications_only_section? %>
-  <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can only view applications:</p>
+<% providers_that_can_make_decisions = providers_that_can('make_decisions') %>
+<% if providers_that_can_make_decisions.any? %>
+  <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can make decisions:</p>
   <ul class="govuk-list">
-    <% providers_that_can('view_applications_only').each do |provider| %>
+    <% providers_that_can_make_decisions.each do |provider| %>
       <li><%= render CheckIcon.new %> <%= provider.name %> </li>
     <% end %>
   </ul>
+<% end %>
+
+<% providers_that_can_view_safeguarding_information = providers_that_can('view_safeguarding_information') %>
+<% if providers_that_can_view_safeguarding_information.any? %>
+  <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can see safeguarding information:</p>
+  <ul class="govuk-list">
+    <% providers_that_can_view_safeguarding_information.each do |provider| %>
+      <li><%= render CheckIcon.new %> <%= provider.name %> </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% if show_view_applications_only_section? %>
+  <% providers_that_can_only_view_applications = providers_that_can('view_applications_only') %>
+  <p class="govuk-!-margin-bottom-5 govuk-body">
+    <% if providers_that_can_only_view_applications.size > 1 %>
+      <%= training_provider.name %> has not set up permissions for this partnership yet.
+    <% else %>
+      <%= providers_that_can('view_applications_only').first.name %> can only view applications.
+    <% end %>
+  </p>
 <% end %>
