@@ -1,7 +1,7 @@
 module CandidateInterface
   module EnglishForeignLanguage
     class IeltsReviewComponent < ViewComponent::Base
-      include Rails.application.routes.url_helpers
+      include EflReviewHelper
 
       attr_reader :ielts_qualification
 
@@ -11,18 +11,8 @@ module CandidateInterface
 
       def ielts_rows
         [
-          {
-            key: 'Do you have an English as a foreign language qualification?',
-            value: 'Yes',
-            action: 'Change whether or not you have a qualification',
-            change_path: candidate_interface_english_foreign_language_edit_start_path,
-          },
-          {
-            key: 'Type of qualification',
-            value: 'IELTS',
-            action: 'Change type of qualification',
-            change_path: candidate_interface_english_foreign_language_type_path,
-          },
+          do_you_have_a_qualification_row(value: 'Yes'),
+          type_of_qualification_row(name: 'IELTS'),
           {
             key: 'Test report form (TRF) number',
             value: ielts_qualification.trf_number,
