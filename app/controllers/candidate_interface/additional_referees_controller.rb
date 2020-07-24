@@ -11,7 +11,7 @@ module CandidateInterface
 
         @reference_type_form = Reference::RefereeTypeForm.build_from_reference(current_referee(@id))
       else
-        redirect_to_confirm_if_no_more_reference_needed
+        return if redirect_to_confirm_if_no_more_reference_needed
 
         @reference_type_form = Reference::RefereeTypeForm.new
       end
@@ -39,7 +39,7 @@ module CandidateInterface
     end
 
     def new
-      redirect_to_confirm_if_no_more_reference_needed
+      return if redirect_to_confirm_if_no_more_reference_needed
 
       @reference = current_candidate.current_application.application_references.build(referee_type: params[:type])
       @page_title = "Details of your new #{@reference.referee_type.downcase.dasherize} referee"
@@ -48,7 +48,8 @@ module CandidateInterface
     def show; end
 
     def create
-      redirect_to_confirm_if_no_more_reference_needed
+      return if redirect_to_confirm_if_no_more_reference_needed
+
       reference = current_application.application_references.build(referee_params.merge(replacement: true))
 
       reference.referee_type = params[:type]
