@@ -225,6 +225,23 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
     end
   end
 
+  context 'when the language rows should be hidden' do
+    before { allow(LanguagesSectionPolicy).to receive(:hide?).and_return true }
+
+    it 'does not show the language rows' do
+      languages_form = build(
+        :languages_form,
+        english_main_language: 'Yes',
+        english_language_details: '',
+        other_language_details: 'Glossolalia',
+      )
+
+      row_data = rows(languages_form: languages_form)
+      keys = row_data.map { |row| row[:key] }
+      expect(keys).to match_array ['Name', 'Date of birth', 'Nationality']
+    end
+  end
+
   context 'when the international personal details flag is on and the candidate has selected they have the right to work' do
     before do
       FeatureFlag.activate('international_personal_details')
