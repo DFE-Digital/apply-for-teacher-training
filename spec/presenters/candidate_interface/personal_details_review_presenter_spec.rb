@@ -35,6 +35,8 @@ FactoryBot.define do
 end
 
 RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
+  include Rails.application.routes.url_helpers
+
   let(:default_personal_details_form) { build(:personal_details_form) }
   let(:default_nationalities_form) { build(:nationalities_form) }
   let(:default_languages_form) { build(:languages_form) }
@@ -69,8 +71,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(personal_details_form: personal_details_form)).to include(
-        row_for(:name, 'Max Caulfield', Rails.application.routes.url_helpers.candidate_interface_personal_details_edit_path),
-        row_for(:date_of_birth, '21 September 1995', Rails.application.routes.url_helpers.candidate_interface_personal_details_edit_path),
+        row_for(:name, 'Max Caulfield', candidate_interface_personal_details_edit_path),
+        row_for(:date_of_birth, '21 September 1995', candidate_interface_personal_details_edit_path),
       )
     end
   end
@@ -84,7 +86,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(nationalities_form: nationalities_form)).to include(
-        row_for(:nationality, 'British', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
+        row_for(:nationality, 'British', candidate_interface_edit_nationalities_path),
       )
     end
 
@@ -96,7 +98,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(nationalities_form: nationalities_form)).to include(
-        row_for(:nationality, 'British and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
+        row_for(:nationality, 'British and Spanish', candidate_interface_edit_nationalities_path),
       )
     end
 
@@ -112,7 +114,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(nationalities_form: nationalities_form)).to include(
-        row_for(:nationality, 'British, French, German, and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
+        row_for(:nationality, 'British, French, German, and Spanish', candidate_interface_edit_nationalities_path),
       )
     end
   end
@@ -127,7 +129,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(languages_form: languages_form)).to include(
-        row_for(:english_main_language, 'Yes', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+        row_for(:english_main_language, 'Yes', candidate_interface_languages_path),
       )
     end
 
@@ -140,7 +142,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(languages_form: languages_form)).not_to include(
-        row_for(:other_language_details, '', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+        row_for(:other_language_details, '', candidate_interface_languages_path),
       )
     end
 
@@ -153,7 +155,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(languages_form: languages_form)).not_to include(
-        row_for(:english_language_details, 'Broken? Oh man, are you cereal?', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+        row_for(:english_language_details, 'Broken? Oh man, are you cereal?', candidate_interface_languages_path),
       )
     end
 
@@ -166,7 +168,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(languages_form: languages_form)).to include(
-        row_for(:other_language_details, 'I speak French', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+        row_for(:other_language_details, 'I speak French', candidate_interface_languages_path),
       )
     end
   end
@@ -181,7 +183,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(languages_form: languages_form)).to include(
-        row_for(:english_main_language, 'No', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+        row_for(:english_main_language, 'No', candidate_interface_languages_path),
       )
     end
 
@@ -194,7 +196,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(languages_form: languages_form)).not_to include(
-        row_for(:english_language_details, '', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+        row_for(:english_language_details, '', candidate_interface_languages_path),
       )
     end
 
@@ -207,7 +209,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(languages_form: languages_form)).not_to include(
-        row_for(:other_language_details, 'Mi nombre es Max.', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+        row_for(:other_language_details, 'Mi nombre es Max.', candidate_interface_languages_path),
       )
     end
 
@@ -220,7 +222,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(languages_form: languages_form)).to include(
-        row_for(:english_language_details, 'Broken? Oh man, are you cereal?', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+        row_for(:english_language_details, 'Broken? Oh man, are you cereal?', candidate_interface_languages_path),
       )
     end
   end
@@ -259,7 +261,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).to include(
-        row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", Rails.application.routes.url_helpers.candidate_interface_edit_right_to_work_or_study_path),
+        row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", candidate_interface_edit_right_to_work_or_study_path),
       )
     end
   end
@@ -281,7 +283,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).not_to include(
-        row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", Rails.application.routes.url_helpers.candidate_interface_edit_right_to_work_or_study_path),
+        row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", candidate_interface_edit_right_to_work_or_study_path),
       )
     end
   end
