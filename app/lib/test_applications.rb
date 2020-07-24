@@ -85,8 +85,10 @@ class TestApplications
         )
       end
 
-      application_choices.each do |choice|
-        create_alternative_locations_and_study_mode(choice) if course_full && choice.awaiting_references?
+      if (states.include? :awaiting_references) && course_full
+        application_choices.each do |choice|
+          create_alternative_locations_and_study_mode(choice) if course_full
+        end
       end
 
       return if states.include? :unsubmitted
@@ -327,7 +329,6 @@ class TestApplications
   def create_alternative_locations_and_study_mode(choice)
     alternate_study_mode = choice.course_option.full_time? ? :part_time : :full_time
     course_option = CourseOption.find_by(site: choice.site, course: choice.course, study_mode: alternate_study_mode)
-
     if course_option
       course_option.vacancies!
     else
