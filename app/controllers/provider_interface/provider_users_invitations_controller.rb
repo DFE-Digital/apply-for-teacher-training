@@ -42,11 +42,7 @@ module ProviderInterface
       @wizard = wizard_for(current_step: 'permissions', current_provider_id: params[:provider_id])
       @wizard.save_state!
 
-      # This is gnarly but meant to mirror the related wizard data structure
-      # Best refactored as part of an invitation wizard PR
-      # --
       setup_permission_form
-      # --
     end
 
     def update_permissions

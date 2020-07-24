@@ -74,7 +74,16 @@ RSpec.describe 'Removing a provider user' do
 
   def and_i_reinvite_the_deleted_user
     fill_in 'Email address', with: @user_to_remove.email_address
-    check @provider.name_and_code
+    fill_in 'First name', with: @user_to_remove.first_name
+    fill_in 'Last name', with: @user_to_remove.last_name
+    click_on 'Continue'
+
+    check @provider.name
+    click_on 'Continue'
+
+    check 'Make decisions'
+    click_on 'Continue'
+
     click_on 'Invite user'
   end
 

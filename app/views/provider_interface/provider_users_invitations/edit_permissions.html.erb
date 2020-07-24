@@ -11,7 +11,13 @@
 
       <%= f.fields_for "provider_permissions[]", @permissions_form do |pf| %>
         <%= pf.hidden_field :provider_id %>
-        <%= pf.govuk_collection_check_boxes :permissions, @permissions_form.available_permissions, :slug, :name, :hint %>
+        <%= pf.govuk_collection_check_boxes(
+          :permissions,
+          @permissions_form.available_permissions,
+          :slug,
+          :name,
+          :hint,
+        ) %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>
