@@ -44,7 +44,6 @@ class TestApplications
         # Always use the first n courses, so that we can reliably generate
         # application choices to full courses without randomly affecting the
         # vacancy status of the entire set of available courses.
-
         fill_vacancies(courses_to_apply_to.first(states.size))
       else
         courses_to_apply_to.sample(states.count)
@@ -84,6 +83,10 @@ class TestApplications
           application_form: @application_form,
           created_at: time,
         )
+      end
+
+      application_choices.each do |choice|
+        create_alternative_locations_and_study_mode(choice) if course_full && choice.awaiting_references?
       end
 
       return if states.include? :unsubmitted
@@ -319,5 +322,26 @@ class TestApplications
       end
     end
     courses
+  end
+
+  def create_alternative_locations_and_study_mode(choice)
+    alternate_study_mode = choice.course_option.full_time? ? :part_time : :full_time
+    course_option = CourseOption.find_by(site: choice.site, course: choice.course, study_mode: alternate_study_mode)
+
+    if course_option
+      course_option.vacancies!
+    else
+      choice.course.full_time_or_part_time!
+      CourseOption.create!(course: choice.course,
+                           site: choice.course_option.site,
+                           study_mode: alternate_study_mode,
+                           vacancy_status: :vacancies)
+    end
+    3.times do
+      CourseOption.create!(course: choice.course,
+                           study_mode: choice.course_option.study_mode,
+                           site: FactoryBot.create(:site, provider: choice.provider),
+                           vacancy_status: :vacancies)
+    end
   end
 end
