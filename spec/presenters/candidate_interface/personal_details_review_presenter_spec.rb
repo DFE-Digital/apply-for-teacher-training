@@ -57,7 +57,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
     ).rows
   end
 
-  context 'when personal details are editable' do
+  context 'when presenting personal details' do
     it 'includes hashes for the name and date of birth' do
       personal_details_form = build(
         :personal_details_form,
@@ -73,199 +73,199 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
         row_for(:date_of_birth, '21 September 1995', Rails.application.routes.url_helpers.candidate_interface_personal_details_edit_path),
       )
     end
+  end
 
-    context 'when presenting nationality' do
-      it 'includes a hash for a single nationality' do
-        nationalities_form = build(
-          :nationalities_form,
-          first_nationality: 'British',
-          second_nationality: nil,
-        )
+  context 'when presenting nationality' do
+    it 'includes a hash for a single nationality' do
+      nationalities_form = build(
+        :nationalities_form,
+        first_nationality: 'British',
+        second_nationality: nil,
+      )
 
-        expect(rows(nationalities_form: nationalities_form)).to include(
-          row_for(:nationality, 'British', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
-        )
-      end
-
-      it 'includes a hash for dual nationalities' do
-        nationalities_form = build(
-          :nationalities_form,
-          first_nationality: 'British',
-          second_nationality: 'Spanish',
-        )
-
-        expect(rows(nationalities_form: nationalities_form)).to include(
-          row_for(:nationality, 'British and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
-        )
-      end
-
-      it 'includes a hash with up to 5 nationaltties when international_personal_details is on' do
-        FeatureFlag.activate('international_personal_details')
-        nationalities_form = build(
-          :nationalities_form,
-          british: 'British',
-          irish: nil,
-          other_nationality1: 'French',
-          other_nationality2: 'German',
-          other_nationality3: 'Spanish',
-        )
-
-        expect(rows(nationalities_form: nationalities_form)).to include(
-          row_for(:nationality, 'British, French, German, and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
-        )
-      end
+      expect(rows(nationalities_form: nationalities_form)).to include(
+        row_for(:nationality, 'British', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
+      )
     end
 
-    context 'when presenting English as the main language' do
-      it 'includes a hash with "Yes"' do
-        languages_form = build(
-          :languages_form,
-          english_main_language: 'yes',
-          english_language_details: '',
-          other_language_details: '',
-        )
+    it 'includes a hash for dual nationalities' do
+      nationalities_form = build(
+        :nationalities_form,
+        first_nationality: 'British',
+        second_nationality: 'Spanish',
+      )
 
-        expect(rows(languages_form: languages_form)).to include(
-          row_for(:english_main_language, 'Yes', Rails.application.routes.url_helpers.candidate_interface_languages_path),
-        )
-      end
-
-      it 'excludes a hash for English language details if blank' do
-        languages_form = build(
-          :languages_form,
-          english_main_language: 'yes',
-          english_language_details: '',
-          other_language_details: '',
-        )
-
-        expect(rows(languages_form: languages_form)).not_to include(
-          row_for(:other_language_details, '', Rails.application.routes.url_helpers.candidate_interface_languages_path),
-        )
-      end
-
-      it 'excludes a hash for other language details if given' do
-        languages_form = build(
-          :languages_form,
-          english_main_language: 'yes',
-          english_language_details: '',
-          other_language_details: 'Broken? Oh man, are you cereal?',
-        )
-
-        expect(rows(languages_form: languages_form)).not_to include(
-          row_for(:english_language_details, 'Broken? Oh man, are you cereal?', Rails.application.routes.url_helpers.candidate_interface_languages_path),
-        )
-      end
-
-      it 'includes a hash for English language details if given' do
-        languages_form = build(
-          :languages_form,
-          english_main_language: 'yes',
-          english_language_details: '',
-          other_language_details: 'I speak French',
-        )
-
-        expect(rows(languages_form: languages_form)).to include(
-          row_for(:other_language_details, 'I speak French', Rails.application.routes.url_helpers.candidate_interface_languages_path),
-        )
-      end
+      expect(rows(nationalities_form: nationalities_form)).to include(
+        row_for(:nationality, 'British and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
+      )
     end
 
-    context 'when presenting English not as the main language' do
-      it 'includes a hash with "No"' do
-        languages_form = build(
-          :languages_form,
-          english_main_language: 'no',
-          english_language_details: '',
-          other_language_details: '',
-        )
+    it 'includes a hash with up to 5 nationalities when international_personal_details is on' do
+      FeatureFlag.activate('international_personal_details')
+      nationalities_form = build(
+        :nationalities_form,
+        british: 'British',
+        irish: nil,
+        other_nationality1: 'French',
+        other_nationality2: 'German',
+        other_nationality3: 'Spanish',
+      )
 
-        expect(rows(languages_form: languages_form)).to include(
-          row_for(:english_main_language, 'No', Rails.application.routes.url_helpers.candidate_interface_languages_path),
-        )
-      end
+      expect(rows(nationalities_form: nationalities_form)).to include(
+        row_for(:nationality, 'British, French, German, and Spanish', Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path),
+      )
+    end
+  end
 
-      it 'excludes a hash for other language details if blank' do
-        languages_form = build(
-          :languages_form,
-          english_main_language: 'no',
-          english_language_details: '',
-          other_language_details: '',
-        )
+  context 'when presenting English as the main language' do
+    it 'includes a hash with "Yes"' do
+      languages_form = build(
+        :languages_form,
+        english_main_language: 'yes',
+        english_language_details: '',
+        other_language_details: '',
+      )
 
-        expect(rows(languages_form: languages_form)).not_to include(
-          row_for(:english_language_details, '', Rails.application.routes.url_helpers.candidate_interface_languages_path),
-        )
-      end
-
-      it 'excludes a hash for English language details if given' do
-        languages_form = build(
-          :languages_form,
-          english_main_language: 'no',
-          english_language_details: 'Mi nombre es Max.',
-          other_language_details: '',
-        )
-
-        expect(rows(languages_form: languages_form)).not_to include(
-          row_for(:other_language_details, 'Mi nombre es Max.', Rails.application.routes.url_helpers.candidate_interface_languages_path),
-        )
-      end
-
-      it 'includes a hash for other language details if given' do
-        languages_form = build(
-          :languages_form,
-          english_main_language: 'no',
-          english_language_details: 'Broken? Oh man, are you cereal?',
-          other_language_details: '',
-        )
-
-        expect(rows(languages_form: languages_form)).to include(
-          row_for(:english_language_details, 'Broken? Oh man, are you cereal?', Rails.application.routes.url_helpers.candidate_interface_languages_path),
-        )
-      end
+      expect(rows(languages_form: languages_form)).to include(
+        row_for(:english_main_language, 'Yes', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+      )
     end
 
-    context 'when the international personal details flag is on and the candidate has selected they have the right to work' do
-      before do
-        FeatureFlag.activate('international_personal_details')
-      end
+    it 'excludes a hash for English language details if blank' do
+      languages_form = build(
+        :languages_form,
+        english_main_language: 'yes',
+        english_language_details: '',
+        other_language_details: '',
+      )
 
-      it 'renders the right to work row' do
-        nationalities_form = build(
-          :nationalities_form,
-          first_nationality: 'German',
-        )
-        right_to_work_form = build(
-          :right_to_work_form,
-          right_to_work_or_study: 'yes',
-          right_to_work_or_study_details: 'I have the right.',
-        )
-
-        expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).to include(
-          row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", Rails.application.routes.url_helpers.candidate_interface_edit_right_to_work_or_study_path),
-        )
-      end
+      expect(rows(languages_form: languages_form)).not_to include(
+        row_for(:other_language_details, '', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+      )
     end
 
-    context 'when the international personal details flag is on and the candidate is British or Irish' do
-      before do
-        FeatureFlag.activate('international_personal_details')
-      end
+    it 'excludes a hash for other language details if given' do
+      languages_form = build(
+        :languages_form,
+        english_main_language: 'yes',
+        english_language_details: '',
+        other_language_details: 'Broken? Oh man, are you cereal?',
+      )
 
-      it 'renders the right to work row' do
-        nationalities_form = build(
-          :nationalities_form,
-          first_nationality: 'British',
-        )
-        right_to_work_form = build(
-          :right_to_work_form,
-          right_to_work_or_study: 'yes',
-          right_to_work_or_study_details: 'I have the right.',
-        )
+      expect(rows(languages_form: languages_form)).not_to include(
+        row_for(:english_language_details, 'Broken? Oh man, are you cereal?', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+      )
+    end
 
-        expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).not_to include(
-          row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", Rails.application.routes.url_helpers.candidate_interface_edit_right_to_work_or_study_path),
-        )
-      end
+    it 'includes a hash for English language details if given' do
+      languages_form = build(
+        :languages_form,
+        english_main_language: 'yes',
+        english_language_details: '',
+        other_language_details: 'I speak French',
+      )
+
+      expect(rows(languages_form: languages_form)).to include(
+        row_for(:other_language_details, 'I speak French', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+      )
+    end
+  end
+
+  context 'when presenting English not as the main language' do
+    it 'includes a hash with "No"' do
+      languages_form = build(
+        :languages_form,
+        english_main_language: 'no',
+        english_language_details: '',
+        other_language_details: '',
+      )
+
+      expect(rows(languages_form: languages_form)).to include(
+        row_for(:english_main_language, 'No', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+      )
+    end
+
+    it 'excludes a hash for other language details if blank' do
+      languages_form = build(
+        :languages_form,
+        english_main_language: 'no',
+        english_language_details: '',
+        other_language_details: '',
+      )
+
+      expect(rows(languages_form: languages_form)).not_to include(
+        row_for(:english_language_details, '', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+      )
+    end
+
+    it 'excludes a hash for English language details if given' do
+      languages_form = build(
+        :languages_form,
+        english_main_language: 'no',
+        english_language_details: 'Mi nombre es Max.',
+        other_language_details: '',
+      )
+
+      expect(rows(languages_form: languages_form)).not_to include(
+        row_for(:other_language_details, 'Mi nombre es Max.', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+      )
+    end
+
+    it 'includes a hash for other language details if given' do
+      languages_form = build(
+        :languages_form,
+        english_main_language: 'no',
+        english_language_details: 'Broken? Oh man, are you cereal?',
+        other_language_details: '',
+      )
+
+      expect(rows(languages_form: languages_form)).to include(
+        row_for(:english_language_details, 'Broken? Oh man, are you cereal?', Rails.application.routes.url_helpers.candidate_interface_languages_path),
+      )
+    end
+  end
+
+  context 'when the international personal details flag is on and the candidate has selected they have the right to work' do
+    before do
+      FeatureFlag.activate('international_personal_details')
+    end
+
+    it 'renders the right to work row' do
+      nationalities_form = build(
+        :nationalities_form,
+        first_nationality: 'German',
+      )
+      right_to_work_form = build(
+        :right_to_work_form,
+        right_to_work_or_study: 'yes',
+        right_to_work_or_study_details: 'I have the right.',
+      )
+
+      expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).to include(
+        row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", Rails.application.routes.url_helpers.candidate_interface_edit_right_to_work_or_study_path),
+      )
+    end
+  end
+
+  context 'when the international personal details flag is on and the candidate is British or Irish' do
+    before do
+      FeatureFlag.activate('international_personal_details')
+    end
+
+    it 'renders the right to work row' do
+      nationalities_form = build(
+        :nationalities_form,
+        first_nationality: 'British',
+      )
+      right_to_work_form = build(
+        :right_to_work_form,
+        right_to_work_or_study: 'yes',
+        right_to_work_or_study_details: 'I have the right.',
+      )
+
+      expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).not_to include(
+        row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", Rails.application.routes.url_helpers.candidate_interface_edit_right_to_work_or_study_path),
+      )
     end
   end
 
