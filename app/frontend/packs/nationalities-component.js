@@ -54,6 +54,10 @@ const nationalitiesComponent = () => {
     removeLink.href = "#";
     removeLink.style.float = "right"; // FIXME: Put me in CSS!
     labelEl.appendChild(removeLink);
+
+    removeLink.addEventListener("click", function () {
+      addRemoveLinkEvent(labelEl);
+    });
   }
 
   function addAddNationalityButton(parentSelector) {
@@ -86,6 +90,13 @@ const nationalitiesComponent = () => {
     }
   }
 
+  function addRemoveLinkEvent(labelEl) {
+    const select = labelEl.nextSibling.nextSibling;
+    const form = labelEl.parentElement;
+    select.selectedIndex = null;
+    form.style.display = 'none';
+  }
+
   function addNationalityEvent() {
     const secondFormLabel = document.querySelector("[for=candidate-interface-nationalities-form-other-nationality2-field]");
     const thirdFormLabel = document.querySelector("[for=candidate-interface-nationalities-form-other-nationality3-field]");
@@ -99,7 +110,6 @@ const nationalitiesComponent = () => {
     }
   }
 
-
   // function addNationalityButton(selectNationality, id) {
   //     if (
   //       !notOtherNationality1(id) &&
@@ -109,9 +119,9 @@ const nationalitiesComponent = () => {
   //     } else if (getThirdSelect().value !== "" || thirdError) {
   //       button.style.display = "none";
   //     }
-  //     button.addEventListener("click", function () {
-  //       addNationalityEvent(id, button);
-  //     });
+      // button.addEventListener("click", function () {
+      //   addNationalityEvent(id, button);
+      // });
   //   }
   // }
   // function notOtherNationality1(id) {
