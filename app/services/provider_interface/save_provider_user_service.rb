@@ -59,10 +59,10 @@ module ProviderInterface
           provider_id: provider_id,
           provider_user_id: user.id,
         )
-        %w[manage_users make_decisions].each do |permission_type|
+        ProviderPermissions::VALID_PERMISSIONS.each do |permission_type|
           provider_permission.send(
             "#{permission_type}=",
-            permission['permissions'].include?(permission_type),
+            permission['permissions'].include?(permission_type.to_s),
           )
         end
         provider_permission.save!
