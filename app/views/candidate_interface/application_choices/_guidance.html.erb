@@ -1,4 +1,3 @@
-<p class="govuk-body">You can apply for up to 3 courses at this stage of your application.</p>
-<p class="govuk-body">Not all courses and training providers are signed up to this service. If you choose a course that isn’t signed up to <%= service_name %>, you’ll be directed to UCAS to continue your application.</p>
-<p class="govuk-body">You can preview <%= govuk_link_to 'courses currently available', candidate_interface_providers_path %> on <%= service_name %>.</p>
-<p class="govuk-body">Get support by emailing <%= govuk_link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk' %>.</p>
+<p class="govuk-body">You can apply for up to 3 courses.</p>
+<p class="govuk-body">Some courses are not on <%= service_name %> yet and are only available through UCAS Teacher Training.</p>
+<p class="govuk-body"><%= govuk_link_to 'Check which courses you can apply to on ' + service_name, candidate_interface_providers_path %></p>
