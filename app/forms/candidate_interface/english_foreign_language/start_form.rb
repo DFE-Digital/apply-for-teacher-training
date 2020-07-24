@@ -33,6 +33,12 @@ module CandidateInterface
         end
       end
 
+      def fill(english_proficiency)
+        self.qualification_status = english_proficiency.qualification_status
+        self.no_qualification_details = english_proficiency.no_qualification_details
+        self
+      end
+
     private
 
       def raise_error_unless_application_form

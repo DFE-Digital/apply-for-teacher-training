@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ToeflReviewComponent, type: :component do
+RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflReviewComponent, type: :component do
   it 'renders a review summary for a TOEFL qualification' do
     toefl_qualification = build(
       :toefl_qualification,
