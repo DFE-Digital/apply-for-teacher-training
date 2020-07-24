@@ -3,22 +3,24 @@ module EFLHelper
     FeatureFlag.activate(:efl_section)
   end
 
-  def and_i_declare_a_non_english_speaking_nationality
+  def when_i_declare_a_non_english_nationality
+    current_candidate.current_application.update(
+      first_nationality: 'Hong Konger',
+      second_nationality: 'Pakistani',
+    )
     visit candidate_interface_application_form_path
-    click_link 'Personal details'
-    candidate_fills_in_personal_details
-    click_link 'Personal details'
-    click_link 'Change nationality'
-    select 'Hong Konger', from: 'Nationality'
-    select 'Pakistani', from: 'Second nationality'
-    click_button 'Save and continue'
-    click_button 'Save and continue'
-    check t('application_form.completed_checkbox')
-    click_button 'Continue'
+  end
+
+  def when_i_click_on_the_efl_section_link
+    click_link efl_link_text
+  end
+
+  def and_i_declare_a_non_english_speaking_nationality
+    when_i_declare_a_non_english_nationality
   end
 
   def and_i_click_on_the_efl_section_link
-    click_link efl_link_text
+    when_i_click_on_the_efl_section_link
   end
 
   def efl_link_text

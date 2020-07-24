@@ -11,24 +11,20 @@ module CandidateInterface
     end
 
     def rows
+      assembled_rows = [
+        name_row,
+        date_of_birth_row,
+        nationality_row,
+      ]
+
       if FeatureFlag.active?('international_personal_details')
-        [
-          name_row,
-          date_of_birth_row,
-          nationality_row,
-          right_to_work_row,
-        ]
-        .compact
-      else
-        [
-          name_row,
-          date_of_birth_row,
-          nationality_row,
-          english_main_language_row,
-          language_details_row,
-        ]
-          .compact
+        assembled_rows << right_to_work_row
       end
+
+      assembled_rows << english_main_language_row
+      assembled_rows << language_details_row
+
+      assembled_rows.compact
     end
 
   private

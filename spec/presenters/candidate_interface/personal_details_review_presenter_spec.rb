@@ -207,38 +207,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       end
     end
 
-    context 'when the international personal details feature flag is on' do
-      before do
-        FeatureFlag.activate('international_personal_details')
-      end
-
-      it 'does not render english language details row' do
-        languages_form = build(
-          :languages_form,
-          english_main_language: 'no',
-          english_language_details: 'Broken? Oh man, are you cereal?',
-          other_language_details: 'Anything',
-        )
-
-        expect(rows(personal_details_form, nationalities_form, languages_form, right_to_work_form)).not_to include(
-          row_for(:english_language_details, 'Broken? Oh man, are you cereal?', Rails.application.routes.url_helpers.candidate_interface_languages_path),
-        )
-      end
-
-      it 'does not render other language details row' do
-        languages_form = build(
-          :languages_form,
-          english_main_language: 'no',
-          english_language_details: 'Broken? Oh man, are you cereal?',
-          other_language_details: 'Anything',
-        )
-        expect(rows(personal_details_form, nationalities_form, languages_form, right_to_work_form)).not_to include(
-          row_for(:other_language_details, 'Anything', Rails.application.routes.url_helpers.candidate_interface_languages_path),
-        )
-      end
-    end
-
-    context 'when the when the international personal details flag is on and the candidate has selected they have the right to work' do
+    context 'when the international personal details flag is on and the candidate has selected they have the right to work' do
       before do
         FeatureFlag.activate('international_personal_details')
       end
@@ -260,7 +229,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       end
     end
 
-    context 'when the when the international personal details flag is the candidate is British or Irish' do
+    context 'when the international personal details flag is on and the candidate is British or Irish' do
       before do
         FeatureFlag.activate('international_personal_details')
       end
