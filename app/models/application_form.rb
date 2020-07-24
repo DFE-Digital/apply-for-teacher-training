@@ -186,10 +186,9 @@ class ApplicationForm < ApplicationRecord
   end
 
   def english_speaking_nationality?
-    first_nationality_code = NATIONALITIES_BY_NAME[first_nationality]
-    second_nationality_code = NATIONALITIES_BY_NAME[second_nationality]
+    nationality_codes = nationalities.map { |n| NATIONALITIES_BY_NAME[n] }.compact
 
-    [first_nationality_code, second_nationality_code].any? do |code|
+    nationality_codes.any? do |code|
       code.in? ENGLISH_SPEAKING_NATIONALITIES
     end
   end
