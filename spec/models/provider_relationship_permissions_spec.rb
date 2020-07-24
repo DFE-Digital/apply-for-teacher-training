@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe ProviderRelationshipPermissions do
-  describe 'validations' do
-    let(:setup_at) { Time.zone.now }
+  let(:setup_at) { Time.zone.now }
 
+  describe 'validations' do
     subject(:permissions) do
       described_class.new(
         ratifying_provider: build_stubbed(:provider),
@@ -32,6 +32,34 @@ RSpec.describe ProviderRelationshipPermissions do
 
         expect(permissions.valid?).to be true
       end
+    end
+  end
+
+  describe 'auditing', with_audited: true do
+    let(:training_provider) { create(:provider) }
+    let(:ratifying_provider) { create(:provider) }
+    let(:provider_relationship_permissions) do
+      create(:provider_relationship_permissions,
+             training_provider: training_provider,
+             ratifying_provider: ratifying_provider,
+             setup_at: setup_at)
+    end
+
+    before do
+      provider_relationship_permissions
+    end
+
+    it 'creates audit entries' do
+      expect {
+        provider_relationship_permissions.update!(ratifying_provider_can_make_decisions: true)
+      }.to change { training_provider.associated_audits.count }.by(1)
+    end
+
+    it 'creates an associated object in each audit record' do
+      provider_relationship_permissions.update!(training_provider_can_make_decisions: true)
+
+      expect(training_provider.associated_audits.last.auditable).to eq provider_relationship_permissions
+      expect(provider_relationship_permissions.audits.last.associated).to eq(training_provider)
     end
   end
 end
