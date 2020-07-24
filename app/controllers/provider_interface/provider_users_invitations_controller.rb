@@ -39,34 +39,26 @@ module ProviderInterface
     end
 
     def edit_permissions
-      @provider = Provider.find(params[:provider_id])
-      @wizard = wizard_for(current_step: 'permissions', current_provider_id: @provider.id)
+      @wizard = wizard_for(current_step: 'permissions', current_provider_id: params[:provider_id])
       @wizard.save_state!
 
       # This is gnarly but meant to mirror the related wizard data structure
       # Best refactored as part of an invitation wizard PR
       # --
-      permission_struct = Struct.new(:slug, :name)
-      available_permissions = [
-        permission_struct.new('manage_users', 'Manage users'),
-        permission_struct.new('make_decisions', 'Make decisions'),
-      ]
-
-      permissions_form_struct = Struct.new(:id, :provider_id, :permissions, :available_permissions)
-      @permissions_form = permissions_form_struct.new(
-        @provider.id,
-        @provider.id,
-        @wizard.provider_permissions[@provider.id.to_s]['permissions'],
-        available_permissions,
-      )
+      setup_permission_form
       # --
     end
 
     def update_permissions
       @wizard = wizard_for(permissions_params.merge(current_step: 'permissions', current_provider_id: params[:provider_id]))
-      @wizard.save_state!
 
-      redirect_to next_redirect
+      if @wizard.valid_for_current_step?
+        @wizard.save_state!
+        redirect_to next_redirect
+      else
+        setup_permission_form
+        render :edit_permissions
+      end
     end
 
     def check
@@ -141,6 +133,23 @@ module ProviderInterface
 
     def require_manage_user_permission!
       render_404 unless current_provider_user.authorisation.can_manage_users_for_at_least_one_provider?
+    end
+
+    def setup_permission_form
+      @provider = Provider.find(params[:provider_id])
+      permission_struct = Struct.new(:slug, :name)
+      available_permissions = [
+        permission_struct.new('manage_users', 'Manage users'),
+        permission_struct.new('make_decisions', 'Make decisions'),
+      ]
+
+      permissions_form_struct = Struct.new(:id, :provider_id, :permissions, :available_permissions)
+      @permissions_form = permissions_form_struct.new(
+        @provider.id,
+        @provider.id,
+        @wizard.permissions_for_provider(@provider.id),
+        available_permissions,
+      )
     end
   end
 end

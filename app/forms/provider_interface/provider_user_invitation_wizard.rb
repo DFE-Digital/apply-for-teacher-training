@@ -11,6 +11,7 @@ module ProviderInterface
     validates :email_address, presence: true, on: :details
     validates :email_address, email: true, on: :details
     validates :providers, presence: true, on: :providers
+    validate :at_least_one_provider_permission, on: :permissions
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
@@ -30,6 +31,10 @@ module ProviderInterface
 
     def provider_permissions
       @provider_permissions || {}
+    end
+
+    def permissions_for_provider(provider_id)
+      provider_permissions[provider_id.to_s]&.dig('permissions') || []
     end
 
     def applicable_provider_permissions
@@ -53,7 +58,7 @@ module ProviderInterface
     # in isolation
     def next_step
       if checking_answers
-        if any_provider_needs_permissions_setup
+        if any_provider_needs_permissions_setup?
           [:permissions, next_provider_needing_permissions_setup]
         else
           [:check]
@@ -122,11 +127,23 @@ module ProviderInterface
     end
 
     def next_provider_needing_permissions_setup
-      providers.find { |p| provider_permissions.keys.exclude?(p.to_s) }
+      providers.find do |p|
+        provider_permissions.keys.exclude?(p.to_s) ||
+          provider_permissions[p.to_s]['permissions'].reject(&:blank?).blank?
+      end
     end
 
-    def any_provider_needs_permissions_setup
+    def any_provider_needs_permissions_setup?
       next_provider_needing_permissions_setup.present?
+    end
+
+    def at_least_one_provider_permission
+      return unless current_provider_id
+
+      if provider_permissions[current_provider_id.to_s].blank? ||
+          provider_permissions[current_provider_id.to_s]['permissions'].reject(&:blank?).blank?
+        errors[:provider_permissions] << 'Specify one or more permissions'
+      end
     end
   end
 end
