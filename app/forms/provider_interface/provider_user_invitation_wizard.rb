@@ -142,7 +142,7 @@ module ProviderInterface
 
       if provider_permissions[current_provider_id.to_s].blank? ||
           provider_permissions[current_provider_id.to_s]['permissions'].reject(&:blank?).blank?
-        errors[:provider_permissions] << 'Specify one or more permissions'
+        errors["provider_permissions[#{current_provider_id}].permissions"] << 'Specify one or more permissions'
       end
     end
   end
