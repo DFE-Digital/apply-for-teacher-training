@@ -9,6 +9,10 @@ module CandidateInterface
 
     validates :qualification_type, :subject, :institution_name, :grade, :award_year, presence: true
 
+    validates :institution_country, presence: true, if: -> { qualification_type == 'non_uk' }
+
+    validates :institution_country, inclusion: { in: COUNTRY_NAMES }, if: -> { qualification_type == 'non_uk' }
+
     validates :qualification_type, :subject, :institution_name, :grade, length: { maximum: 255 }
 
     validate :award_year_is_date_and_before_current_year, if: :award_year
@@ -32,7 +36,7 @@ module CandidateInterface
           qualification_type: qualification.qualification_type,
           subject: qualification.subject,
           institution_name: qualification.institution_name,
-          institution_country: qualification.institution_country,
+          institution_country: COUNTRIES[qualification.institution_country],
           grade: qualification.grade,
           award_year: qualification.award_year,
           other_uk_qualification_type: qualification.other_uk_qualification_type,
@@ -49,7 +53,7 @@ module CandidateInterface
         qualification_type: qualification_type,
         subject: subject,
         institution_name: institution_name,
-        institution_country: institution_country,
+        institution_country: COUNTRY_NAMES_TO_ISO_CODES[institution_country],
         grade: grade,
         predicted_grade: false,
         award_year: award_year,
@@ -66,6 +70,7 @@ module CandidateInterface
         qualification_type: qualification_type,
         subject: subject,
         institution_name: institution_name,
+        institution_country: COUNTRY_NAMES_TO_ISO_CODES[institution_country],
         grade: grade,
         predicted_grade: false,
         award_year: award_year,

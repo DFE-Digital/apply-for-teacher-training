@@ -17,6 +17,24 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
     it { is_expected.to validate_length_of(:institution_name).is_at_most(255) }
     it { is_expected.to validate_length_of(:grade).is_at_most(255) }
 
+    describe 'institution country' do
+      context 'when it is a non-uk qualification' do
+        it 'validates for presence and inclusion in the COUNTY_NAMES constant' do
+          valid_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'Germany')
+          blank_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk')
+          inavlid_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk')
+
+          valid_qualification.validate
+          blank_country_qualification.validate
+          inavlid_country_qualification.validate
+
+          expect(valid_qualification.errors.full_messages_for(:institution_country)).to be_empty
+          expect(blank_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
+          expect(inavlid_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
+        end
+      end
+    end
+
     describe 'award year' do
       it 'is valid if the award year is 4 digits' do
         qualification = CandidateInterface::OtherQualificationForm.new(award_year: '2009')
