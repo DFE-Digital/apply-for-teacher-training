@@ -13,7 +13,7 @@
         <%= pf.hidden_field :provider_id %>
         <%= pf.govuk_collection_check_boxes(
           :permissions,
-          @permissions_form.available_permissions,
+          ProviderInterface::ProviderUserInvitationWizard::AVAILABLE_PERMISSIONS,
           :slug,
           :name,
           :hint,
