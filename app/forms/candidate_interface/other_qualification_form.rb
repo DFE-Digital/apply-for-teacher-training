@@ -4,7 +4,7 @@ module CandidateInterface
     include ValidationUtils
 
     attr_accessor :id, :qualification_type, :subject, :institution_name, :grade,
-                  :award_year, :choice
+                  :award_year, :choice, :non_uk_qualification_type, :other_uk_qualification_type
 
     validates :qualification_type, :subject, :institution_name, :grade, :award_year, presence: true
 
@@ -33,6 +33,8 @@ module CandidateInterface
           institution_name: qualification.institution_name,
           grade: qualification.grade,
           award_year: qualification.award_year,
+          other_uk_qualification_type: qualification.other_uk_qualification_type,
+          non_uk_qualification_type: qualification.non_uk_qualification_type,
         )
       end
     end

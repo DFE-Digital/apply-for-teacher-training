@@ -4,16 +4,26 @@ module CandidateInterface
 
     def new
       qualifications = OtherQualificationForm.build_all_from_application(current_application)
-      @type = qualifications.last.qualification_type
+      @type = if qualifications.last.qualification_type == 'non_uk'
+                qualifications.last.non_uk_qualification_type
+              elsif qualifications.last.qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications')
+                qualifications.last.other_uk_qualification_type
+              else
+                qualifications.last.qualification_type
+              end
 
       @qualification = if last_two_qualifications_are_of_same_type(qualifications)
                          OtherQualificationForm.new(
                            institution_name: pre_fill_institution_name(qualifications),
                            award_year: pre_fill_award_year(qualifications),
+                           non_uk_qualification_type: pre_fill_non_uk_qualification_type(qualifications),
+                           other_uk_qualification_type: pre_fill_other_uk_qualification_type(qualifications),
                          )
                        else
                          OtherQualificationForm.new
                        end
+
+      @non_uk_qualification = qualifications.last.qualification_type == 'non_uk'
     end
 
     def create
@@ -66,6 +76,14 @@ module CandidateInterface
 
     def pre_fill_award_year(qualifications)
       qualifications[-2].award_year
+    end
+
+    def pre_fill_non_uk_qualification_type(qualifications)
+      qualifications[-2].non_uk_qualification_type
+    end
+
+    def pre_fill_other_uk_qualification_type(qualifications)
+      qualifications[-2].other_uk_qualification_type
     end
 
     def get_qualification_type

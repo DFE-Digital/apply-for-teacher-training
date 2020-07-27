@@ -244,6 +244,8 @@ en:
         hint_text: For example, GCSE, A level, BTEC, NVQ or non-UK other
       subject:
         label: Subject
+      institution_country:
+        label: Country where you studied
       institution_name:
         label: Institution where you studied
       institution:
@@ -603,6 +605,10 @@ en:
         candidate_interface/other_qualification_type_form:
           attributes:
             qualification_type:
+              blank: Enter the type of qualification
+            non_uk_qualification_type:
+              blank: Enter the type of qualification
+            other_uk_qualification_type:
               blank: Enter the type of qualification
         candidate_interface/other_qualification_form:
           attributes:

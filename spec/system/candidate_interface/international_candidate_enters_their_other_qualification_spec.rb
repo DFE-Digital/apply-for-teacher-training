@@ -83,7 +83,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def then_i_see_the_other_qualifications_form
-    expect(page).to have_content('Add non-UK qualification')
+    expect(page).to have_content('Add Master Rules qualification')
   end
 
   def when_i_fill_in_some_of_my_qualification_but_omit_some_required_details

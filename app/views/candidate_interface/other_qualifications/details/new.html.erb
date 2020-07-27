@@ -14,7 +14,6 @@
       <% else %>
         <h1 class="govuk-heading-xl">
           <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
-          Qualification Details
         </h1>
       <% end %>
 
@@ -22,19 +21,32 @@
         <%= f.govuk_text_field :qualification_type, label: { text: t('application_form.other_qualification.qualification_type.label'), size: 'm' }, hint_text: 'For example, BTEC, NVQ or non-UK other' %>
       <% end %>
 
-      <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label'), size: 'm' } %>
-      <%= f.govuk_text_field :grade, label: { text: t('application_form.other_qualification.grade.label'), size: 'm' }, width: 10 %>
-      <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint_text: t('application_form.other_qualification.award_year.hint_text'), width: 4 %>
-      <%= f.govuk_text_field :institution_name, label: { text: t('application_form.other_qualification.institution_name.label'), size: 'm' } %>
+      <% if @non_uk_qualification %>
+        <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label') + ' (optional)', size: 'm' } %>
+        <%= f.govuk_text_field :institution_country, label: { text: t('application_form.other_qualification.institution_country.label'), size: 'm' } %>
+        <%= f.govuk_text_field :grade, label: { text: t('application_form.other_qualification.grade.label') + ' (optional)', size: 'm' }, width: 10 %>
+        <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint_text: t('application_form.other_qualification.award_year.hint_text'), width: 4 %>
+      <% else %>
+        <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label'), size: 'm' } %>
+        <%= f.govuk_text_field :institution_name, label: { text: t('application_form.other_qualification.institution_name.label'), size: 'm' } %>
+        <%= f.govuk_text_field :grade, label: { text: t('application_form.other_qualification.grade.label'), size: 'm' }, width: 10 %>
+        <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint_text: t('application_form.other_qualification.award_year.hint_text'), width: 4 %>
+      <% end %>
 
       <%= f.govuk_radio_buttons_fieldset :add_another_qualification, legend: { text: 'Do you want to add another qualification?', tag: 'span' } do %>
-        <% if @type != 'Other' %>
-          <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@type}" } %>
+        <% if FeatureFlag.active?('international_other_qualifications') %>
+            <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@type}" } %>
+            <%= f.govuk_radio_button :choice, 'different_type', label: { text: 'Yes, add a different qualification' } %>
+          <%= f.govuk_radio_button :choice, 'no', label: { text: 'No, not at the moment' } %>
         <% else %>
-          <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another qualification" } %>
+          <% if @type != 'Other' %>
+            <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@type}" } %>
+          <% else %>
+            <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another qualification" } %>
+          <% end %>
+          <%= f.govuk_radio_button :choice, 'different_type', label: { text: 'Yes, add a different qualification' } %>
+          <%= f.govuk_radio_button :choice, 'no', label: { text: 'No, not at the moment' } %>
         <% end %>
-        <%= f.govuk_radio_button :choice, 'different_type', label: { text: 'Yes, add a different qualification' } %>
-        <%= f.govuk_radio_button :choice, 'no', label: { text: 'No, not at the moment' } %>
       <% end %>
 
       <%= f.govuk_submit t('application_form.other_qualification.base.button') %>
