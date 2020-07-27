@@ -64,9 +64,14 @@ module ProviderInterface
 
     def commit
       @wizard = wizard_for({})
+
+      save_service = ProviderInterface::SaveProviderUserService.new(
+        actor: current_provider_user,
+        wizard: @wizard,
+      )
       service = SaveAndInviteProviderUser.new(
         form: @wizard,
-        save_service: ProviderInterface::SaveProviderUserService.new(@wizard),
+        save_service: save_service,
         invite_service: InviteProviderUser.new(provider_user: @wizard.email_address),
         new_user: @wizard.new_user?,
       )
