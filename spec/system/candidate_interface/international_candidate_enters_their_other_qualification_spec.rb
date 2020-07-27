@@ -75,7 +75,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def and_i_fill_in_the_name_of_my_qualification
-    fill_in t('application_form.other_qualification.non_uk.label'), with: 'Master Rules'
+    fill_in 'candidate-interface-other-qualification-type-form-non-uk-qualification-type-field', with: 'Master Rules'
   end
 
   def and_i_click_continue
