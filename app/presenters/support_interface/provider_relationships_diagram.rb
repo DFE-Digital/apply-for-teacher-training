@@ -23,7 +23,7 @@ module SupportInterface
           graph.add_edges(
             "Provider##{perm.training_provider_id}",
             "Provider##{perm.ratifying_provider_id}",
-            label: "#{translate_permissions(perm)} for courses ratified by",
+            label: "#{translate_training_permissions(perm)} for courses ratified by",
             fontname: 'Arial',
             color: '#0b0c0c',
             fontcolor: '#0b0c0c',
@@ -35,7 +35,7 @@ module SupportInterface
           graph.add_edges(
             "Provider##{perm.ratifying_provider_id}",
             "Provider##{perm.training_provider_id}",
-            label: "#{translate_permissions(perm)} for courses run by",
+            label: "#{translate_ratifying_permissions(perm)} for courses run by",
             fontname: 'Arial',
             color: '#0b0c0c',
             fontcolor: '#0b0c0c',
@@ -67,8 +67,12 @@ module SupportInterface
       )
     end
 
-    def translate_permissions(permission)
-      "#{permission.view_safeguarding_information ? '✅ view safeguarding' : '❌ view safeguarding'} #{permission.view_safeguarding_information ? '✅ make decisions' : '❌ make decisions'}"
+    def translate_training_permissions(permission)
+      "#{permission.training_provider_can_view_safeguarding_information ? '✅ view safeguarding' : '❌ view safeguarding'} #{permission.training_provider_can_make_decisions ? '✅ make decisions' : '❌ make decisions'}"
+    end
+
+    def translate_ratifying_permissions(permission)
+      "#{permission.ratifying_provider_can_view_safeguarding_information ? '✅ view safeguarding' : '❌ view safeguarding'} #{permission.ratifying_provider_can_make_decisions ? '✅ make decisions' : '❌ make decisions'}"
     end
   end
 end
