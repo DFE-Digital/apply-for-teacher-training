@@ -11,7 +11,6 @@ module ProviderInterface
     validates :email_address, presence: true, on: :details
     validates :email_address, email: true, on: :details
     validates :providers, presence: true, on: :providers
-    validate :at_least_one_provider_permission, on: :permissions
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
@@ -135,15 +134,6 @@ module ProviderInterface
 
     def any_provider_needs_permissions_setup?
       next_provider_needing_permissions_setup.present?
-    end
-
-    def at_least_one_provider_permission
-      return unless current_provider_id
-
-      if provider_permissions[current_provider_id.to_s].blank? ||
-          provider_permissions[current_provider_id.to_s]['permissions'].reject(&:blank?).blank?
-        errors["provider_permissions[#{current_provider_id}].permissions"] << 'Specify one or more permissions'
-      end
     end
   end
 end

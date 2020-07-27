@@ -34,9 +34,6 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     and_i_press_continue
     then_i_see_the_select_permissions_form_for_selected_provider
 
-    when_i_press_continue
-    then_i_see_validation_errors_for_permissions
-
     when_i_select_make_decisions_permission
     and_i_press_continue
     then_i_see_the_confirm_page
@@ -122,11 +119,6 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     expect(page).to have_content('Enter the user\'s first name')
     expect(page).to have_content('Enter the user\'s last name')
     expect(page).to have_content('Enter the user\'s email address')
-  end
-
-  def then_i_see_validation_errors_for_permissions
-    expect(page).to have_content 'Set permissions for Another Provider'
-    expect(page).to have_content('Specify one or more permissions')
   end
 
   def then_i_see_the_select_organisations_form
