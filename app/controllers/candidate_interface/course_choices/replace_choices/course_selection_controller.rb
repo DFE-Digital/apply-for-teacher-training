@@ -41,7 +41,9 @@ module CandidateInterface
               @pick_course.course_id,
             )
           elsif @pick_course.single_site?
-            @replacement_course_option_id = CourseOption.find(params['course_id']).id
+            @replacement_course_option_id = CourseOption.find_by(
+              course_id: course_id,
+            )
 
             redirect_to candidate_interface_confirm_replacement_course_choice_path(
               @course_choice.id,

@@ -6,20 +6,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">You can apply to the following training providers and courses using <%= service_name %>. Providers not signed up to <%= service_name %> can only receive applications through UCAS.</p>
-    <h2 class="govuk-heading-s">We suggest you use Apply for teacher training if:</h2>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>you want to try a streamlined service with personalised support</li>
-      <li>all your chosen providers are available on the new service</li>
-    </ul>
-    <p class="govuk-body"><%= govuk_link_to 'Use ' + service_name, candidate_interface_start_path %></p>
-
-    <h2 class="govuk-heading-s">We suggest you use UCAS if:</h2>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>you’ve already started applying with UCAS</li>
-      <li>some of your chosen providers are not available on <%= service_name %> and you don’t want to use 2 different services.</li>
-    </ul>
-    <p class="govuk-body"><%= govuk_link_to 'Use UCAS', 'https://2020.teachertraining.apply.ucas.com/apply/student/login.do' %></p>
+    <p class="govuk-body">Use <%= govuk_link_to service_name, candidate_interface_start_path %> if the courses you want to do are listed on this page.</p>
+    <p class="govuk-body">Otherwise, apply through <%= govuk_link_to 'UCAS Teacher Training', 'https://2020.teachertraining.apply.ucas.com/apply/student/login.do' %>.</p>
+    <p class="govuk-body">Do not apply for the same courses on both services.<p>
+    <p class="govuk-body">You can apply for up to 3 courses in total.<p>
     <%= render GroupedProviderCoursesComponent.new(courses_by_provider_and_region: @courses_by_provider_and_region) %>
   </div>
 </div>

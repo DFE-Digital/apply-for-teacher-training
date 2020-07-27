@@ -77,6 +77,7 @@ RSpec.feature 'Provider cannot respond to application' do
   def and_my_organisation_is_not_permitted_to_make_decisions
     @provider_relationship.update(
       training_provider_can_make_decisions: false,
+      ratifying_provider_can_make_decisions: true,
     )
   end
 

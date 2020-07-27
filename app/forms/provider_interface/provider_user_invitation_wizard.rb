@@ -3,7 +3,8 @@ module ProviderInterface
     include ActiveModel::Model
     STATE_STORE_KEY = :provider_user_invitation_wizard
 
-    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :email_address, :checking_answers
+    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :checking_answers
+    attr_reader :email_address
     attr_writer :providers, :provider_permissions, :state_store
 
     validates :first_name, presence: true, on: :details
@@ -32,6 +33,10 @@ module ProviderInterface
       @provider_permissions || {}
     end
 
+    def permissions_for_provider(provider_id)
+      provider_permissions[provider_id.to_s]&.dig('permissions') || []
+    end
+
     def applicable_provider_permissions
       @provider_permissions.select do |id, _details|
         providers.include?(id.to_i)
@@ -53,7 +58,7 @@ module ProviderInterface
     # in isolation
     def next_step
       if checking_answers
-        if any_provider_needs_permissions_setup
+        if any_provider_needs_permissions_setup?
           [:permissions, next_provider_needing_permissions_setup]
         else
           [:check]
@@ -95,6 +100,10 @@ module ProviderInterface
       email_address.present? && ProviderUser.find_by(email_address: email_address).nil?
     end
 
+    def email_address=(raw_email_address)
+      @email_address = raw_email_address.downcase.strip
+    end
+
   private
 
     def state
@@ -122,10 +131,13 @@ module ProviderInterface
     end
 
     def next_provider_needing_permissions_setup
-      providers.find { |p| provider_permissions.keys.exclude?(p.to_s) }
+      providers.find do |p|
+        provider_permissions.keys.exclude?(p.to_s) ||
+          provider_permissions[p.to_s]['permissions'].reject(&:blank?).blank?
+      end
     end
 
-    def any_provider_needs_permissions_setup
+    def any_provider_needs_permissions_setup?
       next_provider_needing_permissions_setup.present?
     end
   end

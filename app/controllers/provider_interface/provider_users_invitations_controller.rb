@@ -4,12 +4,12 @@ module ProviderInterface
     before_action :require_manage_user_permission!
 
     def edit_details
-      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'details')
+      @wizard = wizard_for(current_step: 'details')
       @wizard.save_state!
     end
 
     def update_details
-      @wizard = ProviderUserInvitationWizard.new(session, details_params.merge(current_step: 'details'))
+      @wizard = wizard_for(details_params.merge(current_step: 'details'))
 
       if @wizard.valid_for_current_step?
         @wizard.save_state!
@@ -20,14 +20,14 @@ module ProviderInterface
     end
 
     def edit_providers
-      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'providers')
+      @wizard = wizard_for(current_step: 'providers')
       @wizard.save_state!
 
       @available_providers = current_provider_user.providers
     end
 
     def update_providers
-      @wizard = ProviderUserInvitationWizard.new(session, providers_params.merge(current_step: 'providers'))
+      @wizard = wizard_for(providers_params.merge(current_step: 'providers'))
       @available_providers = current_provider_user.providers
 
       if @wizard.valid_for_current_step?
@@ -39,45 +39,39 @@ module ProviderInterface
     end
 
     def edit_permissions
-      @provider = Provider.find(params[:provider_id])
-      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'permissions', current_provider_id: @provider.id)
+      @wizard = wizard_for(current_step: 'permissions', current_provider_id: params[:provider_id])
       @wizard.save_state!
 
-      # This is gnarly but meant to mirror the related wizard data structure
-      # Best refactored as part of an invitation wizard PR
-      # --
-      permission_struct = Struct.new(:slug, :name)
-      @permissions = [
-        permission_struct.new('manage_users', 'Manage users'),
-        permission_struct.new('make_decisions', 'Make decisions'),
-      ]
-
-      permissions_form_struct = Struct.new(:id, :provider_id, :permissions)
-      @permissions_form = permissions_form_struct.new(
-        @provider.id,
-        @provider.id,
-        @permissions,
-      )
-      # --
+      setup_permission_form
     end
 
     def update_permissions
-      @wizard = ProviderUserInvitationWizard.new(session, permissions_params.merge(current_step: 'permissions', current_provider_id: params[:provider_id]))
-      @wizard.save_state!
+      @wizard = wizard_for(permissions_params.merge(current_step: 'permissions', current_provider_id: params[:provider_id]))
 
-      redirect_to next_redirect
+      if @wizard.valid_for_current_step?
+        @wizard.save_state!
+        redirect_to next_redirect
+      else
+        setup_permission_form
+        render :edit_permissions
+      end
     end
 
     def check
-      @wizard = ProviderUserInvitationWizard.new(session, current_step: 'check')
+      @wizard = wizard_for(current_step: 'check')
       @wizard.save_state!
     end
 
     def commit
-      @wizard = ProviderUserInvitationWizard.new(session)
+      @wizard = wizard_for({})
+
+      save_service = ProviderInterface::SaveProviderUserService.new(
+        actor: current_provider_user,
+        wizard: @wizard,
+      )
       service = SaveAndInviteProviderUser.new(
         form: @wizard,
-        save_service: ProviderInterface::SaveProviderUserService.new(@wizard),
+        save_service: save_service,
         invite_service: InviteProviderUser.new(provider_user: @wizard.email_address),
         new_user: @wizard.new_user?,
       )
@@ -103,6 +97,11 @@ module ProviderInterface
     helper_method :previous_page
 
   private
+
+    def wizard_for(options)
+      options[:checking_answers] = true if params[:checking_answers] == 'true'
+      ProviderUserInvitationWizard.new(session, options)
+    end
 
     def path_for(step, provider_id)
       {
@@ -135,6 +134,41 @@ module ProviderInterface
 
     def require_manage_user_permission!
       render_404 unless current_provider_user.authorisation.can_manage_users_for_at_least_one_provider?
+    end
+
+    def setup_permission_form
+      @provider = Provider.find(params[:provider_id])
+      permission_struct = Struct.new(:slug, :name, :hint)
+      available_permissions = [
+        permission_struct.new(
+          'manage_organisations',
+          'Manage organisations',
+          'Change permissions between organisations',
+        ),
+        permission_struct.new(
+          'manage_users',
+          'Manage users',
+          'Invite or delete users and set their permissions',
+        ),
+        permission_struct.new(
+          'make_decisions',
+          'Make decisions',
+          'Make offers, amend offers and reject applications',
+        ),
+        permission_struct.new(
+          'view_safeguarding_information',
+          'Access safeguarding information',
+          'View sensitive material about the candidate',
+        ),
+      ]
+
+      permissions_form_struct = Struct.new(:id, :provider_id, :permissions, :available_permissions)
+      @permissions_form = permissions_form_struct.new(
+        @provider.id,
+        @provider.id,
+        @wizard.permissions_for_provider(@provider.id),
+        available_permissions,
+      )
     end
   end
 end

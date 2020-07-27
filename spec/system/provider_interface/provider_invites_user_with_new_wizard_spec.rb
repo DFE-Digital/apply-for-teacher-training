@@ -7,9 +7,6 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   scenario 'Provider sends invite to user' do
     FeatureFlag.activate(:providers_can_manage_users_and_permissions)
 
-    # TODO: test what happens with the feature flag off
-    # TODO: test what happens without necessary permissions
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_applications_for_two_providers
     and_i_sign_in_to_the_provider_interface
@@ -22,9 +19,8 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     and_i_can_manage_users_for_two_providers
     and_i_sign_in_again_to_the_provider_interface
 
-    # when_i_click_on_the_users_link
-    # and_i_click_invite_user
-    when_i_visit_the_invite_user_wizard
+    when_i_click_on_the_users_link
+    and_i_click_invite_user
     then_i_see_the_basic_details_form
 
     when_i_press_continue
@@ -42,7 +38,17 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     and_i_press_continue
     then_i_see_the_confirm_page
 
-    # TODO: Assert the state of the confirm page
+    when_i_click_to_change_the_users_name
+    then_i_can_see_the_details_form
+    when_i_fill_in_a_new_name
+    and_i_press_continue
+    then_i_see_the_confirm_page_with_the_new_name
+
+    when_i_click_to_change_the_permissions_for_another_provider
+    then_i_can_see_the_permissions_form
+    when_i_change_permissions
+    and_i_press_continue
+    then_i_see_the_confirm_page_with_the_new_permissions
 
     when_i_commit_changes
     then_i_see_the_new_user_on_the_index_page
@@ -99,7 +105,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def when_i_fill_in_email_address_and_name
-    fill_in 'Email address', with: 'ed@example.com'
+    fill_in 'Email address', with: 'Ed@Example.Com'
     fill_in 'First name', with: 'Ed'
     fill_in 'Last name', with: 'Ucator'
   end
@@ -132,7 +138,53 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def then_i_see_the_confirm_page
-    expect(page).to have_content('Check permissions before you invite user')
+    expect(page).to have_content 'Check permissions before you invite user'
+    expect(page).to have_content 'Ed'
+    expect(page).to have_content 'Ucator'
+    expect(page).to have_content 'ed@example.com'
+    expect(page).not_to have_content 'Example Provider'
+    expect(page).to have_content 'Another Provider'
+    expect(page).to have_content 'Make decisions'
+    expect(page).not_to have_content 'Manage users'
+  end
+
+  def when_i_click_to_change_the_users_name
+    all('.govuk-summary-list__actions')[0].click_link 'Change'
+  end
+
+  def then_i_can_see_the_details_form
+    expect(page).to have_selector("input[value='Ed']")
+    expect(page).to have_selector("input[value='Ucator']")
+    expect(page).to have_selector("input[value='ed@example.com']")
+  end
+
+  def when_i_fill_in_a_new_name
+    fill_in 'First name', with: 'Eddy'
+  end
+
+  def then_i_see_the_confirm_page_with_the_new_name
+    expect(page).to have_content 'Check permissions before you invite user'
+    expect(page).to have_content 'Eddy'
+    expect(page).to have_content 'Ucator'
+    expect(page).to have_content 'ed@example.com'
+  end
+
+  def when_i_click_to_change_the_permissions_for_another_provider
+    all('.govuk-summary-list__actions')[4].click_link 'Change'
+  end
+
+  def then_i_can_see_the_permissions_form
+    expect(page).to have_content 'Set permissions for Another Provider'
+  end
+
+  def when_i_change_permissions
+    check 'Manage users'
+  end
+
+  def then_i_see_the_confirm_page_with_the_new_permissions
+    expect(page).to have_content 'Another Provider'
+    expect(page).to have_content 'Make decisions'
+    expect(page).to have_content 'Manage users'
   end
 
   def when_i_commit_changes
@@ -142,7 +194,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
   def then_i_see_the_new_user_on_the_index_page
     expect(page).to have_content('User successfully invited')
-    expect(page).to have_content('Ed Ucator')
+    expect(page).to have_content('Eddy Ucator')
   end
 
   def and_new_user_gets_an_invitation_email

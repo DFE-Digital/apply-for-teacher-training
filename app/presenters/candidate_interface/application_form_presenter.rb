@@ -143,7 +143,7 @@ module CandidateInterface
       if @application_form.english_proficiency.present?
         Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_review_path
       else
-        Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_root_path
+        Rails.application.routes.url_helpers.candidate_interface_english_foreign_language_start_path
       end
     end
 
@@ -226,6 +226,11 @@ module CandidateInterface
     def no_incomplete_qualifications?
       incomplete_qualifications = @application_form.application_qualifications.other.select(&:incomplete_other_qualification?)
       incomplete_qualifications.blank?
+    end
+
+    def display_efl_link?
+      @application_form.nationalities.present? &&
+        !@application_form.english_speaking_nationality?
     end
 
   private

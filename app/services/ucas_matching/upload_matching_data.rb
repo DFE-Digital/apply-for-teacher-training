@@ -1,4 +1,10 @@
 module UCASMatching
+  # We upload our application data every weekday morning to UCAS so that they
+  # can detect candidates who've applied on both services.
+  #
+  # Kibana dashboard for the logging:
+  #
+  # https://kibana.logit.io/app/kibana#/dashboard/6966e7e0-cb2d-11ea-8848-73aea0c4ba74
   class UploadMatchingData
     include Sidekiq::Worker
 
@@ -10,6 +16,8 @@ module UCASMatching
 
       filename = UCASMatching::MatchingDataFile.new.create_file
 
+      Rails.logger.info "Uploading file to UCAS Movit instance: #{filename}"
+
       # https://transfer.ucasenvironments.com/swagger/ui/index#/Folders/POSTapi%2Fv1%2Ffolders%2F%7BId%7D%2Fmove-1.0
       response = HTTP
         .auth(UCASAPI.auth_string)
@@ -19,8 +27,11 @@ module UCASMatching
         )
 
       unless response.status.success?
+        Rails.logger.info "HTTP #{response.status} when uploading to Movit: '#{response}'"
         raise ApiError, "HTTP #{response.status} when uploading to Movit: '#{response}'"
       end
+
+      Rails.logger.info 'Successfully uploaded file to UCAS Movit'
     end
   end
 end

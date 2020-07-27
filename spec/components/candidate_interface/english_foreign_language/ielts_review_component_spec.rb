@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe IeltsReviewComponent, type: :component do
+RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsReviewComponent, type: :component do
   it 'renders a review summary for an IELTS qualification' do
     ielts_qualification = build(
       :ielts_qualification,

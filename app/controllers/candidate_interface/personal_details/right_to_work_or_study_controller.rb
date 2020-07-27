@@ -11,7 +11,7 @@ module CandidateInterface
         @right_to_work_or_study_form = RightToWorkOrStudyForm.new(right_to_work_params)
 
         if @right_to_work_or_study_form.save(current_application)
-          redirect_to candidate_interface_personal_details_show_path
+          redirect_to candidate_interface_languages_path
         else
           track_validation_error(@right_to_work_or_study_form)
           render :new

@@ -326,6 +326,8 @@ FactoryBot.define do
   factory :provider_relationship_permissions do
     ratifying_provider { create(:provider) }
     training_provider { create(:provider) }
+    training_provider_can_make_decisions { true }
+    training_provider_can_view_safeguarding_information { true }
     setup_at { Time.zone.now }
   end
 
@@ -535,15 +537,27 @@ FactoryBot.define do
       end
     end
 
+    trait :with_manage_organisations do
+      after(:create) do |user, _evaluator|
+        user.provider_permissions.update_all(manage_organisations: true)
+      end
+    end
+
+    trait :with_manage_users do
+      after(:create) do |user, _evaluator|
+        user.provider_permissions.update_all(manage_users: true)
+      end
+    end
+
     trait :with_make_decisions do
       after(:create) do |user, _evaluator|
         user.provider_permissions.update_all(make_decisions: true)
       end
     end
 
-    trait :with_manage_organisations do
+    trait :with_view_safeguarding_information do
       after(:create) do |user, _evaluator|
-        user.provider_permissions.update_all(manage_organisations: true)
+        user.provider_permissions.update_all(view_safeguarding_information: true)
       end
     end
   end

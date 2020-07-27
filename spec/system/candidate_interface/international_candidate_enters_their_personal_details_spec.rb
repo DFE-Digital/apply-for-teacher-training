@@ -8,6 +8,7 @@ RSpec.feature 'Entering their personal details' do
     and_the_international_candidates_flag_is_active
     and_i_visit_the_site
 
+    # Entering details
     when_i_click_on_personal_details
     and_i_fill_in_some_details_but_omit_some_required_details
     and_i_submit_the_form
@@ -20,13 +21,19 @@ RSpec.feature 'Entering their personal details' do
 
     when_i_check_that_i_am_british
     and_i_submit_the_form
+    then_i_see_the_languages_page
+
+    when_i_choose_that_english_is_my_primary_language
+    and_i_submit_the_form
     then_i_see_the_personal_details_review_page
     and_i_can_check_my_answers
 
+    # Editing
     when_i_click_change_on_my_nationality
     and_i_uncheck_that_i_am_british
     and_i_check_that_i_am_irish
     and_i_submit_the_form
+
     then_i_see_the_personal_details_review_page
     and_i_see_my_updated_nationality
 
@@ -115,6 +122,19 @@ RSpec.feature 'Entering their personal details' do
     check 'British'
   end
 
+  def then_i_see_the_languages_page
+    expect(page).to have_current_path candidate_interface_languages_path
+  end
+
+  def when_i_choose_that_english_is_my_primary_language
+    choose 'Yes'
+    fill_in(
+      t('english_main_language.yes_label', scope: @scope),
+      with: "I'm great at Galactic Basic so English is a piece of cake",
+      match: :prefer_exact,
+    )
+  end
+
   def then_i_see_the_personal_details_review_page
     expect(page).to have_current_path candidate_interface_personal_details_show_path
   end
@@ -177,7 +197,9 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def then_i_see_the_right_to_work_or_study_page
-    expect(page).to have_current_path candidate_interface_right_to_work_or_study_path
+    within 'main h2' do
+      expect(page).to have_content 'Do you have the right to work or study in the UK?'
+    end
   end
 
   def and_i_choose_yes

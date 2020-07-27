@@ -1,8 +1,7 @@
-
 <% providers_that_can_make_decisions = providers_that_can('make_decisions') %>
 <% if providers_that_can_make_decisions.any? %>
   <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can make decisions:</p>
-  <ul class="govuk-list">
+  <ul class="govuk-list make-decisions">
     <% providers_that_can_make_decisions.each do |provider| %>
       <li><%= render CheckIcon.new %> <%= provider.name %> </li>
     <% end %>
@@ -12,7 +11,7 @@
 <% providers_that_can_view_safeguarding_information = providers_that_can('view_safeguarding_information') %>
 <% if providers_that_can_view_safeguarding_information.any? %>
   <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can see safeguarding information:</p>
-  <ul class="govuk-list">
+  <ul class="govuk-list view-safeguarding-information">
     <% providers_that_can_view_safeguarding_information.each do |provider| %>
       <li><%= render CheckIcon.new %> <%= provider.name %> </li>
     <% end %>

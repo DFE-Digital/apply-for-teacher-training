@@ -1,0 +1,6 @@
+en:
+  provider_relationship_permissions:
+    form:
+      fieldset:
+        make_decisions: Which organisations can make decisions?
+        view_safeguarding_information: Which organisations can see safeguarding information?

@@ -242,8 +242,6 @@ RSpec.describe CandidateMailer, type: :mailer do
       :changed_offer,
       'Neverland University changed the details of your offer',
       'heading' => 'Dear Tingker Bell',
-      'previous offer' => 'Flying (F1Y) at Peter School',
-      'new offer' => 'Fighting (F1G) at Pan School with Neverland University',
     )
   end
 end

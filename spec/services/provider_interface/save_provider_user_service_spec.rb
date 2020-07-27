@@ -15,9 +15,18 @@ RSpec.describe ProviderInterface::SaveProviderUserService do
     )
   end
 
+  def setup_actor
+    actor = create :provider_user
+    @providers.each do |provider|
+      actor.provider_permissions.create(provider: provider, manage_users: true)
+    end
+    actor
+  end
+
   it 'invokes a service to persist a new ProviderUser for a new user' do
     wizard = setup_wizard_double
-    expect { described_class.new(wizard).call! }.to change { ProviderUser.count }.by(1)
+    actor = setup_actor
+    expect { described_class.new(actor: actor, wizard: wizard).call! }.to change { ProviderUser.count }.by(1)
     new_provider_user = ProviderUser.last
     expect(new_provider_user.provider_permissions.count).to eq 2
 
@@ -31,6 +40,7 @@ RSpec.describe ProviderInterface::SaveProviderUserService do
 
   it 'invokes a service to persist the current state for an existing user' do
     wizard = setup_wizard_double
+    actor = setup_actor
     existing_user = create(
       :provider_user,
       email_address: 'ed@example.com',
@@ -47,7 +57,7 @@ RSpec.describe ProviderInterface::SaveProviderUserService do
       manage_users: true,
       make_decisions: true,
     )
-    expect { described_class.new(wizard).call! }.not_to(change { ProviderUser.count })
+    expect { described_class.new(actor: actor, wizard: wizard).call! }.not_to(change { ProviderUser.count })
     existing_user.reload
     expect(existing_user.provider_permissions.count).to eq 3
 
@@ -60,5 +70,12 @@ RSpec.describe ProviderInterface::SaveProviderUserService do
     expect(second_permission.make_decisions).to be true
     expect(third_permission.make_decisions).to be true
     expect(third_permission.manage_users).to be true
+  end
+
+  it 'raises an exception if the actor does not have manage_user permission on all providers' do
+    wizard = setup_wizard_double
+    actor = setup_actor
+    actor.provider_permissions.find_by(provider: @providers[1]).update(manage_users: false)
+    expect { described_class.new(actor: actor, wizard: wizard).call! }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
   end
 end

@@ -2,11 +2,13 @@ module ProviderInterface
   class SaveProviderUserService
     attr_accessor :wizard
 
-    def initialize(wizard)
+    def initialize(actor:, wizard:)
+      @actor = actor
       self.wizard = wizard
     end
 
     def call!
+      assert_permissions_for_providers!
       if email_exists?
         update_user
       else
@@ -15,6 +17,13 @@ module ProviderInterface
     end
 
   private
+
+    def assert_permissions_for_providers!
+      authorisation = ProviderAuthorisation.new(actor: @actor)
+      return if @wizard.provider_permissions.keys.all? { |provider_id| authorisation.can_manage_users_for?(Provider.find(provider_id)) }
+
+      raise ProviderAuthorisation::NotAuthorisedError, 'You are not allowed to add users to these providers'
+    end
 
     def email_exists?
       ProviderUser.find_by(email_address: wizard.email_address).present?
@@ -59,10 +68,10 @@ module ProviderInterface
           provider_id: provider_id,
           provider_user_id: user.id,
         )
-        %w[manage_users make_decisions].each do |permission_type|
+        ProviderPermissions::VALID_PERMISSIONS.each do |permission_type|
           provider_permission.send(
             "#{permission_type}=",
-            permission['permissions'].include?(permission_type),
+            permission['permissions'].include?(permission_type.to_s),
           )
         end
         provider_permission.save!
