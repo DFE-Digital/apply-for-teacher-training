@@ -141,6 +141,11 @@ module ProviderInterface
       permission_struct = Struct.new(:slug, :name, :hint)
       available_permissions = [
         permission_struct.new(
+          'manage_organisations',
+          'Manage organisations',
+          'Change permissions between organisations',
+        ),
+        permission_struct.new(
           'manage_users',
           'Manage users',
           'Invite or delete users and set their permissions',
@@ -149,11 +154,6 @@ module ProviderInterface
           'make_decisions',
           'Make decisions',
           'Make offers, amend offers and reject applications',
-        ),
-        permission_struct.new(
-          'manage_organisations',
-          'Manage organisations',
-          'Change permissions between organisations',
         ),
         permission_struct.new(
           'view_safeguarding_information',
