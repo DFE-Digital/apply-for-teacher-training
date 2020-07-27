@@ -1,12 +1,14 @@
 module CandidateInterface
   class PersonalDetailsReviewPresenter
     include ActionView::Helpers::TagHelper
+    include Rails.application.routes.url_helpers
 
-    def initialize(personal_details_form:, nationalities_form:, languages_form:, right_to_work_form:, editable: true)
+    def initialize(personal_details_form:, nationalities_form:, languages_form:, right_to_work_form:, application_form:, editable: true)
       @personal_details_form = personal_details_form
       @nationalities_form = nationalities_form
       @languages_form = languages_form
       @right_to_work_or_study_form = right_to_work_form
+      @application_form = application_form
       @editable = editable
     end
 
@@ -21,8 +23,10 @@ module CandidateInterface
         assembled_rows << right_to_work_row
       end
 
-      assembled_rows << english_main_language_row
-      assembled_rows << language_details_row
+      unless LanguagesSectionPolicy.hide?(@application_form)
+        assembled_rows << english_main_language_row
+        assembled_rows << language_details_row
+      end
 
       assembled_rows.compact
     end
@@ -34,7 +38,7 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.name.label'),
         value: @personal_details_form.name,
         action: ('name' if @editable),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_personal_details_edit_path,
+        change_path: candidate_interface_personal_details_edit_path,
       }
     end
 
@@ -43,7 +47,7 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.date_of_birth.label'),
         value: @personal_details_form.date_of_birth.to_s(:govuk_date),
         action: ('date of birth' if @editable),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_personal_details_edit_path,
+        change_path: candidate_interface_personal_details_edit_path,
       }
     end
 
@@ -52,16 +56,16 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.nationality.label'),
         value: formatted_nationalities,
         action: ('nationality' if @editable),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_nationalities_path,
+        change_path: candidate_interface_edit_nationalities_path,
       }
     end
 
     def english_main_language_row
       {
         key: I18n.t('application_form.personal_details.english_main_language.label'),
-        value: @languages_form.english_main_language.titleize,
+        value: @languages_form.english_main_language&.titleize,
         action: ('if English is your main language' if @editable),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_languages_path,
+        change_path: candidate_interface_languages_path,
       }
     end
 
@@ -78,7 +82,7 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.other_language_details.label'),
         value: @languages_form.other_language_details,
         action: ('other languages' if @editable),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_languages_path,
+        change_path: candidate_interface_languages_path,
       }
     end
 
@@ -87,7 +91,7 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.english_language_details.label'),
         value: @languages_form.english_language_details,
         action: ('English language qualifications' if @editable),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_languages_path,
+        change_path: candidate_interface_languages_path,
       }
     end
 
@@ -97,7 +101,7 @@ module CandidateInterface
           key: 'Residency status',
           value: formatted_right_to_work_or_study,
           action: ('Right to work or study' if @editable),
-          change_path: Rails.application.routes.url_helpers.candidate_interface_edit_right_to_work_or_study_path,
+          change_path: candidate_interface_edit_right_to_work_or_study_path,
         }
       end
     end
