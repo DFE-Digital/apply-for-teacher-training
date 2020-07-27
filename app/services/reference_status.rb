@@ -30,6 +30,10 @@ class ReferenceStatus
     refused + bounced + ignored + cancelled
   end
 
+  def not_requested_yet?
+    application_references.select(&:not_requested_yet?)
+  end
+
 private
 
   def replacement_references
