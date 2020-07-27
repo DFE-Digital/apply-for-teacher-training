@@ -2,6 +2,7 @@ module CandidateInterface
   class RefereesController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted, except: %i[confirm_cancel cancel]
     before_action :set_referee, only: %i[edit update confirm_destroy destroy confirm_cancel cancel]
+    before_action :redirect_to_dashboard_if_referee_destroyed, only: %i[confirm_destroy destroy]
     before_action :set_referees, only: %i[type update_type new create index review]
     before_action :set_nth_referee, only: %i[type new]
 
@@ -134,11 +135,15 @@ module CandidateInterface
 
   private
 
+    def redirect_to_dashboard_if_referee_destroyed
+      redirect_to candidate_interface_application_form_path unless @referee
+    end
+
     def set_referee
       @referee = current_candidate.current_application
                                     .application_references
                                     .includes(:application_form)
-                                    .find(params[:id])
+                                    .find_by(id: params[:id])
     end
 
     def set_referee_id
