@@ -326,6 +326,8 @@ FactoryBot.define do
   factory :provider_relationship_permissions do
     ratifying_provider { create(:provider) }
     training_provider { create(:provider) }
+    training_provider_can_make_decisions { true }
+    training_provider_can_view_safeguarding_information { true }
     setup_at { Time.zone.now }
   end
 

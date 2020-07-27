@@ -584,13 +584,13 @@ Rails.application.routes.draw do
 
     get '/provider-relationship-permissions/setup' => 'provider_relationship_permissions#setup',
         as: :provider_relationship_permissions_setup
-    get '/provider-relationship-permissions/:training_provider_id/:ratifying_provider_id/success' => 'provider_relationship_permissions#success',
+    get '/provider-relationship-permissions/:id/success' => 'provider_relationship_permissions#success',
         as: :provider_relationship_permissions_success
-    get '/provider-relationship-permissions/:training_provider_id/:ratifying_provider_id/edit' => 'provider_relationship_permissions#edit',
+    get '/provider-relationship-permissions/:id/edit' => 'provider_relationship_permissions#edit',
         as: :edit_provider_relationship_permissions
-    patch '/provider-relationship-permissions/:training_provider_id/:ratifying_provider_id/confirm' => 'provider_relationship_permissions#confirm',
+    patch '/provider-relationship-permissions/:id/confirm' => 'provider_relationship_permissions#confirm',
           as: :confirm_provider_relationship_permissions
-    patch '/provider-relationship-permissions/:training_provider_id/:ratifying_provider_id' => 'provider_relationship_permissions#update',
+    patch '/provider-relationship-permissions/:id' => 'provider_relationship_permissions#update',
           as: :update_provider_relationship_permissions
   end
 
