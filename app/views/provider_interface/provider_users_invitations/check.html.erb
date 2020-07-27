@@ -9,7 +9,9 @@
       <span class="govuk-caption-xl">Invite user</span>
       <h1 class="govuk-heading-xl">Check permissions before you invite user</h1>
 
-      Details here
+      <%= render ProviderInterface::ProviderUserInvitationDetailsComponent.new(wizard: @wizard) %>
+
+      <p class="govuk-body">We'll send the user an email guiding them through DfE Sign-In and giving them access to their account.</p>
 
       <%= f.govuk_submit 'Invite user' %>
     <% end %>

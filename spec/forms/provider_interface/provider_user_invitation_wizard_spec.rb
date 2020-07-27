@@ -130,4 +130,13 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
       end
     end
   end
+
+  describe '#email_address=' do
+    it 'downcases and removes whitespace before and after on write' do
+      state_store = state_store_for({})
+      wizard = described_class.new(state_store, current_step: 'details')
+      wizard.email_address = '  Bob@eXample.coM  '
+      expect(wizard.email_address).to eq 'bob@example.com'
+    end
+  end
 end

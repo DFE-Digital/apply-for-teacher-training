@@ -1,0 +1,3 @@
+<% permissions.each do |permission| %>
+  <p class="govuk-!-font-weight-bold govuk-body"><%= render CheckIcon.new %> <%= permission.humanize %></p>
+<% end %>
