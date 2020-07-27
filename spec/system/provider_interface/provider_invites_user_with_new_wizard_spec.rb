@@ -105,7 +105,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def when_i_fill_in_email_address_and_name
-    fill_in 'Email address', with: 'ed@example.com'
+    fill_in 'Email address', with: 'Ed@Example.Com'
     fill_in 'First name', with: 'Ed'
     fill_in 'Last name', with: 'Ucator'
   end

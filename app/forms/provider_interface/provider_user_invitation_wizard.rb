@@ -3,7 +3,8 @@ module ProviderInterface
     include ActiveModel::Model
     STATE_STORE_KEY = :provider_user_invitation_wizard
 
-    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :email_address, :checking_answers
+    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :checking_answers
+    attr_reader :email_address
     attr_writer :providers, :provider_permissions, :state_store
 
     validates :first_name, presence: true, on: :details
@@ -97,6 +98,10 @@ module ProviderInterface
 
     def new_user?
       email_address.present? && ProviderUser.find_by(email_address: email_address).nil?
+    end
+
+    def email_address=(raw_email_address)
+      @email_address = raw_email_address.downcase.strip
     end
 
   private
