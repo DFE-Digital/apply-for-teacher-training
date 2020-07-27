@@ -7,7 +7,9 @@ module CandidateInterface
                   :award_year, :choice, :non_uk_qualification_type, :other_uk_qualification_type,
                   :institution_country
 
-    validates :qualification_type, :subject, :institution_name, :grade, :award_year, presence: true
+    validates :qualification_type, :institution_name, :award_year, presence: true
+
+    validates :subject, :grade, presence: true, unless: -> { qualification_type == 'non_uk' || qualification_type == 'Other' }
 
     validates :institution_country, presence: true, if: -> { qualification_type == 'non_uk' }
 

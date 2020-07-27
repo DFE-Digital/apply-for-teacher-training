@@ -7,22 +7,54 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:qualification_type) }
-    it { is_expected.to validate_presence_of(:subject) }
     it { is_expected.to validate_presence_of(:institution_name) }
-    it { is_expected.to validate_presence_of(:grade) }
     it { is_expected.to validate_presence_of(:award_year) }
-
     it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
     it { is_expected.to validate_length_of(:subject).is_at_most(255) }
     it { is_expected.to validate_length_of(:institution_name).is_at_most(255) }
     it { is_expected.to validate_length_of(:grade).is_at_most(255) }
+
+    describe 'subject' do
+      it 'validates presence except for non-uk and other qualifications' do
+        non_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', subject: nil)
+        other_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other', subject: nil)
+        gcse = CandidateInterface::OtherQualificationForm.new(qualification_type: 'GCSE', subject: nil)
+
+        non_uk_qualification.validate
+        other_uk_qualification.validate
+        gcse.validate
+
+        expect(non_uk_qualification.errors.full_messages_for(:subject)).to be_empty
+        expect(other_uk_qualification.errors.full_messages_for(:subject)).to be_empty
+        expect(gcse.errors.full_messages_for(:subject)).not_to be_empty
+      end
+    end
+
+    describe 'grade' do
+      it 'validates presence except for non-uk and other qualifications' do
+        non_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', grade: nil)
+        other_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other', grade: nil)
+        gcse = CandidateInterface::OtherQualificationForm.new(qualification_type: 'GCSE', grade: nil)
+
+        non_uk_qualification.validate
+        other_uk_qualification.validate
+        gcse.validate
+
+        expect(non_uk_qualification.errors.full_messages_for(:grade)).to be_empty
+        expect(other_uk_qualification.errors.full_messages_for(:grade)).to be_empty
+        expect(gcse.errors.full_messages_for(:grade)).not_to be_empty
+      end
+    end
+
+    it { is_expected.to validate_presence_of(:subject) }
+    it { is_expected.to validate_presence_of(:grade) }
 
     describe 'institution country' do
       context 'when it is a non-uk qualification' do
         it 'validates for presence and inclusion in the COUNTY_NAMES constant' do
           valid_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'Germany')
           blank_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk')
-          inavlid_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk')
+          inavlid_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'Caprica City')
 
           valid_qualification.validate
           blank_country_qualification.validate
