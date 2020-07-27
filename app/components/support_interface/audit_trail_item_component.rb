@@ -13,6 +13,8 @@ module SupportInterface
         "Comment on #{audit.auditable_type.titlecase}"
       elsif audit.auditable_type == 'ProviderPermissions'
         label_for_provider_permission_change(audit)
+      elsif audit.auditable_type == 'ProviderRelationshipPermissions'
+        label_for_provider_relationship_permission_change(audit)
       else
         "#{audit.action.capitalize} #{audit.auditable_type.titlecase} ##{audit.auditable_id}"
       end
@@ -71,6 +73,18 @@ module SupportInterface
       when 'destroy'
         provider = Provider.find(audit.audited_changes['provider_id'])
         "Access revoked for #{provider.name}"
+      end
+    end
+
+    def label_for_provider_relationship_permission_change(audit)
+      training_provider = audit.auditable.training_provider
+      ratifying_provider = audit.auditable.ratifying_provider
+
+      case audit.action
+      when 'create'
+        "Permission relationship between training provider #{training_provider.name} and ratifying provider #{ratifying_provider.name} created"
+      when 'update'
+        "Permission relationship between training provider #{training_provider.name} and ratifying provider #{ratifying_provider.name} changed"
       end
     end
   end

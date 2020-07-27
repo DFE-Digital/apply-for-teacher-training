@@ -166,4 +166,38 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       assert_includes rendered_component, 'Access revoked for The School of Roke'
     end
   end
+
+  context 'the audited item is a ProviderRelationshipPermissions record' do
+    let!(:training_provider) { create(:provider, name: 'A') }
+    let!(:ratifying_provider) { create(:provider, name: 'B') }
+
+    it 'provides a meaningful label for "create"', with_audited: true do
+      permissions = ProviderRelationshipPermissions.create(
+        training_provider_id: training_provider.id,
+        ratifying_provider_id: ratifying_provider.id,
+        training_provider_can_make_decisions: true,
+        ratifying_provider_can_view_safeguarding_information: true,
+      )
+      render_inline(described_class.new(audit: permissions.audits.last))
+
+      assert_includes rendered_component, 'Permission relationship between training provider A and ratifying provider B created'
+    end
+
+    it 'provides a meaningful label for "update"', with_audited: true do
+      permissions = ProviderRelationshipPermissions.create(
+        training_provider_id: training_provider.id,
+        ratifying_provider_id: ratifying_provider.id,
+        training_provider_can_make_decisions: true,
+        ratifying_provider_can_view_safeguarding_information: true,
+      )
+
+      permissions.update!(
+        training_provider_can_make_decisions: false,
+        ratifying_provider_can_make_decisions: true,
+      )
+      render_inline(described_class.new(audit: permissions.audits.last))
+
+      assert_includes rendered_component, 'Permission relationship between training provider A and ratifying provider B changed'
+    end
+  end
 end

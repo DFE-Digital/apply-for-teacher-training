@@ -66,15 +66,15 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
   end
 
   it 'renders an update provider relationship permissions records for a ratifying provider' do
-    ratifying_provider = create(:provider)
+    ratifying_provider = create(:provider, name: 'B')
     provider_relationship_permissions =
       create(:provider_relationship_permissions,
-             training_provider: create(:provider),
+             training_provider: create(:provider, name: 'A'),
              ratifying_provider: ratifying_provider)
     provider_relationship_permissions.update!(ratifying_provider_can_make_decisions: true)
 
     render_result = render_inline(described_class.new(audited_thing: ratifying_provider))
 
-    expect(render_result.text).to include('Update Provider Relationship Permissions')
+    expect(render_result.text).to include('Permission relationship between training provider A and ratifying provider B changed')
   end
 end
