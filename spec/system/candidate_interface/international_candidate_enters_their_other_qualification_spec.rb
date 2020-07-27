@@ -100,7 +100,8 @@ RSpec.feature 'Non-uk Other qualifications' do
 
   def when_i_fill_in_my_qualification
     fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards'
-    fill_in t('application_form.other_qualification.country.label'), with: 'Domino City'
+    fill_in t('application_form.other_qualification.institution_name.label'), with: 'Yugi College'
+    select 'Japan'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
   end
 
@@ -119,7 +120,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   def and_i_should_see_my_qualification
     expect(page).to have_content('Master Rules')
     expect(page).to have_content('Believing in the Heart of the Cards')
-    expect(page).to have_content('Domino City')
+    expect(page).to have_content('Japan')
     expect(page).to have_content('2015')
     expect(page).to have_content('N/A')
   end
@@ -146,7 +147,7 @@ RSpec.feature 'Non-uk Other qualifications' do
 
   def then_i_see_my_qualification_filled_in
     expect(page).to have_selector("input[value='Believing in the Heart of the Cards']")
-    expect(page).to have_selector("input[value='Domino City']")
+    expect(page).to have_selector("input[value='Japan']")
     expect(page).to have_selector("input[value='N/A']")
     expect(page).to have_selector("input[value='2015']")
   end

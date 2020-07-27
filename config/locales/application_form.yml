@@ -621,6 +621,9 @@ en:
             institution_name:
               blank: Enter the institution where you studied
               too_long: The institution where you studied must be %{count} characters or fewer
+            institution_country:
+              blank: Enter the country you studied in
+              inclusion: Select the country you studied in from the list
             grade:
               blank: Enter your grade
               too_long: The grade must be %{count} characters or fewer
