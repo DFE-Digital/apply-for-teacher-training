@@ -12,6 +12,10 @@ module CandidateInterface
       reference_status.still_more_references_needed?
     end
 
+    def pluralize_referee
+      'referee'.pluralize(reference_status.not_requested_yet?.count)
+    end
+
   private
 
     def reference_status

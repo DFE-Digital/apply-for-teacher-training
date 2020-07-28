@@ -154,4 +154,16 @@ RSpec.describe ReferenceStatus do
       expect(status.needs_a_replacement_reference?).to be(true)
     end
   end
+
+  describe '#references not requested yet?' do
+    it 'returns true if references not yet requested' do
+      application_form = create(:application_form)
+      reference1 = create(:reference, :not_requested_yet, application_form: application_form)
+      create(:reference, :feedback_provided, application_form: application_form)
+
+      status = ReferenceStatus.new(application_form.reload)
+
+      expect(status.not_requested_yet?).to match_array([reference1])
+    end
+  end
 end
