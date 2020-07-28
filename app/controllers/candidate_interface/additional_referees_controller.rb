@@ -54,7 +54,9 @@ module CandidateInterface
 
       reference.referee_type = params[:type]
 
-      if reference.save
+      if FeatureFlag.active?(:separate_additional_referees) && reference.save
+        redirect_to candidate_interface_confirm_additional_referees_path
+      elsif reference.save
         redirect_to_confirm_or_show_another_reference_form
       else
         track_validation_error(reference)
@@ -86,7 +88,9 @@ module CandidateInterface
     end
 
     def update
-      if current_reference.update(referee_params)
+      if FeatureFlag.active?(:separate_additional_referees) && current_reference.update(referee_params)
+        redirect_to candidate_interface_confirm_additional_referees_path
+      elsif current_reference.update(referee_params)
         redirect_to_confirm_or_show_another_reference_form
       else
         track_validation_error(current_reference)
