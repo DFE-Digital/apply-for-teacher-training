@@ -1,4 +1,7 @@
 class ProviderRelationshipPermissionsList < ViewComponent::Base
+  attr_reader :permission_model
+  delegate :ratifying_provider, :training_provider, to: :permission_model
+
   def initialize(permission_model)
     @permission_model = permission_model
   end
