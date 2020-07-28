@@ -20,6 +20,7 @@ RSpec.describe NavigationItems do
       before do
         provider_user.provider_permissions.find_by(provider: provider).update!(manage_organisations: true)
         create(:provider_relationship_permissions, training_provider: provider)
+        FeatureFlag.activate('enforce_provider_to_provider_permissions')
       end
 
       it 'includes a link to Organisations' do

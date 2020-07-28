@@ -45,7 +45,8 @@ class NavigationItems
 
       items = []
 
-      if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_provider?
+      if FeatureFlag.active?('enforce_provider_to_provider_permissions') &&
+          current_provider_user.authorisation.can_manage_organisations_for_at_least_one_provider?
         items << NavigationItem.new('Organisations', provider_interface_organisations_path, is_active(current_controller, %w[organisations provider_relationship_permissions]))
       end
 
