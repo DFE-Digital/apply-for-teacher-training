@@ -45,7 +45,7 @@ services:
       - .env
     command: /bin/sh -c "bundle exec sidekiq -c 5 -C config/sidekiq.yml"
   clock:
-    image: apply-for-postgraduate-teacher-training
+    image: apply-for-teacher-training
     working_dir: /app
     depends_on:
       - db
