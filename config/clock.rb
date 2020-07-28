@@ -26,4 +26,6 @@ class Clock
       UCASMatching::UploadMatchingData.perform_async
     end
   end
+
+  every(1.day, 'SetStopNewApplicationsFlag', at: '00:01') { SetStopNewApplicationsFlag.perform_async }
 end
