@@ -28,7 +28,7 @@ RSpec.feature 'Non-uk Other qualifications' do
     and_i_choose_not_to_add_another_non_uk_qualification
     and_click_save_and_continue
     then_i_see_the_other_qualification_review_page
-    and_i_should_see_my_qualifications
+    and_i_should_see_my_qualification
 
     when_i_click_to_change_my_first_qualification_type
     then_i_see_my_qualification_type_filled_in

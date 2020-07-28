@@ -32,6 +32,25 @@ module CandidateInterface
         new_other_qualification_form(qualification)
       end
 
+      def pre_fill_new_qualification(qualifications)
+        if last_two_qualifications_are_of_same_type(qualifications)
+          new(
+            qualification_type: qualification[-2].qualification_type,
+            institution_name: qualifications[-2].institution_name,
+            institution_country: qualifications[-2].institution_country,
+            award_year: qualifications[-2].award_year,
+            non_uk_qualification_type: qualifications[-2].non_uk_qualification_type,
+            other_uk_qualification_type: qualifications[-2].other_uk_qualification_type,
+          )
+        else
+          new(
+            qualification_type: qualifications[-1].qualification_type,
+            non_uk_qualification_type: qualifications[-1].non_uk_qualification_type,
+            other_uk_qualification_type: qualifications[-1].other_uk_qualification_type,
+          )
+        end
+      end
+
     private
 
       def new_other_qualification_form(qualification)
@@ -46,6 +65,22 @@ module CandidateInterface
           other_uk_qualification_type: qualification.other_uk_qualification_type,
           non_uk_qualification_type: qualification.non_uk_qualification_type,
         )
+      end
+
+      def last_two_qualifications_are_of_same_type(qualifications)
+        second_to_last_qualification = qualifications[-2]
+        last_qualification = qualifications[-1]
+        second_to_last_qualification&.qualification_type == last_qualification.qualification_type
+      end
+    end
+
+    def set_type(type)
+      if type == 'non_uk'
+        non_uk_qualification_type
+      elsif type == 'Other' && FeatureFlag.active?('international_other_qualifications')
+        other_uk_qualification_type
+      else
+        type
       end
     end
 
