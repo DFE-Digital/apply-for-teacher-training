@@ -12,7 +12,8 @@ RSpec.feature 'Managing provider user permissions' do
     and_i_sign_in_to_the_provider_interface
 
     when_i_click_on_the_users_link
-    and_i_click_on_a_user
+    when_i_click_on_a_user
+    then_i_see_a_breadcrumb
     and_i_click_to_change_permissions
 
     then_i_see_user_permissions_for_this_provider
@@ -46,7 +47,7 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def and_i_can_manage_users_for_a_provider
-    @managed_user = create(:provider_user, providers: [@provider])
+    @managed_user = create(:provider_user, providers: [@provider], first_name: 'Sylvia', last_name: 'Mead')
     @managing_user.provider_permissions.find_by(provider: @provider).update(manage_users: true)
   end
 
@@ -54,7 +55,7 @@ RSpec.feature 'Managing provider user permissions' do
     click_on('Users')
   end
 
-  def and_i_click_on_a_user
+  def when_i_click_on_a_user
     click_on(@managed_user.full_name)
   end
 
@@ -64,6 +65,13 @@ RSpec.feature 'Managing provider user permissions' do
 
   def then_i_see_user_permissions_for_this_provider
     expect(page).to have_unchecked_field 'Manage users'
+  end
+
+  def then_i_see_a_breadcrumb
+    within '.govuk-breadcrumbs' do
+      expect(page).to have_link('Users')
+      expect(page).to have_content('Sylvia Mead')
+    end
   end
 
   def and_i_add_permission_to_manage_users_for_a_provider_user
