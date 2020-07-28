@@ -6,9 +6,6 @@
     <%= form_with model: @wizard, url: provider_interface_update_invitation_provider_permissions_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <span class="govuk-caption-xl">Invite user</span>
-      <h1 class="govuk-heading-xl">Set permissions for <%= @provider.name %></h1>
-
       <%= f.fields_for "provider_permissions[]", @permissions_form do |pf| %>
         <%= pf.hidden_field :provider_id %>
         <%= pf.govuk_collection_check_boxes(
@@ -17,7 +14,13 @@
           :slug,
           :name,
           :hint,
-        ) %>
+          legend: { text: "Select permissions: #{@provider.name}", size: "xl" },
+          caption: { text: "Invite user", size: "xl" },
+        ) do %>
+          <span id="permissions-hint" class="govuk-hint">
+            The user will be able to view all applications made to courses at these organisations. You don't need to set permissions for this.
+          </span>
+        <% end %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>

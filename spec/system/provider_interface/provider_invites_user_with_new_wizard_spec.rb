@@ -137,7 +137,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def then_i_see_the_select_permissions_form_for_selected_provider
-    expect(page).to have_content('Set permissions for Another Provider')
+    expect(page).to have_content('Select permissions: Another Provider')
   end
 
   def when_i_select_make_decisions_permission
@@ -181,7 +181,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def then_i_can_see_the_permissions_form
-    expect(page).to have_content 'Set permissions for Another Provider'
+    expect(page).to have_content 'Select permissions: Another Provider'
   end
 
   def when_i_change_permissions
