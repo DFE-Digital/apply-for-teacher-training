@@ -26,11 +26,11 @@ RSpec.feature 'Provider can view end-of-cycle comms' do
   end
 
   def then_i_see_a_link_to_the_end_of_cycle_comms_page
-    expect(page).to have_link 'Getting ready for the next training cycle: dates for your diary and our plans for a smooth transition'
+    expect(page).to have_link 'Getting ready for the next cycle: dates for your diary and our plans for a smooth transition'
   end
 
   def when_i_click_the_link_to_the_end_of_cycle_comms_page
-    click_link 'Getting ready for the next training cycle: dates for your diary and our plans for a smooth transition'
+    click_link 'Getting ready for the next cycle: dates for your diary and our plans for a smooth transition'
   end
 
   def then_i_see_the_end_of_cycle_comms_page
@@ -42,6 +42,6 @@ RSpec.feature 'Provider can view end-of-cycle comms' do
   end
 
   def then_i_dont_see_a_link_to_the_end_of_cycle_comms_page
-    expect(page).not_to have_link 'Getting ready for the next training cycle: dates for your diary and our plans for a smooth transition'
+    expect(page).not_to have_link 'Getting ready for the next cycle: dates for your diary and our plans for a smooth transition'
   end
 end
