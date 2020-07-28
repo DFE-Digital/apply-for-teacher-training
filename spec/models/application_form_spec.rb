@@ -283,4 +283,47 @@ RSpec.describe ApplicationForm do
       expect(application_form.nationalities).to match_array ['British', 'Irish', 'Welsh', 'Northern Irish']
     end
   end
+
+  describe '#english_main_language' do
+    context 'database value is nil' do
+      let(:application_form) { build(:application_form, english_main_language: nil) }
+
+      it 'returns false by default' do
+        expect(application_form.english_main_language).to eq false
+      end
+
+      context 'when english_speaking_nationality? is true' do
+        it 'returns true' do
+          application_form.first_nationality = 'British'
+
+          expect(application_form.english_main_language).to eq true
+        end
+      end
+
+      context 'when the english_proficiency record declares that a qualification is not needed' do
+        it 'returns true' do
+          english_proficiency = build(:english_proficiency, :qualification_not_needed)
+          application_form.english_proficiency = english_proficiency
+
+          expect(application_form.english_main_language).to eq true
+        end
+      end
+    end
+
+    context 'database value is true' do
+      let(:application_form) { build(:application_form, english_main_language: true) }
+
+      it 'returns true' do
+        expect(application_form.english_main_language).to eq true
+      end
+    end
+
+    context 'database value is false' do
+      let(:application_form) { build(:application_form, english_main_language: false) }
+
+      it 'returns false' do
+        expect(application_form.english_main_language).to eq false
+      end
+    end
+  end
 end

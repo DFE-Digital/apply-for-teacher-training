@@ -4,4 +4,8 @@ class ToeflQualification < ApplicationRecord
   def name
     'TOEFL'
   end
+
+  def grade
+    total_score
+  end
 end

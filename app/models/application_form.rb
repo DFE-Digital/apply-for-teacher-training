@@ -201,6 +201,23 @@ class ApplicationForm < ApplicationRecord
     [first_nationality, second_nationality, third_nationality, fourth_nationality, fifth_nationality].reject(&:nil?)
   end
 
+  # Override method for english_main_language database field
+  def english_main_language
+    if self[:english_main_language].nil?
+      return true if english_speaking_nationality?
+      return true if english_proficiency&.qualification_not_needed?
+
+      false
+    else
+      self[:english_main_language]
+    end
+  end
+
+  # Override method for english_language_details database field
+  def english_language_details
+    self[:english_language_details].presence || english_proficiency&.formatted_qualification_description
+  end
+
 private
 
   def enough_references_have_been_provided?
