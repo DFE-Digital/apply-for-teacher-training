@@ -3,9 +3,9 @@
 <% if FeatureFlag.active?('covid_19') %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
+      <div class="app-banner" aria-labelledby="covid-message" data-module="govuk-error-summary" role="alert">
         <div class="app-banner__message">
-          <h2 class="govuk-heading-m" id="success-message">
+          <h2 class="govuk-heading-m" id="covid-message">
             <%= link_to 'Coronavirus (COVID-19): check our guidance to see new deadlines for processing applications',
               provider_interface_covid_19_guidance_path,
               class: 'govuk-link'
@@ -20,7 +20,7 @@
 <% if FeatureFlag.active?('summer_recruitment_banner') %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
+      <div class="app-banner" aria-labelledby="summer-recruitment-message" data-module="govuk-error-summary" role="alert">
         <div class="app-banner__message">
           <h2 class="govuk-heading-m" id="summer-recruitment-message">
             Summer deadlines for reject by default: providers have 20 working days to respond to applications received between 1 July 2020 and 3 October 2020
@@ -34,7 +34,7 @@
 <% if FeatureFlag.active?('getting_ready_for_next_cycle_banner') %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <div class="app-banner">
+      <div class="app-banner" aria-labelledby="getting-ready-for-next-cycle-message">
         <div class="app-banner__message">
           <h2 class="govuk-heading-m" id="getting-ready-for-next-cycle-message">
             <%= govuk_link_to(
