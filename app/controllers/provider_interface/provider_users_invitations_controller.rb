@@ -138,36 +138,10 @@ module ProviderInterface
 
     def setup_permission_form
       @provider = Provider.find(params[:provider_id])
-      permission_struct = Struct.new(:slug, :name, :hint)
-      available_permissions = [
-        permission_struct.new(
-          'manage_organisations',
-          'Manage organisations',
-          'Change permissions between organisations',
-        ),
-        permission_struct.new(
-          'manage_users',
-          'Manage users',
-          'Invite or delete users and set their permissions',
-        ),
-        permission_struct.new(
-          'make_decisions',
-          'Make decisions',
-          'Make offers, amend offers and reject applications',
-        ),
-        permission_struct.new(
-          'view_safeguarding_information',
-          'Access safeguarding information',
-          'View sensitive material about the candidate',
-        ),
-      ]
 
-      permissions_form_struct = Struct.new(:id, :provider_id, :permissions, :available_permissions)
-      @permissions_form = permissions_form_struct.new(
-        @provider.id,
-        @provider.id,
-        @wizard.permissions_for_provider(@provider.id),
-        available_permissions,
+      @permissions_form = ProviderInterface::ProviderUserInvitationWizard::PermissionsForm.new(
+        provider_id: @provider.id,
+        permissions: @wizard.permissions_for_provider(@provider.id),
       )
     end
   end
