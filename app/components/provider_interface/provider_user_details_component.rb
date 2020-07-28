@@ -19,7 +19,8 @@ module ProviderInterface
 
     def details_rows
       [
-        { key: 'Name', value: @provider_user.full_name },
+        { key: 'First name', value: @provider_user.first_name },
+        { key: 'Last name', value: @provider_user.last_name },
         { key: 'Email', value: @provider_user.email_address },
       ]
     end
