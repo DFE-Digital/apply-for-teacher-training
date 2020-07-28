@@ -9,6 +9,8 @@ module CandidateInterface
 
     validates :qualification_type, :institution_name, :award_year, presence: true
 
+    validates :choice, presence: true, on: :save
+
     validates :subject, :grade, presence: true, unless: -> { qualification_type == 'non_uk' || qualification_type == 'Other' }
 
     validates :institution_country, presence: true, if: -> { qualification_type == 'non_uk' }
