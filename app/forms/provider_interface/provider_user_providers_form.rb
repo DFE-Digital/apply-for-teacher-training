@@ -40,7 +40,7 @@ module ProviderInterface
 
     def at_least_one_provider_is_selected
       if selected_providers.none?
-        errors[:provider_ids] << 'Select at least one organisation this user will have access to'
+        errors[:provider_ids] << 'Select which organisations this user will have access to'
       end
     end
 

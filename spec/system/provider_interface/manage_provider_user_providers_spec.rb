@@ -66,7 +66,7 @@ RSpec.feature 'Managing providers a user has access to' do
   end
 
   def then_i_see_a_validation_error
-    expect(page).to have_content 'Select at least one organisation this user will have access to'
+    expect(page).to have_content 'Select which organisations this user will have access to'
   end
 
   def when_i_give_permission_to_access_the_other_provider
