@@ -3,6 +3,11 @@ module CandidateInterface
     before_action :redirect_to_review_unless_ready_to_submit
 
     def start
+      if FeatureFlag.active?(:stop_new_applications)
+        flash[:warning] = 'New applications are now closed for 2020'
+        redirect_to candidate_interface_application_complete_path and return
+      end
+
       entrypoint_path =
         if current_application.equality_and_diversity_answers_provided?
           candidate_interface_review_equality_and_diversity_path
