@@ -13,7 +13,7 @@
           </h1>
         </legend>
 
-        <%= f.govuk_collection_check_boxes :provider_ids, @form.providers_that_actor_can_manage_users_for, :id, :name_and_code %>
+        <%= f.govuk_collection_check_boxes :provider_ids, @form.providers_that_actor_can_manage_users_for, :id, :name %>
       <% end %>
 
       <%= f.govuk_submit 'Save' %>
