@@ -108,7 +108,7 @@ RSpec.feature 'Managing provider users' do
 
   def and_i_check_permission_to_view_safeguarding_information
     within(permissions_fields_id_for_provider(@provider)) do
-      check 'View safeguarding information'
+      check 'Access safeguarding information'
     end
   end
 
@@ -191,7 +191,7 @@ RSpec.feature 'Managing provider users' do
 
   def and_they_should_be_able_to_view_safeguarding_information
     within(permissions_fields_id_for_provider(@provider)) do
-      expect(page).to have_checked_field('View safeguarding information')
+      expect(page).to have_checked_field('Access safeguarding information')
     end
   end
 

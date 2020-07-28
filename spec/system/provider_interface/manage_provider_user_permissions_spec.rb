@@ -100,14 +100,14 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def when_i_add_permission_to_view_safeguarding_for_a_provider_user
-    expect(page).not_to have_checked_field 'View safeguarding information'
-    check 'View safeguarding information'
+    expect(page).not_to have_checked_field 'Access safeguarding information'
+    check 'Access safeguarding information'
     click_on 'Save'
   end
 
   def then_i_can_see_the_view_safeguarding_permission_for_the_provider_user
     within("#provider-#{@provider.id}-enabled-permissions") do
-      expect(page).to have_content 'View safeguarding information'
+      expect(page).to have_content 'Access safeguarding information'
     end
   end
 

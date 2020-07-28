@@ -21,7 +21,7 @@ module ProviderInterface
       [
         { key: 'First name', value: @provider_user.first_name },
         { key: 'Last name', value: @provider_user.last_name },
-        { key: 'Email', value: @provider_user.email_address },
+        { key: 'Email address', value: @provider_user.email_address },
       ]
     end
 

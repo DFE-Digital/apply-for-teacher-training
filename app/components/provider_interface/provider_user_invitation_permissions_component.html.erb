@@ -1,3 +1,7 @@
-<% permissions.each do |permission| %>
-  <p class="govuk-!-font-weight-bold govuk-body"><%= render CheckIcon.new %> <%= permission.humanize %></p>
+<% if permissions.any? %>
+  <% permissions.each do |permission| %>
+    <p class="govuk-!-font-weight-bold govuk-body"><%= render CheckIcon.new %> <%= permission.humanize %></p>
+  <% end %>
+<% else %>
+  <p class="govuk-body">The user will only be able to view applications</p>
 <% end %>

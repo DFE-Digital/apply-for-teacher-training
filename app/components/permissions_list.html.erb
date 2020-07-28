@@ -35,7 +35,7 @@
 
   <% if @permission_model.view_safeguarding_information? %>
     <li>
-      <%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">View safeguarding information</span>
+      <%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Access safeguarding information</span>
       <% if training_providers_that_can('view_safeguarding_information').any? %>
         <div class="govuk-!-margin-left-5">
           Applies to courses run by:
@@ -60,6 +60,6 @@
   <% end %>
 
   <% if @permission_model.view_applications_only? %>
-    <li><span class="govuk-!-font-weight-bold">View applications only</span></li>
+    <li>The user can only view applications</li>
   <% end %>
 </ul>
