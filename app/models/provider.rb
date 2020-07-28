@@ -27,6 +27,7 @@ class Provider < ApplicationRecord
   }
 
   audited
+  has_associated_audits
 
   def self.with_users_manageable_by(provider_user)
     joins(:provider_permissions)
