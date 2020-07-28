@@ -1,8 +1,10 @@
 <div class="app-banner app-banner--info" aria-labelledby="info-message">
   <div class="app-banner__message">
     <h2 class="govuk-heading-m" id="info-message">
-      <% if reference_status.not_requested_yet?.present? %>
-        One or more of your references have not been confirmed. <%= govuk_link_to 'Please do so to ensure they are contacted.', candidate_interface_confirm_additional_referees_path %>
+      <% if reference_status.not_requested_yet?.count == 1 %>
+        You have not confirmed your referee yet. <%= govuk_link_to 'Confirm your referee', candidate_interface_confirm_additional_referees_path %> so that they can be contacted.
+      <% elsif reference_status.not_requested_yet?.count > 1 %>
+        You have not confirmed your referees yet. <%= govuk_link_to 'Confirm your referees', candidate_interface_confirm_additional_referees_path %> so that they can be contacted.
       <% elsif reference_status.number_of_references_that_currently_need_replacing == 1 %>
         You need to <%= govuk_link_to 'give details of a new referee', candidate_interface_additional_referee_type_path %>
       <% else %>
