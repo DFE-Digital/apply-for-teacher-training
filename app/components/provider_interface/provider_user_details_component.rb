@@ -36,7 +36,7 @@ module ProviderInterface
         key: 'Organisations this user has access to',
         value: visible_provider_permissions.map(&:provider).map(&:name),
         change_path: provider_interface_provider_user_edit_providers_path(@provider_user),
-        action: 'Change organisations',
+        action: 'organisations',
       }
     end
 
@@ -46,7 +46,7 @@ module ProviderInterface
           key: "Permissions: #{permission.provider.name}",
           value: render(PermissionsList.new(permission)),
           change_path: provider_interface_provider_user_edit_permissions_path(@provider_user, provider_id: permission.provider.id),
-          action: "Change permissions for #{permission.provider.name}",
+          action: "permissions for #{permission.provider.name}",
         }
       end
     end
