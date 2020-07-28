@@ -35,18 +35,6 @@
   </div>
 <% end %>
 
-<% if FeatureFlag.active?('summer_recruitment_banner') %>
-  <div class="govuk-width-container">
-    <div class="app-banner govuk-!-margin-top-4 govuk-!-margin-bottom-0" aria-labelledby="summer-recruitment-message" >
-      <div class="app-banner__message">
-        <h2 class="govuk-heading-m" id="summer-recruitment-message">
-          Summer deadlines for reject by default: providers have 20 working days to respond to applications received between 1 July 2020 and 3 October 2020
-        </h2>
-      </div>
-    </div>
-  </div>
-<% end %>
-
 <% if FeatureFlag.active?('getting_ready_for_next_cycle_banner') %>
   <div class="govuk-width-container">
     <div class="app-banner govuk-!-margin-top-4 govuk-!-margin-bottom-0" aria-labelledby="getting-ready-for-next-cycle-message" >

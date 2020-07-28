@@ -18,7 +18,6 @@ class FeatureFlag
     [:dfe_sign_in_fallback, 'Use this when DfE Sign-in is down', 'Tijmen Brommet'],
     [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Michael Nacos'],
     [:pilot_open, 'Enables the Apply for Teacher Training service', 'Tijmen Brommet'],
-    [:summer_recruitment_banner, 'Displays an information banner related to RBD during the summer months', 'Michael Nacos'],
     [:getting_ready_for_next_cycle_banner, 'Displays an information banner related to 2020 end-of-cycle with link to static page', 'Steve Hook'],
     [:switch_to_2021_recruitment_cycle, 'Sync and serve courses for the 2021 recruitment cycle. DO NOT ENABLE IN PRODUCTION.', 'Duncan Brown'],
   ].freeze
