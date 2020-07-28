@@ -17,6 +17,10 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     then_i_am_redirected_to_the_application_page
     and_i_see_an_error_message_telling_me_that_applications_are_closed
 
+    when_i_review_my_application_again
+    then_i_do_not_see_the_continue_button
+    and_i_do_see_a_banner_telling_me_that_applications_are_closed
+
     # when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
     # and_i_choose_not_to_add_further_information
     # and_i_submit_the_application
@@ -39,6 +43,8 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     and_i_visit_the_application_form_page
     when_i_click_on_check_your_answers
   end
+
+  alias_method :when_i_review_my_application_again, :and_i_review_my_application
 
   def and_i_visit_the_application_form_page
     visit candidate_interface_application_form_path
@@ -64,6 +70,10 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
 
   def and_i_see_an_error_message_telling_me_that_applications_are_closed
     expect(page).to have_content 'New applications are now closed for 2020'
+  end
+
+  def then_i_do_not_see_the_continue_button
+    expect(page).not_to have_link 'Continue'
   end
 
   # def when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
