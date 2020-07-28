@@ -159,7 +159,7 @@ RSpec.describe ReferenceStatus do
     it 'returns true if references not yet requested' do
       application_form = create(:application_form)
       reference1 = create(:reference, :not_requested_yet, application_form: application_form)
-      reference2 = create(:reference, :feedback_provided, application_form: application_form)
+      create(:reference, :feedback_provided, application_form: application_form)
 
       status = ReferenceStatus.new(application_form.reload)
 
