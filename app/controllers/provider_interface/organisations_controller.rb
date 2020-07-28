@@ -7,13 +7,12 @@ module ProviderInterface
     end
 
     def show
-      scope = ProviderRelationshipPermissions.includes(:training_provider, :ratifying_provider)
+      @training_permissions = ProviderRelationshipPermissions.where(training_provider_id: params[:id])
+        .or(ProviderRelationshipPermissions.where(training_provider_id: manageable_providers, ratifying_provider_id: params[:id]))
+        .includes(:training_provider)
 
-      permissions = scope.where(training_provider: manageable_providers)
-        .or(scope.where(ratifying_provider: manageable_providers))
-
-      @ratifying_permissions = permissions.select { |p| manageable_providers.include?(p.ratifying_provider) }
-      @training_permissions = permissions.select { |p| manageable_providers.include?(p.training_provider) }
+      @ratifying_permissions = ProviderRelationshipPermissions.where(ratifying_provider_id: params[:id])
+        .includes(:training_provider, :ratifying_provider)
     end
 
   private
