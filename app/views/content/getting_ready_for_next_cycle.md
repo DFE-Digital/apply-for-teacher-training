@@ -49,9 +49,9 @@ Training providers will need to respond to all outstanding applications for the 
 
 ## Deferring offers
 
-The [Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) team is working on a new feature allowing training providers to defer offers to the next cycle.
+The [Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) team is working on a new feature allowing training providers to defer offers to the next cycle. We'll email you when the feature is ready to use.
 
-Deferrals can only be made at the request of the candidate.
+Please bear in mind that deferrals can only be made at the request of the candidate.
 
 You can:
 
@@ -61,9 +61,9 @@ You can:
 
 When the 2020 to 2021 cycle opens in mid-October, you’ll be guided through the process of checking and confirming deferred offers.
 
-### Changing the details of a deferred offer
+### Changing the details of a deferred offer when you check and confirm
 
-If you need to alter any details of a deferred offer – for example, the location, course or conditions – you should first explain and agree any changes with the candidate directly, via email or phone.
+You'll be able to change the details of a deferred offer when you check and confirm it at the start of the next cycle. If you need to alter any details – for example, the location, course or conditions – you should first explain and agree those changes with the candidate directly, via email or phone.
 
 You can then use [Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) to send an amended offer to the candidate, who will also receive a formal notification.
 
@@ -79,7 +79,7 @@ By the end of November 2020, training providers will have access to and be able 
 
 * the previous cycle (2019 to 2020)
 * the current cycle (2020 to 2021)
-* the next cycle (for example, offers you defer to 2021 and to 2022)
+* the next cycle (for example, offers you defer until 2021 to 2022)
 
 Your notes and actions, including reasons for rejection, will be stored along with the application data so you can easily refer to them.
 
