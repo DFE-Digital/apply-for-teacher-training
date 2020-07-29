@@ -10,8 +10,12 @@ class RemoveProviderUser
   # and the user we're editing/removing.
   def call!
     managed_providers = current_provider_user.authorisation.providers_that_actor_can_manage_users_for
-    shared_providers = managed_providers & user_to_remove.providers
-    user_to_remove.providers -= shared_providers
-    user_to_remove.save!
+
+    user_to_remove.provider_permissions.includes(:provider).each do |provider_permission|
+      next unless provider_permission.provider.in?(managed_providers)
+
+      provider_permission.audit_comment = 'User was deleted'
+      provider_permission.destroy!
+    end
   end
 end

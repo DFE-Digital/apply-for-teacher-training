@@ -19,14 +19,5 @@ RSpec.describe RemoveProviderUser do
 
       expect(user_to_remove.reload.providers).to eq([non_visible_provider])
     end
-
-    context 'when save! fails' do
-      it 'raises an error' do
-        error = StandardError.new('Ops!')
-        allow(user_to_remove).to receive(:save!).and_raise(error)
-
-        expect { service.call! }.to raise_error(error)
-      end
-    end
   end
 end

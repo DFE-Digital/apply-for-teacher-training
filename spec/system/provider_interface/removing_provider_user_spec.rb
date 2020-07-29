@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Removing a provider user' do
   include DfESignInHelpers
 
-  scenario 'removing a user from all providers' do
+  scenario 'removing a user from all providers', with_audited: true do
     FeatureFlag.activate(:providers_can_manage_users_and_permissions)
 
     given_i_am_a_provider_user_with_dfe_sign_in
@@ -18,6 +18,7 @@ RSpec.describe 'Removing a provider user' do
     and_i_confirm_i_want_to_delete_this_user
 
     then_the_deleted_user_has_no_visible_provider_permissions
+    and_the_audit_log_has_been_updated
 
     when_i_click_invite_user
     and_i_reinvite_the_deleted_user
@@ -66,6 +67,10 @@ RSpec.describe 'Removing a provider user' do
     expect(page).to have_content 'User’s account successfully deleted'
     expect(page).not_to have_content(@user_to_remove.full_name)
     expect(@user_to_remove.reload.providers).to eq([@non_visible_provider])
+  end
+
+  def and_the_audit_log_has_been_updated
+    expect(@user_to_remove.own_and_associated_audits.first(2).pluck(:action, :auditable_type)).to eql([%w[destroy ProviderPermissions], %w[destroy ProviderPermissions]])
   end
 
   def when_i_click_invite_user
