@@ -19,34 +19,6 @@ module ProviderInterface
       )
     end
 
-    def new
-      @form = ProviderUserForm.new(current_provider_user: current_provider_user)
-    end
-
-    def create
-      @form = ProviderUserForm.new(
-        provider_user_params.merge(
-          current_provider_user: current_provider_user,
-          provider_permissions: provider_initial_permissions_params,
-        ),
-      )
-      provider_user = @form.build
-      service = SaveAndInviteProviderUser.new(
-        form: @form,
-        save_service: SaveProviderUser.new(
-          provider_user: provider_user,
-          provider_permissions: @form.provider_permissions,
-        ),
-        invite_service: InviteProviderUser.new(provider_user: provider_user),
-        new_user: @form.existing_provider_user.blank?,
-      )
-
-      render :new and return unless service.call
-
-      flash[:success] = 'User successfully invited'
-      redirect_to provider_interface_provider_users_path
-    end
-
     def edit_permissions
       provider_permissions = find_provider_permissions_model!
       assert_current_user_can_manage_users_for provider_permissions.provider
@@ -114,18 +86,6 @@ module ProviderInterface
 
   private
 
-    def provider_user_params
-      params.require(:provider_interface_provider_user_form)
-            .permit(:email_address, :first_name, :last_name)
-    end
-
-    def provider_initial_permissions_params
-      params.require(:provider_interface_provider_user_form)
-            .permit(provider_permissions_forms: {})
-            .fetch(:provider_permissions_forms, {})
-            .to_h
-    end
-
     def provider_update_permissions_params
       params.require(:provider_interface_provider_user_permissions_form)
             .permit(*ProviderPermissions::VALID_PERMISSIONS)
@@ -163,7 +123,7 @@ module ProviderInterface
     def find_provider_user
       ProviderUser
         .visible_to(current_provider_user)
-        .find(params[:provider_user_id] || params[:id])
+        .find(params[:provider_user_id])
     rescue ActiveRecord::RecordNotFound
       render_404
     end

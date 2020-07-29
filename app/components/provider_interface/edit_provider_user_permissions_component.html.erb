@@ -11,7 +11,7 @@
 
 <%= form_with model: permissions_form,
               method: :patch,
-              url: provider_interface_provider_user_update_permissions_path(
+              url: provider_interface_provider_user_edit_permissions_path(
                 provider_id: permissions_form.provider.id,
                 provider_user_id: permissions_form.provider_user.id,
               ) do |f| %>
