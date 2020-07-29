@@ -12,7 +12,7 @@ module ProviderInterface
         .includes(:training_provider)
 
       @ratifying_permissions = ProviderRelationshipPermissions.where(ratifying_provider_id: params[:id])
-        .includes(:training_provider, :ratifying_provider)
+        .includes(:training_provider, :ratifying_provider) - @training_permissions
     end
 
   private
