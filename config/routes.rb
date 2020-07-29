@@ -561,7 +561,7 @@ Rails.application.routes.draw do
     get '/sign-in/check-email', to: 'sessions#check_your_email', as: :check_your_email
     get '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
 
-    resources :provider_users, only: %i[index show], path: 'provider-users' do
+    resources :provider_users, only: %i[index show], path: '/users' do
       get 'edit-providers' => 'provider_users#edit_providers', as: :edit_providers
       patch 'update-providers' => 'provider_users#update_providers', as: :update_providers
 
