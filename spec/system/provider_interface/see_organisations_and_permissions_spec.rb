@@ -8,6 +8,8 @@ RSpec.feature 'See organisation permissions' do
     and_the_provider_permissions_feature_is_enabled
     and_i_can_manage_organisations_for_a_provider
     and_the_provider_has_courses_ratified_by_another_provider
+    and_the_ratifying_provider_has_courses_run_by_another_provider
+    and_the_ratifying_provider_has_courses_run_by_unmanagable_provider
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_provider_organisations_page
@@ -18,6 +20,7 @@ RSpec.feature 'See organisation permissions' do
 
     when_i_visit_the_provider_organisations_page
     and_i_click_on_a_training_provider_organisation
+    and_i_can_not_see_permissions_for_unassociated_providers
     then_i_can_see_permissions_for_the_training_provider
   end
 
@@ -35,7 +38,9 @@ RSpec.feature 'See organisation permissions' do
     @training_provider = Provider.find_by(code: 'ABC')
     @ratifying_provider = Provider.find_by(code: 'DEF')
     @unmanageable_provider = create(:provider, :with_signed_agreement)
+    @another_training_provider = create(:provider, :with_signed_agreement)
     @provider_user.providers << @unmanageable_provider
+    @provider_user.providers << @another_training_provider
     @provider_user.provider_permissions.update_all(manage_organisations: true)
   end
 
@@ -44,6 +49,33 @@ RSpec.feature 'See organisation permissions' do
       :provider_relationship_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @training_provider,
+      training_provider_can_make_decisions: false,
+      ratifying_provider_can_make_decisions: true,
+      ratifying_provider_can_view_safeguarding_information: true,
+      training_provider_can_view_safeguarding_information: false,
+      setup_at: Time.zone.now,
+    )
+  end
+
+  def and_the_ratifying_provider_has_courses_run_by_another_provider
+    create(
+      :provider_relationship_permissions,
+      ratifying_provider: @ratifying_provider,
+      training_provider: @another_training_provider,
+      training_provider_can_make_decisions: false,
+      ratifying_provider_can_make_decisions: true,
+      ratifying_provider_can_view_safeguarding_information: true,
+      training_provider_can_view_safeguarding_information: false,
+      setup_at: Time.zone.now,
+    )
+  end
+
+  def and_the_ratifying_provider_has_courses_run_by_unmanagable_provider
+    @unmanageable_training_provider = create(:provider)
+    create(
+      :provider_relationship_permissions,
+      ratifying_provider: @ratifying_provider,
+      training_provider: @unmanageable_training_provider,
       training_provider_can_make_decisions: false,
       ratifying_provider_can_make_decisions: true,
       ratifying_provider_can_view_safeguarding_information: true,
@@ -67,12 +99,16 @@ RSpec.feature 'See organisation permissions' do
   end
 
   def then_i_can_see_permissions_for_the_ratifying_provider
-    expect(page).to have_content("For courses ratified by #{@ratifying_provider.name} and run by #{@training_provider.name}")
+    expect(page.text).to include("For courses ratified by #{@ratifying_provider.name} and run by #{@unmanageable_training_provider.name}")
     expect(page).to have_content("The following organisation(s) can see safeguarding information:\n#{@ratifying_provider.name}")
+    expect(page.text).to include("Contact #{@unmanageable_training_provider.name} to change permissions.")
   end
 
   def and_i_can_see_permissions_for_the_training_provider
+    expect(page).to have_content("For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name} ")
+    expect(page).not_to have_content("For courses ratified by #{@ratifying_provider.name} and run by #{@training_provider.name} ")
     expect(page).to have_content("#{@training_provider.name} can only view applications.")
+    expect(page).to have_link('Change', href: provider_interface_edit_provider_relationship_permissions_path(@permissions))
   end
 
   def and_i_click_on_a_training_provider_organisation
@@ -84,6 +120,11 @@ RSpec.feature 'See organisation permissions' do
     expect(page).to have_content("#{@training_provider.name} can only view applications.")
 
     expect(page).to have_link('Change', href: provider_interface_edit_provider_relationship_permissions_path(@permissions))
+  end
+
+  def and_i_can_not_see_permissions_for_unassociated_providers
+    expect(page).not_to have_content("For courses run by #{@another_training_provider.name} and ratified by #{@ratifying_provider.name} ")
+    expect(page).not_to have_content("#{@another_training_provider.name} can only view applications.")
   end
 
   def and_i_can_see_permissions_for_the_ratifying_provider
