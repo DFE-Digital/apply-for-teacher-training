@@ -4,6 +4,19 @@
   <%= @candidate.email_address %>
 <% end %>
 
+<% content_for :before_content do %>
+  <div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
+      </li>
+      <li class="govuk-breadcrumbs__list-item" aria-current="page">
+        <%= @candidate.email_address %>
+      </li>
+    </ol>
+  </div>
+<% end %>
+
 <% unless HostingEnvironment.production? %>
   <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@candidate), class: 'govuk-button' %>
 <% end %>
