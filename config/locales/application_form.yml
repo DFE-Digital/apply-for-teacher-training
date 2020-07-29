@@ -244,6 +244,7 @@ en:
         hint_text: For example, GCSE, A level, BTEC, NVQ or non-UK other
       subject:
         label: Subject
+        change_action: subject
       institution_country:
         label: Country where you studied
       institution_name:

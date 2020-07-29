@@ -110,13 +110,23 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
 
       before { FeatureFlag.activate('international_other_qualifications') }
 
-      it 'renders the correct values for qualification type' do
+      it 'renders the correct values' do
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.app-summary-card__title').text).to include('Woof Making Doggo Sounds')
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.qualification.label'))
-        expect(result.css('.govuk-summary-list__value').text).to include('Woof Making Doggo Sounds')
+        expect(result.css('.govuk-summary-list__value').text).to include('Woof')
         expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.other_qualification.qualification.change_action'))
+        "Change #{t('application_form.other_qualification.qualification.change_action')} for Woof, Making Doggo Sounds, Doggo Sounds College, United States, 2012"
+      end
+
+      it 'renders the correct subject' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.app-summary-card__title').text).to include('Woof Making Doggo Sounds')
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.subject.label'))
+        expect(result.css('.govuk-summary-list__value').text).to include('Making Doggo Sounds')
+        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.other_qualification.subject.change_action'))
         "Change #{t('application_form.other_qualification.qualification.change_action')} for Woof, Making Doggo Sounds, Doggo Sounds College, United States, 2012"
       end
 

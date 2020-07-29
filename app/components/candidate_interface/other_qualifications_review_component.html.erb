@@ -2,8 +2,8 @@
   <%= render(SectionMissingBannerComponent.new(section: :other_qualifications, section_path: candidate_interface_review_other_qualifications_path, error: @missing_error)) %>
 <% end %>
 <% @qualifications.each do |qualification| %>
-  <%= render(SummaryCardComponent.new(rows: other_qualifications_rows(qualification), editable: @editable)) do %>
-    <%= render(SummaryCardHeaderComponent.new(title: qualification_value(qualification), heading_level: @heading_level)) do %>
+<%= render(SummaryCardComponent.new(rows: other_qualifications_rows(qualification), editable: @editable)) do %>
+  <%= render(SummaryCardHeaderComponent.new(title: qualification.title, heading_level: @heading_level)) do %>
       <% if @editable %>
         <div class="app-summary-card__actions">
           <%= link_to candidate_interface_confirm_destroy_other_qualification_path(qualification.id), class: 'govuk-link' do %>

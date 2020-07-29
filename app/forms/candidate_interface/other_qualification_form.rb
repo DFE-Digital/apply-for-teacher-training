@@ -117,7 +117,14 @@ module CandidateInterface
     end
 
     def title
-      "#{qualification_type} #{subject}"
+      case qualification_type
+      when 'non_uk'
+        "#{non_uk_qualification_type} #{subject}"
+      when 'Other' && FeatureFlag.active?('international_other_qualifications')
+        "#{other_uk_qualification_type} #{subject}"
+      else
+        "#{qualification_type} #{subject}"
+      end
     end
 
   private
