@@ -234,7 +234,7 @@ FactoryBot.define do
     provider
 
     code { Faker::Alphanumeric.unique.alphanumeric(number: 5).upcase }
-    name { Faker::Educator.unique.secondary_school }
+    name { "#{Faker::Educator.secondary_school} #{rand(100..999)}" }
     address_line1 { Faker::Address.street_address }
     address_line2 { Faker::Address.city }
     address_line3 { Faker::Address.county }
