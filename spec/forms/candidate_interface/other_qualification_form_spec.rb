@@ -237,6 +237,28 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
   end
 
   describe '#title' do
+    context 'for a non-uk qualification' do
+      it 'concatenates the non_uk_qualification_type and subject' do
+        qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk',
+                                                                       non_uk_qualification_type: 'Master Craftsman',
+                                                                       subject: 'Igloo Building 101')
+
+        expect(qualification.title).to eq('Master Craftsman Igloo Building 101')
+      end
+    end
+
+    context 'for an other uk qualification with the international feature flag on' do
+      it 'concatenates the other_uk_qualification_type and subject' do
+        FeatureFlag.activate('international_other_qualifications')
+        qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other',
+                                                                       other_uk_qualification_type: 'Master Craftsman',
+                                                                       subject: 'Chopping Trees 1-0-done')
+
+        expect(qualification.title).to eq('Master Craftsman Chopping Trees 1-0-done')
+      end
+    end
+
+    context 'for other uk qualificaitons and GCSEs and A-levels'
     it 'concatenates the qualification type and subject' do
       qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'BTEC', subject: 'Being a Supervillain')
 

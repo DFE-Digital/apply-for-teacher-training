@@ -29,7 +29,7 @@ RSpec.feature 'Non-uk Other qualifications' do
     and_click_save_and_continue
     then_i_see_the_other_qualification_review_page
     and_i_should_see_my_qualification
-    
+
     when_i_mark_this_section_as_completed
     and_i_click_continue
     then_i_should_see_the_form
