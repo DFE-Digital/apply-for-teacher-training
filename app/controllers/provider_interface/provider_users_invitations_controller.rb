@@ -4,7 +4,7 @@ module ProviderInterface
     before_action :require_manage_user_permission!
 
     def edit_details
-      @wizard = wizard_for(current_step: 'details')
+      @wizard = wizard_for(current_step: 'details', single_provider: current_provider_user.providers.size == 1)
       @wizard.save_state!
     end
 
@@ -115,7 +115,7 @@ module ProviderInterface
 
     def details_params
       params.require(:provider_interface_provider_user_invitation_wizard)
-        .permit(:first_name, :last_name, :email_address)
+        .permit(:first_name, :last_name, :email_address, :single_provider, providers: [])
     end
 
     def providers_params
