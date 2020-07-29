@@ -123,7 +123,7 @@ module ProviderInterface
     def find_provider_user
       ProviderUser
         .visible_to(current_provider_user)
-        .find(params[:provider_user_id] || params[:id])
+        .find(params[:provider_user_id])
     rescue ActiveRecord::RecordNotFound
       render_404
     end
