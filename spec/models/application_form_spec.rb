@@ -283,4 +283,17 @@ RSpec.describe ApplicationForm do
       expect(application_form.nationalities).to match_array ['British', 'Irish', 'Welsh', 'Northern Irish']
     end
   end
+
+  describe 'can_add_more_choices?' do
+    it 'returns true if the `stop_new_applications` feature flag is off and there are less than the maximum number of choices' do
+      application_form = build_stubbed(:application_form)
+      expect(application_form.can_add_more_choices?).to be true
+    end
+
+    it 'returns false if the `stop_new_applications` feature flag is on' do
+      application_form = build_stubbed(:application_form)
+      FeatureFlag.activate(:stop_new_applications)
+      expect(application_form.can_add_more_choices?).to be false
+    end
+  end
 end

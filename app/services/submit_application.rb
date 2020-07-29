@@ -51,12 +51,7 @@ private
   end
 
   def auto_approve_reference(reference)
-    reference.update!(
-      relationship_correction: '',
-      safeguarding_concerns: '',
-      safeguarding_concerns_status: :no_safeguarding_concerns_to_declare,
-      feedback: I18n.t('new_referee_request.auto_approve_feedback'),
-    )
+    reference.update!(relationship_correction: '', safeguarding_concerns: '', safeguarding_concerns_status: :no_safeguarding_concerns_to_declare, feedback: I18n.t('new_referee_request.auto_approve_feedback'))
 
     SubmitReference.new(
       reference: reference,

@@ -21,10 +21,13 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     then_i_do_not_see_the_continue_button
     and_i_do_see_a_banner_telling_me_that_applications_are_closed
 
-    # when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
-    # and_i_choose_not_to_add_further_information
-    # and_i_submit_the_application
-    # then_i_can_see_my_application_has_been_successfully_submitted
+    when_i_visit_the_application_form_page
+    and_i_click_on_course_choices
+    then_i_do_not_see_an_add_another_course_button
+
+    when_i_visit_the_choose_course_page
+    then_i_am_redirected_to_the_application_page
+    and_i_see_an_error_message_telling_me_that_applications_are_closed
   end
 
   def given_i_am_signed_in
@@ -49,6 +52,8 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
   def and_i_visit_the_application_form_page
     visit candidate_interface_application_form_path
   end
+
+  alias_method :when_i_visit_the_application_form_page, :and_i_visit_the_application_form_page
 
   def then_i_should_see_all_sections_are_complete
     CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
@@ -80,25 +85,15 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     expect(page).to have_content 'The 2020 recruitment cycle is now closed for new applications'
   end
 
-  # def when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
-  #   click_link 'Continue without completing questionnaire'
-  # end
+  def and_i_click_on_course_choices
+    click_link 'Course choices'
+  end
 
-  # def and_i_choose_not_to_add_further_information
-  #   choose 'No'
-  # end
+  def then_i_do_not_see_an_add_another_course_button
+    expect(page).not_to have_link 'Add another course'
+  end
 
-  # def and_i_submit_the_application
-  #   click_button 'Submit application'
-  # end
-
-  # def then_i_can_see_my_application_has_been_successfully_submitted
-  #   expect(page).to have_content 'Application successfully submitted'
-  #   expect(page).to have_content 'Your training provider will be in touch with you if they want to arrange an interview.'
-  # end
-
-  # def and_i_can_see_my_support_ref
-  #   support_ref = page.find('span#application-ref').text
-  #   expect(support_ref).not_to be_empty
-  # end
+  def when_i_visit_the_choose_course_page
+    visit candidate_interface_course_choices_choose_path
+  end
 end

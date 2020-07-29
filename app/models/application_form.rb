@@ -154,7 +154,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def can_add_more_choices?
-    choices_left_to_make.positive?
+    !FeatureFlag.active?(:stop_new_applications) && choices_left_to_make.positive?
   end
 
   def can_edit_after_submission?
