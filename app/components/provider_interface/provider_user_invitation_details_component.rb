@@ -46,7 +46,7 @@ module ProviderInterface
     def providers_row
       {
         key: 'Organisations this user will have access to',
-        value: provider_names_list,
+        value: render(UserDetailsOrganisationsList.new(providers.values)),
         change_path: provider_interface_update_invitation_providers_path(checking_answers: true),
         action: 'organisations this user will have access to',
       }

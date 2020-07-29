@@ -30,11 +30,13 @@ module ProviderInterface
     end
 
     def provider_row
-      return if @current_provider_user.authorisation.providers_that_actor_can_manage_users_for.size == 1
+      manageable_providers = @current_provider_user.authorisation.providers_that_actor_can_manage_users_for
+      return if manageable_providers.size == 1
 
+      providers_to_show = @provider_user.providers & manageable_providers
       {
         key: 'Organisations this user has access to',
-        value: visible_provider_permissions.map(&:provider).map(&:name),
+        value: render(UserDetailsOrganisationsList.new(providers_to_show)),
         change_path: provider_interface_provider_user_edit_providers_path(@provider_user),
         action: 'organisations',
       }

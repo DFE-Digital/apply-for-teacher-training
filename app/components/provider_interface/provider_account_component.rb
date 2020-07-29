@@ -29,12 +29,8 @@ module ProviderInterface
     def organisations_row
       {
         key: 'Organisations you have access to',
-        value: organisations,
+        value: render(UserDetailsOrganisationsList.new(current_provider_user.providers)),
       }
-    end
-
-    def organisations
-      current_provider_user.providers.map(&:name)
     end
 
     def permissions_rows
