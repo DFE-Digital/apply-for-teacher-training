@@ -35,7 +35,7 @@ module CandidateInterface
       def pre_fill_new_qualification(qualifications)
         if last_two_qualifications_are_of_same_type(qualifications)
           new(
-            qualification_type: qualification[-2].qualification_type,
+            qualification_type: qualifications[-2].qualification_type,
             institution_name: qualifications[-2].institution_name,
             institution_country: qualifications[-2].institution_country,
             award_year: qualifications[-2].award_year,

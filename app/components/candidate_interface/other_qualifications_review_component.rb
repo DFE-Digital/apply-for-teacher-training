@@ -33,19 +33,41 @@ module CandidateInterface
     def qualification_row(qualification)
       {
         key: t('application_form.other_qualification.qualification.label'),
-        value: qualification.title,
+        value: qualification_value(qualification),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
         change_path: edit_other_qualification_path(qualification),
       }
     end
 
+    def qualification_value(qualification)
+      if non_uk_qualification?(qualification)
+        "#{qualification.non_uk_qualification_type} #{qualification.subject}"
+      elsif FeatureFlag.active?('international_other_qualifications') && qualification.other_uk_qualification_type.present?
+        "#{qualification.other_uk_qualification_type} #{qualification.subject}"
+      else
+        qualification.title
+      end
+    end
+
+    def non_uk_qualification?(qualification)
+      FeatureFlag.active?('international_other_qualifications') && qualification.non_uk_qualification_type.present?
+    end
+
     def institution_row(qualification)
       {
         key: t('application_form.other_qualification.institution.label'),
-        value: qualification.institution_name,
+        value: institution_value(qualification),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.institution.change_action')),
         change_path: edit_other_qualification_path(qualification),
       }
+    end
+
+    def institution_value(qualification)
+      if non_uk_qualification?(qualification) && qualification.institution_country.present?
+        "#{qualification.institution_name}, #{qualification.institution_country}"
+      else
+        qualification.institution_name
+      end
     end
 
     def award_year_row(qualification)
@@ -72,7 +94,7 @@ module CandidateInterface
 
     def generate_action(qualification:, attribute: '')
       "#{attribute.presence} for #{qualification.qualification_type}, #{qualification.subject}, "\
-        "#{qualification.institution_name}, #{qualification.award_year}"
+        "#{institution_value(qualification)}, #{qualification.award_year}"
     end
   end
 end

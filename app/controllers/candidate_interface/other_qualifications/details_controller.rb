@@ -14,12 +14,10 @@ module CandidateInterface
       if @qualification.save
 
         if @qualification.choice == 'same_type'
-          qualification = ApplicationQualification.find(params[:id])
-
           @qualification_type = OtherQualificationTypeForm.new(
-            qualification_type: qualification.qualification_type,
-            non_uk_qualification_type: qualification.non_uk_qualification_type,
-            other_uk_qualification_type: qualification.other_uk_qualification_type,
+            qualification_type: @qualification.qualification_type,
+            non_uk_qualification_type: @qualification.non_uk_qualification_type,
+            other_uk_qualification_type: @qualification.other_uk_qualification_type,
           )
 
           @qualification_type.save(current_application)
@@ -44,10 +42,9 @@ module CandidateInterface
       params.require(:candidate_interface_other_qualification_form).permit(
         :id, :subject, :institution_name, :grade, :award_year, :choice, :institution_country
       ).merge!(id: params[:id],
-              qualification_type: get_qualification.qualification_type,
-              non_uk_qualification_type: get_qualification.non_uk_qualification_type,
-              other_uk_qualification_type: get_qualification.other_uk_qualification_type)
-              .transform_values(&:strip)
+               qualification_type: get_qualification.qualification_type,
+               non_uk_qualification_type: get_qualification.non_uk_qualification_type,
+               other_uk_qualification_type: get_qualification.other_uk_qualification_type)
     end
 
     def get_qualification

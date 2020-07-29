@@ -120,9 +120,8 @@ RSpec.feature 'Non-uk Other qualifications' do
   def and_i_should_see_my_qualification
     expect(page).to have_content('Master Rules')
     expect(page).to have_content('Believing in the Heart of the Cards')
-    expect(page).to have_content('Japan')
+    expect(page).to have_content('Yugi College, Japan')
     expect(page).to have_content('2015')
-    expect(page).to have_content('N/A')
   end
 
   def when_i_click_to_change_my_first_qualification_type
