@@ -5,7 +5,7 @@ module CandidateInterface
     end
 
     def render?
-      FeatureFlag.active?('stop_new_applications') && @application_form.submitted? == false
+      @application_form.submissions_closed? && !@application_form.submitted?
     end
   end
 end

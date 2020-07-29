@@ -295,5 +295,17 @@ RSpec.describe ApplicationForm do
       FeatureFlag.activate(:stop_new_applications)
       expect(application_form.can_add_more_choices?).to be false
     end
+
+    it 'returns true if the `stop_new_applications` feature flag is on for an apply again application' do
+      application_form = build_stubbed(:application_form, phase: :apply_2)
+      FeatureFlag.activate(:stop_new_applications)
+      expect(application_form.can_add_more_choices?).to be true
+    end
+
+    it 'returns false if the `stop_new_apply_again_applications` feature flag is on for an apply again application' do
+      application_form = build_stubbed(:application_form, phase: :apply_2)
+      FeatureFlag.activate(:stop_new_apply_again_applications)
+      expect(application_form.can_add_more_choices?).to be false
+    end
   end
 end

@@ -32,6 +32,6 @@
 
 <%= render 'review', application_form: @application_form, editable: true %>
 
-<% unless FeatureFlag.active?(:stop_new_applications) %>
+<% unless @application_form.submissions_closed? %>
   <%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_start_equality_and_diversity_path %>
 <% end %>
