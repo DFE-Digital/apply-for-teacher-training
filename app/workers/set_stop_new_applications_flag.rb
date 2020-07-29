@@ -2,8 +2,8 @@ class SetStopNewApplicationsFlag
   include Sidekiq::Worker
 
   # TODO: These could be env vars
-  PAUSE_ON = Date.local(2020, 8, 24)
-  RESUME_ON = Date.local(2020, 9, 7)
+  PAUSE_ON = Date.new(2020, 8, 24)
+  RESUME_ON = Date.new(2020, 9, 7)
 
   def perform
     if Time.zone.now.to_date == PAUSE_ON

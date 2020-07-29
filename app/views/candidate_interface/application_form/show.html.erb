@@ -7,6 +7,9 @@
     </div>
   </div>
 <% end %>
+<% if flash.empty? %>
+  <%= render CandidateInterface::StopNewApplicationsBannerComponent.new(application_form: @application_form) %>
+<% end %>
 
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
   <%= t('page_titles.application_form') %>

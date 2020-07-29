@@ -1,6 +1,10 @@
 <% content_for :title, title_with_error_prefix(t('review_application.title'), @errors && @errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
 
+<% if flash.empty? %>
+  <%= render CandidateInterface::StopNewApplicationsBannerComponent.new(application_form: @application_form) %>
+<% end %>
+
 <% if @errors.present? || @application_choice_errors.present? %>
   <div class="govuk-error-summary" tabindex="-1" role="alert" data-module="govuk-error-summary" aria-labelledby="error-summary-title">
     <h2 id="error-summary-title" class="govuk-error-summary__title">
@@ -28,4 +32,6 @@
 
 <%= render 'review', application_form: @application_form, editable: true %>
 
-<%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_start_equality_and_diversity_path %>
+<% unless FeatureFlag.active?(:stop_new_applications) %>
+  <%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_start_equality_and_diversity_path %>
+<% end %>

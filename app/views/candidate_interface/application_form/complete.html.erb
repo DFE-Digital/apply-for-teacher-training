@@ -2,6 +2,7 @@
 
 <% new_references_needed_component = CandidateInterface::NewReferencesNeededComponent.new(application_form: @application_form) %>
 <% new_application_choice_needed_component = CandidateInterface::NewCourseChoiceNeededBannerComponent.new(application_form: @application_form) %>
+<% require 'pry'; binding.pry if FeatureFlag.active?('stop_new_applications') %>
 <% if new_references_needed_component.render? %>
   <%= render new_references_needed_component %>
 <% elsif new_application_choice_needed_component.render? %>

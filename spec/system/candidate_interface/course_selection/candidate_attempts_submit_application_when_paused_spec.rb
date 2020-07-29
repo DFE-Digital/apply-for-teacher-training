@@ -76,6 +76,10 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     expect(page).not_to have_link 'Continue'
   end
 
+  def and_i_do_see_a_banner_telling_me_that_applications_are_closed
+    expect(page).to have_content 'The 2020 recruitment cycle is now closed for new applications'
+  end
+
   # def when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
   #   click_link 'Continue without completing questionnaire'
   # end
