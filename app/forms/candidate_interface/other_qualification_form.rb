@@ -39,8 +39,8 @@ module CandidateInterface
             institution_name: qualifications[-2].institution_name,
             institution_country: qualifications[-2].institution_country,
             award_year: qualifications[-2].award_year,
-            non_uk_qualification_type: qualifications[-2].non_uk_qualification_type,
-            other_uk_qualification_type: qualifications[-2].other_uk_qualification_type,
+            non_uk_qualification_type: qualifications[-1].non_uk_qualification_type,
+            other_uk_qualification_type: qualifications[-1].other_uk_qualification_type,
           )
         else
           new(
