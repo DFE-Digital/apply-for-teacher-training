@@ -7,9 +7,15 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
 
   describe 'next_step' do
     it 'returns the providers page from the basic details page for a new user' do
-      state_store = state_store_for({})
+      state_store = state_store_for({ providers: [123, 456] })
       wizard = described_class.new(state_store, current_step: 'details')
       expect(wizard.next_step).to eq([:providers])
+    end
+
+    it 'returns the permissions page from the details page for a single provider' do
+      state_store = state_store_for({ providers: [123], single_provider: true })
+      wizard = described_class.new(state_store, current_step: 'details')
+      expect(wizard.next_step).to eq([:permissions, 123])
     end
 
     it 'returns the first provider permissions page from the providers page for a new user' do
@@ -55,6 +61,12 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
       state_store = state_store_for({ providers: [123, 456], provider_permissions: { 123 => [] } })
       wizard = described_class.new(state_store, current_step: 'permissions', current_provider_id: '123')
       expect(wizard.previous_step).to eq([:providers])
+    end
+
+    it 'returns the details page from the permissions page for a single provider' do
+      state_store = state_store_for({ providers: [123], provider_permissions: { 123 => [] }, single_provider: true })
+      wizard = described_class.new(state_store, current_step: 'permissions', current_provider_id: '123')
+      expect(wizard.previous_step).to eq([:details])
     end
 
     it 'returns the first provider permissions page from the last provider permissions page for a new user' do
