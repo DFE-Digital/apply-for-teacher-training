@@ -8,12 +8,13 @@ module ProviderInterface
     end
 
     def rows
-      [
+      rows = [
         first_name_row,
         last_name_row,
         email_address_row,
-        providers_row,
-      ] + permission_rows
+      ]
+      rows << providers_row unless @wizard.single_provider
+      rows + permission_rows
     end
 
     def first_name_row
@@ -54,8 +55,10 @@ module ProviderInterface
 
     def permission_rows
       providers.map do |_id, provider|
+        key = 'Permissions'
+        key += ": #{provider.name}" unless @wizard.single_provider
         {
-          key: "Permissions: #{provider.name}",
+          key: key,
           value: render(
             ProviderInterface::ProviderUserInvitationPermissionsComponent.new(
               @wizard.provider_permissions[provider.id.to_s]['permissions'].reject(&:blank?),

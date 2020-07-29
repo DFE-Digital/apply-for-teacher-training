@@ -14,6 +14,7 @@ RSpec.describe ProviderInterface::ProviderUserInvitationDetailsComponent do
         @provider1.id.to_s => { 'provider_id' => @provider1.id, 'permissions' => %w[manage_users] },
         @provider2.id.to_s => { 'provider_id' => @provider2.id, 'permissions' => %w[make_decisions] },
       },
+      single_provider: nil,
     )
   end
 
@@ -45,5 +46,30 @@ RSpec.describe ProviderInterface::ProviderUserInvitationDetailsComponent do
     expect(result.css('.govuk-summary-list__key')[5].text).to include("Permissions: #{@provider2.name}")
     expect(result.css('.govuk-summary-list__value')[5].text).not_to include('Manage users')
     expect(result.css('.govuk-summary-list__value')[5].text).to include('Make decisions')
+  end
+
+  context 'when the wizard is for a single provider' do
+    let(:provider) { create(:provider) }
+    let(:wizard) do
+      instance_double(
+        ProviderInterface::ProviderUserInvitationWizard,
+        first_name: 'Ed',
+        last_name: 'Yewcator',
+        email_address: 'ed@example.com',
+        providers: [provider.id.to_s],
+        provider_permissions: {
+          provider.id.to_s => { 'provider_id' => provider.id, 'permissions' => %w[manage_users] },
+        },
+        single_provider: 'true',
+      )
+    end
+
+    it 'conditionally hides provider information' do
+      result = render_inline(described_class.new(wizard: wizard))
+
+      expect(result.css('.govuk-summary-list__key')[3].text).to include('Permissions')
+      expect(result.css('.govuk-summary-list__key')[3].text).not_to include("Permissions: #{provider.name}")
+      expect(result.css('.govuk-summary-list__value')[3].text).to include('Manage users')
+    end
   end
 end
