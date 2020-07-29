@@ -163,10 +163,7 @@ module ProviderInterface
     end
 
     def next_provider_needing_permissions_setup
-      providers.find do |p|
-        provider_permissions.keys.exclude?(p.to_s) ||
-          provider_permissions[p.to_s]['permissions'].reject(&:blank?).blank?
-      end
+      providers.find { |p| provider_permissions.keys.exclude?(p.to_s) }
     end
 
     def any_provider_needs_permissions_setup?

@@ -24,6 +24,13 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
       expect(wizard.next_step).to eq([:permissions, 456])
     end
 
+    it 'returns the review page from the first provider permissions page when permissions have been set and we are checking answers' do
+      state_store = state_store_for({ providers: [123, 456], provider_permissions: { 123 => [], 456 => [] } })
+      wizard = described_class.new(state_store, current_step: 'permissions', current_provider_id: '123')
+      wizard.checking_answers = true
+      expect(wizard.next_step).to eq([:check])
+    end
+
     it 'returns the review page from the last provider permissions page for a new user' do
       state_store = state_store_for({ providers: [123, 456], provider_permissions: { 123 => [], 456 => [] } })
       wizard = described_class.new(state_store, current_step: 'providers', current_provider_id: '456')
