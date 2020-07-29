@@ -497,11 +497,13 @@ Rails.application.routes.draw do
     get '/applications' => 'applications#index'
     get '/applications/:application_id' => 'applications#show'
 
-    post '/applications/:application_id/offer' => 'decisions#make_offer'
-    post '/applications/:application_id/confirm-conditions-met' => 'decisions#confirm_conditions_met'
-    post '/applications/:application_id/conditions-not-met' => 'decisions#conditions_not_met'
-    post '/applications/:application_id/reject' => 'decisions#reject'
-    post '/applications/:application_id/confirm-enrolment' => 'decisions#confirm_enrolment'
+    scope path: '/applications/:application_id' do
+      post '/offer' => 'decisions#make_offer'
+      post '/confirm-conditions-met' => 'decisions#confirm_conditions_met'
+      post '/conditions-not-met' => 'decisions#conditions_not_met'
+      post '/reject' => 'decisions#reject'
+      post '/confirm-enrolment' => 'decisions#confirm_enrolment'
+    end
 
     post '/test-data/regenerate' => 'test_data#regenerate'
     post '/test-data/generate' => 'test_data#generate'
@@ -528,28 +530,31 @@ Rails.application.routes.draw do
     get '/data-sharing-agreements/:id', to: 'provider_agreements#show_data_sharing_agreement', as: :show_data_sharing_agreement
 
     get '/applications' => 'application_choices#index'
-    get '/applications/:application_choice_id' => 'application_choices#show', as: :application_choice
-    get '/applications/:application_choice_id/notes' => 'application_choices#notes', as: :application_choice_notes
-    get '/applications/:application_choice_id/notes/new' => 'application_choices#new_note', as: :application_choice_new_note
-    post '/applications/:application_choice_id/notes' => 'application_choices#create_note', as: :application_choice_create_note
-    get '/applications/:application_choice_id/timeline' => 'application_choices#timeline', as: :application_choice_timeline
-    get '/applications/:application_choice_id/emails' => 'application_choices#emails', as: :application_choice_emails
-    get '/applications/:application_choice_id/respond' => 'decisions#respond', as: :application_choice_respond
-    post '/applications/:application_choice_id/respond' => 'decisions#submit_response', as: :application_choice_submit_response
-    get '/applications/:application_choice_id/offer' => 'decisions#new_offer', as: :application_choice_new_offer
-    get '/applications/:application_choice_id/reject' => 'decisions#new_reject', as: :application_choice_new_reject
-    post '/applications/:application_choice_id/reject/confirm' => 'decisions#confirm_reject', as: :application_choice_confirm_reject
-    post '/applications/:application_choice_id/reject' => 'decisions#create_reject', as: :application_choice_create_reject
-    post '/applications/:application_choice_id/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
-    post '/applications/:application_choice_id/offer' => 'decisions#create_offer', as: :application_choice_create_offer
-    get '/applications/:application_choice_id/conditions' => 'conditions#edit', as: :application_choice_edit_conditions
-    patch '/applications/:application_choice_id/conditions/confirm' => 'conditions#confirm_update', as: :application_choice_confirm_update_conditions
-    patch '/applications/:application_choice_id/conditions' => 'conditions#update', as: :application_choice_update_conditions
-    get '/applications/:application_choice_id/offer/change/*step' => 'offer_changes#edit_offer', as: :application_choice_edit_offer
-    patch '/applications/:application_choice_id/offer/change' => 'offer_changes#update_offer', as: :application_choice_update_offer
-    get '/applications/:application_choice_id/offer/new_withdraw' => 'decisions#new_withdraw_offer', as: :application_choice_new_withdraw_offer
-    post '/applications/:application_choice_id/offer/confirm_withdraw' => 'decisions#confirm_withdraw_offer', as: :application_choice_confirm_withdraw_offer
-    post '/applications/:application_choice_id/offer/withdraw' => 'decisions#withdraw_offer', as: :application_choice_withdraw_offer
+
+    scope path: '/applications/:application_choice_id' do
+      get '/' => 'application_choices#show', as: :application_choice
+      get '/notes' => 'application_choices#notes', as: :application_choice_notes
+      get '/notes/new' => 'application_choices#new_note', as: :application_choice_new_note
+      post '/notes' => 'application_choices#create_note', as: :application_choice_create_note
+      get '/timeline' => 'application_choices#timeline', as: :application_choice_timeline
+      get '/emails' => 'application_choices#emails', as: :application_choice_emails
+      get '/respond' => 'decisions#respond', as: :application_choice_respond
+      post '/respond' => 'decisions#submit_response', as: :application_choice_submit_response
+      get '/offer' => 'decisions#new_offer', as: :application_choice_new_offer
+      get '/reject' => 'decisions#new_reject', as: :application_choice_new_reject
+      post '/reject/confirm' => 'decisions#confirm_reject', as: :application_choice_confirm_reject
+      post '/reject' => 'decisions#create_reject', as: :application_choice_create_reject
+      post '/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
+      post '/offer' => 'decisions#create_offer', as: :application_choice_create_offer
+      get '/conditions' => 'conditions#edit', as: :application_choice_edit_conditions
+      patch '/conditions/confirm' => 'conditions#confirm_update', as: :application_choice_confirm_update_conditions
+      patch '/conditions' => 'conditions#update', as: :application_choice_update_conditions
+      get '/offer/change/*step' => 'offer_changes#edit_offer', as: :application_choice_edit_offer
+      patch '/offer/change' => 'offer_changes#update_offer', as: :application_choice_update_offer
+      get '/offer/new_withdraw' => 'decisions#new_withdraw_offer', as: :application_choice_new_withdraw_offer
+      post '/offer/confirm_withdraw' => 'decisions#confirm_withdraw_offer', as: :application_choice_confirm_withdraw_offer
+      post '/offer/withdraw' => 'decisions#withdraw_offer', as: :application_choice_withdraw_offer
+    end
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
 
@@ -615,14 +620,17 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_forms#index'
     get '/applications/unavailable-choices' => 'application_forms#unavailable_choices', as: :unavailable_choices
-    get '/applications/:application_form_id' => 'application_forms#show', as: :application_form
-    get '/applications/:application_form_id/audit' => 'application_forms#audit', as: :application_form_audit
-    get '/applications/:application_form_id/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
-    post '/applications/:application_form_id/comments' => 'application_forms/comments#create', as: :application_form_comments
+
+    scope path: '/applications/:application_form_id' do
+      get '/' => 'application_forms#show', as: :application_form
+      get '/audit' => 'application_forms#audit', as: :application_form_audit
+      get '/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
+      post '/comments' => 'application_forms/comments#create', as: :application_form_comments
+    end
 
     get '/application_choices/:application_choice_id' => 'application_choices#show', as: :application_choice
 
-    scope '/applications/:application_form_id' do
+    scope path: '/applications/:application_form_id' do
       get '/change-course' => 'change_course#options', as: :change_course
       post '/change-course' => 'change_course#pick_option'
       get '/change-course/add-choice' => 'change_course#select_course_to_add', as: :add_course_to_application
@@ -634,19 +642,23 @@ Rails.application.routes.draw do
     end
 
     get '/candidates' => 'candidates#index'
-    get '/candidates/:candidate_id' => 'candidates#show', as: :candidate
-    post '/candidates/:candidate_id/hide' => 'candidates#hide_in_reporting', as: :hide_candidate
-    post '/candidates/:candidate_id/show' => 'candidates#show_in_reporting', as: :show_candidate
-    post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
+
+    scope path: '/candidates/:candidate_id' do
+      get '/' => 'candidates#show', as: :candidate
+      post '/hide' => 'candidates#hide_in_reporting', as: :hide_candidate
+      post '/show' => 'candidates#show_in_reporting', as: :show_candidate
+      post '/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
+    end
 
     get '/send-survey-email/:application_form_id' => 'survey_emails#show', as: :survey_emails
     post '/send-survey-email/:application_form_id' => 'survey_emails#deliver'
 
-    get '/references/:reference_id/cancel' => 'references#cancel', as: :cancel_reference
-    post '/references/:reference_id/cancel' => 'references#confirm_cancel'
-
-    get '/references/:reference_id/reinstate' => 'references#reinstate', as: :reinstate_reference
-    post '/references/:reference_id/reinstate' => 'references#confirm_reinstate'
+    scope path: '/references/:reference_id' do
+      get '/cancel' => 'references#cancel', as: :cancel_reference
+      post '/cancel' => 'references#confirm_cancel'
+      get '/reinstate' => 'references#reinstate', as: :reinstate_reference
+      post '/reinstate' => 'references#confirm_reinstate'
+    end
 
     get '/tokens' => 'api_tokens#index', as: :api_tokens
     post '/tokens' => 'api_tokens#create'
@@ -655,16 +667,18 @@ Rails.application.routes.draw do
     get '/providers/other' => 'providers#other_providers', as: :other_providers
     get '/providers/relationships' => 'providers#relationships', as: :provider_relationships
 
-    get '/providers/:provider_id' => 'providers#show', as: :provider
-    get '/providers/:provider_id/courses' => 'providers#courses', as: :provider_courses
-    get '/providers/:provider_id/vacancies' => 'providers#vacancies', as: :provider_vacancies
-    get '/providers/:provider_id/sites' => 'providers#sites', as: :provider_sites
-    get '/providers/:provider_id/users' => 'providers#users', as: :provider_user_list
-    get '/providers/:provider_id/applications' => 'providers#applications', as: :provider_applications
-    get '/providers/:provider_id/history' => 'providers#history', as: :provider_history
+    scope path: '/providers/:provider_id' do
+      get '/' => 'providers#show', as: :provider
+      get '/courses' => 'providers#courses', as: :provider_courses
+      get '/vacancies' => 'providers#vacancies', as: :provider_vacancies
+      get '/sites' => 'providers#sites', as: :provider_sites
+      get '/users' => 'providers#users', as: :provider_user_list
+      get '/applications' => 'providers#applications', as: :provider_applications
+      get '/history' => 'providers#history', as: :provider_history
 
-    post '/providers/:provider_id' => 'providers#open_all_courses'
-    post '/providers/:provider_id/enable_course_syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing
+      post '' => 'providers#open_all_courses'
+      post '/enable_course_syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing
+    end
 
     get '/course-options' => 'course_options#index', as: :course_options
 
