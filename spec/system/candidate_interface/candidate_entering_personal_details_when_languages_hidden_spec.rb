@@ -21,7 +21,7 @@ RSpec.describe 'Entering personal details' do
     # hidden. See LanguagesSectionPolicy and its corresponding spec for more
     # detail.
     FeatureFlag.activate(:efl_section)
-    expect(current_candidate.current_application.english_main_language).to eq nil
+    expect(current_candidate.current_application[:english_main_language]).to eq nil
   end
 
   def and_international_personal_details_is_active
