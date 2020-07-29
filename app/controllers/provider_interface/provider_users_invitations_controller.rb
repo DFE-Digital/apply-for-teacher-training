@@ -23,7 +23,10 @@ module ProviderInterface
       @wizard = wizard_for(current_step: 'providers')
       @wizard.save_state!
 
-      @available_providers = current_provider_user.providers
+      @available_providers = current_provider_user.provider_permissions
+                                                  .manage_users
+                                                  .includes(:provider)
+                                                  .map(&:provider)
     end
 
     def update_providers

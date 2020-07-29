@@ -14,8 +14,9 @@ class ProviderPermissions < ActiveRecord::Base
   audited associated_with: :provider_user
 
   scope :manage_organisations, -> { where(manage_organisations: true) }
-  scope :view_safeguarding_information, -> { where(view_safeguarding_information: true) }
+  scope :manage_users, -> { where(manage_users: true) }
   scope :make_decisions, -> { where(make_decisions: true) }
+  scope :view_safeguarding_information, -> { where(view_safeguarding_information: true) }
 
   def self.possible_permissions(current_provider_user:, provider_user:)
     providers = current_provider_user.authorisation.providers_that_actor_can_manage_users_for.order(:name)
