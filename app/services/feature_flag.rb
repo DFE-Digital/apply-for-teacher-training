@@ -20,7 +20,8 @@ class FeatureFlag
     [:pilot_open, 'Enables the Apply for Teacher Training service', 'Tijmen Brommet'],
     [:summer_recruitment_banner, 'Displays an information banner related to RBD during the summer months', 'Michael Nacos'],
     [:switch_to_2021_recruitment_cycle, 'Sync and serve courses for the 2021 recruitment cycle. DO NOT ENABLE IN PRODUCTION.', 'Duncan Brown'],
-    [:stop_new_applications, 'Pauses new applications by preventing submissions at end of cycle.', 'Steve Hook'],
+    [:stop_new_applications, 'Pauses new Apply 1 applications by preventing submissions at end of cycle.', 'Steve Hook'],
+    [:stop_new_apply_again_applications, 'Pauses new Apply 2 (Apply Again) applications by preventing submissions at end of cycle.', 'Steve Hook'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
