@@ -60,6 +60,10 @@
   <% end %>
 
   <% if @permission_model.view_applications_only? %>
-    <li>The user can only view applications</li>
+    <% if user_is_viewing_their_own_permissions %>
+      <li>You can only view applications</li>
+    <% else %>
+      <li>The user can only view applications</li>
+    <% end %>
   <% end %>
 </ul>

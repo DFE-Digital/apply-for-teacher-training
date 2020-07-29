@@ -46,7 +46,7 @@ module ProviderInterface
       visible_provider_permissions.map do |permission|
         {
           key: "Permissions: #{permission.provider.name}",
-          value: render(PermissionsList.new(permission)),
+          value: render(PermissionsList.new(permission, user_is_viewing_their_own_permissions: @current_provider_user == @provider_user)),
           change_path: provider_interface_provider_user_edit_permissions_path(@provider_user, provider_id: permission.provider.id),
           action: "permissions for #{permission.provider.name}",
         }
