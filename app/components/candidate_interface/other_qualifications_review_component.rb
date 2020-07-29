@@ -49,6 +49,15 @@ module CandidateInterface
       }
     end
 
+    def subject_row(qualification)
+      {
+        key: t('application_form.other_qualification.subject.label'),
+        value: qualification.subject,
+        action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.subject.change_action')),
+        change_path: edit_other_qualification_path(qualification),
+      }
+    end
+
     def qualification_value(qualification)
       if FeatureFlag.active?('international_other_qualifications')
         if qualification.non_uk_qualification_type.present?
