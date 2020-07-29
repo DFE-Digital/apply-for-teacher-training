@@ -30,6 +30,20 @@ RSpec.feature 'Non-uk Other qualifications' do
     then_i_see_the_other_qualification_review_page
     and_i_should_see_my_qualification
 
+    when_i_click_to_change_my_first_qualification_type
+    then_i_see_my_qualification_type_filled_in
+
+    when_i_change_my_qualification_type
+    and_click_save_and_continue
+    then_i_can_check_my_revised_qualification_type
+
+    when_i_click_to_change_my_first_qualification
+    then_i_see_my_qualification_filled_in
+
+    when_i_change_my_qualification
+    and_click_save_and_continue
+    then_i_can_check_my_revised_qualification
+
     when_i_mark_this_section_as_completed
     and_i_click_continue
     then_i_should_see_the_form
@@ -110,6 +124,45 @@ RSpec.feature 'Non-uk Other qualifications' do
     expect(page).to have_content('Believing in the Heart of the Cards')
     expect(page).to have_content('Yugi College, Japan')
     expect(page).to have_content('2015')
+  end
+
+  def when_i_click_to_change_my_first_qualification_type
+    first('.govuk-summary-list__actions').click_link 'Change'
+  end
+
+  def then_i_see_my_qualification_type_filled_in
+    expect(page).to have_selector("input[value='Master Rules']")
+  end
+
+  def when_i_change_my_qualification_type
+    fill_in t('application_form.other_qualification.non_uk.label'), with: 'Battle'
+  end
+
+  def then_i_can_check_my_revised_qualification_type
+    expect(page).to have_content 'Battle'
+  end
+
+  def when_i_click_to_change_my_first_qualification
+    all('.govuk-summary-list__actions')[1].click_link 'Change'
+  end
+
+  def then_i_see_my_qualification_filled_in
+    expect(page).to have_selector("input[value='Believing in the Heart of the Cards']")
+    expect(page).to have_selector("input[value='Japan']")
+    expect(page).to have_selector("input[value='N/A']")
+    expect(page).to have_selector("input[value='2015']")
+  end
+
+  def when_i_change_my_qualification
+    fill_in t('application_form.other_qualification.grade.label'), with: 'Champion'
+  end
+
+  def then_i_can_check_my_revised_qualification
+    expect(page).to have_content 'Champion'
+  end
+
+  def and_the_section_is_not_completed
+    expect(page).not_to have_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
   end
 
   def when_i_mark_this_section_as_completed
