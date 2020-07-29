@@ -27,6 +27,7 @@ module CandidateInterface
         [:english_gcse, english_gcse_completed?],
         ([:science_gcse, science_gcse_completed?] if @application_form.science_gcse_needed?),
         [:other_qualifications, no_incomplete_qualifications?],
+        ([:efl, english_as_a_foreign_language_completed?] if display_efl_link?),
 
         # "Personal statement and interview" section
         [:becoming_a_teacher, becoming_a_teacher_completed?],
@@ -229,8 +230,7 @@ module CandidateInterface
     end
 
     def display_efl_link?
-      @application_form.nationalities.present? &&
-        !@application_form.english_speaking_nationality?
+      @application_form.efl_section_required?
     end
 
   private

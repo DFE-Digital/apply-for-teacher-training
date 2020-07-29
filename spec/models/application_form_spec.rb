@@ -337,4 +337,30 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#efl_section_required?' do
+    context 'at least one selected nationality is considered "English-speaking"' do
+      let(:application_form) { build_stubbed :application_form, first_nationality: 'British', second_nationality: 'French' }
+
+      it 'returns true' do
+        expect(application_form.efl_section_required?).to be false
+      end
+    end
+
+    context 'no "English-speaking" nationalities selected' do
+      let(:application_form) { build_stubbed :application_form, first_nationality: 'Jamaican', second_nationality: 'Chinese' }
+
+      it 'returns false' do
+        expect(application_form.efl_section_required?).to be true
+      end
+    end
+
+    context 'nationalities not selected' do
+      let(:application_form) { build_stubbed :application_form }
+
+      it 'returns false' do
+        expect(application_form.efl_section_required?).to be false
+      end
+    end
+  end
 end
