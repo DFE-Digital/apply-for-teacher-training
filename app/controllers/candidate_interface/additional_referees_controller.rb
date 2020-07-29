@@ -70,6 +70,13 @@ module CandidateInterface
       @references = not_requested_references
     end
 
+    def add_another_referee
+
+    end
+
+    def add_another_referee_decision
+    end
+
     def request_references
       references_to_confirm = not_requested_references.includes(:application_form).to_a
 
@@ -79,7 +86,15 @@ module CandidateInterface
 
       flash[:success] = I18n.t!('additional_referees.feedback_flash', count: references_to_confirm.size)
 
-      redirect_to candidate_interface_application_form_path
+      if FeatureFlag.active?(:separate_additional_referees)
+        if reference_status.still_more_references_needed?
+          redirect_to candidate_interface_add_another_referee_path
+        else
+          redirect_to candidate_interface_application_form_path
+        end
+      else
+        redirect_to candidate_interface_application_form_path
+      end
     end
 
     def edit
