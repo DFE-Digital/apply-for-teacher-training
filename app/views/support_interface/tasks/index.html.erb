@@ -22,7 +22,7 @@
     <div class='govuk-body'>
       This will delete all candidates with emails that end in "@example.com", their applications and associated data.
     </div>
-    <%= button_to 'Delete test applications', support_interface_run_task_path('delete_test_applications'), class: 'govuk-button' %>
+    <%= button_to 'Delete test applications', support_interface_confirm_task_path('delete_test_applications'), class: 'govuk-button govuk-button--warning' %>
   </div>
 <% end %>
 

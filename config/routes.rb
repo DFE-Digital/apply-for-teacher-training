@@ -709,6 +709,7 @@ Rails.application.routes.draw do
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
     post '/tasks/:task' => 'tasks#run', as: :run_task
+    post '/tasks/:task/conirm' => 'tasks#confirm', as: :confirm_task
 
     get '/validation-errors' => 'validation_errors#index', as: :validation_errors
     get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search

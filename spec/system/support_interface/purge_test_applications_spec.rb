@@ -46,7 +46,7 @@ RSpec.feature 'Purge test applications' do
   end
 
   def and_i_click_the_i_am_sure_button
-    # click_button 'I am sure'
+    click_button 'Yes, I\'m sure'
   end
 
   def then_i_see_a_message_telling_me_a_job_has_been_queued
