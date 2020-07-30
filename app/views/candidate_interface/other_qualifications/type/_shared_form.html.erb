@@ -1,0 +1,26 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.add_other_qualification') %>
+</h1>
+
+<%= render 'candidate_interface/other_qualifications/shared/instructions' %>
+
+<%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { text: 'What type of qualification do you want to add?', tag: 'span' } do %>
+  <%= f.govuk_radio_button :qualification_type, 'GCSE', label: { text: 'GCSE' } %>
+  <%= f.govuk_radio_button :qualification_type, 'A level', label: { text: 'A level' } %>
+  <%= f.govuk_radio_button :qualification_type, 'AS level', label: { text: 'AS level' } %>
+
+  <% if FeatureFlag.active?('international_other_qualifications') %>
+    <%= f.govuk_radio_button :qualification_type, 'Other', label: { text: 'Other UK qualification' } do %>
+      <%= f.govuk_text_field :other_uk_qualification_type, label: { text: 'Qualification name' } %>
+    <% end %>
+    <%= f.govuk_radio_button :qualification_type, 'non_uk', label: { text: 'Non-UK qualification' } do %>
+      <%= f.govuk_text_field :non_uk_qualification_type, label: { text: 'Qualification name' }, hint_text: 'For example, High school diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller' %>
+    <% end %>
+  <% else %>
+    <%= f.govuk_radio_button :qualification_type, 'Other', label: { text: 'Other' }  %>
+  <% end %>
+<% end %>
+
+<%= f.govuk_submit 'Continue' %>

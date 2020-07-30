@@ -319,6 +319,9 @@ Rails.application.routes.draw do
         get '/' => 'other_qualifications/type#new', as: :new_other_qualification_type
         post '/' => 'other_qualifications/type#create', as: :create_other_qualification_type
 
+        get '/edit-type/:id' => 'other_qualifications/type#edit', as: :edit_other_qualification_type
+        post '/edit-type/:id' => 'other_qualifications/type#update'
+
         get '/new/:id' => 'other_qualifications/details#new', as: :new_other_qualification_details
         post '/new/:id' => 'other_qualifications/details#create', as: :create_other_qualification_details
 

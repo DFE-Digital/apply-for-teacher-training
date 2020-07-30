@@ -41,12 +41,21 @@ module CandidateInterface
     attr_reader :application_form
 
     def qualification_row(qualification)
-      {
-        key: t('application_form.other_qualification.qualification.label'),
-        value: qualification_value(qualification),
-        action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
-        change_path: edit_other_qualification_path(qualification),
-      }
+      if FeatureFlag.active?('international_other_qualifications')
+        {
+          key: t('application_form.other_qualification.qualification.label'),
+          value: qualification_value(qualification),
+          action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
+          change_path: edit_other_qualification_type_path(qualification),
+        }
+      else
+        {
+          key: t('application_form.other_qualification.qualification.label'),
+          value: qualification_value(qualification),
+          action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
+          change_path: edit_other_qualification_path(qualification),
+        }
+      end
     end
 
     def subject_row(qualification)
@@ -122,6 +131,10 @@ module CandidateInterface
 
     def edit_other_qualification_path(qualification)
       Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification.id)
+    end
+
+    def edit_other_qualification_type_path(qualification)
+      Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_type_path(qualification.id)
     end
 
     def generate_action(qualification:, attribute: '')

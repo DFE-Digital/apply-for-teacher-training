@@ -16,6 +16,21 @@ module CandidateInterface
       end
     end
 
+    def edit
+      @qualification_type = OtherQualificationTypeForm.build_from_qualification(ApplicationQualification.find(params[:id]))
+    end
+
+    def update
+      @qualification_type = OtherQualificationTypeForm.new(other_qualification_type_params)
+      @qualification = ApplicationQualification.find(params[:id])
+      if @qualification_type.update(@qualification)
+        redirect_to candidate_interface_review_other_qualifications_path
+      else
+        track_validation_error(@qualification_type)
+        render :edit
+      end
+    end
+
   private
 
     def other_qualification_type_params

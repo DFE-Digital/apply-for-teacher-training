@@ -34,7 +34,7 @@ RSpec.feature 'Non-uk Other qualifications' do
     then_i_see_my_qualification_type_filled_in
 
     when_i_change_my_qualification_type
-    and_click_save_and_continue
+    and_i_click_continue
     then_i_can_check_my_revised_qualification_type
 
     when_i_click_to_change_my_first_qualification
@@ -135,7 +135,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def when_i_change_my_qualification_type
-    fill_in t('application_form.other_qualification.non_uk.label'), with: 'Battle'
+    fill_in 'candidate-interface-other-qualification-type-form-non-uk-qualification-type-field', with: 'Battle'
   end
 
   def then_i_can_check_my_revised_qualification_type

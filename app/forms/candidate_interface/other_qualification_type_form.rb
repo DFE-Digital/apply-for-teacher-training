@@ -24,6 +24,16 @@ module CandidateInterface
       true
     end
 
+    def update(qualification)
+      return false unless valid?
+
+      qualification.update!(
+        qualification_type: qualification_type,
+        other_uk_qualification_type: other_uk_qualification_type,
+        non_uk_qualification_type: non_uk_qualification_type,
+      )
+    end
+
     def self.build_from_qualification(qualification)
       new(
         qualification_type: qualification.qualification_type,
