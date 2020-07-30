@@ -10,8 +10,12 @@
       <li class="govuk-breadcrumbs__list-item">
         <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
       </li>
+      <li class="govuk-breadcrumbs__list-item">
+        <%= link_to @application_form.candidate.email_address, support_interface_candidate_path(@application_form.candidate), class: 'govuk-breadcrumbs__link' %>
+      </li>
       <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        <%= @application_form.candidate.email_address %>
+        <span class="govuk-visually-hidden">Support reference</span>
+        <%= @application_form.support_reference %>
       </li>
     </ol>
   </div>
