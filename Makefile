@@ -37,7 +37,7 @@ shell: ## Open a shell on the app container
 
 .PHONY: serve
 serve: ## Run the service
-	docker-compose up --build
+	docker-compose up -V --build
 
 .PHONY: ci.lint-ruby
 ci.lint-ruby: ## Run Rubocop with results formatted for CI
