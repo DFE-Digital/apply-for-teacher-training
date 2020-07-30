@@ -44,6 +44,23 @@ RSpec.feature 'Non-uk Other qualifications' do
     and_click_save_and_continue
     then_i_can_check_my_revised_qualification
 
+    when_i_click_add_another_qualification
+    when_i_select_add_other_non_uk_qualification
+    and_i_fill_in_the_name_of_my_qualification
+    and_i_click_continue
+    then_i_see_the_other_qualifications_form
+
+    when_i_visit_the_review_page
+    and_i_mark_this_section_as_completed
+    and_i_click_continue
+    then_i_should_be_told_i_cannot_submit_incomplete_qualifications
+
+    when_i_click_to_change_my_second_qualification
+    and_i_fill_in_the_year_institution_and_country
+    and_leave_grade_and_subject_blank
+    and_click_save_and_continue
+    then_i_should_see_my_second_qualification
+
     when_i_mark_this_section_as_completed
     and_i_click_continue
     then_i_should_see_the_form
@@ -160,12 +177,43 @@ RSpec.feature 'Non-uk Other qualifications' do
     expect(page).to have_content 'Champion'
   end
 
-  def and_the_section_is_not_completed
-    expect(page).not_to have_css('#academic-and-other-relevant-qualifications-badge-id', text: 'Completed')
+  def when_i_click_add_another_qualification
+    click_link 'Add another qualification'
   end
+
+  def when_i_visit_the_review_page
+    visit candidate_interface_review_other_qualifications_path
+  end
+
+  def when_i_click_to_change_my_second_qualification
+    within all('.app-summary-card__body')[1] do
+      all('.govuk-summary-list__actions')[1].click_link 'Change'
+    end
+  end
+
+  def and_i_fill_in_the_year_institution_and_country
+    fill_in t('application_form.other_qualification.institution_name.label'), with: 'Clown College'
+    select 'United States'
+    fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
+  end
+
+  def then_i_should_see_my_second_qualification
+    expect(page).to have_content('Clown College, United States')
+    expect(page).to have_content('2015')
+  end
+
+  def and_leave_grade_and_subject_blank; end
 
   def when_i_mark_this_section_as_completed
     check t('application_form.other_qualification.review.completed_checkbox')
+  end
+
+  def and_i_mark_this_section_as_completed
+    when_i_mark_this_section_as_completed
+  end
+
+  def then_i_should_be_told_i_cannot_submit_incomplete_qualifications
+    expect(page).to have_content('You must fill in all your qualifications to complete this section')
   end
 
   def then_i_should_see_the_form
