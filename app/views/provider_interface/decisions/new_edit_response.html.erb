@@ -1,4 +1,4 @@
-<% content_for :browser_title, @edit_response.errors.any? ? 'Error: Change response' : 'Change response' %>
+<% content_for :browser_title, title_with_error_prefix('Change response', @edit_response.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
 
 <%= form_with model: @edit_response,

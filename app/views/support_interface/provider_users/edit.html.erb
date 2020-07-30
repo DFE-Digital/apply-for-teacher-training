@@ -1,4 +1,4 @@
-  <% content_for :browser_title, "Edit provider user #{@form.provider_user.full_name}" %>
+<% content_for :browser_title, title_with_error_prefix("Edit provider user #{@form.provider_user.full_name}", @form.errors.any?) %>
 
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">

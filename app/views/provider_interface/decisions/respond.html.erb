@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.provider.respond') %>
+<% content_for :browser_title, title_with_error_prefix(t('page_titles.provider.respond'), @pick_response_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
 
 <div class="govuk-grid-row">
