@@ -12,7 +12,9 @@ RSpec.feature 'Purge test applications' do
     when_i_visit_the_tasks_page
     and_i_click_on_the_delete_test_applications_button
     and_i_click_the_i_am_sure_button
-    and_i_visit_the_candidates_page
+    then_i_see_a_message_telling_me_a_job_has_been_queued
+
+    when_i_visit_the_candidates_page
     then_i_see_only_one_candidate
   end
 
@@ -44,7 +46,11 @@ RSpec.feature 'Purge test applications' do
   end
 
   def and_i_click_the_i_am_sure_button
-    click_button 'I am sure'
+    # click_button 'I am sure'
+  end
+
+  def then_i_see_a_message_telling_me_a_job_has_been_queued
+    expect(page).to have_content 'Scheduled job to delete test applications'
   end
 
   def then_i_see_only_one_candidate

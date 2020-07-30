@@ -2,6 +2,15 @@ module SupportInterface
   class TasksController < SupportInterfaceController
     def index; end
 
+    def confirm
+      case params.fetch(:task)
+      when 'delete_test_applications'
+        render :confirm_delete_test_applications
+      else
+        render_404
+      end
+    end
+
     def run
       case params.fetch(:task)
       when 'generate_test_applications'
@@ -19,6 +28,10 @@ module SupportInterface
       when 'recalculate_dates'
         RecalculateDates.perform_async
         flash[:success] = 'Scheduled job to recalculate dates'
+        redirect_to support_interface_tasks_path
+      when 'delete_test_applications'
+        PurgeTestApplications.perform_async
+        flash[:success] = 'Scheduled job to delete test applications'
         redirect_to support_interface_tasks_path
       else
         render_404
