@@ -119,9 +119,9 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   alias_method :when_i_press_continue, :and_i_press_continue
 
   def then_i_see_validation_errors_for_names_and_email_address
-    expect(page).to have_content('Enter the user\'s first name')
-    expect(page).to have_content('Enter the user\'s last name')
-    expect(page).to have_content('Enter the user\'s email address')
+    expect(page).to have_content('Enter the user’s first name')
+    expect(page).to have_content('Enter the user’s last name')
+    expect(page).to have_content('Enter the user’s email address')
   end
 
   def then_i_see_the_select_organisations_form
