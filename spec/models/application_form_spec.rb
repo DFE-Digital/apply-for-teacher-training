@@ -285,6 +285,17 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#english_main_language' do
+    context 'when fetch_database_value is set to true' do
+      it 'returns whatever is in the database field' do
+        [nil, true, false].each do |db_value|
+          application_form = build(:application_form, english_main_language: db_value)
+          expect(
+            application_form.english_main_language(fetch_database_value: true),
+          ).to eq db_value
+        end
+      end
+    end
+
     context 'database value is nil' do
       let(:application_form) { build(:application_form, english_main_language: nil) }
 

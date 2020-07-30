@@ -202,7 +202,9 @@ class ApplicationForm < ApplicationRecord
   end
 
   # Override method for english_main_language database field
-  def english_main_language
+  def english_main_language(fetch_database_value: false)
+    return self[:english_main_language] if fetch_database_value
+
     if self[:english_main_language].nil?
       return true if english_speaking_nationality?
       return true if english_proficiency&.qualification_not_needed?
