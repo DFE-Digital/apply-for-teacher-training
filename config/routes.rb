@@ -598,20 +598,18 @@ Rails.application.routes.draw do
     resources :organisations, only: %i[index show], path: 'organisations'
 
     scope path: '/provider-relationship-permissions' do
-      get '/start' => 'provider_relationship_permissions_start#start',
-          as: :provider_relationship_permissions_start
-      get '/providers' => 'provider_relationship_permissions_setup#organisations',
+      get '/organisations-to-setup' => 'provider_relationship_permissions_setup#organisations',
           as: :provider_relationship_permissions_organisations
       get '/information' => 'provider_relationship_permissions_setup#info',
           as: :provider_relationship_permissions_info
       get '/:id/setup' => 'provider_relationship_permissions_setup#setup_permissions',
           as: :setup_provider_relationship_permissions
-      patch '/:id/create' => 'provider_relationship_permissions_setup#save_permissions',
-            as: :save_provider_relationship_permissions
-      get '/:id/check' => 'provider_relationship_permissions_setup#check',
+      post '/:id/create' => 'provider_relationship_permissions_setup#save_permissions',
+           as: :save_provider_relationship_permissions
+      get '/check' => 'provider_relationship_permissions_setup#check',
           as: :check_provider_relationship_permissions
-      patch '/:id/commit' => 'provider_relationship_permissions#commit',
-            as: :commit_provider_relationship_permissions
+      post '/commit' => 'provider_relationship_permissions_setup#commit',
+           as: :commit_provider_relationship_permissions
 
       get '/:id/edit' => 'provider_relationship_permissions#edit',
           as: :edit_provider_relationship_permissions

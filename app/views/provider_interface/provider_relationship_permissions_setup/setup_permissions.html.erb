@@ -1,0 +1,53 @@
+<% content_for :before_content do %>
+  <%= link_to 'Back', provider_interface_provider_relationship_permissions_info_path, class: 'govuk-back-link' %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">Set up permissions</span>
+    <h1 class="govuk-heading-xl">For courses run by North Tomas SCITT and ratified by Dorotheaside Academy Alliance</h1>
+    <div class="app-banner">
+      <div class="app-banner__message">
+        <p>All users at your organisation and ratifying organisation(s) will be able to view applications to these courses. You don't need to set permissions for this.</p>
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              More about permissions
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <h2 class="govuk-heading-m">Permission to make decisions</h2>
+            <p>You can allow an organisation to make offers, amend offers and reject applications.</p>
+            <h2 class="govuk-heading-m">Permission to view safeguarding information</h2>
+            <p>You can give an organisation access to information disclosed in the ‘criminal convictions and professional misconduct’ section of the application.</p>
+            <p>This may include highly sensitive material about the candidate.</p>
+
+            <h2 class="govuk-heading-m">Permission to view diversity information</h2>
+            <p>You can give an organisation access to information disclosed by the candidate in the ‘equality and diversity’ section of the application. </p>
+
+            <p>To avoid any unconscious bias in the selection process, this information only becomes available to training providers after an offer has been made and accepted. </p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <%= form_with model: @wizard, url: provider_interface_save_provider_relationship_permissions_path(@permissions_model) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
+        <div class="govuk-form-group <%= permission_name.to_s.dasherize %>">
+          <%= f.govuk_check_boxes_fieldset permission_name, legend: { text: t("provider_relationship_permissions.form.fieldset.#{permission_name}") } do %>
+            <%= hidden_field_tag "#{f.object_name}[#{permission_name}][]", '' %>
+            <%= f.govuk_check_box permission_name, 'training', link_errors: true,
+                                  label: { text: @permissions_model.training_provider.name } %>
+
+            <%= f.govuk_check_box permission_name, 'ratifying',
+                                  label: { text: @permissions_model.ratifying_provider.name } %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

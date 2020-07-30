@@ -1,0 +1,35 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      Set up permissions for your organisation
+    </h1>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds govuk-body">
+    <p>You can control who has access to sensitive information, and who can make decisions about applications.</p>
+    <p>We’ll ask you to set up the permissions between you and the organisations that ratify your courses.</p>
+    <p>You’ll then be able to choose permissions for any individual users you add to your organisation.</p>
+    <p>You can change these settings at any time.</p>
+
+    <h2 class="govuk-heading-m">The organisations you’ll need to set up</h2>
+
+    <% @grouped_provider_names_from_relationships.each do |training_provider_name, ratifying_provider_names| %>
+      <div class="app-application-card govuk-!-margin-bottom-7">
+        <div>
+          <h2 class="govuk-heading-s govuk-!-margin-bottom-0"><%= training_provider_name %></h2>
+
+          <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-1 govuk-body">Organisations that ratify your courses:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-0">
+          <% ratifying_provider_names.each do |ratifying_provider_name| %>
+            <li><%= ratifying_provider_name %></li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+		<%= govuk_link_to 'Continue', provider_interface_provider_relationship_permissions_info_path, class: 'govuk-button' %>
+  </div>
+</div>

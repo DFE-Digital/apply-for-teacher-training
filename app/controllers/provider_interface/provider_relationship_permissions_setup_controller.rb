@@ -3,12 +3,8 @@ module ProviderInterface
     before_action :require_feature_flag!
     before_action :require_manage_organisations_permission!
 
-    def start
-      @wizard = wizard_for(current_step: 'start')
-      @wizard.save_state!
-    end
-
     def organisations
+      @grouped_provider_names_from_relationships = grouped_provider_names_from_relationships
       @wizard = wizard_for(current_step: 'provider_relationships')
       @wizard.save_state!
     end
@@ -19,6 +15,7 @@ module ProviderInterface
     end
 
     def setup_permissions
+      @permissions_model = provider_relationship_permissions_needing_setup.first
       @wizard = wizard_for(current_step: 'permissions')
       @wizard.save_state!
     end
@@ -39,6 +36,20 @@ module ProviderInterface
     end
 
   private
+
+    def grouped_provider_names_from_relationships
+      provider_relationship_permissions_needing_setup
+        .includes(:training_provider, :ratifying_provider).each_with_object({}) do |prp, h|
+        h[prp.training_provider.name] ||= []
+        h[prp.training_provider.name] << prp.ratifying_provider.name
+      end
+    end
+
+    def provider_relationship_permissions_needing_setup
+      current_provider_user.authorisation
+        .training_providers_that_actor_can_manage_organisations_for
+        .where(setup_at: nil)
+    end
 
     def wizard_for(options)
       options[:checking_answers] = true if params[:checking_answers] == 'true'

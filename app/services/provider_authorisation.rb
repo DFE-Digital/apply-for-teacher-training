@@ -41,6 +41,15 @@ class ProviderAuthorisation
     Provider.where(id: manageable_provider_ids).order(:name)
   end
 
+  def training_provider_relationships_that_actor_can_manage_organisations_for
+    manageable_provider_ids = ProviderPermissions
+      .where(provider_user: @actor, manage_organisations: true)
+      .pluck(:provider_id)
+
+    ProviderRelationshipPermissions
+      .where(training_provider: manageable_provider_ids)
+  end
+
   def can_manage_organisations_for_at_least_one_provider?
     providers_that_actor_can_manage_organisations_for.any?
   end
