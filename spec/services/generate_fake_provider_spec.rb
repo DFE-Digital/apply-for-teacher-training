@@ -17,16 +17,26 @@ RSpec.describe GenerateFakeProvider do
         .to change { Provider.count }.by(2)
     end
 
-    it 'generates courses run by the provider' do
-      generate_provider_call
+    describe 'courses and course options' do
+      let(:fake_provider) { Provider.find_by(code: 'FAKE') }
 
-      expect(Provider.find_by(code: 'FAKE').courses.count).to eq(10)
-    end
+      before { generate_provider_call }
 
-    it 'generates ratified courses' do
-      generate_provider_call
+      it 'generates 10 courses run by the fake provider, with associated options' do
+        courses = fake_provider.courses
 
-      expect(Provider.find_by(code: 'FAKE').accredited_courses.count).to eq(3)
+        expect(courses.count).to eq(10)
+        expect(courses).to all(be_open_on_apply)
+        expect(courses.map(&:course_options)).to all(be_present)
+      end
+
+      it 'generates 3 courses ratified by the fake provider, with associated options' do
+        accredited_courses = fake_provider.accredited_courses
+
+        expect(accredited_courses.count).to eq(3)
+        expect(accredited_courses).to all(be_open_on_apply)
+        expect(accredited_courses.map(&:course_options)).to all(be_present)
+      end
     end
   end
 end
