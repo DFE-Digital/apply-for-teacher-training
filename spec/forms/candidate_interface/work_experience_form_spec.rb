@@ -47,6 +47,17 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
 
     include_examples 'validation for a start date', 'work_experience_form'
     include_examples 'validation for an end date that can be blank', 'work_experience_form'
+
+    it 'does not accept negative integers in the year field' do
+      form_data[:start_date_year] = -1999
+      form_data[:end_date_year] = -1999
+      work_experience = CandidateInterface::WorkExperienceForm.new(form_data)
+
+      expect(work_experience).not_to be_valid
+      errors = work_experience.errors.messages
+      expect(errors[:start_date].pop).to eq 'Enter a start date in the correct format'
+      expect(errors[:end_date].pop).to eq 'Enter an end date in the correct format'
+    end
   end
 
   describe '#save' do

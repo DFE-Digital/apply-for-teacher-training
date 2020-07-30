@@ -22,11 +22,15 @@ module DateValidationHelper
   end
 
   def end_date_valid
-    errors.add(:end_date, :invalid) unless end_date.is_a?(Date)
+    errors.add(:end_date, :invalid) unless
+      end_date.is_a?(Date) &&
+        end_date.year.positive?
   end
 
   def start_date_valid
-    errors.add(:start_date, :invalid) unless start_date.is_a?(Date)
+    errors.add(:start_date, :invalid) unless
+      start_date.is_a?(Date) &&
+        start_date.year.positive?
   end
 
   def start_date_before_end_date
