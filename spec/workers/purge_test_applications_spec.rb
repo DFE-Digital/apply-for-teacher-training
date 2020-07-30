@@ -9,6 +9,14 @@ RSpec.describe PurgeTestApplications do
       .and change { Candidate.count }.by(-1)
   end
 
+  it 'does nothing if the environment is not qa, dev or test other than raise an exception' do
+    create :completed_application_form, application_choices_count: 1
+    allow(HostingEnvironment).to receive(:environment_name).and_return('production')
+
+    expect { described_class.new.perform }.to raise_error('You can only purge test applications in a test environment')
+    expect(ApplicationForm.count).to be 1
+  end
+
   it 'leaves an application for bob@example.org' do
     create(
       :completed_application_form,
