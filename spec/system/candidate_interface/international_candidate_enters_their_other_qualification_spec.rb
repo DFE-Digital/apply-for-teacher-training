@@ -148,9 +148,8 @@ RSpec.feature 'Non-uk Other qualifications' do
 
   def then_i_see_my_qualification_filled_in
     expect(page).to have_selector("input[value='Believing in the Heart of the Cards']")
-    expect(page).to have_selector("input[value='Japan']")
-    expect(page).to have_selector("input[value='N/A']")
     expect(page).to have_selector("input[value='2015']")
+    expect(first('#candidate-interface-other-qualification-form-institution-country-field').value).to eq('Japan')
   end
 
   def when_i_change_my_qualification

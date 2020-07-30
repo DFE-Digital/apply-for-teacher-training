@@ -130,7 +130,11 @@ module CandidateInterface
     end
 
     def edit_other_qualification_path(qualification)
-      Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification.id)
+      if FeatureFlag.active?('international_other_qualifications')
+        Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_details_path(qualification.id)
+      else
+        Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification.id)
+      end
     end
 
     def edit_other_qualification_type_path(qualification)
