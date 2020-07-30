@@ -71,10 +71,18 @@ module CandidateInterface
     end
 
     def add_another_referee
-
+      @add_another_referee = AddAnotherRefereeForm.new
     end
 
     def add_another_referee_decision
+      @add_another_referee = AddAnotherRefereeForm.new(add_another_referee_params)
+      return render :add_another_referee unless @add_another_referee.valid?
+
+      if @add_another_referee.add_another_referee?
+        redirect_to candidate_interface_additional_referee_type_path
+      else
+        redirect_to candidate_interface_application_form_path
+      end
     end
 
     def request_references
@@ -140,6 +148,10 @@ module CandidateInterface
         :email_address,
         :relationship,
       ).transform_values(&:strip)
+    end
+
+    def add_another_referee_params
+      params.fetch(:candidate_interface_add_another_referee_form, {}).permit(:add_another_referee)
     end
 
     def redirect_to_dashboard_if_no_references_needed
