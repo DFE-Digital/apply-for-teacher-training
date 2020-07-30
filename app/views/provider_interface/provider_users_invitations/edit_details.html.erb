@@ -13,10 +13,6 @@
       <%= f.govuk_text_field :first_name, label: { text: 'First name', size: 'm' } %>
       <%= f.govuk_text_field :last_name, label: { text: 'Last name', size: 'm' } %>
 
-      <% if current_provider_user.providers.size == 1 %>
-        <%= f.hidden_field :providers, multiple: true, value: current_provider_user.providers.first.id %>
-      <% end %>
-
       <div class="govuk-warning-text">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
         <strong class="govuk-warning-text__text">
