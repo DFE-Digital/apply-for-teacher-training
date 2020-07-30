@@ -597,16 +597,27 @@ Rails.application.routes.draw do
 
     resources :organisations, only: %i[index show], path: 'organisations'
 
-    get '/provider-relationship-permissions/setup' => 'provider_relationship_permissions#setup',
-        as: :provider_relationship_permissions_setup
-    get '/provider-relationship-permissions/:id/success' => 'provider_relationship_permissions#success',
-        as: :provider_relationship_permissions_success
-    get '/provider-relationship-permissions/:id/edit' => 'provider_relationship_permissions#edit',
-        as: :edit_provider_relationship_permissions
-    patch '/provider-relationship-permissions/:id/confirm' => 'provider_relationship_permissions#confirm',
-          as: :confirm_provider_relationship_permissions
-    patch '/provider-relationship-permissions/:id' => 'provider_relationship_permissions#update',
-          as: :update_provider_relationship_permissions
+    scope path: '/provider-relationship-permissions' do
+      get '/start' => 'provider_relationship_permissions_start#start',
+          as: :provider_relationship_permissions_start
+      get '/providers' => 'provider_relationship_permissions_setup#organisations',
+          as: :provider_relationship_permissions_organisations
+      get '/information' => 'provider_relationship_permissions_setup#info',
+          as: :provider_relationship_permissions_info
+      get '/:id/setup' => 'provider_relationship_permissions_setup#setup_permissions',
+          as: :setup_provider_relationship_permissions
+      patch '/:id/create' => 'provider_relationship_permissions_setup#save_permissions',
+            as: :save_provider_relationship_permissions
+      get '/:id/check' => 'provider_relationship_permissions_setup#check',
+          as: :check_provider_relationship_permissions
+      patch '/:id/commit' => 'provider_relationship_permissions#commit',
+            as: :commit_provider_relationship_permissions
+
+      get '/:id/edit' => 'provider_relationship_permissions#edit',
+          as: :edit_provider_relationship_permissions
+      patch '/:id' => 'provider_relationship_permissions#update',
+            as: :update_provider_relationship_permissions
+    end
   end
 
   get '/auth/dfe/callback' => 'dfe_sign_in#callback'
