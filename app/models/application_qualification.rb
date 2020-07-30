@@ -16,6 +16,13 @@ class ApplicationQualification < ApplicationRecord
     award_year
   ].freeze
 
+  EXPECTED_OTHER_INTERNATIONAL_QUALIFICATION_DATA = %i[
+    qualification_type
+    institution_name
+    institution_country
+    award_year
+  ].freeze
+
   belongs_to :application_form, touch: true
 
   scope :degrees, -> { where level: 'degree' }
