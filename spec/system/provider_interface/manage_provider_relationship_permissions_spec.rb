@@ -109,7 +109,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def then_i_can_see_the_permissions_were_successfully_changed
-    expect(page).to have_content('Permissions successfully changed')
+    expect(page).to have_content('User’s permissions successfully updated')
   end
 
   def and_i_can_see_the_training_provider_has_permission_to_view_safeguarding

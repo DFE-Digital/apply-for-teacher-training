@@ -37,7 +37,7 @@ module ProviderInterface
       @form.update_from_params provider_update_permissions_params
 
       if @form.save
-        flash[:success] = 'Permissions updated'
+        flash[:success] = 'User’s permissions successfully updated'
         redirect_to provider_interface_provider_user_path(find_provider_user)
       else
         render action: :edit_permissions
@@ -77,7 +77,7 @@ module ProviderInterface
       )
 
       if @form.save
-        flash[:success] = 'Providers updated'
+        flash[:success] = 'User’s access successfully updated'
         redirect_to provider_interface_provider_user_path(provider_user)
       else
         render :edit_providers
