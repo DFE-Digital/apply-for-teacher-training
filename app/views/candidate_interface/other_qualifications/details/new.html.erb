@@ -4,8 +4,25 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @qualification, url: candidate_interface_create_other_qualification_details_path do |f| %>
+      <%= f.govuk_error_summary %>
 
-    <%= render partial: 'form', locals: { f: f } %>
+      <% if FeatureFlag.active?('international_other_qualifications') %>
+        <h1 class="govuk-heading-xl">
+          <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
+          Add <%= @type %> qualification
+        </h1>
+      <% elsif @type != 'Other' %>
+        <h1 class="govuk-heading-xl">
+          <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
+          Add <%= @type %> qualification
+        </h1>
+      <% else %>
+        <h1 class="govuk-heading-xl">
+          <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
+        </h1>
+      <% end %>
+
+      <%= render partial: 'form', locals: { f: f } %>
 
       <%= f.govuk_radio_buttons_fieldset :add_another_qualification, legend: { text: 'Do you want to add another qualification?', tag: 'span' } do %>
         <% if FeatureFlag.active?('international_other_qualifications') %>

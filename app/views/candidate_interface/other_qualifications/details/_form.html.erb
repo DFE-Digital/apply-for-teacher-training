@@ -1,16 +1,3 @@
-<%= f.govuk_error_summary %>
-
-<% if @type != 'Other' %>
-  <h1 class="govuk-heading-xl">
-    <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
-    Add <%= @type %> qualification
-  </h1>
-<% else %>
-  <h1 class="govuk-heading-xl">
-    <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
-  </h1>
-<% end %>
-
 <% if @type == 'Other' %>
   <%= f.govuk_text_field :qualification_type, label: { text: t('application_form.other_qualification.qualification_type.label'), size: 'm' }, hint_text: 'For example, BTEC, NVQ or non-UK other' %>
 <% end %>

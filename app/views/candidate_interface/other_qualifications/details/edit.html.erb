@@ -4,6 +4,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @qualification, url: candidate_interface_edit_other_qualification_details_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
+        Edit <%= @type %> qualification
+      </h1>
 
       <%= render partial: 'form', locals: { f: f } %>
 
