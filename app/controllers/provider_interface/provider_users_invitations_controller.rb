@@ -4,7 +4,7 @@ module ProviderInterface
     before_action :require_manage_user_permission!
 
     def edit_details
-      @wizard = wizard_for(current_step: 'details')
+      @wizard = wizard_for(wizard_setup_options)
       @wizard.save_state!
     end
 
@@ -23,7 +23,7 @@ module ProviderInterface
       @wizard = wizard_for(current_step: 'providers')
       @wizard.save_state!
 
-      @available_providers = current_provider_user.authorisation.providers_that_actor_can_manage_users_for
+      @available_providers = available_providers
     end
 
     def update_providers
@@ -97,6 +97,19 @@ module ProviderInterface
     helper_method :previous_page
 
   private
+
+    def available_providers
+      current_provider_user.authorisation.providers_that_actor_can_manage_users_for
+    end
+
+    def wizard_setup_options
+      setup_options = { current_step: 'details' }
+      if available_providers.count == 1
+        setup_options[:providers] = available_providers.map(&:id)
+        setup_options[:single_provider] = true
+      end
+      setup_options
+    end
 
     def wizard_for(options)
       options[:checking_answers] = true if params[:checking_answers] == 'true'

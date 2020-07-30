@@ -3,7 +3,7 @@ module ProviderInterface
     include ActiveModel::Model
     STATE_STORE_KEY = :provider_user_invitation_wizard
 
-    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :checking_answers
+    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :checking_answers, :single_provider
     attr_reader :email_address
     attr_writer :providers, :provider_permissions, :state_store
 
@@ -96,7 +96,7 @@ module ProviderInterface
           [:check]
         end
       elsif current_step == 'details'
-        [:providers]
+        single_provider ? [:permissions, next_provider_id] : [:providers]
       elsif %w[providers permissions].include?(current_step) && next_provider_id.present?
         [:permissions, next_provider_id]
       else
@@ -112,7 +112,11 @@ module ProviderInterface
       elsif current_step == 'providers'
         [:details]
       elsif current_step == 'permissions'
-        previous_provider_id.present? ? [:permissions, previous_provider_id] : [:providers]
+        if previous_provider_id.present?
+          [:permissions, previous_provider_id]
+        else
+          single_provider ? [:details] : [:providers]
+        end
       elsif current_step == 'check'
         [:permissions, providers.last]
       else
