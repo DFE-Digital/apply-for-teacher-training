@@ -6,13 +6,12 @@
     <%= form_with model: @wizard, url: provider_interface_update_invitation_providers_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <span class="govuk-caption-xl">Invite user</span>
-      <h1 class="govuk-heading-xl">Select organisations this user will have access to</h1>
-
       <%= f.govuk_collection_check_boxes :providers,
             @available_providers,
             :id,
-            :name %>
+            :name,
+            legend: { text: 'Select organisations this user will have access to', size: "xl" },
+            caption: { text: 'Invite user', size: "xl" } %>
 
       <%= f.govuk_submit 'Continue' %>
     <% end %>

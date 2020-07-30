@@ -13,21 +13,40 @@ RSpec.describe PermissionsList do
 
   it 'renders permissions' do
     permission_model = create(:provider_permissions, manage_organisations: true)
-    result = render_inline(described_class.new(permission_model))
+    result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: false))
 
     expect(result.css('li').text).to include('Manage organisations')
-    expect(result.css('li').text).not_to include('View applications only')
+    expect(result.css('li').text).not_to include('The user can only view applications')
+  end
+
+  describe 'rendering View applications only' do
+    it 'shows an appropriate message when the user is viewing another user’s permissions' do
+      permission_model = create(:provider_permissions)
+      result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: false))
+
+      expect(result.css('li').text).to include('The user can only view applications')
+      expect(result.css('li').text).not_to include('Manage organisations')
+      expect(result.css('li').text).not_to include('Make manage users')
+      expect(result.css('li').text).not_to include('Make decistions')
+      expect(result.css('li').text).not_to include('View safeguarding information')
+    end
+
+    it 'shows an appropriate message when the user is viewing their own permissions' do
+      permission_model = create(:provider_permissions)
+      result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: true))
+      expect(result.css('li').text).to include('You can only view applications')
+    end
   end
 
   it 'renders View applications only' do
     permission_model = create(:provider_permissions)
-    result = render_inline(described_class.new(permission_model))
+    result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: false))
 
-    expect(result.css('li').text).to include('View applications only')
+    expect(result.css('li').text).to include('The user can only view applications')
     expect(result.css('li').text).not_to include('Manage organisations')
     expect(result.css('li').text).not_to include('Make manage users')
     expect(result.css('li').text).not_to include('Make decistions')
-    expect(result.css('li').text).not_to include('View safeguarding information')
+    expect(result.css('li').text).not_to include('Access safeguarding information')
   end
 
   it 'renders ratifying providers who the permission also applies to' do
@@ -35,7 +54,7 @@ RSpec.describe PermissionsList do
                               provider: training_provider,
                               make_decisions: true)
     provider_relationship_permissions
-    result = render_inline(described_class.new(permission_model))
+    result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: false))
 
     expect(result.text).to include('Applies to courses ratified by:')
     expect(result.css('li').text).to include(ratifying_provider.name.to_s)
@@ -46,7 +65,7 @@ RSpec.describe PermissionsList do
                               provider: ratifying_provider,
                               make_decisions: true)
     provider_relationship_permissions
-    result = render_inline(described_class.new(permission_model))
+    result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: false))
 
     expect(result.text).to include('Applies to courses run by:')
     expect(result.css('li').text).to include(training_provider.name.to_s)

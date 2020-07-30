@@ -19,7 +19,7 @@
             <% row[:provider_user].provider_permissions.each do |permission| %>
               <div class='govuk-!-margin-bottom-2'>
                 <h3 class='govuk-heading-s'><%= permission.provider.name_and_code %></h3>
-                <%= render PermissionsList.new(permission) %>
+                <%= render PermissionsList.new(permission, user_is_viewing_their_own_permissions: false) %>
               </div>
             <% end %>
           </td>

@@ -19,8 +19,9 @@ module ProviderInterface
 
     def details_rows
       [
-        { key: 'Name', value: @provider_user.full_name },
-        { key: 'Email', value: @provider_user.email_address },
+        { key: 'First name', value: @provider_user.first_name },
+        { key: 'Last name', value: @provider_user.last_name },
+        { key: 'Email address', value: @provider_user.email_address },
       ]
     end
 
@@ -29,13 +30,15 @@ module ProviderInterface
     end
 
     def provider_row
-      return if @current_provider_user.authorisation.providers_that_actor_can_manage_users_for.size == 1
+      manageable_providers = @current_provider_user.authorisation.providers_that_actor_can_manage_users_for
+      return if manageable_providers.size == 1
 
+      providers_to_show = @provider_user.providers & manageable_providers
       {
         key: 'Organisations this user has access to',
-        value: visible_provider_permissions.map(&:provider).map(&:name),
+        value: render(UserDetailsOrganisationsList.new(providers_to_show)),
         change_path: provider_interface_provider_user_edit_providers_path(@provider_user),
-        action: 'Change organisations',
+        action: 'organisations',
       }
     end
 
@@ -43,9 +46,9 @@ module ProviderInterface
       visible_provider_permissions.map do |permission|
         {
           key: "Permissions: #{permission.provider.name}",
-          value: render(PermissionsList.new(permission)),
+          value: render(PermissionsList.new(permission, user_is_viewing_their_own_permissions: @current_provider_user == @provider_user)),
           change_path: provider_interface_provider_user_edit_permissions_path(@provider_user, provider_id: permission.provider.id),
-          action: "Change permissions for #{permission.provider.name}",
+          action: "permissions for #{permission.provider.name}",
         }
       end
     end

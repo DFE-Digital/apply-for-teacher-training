@@ -35,6 +35,6 @@ RSpec.describe ProviderInterface::ProviderAccountComponent do
 
   it 'renders permissions' do
     expect(result.css('.govuk-summary-list__key').text).to include('Permissions: ')
-    expect(result.css('.govuk-summary-list__value').text).to include('View applications only')
+    expect(result.css('.govuk-summary-list__value').text).to include('You can only view applications')
   end
 end

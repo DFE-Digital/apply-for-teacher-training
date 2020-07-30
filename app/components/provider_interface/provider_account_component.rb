@@ -29,19 +29,15 @@ module ProviderInterface
     def organisations_row
       {
         key: 'Organisations you have access to',
-        value: organisations,
+        value: render(UserDetailsOrganisationsList.new(current_provider_user.providers)),
       }
-    end
-
-    def organisations
-      current_provider_user.providers.map(&:name)
     end
 
     def permissions_rows
       current_provider_user.provider_permissions.includes([:provider]).map do |permission|
         {
           key: "Permissions: #{permission.provider.name}",
-          value: render(PermissionsList.new(permission)),
+          value: render(PermissionsList.new(permission, user_is_viewing_their_own_permissions: true)),
         }
       end
     end

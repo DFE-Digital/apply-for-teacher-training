@@ -258,9 +258,7 @@ en:
               too_long: Email address must be %{count} characters or fewer
               invalid: Enter an email address in the correct format, like name@example.com
             providers:
-              blank: Select one or more providers
-            provider_permissions:
-              blank: Select one or more permissions
+              blank: Select which organisations this user will have access to
   activerecord:
     attributes:
       application_qualification/qualification_type:

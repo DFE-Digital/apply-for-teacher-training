@@ -1,14 +1,3 @@
-<legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-  <h1 class="govuk-fieldset__heading">
-    <span class="govuk-caption-xl"><%= permissions_form.provider_user.full_name %></span>
-    Change permissions: <%= permissions_form.provider.name %>
-  </h1>
-</legend>
-
-<span class="govuk-hint">
-  The user will still be able to view all applications made to courses at this organisation.
-</span>
-
 <%= form_with model: permissions_form,
               method: :patch,
               url: provider_interface_provider_user_edit_permissions_path(
@@ -17,7 +6,15 @@
               ) do |f| %>
   <%= f.govuk_error_summary %>
   <%= f.hidden_field :provider_id %>
-  <%= f.govuk_check_boxes_fieldset :permissions do %>
+  <%= f.govuk_check_boxes_fieldset :permissions, {
+          legend: { text: "Select permissions: #{permissions_form.provider.name}", size: "xl" },
+          caption: { text: "Invite user", size: "xl" },
+  } do %>
+
+    <span class="govuk-hint">
+      The user will still be able to view all applications made to courses at this organisation.
+    </span>
+
     <%= f.govuk_check_box :manage_organisations, true, multiple: false,
                           label: { text: 'Manage organisation' },
                           hint_text: 'Change permissions between organisations' %>
@@ -51,7 +48,7 @@
     <% end %>
 
     <%= f.govuk_check_box :view_safeguarding_information, true, multiple: false,
-                          label: { text: 'View safeguarding information' },
+                          label: { text: 'Access safeguarding information' },
                           hint_text: 'View sensitive material about the candidate' %>
     <% if training_providers_that_can('view_safeguarding_information').any? %>
       <div class="govuk-!-margin-left-8">

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider invites a new provider user' do
+RSpec.feature 'Providers can view managed users' do
   include DfESignInHelpers
   include DsiAPIHelper
 

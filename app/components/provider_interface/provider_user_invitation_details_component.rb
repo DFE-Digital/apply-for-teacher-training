@@ -21,7 +21,7 @@ module ProviderInterface
         key: 'First name',
         value: @wizard.first_name,
         change_path: provider_interface_update_invitation_basic_details_path(checking_answers: true),
-        action: 'Change',
+        action: 'first name',
       }
     end
 
@@ -30,7 +30,7 @@ module ProviderInterface
         key: 'Last name',
         value: @wizard.last_name,
         change_path: provider_interface_update_invitation_basic_details_path(checking_answers: true),
-        action: 'Change',
+        action: 'last name',
       }
     end
 
@@ -39,16 +39,16 @@ module ProviderInterface
         key: 'Email address',
         value: @wizard.email_address,
         change_path: provider_interface_update_invitation_basic_details_path(checking_answers: true),
-        action: 'Change',
+        action: 'email address',
       }
     end
 
     def providers_row
       {
         key: 'Organisations this user will have access to',
-        value: provider_names_list,
+        value: render(UserDetailsOrganisationsList.new(providers.values)),
         change_path: provider_interface_update_invitation_providers_path(checking_answers: true),
-        action: 'Change',
+        action: 'organisations this user will have access to',
       }
     end
 
@@ -65,7 +65,7 @@ module ProviderInterface
             checking_answers: true,
             provider_id: provider.id,
           ),
-          action: 'Change',
+          action: "permissions for #{provider.name}",
         }
       end
     end
