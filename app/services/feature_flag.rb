@@ -38,6 +38,8 @@ class FeatureFlag
     [:efl_section, 'Allow candidates with nationalities other then British or Irish to specify their English as a Foreign Language experience', 'Malcolm Baig'],
     [:international_degrees, 'Changes to the model and forms for degree qualifications to cater for non-UK degrees.', 'Steve Hook'],
     [:international_gcses, 'Candidates can provide details of international GCSE equivalents.', 'George Holborn'],
+    [:international_other_qualifications, 'Candidates can provide details of Other international qualifications .', 'David Gisbey'],
+
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|

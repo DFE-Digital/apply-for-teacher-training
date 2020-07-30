@@ -244,6 +244,9 @@ en:
         hint_text: For example, GCSE, A level, BTEC, NVQ or non-UK other
       subject:
         label: Subject
+        change_action: subject
+      institution_country:
+        label: Country where you studied
       institution_name:
         label: Institution where you studied
       institution:
@@ -604,6 +607,10 @@ en:
           attributes:
             qualification_type:
               blank: Enter the type of qualification
+            non_uk_qualification_type:
+              blank: Enter the type of qualification
+            other_uk_qualification_type:
+              blank: Enter the type of qualification
         candidate_interface/other_qualification_form:
           attributes:
             qualification_type:
@@ -615,6 +622,9 @@ en:
             institution_name:
               blank: Enter the institution where you studied
               too_long: The institution where you studied must be %{count} characters or fewer
+            institution_country:
+              blank: Enter the country you studied in
+              inclusion: Select the country you studied in from the list
             grade:
               blank: Enter your grade
               too_long: The grade must be %{count} characters or fewer
@@ -622,6 +632,8 @@ en:
               blank: Enter the year the qualification was awarded
               invalid: Enter a real year
               in_the_future: 'Enter a year before %{date}'
+            choice:
+              blank: Do you want to add another qualification?
         candidate_interface/work_experience_form:
           attributes:
             role:

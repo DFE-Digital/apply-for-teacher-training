@@ -7,15 +7,65 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:qualification_type) }
-    it { is_expected.to validate_presence_of(:subject) }
     it { is_expected.to validate_presence_of(:institution_name) }
-    it { is_expected.to validate_presence_of(:grade) }
     it { is_expected.to validate_presence_of(:award_year) }
-
     it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
     it { is_expected.to validate_length_of(:subject).is_at_most(255) }
     it { is_expected.to validate_length_of(:institution_name).is_at_most(255) }
     it { is_expected.to validate_length_of(:grade).is_at_most(255) }
+
+    describe 'subject' do
+      it 'validates presence except for non-uk and other qualifications' do
+        non_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', subject: nil)
+        other_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other', subject: nil)
+        gcse = CandidateInterface::OtherQualificationForm.new(qualification_type: 'GCSE', subject: nil)
+
+        non_uk_qualification.validate
+        other_uk_qualification.validate
+        gcse.validate
+
+        expect(non_uk_qualification.errors.full_messages_for(:subject)).to be_empty
+        expect(other_uk_qualification.errors.full_messages_for(:subject)).to be_empty
+        expect(gcse.errors.full_messages_for(:subject)).not_to be_empty
+      end
+    end
+
+    describe 'grade' do
+      it 'validates presence except for non-uk and other qualifications' do
+        non_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', grade: nil)
+        other_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other', grade: nil)
+        gcse = CandidateInterface::OtherQualificationForm.new(qualification_type: 'GCSE', grade: nil)
+
+        non_uk_qualification.validate
+        other_uk_qualification.validate
+        gcse.validate
+
+        expect(non_uk_qualification.errors.full_messages_for(:grade)).to be_empty
+        expect(other_uk_qualification.errors.full_messages_for(:grade)).to be_empty
+        expect(gcse.errors.full_messages_for(:grade)).not_to be_empty
+      end
+    end
+
+    it { is_expected.to validate_presence_of(:subject) }
+    it { is_expected.to validate_presence_of(:grade) }
+
+    describe 'institution country' do
+      context 'when it is a non-uk qualification' do
+        it 'validates for presence and inclusion in the COUNTY_NAMES constant' do
+          valid_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'Germany')
+          blank_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk')
+          inavlid_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'Caprica City')
+
+          valid_qualification.validate
+          blank_country_qualification.validate
+          inavlid_country_qualification.validate
+
+          expect(valid_qualification.errors.full_messages_for(:institution_country)).to be_empty
+          expect(blank_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
+          expect(inavlid_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
+        end
+      end
+    end
 
     describe 'award year' do
       it 'is valid if the award year is 4 digits' do
@@ -141,12 +191,23 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
         institution_name: 'School of Heroes',
         grade: 'Distinction',
         award_year: '2012',
+        choice: 'no',
       }
+
+      expected_attributes = {
+        id: application_qualification.id,
+        qualification_type: 'BTEC',
+        subject: 'Being a Superhero',
+        institution_name: 'School of Heroes',
+        grade: 'Distinction',
+        award_year: '2012',
+      }
+
       qualification = CandidateInterface::OtherQualificationForm.new(form_data)
 
       expect(qualification.save).to eq(true)
       expect(application_form.application_qualifications.other.first)
-        .to have_attributes(form_data)
+        .to have_attributes(expected_attributes)
     end
   end
 
@@ -187,6 +248,28 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
   end
 
   describe '#title' do
+    context 'for a non-uk qualification' do
+      it 'concatenates the non_uk_qualification_type and subject' do
+        qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk',
+                                                                       non_uk_qualification_type: 'Master Craftsman',
+                                                                       subject: 'Igloo Building 101')
+
+        expect(qualification.title).to eq('Master Craftsman Igloo Building 101')
+      end
+    end
+
+    context 'for an other uk qualification with the international feature flag on' do
+      it 'concatenates the other_uk_qualification_type and subject' do
+        FeatureFlag.activate('international_other_qualifications')
+        qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other',
+                                                                       other_uk_qualification_type: 'Master Craftsman',
+                                                                       subject: 'Chopping Trees 1-0-done')
+
+        expect(qualification.title).to eq('Master Craftsman Chopping Trees 1-0-done')
+      end
+    end
+
+    context 'for other uk qualificaitons and GCSEs and A-levels'
     it 'concatenates the qualification type and subject' do
       qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'BTEC', subject: 'Being a Supervillain')
 

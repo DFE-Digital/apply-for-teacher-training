@@ -91,6 +91,55 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
         Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_other_qualification_path(qualification2),
       )
     end
+
+    context 'Non-UK qualifications' do
+      let(:qualification1) do
+        build_stubbed(
+          :application_qualification,
+          level: 'other',
+          qualification_type: 'non_uk',
+          non_uk_qualification_type: 'Woof',
+          subject: 'Making Doggo Sounds',
+          institution_name: 'Doggo Sounds College',
+          institution_country: 'US',
+          grade: 'A',
+          predicted_grade: false,
+          award_year: '2012',
+        )
+      end
+
+      before { FeatureFlag.activate('international_other_qualifications') }
+
+      it 'renders the correct values' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.app-summary-card__title').text).to include('Woof Making Doggo Sounds')
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.qualification.label'))
+        expect(result.css('.govuk-summary-list__value').text).to include('Woof')
+        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.other_qualification.qualification.change_action'))
+        "Change #{t('application_form.other_qualification.qualification.change_action')} for Woof, Making Doggo Sounds, Doggo Sounds College, United States, 2012"
+      end
+
+      it 'renders the correct subject' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.app-summary-card__title').text).to include('Woof Making Doggo Sounds')
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.subject.label'))
+        expect(result.css('.govuk-summary-list__value').text).to include('Making Doggo Sounds')
+        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.other_qualification.subject.change_action'))
+        "Change #{t('application_form.other_qualification.qualification.change_action')} for Woof, Making Doggo Sounds, Doggo Sounds College, United States, 2012"
+      end
+
+      it 'renders the correct values for institution_name' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.app-summary-card__title').text).to include('Woof Making Doggo Sounds')
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.institution.label'))
+        expect(result.css('.govuk-summary-list__value').text).to include('Doggo Sounds College, United States')
+        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.other_qualification.institution.change_action'))
+        "Change #{t('application_form.other_qualification.institution_name.change_action')} for Woof, Making Doggo Sounds, Doggo Sounds College, United States 2012"
+      end
+    end
   end
 
   context 'when other qualifications are not editable' do
