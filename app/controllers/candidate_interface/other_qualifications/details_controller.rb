@@ -43,7 +43,7 @@ module CandidateInterface
     def update
       @qualification = OtherQualificationForm.new(other_qualification_params)
 
-      if @qualification.save
+      if @qualification.update(current_application)
         redirect_to candidate_interface_review_other_qualifications_path
       else
         track_validation_error(@qualification)

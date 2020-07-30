@@ -75,10 +75,10 @@ module CandidateInterface
     def set_type(qualification)
       if qualification.qualification_type == 'non_uk'
         qualification.non_uk_qualification_type
-      elsif qualification.type == 'Other' && FeatureFlag.active?('international_other_qualifications')
+      elsif qualification.qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications')
         qualification.other_uk_qualification_type
       else
-        qualification.type
+        qualification.qualification_type
       end
     end
 

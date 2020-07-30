@@ -82,26 +82,53 @@ RSpec.describe ApplicationQualification, type: :model do
   end
 
   describe '#incomplete_other_qualification?' do
-    it 'returns false if not an other_qualification' do
-      qualification = build_stubbed(:gcse_qualification)
+    context 'when a non_uk qualification' do
+      it 'returns false if not an other_qualification' do
+        qualification = build_stubbed(:gcse_qualification)
 
-      expect(qualification.incomplete_other_qualification?).to eq false
+        expect(qualification.incomplete_other_qualification?).to eq false
+      end
+
+      it 'returns false if all expected information is present' do
+        qualification = build_stubbed(:non_uk_qualification, grade: nil, subject: nil)
+
+        expect(qualification.incomplete_other_qualification?).to eq false
+      end
+
+      it 'returns true if any expected information is missing' do
+        qualification = build_stubbed(:other_qualification)
+
+        ApplicationQualification::EXPECTED_OTHER_QUALIFICATION_DATA.each do |field|
+          qualification.send("#{field}=", nil)
+          expect(qualification.incomplete_other_qualification?).to eq true
+          qualification.send("#{field}=", '')
+          expect(qualification.incomplete_other_qualification?).to eq true
+        end
+      end
     end
 
-    it 'returns false if all expected information is present' do
-      qualification = build_stubbed(:other_qualification)
+    context 'for UK qualifications' do
+      it 'returns false if not an other_qualification' do
+        qualification = build_stubbed(:gcse_qualification)
 
-      expect(qualification.incomplete_other_qualification?).to eq false
-    end
+        expect(qualification.incomplete_other_qualification?).to eq false
+      end
 
-    it 'returns true if any expected information is missing' do
-      qualification = build_stubbed(:other_qualification)
+      it 'returns false if all expected information is present' do
+        qualification = build_stubbed(:other_qualification)
 
-      ApplicationQualification::EXPECTED_OTHER_QUALIFICATION_DATA.each do |field|
-        qualification.send("#{field}=", nil)
-        expect(qualification.incomplete_other_qualification?).to eq true
-        qualification.send("#{field}=", '')
-        expect(qualification.incomplete_other_qualification?).to eq true
+        expect(qualification.incomplete_other_qualification?).to eq false
+      end
+
+      it 'returns true if any expected information is missing' do
+        qualification = build_stubbed(:other_qualification)
+
+        ApplicationQualification::EXPECTED_OTHER_QUALIFICATION_DATA.each do |field|
+          qualification.send("#{field}=", nil)
+          expect(qualification.incomplete_other_qualification?).to eq true
+          qualification.send("#{field}=", '')
+          expect(qualification.incomplete_other_qualification?).to eq true
+        end
       end
     end
   end
