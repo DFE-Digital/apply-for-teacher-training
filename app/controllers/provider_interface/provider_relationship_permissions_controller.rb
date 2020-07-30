@@ -12,7 +12,7 @@ module ProviderInterface
       @form = ProviderRelationshipPermissionsForm.new(permissions_params.merge(permissions_model: permissions_model))
 
       if @form.save!
-        flash[:success] = 'Permissions successfully changed'
+        flash[:success] = 'User’s permissions successfully updated'
         redirect_to provider_interface_organisation_path(permissions_model.training_provider)
       else
         flash[:warning] = 'Unable to save permissions, please try again. If problems persist please contact support.'

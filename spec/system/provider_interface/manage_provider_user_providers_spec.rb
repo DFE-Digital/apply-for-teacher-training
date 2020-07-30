@@ -75,7 +75,7 @@ RSpec.feature 'Managing providers a user has access to' do
   end
 
   def then_i_can_see_the_new_permission_for_the_provider_user
-    expect(page).to have_content 'Providers updated'
+    expect(page).to have_content 'User’s access successfully updated'
     expect(page).not_to have_content @provider.name
     expect(page).to have_content @another_provider.name
   end

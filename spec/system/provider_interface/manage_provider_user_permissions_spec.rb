@@ -81,7 +81,7 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def then_i_can_see_the_manage_users_permission_for_the_provider_user
-    expect(page).to have_content 'Permissions updated'
+    expect(page).to have_content 'User’s permissions successfully updated'
 
     within("#provider-#{@provider.id}-enabled-permissions") do
       expect(page).to have_content 'Manage users'
@@ -95,7 +95,7 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def then_i_cant_see_the_manage_users_permission_for_the_provider_user
-    expect(page).to have_content 'Permissions updated'
+    expect(page).to have_content 'User’s permissions successfully updated'
     expect(page).not_to have_content 'Manage users'
   end
 
