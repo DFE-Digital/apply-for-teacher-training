@@ -63,14 +63,15 @@ module ProviderInterface
 
     def redirect_if_setup_required
       return unless current_provider_user
+
+      # setup object is needed for hiding header links during provider setup
+      @provider_setup = ProviderSetup.new(provider_user: current_provider_user)
       return if performing_provider_organisation_setup?
 
-      provider_setup = ProviderSetup.new(provider_user: current_provider_user)
-
-      if provider_setup.next_agreement_pending
+      if @provider_setup.next_agreement_pending
         redirect_to provider_interface_new_data_sharing_agreement_path
       elsif FeatureFlag.active?('enforce_provider_to_provider_permissions') &&
-          provider_setup.next_relationship_pending
+          @provider_setup.next_relationship_pending
         # redirect_to provider_interface_provider_relationship_permissions_setup_path
         # TODO: Implement this
       end

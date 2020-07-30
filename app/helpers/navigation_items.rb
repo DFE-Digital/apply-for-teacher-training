@@ -36,25 +36,32 @@ class NavigationItems
       end
     end
 
-    def for_provider_primary_nav(current_controller)
-      [NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes]))]
+    def for_provider_primary_nav(current_controller, performing_setup = false)
+      if performing_setup
+        []
+      else
+        [NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes]))]
+      end
     end
 
-    def for_provider_account_nav(current_provider_user, current_controller)
+    def for_provider_account_nav(current_provider_user, current_controller, performing_setup = false)
       return [NavigationItem.new('Sign in', provider_interface_sign_in_path, false)] unless current_provider_user
 
       items = []
 
-      if FeatureFlag.active?('enforce_provider_to_provider_permissions') &&
-          current_provider_user.authorisation.can_manage_organisations_for_at_least_one_provider?
-        items << NavigationItem.new('Organisations', provider_interface_organisations_path, is_active(current_controller, %w[organisations provider_relationship_permissions]))
+      unless performing_setup
+        if FeatureFlag.active?('enforce_provider_to_provider_permissions') &&
+            current_provider_user.authorisation.can_manage_organisations_for_at_least_one_provider?
+          items << NavigationItem.new('Organisations', provider_interface_organisations_path, is_active(current_controller, %w[organisations provider_relationship_permissions]))
+        end
+
+        if FeatureFlag.active?(:providers_can_manage_users_and_permissions) && current_provider_user.authorisation.can_manage_users_for_at_least_one_provider?
+          items << NavigationItem.new('Users', provider_interface_provider_users_path, is_active(current_controller, 'provider_users'))
+        end
+
+        items << NavigationItem.new('Account', provider_interface_account_path, is_active(current_controller, 'account'))
       end
 
-      if FeatureFlag.active?(:providers_can_manage_users_and_permissions) && current_provider_user.authorisation.can_manage_users_for_at_least_one_provider?
-        items << NavigationItem.new('Users', provider_interface_provider_users_path, is_active(current_controller, 'provider_users'))
-      end
-
-      items << NavigationItem.new('Account', provider_interface_account_path, is_active(current_controller, 'account'))
       items << NavigationItem.new('Sign out', provider_interface_sign_out_path, false)
     end
 
