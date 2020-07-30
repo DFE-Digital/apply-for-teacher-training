@@ -56,20 +56,24 @@ module SupportInterface
         provider = Provider.find(audit.audited_changes['provider_id'])
         "Access granted for #{provider.name}"
       when 'update'
-        # the original might have been destroyed, so get the creation record
-        # to discover which Provider is associated with this change
-        creation_record = Audited::Audit.find_by(
-          auditable_type: 'ProviderPermissions',
-          auditable_id: audit.auditable_id,
-          action: 'create',
-        )
-        provider = if creation_record
-                     Provider.find(creation_record.audited_changes['provider_id'])
-                   else
-                     Provider.find(audit.audited_changes['provider_id'])
-                   end
+        # permissions record may not exist, user no longer associated with provider
+        provider = ProviderPermissions.find_by(id: audit.auditable_id)&.provider
+        provider_name = if provider
+                          provider.name
+                        else
+                          creation_record = Audited::Audit.find_by(
+                            auditable_type: 'ProviderPermissions',
+                            auditable_id: audit.auditable_id,
+                            action: 'create',
+                          )
 
-        "Permissions changed for #{provider.name}"
+                          if creation_record
+                            Provider.find_by(id: creation_record.audited_changes['provider_id']).name
+                          else
+                            'a provider'
+                          end
+                        end
+        "Permissions changed for #{provider_name}"
       when 'destroy'
         provider = Provider.find(audit.audited_changes['provider_id'])
         "Access revoked for #{provider.name}"
