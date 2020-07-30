@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Candidate attempts to submit the application after the end-of-cycle cutoff' do
   include CandidateHelper
 
+  around do |example|
+    Timecop.freeze(Date.new(2020, 8, 30)) { example.run }
+  end
+
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in
 

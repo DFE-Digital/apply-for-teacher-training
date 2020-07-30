@@ -3,7 +3,7 @@ module CandidateInterface
     before_action :redirect_to_review_unless_ready_to_submit
 
     def start
-      if FeatureFlag.active?(:stop_new_applications)
+      if current_application.submissions_closed?
         flash[:warning] = 'New applications are now closed for 2020'
         redirect_to candidate_interface_application_complete_path and return
       end

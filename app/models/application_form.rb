@@ -158,8 +158,8 @@ class ApplicationForm < ApplicationRecord
   end
 
   def submissions_closed?
-    (apply_1? && FeatureFlag.active?(:stop_new_applications)) ||
-      (apply_2? && FeatureFlag.active?(:stop_new_apply_again_applications))
+    FeatureFlag.active?(:stop_new_applications) &&
+      EndOfCycleTimetable.submissions_closed_for?(self)
   end
 
   def can_edit_after_submission?

@@ -3,7 +3,7 @@
     <h2 class="govuk-heading-m">Apply is now closed for new applications</h2>
     <p class="govuk-body">
       The 2020 recruitment cycle is now closed for new applications. The 2021
-      recruitment cycle will open on <%= SetStopNewApplicationsFlag::RESUME_ON.to_s(:govuk_date) %>
+      recruitment cycle will open on <%= EndOfCycleTimetable.reopen.to_s(:govuk_date) %>
     </p>
   </div>
 </div>

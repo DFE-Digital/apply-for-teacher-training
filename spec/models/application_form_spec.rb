@@ -290,22 +290,34 @@ RSpec.describe ApplicationForm do
       expect(application_form.can_add_more_choices?).to be true
     end
 
-    it 'returns false if the `stop_new_applications` feature flag is on' do
-      application_form = build_stubbed(:application_form)
-      FeatureFlag.activate(:stop_new_applications)
-      expect(application_form.can_add_more_choices?).to be false
+    context 'when date is within Apply 1 stop period' do
+      around do |example|
+        Timecop.freeze(Date.new(2020, 8, 30)) { example.run }
+      end
+
+      it 'returns false for an Apply 1 application' do
+        application_form = build_stubbed(:application_form)
+        FeatureFlag.activate(:stop_new_applications)
+        expect(application_form.can_add_more_choices?).to be false
+      end
+
+      it 'returns true for an Apply 2 application' do
+        application_form = build_stubbed(:application_form, phase: :apply_2)
+        FeatureFlag.activate(:stop_new_applications)
+        expect(application_form.can_add_more_choices?).to be true
+      end
     end
 
-    it 'returns true if the `stop_new_applications` feature flag is on for an apply again application' do
-      application_form = build_stubbed(:application_form, phase: :apply_2)
-      FeatureFlag.activate(:stop_new_applications)
-      expect(application_form.can_add_more_choices?).to be true
-    end
+    context 'when date is within Apply 2 stop period' do
+      around do |example|
+        Timecop.freeze(Date.new(2020, 9, 24)) { example.run }
+      end
 
-    it 'returns false if the `stop_new_apply_again_applications` feature flag is on for an apply again application' do
-      application_form = build_stubbed(:application_form, phase: :apply_2)
-      FeatureFlag.activate(:stop_new_apply_again_applications)
-      expect(application_form.can_add_more_choices?).to be false
+      it 'returns false for an Apply 2 application' do
+        application_form = build_stubbed(:application_form, phase: :apply_2)
+        FeatureFlag.activate(:stop_new_applications)
+        expect(application_form.can_add_more_choices?).to be false
+      end
     end
   end
 end
