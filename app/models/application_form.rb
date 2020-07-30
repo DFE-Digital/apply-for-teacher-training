@@ -201,7 +201,15 @@ class ApplicationForm < ApplicationRecord
     [first_nationality, second_nationality, third_nationality, fourth_nationality, fifth_nationality].reject(&:nil?)
   end
 
-  # Override method for english_main_language database field
+  # The `english_main_language` and `english_language_details` database fields
+  # are deprecated. This arose from the 'Personal Details > Languages' page
+  # being replaced by an 'English as a Foreign Language' section. The fields
+  # are only editable on applications that already contain user-submitted
+  # values for them, and otherwise remain nil. Because we need to continue
+  # sending these values in the current version of the Vendor API, we override
+  # the default ORM methods. In both cases we use the contents of the legacy
+  # database field if present, otherwise we attempt to infer values from other
+  # parts of the application.
   def english_main_language(fetch_database_value: false)
     return self[:english_main_language] if fetch_database_value
 
@@ -215,7 +223,6 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
-  # Override method for english_language_details database field
   def english_language_details
     self[:english_language_details].presence || english_proficiency&.formatted_qualification_description
   end
