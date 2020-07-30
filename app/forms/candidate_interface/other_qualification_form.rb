@@ -9,8 +9,6 @@ module CandidateInterface
 
     validates :qualification_type, :institution_name, :award_year, presence: true
 
-    validates :choice, presence: true, on: :save
-
     validates :subject, :grade, presence: true, unless: -> { qualification_type == 'non_uk' || qualification_type == 'Other' }
 
     validates :institution_country, presence: true, if: -> { qualification_type == 'non_uk' }
@@ -85,7 +83,7 @@ module CandidateInterface
     end
 
     def save
-      return false unless valid?
+      return false unless valid? && choice_present?
 
       qualification = ApplicationQualification.find(id)
       qualification.update!(
@@ -127,6 +125,13 @@ module CandidateInterface
     end
 
   private
+
+    def choice_present?
+      return true if choice.present?
+
+      errors.add(:choice, 'Do you want to add another qualification?')
+      false
+    end
 
     def award_year_is_date_and_before_current_year
       year_limit = Date.today.year.to_i + 1

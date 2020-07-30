@@ -10,7 +10,6 @@ module CandidateInterface
 
     def create
       @qualification = OtherQualificationForm.new(other_qualification_params)
-
       if @qualification.save
 
         if @qualification.choice == 'same_type'
@@ -48,7 +47,7 @@ module CandidateInterface
     end
 
     def get_qualification
-      ApplicationQualification.find(params[:id])
+      @get_qualification ||= ApplicationQualification.find(params[:id])
     end
   end
 end

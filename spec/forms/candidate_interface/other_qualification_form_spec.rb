@@ -191,12 +191,23 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
         institution_name: 'School of Heroes',
         grade: 'Distinction',
         award_year: '2012',
+        choice: 'no',
       }
+
+      expected_attributes = {
+        id: application_qualification.id,
+        qualification_type: 'BTEC',
+        subject: 'Being a Superhero',
+        institution_name: 'School of Heroes',
+        grade: 'Distinction',
+        award_year: '2012',
+      }
+
       qualification = CandidateInterface::OtherQualificationForm.new(form_data)
 
       expect(qualification.save).to eq(true)
       expect(application_form.application_qualifications.other.first)
-        .to have_attributes(form_data)
+        .to have_attributes(expected_attributes)
     end
   end
 
