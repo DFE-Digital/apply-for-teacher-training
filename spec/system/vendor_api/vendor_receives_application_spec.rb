@@ -101,7 +101,7 @@ RSpec.feature 'Vendor receives the application' do
           uk_residency_status: nil,
           english_main_language: true,
           other_languages: "I'm great at Galactic Basic so English is a piece of cake",
-          english_language_qualifications: '',
+          english_language_qualifications: nil,
           disability_disclosure: 'I have difficulty climbing stairs',
         },
         qualifications: {

@@ -13,7 +13,9 @@ module CandidateInterface
 
     def self.build_from_application(application_form)
       new(
-        english_main_language: boolean_to_word(application_form.english_main_language),
+        english_main_language: boolean_to_word(
+          application_form.english_main_language(fetch_database_value: true),
+        ),
         english_language_details: application_form.english_language_details,
         other_language_details: application_form.other_language_details,
       )
@@ -30,8 +32,8 @@ module CandidateInterface
 
       application_form.update(
         english_main_language: english_main_language?,
-        english_language_details: english_main_language? ? '' : english_language_details,
-        other_language_details: english_main_language? ? other_language_details : '',
+        english_language_details: english_main_language? ? nil : english_language_details,
+        other_language_details: english_main_language? ? other_language_details : nil,
       )
     end
 

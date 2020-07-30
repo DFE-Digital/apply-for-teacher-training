@@ -26,4 +26,8 @@ class IeltsQualification < ApplicationRecord
   def name
     'IELTS'
   end
+
+  def grade
+    band_score
+  end
 end

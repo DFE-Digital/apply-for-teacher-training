@@ -1,30 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::LanguagesForm, type: :model do
-  let(:data) do
-    {
-      english_main_language: true,
-      english_language_details: '',
-      other_language_details: Faker::Lorem.paragraph_by_chars(number: 200),
-    }
-  end
-
-  let(:form_data) do
-    {
-      english_main_language: data[:english_main_language] ? 'yes' : 'no',
-      english_language_details: data[:english_language_details],
-      other_language_details: data[:other_language_details],
-    }
-  end
-
   describe '.build_from_application' do
     it 'creates an object based on the provided ApplicationForm' do
-      application_form = ApplicationForm.new(data)
+      application_form = ApplicationForm.new(
+        english_main_language: true,
+        english_language_details: nil,
+        other_language_details: 'I speak French',
+      )
       languages_form = CandidateInterface::LanguagesForm.build_from_application(
         application_form,
       )
 
-      expect(languages_form).to have_attributes(form_data)
+      expect(languages_form).to have_attributes(
+        english_main_language: 'yes',
+        english_language_details: nil,
+        other_language_details: 'I speak French',
+      )
     end
 
     it "initialises english_main_language to nil when it's nil in the application form" do
@@ -44,34 +36,34 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
       expect(languages_form.save(ApplicationForm.new)).to eq(false)
     end
 
-    it 'updates the provided ApplicationForm if valid' do
-      application_form = FactoryBot.create(:application_form)
-      languages_form = CandidateInterface::LanguagesForm.new(form_data)
-
-      expect(languages_form.save(application_form)).to eq(true)
-      expect(application_form).to have_attributes(data)
-    end
-
     it 'saves the English language details only if English is not the main language' do
+      form_data = {
+        english_main_language: 'no',
+        english_language_details: 'I have English qualifications',
+        other_language_details: 'I also speak French',
+      }
       application_form = FactoryBot.create(:application_form)
-      data[:english_main_language] = false
       languages_form = CandidateInterface::LanguagesForm.new(form_data)
 
       languages_form.save(application_form)
 
-      expect(application_form.english_language_details).to eq(form_data[:english_language_details])
-      expect(application_form.other_language_details).to eq('')
+      expect(application_form.english_language_details).to eq 'I have English qualifications'
+      expect(application_form.other_language_details).to eq nil
     end
 
     it 'saves the other language details only if English is the main language' do
+      form_data = {
+        english_main_language: 'yes',
+        english_language_details: 'I have English qualifications',
+        other_language_details: 'I also speak French',
+      }
       application_form = FactoryBot.create(:application_form)
-      data[:other_language_details] = Faker::Lorem.paragraph_by_chars(number: 200)
       languages_form = CandidateInterface::LanguagesForm.new(form_data)
 
       languages_form.save(application_form)
 
-      expect(application_form.other_language_details).to eq(form_data[:other_language_details])
-      expect(application_form.english_language_details).to eq('')
+      expect(application_form.other_language_details).to eq 'I also speak French'
+      expect(application_form.english_language_details).to eq nil
     end
   end
 
