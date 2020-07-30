@@ -8,13 +8,17 @@
 
       <%= f.fields_for "provider_permissions[]", @permissions_form do |pf| %>
         <%= pf.hidden_field :provider_id %>
+        <%
+          fieldset_legend_text = 'Select permissions'
+          fieldset_legend_text += ": #{@provider.name}" unless @wizard.single_provider
+        -%>
         <%= pf.govuk_collection_check_boxes(
           :permissions,
           ProviderInterface::ProviderUserInvitationWizard::AVAILABLE_PERMISSIONS,
           :slug,
           :name,
           :hint,
-          legend: { text: "Select permissions: #{@provider.name}", size: "xl" },
+          legend: { text: fieldset_legend_text, size: "xl" },
           caption: { text: "Invite user", size: "xl" },
         ) do %>
           <span id="permissions-hint" class="govuk-hint">
