@@ -217,11 +217,11 @@ en:
         provider_interface/provider_user_form:
           attributes:
             email_address:
-              blank: Enter the user's email address
+              blank: Enter the user’s email address
             first_name:
-              blank: Enter the user's first name
+              blank: Enter the user’s first name
             last_name:
-              blank: Enter the user's last name
+              blank: Enter the user’s last name
             provider_permissions:
               blank: Please specify a provider
         change_offer:
@@ -249,11 +249,11 @@ en:
         provider_interface/provider_user_invitation_wizard:
           attributes:
             first_name:
-              blank: Enter the user's first name
+              blank: Enter the user’s first name
             last_name:
-              blank: Enter the user's last name
+              blank: Enter the user’s last name
             email_address:
-              blank: Enter the user's email address
+              blank: Enter the user’s email address
               taken: Email address is already in use
               too_long: Email address must be %{count} characters or fewer
               invalid: Enter an email address in the correct format, like name@example.com
