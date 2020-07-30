@@ -153,6 +153,23 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       assert_includes rendered_component, 'Permissions changed for The School of Roke'
     end
 
+    it 'renders a label for "update" even when the provider can\'t be found', with_audited: true do
+      permissions = ProviderPermissions.create(
+        provider: provider,
+        provider_user: user,
+      )
+
+      permissions.manage_users = !permissions.manage_users
+      permissions.save
+
+      permissions.destroy # no provider available from permissions record
+      permissions.audits.find_by(action: 'create').destroy # no creation record to fall back to
+
+      render_inline(described_class.new(audit: permissions.audits.find_by(action: 'update')))
+
+      assert_includes rendered_component, 'Permissions changed for a provider'
+    end
+
     it 'provides a meaningful label for "destroy"', with_audited: true do
       permissions = ProviderPermissions.create(
         provider: provider,

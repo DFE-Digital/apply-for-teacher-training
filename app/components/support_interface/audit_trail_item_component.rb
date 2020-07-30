@@ -64,8 +64,12 @@ module SupportInterface
                             auditable_id: audit.auditable_id,
                             action: 'create',
                           )
-                          provider_id = creation_record&.audited_changes&.dig('provider_id')
-                          Provider.find_by(id: provider_id)&.name || 'a provider'
+
+                          if creation_record
+                            Provider.find_by(id: creation_record.audited_changes['provider_id']).name
+                          else
+                            'a provider'
+                          end
                         end
         "Permissions changed for #{provider_name}"
       when 'destroy'
