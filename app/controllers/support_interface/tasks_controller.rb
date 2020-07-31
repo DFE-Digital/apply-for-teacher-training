@@ -30,7 +30,7 @@ module SupportInterface
         flash[:success] = 'Scheduled job to recalculate dates'
         redirect_to support_interface_tasks_path
       when 'delete_test_applications'
-        PurgeTestApplications.perform_async
+        DeleteTestApplications.perform_async
         flash[:success] = 'Scheduled job to delete test applications'
         redirect_to support_interface_tasks_path
       else

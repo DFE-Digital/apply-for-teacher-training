@@ -16,7 +16,7 @@
   <%= button_to 'Recalculate dates', support_interface_run_task_path('recalculate_dates'), class: 'govuk-button' %>
 </div>
 
-<% if PurgeTestApplications.can_run_in_this_environment? %>
+<% if DeleteTestApplications.can_run_in_this_environment? %>
   <div>
     <h2 class='govuk-heading-m'>Delete test applications</h2>
     <div class='govuk-body'>
