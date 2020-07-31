@@ -38,6 +38,8 @@ module ProviderInterface
                             else
                               {}
                             end
+
+      @status_box_options[:provider_can_respond] = @provider_can_respond
     end
 
     def notes
