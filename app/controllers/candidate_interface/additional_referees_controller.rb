@@ -54,7 +54,9 @@ module CandidateInterface
 
       reference.referee_type = params[:type]
 
-      if reference.save
+      if FeatureFlag.active?(:separate_additional_referees) && reference.save
+        redirect_to candidate_interface_confirm_additional_referees_path
+      elsif reference.save
         redirect_to_confirm_or_show_another_reference_form
       else
         track_validation_error(reference)
@@ -68,6 +70,21 @@ module CandidateInterface
       @references = not_requested_references
     end
 
+    def add_another_referee
+      @add_another_referee = AddAnotherRefereeForm.new
+    end
+
+    def add_another_referee_decision
+      @add_another_referee = AddAnotherRefereeForm.new(add_another_referee_params)
+      return render :add_another_referee unless @add_another_referee.valid?
+
+      if @add_another_referee.add_another_referee?
+        redirect_to candidate_interface_additional_referee_type_path(second: true)
+      else
+        redirect_to candidate_interface_application_form_path
+      end
+    end
+
     def request_references
       references_to_confirm = not_requested_references.includes(:application_form).to_a
 
@@ -77,7 +94,15 @@ module CandidateInterface
 
       flash[:success] = I18n.t!('additional_referees.feedback_flash', count: references_to_confirm.size)
 
-      redirect_to candidate_interface_application_form_path
+      if FeatureFlag.active?(:separate_additional_referees)
+        if reference_status.still_more_references_needed?
+          redirect_to candidate_interface_add_another_referee_path
+        else
+          redirect_to candidate_interface_application_form_path
+        end
+      else
+        redirect_to candidate_interface_application_form_path
+      end
     end
 
     def edit
@@ -86,7 +111,9 @@ module CandidateInterface
     end
 
     def update
-      if current_reference.update(referee_params)
+      if FeatureFlag.active?(:separate_additional_referees) && current_reference.update(referee_params)
+        redirect_to candidate_interface_confirm_additional_referees_path
+      elsif current_reference.update(referee_params)
         redirect_to_confirm_or_show_another_reference_form
       else
         track_validation_error(current_reference)
@@ -121,6 +148,10 @@ module CandidateInterface
         :email_address,
         :relationship,
       ).transform_values(&:strip)
+    end
+
+    def add_another_referee_params
+      params.fetch(:candidate_interface_add_another_referee_form, {}).permit(:add_another_referee)
     end
 
     def redirect_to_dashboard_if_no_references_needed

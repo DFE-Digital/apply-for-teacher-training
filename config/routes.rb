@@ -401,6 +401,9 @@ Rails.application.routes.draw do
         get '/confirm' => 'additional_referees#confirm', as: :confirm_additional_referees
         post '/confirm' => 'additional_referees#request_references'
 
+        get '/add-another-referee' => 'additional_referees#add_another_referee', as: :add_another_referee
+        post '/add-another-referee' => 'additional_referees#add_another_referee_decision'
+
         get '/contact-support' => 'additional_referees#contact_support', as: :additional_referee_contact_support
       end
 

@@ -1,0 +1,20 @@
+<% title = "Do you want to add a second referee now?" %>
+<% content_for :title, title_with_error_prefix(title, @add_another_referee.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path) %>
+
+<%= form_with model: @add_another_referee, url: candidate_interface_add_another_referee_path, method: :post do |f| %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl"><%= title %></h1>
+
+      <%= f.govuk_radio_buttons_fieldset :add_another_referee do %>
+        <%= f.govuk_radio_button :add_another_referee, :yes, label: { text: 'Yes, I want to  add a second referee' }, link_errors: true %>
+        <%= f.govuk_radio_button :add_another_referee, :no, label: { text: 'No, I’ll add a second referee later' } %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    </div>
+  </div>
+<% end %>
