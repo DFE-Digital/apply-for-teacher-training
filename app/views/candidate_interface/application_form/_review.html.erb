@@ -64,6 +64,16 @@
 
 <%= render(CandidateInterface::OtherQualificationsReviewComponent.new(application_form: application_form, editable: editable, heading_level: 4, missing_error: missing_error, submitting_application: true)) %>
 
+<% if @application_form.efl_section_required? %>
+  <h3 class="govuk-heading-m">English as a foreign language qualification</h3>
+
+  <% if @application_form.english_proficiency.present? %>
+    <%= render(CandidateInterface::ChooseEflReviewComponent.call(@application_form.english_proficiency)) %>
+  <% else %>
+    <%= render(SectionMissingBannerComponent.new(section: 'efl', section_path: candidate_interface_english_foreign_language_start_path, error: missing_error)) %>
+  <% end %>
+<% end %>
+
 <h2 class="govuk-heading-m govuk-!-font-size-27">Personal statement and interview</h2>
 
 <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>

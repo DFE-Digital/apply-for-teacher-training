@@ -7,7 +7,7 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
     given_i_am_signed_in
 
     when_i_visit_the_review_application_page
-    then_i_should_be_able_to_click_through_and_complete_each_section_but_science_gcse
+    then_i_should_be_able_to_click_through_and_complete_each_required_section
 
     when_i_confirm_my_application
     then_i_should_see_an_error_that_i_have_not_completed_everything
@@ -22,8 +22,8 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
     click_link 'Check and submit your application'
   end
 
-  def then_i_should_be_able_to_click_through_and_complete_each_section_but_science_gcse
-    (CandidateHelper::APPLICATION_FORM_SECTIONS - [:science_gcse]).each do |section|
+  def then_i_should_be_able_to_click_through_and_complete_each_required_section
+    (CandidateHelper::APPLICATION_FORM_SECTIONS - %i[science_gcse efl]).each do |section|
       expect(page).to have_selector "[aria-describedby='missing-#{section}']"
       within "#missing-#{section}-error" do
         expect(page).to have_link('Complete section')

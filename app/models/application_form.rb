@@ -193,6 +193,10 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
+  def efl_section_required?
+    nationalities.present? && !english_speaking_nationality?
+  end
+
   def build_nationalties_hash
     CandidateInterface::GetNationalitiesFormHash.new(application_form: self).call
   end

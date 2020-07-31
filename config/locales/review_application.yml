@@ -36,3 +36,5 @@ en:
       incomplete: Safeguarding information not entered
     other_qualifications:
       incomplete: Your Other Qualifications section has an incomplete qualification
+    efl:
+      incomplete: English as a foreign language not marked as complete

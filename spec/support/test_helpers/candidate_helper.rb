@@ -11,6 +11,7 @@ module CandidateHelper
     maths_gcse
     english_gcse
     science_gcse
+    efl
     becoming_a_teacher
     subject_knowledge
     interview_preferences
