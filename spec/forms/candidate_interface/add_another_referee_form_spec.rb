@@ -16,7 +16,9 @@ RSpec.describe CandidateInterface::AddAnotherRefereeForm, type: :model do
     end
 
     context 'when the add_another_referee value is no' do
-      let(:add_another_referee) { 'add_another_referee' => 'no' }
+      let(:add_another_referee) do
+        { 'add_another_referee' => 'no' }
+      end
 
       it 'returns false' do
         expect(form.add_another_referee?).to be_falsey
