@@ -2,10 +2,28 @@ require 'rails_helper'
 
 RSpec.describe PurgeTestApplications do
   it 'removes an application for bob@example.com' do
-    create :completed_application_form, application_choices_count: 1
+    application_form = create(
+      :completed_application_form,
+      application_choices_count: 1,
+      work_experiences_count: 1,
+      volunteering_experiences_count: 1,
+      references_count: 2,
+      with_degree: true,
+      full_work_history: true,
+    )
+    create(
+      :note,
+      application_choice: application_form.application_choices.first,
+    )
 
     expect { described_class.new.perform }.to change { ApplicationForm.count }.by(-1)
       .and change { ApplicationChoice.count }.by(-1)
+      .and change { ApplicationWorkExperience.count }.by(-2)
+      .and change { ApplicationVolunteeringExperience.count }.by(-1)
+      .and change { ApplicationQualification.count }.by(-1)
+      .and change { ApplicationWorkHistoryBreak.count }.by(-1)
+      .and change { ApplicationReference.count }.by(-2)
+      .and change { Note.count }.by(-1)
       .and change { Candidate.count }.by(-1)
   end
 
