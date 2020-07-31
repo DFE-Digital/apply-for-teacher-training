@@ -4,7 +4,6 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   include CandidateHelper
 
   scenario "Candidate provides a new referee because 2 didn't respond" do
-
     given_i_am_signed_in_as_a_candidate
     and_i_have_submitted_my_application
     and_both_of_my_referees_havent_responded_within_a_reasonable_timeframe
@@ -29,7 +28,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
     when_i_fill_in_the_form
     then_i_see_the_first_reference_review_page
 
-    when_i_click_continue
+    when_i_click_confirm_new_referee
     then_i_see_the_second_referee_choice_page
 
     when_i_choose_no
@@ -46,7 +45,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
     then_i_am_asked_for_the_details_of_my_academic_referee
 
     when_i_fill_in_the_second_form
-    then_i_see_the_reference_review_page
+    then_i_see_the_second_reference_review_page
 
     when_i_click_to_edit_the_referee_type
     and_i_choose_character_as_reference_type
@@ -145,6 +144,10 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
     expect(page).to have_content 'School-based'
   end
 
+  def when_i_click_confirm_new_referee
+    click_button 'Confirm new referee'
+  end
+
   def then_i_see_the_second_referee_choice_page
     expect(page).to have_content 'Do you want to add a second referee now?'
   end
@@ -158,7 +161,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   end
 
   def when_i_visit_the_second_referee_choice_page
-    visit candidate_interface_additional_referees_choice_path
+    visit candidate_interface_add_another_referee_path
   end
 
   def and_i_choose_yes
@@ -192,7 +195,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   end
 
   def when_i_click_to_edit_the_referee_type
-    click_on 'Change reference type for AO Reference'
+    click_on 'Change reference type'
   end
 
   def and_i_choose_character_as_reference_type
@@ -204,7 +207,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   end
 
   def when_i_click_to_edit_the_referee
-    click_on 'Change name for AO Reference'
+    click_on 'Change name'
   end
 
   def and_i_edit_the_name
@@ -215,14 +218,11 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
 
   def then_i_see_the_updated_name_on_the_confirm_page
     expect(page).to have_content 'A.O. Reference'
-    expect(page).to have_content 'betty@example.com'
-
-    expect(page).to have_content 'Second Reference'
     expect(page).to have_content 'boppie@example.com'
   end
 
   def when_i_click_to_confirm
-    click_on 'Confirm new referees'
+    click_on 'Confirm new referee'
   end
 
   def then_the_new_referees_should_receive_emails
@@ -234,7 +234,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
   end
 
   def and_i_see_that_my_new_references_have_been_requested
-    expect(page).to have_content 'Thank you. We’ve asked each new referee for a reference'
+    expect(page).to have_content 'Thank you. We’ve asked your new referee for a reference'
   end
 
   def and_i_should_not_be_asked_to_provide_another_reference
