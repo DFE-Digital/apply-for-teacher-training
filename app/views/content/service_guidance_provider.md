@@ -43,7 +43,7 @@ We prioritise as urgent any problems preventing application submission.
 
 Apply and Manage are free services for both candidates and providers.
 
-###Still to come: fraud and plagiarism checks
+####Still to come: fraud and plagiarism checks
 
 For now, we don't provide fraud and plagiarism checks on candidate applications.
 
@@ -51,7 +51,7 @@ For now, we don't provide fraud and plagiarism checks on candidate applications.
 
 Onboarding is quick and easy, usually taking place over a single working day.
 
-1. We’ll ask for contact details for your admissions team so we can add them to [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) as admin users. We’ll also ask you for the names of any other organisations you partner with – for example, accredited bodies who ratify your courses.
+1. We’ll ask for contact details for your admissions team so we can give them access to [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider). We’ll also ask you for the names of any other organisations you partner with – for example, accredited bodies who ratify your courses.
 
 2. Taking data from [Publish teacher training courses](https://www.publish-teacher-training-courses.service.gov.uk/), we’ll upload your courses to Manage teacher training applications.
 
@@ -64,7 +64,7 @@ Onboarding is quick and easy, usually taking place over a single working day.
 We’re available to give you full support at every stage.
 
 ##<a name="using-the-service"></a>Using the service
-[Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) allows you to process applications from submission through to offer.
+[Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) allows you to process applications from submission through to conditions met.
 
 ###Viewing applications
 
@@ -84,6 +84,65 @@ Users in your team will be able to:
 * withdraw
 * reject, with reasons
 
+###Setting permissions for your team members
+
+The permissions feature allows you to control:
+
+* who can make decisions about applications
+* who can view sensitive information disclosed by the candidate (in the safeguarding or equality and diversity sections of the application)
+* who can invite other users, and set their permissions
+
+####For example, you may wish to:
+
+* give members of your admission team access to all applications, but not the ability to make decisions
+* give academic decision-makers access to all applications, but not to sensitive information
+* limit the number of people with control of these permissions
+
+Everyone on your team who uses the Manage service will be able to view all applications your organisation is involved with. You do not need to set permissions for this.
+
+###How to ‘Manage users’
+
+The ‘Manage users’ permission allows you to:
+
+* set permissions for team members
+* invite new users
+* delete users
+
+####‘Manage users’ for training providers who are already part of our pilot
+
+We have automatically given the person in your organisation who signed the data-sharing agreement ‘Manage users’ permission. (If you’re not sure who signed the agreement, get in touch with us on <becomingateacher@digital.education.gov.uk>.)
+
+####‘Manage users’ for training providers now being onboarded
+
+As part of your onboarding, we asked you to nominate team members to fill the ‘Manage users’ role. (Get in touch with us on <becomingateacher@digital.education.gov.uk> if you've yet to nominate a person for this role.)
+
+####Resetting the ‘Manage users’ permission
+
+You can reassign the ‘Manage users’ permission to different team members, as and when you need to.
+
+####Default settings for training providers who are already part of our pilot
+
+For training providers who are already using the service, we’ve created some default settings to avoid disruption to your workflow:
+
+* all users can make decisions on applications
+* no users can access safeguarding information
+
+####Resetting permissions to suit your team
+
+When you sign into [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) you’ll see a ‘Users’ menu item at the top of the screen.
+
+By selecting this menu item, and then selecting users from the list, the member of your team with ‘Manage users’ permission can edit the permissions assigned to each of your team members.
+
+####Settings for training providers now being onboarded
+
+When you sign into [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) for the first time, you'll be guided through the process of setting permissions for your team. You can customise permissions to suit your ways of working, and continue to edit them as and when you need.
+
+####Still to come: setting permissions between organisations
+
+We’ll soon be releasing a further improvement to the Permissions feature, allowing you to set permissions between you and the organisations you work with (for example, your accredited body).
+
+We'll update this page when we release organisational permissions.
+
 ###Email alerts
 
 You'll receive an email every time an application's status changes, for example from 'Offer' to 'Offer accepted'.
@@ -100,7 +159,7 @@ Individual applications also come with a time-stamped audit trail recording what
 
 You can download and print applications to distribute to your team. Compliance with General Data Protection Regulation (GDPR) is your responsibility.
 
-###Still to come: interviews
+####Still to come: interviews
 
 For now, interview scheduling is not part of the Manage service.
 
