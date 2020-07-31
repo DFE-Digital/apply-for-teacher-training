@@ -42,7 +42,7 @@ RSpec.feature 'Purge test applications' do
   end
 
   def and_i_click_on_the_delete_test_applications_button
-    click_button 'Delete test applications'
+    click_link 'Delete test applications'
   end
 
   def and_i_click_the_i_am_sure_button
