@@ -79,7 +79,7 @@ module CandidateInterface
       return render :add_another_referee unless @add_another_referee.valid?
 
       if @add_another_referee.add_another_referee?
-        redirect_to candidate_interface_additional_referee_type_path
+        redirect_to candidate_interface_additional_referee_type_path(second: true)
       else
         redirect_to candidate_interface_application_form_path
       end
