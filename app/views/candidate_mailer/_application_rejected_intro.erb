@@ -2,7 +2,7 @@ Dear <%= @application_form.first_name %>,
 
 # Application decision
 
-<% if @application_choice.rejected_by_default %>
+<% if @application_choice.rejected_by_default? %>
   Your application for <%= @course.name_and_code %> has been automatically rejected because <%= @course.provider.name %> did not respond in time.
 <% else %>
   <%= @course.provider.name %> has decided not to progress your teacher training application for <%= @course.name_and_code %> on this occasion. They gave the following feedback:

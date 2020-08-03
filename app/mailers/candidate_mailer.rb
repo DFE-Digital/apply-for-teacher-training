@@ -93,9 +93,11 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.application_rejected.awaiting_decisions.subject',
-                       provider_name: @course.provider.name,
-                       course_name: @course.name_and_code),
+      subject: I18n.t!(
+        "candidate_mailer.application_rejected#{application_choice.rejected_by_default ? '_by_default' : ''}.awaiting_decisions.subject",
+        provider_name: @course.provider.name,
+        course_name: @course.name_and_code,
+      ),
     )
   end
 
@@ -112,9 +114,11 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.application_rejected.offers_made.subject',
-                       provider_name: @course.provider.name,
-                       dbd_days: @dbd_days),
+      subject: I18n.t!(
+        "candidate_mailer.application_rejected#{application_choice.rejected_by_default ? '_by_default' : ''}.offers_made.subject",
+        provider_name: @course.provider.name,
+        dbd_days: @dbd_days,
+      ),
     )
   end
 
