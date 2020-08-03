@@ -95,6 +95,9 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - data
+                - meta
               properties:
                 data:
                   "$ref": "#/components/schemas/MakeOffer"
@@ -128,6 +131,8 @@ paths:
         content:
           application/json:
             schema:
+              required:
+                - meta
               type: object
               properties:
                 meta:
@@ -161,6 +166,8 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - meta
               properties:
                 meta:
                   "$ref": "#/components/schemas/MetaData"
@@ -193,6 +200,8 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - meta
               properties:
                 meta:
                   "$ref": "#/components/schemas/MetaData"
@@ -226,6 +235,9 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - meta
+                - data
               properties:
                 data:
                   "$ref": "#/components/schemas/Rejection"
@@ -449,7 +461,9 @@ components:
           - "$ref": "#/components/schemas/Rejection"
           nullable: true
         hesa_itt_data:
-          "$ref": "#/components/schemas/HESAITTData"
+          anyOf:
+          - "$ref": "#/components/schemas/HESAITTData"
+          nullable: true
         further_information:
           type: string
           maxLength: 10240
@@ -937,6 +951,7 @@ components:
           - '96'
         ethnicity:
           type: string
+          nullable: true
           description: The candidate’s ethnicity as [a 2-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c19053/e/ethnic)
           example: '10'
           enum:

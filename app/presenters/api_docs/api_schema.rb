@@ -44,6 +44,10 @@ module APIDocs
         name.in?(schema.required.to_a)
       end
 
+      def nullable?
+        attributes['nullable']
+      end
+
       def type_description
         desc = [type]
         desc << ', ISO 8601 date with time and timezone' if attributes.format == 'date-time'
