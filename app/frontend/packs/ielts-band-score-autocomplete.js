@@ -2,15 +2,23 @@ import accessibleAutocomplete from "accessible-autocomplete";
 
 const initIeltsBandScoreAutocomplete = () => {
   try {
-    const id = "#candidate-interface-english-foreign-language-ielts-form-band-score-field";
-    const bandScoreSelect = document.querySelector(id);
+    const ids = [
+      "#candidate-interface-english-foreign-language-ielts-form-band-score-field",
+      "#candidate-interface-english-foreign-language-ielts-form-band-score-field-error",
+    ]
 
-    if (!bandScoreSelect) return;
+    ids.forEach(id => {
+      const bandScoreSelect = document.querySelector(id);
 
-    accessibleAutocomplete.enhanceSelectElement({
-      selectElement: bandScoreSelect,
-      showAllValues: true,
-      confirmOnBlur: false
+      if (!bandScoreSelect) return;
+
+      accessibleAutocomplete.enhanceSelectElement({
+        defaultValue: '',
+        selectElement: bandScoreSelect,
+        showAllValues: true,
+        showNoOptionsFound: true,
+        confirmOnBlur: false
+      });
     });
   } catch (err) {
     console.error("Could not enhance IELTS score select:", err);
