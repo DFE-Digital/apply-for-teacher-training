@@ -78,7 +78,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_select_gce_option
-    choose('GCE O Level')
+    choose('O Level')
   end
 
   def and_i_click_save_and_continue

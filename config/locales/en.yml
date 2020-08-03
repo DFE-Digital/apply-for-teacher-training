@@ -262,7 +262,7 @@ en:
     attributes:
       application_qualification/qualification_type:
         gcse: GCSE
-        gce_o_level: GCE O Level
+        gce_o_level: O Level
         scottish_national_5: Scottish National 5
         other_uk: Other UK
         missing: I don’t have this qualification yet

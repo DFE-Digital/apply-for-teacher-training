@@ -58,7 +58,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
       end
     end
 
-    context 'and a GCE O Level' do
+    context 'and an O Level' do
       it 'displays the guidance around triple GCSE science' do
         subject = 'science'
         qualification_type = 'gce_o_level'
@@ -126,7 +126,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
       end
     end
 
-    context 'and a GCE O Level' do
+    context 'and an O Level' do
       it 'displays the guidance around only having english literature and more than one english qualification' do
         subject = 'english'
         qualification_type = 'gce_o_level'
