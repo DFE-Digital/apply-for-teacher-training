@@ -33,17 +33,18 @@ RSpec.feature 'Entering their other qualifications' do
     and_click_save_and_continue
     then_i_see_the_select_qualification_type_page
 
-    when_i_choose_gcse
+    when_i_choose_other
     and_i_click_continue
     then_the_year_and_institution_fields_are_not_pre_populated_with_my_previous_details
 
-    when_i_fill_in_my_gcse_details
+    when_i_fill_in_my_other_qualifications_details
     and_i_choose_not_to_add_additional_qualifications
     and_click_save_and_continue
     then_i_see_the_other_qualification_review_page
     and_i_should_see_my_qualifications
+    and_my_other_uk_qualification_has_the_correct_format
 
-    when_i_select_add_anoher_qualification
+    when_i_select_add_another_qualification
     and_choose_as_level
     and_i_click_continue
     and_i_visit_the_other_qualification_review_page
@@ -150,8 +151,8 @@ RSpec.feature 'Entering their other qualifications' do
     choose 'Yes, add a different qualification'
   end
 
-  def when_i_choose_gcse
-    choose 'GCSE'
+  def when_i_choose_other
+    choose 'Other'
   end
 
   def then_the_year_and_institution_fields_are_not_pre_populated_with_my_previous_details
@@ -159,10 +160,11 @@ RSpec.feature 'Entering their other qualifications' do
     expect(page.find('#candidate-interface-other-qualification-form-award-year-field').value).to eq(nil)
   end
 
-  def when_i_fill_in_my_gcse_details
-    fill_in t('application_form.other_qualification.subject.label'), with: 'Maths'
-    fill_in t('application_form.other_qualification.institution_name.label'), with: 'School'
-    fill_in t('application_form.other_qualification.grade.label'), with: 'U'
+  def when_i_fill_in_my_other_qualifications_details
+    fill_in t('application_form.other_qualification.qualification_type.label'), with: 'Access Course'
+    fill_in t('application_form.other_qualification.subject.label'), with: 'History, English and Psychology'
+    fill_in t('application_form.other_qualification.institution_name.label'), with: 'College'
+    fill_in t('application_form.other_qualification.grade.label'), with: 'Distinction'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2012'
   end
 
@@ -177,10 +179,14 @@ RSpec.feature 'Entering their other qualifications' do
   def and_i_should_see_my_qualifications
     expect(page).to have_content('A level Believing in the Heart of the Cards')
     expect(page).to have_content('A level Oh')
-    expect(page).to have_content('GCSE Maths')
+    expect(page).to have_content('Access Course English, History and Psychology')
   end
 
-  def when_i_select_add_anoher_qualification
+  def and_my_other_uk_qualification_has_the_correct_format
+    expect(@application.application_qualifications.last.qualification_type).to eq 'Other'
+  end
+
+  def when_i_select_add_another_qualification
     click_link 'Add another qualification'
   end
 
@@ -210,7 +216,7 @@ RSpec.feature 'Entering their other qualifications' do
   def then_i_can_only_see_three_qualifacitions
     expect(page).not_to have_content 'A level Losing to Yugi'
     expect(page).to have_content('A level Oh')
-    expect(page).to have_content('GCSE Maths')
+    expect(page).to have_content('Access Course English, History and Psychology')
     expect(page).to have_content('AS level')
   end
 
@@ -268,7 +274,7 @@ RSpec.feature 'Entering their other qualifications' do
     expect(page).not_to have_content 'A level Losing to Yugi'
     expect(page).not_to have_content('AS level')
     expect(page).to have_content('A level How to Win Against Kaiba')
-    expect(page).to have_content('GCSE Maths')
+    expect(page).to have_content('Access Course History, Psychology and Maths')
   end
 
   def then_i_should_see_the_form
