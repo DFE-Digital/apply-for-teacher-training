@@ -1,4 +1,4 @@
-<% content_for :browser_title, @reject_application.errors.any? ? 'Error: Reject application' : 'Reject application' %>
+<% content_for :browser_title, title_with_error_prefix('Reject application', @reject_application.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
 
 <div class="govuk-grid-row">

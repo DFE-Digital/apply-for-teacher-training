@@ -1,4 +1,4 @@
-<% content_for :browser_title, 'Conditions of offer' %>
+<% content_for :browser_title, title_with_error_prefix('Conditions of offer', @application_offer.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
 
 <%= render(FlashMessageComponent.new(flash: flash)) %>
