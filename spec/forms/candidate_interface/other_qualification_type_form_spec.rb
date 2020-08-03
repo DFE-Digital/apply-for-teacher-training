@@ -45,8 +45,8 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
     it 'returns false if not valid' do
       application_form = double
 
-      form = CandidateInterface::GcseQualificationTypeForm.new({})
-      expect(form.save_base(application_form)).to eq(false)
+      form = CandidateInterface::OtherQualificationTypeForm.new({})
+      expect(form.save(application_form)).to eq(false)
     end
 
     it 'creates a new other qualification if valid' do
@@ -71,6 +71,39 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
       expect(application_form.application_qualifications.last.level).to eq('other')
       expect(application_form.application_qualifications.last.qualification_type).to eq('non_uk')
       expect(application_form.application_qualifications.last.non_uk_qualification_type).to eq('Olympic Gold Medalist')
+    end
+  end
+
+  describe '#update' do
+    it 'returns false if not valid' do
+      qualification = double
+
+      form = CandidateInterface::OtherQualificationTypeForm.new({})
+      expect(form.update(qualification)).to eq(false)
+    end
+
+    it 'updates an other UK qualification if valid' do
+      qualification = create(:other_qualification)
+
+      form = CandidateInterface::OtherQualificationTypeForm.new(qualification_type: 'Other', other_uk_qualification_type: 'Wood Chopper')
+
+      form.update(qualification)
+
+      expect(qualification.level).to eq('other')
+      expect(qualification.qualification_type).to eq('Other')
+      expect(qualification.other_uk_qualification_type).to eq('Wood Chopper')
+    end
+
+    it 'updates a non_uk qualification if valid' do
+      qualification = create(:other_qualification)
+
+      form = CandidateInterface::OtherQualificationTypeForm.new(qualification_type: 'non_uk', non_uk_qualification_type: 'Olympic Gold Medalist')
+
+      form.update(qualification)
+
+      expect(qualification.level).to eq('other')
+      expect(qualification.qualification_type).to eq('non_uk')
+      expect(qualification.non_uk_qualification_type).to eq('Olympic Gold Medalist')
     end
   end
 

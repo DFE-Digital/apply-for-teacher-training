@@ -28,11 +28,7 @@ module CandidateInterface
     end
 
     def there_are_incomplete_qualifications?
-      attributes_that_should_be_completed = @application_form.application_qualifications.other.map do |qualification|
-        [qualification.qualification_type, qualification.subject, qualification.grade, qualification.institution_name]
-      end
-
-      attributes_that_should_be_completed.flatten.length != attributes_that_should_be_completed.flatten.compact.length
+      current_application.application_qualifications.other.select(&:incomplete_other_qualification?).present?
     end
 
     def section_marked_as_complete?

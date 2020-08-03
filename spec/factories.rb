@@ -227,6 +227,26 @@ FactoryBot.define do
       qualification_type { %w[Diploma Doctorate NVQ Foundation].sample }
       grade { %w[pass merit distinction].sample }
     end
+
+    factory :other_uk_qualification do
+      level { 'other' }
+      qualification_type { 'Other' }
+      other_uk_qualification_type { Faker::Educator.subject }
+      subject { Faker::Educator.subject }
+      institution_name { Faker::Educator.university }
+      grade { %w[pass merit distinction].sample }
+      institution_country { 'GB' }
+    end
+
+    factory :non_uk_qualification do
+      level { 'other' }
+      qualification_type { 'non_uk' }
+      non_uk_qualification_type { Faker::Educator.subject }
+      subject { Faker::Educator.subject }
+      institution_name { Faker::Educator.university }
+      grade { %w[pass merit distinction].sample }
+      institution_country { Faker::Address.country_code }
+    end
   end
 
   factory :site do

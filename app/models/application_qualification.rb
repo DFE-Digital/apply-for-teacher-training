@@ -16,6 +16,14 @@ class ApplicationQualification < ApplicationRecord
     award_year
   ].freeze
 
+  EXPECTED_INTERNATIONAL_OTHER_QUALIFICATION_DATA = %i[
+    qualification_type
+    non_uk_qualification_type
+    institution_name
+    institution_country
+    award_year
+  ].freeze
+
   belongs_to :application_form, touch: true
 
   scope :degrees, -> { where level: 'degree' }
@@ -56,9 +64,18 @@ class ApplicationQualification < ApplicationRecord
   def incomplete_other_qualification?
     return false unless other?
 
-    EXPECTED_OTHER_QUALIFICATION_DATA.any? do |field_name|
-      send(field_name).blank?
+    case qualification_type
+    when 'non_uk'
+      return true if EXPECTED_INTERNATIONAL_OTHER_QUALIFICATION_DATA.any? do |field_name|
+        send(field_name).blank?
+      end
+    else
+      return true if EXPECTED_OTHER_QUALIFICATION_DATA.any? do |field_name|
+        send(field_name).blank?
+      end
     end
+
+    false
   end
 
   def naric_reference_choice

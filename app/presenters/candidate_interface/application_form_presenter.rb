@@ -225,8 +225,7 @@ module CandidateInterface
     end
 
     def no_incomplete_qualifications?
-      incomplete_qualifications = @application_form.application_qualifications.other.select(&:incomplete_other_qualification?)
-      incomplete_qualifications.blank?
+      @application_form.application_qualifications.other.select(&:incomplete_other_qualification?).blank?
     end
 
     def display_efl_link?

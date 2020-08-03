@@ -5,7 +5,7 @@ module CandidateInterface
     def new
       qualifications = OtherQualificationForm.build_all_from_application(current_application)
       @qualification = OtherQualificationForm.pre_fill_new_qualification(qualifications)
-      @type = @qualification.set_type(get_qualification.qualification_type)
+      @type = @qualification.set_type(current_application.application_qualifications.last)
     end
 
     def create
@@ -29,9 +29,27 @@ module CandidateInterface
         end
       else
         track_validation_error(@qualification)
-        @type = @qualification.set_type(get_qualification.qualification_type)
+        @type = @qualification.set_type(get_qualification)
 
         render :new
+      end
+    end
+
+    def edit
+      @qualification = OtherQualificationForm.build_from_qualification(current_application.application_qualifications.find(params[:id]))
+      @type = @qualification.set_type(get_qualification)
+    end
+
+    def update
+      @qualification = OtherQualificationForm.new(other_qualification_params)
+
+      if @qualification.update(current_application)
+        redirect_to candidate_interface_review_other_qualifications_path
+      else
+        track_validation_error(@qualification)
+        @type = @qualification.set_type(get_qualification)
+
+        render :edit
       end
     end
 
