@@ -6,13 +6,16 @@ class RejectApplication
   validates_presence_of :rejection_reason
   validates_length_of :rejection_reason, maximum: 255
 
-  def initialize(application_choice:, rejection_reason: nil)
+  def initialize(actor:, application_choice:, rejection_reason: nil)
+    @auth = ProviderAuthorisation.new(actor: actor)
     @application_choice = application_choice
     @rejection_reason = rejection_reason
   end
 
   def save
     return unless valid?
+
+    @auth.assert_can_make_offer!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
 
     ActiveRecord::Base.transaction do
       ApplicationStateChange.new(@application_choice).reject!

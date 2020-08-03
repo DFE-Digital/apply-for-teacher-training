@@ -51,11 +51,13 @@ module VendorAPI
       decision =
         if application_choice.offer?
           WithdrawOffer.new(
+            actor: @api_user,
             application_choice: application_choice,
             offer_withdrawal_reason: params.dig(:data, :reason),
           )
         else
           RejectApplication.new(
+            actor: @api_user,
             application_choice: application_choice,
             rejection_reason: params.dig(:data, :reason),
           )

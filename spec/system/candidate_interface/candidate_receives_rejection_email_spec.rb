@@ -70,7 +70,11 @@ RSpec.feature 'Receives rejection email' do
   end
 
   def and_a_provider_rejects_my_application
-    RejectApplication.new(application_choice: @application_choice, rejection_reason: 'No experience working with children.').save
+    RejectApplication.new(
+      actor: create(:support_user),
+      application_choice: @application_choice,
+      rejection_reason: 'No experience working with children.',
+    ).save
   end
 
   def then_i_receive_the_all_applications_rejected_email
