@@ -10,10 +10,10 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
     and_i_can_manage_organisations_for_a_provider
     and_the_provider_has_courses_ratified_by_another_provider
     and_i_am_permitted_to_view_safeguarding_information
-    and_the_provider_has_an_open_application
+    and_the_provider_has_an_open_application_with_safeguarding_issues_declared
 
     when_i_view_the_application
-    then_i_should_not_see_the_safeguarding_declaration_section
+    then_i_should_not_see_the_safeguarding_declaration_details
 
     when_i_visit_the_edit_provider_relationship_permissions_page
     and_i_allow_my_training_provider_to_view_safeguarding_information
@@ -66,7 +66,12 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
     )
   end
 
-  def and_the_provider_has_an_open_application
+  def and_the_provider_has_an_open_application_with_safeguarding_issues_declared
+    @application_form = create(
+      :application_form,
+      safeguarding_issues: 'I have a criminal conviction.',
+      safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
+    )
     @application_choice = create(
       :application_choice,
       status: :application_complete,
@@ -75,7 +80,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
         course: create(:course, accredited_provider_id: @ratifying_provider.id, provider_id: @training_provider.id),
       ),
       reject_by_default_at: 20.days.from_now,
-      application_form: create(:application_form),
+      application_form: @application_form,
     )
 
     ApplicationStateChange.new(@application_choice).send_to_provider!
@@ -85,8 +90,8 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
     visit provider_interface_application_choice_path(@application_choice)
   end
 
-  def then_i_should_not_see_the_safeguarding_declaration_section
-    expect(page).not_to have_content('Criminal convictions and professional misconduct')
+  def then_i_should_not_see_the_safeguarding_declaration_details
+    expect(page).to have_content(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare_no_permissions'))
   end
 
   def when_i_visit_the_edit_provider_relationship_permissions_page

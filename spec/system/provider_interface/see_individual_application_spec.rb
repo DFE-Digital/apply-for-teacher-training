@@ -21,7 +21,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
     then_i_should_see_the_candidates_degrees
     and_i_should_see_the_candidates_gcses
-    and_i_should_not_see_the_safeguarding_declaration_section
+    and_i_should_not_see_the_safeguarding_declaration_details
 
     when_i_am_permitted_to_see_safeguarding_information
     and_i_visit_that_application_in_the_provider_interface
@@ -37,14 +37,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_should_see_a_link_to_download_as_pdf
   end
 
-  def and_i_should_not_see_the_safeguarding_declaration_section
-    expect(page).not_to have_content('Criminal convictions and professional misconduct')
-    expect(page).not_to have_content('The candidate has shared information related to safeguarding. Please contact them directly for more details.')
+  def and_i_should_not_see_the_safeguarding_declaration_details
+    expect(page).to have_content('Criminal convictions and professional misconduct')
+    expect(page).to have_content(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare_no_permissions'))
   end
 
   def then_i_should_see_the_safeguarding_declaration_section
     expect(page).to have_content('Criminal convictions and professional misconduct')
-    expect(page).to have_content('The candidate has shared information related to safeguarding. Please contact them directly for more details.')
+    expect(page).to have_content(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare'))
   end
 
   def and_the_enforce_provider_to_provider_permissions_feature_flag_is_active

@@ -40,10 +40,9 @@
 
     <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
 
-    <% if ProviderAuthorisation.new(actor: current_provider_user).can_view_safeguarding_information?(course: @application_choice.course) %>
-      <h2 class="govuk-heading-l govuk-!-margin-top-8">Criminal convictions and professional misconduct</h2>
-      <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_form: @application_choice.application_form)%>
-    <% end %>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8">Criminal convictions and professional misconduct</h2>
+    <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user)%>
+
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8" id="qualifications">Interview</h2>
 
