@@ -21,6 +21,10 @@ module ProviderInterface
         .can_view_safeguarding_information?(course: application_choice.course)
     end
 
+    def details
+      application_choice.application_form.safeguarding_issues
+    end
+
   private
 
     def status

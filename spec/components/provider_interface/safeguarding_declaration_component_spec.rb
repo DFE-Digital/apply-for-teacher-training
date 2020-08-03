@@ -50,6 +50,8 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
         expect(result.text).to include(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare'))
+        expect(result.css('.govuk-details__summary-text').text).to include('View information disclosed by the candidate')
+        expect(result.css('.govuk-details__text').text).to include('I have a criminal conviction.')
       end
     end
 
@@ -60,6 +62,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
         expect(result.text).to include(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare_no_permissions'))
+        expect(result.text).not_to include('View information disclosed by the candidate')
       end
     end
 
@@ -72,6 +75,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
         expect(result.text).to include(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare_no_permissions'))
+        expect(result.text).not_to include('View information disclosed by the candidate')
       end
     end
   end
