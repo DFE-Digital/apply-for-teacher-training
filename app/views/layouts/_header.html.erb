@@ -15,7 +15,7 @@
   <%= render(ProviderInterface::HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  product_name: service_name,
                                  service_url: service_link,
-                                 navigation_items: NavigationItems.for_provider_account_nav(current_provider_user, controller))) %>
+                                 navigation_items: NavigationItems.for_provider_account_nav(current_provider_user, controller, @provider_setup&.pending?))) %>
 
                                <% if controller.controller_name == 'start_page' %>
                                  <%= render PhaseBanner.new(no_border: true) %>
@@ -24,7 +24,7 @@
                                <% else %>
                                  <%= render PhaseBanner.new(no_border: true) %>
                                  <%= render(ProviderInterface::PrimaryNavigation.new(
-                                   navigation_items: NavigationItems.for_provider_primary_nav(controller))) %>
+                                   navigation_items: NavigationItems.for_provider_primary_nav(controller, @provider_setup&.pending?))) %>
                                <% end %>
 <% when 'api_docs' %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",

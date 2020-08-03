@@ -14,6 +14,7 @@ RSpec.feature 'Accept data sharing agreement' do
     given_i_am_an_authorised_provider_user
     and_no_data_sharing_agreement_for_my_provider_has_been_accepted
     and_i_am_presented_with_a_data_sharing_agreement
+    and_i_cannot_navigate_to_pages_i_do_not_have_access_to
     when_i_agree_to_the_data_sharing_agreement
     then_i_can_navigate_to_the_provider_interface
   end
@@ -30,9 +31,9 @@ RSpec.feature 'Accept data sharing agreement' do
   end
 
   def given_i_am_an_authorised_provider_user
+    provider_user_exists_in_apply_database
     provider_exists_in_dfe_sign_in
     provider_signs_in_using_dfe_sign_in
-    provider_user_exists_in_apply_database
   end
 
   def and_no_data_sharing_agreement_for_my_provider_has_been_accepted
@@ -73,5 +74,13 @@ RSpec.feature 'Accept data sharing agreement' do
 
   def then_i_can_navigate_to_the_provider_interface
     expect(page).to have_current_path provider_interface_applications_path
+  end
+
+  def and_i_cannot_navigate_to_pages_i_do_not_have_access_to
+    expect(page).to have_link 'Sign out'
+    expect(page).not_to have_link 'Organisations'
+    expect(page).not_to have_link 'Users'
+    expect(page).not_to have_link 'Account'
+    expect(page).not_to have_link 'Applications'
   end
 end

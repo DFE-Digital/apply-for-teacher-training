@@ -3,6 +3,10 @@ class ProviderSetup
     @provider_user = provider_user
   end
 
+  def pending?
+    next_agreement_pending || next_relationship_pending
+  end
+
   def next_agreement_pending
     providers = @provider_user.providers
     pending_dsa_providers = providers.where.not(
