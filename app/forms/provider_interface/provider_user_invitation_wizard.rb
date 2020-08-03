@@ -8,10 +8,10 @@ module ProviderInterface
     attr_writer :providers, :provider_permissions, :state_store
 
     with_options(on: :details) do
+      validates :email_address, presence: true
+      validates :email_address, email_address: true
       validates :first_name, presence: true
       validates :last_name, presence: true
-      validates :email_address, presence: true
-      validates :email_address, email: true
     end
 
     with_options(on: :providers) do
