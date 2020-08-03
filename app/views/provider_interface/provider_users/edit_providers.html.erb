@@ -4,14 +4,9 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @form, url: provider_interface_provider_user_edit_providers_path do |f| %>
       <%= f.govuk_error_summary %>
-      <%= f.govuk_check_boxes_fieldset :provider do %>
-
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-          <h1 class="govuk-fieldset__heading">
-            <span class="govuk-caption-xl"><%= @form.provider_user.full_name %></span>
-             Change the organisations this user will have access to
-          </h1>
-        </legend>
+      <%= f.govuk_check_boxes_fieldset :provider,
+        legend: { text: 'Change the organisations this user will have access to' , size: "xl" },
+        caption: { text: @form.provider_user.full_name, size: "xl" } do %>
 
         <%= f.govuk_collection_check_boxes :provider_ids, @form.providers_that_actor_can_manage_users_for, :id, :name %>
       <% end %>
