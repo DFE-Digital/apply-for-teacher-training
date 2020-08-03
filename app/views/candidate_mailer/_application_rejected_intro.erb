@@ -2,8 +2,12 @@ Dear <%= @application_form.first_name %>,
 
 # Application decision
 
-<%= @course.provider.name %> has decided not to progress your teacher training application for <%= @course.name_and_code %> on this occasion. They gave the following feedback:
+<% if @application_choice.rejected_by_default %>
+  Your application for <%= @course.name_and_code %> has been automatically rejected because <%= @course.provider.name %> did not respond in time.
+<% else %>
+  <%= @course.provider.name %> has decided not to progress your teacher training application for <%= @course.name_and_code %> on this occasion. They gave the following feedback:
 
-<%= @application_choice.rejection_reason %>
+  <%= @application_choice.rejection_reason %>
+<% end %>
 
 Contact <%= @course.provider.name %> directly if you have any questions about this.

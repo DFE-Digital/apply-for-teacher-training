@@ -74,7 +74,10 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: @course.provider.name),
+      subject: I18n.t!(
+        "candidate_mailer.application_rejected#{application_choice.rejected_by_default ? '_by_default' : ''}.all_rejected.subject",
+        provider_name: @course.provider.name,
+      ),
       template_name: template_name,
     )
   end
