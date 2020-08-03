@@ -20,8 +20,9 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
       end
     end
 
-    context 'when the qualification type is Other' do
+    context 'when the qualification type is Other and the international_other_qualifications feature flag is active' do
       it 'validates that other_uk_qualification is present' do
+        FeatureFlag.activate('international_other_qualifications')
         valid_response = described_class.new(qualification_type: 'Other', other_uk_qualification_type: 'Access Course')
         invalid_response = described_class.new(qualification_type: 'Other')
 
