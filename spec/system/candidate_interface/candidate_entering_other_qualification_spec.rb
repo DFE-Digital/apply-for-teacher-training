@@ -179,14 +179,14 @@ RSpec.feature 'Entering their other qualifications' do
   def and_i_should_see_my_qualifications
     expect(page).to have_content('A level Believing in the Heart of the Cards')
     expect(page).to have_content('A level Oh')
-    expect(page).to have_content('Access Course English, History and Psychology')
+    expect(page).to have_content('Access Course History, English and Psychology')
   end
 
   def and_my_other_uk_qualification_has_the_correct_format
     @application = current_candidate.current_application
     expect(@application.application_qualifications.last.qualification_type).to eq 'Other'
     expect(@application.application_qualifications.last.other_uk_qualification_type).to eq 'Access Course'
-    expect(@application.application_qualifications.last.subject).to eq 'English, History and Psychology'
+    expect(@application.application_qualifications.last.subject).to eq 'History, English and Psychology'
   end
 
   def when_i_select_add_another_qualification
@@ -219,7 +219,7 @@ RSpec.feature 'Entering their other qualifications' do
   def then_i_can_only_see_three_qualifacitions
     expect(page).not_to have_content 'A level Losing to Yugi'
     expect(page).to have_content('A level Oh')
-    expect(page).to have_content('Access Course English, History and Psychology')
+    expect(page).to have_content('Access Course History, English and Psychology')
     expect(page).to have_content('AS level')
   end
 
@@ -277,7 +277,7 @@ RSpec.feature 'Entering their other qualifications' do
     expect(page).not_to have_content 'A level Losing to Yugi'
     expect(page).not_to have_content('AS level')
     expect(page).to have_content('A level How to Win Against Kaiba')
-    expect(page).to have_content('Access Course History, Psychology and Maths')
+    expect(page).to have_content('Access Course History, English and Psychology')
   end
 
   def then_i_should_see_the_form

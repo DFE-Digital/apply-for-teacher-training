@@ -94,6 +94,8 @@ module CandidateInterface
         grade: grade,
         predicted_grade: false,
         award_year: award_year,
+        other_uk_qualification_type: other_uk_qualification_type,
+        non_uk_qualification_type: non_uk_qualification_type,
       )
       true
     end
