@@ -1,5 +1,5 @@
 <div class="moj-filter-layout__filter app-filter">
-  <div class="moj-filter" tabindex="-1">
+  <div class="moj-filter">
     <div class="moj-filter__header">
       <div class="moj-filter__header-title">
         <h2 class="govuk-heading-m">Filter</h2>
@@ -36,7 +36,9 @@
         </div>
       <% end %>
 
-      <div class="moj-filter__options">
+      <!-- Div made focusable to 'catch' focus from checkboxes. see https://github.com/DFE-Digital/apply-for-teacher-training/pull/2640
+       -->
+      <div class="moj-filter__options" tabindex="-1">
         <form method="get">
           <%= hidden_field_tag :sort_by, page_state.sort_by %>
 
