@@ -25,6 +25,6 @@ by invoking `bin/webpack`. If all is well, there is a chance that
 
 **If you get `404`s on assets, but they compile ok or exist in `public/packs`**
 This can occur if webpacker is already running (likely from another project).
-Our webpacker uses the default port, which other services may also use. Try
+Our app is configured to look for webpack-dev-server on the default port, which other services may also use.
 changing the port in `config/webpacker.yml` or quitting other webpacker dev
 servers.
