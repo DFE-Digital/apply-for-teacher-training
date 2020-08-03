@@ -7,6 +7,10 @@ const initCountryAutocomplete = () => {
       "#candidate-interface-contact-details-form-country-field-error",
       "#candidate-interface-degree-institution-form-institution-country-field",
       "#candidate-interface-degree-institution-form-institution-country-field-error",
+      "#candidate-interface-gcse-institution-country-form-institution-country-field",
+      "#candidate-interface-gcse-institution-country-form-institution-country-field-error",
+      "#candidate-interface-other-qualification-form-institution-country-field",
+      "#candidate-interface-other-qualification-form-institution-country-field-error",
     ];
 
     inputIds.forEach(inputId => {
