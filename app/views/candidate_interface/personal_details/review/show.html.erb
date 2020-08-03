@@ -3,7 +3,7 @@
                                                  @nationalities_form.errors.any? ||
                                                  @languages_form.errors.any?) %>
 
-<% content_for :before_content, govuk_back_link_to(candidate_interface_personal_details_edit_path) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
 <h1 class="govuk-heading-xl">
   <%= t('page_titles.personal_details') %>
