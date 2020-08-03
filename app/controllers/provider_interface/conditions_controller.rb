@@ -1,6 +1,7 @@
 module ProviderInterface
   class ConditionsController < ProviderInterfaceController
     before_action :set_application_choice
+    before_action :requires_make_decisions_permission
 
     def edit
       @conditions_form = ConfirmConditionsForm.new
