@@ -501,4 +501,63 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
     end
   end
+
+  describe '#application_rejected_all_rejected' do
+    def build_stubbed_application_form(rejected_by_default: false)
+      build_stubbed(
+        :application_form,
+        first_name: 'Fred',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(
+            :application_choice,
+            status: 'rejected',
+            rejected_by_default: rejected_by_default,
+            course_option: build_stubbed(
+              :course_option,
+              site: build_stubbed(
+                :site,
+                name: 'West Wilford School',
+              ),
+              course: build_stubbed(
+                :course,
+                name: 'Mathematics',
+                code: 'M101',
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Bilberry College',
+                ),
+              ),
+            ),
+          ),
+        ],
+      )
+    end
+
+    def send_email(rejected_by_default: false)
+      application_form = build_stubbed_application_form(rejected_by_default: rejected_by_default)
+      application_choice = application_form.application_choices.first
+      described_class.application_rejected_all_rejected(application_choice)
+    end
+
+    it 'has the correct subject and content' do
+      email = send_email
+
+      expect(email.subject).to eq 'Bilberry College has responded: next steps'
+      expect(email.body).to include('Dear Fred,')
+      expect(email.body).to include(
+        'Bilberry College has decided not to progress your teacher training application for Mathematics (M101) on this occasion. They gave the following feedback:',
+      )
+    end
+
+    it 'has the correct subject and content for rejection by default' do
+      email = send_email(rejected_by_default: true)
+
+      expect(email.subject).to eq 'Bilberry College did not respond'
+      expect(email.body).to include('Dear Fred,')
+      expect(email.body).to include(
+        'Your application for Mathematics (M101) has been automatically rejected because Bilberry College did not respond in time.',
+      )
+    end
+  end
 end
