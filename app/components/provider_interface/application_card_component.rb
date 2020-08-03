@@ -41,7 +41,7 @@ module ProviderInterface
     end
 
     def days_to_respond
-      @days_to_respond ||= (application_choice.reject_by_default_at.to_date - Date.current).to_i
+      @days_to_respond ||= ((application_choice.reject_by_default_at - Time.zone.now) / 1.day).floor
     end
   end
 end

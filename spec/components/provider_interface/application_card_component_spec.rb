@@ -132,6 +132,10 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
   end
 
   describe '#contextual_date' do
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 7, 31, 12, 30, 0)) { example.run }
+    end
+
     let(:reject_by_default_at) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
     let(:updated_at) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
     let(:status) { 'awaiting_provider_decision' }
@@ -173,6 +177,16 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     end
 
     context 'when reject_by_default_at is less than a day away' do
+      let(:reject_by_default_at) { 1.hour.from_now }
+
+      it { is_expected.to eq('Less than 1 day to respond') }
+    end
+
+    context 'when reject_by_default_at is less than a day away and on the next date' do
+      around do |example|
+        Timecop.freeze(Time.zone.local(2020, 7, 31, 23, 30, 0)) { example.run }
+      end
+
       let(:reject_by_default_at) { 1.hour.from_now }
 
       it { is_expected.to eq('Less than 1 day to respond') }

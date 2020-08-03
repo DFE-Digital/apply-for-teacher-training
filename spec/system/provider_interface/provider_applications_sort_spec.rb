@@ -4,6 +4,10 @@ RSpec.feature 'Providers should be able to sort applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
+  around do |example|
+    Timecop.freeze(Time.zone.local(2020, 8, 3, 10, 30, 12)) { example.run }
+  end
+
   scenario 'by sort options' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
@@ -42,7 +46,7 @@ RSpec.feature 'Providers should be able to sort applications' do
       :awaiting_provider_decision,
       course_option: course_option_one,
       application_form: create(:application_form, first_name: 'Jim', last_name: 'James'),
-      reject_by_default_at: 1.day.from_now,
+      reject_by_default_at: 1.day.from_now.end_of_day,
       updated_at: 1.day.ago,
     )
 
@@ -51,7 +55,7 @@ RSpec.feature 'Providers should be able to sort applications' do
       :awaiting_provider_decision,
       course_option: course_option_two,
       application_form: create(:application_form, first_name: 'Adam', last_name: 'Jones'),
-      reject_by_default_at: 5.days.from_now,
+      reject_by_default_at: 5.days.from_now.end_of_day,
       updated_at: 2.days.ago,
     )
 
@@ -60,7 +64,7 @@ RSpec.feature 'Providers should be able to sort applications' do
       :awaiting_provider_decision,
       course_option: course_option_two,
       application_form: create(:application_form, first_name: 'Tom', last_name: 'Jones'),
-      reject_by_default_at: 10.days.from_now,
+      reject_by_default_at: 10.days.from_now.end_of_day,
       updated_at: 2.days.ago,
     )
 
@@ -69,7 +73,7 @@ RSpec.feature 'Providers should be able to sort applications' do
       :awaiting_provider_decision,
       course_option: course_option_three,
       application_form: create(:application_form, first_name: 'Bill', last_name: 'Bones'),
-      reject_by_default_at: 1.day.ago,
+      reject_by_default_at: 1.day.ago.end_of_day,
       updated_at: 3.days.ago,
     )
   end
