@@ -60,7 +60,7 @@ module CandidateInterface
 
     def other_qualifcations_update_params
       params.require(:candidate_interface_other_qualification_form).permit(
-        :qualification_type, :subject, :institution_name, :grade, :award_year
+        :qualification_type, :subject, :institution_name, :grade, :award_year, :other_uk_qualification_type
       ).merge!(id: params[:id])
         .transform_values(&:strip)
     end

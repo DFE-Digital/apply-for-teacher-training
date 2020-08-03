@@ -183,7 +183,10 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_my_other_uk_qualification_has_the_correct_format
+    @application = current_candidate.current_application
     expect(@application.application_qualifications.last.qualification_type).to eq 'Other'
+    expect(@application.application_qualifications.last.other_uk_qualification_type).to eq 'Access Course'
+    expect(@application.application_qualifications.last.subject).to eq 'English, History and Psychology'
   end
 
   def when_i_select_add_another_qualification
