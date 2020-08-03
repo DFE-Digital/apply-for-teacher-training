@@ -60,10 +60,17 @@ module CandidateInterface
 
     def other_qualifcations_update_params
       params.require(:candidate_interface_other_qualification_form).permit(
-        :qualification_type, :subject, :institution_name, :grade,
-        :award_year, :other_uk_qualification_type, :non_uk_qualification_type, :institution_country
-      ).merge!(id: params[:id])
-        .transform_values(&:strip)
+        :subject, :institution_name, :grade, :award_year, :other_uk_qualification_type,
+        :non_uk_qualification_type, :institution_country
+      ).merge!(
+        id: params[:id],
+        qualification_type: params.dig('candidate_interface_other_qualification_form', 'qualification_type' || get_qualification.qualification_type),
+        institution_country: get_qualification.institution_country,
+      )
+    end
+
+    def get_qualification
+      @get_qualification ||= ApplicationQualification.find(params[:id])
     end
   end
 end
