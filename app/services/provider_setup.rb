@@ -23,6 +23,8 @@ class ProviderSetup
   end
 
   def next_relationship_pending
+    return unless FeatureFlag.active?('enforce_provider_to_provider_permissions')
+
     permissions = ProviderRelationshipPermissions.find_by(
       setup_at: nil,
       training_provider: @provider_user.providers,
