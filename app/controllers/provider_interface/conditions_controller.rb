@@ -22,10 +22,18 @@ module ProviderInterface
       redirect_to action: :edit unless @conditions_form.valid?
 
       if @conditions_form.conditions_met?
-        ConfirmOfferConditions.new(application_choice: @application_choice).save || raise('ConfirmOfferConditions failure')
+        ConfirmOfferConditions.new(
+          actor: current_provider_user,
+          application_choice: @application_choice,
+        ).save || raise('ConfirmOfferConditions failure')
+
         flash[:success] = 'Conditions successfully marked as met'
       else
-        ConditionsNotMet.new(application_choice: @application_choice).save || raise('ConditionsNotMet failure')
+        ConditionsNotMet.new(
+          actor: current_provider_user,
+          application_choice: @application_choice,
+        ).save || raise('ConditionsNotMet failure')
+
         flash[:success] = 'Conditions successfully marked as not met'
       end
 

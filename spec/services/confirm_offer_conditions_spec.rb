@@ -6,7 +6,10 @@ RSpec.describe ConfirmOfferConditions do
 
     Timecop.freeze do
       expect {
-        ConfirmOfferConditions.new(application_choice: application_choice).save
+        ConfirmOfferConditions.new(
+          actor: create(:support_user),
+          application_choice: application_choice,
+        ).save
       }.to change { application_choice.recruited_at }.to(Time.zone.now)
     end
   end

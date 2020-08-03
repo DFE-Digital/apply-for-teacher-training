@@ -6,7 +6,10 @@ RSpec.describe ConditionsNotMet do
 
     Timecop.freeze do
       expect {
-        ConditionsNotMet.new(application_choice: application_choice).save
+        ConditionsNotMet.new(
+          actor: create(:support_user),
+          application_choice: application_choice,
+        ).save
       }.to change { application_choice.conditions_not_met_at }.to(Time.zone.now)
     end
   end

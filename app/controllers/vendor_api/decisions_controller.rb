@@ -1,12 +1,8 @@
 module VendorAPI
   class DecisionsController < VendorAPIController
-    before_action :validate_metadata!
+    before_action :validate_metadata!, :find_api_user
 
     def make_offer
-      api_user = VendorApiUser.find_or_initialize_by(
-        vendor_api_token_id: @current_vendor_api_token.id,
-      )
-
       course_data = params.dig(:data, :course)
 
       course_option = if course_data.present?
@@ -24,7 +20,7 @@ module VendorAPI
       service = application_choice.offer? ? ChangeOffer : MakeAnOffer
 
       decision = service.new(
-        actor: api_user,
+        actor: @api_user,
         application_choice: application_choice,
         course_option: course_option,
         offer_conditions: params.dig(:data, :conditions),
@@ -35,6 +31,7 @@ module VendorAPI
 
     def confirm_conditions_met
       decision = ConfirmOfferConditions.new(
+        actor: @api_user,
         application_choice: application_choice,
       )
 
@@ -43,6 +40,7 @@ module VendorAPI
 
     def conditions_not_met
       decision = ConditionsNotMet.new(
+        actor: @api_user,
         application_choice: application_choice,
       )
 
@@ -78,6 +76,12 @@ module VendorAPI
 
     def application_choice
       @application_choice ||= GetApplicationChoicesForProviders.call(providers: current_provider).find(params[:application_id])
+    end
+
+    def find_api_user
+      @api_user = VendorApiUser.find_or_initialize_by(
+        vendor_api_token_id: @current_vendor_api_token.id,
+      )
     end
 
     def respond_to_decision(decision)

@@ -234,7 +234,7 @@ class TestApplications
   def conditions_not_met(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
-      ConditionsNotMet.new(application_choice: choice).save
+      ConditionsNotMet.new(actor: actor, application_choice: choice).save
       choice.update_columns(conditions_not_met_at: time)
     end
   end
@@ -242,7 +242,7 @@ class TestApplications
   def confirm_offer_conditions(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
-      ConfirmOfferConditions.new(application_choice: choice).save
+      ConfirmOfferConditions.new(actor: actor, application_choice: choice).save
       choice.update_columns(recruited_at: time)
     end
   end
