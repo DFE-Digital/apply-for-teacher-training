@@ -3,3 +3,7 @@
 <%= link_to 'Add provider user', new_support_interface_provider_user_path, class: 'govuk-button' %>
 
 <%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider.provider_users)) %>
+
+<div class="app-provider-relationship-diagram">
+  <%= @relationship_diagram.svg %>
+</div>
