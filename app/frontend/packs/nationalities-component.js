@@ -85,12 +85,13 @@ const nationalitiesComponent = () => {
       "add-nationality-button"
     );
 
-    addNationalityButton.style.display = "block";
+    addNationalityButton.style.display = "";
     labelEl.parentElement.style.display = "none";
     document.getElementById(selector).value = "";
   }
 
   function addNationalityEvent(nationalityButton) {
+
     const secondFormLabel = document.querySelector(
       "[for=candidate-interface-nationalities-form-other-nationality2-field]"
     );
@@ -98,15 +99,16 @@ const nationalitiesComponent = () => {
       "[for=candidate-interface-nationalities-form-other-nationality3-field]"
     );
 
+
     if (secondFormLabel.parentElement.style.display === "none") {
-      secondFormLabel.parentElement.style.display = "block";
+      secondFormLabel.parentElement.style.display = "";
     } else {
-      thirdFormLabel.parentElement.style.display = "block";
+      thirdFormLabel.parentElement.style.display = "";
     }
 
     if (
-      secondFormLabel.parentElement.style.display === "block" &&
-      thirdFormLabel.parentElement.style.display === "block"
+      secondFormLabel.parentElement.style.display === "" &&
+      thirdFormLabel.parentElement.style.display === ""
     ) {
       nationalityButton.style.display = "none";
     }
