@@ -6,7 +6,6 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   scenario 'Provider manages permissions for their organisation' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_the_provider_permissions_feature_is_enabled
-    and_the_safeguarding_declaration_feature_flag_is_active
     and_i_sign_in_to_the_provider_interface
     and_i_can_manage_organisations_for_a_provider
     and_the_provider_has_courses_ratified_by_another_provider
@@ -43,10 +42,6 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
 
   def and_the_provider_permissions_feature_is_enabled
     FeatureFlag.activate('enforce_provider_to_provider_permissions')
-  end
-
-  def and_the_safeguarding_declaration_feature_flag_is_active
-    FeatureFlag.activate('provider_view_safeguarding')
   end
 
   def and_i_can_manage_organisations_for_a_provider

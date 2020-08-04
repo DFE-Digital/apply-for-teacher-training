@@ -12,7 +12,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   scenario 'the application data is visible' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_safeguarding_declaration_feature_flag_is_active
     and_the_enforce_provider_to_provider_permissions_feature_flag_is_active
     and_my_organisation_has_received_an_application
     and_i_am_permitted_to_see_applications_for_my_provider
@@ -46,10 +45,6 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   def then_i_should_see_the_safeguarding_declaration_section
     expect(page).to have_content('Criminal convictions and professional misconduct')
     expect(page).to have_content('The candidate has shared information related to safeguarding. Please contact them directly for more details.')
-  end
-
-  def and_the_safeguarding_declaration_feature_flag_is_active
-    FeatureFlag.activate('provider_view_safeguarding')
   end
 
   def and_the_enforce_provider_to_provider_permissions_feature_flag_is_active
