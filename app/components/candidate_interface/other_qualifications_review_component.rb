@@ -14,22 +14,13 @@ module CandidateInterface
     end
 
     def other_qualifications_rows(qualification)
-      if FeatureFlag.active?('international_other_qualifications')
-        [
-          qualification_row(qualification),
-          subject_row(qualification),
-          institution_row(qualification),
-          award_year_row(qualification),
-          grade_row(qualification),
-        ]
-      else
-        [
-          qualification_row(qualification),
-          institution_row(qualification),
-          award_year_row(qualification),
-          grade_row(qualification),
-        ]
-      end
+      [
+        qualification_row(qualification),
+        subject_row(qualification),
+        institution_row(qualification),
+        award_year_row(qualification),
+        grade_row(qualification),
+      ]
     end
 
     def show_missing_banner?
@@ -53,22 +44,18 @@ module CandidateInterface
           key: t('application_form.other_qualification.qualification.label'),
           value: qualification_value(qualification),
           action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
-          change_path: edit_other_qualification_path(qualification),
+          change_path: edit_other_qualification_details_path(qualification),
         }
       end
     end
 
     def qualification_value(qualification)
-      if FeatureFlag.active?('international_other_qualifications')
-        if qualification.non_uk_qualification_type.present?
-          qualification.non_uk_qualification_type
-        elsif qualification.other_uk_qualification_type.present?
-          qualification.other_uk_qualification_type
-        else
-          qualification.qualification_type
-        end
+      if qualification.non_uk_qualification_type.present?
+        qualification.non_uk_qualification_type
+      elsif qualification.other_uk_qualification_type.present?
+        qualification.other_uk_qualification_type
       else
-        qualification.title
+        qualification.qualification_type
       end
     end
 
@@ -77,7 +64,7 @@ module CandidateInterface
         key: t('application_form.other_qualification.subject.label'),
         value: qualification.subject,
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.subject.change_action')),
-        change_path: edit_other_qualification_path(qualification),
+        change_path: edit_other_qualification_details_path(qualification),
       }
     end
 
@@ -86,7 +73,7 @@ module CandidateInterface
         key: t('application_form.other_qualification.institution.label'),
         value: institution_value(qualification),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.institution.change_action')),
-        change_path: edit_other_qualification_path(qualification),
+        change_path: edit_other_qualification_details_path(qualification),
       }
     end
 
@@ -99,7 +86,7 @@ module CandidateInterface
     end
 
     def non_uk_qualification?(qualification)
-      FeatureFlag.active?('international_other_qualifications') && qualification.non_uk_qualification_type.present?
+      qualification.non_uk_qualification_type.present?
     end
 
     def award_year_row(qualification)
@@ -107,7 +94,7 @@ module CandidateInterface
         key: t('application_form.other_qualification.award_year.review_label'),
         value: qualification.award_year,
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.award_year.change_action')),
-        change_path: edit_other_qualification_path(qualification),
+        change_path: edit_other_qualification_details_path(qualification),
       }
     end
 
@@ -116,16 +103,12 @@ module CandidateInterface
         key: t('application_form.other_qualification.grade.label'),
         value: qualification.grade,
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.grade.change_action')),
-        change_path: edit_other_qualification_path(qualification),
+        change_path: edit_other_qualification_details_path(qualification),
       }
     end
 
-    def edit_other_qualification_path(qualification)
-      if FeatureFlag.active?('international_other_qualifications')
-        Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_details_path(qualification.id)
-      else
-        Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification.id)
-      end
+    def edit_other_qualification_details_path(qualification)
+      Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_details_path(qualification.id)
     end
 
     def edit_other_qualification_type_path(qualification)
@@ -133,7 +116,7 @@ module CandidateInterface
     end
 
     def generate_action(qualification:, attribute: '')
-      "#{attribute.presence} for #{qualification.qualification_type}, #{qualification.subject}, "\
+      "#{attribute.presence} for #{qualification.get_qualification_name}, #{qualification.subject}, "\
         "#{institution_value(qualification)}, #{qualification.award_year}"
     end
   end

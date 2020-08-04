@@ -328,14 +328,8 @@ Rails.application.routes.draw do
         get '/edit-details/:id' => 'other_qualifications/details#edit', as: :edit_other_qualification_details
         post '/edit-details/:id' => 'other_qualifications/details#update'
 
-        get '/new' => 'other_qualifications/base#new', as: :new_other_qualification
-        post '/new' => 'other_qualifications/base#create', as: :create_other_qualification
-
         get '/review' => 'other_qualifications/review#show', as: :review_other_qualifications
         patch '/review' => 'other_qualifications/review#complete', as: :complete_other_qualifications
-
-        get '/edit/:id' => 'other_qualifications/base#edit', as: :edit_other_qualification
-        post '/edit/:id' => 'other_qualifications/base#update'
 
         get '/delete/:id' => 'other_qualifications/destroy#confirm_destroy', as: :confirm_destroy_other_qualification
         delete '/delete/:id' => 'other_qualifications/destroy#destroy'
