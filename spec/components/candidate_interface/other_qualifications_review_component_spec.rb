@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include('A-Level Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Doggo Sounds College')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_path(qualification1),
+        Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_details_path(qualification1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
         "Change #{t('application_form.other_qualification.qualification.change_action')} for A-Level, Making Doggo Sounds, Doggo Sounds College, 2012",
