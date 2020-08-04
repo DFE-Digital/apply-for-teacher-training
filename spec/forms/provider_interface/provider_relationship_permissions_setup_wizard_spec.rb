@@ -78,6 +78,39 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
         'view_safeguarding_information' => %w[training],
       })
     end
+
+    it 'merges permissions attributes' do
+      state_store = state_store_for({
+        provider_relationships: [123],
+        provider_relationship_permissions: { 123 => { make_decisions: %w[ratifying training], view_safeguarding_information: %w[training] } },
+      })
+
+      wizard = described_class.new(state_store, current_step: 'permissions')
+      wizard.save_state!
+
+      attrs = {
+        'current_step' => 'permissions',
+        'current_provider_relationship_id' => '456',
+        'make_decisions' => %w[training],
+        'view_safeguarding_information' => %w[training ratifying],
+      }
+
+      wizard = described_class.new(state_store, attrs)
+
+      expect(wizard.provider_relationship_permissions['123']).to eq({ 'make_decisions' => %w[ratifying training], 'view_safeguarding_information' => %w[training] })
+      expect(wizard.provider_relationship_permissions['456']).to eq({ 'make_decisions' => %w[training], 'view_safeguarding_information' => %w[training ratifying] })
+    end
+  end
+
+  describe 'validations' do
+    context 'when no providers are selected for a permission' do
+      it 'is invalid' do
+        wizard = described_class.new(state_store_for({}), make_decisions: [''], view_safeguarding_information: %w[training])
+
+        expect(wizard.valid?(:permissions)).to be false
+        expect(wizard.errors.keys).to eq(%i[make_decisions])
+      end
+    end
   end
 
   describe '#save_state!' do
