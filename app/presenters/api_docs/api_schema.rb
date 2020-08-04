@@ -57,6 +57,7 @@ module APIDocs
           desc << " (limited to #{attributes.max_length} characters)"
         elsif type == 'array' && attributes.max_items.present?
           desc << " (limited to #{attributes.max_items} elements)"
+          desc << " of strings (limited to #{attributes.items.max_length} characters)" if limited_string_within_array
         end
 
         desc.join
@@ -80,6 +81,12 @@ module APIDocs
         return if location.match?('/properties')
 
         location.gsub(/#\/components\/schemas\//, '')
+      end
+
+    private
+
+      def limited_string_within_array
+        attributes.items.type == 'string' && attributes.items.max_length
       end
     end
   end
