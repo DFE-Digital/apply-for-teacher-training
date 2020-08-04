@@ -24,8 +24,12 @@ module CandidateInterface
       @qualification_type = OtherQualificationTypeForm.new(other_qualification_type_params)
       @qualification = ApplicationQualification.find(params[:id])
       if qualification_type_has_changed && @qualification_type.update(@qualification)
+        current_application.update!(other_qualifications_completed: false)
+
         redirect_to candidate_interface_edit_other_qualification_details_path(@qualification.id)
       elsif @qualification_type.update(@qualification)
+        current_application.update!(other_qualifications_completed: false)
+
         redirect_to candidate_interface_review_other_qualifications_path
       else
         track_validation_error(@qualification_type)

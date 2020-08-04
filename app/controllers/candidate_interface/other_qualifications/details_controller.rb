@@ -45,6 +45,8 @@ module CandidateInterface
       @qualification = OtherQualificationForm.new(other_qualification_params)
 
       if @qualification.update(current_application)
+        current_application.update!(other_qualifications_completed: false)
+
         redirect_to candidate_interface_review_other_qualifications_path
       else
         track_validation_error(@qualification)
@@ -66,9 +68,12 @@ module CandidateInterface
                  other_uk_qualification_type: get_qualification.other_uk_qualification_type)
       else
         params.require(:candidate_interface_other_qualification_form).permit(
-          :id, :subject, :institution_name, :grade, :award_year, :choice, :institution_country, :other_uk_qualification_type
-        ).merge!(id: params[:id],
-                 qualification_type: get_qualification.qualification_type)
+          :subject, :institution_name, :grade, :award_year, :choice, :institution_country,
+          :other_uk_qualification_type, :non_uk_qualification_type
+        ).merge!(
+          id: params[:id],
+          qualification_type: params.dig('candidate_interface_other_qualification_form', 'qualification_type') || get_qualification.qualification_type,
+        )
       end
     end
 
