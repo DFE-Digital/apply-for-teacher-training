@@ -610,6 +610,8 @@ Rails.application.routes.draw do
           as: :check_provider_relationship_permissions
       post '/commit' => 'provider_relationship_permissions_setup#commit',
            as: :commit_provider_relationship_permissions
+      get '/success' => 'provider_relationship_permissions_setup#success',
+          as: :provider_relationship_permissions_success
 
       get '/:id/edit' => 'provider_relationship_permissions#edit',
           as: :edit_provider_relationship_permissions

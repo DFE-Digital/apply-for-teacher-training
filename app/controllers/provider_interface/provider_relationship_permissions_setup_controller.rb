@@ -18,8 +18,10 @@ module ProviderInterface
 
     def setup_permissions
       @permissions_model = ProviderRelationshipPermissions.find(params[:id])
-      @wizard = wizard_for(current_step: 'permissions')
+      @wizard = wizard_for(current_step: 'permissions', current_provider_relationship_id: params[:id])
       @wizard.save_state!
+
+      setup_permissions_form
     end
 
     def save_permissions
@@ -37,23 +39,29 @@ module ProviderInterface
         end
       else
         @permissions_model = ProviderRelationshipPermissions.find(params[:id])
+
+        setup_permissions_form
+
         render :setup_permissions
       end
     end
 
     def check
-      @wizard = wizard_for(current_step: 'check')
-      @permissions_models = ProviderRelationshipPermissions
-        .includes(:training_provider, :ratifying_provider)
-        .where(id: @wizard.provider_relationships)
-      @wizard.save_state!
+     @wizard = wizard_for(current_step: 'check')
+     @wizard.save_state!
+     @permissions_models = ProviderRelationshipPermissions
+       .includes(:training_provider, :ratifying_provider)
+       .where(id: @wizard.provider_relationships)
     end
 
     def commit
       @wizard = wizard_for({})
       # TODO: Save permissions
       @wizard.clear_state!
+      redirect_to provider_interface_provider_relationship_permissions_success_path
     end
+
+    def success; end
 
   private
 
@@ -100,8 +108,14 @@ module ProviderInterface
       return {} unless params.key?(:provider_interface_provider_relationship_permissions_setup_wizard)
 
       params.require(:provider_interface_provider_relationship_permissions_setup_wizard)
-        .permit(make_decisions: [], view_safeguarding_information: []).to_h
+        .permit(provider_relationship_permissions: {}).to_h
         .merge(current_provider_relationship_id: params[:id])
+    end
+
+    def setup_permissions_form
+      @permissions_form = ProviderInterface::ProviderRelationshipPermissionsSetupWizard::PermissionsForm.new(
+        @wizard.permissions_for_relationship(@permissions_model.id).merge(id: @permissions_model.id),
+      )
     end
   end
 end

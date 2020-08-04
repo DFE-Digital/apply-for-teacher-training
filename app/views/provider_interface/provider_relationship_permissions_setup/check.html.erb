@@ -1,0 +1,47 @@
+<% content_for :before_content do %>
+  <%= link_to 'Back', provider_interface_setup_provider_relationship_permissions_path(@permissions_models.last), class: 'govuk-back-link' %>
+<% end %>
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds govuk-body">
+		<span class="govuk-caption-xl">Set up permissions</span>
+		<h1 class="govuk-heading-xl">Check permissions</h1>
+    <% @permissions_models.each do |permissions_model| %>
+      <h2 class="govuk-heading-m">
+        For courses run by <%= permissions_model.training_provider.name %> and ratified by <%= permissions_model.ratifying_provider.name %>
+      </h2>
+      <p>The following organisation(s) can make decisions:</p>
+      <ul class="govuk-list make-decisions">
+      <% provider_types_with_enabled_permissions = @wizard.permissions_for_relationship(permissions_model.id).fetch('make_decisions', []) %>
+      <% if provider_types_with_enabled_permissions.include?('training') %>
+        <li><%= render CheckIcon.new %> <%= permissions_model.training_provider.name %></li>
+      <% end %>
+      <% if provider_types_with_enabled_permissions.include?('ratifying') %>
+        <li><%= render CheckIcon.new %> <%= permissions_model.ratifying_provider.name %></li>
+      <% end %>
+      </ul>
+
+      <p class="govuk-!-margin-bottom-8"><%= govuk_link_to 'Change', provider_interface_setup_provider_relationship_permissions_path(permissions_model) %></p>
+
+      <p>The following organisation(s) can view safeguarding information:</p>
+
+      <ul class="govuk-list view-safeguarding-information">
+      <% provider_types_with_enabled_permissions = @wizard.permissions_for_relationship(permissions_model.id).fetch('view_safeguarding_information', []) %>
+      <% if provider_types_with_enabled_permissions.include?('training') %>
+        <li><%= render CheckIcon.new %> <%= permissions_model.training_provider.name %></li>
+      <% end %>
+      <% if provider_types_with_enabled_permissions.include?('ratifying') %>
+        <li><%= render CheckIcon.new %> <%= permissions_model.ratifying_provider.name %></li>
+      <% end %>
+      </ul>
+
+      <p class="govuk-!-margin-bottom-8"><%= govuk_link_to 'Change', provider_interface_setup_provider_relationship_permissions_path(permissions_model) %></p>
+    <% end %>
+
+    <%= form_with model: @wizard, url: provider_interface_commit_provider_relationship_permissions_path do |f| %>
+		  <button class="govuk-button" data-module="govuk-button">
+			  Save permissions
+      </button>
+    <% end %>
+	</div>
+</div>

@@ -4,23 +4,21 @@ module ProviderInterface
     STATE_STORE_KEY = :provider_relationship_permissions_setup_wizard
 
     attr_accessor :current_step, :current_provider_relationship_id, :checking_answers
-    attr_accessor(*ProviderRelationshipPermissions::PERMISSIONS)
     attr_writer :provider_relationships, :provider_relationship_permissions, :state_store
-    validate :permissions_are_enabled, on: :permissions
+    validate :at_least_one_organisation_has_permissions, on: :permissions
+
+    class PermissionsForm
+      include ActiveModel::Model
+      attr_accessor :id
+      attr_accessor(*ProviderRelationshipPermissions::PERMISSIONS)
+    end
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
 
-      super(last_saved_state.deep_merge(attrs.deep_stringify_keys))
-      merge_permissions(attrs) if current_step == 'permissions'
+      super(last_saved_state.deep_merge(attrs))
 
       self.checking_answers = false if current_step == 'check'
-    end
-
-    def merge_permissions(attrs)
-      permissions_keys = ProviderRelationshipPermissions::PERMISSIONS.map(&:to_s)
-      permissions = attrs.slice(*permissions_keys)
-      provider_relationship_permissions[current_provider_relationship_id.to_s] = permissions unless permissions.empty?
     end
 
     def provider_relationships
@@ -35,8 +33,8 @@ module ProviderInterface
       @provider_relationship_permissions || {}
     end
 
-    def provider_types_for_enabled_permissions(relationship_id, permission_name)
-      provider_relationship_permissions[relationship_id.to_s][permission_name]
+    def permissions_for_relationship(relationship_id = current_provider_relationship_id)
+      provider_relationship_permissions.fetch(relationship_id.to_s, {})
     end
 
     # [provider_relationships info permissions... check]
@@ -116,9 +114,12 @@ module ProviderInterface
       next_provider_relationship_needing_permissions_setup.present?
     end
 
-    def permissions_are_enabled
+    def at_least_one_organisation_has_permissions
+      permissions = permissions_for_relationship
+
       ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name|
-        if send(permission_name)&.all?(&:blank?)
+        permissions_values = permissions.fetch(permission_name.to_s, [])
+        if permissions_values.blank? || permissions_values.all?(&:blank?)
           errors.add(permission_name, "Select which organisations can #{permission_name.to_s.humanize.downcase}")
         end
       end
