@@ -54,8 +54,6 @@ module ProviderInterface
       end
 
       def change_path(target)
-        return nil unless FeatureFlag.active?('provider_change_response')
-
         if show_link?(target)
           paths.provider_interface_application_choice_edit_offer_path(
             application_choice.id,
