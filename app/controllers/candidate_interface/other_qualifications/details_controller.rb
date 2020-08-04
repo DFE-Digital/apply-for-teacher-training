@@ -11,7 +11,7 @@ module CandidateInterface
     def create
       @qualification = OtherQualificationForm.new(other_qualification_params)
 
-      if @qualification.save
+      if @qualification.save(get_qualification)
 
         if @qualification.choice == 'same_type'
           @qualification_type = OtherQualificationTypeForm.new(
@@ -22,7 +22,7 @@ module CandidateInterface
 
           @qualification_type.save(current_application)
 
-          redirect_to candidate_interface_new_other_qualification_details_path(id: current_application.application_qualifications.last.id)
+          redirect_to candidate_interface_new_other_qualification_details_path(current_application.application_qualifications.last.id)
         elsif @qualification.choice == 'different_type'
           redirect_to candidate_interface_new_other_qualification_type_path
         elsif @qualification.choice == 'no'
@@ -37,14 +37,14 @@ module CandidateInterface
     end
 
     def edit
-      @qualification = OtherQualificationForm.build_from_qualification(current_application.application_qualifications.find(params[:id]))
+      @qualification = OtherQualificationForm.build_from_qualification(get_qualification)
       @type = @qualification.set_type(get_qualification)
     end
 
     def update
       @qualification = OtherQualificationForm.new(other_qualification_params)
 
-      if @qualification.update(current_application)
+      if @qualification.update(get_qualification)
         current_application.update!(other_qualifications_completed: false)
 
         redirect_to candidate_interface_review_other_qualifications_path

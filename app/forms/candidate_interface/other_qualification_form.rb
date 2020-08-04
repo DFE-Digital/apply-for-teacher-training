@@ -82,10 +82,9 @@ module CandidateInterface
       end
     end
 
-    def save
+    def save(qualification)
       return false unless valid? && choice_present?
 
-      qualification = ApplicationQualification.find(id)
       qualification.update!(
         qualification_type: qualification_type,
         subject: subject,
@@ -100,10 +99,8 @@ module CandidateInterface
       true
     end
 
-    def update(application_form)
+    def update(qualification)
       return false unless valid?
-
-      qualification = application_form.application_qualifications.find(id)
 
       qualification.update!(
         qualification_type: qualification_type,
