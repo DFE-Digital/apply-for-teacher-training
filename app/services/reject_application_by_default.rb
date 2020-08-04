@@ -14,5 +14,6 @@ class RejectApplicationByDefault
 
     StateChangeNotifier.call(:reject_application_by_default, application_choice: application_choice)
     SendRejectByDefaultEmailToProvider.new(application_choice: application_choice).call
+    SendCandidateRejectionEmail.new(application_choice: application_choice).call
   end
 end
