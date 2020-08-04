@@ -68,6 +68,7 @@ module VendorAPI
 
     def confirm_enrolment
       decision = ConfirmEnrolment.new(
+        actor: @api_user,
         application_choice: application_choice,
       )
 

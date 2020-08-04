@@ -250,7 +250,7 @@ class TestApplications
   def confirm_enrollment(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
-      ConfirmEnrolment.new(application_choice: choice).save
+      ConfirmEnrolment.new(actor: actor, application_choice: choice).save
       choice.update_columns(enrolled_at: time)
     end
   end

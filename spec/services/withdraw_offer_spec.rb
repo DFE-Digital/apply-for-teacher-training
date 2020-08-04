@@ -28,6 +28,24 @@ RSpec.describe WithdrawOffer do
       expect(application_choice.reload.status).to eq 'offer'
     end
 
+    it 'raises an error if the user is not authorised' do
+      application_choice = create(:application_choice, status: :offer)
+      provider_user = create(:provider_user)
+      provider_user.providers << application_choice.offered_course.provider
+
+      FeatureFlag.activate(:providers_can_manage_users_and_permissions)
+
+      service = WithdrawOffer.new(
+        actor: provider_user,
+        application_choice: application_choice,
+        offer_withdrawal_reason: 'We are so sorry...',
+      )
+
+      expect { service.save }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
+
+      expect(application_choice.reload.status).to eq 'offer'
+    end
+
     it 'calls SetDeclineByDefault given a valid reason' do
       application_choice = create(:application_choice, status: :offer)
       allow(SetDeclineByDefault).to receive(:new).and_call_original
