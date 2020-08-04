@@ -198,6 +198,3 @@ COUNTRIES = {
   'ZM' => 'Zambia',
   'ZW' => 'Zimbabwe',
 }.freeze
-
-COUNTRY_NAMES = COUNTRIES.map(&:second)
-COUNTRY_NAMES_TO_ISO_CODES = COUNTRIES.map(&:reverse).to_h
