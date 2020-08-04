@@ -256,7 +256,6 @@ en:
               blank: Enter the user’s email address
               taken: Email address is already in use
               too_long: Email address must be %{count} characters or fewer
-              invalid: Enter an email address in the correct format, like name@example.com
             providers:
               blank: Select which organisations this user will have access to
   activerecord:

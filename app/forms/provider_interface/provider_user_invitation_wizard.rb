@@ -7,11 +7,16 @@ module ProviderInterface
     attr_reader :email_address
     attr_writer :providers, :provider_permissions, :state_store
 
-    validates :first_name, presence: true, on: :details
-    validates :last_name, presence: true, on: :details
-    validates :email_address, presence: true, on: :details
-    validates :email_address, email: true, on: :details
-    validates :providers, presence: true, on: :providers
+    with_options(on: :details) do
+      validates :email_address, presence: true
+      validates :email_address, email_address: true
+      validates :first_name, presence: true
+      validates :last_name, presence: true
+    end
+
+    with_options(on: :providers) do
+      validates :providers, presence: true
+    end
 
     PermissionOption = Struct.new(:slug, :name, :hint)
     AVAILABLE_PERMISSIONS = [
