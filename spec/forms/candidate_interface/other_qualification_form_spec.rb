@@ -269,11 +269,41 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
       end
     end
 
-    context 'for other uk qualificaitons and GCSEs and A-levels'
-    it 'concatenates the qualification type and subject' do
-      qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'BTEC', subject: 'Being a Supervillain')
+    context 'for other uk qualificaitons and GCSEs and A-levels' do
+      it 'concatenates the qualification type and subject' do
+        qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'BTEC', subject: 'Being a Supervillain')
 
-      expect(qualification.title).to eq('BTEC Being a Supervillain')
+        expect(qualification.title).to eq('BTEC Being a Supervillain')
+      end
+    end
+  end
+
+  describe '#get_qualification_name' do
+    context 'for a non-uk qualification' do
+      it 'returns the non_uk_qualification_type' do
+        qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk',
+                                                                       non_uk_qualification_type: 'Master Craftsman')
+
+        expect(qualification.get_qualification_name).to eq('Master Craftsman')
+      end
+    end
+
+    context 'for an other uk qualification with the qualification type Other' do
+      it 'returns the other_uk_qualification_type' do
+        FeatureFlag.activate('international_other_qualifications')
+        qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other',
+                                                                       other_uk_qualification_type: 'Master Craftsman')
+
+        expect(qualification.get_qualification_name).to eq('Master Craftsman')
+      end
+    end
+
+    context 'for other uk qualificaitons and GCSEs and A-levels' do
+      it 'returns the qualification type' do
+        qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'BTEC')
+
+        expect(qualification.get_qualification_name).to eq('BTEC')
+      end
     end
   end
 end

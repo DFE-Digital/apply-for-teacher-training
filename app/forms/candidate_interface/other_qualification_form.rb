@@ -113,6 +113,8 @@ module CandidateInterface
         grade: grade,
         predicted_grade: false,
         award_year: award_year,
+        other_uk_qualification_type: other_uk_qualification_type,
+        non_uk_qualification_type: non_uk_qualification_type,
       )
     end
 
@@ -123,6 +125,16 @@ module CandidateInterface
         "#{other_uk_qualification_type} #{subject}"
       else
         "#{qualification_type} #{subject}"
+      end
+    end
+
+    def get_qualification_name
+      if qualification_type == 'non_uk'
+        non_uk_qualification_type
+      elsif qualification_type == 'Other' && other_uk_qualification_type.present?
+        other_uk_qualification_type
+      else
+        qualification_type
       end
     end
 

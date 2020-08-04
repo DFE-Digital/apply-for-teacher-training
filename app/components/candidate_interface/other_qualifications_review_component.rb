@@ -129,7 +129,7 @@ module CandidateInterface
     end
 
     def generate_action(qualification:, attribute: '')
-      "#{attribute.presence} for #{qualification.get_qualification_type}, #{qualification.subject}, "\
+      "#{attribute.presence} for #{qualification.get_qualification_name}, #{qualification.subject}, "\
         "#{institution_value(qualification)}, #{qualification.award_year}"
     end
   end
