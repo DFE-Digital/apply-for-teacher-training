@@ -70,8 +70,7 @@ module ProviderInterface
 
       if @provider_setup.next_agreement_pending
         redirect_to provider_interface_new_data_sharing_agreement_path
-      elsif FeatureFlag.active?('enforce_provider_to_provider_permissions') &&
-          @provider_setup.next_relationship_pending
+      elsif @provider_setup.next_relationship_pending
         # redirect_to provider_interface_provider_relationship_permissions_setup_path
         # TODO: Implement this
       end

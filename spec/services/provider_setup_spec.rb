@@ -54,6 +54,8 @@ RSpec.describe ProviderSetup do
     end
 
     it 'returns a ProviderRelationshipPermissions record in need of setup' do
+      FeatureFlag.activate('enforce_provider_to_provider_permissions')
+
       create(
         :provider_relationship_permissions,
         training_provider: training_provider,
@@ -65,6 +67,8 @@ RSpec.describe ProviderSetup do
     end
 
     it 'provides all relationships pending setup for the user when called multiple times' do
+      FeatureFlag.activate('enforce_provider_to_provider_permissions')
+
       relationships = 3.times.map do
         create(
           :provider_relationship_permissions,
