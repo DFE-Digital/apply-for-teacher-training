@@ -11,7 +11,7 @@ module ProviderInterface
         <<-ORDER_BY.strip_heredoc,
         (
           CASE
-            WHEN (status='awaiting_provider_decision' AND (DATE(reject_by_default_at) > NOW())) THEN 1
+            WHEN (status='awaiting_provider_decision' AND (DATE(reject_by_default_at) > '#{Time.zone.now.iso8601}')) THEN 1
             ELSE 0
           END
         ) DESC,
