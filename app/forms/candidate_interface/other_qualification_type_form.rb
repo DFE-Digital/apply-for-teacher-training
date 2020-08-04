@@ -6,7 +6,7 @@ module CandidateInterface
 
     validates :qualification_type, presence: true
 
-    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == 'Other' }
+    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications') }
 
     validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == 'non_uk' }
 

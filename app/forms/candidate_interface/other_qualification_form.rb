@@ -94,6 +94,8 @@ module CandidateInterface
         grade: grade,
         predicted_grade: false,
         award_year: award_year,
+        other_uk_qualification_type: other_uk_qualification_type,
+        non_uk_qualification_type: non_uk_qualification_type,
       )
       true
     end
@@ -117,7 +119,7 @@ module CandidateInterface
     def title
       if qualification_type == 'non_uk'
         "#{non_uk_qualification_type} #{subject}"
-      elsif qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications')
+      elsif qualification_type == 'Other' && other_uk_qualification_type.present?
         "#{other_uk_qualification_type} #{subject}"
       else
         "#{qualification_type} #{subject}"

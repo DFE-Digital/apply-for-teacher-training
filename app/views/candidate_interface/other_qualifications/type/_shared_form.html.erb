@@ -16,7 +16,7 @@
       <%= f.govuk_text_field :other_uk_qualification_type, label: { text: 'Qualification name' } %>
     <% end %>
     <%= f.govuk_radio_button :qualification_type, 'non_uk', label: { text: 'Non-UK qualification' } do %>
-      <%= f.govuk_text_field :non_uk_qualification_type, label: { text: 'Qualification name' }, hint_text: 'For example, High school diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller' %>
+      <%= f.govuk_text_field :non_uk_qualification_type, label: { text: 'Qualification name' }, hint_text: t('application_form.other_qualification.qualification_type.non_uk.hint_text') %>
     <% end %>
   <% else %>
     <%= f.govuk_radio_button :qualification_type, 'Other', label: { text: 'Other' }  %>

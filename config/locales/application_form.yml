@@ -242,6 +242,8 @@ en:
       qualification_type:
         label: Type of qualification
         hint_text: For example, GCSE, A level, BTEC, NVQ or non-UK other
+        non_uk:
+          hint_text: For example, High school diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
       subject:
         label: Subject
         change_action: subject

@@ -10,6 +10,7 @@ module CandidateInterface
 
     def create
       @qualification = OtherQualificationForm.new(other_qualification_params)
+
       if @qualification.save
 
         if @qualification.choice == 'same_type'
@@ -56,12 +57,19 @@ module CandidateInterface
   private
 
     def other_qualification_params
-      params.require(:candidate_interface_other_qualification_form).permit(
-        :id, :subject, :institution_name, :grade, :award_year, :choice, :institution_country
-      ).merge!(id: params[:id],
-               qualification_type: get_qualification.qualification_type,
-               non_uk_qualification_type: get_qualification.non_uk_qualification_type,
-               other_uk_qualification_type: get_qualification.other_uk_qualification_type)
+      if FeatureFlag.active?('international_other_qualifications')
+        params.require(:candidate_interface_other_qualification_form).permit(
+          :subject, :institution_name, :grade, :award_year, :choice, :institution_country
+        ).merge!(id: params[:id],
+                 qualification_type: get_qualification.qualification_type,
+                 non_uk_qualification_type: get_qualification.non_uk_qualification_type,
+                 other_uk_qualification_type: get_qualification.other_uk_qualification_type)
+      else
+        params.require(:candidate_interface_other_qualification_form).permit(
+          :id, :subject, :institution_name, :grade, :award_year, :choice, :institution_country, :other_uk_qualification_type
+        ).merge!(id: params[:id],
+                 qualification_type: get_qualification.qualification_type)
+      end
     end
 
     def get_qualification
