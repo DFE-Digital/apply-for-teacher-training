@@ -2,15 +2,6 @@ module SupportInterface
   class TasksController < SupportInterfaceController
     def index; end
 
-    def confirm
-      case params.fetch(:task)
-      when 'delete_test_applications'
-        render :confirm_delete_test_applications
-      else
-        render_404
-      end
-    end
-
     def run
       case params.fetch(:task)
       when 'generate_test_applications'
