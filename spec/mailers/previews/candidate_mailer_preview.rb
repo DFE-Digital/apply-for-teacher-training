@@ -143,6 +143,19 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected_all_rejected(application_choice)
   end
 
+  def application_rejected_by_default_all_rejected
+    application_form = FactoryBot.build_stubbed(:application_form, candidate: candidate, first_name: 'Tyrell', last_name: 'Wellick')
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      course_option: course_option,
+      application_form: application_form,
+      rejected_by_default: true,
+      reject_by_default_at: 2.days.ago,
+    )
+
+    CandidateMailer.application_rejected_all_rejected(application_choice)
+  end
+
   def application_rejected_awaiting_decisions
     application_form = FactoryBot.build_stubbed(:application_form,
                                                 first_name: 'Tyrell',
@@ -154,6 +167,30 @@ class CandidateMailerPreview < ActionMailer::Preview
                                                                            status: :rejected,
                                                                            rejection_reason: 'Not enough experience.'),
                                                 ])
+
+    CandidateMailer.application_rejected_awaiting_decisions(application_form.application_choices.last)
+  end
+
+  def application_rejected_by_default_awaiting_decisions
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Tyrell',
+      last_name: 'Wellick',
+      application_choices: [
+        FactoryBot.build_stubbed(
+          :application_choice,
+          status: :awaiting_provider_decision,
+          course_option: course_option,
+        ),
+        FactoryBot.build_stubbed(
+          :application_choice,
+          course_option: course_option,
+          status: :rejected,
+          rejected_by_default: true,
+          reject_by_default_at: 2.days.ago,
+        ),
+      ],
+    )
 
     CandidateMailer.application_rejected_awaiting_decisions(application_form.application_choices.last)
   end
@@ -171,6 +208,38 @@ class CandidateMailerPreview < ActionMailer::Preview
                                  course_option: course_option,
                                  decline_by_default_days: 10,
                                  rejection_reason: 'Not enough experience.'),
+      ],
+    )
+
+    CandidateMailer.application_rejected_offers_made(application_form.application_choices.last)
+  end
+
+  def application_rejected_by_default_offers_made
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Tyrell',
+      last_name: 'Wellick',
+      candidate: candidate,
+      application_choices: [
+        FactoryBot.build_stubbed(
+          :application_choice,
+          :with_offer,
+          decline_by_default_days: 10,
+          course_option: course_option,
+        ),
+        FactoryBot.build_stubbed(
+          :application_choice,
+          :with_offer,
+          decline_by_default_days: 10,
+          course_option: course_option,
+        ),
+        FactoryBot.build_stubbed(
+          :application_choice,
+          course_option: course_option,
+          decline_by_default_days: 10,
+          rejected_by_default: true,
+          reject_by_default_at: 2.days.ago,
+        ),
       ],
     )
 
