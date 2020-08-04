@@ -7,7 +7,6 @@ RSpec.feature 'Provider makes changes before making an offer' do
 
   scenario 'Provider makes changes to course and location' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    when_change_response_feature_is_activated
     and_i_am_permitted_to_see_applications_for_a_provider
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_an_application_choice_exists_for_my_provider
@@ -40,10 +39,6 @@ RSpec.feature 'Provider makes changes before making an offer' do
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
-  end
-
-  def when_change_response_feature_is_activated
-    FeatureFlag.activate('provider_change_response')
   end
 
   def and_i_am_permitted_to_see_applications_for_a_provider

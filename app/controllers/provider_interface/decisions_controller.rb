@@ -1,7 +1,6 @@
 module ProviderInterface
   class DecisionsController < ProviderInterfaceController
     before_action :set_application_choice
-    before_action :requires_provider_change_response_feature_flag, only: %i[new_withdraw_offer confirm_withdraw_offer withdraw_offer]
     before_action :requires_make_decisions_permission
 
     def respond
@@ -129,10 +128,6 @@ module ProviderInterface
     end
 
   private
-
-    def requires_provider_change_response_feature_flag
-      render_404 unless FeatureFlag.active?('provider_change_response')
-    end
 
     def set_application_choice
       @application_choice = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)

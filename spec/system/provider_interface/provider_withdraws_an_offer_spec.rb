@@ -10,10 +10,8 @@ RSpec.feature 'Provider withdraws an offer' do
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
     and_i_view_an_offered_application
-    then_i_cannot_withdraw_the_offer
 
-    when_change_response_feature_is_activated
-    and_i_click_on_withdraw_application
+    when_i_click_on_withdraw_application
     then_i_see_a_form_prompting_for_reasons
 
     when_i_enter_reasons
@@ -38,21 +36,13 @@ RSpec.feature 'Provider withdraws an offer' do
     provider_user_exists_in_apply_database
   end
 
-  def when_change_response_feature_is_activated
-    FeatureFlag.activate('provider_change_response')
-  end
-
-  def then_i_cannot_withdraw_the_offer
-    first('a', text: 'Withdraw offer', count: 0)
-  end
-
   def and_i_view_an_offered_application
     visit provider_interface_application_choice_path(
       @application_offered.id,
     )
   end
 
-  def and_i_click_on_withdraw_application
+  def when_i_click_on_withdraw_application
     visit provider_interface_application_choice_path(
       @application_offered.id,
     )
