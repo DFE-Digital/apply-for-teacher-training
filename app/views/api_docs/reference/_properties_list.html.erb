@@ -4,8 +4,9 @@
       <dt class="govuk-summary-list__key">
         <code><%= property.name %></code>
       </dt>
+
       <dd class="govuk-summary-list__value">
-        <div class="app-data-type">
+        <p class="app-api-metadata">
           <% if !property.object_schema_name %>
             <%= property.type_description %>
           <% elsif property.type == 'array' %>
@@ -13,7 +14,13 @@
           <% else %>
             <%= govuk_link_to property.object_schema_name, "##{property.object_schema_name.parameterize}-object" %> object
           <% end %>
-        </div>
+        </p>
+
+        <% if property.nullable? %>
+          <p class="app-api-metadata">
+            Optional
+          </p>
+        <% end %>
 
         <% if property.attributes.description %>
           <div class="app-styled-content govuk-!-margin-top-4">
