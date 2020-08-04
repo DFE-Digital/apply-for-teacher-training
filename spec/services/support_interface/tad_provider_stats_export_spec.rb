@@ -40,7 +40,7 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
       provider_one = create(:provider, code: 'ABC1', name: 'Tehanu')
       provider_two = create(:provider, code: 'DEF2', name: 'Anarres')
 
-      course_option_for_provider(provider: provider_one, course: create(:course, :open_on_apply, name: 'History', provider: provider_one))
+      course_option_for_provider(provider: provider_one, course: create(:course, :open_on_apply, name: 'History', provider: provider_one, code: 'XYZ'))
       course_option_for_provider(provider: provider_one, course: create(:course, :open_on_apply, name: 'Biology', provider: provider_one))
       course_option_for_provider(provider: provider_two, course: create(:course, :open_on_apply, name: 'Science book', provider: provider_two))
       course_option_for_provider(provider: provider_two, course: create(:course, :open_on_apply, name: 'French I took', provider: provider_two))
@@ -56,6 +56,7 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
       example_row = exported_rows.find { |r| r[:subject] == 'History' }
       expect(example_row[:provider]).to eq('Tehanu')
       expect(example_row[:provider_code]).to eq('ABC1')
+      expect(example_row[:course_code]).to eq('XYZ')
     end
   end
 end

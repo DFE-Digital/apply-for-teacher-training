@@ -22,6 +22,7 @@ module SupportInterface
         provider_type: nil,
         urn: nil,
         lead_school: nil,
+        course_code: course.code,
         subject: course.name,
         applications: statuses.count,
         offers: 0,
