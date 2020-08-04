@@ -14,22 +14,13 @@ module CandidateInterface
     end
 
     def other_qualifications_rows(qualification)
-      if FeatureFlag.active?('international_other_qualifications')
-        [
-          qualification_row(qualification),
-          subject_row(qualification),
-          institution_row(qualification),
-          award_year_row(qualification),
-          grade_row(qualification),
-        ]
-      else
-        [
-          qualification_row(qualification),
-          institution_row(qualification),
-          award_year_row(qualification),
-          grade_row(qualification),
-        ]
-      end
+      [
+        qualification_row(qualification),
+        subject_row(qualification),
+        institution_row(qualification),
+        award_year_row(qualification),
+        grade_row(qualification),
+      ]
     end
 
     def show_missing_banner?
@@ -59,16 +50,12 @@ module CandidateInterface
     end
 
     def qualification_value(qualification)
-      if FeatureFlag.active?('international_other_qualifications')
-        if qualification.non_uk_qualification_type.present?
-          qualification.non_uk_qualification_type
-        elsif qualification.other_uk_qualification_type.present?
-          qualification.other_uk_qualification_type
-        else
-          qualification.qualification_type
-        end
+      if qualification.non_uk_qualification_type.present?
+        qualification.non_uk_qualification_type
+      elsif qualification.other_uk_qualification_type.present?
+        qualification.other_uk_qualification_type
       else
-        qualification.title
+        qualification.qualification_type
       end
     end
 
@@ -99,7 +86,7 @@ module CandidateInterface
     end
 
     def non_uk_qualification?(qualification)
-      FeatureFlag.active?('international_other_qualifications') && qualification.non_uk_qualification_type.present?
+      qualification.non_uk_qualification_type.present?
     end
 
     def award_year_row(qualification)
