@@ -174,7 +174,7 @@ RSpec.describe CandidateMailer, type: :mailer do
           'other provider they got an offer from' => 'Vertapple University',
           'their DBD date' => 'Make a decision about your offer by 25 February 2020',
           'prompt to reply with one offer' => 'You’ve received an offer for a place on',
-          'updated covid-19 prompt' => 'If you don’t reply by 25 February 2020 your application will be withdrawn.'
+          'updated covid-19 prompt' => 'If you do not reply by 25 February 2020 your application will be withdrawn.'
         )
       end
 
@@ -193,7 +193,7 @@ RSpec.describe CandidateMailer, type: :mailer do
           'first course provider with offer' => 'Wen University',
           'their DBD date' => 'Make a decision about your offers by 25 February 2020',
           'prompt to reply with multiple offers' => 'You’ve received the following offers:',
-          'updated covid-19 prompt' => 'If you don’t reply by 25 February 2020 your application will be withdrawn.'
+          'updated covid-19 prompt' => 'If you do not reply by 25 February 2020 your application will be withdrawn.'
         )
       end
     end
