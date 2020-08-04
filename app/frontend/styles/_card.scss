@@ -35,6 +35,6 @@
 }
 
 .app-card__secondary-count {
-  @include govuk-font($size: 48, $weight: bold);
+  @include govuk-font($size: 36, $weight: bold);
   display: block;
 }

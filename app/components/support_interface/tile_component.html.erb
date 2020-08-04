@@ -1,4 +1,4 @@
 <div class="app-card<%= colour == :default ? '' : " app-card--#{colour}" %>">
-  <span class="<%= count_class %>"><%= count %></span>
+  <span class="<%= count_class %>"><%= number_with_delimiter(count) %></span>
   <%= label %>
 </div>
