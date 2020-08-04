@@ -66,7 +66,7 @@
         <% @statistics.candidate_status_counts.each do |row| %>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{row['status']}.name") %></th>
-            <td class="govuk-table__cell govuk-table__cell--numeric"><%= row['count'] %></td>
+            <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(row['count']) %></td>
             <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{row['status']}.description") %></td>
           </tr>
         <% end %>
