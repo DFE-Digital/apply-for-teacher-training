@@ -52,9 +52,9 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
     describe 'institution country' do
       context 'when it is a non-uk qualification' do
         it 'validates for presence and inclusion in the COUNTY_NAMES constant' do
-          valid_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'Germany')
+          valid_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'GB')
           blank_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk')
-          inavlid_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'Caprica City')
+          inavlid_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'QQ')
 
           valid_qualification.validate
           blank_country_qualification.validate

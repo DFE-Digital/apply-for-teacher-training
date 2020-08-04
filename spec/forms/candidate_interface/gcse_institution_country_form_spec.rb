@@ -1,22 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
-  let(:form_data) { { institution_country: COUNTRY_NAMES.sample } }
+  let(:form_data) { { institution_country: COUNTRIES.keys.sample } }
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:institution_country) }
 
-    it 'validates nationalities against the COUNTRY_NAMES list' do
-      invalid_nationality = CandidateInterface::GcseInstitutionCountryForm.new(
-        institution_country: 'Tralfamadorian',
+    it 'validates nationalities against the COUNTRIES list' do
+      invalid_country = CandidateInterface::GcseInstitutionCountryForm.new(
+        institution_country: 'QQ',
       )
-      valid_nationality = CandidateInterface::GcseInstitutionCountryForm.new(
-        institution_country: COUNTRY_NAMES.sample,
+      valid_country = CandidateInterface::GcseInstitutionCountryForm.new(
+        institution_country: COUNTRIES.keys.sample,
       )
-      valid_nationality.validate
-      invalid_nationality.validate
-      expect(valid_nationality.errors.keys).not_to include :institution_country
-      expect(invalid_nationality.errors.keys).to include :institution_country
+      valid_country.validate
+      invalid_country.validate
+      expect(valid_country.errors.keys).not_to include :institution_country
+      expect(invalid_country.errors.keys).to include :institution_country
     end
   end
 
@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
       application_qualification = create(:application_qualification)
       institution_country_form = CandidateInterface::GcseInstitutionCountryForm.build_from_qualification(application_qualification)
 
-      expect(institution_country_form.institution_country).to eq COUNTRIES[application_qualification.institution_country]
+      expect(institution_country_form.institution_country).to eq application_qualification.institution_country
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::GcseInstitutionCountryForm, type: :model do
       institution_country_form = CandidateInterface::GcseInstitutionCountryForm.new(form_data)
 
       expect(institution_country_form.save(application_qualification)).to eq(true)
-      expect(application_qualification.institution_country).to eq COUNTRY_NAMES_TO_ISO_CODES[form_data[:institution_country]]
+      expect(application_qualification.institution_country).to eq form_data[:institution_country]
     end
   end
 end
