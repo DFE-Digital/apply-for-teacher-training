@@ -74,7 +74,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
 
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to match 'You are not allowed to make this offer'
+      expect(error_response['message']).to match 'You are not allowed to make decisions'
     end
 
     it 'returns an error when specifying a course that is not open on Apply' do

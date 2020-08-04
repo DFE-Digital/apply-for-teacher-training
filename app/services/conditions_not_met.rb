@@ -7,7 +7,7 @@ class ConditionsNotMet
   end
 
   def save
-    @auth.assert_can_make_offer!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
+    @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
 
     ApplicationStateChange.new(@application_choice).conditions_not_met!
     @application_choice.update!(conditions_not_met_at: Time.zone.now)

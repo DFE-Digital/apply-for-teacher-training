@@ -45,8 +45,8 @@ class ProviderAuthorisation
     providers_that_actor_can_manage_organisations_for.any?
   end
 
-  def can_make_offer?(application_choice:, course_option_id:)
-    OfferAuthorisation.new(actor: @actor).can_make_offer?(application_choice: application_choice, course_option_id: course_option_id)
+  def can_make_decisions?(application_choice:, course_option_id:)
+    MakeDecisionsAuthorisation.new(actor: @actor).can_make_decisions?(application_choice: application_choice, course_option_id: course_option_id)
   end
 
   def can_view_safeguarding_information?(course:)
@@ -68,10 +68,10 @@ class ProviderAuthorisation
     @actor.provider_permissions.exists?(provider: provider, manage_organisations: true)
   end
 
-  def assert_can_make_offer!(application_choice:, course_option_id:)
-    return if can_make_offer?(application_choice: application_choice, course_option_id: course_option_id)
+  def assert_can_make_decisions!(application_choice:, course_option_id:)
+    return if can_make_decisions?(application_choice: application_choice, course_option_id: course_option_id)
 
-    raise NotAuthorisedError, 'You are not allowed to make this offer'
+    raise NotAuthorisedError, 'You are not allowed to make decisions'
   end
 
   class NotAuthorisedError < StandardError; end

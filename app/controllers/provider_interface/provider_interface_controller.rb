@@ -83,7 +83,7 @@ module ProviderInterface
     end
 
     def requires_make_decisions_permission
-      if !current_provider_user.authorisation.can_make_offer?(
+      if !current_provider_user.authorisation.can_make_decisions?(
         application_choice: @application_choice,
         course_option_id: @application_choice.offered_option.id,
       )

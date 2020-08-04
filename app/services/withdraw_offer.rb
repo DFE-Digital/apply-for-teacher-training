@@ -15,7 +15,7 @@ class WithdrawOffer
   def save
     return false unless valid?
 
-    @auth.assert_can_make_offer!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
+    @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
 
     ActiveRecord::Base.transaction do
       ApplicationStateChange.new(@application_choice).reject!

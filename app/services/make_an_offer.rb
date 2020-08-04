@@ -34,7 +34,7 @@ class MakeAnOffer
   def save
     return unless valid?
 
-    @auth.assert_can_make_offer!(application_choice: application_choice, course_option_id: @course_option.id)
+    @auth.assert_can_make_decisions!(application_choice: application_choice, course_option_id: @course_option.id)
 
     ApplicationStateChange.new(application_choice).make_offer!
     application_choice.offered_course_option = course_option
