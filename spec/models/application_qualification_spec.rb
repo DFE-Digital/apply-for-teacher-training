@@ -90,7 +90,7 @@ RSpec.describe ApplicationQualification, type: :model do
       end
 
       it 'returns false if all expected information is present' do
-        qualification = build_stubbed(:non_uk_qualification, grade: nil, subject: nil)
+        qualification = build_stubbed(:other_qualification, :non_uk, grade: nil, subject: nil)
 
         expect(qualification.incomplete_other_qualification?).to eq false
       end
