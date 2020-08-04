@@ -14,11 +14,11 @@ Dear <%= @provider_user_name || 'colleague' %>
 
 <% if FeatureFlag.active?('covid_19') %>
 
-Log in to Manage teacher training applications to respond:
+Sign in to Manage teacher training applications to respond:
 
 <% else %>
 
-Log in to Manage teacher training applications to respond within <%= @working_days_left %> working days:
+Sign in to Manage teacher training applications to respond within <%= @working_days_left %> working days:
 
 <% end %>
 

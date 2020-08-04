@@ -132,7 +132,7 @@ sister service `Find`. To populate your local database with course data from
 `Find`, run `bundle exec rake setup_local_dev_data`.
 
 Among other things, this task also creates a support user with DfE Sign-in UID
-`dev-support` that you can use to log into the Support interface in your
+`dev-support` that you can use to sign in to the Support interface in your
 development environment, and a provider user with the UID `dev-provider`.
 
 ### Background processing
