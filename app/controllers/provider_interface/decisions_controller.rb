@@ -70,11 +70,15 @@ module ProviderInterface
     end
 
     def new_reject
-      @reject_application = RejectApplication.new(application_choice: @application_choice)
+      @reject_application = RejectApplication.new(
+        actor: current_provider_user,
+        application_choice: @application_choice,
+      )
     end
 
     def confirm_reject
       @reject_application = RejectApplication.new(
+        actor: current_provider_user,
         application_choice: @application_choice,
         rejection_reason: params.dig(:reject_application, :rejection_reason),
       )
@@ -83,6 +87,7 @@ module ProviderInterface
 
     def create_reject
       @reject_application = RejectApplication.new(
+        actor: current_provider_user,
         application_choice: @application_choice,
         rejection_reason: params.dig(:reject_application, :rejection_reason),
       )
@@ -98,12 +103,14 @@ module ProviderInterface
 
     def new_withdraw_offer
       @withdraw_offer = WithdrawOffer.new(
+        actor: current_provider_user,
         application_choice: @application_choice,
       )
     end
 
     def confirm_withdraw_offer
       @withdraw_offer = WithdrawOffer.new(
+        actor: current_provider_user,
         application_choice: @application_choice,
         offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
       )
@@ -114,6 +121,7 @@ module ProviderInterface
 
     def withdraw_offer
       @withdraw_offer = WithdrawOffer.new(
+        actor: current_provider_user,
         application_choice: @application_choice,
         offer_withdrawal_reason: params.dig(:withdraw_offer, :offer_withdrawal_reason),
       )

@@ -1,9 +1,9 @@
-class OfferAuthorisation
+class MakeDecisionsAuthorisation
   def initialize(actor:)
     @actor = actor
   end
 
-  def can_make_offer?(application_choice:, course_option_id:)
+  def can_make_decisions?(application_choice:, course_option_id:)
     return true if @actor.is_a?(SupportUser)
 
     course_option = CourseOption.find(course_option_id)

@@ -28,7 +28,7 @@ module ProviderInterface
 
     def show
       auth = ProviderAuthorisation.new(actor: current_provider_user)
-      @provider_can_respond = auth.can_make_offer?(
+      @provider_can_respond = auth.can_make_decisions?(
         application_choice: @application_choice,
         course_option_id: @application_choice.offered_option.id,
       )

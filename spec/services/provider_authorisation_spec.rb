@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe ProviderAuthorisation do
   include CourseOptionHelpers
 
-  describe '#assert_can_make_offer!' do
-    it 'raises an error if the actor cannot make offers' do
+  describe '#assert_can_make_decisions!' do
+    it 'raises an error if the actor cannot make decisions' do
       auth_context = ProviderAuthorisation.new(actor: nil)
-      allow(auth_context).to receive(:can_make_offer?).and_return(true)
-      expect { auth_context.assert_can_make_offer!(application_choice: nil, course_option_id: nil) }.not_to raise_error
-      allow(auth_context).to receive(:can_make_offer?).and_return(false)
-      expect { auth_context.assert_can_make_offer!(application_choice: nil, course_option_id: nil) }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
+      allow(auth_context).to receive(:can_make_decisions?).and_return(true)
+      expect { auth_context.assert_can_make_decisions!(application_choice: nil, course_option_id: nil) }.not_to raise_error
+      allow(auth_context).to receive(:can_make_decisions?).and_return(false)
+      expect { auth_context.assert_can_make_decisions!(application_choice: nil, course_option_id: nil) }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
     end
   end
 
@@ -28,7 +28,7 @@ RSpec.describe ProviderAuthorisation do
     end
   end
 
-  describe '#can_make_offer?' do
+  describe '#can_make_decisions?' do
     let(:training_provider_user) { create(:provider_user, :with_provider, :with_make_decisions) }
     let(:training_provider) { training_provider_user.providers.first }
 
@@ -74,9 +74,9 @@ RSpec.describe ProviderAuthorisation do
       )
     end
 
-    def can_make_offer?(actor:, choice: application_choice)
+    def can_make_decisions?(actor:, choice: application_choice)
       auth_context = ProviderAuthorisation.new(actor: actor)
-      auth_context.can_make_offer?(
+      auth_context.can_make_decisions?(
         application_choice: choice,
         course_option_id: choice.course_option.id,
       )
@@ -91,25 +91,25 @@ RSpec.describe ProviderAuthorisation do
       it 'training_provider without make_decisions' do
         provider_relationship_permissions.update(training_provider_can_make_decisions: false)
 
-        expect(can_make_offer?(actor: ratifying_provider_user)).to be_truthy
-        expect(can_make_offer?(actor: training_provider_user)).to be_falsy
+        expect(can_make_decisions?(actor: ratifying_provider_user)).to be_truthy
+        expect(can_make_decisions?(actor: training_provider_user)).to be_falsy
       end
 
       it 'ratifying_provider without make_decisions' do
         provider_relationship_permissions.update(ratifying_provider_can_make_decisions: false)
 
-        expect(can_make_offer?(actor: training_provider_user)).to be_truthy
-        expect(can_make_offer?(actor: ratifying_provider_user)).to be_falsy
+        expect(can_make_decisions?(actor: training_provider_user)).to be_truthy
+        expect(can_make_decisions?(actor: ratifying_provider_user)).to be_falsy
       end
 
-      it 'training_provider for self-ratified course can always offer' do
+      it 'training_provider for self-ratified course can always decide' do
         for_self_ratified_course = create(
           :application_choice,
           :awaiting_provider_decision,
           course_option: course_option_b,
         )
 
-        expect(can_make_offer?(actor: training_provider_user, choice: for_self_ratified_course)).to be_truthy
+        expect(can_make_decisions?(actor: training_provider_user, choice: for_self_ratified_course)).to be_truthy
       end
     end
 
@@ -119,54 +119,54 @@ RSpec.describe ProviderAuthorisation do
       it 'training_provider_user without make_decisions' do
         training_provider_user.provider_permissions.update_all(make_decisions: false)
 
-        expect(can_make_offer?(actor: training_provider_user)).to be_falsy
+        expect(can_make_decisions?(actor: training_provider_user)).to be_falsy
       end
 
       it 'ratifying_provider_user without make_decisions' do
         ratifying_provider_user.provider_permissions.update_all(make_decisions: false)
 
-        expect(can_make_offer?(actor: ratifying_provider_user)).to be_falsy
+        expect(can_make_decisions?(actor: ratifying_provider_user)).to be_falsy
       end
     end
 
     context 'actor: provider user (no permissions, by association only)' do
       it 'is false if not associated with the provider that offers the course' do
         unrelated_choice = create(:application_choice, :awaiting_provider_decision)
-        expect(can_make_offer?(actor: training_provider_user, choice: unrelated_choice)).to be_falsy
+        expect(can_make_decisions?(actor: training_provider_user, choice: unrelated_choice)).to be_falsy
       end
 
       it 'is true if associated with the provider that offers the course' do
-        expect(can_make_offer?(actor: training_provider_user)).to be_truthy
+        expect(can_make_decisions?(actor: training_provider_user)).to be_truthy
       end
 
       it 'is true if associated with the accredited provider for this course' do
-        expect(can_make_offer?(actor: ratifying_provider_user)).to be_truthy
+        expect(can_make_decisions?(actor: ratifying_provider_user)).to be_truthy
       end
     end
 
     context 'actor: support user' do
       it 'is true no matter what' do
         unrelated_choice = create(:application_choice, :awaiting_provider_decision)
-        expect(can_make_offer?(actor: create(:support_user), choice: unrelated_choice)).to be_truthy
+        expect(can_make_decisions?(actor: create(:support_user), choice: unrelated_choice)).to be_truthy
       end
     end
 
     context 'actor: api user (no permissions, by association only)' do
       it 'is false if api key belongs to a random provider' do
         unrelated_choice = create(:application_choice, :awaiting_provider_decision)
-        expect(can_make_offer?(actor: create(:vendor_api_user), choice: unrelated_choice)).to be_falsy
+        expect(can_make_decisions?(actor: create(:vendor_api_user), choice: unrelated_choice)).to be_falsy
       end
 
       it 'is true if api key is associated with the training provider' do
         vendor_api_token = create(:vendor_api_token, provider: training_provider)
         vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
-        expect(can_make_offer?(actor: vendor_api_user)).to be_truthy
+        expect(can_make_decisions?(actor: vendor_api_user)).to be_truthy
       end
 
       it 'is true if api key is associated with the provider ratifying the course' do
         vendor_api_token = create(:vendor_api_token, provider: ratifying_provider)
         vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
-        expect(can_make_offer?(actor: vendor_api_user)).to be_truthy
+        expect(can_make_decisions?(actor: vendor_api_user)).to be_truthy
       end
     end
 
@@ -181,7 +181,7 @@ RSpec.describe ProviderAuthorisation do
 
         vendor_api_token = create(:vendor_api_token, provider: training_provider)
         vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
-        expect(can_make_offer?(actor: vendor_api_user)).to be_falsy
+        expect(can_make_decisions?(actor: vendor_api_user)).to be_falsy
       end
 
       it 'is false for ratifying_provider without make_decisions' do
@@ -189,7 +189,7 @@ RSpec.describe ProviderAuthorisation do
 
         vendor_api_token = create(:vendor_api_token, provider: ratifying_provider)
         vendor_api_user = create(:vendor_api_user, vendor_api_token: vendor_api_token)
-        expect(can_make_offer?(actor: vendor_api_user)).to be_falsy
+        expect(can_make_decisions?(actor: vendor_api_user)).to be_falsy
       end
     end
   end

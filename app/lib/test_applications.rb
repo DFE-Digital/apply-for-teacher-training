@@ -218,7 +218,7 @@ class TestApplications
   def reject_application(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
-      RejectApplication.new(application_choice: choice, rejection_reason: 'Some').save
+      RejectApplication.new(actor: actor, application_choice: choice, rejection_reason: 'Some').save
       choice.update_columns(rejected_at: time)
     end
   end
@@ -226,7 +226,7 @@ class TestApplications
   def withdraw_offer(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
-      WithdrawOffer.new(application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
+      WithdrawOffer.new(actor: actor, application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
       choice.update_columns(withdrawn_at: time)
     end
   end
@@ -234,7 +234,7 @@ class TestApplications
   def conditions_not_met(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
-      ConditionsNotMet.new(application_choice: choice).save
+      ConditionsNotMet.new(actor: actor, application_choice: choice).save
       choice.update_columns(conditions_not_met_at: time)
     end
   end
@@ -242,7 +242,7 @@ class TestApplications
   def confirm_offer_conditions(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
-      ConfirmOfferConditions.new(application_choice: choice).save
+      ConfirmOfferConditions.new(actor: actor, application_choice: choice).save
       choice.update_columns(recruited_at: time)
     end
   end
@@ -250,7 +250,7 @@ class TestApplications
   def confirm_enrollment(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
-      ConfirmEnrolment.new(application_choice: choice).save
+      ConfirmEnrolment.new(actor: actor, application_choice: choice).save
       choice.update_columns(enrolled_at: time)
     end
   end
