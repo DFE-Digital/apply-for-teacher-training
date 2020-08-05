@@ -674,7 +674,6 @@ Rails.application.routes.draw do
 
     get '/providers' => 'providers#index', as: :providers
     get '/providers/other' => 'providers#other_providers', as: :other_providers
-    get '/providers/relationships' => 'providers#relationships', as: :provider_relationships
 
     scope path: '/providers/:provider_id' do
       get '/' => 'providers#show', as: :provider

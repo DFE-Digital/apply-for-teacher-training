@@ -26,6 +26,7 @@ module SupportInterface
 
     def users
       @provider = Provider.includes(:provider_users).find(params[:provider_id])
+      @relationship_diagram = SupportInterface::ProviderRelationshipsDiagram.new(provider: @provider)
     end
 
     def applications
@@ -46,10 +47,6 @@ module SupportInterface
 
     def enable_course_syncing
       update_provider('Successfully updated provider') { |provider| provider.update!(sync_courses: true) }
-    end
-
-    def relationships
-      @diagram = SupportInterface::ProviderRelationshipsDiagram.new
     end
 
   private
