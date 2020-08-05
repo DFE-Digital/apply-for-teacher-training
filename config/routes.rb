@@ -17,9 +17,6 @@ Rails.application.routes.draw do
   namespace :candidate_interface, path: '/candidate' do
     get '/' => 'start_page#show', as: :start
 
-    get '/start-apply-again' => 'application_form#start_apply_again', as: :start_apply_again
-    post '/apply-again' => 'application_form#apply_again', as: :apply_again
-
     get '/accessibility', to: 'content#accessibility'
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_candidate', as: :cookies
@@ -51,18 +48,20 @@ Rails.application.routes.draw do
     get '/interstitial', to: 'after_sign_in#interstitial', as: :interstitial
 
     scope '/application' do
-      get '/before-you-start', to: 'application_form#before_you_start'
-      get '/edit' => 'application_form#edit', as: :application_edit
       get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
-      get '/submit' => 'application_form#submit_show', as: :application_submit_show
-      post '/submit' => 'application_form#submit', as: :application_submit
 
       get '/' => 'unsubmitted_application_form#show', as: :application_form
       get '/review' => 'unsubmitted_application_form#review', as: :application_review
+      get '/before-you-start', to: 'unsubmitted_application_form#before_you_start'
+      get '/submit' => 'unsubmitted_application_form#submit_show', as: :application_submit_show
+      post '/submit' => 'unsubmitted_application_form#submit', as: :application_submit
 
       get '/complete' => 'submitted_application_form#complete', as: :application_complete
       get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
       get '/submit-success' => 'submitted_application_form#submit_success', as: :application_submit_success
+      get '/edit' => 'submitted_application_form#edit', as: :application_edit
+      get '/start-apply-again' => 'submitted_application_form#start_apply_again', as: :start_apply_again
+      post '/apply-again' => 'submitted_application_form#apply_again', as: :apply_again
 
       scope '/personal-details' do
         get '/' => 'personal_details/base#new', as: :personal_details_new
