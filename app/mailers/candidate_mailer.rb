@@ -75,7 +75,7 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!(
-        application_choice.rejected_by_default ? "candidate_mailer.application_rejected_by_default.subject" : "candidate_mailer.application_rejected.all_rejected.subject",
+        application_choice.rejected_by_default ? 'candidate_mailer.application_rejected_by_default.subject' : 'candidate_mailer.application_rejected.all_rejected.subject',
         provider_name: @course.provider.name,
       ),
       template_name: template_name,
@@ -94,7 +94,7 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!(
-        "candidate_mailer.application_rejected#{application_choice.rejected_by_default ? '_by_default' : ''}.awaiting_decisions.subject",
+        application_choice.rejected_by_default ? 'candidate_mailer.application_rejected_by_default.subject' : 'candidate_mailer.application_rejected.awaiting_decisions.subject',
         provider_name: @course.provider.name,
         course_name: @course.name_and_code,
       ),
@@ -115,7 +115,7 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!(
-        "candidate_mailer.application_rejected#{application_choice.rejected_by_default ? '_by_default' : ''}.offers_made.subject",
+        application_choice.rejected_by_default ? 'candidate_mailer.application_rejected_by_default.subject' : 'candidate_mailer.application_rejected.offers_made.subject',
         provider_name: @course.provider.name,
         dbd_days: @dbd_days,
       ),
