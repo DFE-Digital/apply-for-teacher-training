@@ -1,6 +1,5 @@
 const nationalitiesComponent = () => {
-
-  const pageHasErrors = document.querySelector('.govuk-error-summary');
+  const pageHasErrors = document.querySelector(".govuk-error-summary");
   if (pageHasErrors) return;
 
   const secondSelect = document.getElementById(
@@ -18,27 +17,19 @@ const nationalitiesComponent = () => {
     "[for=candidate-interface-nationalities-form-other-nationality3-field]"
   );
 
-  let addNationalityButton = null
+  let addNationalityButton = null;
 
-  addRemoveLink(
-    secondSelect.id
-  );
+  addRemoveLink(secondSelect.id);
 
-  addRemoveLink(
-    thirdSelect.id
-  );
+  addRemoveLink(thirdSelect.id);
 
   addAddNationalityButton(
     "#candidate-interface-nationalities-form-other-other-conditional"
   );
 
-  hideSection(
-    secondSelect.id
-  );
+  hideSection(secondSelect.id);
 
-  hideSection(
-    thirdSelect.id
-  );
+  hideSection(thirdSelect.id);
 
   function addRemoveLink(selector) {
     const labelEl = document.querySelector(`[for=${selector}]`);
@@ -51,7 +42,7 @@ const nationalitiesComponent = () => {
     removeLink.href = "#";
     labelEl.appendChild(removeLink);
 
-    addNthNationalityHiddenSpan(removeLink, selector)
+    addNthNationalityHiddenSpan(removeLink, selector);
 
     removeLink.addEventListener("click", function () {
       handleRemoveLinkClick(labelEl, selector);
@@ -60,13 +51,12 @@ const nationalitiesComponent = () => {
 
   function addNthNationalityHiddenSpan(removeLink, selector) {
     const nthNationalitySpan = document.createElement("span");
-    nthNationalitySpan.classList.add("govuk-visually-hidden")
+    nthNationalitySpan.classList.add("govuk-visually-hidden");
 
     if (selector == secondSelect.id) {
-      nthNationalitySpan.innerHTML = 'Second nationality';
-    }
-    else {
-      nthNationalitySpan.innerHTML = 'Third nationality';
+      nthNationalitySpan.innerHTML = "Second nationality";
+    } else {
+      nthNationalitySpan.innerHTML = "Third nationality";
     }
 
     removeLink.appendChild(nthNationalitySpan);
@@ -77,7 +67,10 @@ const nationalitiesComponent = () => {
     addNationalityButton = document.createElement("button");
     addNationalityButton.innerHTML = "Add another nationality";
     addNationalityButton.id = "add-nationality-button";
-    addNationalityButton.classList.add("govuk-button", "govuk-button--secondary");
+    addNationalityButton.classList.add(
+      "govuk-button",
+      "govuk-button--secondary"
+    );
     parent.appendChild(addNationalityButton);
 
     if (secondSelect.value && thirdSelect.value) {
@@ -111,8 +104,7 @@ const nationalitiesComponent = () => {
       thirdFormLabel.parentElement.style.display === "none"
     ) {
       secondFormLabel.parentElement.style.display = "";
-    }
-    else if (secondFormLabel.parentElement.style.display === "none") {
+    } else if (secondFormLabel.parentElement.style.display === "none") {
       secondFormLabel.parentElement.style.display = "";
       addNationalityButton.style.display = "none";
     } else {
