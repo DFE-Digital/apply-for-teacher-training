@@ -19,7 +19,20 @@
       <% else %>
         <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
 
-        <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint_text: hint_for_gcse_edit_grade(@subject, @qualification_type), width: 10 %>
+        <% if autocomplete_grades? %>
+          <div class="govuk-!-width-one-third">
+            <%= f.govuk_collection_select(
+              :grade,
+              CandidateInterface::GcseQualificationDetailsForm.all_grade_drop_down_options,
+              :value,
+              :option,
+              label: { text: 'Grade', size: 'm' },
+              hint_text: 'For example, ‘C’ or ‘4’',
+            ) %>
+          </div>
+        <% else %>
+          <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint_text: hint_for_gcse_edit_grade(@subject, @qualification_type), width: 10 %>
+        <% end %>
       <% end %>
 
       <%= f.submit t('application_form.gcse.complete_form_button'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>

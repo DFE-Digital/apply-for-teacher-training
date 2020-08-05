@@ -24,6 +24,11 @@ module CandidateInterface
 
   private
 
+    def autocomplete_grades?
+      @subject.in?(%w[maths english]) && @qualification_type == 'gcse'
+    end
+    helper_method :autocomplete_grades?
+
     def next_gcse_path
       if details_form.award_year.nil?
         candidate_interface_gcse_details_edit_year_path

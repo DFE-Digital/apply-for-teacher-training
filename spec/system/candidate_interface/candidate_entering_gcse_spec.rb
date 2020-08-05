@@ -128,7 +128,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_fill_in_the_grade
-    fill_in 'Please specify your grade', with: 'AA'
+    select 'AA', from: 'Grade'
   end
 
   def when_i_fill_in_the_year

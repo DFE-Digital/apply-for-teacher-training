@@ -11,6 +11,12 @@ module CandidateInterface
     validate :award_year_is_a_valid_date, if: :award_year, on: :award_year
     validate :validate_grade_format, unless: :new_record?, on: :grade
 
+    Grade = Struct.new(:value, :option)
+
+    def self.all_grade_drop_down_options
+      ALL_GCSE_GRADES.map { |g| Grade.new(g, g) }
+    end
+
     def self.build_from_qualification(qualification)
       if FeatureFlag.active?('international_gcses') && qualification.qualification_type == 'non_uk'
         new(
