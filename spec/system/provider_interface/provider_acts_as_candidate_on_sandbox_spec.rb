@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'A Provider can log in as a candidate' do
+RSpec.describe 'A Provider can sign in as a candidate' do
   include CourseOptionHelpers
   include DfESignInHelpers
 

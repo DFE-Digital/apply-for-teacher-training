@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'GET /provider' do
-  context 'when the user is logged in to Apply' do
+  context 'when the user is signed in to Apply' do
     before do
       allow(ProviderUser).to receive(:load_from_session)
         .and_return(
@@ -19,7 +19,7 @@ RSpec.describe 'GET /provider' do
     end
   end
 
-  context 'when the user is not logged in at all' do
+  context 'when the user is not signed in at all' do
     it 'returns 200' do
       get '/provider'
 

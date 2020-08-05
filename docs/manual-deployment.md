@@ -22,7 +22,7 @@ instructions](hotfix-deployment.md).
 1. Locate the desired run from that has failed deployment from the list and select it.
 1. Copy the six character hex string at the start of the run name, without the leading '#' as shown in the following diagram, to the clipboard for use later.
 ![Manual Deployment - Diagram 1](manual_deployment_dia01.png)
-1. Launch the Azure Portal at https://portal.azure.com and log in using your normal credentials.
+1. Launch the Azure Portal at https://portal.azure.com and sign in using your normal credentials.
 1. Ensure that you are using the "DfE Platform Identity" directory, this is shown under your username at the top right of the GUI. To change directory click on your username at the top right, click on "Switch directory" and then select "DfE Platform Identity".
 ![Manual Deployment - Diagram 2](manual_deployment_dia02.png)
 1. Select the "Resource groups" blade from the menu on the left.
