@@ -7,8 +7,8 @@
   <%= f.govuk_error_summary %>
   <%= f.hidden_field :provider_id %>
   <%= f.govuk_check_boxes_fieldset :permissions, {
-          legend: { text: "Select permissions: #{permissions_form.provider.name}", size: "xl" },
-          caption: { text: "Invite user", size: "xl" },
+          legend: { text: "Change permissions: #{permissions_form.provider.name}", size: "xl" },
+          caption: { text: permissions_form.provider_user.full_name, size: "xl" },
   } do %>
 
     <span class="govuk-hint">
@@ -16,7 +16,7 @@
     </span>
 
     <%= f.govuk_check_box :manage_organisations, true, multiple: false,
-                          label: { text: 'Manage organisation' },
+                          label: { text: 'Manage organisations' },
                           hint_text: 'Change permissions between organisations' %>
 
     <%= f.govuk_check_box :manage_users, true, multiple: false,
