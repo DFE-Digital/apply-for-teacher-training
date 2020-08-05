@@ -107,4 +107,40 @@ RSpec.describe 'Set up ProviderRelationshipPermissions', type: :request do
       end
     end
   end
+
+  describe 'when the current user does not have permission to manage organisations' do
+    before do
+      create(
+        :provider_relationship_permissions,
+        ratifying_provider: create(:provider),
+        training_provider: provider,
+        setup_at: Time.zone.now,
+      )
+    end
+
+    it 'responds with 404' do
+      get provider_interface_provider_relationship_permissions_organisations_path
+
+      expect(response.status).to eq(404)
+    end
+  end
+
+  describe 'when no permissions need setup' do
+    before do
+      create(
+        :provider_relationship_permissions,
+        ratifying_provider: create(:provider),
+        training_provider: provider,
+        setup_at: Time.zone.now,
+      )
+      provider_user.provider_permissions.update_all(manage_organisations: true)
+    end
+
+    it 'redirects to the applications path' do
+      get provider_interface_provider_relationship_permissions_organisations_path
+
+      expect(response.status).to eq(302)
+      expect(response.redirect_url).to match(/\/provider\/applications$/)
+    end
+  end
 end

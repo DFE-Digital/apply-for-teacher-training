@@ -3,6 +3,7 @@ module ProviderInterface
     before_action :require_feature_flag!
     before_action :require_manage_organisations_permission!
     before_action :require_access_to_manage_provider_relationship_permissions!, only: %i[setup_permissions save_permissions]
+    before_action :redirect_unless_permissions_to_setup, except: %i[success]
 
     def organisations
       @grouped_provider_names_from_relationships = grouped_provider_names_from_relationships
@@ -108,6 +109,10 @@ module ProviderInterface
       permitted_relationship_permissions = current_provider_user.authorisation.training_provider_relationships_that_actor_can_manage_organisations_for
 
       render_403 unless permitted_relationship_permissions.include?(provider_relationship_permissions)
+    end
+
+    def redirect_unless_permissions_to_setup
+      redirect_to provider_interface_applications_path if provider_relationship_permissions_needing_setup.blank?
     end
 
     def permissions_params
