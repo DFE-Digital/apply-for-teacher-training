@@ -5,7 +5,6 @@ RSpec.feature 'Candidate applying again' do
 
   scenario 'Can replace a completed reference' do
     given_the_pilot_is_open
-    and_apply_again_feature_flag_is_active
     and_i_am_signed_in_as_a_candidate
 
     when_i_have_an_unsuccessful_application_with_references
@@ -37,10 +36,6 @@ RSpec.feature 'Candidate applying again' do
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_apply_again_feature_flag_is_active
-    FeatureFlag.activate('apply_again')
   end
 
   def and_i_am_signed_in_as_a_candidate

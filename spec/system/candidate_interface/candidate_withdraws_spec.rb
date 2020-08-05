@@ -18,7 +18,6 @@ RSpec.feature 'A candidate withdraws her application' do
   scenario 'successful withdrawal' do
     given_i_am_signed_in_as_a_candidate
     and_the_covid_19_feature_flag_is_on
-    and_the_apply_again_flag_is_on
     and_i_have_multiple_application_choice_awaiting_provider_decision
 
     when_i_visit_the_application_dashboard
@@ -55,10 +54,6 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def and_the_covid_19_feature_flag_is_on
     FeatureFlag.activate('covid_19')
-  end
-
-  def and_the_apply_again_flag_is_on
-    FeatureFlag.activate('apply_again')
   end
 
   def and_i_have_multiple_application_choice_awaiting_provider_decision

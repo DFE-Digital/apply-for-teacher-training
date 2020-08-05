@@ -18,13 +18,7 @@ module CandidateInterface
       @pluralized_provider_string = 'provider'.pluralize(provider_count)
     end
 
-    def start_apply_again
-      render_404 and return unless FeatureFlag.active?('apply_again')
-    end
-
     def apply_again
-      render_404 and return unless FeatureFlag.active?('apply_again')
-
       DuplicateApplication.new(current_application).duplicate
       flash[:success] = 'Your new application is ready for editing'
       redirect_to candidate_interface_before_you_start_path

@@ -62,8 +62,6 @@ RSpec.describe SubmitApplication do
     end
 
     context 'when application is in Apply Again' do
-      before { FeatureFlag.activate('apply_again') }
-
       it 'progresses to `awaiting_provider_decision` if all references are in' do
         original_application_form = create_application_form
 

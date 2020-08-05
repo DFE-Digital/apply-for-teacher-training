@@ -10,7 +10,7 @@ class WithdrawApplication
       SetDeclineByDefault.new(application_form: application_choice.application_form).call
     end
 
-    if @application_choice.application_form.ended_without_success? && FeatureFlag.active?('apply_again')
+    if @application_choice.application_form.ended_without_success?
       CandidateMailer.withdraw_last_application_choice(@application_choice.application_form).deliver_later
     end
 

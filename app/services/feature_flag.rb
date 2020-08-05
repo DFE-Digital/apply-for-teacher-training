@@ -25,7 +25,6 @@ class FeatureFlag
   TEMPORARY_FEATURE_FLAGS = [
     [:providers_can_manage_users_and_permissions, 'Allows provider users to invite other provider users, and allows providers to manage other users permissions to do make decisions, view safeguarding, and add other users', 'Tijmen Brommet'],
     [:enforce_provider_to_provider_permissions, 'Provider-to-provider permissions affect what provider users can see and do', 'Duncan Brown'],
-    [:apply_again, 'Enables unsuccessful candidates to reapply, AKA Apply 2', 'Steve Hook'],
     [:international_addresses, 'Candidates who live outside the UK can enter their local address in free-text format', 'Steve Hook'],
     [:international_personal_details, 'Changes to the candidate personal details section to account for international applicants.', 'David Gisbey'],
     [:efl_section, 'Allow candidates with nationalities other then British or Irish to specify their English as a Foreign Language experience', 'Malcolm Baig'],
