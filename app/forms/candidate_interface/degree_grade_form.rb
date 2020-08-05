@@ -26,7 +26,7 @@ module CandidateInterface
     end
 
     def fill_form_values
-      FeatureFlag.active?(:hesa_degree_data) ? fill_hesa_form : fill_non_hesa_form
+      fill_hesa_form
 
       self
     end
@@ -50,18 +50,6 @@ module CandidateInterface
         else
           self.grade = hesa_grade.description
         end
-      else
-        self.grade = 'other'
-        self.other_grade = degree.grade
-      end
-    end
-
-    def fill_non_hesa_form
-      if degree.predicted_grade?
-        self.grade = 'predicted'
-        self.predicted_grade = degree.grade
-      elsif degree.grade.in? %w[first upper_second lower_second third]
-        self.grade = degree.grade
       else
         self.grade = 'other'
         self.other_grade = degree.grade
