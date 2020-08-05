@@ -92,12 +92,8 @@ module CandidateInterface
     end
 
     def ready_to_submit?
-      if FeatureFlag.active?('unavailable_course_option_warnings')
-        sections_with_completion.map(&:second).all? &&
-          application_choice_errors.empty?
-      else
-        sections_with_completion.map(&:second).all?
-      end
+      sections_with_completion.map(&:second).all? &&
+        application_choice_errors.empty?
     end
 
     def application_choices_added?

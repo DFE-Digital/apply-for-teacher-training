@@ -139,10 +139,8 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
     end
 
-    context 'when course is unavailable and unavailable_course_option_warnings is active' do
+    context 'when course is unavailable' do
       it 'renders with the unavailable course text' do
-        FeatureFlag.activate('unavailable_course_option_warnings')
-
         application_form = create(:application_form)
         create(
           :submitted_application_choice,
@@ -215,10 +213,8 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       end
     end
 
-    context 'when course is unavailable and unavailable_course_option_warnings is active' do
+    context 'when course is unavailable' do
       it 'renders without the unavailable course text' do
-        FeatureFlag.activate('unavailable_course_option_warnings')
-
         application_form = create(:application_form)
         create(
           :submitted_application_choice,

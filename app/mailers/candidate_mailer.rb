@@ -70,11 +70,7 @@ class CandidateMailer < ApplicationMailer
     @application_choice = application_choice
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
 
-    template_name = if FeatureFlag.active?('apply_again')
-                      :application_rejected_all_rejected_apply_again
-                    else
-                      :application_rejected_all_rejected
-                    end
+    template_name = :application_rejected_all_rejected_apply_again
 
     email_for_candidate(
       application_choice.application_form,
@@ -156,10 +152,10 @@ class CandidateMailer < ApplicationMailer
     @declined_courses = application_form.application_choices.select(&:declined_by_default?)
     @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
 
-    if application_form.ended_without_success? && FeatureFlag.active?('apply_again') && application_form.application_choices.select(&:rejected?).present?
+    if application_form.ended_without_success? && application_form.application_choices.select(&:rejected?).present?
       template_name = :declined_by_default_with_rejections
       subject = I18n.t!('candidate_mailer.decline_by_default_last_course_choice.subject', count: @declined_courses.size)
-    elsif application_form.ended_without_success? && FeatureFlag.active?('apply_again')
+    elsif application_form.ended_without_success?
       template_name = :declined_by_default_without_rejections
       subject = I18n.t!('candidate_mailer.decline_by_default_last_course_choice.subject', count: @declined_courses.size)
     else

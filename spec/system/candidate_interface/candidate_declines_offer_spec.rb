@@ -5,7 +5,6 @@ RSpec.feature 'Candidate declines an offer' do
 
   scenario 'Candidate views an offer and declines' do
     given_i_am_signed_in
-    and_the_apply_again_flag_is_on
     and_i_have_multiple_offers
 
     when_i_visit_the_application_dashboard
@@ -27,10 +26,6 @@ RSpec.feature 'Candidate declines an offer' do
   def given_i_am_signed_in
     @candidate = create(:candidate)
     login_as(@candidate)
-  end
-
-  def and_the_apply_again_flag_is_on
-    FeatureFlag.activate('apply_again')
   end
 
   def and_i_have_multiple_offers

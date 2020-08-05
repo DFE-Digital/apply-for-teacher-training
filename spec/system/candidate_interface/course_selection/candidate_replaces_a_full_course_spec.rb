@@ -4,8 +4,7 @@ RSpec.feature 'Selecting a course' do
   include CandidateHelper
 
   scenario 'Candidate selects a course choice' do
-    given_the_replace_full_or_withdrawn_application_choices_is_active
-    and_i_have_submitted_my_application
+    given_i_have_submitted_my_application
     and_one_of_my_application_choices_has_become_full
     and_there_are_course_options
 
@@ -67,11 +66,7 @@ RSpec.feature 'Selecting a course' do
     and_i_cannot_see_my_old_course_choice
   end
 
-  def given_the_replace_full_or_withdrawn_application_choices_is_active
-    FeatureFlag.activate('replace_full_or_withdrawn_application_choices')
-  end
-
-  def and_i_have_submitted_my_application
+  def given_i_have_submitted_my_application
     candidate_completes_application_form
     candidate_submits_application
     @course_choice = @application.application_choices.first

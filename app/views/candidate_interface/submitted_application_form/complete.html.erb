@@ -10,7 +10,7 @@
   <%= render CandidateInterface::Covid19DashboardBannerComponent.new(application_form: @application_form) %>
 <% end %>
 
-<% if FeatureFlag.active?('apply_again') && @application_form.ended_without_success? %>
+<% if @application_form.ended_without_success? %>
   <%= render CandidateInterface::ApplyAgainBannerComponent.new(application_form: @application_form) %>
 <% end %>
 

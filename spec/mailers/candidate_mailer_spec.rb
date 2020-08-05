@@ -133,6 +133,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         FeatureFlag.activate('covid_19')
         @application_form = build_stubbed(
           :application_form,
+          candidate: @candidate,
           first_name: 'Fred',
           application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
         )
@@ -140,8 +141,8 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content', :declined_by_default,
-        'Application withdrawn automatically',
-        'Reason' => 'because you didn’t respond in time.'
+        'You did not respond to your offer: next steps',
+        'Reason' => 'You did not respond in time so we declined your'
       )
     end
 
@@ -160,7 +161,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content',
         :declined_by_default,
-        'Application withdrawn automatically',
+        'You did not respond to your offer: next steps',
         'heading' => 'Dear Fred',
         'days left to respond' => '10 working days',
       )
@@ -179,142 +180,100 @@ RSpec.describe CandidateMailer, type: :mailer do
         )
       end
 
-      it_behaves_like 'a mail with subject and content', :declined_by_default, 'Applications withdrawn automatically', {}
+      it_behaves_like 'a mail with subject and content', :declined_by_default, 'You did not respond to your offers: next steps', {}
     end
-  end
 
-  context 'when the covid-19 feature flag is on and the apply again flag is on' do
-    before do
-      FeatureFlag.activate('covid_19')
-      FeatureFlag.activate('apply_again')
-      @application_form = build_stubbed(
-        :application_form,
-        candidate: @candidate,
-        application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
+    context 'when a candidate has 1 offer that was declined by default and a rejection' do
+      before do
+        @application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          candidate: @candidate,
+          application_choices: [
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+            build_stubbed(:application_choice, status: 'rejected'),
+          ],
+        )
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        :declined_by_default,
+        'You did not respond to your offer: next steps',
+        'heading' => 'Dear Fred',
+        'DBD_days_they_had_to_respond' => '10 working days',
+        'still_interested' => 'If now’s the right time for you',
       )
     end
 
-    it_behaves_like(
-      'a mail with subject and content',
-      :declined_by_default,
-      'You did not respond to your offer: next steps',
-      'Reason' => 'You did not respond in time so we declined your',
-    )
-  end
+    context 'when a candidate has 2 offers that were declined by default and a rejection' do
+      before do
+        @application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          candidate: @candidate,
+          application_choices: [
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+            build_stubbed(:application_choice, status: 'rejected'),
+          ],
+        )
+      end
 
-  context 'when the covid-19 feature flag is off and the apply_again flag is on' do
-    before do
-      FeatureFlag.activate('apply_again')
-      @application_form = build_stubbed(
-        :application_form,
-        first_name: 'Fred',
-        candidate: @candidate,
-        application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
+      it_behaves_like(
+        'a mail with subject and content',
+        :declined_by_default,
+        'You did not respond to your offers: next steps',
+        'heading' => 'Dear Fred',
+        'DBD_days_they_had_to_respond' => '10 working days',
+        'still_interested' => 'If now’s the right time for you',
       )
     end
 
-    it_behaves_like(
-      'a mail with subject and content',
-      :declined_by_default,
-      'You did not respond to your offer: next steps',
-      'Reason' => 'You did not respond within',
-    )
-  end
+    context 'when a candidate has 1 offer that was declined and it awaiting another decision' do
+      before do
+        @application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          candidate: @candidate,
+          application_choices: [
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+            build_stubbed(:application_choice, status: 'awaiting_provider_decision'),
+          ],
+        )
+      end
 
-  context 'when a candidate has 1 offer that was declined by default' do
-    before do
-      FeatureFlag.activate('apply_again')
-      @application_form = build_stubbed(
-        :application_form,
-        first_name: 'Fred',
-        candidate: @candidate,
-        application_choices: [
-          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-        ],
+      it_behaves_like(
+        'a mail with subject and content',
+        :declined_by_default,
+        'Application withdrawn automatically',
+        'heading' => 'Dear Fred',
+        'days left to respond' => '10 working days',
       )
     end
 
-    it_behaves_like(
-      'a mail with subject and content',
-      :declined_by_default,
-      'You did not respond to your offer: next steps',
-      'heading' => 'Dear Fred',
-      'DBD_days_they_had_to_respond' => '10 working days',
-      'still_interested' => 'You didn’t pursue your teacher training application',
-    )
-  end
+    context 'when a candidate has 2 offers that was declined and it awaiting another decision' do
+      before do
+        @application_form = build_stubbed(
+          :application_form,
+          first_name: 'Fred',
+          candidate: @candidate,
+          application_choices: [
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
+            build_stubbed(:application_choice, status: 'awaiting_provider_decision'),
+          ],
+        )
+      end
 
-  context 'when a candidate has 2 offers that were declined by default' do
-    before do
-      FeatureFlag.activate('apply_again')
-      @application_form = build_stubbed(
-        :application_form,
-        first_name: 'Fred',
-        candidate: @candidate,
-        application_choices: [
-          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-        ],
+      it_behaves_like(
+        'a mail with subject and content',
+        :declined_by_default,
+        'Applications withdrawn automatically',
+        'heading' => 'Dear Fred',
+        'days left to respond' => '10 working days',
       )
     end
-
-    it_behaves_like(
-      'a mail with subject and content',
-      :declined_by_default,
-      'You did not respond to your offers: next steps',
-      'heading' => 'Dear Fred',
-      'DBD_days_they_had_to_respond' => '10 working days',
-      'still_interested' => 'You didn’t pursue your teacher training application',
-    )
-  end
-
-  context 'when a candidate has 1 offer that was declined by default and a rejection' do
-    before do
-      FeatureFlag.activate('apply_again')
-      @application_form = build_stubbed(
-        :application_form,
-        first_name: 'Fred',
-        candidate: @candidate,
-        application_choices: [
-          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-          build_stubbed(:application_choice, status: 'rejected'),
-        ],
-      )
-    end
-
-    it_behaves_like(
-      'a mail with subject and content',
-      :declined_by_default,
-      'You did not respond to your offer: next steps',
-      'heading' => 'Dear Fred',
-      'DBD_days_they_had_to_respond' => '10 working days',
-      'still_interested' => 'If now’s the right time for you',
-    )
-  end
-
-  context 'when a candidate has 2 offers that were declined by default and a rejection' do
-    before do
-      FeatureFlag.activate('apply_again')
-      @application_form = build_stubbed(
-        :application_form,
-        first_name: 'Fred',
-        candidate: @candidate,
-        application_choices: [
-          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-          build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-          build_stubbed(:application_choice, status: 'rejected'),
-        ],
-      )
-    end
-
-    it_behaves_like(
-      'a mail with subject and content',
-      :declined_by_default,
-      'You did not respond to your offers: next steps',
-      'heading' => 'Dear Fred',
-      'DBD_days_they_had_to_respond' => '10 working days',
-      'still_interested' => 'If now’s the right time for you',
-    )
   end
 
   describe '.withdraw_last_application_choice' do
@@ -477,16 +436,6 @@ RSpec.describe CandidateMailer, type: :mailer do
         expect(email.subject).to eq 'There are no more places for Mathematics (M101) at Bilberry College: update your course choice now'
         expect(email.body).to include('Dear Fred,')
         expect(email.body).to include('There are no more places for Mathematics (M101) at Bilberry College')
-        expect(email.body).to include('Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do')
-      end
-
-      it 'has the correct subject and content for new course flow' do
-        FeatureFlag.activate(:replace_full_or_withdrawn_application_choices)
-        email = send_email
-
-        expect(email.subject).to eq 'There are no more places for Mathematics (M101) at Bilberry College: update your course choice now'
-        expect(email.body).to include('Dear Fred,')
-        expect(email.body).to include('There are no more places for Mathematics (M101) at Bilberry College')
         expect(email.body).to include('Update your course choice:')
       end
     end
@@ -502,17 +451,6 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it 'has the correct subject and content' do
-        email = send_email
-
-        expect(email.subject).to eq('Mathematics (M101) at Bilberry College is not running anymore: update your course choice now')
-        expect(email.body).to include('Dear Fred,')
-        expect(email.body).to include('Your course is not running anymore')
-        expect(email.body).to include('Bilberry College is not running Mathematics (M101) anymore.')
-        expect(email.body).to include('Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do')
-      end
-
-      it 'has the correct subject and content for new course flow' do
-        FeatureFlag.activate(:replace_full_or_withdrawn_application_choices)
         email = send_email
 
         expect(email.subject).to eq('Mathematics (M101) at Bilberry College is not running anymore: update your course choice now')
@@ -539,16 +477,6 @@ RSpec.describe CandidateMailer, type: :mailer do
         expect(email.subject).to eq 'There are no more places at your choice of location for Mathematics (M101) at Bilberry College: update your course choice now'
         expect(email.body).to include('Dear Fred,')
         expect(email.body).to include('There are no more places at West Wilford School for Mathematics (M101) at Bilberry College')
-        expect(email.body).to include('Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do')
-      end
-
-      it 'has the correct subject and content for new course flow' do
-        FeatureFlag.activate(:replace_full_or_withdrawn_application_choices)
-        email = send_email
-
-        expect(email.subject).to eq 'There are no more places at your choice of location for Mathematics (M101) at Bilberry College: update your course choice now'
-        expect(email.body).to include('Dear Fred,')
-        expect(email.body).to include('There are no more places at West Wilford School for Mathematics (M101) at Bilberry College')
         expect(email.body).to include('Find out about other options for Mathematics (M101) and edit or replace the course choice:')
       end
     end
@@ -564,16 +492,6 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it 'has the correct subject and content' do
-        email = send_email
-
-        expect(email.subject).to eq 'There are no more full time places for Mathematics (M101) at Bilberry College: update your course choice now'
-        expect(email.body).to include('Dear Fred,')
-        expect(email.body).to include('There are no more full time places for Mathematics (M101) at Bilberry College')
-        expect(email.body).to include('Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do')
-      end
-
-      it 'has the correct subject and content for new course flow' do
-        FeatureFlag.activate(:replace_full_or_withdrawn_application_choices)
         email = send_email
 
         expect(email.subject).to eq 'There are no more full time places for Mathematics (M101) at Bilberry College: update your course choice now'
