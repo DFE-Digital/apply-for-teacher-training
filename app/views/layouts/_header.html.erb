@@ -37,7 +37,7 @@
   <% components_name = 'ViewComponent Previews' if request.path.match(/^\/rails\/view_components/) %>
   <%= render(HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  service_name: components_name || try(:service_name),
-                                 service_url: components_url || try(:service_url),
+                                 service_url: components_url || try(:service_link),
                                  navigation_items: [])) %>
                                <%= render PhaseBanner.new %>
 <% end %>
