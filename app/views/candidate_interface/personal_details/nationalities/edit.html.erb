@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @nationalities_form, url: candidate_interface_edit_nationalities_path do |f| %>
+    <%= form_with model: @nationalities_form, url: candidate_interface_edit_nationalities_path, class: 'app-nationality-add-margin-to-last-select' do |f| %>
       <%= render partial: 'shared_form', locals: { f: f }  %>
     <% end %>
   </div>
