@@ -3,13 +3,15 @@ require 'rails_helper'
 RSpec.feature 'An application has been rejected by default' do
   include CourseOptionHelpers
 
-  scenario 'the provider receives email', with_audited: true do
+  scenario 'the provider receives a chaser email, provider and candidate both receive email when reject by default is triggered', with_audited: true do
     given_i_am_a_provider_user_with_a_provider
     and_there_is_a_candidate
     and_an_application_is_ready_to_reject_by_default
 
-    when_the_application_is_rejected_by_default
+    when_the_application_is_getting_close_to_the_reject_by_default_date
+    then_i_should_receive_a_chaser_email_with_a_link_to_the_application
 
+    when_the_application_is_rejected_by_default
     then_i_should_receive_an_email
     and_the_candidate_should_receive_an_email
   end
@@ -37,6 +39,27 @@ RSpec.feature 'An application has been rejected by default' do
             candidate: @candidate,
           ),
       )
+  end
+
+  def when_the_application_is_getting_close_to_the_reject_by_default_date
+    time_limit_in_buiness_days = TimeLimitCalculator.new(rule: :chase_provider_before_rbd, effective_date: Time.zone.now).call[:days]
+    Timecop.travel((time_limit_in_buiness_days.days - 1).before(@application_choice.reject_by_default_at)) do
+      SendChaseEmailToProvidersWorker.perform_async
+    end
+  end
+
+  def then_i_should_receive_a_chaser_email_with_a_link_to_the_application
+    open_email(@provider_user.email_address)
+
+    expected_subject = I18n.t(
+      'provider_application_waiting_for_decision.email.subject',
+      candidate_name: @application_choice.application_form.full_name,
+    )
+    expect(current_email.subject).to include(expected_subject)
+
+    expect(current_email.body).to include(
+      "http://localhost:3000/provider/applications/#{@application_choice.id}",
+    )
   end
 
   def when_the_application_is_rejected_by_default
