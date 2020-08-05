@@ -6,27 +6,10 @@ Dear <%= @application_form.first_name %>,
 
 The provider removed the course while we were waiting for your references, so they have not got your application.
 
-<% if FeatureFlag.active?(:replace_full_or_withdrawn_application_choices) %>
-
 # Update course choice now
 
 Update your course choice:
 
 <%= candidate_magic_link(@application_form.candidate) %>
 
-If you do nothing, we’ll send your application to the provider when your references come in. There’s no guarantee they’ll consider it. 
-
-<% else %>
-
-# Decide what you want to do and let us know as soon as possible
-
-Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do.
-
-You can:
-- choose a different course (go to https://www.find-postgraduate-teacher-training.service.gov.uk to find a course)
-- remove the course from your application
-- keep the course on your application
-
 If you do nothing, we’ll send your application to the provider when your references come in. There’s no guarantee they’ll consider it.
-
-<% end %>

@@ -4,8 +4,6 @@ RSpec.describe CandidateInterface::NewCourseChoiceNeededBannerComponent do
   describe '#render?' do
     let(:application_form) { create(:application_form) }
 
-    before { FeatureFlag.activate('replace_full_or_withdrawn_application_choices') }
-
     context 'when a course is only available on ucas and the candidate is awaiting their references' do
       it 'renders the component' do
         create(:course, withdrawn: false, open_on_apply: false)

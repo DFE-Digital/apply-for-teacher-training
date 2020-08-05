@@ -477,16 +477,6 @@ RSpec.describe CandidateMailer, type: :mailer do
         expect(email.subject).to eq 'There are no more places for Mathematics (M101) at Bilberry College: update your course choice now'
         expect(email.body).to include('Dear Fred,')
         expect(email.body).to include('There are no more places for Mathematics (M101) at Bilberry College')
-        expect(email.body).to include('Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do')
-      end
-
-      it 'has the correct subject and content for new course flow' do
-        FeatureFlag.activate(:replace_full_or_withdrawn_application_choices)
-        email = send_email
-
-        expect(email.subject).to eq 'There are no more places for Mathematics (M101) at Bilberry College: update your course choice now'
-        expect(email.body).to include('Dear Fred,')
-        expect(email.body).to include('There are no more places for Mathematics (M101) at Bilberry College')
         expect(email.body).to include('Update your course choice:')
       end
     end
@@ -502,17 +492,6 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it 'has the correct subject and content' do
-        email = send_email
-
-        expect(email.subject).to eq('Mathematics (M101) at Bilberry College is not running anymore: update your course choice now')
-        expect(email.body).to include('Dear Fred,')
-        expect(email.body).to include('Your course is not running anymore')
-        expect(email.body).to include('Bilberry College is not running Mathematics (M101) anymore.')
-        expect(email.body).to include('Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do')
-      end
-
-      it 'has the correct subject and content for new course flow' do
-        FeatureFlag.activate(:replace_full_or_withdrawn_application_choices)
         email = send_email
 
         expect(email.subject).to eq('Mathematics (M101) at Bilberry College is not running anymore: update your course choice now')
@@ -539,16 +518,6 @@ RSpec.describe CandidateMailer, type: :mailer do
         expect(email.subject).to eq 'There are no more places at your choice of location for Mathematics (M101) at Bilberry College: update your course choice now'
         expect(email.body).to include('Dear Fred,')
         expect(email.body).to include('There are no more places at West Wilford School for Mathematics (M101) at Bilberry College')
-        expect(email.body).to include('Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do')
-      end
-
-      it 'has the correct subject and content for new course flow' do
-        FeatureFlag.activate(:replace_full_or_withdrawn_application_choices)
-        email = send_email
-
-        expect(email.subject).to eq 'There are no more places at your choice of location for Mathematics (M101) at Bilberry College: update your course choice now'
-        expect(email.body).to include('Dear Fred,')
-        expect(email.body).to include('There are no more places at West Wilford School for Mathematics (M101) at Bilberry College')
         expect(email.body).to include('Find out about other options for Mathematics (M101) and edit or replace the course choice:')
       end
     end
@@ -564,16 +533,6 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it 'has the correct subject and content' do
-        email = send_email
-
-        expect(email.subject).to eq 'There are no more full time places for Mathematics (M101) at Bilberry College: update your course choice now'
-        expect(email.body).to include('Dear Fred,')
-        expect(email.body).to include('There are no more full time places for Mathematics (M101) at Bilberry College')
-        expect(email.body).to include('Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do')
-      end
-
-      it 'has the correct subject and content for new course flow' do
-        FeatureFlag.activate(:replace_full_or_withdrawn_application_choices)
         email = send_email
 
         expect(email.subject).to eq 'There are no more full time places for Mathematics (M101) at Bilberry College: update your course choice now'

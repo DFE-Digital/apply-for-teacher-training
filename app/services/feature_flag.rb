@@ -28,7 +28,6 @@ class FeatureFlag
     [:unavailable_course_option_warnings, 'Warns candidates at submission time if a course has become unavailable since they originally chose it', 'Malcolm Baig'],
     [:track_validation_errors, 'Captures validation errors triggered by candidates so that they can be reviewed by support staff', 'Steve Hook'],
     [:apply_again, 'Enables unsuccessful candidates to reapply, AKA Apply 2', 'Steve Hook'],
-    [:replace_full_or_withdrawn_application_choices, 'Allows candidates to replace full or withdrawn application choices post-submission', 'David Gisbey'],
     [:unavailable_course_notifications, 'Candidates with applications waiting for references receive an email notification if their course choice is withdrawn has no vacancies', 'Steve Hook'],
     [:hesa_degree_data, 'Use structured HESA data to autocomplete certain parts of the add degree flow', 'Malcolm Baig'],
     [:international_addresses, 'Candidates who live outside the UK can enter their local address in free-text format', 'Steve Hook'],

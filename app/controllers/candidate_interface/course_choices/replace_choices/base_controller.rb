@@ -2,7 +2,7 @@ module CandidateInterface
   module CourseChoices
     module ReplaceChoices
       class BaseController < CandidateInterfaceController
-        before_action :render_404_if_flag_is_inactive, :redirect_to_dashboard_if_no_choices_need_replacing
+        before_action :redirect_to_dashboard_if_no_choices_need_replacing
 
         def pick_choice_to_replace
           if only_one_course_choice_needs_replacing?
@@ -30,10 +30,6 @@ module CandidateInterface
         end
 
       private
-
-        def render_404_if_flag_is_inactive
-          render_404 and return unless FeatureFlag.active?('replace_full_or_withdrawn_application_choices')
-        end
 
         def redirect_to_dashboard_if_no_choices_need_replacing
           redirect_to candidate_interface_application_complete_path if current_application.course_choices_that_need_replacing.blank?

@@ -5,8 +5,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   include CourseOptionHelpers
 
   scenario 'when a candidate arrives at the dashboard they can follow the replace course flow' do
-    given_the_replace_full_or_withdrawn_application_choices_is_active?
-    and_i_have_submitted_my_application
+    given_i_have_submitted_my_application
     and_my_course_is_only_available_on_ucas
 
     when_i_arrive_at_my_application_dashboard
@@ -136,11 +135,7 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
     and_i_can_see_my_new_course_with_multiple_sites_and_study_modes
   end
 
-  def given_the_replace_full_or_withdrawn_application_choices_is_active?
-    FeatureFlag.activate('replace_full_or_withdrawn_application_choices')
-  end
-
-  def and_i_have_submitted_my_application
+  def given_i_have_submitted_my_application
     candidate_completes_application_form
     candidate_submits_application
     @course_option = @application.application_choices.first.course_option

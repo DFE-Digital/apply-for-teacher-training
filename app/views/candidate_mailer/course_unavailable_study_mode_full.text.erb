@@ -6,29 +6,10 @@ There are no more <%= @application_choice.course_option.study_mode.humanize.down
 
 The places filled up while we were waiting for your references, so the provider has not got your application.
 
-<% if FeatureFlag.active?(:replace_full_or_withdrawn_application_choices) %>
-
 # Update your course choice now
 
 Find out about other options for <%= @application_choice.course_option.course.name_and_code %> and edit or replace the course choice:
 
 <%= candidate_magic_link(@application_form.candidate) %>
 
-If you do nothing, we’ll send your application to the provider when your references come in. There’s no guarantee they’ll consider it. 
-
-<% else %>
-
-# Decide what you want to do and let us know as soon as possible
-
-Email us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) to let us know what you want to do.
-
-You can:
-
-- choose a different course: https://www.find-postgraduate-teacher-training.service.gov.uk
-- choose a different option for this course: https://www.find-postgraduate-teacher-training.service.gov.uk
-- remove the course from your application
-- keep the course on your application
-
 If you do nothing, we’ll send your application to the provider when your references come in. There’s no guarantee they’ll consider it.
-
-<% end %>
