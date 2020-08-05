@@ -1,13 +1,5 @@
 module CandidateInterface
   class ApplicationFormController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted, only: %i[show review]
-    before_action :redirect_to_application_form_unless_submitted, only: %i[review_submitted complete submit_success]
-
-    def show
-      @application_form_presenter = CandidateInterface::ApplicationFormPresenter.new(current_application)
-      @application_form = current_application
-    end
-
     def before_you_start; end
 
     def start_apply_again
@@ -22,20 +14,11 @@ module CandidateInterface
       redirect_to candidate_interface_before_you_start_path
     end
 
-    def review
-      redirect_to candidate_interface_application_complete_path if current_application.submitted?
-      @application_form = current_application
-    end
-
     def edit
       redirect_to candidate_interface_application_complete_path and return unless current_application.can_edit_after_submission?
 
       @application_form = current_application
       render :edit_by_support
-    end
-
-    def complete
-      @application_form = current_application
     end
 
     def submit_show
@@ -48,7 +31,7 @@ module CandidateInterface
         @errors = @application_form_presenter.section_errors
         @application_choice_errors = @application_form_presenter.application_choice_errors
 
-        render :review
+        render 'candidate_interface/unsubmitted_application_form/review'
       end
     end
 
@@ -65,23 +48,11 @@ module CandidateInterface
       end
     end
 
-    def submit_success
-      @application_form = current_application
-      @support_reference = current_application.support_reference
-      @editable_days = TimeLimitConfig.edit_by
-      provider_count = current_application.unique_provider_list.size
-      @pluralized_provider_string = 'provider'.pluralize(provider_count)
-    end
-
-    def review_submitted
-      @application_form = current_application
-    end
-
     def review_previous_application
       @application_form = current_candidate.application_forms.find(params[:id])
       @review_previous_application = true
 
-      render :review_submitted
+      render 'candidate_interface/submitted_application_form/review_submitted'
     rescue ActiveRecord::RecordNotFound
       render_404
     end

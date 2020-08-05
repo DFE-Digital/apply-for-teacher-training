@@ -51,17 +51,18 @@ Rails.application.routes.draw do
     get '/interstitial', to: 'after_sign_in#interstitial', as: :interstitial
 
     scope '/application' do
-      get '/' => 'application_form#show', as: :application_form
       get '/before-you-start', to: 'application_form#before_you_start'
       get '/edit' => 'application_form#edit', as: :application_edit
-      get '/review' => 'application_form#review', as: :application_review
-      get '/review/submitted' => 'application_form#review_submitted', as: :application_review_submitted
       get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
-
-      get '/complete' => 'application_form#complete', as: :application_complete
       get '/submit' => 'application_form#submit_show', as: :application_submit_show
       post '/submit' => 'application_form#submit', as: :application_submit
-      get '/submit-success' => 'application_form#submit_success', as: :application_submit_success
+
+      get '/' => 'unsubmitted_application_form#show', as: :application_form
+      get '/review' => 'unsubmitted_application_form#review', as: :application_review
+
+      get '/complete' => 'submitted_application_form#complete', as: :application_complete
+      get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
+      get '/submit-success' => 'submitted_application_form#submit_success', as: :application_submit_success
 
       scope '/personal-details' do
         get '/' => 'personal_details/base#new', as: :personal_details_new

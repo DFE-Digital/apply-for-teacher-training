@@ -26,6 +26,6 @@
   <%= t('review_application.heading') %>
 </h1>
 
-<%= render 'review', application_form: @application_form, editable: true %>
+<%= render 'candidate_interface/application_form/review', application_form: @application_form, editable: true %>
 
 <%= govuk_button_link_to t('review_application.button_continue'), candidate_interface_start_equality_and_diversity_path %>
