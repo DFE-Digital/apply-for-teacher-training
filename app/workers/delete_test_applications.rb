@@ -4,13 +4,7 @@ class DeleteTestApplications
   def perform(*)
     raise 'You can only delete test applications in a test environment' unless DeleteTestApplications.can_run_in_this_environment?
 
-    candidates_to_purge.find_each do |candidate|
-      candidate.application_forms.each do |application_form|
-        application_form.application_choices.each(&:destroy)
-        application_form.destroy
-      end
-      candidate.destroy
-    end
+    candidates_to_purge.delete_all
   end
 
   TEST_ENVIRONMENTS = %w[development test qa review].freeze
