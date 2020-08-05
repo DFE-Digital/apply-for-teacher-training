@@ -1,4 +1,4 @@
-Cookies are used to remember who you are when you have logged in so we can show you your information and information relevant to you.
+Cookies are used to remember who you are when you have signed in so we can show you your information and information relevant to you.
 
 ## How we use cookies
 
