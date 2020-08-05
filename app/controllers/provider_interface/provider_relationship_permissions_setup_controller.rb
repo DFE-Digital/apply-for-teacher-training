@@ -47,18 +47,24 @@ module ProviderInterface
     end
 
     def check
-     @wizard = wizard_for(current_step: 'check')
-     @wizard.save_state!
-     @permissions_models = ProviderRelationshipPermissions
-       .includes(:training_provider, :ratifying_provider)
-       .where(id: @wizard.provider_relationships)
+      @wizard = wizard_for(current_step: 'check')
+      @wizard.save_state!
+      @permissions_models = ProviderRelationshipPermissions
+        .includes(:training_provider, :ratifying_provider)
+        .where(id: @wizard.provider_relationships)
     end
 
     def commit
       @wizard = wizard_for({})
-      # TODO: Save permissions
-      @wizard.clear_state!
-      redirect_to provider_interface_provider_relationship_permissions_success_path
+      if SetupProviderRelationshipPermissions.call(@wizard.provider_relationship_permissions)
+        @wizard.clear_state!
+        redirect_to provider_interface_provider_relationship_permissions_success_path
+      else
+        redirect_to(
+          provider_interface_check_provider_relationship_permissions_path,
+          warning: 'Unable to save permissions, please try again. If problems persist please contact support',
+        )
+      end
     end
 
     def success; end
