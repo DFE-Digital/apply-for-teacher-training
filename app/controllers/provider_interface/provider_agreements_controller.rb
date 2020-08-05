@@ -19,15 +19,6 @@ module ProviderInterface
       end
     end
 
-    def show_data_sharing_agreement
-      @provider_agreement = ProviderAgreement.find_by_id params[:id]
-      if @provider_agreement
-        render :data_sharing_agreement
-      else
-        redirect_to provider_interface_path
-      end
-    end
-
   private
 
     def provider_agreement_params

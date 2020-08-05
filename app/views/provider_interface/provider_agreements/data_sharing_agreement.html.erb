@@ -1,17 +1,13 @@
 <%= content_for :browser_title, t('page_titles.data_sharing_agreement') %>
 
-<% if @provider_agreement.persisted? %>
-  <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-9">
-    <div class="govuk-panel__body">
-      <strong><%= @provider_agreement.provider.name %></strong>
-      agreed with the practices outlined in this document on
-      <%= @provider_agreement.accepted_at.to_s(:govuk_date_and_time) %>
-    </div>
-  </div>
-<% end %>
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+  <%= form_with model: @provider_agreement, url: provider_interface_create_data_sharing_agreement_path, html: { novalidate: false } do |f| %>
+
+    <%= f.govuk_error_summary %>
+    <%= f.hidden_field :agreement_type %>
+    <%= f.hidden_field :provider_id %>
+
     <h1 class="govuk-heading-xl govuk-!-margin-bottom-3"><%= t('page_titles.data_sharing_agreement') %></h1>
     <p class="govuk-body-l">This agreement applies to personal data shared between the Department for Education (DfE) and <%= @provider_agreement.provider.name %>, ‘the provider’, as part of Apply for teacher training.</p>
 
@@ -350,17 +346,17 @@
       </ul>
       <p>In the event of a significant security breach or other serious breach of the terms of this DSA by either participant, the DSA will be terminated or suspended immediately without notice.</p>
 
-      <% if !@provider_agreement.persisted? %>
-        <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-        <%= form_with model: @provider_agreement, url: provider_interface_create_data_sharing_agreement_path, html: { novalidate: false } do |f| %>
-          <%= f.govuk_error_summary %>
-          <%= f.hidden_field :agreement_type %>
-          <%= f.hidden_field :provider_id %>
-          <% declaration = "#{@provider_agreement.provider.name} agrees to comply with the data sharing practices outlined in this agreement" %>
-          <%= f.govuk_check_box :accept_agreement, true, multiple: false, link_errors: true, label: { text: declaration } %>
-          <%= f.govuk_submit 'Continue' %>
-        <% end %>
+      <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+
+      <% declaration = "#{@provider_agreement.provider.name} agrees to comply with the data sharing practices outlined in this agreement" %>
+
+      <%= f.govuk_check_boxes_fieldset :accept_agreement do %>
+        <%= f.govuk_check_box :accept_agreement, true, multiple: false, link_errors: true, label: { text: declaration } %>
       <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
     </div>
+
+  <% end %>
   </div>
 </div>
