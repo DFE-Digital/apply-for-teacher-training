@@ -7,7 +7,6 @@ RSpec.feature 'Entering their contact details' do
     given_i_am_signed_in
     and_the_international_addresses_flag_is_active
     and_i_visit_the_site
-    and_the_track_validation_errors_feature_is_on
 
     when_i_click_on_contact_details
     and_i_incorrectly_fill_in_my_phone_number
@@ -59,10 +58,6 @@ RSpec.feature 'Entering their contact details' do
 
   def and_i_visit_the_site
     visit candidate_interface_application_form_path
-  end
-
-  def and_the_track_validation_errors_feature_is_on
-    FeatureFlag.activate('track_validation_errors')
   end
 
   def when_i_click_on_contact_details

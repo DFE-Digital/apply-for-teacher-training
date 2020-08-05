@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate tries to sign up' do
   scenario 'Candidate attempts to sign up without filling in an email address' do
     given_the_pilot_is_open
-    and_the_track_validation_errors_feature_is_on
 
     given_i_am_a_candidate_without_an_account
 
@@ -16,10 +15,6 @@ RSpec.feature 'Candidate tries to sign up' do
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_track_validation_errors_feature_is_on
-    FeatureFlag.activate('track_validation_errors')
   end
 
   def given_i_am_a_candidate_without_an_account

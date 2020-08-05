@@ -12,7 +12,6 @@ RSpec.feature 'Validation errors' do
 
   scenario 'Review validation errors' do
     given_i_am_a_candidate
-    and_the_track_validation_errors_feature_is_on
     and_i_enter_invalid_contact_details
 
     given_i_am_a_support_user
@@ -29,10 +28,6 @@ RSpec.feature 'Validation errors' do
 
   def given_i_am_a_candidate
     create_and_sign_in_candidate
-  end
-
-  def and_the_track_validation_errors_feature_is_on
-    FeatureFlag.activate('track_validation_errors')
   end
 
   def and_i_enter_invalid_contact_details

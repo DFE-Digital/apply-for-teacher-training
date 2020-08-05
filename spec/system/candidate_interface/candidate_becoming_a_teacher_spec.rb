@@ -6,7 +6,6 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
   scenario 'Candidate submits why they want to be a teacher' do
     given_i_am_signed_in
     and_i_visit_the_site
-    and_the_track_validation_errors_feature_is_on
 
     when_i_click_on_becoming_a_teacher
     and_i_submit_the_form
@@ -33,10 +32,6 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_track_validation_errors_feature_is_on
-    FeatureFlag.activate('track_validation_errors')
   end
 
   def and_i_visit_the_site
