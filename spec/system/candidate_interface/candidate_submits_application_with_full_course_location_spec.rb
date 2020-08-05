@@ -4,8 +4,7 @@ RSpec.feature 'Candidate submits the application' do
   include CandidateHelper
 
   scenario 'The location that the candidate picked is full but others have vacancies' do
-    given_course_warnings_feature_is_active
-    and_i_complete_my_application
+    given_i_complete_my_application
     and_the_selected_course_options_is_now_full
     and_an_alternative_course_option_has_vacancies
     and_i_submit_my_application
@@ -14,11 +13,7 @@ RSpec.feature 'Candidate submits the application' do
     and_i_cannot_proceed
   end
 
-  def given_course_warnings_feature_is_active
-    FeatureFlag.activate('unavailable_course_option_warnings')
-  end
-
-  def and_i_complete_my_application
+  def given_i_complete_my_application
     candidate_completes_application_form
   end
 

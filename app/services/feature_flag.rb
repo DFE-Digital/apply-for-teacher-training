@@ -25,7 +25,6 @@ class FeatureFlag
   TEMPORARY_FEATURE_FLAGS = [
     [:providers_can_manage_users_and_permissions, 'Allows provider users to invite other provider users, and allows providers to manage other users permissions to do make decisions, view safeguarding, and add other users', 'Tijmen Brommet'],
     [:enforce_provider_to_provider_permissions, 'Provider-to-provider permissions affect what provider users can see and do', 'Duncan Brown'],
-    [:unavailable_course_option_warnings, 'Warns candidates at submission time if a course has become unavailable since they originally chose it', 'Malcolm Baig'],
     [:track_validation_errors, 'Captures validation errors triggered by candidates so that they can be reviewed by support staff', 'Steve Hook'],
     [:apply_again, 'Enables unsuccessful candidates to reapply, AKA Apply 2', 'Steve Hook'],
     [:hesa_degree_data, 'Use structured HESA data to autocomplete certain parts of the add degree flow', 'Malcolm Baig'],

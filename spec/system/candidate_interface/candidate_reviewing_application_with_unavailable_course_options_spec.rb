@@ -5,7 +5,6 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
 
   scenario 'sees warning messages for unavailable course options' do
     given_i_am_signed_in
-    and_the_unavailable_course_option_warnings_feature_is_active
     and_i_chose_course_options_that_have_since_become_unavailable
 
     when_i_visit_the_review_application_page
@@ -27,10 +26,6 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_unavailable_course_option_warnings_feature_is_active
-    FeatureFlag.activate('unavailable_course_option_warnings')
   end
 
   def and_i_chose_course_options_that_have_since_become_unavailable
