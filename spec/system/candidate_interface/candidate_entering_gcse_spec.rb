@@ -78,7 +78,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_select_gce_option
-    choose('GCE O Level')
+    choose('O Level')
   end
 
   def and_i_click_save_and_continue
@@ -128,7 +128,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_fill_in_the_grade
-    fill_in 'Please specify your grade', with: 'AA'
+    select 'AA', from: 'Grade'
   end
 
   def when_i_fill_in_the_year

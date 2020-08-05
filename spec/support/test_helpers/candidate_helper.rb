@@ -293,7 +293,7 @@ module CandidateHelper
   def candidate_fills_in_a_gcse
     choose('GCSE')
     click_button 'Save and continue'
-    fill_in 'Please specify your grade', with: 'B'
+    select 'B', from: 'Grade'
     click_button 'Save and continue'
     fill_in 'Enter year', with: '1990'
     click_button 'Save and continue'
