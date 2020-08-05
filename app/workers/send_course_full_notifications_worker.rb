@@ -4,13 +4,11 @@ class SendCourseFullNotificationsWorker
   def perform
     GetApplicationChoicesWithNewlyUnavailableCourses.call.each do |application_choice|
       reason = ReasonCourseNotAvailable.new(application_choice).call
-      if FeatureFlag.active?(:unavailable_course_notifications)
-        ChaserSent.create!(
-          chased: application_choice,
-          chaser_type: :course_unavailable_notification,
-        )
-        CandidateMailer.course_unavailable_notification(application_choice, reason).deliver_later
-      end
+      ChaserSent.create!(
+        chased: application_choice,
+        chaser_type: :course_unavailable_notification,
+      )
+      CandidateMailer.course_unavailable_notification(application_choice, reason).deliver_later
       send_slack_message(application_choice, reason)
     end
   end
