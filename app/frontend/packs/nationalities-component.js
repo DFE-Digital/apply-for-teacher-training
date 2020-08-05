@@ -51,9 +51,25 @@ const nationalitiesComponent = () => {
     removeLink.href = "#";
     labelEl.appendChild(removeLink);
 
+    addNthNationalityHiddenSpan(removeLink, selector)
+
     removeLink.addEventListener("click", function () {
       handleRemoveLinkClick(labelEl, selector);
     });
+  }
+
+  function addNthNationalityHiddenSpan(removeLink, selector) {
+    const nthNationalitySpan = document.createElement("span");
+    nthNationalitySpan.classList.add("govuk-visually-hidden")
+
+    if (selector == secondSelect.id) {
+      nthNationalitySpan.innerHTML = 'Second nationality';
+    }
+    else {
+      nthNationalitySpan.innerHTML = 'Third nationality';
+    }
+
+    removeLink.appendChild(nthNationalitySpan);
   }
 
   function addAddNationalityButton(parentSelector) {
