@@ -339,27 +339,48 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#efl_section_required?' do
-    context 'at least one selected nationality is considered "English-speaking"' do
-      let(:application_form) { build_stubbed :application_form, first_nationality: 'British', second_nationality: 'French' }
+    let(:application_with_english_speaking_nationality) do
+      build_stubbed :application_form, first_nationality: 'British', second_nationality: 'French'
+    end
 
-      it 'returns true' do
-        expect(application_form.efl_section_required?).to be false
+    let(:application_with_no_english_speaking_nationalities) do
+      build_stubbed :application_form, first_nationality: 'Jamaican', second_nationality: 'Chinese'
+    end
+
+    context 'efl_section feature flag is off' do
+      before { FeatureFlag.deactivate :efl_section }
+
+      it 'returns false' do
+        expect(application_with_english_speaking_nationality.efl_section_required?).to be false
+        expect(application_with_no_english_speaking_nationalities.efl_section_required?).to be false
       end
     end
 
-    context 'no "English-speaking" nationalities selected' do
-      let(:application_form) { build_stubbed :application_form, first_nationality: 'Jamaican', second_nationality: 'Chinese' }
+    context 'efl_section feature flag is on' do
+      before { FeatureFlag.activate :efl_section }
 
-      it 'returns false' do
-        expect(application_form.efl_section_required?).to be true
+      context 'at least one selected nationality is considered "English-speaking"' do
+        let(:application_form) { application_with_english_speaking_nationality }
+
+        it 'returns false' do
+          expect(application_form.efl_section_required?).to be false
+        end
       end
-    end
 
-    context 'nationalities not selected' do
-      let(:application_form) { build_stubbed :application_form }
+      context 'no "English-speaking" nationalities selected' do
+        let(:application_form) { application_with_no_english_speaking_nationalities }
 
-      it 'returns false' do
-        expect(application_form.efl_section_required?).to be false
+        it 'returns true' do
+          expect(application_form.efl_section_required?).to be true
+        end
+      end
+
+      context 'nationalities not selected' do
+        let(:application_form) { build_stubbed :application_form }
+
+        it 'returns false' do
+          expect(application_form.efl_section_required?).to be false
+        end
       end
     end
   end
