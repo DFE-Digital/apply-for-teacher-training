@@ -263,8 +263,16 @@ To request a remote demonstration of the service as a whole or a particular feat
 
 To report a problem or get help, email us on <becomingateacher@digital.education.gov.uk>.
 
+<!-- <% if HostingEnvironment.sandbox_mode? %> -->
+###To give feedback
+To give feedback about the service, [fill in our feedback form](#).
+
+<!-- <% end %> -->
+
 ###Take part in user research and give feedback
 
 We welcome feedback on all aspects of Manage teacher training applications. When you participate in user research, you help shape current and future service features.
 
-Please [complete this 30-second form](https://docs.google.com/forms/d/1QgmaQzLsQ9dMcIgnTjr-7faAz7VpKuPXjHoF6hU22Po) and we’ll be in touch. Or, simply give us your feedback over email at <becomingateacher@digital.education.gov.uk>.
+Please [complete this 30-second form](https://docs.google.com/forms/d/1QgmaQzLsQ9dMcIgnTjr-7faAz7VpKuPXjHoF6hU22Po) and we’ll be in touch.
+
+<!-- Or, simply give us your feedback over email at <becomingateacher@digital.education.gov.uk>. -->

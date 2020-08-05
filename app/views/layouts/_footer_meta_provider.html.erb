@@ -6,6 +6,11 @@
   <p class="govuk-body">
   For questions or to report a problem, email us on <%= link_to 'becomingateacher@digital.education.gov.uk', 'mailto:becomingateacher@digital.education.gov.uk', class: 'govuk-footer__link' %>
   </p>
+  <% if HostingEnvironment.sandbox_mode? %>
+    <p class="govuk-body">
+    To give feedback about the service, <%= link_to 'fill in our feedback form', '#', class: 'govuk-footer__link' %>
+    </p>
+  <% end %>
 </div>
 <ul class="govuk-footer__inline-list">
   <li class="govuk-footer__inline-list-item">
