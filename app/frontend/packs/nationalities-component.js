@@ -18,6 +18,8 @@ const nationalitiesComponent = () => {
     "[for=candidate-interface-nationalities-form-other-nationality3-field]"
   );
 
+  let addNationalityButton = null
+
   addRemoveLink(
     secondSelect.id
   );
@@ -56,19 +58,19 @@ const nationalitiesComponent = () => {
 
   function addAddNationalityButton(parentSelector) {
     const parent = document.querySelector(parentSelector);
-    const nationalityButton = document.createElement("button");
-    nationalityButton.innerHTML = "Add another nationality";
-    nationalityButton.id = "add-nationality-button";
-    nationalityButton.classList.add("govuk-button", "govuk-button--secondary");
-    parent.appendChild(nationalityButton);
+    addNationalityButton = document.createElement("button");
+    addNationalityButton.innerHTML = "Add another nationality";
+    addNationalityButton.id = "add-nationality-button";
+    addNationalityButton.classList.add("govuk-button", "govuk-button--secondary");
+    parent.appendChild(addNationalityButton);
 
     if (secondSelect.value && thirdSelect.value) {
-      nationalityButton.style.display = "none";
+      addNationalityButton.style.display = "none";
     }
 
-    nationalityButton.addEventListener("click", function () {
+    addNationalityButton.addEventListener("click", function () {
       event.preventDefault();
-      handleAddNationalityClick(nationalityButton);
+      handleAddNationalityClick();
     });
   }
 
@@ -82,17 +84,12 @@ const nationalitiesComponent = () => {
   }
 
   function handleRemoveLinkClick(labelEl, selector) {
-    const addNationalityButton = document.getElementById(
-      "add-nationality-button"
-    );
-
     addNationalityButton.style.display = "";
     labelEl.parentElement.style.display = "none";
     document.getElementById(selector).value = "";
   }
 
-  function handleAddNationalityClick(nationalityButton) {
-
+  function handleAddNationalityClick() {
     if (
       secondFormLabel.parentElement.style.display === "none" &&
       thirdFormLabel.parentElement.style.display === "none"
@@ -101,10 +98,10 @@ const nationalitiesComponent = () => {
     }
     else if (secondFormLabel.parentElement.style.display === "none") {
       secondFormLabel.parentElement.style.display = "";
-      nationalityButton.style.display = "none";
+      addNationalityButton.style.display = "none";
     } else {
       thirdFormLabel.parentElement.style.display = "";
-      nationalityButton.style.display = "none";
+      addNationalityButton.style.display = "none";
     }
   }
 };

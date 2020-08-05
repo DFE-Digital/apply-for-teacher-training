@@ -1,3 +1,7 @@
 .app-nationality-remove-link {
   float: right;
 }
+
+.app-nationality-add-margin-to-last-select .govuk-form-group:last-of-type {
+  margin-bottom: 30px;
+}
