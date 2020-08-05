@@ -2,11 +2,11 @@ const nationalitiesComponent = () => {
   const pageHasErrors = document.querySelector(".govuk-error-summary");
   if (pageHasErrors) return;
 
-  const secondSelect = document.getElementById(
+  const secondSelectEl = document.getElementById(
     "candidate-interface-nationalities-form-other-nationality2-field"
   );
 
-  const thirdSelect = document.getElementById(
+  const thirdSelectEl = document.getElementById(
     "candidate-interface-nationalities-form-other-nationality3-field"
   );
 
@@ -19,19 +19,19 @@ const nationalitiesComponent = () => {
 
   let addNationalityButton = null;
 
-  addRemoveLink(secondFormLabel, secondSelect);
+  addRemoveLink(secondFormLabel, secondSelectEl);
 
-  addRemoveLink(thirdFormLabel, thirdSelect);
+  addRemoveLink(thirdFormLabel, thirdSelectEl);
 
   addAddNationalityButton(
     "#candidate-interface-nationalities-form-other-other-conditional"
   );
 
-  hideSection(secondSelect, secondFormLabel);
+  hideSection(secondSelectEl, secondFormLabel);
 
-  hideSection(thirdSelect, thirdFormLabel);
+  hideSection(thirdSelectEl, thirdFormLabel);
 
-  function addRemoveLink(labelEl, select) {
+  function addRemoveLink(labelEl, selectEl) {
     const removeLink = document.createElement("a");
     removeLink.innerHTML = "Remove";
     removeLink.classList.add("govuk-link", "app-nationality-remove-link");
@@ -49,7 +49,7 @@ const nationalitiesComponent = () => {
     }
 
     removeLink.addEventListener("click", function () {
-      handleRemoveLinkClick(labelEl, select);
+      handleRemoveLinkClick(labelEl, selectEl);
     });
   }
 
@@ -71,7 +71,7 @@ const nationalitiesComponent = () => {
     );
     parent.appendChild(addNationalityButton);
 
-    if (secondSelect.value && thirdSelect.value) {
+    if (secondSelectEl.value && thirdSelectEl.value) {
       addNationalityButton.style.display = "none";
     }
 
@@ -81,16 +81,16 @@ const nationalitiesComponent = () => {
     });
   }
 
-  function hideSection(select, labelEl) {
-    if (select.value === "") {
+  function hideSection(selectEl, labelEl) {
+    if (selectEl.value === "") {
       labelEl.parentElement.style.display = "none";
     }
   }
 
-  function handleRemoveLinkClick(labelEl, select) {
+  function handleRemoveLinkClick(labelEl, selectEl) {
     addNationalityButton.style.display = "";
     labelEl.parentElement.style.display = "none";
-    select.value = "";
+    selectEl.value = "";
   }
 
   function handleAddNationalityClick() {
