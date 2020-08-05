@@ -1,21 +1,29 @@
 const nationalitiesComponent = () => {
-  if (
-    document.querySelector(
-      "[for=candidate-interface-nationalities-form-other-nationality2-field-error]"
-    ) ||
-    document.querySelector(
-      "[for=candidate-interface-nationalities-form-other-nationality3-field-error]"
-    )
-  ) {
-    return;
-  }
 
-  addRemoveLink(
+  const pageHasErrors = document.querySelector('.govuk-error-summary');
+  if (pageHasErrors) return;
+
+  const secondSelect = document.getElementById(
     "candidate-interface-nationalities-form-other-nationality2-field"
   );
 
-  addRemoveLink(
+  const thirdSelect = document.getElementById(
     "candidate-interface-nationalities-form-other-nationality3-field"
+  );
+
+  const secondFormLabel = document.querySelector(
+    "[for=candidate-interface-nationalities-form-other-nationality2-field]"
+  );
+  const thirdFormLabel = document.querySelector(
+    "[for=candidate-interface-nationalities-form-other-nationality3-field]"
+  );
+
+  addRemoveLink(
+    secondSelect.id
+  );
+
+  addRemoveLink(
+    thirdSelect.id
   );
 
   addAddNationalityButton(
@@ -23,18 +31,18 @@ const nationalitiesComponent = () => {
   );
 
   hideSection(
-    "candidate-interface-nationalities-form-other-nationality2-field"
+    secondSelect.id
   );
 
   hideSection(
-    "candidate-interface-nationalities-form-other-nationality3-field"
+    thirdSelect.id
   );
 
   function addRemoveLink(selector) {
     const labelEl = document.querySelector(`[for=${selector}]`);
     const removeLink = document.createElement("a");
     removeLink.innerHTML = "Remove";
-    removeLink.classList.add("govuk-link", "remove-link");
+    removeLink.classList.add("govuk-link", "app-nationality-remove-link");
 
     // This has to be a link and not a button as the govuk-link class requires an
     // href to apply  it's styling
@@ -42,7 +50,7 @@ const nationalitiesComponent = () => {
     labelEl.appendChild(removeLink);
 
     removeLink.addEventListener("click", function () {
-      addRemoveLinkEvent(labelEl, selector);
+      handleRemoveLinkClick(labelEl, selector);
     });
   }
 
@@ -54,20 +62,13 @@ const nationalitiesComponent = () => {
     nationalityButton.classList.add("govuk-button", "govuk-button--secondary");
     parent.appendChild(nationalityButton);
 
-    const secondSelect = document.querySelector(
-      "[id=candidate-interface-nationalities-form-other-nationality2-field]"
-    );
-    const thirdSelect = document.querySelector(
-      "[id=candidate-interface-nationalities-form-other-nationality3-field]"
-    );
-
     if (secondSelect.value && thirdSelect.value) {
       nationalityButton.style.display = "none";
     }
 
     nationalityButton.addEventListener("click", function () {
       event.preventDefault();
-      addNationalityEvent(nationalityButton);
+      handleAddNationalityClick(nationalityButton);
     });
   }
 
@@ -80,7 +81,7 @@ const nationalitiesComponent = () => {
     }
   }
 
-  function addRemoveLinkEvent(labelEl, selector) {
+  function handleRemoveLinkClick(labelEl, selector) {
     const addNationalityButton = document.getElementById(
       "add-nationality-button"
     );
@@ -90,26 +91,19 @@ const nationalitiesComponent = () => {
     document.getElementById(selector).value = "";
   }
 
-  function addNationalityEvent(nationalityButton) {
-
-    const secondFormLabel = document.querySelector(
-      "[for=candidate-interface-nationalities-form-other-nationality2-field]"
-    );
-    const thirdFormLabel = document.querySelector(
-      "[for=candidate-interface-nationalities-form-other-nationality3-field]"
-    );
-
-
-    if (secondFormLabel.parentElement.style.display === "none") {
-      secondFormLabel.parentElement.style.display = "";
-    } else {
-      thirdFormLabel.parentElement.style.display = "";
-    }
+  function handleAddNationalityClick(nationalityButton) {
 
     if (
-      secondFormLabel.parentElement.style.display === "" &&
-      thirdFormLabel.parentElement.style.display === ""
+      secondFormLabel.parentElement.style.display === "none" &&
+      thirdFormLabel.parentElement.style.display === "none"
     ) {
+      secondFormLabel.parentElement.style.display = "";
+    }
+    else if (secondFormLabel.parentElement.style.display === "none") {
+      secondFormLabel.parentElement.style.display = "";
+      nationalityButton.style.display = "none";
+    } else {
+      thirdFormLabel.parentElement.style.display = "";
       nationalityButton.style.display = "none";
     }
   }
