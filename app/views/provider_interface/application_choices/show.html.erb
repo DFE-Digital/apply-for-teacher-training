@@ -1,18 +1,5 @@
 <% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code}" %>
 
-<% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to 'Applications', provider_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        <%= @application_choice.application_form.full_name %>
-      </li>
-    </ol>
-  </div>
-<% end %>
-
 <%= render 'application_choice_header' %>
 
 <p class="govuk-body govuk-!-margin-bottom-9 app-!-print-display-none">
