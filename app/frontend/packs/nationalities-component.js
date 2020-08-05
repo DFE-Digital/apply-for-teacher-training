@@ -19,20 +19,19 @@ const nationalitiesComponent = () => {
 
   let addNationalityButton = null;
 
-  addRemoveLink(secondSelect.id);
+  addRemoveLink(secondFormLabel, secondSelect);
 
-  addRemoveLink(thirdSelect.id);
+  addRemoveLink(thirdFormLabel, thirdSelect);
 
   addAddNationalityButton(
     "#candidate-interface-nationalities-form-other-other-conditional"
   );
 
-  hideSection(secondSelect.id);
+  hideSection(secondSelect, secondFormLabel);
 
-  hideSection(thirdSelect.id);
+  hideSection(thirdSelect, thirdFormLabel);
 
-  function addRemoveLink(selector) {
-    const labelEl = document.querySelector(`[for=${selector}]`);
+  function addRemoveLink(labelEl, select) {
     const removeLink = document.createElement("a");
     removeLink.innerHTML = "Remove";
     removeLink.classList.add("govuk-link", "app-nationality-remove-link");
@@ -42,23 +41,22 @@ const nationalitiesComponent = () => {
     removeLink.href = "#";
     labelEl.appendChild(removeLink);
 
-    addNthNationalityHiddenSpan(removeLink, selector);
+    if (labelEl == secondFormLabel) {
+      addNthNationalityHiddenSpan(removeLink, 'Second');
+    } else {
+      addNthNationalityHiddenSpan(removeLink, 'Third');
+
+    }
 
     removeLink.addEventListener("click", function () {
-      handleRemoveLinkClick(labelEl, selector);
+      handleRemoveLinkClick(labelEl, select);
     });
   }
 
-  function addNthNationalityHiddenSpan(removeLink, selector) {
+  function addNthNationalityHiddenSpan(removeLink, nthNationality) {
     const nthNationalitySpan = document.createElement("span");
     nthNationalitySpan.classList.add("govuk-visually-hidden");
-
-    if (selector == secondSelect.id) {
-      nthNationalitySpan.innerHTML = "Second nationality";
-    } else {
-      nthNationalitySpan.innerHTML = "Third nationality";
-    }
-
+    nthNationalitySpan.innerHTML = `${nthNationality} nationality`;
     removeLink.appendChild(nthNationalitySpan);
   }
 
@@ -83,19 +81,16 @@ const nationalitiesComponent = () => {
     });
   }
 
-  function hideSection(selector) {
-    const select = document.getElementById(selector);
-    const labelEl = document.querySelector(`[for=${selector}]`);
-
+  function hideSection(select, labelEl) {
     if (select.value === "") {
       labelEl.parentElement.style.display = "none";
     }
   }
 
-  function handleRemoveLinkClick(labelEl, selector) {
+  function handleRemoveLinkClick(labelEl, select) {
     addNationalityButton.style.display = "";
     labelEl.parentElement.style.display = "none";
-    document.getElementById(selector).value = "";
+    select.value = "";
   }
 
   function handleAddNationalityClick() {
