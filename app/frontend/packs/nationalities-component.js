@@ -5,6 +5,7 @@ const nationalitiesComponent = () => {
   const secondSelectEl = document.getElementById(
     "candidate-interface-nationalities-form-other-nationality2-field"
   );
+  if (!secondSelectEl) return;
 
   const thirdSelectEl = document.getElementById(
     "candidate-interface-nationalities-form-other-nationality3-field"
