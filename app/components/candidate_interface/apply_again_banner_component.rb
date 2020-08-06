@@ -6,5 +6,9 @@ module CandidateInterface
     def initialize(application_form:)
       @application_form = application_form
     end
+
+    def show_deadline_copy?
+      EndOfCycleTimetable.show_apply_2_deadline_banner? && FeatureFlag.active?(:deadline_notices)
+    end
   end
 end

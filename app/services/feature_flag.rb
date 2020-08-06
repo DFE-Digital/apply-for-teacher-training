@@ -20,6 +20,7 @@ class FeatureFlag
     [:pilot_open, 'Enables the Apply for Teacher Training service', 'Tijmen Brommet'],
     [:getting_ready_for_next_cycle_banner, 'Displays an information banner related to 2020 end-of-cycle with link to static page', 'Steve Hook'],
     [:switch_to_2021_recruitment_cycle, 'Sync and serve courses for the 2021 recruitment cycle. DO NOT ENABLE IN PRODUCTION.', 'Duncan Brown'],
+    [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Malcolm Baig'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
