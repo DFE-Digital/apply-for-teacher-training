@@ -22,11 +22,13 @@
           ) %>
         <% end %>
       </li>
-      <li>
-        contact
-        <%= govuk_link_to @course.provider.name, "#{@course.find_url}#section-contact" %>
-      to see if the course will re-open or discuss alternatives
-      </li>
+      <% unless EndOfCycleTimetable.find_down? %>
+        <li>
+          contact
+          <%= govuk_link_to @course.provider.name, "#{@course.find_url}#section-contact" %>
+        to see if the course will re-open or discuss alternatives
+        </li>
+      <% end %>
     </ul>
 
     <p class="govuk-body"><%= govuk_link_to 'Return to your application', candidate_interface_application_form_path %></p>
