@@ -16,6 +16,16 @@
   <%= button_to 'Recalculate dates', support_interface_run_task_path('recalculate_dates'), class: 'govuk-button' %>
 </div>
 
+<% if DeleteTestApplications.can_run_in_this_environment? %>
+  <div>
+    <h2 class='govuk-heading-m'>Delete test applications</h2>
+    <div class='govuk-body'>
+      This will delete all candidates with emails that end in  “@example.com”, their applications and associated data.
+    </div>
+    <%= govuk_button_link_to 'Delete test applications', support_interface_confirm_delete_test_applications_path, class: 'govuk-button--warning' %>
+  </div>
+<% end %>
+
 <% unless HostingEnvironment.production? %>
   <div>
     <h2 class='govuk-heading-m'>Test applications</h2>

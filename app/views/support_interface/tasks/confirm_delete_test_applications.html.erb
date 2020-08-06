@@ -1,0 +1,26 @@
+<% content_for :before_content, govuk_back_link_to(support_interface_tasks_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: nil,
+      url: support_interface_run_task_path('delete_test_applications') do |f|
+    %>
+      <h1 class="govuk-heading-xl">
+        Delete test applications
+      </h1>
+
+      <p class="govuk-body">
+        This will delete all candidates with emails that end in “@example.com”, their applications and associated data. Are you sure?
+      </p>
+
+      <%= f.submit 'Yes, I\'m sure',
+        class: 'govuk-button govuk-button--warning',
+        data: { module: 'govuk-button' }
+      %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', support_interface_tasks_path %>
+      </p>
+    <% end %>
+  </div>
+</div>
