@@ -8,6 +8,8 @@
   </div>
 <% end %>
 
+<%= render(CandidateInterface::DeadlineBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?)) %>
+
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
   <%= t('page_titles.application_form') %>
 </h1>
