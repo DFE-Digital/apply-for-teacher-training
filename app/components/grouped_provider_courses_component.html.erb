@@ -10,8 +10,14 @@
         </header>
         <div class="govuk-accordion__section-content" id="accordion-default-content-<%= index %>" aria-labelledby="accordion-default-heading-<%= index %>">
           <ul class="govuk-list govuk-list--bullet">
-            <% provider.courses.sort_by(&:name).each do |course| %>
-              <li><%= govuk_link_to course.name_and_code, course.find_url %></li>
+            <% if EndOfCycleTimetable.find_down? %>
+              <% provider.courses.sort_by(&:name).each do |course| %>
+                <li><%= course.name_and_code %></li>
+              <% end %>
+            <% else %>
+              <% provider.courses.sort_by(&:name).each do |course| %>
+                <li><%= govuk_link_to course.name_and_code, course.find_url %></li>
+              <% end %>
             <% end %>
           </ul>
         </div>
