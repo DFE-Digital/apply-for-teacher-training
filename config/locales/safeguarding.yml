@@ -1,10 +1,11 @@
 en:
   provider_interface:
     safeguarding_declaration_component:
-      has_safeguarding_issues_to_declare: 'The candidate has shared information related to safeguarding. Please contact them directly for more details.'
+      has_safeguarding_issues_to_declare: 'The candidate has disclosed sensitive material related to safeguarding.'
       not_answered_yet: 'Not answered yet.'
       never_asked: 'Never asked.'
       no_safeguarding_issues_to_declare: 'No information shared.'
+      has_safeguarding_issues_to_declare_no_permissions: 'The candidate has disclosed information related to safeguarding. Access is restricted to users with permissions to view sensitive material.'
   support_interface:
     safeguarding_issues_component:
       has_safeguarding_issues_to_declare: 'The candidate has shared information related to safeguarding.'
