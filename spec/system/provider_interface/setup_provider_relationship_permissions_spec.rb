@@ -20,8 +20,12 @@ RSpec.feature 'Setting up provider relationship permissions' do
 
     when_i_choose_permissions_for_the_first_provider_relationship
     and_i_choose_permissions_for_the_next_provider_relationship
-    and_i_confirm_my_choices
+    then_i_can_see_the_permissions_summary_page
 
+    when_i_change_permissions_for_the_first_provider_relationship
+    then_i_return_to_the_permissions_summary_page
+
+    when_i_confirm_the_updated_permissions
     then_i_see_permissions_setup_has_finished
 
     when_i_click_continue
@@ -112,11 +116,65 @@ RSpec.feature 'Setting up provider relationship permissions' do
     click_on 'Continue'
   end
 
-  def and_i_confirm_my_choices
-    expect(page).to have_content("The following organisation(s) can make decisions:\n#{@training_provider.name}")
-    expect(page).to have_content("The following organisation(s) can view safeguarding information:\n#{@another_ratifying_provider.name}")
+  def then_i_can_see_the_permissions_summary_page
+    expect(page).to have_content(
+      [
+        "For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
+        'Which organisations can make decisions?',
+        @training_provider.name,
+        'Change',
+        'Which organisations can view safeguarding information?',
+        @training_provider.name,
+      ].join("\n"),
+    )
+
+    expect(page).to have_content(
+      [
+        "For courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
+        'Which organisations can make decisions?',
+        @another_ratifying_provider.name,
+        'Change',
+        'Which organisations can view safeguarding information?',
+        @another_ratifying_provider.name,
+      ].join("\n"),
+    )
+  end
+
+  def when_i_confirm_the_updated_permissions
+    expect(page).to have_content(
+      [
+        "For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
+        'Which organisations can make decisions?',
+        "#{@training_provider.name} #{@ratifying_provider.name}",
+        'Change',
+        'Which organisations can view safeguarding information?',
+        @training_provider.name,
+      ].join("\n"),
+    )
+
+    expect(page).to have_content(
+      [
+        "For courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
+        'Which organisations can make decisions?',
+        @another_ratifying_provider.name,
+        'Change',
+        'Which organisations can view safeguarding information?',
+        @another_ratifying_provider.name,
+      ].join("\n"),
+    )
 
     click_on 'Save permissions'
+  end
+
+  def when_i_change_permissions_for_the_first_provider_relationship
+    click_on 'Change', match: :first
+
+    within(find('.make-decisions')) { check @ratifying_provider.name }
+    click_on 'Continue'
+  end
+
+  def then_i_return_to_the_permissions_summary_page
+    expect(page).to have_content("Which organisations can make decisions?\n#{@training_provider.name} #{@ratifying_provider.name}\n")
   end
 
   def then_i_see_permissions_setup_has_finished

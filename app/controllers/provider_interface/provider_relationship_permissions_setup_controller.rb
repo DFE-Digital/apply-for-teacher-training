@@ -120,7 +120,7 @@ module ProviderInterface
 
       params.require(:provider_interface_provider_relationship_permissions_setup_wizard)
         .permit(provider_relationship_permissions: {}).to_h
-        .merge(current_provider_relationship_id: params[:id])
+        .merge(current_provider_relationship_id: params[:id], skip_further_permissions: params[:skip_further_permissions])
     end
 
     def setup_permissions_form

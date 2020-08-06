@@ -3,7 +3,7 @@ module ProviderInterface
     include ActiveModel::Model
     STATE_STORE_KEY = :provider_relationship_permissions_setup_wizard
 
-    attr_accessor :current_step, :current_provider_relationship_id, :checking_answers
+    attr_accessor :current_step, :current_provider_relationship_id, :checking_answers, :skip_further_permissions
     attr_writer :provider_relationships, :provider_relationship_permissions, :state_store
     validate :at_least_one_organisation_has_permissions, on: :permissions
 
@@ -37,7 +37,11 @@ module ProviderInterface
       provider_relationship_permissions.fetch(relationship_id.to_s, {})
     end
 
-    # [provider_relationships info permissions... check]
+    # Steps are
+    # 1. provider_relationships
+    # 2. info
+    # 3. permissions (repeated per relationship)
+    # 4. check
     def next_step
       if checking_answers
         if any_provider_relationship_needs_permissions_setup?
@@ -49,7 +53,7 @@ module ProviderInterface
         [:info]
       elsif current_step == 'info'
         [:permissions, next_provider_relationship_id]
-      elsif current_step == 'permissions' && next_provider_relationship_id.present?
+      elsif current_step == 'permissions' && setup_next_provider_relationship?
         [:permissions, next_provider_relationship_id]
       else
         [:check]
@@ -83,11 +87,15 @@ module ProviderInterface
   private
 
     def state
-      as_json(except: %w[state_store errors validation_context current_step]).to_json
+      as_json(except: %w[state_store errors validation_context current_step skip_further_permissions]).to_json
     end
 
     def last_saved_state
       JSON.parse(@state_store[STATE_STORE_KEY].presence || '{}')
+    end
+
+    def setup_next_provider_relationship?
+      skip_further_permissions.blank? && next_provider_relationship_id.present?
     end
 
     def next_provider_relationship_id

@@ -39,7 +39,7 @@
 
       <%= f.fields_for "provider_relationship_permissions[]", @permissions_form do |pf| %>
         <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
-          <div class="govuk-form-group <%= permission_name.to_s.dasherize %>">
+          <div class="govuk-form-group <%= permission_name.to_s.dasherize %>" id="<%= permission_name %>">
             <%= f.govuk_check_boxes_fieldset permission_name, legend: { text: t("provider_relationship_permissions.form.fieldset.#{permission_name}") } do %>
               <%= hidden_field_tag "#{pf.object_name}[#{permission_name}][]", '' %>
               <%= pf.govuk_check_box permission_name, 'training', link_errors: true,

@@ -29,6 +29,14 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
       wizard = described_class.new(state_store, current_step: 'permissions', current_provider_relationship_id: '456')
       expect(wizard.next_step).to eq([:check])
     end
+
+    context 'with skip_further_permissions param present' do
+      it 'returns the review page from the first provider relationship permissions page' do
+        state_store = state_store_for({ provider_relationships: [123, 456], provider_relationship_permissions: { 123 => {}, 456 => {} } })
+        wizard = described_class.new(state_store, current_step: 'permissions', current_provider_relationship_id: '123', skip_further_permissions: true)
+        expect(wizard.next_step).to eq([:check])
+      end
+    end
   end
 
   describe 'previous_step' do
