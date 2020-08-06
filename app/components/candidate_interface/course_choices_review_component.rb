@@ -88,7 +88,7 @@ module CandidateInterface
     def course_row(application_choice)
       {
         key: 'Course',
-        value: govuk_link_to("#{application_choice.offered_course.name} (#{application_choice.offered_course.code})", application_choice.offered_course.find_url, target: '_blank', rel: 'noopener'),
+        value: course_row_value(application_choice),
         action: "course choice for #{application_choice.course.name_and_code}",
         change_path: course_change_path(application_choice),
       }
@@ -168,6 +168,14 @@ module CandidateInterface
 
     def has_multiple_courses?(application_choice)
       Course.current_cycle.where(provider: application_choice.provider).many?
+    end
+
+    def course_row_value(application_choice)
+      if EndOfCycleTimetable.find_down?
+        "#{application_choice.offered_course.name} (#{application_choice.offered_course.code})"
+      else
+        govuk_link_to("#{application_choice.offered_course.name} (#{application_choice.offered_course.code})", application_choice.offered_course.find_url, target: '_blank', rel: 'noopener')
+      end
     end
   end
 end
