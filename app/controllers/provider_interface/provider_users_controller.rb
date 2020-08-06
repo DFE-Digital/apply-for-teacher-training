@@ -2,6 +2,7 @@ module ProviderInterface
   class ProviderUsersController < ProviderInterfaceController
     before_action :require_feature_flag!
     before_action :require_manage_users_permission!
+    before_action :find_provider_user, except: %i[index]
 
     def index
       users = ProviderUser.includes(:providers).visible_to(current_provider_user)
@@ -11,8 +12,6 @@ module ProviderInterface
     end
 
     def show
-      @provider_user = find_provider_user
-
       @possible_permissions = ProviderPermissions.possible_permissions(
         current_provider_user: current_provider_user,
         provider_user: @provider_user,
@@ -25,7 +24,7 @@ module ProviderInterface
 
       @form = ProviderInterface::ProviderUserPermissionsForm.from provider_permissions
       if @form.invalid?
-        redirect_to provider_interface_provider_user_path(find_provider_user)
+        redirect_to provider_interface_provider_user_path(@provider_user)
       end
     end
 
@@ -38,18 +37,15 @@ module ProviderInterface
 
       if @form.save
         flash[:success] = 'User’s permissions successfully updated'
-        redirect_to provider_interface_provider_user_path(find_provider_user)
+        redirect_to provider_interface_provider_user_path(@provider_user)
       else
         render action: :edit_permissions
       end
     end
 
-    def confirm_remove
-      @provider_user = find_provider_user
-    end
+    def confirm_remove; end
 
     def remove
-      @provider_user = find_provider_user
       service = RemoveProviderUser.new(
         current_provider_user: current_provider_user,
         user_to_remove: @provider_user,
@@ -60,25 +56,22 @@ module ProviderInterface
     end
 
     def edit_providers
-      provider_user = find_provider_user
       @form = ProviderUserProvidersForm.from_provider_user(
-        provider_user: provider_user,
+        provider_user: @provider_user,
         current_provider_user: current_provider_user,
       )
     end
 
     def update_providers
-      provider_user = find_provider_user
-
       @form = ProviderUserProvidersForm.new(
-        provider_user: provider_user,
+        provider_user: @provider_user,
         current_provider_user: current_provider_user,
         provider_ids: params.dig(:provider_interface_provider_user_providers_form, :provider_ids),
       )
 
       if @form.save
         flash[:success] = 'User’s access successfully updated'
-        redirect_to provider_interface_provider_user_path(provider_user)
+        redirect_to provider_interface_provider_user_path(@provider_user)
       else
         render :edit_providers
       end
@@ -121,7 +114,7 @@ module ProviderInterface
     end
 
     def find_provider_user
-      ProviderUser
+      @provider_user = ProviderUser
         .visible_to(current_provider_user)
         .find(params[:provider_user_id])
     rescue ActiveRecord::RecordNotFound
@@ -130,7 +123,7 @@ module ProviderInterface
 
     def find_provider_permissions_model!
       ProviderPermissions.find_by!(
-        provider_user: find_provider_user,
+        provider_user: @provider_user,
         provider: Provider.find(params[:provider_id]),
       )
     end
