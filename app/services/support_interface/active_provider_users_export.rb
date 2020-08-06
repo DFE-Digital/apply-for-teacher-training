@@ -8,6 +8,7 @@ module SupportInterface
           name: provider_user.full_name,
           email_address: provider_user.email_address,
           providers: provider_user.providers.map(&:name).join(', '),
+          last_signed_in_at: provider_user.last_signed_in_at,
         }
       end
     end
