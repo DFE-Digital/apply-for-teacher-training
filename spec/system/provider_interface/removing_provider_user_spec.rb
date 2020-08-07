@@ -60,7 +60,7 @@ RSpec.describe 'Removing a provider user' do
   end
 
   def and_i_confirm_i_want_to_delete_this_user
-    click_on "Yes I'm sure - delete this account"
+    click_on 'Yes I’m sure - delete this account'
   end
 
   def then_the_deleted_user_has_no_visible_provider_permissions

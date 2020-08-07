@@ -37,6 +37,6 @@ RSpec.describe 'Selecting a full course' do
 
   def then_i_see_a_page_telling_me_i_cannot_apply
     expect(page).to have_text('You cannot apply to this course because it has no vacancies')
-    expect(page).to have_text("The course '#{@course.name_and_code}' is full")
+    expect(page).to have_text("The course ‘#{@course.name_and_code}’ is full")
   end
 end

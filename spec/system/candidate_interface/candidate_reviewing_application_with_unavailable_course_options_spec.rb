@@ -97,7 +97,7 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
 
   def then_i_see_a_warning_that_my_course_is_no_longer_on_apply
     expect(page).to have_content(course_closed_on_apply_message)
-    expect(page).to have_content("You can still apply for '#{@option_where_course_not_running.course.name_and_code}' on UCAS.")
+    expect(page).to have_content("You can still apply for ‘#{@option_where_course_not_running.course.name_and_code}’ on UCAS.")
   end
 
   def then_i_see_error_messages_for_the_course_closed_on_apply_i_was_warned_about
@@ -109,18 +109,18 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
 private
 
   def course_not_running_message
-    "You cannot apply to '#{@option_where_course_not_running.course.provider_and_name_code}' because it is not running"
+    "You cannot apply to ‘#{@option_where_course_not_running.course.provider_and_name_code}’ because it is not running"
   end
 
   def course_has_no_vacancies_message
-    "You cannot apply to '#{@option_where_course_has_no_vacancies.course.provider_and_name_code}' because it has no vacancies"
+    "You cannot apply to ‘#{@option_where_course_has_no_vacancies.course.provider_and_name_code}’ because it has no vacancies"
   end
 
   def chosen_site_has_no_vacancies_message
-    "Your chosen location for '#{@option_where_no_vacancies_at_chosen_site.course.provider_and_name_code}' has no vacancies"
+    "Your chosen location for ‘#{@option_where_no_vacancies_at_chosen_site.course.provider_and_name_code}’ has no vacancies"
   end
 
   def course_closed_on_apply_message
-    "'#{@option_where_course_not_running.course.name_and_code}' at #{@option_where_course_not_running.course.provider.name} is not available on Apply for teacher training anymore"
+    "‘#{@option_where_course_not_running.course.name_and_code}’ at #{@option_where_course_not_running.course.provider.name} is not available on Apply for teacher training anymore"
   end
 end

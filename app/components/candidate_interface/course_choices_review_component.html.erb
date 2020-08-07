@@ -17,7 +17,7 @@
       </ul>
     <% elsif application_choice.course_closed_on_apply? %>
       <p class='app-review-warning__primary-message'><%= application_choice.course_closed_on_apply_error %>.</p>
-      <p class='govuk-body'>You can still apply for '<%= application_choice.course.name_and_code %>' on UCAS.</p>
+      <p class='govuk-body'>You can still apply for ‘<%= application_choice.course.name_and_code %>’ on UCAS.</p>
       <p class='govuk-body'>You can:</p>
       <ul class='govuk-list govuk-list--bullet'>
         <li><%= govuk_link_to 'delete this choice', candidate_interface_confirm_destroy_course_choice_path(application_choice.id) %></li>

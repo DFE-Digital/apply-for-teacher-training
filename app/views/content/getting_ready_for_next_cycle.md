@@ -49,7 +49,7 @@ Training providers will need to respond to all outstanding applications for the 
 
 ## Deferring offers
 
-The [Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) team is working on a new feature allowing training providers to defer offers to the next cycle. We'll email you when the feature is ready to use.
+The [Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) team is working on a new feature allowing training providers to defer offers to the next cycle. We’ll email you when the feature is ready to use.
 
 Please bear in mind that deferrals can only be made at the request of the candidate.
 
@@ -63,7 +63,7 @@ When the 2020 to 2021 cycle opens in mid-October, you’ll be guided through the
 
 ### Changing the details of a deferred offer when you check and confirm
 
-You'll be able to change the details of a deferred offer when you check and confirm it at the start of the next cycle. If you need to alter any details – for example, the location, course or conditions – you should first explain and agree those changes with the candidate directly, via email or phone.
+You’ll be able to change the details of a deferred offer when you check and confirm it at the start of the next cycle. If you need to alter any details – for example, the location, course or conditions – you should first explain and agree those changes with the candidate directly, via email or phone.
 
 You can then use [Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) to send an amended offer to the candidate, who will also receive a formal notification.
 

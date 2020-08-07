@@ -14,7 +14,7 @@ RSpec.describe RefereeInterface::ReferenceReviewForm do
       it 'is invalid' do
         expect(review_form).not_to be_valid
         expect(review_form.errors.full_messages).to eq(
-          ["Can't submit a reference without answers to all questions"],
+          ['Can’t submit a reference without answers to all questions'],
         )
       end
     end
@@ -25,7 +25,7 @@ RSpec.describe RefereeInterface::ReferenceReviewForm do
       it 'is invalid' do
         expect(review_form).not_to be_valid
         expect(review_form.errors.full_messages).to eq(
-          ["Can't submit a reference without answers to all questions"],
+          ['Can’t submit a reference without answers to all questions'],
         )
       end
     end
@@ -36,7 +36,7 @@ RSpec.describe RefereeInterface::ReferenceReviewForm do
       it 'is invalid' do
         expect(review_form).not_to be_valid
         expect(review_form.errors.full_messages).to eq(
-          ["Can't submit a reference without answers to all questions"],
+          ['Can’t submit a reference without answers to all questions'],
         )
       end
     end

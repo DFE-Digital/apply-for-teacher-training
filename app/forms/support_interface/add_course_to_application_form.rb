@@ -33,7 +33,7 @@ module SupportInterface
     def course_option_exists
       return if course_option
 
-      errors[:base] << "There's no course option with ID #{course_option_id}"
+      errors[:base] << "There’s no course option with ID #{course_option_id}"
     end
 
     def awaiting_references?

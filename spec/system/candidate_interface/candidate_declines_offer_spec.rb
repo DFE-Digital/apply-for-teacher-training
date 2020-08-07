@@ -77,7 +77,7 @@ RSpec.feature 'Candidate declines an offer' do
   end
 
   def then_a_slack_notification_is_sent
-    expect_slack_message_with_text "Harry has declined #{@course_option.course.provider.name}'s offer"
+    expect_slack_message_with_text "Harry has declined #{@course_option.course.provider.name}’s offer"
   end
 
   def and_i_see_that_i_declined_the_offer

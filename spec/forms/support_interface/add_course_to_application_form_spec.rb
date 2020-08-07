@@ -8,7 +8,7 @@ RSpec.describe SupportInterface::AddCourseToApplicationForm, type: :model do
 
       form.validate
 
-      expect(form.errors.full_messages).to include "There's no course option with ID 7125871235812"
+      expect(form.errors.full_messages).to include 'There’s no course option with ID 7125871235812'
     end
   end
 end

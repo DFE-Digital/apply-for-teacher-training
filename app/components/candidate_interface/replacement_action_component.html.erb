@@ -35,7 +35,7 @@
       <% if course_only_available_on_ucas? %>
         <%= f.govuk_radio_button :replacement_action, 'apply_through_ucas', label: { text: "Apply for this course through UCAS" } %>
         <%= f.govuk_radio_button :replacement_action, 'replace_course', label: { text: 'Choose a different course on Apply for teacher training' } %>
-        <%= f.govuk_radio_button :replacement_action, 'keep_choice', label: { text: 'Keep this course choice anyway' }, hint_text: "When your references come in we'll send your application to #{provider_name}, but there’s no guarantee they’ll consider it." %>
+        <%= f.govuk_radio_button :replacement_action, 'keep_choice', label: { text: 'Keep this course choice anyway' }, hint_text: "When your references come in we’ll send your application to #{provider_name}, but there’s no guarantee they’ll consider it." %>
       <% else %>
         <% if other_locations_available? %>
           <%= f.govuk_radio_button :replacement_action, 'replace_location', label: { text: 'Choose a different location' } %>
@@ -45,7 +45,7 @@
         <% end %>
           <%= f.govuk_radio_button :replacement_action, 'replace_course', label: { text: 'Choose a different course' } %>
           <%= f.govuk_radio_button :replacement_action, 'remove_course', label: { text: 'Remove course from application' } %>
-          <%= f.govuk_radio_button :replacement_action, 'keep_choice', label: { text: 'Keep this course choice anyway' }, hint_text: "When your references come in we'll send your application to #{provider_name}, but there’s no guarantee they’ll consider it." %>
+          <%= f.govuk_radio_button :replacement_action, 'keep_choice', label: { text: 'Keep this course choice anyway' }, hint_text: "When your references come in we’ll send your application to #{provider_name}, but there’s no guarantee they’ll consider it." %>
       <% end %>
     <% end %>
 
