@@ -1,11 +1,19 @@
 <div class="app-banner">
   <div class="app-banner__message">
-    <h2 class="govuk-heading-m">
+    <div class="govuk-heading-m">
+      <p>
       <% if @application_form.application_choices.all?(&:cancelled?) %>
         Your application has been withdrawn. <%= govuk_link_to 'Do you want to apply again?', candidate_interface_start_apply_again_path %>
       <% else %>
         <%= govuk_link_to 'Do you want to apply again?', candidate_interface_start_apply_again_path %>
       <% end %>
-    </h2>
+      </p>
+
+      <% if show_deadline_copy? %>
+        <p class='govuk-body govuk-!-font-size-24'>
+          The deadline when applying again is 18 September for courses starting this academic year.
+        </p>
+      <% end %>
+    </div>
   </div>
 </div>
