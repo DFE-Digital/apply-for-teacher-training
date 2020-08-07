@@ -503,8 +503,6 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '#application_rejected_all_rejected' do
-    before { FeatureFlag.activate(:apply_again) }
-
     def build_stubbed_application_form(rejected_by_default: false)
       build_stubbed(
         :application_form,
