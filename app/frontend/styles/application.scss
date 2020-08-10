@@ -51,6 +51,7 @@ $govuk-breakpoints: (
 @import "~@ministryofjustice/frontend/moj/components/pagination/pagination";
 @import "~@ministryofjustice/frontend/moj/components/primary-navigation/primary-navigation";
 @import "~@ministryofjustice/frontend/moj/utilities/all";
+@import "_action-bar";
 @import "_application-card";
 @import "_button";
 @import "_count";
