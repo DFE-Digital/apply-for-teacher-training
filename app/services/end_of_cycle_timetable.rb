@@ -14,6 +14,14 @@ class EndOfCycleTimetable
     Time.zone.now < date(:apply_2_deadline)
   end
 
+  def self.apply_1_deadline
+    date(:apply_1_deadline)
+  end
+
+  def self.apply_2_deadline
+    date(:apply_2_deadline)
+  end
+
   def self.find_down?
     Time.zone.today.between?(find_closes, find_reopens)
   end
