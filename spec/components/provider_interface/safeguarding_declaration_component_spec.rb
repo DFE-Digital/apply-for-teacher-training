@@ -93,6 +93,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
       expect(result.text).to include('No information shared.')
+      expect(result.text).not_to include('View information disclosed by the candidate')
     end
   end
 
@@ -109,6 +110,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
       expect(result.text).to include('Not answered yet')
+      expect(result.text).not_to include('View information disclosed by the candidate')
     end
   end
 end
