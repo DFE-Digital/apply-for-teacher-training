@@ -37,8 +37,8 @@ class NavigationItems
       end
     end
 
-    def for_provider_primary_nav(current_controller, performing_setup = false)
-      if performing_setup
+    def for_provider_primary_nav(current_provider_user, current_controller, performing_setup = false)
+      if !current_provider_user || performing_setup
         []
       else
         [NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes]))]
