@@ -1,6 +1,6 @@
 <% @application_choices.each do |application_choice| %>
   <div id='course-choice-<%= application_choice.id %>' class='qa-application-choice-<%= application_choice.id %> <%= warning_container_css_class(application_choice) %>'>
-  <% if @editable %>
+  <% if !EndOfCycleTimetable.find_down? && @editable %>
     <% if application_choice.course_not_available? %>
       <p class='app-review-warning__primary-message'><%= application_choice.course_not_available_error %>.</p>
       <p class='govuk-body'><%= application_choice.provider.name %> have decided not to run this course.</p>
@@ -11,10 +11,8 @@
           <li><%= govuk_link_to 'change to another course', course_change_path(application_choice) %></li>
         <% end %>
         <li>
-          <% unless EndOfCycleTimetable.find_down? %>
-            <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
-            to discuss alternatives
-          <% end %>
+          <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
+          to discuss alternatives
         </li>
       </ul>
     <% elsif application_choice.course_closed_on_apply? %>
@@ -26,12 +24,10 @@
         <% if course_change_path(application_choice) %>
           <li><%= govuk_link_to 'change to another course', course_change_path(application_choice) %></li>
         <% end %>
-        <% unless EndOfCycleTimetable.find_down? %>
-          <li>
-            <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
-            to discuss alternatives
-          </li>
-        <% end %>
+        <li>
+          <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
+          to discuss alternatives
+        </li>
         <li>
           <%= govuk_link_to 'apply for this course on UCAS', "#{UCAS.apply_url}" %>
         </li>
@@ -45,10 +41,8 @@
           <li><%= govuk_link_to 'change to another course', course_change_path(application_choice) %></li>
         <% end %>
         <li>
-          <% unless EndOfCycleTimetable.find_down? %>
-            <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
-            to see if the course will re-open or discuss alternatives
-          <% end %>
+          <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
+          to see if the course will re-open or discuss alternatives
         </li>
       </ul>
     <% elsif application_choice.site_full? %>
@@ -63,10 +57,8 @@
           <li><%= govuk_link_to 'change to another course', course_change_path(application_choice) %></li>
         <% end %>
         <li>
-          <% unless EndOfCycleTimetable.find_down? %>
-            <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
-            to see if the course will re-open or discuss alternatives
-          <% end %>
+          <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
+          to see if the course will re-open or discuss alternatives
         </li>
       </ul>
     <% elsif application_choice.study_mode_full? %>
@@ -81,10 +73,8 @@
           <li><%= govuk_link_to 'change to another course', course_change_path(application_choice) %></li>
         <% end %>
         <li>
-          <% unless EndOfCycleTimetable.find_down? %>
-            <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
-            to see if the course will re-open or discuss alternatives
-          <% end %>
+          <%= govuk_link_to 'contact the training provider', "#{application_choice.course.find_url}#section-contact" %>
+          to see if the course will re-open or discuss alternatives
         </li>
       </ul>
     <% end %>
