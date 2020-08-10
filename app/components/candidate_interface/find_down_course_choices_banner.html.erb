@@ -1,0 +1,15 @@
+<% if @find_down %>
+  <div class="app-banner">
+    <div class="app-banner__message">
+      <div class="govuk-heading-m">
+        <p>
+          The 2019/20 Application Cycle has ended.
+        </p>
+
+        <p class='govuk-body govuk-!-font-size-24'>
+          You will be able to add course choices for the 2020/21 Application Cycle from <%= EndOfCycleTimetable.find_reopens.to_s(:govuk_date).strip %>.
+        </p>
+      </div>
+    </div>
+  </div>
+<% end %>
