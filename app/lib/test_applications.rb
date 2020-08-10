@@ -57,8 +57,15 @@ class TestApplications
     end
 
     Audited.audit_class.as_user(candidate) do
+      traits = %i[
+        with_safeguarding_issues_disclosed
+        with_no_safeguarding_issues_to_declare
+        with_safeguarding_issues_never_asked
+      ].sample
+
       @application_form = FactoryBot.create(
         :completed_application_form,
+        traits,
         application_choices_count: 0,
         full_work_history: true,
         volunteering_experiences_count: 1,

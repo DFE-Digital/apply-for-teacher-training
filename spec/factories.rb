@@ -41,7 +41,6 @@ FactoryBot.define do
       work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 600) }
       work_history_breaks { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
-      safeguarding_issues { 'I have a criminal conviction.' }
       phase { :apply_1 }
 
       # Checkboxes to mark a section as complete
@@ -117,6 +116,19 @@ FactoryBot.define do
             other_disability: (disabilities.include?('Other') ? Faker::Lorem.paragraph(sentence_count: 2) : nil),
           }
         end
+      end
+
+      trait :with_safeguarding_issues_disclosed do
+        safeguarding_issues_status { 'has_safeguarding_issues_to_declare' }
+        safeguarding_issues { 'I have a criminal conviction.' }
+      end
+
+      trait :with_no_safeguarding_issues_to_declare do
+        safeguarding_issues_status { 'no_safeguarding_issues_to_declare' }
+      end
+
+      trait :with_safeguarding_issues_never_asked do
+        safeguarding_issues_status { 'never_asked' }
       end
 
       after(:build) do |application_form, evaluator|

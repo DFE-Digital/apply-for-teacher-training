@@ -22,6 +22,9 @@ class GenerateTestData
       Audited.audit_class.as_user(candidate) do
         traits = [:with_completed_references]
         traits << :with_equality_and_diversity_data if rand < 0.55
+        traits << %i[with_safeguarding_issues_disclosed
+                     with_no_safeguarding_issues_to_declare
+                     with_safeguarding_issues_never_asked].sample
         application_form = FactoryBot.create(
           :completed_application_form,
           *traits,
