@@ -1,7 +1,7 @@
 <% content_for :title, t('page_titles.course_choices') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<%= render CandidateInterface::FindDownCourseChoicesBanner.new(find_down: EndOfCycleTimetable.find_down?) %>
+<%= render CandidateInterface::FindDownCourseChoicesBanner.new(application_form: @application_form) %>
 
 <h1 class="govuk-heading-xl">
   <% if @application_form.candidate_can_choose_single_course? %>
@@ -18,7 +18,7 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <% if EndOfCycleTimetable.find_down? %>
+      <% if !CandidateInterface::CanAddCourseChoice.can_add_course_choice?(application_form: @application_form) %>
         <%= govuk_link_to 'Continue', candidate_interface_application_form_path, class: 'govuk-button' %>
       <% elsif @application_choices.present? %>
         <% if @application_form.can_add_more_choices? %>

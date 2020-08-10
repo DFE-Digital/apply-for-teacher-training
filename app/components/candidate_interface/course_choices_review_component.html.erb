@@ -1,6 +1,6 @@
 <% @application_choices.each do |application_choice| %>
   <div id='course-choice-<%= application_choice.id %>' class='qa-application-choice-<%= application_choice.id %> <%= warning_container_css_class(application_choice) %>'>
-  <% if !EndOfCycleTimetable.find_down? && @editable %>
+  <% if CandidateInterface::CanAddCourseChoice.can_add_course_choice?(application_form: application_choice.application_form) && @editable %>
     <% if application_choice.course_not_available? %>
       <p class='app-review-warning__primary-message'><%= application_choice.course_not_available_error %>.</p>
       <p class='govuk-body'><%= application_choice.provider.name %> have decided not to run this course.</p>

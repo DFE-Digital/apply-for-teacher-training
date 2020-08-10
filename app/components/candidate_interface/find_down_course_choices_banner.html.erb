@@ -1,4 +1,4 @@
-<% if @find_down %>
+<% unless CandidateInterface::CanAddCourseChoice.can_add_course_choice?(application_form: @application_form) %>
   <div class="app-banner">
     <div class="app-banner__message">
       <div class="govuk-heading-m">
