@@ -197,11 +197,11 @@ en:
       by: candidate
       description: |
         When candidates apply again after an initial unsuccesful application,
-        they may have all the references they need already. They also don't have to
-        wait 7 days, as we don't have the edit window because the chance is lower
+        they may have all the references they need already. They also don’t have to
+        wait 7 days, as we don’t have the edit window because the chance is lower
         that they wish to edit their application the 2nd time around.
 
-        This means we'll send the application immediately to the provider.
+        This means we’ll send the application immediately to the provider.
       emails:
         - candidate_mailer-application_sent_to_provider
         - provider_mailer-application_submitted

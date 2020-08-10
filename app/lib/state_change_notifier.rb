@@ -32,31 +32,31 @@ class StateChangeNotifier
       text = "#{application_form.first_name} has just submitted their application"
       url = helpers.support_interface_application_form_url(application_form)
     when :send_application_to_provider
-      text = "#{applicant}'s application is ready to be reviewed by #{provider_name}"
+      text = "#{applicant}’s application is ready to be reviewed by #{provider_name}"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :make_an_offer
-      text = "#{provider_name} has just made an offer to #{applicant}'s application"
+      text = "#{provider_name} has just made an offer to #{applicant}’s application"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :change_an_offer
-      text = "#{provider_name} has just changed an offer for #{applicant}'s application"
+      text = "#{provider_name} has just changed an offer for #{applicant}’s application"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :reject_application
-      text = "#{provider_name} has just rejected #{applicant}'s application"
+      text = "#{provider_name} has just rejected #{applicant}’s application"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :reject_application_by_default
-      text = "#{applicant}'s application has just been rejected by default"
+      text = "#{applicant}’s application has just been rejected by default"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :offer_accepted
-      text = ":handshake: #{applicant} has accepted #{provider_name}'s offer"
+      text = ":handshake: #{applicant} has accepted #{provider_name}’s offer"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :offer_declined
-      text = ":no_good: #{applicant} has declined #{provider_name}'s offer"
+      text = ":no_good: #{applicant} has declined #{provider_name}’s offer"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :withdraw
       text = ":runner: #{applicant} has withdrawn their application for #{course_name} at #{provider_name}"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :withdraw_offer
-      text = ":no_good: #{provider_name} has just withdrawn #{applicant}'s offer"
+      text = ":no_good: #{provider_name} has just withdrawn #{applicant}’s offer"
       url = helpers.support_interface_application_form_url(application_form_id)
     else
       raise 'StateChangeNotifier: unsupported state transition event'

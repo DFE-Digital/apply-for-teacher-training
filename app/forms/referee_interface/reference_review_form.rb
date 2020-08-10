@@ -12,7 +12,7 @@ module RefereeInterface
 
     def questions_complete
       if reference.feedback.nil? || reference.safeguarding_concerns.nil? || reference.relationship_correction.nil?
-        errors.add(:base, 'Can\'t submit a reference without answers to all questions')
+        errors.add(:base, 'Can’t submit a reference without answers to all questions')
       end
     end
   end

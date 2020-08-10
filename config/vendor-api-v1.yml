@@ -7,7 +7,7 @@ info:
     name: DfE
     email: becomingateacher@digital.education.gov.uk
   description: |
-    API for DfE's Apply for postgraduate teacher training service.
+    API for DfE’s Apply for teacher training service.
     Endpoints with the `/applications` prefix are considered stable.
     Experimental endpoints prefixed with `/test-data` may change or be removed.
 servers:
@@ -33,7 +33,7 @@ paths:
           and time. Times should be in ISO 8601 format.
         in: query
         required: true
-        example: '2019-12-06T12:00:00Z'
+        example: 2019-12-06T12:00:00Z
         schema:
           type: string
           format: date-time
@@ -224,7 +224,7 @@ paths:
       - Application management
       summary: Reject application
       description: |
-        Reject the candidate's application with a reason.
+        Reject the candidate’s application with a reason.
 
         This will transition the application to the [rejected state](/api-docs/lifecycle#rejected).
       parameters:
@@ -377,7 +377,7 @@ components:
       properties:
         support_reference:
           type: string
-          description: The candidate's reference number for their application in the Apply system
+          description: The candidate’s reference number for their application in the Apply system
           maxLength: 10
           example: AB1234
         status:
@@ -411,18 +411,18 @@ components:
           type: string
           format: date-time
           description: Time of submission
-          example: '2019-06-13T10:44:31Z'
+          example: 2019-06-13T10:44:31Z
         updated_at:
           type: string
           format: date-time
           description: Time of last change
-          example: '2019-06-13T10:44:31Z'
+          example: 2019-06-13T10:44:31Z
         reject_by_default_at:
           type: string
           format: date-time
           nullable: true
           description: Time when the application is due to be rejected by default
-          example: '2019-06-13T23:59:59Z'
+          example: 2019-06-13T23:59:59Z
         personal_statement:
           type: string
           maxLength: 10240
@@ -505,7 +505,7 @@ components:
           type: string
           format: date
           description: The candidate’s date of birth
-          example: '1985-02-02'
+          example: 1985-02-02
         nationality:
           type: array
           items:
@@ -527,7 +527,7 @@ components:
           type: string
           maxLength: 10240
           nullable: true
-          description: About this candidate's English language qualifications, if
+          description: About this candidate’s English language qualifications, if
             English is not their main language
           example: I have a degree in English Language and Literature from the University
             of Munich
@@ -535,7 +535,7 @@ components:
           type: string
           maxLength: 10240
           nullable: true
-          description: Details of the candidate's fluency in other languages
+          description: Details of the candidate’s fluency in other languages
           example: I am bilingual in Finnish and English
         disability_disclosure:
           type: string
@@ -547,7 +547,7 @@ components:
     ContactDetails:
       type: object
       additionalProperties: false
-      description: UK addresses have country code 'GB' and `address_line1`, `address_line2`,
+      description: UK addresses have country code `GB` and `address_line1`, `address_line2`,
         `address_line3`, `address_line4` and `postcode` attributes. International addresses have
         a valid `country` value and the address itself is serialised to `address_line1`.
       required:
@@ -600,7 +600,7 @@ components:
           type: string
           description: The candidate’s phone number
           maxLength: 50
-          example: '07944386555'
+          example: "07944386555"
     Course:
       type: object
       additionalProperties: false
@@ -632,7 +632,7 @@ components:
           maxLength: 5
         study_mode:
           type: string
-          description: Can be 'full_time' or 'part_time'
+          description: Can be `full_time` or `part_time`
           example: full_time
           enum:
           - full_time
@@ -708,18 +708,18 @@ components:
           type: string
           maxLength: 256
           description: The grade awarded
-          example: '2:1'
+          example: "2:1"
         start_year:
           type: string
           nullable: true
           maxLength: 4
           description: The year the candidate started qualification
-          example: '1989'
+          example: "1989"
         award_year:
           type: string
           maxLength: 4
           description: The year the award was made
-          example: '1992'
+          example: "1992"
         institution_details:
           type: string
           description: Details about the institution and awarding body
@@ -783,7 +783,7 @@ components:
           type: string
           format: date-time
           description: Time of the rejection or offer withdrawal
-          example: '2019-09-18T15:33:49.216Z'
+          example: 2019-09-18T15:33:49.216Z
     Withdrawal:
       type: object
       additionalProperties: false
@@ -801,7 +801,7 @@ components:
           type: string
           format: date-time
           description: Time of the withdrawal
-          example: '2019-09-18T15:33:49.216Z'
+          example: 2019-09-18T15:33:49.216Z
     Qualifications:
       type: object
       additionalProperties: false
@@ -829,8 +829,8 @@ components:
           maxLength: 10240
           description: If the candidate lacks any required GCSEs, this field will
             contain their free-text explanation of why this is the case.
-          example: 'Maths GCSE or equivalent: I will take Maths GCSE at my local training
-            provider on 18th August 2020'
+          example: "Maths GCSE or equivalent: I will take Maths GCSE at my local training
+            provider on 18th August 2020"
     WorkExperiences:
       type: object
       additionalProperties: false
@@ -853,7 +853,7 @@ components:
           type: string
           nullable: true
           description: The candidate’s explanation for any breaks in work history.
-            Will be null if there aren't any breaks in the candidate’s work history.
+            Will be null if there aren’t any breaks in the candidate’s work history.
             We define a break in work history as more than a month between 2 jobs.
           maxLength: 10240
           example: I spent time volunteering overseas...
@@ -883,13 +883,13 @@ components:
           type: string
           format: date
           description: The date the position began
-          example: '2020-09-10'
+          example: 2020-09-10
         end_date:
           type: string
           format: date
           nullable: true
           description: The date the position finished, if applicable
-          example: '2019-04-01'
+          example: 2019-04-01
         role:
           type: string
           description: The position held by the candidate
@@ -928,51 +928,51 @@ components:
           type: string
           nullable: true
           description: The candidate’s sex as a [1-digit HESA code for Sex](https://www.hesa.ac.uk/collection/c19053/e/sexid)
-          example: '1'
+          example: "1"
           enum:
-          - '1'
-          - '2'
-          - '3'
+          - "1"
+          - "2"
+          - "3"
         disability:
           type: string
           nullable: true
           description: The candidate’s disability as [a 2-digit HESA code for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
-          example: '00'
+          example: "00"
           enum:
-          - '00'
-          - '08'
-          - '51'
-          - '53'
-          - '54'
-          - '55'
-          - '56'
-          - '57'
-          - '58'
-          - '96'
+          - "00"
+          - "08"
+          - "51"
+          - "53"
+          - "54"
+          - "55"
+          - "56"
+          - "57"
+          - "58"
+          - "96"
         ethnicity:
           type: string
           nullable: true
           description: The candidate’s ethnicity as [a 2-digit HESA code for Ethnicity](https://www.hesa.ac.uk/collection/c19053/e/ethnic)
-          example: '10'
+          example: "10"
           enum:
-          - '10'
-          - '15'
-          - '21'
-          - '22'
-          - '29'
-          - '31'
-          - '32'
-          - '33'
-          - '34'
-          - '39'
-          - '41'
-          - '42'
-          - '43'
-          - '49'
-          - '50'
-          - '80'
-          - '90'
-          - '98'
+          - "10"
+          - "15"
+          - "21"
+          - "22"
+          - "29"
+          - "31"
+          - "32"
+          - "33"
+          - "34"
+          - "39"
+          - "41"
+          - "42"
+          - "43"
+          - "49"
+          - "50"
+          - "80"
+          - "90"
+          - "98"
     Attribution:
       type: object
       additionalProperties: false
@@ -995,10 +995,10 @@ components:
           type: string
           description: The ID of the user in the Student Record System, used for disambiguation
           maxLength: 100
-          example: '12345'
+          example: "12345"
     MetaData:
       type: object
-      description: Required under a "meta" key in the body of every POST or PUT request
+      description: Required under a ‘meta’ key in the body of every POST or PUT request
       additionalProperties: false
       required:
       - attribution
@@ -1010,7 +1010,7 @@ components:
           type: string
           description: The time this update was made
           format: date-time
-          example: '2019-03-01T15:33:49.216Z'
+          example: 2019-03-01T15:33:49.216Z
     Error:
       type: object
       additionalProperties: false
@@ -1067,7 +1067,7 @@ components:
             "$ref": "#/components/schemas/Error"
           example:
           - error: ParameterMissing
-            message: 'param is missing or the value is empty: parameter_name'
+            message: "param is missing or the value is empty: parameter_name"
     UnprocessableEntityResponse:
       type: object
       required:
@@ -1081,7 +1081,7 @@ components:
             "$ref": "#/components/schemas/Error"
           example:
           - error: UnprocessableEntity
-            message: A 'meta' key was not included on the request body
+            message: A ‘meta’ key was not included on the request body
     OkResponse:
       type: object
       required:

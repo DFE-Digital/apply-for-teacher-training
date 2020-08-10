@@ -32,7 +32,7 @@ RSpec.describe StateChangeNotifier do
       before { StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice) }
 
       it 'mentions applicant\'s first name and provider name' do
-        arg1 = "#{applicant}'s application is ready to be reviewed by #{provider_name}"
+        arg1 = "#{applicant}’s application is ready to be reviewed by #{provider_name}"
         expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
       end
 
@@ -45,8 +45,8 @@ RSpec.describe StateChangeNotifier do
     describe ':make_an_offer' do
       before { StateChangeNotifier.call(:make_an_offer, application_choice: application_choice) }
 
-      it 'mentions applicant\s first name and provider name' do
-        arg1 = "#{provider_name} has just made an offer to #{applicant}'s application"
+      it 'mentions applicant\'s first name and provider name' do
+        arg1 = "#{provider_name} has just made an offer to #{applicant}’s application"
         expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
       end
 
@@ -59,8 +59,8 @@ RSpec.describe StateChangeNotifier do
     describe ':change_an_offer' do
       before { StateChangeNotifier.call(:change_an_offer, application_choice: application_choice) }
 
-      it 'mentions applicant\s first name and provider name' do
-        arg1 = "#{provider_name} has just changed an offer for #{applicant}'s application"
+      it 'mentions applicant\'s first name and provider name' do
+        arg1 = "#{provider_name} has just changed an offer for #{applicant}’s application"
         expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
       end
 
@@ -73,8 +73,8 @@ RSpec.describe StateChangeNotifier do
     describe ':reject_application' do
       before { StateChangeNotifier.call(:reject_application, application_choice: application_choice) }
 
-      it 'mentions applicant\s first name and provider name' do
-        arg1 = "#{provider_name} has just rejected #{applicant}'s application"
+      it 'mentions applicant\'s first name and provider name' do
+        arg1 = "#{provider_name} has just rejected #{applicant}’s application"
         expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
       end
 
@@ -87,8 +87,8 @@ RSpec.describe StateChangeNotifier do
     describe ':reject_application_by_default' do
       before { StateChangeNotifier.call(:reject_application_by_default, application_choice: application_choice) }
 
-      it 'mentions applicant\s first name' do
-        arg1 = "#{applicant}'s application has just been rejected by default"
+      it 'mentions applicant\'s first name' do
+        arg1 = "#{applicant}’s application has just been rejected by default"
         expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
       end
 
@@ -116,7 +116,7 @@ RSpec.describe StateChangeNotifier do
       before { StateChangeNotifier.call(:withdraw_offer, application_choice: application_choice) }
 
       it 'includes the applicant name and course identifier' do
-        arg1 = ":no_good: #{provider_name} has just withdrawn #{applicant}'s offer"
+        arg1 = ":no_good: #{provider_name} has just withdrawn #{applicant}’s offer"
         expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
       end
 

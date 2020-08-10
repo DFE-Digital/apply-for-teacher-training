@@ -87,8 +87,8 @@ en:
         label: Where do you live?
         change_action: where I live
         values:
-          uk: 'In the UK'
-          international: 'Outside the UK'
+          uk: In the UK
+          international: Outside the UK
       country:
         label: Which country?
         default_option: Select a country
@@ -204,12 +204,12 @@ en:
         review_label: Comparable UK degree
         change_action: NARIC statement
         values:
-          bachelor_ordinary_degree: 'Bachelor (Ordinary) degree'
-          bachelor_honours_degree: 'Bachelor (Honours) degree'
-          postgraduate_certificate_or_diploma: 'Postgraduate Certificate / Postgraduate Diploma'
-          masters_degree: 'Master’s degree / Integrated Master’s degree'
-          doctor_of_philosophy: 'Doctor of Philosophy degree'
-          post_doctoral_award: 'Post Doctoral award'
+          bachelor_ordinary_degree: Bachelor (Ordinary) degree
+          bachelor_honours_degree: Bachelor (Honours) degree
+          postgraduate_certificate_or_diploma: Postgraduate Certificate / Postgraduate Diploma
+          masters_degree: Master’s degree / Integrated Master’s degree
+          doctor_of_philosophy: Doctor of Philosophy degree
+          post_doctoral_award: Post Doctoral award
     gcse:
       qualification:
         label: Qualification
@@ -278,7 +278,7 @@ en:
         complete_form_button: Continue
       subject_knowledge:
         key: Your knowledge about the subject you want to teach
-        change_action:  evidence of subject knowledge
+        change_action: evidence of subject knowledge
         label: Tell us what you know about the subject you want to teach
         complete_form_button: Continue
       interview_preferences:
@@ -370,7 +370,7 @@ en:
       review:
         button: Continue
       sure_delete_entry: Yes I’m sure - delete this referee
-      sure_cancel_entry: Yes I'm sure - cancel this reference request
+      sure_cancel_entry: Yes I’m sure - cancel this reference request
       chase: Chase this referee and notify the candidate
       confirm_chase: Are you sure you want to send emails to chase the referee?
       info:
@@ -572,11 +572,11 @@ en:
             start_year:
               blank: Enter your start year
               invalid: Enter a real start year
-              greater_than_award_year: 'Enter a start year before graduation year'
+              greater_than_award_year: Enter a start year before graduation year
             award_year:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
-              greater_than_limit: 'Enter a year before %{date}'
+              greater_than_limit: Enter a year before %{date}
         candidate_interface/english_foreign_language/type_form:
           attributes:
             type:
@@ -637,7 +637,7 @@ en:
             award_year:
               blank: Enter the year the qualification was awarded
               invalid: Enter a real year
-              in_the_future: 'Enter a year before %{date}'
+              in_the_future: Enter a year before %{date}
             choice:
               blank: Do you want to add another qualification?
         candidate_interface/work_experience_form:

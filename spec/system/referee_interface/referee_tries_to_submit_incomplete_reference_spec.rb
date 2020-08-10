@@ -45,7 +45,7 @@ RSpec.feature 'Stop submission of incomplete references', with_audited: true do
 
   def then_i_cannot_submit_the_reference
     click_button 'Submit reference'
-    expect(page).to have_content "Can't submit a reference without answers to all questions"
+    expect(page).to have_content 'Can’t submit a reference without answers to all questions'
     expect(ApplicationReference.feedback_provided).to be_empty
   end
 end

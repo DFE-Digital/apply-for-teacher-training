@@ -44,11 +44,11 @@ RSpec.feature 'Refusing to give a reference' do
   end
 
   def and_a_slack_notification_is_sent
-    expect_slack_message_with_text ":sadparrot: A referee declined to give feedback for #{@application.first_name}'s application"
+    expect_slack_message_with_text ":sadparrot: A referee declined to give feedback for #{@application.first_name}’s application"
   end
 
   def and_i_confirm_that_i_wont_give_a_reference
-    click_button 'Yes - I\'m sure'
+    click_button 'Yes - I’m sure'
   end
 
   def then_an_email_is_sent_to_the_candidate

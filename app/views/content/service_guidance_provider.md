@@ -6,7 +6,7 @@ Until that date, Apply for teacher training will run alongside UCAS Teacher Trai
 
 We’ll continue to make improvements to the service as we roll out. We’ll keep you informed of new features with our newsletter, which is sent out to all onboarded providers.
 
-##Contents
+## Contents
 
 [What you can expect from us](#what-you-can-expect-from-us)
 
@@ -22,32 +22,29 @@ We’ll continue to make improvements to the service as we roll out. We’ll kee
 
 [Help, support and feedback](#help-support-and-feedback)
 
+## <a name="what-you-can-expect-from-us"></a>What you can expect from us
 
-
-
-##<a name="what-you-can-expect-from-us"></a>What you can expect from us
-
-###Support for training providers
+### Support for training providers
 
 You can contact us with problems or questions at <becomingateacher@digital.education.gov.uk>.
 
 Our dedicated training provider support team will respond to urgent queries within 1 working day, and non-urgent queries within 5 working days.
 
-###Support for candidates
+### Support for candidates
 
 Our support team is also on hand to guide candidates through the application process and help with any technical issues they may have when using the service.
 
 We prioritise as urgent any problems preventing application submission.
 
-###Fees
+### Fees
 
 Apply and Manage are free services for both candidates and providers.
 
-####Still to come: fraud and plagiarism checks
+#### Still to come: fraud and plagiarism checks
 
-For now, we don't provide fraud and plagiarism checks on candidate applications.
+For now, we don’t provide fraud and plagiarism checks on candidate applications.
 
-##<a name="onboarding"></a>Onboarding
+## <a name="onboarding"></a>Onboarding
 
 Onboarding is quick and easy, usually taking place over a single working day.
 
@@ -63,18 +60,18 @@ Onboarding is quick and easy, usually taking place over a single working day.
 
 We’re available to give you full support at every stage.
 
-##<a name="using-the-service"></a>Using the service
+## <a name="using-the-service"></a>Using the service
 [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) allows you to process applications from submission through to conditions met.
 
-###Viewing applications
+### Viewing applications
 
 Users with access to the Manage service will be able to view applications to courses you run as a training provider or ratify as an accredited provider.
 
-###Filtering applications
+### Filtering applications
 
 You can filter applications by candidate name, application status, training provider and ratifying provider.
 
-###Making decisions on applications
+### Making decisions on applications
 
 Users in your team will be able to:
 
@@ -84,7 +81,7 @@ Users in your team will be able to:
 * withdraw
 * reject, with reasons
 
-###Setting permissions for your team members
+### Setting permissions for your team members
 
 The permissions feature allows you to control:
 
@@ -92,7 +89,7 @@ The permissions feature allows you to control:
 * who can view sensitive information disclosed by the candidate (in the safeguarding or equality and diversity sections of the application)
 * who can invite other users, and set their permissions
 
-####For example, you may wish to:
+#### For example, you may wish to:
 
 * give members of your admission team access to all applications, but not the ability to make decisions
 * give academic decision-makers access to all applications, but not to sensitive information
@@ -100,7 +97,7 @@ The permissions feature allows you to control:
 
 Everyone on your team who uses the Manage service will be able to view all applications your organisation is involved with. You do not need to set permissions for this.
 
-###How to ‘Manage users’
+### How to ‘Manage users’
 
 The ‘Manage users’ permission allows you to:
 
@@ -108,66 +105,66 @@ The ‘Manage users’ permission allows you to:
 * invite new users
 * delete users
 
-####‘Manage users’ for training providers who are already part of our pilot
+#### ‘Manage users’ for training providers who are already part of our pilot
 
 We have automatically given the person in your organisation who signed the data-sharing agreement ‘Manage users’ permission. (If you’re not sure who signed the agreement, get in touch with us on <becomingateacher@digital.education.gov.uk>.)
 
-####‘Manage users’ for training providers now being onboarded
+#### ‘Manage users’ for training providers now being onboarded
 
-As part of your onboarding, we asked you to nominate team members to fill the ‘Manage users’ role. (Get in touch with us on <becomingateacher@digital.education.gov.uk> if you've yet to nominate a person for this role.)
+As part of your onboarding, we asked you to nominate team members to fill the ‘Manage users’ role. (Get in touch with us on <becomingateacher@digital.education.gov.uk> if you’ve yet to nominate a person for this role.)
 
-####Resetting the ‘Manage users’ permission
+#### Resetting the ‘Manage users’ permission
 
 You can reassign the ‘Manage users’ permission to different team members, as and when you need to.
 
-####Default settings for training providers who are already part of our pilot
+#### Default settings for training providers who are already part of our pilot
 
 For training providers who are already using the service, we’ve created some default settings to avoid disruption to your workflow:
 
 * all users can make decisions on applications
 * no users can access safeguarding information
 
-####Resetting permissions to suit your team
+#### Resetting permissions to suit your team
 
 When you sign into [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) you’ll see a ‘Users’ menu item at the top of the screen.
 
 By selecting this menu item, and then selecting users from the list, the member of your team with ‘Manage users’ permission can edit the permissions assigned to each of your team members.
 
-####Settings for training providers now being onboarded
+#### Settings for training providers now being onboarded
 
-When you sign into [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) for the first time, you'll be guided through the process of setting permissions for your team. You can customise permissions to suit your ways of working, and continue to edit them as and when you need.
+When you sign into [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) for the first time, you’ll be guided through the process of setting permissions for your team. You can customise permissions to suit your ways of working, and continue to edit them as and when you need.
 
-####Still to come: setting permissions between organisations
+#### Still to come: setting permissions between organisations
 
 We’ll soon be releasing a further improvement to the Permissions feature, allowing you to set permissions between you and the organisations you work with (for example, your accredited body).
 
-We'll update this page when we release organisational permissions.
+We’ll update this page when we release organisational permissions.
 
-###Email alerts
+### Email alerts
 
-You'll receive an email every time an application's status changes, for example from 'Offer' to 'Offer accepted'.
+You’ll receive an email every time an application’s status changes, for example from ‘Offer’ to ‘Offer accepted’.
 
-###Notes
+### Notes
 
 Notes allow you and your colleagues to add extra information or points to consider to individual applications. Notes are not seen by the candidate.
 
-###Timeline
+### Timeline
 
 Individual applications also come with a time-stamped audit trail recording what decisions have been made, when and by whom.
 
-###Downloading and printing
+### Downloading and printing
 
 You can download and print applications to distribute to your team. Compliance with General Data Protection Regulation (GDPR) is your responsibility.
 
-####Still to come: interviews
+#### Still to come: interviews
 
 For now, interview scheduling is not part of the Manage service.
 
-##<a name="deadlines-and-terms-of-use"></a>Deadlines and terms of use
+## <a name="deadlines-and-terms-of-use"></a>Deadlines and terms of use
 
 For clarity and fairness, while Apply for teacher training and UCAS Teacher Training run side by side (until October 2021), we’ve kept the rules governing applications closely aligned.
 
-###Reject by default and decline by default deadlines
+### Reject by default and decline by default deadlines
 
 Training providers have 40 working days to respond to an application (starting from the date when references have been submitted).
 
@@ -175,7 +172,7 @@ Candidates have 10 working days to accept or reject offer(s) (starting from the 
 
 As currently, the reject by default deadline changes over the summer. In 2020, for all applications received between 1 July and 3 October, providers have 20 working days to respond before the application is automatically rejected.
 
-###Changing the terms of an offer
+### Changing the terms of an offer
 
 When you respond to an application, the service allows you change the details of the offer, including the course, main training location and training provider (for example, to another organisation with courses you run or ratify).
 
@@ -185,7 +182,7 @@ The candidate will receive a formal notification of the changed offer, but you s
 
 Once the candidate has accepted your offer, you can’t change the terms of the offer without their permission.
 
-###Apply again (Apply 2)
+### Apply again (Apply 2)
 
 Candidates can now use [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate) to apply again if they are rejected by all their providers, or decline by default or withdraw their applications.
 
@@ -198,9 +195,9 @@ As currently, in this phase candidates can make an unlimited number of single, s
 Candidates will also be able to use UCAS’s Apply 2 service for this part of their journey.
 
 
-##<a name="troubleshooting"></a>Troubleshooting
+## <a name="troubleshooting"></a>Troubleshooting
 
-###Informing candidates your courses are on Apply
+### Informing candidates your courses are on Apply
 
 Your courses will automatically be uploaded to [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk) as part of our onboarding process.
 
@@ -208,14 +205,14 @@ When candidates use [Find postgraduate teacher training](https://www.find-postgr
 
 When candidates bypass [Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) and come directly to Apply for teacher training via a search engine or a provider website, they will also be offered a choice between Apply and UCAS.
 
-###Stopping candidates making multiple applications through Apply and UCAS
+### Stopping candidates making multiple applications through Apply and UCAS
 
 We are developing data sharing arrangements with UCAS to monitor candidates who attempt to:
 
 * apply to the same course twice (by using both the Apply and UCAS services)
 * apply to more than 3 courses in the Apply 1 stage of their application (by using both the Apply and UCAS services)
 
-###Helping candidates apply to training providers not yet onboarded to Manage teacher training applications
+### Helping candidates apply to training providers not yet onboarded to Manage teacher training applications
 
 Non-onboarded training providers continue to be available through UCAS Teacher Training. This will remain the case until the UCAS service is switched off in October 2021.
 
@@ -229,24 +226,24 @@ We provide a clear route to UCAS for candidates who choose non-onboarded provide
 
 4. Within [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk), if candidates select a non-onboarded provider as one of their additional course choices, they are directed back to UCAS to apply using that service.
 
-###Onboarding for providers with courses ratified by an accredited body
+### Onboarding for providers with courses ratified by an accredited body
 
 If your courses are ratified by an accredited body, or you are part of a partnership of teacher training organisations, you will need to make sure your partners are ready to be onboarded to Manage.
 
 They may find our [introduction to the service](https://www.apply-for-teacher-training.service.gov.uk/provider) helpful. We’re available to answer any questions they may have on <becomingateacher@digital.education.gov.uk>.
 
-###Candidates who apply for your courses through UCAS
+### Candidates who apply for your courses through UCAS
 
 Candidates are given a choice about which service to use to apply for your courses. It’s important that you continue to check UCAS for candidates applying via that service. You’ll need to process these applications through UCAS in the normal way.
 
-###COVID-19
+### COVID-19
 
 The Department for Education has not changed delivery timetables for the roll-out of the Apply and Manage services.
 
 For questions related to COVID-19, please email our dedicated helpline on <dfe.coronavirushelpline@education.gov.uk> or call us at <a href="tel:0800 046 8687">0800 046 8687</a>.
 Lines are open 8am to 6pm (Monday to Friday) 10am to 4pm (Saturday and Sunday).
 
-##<a name="publicising-apply"></a>Publicising Apply for teacher training
+## <a name="publicising-apply"></a>Publicising Apply for teacher training
 
 Some providers find that becoming an early adopter of a streamlined, modern GOV.UK service is a useful marketing aid.
 
@@ -254,16 +251,16 @@ You can direct candidates to the new service by linking from your website to you
 
 Our [marketing tool kit](https://docs.google.com/presentation/d/1dCZ5HF_mpJMAOpmr305VqlUo_wqW2jWmzOWi9vxStI0/edit#slide=id.g73a2eda7b8_0_40) may be helpful for your website and social media feeds.
 
-##<a name="help-support-and-feedback"></a>Help, support and feedback
+## <a name="help-support-and-feedback"></a>Help, support and feedback
 
-###See a demo
+### See a demo
 To request a remote demonstration of the service as a whole or a particular feature, email us on <becomingateacher@digital.education.gov.uk>.
 
-###Report a problem
+### Report a problem
 
 To report a problem or get help, email us on <becomingateacher@digital.education.gov.uk>.
 
-###Take part in user research and give feedback
+### Take part in user research and give feedback
 
 We welcome feedback on all aspects of Manage teacher training applications. When you participate in user research, you help shape current and future service features.
 

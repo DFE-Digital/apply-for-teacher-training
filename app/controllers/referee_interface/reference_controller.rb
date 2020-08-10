@@ -161,7 +161,7 @@ module RefereeInterface
     end
 
     def send_slack_notification
-      message = ":sadparrot: A referee declined to give feedback for #{reference.application_form.first_name}'s application"
+      message = ":sadparrot: A referee declined to give feedback for #{reference.application_form.first_name}’s application"
       url = helpers.support_interface_application_form_url(reference.application_form)
 
       SlackNotificationWorker.perform_async(message, url)

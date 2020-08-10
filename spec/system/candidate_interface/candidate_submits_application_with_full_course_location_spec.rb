@@ -36,12 +36,12 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def then_i_see_a_warning_that_there_are_no_vacancies_at_my_chosen_location
-    expect(page).to have_content("Your chosen location for '#{current_candidate.current_application.application_choices.first.course.provider_and_name_code}' has no vacancies")
+    expect(page).to have_content("Your chosen location for ‘#{current_candidate.current_application.application_choices.first.course.provider_and_name_code}’ has no vacancies")
   end
 
   def and_i_cannot_proceed
     click_link 'Continue'
     expect(page).to have_content('There is a problem')
-    expect(page).to have_content("Your chosen location for '#{current_candidate.current_application.application_choices.first.course.provider_and_name_code}' has no vacancies")
+    expect(page).to have_content("Your chosen location for ‘#{current_candidate.current_application.application_choices.first.course.provider_and_name_code}’ has no vacancies")
   end
 end

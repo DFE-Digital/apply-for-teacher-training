@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix("Add a course to #{@form.application_form.full_name}'s application", @form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix("Add a course to #{@form.application_form.full_name}’s application", @form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_change_course_path(@form.application_form)) %>
 
 <div class="govuk-grid-row">
@@ -7,7 +7,7 @@
       <%= f.govuk_error_summary %>
 
       <h1 class='govuk-heading-xl'>
-        Add a course to <%= @form.application_form.full_name %>'s application
+        Add a course to <%= @form.application_form.full_name %>’s application
       </h1>
 
       <p class="govuk-body">
