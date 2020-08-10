@@ -25,6 +25,7 @@ $govuk-breakpoints: (
 @import "_contents-list";
 @import "_environments";
 @import "_footer";
+@import "_header";
 @import "_input";
 @import "_phase-banner";
 @import "_print-helpers";
@@ -60,7 +61,6 @@ $govuk-breakpoints: (
 @import "_masthead";
 @import "_notes";
 @import "_product-section";
-@import "_provider_header";
 @import "_timeline";
 
 // Support

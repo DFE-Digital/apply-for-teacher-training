@@ -1,10 +1,10 @@
-.provider-header__logo {
+.app-header__logo--provider {
   @include govuk-media-query($from: tablet) {
     width: 60%;
   }
 }
 
-.provider-header__content {
+.app-header__content--provider {
   @include govuk-media-query($from: tablet) {
     width: 40%;
   }
