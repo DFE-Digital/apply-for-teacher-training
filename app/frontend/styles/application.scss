@@ -58,7 +58,6 @@ $govuk-breakpoints: (
 @import "_application-card";
 @import "_button";
 @import "_count";
-@import "_checkboxes";
 @import "_filter";
 @import "_masthead";
 @import "_notes";
@@ -68,6 +67,7 @@ $govuk-breakpoints: (
 // Support
 @import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
 @import "_card";
+@import "_checkboxes-scroll";
 @import "_relationship-diagram";
 
 // API docs
