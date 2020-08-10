@@ -38,6 +38,8 @@ en:
         subject: "%{provider_name} has made a decision on your application for %{course_name}"
       offers_made:
         subject: "%{provider_name} has responded: make a decision within %{dbd_days} working days"
+    application_rejected_by_default:
+      subject: "%{provider_name} did not respond"
     declined_by_default:
       subject:
         one: Application withdrawn automatically

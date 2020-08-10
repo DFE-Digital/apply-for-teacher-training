@@ -1,11 +1,13 @@
 <%= render 'application_rejected_intro' %>
 
-# Decisions we’re waiting for
+<% unless @application_choice.rejected_by_default? %>
+  # Decisions we’re waiting for
 
-We’re still waiting to hear back about your <%= 'application'.pluralize(@decisions.size) %> for:
+  We’re still waiting to hear back about your <%= 'application'.pluralize(@decisions.size) %> for:
 
-<% @decisions.each do |decision| %>
- - <%= decision.course_option.course.name_and_code %> at <%= decision.course_option.course.provider.name %>
+  <% @decisions.each do |decision| %>
+   - <%= decision.course_option.course.name_and_code %> at <%= decision.course_option.course.provider.name %>
+  <% end %>
 <% end %>
 
 # Give feedback or report a problem
