@@ -1,3 +1,8 @@
+### 10th August 2020
+
+- Deprecate `Withdrawal.reason`, which was supposed to hold a candidate’s reason for
+withdrawing their application. The Apply service will not collect this information
+
 ### 7th July 2020
 
 Documentation has been amended to emphasise the stability of `/applications` endpoints
