@@ -35,7 +35,7 @@ const nationalitiesComponent = () => {
   function addRemoveLink(labelEl, selectEl) {
     const removeLink = document.createElement("a");
     removeLink.innerHTML = "Remove";
-    removeLink.classList.add("govuk-link", "app-nationality-remove-link");
+    removeLink.classList.add("govuk-link", "app-nationality__remove-link");
 
     // This has to be a link and not a button as the govuk-link class requires an
     // href to apply  it's styling
