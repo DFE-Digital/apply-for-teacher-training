@@ -2,7 +2,7 @@ module CandidateInterface
   module CourseChoices
     module ReplaceChoices
       class BaseController < CandidateInterfaceController
-        before_action :redirect_to_dashboard_if_no_choices_need_replacing
+        before_action :redirect_to_dashboard_if_no_choices_need_replacing, :redirect_to_dashboard_if_find_is_down
 
         def pick_choice_to_replace
           if only_one_course_choice_needs_replacing?
@@ -33,6 +33,10 @@ module CandidateInterface
 
         def redirect_to_dashboard_if_no_choices_need_replacing
           redirect_to candidate_interface_application_complete_path if current_application.course_choices_that_need_replacing.blank?
+        end
+
+        def redirect_to_dashboard_if_find_is_down
+          redirect_to candidate_interface_course_choices_review_path if EndOfCycleTimetable.find_down?
         end
 
         def only_one_course_choice_needs_replacing?
