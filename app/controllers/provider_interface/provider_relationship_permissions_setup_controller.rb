@@ -19,7 +19,11 @@ module ProviderInterface
 
     def setup_permissions
       @permissions_model = ProviderRelationshipPermissions.find(params[:id])
-      @wizard = wizard_for(current_step: 'permissions', current_provider_relationship_id: params[:id])
+      @wizard = wizard_for(
+        current_step: 'permissions',
+        current_provider_relationship_id: params[:id],
+        checking_answers: params[:checking_answers],
+      )
       @wizard.save_state!
 
       setup_permissions_form
@@ -69,6 +73,21 @@ module ProviderInterface
     end
 
     def success; end
+
+    def previous_page
+      step, id = @wizard.previous_step
+
+      path_info = {
+        organisations: { action: :organisations },
+        permissions: { action: :setup_permissions, id: id },
+        info: { action: :info },
+        check: { action: :check },
+      }.fetch(step)
+
+      path_info[:checking_answers] = true if params[:checking_answers]
+      path_info
+    end
+    helper_method :previous_page
 
   private
 
@@ -120,7 +139,7 @@ module ProviderInterface
 
       params.require(:provider_interface_provider_relationship_permissions_setup_wizard)
         .permit(provider_relationship_permissions: {}).to_h
-        .merge(current_provider_relationship_id: params[:id], skip_further_permissions: params[:skip_further_permissions])
+        .merge(current_provider_relationship_id: params[:id], checking_answers: params[:checking_answers])
     end
 
     def setup_permissions_form

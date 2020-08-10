@@ -1,5 +1,5 @@
 <% content_for :before_content do %>
-  <%= link_to 'Back', provider_interface_setup_provider_relationship_permissions_path(@permissions_models.last), class: 'govuk-back-link' %>
+  <%= link_to 'Back', previous_page, class: 'govuk-back-link' %>
 <% end %>
 
 <div class="govuk-grid-row">
@@ -32,7 +32,7 @@
               provider_interface_setup_provider_relationship_permissions_path(
                 permissions_model,
                 anchor: "provider-interface-provider-relationship-permissions-setup-wizard-provider-relationship-permissions-#{permissions_model.id}-make-decisions-training-field",
-                skip_further_permissions: true,
+                checking_answers: true,
               ),
             )%>
           </dd>
@@ -58,7 +58,7 @@
               provider_interface_setup_provider_relationship_permissions_path(
                 permissions_model,
                 anchor: "provider-interface-provider-relationship-permissions-setup-wizard-provider-relationship-permissions-#{permissions_model.id}-view-safeguarding-information-training-field",
-                skip_further_permissions: true,
+                checking_answers: true,
               ),
             ) %>
           </dd>

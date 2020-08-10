@@ -1,16 +1,17 @@
 <% content_for :before_content do %>
-  <%= link_to 'Back', provider_interface_provider_relationship_permissions_info_path, class: 'govuk-back-link' %>
+  <%= link_to 'Back', previous_page, class: 'govuk-back-link' %>
 <% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-xl">Set up permissions</span>
-    <h1 class="govuk-heading-xl">For courses run by <%= @permissions_model.training_provider.name %> and ratified by <%= @permissions_model.ratifying_provider.name %></h1>
 
     <%= form_with model: @wizard, url: provider_interface_save_provider_relationship_permissions_path(@permissions_model) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= hidden_field_tag :skip_further_permissions, params[:skip_further_permissions] %>
+      <%= hidden_field_tag :checking_answers, params[:checking_answers] %>
+
+      <span class="govuk-caption-xl">Set up permissions</span>
+      <h1 class="govuk-heading-xl">For courses run by <%= @permissions_model.training_provider.name %> and ratified by <%= @permissions_model.ratifying_provider.name %></h1>
 
       <div class="app-banner">
         <div class="app-banner__message">
