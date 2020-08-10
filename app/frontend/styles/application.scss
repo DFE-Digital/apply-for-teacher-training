@@ -18,22 +18,24 @@ $govuk-breakpoints: (
   wide: 1300px
 );
 
-// Shared
+// Shared (govuk-frontend components and overrides)
 @import "~govuk-frontend/govuk/all";
-@import "_autocomplete";
-@import "_banner";
-@import "_contents-list";
-@import "_environments";
 @import "_footer";
 @import "_header";
 @import "_input";
 @import "_phase-banner";
 @import "_print-helpers";
+@import "_tabs";
+@import "_tag";
+
+// Shared (custom components)
+@import "_autocomplete";
+@import "_banner";
+@import "_contents-list";
+@import "_environments";
 @import "_status-box";
 @import "_styled-content";
 @import "_summary-card";
-@import "_tabs";
-@import "_tag";
 
 // Candidate
 @import "_related";
