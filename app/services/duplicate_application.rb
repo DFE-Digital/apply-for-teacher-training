@@ -1,8 +1,9 @@
 class DuplicateApplication
-  attr_reader :original_application_form
+  attr_reader :original_application_form, :target_phase
 
-  def initialize(original_application_form)
+  def initialize(original_application_form, target_phase:)
     @original_application_form = original_application_form
+    @target_phase = target_phase
   end
 
   IGNORED_ATTRIBUTES = %w[id created_at updated_at submitted_at course_choices_completed phase support_reference].freeze
@@ -12,7 +13,7 @@ class DuplicateApplication
     attrs = original_application_form.attributes.except(
       *IGNORED_ATTRIBUTES,
     ).merge(
-      phase: 'apply_2',
+      phase: target_phase,
       previous_application_form_id: original_application_form.id,
     )
 
