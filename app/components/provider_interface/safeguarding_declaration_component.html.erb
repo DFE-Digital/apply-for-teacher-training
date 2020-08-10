@@ -1,5 +1,5 @@
 <p class="govuk-body"><%= message %></p>
-<% if current_user_has_permission_to_view_safeguarding_information? %>
+<% if display_safeguarding_issues_details? %>
   <details class="govuk-details govuk-!-margin-bottom-2" data-module="govuk-details">
     <summary class="govuk-details__summary">
       <span class="govuk-details__summary-text">

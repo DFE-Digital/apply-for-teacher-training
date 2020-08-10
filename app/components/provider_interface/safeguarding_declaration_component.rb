@@ -16,9 +16,8 @@ module ProviderInterface
       ).message
     end
 
-    def current_user_has_permission_to_view_safeguarding_information?
-      current_provider_user.authorisation
-        .can_view_safeguarding_information?(course: application_choice.course)
+    def display_safeguarding_issues_details?
+      safeguarding_issues_declared? && current_user_has_permission_to_view_safeguarding_information?
     end
 
     def details
@@ -33,6 +32,11 @@ module ProviderInterface
       else
         application_choice.application_form.safeguarding_issues_status
       end
+    end
+
+    def current_user_has_permission_to_view_safeguarding_information?
+      current_provider_user.authorisation
+        .can_view_safeguarding_information?(course: application_choice.course)
     end
 
     def safeguarding_issues_declared?
