@@ -162,6 +162,7 @@ private
 
   def add_provider_relationships(course)
     return if course.accredited_provider.blank?
+    return if course.accredited_provider == course.provider
 
     ProviderRelationshipPermissions.find_or_create_by!(
       training_provider: provider,
