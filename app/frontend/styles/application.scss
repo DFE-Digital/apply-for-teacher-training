@@ -60,13 +60,13 @@ $govuk-breakpoints: (
 @import "_masthead";
 @import "_notes";
 @import "_product-section";
-@import "_provider";
 @import "_provider_header";
 @import "_timeline";
 
 // Support
 @import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
 @import "_card";
+@import "_relationship-diagram";
 
 // API docs
 @import "_syntax-highlighting";
