@@ -3,6 +3,8 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
 
     def index
+      redirect_to candidate_interface_course_choices_review_path and return if EndOfCycleTimetable.find_down?
+
       @application_choices = current_candidate.current_application.application_choices
 
       if @application_choices.any?
