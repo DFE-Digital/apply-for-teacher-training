@@ -1,4 +1,4 @@
-<%= content_for :browser_title, t('page_titles.data_sharing_agreement') %>
+<%= content_for :browser_title, title_with_error_prefix(t('page_titles.data_sharing_agreement'), @provider_agreement.errors.any?) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
