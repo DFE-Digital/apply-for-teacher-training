@@ -161,6 +161,19 @@ RSpec.describe SyncProviderFromFind do
         }.not_to change(ProviderRelationshipPermissions, :count)
       end
 
+      it 'does not create provider relationships when the course accredited_provider attribute points back to the same provider' do
+        stub_find_api_provider_200_with_accredited_provider(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+          accredited_provider_code: 'ABC',
+          findable: true,
+        )
+
+        expect {
+          SyncProviderFromFind.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
+        }.not_to change(ProviderRelationshipPermissions, :count)
+      end
+
       it 'stores full_time/part_time information within courses' do
         stub_find_api_provider_200_with_accredited_provider(
           provider_code: 'ABC',
