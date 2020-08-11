@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_11_102357) do
+ActiveRecord::Schema.define(version: 2020_08_11_113541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -351,6 +351,8 @@ ActiveRecord::Schema.define(version: 2020_08_11_102357) do
     t.boolean "training_provider_can_view_safeguarding_information", default: false, null: false
     t.boolean "ratifying_provider_can_make_decisions", default: false, null: false
     t.boolean "ratifying_provider_can_view_safeguarding_information", default: false, null: false
+    t.boolean "training_provider_can_view_diversity_information", default: false, null: false
+    t.boolean "ratifying_provider_can_view_diversity_information", default: false, null: false
     t.index ["training_provider_id", "ratifying_provider_id"], name: "index_relationships_on_training_and_ratifying_provider_ids", unique: true
   end
 
