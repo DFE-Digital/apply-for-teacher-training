@@ -21,7 +21,7 @@ class FindSyncCheck < OkComputer::Check
       mark_message 'Problem finding the time when the Find sync last succeeded'
     elsif Time.zone.parse(last_date) < (Time.zone.now - 1.hour)
       mark_failure
-      mark_message 'The sync with Find hasn\'t succeeded in an hour'
+      mark_message 'The sync with Find has not succeeded in an hour'
     else
       mark_message 'The sync with Find has succeeded in the last hour'
     end

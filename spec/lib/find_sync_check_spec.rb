@@ -14,10 +14,10 @@ RSpec.describe FindSyncCheck do
       expect(FindSyncCheck.new.check).to eql('Problem finding the time when the Find sync last succeeded')
     end
 
-    it 'fails if the sync hasn\'t happened recently' do
+    it 'fails if the sync has not happened recently' do
       FindSyncCheck.set_last_sync(Time.zone.now - 10.days)
 
-      expect(FindSyncCheck.new.check).to eql('The sync with Find hasn\'t succeeded in an hour')
+      expect(FindSyncCheck.new.check).to eql('The sync with Find has not succeeded in an hour')
     end
   end
 end

@@ -2,7 +2,7 @@ en:
   candidate_flow_application_states:
     not_signed_up:
       name: Not signed up
-      description: The candidate hasn’t signed up yet
+      description: The candidate has not signed up yet
     sign_up_email_bounced:
       name: Sign up email bounced
       description: The candidate was sent a sign up email but it bounced
@@ -11,10 +11,10 @@ en:
       description: The candidate has signed up but never signed into the service
     unsubmitted_not_started_form:
       name: Haven’t started form
-      description: The candidate has signed in but hasn’t edited the form yet
+      description: The candidate has signed in but has not edited the form yet
     unsubmitted_in_progress:
       name: Form started but unsubmitted
-      description: The candidate has started editing but hasn’t submitted the form yet
+      description: The candidate has started editing but has not submitted the form yet
     awaiting_references:
       name: Awaiting references
       description: The candidate has submitted the form. We’ve asked their references for feedback, and are still waiting on one or more of those.
@@ -32,7 +32,7 @@ en:
       description: The candidate has accepted an offer. The provider now has to confirm to us that the candidate has met the conditions in the offer.
     recruited:
       name: Recruited
-      description: The candidate has been recruited, but hasn’t enrolled yet.
+      description: The candidate has been recruited, but has not enrolled yet.
     enrolled:
       name: Enrolled
       description: The candidate has enrolled in the course.
@@ -217,12 +217,12 @@ en:
     awaiting_references-cancel:
       name: Candidate cancels
       by: candidate
-      description: If the application hasn't been sent to the provider, the candidate can still cancel the application.
+      description: If the application has not been sent to the provider, the candidate can still cancel the application.
 
     application_complete-cancel:
       name: Candidate cancels
       by: candidate
-      description: If the application hasn't been sent to the provider, the candidate can still cancel the application.
+      description: If the application has not been sent to the provider, the candidate can still cancel the application.
 
     application_complete-send_to_provider:
       name: Application is sent to provider
@@ -303,7 +303,7 @@ en:
     offer-reject:
       name: Provider rescinds offer
       by: provider
-      description: As long as the candidate hasn’t accepted the offer, the provider can reject the application.
+      description: As long as the candidate has not accepted the offer, the provider can reject the application.
       emails:
         - candidate_mailer-application_rejected_all_rejected
         - candidate_mailer-application_rejected_awaiting_decisions
@@ -333,7 +333,7 @@ en:
     pending_conditions-conditions_not_met:
       name: Providers marks conditions as not met
       by: provider
-      description: The provider says the candidate hasn’t met the conditions set out in the offer.
+      description: The provider says the candidate has not met the conditions set out in the offer.
       emails:
         - candidate_mailer-conditions_not_met
 
