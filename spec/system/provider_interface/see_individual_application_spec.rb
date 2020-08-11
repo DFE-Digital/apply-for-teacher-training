@@ -176,12 +176,12 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_i_should_see_the_candidates_work_history
     within 'div[data-qa="work-history"]' do
-      within 'div.app-experience__item:eq(1)' do
+      within 'section:eq(1)' do
         expect(page).to have_content 'Unexplained break (2 years and 1 month)'
         expect(page).to have_content 'February 2015 - March 2017'
       end
 
-      within 'div.app-experience__item:eq(2)' do
+      within 'section:eq(2)' do
         expect(page).to have_content 'Smuggler - Part-time'
         expect(page).to have_content 'March 2017 - September 2017'
         expect(page).to have_content 'The Empire'
@@ -189,17 +189,17 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
         expect(page).not_to have_content 'Worked with children'
       end
 
-      within 'div.app-experience__item:eq(3)' do
+      within 'section:eq(3)' do
         expect(page).to have_content 'Break (6 months)'
         expect(page).to have_content 'September 2017 - March 2018'
       end
 
-      within 'div.app-experience__item:eq(4)' do
+      within 'section:eq(4)' do
         expect(page).to have_content 'Bounty Hunter - Full-time'
         expect(page).to have_content 'March 2018 - September 2018'
       end
 
-      within 'div.app-experience__item:eq(5)' do
+      within 'section:eq(5)' do
         expect(page).to have_content 'Unexplained break (1 year and 6 months)'
         expect(page).to have_content 'September 2018 - March 2020'
       end

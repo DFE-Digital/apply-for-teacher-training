@@ -11,63 +11,64 @@ $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
 $govuk-breakpoints: (
-  mobile:  320px,
-  tablet:  641px,
+  mobile: 320px,
+  tablet: 641px,
   large: 945px,
   desktop: 769px,
-  wide:    1300px
+  wide: 1300px
 );
 
+// Shared (govuk-frontend components and overrides)
 @import "~govuk-frontend/govuk/all";
+@import "_breadcrumbs";
+@import "_footer";
+@import "_header";
+@import "_input";
+@import "_phase-banner";
+@import "_tabs";
+@import "_tag";
+
+// Shared (custom components)
 @import "_autocomplete";
 @import "_banner";
+@import "_contents-list";
 @import "_environments";
-@import "_footer";
-@import "_related";
 @import "_status-box";
 @import "_styled-content";
 @import "_summary-card";
-@import "_tag";
+
+// Candidate
+@import "_related";
+@import "_review_warning";
+@import "_nationalities";
 @import "_task-list";
-@import "_contents-list";
-@import "_definition-list";
-@import "_postcode";
-@import "_print-helpers";
 
 // Provider
+@import "~@ministryofjustice/frontend/moj/settings/assets";
+@import "~@ministryofjustice/frontend/moj/settings/measurements";
+@import "~@ministryofjustice/frontend/moj/helpers/all";
+@import "~@ministryofjustice/frontend/moj/objects/filter-layout";
+@import "~@ministryofjustice/frontend/moj/objects/scrollable-pane";
+@import "~@ministryofjustice/frontend/moj/objects/width-container";
+@import "~@ministryofjustice/frontend/moj/components/filter/filter";
 @import "~@ministryofjustice/frontend/moj/components/pagination/pagination";
-@import "_phase-banner";
+@import "~@ministryofjustice/frontend/moj/components/primary-navigation/primary-navigation";
+@import "~@ministryofjustice/frontend/moj/utilities/all";
+@import "_action-bar";
+@import "_application-card";
 @import "_button";
 @import "_count";
-@import "_masthead";
-@import "_product-section";
-@import "_checkboxes";
-@import "_sortable-table";
-@import "_work-history";
-@import "_timeline";
-@import "_notes";
-@import "~@ministryofjustice/frontend/moj/settings/measurements";
-@import "~@ministryofjustice/frontend/moj/objects/width-container";
-@import "~@ministryofjustice/frontend/moj/helpers/all";
-@import "~@ministryofjustice/frontend/moj/utilities/all";
-@import "~@ministryofjustice/frontend/moj/settings/assets";
-@import "~@ministryofjustice/frontend/moj/objects/filter-layout";
-@import "~@ministryofjustice/frontend/moj/components/filter/filter";
-@import "~@ministryofjustice/frontend/moj/components/primary-navigation/primary-navigation";
-@import "~@ministryofjustice/frontend/moj/objects/scrollable-pane";
-@import "~@ministryofjustice/frontend/moj/utilities/hidden";
 @import "_filter";
-@import "_provider";
-@import "_application-card";
-@import "_application-tabs";
-@import "_review_warning";
-@import "_provider_header";
-@import "_nationalities-component";
-
+@import "_masthead";
+@import "_notes";
+@import "_product-section";
+@import "_timeline";
 
 // Support
 @import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
 @import "_card";
+@import "_checkboxes-scroll";
+@import "_relationship-diagram";
 
 // API docs
 @import "_syntax-highlighting";
