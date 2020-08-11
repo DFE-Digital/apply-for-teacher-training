@@ -9,10 +9,21 @@
     <p class="govuk-body">
       If you pasted the web address, check you copied the entire address.
     </p>
-    <p class="govuk-body">
-      If the web address is correct or you selected a link or button and you
-      need to speak to someone about this problem, contact the Becoming a Teacher team:
-      <%= bat_contact_mail_to %>.
-    </p>
+    <% if intended_namespace == 'provider_interface' %>
+      <p class="govuk-body">
+        You can
+        <%= govuk_link_to "return to #{service_name}", service_link %>.
+      </p>
+      <p class="govuk-body">
+        Or, if you need to speak to someone about this problem, email us on
+        <%= bat_contact_mail_to %>.
+      </p>
+    <% else %>
+      <p class="govuk-body">
+        If the web address is correct or you selected a link or button and you
+        need to speak to someone about this problem, contact the Becoming a Teacher team:
+        <%= bat_contact_mail_to %>.
+      </p>
+    <% end %>
   </div>
 </div>
