@@ -35,7 +35,7 @@ Storing the data in a separate database within the same infrastructure and ops s
 
 #### Cons
 
-- Possibly _too_ transparent to the app/developers - if it presents _too_ much like the same database, we'll have the constant cognitive overhead of trying to do things like cross-database joins, and then wasting time while we remember that "oh yes, _that's_ why it didn't work..."
+- Possibly _too_ transparent to the app/developers - if it presents _too_ much like the same database, we'll have the constant cognitive overhead of trying to do things like cross-database joins, and then wasting time while we remember that "oh yes, _that's_ why it did not work..."
 - Ops overhead - all DB management tasks will need to be scoped to the database (applying migrations, etc), deploy chain needs extending to support multiple databases, multiple environment variables with database URLs, multiple backups, etc
 - Adds complexity to an already quite-heavyweight single application
 - Not much separation in practice

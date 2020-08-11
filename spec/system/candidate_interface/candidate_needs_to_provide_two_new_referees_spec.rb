@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate needs to provide 2 new referees' do
   include CandidateHelper
 
-  scenario "Candidate provides a new referee because 2 didn't respond" do
+  scenario "Candidate provides a new referee because 2 did not respond" do
     FeatureFlag.activate('pilot_open')
 
     given_i_am_signed_in_as_a_candidate
