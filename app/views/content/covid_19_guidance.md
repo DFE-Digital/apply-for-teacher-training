@@ -1,4 +1,4 @@
-We recognise that training providers continue to work under very difficult conditions. We previously announced that we won’t reject or decline any offers automatically until 20 April 2020. **We’ve now extended that date to 31 May 2020**.
+We recognise that training providers continue to work under very difficult conditions. We previously announced that we will not reject or decline any offers automatically until 20 April 2020. **We’ve now extended that date to 31 May 2020**.
 
 Below we outline what this means for you and your candidates. We’ll keep you updated if anything else changes.
 

@@ -24,7 +24,7 @@ Get in touch with us as soon as possible after submitting your application if yo
 
 For example, you can add more courses (if you haven’t reached your limit of 3) or change your course choices.
 
-Once we’ve processed your request, we won’t be able to make any more changes for you.
+Once we’ve processed your request, we will not be able to make any more changes for you.
 
 However, you can ask us to amend your name or contact details at any point up until enrolment.
 

@@ -36,7 +36,7 @@ Rails.application.configure do
     # in our case, because SSL is terminated at the Azure layer.
     redirect: false,
 
-    # Cookies won't be sent over http
+    # Cookies will not be sent over http
     secure_cookies: true,
 
     # HSTS: tell the browser to never load HTTP version of the site
@@ -130,7 +130,7 @@ Rails.application.configure do
       # so use Rack's own parsing to overwrite this header before it
       # gets to ActionDispatch::RemoteIp
       req = Rack::Request.new(env)
-      
+
       if req.forwarded_for.present?
         env['HTTP_X_FORWARDED_FOR'] = req.forwarded_for.join(',')
       end

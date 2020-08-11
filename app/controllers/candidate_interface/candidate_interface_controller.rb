@@ -67,7 +67,7 @@ module CandidateInterface
     end
 
     def protect_with_basic_auth
-      # On production this won't be enabled
+      # On production this will not be enabled
       return unless ENV['BASIC_AUTH_ENABLED'] == '1'
 
       authenticate_or_request_with_http_basic do |username, password|

@@ -128,7 +128,7 @@ We use a customer service management system to process some personal data, such 
 
 #### Google
 
-We’ll ask if you agree to cookies so that we can get statistics from Google Analytics. If you consent, Google may be able to get your IP address. We use Google Analytics for statistics and won’t identify you personally from these.
+We’ll ask if you agree to cookies so that we can get statistics from Google Analytics. If you consent, Google may be able to get your IP address. We use Google Analytics for statistics and will not identify you personally from these.
 
 We also use Google’s G Suite to process some personal data. For example, we’ll ask referees to send a reference via Google Forms and process the data using Google Sheets.
 
@@ -166,7 +166,7 @@ If you want to ask us to remove your data or get access to the data we have abou
 
 You can also use our contact form to [get in touch with our Data Protection Officer](https://form.education.gov.uk/en/AchieveForms/?form_uri=sandbox-publish://AF-Process-f1453496-7d8a-463f-9f33-1da2ac47ed76/AF-Stage-1e64d4cc-25fb-499a-a8d7-74e98203ac00/definition.json&redirectlink=%2Fen&cancelRedirectLink=%2Fen).
 
-Once a candidate has enrolled with a teacher training provider, we won’t be able to ask them to remove personal data from their systems. Please contact the provider separately.
+Once a candidate has enrolled with a teacher training provider, we will not be able to ask them to remove personal data from their systems. Please contact the provider separately.
 
 For further information or to raise a concern, visit the [Information Commissioner’s Office](https://ico.org.uk/) (ICO).
 
