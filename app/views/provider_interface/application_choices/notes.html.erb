@@ -2,7 +2,7 @@
 
 <%= render 'application_choice_header' %>
 
-<%= link_to 'Add note', provider_interface_application_choice_new_note_path(@application_choice), class: 'govuk-button' %>
+<%= govuk_button_link_to 'Add note', provider_interface_application_choice_new_note_path(@application_choice) %>
 
 <% unless @notes.empty? %>
   <div class="govuk-grid-row">
