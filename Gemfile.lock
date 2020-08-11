@@ -108,7 +108,7 @@ GEM
     coderay (1.1.2)
     commonmarker (0.21.0)
       ruby-enum (~> 0.5)
-    concurrent-ruby (1.1.6)
+    concurrent-ruby (1.1.7)
     connection_pool (2.2.3)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -463,7 +463,7 @@ GEM
     validate_url (1.0.11)
       activemodel (>= 3.0.0)
       public_suffix
-    view_component (2.18.0)
+    view_component (2.18.1)
       activesupport (>= 5.0.0, < 7.0)
     warden (1.2.8)
       rack (>= 2.0.6)
