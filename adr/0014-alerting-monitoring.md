@@ -30,7 +30,7 @@ We've discussed expanding the things we alert for. For example, we could alert o
 
 There's a small chance that lower-level alerts would alert us sooner. However, they increase the chance of false positives and over-alerting.
 
-We're choosing symptom-based monitoring over caused-based monitoring, as [described by the Google SRE handbook](https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/edit).
+We're choosing symptom-based monitoring over cause-based monitoring, as [described by the Google SRE handbook](https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/edit).
 
 **We will continue to be alerted in Slack** for service availability and Sentry exceptions, and we will continue to improve our smoke tests
 
