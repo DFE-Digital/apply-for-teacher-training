@@ -72,6 +72,15 @@ FactoryBot.define do
         with_degree { false }
       end
 
+      trait :international_address do
+        address_type { :international }
+        international_address { Faker::Address.city }
+        country { Faker::Address.country_code }
+        address_line1 { nil }
+        address_line2 { nil }
+        address_line3 { nil }
+      end
+
       trait :ready_to_send_to_provider do
         edit_by { 1.day.ago }
       end
