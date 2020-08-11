@@ -8,7 +8,7 @@ module ViewHelper
   end
 
   def govuk_back_link_to(url, body = 'Back')
-    link_to(body, url, class: 'govuk-back-link app-!-print-display-none')
+    link_to(body, url, class: 'govuk-back-link govuk-!-display-none-print')
   end
 
   def bat_contact_mail_to(name = 'becomingateacher<wbr>@digital.education.gov.uk', html_options: {})
