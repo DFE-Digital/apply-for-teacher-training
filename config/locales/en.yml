@@ -140,6 +140,7 @@ en:
     remove_course_choice: Remove your course choice
     withdraw_application: Are you sure you want to withdraw your application?
     gcse_naric_reference: Do you have a NARIC statement of comparability for your maths qualification?
+    guidance: User guidance
   layout:
     accessibility: Accessibility
     terms_of_use: Terms of use
