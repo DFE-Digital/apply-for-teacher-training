@@ -65,6 +65,10 @@ RSpec.feature 'Entering their personal details' do
     then_i_see_the_personal_details_review_page
     and_i_can_see_my_updated_right_to_work
 
+    when_i_vist_the_homepage
+    and_i_click_on_personal_details
+    then_i_see_the_personal_details_review_page
+
     when_i_mark_the_section_as_completed
     and_i_submit_my_details
     then_i_should_see_my_application_form
@@ -230,6 +234,14 @@ RSpec.feature 'Entering their personal details' do
   def and_i_can_see_my_updated_right_to_work
     expect(page).to have_content "Borders? I don't believe in no stinking borders."
     expect(page).to have_content 'I have the right to work or study in the UK'
+  end
+
+  def when_i_vist_the_homepage
+    and_i_visit_the_site
+  end
+
+  def and_i_click_on_personal_details
+    when_i_click_on_personal_details
   end
 
   def when_i_mark_the_section_as_completed
