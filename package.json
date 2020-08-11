@@ -9,7 +9,7 @@
     "jquery": "^3.5.1"
   },
   "devDependencies": {
-    "jest": "^26.2.2",
+    "jest": "^26.3.0",
     "prettier": "^2.0.5"
   },
   "jest": {
