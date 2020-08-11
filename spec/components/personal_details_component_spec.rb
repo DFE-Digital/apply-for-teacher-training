@@ -6,6 +6,9 @@ RSpec.describe PersonalDetailsComponent do
       :completed_application_form,
       support_reference: 'AB123',
       date_of_birth: Date.new(2000, 1, 1),
+      first_nationality: 'British',
+      second_nationality: 'Irish',
+      third_nationality: 'Spanish',
     )
   end
 
@@ -29,8 +32,8 @@ RSpec.describe PersonalDetailsComponent do
     expect(result.css('.govuk-summary-list__value').text).to include('1 January 2000')
   end
 
-  it 'renders the candidate nationality' do
-    expect(result.css('.govuk-summary-list__value').text).to include(application_form.first_nationality)
+  it 'renders the candidates nationalities' do
+    expect(result.css('.govuk-summary-list__value').text).to include('British, Irish, and Spanish')
   end
 
   it 'renders the candidate phone number' do

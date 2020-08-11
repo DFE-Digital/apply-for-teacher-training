@@ -63,12 +63,22 @@ private
   end
 
   def nationality_row
-    formatted_nationalities = [application_form.first_nationality, application_form.second_nationality].reject(&:blank?).to_sentence
-
     {
       key: 'Nationality',
       value: formatted_nationalities,
     }
+  end
+
+  def formatted_nationalities
+    [
+      @application_form.first_nationality,
+      @application_form.second_nationality,
+      @application_form.third_nationality,
+      @application_form.fourth_nationality,
+      @application_form.fifth_nationality,
+    ]
+    .reject(&:blank?)
+    .to_sentence
   end
 
   def date_of_birth_row
