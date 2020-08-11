@@ -26,7 +26,11 @@ We've discussed expanding the things we alert for. For example, we could alert o
 
 ## Decision
 
-**We will not add monitoring for low-level system metrics** as we have confidence in Azure (it's been running fine for months now) and we have confidence our current smoke tests and availability tests will pick up major problems. If we did find, for example, that memory leakage was at the root of an outage, we would add monitoring for that particular metric.
+**We will not add monitoring for low-level system metrics** as we have confidence in Azure (it's been running fine for months now) and we have confidence our current smoke tests and availability tests will pick up major problems.
+
+There's a small chance that lower-level alerts would alert us sooner. However, they increase the chance of false positives and over-alerting.
+
+We're choosing symptom-based monitoring over caused-based monitoring, as [described by the Google SRE handbook](https://docs.google.com/document/d/199PqyG3UsyXlwieHaqbGiWVa8eMWi8zzAn0YfcApr8Q/edit).
 
 **We will continue to be alerted in Slack** for service availability and Sentry exceptions, and we will continue to improve our smoke tests
 
