@@ -41,7 +41,7 @@ en:
       description: All of the candidate’s applications have been withdrawn, rejected or declined.
     unknown_state:
       name: "Unknown!"
-      description: This application is in a state that we don’t recognise. Please report this to a developer.
+      description: This application is in a state that we do not recognise. Please report this to a developer.
   candidate_application_states:
     application_complete: Submitted
     awaiting_provider_decision: Awaiting decision
@@ -79,14 +79,14 @@ en:
       description: |
         When a candidate has filled in their email address, they’ve started
         an application. Until they submit their application, it is in the
-        unsubmitted state. The providers don’t see the application at this
+        unsubmitted state. The providers do not see the application at this
         stage.
 
     awaiting_references:
       name: Awaiting references
       description: |
         The candidate submits their application choices with a list of referees. Until 2 references have been received all applications remain in the Awaiting references state.
-        The providers don’t see the application at this stage.
+        The providers do not see the application at this stage.
       emails:
         - candidate_mailer-chase_reference
         - candidate_mailer-new_referee_request
@@ -197,8 +197,8 @@ en:
       by: candidate
       description: |
         When candidates apply again after an initial unsuccesful application,
-        they may have all the references they need already. They also don’t have to
-        wait 7 days, as we don’t have the edit window because the chance is lower
+        they may have all the references they need already. They also do not have to
+        wait 7 days, as we do not have the edit window because the chance is lower
         that they wish to edit their application the 2nd time around.
 
         This means we’ll send the application immediately to the provider.

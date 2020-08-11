@@ -14,7 +14,7 @@ You can not apply for the same course on both services.
 
 ### Stage 2: trying again if your application wasn’t successful
 
-You can apply for another course at this stage if you don’t get an offer or if you choose not to accept your offer(s).
+You can apply for another course at this stage if you do not get an offer or if you choose not to accept your offer(s).
 
 [Get Into Teaching](https://getintoteaching.education.gov.uk/get-help-and-support) can guide you through the process of applying for more courses. Contact them for free on 0800 389 2500, or [chat to an adviser using the online chat service](https://getintoteaching.education.gov.uk/lp/live-chat).
 

@@ -221,7 +221,7 @@ en:
         scottish_national_5: Scottish National 5
         other_uk: Other UK qualification
         non_uk: Non-UK qualification
-        missing: I don’t have this qualification yet
+        missing: I do not have this qualification yet
       other_uk:
         label: Enter type of qualification
       non_uk:

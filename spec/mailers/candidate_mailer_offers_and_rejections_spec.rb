@@ -38,7 +38,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content', :new_offer_single_offer,
         'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
-        'Days to make an offer' => 'If you don’t reply by 25 February 2020'
+        'Days to make an offer' => 'If you do not reply by 25 February 2020'
       )
     end
 
@@ -49,7 +49,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'decline by default date' => 'Make a decision by 25 February 2020',
       'first_condition' => 'DBS check',
       'second_condition' => 'Pass exams',
-      'Days to make an offer' => 'You have 10 working days to make a decision. If you don’t reply by 25 February 2020'
+      'Days to make an offer' => 'You have 10 working days to make a decision. If you do not reply by 25 February 2020'
     )
   end
 
