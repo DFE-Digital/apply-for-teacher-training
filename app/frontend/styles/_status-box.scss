@@ -1,8 +1,8 @@
 .app-status-box {
   background: govuk-colour("light-grey");
-  padding: 20px;
+  padding: govuk-spacing(4);
 }
 
 .app-status-box--sandbox {
-  border-left: 5px solid govuk-colour("purple");
+  border-left: $govuk-border-width solid govuk-colour("purple");
 }
