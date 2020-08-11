@@ -278,7 +278,7 @@ en:
       name: Rejected by default
       by: system
       description: |
-        An application is rejected by default (RBD) if the provider doesn’t make an offer within 40 working days after they have received an application.
+        An application is rejected by default (RBD) if the provider does not make an offer within 40 working days after they have received an application.
       emails:
         - provider_mailer-application_rejected_by_default
 

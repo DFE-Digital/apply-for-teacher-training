@@ -8,7 +8,7 @@ Members of the Apply team have access to a section of the service called [Suppor
 
 There are 2 concerns around the security of Support:
 
-- DfE Signin uses a username and password for sign in. It doesn’t offer 2 factor authentication. This means that an attacker could steal or guess a password and gain access to Support.
+- DfE Signin uses a username and password for sign in. It does not offer 2 factor authentication. This means that an attacker could steal or guess a password and gain access to Support.
 - We do not have an automated leavers process that revokes access to DfE Signin when people leave. This leaves open the possibility that former staff retain access to Support.
 
 As part of proactive security work we’ve looked into improving the security of Support.
