@@ -18,7 +18,7 @@
     <div class="govuk-grid-column-two-thirds">
       <% if @application_choices.present? %>
         <% if @application_form.can_add_more_choices? %>
-          <%= link_to 'Add another course', candidate_interface_course_choices_choose_path, class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-9' %>
+          <%= govuk_button_link_to 'Add another course', candidate_interface_course_choices_choose_path, class: 'govuk-button--secondary govuk-!-margin-bottom-9' %>
         <% end %>
 
         <% if @application_choices.count >= 1 %>

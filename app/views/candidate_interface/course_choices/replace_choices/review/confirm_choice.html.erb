@@ -23,6 +23,6 @@
 
     <%= render(CandidateInterface::CourseOptionReviewComponent.new(course_option: @replacement_course_option)) %>
 
-    <%= govuk_link_to 'Replace course choice', candidate_interface_update_replacement_course_choice_path(@course_choice.id, @replacement_course_option.id), class: 'govuk-button' %>
+    <%= govuk_button_link_to 'Replace course choice', candidate_interface_update_replacement_course_choice_path(@course_choice.id, @replacement_course_option.id) %>
   </div>
 </div>
