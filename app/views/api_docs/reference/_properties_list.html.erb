@@ -22,6 +22,12 @@
           </p>
         <% end %>
 
+        <% if property.deprecated? %>
+          <p class="app-api-metadata govuk-!-font-weight-bold">
+            DEPRECATED
+          </p>
+        <% end %>
+
         <% if property.attributes.description %>
           <div class="app-styled-content govuk-!-margin-top-4">
             <%= markdown_to_html property.attributes.description %>

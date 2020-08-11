@@ -793,9 +793,10 @@ components:
       properties:
         reason:
           type: string
-          description: Optional. The candidate’s reason for withdrawing
+          description: Optional. The candidate’s reason for withdrawing. This field is deprecated because the Apply service does not collect this information
           maxLength: 10240
           nullable: true
+          deprecated: true
           example: Candidate is unwell
         date:
           type: string

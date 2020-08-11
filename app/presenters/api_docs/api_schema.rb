@@ -48,6 +48,10 @@ module APIDocs
         attributes['nullable']
       end
 
+      def deprecated?
+        attributes['deprecated']
+      end
+
       def type_description
         desc = [type]
         desc << ', ISO 8601 date with time and timezone' if attributes.format == 'date-time'
