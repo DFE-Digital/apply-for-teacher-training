@@ -110,7 +110,7 @@ Rails/DynamicFindBy:
 Rails/RakeEnvironment:
   Enabled: false
 
-# This cop demands a default value for not-null columns, which isn't possible
+# This cop demands a default value for not-null columns, which is not possible
 # when dealing with references
 Rails/NotNullColumn:
   Enabled: false
