@@ -12,7 +12,7 @@ You can apply for up to 3 courses across Apply for teacher training and [UCAS Te
 
 You can not apply for the same course on both services.
 
-### Stage 2: trying again if your application wasn’t successful
+### Stage 2: trying again if your application was not successful
 
 You can apply for another course at this stage if you do not get an offer or if you choose not to accept your offer(s).
 
