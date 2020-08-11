@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_23_160935) do
+ActiveRecord::Schema.define(version: 2020_08_11_102357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -377,6 +377,7 @@ ActiveRecord::Schema.define(version: 2020_07_23_160935) do
     t.boolean "view_safeguarding_information", default: false, null: false
     t.boolean "make_decisions", default: false, null: false
     t.boolean "manage_organisations", default: false, null: false
+    t.boolean "view_diversity_information", default: false, null: false
     t.index ["provider_id", "provider_user_id"], name: "index_provider_users_providers_by_provider_and_provider_user", unique: true
     t.index ["provider_id"], name: "index_provider_users_providers_on_provider_id"
     t.index ["provider_user_id"], name: "index_provider_users_providers_on_provider_user_id"
