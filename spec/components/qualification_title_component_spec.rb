@@ -68,4 +68,59 @@ RSpec.describe QualificationTitleComponent do
 
     expect(result.text).to include('Other UK qualification: A Level')
   end
+
+  it 'renders the correct title for an non_uk GCSE equivalent' do
+    qualification = build_stubbed(
+      :application_qualification,
+      level: :gcse,
+      qualification_type: 'non_uk',
+      subject: 'maths',
+      non_uk_qualification_type: 'High School Diploma ',
+    )
+
+    result = render_inline(described_class.new(qualification: qualification))
+
+    expect(result.text).to include('Non-UK qualification: High School Diploma')
+  end
+
+  it 'renders the correct title for an other qualificaiton' do
+    qualification = build_stubbed(
+      :application_qualification,
+      level: :other,
+      qualification_type: 'A Level',
+      subject: 'History',
+    )
+
+    result = render_inline(described_class.new(qualification: qualification))
+
+    expect(result.text).to include('A Level')
+  end
+
+  it 'renders the correct title for an other_uk other qualification' do
+    qualification = build_stubbed(
+      :application_qualification,
+      level: :other,
+      qualification_type: 'other_uk',
+      subject: 'Maps and stuff',
+      other_uk_qualification_type: 'Orienteering',
+    )
+
+    result = render_inline(described_class.new(qualification: qualification))
+
+    expect(result.text).to include('Other UK qualification: Orienteering')
+  end
+
+  it 'renders the correct title for an non_uk other qualification' do
+    qualification = build_stubbed(
+      :application_qualification,
+      level: :other,
+      qualification_type: 'other_uk',
+      subject: 'maths',
+      non_uk_qualification_type: 'High School Diploma',
+    )
+
+    result = render_inline(described_class.new(qualification: qualification))
+
+    expect(result.text).to include('Non-UK qualification: High School Diploma')
+  end
 end

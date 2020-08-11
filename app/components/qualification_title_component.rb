@@ -7,10 +7,14 @@ class QualificationTitleComponent < ViewComponent::Base
     if @qualification.level == 'gcse'
       return type_for_missing_qualification if @qualification.missing_qualification?
       return type_for_other_uk_qualification if @qualification.other_uk_qualification_type.present?
+      return type_for_non_uk_qualification if @qualification.non_uk_qualification_type.present?
 
       return type_for_gcse
     elsif @qualification.degree?
       return type_for_degree
+    elsif @qualification.level == 'other'
+      return type_for_other_uk_qualification if @qualification.other_uk_qualification_type.present?
+      return type_for_non_uk_qualification if @qualification.non_uk_qualification_type.present?
     end
 
     @qualification.qualification_type
@@ -38,6 +42,11 @@ private
   def type_for_other_uk_qualification
     I18n.t('application_form.gcse.qualification_types.other_uk')
       .concat(': ', @qualification.other_uk_qualification_type)
+  end
+
+  def type_for_non_uk_qualification
+    I18n.t('application_form.gcse.qualification_types.non_uk')
+      .concat(': ', @qualification.non_uk_qualification_type)
   end
 
   def type_for_gcse
