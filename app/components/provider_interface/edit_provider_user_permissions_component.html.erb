@@ -70,6 +70,10 @@
         </ul>
       </div>
     <% end %>
+
+    <%= f.govuk_check_box :view_diversity_information, true, multiple: false,
+                          label: { text: 'Access diversity information' },
+                          hint_text: 'View diversity information about the candidate' %>
   <% end %>
 
   <%= f.govuk_submit 'Save' %>
