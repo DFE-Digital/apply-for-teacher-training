@@ -37,6 +37,7 @@ RSpec.feature 'Managing provider user permissions' do
     and_i_click_to_change_permissions
 
     when_i_add_permission_to_view_diversity_for_a_provider_user
+    then_i_can_see_the_view_diversity_permission_for_the_provider_user
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -131,5 +132,11 @@ RSpec.feature 'Managing provider user permissions' do
     expect(page).not_to have_checked_field 'Access diversity information'
     check 'Access diversity information'
     click_on 'Save'
+  end
+
+  def then_i_can_see_the_view_diversity_permission_for_the_provider_user
+    within("#provider-#{@provider.id}-enabled-permissions") do
+      expect(page).to have_content 'Access diversity information'
+    end
   end
 end
