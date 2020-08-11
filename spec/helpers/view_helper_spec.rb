@@ -74,6 +74,13 @@ RSpec.describe ViewHelper, type: :helper do
 
       expect(anchor_tag).to eq('<a role="button" class="govuk-button govuk-button--start" data-module="govuk-button" draggable="false" href="https://localhost:0103/chicken/cluck">Cluck</a>')
     end
+
+    it 'accepts a block' do
+      anchor_tag = helper.govuk_button_link_to(nil, 'https://localhost:0103/bee/buzz') do
+        'Buzz'
+      end
+      expect(anchor_tag).to eq('<a role="button" class="govuk-button" data-module="govuk-button" draggable="false" href="https://localhost:0103/bee/buzz">Buzz</a>')
+    end
   end
 
   describe 'application date helpers' do

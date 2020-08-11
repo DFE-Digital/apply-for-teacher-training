@@ -17,8 +17,10 @@ module ViewHelper
     mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
   end
 
-  def govuk_button_link_to(body, url, html_options = {})
+  def govuk_button_link_to(body, url, html_options = {}, &_block)
     html_options[:class] = prepend_css_class('govuk-button', html_options[:class])
+
+    return link_to(url, role: 'button', class: html_options[:class], 'data-module': 'govuk-button', draggable: false) { yield } if block_given?
 
     link_to(body, url, role: 'button', class: html_options[:class], 'data-module': 'govuk-button', draggable: false)
   end
