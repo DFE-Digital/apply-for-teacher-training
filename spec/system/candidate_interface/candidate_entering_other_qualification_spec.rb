@@ -203,7 +203,7 @@ RSpec.feature 'Entering their other qualifications' do
 
   def then_i_should_see_an_incomplete_as_level_qualification
     expect(page).to have_content('AS level')
-    expect(all('.govuk-summary-list__value').last.text).to eq ''
+    expect(all('.govuk-summary-list__value').last.text).to eq 'Not entered'
   end
 
   def when_i_click_on_delete_my_first_qualification
