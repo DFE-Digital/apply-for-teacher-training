@@ -1,28 +1,28 @@
 require 'rails_helper'
 
-RSpec.feature 'An application has been rejected by default' do
+RSpec.feature 'Reject by default' do
   include CourseOptionHelpers
 
-  scenario 'the provider receives a chaser email, provider and candidate both receive email when reject by default is triggered', with_audited: true do
-    given_i_am_a_provider_user_with_a_provider
+  scenario 'An application is rejected by default', with_audited: true do
+    given_there_is_a_provider_user_with_a_provider
     and_there_is_a_candidate
     and_an_application_is_ready_to_reject_by_default
 
     when_the_application_is_getting_close_to_the_reject_by_default_date
-    then_i_should_receive_a_chaser_email_with_a_link_to_the_application
+    then_the_provider_should_receive_a_chaser_email_with_a_link_to_the_application
 
     when_the_application_is_rejected_by_default
-    then_i_should_receive_an_email
+    then_the_provider_should_receive_an_email
     and_the_candidate_should_receive_an_email
   end
 
-  def given_i_am_a_provider_user_with_a_provider
+  def given_there_is_a_provider_user_with_a_provider
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     @provider_user = Provider.find_by(code: 'ABC').provider_users.first
   end
 
   def and_there_is_a_candidate
-    @candidate = create :candidate
+    @candidate = create(:candidate)
   end
 
   def and_an_application_is_ready_to_reject_by_default
@@ -48,7 +48,7 @@ RSpec.feature 'An application has been rejected by default' do
     end
   end
 
-  def then_i_should_receive_a_chaser_email_with_a_link_to_the_application
+  def then_the_provider_should_receive_a_chaser_email_with_a_link_to_the_application
     open_email(@provider_user.email_address)
 
     expected_subject = I18n.t(
@@ -63,14 +63,14 @@ RSpec.feature 'An application has been rejected by default' do
   end
 
   def when_the_application_is_rejected_by_default
-    RejectApplicationsByDefaultWorker.new.perform
+    RejectApplicationsByDefaultWorker.perform_async
   end
 
-  def then_i_should_receive_an_email
+  def then_the_provider_should_receive_an_email
     open_email(@provider_user.email_address)
 
-    expect(current_email.subject).to include(t('provider_application_rejected_by_default.email.subject',
-                                               candidate_name: @application_choice.application_form.full_name))
+    expect(current_email.subject).to include(I18n.t!('provider_application_rejected_by_default.email.subject',
+                                                     candidate_name: @application_choice.application_form.full_name))
   end
 
   def and_the_candidate_should_receive_an_email
