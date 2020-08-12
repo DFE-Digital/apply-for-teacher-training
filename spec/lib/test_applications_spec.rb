@@ -65,7 +65,7 @@ RSpec.describe TestApplications do
     expect(offer_audit.user).to eq provider_user
   end
 
-  it 'throws an exception if there aren’t enough courses to apply to' do
+  it 'throws an exception if there are not enough courses to apply to' do
     expect {
       TestApplications.new.create_application(states: %i[offer])
     }.to raise_error(/Not enough distinct courses/)

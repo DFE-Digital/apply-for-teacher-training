@@ -82,7 +82,7 @@ module VendorAPI
       return unless application_choice.withdrawn?
 
       {
-        reason: nil, # Candidates aren't able to provide a withdrawal reason yet
+        reason: nil, # Candidates are not able to provide a withdrawal reason yet
         date: application_choice.withdrawn_at.iso8601,
       }
     end

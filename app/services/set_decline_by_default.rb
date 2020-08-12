@@ -7,7 +7,7 @@ class SetDeclineByDefault
     # Only set Decline by Default (DBD) date if all applications have been acted upon.
     return if pending_decisions?
 
-    # If there aren't any offers we do not need to set a DBD date
+    # If there are not any offers we do not need to set a DBD date
     return if no_offers?
 
     # We only start counting the days for decline by default when all the candidate's

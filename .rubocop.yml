@@ -137,7 +137,7 @@ Rake/Desc:
   Exclude:
     - 'lib/tasks/reset_qa.rake'
 
-# This cop has too many false positives (it also requires underscores for things that aren't numbers)
+# This cop has too many false positives (it also requires underscores for things that are not numbers)
 Style/NumericLiterals:
   Enabled: false
 
