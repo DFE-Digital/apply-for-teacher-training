@@ -87,7 +87,7 @@ module SupportInterface
       CSV.generate do |rows|
         rows << header_row
         objects&.each do |object|
-          rows << object.values
+          rows << CsvHelper.sanitise(object.values)
         end
       end
     end

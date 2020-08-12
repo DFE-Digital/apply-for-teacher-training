@@ -14,7 +14,7 @@ class ProviderEmailsForApplicationChoices
       csv << ['email address', 'name', 'affected applications']
 
       as_hash.each do |(email, attrs)|
-        csv << [email, attrs[:name], attrs[:affected_applications].join("\n")]
+        csv << CsvHelper.sanitise([email, attrs[:name], attrs[:affected_applications].join("\n")])
       end
     end
   end

@@ -40,7 +40,7 @@ module UCASMatching
         rows << header_row
 
         applications.each do |application|
-          rows << application.values
+          rows << CsvHelper.sanitise(application.values)
         end
       end
     end
