@@ -1,0 +1,17 @@
+<% content_for :title, t('authentication.confirm_authentication.heading') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with url: candidate_interface_authenticate_path, method: :post do |f| %>
+      <h1 class="govuk-heading-xl">
+        <%= t('authentication.confirm_authentication.heading') %>
+      </h1>
+      <p class="govuk-body">
+        Click below to sign in
+      </p>
+      <%= hidden_field_tag :token, params[:token] %>
+      <%= hidden_field_tag :u, params[:u] %>
+      <%= f.govuk_submit t('authentication.confirm_authentication.button_continue') %>
+    <% end %>
+  </div>
+</div>
