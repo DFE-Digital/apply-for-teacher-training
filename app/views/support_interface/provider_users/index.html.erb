@@ -1,6 +1,6 @@
 <% content_for :title, 'Provider users' %>
 
-<%= link_to 'Add provider user', new_support_interface_provider_user_path, class: 'govuk-button' %>
+<%= govuk_button_link_to 'Add provider user', new_support_interface_provider_user_path %>
 
 <% content_for :before_content do %>
   <div class="govuk-breadcrumbs">
@@ -20,6 +20,6 @@
   ]) %>
 <% end %>
 
-<%= govuk_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path, class: 'govuk-button' %>
+<%= govuk_button_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path %>
 
 <%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>
