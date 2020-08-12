@@ -7,10 +7,9 @@ RSpec.describe GenerateTestApplications do
     create(:course_option, course: create(:course, :open_on_apply))
   end
 
-  it 'generates 18 test candidates with applications in various states' do
+  it 'generates test candidates with applications in various states' do
     GenerateTestApplications.new.perform
 
-    expect(Candidate.count).to be 18
     expect(ApplicationChoice.pluck(:status)).to include(
       'unsubmitted',
       'awaiting_provider_decision',
@@ -20,7 +19,6 @@ RSpec.describe GenerateTestApplications do
       'declined',
       'withdrawn',
       'recruited',
-      'enrolled',
     )
     # there is at least one unsubmitted application to a full course
     expect(ApplicationChoice.where(status: 'unsubmitted').map(&:course_option).select(&:no_vacancies?)).not_to be_empty
