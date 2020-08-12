@@ -1,6 +1,6 @@
 class GenerateFakeProvider
   def self.generate_provider(provider)
-    raise 'You can\'t generate test data in production' if HostingEnvironment.production?
+    raise 'You cannot generate test data in production' if HostingEnvironment.production?
 
     Provider.find_or_create_by(provider) do |new_provider|
       generate_courses_for(new_provider)

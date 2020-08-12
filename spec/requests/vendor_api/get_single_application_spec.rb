@@ -14,7 +14,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications/:application_id', type: :r
     expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
   end
 
-  it "returns a not found error if the application can't be found" do
+  it "returns a not found error if the application cannot be found" do
     get_api_request '/api/v1/applications/asu7dvt87asd'
 
     expect(response).to have_http_status(404)

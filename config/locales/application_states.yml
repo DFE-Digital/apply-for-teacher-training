@@ -99,7 +99,7 @@ en:
       description: |
         The references have come back and have been added to the application.
         Candidates are allowed a cooling-off period of 5 days to modify their application before it’s sent to providers.
-        They can’t modify the references.
+        They cannot modify the references.
 
     awaiting_provider_decision:
       name: Awaiting provider decision

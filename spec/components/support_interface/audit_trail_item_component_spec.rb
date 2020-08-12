@@ -153,7 +153,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
       assert_includes rendered_component, 'Permissions changed for The School of Roke'
     end
 
-    it 'renders a label for "update" even when the provider can\'t be found', with_audited: true do
+    it 'renders a label for "update" even when the provider cannot be found', with_audited: true do
       permissions = ProviderPermissions.create(
         provider: provider,
         provider_user: user,

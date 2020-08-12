@@ -9,7 +9,7 @@ class GenerateTestApplications
   end
 
   def perform
-    raise 'You can\'t generate test data in production' if HostingEnvironment.production?
+    raise 'You cannot generate test data in production' if HostingEnvironment.production?
 
     create states: [:unsubmitted]
     create states: [:awaiting_references]

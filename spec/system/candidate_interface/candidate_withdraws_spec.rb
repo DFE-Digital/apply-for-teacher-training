@@ -4,7 +4,7 @@ RSpec.feature 'A candidate withdraws her application' do
   include CandidateHelper
 
   # bullet complains about wanting an includes on associated objects.
-  # You can't call includes on a build_stubbed object.
+  # You cannot call includes on a build_stubbed object.
   # Our mailer previews are reliant on build_stubbed so we need to exclude this test.
 
   before do

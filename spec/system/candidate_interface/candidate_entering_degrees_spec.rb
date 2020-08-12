@@ -378,6 +378,6 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_am_told_i_need_to_add_a_degree_to_complete_the_section
-    expect(page).to have_content 'You can’t mark this section complete without adding a degree.'
+    expect(page).to have_content 'You cannot mark this section complete without adding a degree.'
   end
 end

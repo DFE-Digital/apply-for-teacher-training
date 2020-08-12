@@ -12,7 +12,7 @@ The team have recently discussed Apply's approach to alerting. By alerting we me
 
 1. There's is an outage
 2. The service is partially down, like DfE Signin or a specific feature
-3. Candidates can’t make applications, though no errors are thrown. For example because of a bug.
+3. Candidates cannot make applications, though no errors are thrown. For example because of a bug.
 4. The system is performing so slowly that it's not usable
 5. Before there's an outage
 

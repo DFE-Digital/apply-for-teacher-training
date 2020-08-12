@@ -90,7 +90,7 @@ module SupportInterface
       pick_option_form = SupportInterface::ChangeCourseForm.new(application_form: application_form)
 
       unless pick_option_form.can_withdraw_course?
-        flash[:warning] = 'The last course of an application can\'t be removed'
+        flash[:warning] = 'The last course of an application cannot be removed'
         redirect_to support_interface_change_course_path(application_form)
       end
     end

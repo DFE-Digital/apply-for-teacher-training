@@ -18,7 +18,7 @@ en:
       withdrawal_information: >
         You can withdraw an application from a training provider at any point,
         even after you’ve accepted an offer. You will not be penalised, but you
-        can’t substitute a different course or provider.
+        cannot substitute a different course or provider.
     personal_details:
       first_name:
         label: First name

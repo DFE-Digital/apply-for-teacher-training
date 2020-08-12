@@ -180,7 +180,7 @@ You can make these changes, and also amend conditions, even if the offer has alr
 
 The candidate will receive a formal notification of the changed offer, but you should also explain and agree any changes with them directly via email or phone.
 
-Once the candidate has accepted your offer, you can’t change the terms of the offer without their permission.
+Once the candidate has accepted your offer, you cannot change the terms of the offer without their permission.
 
 ### Apply again (Apply 2)
 

@@ -11,13 +11,13 @@ module CandidateInterface
         @application_form = current_application
 
         if @application_form.application_qualifications.degrees.count.zero?
-          flash[:warning] = 'You can’t mark this section complete without adding a degree.'
+          flash[:warning] = 'You cannot mark this section complete without adding a degree.'
 
           @application_form.degrees_completed = false
 
           render :show
         elsif @application_form.incomplete_degree_information?
-          flash[:warning] = 'You can’t mark this section complete with incomplete degree information.'
+          flash[:warning] = 'You cannot mark this section complete with incomplete degree information.'
           render :show
         else
           @application_form.update!(application_form_params)

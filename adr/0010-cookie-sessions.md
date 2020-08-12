@@ -22,7 +22,7 @@ Pro:
 Con:
 
 - When the user signs out, we don't invalidate the session. This means that if the user has made a copy of the cookie, they (or an attacker) can sign themselves back in.
-- Users can't sign out sessions on other devices (remote sign out)
+- Users cannot sign out sessions on other devices (remote sign out)
 
 ### Storage based cookies
 
@@ -30,7 +30,7 @@ This mechanism relies on a session ID being saved in a cookie. The session ID co
 
 Pro:
 
-- On sign out, the session is deleted and can't be revived
+- On sign out, the session is deleted and cannot be revived
 - Sessions can be invalidated "remotely", to allow sign out of other devices
 
 Con:

@@ -125,7 +125,7 @@ module CandidateInterface
 
         redirect_to candidate_interface_application_form_path
       else
-        flash[:warning] = "You can’t mark this section complete without adding #{ApplicationForm::MINIMUM_COMPLETE_REFERENCES} referees."
+        flash[:warning] = "You cannot mark this section complete without adding #{ApplicationForm::MINIMUM_COMPLETE_REFERENCES} referees."
         current_application.references_completed = false
         @application_form = current_candidate.current_application
 
