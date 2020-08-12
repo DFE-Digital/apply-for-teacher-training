@@ -28,6 +28,7 @@ module CandidateInterface
         sign_in(candidate, scope: :candidate)
         add_identity_to_log candidate.id
         candidate.update!(last_signed_in_at: Time.zone.now)
+        candidate.expire_magic_link_token!
 
         redirect_to candidate_interface_interstitial_path(providerCode: params[:providerCode], courseCode: params[:courseCode])
       else
