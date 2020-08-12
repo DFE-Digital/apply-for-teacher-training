@@ -8,24 +8,20 @@ class CandidateInterface::ReopenBannerComponent < ViewComponent::Base
 
   def show?
     flash_empty &&
-      (show_apply_1_deadline_banner? || show_apply_2_deadline_banner?)
-  end
-
-  def
-    apply_1? ? apply_1_deadline : apply_2_deadline
+      (show_apply_1_reopen_banner? || show_apply_2_reopen_banner?)
   end
 
 private
 
-  def show_apply_1_deadline_banner?
+  def show_apply_1_reopen_banner?
     apply_1? &&
-      EndOfCycleTimetable.show_apply_1_deadline_banner? &&
+      EndOfCycleTimetable.show_apply_1_reopen_banner? &&
       FeatureFlag.active?(:deadline_notices)
   end
 
-  def show_apply_2_deadline_banner?
+  def show_apply_2_reopen_banner?
     apply_2? &&
-      EndOfCycleTimetable.show_apply_2_deadline_banner? &&
+      EndOfCycleTimetable.show_apply_2_reopen_banner? &&
       FeatureFlag.active?(:deadline_notices)
   end
 
@@ -37,7 +33,7 @@ private
     phase == 'apply_2'
   end
 
-  def apply_1_deadline
-    EndOfCycleTimetable.date(:apply_1_deadline).strftime('%d %B')
+  def reopen_date
+    EndOfCycleTimetable.date(:reopen_date).to_s(:govuk_date)
   end
 end
