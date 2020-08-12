@@ -742,6 +742,8 @@ Rails.application.routes.draw do
       end
     end
 
+    get '/guidance' => 'guidance#index', as: :guidance
+
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
 
