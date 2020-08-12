@@ -22,7 +22,7 @@ You can apply for another course at this stage if you do not get an offer or if 
 
 Get in touch with us as soon as possible after submitting your application if you need to make any amends, as we only have 5 working days to make changes for you.
 
-For example, you can add more courses (if you haven’t reached your limit of 3) or change your course choices.
+For example, you can add more courses (if you have not reached your limit of 3) or change your course choices.
 
 Once we’ve processed your request, we will not be able to make any more changes for you.
 

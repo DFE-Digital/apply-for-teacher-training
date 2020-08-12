@@ -20,7 +20,7 @@ en:
       not_responded:
         subject: "Give details of a new referee: %{referee_name} has not responded"
         explanation: |-
-          We haven’t had a reference from %{referee_name}.
+          We have not had a reference from %{referee_name}.
       refused:
         subject: "Give new referee as soon as possible: %{referee_name} will not give a reference"
         explanation: |-

@@ -10,7 +10,7 @@ en:
       name: Never signed in
       description: The candidate has signed up but never signed into the service
     unsubmitted_not_started_form:
-      name: Haven’t started form
+      name: Have not started form
       description: The candidate has signed in but has not edited the form yet
     unsubmitted_in_progress:
       name: Form started but unsubmitted
@@ -20,10 +20,10 @@ en:
       description: The candidate has submitted the form. We’ve asked their references for feedback, and are still waiting on one or more of those.
     waiting_to_be_sent:
       name: Waiting to be sent
-      description: All of the references have come in, but we haven’t sent the applications to the provider yet
+      description: All of the references have come in, but we have not sent the applications to the provider yet
     awaiting_provider_decisions:
       name: Awaiting decisions from providers
-      description: We’ve sent the applications to the providers, but we haven’t heard back from all of them
+      description: We’ve sent the applications to the providers, but we have not heard back from all of them
     awaiting_candidate_response:
       name: Awaiting decision from candidate
       description: All providers have responded and it’s now up to the candidate to make a decision
