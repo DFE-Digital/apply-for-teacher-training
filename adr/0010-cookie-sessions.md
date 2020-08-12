@@ -21,7 +21,7 @@ Pro:
 
 Con:
 
-- When the user signs out, we don't invalidate the session. This means that if the user has made a copy of the cookie, they (or an attacker) can sign themselves back in.
+- When the user signs out, we do not invalidate the session. This means that if the user has made a copy of the cookie, they (or an attacker) can sign themselves back in.
 - Users cannot sign out sessions on other devices (remote sign out)
 
 ### Storage based cookies

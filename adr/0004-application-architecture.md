@@ -28,7 +28,7 @@ For example:
 
 - Teams can work independently: we anticipate that the team size of this project will be limited (less than 20), so communication is less of a problem
 - Independent scaling: traffic for this application will be such that the different components will see similar spikes, so independent scaling is not as useful
-- Reuse of components: we don't have the need to reuse components in other parts of the organisation
+- Reuse of components: we do not have the need to reuse components in other parts of the organisation
 
 Note that we do use other services and APIs to provide functionality - for example, we use [GOV.UK Notify to send emails](https://www.notifications.service.gov.uk/), and we'll likely use the [Find API to fetch course data](https://github.com/DFE-Digital/manage-courses-backend).
 

@@ -49,7 +49,7 @@ Sentry or the smoke tests.
 1. Load the [apply-for-teacher-training-releases](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_build?definitionId=325&_a=summary) page in Azure DevOps.
 1. Click the blue "Run pipeline" button (sometimes it says "Queue") at the top right of the page which will open the run pipeline menu.
 1. Ensure the branch is set to "master".
-1. Specify the commit again - **don't forget this**
+1. Specify the commit again - **do not forget this**
 1. Under the Variables section set `deploy_staging` to `false` and `deploy_production` and `deploy_sandbox` to `true`.
 1. Click the Run button to start the deployment
 

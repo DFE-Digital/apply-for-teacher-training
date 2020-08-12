@@ -107,7 +107,7 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
   end
 
   context 'the audited item is a ProviderPermissions record' do
-    # let! these so we don't wastefully create audits we don't care about
+    # let! these so we do not wastefully create audits we do not care about
     # in the body of the spec
     let!(:provider) { create(:provider, name: 'The School of Roke') }
     let!(:user) { create(:provider_user) }

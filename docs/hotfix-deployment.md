@@ -14,7 +14,7 @@ when:
 
 1. The fix is urgent.
 2. There are other changes already merged into master since the last
-   deployment that we don't want to deploy yet perhaps because they are
+   deployment that we do not want to deploy yet perhaps because they are
    not fully tested.
 
 ## Instructions
@@ -55,7 +55,7 @@ features 1, 2 and 3, we just want everything up to `D`.
 3. Implement the fix locally, raise a PR and get it approved in the
    normal way. Test it locally or using the Heroku review app that is
    automatically created.
-4. After the PR is approved DON'T MERGE IT to `master` straight away.
+4. After the PR is approved DO NOT MERGE IT to `master` straight away.
    First deploy the `hotfix` branch using the [normal deployment
    procedure](deployment.md) (except picking `HEAD` of the
    `hotfix` branch rather than a specific SHA on `master` as we normally

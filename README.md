@@ -163,7 +163,7 @@ We have a service `GenerateTestData` which generates `ApplicationChoice`s in
 the database. You can specify how many `ApplicationChoice`s are created and to
 which provider they are applying.
 
-If you don't specify a provider, the `ApplicationChoice`s will be for courses
+If you do not specify a provider, the `ApplicationChoice`s will be for courses
 at provider code `ABC`.
 
 **Generate 10 applications for the default provider (ABC)**

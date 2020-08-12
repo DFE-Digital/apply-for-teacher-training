@@ -91,13 +91,13 @@ Lint/AmbiguousBlockAssociation:
     - 'spec/system/support_interface/daily_report_spec.rb'
     - 'spec/requests/vendor_api/api_authentication_spec.rb'
 
-# We don't want to subclass from ApplicationController. This enables separation
+# We do not want to subclass from ApplicationController. This enables separation
 # between the namespaces, and allows subclassing from ActionController::API in
 # the Vendor API.
 Rails/ApplicationController:
   Enabled: false
 
-# We don't use ApplicationRecord
+# We do not use ApplicationRecord
 Rails/ApplicationRecord:
   Enabled: false
 
@@ -145,7 +145,7 @@ Style/NumericLiterals:
 Style/NegatedIf:
   Enabled: false
 
-# Disable these cops because they don't allow reasonable code like splitting
+# Disable these cops because they do not allow reasonable code like splitting
 # `attr_reader :bla, :foo` over 2 lines.
 Layout/MultilineArrayLineBreaks:
   Enabled: false
