@@ -1,0 +1,151 @@
+module ProviderInterface
+  class ProviderRelationshipPermissionsSetupController < ProviderInterfaceController
+    before_action :require_feature_flag!
+    before_action :require_manage_organisations_permission!
+    before_action :require_access_to_manage_provider_relationship_permissions!, only: %i[setup_permissions save_permissions]
+    before_action :redirect_unless_permissions_to_setup, except: %i[success]
+
+    def organisations
+      @grouped_provider_names_from_relationships = grouped_provider_names_from_relationships
+      @wizard = wizard_for(provider_relationships_attrs.merge(current_step: 'provider_relationships'))
+      @wizard.save_state!
+    end
+
+    def info
+      @permissions_model = provider_relationship_permissions_needing_setup.first
+      @wizard = wizard_for(current_step: 'info')
+      @wizard.save_state!
+    end
+
+    def setup_permissions
+      @permissions_model = ProviderRelationshipPermissions.find(params[:id])
+      @wizard = wizard_for(
+        current_step: 'permissions',
+        current_provider_relationship_id: params[:id],
+        checking_answers: params[:checking_answers],
+      )
+      @wizard.save_state!
+
+      setup_permissions_form
+    end
+
+    def save_permissions
+      @wizard = wizard_for(permissions_params.merge(current_step: 'permissions'))
+
+      if @wizard.valid?(:permissions)
+        @wizard.save_state!
+
+        next_step, id = @wizard.next_step
+
+        if next_step == :permissions
+          redirect_to provider_interface_setup_provider_relationship_permissions_path(id)
+        else
+          redirect_to provider_interface_check_provider_relationship_permissions_path
+        end
+      else
+        @permissions_model = ProviderRelationshipPermissions.find(params[:id])
+
+        setup_permissions_form
+
+        render :setup_permissions
+      end
+    end
+
+    def check
+      @wizard = wizard_for(current_step: 'check')
+      @wizard.save_state!
+      @permissions_models = ProviderRelationshipPermissions
+        .includes(:training_provider, :ratifying_provider)
+        .where(id: @wizard.provider_relationships)
+    end
+
+    def commit
+      @wizard = wizard_for({})
+      if SetupProviderRelationshipPermissions.call(@wizard.provider_relationship_permissions)
+        @wizard.clear_state!
+        redirect_to provider_interface_provider_relationship_permissions_success_path
+      else
+        redirect_to(
+          provider_interface_check_provider_relationship_permissions_path,
+          warning: 'Unable to save permissions, please try again. If problems persist please contact support',
+        )
+      end
+    end
+
+    def success; end
+
+    def previous_page
+      step, id = @wizard.previous_step
+
+      path_info = {
+        organisations: { action: :organisations },
+        permissions: { action: :setup_permissions, id: id },
+        info: { action: :info },
+        check: { action: :check },
+      }.fetch(step)
+
+      path_info[:checking_answers] = true if params[:checking_answers]
+      path_info
+    end
+    helper_method :previous_page
+
+  private
+
+    def grouped_provider_names_from_relationships
+      provider_relationship_permissions_needing_setup
+        .includes(:training_provider, :ratifying_provider).each_with_object({}) do |prp, h|
+        h[prp.training_provider.name] ||= []
+        h[prp.training_provider.name] << prp.ratifying_provider.name
+      end
+    end
+
+    def provider_relationship_permissions_needing_setup
+      current_provider_user.authorisation
+        .training_provider_relationships_that_actor_can_manage_organisations_for
+        .where(setup_at: nil)
+        .order(created_at: :asc)
+    end
+
+    def provider_relationships_attrs
+      { provider_relationships: provider_relationship_permissions_needing_setup.pluck(:id) }
+    end
+
+    def wizard_for(options)
+      options[:checking_answers] = true if params[:checking_answers] == 'true'
+      ProviderRelationshipPermissionsSetupWizard.new(session, options)
+    end
+
+    def require_feature_flag!
+      render_404 unless FeatureFlag.active?(:enforce_provider_to_provider_permissions)
+    end
+
+    def require_manage_organisations_permission!
+      render_404 unless current_provider_user.authorisation.can_manage_organisations_for_at_least_one_provider?
+    end
+
+    def require_access_to_manage_provider_relationship_permissions!
+      provider_relationship_permissions = ProviderRelationshipPermissions.find(params[:id])
+      permitted_relationship_permissions = current_provider_user.authorisation.training_provider_relationships_that_actor_can_manage_organisations_for
+
+      render_403 unless permitted_relationship_permissions.include?(provider_relationship_permissions)
+    end
+
+    def redirect_unless_permissions_to_setup
+      redirect_to provider_interface_applications_path if provider_relationship_permissions_needing_setup.blank?
+    end
+
+    def permissions_params
+      return {} unless params.key?(:provider_interface_provider_relationship_permissions_setup_wizard)
+
+      params.require(:provider_interface_provider_relationship_permissions_setup_wizard)
+        .permit(provider_relationship_permissions: {}).to_h
+        .merge(current_provider_relationship_id: params[:id], checking_answers: params[:checking_answers])
+    end
+
+    def setup_permissions_form
+      @permissions_form = ProviderInterface::ProviderRelationshipPermissionsSetupWizard::PermissionsForm.new(
+        @wizard.permissions_for_relationship(@permissions_model.id).merge(id: @permissions_model.id),
+      )
+    end
+  end
+end

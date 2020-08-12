@@ -1,0 +1,36 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-panel govuk-panel--confirmation">
+      <h1 class="govuk-panel__title">
+        Permissions successfully set up
+      </h1>
+    </div>
+
+    <h2 class="govuk-heading-m">
+      Changing permissions
+    </h2>
+
+    <p class="govuk-body">
+      Select <%= govuk_link_to 'Organisations', provider_interface_organisations_path %> (at the top of every page) to update your permissions.
+    </p><p>
+
+    </p><h2 class="govuk-heading-m">
+      Inviting users
+    </h2>
+
+    <p class="govuk-body">
+      Select <%= govuk_link_to 'Users', provider_interface_provider_users_path %> (at the top of every page) to add users and manage their permissions.
+    </p><p>
+
+    </p><h2 class="govuk-heading-m">
+      Manage your applications
+    </h2>
+
+    <p class="govuk-body">
+      Continue to your applications.
+    </p>
+    <p>
+      <%= govuk_link_to 'Continue', provider_interface_applications_path, class: 'govuk-button' %>
+    </p>
+  </div>
+</div>
