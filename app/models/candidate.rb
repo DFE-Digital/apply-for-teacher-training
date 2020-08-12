@@ -36,6 +36,13 @@ class Candidate < ApplicationRecord
     magic_link_token.raw
   end
 
+  def expire_magic_link_token!
+    update!(
+      magic_link_token: nil,
+      magic_link_token_sent_at: nil,
+    )
+  end
+
   def encrypted_id
     Encryptor.encrypt(id)
   end

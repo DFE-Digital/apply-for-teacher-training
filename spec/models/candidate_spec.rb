@@ -99,4 +99,14 @@ RSpec.describe Candidate, type: :model do
       expect(candidate.encrypted_id).to eq 'encrypted id value'
     end
   end
+
+  describe '#expire_magic_link_token!' do
+    it 'clears the magic link fields' do
+      candidate = create(:candidate, magic_link_token: 'token', magic_link_token_sent_at: Time.zone.now)
+      candidate.expire_magic_link_token!
+
+      expect(candidate.magic_link_token).to be_nil
+      expect(candidate.magic_link_token_sent_at).to be_nil
+    end
+  end
 end
