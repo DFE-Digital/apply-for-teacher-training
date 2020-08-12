@@ -32,7 +32,7 @@ Rails.application.configure do
   # https://edgeapi.rubyonrails.org/classes/ActionDispatch/SSL.html
   config.force_ssl = true
   config.ssl_options = {
-    # `force_ssl` by default does a redirect of non-https domains to https. That doesn't work
+    # `force_ssl` by default does a redirect of non-https domains to https. That does not work
     # in our case, because SSL is terminated at the Azure layer.
     redirect: false,
 

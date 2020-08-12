@@ -16,7 +16,7 @@ All session information is saved in a cookie. The cookie is encrypted to avoid t
 
 Pro:
 
-- It doesn't interact with other infrastructure
+- It does not interact with other infrastructure
 - It's the Rails default, well understood by developers
 
 Con:

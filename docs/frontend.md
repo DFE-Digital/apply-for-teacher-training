@@ -6,8 +6,8 @@ and JavaScript.
 
 ## Debugging Webpacker
 
-Webpacker sometimes doesn't give clear indications of what's wrong when it
-doesn't work.
+Webpacker sometimes does not give clear indications of what's wrong when it
+does not work.
 
 **If you see repeated 'Webpacker compiling...' messages in the Rails server
 log**, a good place to start debugging is by running the webpack compiler via

@@ -68,7 +68,7 @@ RSpec/DescribedClass:
   Enabled: false
 
 # This cop wants us to use `expect().to change(Candidate, :count)` instead
-# of `expect().to change { Candidate.count }`, which doesn't seem better.
+# of `expect().to change { Candidate.count }`, which does not seem better.
 RSpec/ExpectChange:
   Enabled: false
 
@@ -101,7 +101,7 @@ Rails/ApplicationController:
 Rails/ApplicationRecord:
   Enabled: false
 
-# Rails doesn't actually allow "dynamic find_by", so this cop yields false positives
+# Rails does not actually allow "dynamic find_by", so this cop yields false positives
 # like `VendorApiToken.find_by_unhashed_token` (which we implement ourselves)
 Rails/DynamicFindBy:
   Enabled: false

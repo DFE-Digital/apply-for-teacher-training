@@ -22,7 +22,7 @@ In the microservice architecture, we might split up the service into 3 or more a
 
 ## Decision
 
-We've chosen to go for a monolith. After discussing the options, we hypothesise that the microservice architecture for this project doesn't provide many of the [benefits often associated with microservice approach](https://rubygarage.org/blog/advantages-of-microservices).
+We've chosen to go for a monolith. After discussing the options, we hypothesise that the microservice architecture for this project does not provide many of the [benefits often associated with microservice approach](https://rubygarage.org/blog/advantages-of-microservices).
 
 For example:
 
