@@ -11,13 +11,10 @@ RSpec.feature 'Candidate account' do
     then_i_can_sign_up_and_sign_out(@second_email)
 
     when_i_click_the_link_in_the_email_for(@first_email)
-    then_i_am_signed_in_with(@first_email)
+    then_i_am_prompted_to_get_a_new_magic_link
 
     when_i_click_the_link_in_the_email_for(@second_email)
-    then_i_am_signed_in_with(@second_email)
-
-    when_i_click_the_link_in_the_email_after_an_hour_for(@first_email)
-    then_i_am_signed_in_with(@second_email)
+    then_i_am_prompted_to_get_a_new_magic_link
   end
 
   def then_i_can_sign_up_and_sign_out(email)
@@ -31,6 +28,11 @@ RSpec.feature 'Candidate account' do
     when_i_click_the_link_in_the_email_for(email)
     then_i_am_signed_in_with(email)
 
+    when_i_click_the_sign_out_button
+    then_i_should_be_signed_out
+  end
+
+  def when_i_sign_out
     when_i_click_the_sign_out_button
     then_i_should_be_signed_out
   end
@@ -72,6 +74,10 @@ RSpec.feature 'Candidate account' do
 
   def when_i_click_the_link_in_the_email_for(email)
     @email_link_for[email].click
+  end
+
+  def then_i_am_prompted_to_get_a_new_magic_link
+    expect(page).to have_content 'The link you clicked has expired'
   end
 
   def when_i_click_the_link_in_the_email_after_an_hour_for(email)
