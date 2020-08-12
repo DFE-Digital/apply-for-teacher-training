@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate needs to provide 2 new referees' do
   include CandidateHelper
 
-  scenario "Candidate provides a new referee because 2 didn't respond" do
+  scenario 'Candidate provides a new referee because 2 did not respond' do
     given_i_am_signed_in_as_a_candidate
     and_i_have_submitted_my_application
     and_both_of_my_referees_havent_responded_within_a_reasonable_timeframe

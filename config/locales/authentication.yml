@@ -17,7 +17,7 @@ en:
       button_continue: Continue
       email_address:
         label: Enter your email address
-        hint_label: Don’t use a work or university email address you might lose access to
+        hint_label: Do not use a work or university email address you might lose access to
       email:
         subject: Please confirm your email address
     check_your_email: Check your email

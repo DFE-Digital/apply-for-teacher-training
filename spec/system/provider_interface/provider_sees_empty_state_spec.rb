@@ -35,7 +35,7 @@ RSpec.feature 'See applications' do
   end
 
   def then_i_should_see_no_applications
-    expect(page).to have_content 'You haven’t received any applications'
+    expect(page).to have_content 'You have not received any applications'
     expect(page).not_to have_selector('.govuk-table')
   end
 end

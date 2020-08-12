@@ -4,7 +4,7 @@ RSpec.feature 'A candidate withdraws her application' do
   include CandidateHelper
 
   # bullet complains about wanting an includes on associated objects.
-  # You can't call includes on a build_stubbed object.
+  # You cannot call includes on a build_stubbed object.
   # Our mailer previews are reliant on build_stubbed so we need to exclude this test.
 
   before do
@@ -119,7 +119,7 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def when_i_fill_in_my_feedback
     choose 'Yes, I’d like to share my reason with the Department for Education'
-    fill_in 'candidate-interface-withdrawal-feedback-form-explanation-field', with: 'I don’t want to go there.'
+    fill_in 'candidate-interface-withdrawal-feedback-form-explanation-field', with: 'I do not want to go there.'
     choose 'Yes, you can contact me'
     fill_in 'candidate-interface-withdrawal-feedback-form-contact-details-field', with: 'Anytime, 012345 678900'
   end

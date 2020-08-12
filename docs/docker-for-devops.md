@@ -97,7 +97,7 @@ Under normal circumstances you will seldom need to run a build using these instr
 1. Run the `make setup` command to initialise the database.
 1. Run the `make serve` or `make shell` command to interact with the image as required. By default the application will run on port 3000.
 
-_NOTE: Don't forget to restore the original configuration of the_ `docker_compose.override.yml` _file once you have finished using the prod image otherwise unexpected bahviour may be observed if you attempt to run a dev build or the tests._
+_NOTE: Do not forget to restore the original configuration of the_ `docker_compose.override.yml` _file once you have finished using the prod image otherwise unexpected bahviour may be observed if you attempt to run a dev build or the tests._
 
 ## Useful docker commands
 

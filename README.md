@@ -62,7 +62,7 @@ An overview of the Azure hosted infrastructure architecture can be found in the 
 
 ![The domain model for this application](docs/domain-model.png)
 
-For simplicity the auditing table isn't displayed in the diagram, as it is connected to most tables in the database.
+For simplicity the auditing table is not displayed in the diagram, as it is connected to most tables in the database.
 
 Regenerate this diagram with `bundle exec rake erd`.
 
@@ -163,7 +163,7 @@ We have a service `GenerateTestData` which generates `ApplicationChoice`s in
 the database. You can specify how many `ApplicationChoice`s are created and to
 which provider they are applying.
 
-If you don't specify a provider, the `ApplicationChoice`s will be for courses
+If you do not specify a provider, the `ApplicationChoice`s will be for courses
 at provider code `ABC`.
 
 **Generate 10 applications for the default provider (ABC)**

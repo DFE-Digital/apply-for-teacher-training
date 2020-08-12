@@ -302,7 +302,7 @@ module CandidateHelper
   end
 
   def candidate_explains_a_missing_gcse
-    choose('I don’t have this qualification yet')
+    choose('I do not have this qualification yet')
     fill_in t('application_form.gcse.missing_explanation.label'), with: 'I will sit the exam at my local college this summer.'
     click_button 'Save and continue'
     check t('application_form.completed_checkbox')

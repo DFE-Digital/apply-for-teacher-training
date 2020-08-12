@@ -433,7 +433,7 @@ components:
           type: string
           maxLength: 10240
           description: The candidate’s interview preferences
-          example: I can’t come to interview on Thursdays
+          example: I cannot come to interview on Thursdays
         candidate:
           "$ref": "#/components/schemas/Candidate"
         contact_details:
@@ -854,7 +854,7 @@ components:
           type: string
           nullable: true
           description: The candidate’s explanation for any breaks in work history.
-            Will be null if there aren’t any breaks in the candidate’s work history.
+            Will be null if there are not any breaks in the candidate’s work history.
             We define a break in work history as more than a month between 2 jobs.
           maxLength: 10240
           example: I spent time volunteering overseas...

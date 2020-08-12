@@ -23,7 +23,7 @@ options = {
 }
 
 # this needs to be declared inline or zeitwerk complains about autoloading during initialization
-# it can't just be a local function as other parts of the codebase depend on it
+# it cannot just be a local function as other parts of the codebase depend on it
 module ::DfESignIn
   def self.bypass?
     (HostingEnvironment.review? || Rails.env.development?) && ENV['BYPASS_DFE_SIGN_IN'] == 'true'

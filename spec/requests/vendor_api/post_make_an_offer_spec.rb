@@ -248,7 +248,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
     expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
   end
 
-  it 'returns a not found error if the application can\'t be found' do
+  it 'returns a not found error if the application cannot be found' do
     request_body = {
       "data": {
         "conditions": [

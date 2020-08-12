@@ -21,7 +21,7 @@ module CandidateInterface
       return false unless valid?
 
       # explicitly null-out the text field if the user said 'No'
-      # so that we don't need to add the boolean field to the API:
+      # so that we do not need to add the boolean field to the API:
       # it just returns null for the text field if they said No
       self.disability_disclosure = nil if disclose_disability.to_s == 'no'
 

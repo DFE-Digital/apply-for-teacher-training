@@ -2,7 +2,7 @@ en:
   candidate_flow_application_states:
     not_signed_up:
       name: Not signed up
-      description: The candidate hasn’t signed up yet
+      description: The candidate has not signed up yet
     sign_up_email_bounced:
       name: Sign up email bounced
       description: The candidate was sent a sign up email but it bounced
@@ -10,20 +10,20 @@ en:
       name: Never signed in
       description: The candidate has signed up but never signed into the service
     unsubmitted_not_started_form:
-      name: Haven’t started form
-      description: The candidate has signed in but hasn’t edited the form yet
+      name: Have not started form
+      description: The candidate has signed in but has not edited the form yet
     unsubmitted_in_progress:
       name: Form started but unsubmitted
-      description: The candidate has started editing but hasn’t submitted the form yet
+      description: The candidate has started editing but has not submitted the form yet
     awaiting_references:
       name: Awaiting references
       description: The candidate has submitted the form. We’ve asked their references for feedback, and are still waiting on one or more of those.
     waiting_to_be_sent:
       name: Waiting to be sent
-      description: All of the references have come in, but we haven’t sent the applications to the provider yet
+      description: All of the references have come in, but we have not sent the applications to the provider yet
     awaiting_provider_decisions:
       name: Awaiting decisions from providers
-      description: We’ve sent the applications to the providers, but we haven’t heard back from all of them
+      description: We’ve sent the applications to the providers, but we have not heard back from all of them
     awaiting_candidate_response:
       name: Awaiting decision from candidate
       description: All providers have responded and it’s now up to the candidate to make a decision
@@ -32,7 +32,7 @@ en:
       description: The candidate has accepted an offer. The provider now has to confirm to us that the candidate has met the conditions in the offer.
     recruited:
       name: Recruited
-      description: The candidate has been recruited, but hasn’t enrolled yet.
+      description: The candidate has been recruited, but has not enrolled yet.
     enrolled:
       name: Enrolled
       description: The candidate has enrolled in the course.
@@ -41,7 +41,7 @@ en:
       description: All of the candidate’s applications have been withdrawn, rejected or declined.
     unknown_state:
       name: "Unknown!"
-      description: This application is in a state that we don’t recognise. Please report this to a developer.
+      description: This application is in a state that we do not recognise. Please report this to a developer.
   candidate_application_states:
     application_complete: Submitted
     awaiting_provider_decision: Awaiting decision
@@ -79,14 +79,14 @@ en:
       description: |
         When a candidate has filled in their email address, they’ve started
         an application. Until they submit their application, it is in the
-        unsubmitted state. The providers don’t see the application at this
+        unsubmitted state. The providers do not see the application at this
         stage.
 
     awaiting_references:
       name: Awaiting references
       description: |
         The candidate submits their application choices with a list of referees. Until 2 references have been received all applications remain in the Awaiting references state.
-        The providers don’t see the application at this stage.
+        The providers do not see the application at this stage.
       emails:
         - candidate_mailer-chase_reference
         - candidate_mailer-new_referee_request
@@ -99,7 +99,7 @@ en:
       description: |
         The references have come back and have been added to the application.
         Candidates are allowed a cooling-off period of 5 days to modify their application before it’s sent to providers.
-        They can’t modify the references.
+        They cannot modify the references.
 
     awaiting_provider_decision:
       name: Awaiting provider decision
@@ -144,7 +144,7 @@ en:
         to claim bursaries/grants from DfE, the provider may delay enrolling the trainee
         until a few weeks after the start of the training, since trainees can still
         not show up on the first day or drop out within the first couple of weeks.
-        This reduces the risk that DfE over-pays that provider for training they didn’t
+        This reduces the risk that DfE over-pays that provider for training they did not
         deliver and has to reconcile later on.
 
         The candidate’s HESA equality monitoring information is made available to the provider.
@@ -197,8 +197,8 @@ en:
       by: candidate
       description: |
         When candidates apply again after an initial unsuccesful application,
-        they may have all the references they need already. They also don’t have to
-        wait 7 days, as we don’t have the edit window because the chance is lower
+        they may have all the references they need already. They also do not have to
+        wait 7 days, as we do not have the edit window because the chance is lower
         that they wish to edit their application the 2nd time around.
 
         This means we’ll send the application immediately to the provider.
@@ -217,12 +217,12 @@ en:
     awaiting_references-cancel:
       name: Candidate cancels
       by: candidate
-      description: If the application hasn't been sent to the provider, the candidate can still cancel the application.
+      description: If the application has not been sent to the provider, the candidate can still cancel the application.
 
     application_complete-cancel:
       name: Candidate cancels
       by: candidate
-      description: If the application hasn't been sent to the provider, the candidate can still cancel the application.
+      description: If the application has not been sent to the provider, the candidate can still cancel the application.
 
     application_complete-send_to_provider:
       name: Application is sent to provider
@@ -278,7 +278,7 @@ en:
       name: Rejected by default
       by: system
       description: |
-        An application is rejected by default (RBD) if the provider doesn’t make an offer within 40 working days after they have received an application.
+        An application is rejected by default (RBD) if the provider does not make an offer within 40 working days after they have received an application.
       emails:
         - provider_mailer-application_rejected_by_default
 
@@ -303,7 +303,7 @@ en:
     offer-reject:
       name: Provider rescinds offer
       by: provider
-      description: As long as the candidate hasn’t accepted the offer, the provider can reject the application.
+      description: As long as the candidate has not accepted the offer, the provider can reject the application.
       emails:
         - candidate_mailer-application_rejected_all_rejected
         - candidate_mailer-application_rejected_awaiting_decisions
@@ -333,7 +333,7 @@ en:
     pending_conditions-conditions_not_met:
       name: Providers marks conditions as not met
       by: provider
-      description: The provider says the candidate hasn’t met the conditions set out in the offer.
+      description: The provider says the candidate has not met the conditions set out in the offer.
       emails:
         - candidate_mailer-conditions_not_met
 
@@ -463,6 +463,6 @@ en:
     ended_without_success-start_apply_again:
       name: Start in Apply again (not built)
       by: candidate
-      description: This feature isn’t built yet, but in the future candidates
+      description: This feature is not built yet, but in the future candidates
         will be able to go into a second phase called ‘Apply Again’, where they can
         apply to 1 course at a time.

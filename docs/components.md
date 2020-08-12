@@ -27,7 +27,7 @@ You can compose components and call components inside of other components.
 
 You can also use components to render an entire page. This is the status quo in JS frameworks like React. However, big components are unwieldy and not as reusable. You can start with a regular view, and break off parts of it into components if you want better unit testing capabilities or reusability.
 
-You can't use components for atomic things, like a component that renders just a formatted date string. At the time of writing it seems like using a `render` call with a component will also add HTML newlines before and after. The spacing can't be removed using `.strip`, because it's an HTMLBuffer type object instead of a string.
+You cannot use components for atomic things, like a component that renders just a formatted date string. At the time of writing it seems like using a `render` call with a component will also add HTML newlines before and after. The spacing cannot be removed using `.strip`, because it's an HTMLBuffer type object instead of a string.
 
 A `ViewHelper` is likely a better choice for something as atomic as this, but this could change in the future.
 

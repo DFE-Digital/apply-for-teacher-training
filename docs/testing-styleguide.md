@@ -5,9 +5,9 @@ We use ["Futurelearn style" acceptance tests](https://about.futurelearn.com/blog
 ## Rules
 
 1. Use a single scenario per file. This prevents the files from becoming too large. Separate logical blocks of steps with newlines.
-2. Use instance variable to carry state between steps. Don't use `let` or `before` blocks.
+2. Use instance variable to carry state between steps. Do not use `let` or `before` blocks.
 3. Define all steps in the file. If you want to share code between scenarios, call helpers that are defined in a module from the step.
-4. The steps should be written in English. Don't use parameters to call the step methods.  
+4. The steps should be written in English. Do not use parameters to call the step methods.  
 
 ## Examples
 

@@ -31,7 +31,7 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
   end
 
   def when_a_user_accepts_the_offer
-    # cheating as I don't want to touch the candidate UI
+    # cheating as I do not want to touch the candidate UI
     AcceptOffer.new(application_choice: @application_choice).save!
   end
 

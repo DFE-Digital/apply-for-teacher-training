@@ -60,12 +60,12 @@ of the application.
 `devise` brings a little bit of unwelcome voodoo to our codebase but
 offers a quick way to deliver the feature with some confidence. We
 could mitigate the complexity via documentation, and by helping the
-team learn about `devise`. Because the library is so popular we don't
+team learn about `devise`. Because the library is so popular we do not
 consider learning about it to be a waste of effort, and we're less
 concerned than we might otherwise be about adding library-specific
 code.
 
-The DIY approach is very appealing, but we don't have time to do it
+The DIY approach is very appealing, but we do not have time to do it
 and look after it.
 
 ## Decision

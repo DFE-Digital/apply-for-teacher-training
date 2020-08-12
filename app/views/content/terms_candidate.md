@@ -12,9 +12,9 @@ You can apply for up to 3 courses across Apply for teacher training and [UCAS Te
 
 You can not apply for the same course on both services.
 
-### Stage 2: trying again if your application wasn’t successful
+### Stage 2: trying again if your application was not successful
 
-You can apply for another course at this stage if you don’t get an offer or if you choose not to accept your offer(s).
+You can apply for another course at this stage if you do not get an offer or if you choose not to accept your offer(s).
 
 [Get Into Teaching](https://getintoteaching.education.gov.uk/get-help-and-support) can guide you through the process of applying for more courses. Contact them for free on 0800 389 2500, or [chat to an adviser using the online chat service](https://getintoteaching.education.gov.uk/lp/live-chat).
 
@@ -22,9 +22,9 @@ You can apply for another course at this stage if you don’t get an offer or if
 
 Get in touch with us as soon as possible after submitting your application if you need to make any amends, as we only have 5 working days to make changes for you.
 
-For example, you can add more courses (if you haven’t reached your limit of 3) or change your course choices.
+For example, you can add more courses (if you have not reached your limit of 3) or change your course choices.
 
-Once we’ve processed your request, we won’t be able to make any more changes for you.
+Once we’ve processed your request, we will not be able to make any more changes for you.
 
 However, you can ask us to amend your name or contact details at any point up until enrolment.
 

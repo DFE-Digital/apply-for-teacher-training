@@ -10,7 +10,7 @@ module UCASMatching
 
     def perform
       if ENV['UCAS_USERNAME'].blank?
-        Rails.logger.info 'UCAS credentials aren\'t configured, assuming that this this is a test environment. Not uploading data.'
+        Rails.logger.info 'UCAS credentials are not configured, assuming that this this is a test environment. Not uploading data.'
         return
       end
 

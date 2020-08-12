@@ -86,7 +86,7 @@ class CandidateMailer < ApplicationMailer
     @decisions = application_choice.application_form.application_choices.select(&:awaiting_provider_decision?)
     @application_choice = application_choice
 
-    # We can't use `through:` associations with FactoryBot's `build_stubbed`. Using
+    # We cannot use `through:` associations with FactoryBot's `build_stubbed`. Using
     # the association directly instead allows us to use `build_stubbed` in tests
     # and mailer previews.
     @course = application_choice.course_option.course
@@ -107,7 +107,7 @@ class CandidateMailer < ApplicationMailer
     @dbd_days = @offers.first.decline_by_default_days
     @application_choice = application_choice
 
-    # We can't use `through:` associations with FactoryBot's `build_stubbed`. Using
+    # We cannot use `through:` associations with FactoryBot's `build_stubbed`. Using
     # the association directly instead allows us to use `build_stubbed` in tests
     # and mailer previews.
     @course = application_choice.course_option.course

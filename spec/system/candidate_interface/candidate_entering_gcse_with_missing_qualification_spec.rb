@@ -26,7 +26,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def and_i_select_i_do_not_have_yet
-    choose('I don’t have this qualification yet')
+    choose('I do not have this qualification yet')
   end
 
   def and_i_enter_the_missing_explanation

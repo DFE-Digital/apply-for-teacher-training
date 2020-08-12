@@ -45,7 +45,7 @@ If we wanted to proceed with either ```/?fields```= or ```/?include=```, we woul
 
 - implementing an extensions API would allow us to pre-release features to specific vendors
 - agile vendors could optimise their requests, by requesting exactly the fields that they need
-- we wouldn't need to increment our API version with every minor field addition
+- we would not need to increment our API version with every minor field addition
 
 #### Cons
 

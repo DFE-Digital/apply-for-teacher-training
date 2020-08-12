@@ -56,7 +56,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def then_i_should_see_an_error_page
-    expect(page).to have_content 'We couldn’t find the course you’re looking for'
+    expect(page).to have_content 'We could not find the course you’re looking for'
   end
 
   def when_i_arrive_from_find_to_a_course_that_is_ucas_only

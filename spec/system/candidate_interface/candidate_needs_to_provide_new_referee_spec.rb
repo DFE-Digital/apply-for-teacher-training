@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate needs to provide a new referee' do
   include CandidateHelper
 
-  scenario "Candidate provides a new referee because one didn't respond" do
+  scenario 'Candidate provides a new referee because one did not respond' do
     FeatureFlag.activate('pilot_open')
     FeatureFlag.activate('covid_19')
 

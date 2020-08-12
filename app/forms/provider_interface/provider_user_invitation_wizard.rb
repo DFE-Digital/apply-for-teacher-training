@@ -91,7 +91,7 @@ module ProviderInterface
     # returns [step, *params] for the next step.
     #
     # this way the wizard is responsible for its own routing
-    # but it doesn't need to know about HTTP, so we can test it
+    # but it does not need to know about HTTP, so we can test it
     # in isolation
     def next_step
       if checking_answers

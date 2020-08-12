@@ -13,7 +13,7 @@ class ApplicationStateChange
     @application_choice = application_choice
   end
 
-  # When updating states, don't forget to run:
+  # When updating states, do not forget to run:
   #
   #   bundle exec rake generate_state_diagram
   #

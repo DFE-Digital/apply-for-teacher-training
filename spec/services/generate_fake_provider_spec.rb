@@ -8,7 +8,7 @@ RSpec.describe GenerateFakeProvider do
   describe '.generate_provider' do
     it 'raises an error in production' do
       ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
-        expect { generate_provider_call }.to raise_error(RuntimeError, 'You can\'t generate test data in production')
+        expect { generate_provider_call }.to raise_error(RuntimeError, 'You cannot generate test data in production')
       end
     end
 

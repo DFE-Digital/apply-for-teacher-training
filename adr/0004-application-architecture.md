@@ -22,13 +22,13 @@ In the microservice architecture, we might split up the service into 3 or more a
 
 ## Decision
 
-We've chosen to go for a monolith. After discussing the options, we hypothesise that the microservice architecture for this project doesn't provide many of the [benefits often associated with microservice approach](https://rubygarage.org/blog/advantages-of-microservices).
+We've chosen to go for a monolith. After discussing the options, we hypothesise that the microservice architecture for this project does not provide many of the [benefits often associated with microservice approach](https://rubygarage.org/blog/advantages-of-microservices).
 
 For example:
 
 - Teams can work independently: we anticipate that the team size of this project will be limited (less than 20), so communication is less of a problem
 - Independent scaling: traffic for this application will be such that the different components will see similar spikes, so independent scaling is not as useful
-- Reuse of components: we don't have the need to reuse components in other parts of the organisation
+- Reuse of components: we do not have the need to reuse components in other parts of the organisation
 
 Note that we do use other services and APIs to provide functionality - for example, we use [GOV.UK Notify to send emails](https://www.notifications.service.gov.uk/), and we'll likely use the [Find API to fetch course data](https://github.com/DFE-Digital/manage-courses-backend).
 

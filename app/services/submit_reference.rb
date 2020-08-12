@@ -21,7 +21,7 @@ private
 
   # Only progress the applications if the reference that is being submitted is
   # the 2nd referee, since there might be more than 2 references per form. We
-  # don't want to send the references to the provider *again* when the 3rd or
+  # do not want to send the references to the provider *again* when the 3rd or
   # 4th reference is submitted.
   def enough_references_have_been_submitted?
     (

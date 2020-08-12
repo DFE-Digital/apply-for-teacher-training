@@ -42,7 +42,7 @@ Apply and Manage are free services for both candidates and providers.
 
 #### Still to come: fraud and plagiarism checks
 
-For now, we don’t provide fraud and plagiarism checks on candidate applications.
+For now, we do not provide fraud and plagiarism checks on candidate applications.
 
 ## <a name="onboarding"></a>Onboarding
 
@@ -54,7 +54,7 @@ Onboarding is quick and easy, usually taking place over a single working day.
 
 3. We’ll then update [Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) so that candidates know they can apply for your courses through [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate).
 
-4. We’ll ask you to sign a data-sharing agreement and create a DfE Sign-in account (if you don’t already have one).
+4. We’ll ask you to sign a data-sharing agreement and create a DfE Sign-in account (if you do not already have one).
 
 5. You’ll then be able to view and process applications from your Manage teacher training applications dashboard.
 
@@ -180,7 +180,7 @@ You can make these changes, and also amend conditions, even if the offer has alr
 
 The candidate will receive a formal notification of the changed offer, but you should also explain and agree any changes with them directly via email or phone.
 
-Once the candidate has accepted your offer, you can’t change the terms of the offer without their permission.
+Once the candidate has accepted your offer, you cannot change the terms of the offer without their permission.
 
 ### Apply again (Apply 2)
 
