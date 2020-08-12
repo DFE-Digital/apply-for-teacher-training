@@ -61,11 +61,19 @@ module CandidateInterface
 
     def subject_row(qualification)
       {
-        key: t('application_form.other_qualification.subject.label'),
+        key: subject_set_key(qualification),
         value: qualification.subject,
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.subject.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
       }
+    end
+
+    def subject_set_key(qualification)
+      if qualification.qualification_type == 'non_uk'
+        t('application_form.other_qualification.subject.optional_label')
+      else
+        t('application_form.other_qualification.subject.label')
+      end
     end
 
     def institution_row(qualification)
@@ -100,11 +108,19 @@ module CandidateInterface
 
     def grade_row(qualification)
       {
-        key: t('application_form.other_qualification.grade.label'),
+        key: grade_set_key(qualification),
         value: qualification.grade,
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.grade.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
       }
+    end
+
+    def grade_set_key(qualification)
+      if qualification.qualification_type == 'non_uk'
+        t('application_form.other_qualification.grade.optional_label')
+      else
+        t('application_form.other_qualification.grade.label')
+      end
     end
 
     def edit_other_qualification_details_path(qualification)

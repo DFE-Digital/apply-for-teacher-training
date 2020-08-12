@@ -246,6 +246,7 @@ en:
           hint_text: For example, High school diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
       subject:
         label: Subject
+        optional_label: Subject (optional)
         change_action: subject
       institution_country:
         label: Country where you studied
@@ -256,6 +257,7 @@ en:
         change_action: institution
       grade:
         label: Grade
+        optional_label: Grade (optional)
         change_action: grade
       award_year:
         label: Year qualification was awarded

@@ -109,6 +109,13 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
         )
       end
 
+      it 'renders adds optional to the keys for subject and grade rows' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.subject.optional_label'))
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.grade.optional_label'))
+      end
+
       it 'renders the correct values for institution_name' do
         result = render_inline(described_class.new(application_form: application_form))
 
