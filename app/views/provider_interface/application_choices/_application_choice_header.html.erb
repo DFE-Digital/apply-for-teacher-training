@@ -1,17 +1,18 @@
-<% if @application_choice.status == 'awaiting_provider_decision' && flash.empty? && @provider_can_respond -%>
-  <div class="app-banner">
-    <div class="app-banner__message">
-      <h2 class="govuk-heading-m govuk-!-margin-bottom-0">
-        You have <%= days_to_respond_to(@application_choice) %> days to send a response. <%= govuk_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice) %>.
-      </h2>
-    </div>
-  </div>
-<% end -%>
-
-<h1 class="govuk-heading-xl govuk-!-margin-bottom-1">
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-6">
   <%= @application_choice.application_form.full_name %>
   <%= render(ProviderInterface::ApplicationStatusTagComponent.new(application_choice: @application_choice)) %>
 </h1>
+
+<% if @application_choice.status == 'awaiting_provider_decision' && flash.empty? && @provider_can_respond -%>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p class="govuk-body">
+        <%= "You have #{days_to_respond_to(@application_choice)} days to respond to this application. On #{@application_choice.reject_by_default_at.to_s(:govuk_date)} this application will be automatically rejected." %>
+      </p>
+      <%= govuk_button_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice) %>
+    </div>
+  </div>
+<% end -%>
 
 <% if @sub_navigation_items.count > 1 %>
   <%= render SubNavigationComponent.new(items: @sub_navigation_items) %>
