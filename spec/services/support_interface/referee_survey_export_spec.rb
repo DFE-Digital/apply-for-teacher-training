@@ -4,7 +4,7 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
   describe '#call' do
     let(:questionnaire1) do
       {
-        RefereeQuestionnaire::GUIDANCE_QUESTION => "very_poor | I could not read it.",
+        RefereeQuestionnaire::GUIDANCE_QUESTION => 'very_poor | I could not read it.',
         RefereeQuestionnaire::EXPERIENCE_QUESTION => 'very_good | I could read it.',
         RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => 'yes | 02113131',
         RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION => 'yes | ',

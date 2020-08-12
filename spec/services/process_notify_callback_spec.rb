@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples "a callback that does not change the feedback status of a reference" do
+RSpec.shared_examples 'a callback that does not change the feedback status of a reference' do
   it 'does not update the feedback status of the reference' do
     process_notify_callback = ProcessNotifyCallback.new(notify_reference: notify_reference, status: status)
 
@@ -51,7 +51,7 @@ RSpec.describe ProcessNotifyCallback do
     context 'with another status' do
       let(:status) { 'temporary-failure' }
 
-      it_behaves_like "a callback that does not change the feedback status of a reference"
+      it_behaves_like 'a callback that does not change the feedback status of a reference'
     end
   end
 
@@ -96,14 +96,14 @@ RSpec.describe ProcessNotifyCallback do
       let(:environment) { 'qa' }
       let(:notify_reference) { "#{environment}-reference_request-#{reference.id}" }
 
-      it_behaves_like "a callback that does not change the feedback status of a reference"
+      it_behaves_like 'a callback that does not change the feedback status of a reference'
     end
 
     context 'with email type not reference request or sign up email bounced' do
       let(:email_type) { 'example_email' }
       let(:notify_reference) { "example_env-#{email_type}-#{reference.id}" }
 
-      it_behaves_like "a callback that does not change the feedback status of a reference"
+      it_behaves_like 'a callback that does not change the feedback status of a reference'
 
       it 'does not update sign up email bounced and hide in reporting to true for candidate' do
         notify_reference = "example_env-#{email_type}-#{candidate.id}"

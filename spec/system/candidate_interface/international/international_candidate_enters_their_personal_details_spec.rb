@@ -215,7 +215,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def when_i_fill_in_my_right_to_work_details
-    fill_in :details, with: "Borders? I do not believe in no stinking borders."
+    fill_in :details, with: 'Borders? I do not believe in no stinking borders.'
   end
 
   def and_i_can_see_my_updated_details
@@ -228,7 +228,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_i_can_see_my_updated_right_to_work
-    expect(page).to have_content "Borders? I do not believe in no stinking borders."
+    expect(page).to have_content 'Borders? I do not believe in no stinking borders.'
     expect(page).to have_content 'I have the right to work or study in the UK'
   end
 
