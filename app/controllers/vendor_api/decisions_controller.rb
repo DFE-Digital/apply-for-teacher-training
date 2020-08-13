@@ -17,16 +17,31 @@ module VendorAPI
                         application_choice.course_option
                       end
 
-      service = application_choice.offer? ? ChangeOffer : MakeAnOffer
+      if application_choice.offer?
+        change_offer = ChangeOffer.new(
+          actor: @api_user,
+          application_choice: application_choice,
+          course_option: course_option,
+          offer_conditions: params.dig(:data, :conditions),
+        )
 
-      decision = service.new(
-        actor: @api_user,
-        application_choice: application_choice,
-        course_option: course_option,
-        offer_conditions: params.dig(:data, :conditions),
-      )
+        if change_offer.identical_to_existing_offer?
+          # noop - allow multiple POSTs (effectively PUTs) of the same offer
+          # to support vendors who don’t trust the network
+          render_application
+        else
+          respond_to_decision(change_offer)
+        end
+      else
+        make_offer = MakeAnOffer.new(
+          actor: @api_user,
+          application_choice: application_choice,
+          course_option: course_option,
+          offer_conditions: params.dig(:data, :conditions),
+        )
 
-      respond_to_decision(decision)
+        respond_to_decision(make_offer)
+      end
     end
 
     def confirm_conditions_met
@@ -87,9 +102,13 @@ module VendorAPI
       )
     end
 
+    def render_application
+      render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
+    end
+
     def respond_to_decision(decision)
       if decision.save
-        render json: { data: SingleApplicationPresenter.new(application_choice).as_json }
+        render_application
       else
         render_validation_errors(decision.errors)
       end
