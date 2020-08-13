@@ -29,8 +29,6 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
-puts 'ℹ️ If you change CSS, JS, or Assets - do not forget to run `rake compile_assets` before your test runs'
-
 Timecop.safe_mode = true
 
 Faker::Config.locale = 'en-GB'
@@ -72,7 +70,23 @@ RSpec.configure do |config|
 
   config.before { ActionMailer::Base.deliveries.clear }
 
-  config.before { FeatureFlag.reset! }
+  config.before(:suite) do
+    puts "ℹ️  If you change CSS, JS, or Assets - don't forget to run `rake compile_assets` before your test runs"
+    puts "ℹ️  Running tests with all features #{ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on' ? 'ON' : 'OFF'} by default"
+  end
+
+  config.before(:each) do
+    if ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on'
+      FeatureFlag::TEMPORARY_FEATURE_FLAGS.each do |name, _|
+        # Avoid 2 queries by creating the flag enabled, instead of doing a find + update.
+        Feature.create(name: name, active: true)
+      end
+    else
+      # When disabling all flags it's faster to just delete all the records
+      # instead of creating the record and disabling it.
+      Feature.delete_all
+    end
+  end
 
   # Make the ActiveModel matchers like `validate_inclusion_of` available to form objects
   config.define_derived_metadata(file_path: Regexp.new('/spec/forms/')) do |metadata|

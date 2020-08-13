@@ -30,3 +30,4 @@ services:
       - UCAS_UPLOAD_BASEURL
       - UCAS_UPLOAD_FOLDER
       - SANDBOX
+      - DEFAULT_FEATURE_FLAG_STATE

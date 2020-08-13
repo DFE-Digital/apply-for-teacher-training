@@ -226,16 +226,34 @@ stages:
   - template: templates/rspec-job.yml
     parameters:
       testCommand: 'integration-tests'
-      displayName: 'Integration Tests'
-      jobId: 'integration_tests'
+      displayName: 'Integration Tests with all features off'
+      jobId: 'integration_tests_features_off'
       jobAttempt: $(System.JobAttempt)
+      featureFlagState: 'off'
 
   - template: templates/rspec-job.yml
     parameters:
       testCommand: 'unit-tests'
-      displayName: 'Unit Tests'
-      jobId: 'unit_tests'
+      displayName: 'Unit Tests with all features off'
+      jobId: 'unit_tests_features_off'
       jobAttempt: $(System.JobAttempt)
+      featureFlagState: 'off'
+
+  - template: templates/rspec-job.yml
+    parameters:
+      testCommand: 'integration-tests'
+      displayName: 'Integration Tests with all features on'
+      jobId: 'integration_tests_features_on'
+      jobAttempt: $(System.JobAttempt)
+      featureFlagState: 'on'
+
+  - template: templates/rspec-job.yml
+    parameters:
+      testCommand: 'unit-tests'
+      displayName: 'Unit Tests with all features on'
+      jobId: 'unit_tests_features_on'
+      jobAttempt: $(System.JobAttempt)
+      featureFlagState: 'on'
 
 
 - stage: deploy_qa

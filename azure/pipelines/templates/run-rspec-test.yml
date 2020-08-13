@@ -3,9 +3,12 @@ parameters:
     type: string
   - name: testResultsFile
     type: string
+  - name: featureFlagState
+    type: string
 
 steps:
   - script: |
+      echo $DEFAULT_FEATURE_FLAG_STATE
       make ${{ parameters.testCommand }}
       test_result=$?
       if [ "$test_result" == "0" ]
@@ -45,3 +48,4 @@ steps:
       FIND_BASE_URL: $(findBaseUrl)
       GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
       SANDBOX: $(sandbox)
+      DEFAULT_FEATURE_FLAG_STATE: ${{ parameters.featureFlagState }}
