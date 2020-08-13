@@ -1,7 +1,6 @@
 class Candidate < ApplicationRecord
   include Chased
   # Only Devise's :timeoutable module is enabled to handle session expiry
-  # Custom Warden strategy is used instead see app/warden/magic_link_token.rb
   devise :timeoutable
   audited last_signed_in_at: true
 

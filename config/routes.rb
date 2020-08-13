@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # No Devise modules are enabled
-  # Custom Warden strategy is used instead see app/warden/magic_link_token.rb
-  # Custom views are used, see app/views/magic_link/sign_up/
+  # Custom, magic-link based authentication flow used. See, for example -
+  # CandidateInterface::SignInController
   devise_for :candidates, skip: :all
 
   devise_scope :candidate do

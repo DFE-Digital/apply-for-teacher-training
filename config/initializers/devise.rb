@@ -24,8 +24,4 @@ Devise.setup do |config|
   config.sign_out_via = :delete
 
   config.timeout_in = 7.days
-
-  config.warden do |manager|
-    manager.default_strategies(scope: :candidate).unshift :magic_link_strategy
-  end
 end
