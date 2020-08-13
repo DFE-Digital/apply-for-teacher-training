@@ -35,14 +35,8 @@ module UCASMatching
     def csv_as_string
       applications = MatchingDataExport.new.applications
       header_row = MatchingDataExport.csv_header(applications)
-
-      CSV.generate do |rows|
-        rows << header_row
-
-        applications.each do |application|
-          rows << application.values
-        end
-      end
+      objects = applications.map(&:values)
+      SafeCSV.generate(objects, header_row)
     end
   end
 end

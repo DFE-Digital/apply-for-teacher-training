@@ -8,15 +8,11 @@ class ProviderEmailsForApplicationChoices
   end
 
   def as_csv
-    require 'csv'
-
-    CSV.generate do |csv|
-      csv << ['email address', 'name', 'affected applications']
-
-      as_hash.each do |(email, attrs)|
-        csv << [email, attrs[:name], attrs[:affected_applications].join("\n")]
-      end
+    header_row = ['email address', 'name', 'affected applications']
+    objects = as_hash.map do |(email, attrs)|
+      [email, attrs[:name], attrs[:affected_applications].join("\n")]
     end
+    SafeCSV.generate(objects, header_row)
   end
 
 private
