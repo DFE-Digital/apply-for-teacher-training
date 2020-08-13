@@ -1,3 +1,5 @@
+require 'csv'
+
 class SafeCSV
   def self.generate(values, header_row = nil)
     CSV.generate do |rows|
