@@ -6,7 +6,9 @@ parameters:
   - name: jobId
     type: string
   - name: jobAttempt
-    type: string 
+    type: string
+  - name: featureFlagState
+    type: string
 
 jobs:
 - job: ${{ parameters.jobId }}
@@ -44,15 +46,16 @@ jobs:
       FIND_BASE_URL: $(findBaseUrl)
       GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
       SANDBOX: $(sandbox)
-  
+
   - template: cancel-build-if-not-latest.yml
     parameters:
       sourceBranchName: $(Build.SourceBranchName)
- 
+
   - template: run-rspec-test.yml
     parameters:
       testCommand: ${{ format('ci.{0}', parameters.testCommand) }}
       testResultsFile: ${{ format('testArtifacts/rspec-{0}-results.xml', parameters.testCommand) }}
+      featureFlagState: ${{ parameters.featureFlagState }}
 
   - task: PublishTestResults@2
     condition: succeededOrFailed()
@@ -66,4 +69,4 @@ jobs:
     displayName: 'Publish Test Artifacts'
     inputs:
       path: '$(System.DefaultWorkingDirectory)/testArtifacts/'
-      artifactName: ${{ format('rspec-{0}-{1}', parameters.testCommand, parameters.jobAttempt) }}
+      artifactName: ${{ format('rspec-{0}-{1}', parameters.jobId, parameters.jobAttempt) }}

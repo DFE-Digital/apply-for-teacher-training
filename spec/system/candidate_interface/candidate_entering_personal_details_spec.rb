@@ -4,6 +4,9 @@ RSpec.feature 'Entering their personal details' do
   include CandidateHelper
 
   scenario 'Candidate submits their personal details' do
+    FeatureFlag.deactivate(:international_personal_details)
+    FeatureFlag.deactivate(:efl_section)
+
     given_i_am_signed_in
     and_i_visit_the_site
 

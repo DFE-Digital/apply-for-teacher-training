@@ -4,6 +4,8 @@ RSpec.feature 'Entering their degrees' do
   include CandidateHelper
 
   scenario 'Candidate submits their degrees' do
+    FeatureFlag.deactivate(:international_degrees)
+
     given_i_am_signed_in
     and_i_visit_the_site
     when_i_click_on_degree

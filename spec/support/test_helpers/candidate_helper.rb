@@ -23,6 +23,11 @@ module CandidateHelper
   end
 
   def candidate_completes_application_form
+    FeatureFlag.deactivate(:international_addresses)
+    FeatureFlag.deactivate(:international_personal_details)
+    FeatureFlag.deactivate(:efl_section)
+    FeatureFlag.deactivate(:international_degrees)
+
     given_courses_exist
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path

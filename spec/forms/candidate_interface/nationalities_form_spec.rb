@@ -18,6 +18,8 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
   describe '.build_from_application' do
     context 'with the international_personal_details flag off' do
       it 'creates an object based on the provided ApplicationForm' do
+        FeatureFlag.deactivate('international_personal_details')
+
         application_form = ApplicationForm.new(data)
         nationalities = CandidateInterface::NationalitiesForm.build_from_application(
           application_form,
@@ -100,6 +102,8 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
     context 'with the international_personal_details flag off' do
       it 'updates the provided ApplicationForm if valid' do
+        FeatureFlag.deactivate('international_personal_details')
+
         application_form = FactoryBot.create(:application_form)
         nationalities = CandidateInterface::NationalitiesForm.new(form_data)
 
@@ -137,6 +141,8 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
   describe 'validations' do
     context 'with the international_personal_details flag off' do
+      before { FeatureFlag.deactivate('international_personal_details') }
+
       it { is_expected.to validate_presence_of(:first_nationality) }
 
       it 'validates nationalities against the NATIONALITY_DEMONYMS list' do

@@ -5,6 +5,7 @@ RSpec.describe 'Candidate needs to provide 2 new referees' do
 
   scenario 'Candidate provides a new referee because 2 did not respond' do
     FeatureFlag.activate('pilot_open')
+    FeatureFlag.deactivate(:separate_additional_referees)
 
     given_i_am_signed_in_as_a_candidate
     and_i_have_submitted_my_application

@@ -10,6 +10,8 @@ RSpec.feature 'Provider rejects application' do
   end
 
   scenario 'Provider rejects application' do
+    FeatureFlag.deactivate(:providers_can_manage_users_and_permissions)
+
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface

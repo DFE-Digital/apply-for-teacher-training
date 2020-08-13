@@ -37,6 +37,8 @@ end
 RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   include Rails.application.routes.url_helpers
 
+  before { FeatureFlag.deactivate(:international_personal_details) }
+
   let(:default_personal_details_form) { build(:personal_details_form) }
   let(:default_nationalities_form) { build(:nationalities_form) }
   let(:default_languages_form) { build(:languages_form) }
@@ -103,7 +105,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
     end
 
     it 'includes a hash with up to 5 nationalities when international_personal_details is on' do
-      FeatureFlag.activate('international_personal_details')
+      FeatureFlag.activate(:international_personal_details)
+
       nationalities_form = build(
         :nationalities_form,
         british: 'British',
@@ -120,6 +123,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   end
 
   context 'when presenting English as the main language' do
+    before { FeatureFlag.deactivate(:efl_section) }
+
     it 'includes a hash with "Yes"' do
       languages_form = build(
         :languages_form,
@@ -174,6 +179,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   end
 
   context 'when presenting English not as the main language' do
+    before { FeatureFlag.deactivate(:efl_section) }
+
     it 'includes a hash with "No"' do
       languages_form = build(
         :languages_form,
@@ -245,9 +252,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   end
 
   context 'when the international personal details flag is on and the candidate has selected they have the right to work' do
-    before do
-      FeatureFlag.activate('international_personal_details')
-    end
+    before { FeatureFlag.activate(:international_personal_details) }
 
     it 'renders the right to work row' do
       nationalities_form = build(
@@ -267,9 +272,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   end
 
   context 'when the international personal details flag is on and the candidate is British or Irish' do
-    before do
-      FeatureFlag.activate('international_personal_details')
-    end
+    before { FeatureFlag.activate(:international_personal_details) }
 
     it 'renders the right to work row' do
       nationalities_form = build(

@@ -4,6 +4,8 @@ RSpec.feature 'Candidate entering GCSE details' do
   include CandidateHelper
 
   scenario 'Candidate specifies GCSE maths with "Other UK qualification" type' do
+    FeatureFlag.deactivate(:international_gcses)
+
     given_i_am_signed_in
     and_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link

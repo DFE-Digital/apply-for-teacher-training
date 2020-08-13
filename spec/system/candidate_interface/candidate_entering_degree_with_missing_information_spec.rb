@@ -4,6 +4,8 @@ RSpec.feature 'Entering degree with missing info' do
   include CandidateHelper
 
   scenario 'Candidate attempts to submit an incomplete degree' do
+    FeatureFlag.deactivate(:international_degrees)
+
     given_i_am_viewing_my_application_form
     when_i_click_on_degree
     then_i_see_the_undergraduate_degree_form
