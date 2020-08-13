@@ -27,7 +27,7 @@
             <h2 class="govuk-heading-m">Permission to make decisions</h2>
             <p>You can allow this organisation to make offers, amend offers and reject applications.</p>
 
-            <h2 class="govuk-heading-m">Permission to see safeguarding information</h2>
+            <h2 class="govuk-heading-m">Permission to view safeguarding information</h2>
             <p>You can give this organisation access to information disclosed in:</p>
             <ul class="govuk-list govuk-list--bullet">
               <li>the ‘criminal convictions and professional misconduct’ section of the application, which may include highly sensitive material about the candidate</li>
@@ -45,7 +45,7 @@
 
       <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
         <div class="govuk-form-group <%= permission_name.to_s.dasherize %>">
-          <%= f.govuk_check_boxes_fieldset permission_name, legend: { text: t("provider_relationship_permissions.form.fieldset.#{permission_name}") } do %>
+          <%= f.govuk_check_boxes_fieldset permission_name, legend: { text: "Which organisations can #{permission_name.to_s.humanize.downcase}?" } do %>
             <%= hidden_field_tag "#{f.object_name}[#{permission_name}][]", '' %>
             <%= f.govuk_check_box permission_name, 'training', link_errors: true,
                                   label: { text: @form.training_provider.name } %>

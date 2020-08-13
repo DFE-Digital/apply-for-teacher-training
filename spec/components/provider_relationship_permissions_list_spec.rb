@@ -31,7 +31,7 @@ RSpec.describe ProviderRelationshipPermissionsList do
   it 'renders organisations who can view safeguarding information' do
     result = render_inline(described_class.new(provider_relationship_permissions))
 
-    expect(result.css('.govuk-body')[1].text).to include('The following organisation(s) can see safeguarding information:')
+    expect(result.css('.govuk-body')[1].text).to include('The following organisation(s) can view safeguarding information:')
     expect(result.css('.govuk-list')[1].text).to include(training_provider.name.to_s)
     expect(result.css('.govuk-list')[1].text).not_to include(ratifying_provider.name.to_s)
   end
