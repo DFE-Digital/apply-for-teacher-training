@@ -83,4 +83,27 @@ RSpec.describe ChangeOffer do
       expect(change.errors[:course_option]).to include('is not open for applications via the Apply service')
     end
   end
+
+  describe '#is_identical_to_existing_offer?' do
+    it 'returns true when offer and conditions match' do
+      application_choice.update(offer: { 'conditions' => ['DBS check'] })
+      change = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, offer_conditions: ['DBS check'])
+
+      expect(change).to be_identical_to_existing_offer
+    end
+
+    it 'returns false when offer matches, but not conditions' do
+      application_choice.update(offer: { 'conditions' => ['Different things'] })
+      change = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, offer_conditions: ['DBS check'])
+
+      expect(change).not_to be_identical_to_existing_offer
+    end
+
+    it 'returns false when conditions match, but not offer' do
+      application_choice.update(offer: { 'conditions' => ['DBS check'] })
+      change = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option, offer_conditions: ['DBS check'])
+
+      expect(change).not_to be_identical_to_existing_offer
+    end
+  end
 end

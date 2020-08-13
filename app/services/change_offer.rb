@@ -14,6 +14,12 @@ class ChangeOffer
     @auth = ProviderAuthorisation.new(actor: actor)
   end
 
+  def identical_to_existing_offer?
+    course_option.present? && \
+      course_option == application_choice.offered_option && \
+      application_choice.offer['conditions'] == @offer_conditions
+  end
+
   def save
     @auth.assert_can_make_decisions! application_choice: @application_choice, course_option_id: @course_option.id
     if valid?
@@ -43,8 +49,7 @@ private
   end
 
   def validate_offer_is_not_identical
-    if course_option.present? && course_option == application_choice.offered_option \
-      && application_choice.offer['conditions'] == @offer_conditions
+    if identical_to_existing_offer?
       errors.add(:base, 'The new offer is identical to the current offer')
     end
   end
