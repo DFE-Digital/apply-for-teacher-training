@@ -83,13 +83,7 @@ module SupportInterface
 
     def to_csv(objects, header_row = nil)
       header_row ||= objects.to_a.first&.keys
-
-      CSV.generate do |rows|
-        rows << header_row
-        objects&.each do |object|
-          rows << CsvHelper.sanitise(object.values)
-        end
-      end
+      SafeCSV.generate(objects.map(&:values), header_row)
     end
   end
 end
