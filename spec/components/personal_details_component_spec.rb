@@ -6,6 +6,9 @@ RSpec.describe PersonalDetailsComponent do
       :completed_application_form,
       support_reference: 'AB123',
       date_of_birth: Date.new(2000, 1, 1),
+      first_nationality: 'British',
+      second_nationality: 'Irish',
+      third_nationality: 'Spanish',
     )
   end
 
@@ -29,8 +32,8 @@ RSpec.describe PersonalDetailsComponent do
     expect(result.css('.govuk-summary-list__value').text).to include('1 January 2000')
   end
 
-  it 'renders the candidate nationality' do
-    expect(result.css('.govuk-summary-list__value').text).to include(application_form.first_nationality)
+  it 'renders the candidates nationalities' do
+    expect(result.css('.govuk-summary-list__value').text).to include('British, Irish, and Spanish')
   end
 
   it 'renders the candidate phone number' do
@@ -41,7 +44,7 @@ RSpec.describe PersonalDetailsComponent do
     expect(result.css('.govuk-summary-list__value').text).to include(application_form.candidate.email_address)
   end
 
-  it 'renders the candidate address and postcode' do
+  it 'renders the candidate address and postcode for uk addresses' do
     full_address = [
       application_form.address_line1,
       application_form.address_line2,
@@ -51,5 +54,18 @@ RSpec.describe PersonalDetailsComponent do
     ].reject(&:blank?).join
 
     expect(result.css('.govuk-summary-list__value').text).to include(full_address)
+  end
+
+  it 'renders the candidate address and postcode for international addresses' do
+    application_form = build_stubbed(:completed_application_form, :international_address)
+
+    international_address = [
+      application_form.international_address,
+      COUNTRIES[application_form.country],
+    ].reject(&:blank?).join
+
+    result = render_inline(PersonalDetailsComponent.new(application_form: application_form))
+
+    expect(result.css('.govuk-summary-list__value').text).to include(international_address)
   end
 end

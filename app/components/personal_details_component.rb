@@ -63,12 +63,22 @@ private
   end
 
   def nationality_row
-    formatted_nationalities = [application_form.first_nationality, application_form.second_nationality].reject(&:blank?).to_sentence
-
     {
       key: 'Nationality',
       value: formatted_nationalities,
     }
+  end
+
+  def formatted_nationalities
+    [
+      @application_form.first_nationality,
+      @application_form.second_nationality,
+      @application_form.third_nationality,
+      @application_form.fourth_nationality,
+      @application_form.fifth_nationality,
+    ]
+    .reject(&:blank?)
+    .to_sentence
   end
 
   def date_of_birth_row
@@ -79,18 +89,29 @@ private
   end
 
   def address_row
-    full_address = [
-      application_form.address_line1,
-      application_form.address_line2,
-      application_form.address_line3,
-      application_form.address_line4,
-      application_form.postcode,
-    ].reject(&:blank?)
-
     {
       key: 'Address',
       value: full_address,
     }
+  end
+
+  def full_address
+    if @application_form.international?
+      [
+        @application_form.international_address,
+        COUNTRIES[@application_form.country],
+      ]
+        .reject(&:blank?)
+    else
+      [
+        @application_form.address_line1,
+        @application_form.address_line2,
+        @application_form.address_line3,
+        @application_form.address_line4,
+        @application_form.postcode,
+      ]
+        .reject(&:blank?)
+    end
   end
 
   def support_reference_row
