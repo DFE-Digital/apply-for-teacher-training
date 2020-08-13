@@ -16,13 +16,13 @@ private
   def show_apply_1_reopen_banner?
     apply_1? &&
       EndOfCycleTimetable.show_apply_1_reopen_banner?
-      # FeatureFlag.active?(:deadline_notices)
+    # FeatureFlag.active?(:deadline_notices)
   end
 
   def show_apply_2_reopen_banner?
     apply_2? &&
       EndOfCycleTimetable.show_apply_2_reopen_banner?
-      # FeatureFlag.active?(:deadline_notices)
+    # FeatureFlag.active?(:deadline_notices)
   end
 
   def apply_1?
