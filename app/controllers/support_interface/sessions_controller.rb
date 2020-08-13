@@ -1,6 +1,6 @@
 module SupportInterface
   class SessionsController < SupportInterfaceController
-    skip_before_action :authenticate_support_user!
+    skip_before_action :authenticate_support_user!, except: :destroy
 
     def new
       session['post_dfe_sign_in_path'] ||= support_interface_path
@@ -13,7 +13,7 @@ module SupportInterface
       post_signout_redirect = if dfe_sign_in_user.needs_dsi_signout?
                                 dfe_sign_in_user.support_interface_dsi_logout_url
                               else
-                                provider_interface_path
+                                support_interface_path
                               end
 
       DfESignInUser.end_session!(session)

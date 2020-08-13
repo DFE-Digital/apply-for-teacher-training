@@ -67,14 +67,12 @@ private
   # a URL the user can visit to log them out of DSI and be redirected to our
   # after-sign-out path where we'll delete their local session
   def dsi_logout_url(interface:)
-    logout_url = URI.parse("#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end").tap do |url|
-      url.query = {
-        post_logout_redirect_uri: auth_dfe_sign_out_url,
-        id_token_hint: @id_token,
-        state: interface,
-      }.to_query
-    end
+    query = {
+      post_logout_redirect_uri: auth_dfe_sign_out_url,
+      id_token_hint: @id_token,
+      state: interface,
+    }
 
-    logout_url.to_s
+    "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
   end
 end
