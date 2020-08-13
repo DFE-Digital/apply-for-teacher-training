@@ -265,6 +265,28 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
     expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
   end
 
+  describe 'changing offers' do
+    it 'can change the offer conditions' do
+      choice = create(:application_choice, :with_offer,
+                      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+                      offer: { 'conditions' => ['DBS check'] })
+
+      request_body = {
+        "data": {
+          "conditions": [
+            'Change your sheets',
+            'Wash your clothes',
+          ],
+        },
+      }
+
+      expect {
+        post_api_request "/api/v1/applications/#{choice.id}/offer", params: request_body
+      }.to(change { choice.reload.offer })
+    end
+    end
+  end
+
   def course_option_to_course_payload(course_option)
     {
       'recruitment_cycle_year' => course_option.course.recruitment_cycle_year,

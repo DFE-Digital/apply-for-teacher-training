@@ -65,12 +65,13 @@ RSpec.describe ChangeOffer do
       expect(change.errors[:course_option]).to include('could not be found')
     end
 
-    it 'checks the course option is different from the current option' do
-      change = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option)
+    it 'checks the course option and conditions are different from the current option' do
+      application_choice.update(offer: { 'conditions' => ['DBS check'] })
+      change = ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: application_choice.offered_option, offer_conditions: ['DBS check'])
 
       expect(change).not_to be_valid
 
-      expect(change.errors[:course_option]).to include('is the same as the course currently offered')
+      expect(change.errors[:base]).to include('The new offer is identical to the current offer')
     end
 
     it 'checks the course is open on apply' do

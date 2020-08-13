@@ -4,7 +4,7 @@ class ChangeOffer
   attr_reader :application_choice, :course_option
 
   validates :course_option, presence: true
-  validate :validate_course_option_is_not_the_same_as_existing_course_option
+  validate :validate_offer_is_not_identical
   validate :validate_course_option_is_open_on_apply
 
   def initialize(actor:, application_choice:, course_option:, offer_conditions: nil)
@@ -36,15 +36,16 @@ class ChangeOffer
 
 private
 
-  def validate_course_option_is_not_the_same_as_existing_course_option
-    if course_option.present? && course_option == application_choice.offered_option
-      errors.add(:course_option, :no_change)
-    end
-  end
-
   def validate_course_option_is_open_on_apply
     if course_option.present? && !course_option.course.open_on_apply
       errors.add(:course_option, :not_open_on_apply)
+    end
+  end
+
+  def validate_offer_is_not_identical
+    if course_option.present? && course_option == application_choice.offered_option \
+      && application_choice.offer['conditions'] == @offer_conditions
+      errors.add(:base, 'The new offer is identical to the current offer')
     end
   end
 end
