@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
   describe 'validations' do
+    before { FeatureFlag.deactivate(:international_gcses) }
+
     it { is_expected.to validate_presence_of(:grade).on(:grade) }
     it { is_expected.to validate_presence_of(:award_year).on(:award_year) }
     it { is_expected.to validate_length_of(:grade).is_at_most(6).on(:grade) }

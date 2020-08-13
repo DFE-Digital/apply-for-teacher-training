@@ -4,6 +4,8 @@ RSpec.feature 'Candidate entering GCSE details' do
   include CandidateHelper
 
   scenario 'Candidate submits their maths GCSE details and then update them' do
+    FeatureFlag.deactivate(:international_gcses)
+
     given_i_am_signed_in
 
     when_i_visit_the_candidate_application_page

@@ -4,6 +4,8 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   include CandidateHelper
 
   scenario 'Candidate updates and deletes qualificaitons in a completed academic and other relevant qualifications section' do
+    FeatureFlag.deactivate(:international_other_qualifications)
+
     given_i_am_signed_in
     and_i_have_completed_the_other_qualifications_section
 

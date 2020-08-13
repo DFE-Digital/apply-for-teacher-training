@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreeTypeForm do
+  before { FeatureFlag.deactivate(:international_degrees) }
+
   describe '#save' do
     context 'when the description matches an entry in the HESA data' do
       let(:form) do

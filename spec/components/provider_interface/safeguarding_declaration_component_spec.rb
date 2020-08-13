@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
+  before { FeatureFlag.deactivate(:enforce_provider_to_provider_permissions) }
+
   let(:training_provider) { create(:provider) }
   let(:ratifying_provider) { create(:provider) }
   let(:course) { create(:course, provider: training_provider, accredited_provider: ratifying_provider) }

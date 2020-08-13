@@ -5,6 +5,8 @@ RSpec.feature 'Confirm conditions met' do
   include DfESignInHelpers
 
   scenario 'Provider user confirms offer conditions have been met by the candidate' do
+    FeatureFlag.deactivate(:providers_can_manage_users_and_permissions)
+
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface

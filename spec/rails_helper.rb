@@ -75,7 +75,7 @@ RSpec.configure do |config|
     puts "ℹ️  Running tests with all features #{ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on' ? 'ON' : 'OFF'} by default"
   end
 
-  config.before(:each) do
+  config.before do
     if ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on'
       FeatureFlag::TEMPORARY_FEATURE_FLAGS.each do |name, _|
         # Avoid 2 queries by creating the flag enabled, instead of doing a find + update.

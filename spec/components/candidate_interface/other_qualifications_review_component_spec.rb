@@ -25,6 +25,8 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
 
   context 'when other qualifications are editable' do
     before do
+      FeatureFlag.deactivate(:international_other_qualifications)
+
       allow(application_form).to receive(:application_qualifications).and_return(
         ActiveRecordRelationStub.new(ApplicationQualification, [qualification1, qualification2], scopes: [:other]),
       )

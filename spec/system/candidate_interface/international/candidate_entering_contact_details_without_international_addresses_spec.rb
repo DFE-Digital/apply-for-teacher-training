@@ -6,6 +6,8 @@ RSpec.feature 'Entering their contact details' do
   include CandidateHelper
 
   scenario 'Candidate submits their contact details' do
+    FeatureFlag.deactivate(:international_addresses)
+
     given_i_am_signed_in
     and_i_visit_the_site
 
