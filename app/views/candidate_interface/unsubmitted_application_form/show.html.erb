@@ -18,7 +18,15 @@
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-hint govuk-!-margin-bottom-8 govuk-!-margin-top-2"><%= @application_form_presenter.updated_at %></p>
 
-    <% if @application_form.candidate_has_previously_applied? %>
+    <% if !CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(application_form: @application_form)%>
+      <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
+        <%= t('page_titles.course_choices') %>
+      </h2>
+
+      <p class="govuk-body">
+        You can apply for courses from 13 October.
+      </p>
+    <% elsif @application_form.candidate_has_previously_applied? %>
       <% if @application_form.previous_application_form.application_choices.rejected.any?  %>
         <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form.previous_application_form)) %>
       <% end %>
