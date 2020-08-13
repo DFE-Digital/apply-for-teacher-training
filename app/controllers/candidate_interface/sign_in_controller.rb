@@ -29,7 +29,7 @@ module CandidateInterface
         add_identity_to_log candidate.id
         candidate.update!(last_signed_in_at: Time.zone.now)
 
-        redirect_to candidate_interface_interstitial_path(providerCode: params[:providerCode], courseCode: params[:courseCode])
+        redirect_to candidate_interface_interstitial_path
       else
         encrypted_candidate_id = Encryptor.encrypt(candidate.id)
         redirect_to candidate_interface_expired_sign_in_path(u: encrypted_candidate_id)
