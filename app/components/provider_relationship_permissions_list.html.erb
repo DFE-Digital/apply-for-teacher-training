@@ -18,6 +18,16 @@
   </ul>
 <% end %>
 
+<% providers_that_can_view_diversity_information = providers_that_can('view_diversity_information') %>
+<% if providers_that_can_view_diversity_information.any? %>
+  <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can view diversity information:</p>
+  <ul class="govuk-list view-diversity-information">
+    <% providers_that_can_view_diversity_information.each do |provider| %>
+      <li><%= render CheckIcon.new %> <%= provider.name %> </li>
+    <% end %>
+  </ul>
+<% end %>
+
 <% if show_view_applications_only_section? %>
   <% providers_that_can_only_view_applications = providers_that_can('view_applications_only') %>
   <p class="govuk-!-margin-bottom-5 govuk-body">

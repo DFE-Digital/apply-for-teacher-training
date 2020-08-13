@@ -2,7 +2,7 @@ module ProviderInterface
   class ProviderRelationshipPermissionsForm
     include ActiveModel::Model
 
-    attr_accessor :permissions_model, :make_decisions, :view_safeguarding_information
+    attr_accessor :permissions_model, :make_decisions, :view_safeguarding_information, :view_diversity_information
     delegate :errors, :training_provider, :ratifying_provider, to: :permissions_model
 
     def initialize(attrs)
@@ -10,6 +10,7 @@ module ProviderInterface
 
       @make_decisions ||= providers_currently_having_permission_to('make_decisions')
       @view_safeguarding_information ||= providers_currently_having_permission_to('view_safeguarding_information')
+      @view_diversity_information ||= providers_currently_having_permission_to('view_diversity_information')
     end
 
     def save!
@@ -27,6 +28,7 @@ module ProviderInterface
         hash.merge({
           "#{role}_provider_can_make_decisions" => @make_decisions.include?(role),
           "#{role}_provider_can_view_safeguarding_information" => @view_safeguarding_information.include?(role),
+          "#{role}_provider_can_view_diversity_information" => @view_diversity_information.include?(role),
         })
       end
     end

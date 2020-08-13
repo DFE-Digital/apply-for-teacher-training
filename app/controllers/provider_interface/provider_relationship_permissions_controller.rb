@@ -25,7 +25,7 @@ module ProviderInterface
       return {} unless params.key?(:provider_interface_provider_relationship_permissions_form)
 
       params.require(:provider_interface_provider_relationship_permissions_form)
-            .permit(make_decisions: [], view_safeguarding_information: []).to_h
+            .permit(make_decisions: [], view_safeguarding_information: [], view_diversity_information: []).to_h
     end
 
     def render_404_unless_permissions_found

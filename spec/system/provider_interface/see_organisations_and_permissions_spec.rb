@@ -53,6 +53,8 @@ RSpec.feature 'See organisation permissions' do
       ratifying_provider_can_make_decisions: true,
       ratifying_provider_can_view_safeguarding_information: true,
       training_provider_can_view_safeguarding_information: false,
+      ratifying_provider_can_view_diversity_information: true,
+      training_provider_can_view_diversity_information: false,
       setup_at: Time.zone.now,
     )
   end
@@ -66,6 +68,8 @@ RSpec.feature 'See organisation permissions' do
       ratifying_provider_can_make_decisions: true,
       ratifying_provider_can_view_safeguarding_information: true,
       training_provider_can_view_safeguarding_information: false,
+      ratifying_provider_can_view_diversity_information: true,
+      training_provider_can_view_diversity_information: false,
       setup_at: Time.zone.now,
     )
   end
@@ -80,6 +84,8 @@ RSpec.feature 'See organisation permissions' do
       ratifying_provider_can_make_decisions: true,
       ratifying_provider_can_view_safeguarding_information: true,
       training_provider_can_view_safeguarding_information: false,
+      ratifying_provider_can_view_diversity_information: true,
+      training_provider_can_view_diversity_information: false,
       setup_at: Time.zone.now,
     )
   end
