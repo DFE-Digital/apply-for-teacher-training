@@ -20,6 +20,7 @@ module ProviderInterface
         hash.merge({
           "#{role}_provider_can_make_decisions" => permissions.fetch('make_decisions', []).include?(role),
           "#{role}_provider_can_view_safeguarding_information" => permissions.fetch('view_safeguarding_information', []).include?(role),
+          "#{role}_provider_can_view_diversity_information" => permissions.fetch('view_diversity_information', []).include?(role),
         })
       end
     end

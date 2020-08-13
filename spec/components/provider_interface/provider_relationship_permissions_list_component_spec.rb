@@ -17,7 +17,7 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsListComponent d
   before do
     allow(wizard).to receive(:permissions_for_relationship)
       .with(permissions_model.id)
-      .and_return('make_decisions' => %w[training ratifying], 'view_safeguarding_information' => %w[training])
+      .and_return('make_decisions' => %w[training ratifying], 'view_safeguarding_information' => %w[training], 'view_diversity_information' => %w[training])
   end
 
   it 'renders provider relationship permissions in a summary list' do
@@ -32,5 +32,10 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsListComponent d
     expect(result.css('.govuk-summary-list__value')[1].text).to include(training_provider.name)
     expect(result.css('.govuk-summary-list__value')[1].text).not_to include(ratifying_provider.name)
     expect(result.css('.govuk-summary-list__actions')[1].text).to include("Change which organisations can view safeguarding information for courses run by #{training_provider.name} and ratified by #{ratifying_provider.name}")
+
+    expect(result.css('.govuk-summary-list__key')[2].text).to include('Which organisations can view diversity information?')
+    expect(result.css('.govuk-summary-list__value')[2].text).to include(training_provider.name)
+    expect(result.css('.govuk-summary-list__value')[2].text).not_to include(ratifying_provider.name)
+    expect(result.css('.govuk-summary-list__actions')[2].text).to include("Change which organisations can view diversity information for courses run by #{training_provider.name} and ratified by #{ratifying_provider.name}")
   end
 end

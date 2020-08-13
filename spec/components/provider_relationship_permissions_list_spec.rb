@@ -6,16 +6,15 @@ RSpec.describe ProviderRelationshipPermissionsList do
   let(:provider_relationship_permissions) do
     create(:provider_relationship_permissions,
            training_provider: training_provider,
-           ratifying_provider: ratifying_provider,
-           training_provider_can_make_decisions: true,
-           training_provider_can_view_safeguarding_information: true)
+           ratifying_provider: ratifying_provider)
   end
 
   it 'does not render view only organisations if both providers have at least one permission' do
     provider_relationship_permissions =
       create(:provider_relationship_permissions,
              training_provider_can_make_decisions: true,
-             ratifying_provider_can_view_safeguarding_information: true)
+             ratifying_provider_can_view_safeguarding_information: true,
+             ratifying_provider_can_view_diversity_information: true)
 
     result = render_inline(described_class.new(provider_relationship_permissions))
     expect(result.css('.govuk-body').text).not_to include('The following organisation(s) can only view applications')
@@ -40,7 +39,7 @@ RSpec.describe ProviderRelationshipPermissionsList do
   it 'renders organisations who can only view applications' do
     result = render_inline(described_class.new(provider_relationship_permissions))
 
-    expect(result.css('.govuk-body')[2].text).to include("#{ratifying_provider.name} can only view applications.")
+    expect(result.css('.govuk-body')[3].text).to include("#{ratifying_provider.name} can only view applications.")
   end
 
   context 'when the permissions for a provider relationship have not been set up' do
@@ -51,6 +50,7 @@ RSpec.describe ProviderRelationshipPermissionsList do
         ratifying_provider: ratifying_provider,
         training_provider_can_make_decisions: false,
         training_provider_can_view_safeguarding_information: false,
+        training_provider_can_view_diversity_information: false,
         setup_at: nil,
       )
     end

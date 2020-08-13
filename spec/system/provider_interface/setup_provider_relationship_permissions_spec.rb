@@ -59,6 +59,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
       training_provider: @training_provider,
       training_provider_can_make_decisions: false,
       training_provider_can_view_safeguarding_information: false,
+      training_provider_can_view_diversity_information: false,
       setup_at: nil,
     )
 
@@ -68,6 +69,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
       training_provider: @another_training_provider,
       training_provider_can_make_decisions: false,
       training_provider_can_view_safeguarding_information: false,
+      training_provider_can_view_diversity_information: false,
       setup_at: nil,
     )
   end
@@ -94,6 +96,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
     expect(page).to have_content('Access to applications')
     expect(page).to have_content('Permission to make decisions')
     expect(page).to have_content('Permission to view safeguarding information')
+    expect(page).to have_content('Permission to view diversity information')
   end
 
   def then_i_can_see_the_permissions_setup_page
@@ -103,6 +106,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
   def when_i_choose_permissions_for_the_first_provider_relationship
     within(find('.make-decisions')) { check @training_provider.name }
     within(find('.view-safeguarding-information')) { check @training_provider.name }
+    within(find('.view-diversity-information')) { check @training_provider.name }
 
     click_on 'Continue'
   end
@@ -112,6 +116,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
 
     within(find('.make-decisions')) { check @another_ratifying_provider.name }
     within(find('.view-safeguarding-information')) { check @another_ratifying_provider.name }
+    within(find('.view-diversity-information')) { check @another_ratifying_provider.name }
 
     click_on 'Continue'
   end
@@ -125,6 +130,10 @@ RSpec.feature 'Setting up provider relationship permissions' do
         "Change which organisations can make decisions for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
         'Which organisations can view safeguarding information?',
         @training_provider.name,
+        "Change which organisations can view safeguarding information for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
+        'Which organisations can view diversity information?',
+        @training_provider.name,
+        "Change which organisations can view diversity information for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
       ].join("\n"),
     )
 
@@ -136,6 +145,10 @@ RSpec.feature 'Setting up provider relationship permissions' do
         "Change which organisations can make decisions for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
         'Which organisations can view safeguarding information?',
         @another_ratifying_provider.name,
+        "Change which organisations can view safeguarding information for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
+        'Which organisations can view diversity information?',
+        @another_ratifying_provider.name,
+        "Change which organisations can view diversity information for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
       ].join("\n"),
     )
   end
@@ -149,6 +162,10 @@ RSpec.feature 'Setting up provider relationship permissions' do
         "Change which organisations can make decisions for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
         'Which organisations can view safeguarding information?',
         @training_provider.name,
+        "Change which organisations can view safeguarding information for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
+        'Which organisations can view diversity information?',
+        @training_provider.name,
+        "Change which organisations can view diversity information for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
       ].join("\n"),
     )
 
@@ -160,6 +177,10 @@ RSpec.feature 'Setting up provider relationship permissions' do
         "Change which organisations can make decisions for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
         'Which organisations can view safeguarding information?',
         @another_ratifying_provider.name,
+        "Change which organisations can view safeguarding information for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
+        'Which organisations can view diversity information?',
+        @another_ratifying_provider.name,
+        "Change which organisations can view diversity information for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
       ].join("\n"),
     )
 

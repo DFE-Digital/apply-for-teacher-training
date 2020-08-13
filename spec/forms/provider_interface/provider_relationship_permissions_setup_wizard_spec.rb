@@ -126,7 +126,7 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
         wizard = described_class.new(
           state_store_for({}),
           'current_provider_relationship_id' => '123',
-          'provider_relationship_permissions' => { '123' => { 'make_decisions' => [''], 'view_safeguarding_information' => %w[training] } },
+          'provider_relationship_permissions' => { '123' => { 'make_decisions' => [''], 'view_safeguarding_information' => %w[training], 'view_diversity_information' => %w[training] } },
         )
 
         expect(wizard.valid?(:permissions)).to be false
