@@ -26,7 +26,6 @@ class GenerateTestApplications
     create states: [:accepted_no_conditions]
     create states: [:recruited]
     create states: [:conditions_not_met]
-    create states: [:enrolled]
     create states: [:withdrawn]
     create states: [:awaiting_provider_decision], apply_again: true
   end

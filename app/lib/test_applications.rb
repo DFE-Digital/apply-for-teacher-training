@@ -181,11 +181,6 @@ class TestApplications
       make_offer(choice)
       accept_offer(choice)
       confirm_offer_conditions(choice)
-    when :enrolled
-      make_offer(choice)
-      accept_offer(choice)
-      confirm_offer_conditions(choice)
-      confirm_enrollment(choice)
     when :withdrawn
       withdraw_application(choice)
     end
@@ -251,14 +246,6 @@ class TestApplications
       fast_forward(1..3)
       ConfirmOfferConditions.new(actor: actor, application_choice: choice).save
       choice.update_columns(recruited_at: time)
-    end
-  end
-
-  def confirm_enrollment(choice)
-    as_provider_user(choice) do
-      fast_forward(1..3)
-      ConfirmEnrolment.new(actor: actor, application_choice: choice).save
-      choice.update_columns(enrolled_at: time)
     end
   end
 
