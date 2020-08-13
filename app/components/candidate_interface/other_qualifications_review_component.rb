@@ -61,11 +61,19 @@ module CandidateInterface
 
     def subject_row(qualification)
       {
-        key: t('application_form.other_qualification.subject.label'),
-        value: qualification.subject,
+        key: subject_set_key(qualification),
+        value: set_rows_value(qualification.subject),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.subject.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
       }
+    end
+
+    def subject_set_key(qualification)
+      if qualification.qualification_type == 'non_uk'
+        t('application_form.other_qualification.subject.optional_label')
+      else
+        t('application_form.other_qualification.subject.label')
+      end
     end
 
     def institution_row(qualification)
@@ -81,7 +89,7 @@ module CandidateInterface
       if non_uk_qualification?(qualification) && qualification.institution_country.present?
         "#{qualification.institution_name}, #{COUNTRIES[qualification.institution_country]}"
       else
-        qualification.institution_name
+        set_rows_value(qualification.institution_name)
       end
     end
 
@@ -92,7 +100,7 @@ module CandidateInterface
     def award_year_row(qualification)
       {
         key: t('application_form.other_qualification.award_year.review_label'),
-        value: qualification.award_year,
+        value: set_rows_value(qualification.award_year),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.award_year.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
       }
@@ -100,11 +108,23 @@ module CandidateInterface
 
     def grade_row(qualification)
       {
-        key: t('application_form.other_qualification.grade.label'),
-        value: qualification.grade,
+        key: grade_set_key(qualification),
+        value: set_rows_value(qualification.grade),
         action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.grade.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
       }
+    end
+
+    def grade_set_key(qualification)
+      if qualification.qualification_type == 'non_uk'
+        t('application_form.other_qualification.grade.optional_label')
+      else
+        t('application_form.other_qualification.grade.label')
+      end
+    end
+
+    def set_rows_value(value)
+      value || 'Not entered'
     end
 
     def edit_other_qualification_details_path(qualification)

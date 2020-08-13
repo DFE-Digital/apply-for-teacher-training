@@ -109,6 +109,13 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
         )
       end
 
+      it 'renders adds optional to the keys for subject and grade rows' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.subject.optional_label'))
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.grade.optional_label'))
+      end
+
       it 'renders the correct values for institution_name' do
         result = render_inline(described_class.new(application_form: application_form))
 
@@ -117,6 +124,30 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
         expect(result.css('.govuk-summary-list__value').text).to include('Doggo Sounds College, United States')
         expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.other_qualification.institution.change_action'))
         "Change #{t('application_form.other_qualification.institution_name.change_action')} for Woof, Making Doggo Sounds, Doggo Sounds College, United States 2012"
+      end
+    end
+
+    context 'when a candidate has not provided the subject, grade, year_awarded and institution' do
+      let(:qualification1) do
+        build_stubbed(
+          :application_qualification,
+          level: 'other',
+          qualification_type: 'GCSE',
+          subject: nil,
+          institution_name: nil,
+          grade: nil,
+          award_year: nil,
+        )
+      end
+
+      it 'renders `Not entered` in the rows value' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__value')[0].text).to include('GCSE')
+        expect(result.css('.govuk-summary-list__value')[1].text).to include('Not entered')
+        expect(result.css('.govuk-summary-list__value')[2].text).to include('Not entered')
+        expect(result.css('.govuk-summary-list__value')[3].text).to include('Not entered')
+        expect(result.css('.govuk-summary-list__value')[4].text).to include('Not entered')
       end
     end
   end
