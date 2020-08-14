@@ -96,7 +96,7 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def when_i_fill_in_my_address
-    fill_in t('application_form.contact_details.address_line1.label'), with: '42 Much Wow Street'
+    find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
     fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
     fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
   end
@@ -138,7 +138,7 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def when_i_fill_in_a_different_address
-    fill_in t('application_form.contact_details.address_line1.label'), with: '99'
+    find(:css, "[autocomplete='address-line1']").fill_in with: '99'
     fill_in t('application_form.contact_details.address_line2.label'), with: 'Problems Street'
   end
 

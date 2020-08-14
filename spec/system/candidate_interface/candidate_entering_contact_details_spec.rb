@@ -19,6 +19,7 @@ RSpec.feature 'Entering their contact details' do
     and_i_select_live_in_uk
     and_i_incorrectly_fill_in_my_address
     and_i_submit_my_address
+    then_i_should_see_validation_errors_for_my_address
 
     when_i_fill_in_my_address
     and_i_submit_my_address
@@ -105,7 +106,7 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def when_i_fill_in_my_address
-    fill_in t('application_form.contact_details.address_line1.label'), with: '42 Much Wow Street'
+    find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
     fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
     fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
   end
