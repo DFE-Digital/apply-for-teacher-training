@@ -6,13 +6,13 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 
 ## Live environments
 
-| Name       | URL                                                                              | Description                                                             | Azure ID  |
-| ---------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------- |
-| Production | [www](https://www.apply-for-teacher-training.service.gov.uk) | Public site                                                             | `s106p01` |
-| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk)   | For internal use by DfE to test deploys                                 | `s106t01` |
-| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk)   | Demo environment for software vendors who integrate with our API        | `s106t02` |
-| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)             | For internal use by DfE for testing. Automatically deployed from master | `s106d01` |
-| DevOps         | [s106d02](https://dev.apply-for-teacher-training.service.gov.uk)             | For testing infrastructure changes | `s106d02` |
+| Name       | URL                                                                  | Description                                                             | Azure ID  |
+| ---------- | -------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------- |
+| Production | [www](https://www.apply-for-teacher-training.service.gov.uk)         | Public site                                                             | `s106p01` |
+| Staging    | [staging](https://staging.apply-for-teacher-training.service.gov.uk) | For internal use by DfE to test deploys                                 | `s106t01` |
+| Sandbox    | [sandbox](https://sandbox.apply-for-teacher-training.service.gov.uk) | Demo environment for software vendors who integrate with our API        | `s106t02` |
+| QA         | [qa](https://qa.apply-for-teacher-training.service.gov.uk)           | For internal use by DfE for testing. Automatically deployed from master | `s106d01` |
+| DevOps     | [s106d02](https://dev.apply-for-teacher-training.service.gov.uk)     | For testing infrastructure changes                                      | `s106d02` |
 
 ## Table of Contents
 
@@ -76,7 +76,7 @@ Regenerate this diagram with `bundle exec rake generate_state_diagram`.
 
 ### Production dependencies
 
-- Ruby 2.6.5
+- Ruby 2.7.1
 - NodeJS 8.11.x
 - Yarn 1.12.x
 - PostgreSQL 9.6
@@ -113,7 +113,6 @@ Once Postgresql access is granted for the development db user specified in `$DB_
 Then run the application locally:
 
 `bundle exec rails s` to launch the app on http://localhost:3000
-
 
 ### Running the application in Docker
 
