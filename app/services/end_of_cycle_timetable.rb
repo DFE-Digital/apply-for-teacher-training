@@ -27,12 +27,12 @@ class EndOfCycleTimetable
 
   def self.show_apply_1_reopen_banner?
     Time.zone.now > date(:apply_1_deadline).end_of_day &&
-      Time.zone.now < date(:reopen_date).beginning_of_day
+      Time.zone.now < date(:next_cycles_courses_open).beginning_of_day
   end
 
   def self.show_apply_2_reopen_banner?
     Time.zone.now > date(:apply_2_deadline).end_of_day &&
-      Time.zone.now < date(:reopen_date).beginning_of_day
+      Time.zone.now < date(:next_cycles_courses_open).beginning_of_day
   end
 
   def self.date(name)
