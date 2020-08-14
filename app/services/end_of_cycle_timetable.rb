@@ -6,11 +6,11 @@ class EndOfCycleTimetable
   }.freeze
 
   def self.show_apply_1_deadline_banner?
-    Time.zone.now < date(:apply_1_deadline)
+    Time.zone.now < date(:apply_1_deadline).end_of_day
   end
 
   def self.show_apply_2_deadline_banner?
-    Time.zone.now < date(:apply_2_deadline)
+    Time.zone.now < date(:apply_2_deadline).end_of_day
   end
 
   def self.apply_1_deadline
