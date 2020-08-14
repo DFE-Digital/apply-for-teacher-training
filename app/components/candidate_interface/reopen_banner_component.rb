@@ -15,12 +15,12 @@ private
 
   def show_apply_1_reopen_banner?
     apply_1? &&
-      EndOfCycleTimetable.show_apply_1_reopen_banner?
+      EndOfCycleTimetable.between_cycles_apply_1?
   end
 
   def show_apply_2_reopen_banner?
     apply_2? &&
-      EndOfCycleTimetable.show_apply_2_reopen_banner?
+      EndOfCycleTimetable.between_cycles_apply_2?
   end
 
   def apply_1?

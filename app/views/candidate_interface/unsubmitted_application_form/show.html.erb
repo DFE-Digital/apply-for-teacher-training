@@ -222,8 +222,13 @@
       </li>
     </ul>
 
-    <h2 class="govuk-heading-m govuk-!-font-size-27">Check and submit</h2>
-    <%= govuk_button_link_to 'Check and submit your application', candidate_interface_application_review_path %>
+    <% if EndOfCycleTimetable.between_cycles?(@application_form.phase) %>
+      <h2 class="govuk-heading-m govuk-!-font-size-27">Review</h2>
+      <%= govuk_button_link_to 'Review your application', candidate_interface_application_review_path %>
+    <% else %>
+      <h2 class="govuk-heading-m govuk-!-font-size-27">Check and submit</h2>
+      <%= govuk_button_link_to 'Check and submit your application', candidate_interface_application_review_path %>
+    <% end %>
   </div>
 
   <div class="govuk-grid-column-one-third">
