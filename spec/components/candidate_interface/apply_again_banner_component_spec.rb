@@ -58,4 +58,20 @@ RSpec.describe CandidateInterface::ApplyAgainBannerComponent do
       expect(result.text).not_to include 'The deadline when applying again is'
     end
   end
+
+  describe 'visibility of banner between cycles' do
+    it 'is rendered' do
+      Timecop.freeze(Time.zone.local(2020, 9, 17, 12, 0, 0)) do
+        result = render_inline(described_class.new(application_form: application_form))
+        expect(result.text).to include('Do you want to apply again?')
+      end
+    end
+
+    it 'is not rendered' do
+      Timecop.freeze(Time.zone.local(2020, 9, 25, 12, 0, 0)) do
+        result = render_inline(described_class.new(application_form: application_form))
+        expect(result.text).to eq('')
+      end
+    end
+  end
 end
