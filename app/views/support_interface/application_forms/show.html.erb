@@ -1,7 +1,7 @@
 <% content_for :browser_title, title_with_success_prefix("Application ##{@application_form.id}", flash[:success].present?) %>
 <% content_for :title do %>
   <span class="govuk-caption-xl">Application #<%= @application_form.id %></span>
-  <%= @application_form.candidate.email_address %>
+  <%= break_email_address(@application_form.candidate.email_address) %>
 <% end %>
 
 <% content_for :before_content do %>
@@ -11,7 +11,7 @@
         <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <%= link_to @application_form.candidate.email_address, support_interface_candidate_path(@application_form.candidate), class: 'govuk-breadcrumbs__link' %>
+        <%= link_to break_email_address(@application_form.candidate.email_address), support_interface_candidate_path(@application_form.candidate), class: 'govuk-breadcrumbs__link' %>
       </li>
       <li class="govuk-breadcrumbs__list-item" aria-current="page">
         <span class="govuk-visually-hidden">Support reference</span>
