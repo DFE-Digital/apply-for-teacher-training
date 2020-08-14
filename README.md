@@ -76,7 +76,7 @@ Regenerate this diagram with `bundle exec rake generate_state_diagram`.
 
 ### Production dependencies
 
-- Ruby 2.7.1
+- [Ruby](.ruby-version)
 - NodeJS 8.11.x
 - Yarn 1.12.x
 - PostgreSQL 9.6
