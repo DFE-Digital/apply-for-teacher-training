@@ -32,7 +32,9 @@ RSpec.feature 'Entering their work history' do
     then_i_should_see_my_completed_job
 
     when_i_click_on_change
-    and_i_change_the_job_title_to_be_blank
+    then_i_should_not_be_asked_if_i_want_to_add_another_job
+
+    when_i_change_the_job_title_to_be_blank
     then_i_should_see_validation_errors
 
     when_i_change_the_job_title
@@ -160,7 +162,11 @@ RSpec.feature 'Entering their work history' do
     first('.govuk-summary-list__actions').click_link 'Change'
   end
 
-  def and_i_change_the_job_title_to_be_blank
+  def then_i_should_not_be_asked_if_i_want_to_add_another_job
+    expect(page).not_to have_content 'Do you want to add another job?'
+  end
+
+  def when_i_change_the_job_title_to_be_blank
     fill_in t('application_form.work_history.role.label'), with: ''
     click_button t('application_form.work_history.complete_form_button')
   end
