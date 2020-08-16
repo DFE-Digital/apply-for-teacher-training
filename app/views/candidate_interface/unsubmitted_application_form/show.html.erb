@@ -224,6 +224,9 @@
 
     <% if EndOfCycleTimetable.between_cycles?(@application_form.phase) %>
       <h2 class="govuk-heading-m govuk-!-font-size-27">Review</h2>
+      <p class="govuk-body">
+        Applications for courses starting in 2021 open from 13 October. You can continue to make changes to your application until then.
+      </p>
       <%= govuk_button_link_to 'Review your application', candidate_interface_application_review_path %>
     <% else %>
       <h2 class="govuk-heading-m govuk-!-font-size-27">Check and submit</h2>
