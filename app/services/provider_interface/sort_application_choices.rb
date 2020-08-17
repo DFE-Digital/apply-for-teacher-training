@@ -12,7 +12,9 @@ module ProviderInterface
               WHEN #{awaiting_provider_decision} THEN 1
               WHEN #{offered} THEN 2
               ELSE 999
-            END AS task_view_group
+            END AS task_view_group,
+            #{time_left_to_respond} AS time_left_to_respond
+
             FROM application_choices
         ) AS application_choices
       WITH_TASK_VIEW_GROUP
@@ -35,10 +37,22 @@ module ProviderInterface
       OFFERED
     end
 
+    def self.time_left_to_respond
+      <<~TIME_LEFT_TO_RESPOND.squish
+        CASE
+          WHEN (DATE(reject_by_default_at) > '#{Time.zone.now.iso8601}')
+          THEN (DATE(reject_by_default_at) - '#{Time.zone.now.iso8601}')
+          ELSE NULL
+        END
+      TIME_LEFT_TO_RESPOND
+    end
+
     def self.sort_order
-      # FIXME: do we need some sort of rank within each task_view_group?
       <<~ORDER_BY.squish
-        task_view_group, status, application_choices.updated_at
+        task_view_group,
+        status,
+        time_left_to_respond,
+        application_choices.updated_at
       ORDER_BY
     end
   end
