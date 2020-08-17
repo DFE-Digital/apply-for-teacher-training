@@ -10,15 +10,6 @@ RSpec.feature 'Candidate deletes their work history' do
     and_i_click_on_work_history
     and_i_choose_more_than_5_years
     and_i_fill_in_the_job_form
-    and_i_click_on_delete_entry
-    and_i_click_on_confirm
-
-    when_i_mark_this_section_as_completed
-    and_i_click_on_continue
-    then_i_should_be_told_i_need_to_give_additional_information
-
-    when_i_click_on_add_job
-    and_i_fill_in_the_job_form
     and_i_mark_this_section_as_completed
     and_i_click_on_continue
     then_the_work_history_section_should_be_marked_as_complete
