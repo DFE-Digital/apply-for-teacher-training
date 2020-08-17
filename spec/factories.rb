@@ -217,7 +217,7 @@ FactoryBot.define do
 
   factory :application_qualification do
     application_form
-    level { %w[degree gcse other].sample }
+    level { %w[gcse other].sample }
     qualification_type { %w[BA Masters A-Level gcse].sample }
     subject { Faker::Educator.subject }
     grade { %w[first upper_second A B].sample }
@@ -239,8 +239,10 @@ FactoryBot.define do
 
     factory :degree_qualification do
       level { 'degree' }
-      qualification_type { %w[BA Masters].sample }
-      grade { %w[first upper_second lower_second third].sample }
+      qualification_type { Hesa::DegreeType.all.sample.name }
+      subject { Hesa::Subject.all.sample.name }
+      institution_name { Hesa::Institution.all.sample }
+      grade { Hesa::Grade.all.sample.description }
     end
 
     factory :other_qualification do
