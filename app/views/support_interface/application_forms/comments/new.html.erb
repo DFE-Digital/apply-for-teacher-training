@@ -13,7 +13,7 @@
         </legend>
 
         <div class="govuk-form-group <% if @error %>govuk-form-group--error<% end %>">
-          <%= f.govuk_text_area :comment, label: { text: 'Comment', size: 'm' }, hint_text: 'Comments will appear in the support interface application history but are hidden from other users' %>
+          <%= f.govuk_text_area :comment, label: { text: 'Comment', size: 'm' }, hint: { text: 'Comments will appear in the support interface application history but are hidden from other users' } %>
         </div>
         <%= f.govuk_submit 'Add comment' %>
       </fieldset>

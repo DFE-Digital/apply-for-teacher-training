@@ -12,12 +12,12 @@
           <h2 class='govuk-heading-m'>Current point in the recruitment cycle</h2>
         </legend>
 
-      <%= f.govuk_radio_button :cycle_schedule_name, 'real', label: { text: t('cycles.real.name') }, hint_text: t('cycles.real.description') %>
+      <%= f.govuk_radio_button :cycle_schedule_name, 'real', label: { text: t('cycles.real.name') }, hint: { text: t('cycles.real.description') } %>
 
       <%= f.govuk_radio_divider %>
 
       <% (EndOfCycleTimetable.schedules.keys.map(&:to_s) - %w[real]).each do |option| %>
-        <%= f.govuk_radio_button :cycle_schedule_name, option, label: { text: t("cycles.#{option}.name") }, hint_text: t("cycles.#{option}.description") %>
+        <%= f.govuk_radio_button :cycle_schedule_name, option, label: { text: t("cycles.#{option}.name") }, hint: { text: t("cycles.#{option}.description") } %>
       <% end %>
     <% end %>
 

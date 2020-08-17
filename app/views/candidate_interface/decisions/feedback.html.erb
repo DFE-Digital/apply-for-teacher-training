@@ -16,7 +16,7 @@
       <%= f.govuk_radio_buttons_fieldset :withdrawal_reason, legend: { text: CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION, tag: 'span' } do %>
 
         <%= f.govuk_radio_button :feedback, 'yes', label: { text: 'Yes, I’d like to share my reason with the Department for Education' } do %>
-          <%= f.govuk_text_area :explanation, label: { text: 'Please explain your reason for withdrawing from this course.' }, hint_text: 'Your provider will not see this feedback.' %>
+          <%= f.govuk_text_area :explanation, label: { text: 'Please explain your reason for withdrawing from this course.' }, hint: { text: 'Your provider will not see this feedback.' } %>
         <% end %>
 
         <%= f.govuk_radio_button :feedback, 'no', label: { text: 'I’d prefer not to say' } %>
@@ -25,7 +25,7 @@
 
       <%= f.govuk_radio_buttons_fieldset :can_be_contacted,
                                           legend: { text: CandidateInterface::WithdrawalQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION, tag: 'span' },
-                                          hint_text: 'We’d ideally like to speak on the phone for half an hour.' do %>
+                                          hint: { text: 'We’d ideally like to speak on the phone for half an hour.' } do %>
 
         <%= f.govuk_radio_button :consent_to_be_contacted, 'yes', label: { text: 'Yes, you can contact me' } do %>
           <%= f.govuk_text_area :contact_details, label: { text: 'Please let us know when you’re available and give a phone number.' } %>

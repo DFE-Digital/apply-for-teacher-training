@@ -19,7 +19,7 @@
         </legend>
 
         <% study_modes.each do |study_mode| %>
-          <%= f.govuk_radio_button :study_mode, study_mode, label: { text: study_mode.to_s.humanize }, hint_text: course.name_and_code %>
+          <%= f.govuk_radio_button :study_mode, study_mode, label: { text: study_mode.to_s.humanize }, hint: { text: course.name_and_code } %>
         <% end %>
       <% end %>
 

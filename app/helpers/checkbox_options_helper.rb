@@ -4,7 +4,7 @@ module CheckboxOptionsHelper
       OpenStruct.new(
         id: id,
         name: disability,
-        hint_text: I18n.t("equality_and_diversity.disabilities.#{id}.hint_text"),
+        hint: { text: I18n.t("equality_and_diversity.disabilities.#{id}.hint_text") },
       )
     end
   end

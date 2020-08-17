@@ -10,7 +10,7 @@
         <%= t('page_titles.add_another_degree') %>
       </h1>
 
-      <%= f.govuk_text_field :qualification_type, label: { text: t('application_form.degree.qualification_type.label'), size: 'm' }, hint_text: t('application_form.degree.qualification_type.hint_text.another') %>
+      <%= f.govuk_text_field :qualification_type, label: { text: t('application_form.degree.qualification_type.label'), size: 'm' }, hint: { text: t('application_form.degree.qualification_type.hint_text.another') } %>
       <%= render 'base_form', f: f %>
     <% end %>
   </div>

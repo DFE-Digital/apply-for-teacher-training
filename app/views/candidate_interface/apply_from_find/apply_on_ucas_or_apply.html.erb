@@ -31,23 +31,22 @@
         <%= f.hidden_field :course_code, value: @course.code %>
 
         <%= f.govuk_radio_buttons_fieldset :service, legend: { size: 'm', text: 'Do you want to apply using a new GOV.UK service?' } do %>
-          <%= f.govuk_radio_button :service, :apply, label: { text: 'Yes, I want to apply using the new service', size: 's' }, link_errors: true, hint_text:
-            "<p class=\"govuk-body govuk-!-margin-top-2\">Choose this option if:</p>
-            <ul class=\"govuk-list govuk-list--bullet\">
-              <li>all your chosen providers are available on the new service</li>
-              <li>you want to try a streamlined service with personalised support</li>
-            </ul>".html_safe %>
+          <%= f.govuk_radio_button :service,
+            :apply,
+            label: { text: 'Yes, I want to apply using the new service', size: 's' },
+            hint: -> { render(partial: 'apply_using_new_service_hint') },
+            link_errors: true
+          %>
 
-          <%= f.govuk_radio_button :service, :ucas, label: { text: 'No, I want to apply with UCAS', size: 's' }, hint_text:
-            "<p class=\"govuk-body govuk-!-margin-top-2\">Choose this option if:</p>
-            <ul class=\"govuk-list govuk-list--bullet\">
-              <li>some of your chosen providers are not available on #{service_name} and you do not want to use 2 different services.</li>
-              <li>you’ve already started applying with UCAS</li>
-            </ul>".html_safe %>
-          <% end %>
-
-          <%= f.govuk_submit 'Continue' %>
+          <%= f.govuk_radio_button :service,
+            :ucas,
+            label: { text: 'No, I want to apply with UCAS', size: 's' },
+            hint: -> { render(partial: 'apply_using_ucas_hint') }
+          %>
         <% end %>
+
+        <%= f.govuk_submit 'Continue' %>
       </div>
+    <% end %>
   </div>
 </div>

@@ -9,7 +9,7 @@ RSpec.describe CheckboxOptionsHelper, type: :helper do
         OpenStruct.new(
           id: id,
           name: name,
-          hint_text: I18n.t("equality_and_diversity.disabilities.#{id}.hint_text"),
+          hint: { text: I18n.t("equality_and_diversity.disabilities.#{id}.hint_text") },
         ),
       )
     end
