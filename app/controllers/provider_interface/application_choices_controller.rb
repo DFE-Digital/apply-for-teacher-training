@@ -20,7 +20,6 @@ module ProviderInterface
 
       application_choices = ProviderInterface::SortApplicationChoices.call(
         application_choices: application_choices,
-        sort_by: @page_state.sort_by,
       )
 
       @application_choices = application_choices.page(params[:page] || 1).per(15)
