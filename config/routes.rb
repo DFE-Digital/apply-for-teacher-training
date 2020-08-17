@@ -472,6 +472,8 @@ Rails.application.routes.draw do
         get '/thank-you' => 'satisfaction_survey#thank_you', as: :satisfaction_survey_thank_you
       end
     end
+
+    get '*path', to: 'errors#not_found'
   end
 
   namespace :referee_interface, path: '/reference' do
@@ -617,6 +619,8 @@ Rails.application.routes.draw do
       patch '/:id' => 'provider_relationship_permissions#update',
             as: :update_provider_relationship_permissions
     end
+
+    get '*path', to: 'errors#not_found'
   end
 
   get '/auth/dfe/callback' => 'dfe_sign_in#callback'
@@ -759,6 +763,8 @@ Rails.application.routes.draw do
 
     mount Sidekiq::Web => '/sidekiq', constraints: SupportUserConstraint.new
     get '/sidekiq', to: redirect('/support/sign-in'), status: 302
+
+    get '*path', to: 'errors#not_found'
   end
 
   namespace :api_docs, path: '/api-docs' do

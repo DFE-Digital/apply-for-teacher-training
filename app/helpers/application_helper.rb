@@ -5,7 +5,7 @@ module ApplicationHelper
   end
 
   def service_name
-    case intended_namespace
+    case current_namespace
     when 'candidate_interface'
       t('service_name.apply')
     when 'provider_interface'
@@ -21,7 +21,7 @@ module ApplicationHelper
     custom_link = content_for(:service_link)
     return custom_link if custom_link
 
-    case intended_namespace
+    case current_namespace
     when 'provider_interface'
       provider_interface_path
     when 'candidate_interface'
@@ -34,10 +34,11 @@ module ApplicationHelper
   end
 
   def current_namespace
-    params[:controller].split('/').first
-  end
-
-  def intended_namespace
-    "#{request.path.split('/').second}_interface"
+    section = request.path.split('/').second
+    if section == 'api-docs'
+      'api_docs'
+    else
+      "#{section}_interface"
+    end
   end
 end
