@@ -1,4 +1,6 @@
 module HostingEnvironment
+  TEST_ENVIRONMENTS = %w[development test qa review].freeze
+
   def self.application_url
     if Rails.env.production?
       "https://#{hostname}"
@@ -64,5 +66,9 @@ module HostingEnvironment
 
   def self.sandbox_mode?
     ENV.fetch('SANDBOX', 'false') == 'true'
+  end
+
+  def self.test_environment?
+    TEST_ENVIRONMENTS.include?(HostingEnvironment.environment_name)
   end
 end

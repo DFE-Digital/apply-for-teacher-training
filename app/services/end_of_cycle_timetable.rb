@@ -40,10 +40,22 @@ class EndOfCycleTimetable
   end
 
   def self.date(name)
+    if HostingEnvironment.test_environment? && FeatureFlag.active?(:simulate_time_between_cycles)
+      return simulate_time_between_cycles_dates[name]
+    end
+
     DATES[name]
   end
 
   def self.next_cycle_year
     date(:next_cycles_courses_open).year + 1
+  end
+
+  def self.simulate_time_between_cycles_dates
+    {
+      apply_1_deadline: 5.days.ago.to_date,
+      apply_2_deadline: 2.days.ago.to_date,
+      next_cycles_courses_open: Date.new(2020, 10, 13) > Time.zone.today ? Date.new(2020, 10, 13) : (Time.zone.today + 1),
+    }
   end
 end
