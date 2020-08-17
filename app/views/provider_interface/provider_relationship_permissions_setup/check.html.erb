@@ -7,6 +7,7 @@
     <span class="govuk-caption-xl">Set up permissions</span>
     <h1 class="govuk-heading-xl">Check permissions</h1>
     <% @permissions_models.each do |permissions_model| %>
+      <% anchor_prefix = 'provider-interface-provider-relationship-permissions-setup-wizard-provider-relationship-permissions' -%>
       <h2 class="govuk-heading-m">
         For courses run by <%= permissions_model.training_provider.name %> and ratified by <%= permissions_model.ratifying_provider.name %>
       </h2>
@@ -28,13 +29,15 @@
           </dd>
           <dd class="govuk-summary-list__actions">
             <%= govuk_link_to(
-              'Change',
+              nil,
               provider_interface_setup_provider_relationship_permissions_path(
                 permissions_model,
-                anchor: "provider-interface-provider-relationship-permissions-setup-wizard-provider-relationship-permissions-#{permissions_model.id}-make-decisions-training-field",
+                anchor: "#{anchor_prefix}-#{permissions_model.id}-make-decisions-training-field",
                 checking_answers: true,
               ),
-            )%>
+            ) do %>
+            Change<span class="govuk-visually-hidden"> which organisations can make decisions</span>
+            <% end %>
           </dd>
         </div>
         <div class="govuk-summary-list__row">
@@ -54,13 +57,15 @@
           </dd>
           <dd class="govuk-summary-list__actions">
             <%= govuk_link_to(
-              'Change',
+              nil,
               provider_interface_setup_provider_relationship_permissions_path(
                 permissions_model,
-                anchor: "provider-interface-provider-relationship-permissions-setup-wizard-provider-relationship-permissions-#{permissions_model.id}-view-safeguarding-information-training-field",
+                anchor: "#{anchor_prefix}-#{permissions_model.id}-view-safeguarding-information-training-field",
                 checking_answers: true,
               ),
-            ) %>
+            ) do %>
+              Change<span class="govuk-visually-hidden"> which organisations can view safeguarding information</span>
+            <% end %>
           </dd>
         </div>
       </dl>
