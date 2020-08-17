@@ -31,9 +31,10 @@ RSpec.feature 'Entering volunteering and school experience' do
 
     when_i_delete_my_volunteering_role
     and_i_confirm
-    then_i_no_longer_see_my_volunteering_role
+    then_i_am_asked_if_i_have_experience_volunteering_with_young_people_or_in_school
 
-    when_i_click_add_another_role
+    when_i_choose_yes_experience
+    and_i_submit_the_volunteering_experience_form
     then_i_see_the_add_volunteering_role_form
 
     when_i_fill_in_another_volunteering_role
@@ -135,6 +136,7 @@ RSpec.feature 'Entering volunteering and school experience' do
 
   def then_i_check_my_volunteering_role
     expect(page).to have_content('Classroom Volunteer')
+    expect(current_candidate.current_application.application_volunteering_experiences.count).to eq 1
   end
 
   def when_i_click_on_continue
