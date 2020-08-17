@@ -8,14 +8,14 @@
       link_errors: true,
       multiple: true,
       label: { text: 'British' },
-      hint_text: 'including English, Scottish, Welsh or from Northern Ireland',
+      hint: { text: 'including English, Scottish, Welsh or from Northern Ireland' },
     ) %>
     <%= f.govuk_check_box(
       :nationalities,
       'Irish',
       multiple: true,
       label: { text: 'Irish' },
-      hint_text: 'including from Northern Ireland',
+      hint: { text: 'including from Northern Ireland' },
     ) %>
     <%= f.govuk_check_box(
       :nationalities,

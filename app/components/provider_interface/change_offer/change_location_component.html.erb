@@ -18,7 +18,7 @@
         </legend>
 
         <% course_options.each do |course_option| %>
-          <%= f.govuk_radio_button :course_option_id, course_option.id, label: { text: course_option.site.name }, hint_text: course_option.site.full_address %>
+          <%= f.govuk_radio_button :course_option_id, course_option.id, label: { text: course_option.site.name }, hint: { text: course_option.site.full_address } %>
         <% end %>
       <% end %>
 

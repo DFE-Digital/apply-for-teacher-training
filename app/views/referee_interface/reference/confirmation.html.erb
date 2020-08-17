@@ -67,7 +67,7 @@
           <% end %>
         <% end %>
 
-        <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { text: RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION, tag: 'span' }, hint_text: t('questionnaire_form.hint_text') do %>
+        <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { text: RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION, tag: 'span' }, hint: { text: t('questionnaire_form.hint_text') } do %>
           <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('questionnaire_form.consent_to_be_contacted') } do %>
             <%= f.govuk_text_area :consent_to_be_contacted_details, label: { text: t('questionnaire_form.availibility') } %>
           <% end %>
