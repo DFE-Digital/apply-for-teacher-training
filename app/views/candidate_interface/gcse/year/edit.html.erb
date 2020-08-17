@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t('gcse_edit_year.page_title', subject: @subject), @application_qualification.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(candidate_interface_gcse_details_edit_type_path) %>
+<% content_for :before_content, govuk_back_link_to(:back) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
