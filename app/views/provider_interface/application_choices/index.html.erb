@@ -40,15 +40,17 @@
 <div class='moj-filter-layout'>
   <%= render ProviderInterface::FilterComponent.new(page_state: @page_state) %>
   <div class='moj-filter-layout__content'>
-    <div class="moj-action-bar">
-      <div class="moj-action-bar__filter">
-        <div class="filter-toggle-button"></div>
-      </div>
-      <%= render(ProviderInterface::SortOrderComponent.new(page_state: @page_state)) %>
-    </div>
     <% if @application_choices.any? %>
       <div class="app-application-cards">
+        <% previous_header = '' %>
         <% @application_choices.each_with_index do |choice, index| %>
+          <% group_header = task_view_header choice %>
+          <% if group_header != previous_header %>
+            <h2 class='govuk-heading-m task_view_group_header'>
+              <%= group_header %>
+            </h2>
+            <% previous_header = group_header %>
+          <% end %>
           <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice, show_date: @page_state.sort_by) %>
         <% end %>
       </div>
