@@ -18,6 +18,21 @@ class ErrorsController < ApplicationController
   end
 
   def internal_server_error
-    render 'internal_server_error.html', status: :internal_server_error
+    respond_to do |format|
+      format.json do
+        render json: {
+          errors: [
+            {
+              error: 'InternalServerError',
+              message: 'The server encountered an unexpected condition that prevented it from fulfilling the request',
+            },
+          ],
+        }, status: :internal_server_error
+      end
+
+      format.any do
+        render 'internal_server_error.html', status: :internal_server_error
+      end
+    end
   end
 end
