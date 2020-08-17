@@ -1,6 +1,7 @@
 module CandidateInterface
   class UnsubmittedApplicationFormController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
+    before_action :redirect_to_application_if_between_cycles, except: %w[show review]
 
     def before_you_start; end
 
@@ -49,6 +50,14 @@ module CandidateInterface
         :further_information_details,
       )
         .transform_values(&:strip)
+    end
+
+    def redirect_to_application_if_between_cycles
+      if EndOfCycleTimetable.between_cycles?(current_application.phase)
+        flash[:warning] = 'Applications for courses starting this academic year have now closed.'
+        redirect_to candidate_interface_application_form_path and return false
+      end
+      true
     end
   end
 end

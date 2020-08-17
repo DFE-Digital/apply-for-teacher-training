@@ -17,6 +17,9 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     then_i_can_only_review_my_application
     and_i_cannot_submit_my_application
 
+    when_i_try_to_visit_the_submit_page
+    then_i_am_redirected_to_the_application_page
+
     when_i_return_after_new_cycle_opens
     and_i_log_in_again
     and_i_visit_the_application_form_page
@@ -51,6 +54,15 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
 
   def and_i_cannot_submit_my_application
     expect(page).not_to have_link 'Continue'
+  end
+
+  def when_i_try_to_visit_the_submit_page
+    visit candidate_interface_application_submit_show_path
+  end
+
+  def then_i_am_redirected_to_the_application_page
+    expect(page).to have_content('Applications for courses starting this academic year have now closed')
+    expect(page).to have_current_path(candidate_interface_application_form_path)
   end
 
   def when_i_return_after_new_cycle_opens
