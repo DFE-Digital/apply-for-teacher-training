@@ -281,7 +281,7 @@ GEM
     parallel (1.19.2)
     parser (2.7.1.4)
       ast (~> 2.4.1)
-    pdfkit (0.8.4.2)
+    pdfkit (0.8.4.3.2)
     pg (1.2.3)
     pry (0.13.1)
       coderay (~> 1.1)
