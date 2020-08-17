@@ -42,4 +42,8 @@ class EndOfCycleTimetable
   def self.date(name)
     DATES[name]
   end
+
+  def self.next_cycle_year
+    date(:next_cycles_courses_open).year + 1
+  end
 end
