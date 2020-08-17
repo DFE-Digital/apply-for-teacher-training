@@ -4,6 +4,13 @@ services:
   web:
     volumes:
       - ${APP_ROOT_FOLDER:-.}:/app
+      # do not mount these below local files/folders into the container
+      - /app/public
     environment:
       - RAILS_ENV=development
       - AUTHORISED_HOSTS=localhost
+# disable clock and worker when running locally
+  clock:
+    entrypoint: ["/bin/true"]
+  worker:
+    entrypoint: ["/bin/true"]
