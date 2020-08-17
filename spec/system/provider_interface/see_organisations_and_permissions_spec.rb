@@ -106,8 +106,8 @@ RSpec.feature 'See organisation permissions' do
 
   def then_i_can_see_permissions_for_the_ratifying_provider
     expect(page.text).to include("For courses ratified by #{@ratifying_provider.name} and run by #{@unmanageable_training_provider.name}")
-    expect(page).to have_content("The following organisation(s) can view safeguarding information:\n#{@ratifying_provider.name}")
-    expect(page.text).to include("Contact #{@unmanageable_training_provider.name} to change permissions.")
+    expect(page).to have_content("The following organisation(s) can see safeguarding information:\n#{@ratifying_provider.name}")
+    expect(page).to have_content("#{@unmanageable_training_provider.name} have not set up permissions yet - only they can set up permissions. Contact them to do this.")
   end
 
   def and_i_can_see_permissions_for_the_training_provider
@@ -123,7 +123,6 @@ RSpec.feature 'See organisation permissions' do
 
   def then_i_can_see_permissions_for_the_training_provider
     expect(page).to have_content("For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}")
-    expect(page).to have_content("#{@training_provider.name} can only view applications.")
 
     expect(page).to have_link('Change', href: provider_interface_edit_provider_relationship_permissions_path(@permissions))
   end

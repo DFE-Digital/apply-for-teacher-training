@@ -7,7 +7,13 @@
       </h2>
       <div class="app-banner govuk-!-margin-bottom-4">
         <div class="app-banner__message">
-          Contact <%= permissions.training_provider.name %> to change permissions.
+          <p>
+            <%= permissions.training_provider.name %> have not set up permissions yet - only they can set up permissions. Contact them to do this.
+          </p>
+
+          <p>
+            Staff at <%= permissions.ratifying_provider.name %> can still view applications in the meantime.
+          </p>
         </div>
       </div>
 
