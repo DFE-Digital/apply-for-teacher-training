@@ -25,7 +25,7 @@ module CandidateInterface
     end
 
     def eligibility
-      redirect_to candidate_interface_applications_closed_path and return if EndOfCycleTimetable.apply_1_closed?
+      redirect_to candidate_interface_applications_closed_path and return if EndOfCycleTimetable.between_cycles_apply_1?
 
       @eligibility_form = EligibilityForm.new
     end
