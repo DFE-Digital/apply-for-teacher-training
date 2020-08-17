@@ -97,30 +97,6 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(error_response['message']).to match 'The requested course is not open for applications via the Apply service'
     end
 
-    it 'returns an error when making an offer on the same course twice' do
-      application_choice = create_application_choice_for_currently_authenticated_provider(
-        status: 'awaiting_provider_decision',
-      )
-
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-        'data' => {
-          'conditions' => [],
-        },
-      }
-
-      expect(response).to have_http_status(200)
-
-      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
-        'data' => {
-          'conditions' => [],
-        },
-      }
-
-      expect(response).to have_http_status(422)
-      expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
-      expect(error_response['message']).to match 'The new course is the same as the course currently offered'
-    end
-
     it 'returns an error when specifying a course that does not exist' do
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
@@ -263,6 +239,48 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
     expect(response).to have_http_status(404)
     expect(parsed_response).to be_valid_against_openapi_schema('NotFoundResponse')
     expect(error_response['message']).to eql('Could not find an application with ID non-existent-id')
+  end
+
+  describe 'changing offers' do
+    it 'can change the offer conditions' do
+      choice = create(:application_choice, :with_offer,
+                      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+                      offer: { 'conditions' => ['DBS check'] })
+
+      request_body = {
+        "data": {
+          "conditions": [
+            'Change your sheets',
+            'Wash your clothes',
+          ],
+        },
+      }
+
+      expect {
+        post_api_request "/api/v1/applications/#{choice.id}/offer", params: request_body
+      }.to(change { choice.reload.offer })
+    end
+
+    it 'returns 200 OK when sending the same offer & conditions repeatedly' do
+      choice = create(:application_choice, :with_offer,
+                      course_option: course_option_for_provider(provider: currently_authenticated_provider),
+                      offer: { 'conditions' => ['DBS check'] })
+
+      request_body = {
+        "data": {
+          "conditions": [
+            'DBS check',
+          ],
+          "course": course_option_to_course_payload(choice.offered_option),
+        },
+      }
+
+      expect {
+        post_api_request "/api/v1/applications/#{choice.id}/offer", params: request_body
+      }.not_to(change { choice.reload })
+
+      expect(response).to have_http_status(200)
+    end
   end
 
   def course_option_to_course_payload(course_option)
