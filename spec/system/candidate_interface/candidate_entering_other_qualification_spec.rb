@@ -82,6 +82,14 @@ RSpec.feature 'Entering their other qualifications' do
     and_i_click_on_continue
     then_i_should_see_the_form
     and_that_the_section_is_completed
+
+    when_i_click_on_other_qualifications
+    and_i_delete_my_remaining_qualifications
+    then_i_see_the_select_qualification_type_page
+
+    when_i_click_back_to_application_form
+    then_i_should_see_the_form
+    and_that_the_section_is_not_marked_as_complete_or_incomplete
   end
 
   def given_i_am_signed_in
@@ -294,5 +302,20 @@ RSpec.feature 'Entering their other qualifications' do
 
   def then_i_see_the_qualification_type_error
     expect(page).to have_content 'Enter the type of qualification'
+  end
+
+  def and_i_delete_my_remaining_qualifications
+    when_i_click_on_delete_my_first_qualification
+    and_i_confirm_that_i_want_to_delete_my_additional_qualification
+    when_i_click_on_delete_my_first_qualification
+    and_i_confirm_that_i_want_to_delete_my_additional_qualification
+  end
+
+  def when_i_click_back_to_application_form
+    click_link 'Back to application'
+  end
+
+  def and_that_the_section_is_not_marked_as_complete_or_incomplete
+    expect(page).not_to have_css('#academic-and-other-relevant-qualifications-badge-id')
   end
 end
