@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'A new candidate arriving from Find with a course and provider code' do
+  include SignInHelper
+
   scenario 'retaining their course selection through the sign up process' do
     given_the_pilot_is_open
     and_the_course_i_selected_only_has_one_site
@@ -95,7 +97,8 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
   def and_click_on_the_magic_link
     open_email(@email)
-    current_email.find_css('a').first.click
+    click_magic_link_in_email
+    confirm_sign_in
   end
 
   def then_i_should_see_the_course_selection_page

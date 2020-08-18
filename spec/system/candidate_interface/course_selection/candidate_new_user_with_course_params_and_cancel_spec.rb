@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Candidate tries to sign in after selecting a course in find without an account then says no to selecting the course' do
+  include SignInHelper
+
   scenario 'Candidate signs in and recieves an email inviting them to sign up and is prompted to select the course' do
     given_the_pilot_is_open
 
@@ -73,7 +75,8 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
   end
 
   def when_i_click_on_the_link_in_my_email
-    current_email.find_css('a').first.click
+    click_magic_link_in_email
+    confirm_sign_in
   end
 
   def then_i_am_taken_to_the_selected_course_page

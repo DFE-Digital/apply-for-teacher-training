@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'A new candidate is encouraged to select a course' do
+  include SignInHelper
+
   scenario 'Candidate is redirected to the before you start page on their first sign in' do
     given_the_pilot_is_open
 
@@ -80,7 +82,8 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   def and_click_on_the_magic_link
     open_email(@email)
-    current_email.find_css('a').first.click
+    click_magic_link_in_email
+    confirm_sign_in
   end
 
   def then_i_should_see_the_before_you_start_page

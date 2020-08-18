@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Candidate account' do
+  include SignInHelper
+
   scenario 'Candidate signs up, out, and in again' do
     given_the_pilot_is_open
 
@@ -90,7 +92,8 @@ RSpec.feature 'Candidate account' do
   end
 
   def when_i_click_on_the_link_in_my_email
-    current_email.find_css('a').first.click
+    click_magic_link_in_email
+    confirm_sign_in
   end
 
   def then_i_am_signed_in
