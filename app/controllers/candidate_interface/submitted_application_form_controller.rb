@@ -19,7 +19,7 @@ module CandidateInterface
     end
 
     def apply_again
-      DuplicateApplication.new(current_application).duplicate
+      ApplyAgain.new(current_application).call
       flash[:success] = 'Your new application is ready for editing'
       redirect_to candidate_interface_before_you_start_path
     end
