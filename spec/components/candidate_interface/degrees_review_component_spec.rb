@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
   let(:degree1) do
     build_stubbed(
       :degree_qualification,
-      qualification_type: 'BA',
+      qualification_type: 'Bachelor of Arts in Architecture',
       subject: 'Woof',
       institution_name: 'University of Doge',
       grade: 'Upper second',
@@ -18,7 +18,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     build_stubbed(
       :degree_qualification,
       level: 'degree',
-      qualification_type: 'BA',
+      qualification_type: 'Bachelor of Arts Economics',
       subject: 'Meow',
       institution_name: 'University of Cate',
       grade: 'First',
@@ -35,16 +35,42 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
   end
 
   context 'when degrees are editable' do
+    context 'when the degree has an abbreviation' do
+      it 'renders the correct value on the summary card title' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.app-summary-card__title').text).to include('BAArch Woof')
+      end
+    end
+
+    context 'when the degree does not have an abbreviation' do
+      let(:degree1) do
+        build_stubbed(
+          :degree_qualification,
+          level: 'degree',
+          qualification_type: 'BSc/Education',
+          subject: 'Woof',
+          grade: 'First class honours',
+        )
+      end
+
+      it 'renders the correct value on the summary card title' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.app-summary-card__title').text).to include('BSc/Education (Hons) Woof')
+      end
+    end
+
     it 'renders component with correct values for a degree type' do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.qualification_type.review_label'))
-      expect(result.css('.govuk-summary-list__value')[0].text.strip).to eq('BA')
+      expect(result.css('.govuk-summary-list__value')[0].text.strip).to eq('Bachelor of Arts in Architecture')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_degree_type_path(degree1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+        "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
       )
     end
 
@@ -57,7 +83,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         Rails.application.routes.url_helpers.candidate_interface_edit_degree_subject_path(degree1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+        "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
       )
     end
 
@@ -70,7 +96,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         Rails.application.routes.url_helpers.candidate_interface_edit_degree_institution_path(degree1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+        "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
       )
     end
 
@@ -81,7 +107,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       expect(result.css('.govuk-summary-list__value').text).to include('2005')
       expect(result.css('.govuk-summary-list__value').text).to include('2008')
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.award_year.change_action')} for BA, Woof, University of Doge, 2008",
+        "Change #{t('application_form.degree.award_year.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
       )
     end
 
@@ -91,7 +117,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.grade.review_label'))
       expect(result.css('.govuk-summary-list__value').text).to include('Upper second')
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.grade.change_action')} for BA, Woof, University of Doge, 2008",
+        "Change #{t('application_form.degree.grade.change_action')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
       )
     end
 
@@ -102,14 +128,14 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include('BA Meow')
+      expect(result.css('.app-summary-card__title').text).to include('BAEcon Meow')
       expect(result.css('.govuk-summary-list__value').text).to include('First (Predicted)')
     end
 
     it 'renders component with correct values for an other grade' do
       degree3 = build_stubbed(
         :degree_qualification,
-        qualification_type: 'BA',
+        qualification_type: 'Bachelor of Arts in Architecture',
         subject: 'Hoot',
         institution_name: 'University of Owl',
         grade: 'Third-class honours',
@@ -124,7 +150,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include('BA (Hons) Hoot')
+      expect(result.css('.app-summary-card__title').text).to include('BAArch (Hons) Hoot')
       expect(result.css('.govuk-summary-list__value').text).to include('Third-class honours')
     end
 
@@ -135,15 +161,15 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.app-summary-card__title').text).to include('BA Woof')
-      expect(result.css('.app-summary-card__title').text).to include('BA Meow')
+      expect(result.css('.app-summary-card__title').text).to include('BAArch Woof')
+      expect(result.css('.app-summary-card__title').text).to include('BAEcon Meow')
     end
 
     it 'renders component along with a delete link for each degree' do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.app-summary-card__actions').text.strip).to include(
-        "#{t('application_form.degree.delete')} for BA, Woof, University of Doge, 2008",
+        "#{t('application_form.degree.delete')} for Bachelor of Arts in Architecture, Woof, University of Doge, 2008",
       )
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_confirm_degree_destroy_path(degree1),

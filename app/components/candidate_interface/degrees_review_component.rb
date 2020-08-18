@@ -38,10 +38,14 @@ module CandidateInterface
 
     def degree_type_with_honours(degree)
       if degree.grade&.include? 'honours'
-        "#{degree.qualification_type} (Hons)"
+        "#{abbreviate_degree(degree.qualification_type)} (Hons)"
       else
-        degree.qualification_type
+        abbreviate_degree(degree.qualification_type)
       end
+    end
+
+    def abbreviate_degree(name)
+      Hesa::DegreeType.find_by_name(name)&.abbreviation || name
     end
 
     def degree_type_row(degree)
