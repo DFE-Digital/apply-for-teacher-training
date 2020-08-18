@@ -1,10 +1,10 @@
 module ProviderInterface
   class SortApplicationChoices
     def self.call(application_choices:)
-      with_task_view_group(application_choices).order(sort_order)
+      for_task_view(application_choices).order(sort_order)
     end
 
-    def self.with_task_view_group(application_choices)
+    def self.for_task_view(application_choices)
       application_choices.from <<~WITH_TASK_VIEW_GROUP.squish
         (
           SELECT *,
@@ -13,7 +13,7 @@ module ProviderInterface
               WHEN #{offered} THEN 2
               ELSE 999
             END AS task_view_group,
-            #{time_left_to_respond} AS time_left_to_respond
+            #{pg_days_left_to_respond} AS pg_days_left_to_respond
 
             FROM application_choices
         ) AS application_choices
@@ -37,21 +37,20 @@ module ProviderInterface
       OFFERED
     end
 
-    def self.time_left_to_respond
-      <<~TIME_LEFT_TO_RESPOND.squish
+    def self.pg_days_left_to_respond
+      <<~PG_DAYS_LEFT_TO_RESPOND.squish
         CASE
-          WHEN (DATE(reject_by_default_at) > '#{Time.zone.now.iso8601}')
-          THEN (DATE(reject_by_default_at) - '#{Time.zone.now.iso8601}')
-          ELSE NULL
-        END
-      TIME_LEFT_TO_RESPOND
+          WHEN (DATE(reject_by_default_at) > DATE('#{Time.zone.now.iso8601}'))
+          THEN (DATE(reject_by_default_at) - DATE('#{Time.zone.now.iso8601}'))
+          ELSE NULL END
+      PG_DAYS_LEFT_TO_RESPOND
     end
 
     def self.sort_order
       <<~ORDER_BY.squish
         task_view_group,
         status,
-        time_left_to_respond,
+        pg_days_left_to_respond,
         application_choices.updated_at
       ORDER_BY
     end
