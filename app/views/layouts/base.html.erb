@@ -21,18 +21,7 @@
 
     <meta property="og:image" content="<%= asset_pack_path('media/images/govuk-opengraph-image.png') %>">
 
-    <% case try(:current_namespace) %>
-    <% when 'candidate_interface' %>
-      <%= stylesheet_pack_tag 'application-candidate', media: 'all' %>
-    <% when 'support_interface' %>
-      <%= stylesheet_pack_tag 'application-support', media: 'all' %>
-    <% when 'provider_interface' %>
-      <%= stylesheet_pack_tag 'application-provider', media: 'all' %>
-    <% when 'api_docs' %>
-      <%= stylesheet_pack_tag 'application-api-docs', media: 'all' %>
-    <% else %>
-      <%= stylesheet_pack_tag 'application', media: 'all' %>
-    <% end %>
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
   </head>
 
   <body class="govuk-template__body">
@@ -48,17 +37,6 @@
 
     <%= render 'layouts/footer' %>
 
-    <% case try(:current_namespace) %>
-    <% when 'candidate_interface' %>
-      <%= javascript_pack_tag 'application-candidate' %>
-    <% when 'support_interface' %>
-      <%= javascript_pack_tag 'application-support' %>
-    <% when 'provider_interface' %>
-      <%= javascript_pack_tag 'application-provider' %>
-    <% when 'api_docs' %>
-      <%= javascript_pack_tag 'application-api-docs' %>
-    <% else %>
-      <%= javascript_pack_tag 'application' %>
-    <% end %>
+    <%= javascript_pack_tag 'application' %>
   </body>
 </html>

@@ -1,6 +1,6 @@
 import { FilterToggleButton } from "moj/all.js";
 
-const filter = () => {
+const providerFilter = () => {
       new FilterToggleButton({
         bigModeMediaQuery: '(min-width: 48.063em)',
         startHidden: false,
@@ -20,4 +20,4 @@ const filter = () => {
       });
 };
 
-export default filter;
+export default providerFilter;
