@@ -56,6 +56,8 @@ module UCASMatching
       ApplicationForm
         .includes(
           :candidate,
+        )
+        .preload(
           :application_choices,
           :application_qualifications,
           :application_work_experiences,
