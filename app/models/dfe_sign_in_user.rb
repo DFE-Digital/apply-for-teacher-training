@@ -2,11 +2,27 @@ class DfESignInUser
   attr_reader :email_address, :dfe_sign_in_uid
   attr_accessor :first_name, :last_name
 
-  def initialize(email_address:, dfe_sign_in_uid:, first_name:, last_name:)
+  # we need to be able to redirect back to our sign-out callback path
+  include Rails.application.routes.url_helpers
+
+  def initialize(email_address:, dfe_sign_in_uid:, first_name:, last_name:, id_token: nil)
     @email_address = email_address&.downcase
     @dfe_sign_in_uid = dfe_sign_in_uid
     @first_name = first_name
     @last_name = last_name
+    @id_token = id_token
+  end
+
+  def provider_interface_dsi_logout_url
+    dsi_logout_url(interface: :provider)
+  end
+
+  def support_interface_dsi_logout_url
+    dsi_logout_url(interface: :support)
+  end
+
+  def needs_dsi_signout?
+    @id_token.present?
   end
 
   def self.begin_session!(session, omniauth_payload)
@@ -16,6 +32,7 @@ class DfESignInUser
       'first_name' => omniauth_payload['info']['first_name'],
       'last_name' => omniauth_payload['info']['last_name'],
       'last_active_at' => Time.zone.now,
+      'id_token' => omniauth_payload['credentials']['id_token'],
     }
   end
 
@@ -36,11 +53,26 @@ class DfESignInUser
       dfe_sign_in_uid: dfe_sign_in_session['dfe_sign_in_uid'],
       first_name: dfe_sign_in_session['first_name'],
       last_name: dfe_sign_in_session['last_name'],
+      id_token: dfe_sign_in_session['id_token'],
     )
   end
 
   def self.end_session!(session)
     session.delete('post_dfe_sign_in_path')
     session.delete('dfe_sign_in_user')
+  end
+
+private
+
+  # a URL the user can visit to log them out of DSI and be redirected to our
+  # after-sign-out path where we'll delete their local session
+  def dsi_logout_url(interface:)
+    query = {
+      post_logout_redirect_uri: auth_dfe_sign_out_url,
+      id_token_hint: @id_token,
+      state: interface,
+    }
+
+    "#{ENV.fetch('DFE_SIGN_IN_ISSUER')}/session/end?#{query.to_query}"
   end
 end
