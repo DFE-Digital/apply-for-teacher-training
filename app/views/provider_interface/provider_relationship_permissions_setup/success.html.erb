@@ -10,19 +10,21 @@
       Changing permissions
     </h2>
 
-    <p class="govuk-body">
+    <p class="govuk-body govuk-!-margin-bottom-4">
       Select <%= govuk_link_to 'Organisations', provider_interface_organisations_path %> (at the top of every page) to update your permissions.
-    </p><p>
+    </p>
 
-    </p><h2 class="govuk-heading-m">
-      Inviting users
-    </h2>
+    <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
+      <h2 class="govuk-heading-m">
+        Inviting users
+      </h2>
 
-    <p class="govuk-body">
-      Select <%= govuk_link_to 'Users', provider_interface_provider_users_path %> (at the top of every page) to add users and manage their permissions.
-    </p><p>
+      <p class="govuk-body govuk-!-margin-bottom-4">
+        Select <%= govuk_link_to 'Users', provider_interface_provider_users_path %> (at the top of every page) to add users and manage their permissions.
+      </p>
+    <% end %>
 
-    </p><h2 class="govuk-heading-m">
+    <h2 class="govuk-heading-m">
       Manage your applications
     </h2>
 

@@ -21,9 +21,13 @@
 
       <%= render ProviderRelationshipPermissionsList.new(permissions) %>
 
-      <p class="govuk-body">
-        <%= govuk_link_to 'Change', provider_interface_edit_provider_relationship_permissions_path(permissions) if current_provider_user.can_manage_organisations? %>
-      </p>
+      <% if current_provider_user.can_manage_organisations? %>
+        <p class="govuk-body">
+          <%= govuk_link_to nil, provider_interface_edit_provider_relationship_permissions_path(permissions) do %>
+            Change<span class="govuk-visually-hidden"> permissions for <%= permissions.training_provider.name %> and <%= permissions.ratifying_provider.name %></span>
+          <% end %>
+        </p>
+      <% end %>
     <% end %>
   </div>
 </div>
