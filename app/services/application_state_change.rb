@@ -78,11 +78,8 @@ class ApplicationStateChange
     state :conditions_not_met
 
     state :recruited do
-      event :confirm_enrolment, transitions_to: :enrolled
       event :withdraw, transitions_to: :withdrawn
     end
-
-    state :enrolled
 
     state :cancelled
   end

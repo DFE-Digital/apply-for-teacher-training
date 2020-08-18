@@ -27,8 +27,6 @@ module ProviderInterface
         :orange
       when 'declined', 'withdrawn'
         :red
-      when 'enrolled'
-        :default
       else
         raise "You need to define a colour for the #{status} state"
       end

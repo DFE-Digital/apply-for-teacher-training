@@ -32,10 +32,7 @@ en:
       description: The candidate has accepted an offer. The provider now has to confirm to us that the candidate has met the conditions in the offer.
     recruited:
       name: Recruited
-      description: The candidate has been recruited, but has not enrolled yet.
-    enrolled:
-      name: Enrolled
-      description: The candidate has enrolled in the course.
+      description: The candidate has been recruited.
     ended_without_success:
       name: Ended without success
       description: All of the candidate’s applications have been withdrawn, rejected or declined.
@@ -48,7 +45,6 @@ en:
     awaiting_references: Submitted
     cancelled: Application cancelled
     declined: Offer declined
-    enrolled: Enrolled
     offer: Offer received
     offer_withdrawn: Offer withdrawn
     pending_conditions: Offer accepted
@@ -65,7 +61,6 @@ en:
     rejected_at_end_of_cycle: Rejected at end of cycle
     cancelled: Application cancelled
     declined: Declined
-    enrolled: Enrolled
     offer: Offered
     pending_conditions: Accepted
     recruited: Conditions met
@@ -144,19 +139,6 @@ en:
       name: Recruited
       description: |
         When the provider confirms that the offer conditions have been met, the application is marked ‘recruited’.
-
-    enrolled:
-      name: Candidate enrolled
-      description: |
-        Once the candidate has completed the enrolment process, the provider confirms
-        their enrolment onto the training programme. Since this status would be used
-        to claim bursaries/grants from DfE, the provider may delay enrolling the trainee
-        until a few weeks after the start of the training, since trainees can still
-        not show up on the first day or drop out within the first couple of weeks.
-        This reduces the risk that DfE over-pays that provider for training they did not
-        deliver and has to reconcile later on.
-
-        The candidate’s HESA equality monitoring information is made available to the provider.
 
     pending_conditions:
       name: Pending conditions
@@ -358,11 +340,6 @@ en:
       emails:
         - provider_mailer-application_withdrawn
 
-    recruited-confirm_enrolment:
-      name: Provider confirms enrolment
-      by: provider
-      description: ""
-
     recruited-withdraw:
       name: Candidate withdraws
       by: candidate
@@ -466,11 +443,6 @@ en:
 
     pending_conditions-conditions_not_met:
       name: Conditions not met
-      by: provider
-      description: ""
-
-    recruited-enrol:
-      name: Enrol
       by: provider
       description: ""
 
