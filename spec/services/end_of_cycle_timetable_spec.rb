@@ -75,7 +75,7 @@ RSpec.describe EndOfCycleTimetable do
     before { FeatureFlag.activate(:simulate_time_between_cycles) }
 
     describe '.show_apply_1_deadline_banner?' do
-      it 'returns true before the configured date' do
+      it 'returns false before the configured date' do
         Timecop.travel(Time.zone.local(2020, 8, 24, 23, 0, 0)) do
           expect(EndOfCycleTimetable.show_apply_1_deadline_banner?).to be false
         end
@@ -89,7 +89,7 @@ RSpec.describe EndOfCycleTimetable do
     end
 
     describe '.show_apply_2_deadline_banner?' do
-      it 'returns true before the configured date' do
+      it 'returns false before the configured date' do
         Timecop.travel(Time.zone.local(2020, 9, 18, 23, 0, 0)) do
           expect(EndOfCycleTimetable.show_apply_2_deadline_banner?).to be false
         end
@@ -103,7 +103,7 @@ RSpec.describe EndOfCycleTimetable do
     end
 
     describe '.between_cycles_apply_1?' do
-      it 'returns false before the configured date' do
+      it 'returns true before the configured date' do
         Timecop.travel(Time.zone.local(2020, 8, 24, 21, 0, 0)) do
           expect(EndOfCycleTimetable.between_cycles_apply_1?).to be true
         end
@@ -115,7 +115,7 @@ RSpec.describe EndOfCycleTimetable do
         end
       end
 
-      it 'returns false after the new cycle opens' do
+      it 'returns true after the new cycle opens' do
         Timecop.travel(Time.zone.local(2020, 10, 13, 12, 0, 0)) do
           expect(EndOfCycleTimetable.between_cycles_apply_1?).to be true
         end
@@ -123,7 +123,7 @@ RSpec.describe EndOfCycleTimetable do
     end
 
     describe '.between_cycles_apply_2?' do
-      it 'returns false before the configured date' do
+      it 'returns true before the configured date' do
         Timecop.travel(Time.zone.local(2020, 9, 18, 12, 0, 0)) do
           expect(EndOfCycleTimetable.between_cycles_apply_2?).to be true
         end
@@ -135,7 +135,7 @@ RSpec.describe EndOfCycleTimetable do
         end
       end
 
-      it 'returns false after the new cycle opens' do
+      it 'returns true after the new cycle opens' do
         Timecop.travel(Time.zone.local(2020, 10, 13, 12, 0, 0)) do
           expect(EndOfCycleTimetable.between_cycles_apply_2?).to be true
         end
