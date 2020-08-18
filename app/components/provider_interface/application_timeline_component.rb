@@ -19,7 +19,6 @@ module ProviderInterface
       'pending_conditions' => 'Offer accepted',
       'declined' => 'Offer declined',
       'recruited' => 'Recruited',
-      'enrolled' => 'Enrolled',
       'conditions_not_met' => 'Conditions marked not met',
     }.freeze
 

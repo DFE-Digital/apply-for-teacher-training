@@ -15,11 +15,6 @@ module ProviderInterface
       render_component_for application_choice: application_choice
     end
 
-    def enrolled
-      application_choice = ApplicationChoice.where(status: 'enrolled').sample
-      render_component_for application_choice: application_choice
-    end
-
     def withdrawn
       application_choice = ApplicationChoice.where(status: 'withdrawn').sample
       render_component_for application_choice: application_choice
