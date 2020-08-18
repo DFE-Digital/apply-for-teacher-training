@@ -55,11 +55,7 @@ class ProcessState
       event :conditions_not_met, transitions_to: :ended_without_success
     end
 
-    state :recruited do
-      event :enrol, transitions_to: :enrolled
-    end
-
-    state :enrolled
+    state :recruited
   end
 
   def state
@@ -76,8 +72,6 @@ class ProcessState
     elsif any_state_is?('offer')
       # Offer, but no awaiting means we're waiting on the candidate
       :awaiting_candidate_response
-    elsif any_state_is?('enrolled')
-      :enrolled
     elsif any_state_is?('recruited')
       :recruited
     elsif any_state_is?('pending_conditions')
