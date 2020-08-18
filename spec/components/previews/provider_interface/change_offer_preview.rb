@@ -83,16 +83,12 @@ module ProviderInterface
       )
     end
 
-    def provider_user
-      @provider_user ||= ProviderUser.find_by dfe_sign_in_uid: 'dev-support'
-    end
-
     def available_providers
-      provider_user.providers
+      Provider.where(sync_courses: true)
     end
 
     def available_choices
-      provider_user.providers.first.application_choices
+      available_providers.first.application_choices
     end
 
     def initial_step(step)
