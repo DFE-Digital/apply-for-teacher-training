@@ -26,6 +26,11 @@ RSpec.describe ApplicationStateChange do
       expect(ApplicationStateChange.states_visible_to_provider - %i[offer_withdrawn rejected_at_end_of_cycle])
         .to match_array(valid_states_in_openapi.map(&:to_sym))
     end
+
+    it 'matches the valid states and states not visible' do
+      expect(ApplicationStateChange.states_visible_to_provider)
+        .to match_array(ApplicationStateChange.valid_states - ApplicationStateChange::STATES_NOT_VISIBLE_TO_PROVIDER)
+    end
   end
 
   describe '::STATES_NOT_VISIBLE_TO_PROVIDER' do
