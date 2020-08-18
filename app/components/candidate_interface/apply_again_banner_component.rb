@@ -12,7 +12,7 @@ module CandidateInterface
     end
 
     def render?
-      !EndOfCycleTimetable.show_apply_2_reopen_banner?
+      !EndOfCycleTimetable.between_cycles_apply_2?
     end
   end
 end

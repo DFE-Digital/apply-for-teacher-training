@@ -23,7 +23,7 @@ RSpec.describe 'Candidate vists their applicatin form after the cycle has ended'
     then_i_see_that_i_can_add_new_course_choices_in_october
     and_there_is_not_a_link_to_the_course_choices_section
 
-    when_i_click_check_and_submit_my_application
+    when_i_click_review_your_application
     then_i_see_that_i_can_add_new_course_choices_in_october
 
     when_i_try_to_visit_the_pick_provider_page
@@ -92,8 +92,8 @@ RSpec.describe 'Candidate vists their applicatin form after the cycle has ended'
     expect(page).not_to have_link('Course choices')
   end
 
-  def when_i_click_check_and_submit_my_application
-    click_link 'Check and submit your application'
+  def when_i_click_review_your_application
+    click_link 'Review your application'
   end
 
   def when_i_try_to_visit_the_pick_provider_page
