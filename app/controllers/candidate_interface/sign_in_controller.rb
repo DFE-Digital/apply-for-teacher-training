@@ -31,8 +31,7 @@ module CandidateInterface
         flash[:success] = t('apply_from_find.account_created_message') if candidate.last_signed_in_at.nil?
         sign_in(candidate, scope: :candidate)
         add_identity_to_log candidate.id
-        candidate.update!(last_signed_in_at: Time.zone.now)
-        candidate.expire_magic_link_token!
+        candidate.update_sign_in_fields!
         redirect_to candidate_interface_interstitial_path
       else
         encrypted_candidate_id = Encryptor.encrypt(candidate.id)
