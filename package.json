@@ -16,8 +16,5 @@
     "roots": [
       "app"
     ]
-  },
-  "resolutions": {
-    "serialize-javascript": "^3.1.0"
   }
 }
