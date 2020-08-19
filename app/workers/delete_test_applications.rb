@@ -7,10 +7,8 @@ class DeleteTestApplications
     candidates_to_purge.delete_all
   end
 
-  TEST_ENVIRONMENTS = %w[development test qa review].freeze
-
   def self.can_run_in_this_environment?
-    TEST_ENVIRONMENTS.include?(HostingEnvironment.environment_name)
+    HostingEnvironment.test_environment?
   end
 
 private
