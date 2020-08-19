@@ -62,7 +62,7 @@ class EndOfCycleTimetable
   end
 
   def self.current_cycle_year
-    Time.zone.now > next_cycles_courses_open ? next_cycle_year : Time.zone.today.year
+    Time.zone.now > next_cycle_opens ? next_cycle_year : Time.zone.today.year
   end
 
   def self.next_cycle_year
