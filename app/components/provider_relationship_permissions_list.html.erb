@@ -28,13 +28,8 @@
   </ul>
 <% end %>
 
-<% if show_view_applications_only_section? %>
-  <% providers_that_can_only_view_applications = providers_that_can('view_applications_only') %>
+<% if show_view_applications_only_section? && permission_model.setup_at.present? %>
   <p class="govuk-!-margin-bottom-5 govuk-body">
-    <% if providers_that_can_only_view_applications.size > 1 %>
-      <%= training_provider.name %> has not set up permissions for this partnership yet.
-    <% else %>
-      <%= providers_that_can('view_applications_only').first.name %> can only view applications.
-    <% end %>
+    <%= providers_that_can('view_applications_only').first.name %> can only view applications.
   </p>
 <% end %>

@@ -41,24 +41,4 @@ RSpec.describe ProviderRelationshipPermissionsList do
 
     expect(result.css('.govuk-body')[3].text).to include("#{ratifying_provider.name} can only view applications.")
   end
-
-  context 'when the permissions for a provider relationship have not been set up' do
-    let(:provider_relationship_permissions) do
-      create(
-        :provider_relationship_permissions,
-        training_provider: training_provider,
-        ratifying_provider: ratifying_provider,
-        training_provider_can_make_decisions: false,
-        training_provider_can_view_safeguarding_information: false,
-        training_provider_can_view_diversity_information: false,
-        setup_at: nil,
-      )
-    end
-
-    it 'renders a message about setup' do
-      result = render_inline(described_class.new(provider_relationship_permissions))
-
-      expect(result.css('.govuk-body')[0].text).to include("#{training_provider.name} has not set up permissions for this partnership yet.")
-    end
-  end
 end
