@@ -21,10 +21,10 @@ module ProviderInterface
 
     def details
       if [current_user_has_permission_to_view_diversity_information?, application_in_correct_state?].all?(false)
-        return 'This will become available to users with permissions to `view diversity information` when an offer has been accepted'
+        return "This will become available to users with permissions to `view diversity information` when #{offer_context} offer has been accepted"
       end
 
-      return 'You will be able to view this when an offer has been accepted.' if current_user_has_permission_to_view_diversity_information?
+      return "You will be able to view this when #{offer_context} offer has been accepted." if current_user_has_permission_to_view_diversity_information?
 
       'This section is only available to users with permissions to `view diversity information`.' if application_in_correct_state?
     end
@@ -43,6 +43,10 @@ module ProviderInterface
     end
 
   private
+
+    def offer_context
+      application_choice.offer? ? 'your' : 'an'
+    end
 
     def disability_status
       return 'Prefer not to say' if equality_and_diversity['disabilities'].include?('Prefer not to say')

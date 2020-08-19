@@ -192,5 +192,35 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
         end
       end
     end
+
+    context 'when the application status is offer' do
+      let!(:application_choice) do
+        build(:application_choice,
+              application_form: application_form,
+              course: course,
+              status: 'offer')
+      end
+
+      context 'when provider user can view diversity information' do
+        it 'displays the correct text with correct offer context' do
+          provider_relationship_permissions
+          provider_user.provider_permissions.find_by(provider: training_provider)
+            .update!(view_diversity_information: true)
+          result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
+
+          expect(result.text).to include('You will be able to view this when your offer has been accepted.')
+        end
+      end
+
+      context 'when provider user does not have permissions to view diversity information' do
+        it 'displays the correct text with correct offer context' do
+          provider_user.provider_permissions.find_by(provider: training_provider)
+            .update!(view_diversity_information: false)
+          result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
+
+          expect(result.text).to include('This will become available to users with permissions to `view diversity information` when your offer has been accepted')
+        end
+      end
+    end
   end
 end
