@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@ministryofjustice/frontend": "^0.0.19-alpha",
-    "@rails/webpacker": "^5.2.0",
+    "@rails/webpacker": "^5.2.1",
     "accessible-autocomplete": "^2.0.3",
     "govuk-frontend": "^3.8.1",
     "jquery": "^3.5.1"
