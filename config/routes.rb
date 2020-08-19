@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
     get '/confirm_authentication', to: 'sign_in#confirm_authentication', as: :authenticate
     post '/confirm_authentication', to: 'sign_in#authenticate'
+    get '/authenticate', to: 'sign_in#expired'
 
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find
     post '/apply', to: 'apply_from_find#ucas_or_apply'
