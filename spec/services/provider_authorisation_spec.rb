@@ -299,6 +299,111 @@ RSpec.describe ProviderAuthorisation do
     end
   end
 
+  describe '#can_view_diversity_information?' do
+    let(:course) { create(:course, provider: training_provider, accredited_provider: accredited_provider) }
+    let(:training_provider) { create(:provider) }
+    let(:ratifying_provider) { create(:provider) }
+    let(:accredited_provider) { ratifying_provider }
+    let(:provider_relationship_permissions) do
+      create(
+        :provider_relationship_permissions,
+        ratifying_provider: ratifying_provider,
+        training_provider: training_provider,
+      )
+    end
+
+    before do
+      FeatureFlag.activate(:enforce_provider_to_provider_permissions)
+    end
+
+    subject(:can_view_diversity_information) do
+      described_class.new(actor: provider_user)
+        .can_view_diversity_information?(course: course)
+    end
+
+    context 'when a user is permitted to view diversity info for a training provider' do
+      let(:provider_user) { create(:provider_user, providers: [training_provider]) }
+
+      before do
+        provider_user.provider_permissions
+          .find_by(provider: training_provider)
+          .update!(view_diversity_information: true)
+
+        # These permissions are intentionally unrelated to test
+        # that the correct permissions are checked.
+        create(
+          :provider_relationship_permissions,
+          ratifying_provider: create(:provider),
+          training_provider: training_provider,
+        )
+      end
+
+      context 'the course is self-ratified' do
+        let(:accredited_provider) { nil }
+
+        it { is_expected.to be true }
+      end
+
+      context 'the course training provider is not permitted, the course accredited provider is permitted' do
+        before do
+          provider_relationship_permissions.update!(
+            ratifying_provider_can_view_diversity_information: true,
+            training_provider_can_view_diversity_information: false,
+          )
+        end
+
+        it { is_expected.to be false }
+      end
+
+      context 'the course accredited provider is not permitted, the course training provider is permitted' do
+        before { provider_relationship_permissions.update!(training_provider_can_view_diversity_information: true) }
+
+        it { is_expected.to be true }
+      end
+    end
+
+    context 'when a user is permitted to view diversity info for the accredited provider' do
+      let(:provider_user) { create(:provider_user, providers: [ratifying_provider]) }
+
+      before do
+        provider_user.provider_permissions
+          .find_by(provider: ratifying_provider)
+          .update!(view_diversity_information: true)
+
+        # These permissions are intentionally unrelated to test
+        # that the correct permissions are checked.
+        create(
+          :provider_relationship_permissions,
+          ratifying_provider: ratifying_provider,
+          training_provider: create(:provider),
+          ratifying_provider_can_view_diversity_information: true,
+        )
+      end
+
+      context 'the course training provider is not permitted, the course accredited provider is permitted' do
+        before { provider_relationship_permissions.update!(training_provider_can_view_diversity_information: false, ratifying_provider_can_view_diversity_information: true) }
+
+        it { is_expected.to be true }
+      end
+
+      context 'the course accredited provider is not permitted, the course training provider is permitted' do
+        before { provider_relationship_permissions.update!(training_provider_can_view_diversity_information: true, ratifying_provider_can_view_diversity_information: false) }
+
+        it { is_expected.to be false }
+      end
+    end
+
+    context 'when a user is not permitted to view diversity info' do
+      let(:provider_user) { create(:provider_user, providers: [training_provider]) }
+
+      before do
+        provider_relationship_permissions.update!(training_provider_can_make_decisions: true, ratifying_provider_can_make_decisions: true)
+      end
+
+      it { is_expected.to be false }
+    end
+  end
+
   describe 'can_manage_organisation?' do
     context 'for a support user' do
       let(:support_user) { create(:support_user) }
