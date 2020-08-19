@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Candidate interface - audit trail', type: :request, with_audited: true do
+  include Devise::Test::IntegrationHelpers
+
   def create_candidate(magic_link_token)
     create(
       :candidate,
@@ -24,10 +26,10 @@ RSpec.describe 'Candidate interface - audit trail', type: :request, with_audited
   it 'creates audit records attributed to the authenticated candidate' do
     magic_link_token = MagicLinkToken.new
     candidate = create_candidate(magic_link_token)
+    sign_in candidate
 
     expect {
       post candidate_interface_personal_details_update_url(
-        token: magic_link_token.raw,
         candidate_interface_personal_details_form: valid_attributes,
       )
     }.to(change { candidate.current_application.audits.count })
