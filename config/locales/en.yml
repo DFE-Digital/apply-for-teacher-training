@@ -141,6 +141,7 @@ en:
     withdraw_application: Are you sure you want to withdraw your application?
     gcse_naric_reference: Do you have a NARIC statement of comparability for your maths qualification?
     guidance: User guidance
+    applications_closed: Create an Apply for teacher training account
   layout:
     accessibility: Accessibility
     terms_of_use: Terms of use

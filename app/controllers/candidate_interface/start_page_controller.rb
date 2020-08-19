@@ -25,6 +25,8 @@ module CandidateInterface
     end
 
     def eligibility
+      redirect_to candidate_interface_applications_closed_path and return if EndOfCycleTimetable.between_cycles_apply_1?
+
       @eligibility_form = EligibilityForm.new
     end
 
@@ -40,12 +42,14 @@ module CandidateInterface
       end
     end
 
+    def applications_closed; end
+
+  private
+
     def eligibility_params
       params.fetch(:candidate_interface_eligibility_form, {}).permit(:eligible_citizen, :eligible_qualifications)
         .transform_values(&:strip)
     end
-
-  private
 
     def create_account_or_sign_in_params
       params.require(:candidate_interface_create_account_or_sign_in_form).permit(:existing_account, :email)

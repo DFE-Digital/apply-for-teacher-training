@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     post '/eligibility' => 'start_page#determine_eligibility'
     get '/not-eligible', to: 'start_page#not_eligible', as: :not_eligible
 
+    get '/applications-closed' => 'start_page#applications_closed', as: :applications_closed
+
     get '/sign-up', to: 'sign_up#new', as: :sign_up
     post '/sign-up', to: 'sign_up#create'
     get '/sign-up/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_up
