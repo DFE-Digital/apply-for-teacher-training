@@ -114,15 +114,14 @@ FactoryBot.define do
       trait :with_equality_and_diversity_data do
         equality_and_diversity do
           ethnicity = Class.new.extend(EthnicBackgroundHelper).all_combinations.sample
-          all_disabilities = CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map(&:first) << 'Other'
-          disabilities = all_disabilities.sample([*1..3].sample)
+          other_disability = 'Acquired brain injury'
+          all_disabilities = CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map(&:second) << other_disability
+          disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
           {
             sex: ['male', 'female', 'intersex', 'Prefer not to say'].sample,
             ethnic_group: ethnicity.first,
             ethnic_background: ethnicity.last,
-            disability_status: 'yes',
             disabilities: disabilities,
-            other_disability: (disabilities.include?('Other') ? Faker::Lorem.paragraph(sentence_count: 2) : nil),
           }
         end
       end
