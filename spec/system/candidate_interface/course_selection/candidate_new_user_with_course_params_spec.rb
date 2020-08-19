@@ -10,9 +10,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
     and_i_choose_to_apply_on_apply
     and_i_choose_i_need_an_account
-
     when_i_fill_in_the_eligiblity_form_with_yes
-
     when_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_course_selection_page
@@ -26,7 +24,6 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
     and_my_last_signed_in_at_should_be_now
 
     given_the_course_i_selected_has_multiple_sites
-
     when_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_multi_site_course_selection_page
@@ -50,6 +47,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
   end
 
   def given_the_course_i_selected_has_multiple_sites
+    click_on 'Sign out'
     @course_with_multiple_sites = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Herbology')
     @site1 = create(:site, provider: @course_with_multiple_sites.provider)
     @site2 = create(:site, provider: @course_with_multiple_sites.provider)

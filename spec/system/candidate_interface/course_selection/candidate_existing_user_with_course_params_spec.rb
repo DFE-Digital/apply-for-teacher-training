@@ -14,11 +14,8 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     when_i_arrive_at_the_apply_from_find_page_with_the_single_site_course_params
     and_i_go_to_sign_in
     then_i_should_see_the_course_selection_page
+    and_i_should_see_a_link_to_the_course_on_find
 
-    when_i_click_on_the_courses_link
-    then_i_should_be_redirected_to_the_course_on_find
-
-    when_i_return_to_the_course_selection_page
     when_i_say_yes
     then_i_should_see_the_courses_review_page
     and_i_should_see_the_course_name_and_code
@@ -31,6 +28,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_should_be_informed_i_have_already_selected_that_course
 
     # Multi-site course
+    given_i_am_signed_out
     given_the_course_i_selected_has_multiple_sites
     and_i_am_an_existing_candidate_on_apply
     and_i_have_less_than_3_application_options
@@ -43,6 +41,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     and_i_see_the_form_to_pick_a_location
     and_my_course_from_find_id_should_be_set_to_nil
 
+    given_i_am_signed_out
     and_the_course_i_selected_only_has_one_site
     and_i_am_an_existing_candidate_on_apply
     and_i_have_3_application_options
@@ -55,6 +54,10 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def given_i_am_signed_out
+    when_i_sign_out
   end
 
   def and_the_course_i_selected_only_has_one_site
@@ -201,18 +204,11 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
     expect(page).to have_content "You have already selected #{@course.name_and_code}."
   end
 
-  def when_i_click_on_the_courses_link
-    click_link("#{@course.provider.name} #{@course.name_and_code}")
-  end
-
-  def then_i_should_be_redirected_to_the_course_on_find
-    expect(page.current_url).to eq("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{@course.provider.code}/#{@course.code}")
-  end
-
-  def when_i_return_to_the_course_selection_page
-    when_i_arrive_at_the_apply_from_find_page_with_the_single_site_course_params
-    and_i_go_to_sign_in
-    then_i_should_see_the_course_selection_page
+  def and_i_should_see_a_link_to_the_course_on_find
+    expect(page).to have_link(
+      "#{@course.provider.name} #{@course.name_and_code}",
+      href: "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{@course.provider.code}/#{@course.code}",
+    )
   end
 
 private
