@@ -19,10 +19,18 @@ module CandidateInterface
     def course_details_row(application_choice)
       {
         key: 'Course',
-        value: govuk_link_to(application_choice.offered_course.name_and_code,
-                             application_choice.offered_course.find_url, target: '_blank', rel: 'noopener') +
-          tag.p(application_choice.course.description, class: 'govuk-body'),
+        value: course_details_row_value(application_choice),
       }
+    end
+
+    def course_details_row_value(application_choice)
+      if EndOfCycleTimetable.find_down?
+        tag.p(application_choice.offered_course.name_and_code, class: 'govuk-!-margin-bottom-0') + tag.p(application_choice.course.description, class: 'govuk-body')
+      else
+        govuk_link_to(application_choice.offered_course.name_and_code,
+                      application_choice.offered_course.find_url, target: '_blank', rel: 'noopener') +
+          tag.p(application_choice.course.description, class: 'govuk-body')
+      end
     end
 
     def rejection_reasons_row(application_choice)

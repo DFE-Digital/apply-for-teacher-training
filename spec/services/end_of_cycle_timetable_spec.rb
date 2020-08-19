@@ -150,4 +150,24 @@ RSpec.describe EndOfCycleTimetable do
       end
     end
   end
+
+  describe '.find_down?' do
+    it 'returns false before find closes' do
+      Timecop.travel(EndOfCycleTimetable.find_closes.beginning_of_day - 1.hour) do
+        expect(EndOfCycleTimetable.find_down?).to be false
+      end
+    end
+
+    it 'returns false after find_reopens' do
+      Timecop.travel(EndOfCycleTimetable.find_reopens.end_of_day + 1.hour) do
+        expect(EndOfCycleTimetable.find_down?).to be false
+      end
+    end
+
+    it 'returns true between find_closes and find_reopens' do
+      Timecop.travel(EndOfCycleTimetable.find_closes.end_of_day + 1.hour) do
+        expect(EndOfCycleTimetable.find_down?).to be true
+      end
+    end
+  end
 end

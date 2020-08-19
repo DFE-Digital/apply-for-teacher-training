@@ -16,6 +16,19 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.description)
       expect(result.css('.govuk-summary-list__value').to_html).to include('1 year')
       expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.start_date.strftime('%B %Y'))
+      expect(result.css('a').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
+    end
+
+    context 'when Find is down' do
+      it 'removes the link to Find' do
+        Timecop.travel(EndOfCycleTimetable.find_closes.end_of_day + 1.hour) do
+          application_choice = application_form.application_choices.first
+          result = render_inline(described_class.new(application_form: application_form))
+
+          expect(result.css('.govuk-summary-list__value').to_html).to include("#{application_choice.course.name} (#{application_choice.course.code})")
+          expect(result.css('a').to_html).not_to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
+        end
+      end
     end
 
     context 'When multiple courses available at a provider' do

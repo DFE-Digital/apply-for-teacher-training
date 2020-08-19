@@ -19,7 +19,7 @@
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-hint govuk-!-margin-bottom-8 govuk-!-margin-top-2"><%= @application_form_presenter.updated_at %></p>
 
-    <% if !CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(application_form: @application_form)%>
+    <% if !CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(@application_form)%>
       <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
         <%= t('page_titles.course_choices') %>
       </h2>
@@ -225,7 +225,7 @@
     <% if EndOfCycleTimetable.between_cycles?(@application_form.phase) %>
       <h2 class="govuk-heading-m govuk-!-font-size-27">Review</h2>
       <p class="govuk-body">
-        Applications for courses starting in <%= EndOfCycleTimetable.next_cycle_year %> open from <%= EndOfCycleTimetable.next_cycles_courses_open.to_s(:govuk_date) %>. You can continue to make changes to your application until then.
+        Applications for courses starting in <%= EndOfCycleTimetable.next_cycle_year %> open from <%= EndOfCycleTimetable.next_cycle_opens.to_s(:govuk_date) %>. You can continue to make changes to your application until then.
       </p>
       <%= govuk_button_link_to 'Review your application', candidate_interface_application_review_path %>
     <% else %>
