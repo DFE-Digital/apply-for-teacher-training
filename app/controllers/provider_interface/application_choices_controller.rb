@@ -9,17 +9,19 @@ module ProviderInterface
         state_store: session,
       )
 
-      # Adding GetApplicationChoicesForProviders as a subquery preserves
-      # the virtual attributes from the SELECT in SortApplicationChoices
-      application_choices = ProviderInterface::SortApplicationChoices.call(
-        application_choices: ApplicationChoice.where(
-          id: GetApplicationChoicesForProviders.call(providers: available_providers),
-        ),
+      application_choices = GetApplicationChoicesForProviders.call(
+        providers: available_providers,
       )
 
       application_choices = FilterApplicationChoicesForProviders.call(
         application_choices: application_choices,
         filters: @page_state.applied_filters,
+      )
+
+      # Using id: below turns all previous queries into a subquery for sorting
+      # which preserves the virtual attributes from the sorting SELECT
+      application_choices = ProviderInterface::SortApplicationChoices.call(
+        application_choices: ApplicationChoice.where(id: application_choices),
       )
 
       @application_choices = application_choices.page(params[:page] || 1).per(15)
