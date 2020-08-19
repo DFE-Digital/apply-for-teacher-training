@@ -3,23 +3,16 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
 
     def show
+      redirect_to candidate_interface_work_history_length_path if current_application.application_work_experiences.blank? &&
+        current_application.work_history_explanation.nil?
+
       @application_form = current_application
     end
 
     def complete
-      @application_form = current_application
+      current_application.update!(application_form_params)
 
-      if @application_form.application_work_experiences.blank? && @application_form.work_history_explanation.blank?
-        flash[:warning] = 'Please complete your work history or tell us why you’ve been out of the workplace'
-
-        @application_form.work_history_completed = false
-
-        render :show
-      else
-        @application_form.update!(application_form_params)
-
-        redirect_to candidate_interface_application_form_path
-      end
+      redirect_to candidate_interface_application_form_path
     end
 
   private

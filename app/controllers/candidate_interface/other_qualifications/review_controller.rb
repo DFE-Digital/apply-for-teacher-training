@@ -3,6 +3,8 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
 
     def show
+      redirect_to candidate_interface_new_other_qualification_type_path and return if current_application.application_qualifications.other.blank?
+
       @application_form = current_application
     end
 

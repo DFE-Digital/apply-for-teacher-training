@@ -51,9 +51,7 @@ RSpec.feature 'Entering their degrees' do
     # Delete and replace
     when_i_click_on_delete_degree
     and_i_confirm_that_i_want_to_delete_my_degree
-    when_i_mark_this_section_as_completed
-    and_i_click_on_continue
-    then_i_am_told_i_need_to_add_a_degree_to_complete_the_section
+    then_i_see_the_undergraduate_degree_form
 
     when_i_add_my_degree_back_in
     and_i_click_on_continue
@@ -221,7 +219,6 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_add_my_degree_back_in
-    when_i_click_on_add_another_degree
     when_i_fill_in_the_degree_type
     and_i_click_on_save_and_continue
 

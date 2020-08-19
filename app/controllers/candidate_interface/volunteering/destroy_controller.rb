@@ -14,8 +14,11 @@ module CandidateInterface
         .destroy!
 
       current_application.update!(volunteering_completed: false)
-
-      redirect_to candidate_interface_review_volunteering_path
+      if current_application.application_volunteering_experiences.blank?
+        redirect_to candidate_interface_volunteering_experience_path
+      else
+        redirect_to candidate_interface_review_volunteering_path
+      end
     end
 
   private

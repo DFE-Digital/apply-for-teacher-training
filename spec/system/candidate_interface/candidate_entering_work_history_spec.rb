@@ -25,9 +25,9 @@ RSpec.feature 'Entering their work history' do
 
     when_i_click_on_delete_entry
     and_i_confirm
-    then_i_should_be_asked_for_an_explanation
+    then_i_should_see_a_list_of_work_lengths
 
-    when_i_click_on_add_job
+    when_i_choose_more_than_5_years
     and_i_fill_in_the_job_form # 5/2014 - 1/2019
     then_i_should_see_my_completed_job
 
@@ -144,10 +144,6 @@ RSpec.feature 'Entering their work history' do
 
   def and_i_confirm
     click_button t('application_form.work_history.sure_delete_entry')
-  end
-
-  def then_i_should_be_asked_for_an_explanation
-    expect(page).to have_content('Explanation of why you’ve been out of the workplace')
   end
 
   def when_i_click_on_add_job
