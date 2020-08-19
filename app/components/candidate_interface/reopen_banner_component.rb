@@ -32,6 +32,6 @@ private
   end
 
   def reopen_date
-    EndOfCycleTimetable.date(:next_cycles_courses_open).to_s(:govuk_date)
+    EndOfCycleTimetable.date(:next_cycle_opens).to_s(:govuk_date)
   end
 end

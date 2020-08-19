@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::EndOfCyclePolicy do
   describe '#can_add_course_choice?' do
-    let(:execute_service) { described_class.can_add_course_choice?(application_form: application_form) }
+    let(:execute_service) { described_class.can_add_course_choice?(application_form) }
 
     context 'application form is in the apply1 state' do
       let(:application_form) { build_stubbed(:application_form) }
@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(EndOfCycleTimetable.next_cycles_courses_open) do
+          Timecop.travel(EndOfCycleTimetable.next_cycle_opens) do
             expect(execute_service).to eq true
           end
         end
@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(EndOfCycleTimetable.next_cycles_courses_open) do
+          Timecop.travel(EndOfCycleTimetable.next_cycle_opens) do
             expect(execute_service).to eq true
           end
         end

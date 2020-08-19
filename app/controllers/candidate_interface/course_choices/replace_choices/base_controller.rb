@@ -32,7 +32,7 @@ module CandidateInterface
       private
 
         def redirect_to_dashboard_if_cycle_is_over
-          redirect_to candidate_interface_application_form_path and return unless CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(application_form: current_application)
+          redirect_to candidate_interface_application_form_path and return unless CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(current_application)
         end
 
         def redirect_to_dashboard_if_no_choices_need_replacing
