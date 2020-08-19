@@ -12,6 +12,7 @@ module ProviderInterface
       [
         permissions_row('make decisions'),
         permissions_row('view safeguarding information'),
+        permissions_row('view diversity information'),
       ]
     end
 

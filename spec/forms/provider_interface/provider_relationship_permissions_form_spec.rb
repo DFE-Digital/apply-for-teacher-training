@@ -27,6 +27,8 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsForm do
           'training_provider_can_make_decisions' => true,
           'ratifying_provider_can_view_safeguarding_information' => false,
           'training_provider_can_view_safeguarding_information' => true,
+          'ratifying_provider_can_view_diversity_information' => false,
+          'training_provider_can_view_diversity_information' => true,
         })
 
       expect(permissions).to have_received(:save!)

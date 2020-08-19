@@ -2,7 +2,7 @@ class ProviderRelationshipPermissions < ApplicationRecord
   belongs_to :ratifying_provider, class_name: 'Provider'
   belongs_to :training_provider, class_name: 'Provider'
 
-  PERMISSIONS = %i[make_decisions view_safeguarding_information].freeze
+  PERMISSIONS = %i[make_decisions view_safeguarding_information view_diversity_information].freeze
 
   validate :at_least_one_active_permission_in_pair, if: -> { setup_at.present? }
   audited associated_with: :training_provider

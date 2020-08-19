@@ -153,6 +153,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     expect(page).to have_content 'Another Provider'
     expect(page).to have_content 'Make decisions'
     expect(page).not_to have_content 'Manage users'
+    expect(page).not_to have_content 'Access diversity information'
   end
 
   def when_i_click_to_change_the_users_name

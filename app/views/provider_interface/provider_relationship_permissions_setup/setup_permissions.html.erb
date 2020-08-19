@@ -30,9 +30,9 @@
               <p>This may include highly sensitive material about the candidate.</p>
 
               <h2 class="govuk-heading-m">Permission to view diversity information</h2>
-              <p>You can give an organisation access to information disclosed by the candidate in the ‘equality and diversity’ section of the application. </p>
+              <p>You can give an organisation access to information disclosed by the candidate in the ‘equality and diversity’ section of the application.</p>
 
-              <p>To avoid any unconscious bias in the selection process, this information only becomes available to training providers after an offer has been made and accepted. </p>
+              <p>To avoid any unconscious bias in the selection process, this information only becomes available to training providers after an offer has been made and accepted.</p>
             </div>
           </details>
         </div>
@@ -41,7 +41,7 @@
       <%= f.fields_for "provider_relationship_permissions[]", @permissions_form do |pf| %>
         <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
           <div class="govuk-form-group <%= permission_name.to_s.dasherize %>" id="<%= permission_name %>">
-            <%= f.govuk_check_boxes_fieldset permission_name, legend: { text: t("provider_relationship_permissions.form.fieldset.#{permission_name}") } do %>
+            <%= f.govuk_check_boxes_fieldset permission_name, legend: { text: "Which organisations can #{permission_name.to_s.humanize.downcase}?" } do %>
               <%= hidden_field_tag "#{pf.object_name}[#{permission_name}][]", '' %>
               <%= pf.govuk_check_box permission_name, 'training', link_errors: true,
                                      label: { text: @permissions_model.training_provider.name } %>

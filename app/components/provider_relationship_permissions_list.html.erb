@@ -10,9 +10,19 @@
 
 <% providers_that_can_view_safeguarding_information = providers_that_can('view_safeguarding_information') %>
 <% if providers_that_can_view_safeguarding_information.any? %>
-  <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can see safeguarding information:</p>
+  <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can view safeguarding information:</p>
   <ul class="govuk-list view-safeguarding-information">
     <% providers_that_can_view_safeguarding_information.each do |provider| %>
+      <li><%= render CheckIcon.new %> <%= provider.name %> </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<% providers_that_can_view_diversity_information = providers_that_can('view_diversity_information') %>
+<% if providers_that_can_view_diversity_information.any? %>
+  <p class="govuk-!-margin-bottom-1 govuk-body">The following organisation(s) can view diversity information:</p>
+  <ul class="govuk-list view-diversity-information">
+    <% providers_that_can_view_diversity_information.each do |provider| %>
       <li><%= render CheckIcon.new %> <%= provider.name %> </li>
     <% end %>
   </ul>

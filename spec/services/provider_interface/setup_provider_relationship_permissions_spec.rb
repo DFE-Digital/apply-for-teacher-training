@@ -8,8 +8,8 @@ RSpec.describe ProviderInterface::SetupProviderRelationshipPermissions do
     context 'with valid data' do
       let(:permissions_data) do
         {
-          permission_1.id => { 'make_decisions' => %w[training], 'view_safeguarding_information' => %w[training ratifying] },
-          permission_2.id => { 'make_decisions' => %w[ratifying], 'view_safeguarding_information' => %w[training] },
+          permission_1.id => { 'make_decisions' => %w[training], 'view_safeguarding_information' => %w[training ratifying], 'view_diversity_information' => %w[training ratifying] },
+          permission_2.id => { 'make_decisions' => %w[ratifying], 'view_safeguarding_information' => %w[training], 'view_diversity_information' => %w[training]  },
         }
       end
 
@@ -27,12 +27,16 @@ RSpec.describe ProviderInterface::SetupProviderRelationshipPermissions do
         expect(permission_1.ratifying_provider_can_make_decisions).to be false
         expect(permission_1.training_provider_can_view_safeguarding_information).to be true
         expect(permission_1.ratifying_provider_can_view_safeguarding_information).to be true
+        expect(permission_1.training_provider_can_view_diversity_information).to be true
+        expect(permission_1.ratifying_provider_can_view_diversity_information).to be true
 
         expect(permission_2.setup_at).not_to be_a DateTime
         expect(permission_2.training_provider_can_make_decisions).to be false
         expect(permission_2.ratifying_provider_can_make_decisions).to be true
         expect(permission_2.training_provider_can_view_safeguarding_information).to be true
         expect(permission_2.ratifying_provider_can_view_safeguarding_information).to be false
+        expect(permission_2.training_provider_can_view_diversity_information).to be true
+        expect(permission_2.ratifying_provider_can_view_diversity_information).to be false
       end
     end
 
@@ -45,8 +49,8 @@ RSpec.describe ProviderInterface::SetupProviderRelationshipPermissions do
     context 'when attempting to update raises an error' do
       let(:permissions_data) do
         {
-          permission_1.id => { 'make_decisions' => %w[training], 'view_safeguarding_information' => %w[ratifying] },
-          permission_2.id => { 'make_decisions' => [''], 'view_safeguarding_information' => [''] },
+          permission_1.id => { 'make_decisions' => %w[training], 'view_safeguarding_information' => %w[ratifying], 'view_diversity_information' => %w[ratifying] },
+          permission_2.id => { 'make_decisions' => [''], 'view_safeguarding_information' => [''], 'view_diversity_information' => [''] },
         }
       end
 
@@ -59,7 +63,7 @@ RSpec.describe ProviderInterface::SetupProviderRelationshipPermissions do
 
     context 'when a record has been set up' do
       let(:permission) { create(:provider_relationship_permissions) }
-      let(:permissions_data) { { permission.id => { 'make_decisions' => %w[training], 'view_safeguarding_information' => %w[ratifying] } } }
+      let(:permissions_data) { { permission.id => { 'make_decisions' => %w[training], 'view_safeguarding_information' => %w[ratifying], 'view_diversity_information' => %w[ratifying] } } }
 
       it 'raises ProviderInterface::PermissionsSetupError' do
         expect { described_class.call(permissions_data) }.to raise_error(ProviderInterface::PermissionsSetupError)

@@ -40,6 +40,11 @@ module ProviderInterface
         'Access safeguarding information',
         'View sensitive material about the candidate',
       ),
+      PermissionOption.new(
+        'view_diversity_information',
+        'Access diversity information',
+        'View diversity information about the candidate',
+      ),
     ].freeze
 
     class PermissionsForm

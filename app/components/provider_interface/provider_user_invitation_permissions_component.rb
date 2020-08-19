@@ -7,6 +7,7 @@ module ProviderInterface
       'manage_organisations' => 'Manage organisations',
       'manage_users' => 'Manage users',
       'make_decisions' => 'Make decisions',
+      'view_diversity_information' => 'Access diversity information',
     }.freeze
 
     def initialize(permissions)

@@ -33,6 +33,12 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
     when_i_visit_the_edit_provider_relationship_permissions_page
     and_i_remove_safeguarding_permissions_from_all_providers_and_attempt_to_save
     then_i_can_see_a_validation_error_telling_me_to_assign_an_org_to_a_permission
+
+    when_i_visit_the_edit_provider_relationship_permissions_page
+    and_i_allow_my_training_provider_to_view_diversity_information
+
+    then_i_can_see_the_permissions_were_successfully_changed
+    and_i_can_see_the_training_provider_has_permission_to_view_diversity
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -99,7 +105,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def and_i_allow_my_training_provider_to_view_safeguarding_information
-    expect(page).to have_content('Which organisations can see safeguarding information?')
+    expect(page).to have_content('Which organisations can view safeguarding information?')
 
     within('.view-safeguarding-information') do
       check @training_provider.name
@@ -113,7 +119,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def and_i_can_see_the_training_provider_has_permission_to_view_safeguarding
-    expect(page).to have_content('The following organisation(s) can see safeguarding information:')
+    expect(page).to have_content('The following organisation(s) can view safeguarding information:')
 
     within(find('.view-safeguarding-information', match: :first)) do
       expect(page).to have_content @training_provider.name
@@ -151,5 +157,23 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
 
   def then_i_can_see_a_validation_error_telling_me_to_assign_an_org_to_a_permission
     expect(page).to have_content('Select which organisations can view safeguarding information')
+  end
+
+  def and_i_allow_my_training_provider_to_view_diversity_information
+    expect(page).to have_content('Which organisations can view diversity information?')
+
+    within('.view-diversity-information') do
+      check @training_provider.name
+    end
+
+    click_on 'Save permissions'
+  end
+
+  def and_i_can_see_the_training_provider_has_permission_to_view_diversity
+    expect(page).to have_content('The following organisation(s) can view diversity information:')
+
+    within(find('.view-diversity-information', match: :first)) do
+      expect(page).to have_content @training_provider.name
+    end
   end
 end

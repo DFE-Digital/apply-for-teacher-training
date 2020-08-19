@@ -6,7 +6,8 @@ module ProviderInterface
                   :manage_organisations,
                   :manage_users,
                   :make_decisions,
-                  :view_safeguarding_information
+                  :view_safeguarding_information,
+                  :view_diversity_information
 
     delegate :provider, to: :model
     delegate :provider_user, to: :model

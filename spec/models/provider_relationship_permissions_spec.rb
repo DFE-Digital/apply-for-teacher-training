@@ -9,6 +9,7 @@ RSpec.describe ProviderRelationshipPermissions do
         ratifying_provider: build_stubbed(:provider),
         training_provider: build_stubbed(:provider),
         ratifying_provider_can_view_safeguarding_information: true,
+        ratifying_provider_can_view_diversity_information: true,
         setup_at: setup_at,
       )
     end
