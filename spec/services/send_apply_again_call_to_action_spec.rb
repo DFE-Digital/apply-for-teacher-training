@@ -47,7 +47,7 @@ RSpec.describe SendApplyAgainCallToAction do
         status: :rejected,
         application_form: unsuccessful_application_form,
       )
-      DuplicateApplication.new(unsuccessful_application_form).duplicate
+      ApplyAgain.new(unsuccessful_application_form).call
 
       expect { described_class.new.perform }.not_to(change { ActionMailer::Base.deliveries.count })
     end

@@ -69,7 +69,7 @@ RSpec.describe SubmitApplication do
         original_application_form.application_references << build(:reference, email_address: 'alice@example.com', feedback_status: :feedback_provided)
         original_application_form.application_references.reload
 
-        application_form = DuplicateApplication.new(original_application_form).duplicate
+        application_form = ApplyAgain.new(original_application_form).call
         application_form.application_choices << build(:application_choice, status: :unsubmitted)
 
         SubmitApplication.new(application_form).call
@@ -88,7 +88,7 @@ RSpec.describe SubmitApplication do
         original_application_form.application_references << build(:reference, email_address: 'alice@example.com', feedback_status: :not_requested_yet)
         original_application_form.application_references.reload
 
-        application_form = DuplicateApplication.new(original_application_form).duplicate
+        application_form = ApplyAgain.new(original_application_form).call
         application_form.application_choices << build(:application_choice, status: :unsubmitted)
 
         SubmitApplication.new(application_form).call

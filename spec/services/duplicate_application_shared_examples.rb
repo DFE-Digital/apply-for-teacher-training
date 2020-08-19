@@ -1,26 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe DuplicateApplication do
-  def original_application_form
-    Timecop.travel(-1.day) do
-      @original_application_form ||= create(
-        :completed_application_form,
-        application_choices_count: 3,
-        work_experiences_count: 1,
-        volunteering_experiences_count: 1,
-        with_gces: true,
-        full_work_history: true,
-      )
-      create_list(:reference, 2, feedback_status: :feedback_provided, application_form: @original_application_form)
-      create(:reference, feedback_status: :feedback_refused, application_form: @original_application_form)
-    end
-    @original_application_form
-  end
-
+RSpec.shared_examples 'duplicates application form' do |expected_phase|
   def duplicate_application_form
     return @duplicate_application_form if @duplicate_application_form
 
-    @duplicate_application_form ||= described_class.new(original_application_form).duplicate
+    @duplicate_application_form ||= described_class.new(original_application_form).call
   end
 
   it 'creates a new application form' do
@@ -43,8 +27,8 @@ RSpec.describe DuplicateApplication do
     expect(duplicate_application_form.course_choices_completed).to be false
   end
 
-  it 'sets the phase to `apply_2`' do
-    expect(duplicate_application_form).to be_apply_2
+  it "sets the phase to `#{expected_phase}`" do
+    expect(duplicate_application_form.phase).to eq expected_phase
   end
 
   it 'copies application references' do
