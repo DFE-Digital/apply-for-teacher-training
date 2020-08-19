@@ -1,1 +1,4 @@
   <p class="govuk-body"><%= message %></p>
+  <% if diversity_information_declared? -%>
+    <p class="govuk-body"><%= details %></p>
+  <% end -%>
