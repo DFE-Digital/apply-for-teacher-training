@@ -1,4 +1,8 @@
+<% if display_diversity_information? -%>
+  <%= render SummaryListComponent.new(rows: rows) %>
+<% else -%>
   <p class="govuk-body"><%= message %></p>
   <% if diversity_information_declared? -%>
     <p class="govuk-body"><%= details %></p>
   <% end -%>
+<% end -%>

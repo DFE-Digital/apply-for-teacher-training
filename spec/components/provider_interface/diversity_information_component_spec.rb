@@ -54,6 +54,74 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
               status: 'pending_conditions')
       end
 
+      context 'when provider user can view diversity information and the application is accepted' do
+        before do
+          provider_relationship_permissions
+          provider_user.provider_permissions.find_by(provider: training_provider)
+            .update!(view_diversity_information: true)
+        end
+
+        it 'displays the correct diversity information' do
+          result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
+
+          expect(result.text).not_to include('The candidate disclosed information in the equality and diversity questionare.')
+          expect(result.text).to include('Sex')
+          expect(result.text).to include('Male')
+          expect(result.text).to include('Ethnic group')
+          expect(result.text).to include('Asian or Asian British')
+          expect(result.text).to include('Ethnic background')
+          expect(result.text).to include('Chinese')
+          expect(result.text).to include('Disabled')
+          expect(result.text).to include('Yes')
+          expect(result.text).to include('The candidate disclosed the following disabilities:')
+          expect(result.text).to include('Mental health condition')
+          expect(result.text).to include('Social or communication impairment')
+          expect(result.text).to include('Acquired brain injury')
+        end
+
+        it 'does not dispay Ethnic background and Disabilities if they are not declaired' do
+          prefer_not_to_say_diveristy_info = { 'sex' => 'Prefer not to say',
+                                               'disabilities' => [],
+                                               'ethnic_group' => 'Prefer not to say',
+                                               'ethnic_background' => nil }
+
+          application_form = build_stubbed(
+            :application_form,
+            equality_and_diversity: prefer_not_to_say_diveristy_info,
+          )
+          application_choice = build(:application_choice,
+                                     application_form: application_form,
+                                     course: course,
+                                     status: 'pending_conditions')
+
+          result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
+          expect(result.text).to include('Prefer not to say')
+          expect(result.text).not_to include('Ethnic background')
+          expect(result.text).to include('No')
+          expect(result.text).not_to include('Disabilities')
+        end
+
+        it 'displays Prefer not to say for disabilities' do
+          prefer_not_to_say_disabilities_diveristy_info = { 'sex' => 'female',
+                                                            'disabilities' => ['Prefer not to say'],
+                                                            'ethnic_group' => 'Asian or Asian British',
+                                                            'ethnic_background' => 'Chinese' }
+
+          application_form = build_stubbed(
+            :application_form,
+            equality_and_diversity: prefer_not_to_say_disabilities_diveristy_info,
+          )
+          application_choice = build(:application_choice,
+                                     application_form: application_form,
+                                     course: course,
+                                     status: 'pending_conditions')
+
+          result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
+          expect(result.text).to include('Prefer not to say')
+          expect(result.text).not_to include('Disabilities')
+        end
+      end
+
       context 'when provider user does not have permissions to view diversity information and the application is accepted' do
         it 'displays the correct text' do
           provider_user.provider_permissions.find_by(provider: training_provider)
