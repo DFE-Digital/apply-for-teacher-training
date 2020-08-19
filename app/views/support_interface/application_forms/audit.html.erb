@@ -1,6 +1,6 @@
 <% content_for :browser_title, "Application history – Application ##{@application_form.id}" %>
 <% content_for :title do %>
-  <span class="govuk-caption-xl"><%= @application_form.candidate.email_address %></span>
+  <span class="govuk-caption-xl"><%= break_email_address(@application_form.candidate.email_address) %></span>
   Application history
 <% end %>
 
@@ -11,7 +11,7 @@
         <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
       </li>
       <li class="govuk-breadcrumbs__list-item">
-        <%= link_to @application_form.candidate.email_address, support_interface_application_form_path(@application_form), class: 'govuk-breadcrumbs__link' %>
+        <%= link_to break_email_address(@application_form.candidate.email_address), support_interface_application_form_path(@application_form), class: 'govuk-breadcrumbs__link' %>
       </li>
       <li class="govuk-breadcrumbs__list-item" aria-current="page">
         Application history
