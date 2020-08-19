@@ -1,12 +1,16 @@
-.app-application-card:first-of-type {
-  border-top: 1px solid govuk-colour('mid-grey');
-  padding-top: govuk-spacing(3);
+.app-application-cards {
+  h2.task_view_group_header {
+    padding-top: govuk-spacing(5);
+  }
+  h2.task_view_group_header:first-of-type {
+    padding-top: 0;
+  }
 }
 
 .app-application-card {
   border-bottom: 1px solid govuk-colour('mid-grey');
-  margin-bottom: govuk-spacing(3);
-  
+  margin-bottom: govuk-spacing(4);
+
   h3 {
     margin-bottom: 0;
   }

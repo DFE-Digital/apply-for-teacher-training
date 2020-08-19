@@ -11,9 +11,9 @@ module ProviderInterface
             CASE
               WHEN #{deferred_offers_pending_reconfirmation} THEN 1
               WHEN #{previous_cycle_pending_conditions} THEN 2
-              WHEN #{about_to_be_rejected_automatically} THEN 3
-              WHEN #{awaiting_provider_decision} THEN 4
-              WHEN #{waiting_on_candidate} THEN 5
+              WHEN #{about_to_be_rejected_automatically} THEN 4
+              WHEN #{awaiting_provider_decision} THEN 5
+              WHEN #{waiting_on_candidate} THEN 6
               ELSE 999
             END AS task_view_group,
             #{pg_days_left_to_respond} AS pg_days_left_to_respond
