@@ -43,6 +43,10 @@ class EndOfCycleTimetable
     DATES[name]
   end
 
+  def self.current_cycle_year
+    Time.zone.now > next_cycles_courses_open ? next_cycle_year : Time.zone.today.year
+  end
+
   def self.next_cycle_year
     date(:next_cycles_courses_open).year + 1
   end
