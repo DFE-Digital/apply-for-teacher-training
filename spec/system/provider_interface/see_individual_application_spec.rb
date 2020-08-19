@@ -34,6 +34,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_should_see_the_candidates_language_skills
     and_i_should_see_the_candidates_references
     and_i_should_see_the_disability_disclosure
+    and_i_should_see_diversity_information_section
     and_i_should_see_a_link_to_download_as_pdf
   end
 
@@ -87,6 +88,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
       disability_disclosure: 'I am hard of hearing',
       safeguarding_issues: 'I have something to say...',
       safeguarding_issues_status: :has_safeguarding_issues_to_declare,
+      equality_and_diversity: { 'sex' => 'male',
+                                'disabilities' => ['Mental health condition'],
+                                'ethnic_group' => 'Asian or Asian British',
+                                'ethnic_background' => 'Chinese' },
     )
 
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)
@@ -250,6 +255,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_i_should_see_the_disability_disclosure
     expect(page).to have_content 'I am hard of hearing'
+  end
+
+  def and_i_should_see_diversity_information_section
+    expect(page).to have_content 'The candidate disclosed information in the equality and diversity questionnaire.'
   end
 
   def and_i_should_see_a_link_to_download_as_pdf
