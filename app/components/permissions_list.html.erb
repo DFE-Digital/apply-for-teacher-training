@@ -11,7 +11,7 @@
     <li>
       <%= render CheckIcon.new %><span class="govuk-!-font-weight-bold">Make decisions</span>
       <% if training_providers_that_can('make_decisions').any? %>
-        <div class="govuk-!-margin-left-5">
+        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
           Applies to courses run by:
           <ul class="govuk-list">
             <% training_providers_that_can('make_decisions').each do |provider| %>
@@ -21,7 +21,7 @@
         </div>
       <% end %>
       <% if ratifying_providers_that_can('make_decisions').any? %>
-        <div class="govuk-!-margin-left-5">
+        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
           Applies to courses ratified by:
           <ul class="govuk-list">
             <% ratifying_providers_that_can('make_decisions').each do |provider| %>
@@ -37,7 +37,7 @@
     <li>
       <%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Access safeguarding information</span>
       <% if training_providers_that_can('view_safeguarding_information').any? %>
-        <div class="govuk-!-margin-left-5">
+        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
           Applies to courses run by:
           <ul class="govuk-list">
             <% training_providers_that_can('view_safeguarding_information').each do |provider| %>
@@ -47,7 +47,7 @@
         </div>
       <% end %>
       <% if ratifying_providers_that_can('view_safeguarding_information').any? %>
-        <div class="govuk-!-margin-left-5">
+        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
           Applies to courses ratified by:
           <ul class="govuk-list">
             <% ratifying_providers_that_can('view_safeguarding_information').each do |provider| %>
@@ -63,7 +63,7 @@
     <li>
       <%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Access diversity information</span>
       <% if training_providers_that_can('view_diversity_information').any? %>
-        <div class="govuk-!-margin-left-5">
+        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
           Applies to courses run by:
           <ul class="govuk-list">
             <% training_providers_that_can('view_diversity_information').each do |provider| %>
@@ -73,7 +73,7 @@
         </div>
       <% end %>
       <% if ratifying_providers_that_can('view_diversity_information').any? %>
-        <div class="govuk-!-margin-left-5">
+        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
           Applies to courses ratified by:
           <ul class="govuk-list">
             <% ratifying_providers_that_can('view_diversity_information').each do |provider| %>
