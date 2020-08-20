@@ -1,5 +1,5 @@
 <% content_for :title, title_with_error_prefix(t("gcse_edit_institution_country.page_title", subject: @subject.capitalize), @institution_country.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(:back) %>
+<% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
