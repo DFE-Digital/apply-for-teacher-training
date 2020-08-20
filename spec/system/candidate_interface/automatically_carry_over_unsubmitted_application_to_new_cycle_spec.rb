@@ -59,7 +59,7 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
   end
 
   def and_the_unsubmitted_application_carry_over_worker_runs
-    # TODO
+    CarryOverUnsubmittedApplicationsWorker.new.perform
   end
 
   def when_i_sign_in_again
