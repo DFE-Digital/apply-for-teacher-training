@@ -44,7 +44,6 @@ RSpec.feature 'Candidate account' do
 
   def and_i_try_to_resuse_the_same_magic_link
     @magic_link.click
-    confirm_sign_in
   end
 
   def then_i_am_prompted_to_get_a_new_magic_link

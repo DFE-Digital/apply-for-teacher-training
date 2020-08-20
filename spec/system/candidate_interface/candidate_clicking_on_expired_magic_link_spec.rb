@@ -37,7 +37,6 @@ RSpec.feature 'Candidate clicks on an expired magic link' do
       open_email(@candidate.email_address)
 
       click_magic_link_in_email
-      confirm_sign_in
     end
   end
 

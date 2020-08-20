@@ -14,7 +14,14 @@ module CandidateInterface
 
     def confirm_authentication
       candidate = retrieve_candidate_by_token || retrieve_candidate_by_user_id
-      redirect_to action: :new if candidate.nil?
+
+      redirect_to(action: :new) and return if candidate.nil?
+
+      if FindCandidateByToken.token_not_expired?(candidate)
+        render 'confirm_authentication'
+      else
+        redirect_to candidate_interface_expired_sign_in_path(u: params[:u])
+      end
     end
 
     def authenticate

@@ -12,11 +12,9 @@ RSpec.feature 'Candidate account' do
     then_i_can_sign_up_and_sign_out(@second_email)
 
     when_i_click_the_link_in_the_email_for(@first_email)
-    and_confirm_my_sign_in
     then_i_am_prompted_to_get_a_new_magic_link
 
     when_i_click_the_link_in_the_email_for(@second_email)
-    and_confirm_my_sign_in
     then_i_am_prompted_to_get_a_new_magic_link
   end
 
