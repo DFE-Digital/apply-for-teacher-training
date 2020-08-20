@@ -11,7 +11,14 @@ private
 
   def unsubmitted_applications_from_earlier_cycle
     # TODO: Remove hard-coded year
-    # TODO: Omit applications that have already been carried over (have a subsequent_application_form)
-    ApplicationForm.joins(application_choices: :course).where(submitted_at: nil).where('courses.recruitment_cycle_year' => 2020).distinct
+    ApplicationForm
+      .joins(application_choices: :course)
+      .where(submitted_at: nil)
+      .where('courses.recruitment_cycle_year' => 2020)
+      .where(
+        'application_forms.id NOT IN (:duplicated_applications)',
+        duplicated_applications: ApplicationForm.where.not(previous_application_form_id: nil).select(:previous_application_form_id),
+      )
+      .distinct
   end
 end

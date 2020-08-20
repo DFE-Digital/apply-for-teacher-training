@@ -45,7 +45,12 @@ RSpec.describe CarryOverUnsubmittedApplicationsWorker do
       expect(unsubmitted_application_from_this_year.reload.subsequent_application_form).not_to be_present
       expect(rejected_application_from_last_year.reload.subsequent_application_form).not_to be_present
 
-      expect(unsubmitted_application_from_last_year.reload.subsequent_application_form.application_choices).to be_empty
+      carried_over_application_form = unsubmitted_application_from_last_year.reload.subsequent_application_form
+
+      expect(carried_over_application_form.application_choices).to be_empty
+      expect(carried_over_application_form).to be_apply_1
+
+      expect { described_class.new.perform }.not_to(change { ApplicationForm.count })
     end
   end
 end
