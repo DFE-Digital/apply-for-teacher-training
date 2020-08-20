@@ -100,7 +100,7 @@ module VendorAPI
         provider_code: course_option.course.provider.code,
         site_code: course_option.site.code,
         course_code: course_option.course.code,
-        study_mode: course_option.course.study_mode,
+        study_mode: course_option.study_mode,
       }
     end
 
