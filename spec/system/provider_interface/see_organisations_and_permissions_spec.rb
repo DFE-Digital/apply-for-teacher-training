@@ -9,7 +9,7 @@ RSpec.feature 'See organisation permissions' do
     and_i_can_manage_organisations_for_a_provider
     and_the_provider_has_courses_ratified_by_another_provider
     and_the_ratifying_provider_has_courses_run_by_another_provider
-    and_the_ratifying_provider_has_courses_run_by_unmanagable_provider
+    and_the_ratifying_provider_has_courses_run_by_unmanagable_providers
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_the_provider_organisations_page
@@ -74,18 +74,22 @@ RSpec.feature 'See organisation permissions' do
     )
   end
 
-  def and_the_ratifying_provider_has_courses_run_by_unmanagable_provider
+  def and_the_ratifying_provider_has_courses_run_by_unmanagable_providers
     @unmanageable_training_provider = create(:provider)
     create(
       :provider_relationship_permissions,
       ratifying_provider: @ratifying_provider,
       training_provider: @unmanageable_training_provider,
       training_provider_can_make_decisions: false,
-      ratifying_provider_can_make_decisions: true,
-      ratifying_provider_can_view_safeguarding_information: true,
       training_provider_can_view_safeguarding_information: false,
-      ratifying_provider_can_view_diversity_information: true,
       training_provider_can_view_diversity_information: false,
+      setup_at: nil,
+    )
+    @another_unmanageable_training_provider = create(:provider)
+    create(
+      :provider_relationship_permissions,
+      ratifying_provider: @ratifying_provider,
+      training_provider: @another_unmanageable_training_provider,
       setup_at: Time.zone.now,
     )
   end
@@ -107,7 +111,10 @@ RSpec.feature 'See organisation permissions' do
   def then_i_can_see_permissions_for_the_ratifying_provider
     expect(page.text).to include("For courses ratified by #{@ratifying_provider.name} and run by #{@unmanageable_training_provider.name}")
     expect(page).to have_content("The following organisation(s) can view safeguarding information:\n#{@ratifying_provider.name}")
-    expect(page.text).to include("Contact #{@unmanageable_training_provider.name} to change permissions.")
+    expect(page).to have_content("#{@unmanageable_training_provider.name} have not set up permissions yet - only they can set up permissions. Contact them to do this.")
+
+    expect(page.text).to include("For courses ratified by #{@ratifying_provider.name} and run by #{@another_unmanageable_training_provider.name}")
+    expect(page).to have_content("Contact #{@another_unmanageable_training_provider.name} to change permissions")
   end
 
   def and_i_can_see_permissions_for_the_training_provider
@@ -123,7 +130,6 @@ RSpec.feature 'See organisation permissions' do
 
   def then_i_can_see_permissions_for_the_training_provider
     expect(page).to have_content("For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}")
-    expect(page).to have_content("#{@training_provider.name} can only view applications.")
 
     expect(page).to have_link('Change', href: provider_interface_edit_provider_relationship_permissions_path(@permissions))
   end
