@@ -88,7 +88,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
   end
 
   def then_we_have_received_a_slack_message
-    expect_slack_message_with_text("It contained 1 new matches, 1 updated matches, and 1 matches that we've already seen.")
+    expect_slack_message_with_text('It contained 1 new matches, 1 updated matches, and 1 matches that we’ve already seen.')
   end
 
   def when_i_visit_the_ucas_matches_page_in_support
