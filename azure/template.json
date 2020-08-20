@@ -346,6 +346,12 @@
                 "description": "The upload folder for UCAS data exchange"
             }
         },
+        "ucasDownloadZipPassword": {
+            "type": "string",
+            "metadata": {
+                "description": "The password to the zipfile that UCAS sends us"
+            }
+        },
         "stateChangeSlackUrl": {
             "type": "string",
             "metadata": {
@@ -702,6 +708,10 @@
                             {
                                 "name": "UCAS_UPLOAD_FOLDER",
                                 "value": "[parameters('ucasUploadFolder')]"
+                            },
+                            {
+                                "name": "UCAS_DOWNLOAD_ZIP_PASSWORD",
+                                "value": "[parameters('ucasDownloadZipPassword')]"
                             },
                             {
                                 "name": "UCAS_ZIP_PASSWORD",

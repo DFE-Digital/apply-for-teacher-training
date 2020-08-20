@@ -32,7 +32,7 @@ RSpec.feature 'Uploading of matching data to UCAS', sidekiq: true do
   def when_the_daily_upload_runs
     @latest_exception = nil
     UCASMatching::UploadMatchingData.new.perform
-  rescue UCASMatching::ApiError => e
+  rescue UCASMatching::APIError => e
     @latest_exception = e
   end
 

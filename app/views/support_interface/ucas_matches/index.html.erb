@@ -1,0 +1,29 @@
+<% content_for :title, 'UCAS matches' %>
+
+<table class='govuk-table'>
+  <thead class='govuk-table__head'>
+    <tr class='govuk-table__row'>
+      <th scope='col' class='govuk-table__header'>Status</th>
+      <th scope='col' class='govuk-table__header'>Candidate</th>
+      <th scope='col' class='govuk-table__header'>Last update</th>
+    </tr>
+  </thead>
+
+  <tbody class='govuk-table__body'>
+    <% @matches.each do |match| %>
+      <tr class='govuk-table__row'>
+        <td class='govuk-table__cell'>
+          <%= render TagComponent.new(text: match.matching_state.humanize, type: match.processed? ? :green : :default) %>
+        </td>
+
+        <td class='govuk-table__cell'>
+          <%= govuk_link_to match.candidate.email_address, support_interface_ucas_match_path(match) %>
+        </td>
+
+        <td class='govuk-table__cell'>
+          <%= match.updated_at.to_s(:govuk_date_and_time) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
