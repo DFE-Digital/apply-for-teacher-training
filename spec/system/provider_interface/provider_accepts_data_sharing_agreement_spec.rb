@@ -16,6 +16,7 @@ RSpec.feature 'Accept data sharing agreement' do
     and_i_am_presented_with_a_data_sharing_agreement
     and_i_cannot_navigate_to_pages_i_do_not_have_access_to
     when_i_agree_to_the_data_sharing_agreement
+    then_i_can_see_the_data_sharing_agreement_success_page
     then_i_can_navigate_to_the_provider_interface
   end
 
@@ -27,7 +28,20 @@ RSpec.feature 'Accept data sharing agreement' do
     when_i_agree_to_the_data_sharing_agreement
     then_i_am_redirected_to_the_data_sharing_agreement_pages
     when_i_agree_to_the_data_sharing_agreement_again
+    then_i_can_see_the_data_sharing_agreement_success_page
     then_i_can_navigate_to_the_provider_interface
+  end
+
+  scenario 'Provider user with an organisation to set up accepts the data sharing agreement' do
+    given_i_am_an_authorised_provider_user
+    and_no_data_sharing_agreement_for_my_provider_has_been_accepted
+    and_the_provider_permissions_feature_is_enabled
+    and_i_need_to_set_up_organisation_permissions
+    and_i_am_presented_with_a_data_sharing_agreement
+    and_i_cannot_navigate_to_pages_i_do_not_have_access_to
+    when_i_agree_to_the_data_sharing_agreement
+    then_i_can_see_the_data_sharing_agreement_success_page_with_organisation_setup_steps
+    and_i_can_proceed_to_set_up_organisation_permissions
   end
 
   def given_i_am_an_authorised_provider_user
@@ -48,6 +62,17 @@ RSpec.feature 'Accept data sharing agreement' do
     provider2.provider_users << provider_user
     ProviderAgreement.data_sharing_agreements.for_provider(provider1).destroy_all
     ProviderAgreement.data_sharing_agreements.for_provider(provider2).destroy_all
+  end
+
+  def and_the_provider_permissions_feature_is_enabled
+    FeatureFlag.activate('enforce_provider_to_provider_permissions')
+  end
+
+  def and_i_need_to_set_up_organisation_permissions
+    provider_user = ProviderUser.find_by_dfe_sign_in_uid 'DFE_SIGN_IN_UID'
+    provider = Provider.find_by_code('ABC')
+    provider_user.provider_permissions.where(provider: provider).update_all(manage_organisations: true)
+    create(:provider_relationship_permissions, setup_at: nil, training_provider: provider)
   end
 
   def when_i_navigate_to_the_provider_interface
@@ -72,7 +97,20 @@ RSpec.feature 'Accept data sharing agreement' do
     click_on 'Continue'
   end
 
+  def then_i_can_see_the_data_sharing_agreement_success_page
+    expect(page).to have_content("You've successfully signed the data sharing agreement")
+    expect(page).to have_content('Continue to your applications.')
+    expect(page).to have_link('Continue')
+  end
+
+  def then_i_can_see_the_data_sharing_agreement_success_page_with_organisation_setup_steps
+    expect(page).to have_content("You've successfully signed the data sharing agreement")
+    expect(page).to have_content('You need to set up permissions for your organisation before you do anything else')
+    expect(page).to have_link('Set up permissions')
+  end
+
   def then_i_can_navigate_to_the_provider_interface
+    click_on 'Continue'
     expect(page).to have_current_path provider_interface_applications_path
   end
 
@@ -82,5 +120,11 @@ RSpec.feature 'Accept data sharing agreement' do
     expect(page).not_to have_link 'Users'
     expect(page).not_to have_link 'Account'
     expect(page).not_to have_link 'Applications'
+  end
+
+  def and_i_can_proceed_to_set_up_organisation_permissions
+    click_on 'Set up permissions'
+
+    expect(page).to have_content('Set up permissions for your organisation')
   end
 end

@@ -12,11 +12,15 @@ module ProviderInterface
 
     def create_data_sharing_agreement
       @provider_agreement = ProviderAgreement.new(provider_agreement_params.merge(provider_user: current_provider_user))
-      if @provider_agreement.save
-        redirect_to provider_interface_path
-      else
-        render :data_sharing_agreement
-      end
+
+      render :data_sharing_agreement and return unless @provider_agreement.save
+
+      @provider_setup = ProviderSetup.new(provider_user: current_provider_user)
+      @provider_relationship_pending = @provider_setup.next_relationship_pending.present?
+
+      render :success and return if @provider_setup.next_agreement_pending.blank?
+
+      redirect_to provider_interface_new_data_sharing_agreement_path
     end
 
   private
