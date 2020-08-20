@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Candidate clicks on an expired magic link' do
+  include SignInHelper
+
   scenario 'Candidate clicks on a link with an id and expired token link in an email' do
     given_the_pilot_is_open
     and_i_am_a_candidate_with_an_application
@@ -34,7 +36,7 @@ RSpec.feature 'Candidate clicks on an expired magic link' do
     Timecop.travel(Time.zone.now + 1.hour + 1.minute) do
       open_email(@candidate.email_address)
 
-      current_email.find_css('a').first.click
+      click_magic_link_in_email
     end
   end
 

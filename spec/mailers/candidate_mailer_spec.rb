@@ -35,7 +35,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'heading' => 'Application submitted',
       'support reference' => 'SUPPORT-REFERENCE',
       'RBD time limit' => "to make an offer within #{TimeLimitCalculator.new(rule: :reject_by_default, effective_date: Time.zone.today).call.fetch(:days)} working days",
-      'magic link to authenticate' => 'http://localhost:3000/candidate/authenticate?token=raw_token&u=encrypted_id',
+      'magic link to authenticate' => 'http://localhost:3000/candidate/confirm_authentication?token=raw_token&u=encrypted_id',
     )
 
     context 'when the covid-19 feature flag is on' do
@@ -73,7 +73,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'Your application is being considered',
         'heading' => 'Dear Bob',
         'working days the provider has to respond' => '10 working days',
-        'magic link to authenticate' => 'http://localhost:3000/candidate/authenticate?token=raw_token&u=encrypted_id'
+        'magic link to authenticate' => 'http://localhost:3000/candidate/confirm_authentication?token=raw_token&u=encrypted_id'
       )
     end
 

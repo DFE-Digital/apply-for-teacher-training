@@ -33,3 +33,6 @@ en:
     expired_token:
       heading: The link you clicked has expired
       button: Email me a new link
+    confirm_authentication:
+      heading: Confirm sign in
+      button_continue: Continue

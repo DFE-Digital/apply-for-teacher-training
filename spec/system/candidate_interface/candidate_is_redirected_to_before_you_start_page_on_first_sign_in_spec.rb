@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'A new candidate is encouraged to select a course' do
+  include SignInHelper
+
   scenario 'Candidate is redirected to the before you start page on their first sign in' do
     given_the_pilot_is_open
 
@@ -12,10 +14,10 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     and_click_on_the_magic_link
     then_i_should_see_the_before_you_start_page
     and_i_should_see_an_account_created_flash_message
-
     when_i_click_choose_a_course
     then_i_should_see_the_course_choices_index_page
 
+    when_i_sign_out
     when_i_visit_apply
     and_i_click_start_now
     and_i_confirm_i_am_not_already_signed_up
@@ -30,7 +32,7 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     and_i_should_not_see_an_account_created_flash_message
 
     when_i_amend_my_application
-    and_i_sign_out
+    when_i_sign_out
 
     when_i_visit_apply
     and_i_click_start_now
@@ -80,7 +82,8 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   def and_click_on_the_magic_link
     open_email(@email)
-    current_email.find_css('a').first.click
+    click_magic_link_in_email
+    confirm_sign_in
   end
 
   def then_i_should_see_the_before_you_start_page
@@ -125,7 +128,7 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     click_button 'Save and continue'
   end
 
-  def and_i_sign_out
+  def when_i_sign_out
     click_on 'Sign out'
   end
 end

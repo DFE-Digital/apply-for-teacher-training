@@ -99,4 +99,17 @@ RSpec.describe Candidate, type: :model do
       expect(candidate.encrypted_id).to eq 'encrypted id value'
     end
   end
+
+  describe '#update_sign_in_fields!' do
+    it 'clears the magic link fields and sets last_signed_in_at' do
+      Timecop.freeze(Time.zone.local(0)) do
+        candidate = create(:candidate, magic_link_token: 'token', magic_link_token_sent_at: Time.zone.now)
+        candidate.update_sign_in_fields!
+
+        expect(candidate.magic_link_token).to be_nil
+        expect(candidate.magic_link_token_sent_at).to be_nil
+        expect(candidate.last_signed_in_at).to eq Time.zone.local(0)
+      end
+    end
+  end
 end

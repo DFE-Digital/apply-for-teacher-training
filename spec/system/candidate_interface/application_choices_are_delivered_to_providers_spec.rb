@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Candidate application choices are delivered to providers' do
+  include SignInHelper
+
   scenario 'the candidate receives an email' do
     given_my_application_is_ready_to_send_to_providers
 
@@ -29,7 +31,9 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
     candidate = @application_choice.application_form.candidate
     open_email(candidate.email_address)
 
-    current_email.find_css('a').first.click
+    click_magic_link_in_email
+    confirm_sign_in
+
     expect(page).to have_content 'Application dashboard'
   end
 end

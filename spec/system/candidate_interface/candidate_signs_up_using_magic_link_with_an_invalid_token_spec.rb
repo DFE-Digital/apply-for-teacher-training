@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Candidate tries to sign up using magic link with an invalid token' do
+  include SignInHelper
+
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
     given_the_pilot_is_open
     and_the_covid_19_feature_flag_is_active
@@ -14,11 +16,13 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
 
     when_the_magic_link_token_is_overwritten
     and_i_click_on_the_link_in_my_email
+    and_i_confirm_the_sign_in
     then_i_am_taken_to_the_expired_link_page
 
     when_i_click_the_button_to_send_me_a_sign_in_email
     then_i_receive_an_email_inviting_me_to_sign_in
     and_i_click_on_the_link_in_my_email
+    and_i_confirm_the_sign_in
     then_i_see_the_before_you_start_page
     and_i_should_see_an_account_created_flash_message
     and_i_should_not_see_the_covid19_banner
@@ -75,7 +79,11 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   end
 
   def and_i_click_on_the_link_in_my_email
-    current_email.find_css('a').first.click
+    click_magic_link_in_email
+  end
+
+  def and_i_confirm_the_sign_in
+    confirm_sign_in
   end
 
   def then_i_am_taken_to_the_expired_link_page

@@ -36,6 +36,14 @@ class Candidate < ApplicationRecord
     magic_link_token.raw
   end
 
+  def update_sign_in_fields!
+    update!(
+      magic_link_token: nil,
+      magic_link_token_sent_at: nil,
+      last_signed_in_at: Time.zone.now,
+    )
+  end
+
   def encrypted_id
     Encryptor.encrypt(id)
   end

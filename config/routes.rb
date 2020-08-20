@@ -42,7 +42,9 @@ Rails.application.routes.draw do
     get '/sign-in/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_in
     get '/sign-in/expired', to: 'sign_in#expired', as: :expired_sign_in
 
-    get '/authenticate', to: 'sign_in#authenticate', as: :authenticate
+    get '/confirm_authentication', to: 'sign_in#confirm_authentication', as: :authenticate
+    post '/confirm_authentication', to: 'sign_in#authenticate'
+    get '/authenticate', to: 'sign_in#expired'
 
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find
     post '/apply', to: 'apply_from_find#ucas_or_apply'
