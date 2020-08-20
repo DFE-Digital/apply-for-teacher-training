@@ -17,7 +17,7 @@
               <%= t('page_titles.address') %>
             </h1>
           </legend>
-          <%= f.govuk_text_field :address_line1, label: { text: t('application_form.contact_details.address_line1.label') }, autocomplete: 'address-line1' %>
+          <%= f.govuk_text_field :address_line1, label: ->{ safe_join([t('application_form.contact_details.address_line1.label'), ' ', tag.span(t('application_form.contact_details.address_line1.hidden'), class: 'govuk-visually-hidden')]) }, autocomplete: 'address-line1' %>
           <%= f.govuk_text_field :address_line2, label: { text: t('application_form.contact_details.address_line2.label'), hidden: true }, autocomplete: 'address-line2' %>
           <%= f.govuk_text_field :address_line3, label: { text: t('application_form.contact_details.address_line3.label') }, width: 'two-thirds', autocomplete: 'address-level2' %>
           <%= f.govuk_text_field :address_line4, label: { text: t('application_form.contact_details.address_line4.label') }, width: 'two-thirds', autocomplete: 'address-level1' %>
