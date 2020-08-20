@@ -54,6 +54,7 @@ en:
     pending_conditions: Offer accepted
     recruited: Conditions met
     rejected: Unsuccessful
+    rejected_at_end_of_cycle: Rejected at end of cycle
     unsubmitted: Not submitted yet
     withdrawn: Application withdrawn
     conditions_not_met: Conditions not met
@@ -61,6 +62,7 @@ en:
     application_complete: Submitted
     awaiting_provider_decision: Submitted
     awaiting_references: Awaiting references
+    rejected_at_end_of_cycle: Rejected at end of cycle
     cancelled: Application cancelled
     declined: Declined
     enrolled: Enrolled
@@ -93,6 +95,10 @@ en:
         - candidate_mailer-chase_reference_again
         - referee_mailer-reference_request_chaser_email
         - referee_mailer-reference_request_chase_again_email
+
+    rejected_at_end_of_cycle:
+      name: Reject at the end of the cycle
+      description: Application choices that are awaiting references at are automatically rejectd at the end of the cycle
 
     application_complete:
       name: Waiting to be sent
@@ -218,6 +224,11 @@ en:
       name: Candidate cancels
       by: candidate
       description: If the application has not been sent to the provider, the candidate can still cancel the application.
+
+    awaiting_references-reject_at_end_of_cycle:
+      name: Awaiting references applications rejected
+      by: system
+      description: Application choices that are awaiting references at are automatically rejectd at the end of the cycle
 
     application_complete-cancel:
       name: Candidate cancels
