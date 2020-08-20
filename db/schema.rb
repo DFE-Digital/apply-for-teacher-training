@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_11_113541) do
+ActiveRecord::Schema.define(version: 2020_08_19_081548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -464,6 +464,15 @@ ActiveRecord::Schema.define(version: 2020_08_11_113541) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "ucas_matches", force: :cascade do |t|
+    t.bigint "candidate_id", null: false
+    t.json "matching_data"
+    t.string "matching_state"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["candidate_id"], name: "index_ucas_matches_on_candidate_id"
+  end
+
   create_table "validation_errors", force: :cascade do |t|
     t.string "form_object", null: false
     t.integer "user_id"
@@ -517,5 +526,6 @@ ActiveRecord::Schema.define(version: 2020_08_11_113541) do
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"
+  add_foreign_key "ucas_matches", "candidates"
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
 end

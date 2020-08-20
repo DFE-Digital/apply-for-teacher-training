@@ -53,3 +53,5 @@ testArtifacts/*
 
 # ignore asdf-vm file, supports running multiple ruby version
 .tool-versions
+
+spec/system/ucas_matching/matching_data_example.zip

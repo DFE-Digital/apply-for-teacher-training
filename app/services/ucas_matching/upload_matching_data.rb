@@ -28,7 +28,7 @@ module UCASMatching
 
       unless response.status.success?
         Rails.logger.info "HTTP #{response.status} when uploading to Movit: '#{response}'"
-        raise ApiError, "HTTP #{response.status} when uploading to Movit: '#{response}'"
+        raise UCASMatching::APIError, "HTTP #{response.status} when uploading to Movit: '#{response}'"
       end
 
       Rails.logger.info 'Successfully uploaded file to UCAS Movit'

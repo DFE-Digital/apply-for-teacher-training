@@ -1,0 +1,23 @@
+<% content_for :title, "UCAS match: #{@match.candidate.email_address}" %>
+
+<p class="govuk-body">
+  <%= render TagComponent.new(text: @match.matching_state.humanize, type: @match.processed? ? :green : :default) %> Last updated <%= @match.updated_at.to_s(:govuk_date_and_time) %>
+</p>
+
+<p class="govuk-body">
+  <% unless @match.processed? %>
+    <%= form_with url: support_interface_process_match_path(@match), method: :post do |f| %>
+      <%= f.submit 'Mark as processed', class: 'govuk-button' %>
+    <% end %>
+  <% end %>
+</p>
+
+<h2 class='govuk-heading-l'>Matched courses</h2>
+
+<% @match.matching_data.each do |matching_datum| %>
+  <%= render SummaryListComponent.new(rows: matching_datum) %>
+<% end %>
+
+<h2 class='govuk-heading-l'>History</h2>
+
+<%= render SupportInterface::AuditTrailComponent.new(audited_thing: @match) %>

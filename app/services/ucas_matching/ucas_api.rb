@@ -19,7 +19,7 @@ module UCASMatching
       if response.status.success?
         JSON.parse(response.body).fetch('access_token')
       else
-        raise ApiError, "HTTP #{response.status} when fetching access token: '#{response}'"
+        raise UCASMatching::APIError, "HTTP #{response.status} when fetching access token: '#{response}'"
       end
     end
 
@@ -30,7 +30,9 @@ module UCASMatching
     def self.upload_folder
       ENV.fetch('UCAS_UPLOAD_FOLDER')
     end
-  end
 
-  class ApiError < StandardError; end
+    def self.download_folder
+      HostingEnvironment.production? ? 696965300 : 691078359
+    end
+  end
 end

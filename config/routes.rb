@@ -646,6 +646,9 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_forms#index'
     get '/applications/unavailable-choices' => 'application_forms#unavailable_choices', as: :unavailable_choices
+    get '/ucas-matches' => 'ucas_matches#index', as: :ucas_matches
+    get '/ucas-matches/:id' => 'ucas_matches#show', as: :ucas_match
+    post '/ucas-matches/:id/process-match' => 'ucas_matches#process_match', as: :process_match
 
     scope path: '/applications/:application_form_id' do
       get '/' => 'application_forms#show', as: :application_form

@@ -248,6 +248,7 @@ jobs:
                 -ucasZipPassword "${{parameters.ucasZipPassword}}"
                 -ucasUploadBaseurl "$(ucasUploadBaseurl)"
                 -ucasUploadFolder "$(ucasUploadFolder)"
+                -ucasDownloadZipPassword "$(ucasDownloadZipPassword)"
                 -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"
                 -sandbox "${{parameters.sandbox}}"'
               deploymentOutputs: DeploymentOutput

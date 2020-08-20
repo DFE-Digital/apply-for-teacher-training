@@ -26,4 +26,14 @@ class Clock
       UCASMatching::UploadMatchingData.perform_async
     end
   end
+
+  every(1.day, 'UCASMatching::ProcessMatchingData', at: '9:00') do
+    if Time.zone.today.weekday?
+      if HostingEnvironment.qa?
+        UCASMatching::UploadTestFile.new.upload
+      end
+
+      UCASMatching::ProcessMatchingData.perform_async
+    end
+  end
 end
