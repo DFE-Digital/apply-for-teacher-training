@@ -6,4 +6,12 @@ module RecruitmentCycle
       2020
     end
   end
+
+  def self.previous_year
+    current_year - 1
+  end
+
+  def self.visible_years
+    [current_year, previous_year]
+  end
 end
