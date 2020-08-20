@@ -6,7 +6,7 @@
   @return url("~assets/images/" + $filename);
 }
 
-$moj-images-path: '~@ministryofjustice/frontend/moj/assets/images/';
+$moj-images-path: "~@ministryofjustice/frontend/moj/assets/images/";
 $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
@@ -15,7 +15,7 @@ $govuk-breakpoints: (
   tablet: 641px,
   large: 945px,
   desktop: 769px,
-  wide: 1300px
+  wide: 1300px,
 );
 
 // Shared (govuk-frontend components and overrides)

@@ -14,6 +14,7 @@ import initDegreeTypeAutocomplete from "./degree-type-autocomplete";
 import initGcseGradeAutocomplete from "./gcse-grade-autocomplete";
 import initIeltsBandScoreAutocomplete from "./ielts-band-score-autocomplete";
 import nationalitiesComponent from "./nationalities-component";
+import initBackLinks from "./app-back-link";
 import "accessible-autocomplete/dist/accessible-autocomplete.min.css";
 import "../styles/application-candidate.scss";
 
@@ -31,3 +32,4 @@ initGcseGradeAutocomplete();
 initIeltsBandScoreAutocomplete();
 initWarnOnUnsavedChanges();
 nationalitiesComponent();
+initBackLinks();

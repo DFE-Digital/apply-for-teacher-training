@@ -1,0 +1,8 @@
+.app-back-link {
+  @extend .govuk-back-link;
+  @extend .govuk-\!-display-none-print;
+}
+
+.app-back-link--no-js {
+  display: none;
+}
