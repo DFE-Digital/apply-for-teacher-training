@@ -18,7 +18,7 @@ module ProviderInterface
     end
 
     def filters
-      ([] << search_filter << status_filter << provider_filter << accredited_provider_filter).concat(provider_locations_filters).compact
+      ([] << search_filter << recruitment_cycle_filter << status_filter << provider_filter << accredited_provider_filter).concat(provider_locations_filters).compact
     end
 
     def filtered?
@@ -36,7 +36,7 @@ module ProviderInterface
   private
 
     def parse_params(params)
-      params.permit(:candidate_name, :sort_by, provider: [], status: [], accredited_provider: [], provider_location: []).to_h
+      params.permit(:candidate_name, :sort_by, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: []).to_h
     end
 
     def save_filter_state!
@@ -53,6 +53,31 @@ module ProviderInterface
         heading: 'Candidate’s name',
         value: applied_filters[:candidate_name],
         name: 'candidate_name',
+      }
+    end
+
+    def recruitment_cycle_filter
+      current_year = RecruitmentCycle.current_year
+      previous_year = RecruitmentCycle.previous_year
+
+      label = {
+        current_year => "#{current_year} to #{current_year + 1} (Current)",
+        previous_year => "#{previous_year} to #{previous_year + 1}",
+      }
+
+      cycle_options = [current_year, previous_year].map do |year|
+        {
+          value: year,
+          label: label[year],
+          checked: applied_filters[:recruitment_cycle_year]&.include?(year.to_s),
+        }
+      end
+
+      {
+        type: :checkboxes,
+        heading: 'Cycle',
+        name: 'recruitment_cycle_year',
+        options: cycle_options,
       }
     end
 
