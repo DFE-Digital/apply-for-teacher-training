@@ -33,7 +33,7 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase|
 
   it 'copies application references' do
     expect(duplicate_application_form.application_references.count).to eq 2
-    expect(duplicate_application_form.application_references).to all(be_feedback_provided)
+    expect(duplicate_application_form.application_references).to all(be_feedback_provided.or(be_not_requested_yet))
   end
 
   it 'copies work and volunteering experiences' do

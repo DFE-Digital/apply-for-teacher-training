@@ -12,7 +12,8 @@ RSpec.describe CarryOverApplication do
         with_gces: true,
         full_work_history: true,
       )
-      create_list(:reference, 2, feedback_status: :feedback_provided, application_form: application_form)
+      create(:reference, feedback_status: :feedback_provided, application_form: application_form)
+      create(:reference, feedback_status: :not_requested_yet, application_form: application_form)
       create(:reference, feedback_status: :feedback_refused, application_form: application_form)
       application_form
     end

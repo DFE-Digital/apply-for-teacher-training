@@ -48,7 +48,7 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
       status: :unsubmitted,
       application_form: @application_form,
     )
-    @completed_references = create_list(:reference, 2, feedback_status: :not_requested_yet, application_form: @application_form)
+    @unrequested_references = create_list(:reference, 2, feedback_status: :not_requested_yet, application_form: @application_form)
   end
 
   def and_the_recruitment_cycle_ends
@@ -84,7 +84,11 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
   end
 
   def then_i_can_see_the_referees_i_previously_added
-    pending
+    expect(page).to have_content('First referee')
+    expect(page).to have_content('Second referee')
+    @unrequested_references.each do |reference|
+      expect(page).to have_content(reference.name)
+    end
   end
 
   def when_i_view_courses
@@ -102,7 +106,6 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
 
   def and_i_select_a_course
     click_link 'Back to application'
-    save_and_open_page
     click_link 'Course choice', exact: true
     given_courses_exist
 
