@@ -394,6 +394,7 @@ components:
           - pending_conditions
           - recruited
           - rejected
+          - rejected_at_end_of_cycle
           - withdrawn
           example: awaiting_provider_decision
         phase:
