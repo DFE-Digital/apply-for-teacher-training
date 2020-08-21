@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::RejectAwaitingReferencesApplication do
   describe '#call' do
     let(:application_choice) { create(:awaiting_references_application_choice) }
 
-    it 'sets the course_is_on_apply and course_on_find attributes to true' do
+    it 'rejects an application at the end of the cycle' do
       Timecop.freeze do
         described_class.call(application_choice)
 

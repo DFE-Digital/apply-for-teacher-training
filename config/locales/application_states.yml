@@ -98,7 +98,7 @@ en:
 
     rejected_at_end_of_cycle:
       name: Reject at the end of the cycle
-      description: Application choices that are awaiting references at are automatically rejectd at the end of the cycle
+      description: Application choices that are awaiting references are automatically rejected at the end of the cycle
 
     application_complete:
       name: Waiting to be sent
@@ -228,7 +228,7 @@ en:
     awaiting_references-reject_at_end_of_cycle:
       name: Awaiting references applications rejected
       by: system
-      description: Application choices that are awaiting references at are automatically rejectd at the end of the cycle
+      description: Application choices that are awaiting references are automatically rejected at the end of the cycle
 
     application_complete-cancel:
       name: Candidate cancels
