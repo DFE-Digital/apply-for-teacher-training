@@ -312,7 +312,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_back_to_application_form
-    click_link 'Back'
+    click_link 'Back to application'
   end
 
   def and_that_the_section_is_not_marked_as_complete_or_incomplete

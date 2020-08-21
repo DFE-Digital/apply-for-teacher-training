@@ -11,7 +11,7 @@ module ViewHelper
     classes = 'app-back-link'
 
     if url == :back
-      url = controller.request.env["HTTP_REFERER"] || 'javascript:history.back()'
+      url = controller.request.env['HTTP_REFERER'] || 'javascript:history.back()'
     end
 
     if url == 'javascript:history.back()'
