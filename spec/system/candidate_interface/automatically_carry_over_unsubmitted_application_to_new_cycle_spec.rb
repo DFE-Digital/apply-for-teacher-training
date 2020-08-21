@@ -26,6 +26,7 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
     then_i_can_see_that_i_need_to_select_courses
 
     and_i_select_a_course
+    and_i_complete_the_section
     and_i_submit_my_application
     and_my_application_is_awaiting_references
   end
@@ -92,21 +93,15 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
   end
 
   def when_i_view_courses
-    pending
+    click_link 'Back to application'
+    click_link 'Course choice'
   end
 
   def then_i_can_see_that_i_need_to_select_courses
-    pending
-  end
-
-  def when_i_complete_the_section
-    check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    expect(page).to have_content 'You can apply for up to 3 courses'
   end
 
   def and_i_select_a_course
-    click_link 'Back to application'
-    click_link 'Course choice', exact: true
     given_courses_exist
 
     click_link 'Continue'
@@ -119,14 +114,18 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
     choose 'Primary (2XT2)'
     click_button 'Continue'
 
-    expect(page).to have_link 'Delete choice'
-    expect(page).to have_content 'I have completed this section'
-    expect(page).to have_button 'Add another course'
+    expect(page).to have_content 'You’ve added Primary (2XT2) to your application'
+    expect(page).to have_content 'You can choose 2 more courses'
+  end
+
+  def and_i_complete_the_section
+    choose 'No, not at the moment'
+    click_button 'Continue'
+    check t('application_form.completed_checkbox')
+    click_button 'Continue'
   end
 
   def and_i_submit_my_application
-    check t('application_form.courses.complete.completed_checkbox')
-    click_button 'Continue'
     @new_application_form = candidate_submits_application
   end
 
