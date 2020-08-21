@@ -2,10 +2,16 @@ class EndOfCycleTimetable
   DATES = {
     apply_1_deadline: Date.new(2020, 8, 24),
     apply_2_deadline: Date.new(2020, 9, 18),
+    stop_sending_apply_1_to_providers: Date.new(2020, 9, 7),
     find_closes: Date.new(2020, 9, 19),
     find_reopens: Date.new(2020, 10, 3),
     next_cycle_opens: Date.new(2020, 10, 13),
   }.freeze
+
+  def self.stop_sending_apply_1_to_providers?
+    Time.zone.now > date(:stop_sending_apply_1_to_providers).end_of_day &&
+      Time.zone.now < date(:next_cycle_opens).beginning_of_day
+  end
 
   def self.between_cycles?(phase)
     phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?

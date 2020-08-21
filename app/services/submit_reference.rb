@@ -37,14 +37,18 @@ private
     ActiveRecord::Base.transaction do
       reference_feedback_provided!
       application_form.application_choices.awaiting_references.each do |application_choice|
-        ApplicationStateChange.new(application_choice).references_complete!
+        if EndOfCycleTimetable.stop_sending_apply_1_to_providers? && application_choice.course_option_full?
+          EndOfCycle::CancelApplicationToFullCourse.new(application_choice).call
+        else
+          ApplicationStateChange.new(application_choice).references_complete!
 
-        next unless application_form.candidate_has_previously_applied?
+          next unless application_form.candidate_has_previously_applied?
 
-        # If the candidate has previously applied, they have less of a need to
-        # edit the application. Hence, we clear out the usual 7-day edit window
-        # by resetting the `edit_by` time.
-        application_form.update!(edit_by: Time.zone.now)
+          # If the candidate has previously applied, they have less of a need to
+          # edit the application. Hence, we clear out the usual 7-day edit window
+          # by resetting the `edit_by` time.
+          application_form.update!(edit_by: Time.zone.now)
+        end
       end
     end
 
