@@ -7,8 +7,18 @@ module ViewHelper
     link_to(body, url, html_options)
   end
 
-  def govuk_back_link_to(url, body = 'Back')
-    link_to(body, url, class: 'govuk-back-link govuk-!-display-none-print')
+  def govuk_back_link_to(url = :back, body = 'Back')
+    classes = 'app-back-link'
+
+    if url == :back
+      url = controller.request.env['HTTP_REFERER'] || 'javascript:history.back()'
+    end
+
+    if url == 'javascript:history.back()'
+      classes += ' app-back-link--no-js'
+    end
+
+    link_to(body, url, class: classes)
   end
 
   def break_email_address(email_address)
