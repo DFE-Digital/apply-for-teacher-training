@@ -26,7 +26,6 @@ class ApplicationChoice < ApplicationRecord
     recruited: 'recruited',
     enrolled: 'enrolled',
     rejected: 'rejected',
-    rejected_at_end_of_cycle: 'rejected_at_end_of_cycle',
     offer_withdrawn: 'offer_withdrawn',
     declined: 'declined',
     withdrawn: 'withdrawn',

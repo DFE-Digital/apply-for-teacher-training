@@ -25,7 +25,7 @@ module CandidateInterface
         :blue
       when 'recruited'
         :green
-      when 'declined', 'withdrawn', 'cancelled', 'rejected_at_end_of_cycle'
+      when 'declined', 'withdrawn', 'cancelled'
         :orange
       when 'conditions_not_met'
         :red
