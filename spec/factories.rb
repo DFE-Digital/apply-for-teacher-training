@@ -226,9 +226,9 @@ FactoryBot.define do
     predicted_grade { %w[true false].sample }
     start_year { Date.today.year }
     award_year { Faker::Date.between(from: 60.years.ago, to: 3.years.from_now).year }
-    institution_name { Faker::Educator.university }
+    institution_name { Faker::University.name }
     institution_country { Faker::Address.country_code }
-    awarding_body { Faker::Educator.university }
+    awarding_body { Faker::University.name }
     equivalency_details { Faker::Lorem.paragraph_by_chars(number: 200) }
 
     factory :gcse_qualification do
@@ -252,7 +252,7 @@ FactoryBot.define do
       qualification_type { 'Other' }
       other_uk_qualification_type { Faker::Educator.subject }
       subject { Faker::Educator.subject }
-      institution_name { Faker::Educator.university }
+      institution_name { Faker::University.name }
       grade { %w[pass merit distinction].sample }
       institution_country { 'GB' }
 
@@ -261,7 +261,7 @@ FactoryBot.define do
         qualification_type { 'non_uk' }
         non_uk_qualification_type { Faker::Educator.subject }
         subject { Faker::Educator.subject }
-        institution_name { Faker::Educator.university }
+        institution_name { Faker::University.name }
         grade { %w[pass merit distinction].sample }
         institution_country { Faker::Address.country_code }
       end
@@ -340,7 +340,7 @@ FactoryBot.define do
   factory :provider do
     initialize_with { Provider.find_or_initialize_by(code: code) }
     code { Faker::Alphanumeric.alphanumeric(number: 3).upcase }
-    name { Faker::Educator.university }
+    name { Faker::University.name }
 
     trait :with_signed_agreement do
       after(:create) do |provider|
