@@ -1,0 +1,7 @@
+en:
+  faker:
+    university:
+      name:
+        - "#{Name.last_name} #{University.suffix}"
+        - "#{Name.name} #{University.suffix}"
+        - "#{University.prefix} #{Name.last_name} #{University.suffix}"
