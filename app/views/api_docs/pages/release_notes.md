@@ -1,3 +1,8 @@
+### 24th August 2020
+
+- Fix a bug where the study mode of a chosen or offered course appeared as
+  "full_or_part_time" instead of "full_time" or "part_time" as appropriate.
+
 ### 10th August 2020
 
 - `POST /application/:id/offer` is now idempotent and will continue to return 200
