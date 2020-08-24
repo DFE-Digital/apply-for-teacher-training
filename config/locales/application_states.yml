@@ -461,8 +461,6 @@ en:
       description: ""
 
     ended_without_success-start_apply_again:
-      name: Start in Apply again (not built)
+      name: Apply again
       by: candidate
-      description: This feature is not built yet, but in the future candidates
-        will be able to go into a second phase called ‘Apply Again’, where they can
-        apply to 1 course at a time.
+      description: Candidates can go into a second phase where they apply again, 1 course at a time.
