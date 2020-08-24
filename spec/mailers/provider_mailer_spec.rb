@@ -45,7 +45,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
   describe 'Send account created email' do
     it_behaves_like('a provider mail with subject and content', :account_created,
-                    I18n.t!('provider_account_created.email.subject'),
+                    I18n.t!('provider_mailer.account_created.subject'),
                     'provider name' => 'Dear Johny English',
                     'sign in path' => '/provider/sign-in')
   end
@@ -53,7 +53,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   describe 'Send application submitted email' do
     context 'with the covid_19 feature flag off' do
       it_behaves_like('a provider mail with subject and content', :application_submitted,
-                      I18n.t!('provider_application_submitted.email.subject',
+                      I18n.t!('provider_mailer.application_submitted.subject',
                               course_name_and_code: 'Computer Science (6IND)'),
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
@@ -66,7 +66,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       before { FeatureFlag.activate('covid_19') }
 
       it_behaves_like('a provider mail with subject and content', :application_submitted,
-                      I18n.t!('provider_application_submitted.email.subject',
+                      I18n.t!('provider_mailer.application_submitted.subject',
                               course_name_and_code: 'Computer Science (6IND)'),
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
@@ -79,7 +79,7 @@ RSpec.describe ProviderMailer, type: :mailer do
   describe 'Send application rejected by default email' do
     context 'with the covid_19 feature flag off' do
       it_behaves_like('a provider mail with subject and content', :application_rejected_by_default,
-                      I18n.t!('provider_application_rejected_by_default.email.subject',
+                      I18n.t!('provider_mailer.application_rejected_by_default.subject',
                               candidate_name: 'Harry Potter'),
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
@@ -92,7 +92,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       before { FeatureFlag.activate('covid_19') }
 
       it_behaves_like('a provider mail with subject and content', :application_rejected_by_default,
-                      I18n.t!('provider_application_rejected_by_default.email.subject',
+                      I18n.t!('provider_mailer.application_rejected_by_default.subject',
                               candidate_name: 'Harry Potter'),
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
@@ -108,7 +108,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
     context 'with the covid_19 feature flag off' do
       it_behaves_like('a provider mail with subject and content', :chase_provider_decision,
-                      I18n.t!('provider_application_waiting_for_decision.email.subject',
+                      I18n.t!('provider_mailer.application_waiting_for_decision.subject',
                               candidate_name: 'Harry Potter'),
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
@@ -123,7 +123,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       before { FeatureFlag.activate('covid_19') }
 
       it_behaves_like('a provider mail with subject and content', :chase_provider_decision,
-                      I18n.t!('provider_application_waiting_for_decision.email.subject',
+                      I18n.t!('provider_mailer.application_waiting_for_decision.subject',
                               candidate_name: 'Harry Potter'),
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',

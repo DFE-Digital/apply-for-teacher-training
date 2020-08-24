@@ -52,7 +52,7 @@ RSpec.feature 'Reject by default' do
     open_email(@provider_user.email_address)
 
     expected_subject = I18n.t(
-      'provider_application_waiting_for_decision.email.subject',
+      'provider_mailer.application_waiting_for_decision.subject',
       candidate_name: @application_choice.application_form.full_name,
     )
     expect(current_email.subject).to include(expected_subject)
