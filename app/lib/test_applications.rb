@@ -16,16 +16,18 @@ class TestApplications
   def create_application(states:, courses_to_apply_to: nil, apply_again: false, course_full: false)
     candidate = nil
 
+    min_days_in_the_past = courses_to_apply_to&.first&.recruitment_cycle_year == RecruitmentCycle.previous_year ? 395 : 30
+    travel_to rand(min_days_in_the_past..(min_days_in_the_past + 60)).days.ago
+
     if apply_again
       raise OnlyOneCourseWhenApplyingAgainError, 'You can only apply to one course when applying again' unless states.one?
 
-      create_application(states: [:rejected])
+      create_application(states: [:rejected], courses_to_apply_to: courses_to_apply_to)
 
       candidate = Candidate.last
       first_name = candidate.current_application.first_name
       last_name = candidate.current_application.last_name
     else
-      travel_to rand(30..60).days.ago
       raise ZeroCoursesPerApplicationError, 'You cannot have zero courses per application' unless states.any?
 
       first_name = Faker::Name.first_name
@@ -76,6 +78,7 @@ class TestApplications
         first_name: first_name,
         last_name: last_name,
         created_at: time,
+        updated_at: time,
         edit_by: time,
         phase: apply_again ? 'apply_2' : 'apply_1',
       )
@@ -88,6 +91,7 @@ class TestApplications
           course_option: course.course_options.first,
           application_form: @application_form,
           created_at: time,
+          updated_at: time,
         )
       end
 
@@ -111,7 +115,8 @@ class TestApplications
         # To prevent immediate sending to provider, which uses the current
         # time to decide whether edit_by has passed, temporarily set edit_by to
         # a date in the future relative to now
-        @application_form.update_columns(submitted_at: time, edit_by: Time.zone.now + 1.day)
+        @application_form.application_choices.each { |choice| choice.update_columns(updated_at: time) }
+        @application_form.update_columns(submitted_at: time, edit_by: Time.zone.now + 1.day, updated_at: time)
 
         return if states.include? :awaiting_references
 
@@ -127,14 +132,15 @@ class TestApplications
           ).save!
         end
 
+        return if states.include? :application_complete
+
         # Now that the application has *not* been sent to the provider as a side effect
         # of SubmitReference, set edit_by back to a time which makes sense with the
         # false timeline we're building for this application
-        @application_form.update_columns(edit_by: time + 7.days)
-
-        return if states.include? :application_complete
+        @application_form.update_columns(submitted_at: time, edit_by: time + 7.days, updated_at: time)
 
         application_choices.map(&:reload)
+        application_choices.each { |choice| choice.update_columns(updated_at: time) }
 
         states.zip(application_choices).each do |state, application_choice|
           put_application_choice_in_state(application_choice, state)
@@ -142,7 +148,7 @@ class TestApplications
       end
 
       application_choices.each do |application_choice|
-        rand(0..3).times { add_note(application_choice) }
+        rand(0..3).times { add_note(application_choice.reload) }
       end
 
       application_choices
@@ -152,7 +158,12 @@ class TestApplications
   def put_application_choice_in_state(choice, state)
     travel_to(choice.application_form.edit_by) if choice.application_form.edit_by > time
     SendApplicationToProvider.new(application_choice: choice).call
-    choice.update(sent_to_provider_at: time)
+    choice.update_columns(sent_to_provider_at: time)
+    choice.audits.last.update_columns(created_at: time)
+    SetRejectByDefault.new(choice).call
+    choice.update_columns(updated_at: time)
+    choice.audits.last.update_columns(created_at: time)
+
     return if state == :awaiting_provider_decision
 
     case state
@@ -183,24 +194,29 @@ class TestApplications
     when :withdrawn
       withdraw_application(choice)
     end
+
+    choice.update_columns(updated_at: time)
   end
 
   def accept_offer(choice)
     fast_forward(1..3)
     AcceptOffer.new(application_choice: choice).save!
-    choice.update_columns(accepted_at: time)
+    choice.update_columns(accepted_at: time, updated_at: time)
+    choice.audits.last.update_columns(created_at: time)
   end
 
   def withdraw_application(choice)
     fast_forward(1..3)
     WithdrawApplication.new(application_choice: choice).save!
-    choice.update_columns(withdrawn_at: time)
+    choice.update_columns(withdrawn_at: time, updated_at: time)
+    choice.audits.last.update_columns(created_at: time)
   end
 
   def decline_offer(choice)
     fast_forward(1..3)
     DeclineOffer.new(application_choice: choice).save!
-    choice.update_columns(declined_at: time)
+    choice.update_columns(declined_at: time, updated_at: time)
+    choice.audits.last.update_columns(created_at: time)
   end
 
   def make_offer(choice, conditions: ['Complete DBS'])
@@ -212,43 +228,50 @@ class TestApplications
         application_choice: choice,
         offer_conditions: conditions,
       ).save
-      choice.update_columns(offered_at: time)
+      choice.update_columns(offered_at: time, updated_at: time)
     end
+    choice.audits.last.update_columns(created_at: time)
   end
 
   def reject_application(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
       RejectApplication.new(actor: actor, application_choice: choice, rejection_reason: 'Some').save
-      choice.update_columns(rejected_at: time)
+      choice.update_columns(rejected_at: time, updated_at: time)
     end
+    choice.audits.last.update_columns(created_at: time)
   end
 
   def withdraw_offer(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
       WithdrawOffer.new(actor: actor, application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
-      choice.update_columns(withdrawn_at: time)
+      choice.update_columns(withdrawn_at: time, updated_at: time)
     end
+    choice.audits.last.update_columns(created_at: time)
   end
 
   def conditions_not_met(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
       ConditionsNotMet.new(actor: actor, application_choice: choice).save
-      choice.update_columns(conditions_not_met_at: time)
+      choice.update_columns(conditions_not_met_at: time, updated_at: time)
     end
+    choice.audits.last.update_columns(created_at: time)
   end
 
   def confirm_offer_conditions(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
       ConfirmOfferConditions.new(actor: actor, application_choice: choice).save
-      choice.update_columns(recruited_at: time)
+      choice.update_columns(recruited_at: time, updated_at: time)
     end
+    choice.audits.last.update_columns(created_at: time)
   end
 
   def add_note(choice)
+    previous_updated_at = choice.updated_at
+
     provider_user = choice.provider.provider_users.first
     provider_user ||= add_provider_user_to_provider(choice.provider)
     as_provider_user(choice) do
@@ -258,8 +281,13 @@ class TestApplications
         application_choice: choice,
         provider_user: provider_user,
         created_at: time,
+        updated_at: time,
       )
     end
+
+    new_updated_at = [choice.reload.notes.map(&:created_at).max, previous_updated_at].max
+    choice.update_columns(updated_at: new_updated_at)
+    choice.application_form.update_columns(updated_at: new_updated_at)
   end
 
   def add_provider_user_to_provider(provider)

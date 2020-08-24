@@ -57,6 +57,8 @@ module ProviderInterface
     end
 
     def recruitment_cycle_filter
+      return nil unless FeatureFlag.active?(:providers_can_filter_by_recruitment_cycle)
+
       current_year = RecruitmentCycle.current_year
       previous_year = RecruitmentCycle.previous_year
 

@@ -1,11 +1,19 @@
 class GenerateTestApplications
   include Sidekiq::Worker
 
-  def initialize
+  def initialize(for_year: :current_year)
     @test_applications = TestApplications.new
+    @for_year = for_year
 
-    dev_support_user = ProviderUser.find_by_dfe_sign_in_uid 'dev-support'
-    @courses_to_apply_to = dev_support_user.providers.map(&:courses).map(&:open_on_apply).flatten if dev_support_user
+    if (dev_support_user = ProviderUser.find_by_dfe_sign_in_uid('dev-support'))
+      open_courses = dev_support_user.providers.map(&:courses).map(&:open_on_apply)
+
+      @courses_to_apply_to = if @for_year == :previous_year
+                               open_courses.map(&:previous_cycle).flatten
+                             else
+                               open_courses.map(&:current_cycle).flatten
+                             end
+    end
   end
 
   def perform

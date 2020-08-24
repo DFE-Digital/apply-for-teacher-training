@@ -18,7 +18,6 @@ class FilterApplicationChoicesForProviders
       return application_choices if years.blank?
 
       application_choices.where('courses.recruitment_cycle_year' => years)
-      # FIXME: what about carried over and offered_option
     end
 
     def status(application_choices, statuses)
