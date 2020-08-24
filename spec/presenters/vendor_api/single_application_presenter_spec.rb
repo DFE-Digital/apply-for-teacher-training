@@ -50,13 +50,6 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
       expect(response.dig(:attributes, :hesa_itt_data)).to be_nil
     end
-
-    it 'becomes available once application status is \'enrolled\'' do
-      application_choice.update(status: 'enrolled')
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
-      expect(response.dig(:attributes, :hesa_itt_data)).not_to be_nil
-      expect(response.to_json).to be_valid_against_openapi_schema('Application')
-    end
   end
 
   describe 'attributes.work_history_break_explanation' do

@@ -120,13 +120,14 @@ paths:
     post:
       tags:
       - Application management
-      summary: Confirm enrolment
+      summary: Confirm enrolment (DEPRECATED)
       description: |
-        Confirm that the candidate has enrolled.
+        This endpoint has been deprecated and will return the application without changing it.
 
-        This will transition the application to the [enrolled state](/api-docs/lifecycle#enrolled).
+        There is currently no meaning to "enrolment" in Apply for teacher training.
       parameters:
       - "$ref": "#/components/parameters/application_id"
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -391,7 +392,6 @@ components:
           - awaiting_provider_decision
           - conditions_not_met
           - declined
-          - enrolled
           - offer
           - pending_conditions
           - recruited
@@ -933,8 +933,7 @@ components:
       additionalProperties: false
       description: |
         Information required by HESA for the Initial Teacher Training data
-        return. This information will only be returned once the application
-        status is `enrolled`.
+        return.
       required:
       - sex
       - disability
