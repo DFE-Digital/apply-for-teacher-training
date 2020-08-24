@@ -37,7 +37,7 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def and_i_have_2_offers_on_my_choices
-    @application_form = create(:application_form, first_name: 'Harry', last_name: 'Potter', candidate: @candidate, submitted_at: Time.zone.now)
+    @application_form = create(:application_form, first_name: 'Harry', last_name: 'Potter', candidate: @candidate, submitted_at: Time.zone.now, support_reference: '123A')
 
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     other_course_option = course_option_for_provider_code(provider_code: 'DEF')
@@ -116,7 +116,7 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def and_the_provider_has_received_an_email
     open_email(@provider_user.email_address)
-    expect(current_email.subject).to have_content 'Harry Potter has accepted your offer'
+    expect(current_email.subject).to have_content 'Harry Potter (123A) has accepted your offer'
   end
 
   def when_i_visit_the_offer_page_of_the_declined_offer

@@ -37,6 +37,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                                    :completed_application_form,
                                    first_name: 'Harry',
                                    last_name: 'Potter',
+                                   support_reference: '123A',
                                  ))
     @provider_user = @application_choice.provider.provider_users.first
     @provider_user.update(first_name: 'Johny', last_name: 'English')
@@ -80,7 +81,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     context 'with the covid_19 feature flag off' do
       it_behaves_like('a provider mail with subject and content', :application_rejected_by_default,
                       I18n.t!('provider_mailer.application_rejected_by_default.subject',
-                              candidate_name: 'Harry Potter'),
+                              candidate_name: 'Harry Potter', support_reference: '123A'),
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
@@ -93,7 +94,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
       it_behaves_like('a provider mail with subject and content', :application_rejected_by_default,
                       I18n.t!('provider_mailer.application_rejected_by_default.subject',
-                              candidate_name: 'Harry Potter'),
+                              candidate_name: 'Harry Potter', support_reference: '123A'),
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
@@ -109,7 +110,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     context 'with the covid_19 feature flag off' do
       it_behaves_like('a provider mail with subject and content', :chase_provider_decision,
                       I18n.t!('provider_mailer.application_waiting_for_decision.subject',
-                              candidate_name: 'Harry Potter'),
+                              candidate_name: 'Harry Potter', support_reference: '123A'),
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
@@ -124,7 +125,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
       it_behaves_like('a provider mail with subject and content', :chase_provider_decision,
                       I18n.t!('provider_mailer.application_waiting_for_decision.subject',
-                              candidate_name: 'Harry Potter'),
+                              candidate_name: 'Harry Potter', support_reference: '123A'),
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
@@ -136,7 +137,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
   describe '.offer_accepted' do
     it_behaves_like('a provider mail with subject and content', :offer_accepted,
-                    'Harry Potter has accepted your offer',
+                    'Harry Potter (123A) has accepted your offer',
                     'provider name' => 'Dear Johny English',
                     'course name and code' => 'Computer Science (6IND)')
 
@@ -145,7 +146,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:offered_course_option) { create(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a provider mail with subject and content', :offer_accepted,
-                      'Harry Potter has accepted your offer',
+                      'Harry Potter (123A) has accepted your offer',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
     end
@@ -153,7 +154,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
   describe '.declined_by_default' do
     it_behaves_like('a provider mail with subject and content', :declined_by_default,
-                    'Harry Potter’s application withdrawn automatically',
+                    'Harry Potter’s (123A) application withdrawn automatically',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
@@ -163,7 +164,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:offered_course_option) { create(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a provider mail with subject and content', :declined_by_default,
-                      'Harry Potter’s application withdrawn automatically',
+                      'Harry Potter’s (123A) application withdrawn automatically',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
     end
@@ -171,7 +172,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
   describe 'Send email when the application withdrawn' do
     it_behaves_like('a provider mail with subject and content', :application_withdrawn,
-                    'Harry Potter withdrew their application',
+                    'Harry Potter (123A) withdrew their application',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
@@ -181,7 +182,7 @@ RSpec.describe ProviderMailer, type: :mailer do
       let(:offered_course_option) { create(:course_option, course: alternative_course, site: site) }
 
       it_behaves_like('a provider mail with subject and content', :application_withdrawn,
-                      'Harry Potter withdrew their application',
+                      'Harry Potter (123A) withdrew their application',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
     end
@@ -189,7 +190,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
   describe '.declined' do
     it_behaves_like('a provider mail with subject and content', :declined,
-                    'Harry Potter declined an offer',
+                    'Harry Potter (123A) declined an offer',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')

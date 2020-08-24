@@ -54,6 +54,7 @@ RSpec.feature 'Reject by default' do
     expected_subject = I18n.t(
       'provider_mailer.application_waiting_for_decision.subject',
       candidate_name: @application_choice.application_form.full_name,
+      support_reference: @application_choice.application_form.support_reference,
     )
     expect(current_email.subject).to include(expected_subject)
 
@@ -69,8 +70,9 @@ RSpec.feature 'Reject by default' do
   def then_the_provider_should_receive_an_email
     open_email(@provider_user.email_address)
 
-    expect(current_email.subject).to include(I18n.t!('provider_application_rejected_by_default.email.subject',
-                                                     candidate_name: @application_choice.application_form.full_name))
+    expect(current_email.subject).to include(I18n.t!('provider_mailer.application_rejected_by_default.subject',
+                                                     candidate_name: @application_choice.application_form.full_name,
+                                                     support_reference: @application_choice.application_form.support_reference))
   end
 
   def and_the_candidate_should_receive_an_email

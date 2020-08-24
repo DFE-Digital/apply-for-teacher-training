@@ -1,18 +1,18 @@
 en:
   provider_mailer:
     offer_accepted:
-      subject: "%{candidate_name} has accepted your offer"
+      subject: "%{candidate_name} (%{support_reference}) has accepted your offer"
     decline_by_default:
-      subject: "%{candidate_name}’s application withdrawn automatically"
+      subject: "%{candidate_name}’s (%{support_reference}) application withdrawn automatically"
     declined:
-      subject: "%{candidate_name} declined an offer"
+      subject: "%{candidate_name} (%{support_reference}) declined an offer"
     account_created:
       subject: Sign in to Manage teacher training applications
     application_submitted:
       subject: Application received for %{course_name_and_code}
     application_rejected_by_default:
-      subject: "%{candidate_name}’s application was rejected automatically"
+      subject: "%{candidate_name}’s (%{support_reference}) application was rejected automatically"
     application_waiting_for_decision:
-      subject: "Respond to %{candidate_name}’s application"
+      subject: "Respond to %{candidate_name}’s (%{support_reference}) application"
     application_withdrawn:
-      subject: "%{candidate_name} withdrew their application"
+      subject: "%{candidate_name} (%{support_reference}) withdrew their application"
