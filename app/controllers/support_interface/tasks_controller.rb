@@ -32,7 +32,7 @@ module SupportInterface
     def create_fake_provider
       @new_provider = GenerateFakeProvider.generate_provider(
         {
-          name: Faker::Educator.unique.university,
+          name: Faker::University.name,
           code: Faker::Alphanumeric.unique.alphanumeric(number: 3).upcase,
         },
       )
