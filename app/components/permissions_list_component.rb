@@ -1,4 +1,4 @@
-class PermissionsList < ViewComponent::Base
+class PermissionsListComponent < ViewComponent::Base
   attr_reader :user_is_viewing_their_own_permissions
 
   def initialize(permission_model, user_is_viewing_their_own_permissions: false)
