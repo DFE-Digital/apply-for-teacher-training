@@ -3,3 +3,5 @@ Dear <%= @provider_user.full_name || 'colleague' %>
 # Application withdrawn
 
 <%= @application_choice.application_form.full_name %> has withdrawn their application for <%= @application_choice.offered_course.name_and_code %>.
+
+<%= provider_interface_application_choice_url(@application_choice) %>
