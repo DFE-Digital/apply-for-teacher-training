@@ -1,20 +1,20 @@
-class PermissionsList < ViewComponent::Base
-  attr_reader :user_is_viewing_their_own_permissions
+class AssociatedProvidersPermissionsListComponent < ViewComponent::Base
+  attr_reader :permission_name
 
-  def initialize(permission_model, user_is_viewing_their_own_permissions: false)
+  def initialize(permission_model, permission_name:)
     @permission_model = permission_model
-    @user_is_viewing_their_own_permissions = user_is_viewing_their_own_permissions
+    @permission_name = permission_name
   end
 
-  def training_providers_that_can(permission)
+  def training_providers_that_can(permission_name)
     permissions_as_ratifying_provider.map { |permission_relationship|
-      permission_relationship.training_provider if permission_relationship.send("training_provider_can_#{permission}?")
+      permission_relationship.training_provider if permission_relationship.send("training_provider_can_#{permission_name}?")
     }.compact
   end
 
-  def ratifying_providers_that_can(permission)
+  def ratifying_providers_that_can(permission_name)
     permissions_as_training_provider.map { |permission_relationship|
-      permission_relationship.ratifying_provider if permission_relationship.send("ratifying_provider_can_#{permission}?")
+      permission_relationship.ratifying_provider if permission_relationship.send("ratifying_provider_can_#{permission_name}?")
     }.compact
   end
 

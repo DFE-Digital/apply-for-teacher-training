@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PermissionsList do
+RSpec.describe PermissionsListComponent do
   let(:ratifying_provider) { create(:provider) }
   let(:training_provider) { create(:provider) }
   let(:provider_relationship_permissions) do

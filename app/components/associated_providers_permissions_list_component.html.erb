@@ -1,0 +1,20 @@
+<% if training_providers_that_can(permission_name).any? %>
+  <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
+    Applies to courses run by:
+    <ul class="govuk-list">
+      <% training_providers_that_can(permission_name).each do |provider| %>
+        <li><%= render CheckIcon.new %> <%= provider.name %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+<% if ratifying_providers_that_can(permission_name).any? %>
+  <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
+    Applies to courses ratified by:
+    <ul class="govuk-list">
+      <% ratifying_providers_that_can(permission_name).each do |provider| %>
+        <li><%= render CheckIcon.new %> <%= provider.name %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
