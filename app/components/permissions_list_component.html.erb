@@ -1,91 +1,34 @@
-<ul class="govuk-list" id="provider-<%= @permission_model.provider.id %>-enabled-permissions">
-  <% if @permission_model.manage_organisations? %>
+<ul class="govuk-list" id="provider-<%= permission_model.provider.id %>-enabled-permissions">
+  <% if permission_model.manage_organisations? %>
     <li><%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Manage organisations</span></li>
   <% end %>
 
-  <% if @permission_model.manage_users? %>
+  <% if permission_model.manage_users? %>
     <li><%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Manage users</span></li>
   <% end %>
 
-  <% if @permission_model.make_decisions? %>
+  <% if permission_model.make_decisions? %>
     <li>
       <%= render CheckIcon.new %><span class="govuk-!-font-weight-bold">Make decisions</span>
-      <% if training_providers_that_can('make_decisions').any? %>
-        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
-          Applies to courses run by:
-          <ul class="govuk-list">
-            <% training_providers_that_can('make_decisions').each do |provider| %>
-              <li><%= render CheckIcon.new %> <%= provider.name %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-      <% if ratifying_providers_that_can('make_decisions').any? %>
-        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
-          Applies to courses ratified by:
-          <ul class="govuk-list">
-            <% ratifying_providers_that_can('make_decisions').each do |provider| %>
-              <li><%= render CheckIcon.new %> <%= provider.name %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render AssociatedProvidersPermissionsListComponent.new(permission_model, permission_name: 'make_decisions') %>
     </li>
   <% end %>
 
-  <% if @permission_model.view_safeguarding_information? %>
+  <% if permission_model.view_safeguarding_information? %>
     <li>
       <%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Access safeguarding information</span>
-      <% if training_providers_that_can('view_safeguarding_information').any? %>
-        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
-          Applies to courses run by:
-          <ul class="govuk-list">
-            <% training_providers_that_can('view_safeguarding_information').each do |provider| %>
-              <li><%= render CheckIcon.new %> <%= provider.name %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-      <% if ratifying_providers_that_can('view_safeguarding_information').any? %>
-        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
-          Applies to courses ratified by:
-          <ul class="govuk-list">
-            <% ratifying_providers_that_can('view_safeguarding_information').each do |provider| %>
-              <li><%= render CheckIcon.new %> <%= provider.name %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render AssociatedProvidersPermissionsListComponent.new(permission_model, permission_name: 'view_safeguarding_information') %>
     </li>
   <% end %>
 
-  <% if @permission_model.view_diversity_information? %>
+  <% if permission_model.view_diversity_information? %>
     <li>
       <%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Access diversity information</span>
-      <% if training_providers_that_can('view_diversity_information').any? %>
-        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
-          Applies to courses run by:
-          <ul class="govuk-list">
-            <% training_providers_that_can('view_diversity_information').each do |provider| %>
-              <li><%= render CheckIcon.new %> <%= provider.name %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-      <% if ratifying_providers_that_can('view_diversity_information').any? %>
-        <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
-          Applies to courses ratified by:
-          <ul class="govuk-list">
-            <% ratifying_providers_that_can('view_diversity_information').each do |provider| %>
-              <li><%= render CheckIcon.new %> <%= provider.name %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render AssociatedProvidersPermissionsListComponent.new(permission_model, permission_name: 'view_diversity_information') %>
     </li>
   <% end %>
 
-  <% if @permission_model.view_applications_only? %>
+  <% if permission_model.view_applications_only? %>
     <% if user_is_viewing_their_own_permissions %>
       <li>You can only view applications</li>
     <% else %>
