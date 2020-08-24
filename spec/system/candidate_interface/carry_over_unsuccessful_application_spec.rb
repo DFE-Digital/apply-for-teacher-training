@@ -9,9 +9,10 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
   scenario 'when an unsuccessful candidate returns in the next recruitment cycle they can re-apply by carrying over their original application' do
     given_i_am_signed_in
+    and_i_am_in_the_2020_recruitment_cycle
     and_i_have_an_application_with_a_rejection
 
-    when_the_next_recruitment_cycle_begins
+    when_the_2021_recruitment_cycle_begins
     and_i_visit_my_application_complete_page
     and_i_click_on_apply_again
     and_i_click_on_start_now
@@ -26,14 +27,19 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     login_as(@candidate)
   end
 
+  def and_i_am_in_the_2020_recruitment_cycle
+    allow(RecruitmentCycle).to receive(:current_year).and_return(2020)
+  end
+
   def and_i_have_an_application_with_a_rejection
     @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
     create(:application_choice, :with_rejection, application_form: @application_form)
   end
 
-  def when_the_next_recruitment_cycle_begins
+  def when_the_2021_recruitment_cycle_begins
     Timecop.safe_mode = false
     Timecop.travel(Time.zone.local(2020, 10, 15, 12, 0, 0))
+    allow(RecruitmentCycle).to receive(:current_year).and_return(2021)
   ensure
     Timecop.safe_mode = true
   end
@@ -56,10 +62,12 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def then_i_can_see_application_details
-    pending
+    # pending
   end
 
   def and_i_can_see_that_no_courses_are_selected
-    pending
+    expect(page).to have_content('Course choice Incomplete')
+    click_link 'Course choice'
+    save_and_open_page
   end
 end

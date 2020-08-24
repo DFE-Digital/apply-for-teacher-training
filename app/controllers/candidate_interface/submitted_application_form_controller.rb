@@ -24,6 +24,12 @@ module CandidateInterface
       redirect_to candidate_interface_before_you_start_path
     end
 
+    def carry_over
+      CarryOverApplication.new(current_application).call
+      flash[:success] = 'Your new application is ready for editing'
+      redirect_to candidate_interface_before_you_start_path
+    end
+
     def edit
       redirect_to candidate_interface_application_complete_path and return unless current_application.can_edit_after_submission?
 

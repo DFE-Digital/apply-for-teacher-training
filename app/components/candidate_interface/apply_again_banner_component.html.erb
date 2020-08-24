@@ -3,9 +3,9 @@
     <div class="govuk-heading-m">
       <p>
       <% if @application_form.application_choices.all?(&:cancelled?) %>
-        Your application has been withdrawn. <%= govuk_link_to 'Do you want to apply again?', candidate_interface_start_apply_again_path %>
+        Your application has been withdrawn. <%= govuk_link_to 'Do you want to apply again?', start_path %>
       <% else %>
-        <%= govuk_link_to 'Do you want to apply again?', candidate_interface_start_apply_again_path %>
+        <%= govuk_link_to 'Do you want to apply again?', start_path %>
       <% end %>
       </p>
 
