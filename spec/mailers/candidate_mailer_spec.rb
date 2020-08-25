@@ -96,7 +96,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content', :chase_candidate_decision,
         I18n.t!('chase_candidate_decision_email.subject_singular'),
-        'Date to resbond by' => -> { "Respond by #{10.business_days.from_now.to_s(:govuk_date).strip}" }
+        'Date to respond by' => -> { "Respond by #{10.business_days.from_now.to_s(:govuk_date).strip}" }
       )
     end
 
