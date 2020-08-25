@@ -15,6 +15,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     content.each do |key, expectation|
       it "sends an email containing the #{key} in the body" do
+        expectation = expectation.call if expectation.respond_to?(:call)
         expect(email.body).to include(expectation)
       end
     end
@@ -34,7 +35,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_submitted.subject'),
       'heading' => 'Application submitted',
       'support reference' => 'SUPPORT-REFERENCE',
-      'RBD time limit' => "to make an offer within #{TimeLimitCalculator.new(rule: :reject_by_default, effective_date: Time.zone.today).call.fetch(:days)} working days",
+      'RBD time limit' => -> { "to make an offer within #{TimeLimitCalculator.new(rule: :reject_by_default, effective_date: Time.zone.today).call.fetch(:days)} working days" },
       'magic link to authenticate' => 'http://localhost:3000/candidate/confirm_authentication?token=raw_token&u=encrypted_id',
     )
 
@@ -95,7 +96,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a mail with subject and content', :chase_candidate_decision,
         I18n.t!('chase_candidate_decision_email.subject_singular'),
-        'Date to resbond by' => "Respond by #{10.business_days.from_now.to_s(:govuk_date).strip}"
+        'Date to respond by' => -> { "Respond by #{10.business_days.from_now.to_s(:govuk_date).strip}" }
       )
     end
 
@@ -104,8 +105,8 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content', :chase_candidate_decision,
         I18n.t!('chase_candidate_decision_email.subject_singular'),
         'heading' => 'Dear Bob',
-        'days left to respond' => "#{TimeLimitCalculator.new(rule: :chase_candidate_before_dbd, effective_date: Time.zone.today).call.fetch(:days)} working days",
-        'dbd date' => 10.business_days.from_now.to_s(:govuk_date).strip,
+        'days left to respond' => -> { "#{TimeLimitCalculator.new(rule: :chase_candidate_before_dbd, effective_date: Time.zone.today).call.fetch(:days)} working days" },
+        'dbd date' => -> { 10.business_days.from_now.to_s(:govuk_date).strip },
         'course name and code' => 'Applied Science (Psychology)',
         'provider name' => 'Brighthurst Technical College'
       )
