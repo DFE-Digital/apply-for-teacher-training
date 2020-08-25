@@ -268,6 +268,14 @@
             "defaultValue": "",
             "type": "string"
         },
+        "skylightAuthToken":{
+            "defaultValue": "",
+            "type": "string"
+        },
+        "skylightEnable":{
+            "defaultValue": false,
+            "type": "bool"
+        },
         "findBaseUrl": {
             "type": "string",
             "metadata": {
