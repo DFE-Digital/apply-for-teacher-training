@@ -19,7 +19,7 @@ private
 
   def application_from_current_cycle?
     @application_form.application_choices.any? do |application_choice|
-      application_choice.course.recruitment_cycle_year == EndOfCycleTimetable.current_cycle_year
+      application_choice.course.recruitment_cycle_year == RecruitmentCycle.current_year
     end
   end
 end

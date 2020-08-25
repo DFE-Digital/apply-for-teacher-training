@@ -65,10 +65,6 @@ class EndOfCycleTimetable
     DATES[name]
   end
 
-  def self.current_cycle_year
-    RecruitmentCycle.current_year
-  end
-
   def self.next_cycle_year
     RecruitmentCycle.current_year + 1
   end
