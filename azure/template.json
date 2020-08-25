@@ -670,6 +670,10 @@
                                 "value": "[parameters('skylightAuthToken')]"
                             },
                             {
+                                "name": "SKYLIGHT_ENABLE",
+                                "value": "[parameters('skylightEnable')]"
+                            },
+                            {
                                 "name": "FIND_BASE_URL",
                                 "value": "[parameters('findBaseUrl')]"
                             },
