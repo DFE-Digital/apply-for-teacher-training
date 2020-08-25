@@ -248,4 +248,24 @@ RSpec.describe EndOfCycleTimetable do
       end
     end
   end
+
+  describe 'stop_applications_to_unavailable_course_options?' do
+    it 'is true when between "stop_applications_to_unavailable_course_options" and "next_cycle_opens"' do
+      Timecop.travel(Time.zone.local(2020, 9, 7).end_of_day + 1.minute) do
+        expect(EndOfCycleTimetable.stop_applications_to_unavailable_course_options?).to be true
+      end
+    end
+
+    it 'is false when before the window' do
+      Timecop.travel(Time.zone.local(2020, 9, 7).end_of_day - 1.minute) do
+        expect(EndOfCycleTimetable.stop_applications_to_unavailable_course_options?).to be false
+      end
+    end
+
+    it 'is false when after the window' do
+      Timecop.travel(Time.zone.local(2020, 10, 13).beginning_of_day) do
+        expect(EndOfCycleTimetable.stop_applications_to_unavailable_course_options?).to be false
+      end
+    end
+  end
 end
