@@ -43,6 +43,7 @@ module VendorAPI
           rejection: get_rejection,
           withdrawal: withdrawal,
           further_information: application_form.further_information,
+          safeguarding_issues_status: application_form.safeguarding_issues_status,
         },
       }
       if application_choice.status == 'enrolled'

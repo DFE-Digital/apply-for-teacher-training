@@ -205,6 +205,17 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.safeguarding_issues_status' do
+    it 'returns the safeguarding issues status' do
+      application_form = create(:completed_application_form, :with_safeguarding_issues_disclosed)
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :safeguarding_issues_status)).to eq('has_safeguarding_issues_to_declare')
+    end
+  end
+
   describe '#as_json' do
     context 'given a relation that includes application_qualifications' do
       let(:application_choice) do

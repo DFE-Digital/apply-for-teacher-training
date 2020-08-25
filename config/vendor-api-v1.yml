@@ -374,6 +374,7 @@ components:
       - withdrawal
       - further_information
       - work_experience
+      - safeguarding_issues_status
       properties:
         support_reference:
           type: string
@@ -471,6 +472,14 @@ components:
           description: Other personal or professional issues relevant to the application
             which are not covered in the form
           example: I am expecting to be called for jury service in the next 12 months
+        safeguarding_issues_status:
+          type: string
+          description: Status of candidate's response to the safeguarding issues declaration
+          enum:
+          - no_safeguarding_issues_to_declare
+          - has_safeguarding_issues_to_declare
+          - never_asked
+          example: has_safeguarding_issues_to_declare
     Candidate:
       type: object
       additionalProperties: false

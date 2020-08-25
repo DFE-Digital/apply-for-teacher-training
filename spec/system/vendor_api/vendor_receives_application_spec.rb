@@ -179,6 +179,7 @@ RSpec.feature 'Vendor receives the application' do
         reject_by_default_at: @application.application_choices.first.reject_by_default_at.iso8601,
         withdrawal: nil,
         further_information: '',
+        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
         work_experience: {
           jobs: [
             {
