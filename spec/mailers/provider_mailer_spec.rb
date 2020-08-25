@@ -14,6 +14,7 @@ RSpec.describe ProviderMailer, type: :mailer do
 
     content.each do |key, expectation|
       it "sends an email containing the #{key} in the body" do
+        expectation = expectation.call if expectation.respond_to?(:call)
         expect(email.body).to include(expectation)
       end
     end
@@ -70,7 +71,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
-                      'reject by default at' => (Time.zone.now + 40.days).to_s(:govuk_date).strip,
+                      'reject by default at' => -> { (Time.zone.now + 40.days).to_s(:govuk_date).strip },
                       'link to the application' => 'http://localhost:3000/provider/applications/')
     end
   end
@@ -84,7 +85,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
                       'reject by default days' => 'within 123 working days',
-                      'submission date' => (Time.zone.now - 5.days).to_s(:govuk_date).strip)
+                      'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip })
     end
 
     context 'with the covid_19 feature flag on' do
@@ -96,7 +97,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
-                      'submission date' => (Time.zone.now - 5.days).to_s(:govuk_date).strip)
+                      'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip })
     end
   end
 
@@ -113,8 +114,8 @@ RSpec.describe ProviderMailer, type: :mailer do
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
                       'time to respond' => 'Only 20 working days left to respond',
-                      'submission date' => (Time.zone.now - 5.days).to_s(:govuk_date).strip,
-                      'reject by default at' => 20.business_days.from_now.to_s(:govuk_date).strip,
+                      'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip },
+                      'reject by default at' => -> { 20.business_days.from_now.to_s(:govuk_date).strip },
                       'link to the application' => 'http://localhost:3000/provider/applications/')
     end
 
@@ -127,8 +128,8 @@ RSpec.describe ProviderMailer, type: :mailer do
                       'provider name' => 'Dear Johny English',
                       'candidate name' => 'Harry Potter',
                       'course name and code' => 'Computer Science (6IND)',
-                      'submission date' => (Time.zone.now - 5.days).to_s(:govuk_date).strip,
-                      'reject by default at' => 20.business_days.from_now.to_s(:govuk_date).strip,
+                      'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip },
+                      'reject by default at' => -> { 20.business_days.from_now.to_s(:govuk_date).strip },
                       'link to the application' => 'http://localhost:3000/provider/applications/')
     end
   end
