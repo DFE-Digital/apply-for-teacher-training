@@ -375,6 +375,7 @@ components:
       - further_information
       - work_experience
       - safeguarding_issues_status
+      - safeguarding_issues_details_url
       properties:
         support_reference:
           type: string
@@ -480,6 +481,11 @@ components:
           - has_safeguarding_issues_to_declare
           - never_asked
           example: has_safeguarding_issues_to_declare
+        safeguarding_issues_details_url:
+          type: string
+          description: URL to Apply system where safeguarding issues disclosed by the candidate can be access by users with permissions to view safeguarding information.
+          example: https://apply-for-teacher-training.service.gov.uk/provider/applications/1#criminal-convictions-and-professional-misconduct
+          nullable: true
     Candidate:
       type: object
       additionalProperties: false
