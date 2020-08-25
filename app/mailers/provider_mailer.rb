@@ -6,7 +6,7 @@ class ProviderMailer < ApplicationMailer
 
     notify_email(
       to: @provider_user.email_address,
-      subject: t('provider_account_created.email.subject'),
+      subject: t('provider_mailer.account_created.subject'),
     )
   end
 
@@ -16,7 +16,7 @@ class ProviderMailer < ApplicationMailer
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_application_submitted.email.subject', course_name_and_code: @application.course_name_and_code),
+      subject: I18n.t!('provider_mailer.application_submitted.subject', course_name_and_code: @application.course_name_and_code),
     )
   end
 
@@ -26,7 +26,7 @@ class ProviderMailer < ApplicationMailer
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_application_rejected_by_default.email.subject', candidate_name: @application.candidate_name),
+      subject: I18n.t!('provider_mailer.application_rejected_by_default.subject', candidate_name: @application.candidate_name, support_reference: @application.support_reference),
     )
   end
 
@@ -37,7 +37,7 @@ class ProviderMailer < ApplicationMailer
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_application_waiting_for_decision.email.subject', candidate_name: @application.candidate_name),
+      subject: I18n.t!('provider_mailer.application_waiting_for_decision.subject', candidate_name: @application.candidate_name, support_reference: @application.support_reference),
     )
   end
 
@@ -47,7 +47,7 @@ class ProviderMailer < ApplicationMailer
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_mailer.offer_accepted.subject', candidate_name: application_choice.application_form.full_name),
+      subject: I18n.t!('provider_mailer.offer_accepted.subject', candidate_name: application_choice.application_form.full_name, support_reference: @application_choice.application_form.support_reference),
     )
   end
 
@@ -56,7 +56,7 @@ class ProviderMailer < ApplicationMailer
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_mailer.decline_by_default.subject', candidate_name: application_choice.application_form.full_name),
+      subject: I18n.t!('provider_mailer.decline_by_default.subject', candidate_name: application_choice.application_form.full_name, support_reference: @application_choice.application_form.support_reference),
     )
   end
 
@@ -66,7 +66,7 @@ class ProviderMailer < ApplicationMailer
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_application_withdrawn.email.subject', candidate_name: application_choice.application_form.full_name),
+      subject: I18n.t!('provider_mailer.application_withdrawn.subject', candidate_name: application_choice.application_form.full_name, support_reference: @application_choice.application_form.support_reference),
       template_name: 'application_withdrawn', # TODO: remove this
     )
   end
@@ -79,7 +79,7 @@ class ProviderMailer < ApplicationMailer
     email_for_provider(
       provider_user,
       application_choice.application_form,
-      subject: I18n.t!('provider_mailer.declined.subject', candidate_name: application_choice.application_form.full_name),
+      subject: I18n.t!('provider_mailer.declined.subject', candidate_name: application_choice.application_form.full_name, support_reference: @application_choice.application_form.support_reference),
     )
   end
 
@@ -113,6 +113,7 @@ private
       :application_choice,
       :rbd_date,
       :rbd_days,
+      :support_reference,
     ).new(
       application_choice.application_form.full_name,
       application_choice.offered_course.name_and_code,
@@ -121,6 +122,7 @@ private
       application_choice,
       application_choice.reject_by_default_at,
       application_choice.reject_by_default_days,
+      application_choice.application_form.support_reference,
     )
   end
 end

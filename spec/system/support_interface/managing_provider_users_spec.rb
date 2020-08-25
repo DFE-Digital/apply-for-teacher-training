@@ -159,7 +159,7 @@ RSpec.feature 'Managing provider users' do
 
   def and_the_user_should_be_sent_a_welcome_email
     open_email('harrison@example.com')
-    expect(current_email.subject).to have_content t('provider_account_created.email.subject')
+    expect(current_email.subject).to have_content t('provider_mailer.account_created.subject')
   end
 
   def and_i_click_on_that_user

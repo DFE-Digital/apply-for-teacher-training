@@ -32,7 +32,7 @@ RSpec.feature 'Decline by default' do
   end
 
   def when_i_have_an_offer_waiting_for_my_decision
-    @application_form = create(:completed_application_form, first_name: 'Harry', last_name: 'Potter')
+    @application_form = create(:completed_application_form, first_name: 'Harry', last_name: 'Potter', support_reference: '123A')
     @application_choice = create(:application_choice, status: :offer, application_form: @application_form, sent_to_provider_at: Time.zone.now, decline_by_default_at: Time.zone.now + 10.days)
 
     @provider_user = create(:provider_user, providers: [@application_choice.provider])
@@ -71,7 +71,7 @@ RSpec.feature 'Decline by default' do
   def and_the_provider_receives_an_email
     open_email(@provider_user.email_address)
 
-    expect(current_email.subject).to include('Harry Potter’s application withdrawn automatically')
+    expect(current_email.subject).to include('Harry Potter’s (123A) application withdrawn automatically')
   end
 
   def and_the_candidate_receives_a_decline_by_default_without_rejection_email

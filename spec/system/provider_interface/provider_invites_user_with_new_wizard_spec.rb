@@ -207,6 +207,6 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
   def and_new_user_gets_an_invitation_email
     open_email('ed@example.com')
-    expect(current_email.subject).to have_content t('provider_account_created.email.subject')
+    expect(current_email.subject).to have_content t('provider_mailer.account_created.subject')
   end
 end
