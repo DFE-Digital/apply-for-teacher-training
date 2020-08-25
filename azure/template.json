@@ -666,6 +666,10 @@
                                 "value": "[parameters('logstashSsl')]"
                             },
                             {
+                                "name": "SKYLIGHT_AUTH_TOKEN",
+                                "value": "[parameters('skylightAuthToken')]"
+                            },
+                            {
                                 "name": "FIND_BASE_URL",
                                 "value": "[parameters('findBaseUrl')]"
                             },

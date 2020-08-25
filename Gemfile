@@ -44,6 +44,7 @@ gem 'holidays'
 
 # Monitoring
 gem 'okcomputer'
+gem 'skylight'
 
 # Logging
 gem 'lograge'

@@ -1,0 +1,5 @@
+---
+#The authentication token for the application
+authentication: <%= ENV.fetch('SKYLIGHT_AUTH_TOKEN') %>
+ignored_endpoints:
+  - HealthcheckController#show
