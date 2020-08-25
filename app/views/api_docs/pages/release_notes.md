@@ -1,3 +1,9 @@
+### 28th August 2020
+
+New attributes:
+
+- `Application` now has a `safeguarding_issues_status` attribute of type string and an optional `safeguarding_issues_details_url` attribute of type string.
+
 ### 24th August 2020
 
 - Fix a bug where the study mode of a chosen or offered course appeared as
