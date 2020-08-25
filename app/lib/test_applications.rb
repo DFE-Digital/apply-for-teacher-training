@@ -16,8 +16,8 @@ class TestApplications
   def create_application(states:, courses_to_apply_to: nil, apply_again: false, course_full: false)
     candidate = nil
 
-    min_days_in_the_past = courses_to_apply_to&.first&.recruitment_cycle_year == RecruitmentCycle.previous_year ? 395 : 30
-    travel_to rand(min_days_in_the_past..(min_days_in_the_past + 60)).days.ago
+    min_days_in_the_past = courses_to_apply_to&.first&.recruitment_cycle_year == RecruitmentCycle.previous_year ? 385 : 20
+    travel_to rand(min_days_in_the_past..(min_days_in_the_past + 30)).days.ago
 
     if apply_again
       raise OnlyOneCourseWhenApplyingAgainError, 'You can only apply to one course when applying again' unless states.one?
@@ -116,7 +116,7 @@ class TestApplications
         # time to decide whether edit_by has passed, temporarily set edit_by to
         # a date in the future relative to now
         @application_form.application_choices.each { |choice| choice.update_columns(updated_at: time) }
-        @application_form.update_columns(submitted_at: time, edit_by: Time.zone.now + 1.day, updated_at: time)
+        @application_form.update_columns(submitted_at: time, edit_by: Time.zone.now + 7.days, updated_at: time)
 
         return if states.include? :awaiting_references
 
@@ -159,10 +159,10 @@ class TestApplications
     travel_to(choice.application_form.edit_by) if choice.application_form.edit_by > time
     SendApplicationToProvider.new(application_choice: choice).call
     choice.update_columns(sent_to_provider_at: time)
-    choice.audits.last.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
     SetRejectByDefault.new(choice).call
     choice.update_columns(updated_at: time)
-    choice.audits.last.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
 
     return if state == :awaiting_provider_decision
 
@@ -202,21 +202,21 @@ class TestApplications
     fast_forward(1..3)
     AcceptOffer.new(application_choice: choice).save!
     choice.update_columns(accepted_at: time, updated_at: time)
-    choice.audits.last.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
   end
 
   def withdraw_application(choice)
     fast_forward(1..3)
     WithdrawApplication.new(application_choice: choice).save!
     choice.update_columns(withdrawn_at: time, updated_at: time)
-    choice.audits.last.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
   end
 
   def decline_offer(choice)
     fast_forward(1..3)
     DeclineOffer.new(application_choice: choice).save!
     choice.update_columns(declined_at: time, updated_at: time)
-    choice.audits.last.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
   end
 
   def make_offer(choice, conditions: ['Complete DBS'])
@@ -230,7 +230,7 @@ class TestApplications
       ).save
       choice.update_columns(offered_at: time, updated_at: time)
     end
-    choice.audits.last.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
   end
 
   def reject_application(choice)
@@ -239,7 +239,7 @@ class TestApplications
       RejectApplication.new(actor: actor, application_choice: choice, rejection_reason: 'Some').save
       choice.update_columns(rejected_at: time, updated_at: time)
     end
-    choice.audits.last.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
   end
 
   def withdraw_offer(choice)
@@ -248,7 +248,7 @@ class TestApplications
       WithdrawOffer.new(actor: actor, application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
       choice.update_columns(withdrawn_at: time, updated_at: time)
     end
-    choice.audits.last.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
   end
 
   def conditions_not_met(choice)
@@ -257,7 +257,7 @@ class TestApplications
       ConditionsNotMet.new(actor: actor, application_choice: choice).save
       choice.update_columns(conditions_not_met_at: time, updated_at: time)
     end
-    choice.audits.last.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
   end
 
   def confirm_offer_conditions(choice)
@@ -266,7 +266,7 @@ class TestApplications
       ConfirmOfferConditions.new(actor: actor, application_choice: choice).save
       choice.update_columns(recruited_at: time, updated_at: time)
     end
-    choice.audits.last.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
   end
 
   def add_note(choice)

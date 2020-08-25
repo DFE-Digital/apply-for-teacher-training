@@ -297,6 +297,10 @@ FactoryBot.define do
     trait :no_vacancies do
       vacancy_status { 'no_vacancies' }
     end
+
+    trait :previous_year do
+      course { create(:course, :previous_year) }
+    end
   end
 
   factory :course do
@@ -334,6 +338,10 @@ FactoryBot.define do
 
     trait :part_time do
       study_mode { :part_time }
+    end
+
+    trait :previous_year do
+      recruitment_cycle_year { RecruitmentCycle.previous_year }
     end
   end
 
@@ -463,6 +471,10 @@ FactoryBot.define do
       status { 'declined' }
       declined_at { Time.zone.now }
       declined_by_default { true }
+    end
+
+    trait :previous_year do
+      course_option { create(:course_option, :previous_year) }
     end
   end
 

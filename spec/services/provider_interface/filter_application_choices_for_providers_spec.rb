@@ -48,5 +48,49 @@ RSpec.describe FilterApplicationChoicesForProviders do
         end
       end
     end
+
+    context 'when filtering by recruitment_cycle_year' do
+      let(:application_choices) do
+        create(:application_choice, :awaiting_provider_decision, :previous_year)
+        create(:application_choice, :awaiting_provider_decision)
+        ApplicationChoice.includes(:course).all
+      end
+
+      it 'ignores any filters if feature flag is off' do
+        FeatureFlag.deactivate(:providers_can_filter_by_recruitment_cycle)
+
+        returned_choices = described_class.call(
+          application_choices: application_choices,
+          filters: { recruitment_cycle_year: [RecruitmentCycle.previous_year] },
+        )
+
+        years_present = returned_choices.map(&:course).map(&:recruitment_cycle_year).uniq
+        expect(years_present).to eq([RecruitmentCycle.previous_year, RecruitmentCycle.current_year])
+      end
+
+      it 'can show :previous_year applications if feature flag is on' do
+        FeatureFlag.activate(:providers_can_filter_by_recruitment_cycle)
+
+        returned_choices = described_class.call(
+          application_choices: application_choices,
+          filters: { recruitment_cycle_year: [RecruitmentCycle.previous_year] },
+        )
+
+        years_present = returned_choices.map(&:course).map(&:recruitment_cycle_year).uniq
+        expect(years_present).to eq([RecruitmentCycle.previous_year])
+      end
+
+      it 'can show :current_year applications if feature flag is on' do
+        FeatureFlag.activate(:providers_can_filter_by_recruitment_cycle)
+
+        returned_choices = described_class.call(
+          application_choices: application_choices,
+          filters: { recruitment_cycle_year: [RecruitmentCycle.current_year] },
+        )
+
+        years_present = returned_choices.map(&:course).map(&:recruitment_cycle_year).uniq
+        expect(years_present).to eq([RecruitmentCycle.current_year])
+      end
+    end
   end
 end

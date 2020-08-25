@@ -22,7 +22,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
     )
 
     get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
-    expect(parsed_response['data'].size).to be(2)
+    expect(parsed_response['data'].size).to eq(2)
   end
 
   it 'returns applications filtered with `since`' do
@@ -38,7 +38,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
     get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
 
-    expect(parsed_response['data'].size).to be(1)
+    expect(parsed_response['data'].size).to eq(1)
   end
 
   it 'returns a response that is valid according to the OpenAPI schema' do
@@ -98,6 +98,6 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
 
     get_api_request "/api/v1/applications?since=#{CGI.escape((Time.zone.now - 1.day).iso8601)}"
 
-    expect(parsed_response['data'].size).to be(2)
+    expect(parsed_response['data'].size).to eq(2)
   end
 end
