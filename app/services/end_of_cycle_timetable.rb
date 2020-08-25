@@ -54,8 +54,12 @@ class EndOfCycleTimetable
   end
 
   def self.date(name)
-    if HostingEnvironment.test_environment? && FeatureFlag.active?(:simulate_time_between_cycles)
-      return simulate_time_between_cycles_dates[name]
+    if HostingEnvironment.test_environment? || HostingEnvironment.sandbox_mode?
+      if FeatureFlag.active?(:simulate_time_between_cycles)
+        return simulate_time_between_cycles_dates[name]
+      elsif FeatureFlag.active?(:simulate_time_mid_cycle)
+        return simulate_time_mid_cycle_dates[name]
+      end
     end
 
     DATES[name]
@@ -76,6 +80,16 @@ class EndOfCycleTimetable
       find_closes: 1.day.ago.to_date,
       find_reopens: 5.days.from_now.to_date,
       next_cycle_opens: Date.new(2020, 10, 13) > Time.zone.today ? Date.new(2020, 10, 13) : (Time.zone.today + 1),
+    }
+  end
+
+  def self.simulate_time_mid_cycle_dates
+    {
+      apply_1_deadline: 20.weeks.from_now.to_date,
+      apply_2_deadline: 22.weeks.from_now.to_date,
+      find_closes: 22.weeks.from_now.to_date,
+      find_reopens: 25.weeks.from_now.to_date,
+      next_cycle_opens: 26.weeks.from_now.to_date,
     }
   end
 end
