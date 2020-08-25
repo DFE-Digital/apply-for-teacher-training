@@ -8,7 +8,7 @@ class TestApplications
     1.upto(count).flat_map do
       create_application(
         states: [:awaiting_provider_decision] * courses_per_application,
-        courses_to_apply_to: Course.current_cycle.open_on_apply.where(provider: provider),
+        courses_to_apply_to: Course.current_cycle.includes(:course_options).joins(:course_options).distinct.open_on_apply.where(provider: provider),
       )
     end
   end
@@ -38,7 +38,7 @@ class TestApplications
       )
     end
 
-    courses_to_apply_to ||= Course.joins(:course_options).open_on_apply
+    courses_to_apply_to ||= Course.includes(:course_options).joins(:course_options).distinct.open_on_apply
     courses_to_apply_to =
       if course_full
         # Always use the first n courses, so that we can reliably generate
