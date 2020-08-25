@@ -1,3 +1,5 @@
+[![View performance data on Skylight](https://badges.skylight.io/status/t8bEzG0cuIkd.svg?token=DyA4EBS-3afq5chyapLv4flZ-4OIXwuVKrYxtrA7b5M)](https://www.skylight.io/app/applications/t8bEzG0cuIkd)
+
 # Apply for teacher training
 
 A service for candidates to [apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate). We're currently in private beta.
@@ -35,6 +37,7 @@ A service for candidates to [apply for teacher training](https://www.apply-for-t
 - [Rails components](/docs/components.md)
 - [Docker for DevOps](/docs/docker-for-devops.md)
 - [Swapping App Service Slots](/docs/swap-slots-pipeline.md)
+- [Performance monitoring](/docs/performance-monitoring.md)
 
 We keep track of the things we learn:
 
