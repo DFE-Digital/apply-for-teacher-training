@@ -24,4 +24,5 @@ Skylight and set the auth token in a local `.env` file with the token itself ava
 ```
 SKYLIGHT_AUTH_TOKEN=auth token goes here
 SKYLIGHT_ENABLE=true
+SKYLIGHT_ENV=development
 ```
