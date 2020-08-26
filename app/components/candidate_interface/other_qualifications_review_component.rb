@@ -17,7 +17,6 @@ module CandidateInterface
       [
         qualification_row(qualification),
         subject_row(qualification),
-        institution_row(qualification),
         award_year_row(qualification),
         grade_row(qualification),
       ]
@@ -76,22 +75,22 @@ module CandidateInterface
       end
     end
 
-    def institution_row(qualification)
-      {
-        key: t('application_form.other_qualification.institution.label'),
-        value: institution_value(qualification),
-        action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.institution.change_action')),
-        change_path: edit_other_qualification_details_path(qualification),
-      }
-    end
+    # def institution_row(qualification)
+    #   {
+    #     key: t('application_form.other_qualification.institution.label'),
+    #     value: institution_value(qualification),
+    #     action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.institution.change_action')),
+    #     change_path: edit_other_qualification_details_path(qualification),
+    #   }
+    # end
 
-    def institution_value(qualification)
-      if non_uk_qualification?(qualification) && qualification.institution_country.present?
-        "#{qualification.institution_name}, #{COUNTRIES[qualification.institution_country]}"
-      else
-        set_rows_value(qualification.institution_name)
-      end
-    end
+    # def institution_value(qualification)
+    #   if non_uk_qualification?(qualification) && qualification.institution_country.present?
+    #     "#{qualification.institution_name}, #{COUNTRIES[qualification.institution_country]}"
+    #   else
+    #     set_rows_value(qualification.institution_name)
+    #   end
+    # end
 
     def non_uk_qualification?(qualification)
       qualification.non_uk_qualification_type.present?
@@ -137,7 +136,7 @@ module CandidateInterface
 
     def generate_action(qualification:, attribute: '')
       "#{attribute.presence} for #{qualification.get_qualification_name}, #{qualification.subject}, "\
-        "#{institution_value(qualification)}, #{qualification.award_year}"
+        "#{qualification.award_year}"
     end
   end
 end

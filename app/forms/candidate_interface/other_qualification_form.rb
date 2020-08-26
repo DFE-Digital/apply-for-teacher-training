@@ -3,11 +3,11 @@ module CandidateInterface
     include ActiveModel::Model
     include ValidationUtils
 
-    attr_accessor :id, :qualification_type, :subject, :institution_name, :grade,
+    attr_accessor :id, :qualification_type, :subject, :grade,
                   :award_year, :choice, :non_uk_qualification_type, :other_uk_qualification_type,
                   :institution_country
 
-    validates :qualification_type, :institution_name, :award_year, presence: true
+    validates :qualification_type, :award_year, presence: true
 
     validates :subject, :grade, presence: true, unless: -> { qualification_type == 'non_uk' || qualification_type == 'Other' }
 
@@ -15,7 +15,7 @@ module CandidateInterface
 
     validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == 'non_uk' }
 
-    validates :qualification_type, :subject, :institution_name, :grade, length: { maximum: 255 }
+    validates :qualification_type, :subject, :grade, length: { maximum: 255 }
 
     validate :award_year_is_date_and_before_current_year, if: :award_year
 
@@ -34,7 +34,6 @@ module CandidateInterface
         if last_two_qualifications_are_of_same_type(qualifications)
           new(
             qualification_type: qualifications[-2].qualification_type,
-            institution_name: qualifications[-2].institution_name,
             institution_country: qualifications[-2].institution_country,
             award_year: qualifications[-2].award_year,
             non_uk_qualification_type: qualifications[-1].non_uk_qualification_type,
@@ -56,7 +55,6 @@ module CandidateInterface
           id: qualification.id,
           qualification_type: qualification.qualification_type,
           subject: qualification.subject,
-          institution_name: qualification.institution_name,
           institution_country: qualification.institution_country,
           grade: qualification.grade,
           award_year: qualification.award_year,
@@ -88,7 +86,6 @@ module CandidateInterface
       qualification.update!(
         qualification_type: qualification_type,
         subject: subject,
-        institution_name: institution_name,
         institution_country: institution_country,
         grade: grade,
         predicted_grade: false,
@@ -105,7 +102,6 @@ module CandidateInterface
       qualification.update!(
         qualification_type: qualification_type,
         subject: subject,
-        institution_name: institution_name,
         institution_country: institution_country,
         grade: grade,
         predicted_grade: false,
