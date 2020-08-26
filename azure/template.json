@@ -682,6 +682,10 @@
                                 "value": "[parameters('skylightEnable')]"
                             },
                             {
+                                "name": "SKYLIGHT_ENV",
+                                "value": "[parameters('environment')]"
+                            },
+                            {
                                 "name": "FIND_BASE_URL",
                                 "value": "[parameters('findBaseUrl')]"
                             },
