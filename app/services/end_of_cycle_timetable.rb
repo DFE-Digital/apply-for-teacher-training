@@ -90,7 +90,7 @@ class EndOfCycleTimetable
   end
 
   def self.current_cycle?(application_form)
-    application_form.application_choices.all? do |application_choice|
+    application_form.application_choices.includes(:course).all? do |application_choice|
       application_choice.course.recruitment_cycle_year == RecruitmentCycle.current_year
     end
   end
