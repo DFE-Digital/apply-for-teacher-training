@@ -14,7 +14,7 @@ private
     ApplicationForm
       .joins(application_choices: :course)
       .where(submitted_at: nil)
-      .where('courses.recruitment_cycle_year' => 2020)
+      .where('courses.recruitment_cycle_year' => RecruitmentCycle.current_year)
       .where(
         'application_forms.id NOT IN (:duplicated_applications)',
         duplicated_applications: ApplicationForm.where.not(previous_application_form_id: nil).select(:previous_application_form_id),
