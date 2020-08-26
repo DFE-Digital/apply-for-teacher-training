@@ -21,6 +21,8 @@ services:
       - LOGSTASH_HOST
       - LOGSTASH_PORT
       - LOGSTASH_SSL
+      - SKYLIGHT_AUTH_TOKEN
+      - SKYLIGHT_ENABLE
       - STATE_CHANGE_SLACK_URL
       - DSI_API_URL
       - DSI_API_SECRET

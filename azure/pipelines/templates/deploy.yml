@@ -61,6 +61,8 @@ parameters:
   ucasUsername:
   ucasPassword:
   ucasZipPassword:
+  skylightAuthToken:
+  skylightEnable: false
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -241,6 +243,8 @@ jobs:
                 -alertRecipientEmails "${{parameters.alertRecipientEmails}}"
                 -alertSlackChannel "${{parameters.alertSlackChannel}}"
                 -logRetentionDays ${{parameters.logRetentionDays}}
+                -skylightAuthToken "${{parameters.skylightAuthToken}}"
+                -skylightEnable ${{parameters.skylightEnable}}
                 -dsiApiUrl "${{parameters.dsiApiUrl}}"
                 -dsiApiSecret "${{parameters.dsiApiSecret}}"
                 -ucasUsername "${{parameters.ucasUsername}}"

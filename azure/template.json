@@ -268,6 +268,14 @@
             "defaultValue": "",
             "type": "string"
         },
+        "skylightAuthToken":{
+            "defaultValue": "",
+            "type": "string"
+        },
+        "skylightEnable":{
+            "defaultValue": false,
+            "type": "bool"
+        },
         "findBaseUrl": {
             "type": "string",
             "metadata": {
@@ -664,6 +672,14 @@
                             {
                                 "name": "LOGSTASH_SSL",
                                 "value": "[parameters('logstashSsl')]"
+                            },
+                            {
+                                "name": "SKYLIGHT_AUTH_TOKEN",
+                                "value": "[parameters('skylightAuthToken')]"
+                            },
+                            {
+                                "name": "SKYLIGHT_ENABLE",
+                                "value": "[parameters('skylightEnable')]"
                             },
                             {
                                 "name": "FIND_BASE_URL",

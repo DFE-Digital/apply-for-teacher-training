@@ -1,0 +1,7 @@
+---
+#The authentication token for the application
+authentication: <%= ENV.fetch('SKYLIGHT_AUTH_TOKEN') %>
+ignored_endpoints:
+  - HealthcheckController#show
+agent:
+  sockfile_path: /tmp/apply-for-postgraduate-teacher-training
