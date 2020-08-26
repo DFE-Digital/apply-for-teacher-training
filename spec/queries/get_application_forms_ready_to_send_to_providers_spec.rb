@@ -66,4 +66,25 @@ RSpec.describe GetApplicationFormsReadyToSendToProviders do
       expect(returned_application_forms.count).to eq 1
     end
   end
+
+  context 'when one application_choice is application_complete and the other is cancelled' do
+    before do
+      create(:application_choice, application_form: application_form, status: :application_complete)
+      create(:application_choice, application_form: application_form, status: :cancelled)
+    end
+
+    it 'returns the form' do
+      expect(returned_application_forms.first).to eq application_form
+    end
+  end
+
+  context 'when the only application is cancelled' do
+    before do
+      create(:application_choice, application_form: application_form, status: :cancelled)
+    end
+
+    it 'does not return the form' do
+      expect(returned_application_forms).to be_empty
+    end
+  end
 end

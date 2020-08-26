@@ -7,7 +7,10 @@ class GetApplicationFormsReadyToSendToProviders
       .group(:id)
 
     forms.select do |f|
-      f.application_choices.all? { |application_choice| application_choice.status == 'application_complete' }
+      offered_statuses    = Set.new(f.application_choices.map(&:status))
+      acceptable_statuses = Set.new(%w[application_complete cancelled])
+
+      acceptable_statuses.superset? offered_statuses
     end
   end
 end
