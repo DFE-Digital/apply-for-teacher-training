@@ -1,6 +1,9 @@
 class ApplicationStateChange
   include Workflow
 
+  # unsubmitted Apply Again applications may go straight to the provider
+  # as they do not need references or the 7-day cooling off period
+  STATES_THAT_MAY_BE_SENT_TO_PROVIDER = %i[application_complete unsubmitted].freeze
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted awaiting_references application_complete cancelled].freeze
   ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited enrolled].freeze
   OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
