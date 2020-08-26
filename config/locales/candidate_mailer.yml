@@ -1,5 +1,7 @@
 en:
   candidate_mailer:
+    eoc_choice_unavailable_no_other_choices:
+      subject: Find a different course and re-submit your application
     survey_email:
       subject: Was applying for teacher training easy?
     survey_chaser_email:
