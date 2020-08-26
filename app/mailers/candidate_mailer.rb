@@ -253,6 +253,16 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def eoc_choice_unavailable_and_no_other_choices(application_choice)
+    @application_choice = application_choice
+    @application_form = application_choice.application_form
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.eoc_choice_unavailable_no_other_choices.subject'),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)
