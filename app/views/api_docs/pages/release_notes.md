@@ -10,9 +10,6 @@ if the same offer details are POSTed repeatedly
 - `POST /application/:id/offer` now supports changing the conditions on an offer
 while retaining the original offered course. Previously this returned a 422 error
 saying it was necessary to offer a different course.
-
-### 10th August 2020
-
 - Deprecate `Withdrawal.reason`, which was supposed to hold a candidate’s reason for
 withdrawing their application. The Apply service will not collect this information
 
