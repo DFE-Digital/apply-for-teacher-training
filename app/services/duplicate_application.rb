@@ -37,7 +37,7 @@ class DuplicateApplication
       )
     end
 
-    original_application_form.application_references.feedback_provided.each do |w|
+    original_application_form.application_references.where(feedback_status: %w[feedback_provided not_requested_yet]).each do |w|
       new_application_form.application_references.create!(
         w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
       )

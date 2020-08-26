@@ -305,7 +305,7 @@ FactoryBot.define do
     code { Faker::Alphanumeric.alphanumeric(number: 4, min_alpha: 1).upcase }
     name { Faker::Educator.subject }
     level { 'primary' }
-    recruitment_cycle_year { 2020 }
+    recruitment_cycle_year { RecruitmentCycle.current_year }
     description { 'PGCE with QTS full time' }
     course_length { 'OneYear' }
     start_date { Faker::Date.between(from: 1.month.from_now, to: 1.year.from_now) }
