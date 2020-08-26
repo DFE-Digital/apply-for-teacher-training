@@ -11,6 +11,7 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
 
   scenario 'Carry over application and remove all application choices' do
     given_i_am_signed_in_as_a_candidate
+    and_i_am_in_the_2020_recruitment_cycle
     when_i_have_an_unsubmitted_application
     and_the_recruitment_cycle_ends
     and_the_unsubmitted_application_carry_over_worker_runs
@@ -36,6 +37,10 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
     login_as(@candidate)
   end
 
+  def and_i_am_in_the_2020_recruitment_cycle
+    allow(RecruitmentCycle).to receive(:current_year).and_return(2020)
+  end
+
   def when_i_have_an_unsubmitted_application
     @application_form = create(
       :completed_application_form,
@@ -49,10 +54,16 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
       status: :unsubmitted,
       application_form: @application_form,
     )
-    @unrequested_references = create_list(:reference, 2, feedback_status: :not_requested_yet, application_form: @application_form)
+    @unrequested_references = create_list(
+      :reference,
+      2,
+      feedback_status: :not_requested_yet,
+      application_form: @application_form,
+    )
   end
 
   def and_the_recruitment_cycle_ends
+    allow(RecruitmentCycle).to receive(:current_year).and_return(2021)
     Timecop.safe_mode = false
     Timecop.travel(Time.zone.local(2020, 10, 15, 12, 0, 0))
   ensure

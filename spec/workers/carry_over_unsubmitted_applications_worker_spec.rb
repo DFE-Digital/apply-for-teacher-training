@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CarryOverUnsubmittedApplicationsWorker do
-  around do |example|
-    Timecop.freeze(Time.zone.local(2020, 10, 15)) do
-      example.run
-    end
-  end
-
   describe '#perform' do
     it 'duplicates any unsubmitted applications from the last cycle' do
       unsubmitted_application_from_last_year = create(
@@ -17,6 +11,7 @@ RSpec.describe CarryOverUnsubmittedApplicationsWorker do
         :application_choice,
         status: :unsubmitted,
         application_form: unsubmitted_application_from_last_year,
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year - 1)),
       )
 
       unsubmitted_application_from_this_year = create(
@@ -27,7 +22,7 @@ RSpec.describe CarryOverUnsubmittedApplicationsWorker do
         :application_choice,
         status: :unsubmitted,
         application_form: unsubmitted_application_from_this_year,
-        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: 2021)),
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year)),
       )
 
       rejected_application_from_last_year = create(
@@ -37,6 +32,7 @@ RSpec.describe CarryOverUnsubmittedApplicationsWorker do
         :application_choice,
         status: :rejected,
         application_form: rejected_application_from_last_year,
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year - 1)),
       )
 
       described_class.new.perform

@@ -62,11 +62,11 @@ class EndOfCycleTimetable
   end
 
   def self.current_cycle_year
-    Time.zone.now > next_cycle_opens ? next_cycle_year : Time.zone.today.year
+    RecruitmentCycle.current_year
   end
 
   def self.next_cycle_year
-    date(:next_cycle_opens).year + 1
+    RecruitmentCycle.current_year + 1
   end
 
   def self.simulate_time_between_cycles_dates
