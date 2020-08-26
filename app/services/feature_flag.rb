@@ -22,6 +22,7 @@ class FeatureFlag
     [:switch_to_2021_recruitment_cycle, 'Sync and serve courses for the 2021 recruitment cycle. DO NOT ENABLE IN PRODUCTION.', 'Duncan Brown'],
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Malcolm Baig'],
     [:simulate_time_between_cycles, 'Simulates the time between recruitment cycles so that EoC features can be tested', 'Steve Hook'],
+    [:simulate_time_mid_cycle, 'Simulates the mid recruitment cycle time so that normal functionality can be tested between cycles', 'Steve Hook'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
