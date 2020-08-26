@@ -2,6 +2,8 @@ en:
   candidate_mailer:
     eoc_choice_unavailable_no_other_choices:
       subject: Find a different course and re-submit your application
+    eoc_choice_unavailable_has_other_choices:
+      subject: Application could not be sent for %{course_name} at %{provider_name}
     survey_email:
       subject: Was applying for teacher training easy?
     survey_chaser_email:

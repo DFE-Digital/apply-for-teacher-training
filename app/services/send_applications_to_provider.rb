@@ -18,6 +18,9 @@ class SendApplicationsToProvider
 
       if application_choices.any?(&:awaiting_provider_decision?)
         CandidateMailer.application_sent_to_provider(application_form).deliver_later
+        cancelled_choices.each do |choice|
+          CandidateMailer.eoc_choice_unavailable_and_still_waiting_on_other_choices(choice).deliver_later
+        end
       else
         cancelled_choices.each do |choice|
           CandidateMailer.eoc_choice_unavailable_and_no_other_choices(choice).deliver_later
