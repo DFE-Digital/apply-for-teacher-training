@@ -70,7 +70,7 @@ module CandidateInterface
     def edit
       head :unprocessable_entity and return unless @referee.editable?
 
-      @nth_referee = "#{TextOrdinalizer::ORDINALIZE_MAPPING[@referee.ordinal].capitalize} referee"
+      @nth_referee = "#{TextOrdinalizer.call(@referee.ordinal).capitalize} referee"
     end
 
     def update
@@ -159,7 +159,7 @@ module CandidateInterface
     end
 
     def set_nth_referee
-      @nth_referee = "#{TextOrdinalizer::ORDINALIZE_MAPPING[(@referees.count + 1)].capitalize} referee"
+      @nth_referee = "#{TextOrdinalizer.call(@referees.count + 1).capitalize} referee"
     end
 
     def referee_type_param

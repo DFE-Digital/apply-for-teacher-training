@@ -14,7 +14,7 @@ module CandidateInterface
   private
 
     def ordinalize(application_form)
-      "#{TextOrdinalizer::ORDINALIZE_MAPPING[ordinal(application_form)].capitalize} application"
+      "#{TextOrdinalizer.call(ordinal(application_form)).capitalize} application"
     end
 
     def ordinal(application_form)
