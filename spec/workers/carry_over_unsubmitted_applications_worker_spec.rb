@@ -11,7 +11,7 @@ RSpec.describe CarryOverUnsubmittedApplicationsWorker do
         :application_choice,
         status: :unsubmitted,
         application_form: unsubmitted_application_from_last_year,
-        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year - 1)),
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year)),
       )
 
       unsubmitted_application_from_this_year = create(
@@ -32,7 +32,7 @@ RSpec.describe CarryOverUnsubmittedApplicationsWorker do
         :application_choice,
         status: :rejected,
         application_form: rejected_application_from_last_year,
-        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year - 1)),
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year)),
       )
 
       described_class.new.perform

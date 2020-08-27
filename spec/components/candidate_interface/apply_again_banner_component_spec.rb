@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::ApplyAgainBannerComponent do
   context 'when application is for an earlier cycle' do
     it 'renders component with correct values' do
       application_choice = create(:application_choice, :with_rejection, application_form: application_form)
-      application_choice.course.update(recruitment_cycle_year: RecruitmentCycle.current_year - 1)
+      application_choice.course.update(recruitment_cycle_year: RecruitmentCycle.previous_year)
 
       result = render_inline(described_class.new(application_form: application_form))
 

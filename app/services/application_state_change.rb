@@ -8,7 +8,7 @@ class ApplicationStateChange
   ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited enrolled].freeze
   OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
   POST_OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer_withdrawn]).freeze
-  UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn].freeze
+  UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn rejected_at_end_of_cycle].freeze
   DECISION_PENDING_STATUSES = %w[awaiting_references application_complete awaiting_provider_decision].freeze
 
   attr_reader :application_choice
@@ -32,6 +32,7 @@ class ApplicationStateChange
     state :awaiting_references do
       event :references_complete, transitions_to: :application_complete
       event :cancel, transitions_to: :cancelled
+      event :reject_at_end_of_cycle, transitions_to: :rejected_at_end_of_cycle
     end
 
     state :application_complete do
@@ -49,6 +50,8 @@ class ApplicationStateChange
     state :rejected do
       event :make_offer, transitions_to: :offer
     end
+
+    state :rejected_at_end_of_cycle
 
     state :offer do
       event :make_offer, transitions_to: :offer
