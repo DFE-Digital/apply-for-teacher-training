@@ -6,7 +6,7 @@
 
 <% @application_form.application_references.includes(:application_form).each do |referee| %>
   <%= render(SummaryCardComponent.new(rows: referee_rows(referee), editable: @editable && referee.editable?)) do %>
-    <%= render(SummaryCardHeaderComponent.new(title: "#{TextOrdinalizer::ORDINALIZE_MAPPING[referee.ordinal]&.capitalize} referee", heading_level: @heading_level)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: "#{TextOrdinalizer.call(referee.ordinal).capitalize} referee", heading_level: @heading_level)) do %>
 
       <% if referee.feedback_requested? %>
         <div class="app-summary-card__actions">
