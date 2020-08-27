@@ -262,8 +262,8 @@ class CandidateMailer < ApplicationMailer
       @application_form,
       subject: I18n.t!(
         'candidate_mailer.eoc_choice_unavailable_has_other_choices.subject',
-        course_name: application_choice.course.name_and_code,
-        provider_name: application_choice.course.provider.name,
+        course_name: application_choice.course_option.course.name_and_code,
+        provider_name: application_choice.course_option.course.provider.name,
       ),
     )
   end
