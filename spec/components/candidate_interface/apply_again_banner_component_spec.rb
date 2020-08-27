@@ -10,6 +10,7 @@ RSpec.describe CandidateInterface::ApplyAgainBannerComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include('Your application has been withdrawn. Do you want to apply again?')
+      expect(result.css('a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_start_apply_again_path)
       expect(result.text).not_to include('The deadline when applying again is')
     end
   end
@@ -21,6 +22,21 @@ RSpec.describe CandidateInterface::ApplyAgainBannerComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include('Do you want to apply again?')
+      expect(result.css('a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_start_apply_again_path)
+      expect(result.text).not_to include('Your application has been withdrawn.')
+      expect(result.text).not_to include('The deadline when applying again is')
+    end
+  end
+
+  context 'when application is for an earlier cycle' do
+    it 'renders component with correct values' do
+      application_choice = create(:application_choice, :with_rejection, application_form: application_form)
+      application_choice.course.update(recruitment_cycle_year: RecruitmentCycle.current_year - 1)
+
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.text).to include('Do you want to apply again?')
+      expect(result.css('a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_start_carry_over_path)
       expect(result.text).not_to include('Your application has been withdrawn.')
       expect(result.text).not_to include('The deadline when applying again is')
     end

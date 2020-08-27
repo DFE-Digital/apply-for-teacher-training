@@ -1,0 +1,24 @@
+<% content_for :title, t('page_titles.start_carry_over') %>
+
+<h1 class="govuk-heading-xl"><%= t('page_titles.start_carry_over') %></h1>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <p class="govuk-body">If you apply again we'll:</p>
+    <p class="govuk-body">
+      <ul class="govuk-body">
+        <li>edit your saved application, so you do not need to start again</li>
+        <li>keep your references, so you will not need to request new ones</li>
+      </ul>
+    </p>
+
+    <%= button_to 'Start now', candidate_interface_carry_over_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>
+
+    <p class="govuk-body">or</p>
+
+    <%= govuk_link_to 'Go to your dashboard', candidate_interface_application_form_path, class: 'govuk-body' %>
+  </div>
+</div>
+
