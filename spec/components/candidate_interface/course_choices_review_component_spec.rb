@@ -319,12 +319,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__actions').text).to include(t('application_form.courses.withdraw'))
       expect(result.css('.app-summary-card__actions a[data-action=withdraw]')).to be_present
     end
-
-    it 'renders component with a withdrawal content' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
-
-      expect(result.text).to include(t('application_form.courses.withdrawal_information'))
-    end
   end
 
   context 'when an offer has been made to a course choice' do
@@ -367,12 +361,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.app-summary-card__actions a')[0].attr('href')).to include(
         Rails.application.routes.url_helpers.candidate_interface_withdraw_path(course_id),
       )
-    end
-
-    it 'renders component with a withdrawal content' do
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
-
-      expect(result.text).to include(t('application_form.courses.withdrawal_information'))
     end
   end
 

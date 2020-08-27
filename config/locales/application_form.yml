@@ -15,10 +15,6 @@ en:
         completed_checkbox: I have completed this section
         button: Continue
       view_and_respond_to_offer: View and respond to offer
-      withdrawal_information: >
-        You can withdraw an application from a training provider at any point,
-        even after you’ve accepted an offer. You will not be penalised, but you
-        cannot substitute a different course or provider.
     personal_details:
       first_name:
         label: First name

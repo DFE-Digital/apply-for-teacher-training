@@ -105,10 +105,6 @@
   </div>
 <% end %>
 
-<% if any_withdrawable? %>
-  <p class="govuk-body"><%= t('application_form.courses.withdrawal_information') %></p>
-<% end %>
-
 <% if show_missing_banner? %>
   <%= render(SectionMissingBannerComponent.new(section: :course_choices, section_path: candidate_interface_course_choices_index_path, error: @missing_error)) %>
 <% end %>
