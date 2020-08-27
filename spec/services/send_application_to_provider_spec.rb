@@ -70,9 +70,9 @@ RSpec.describe SendApplicationToProvider do
     end
 
     it 'does not work for another status' do
-      SendApplicationToProvider.new(application_choice: application_choice(status: 'awaiting_references')).call
-
-      expect(application_choice.reload.status).to eq 'awaiting_references'
+      expect {
+        SendApplicationToProvider.new(application_choice: application_choice(status: 'awaiting_references')).call
+      }.to raise_error(SendApplicationToProvider::ApplicationNotReadyToSendError)
     end
   end
 end

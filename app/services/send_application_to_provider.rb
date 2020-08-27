@@ -1,4 +1,6 @@
 class SendApplicationToProvider
+  class ApplicationNotReadyToSendError < RuntimeError; end
+
   attr_accessor :application_choice
 
   def initialize(application_choice:)
@@ -6,7 +8,9 @@ class SendApplicationToProvider
   end
 
   def call
-    return false unless application_choice.unsubmitted? || application_choice.application_complete?
+    unless ApplicationStateChange::STATES_THAT_MAY_BE_SENT_TO_PROVIDER.include?(application_choice.status.to_sym)
+      raise ApplicationNotReadyToSendError, "Tried to send an application in the #{application_choice.status} state to a provider"
+    end
 
     ActiveRecord::Base.transaction do
       application_choice.update!(sent_to_provider_at: Time.zone.now)
