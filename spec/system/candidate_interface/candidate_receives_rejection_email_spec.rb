@@ -96,17 +96,17 @@ RSpec.feature 'Receives rejection email' do
   end
 
   def and_it_includes_details_of_my_offer
-    expect(current_email.body).to include(@offer.provider.name)
-    expect(current_email.body).to include(@offer.course.name_and_code)
+    expect(current_email.text).to include(@offer.provider.name)
+    expect(current_email.text).to include(@offer.course.name_and_code)
 
-    expect(current_email.body).to include("Make a decision about your offer by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
+    expect(current_email.text).to include("Make a decision about your offer by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
   end
 
   def and_it_includes_details_of_my_offers
-    expect(current_email.body).to include(@offer.provider.name)
-    expect(current_email.body).to include(@offer.course.name_and_code)
-    expect(current_email.body).to include(@offer2.provider.name)
-    expect(current_email.body).to include(@offer2.course.name_and_code)
-    expect(current_email.body).to include("Make a decision about your offers by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
+    expect(current_email.text).to include(@offer.provider.name)
+    expect(current_email.text).to include(@offer.course.name_and_code)
+    expect(current_email.text).to include(@offer2.provider.name)
+    expect(current_email.text).to include(@offer2.course.name_and_code)
+    expect(current_email.text).to include("Make a decision about your offers by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
   end
 end
