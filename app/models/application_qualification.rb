@@ -12,14 +12,12 @@ class ApplicationQualification < ApplicationRecord
     qualification_type
     subject
     grade
-    institution_name
     award_year
   ].freeze
 
   EXPECTED_INTERNATIONAL_OTHER_QUALIFICATION_DATA = %i[
     qualification_type
     non_uk_qualification_type
-    institution_name
     institution_country
     award_year
   ].freeze

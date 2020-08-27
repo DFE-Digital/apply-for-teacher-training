@@ -105,7 +105,7 @@ module CandidateInterface
 
     def country_value(qualification)
       if non_uk_qualification?(qualification) && qualification.institution_country.present?
-        "#{COUNTRIES[qualification.institution_country]}"
+        COUNTRIES[qualification.institution_country].to_s
       else
         set_rows_value(qualification.institution_country)
       end

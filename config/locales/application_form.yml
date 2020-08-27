@@ -251,8 +251,6 @@ en:
         change_action: subject
       institution_country:
         label: Country where you studied
-      institution_name:
-        label: Institution where you studied
       country:
         label: Country
         change_action: country
