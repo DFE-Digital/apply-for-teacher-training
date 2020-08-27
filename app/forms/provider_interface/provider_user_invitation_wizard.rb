@@ -135,11 +135,11 @@ module ProviderInterface
     end
 
     def save_state!
-      @state_store[STATE_STORE_KEY] = state
+      @state_store.write(state)
     end
 
     def clear_state!
-      @state_store.delete(STATE_STORE_KEY)
+      @state_store.delete
     end
 
     def new_user?
@@ -157,7 +157,13 @@ module ProviderInterface
     end
 
     def last_saved_state
-      JSON.parse(@state_store[STATE_STORE_KEY].presence || '{}')
+      saved_state = @state_store.read
+
+      if saved_state
+        JSON.parse(saved_state)
+      else
+        {}
+      end
     end
 
     def next_provider_id
