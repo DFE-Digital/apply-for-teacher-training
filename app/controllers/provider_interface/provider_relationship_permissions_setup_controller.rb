@@ -113,7 +113,7 @@ module ProviderInterface
     def wizard_for(options)
       options[:checking_answers] = true if params[:checking_answers] == 'true'
       ProviderRelationshipPermissionsSetupWizard.new(
-        WizardStateStores::SessionStore.new(session: session, key: persistence_key_for_current_user),
+        WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
         options,
       )
     end
