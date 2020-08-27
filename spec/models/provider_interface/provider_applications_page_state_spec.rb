@@ -17,6 +17,8 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
   describe '#filters' do
     it 'calculates a correct list of possible filters' do
+      FeatureFlag.deactivate(:providers_can_filter_by_recruitment_cycle)
+
       page_state = described_class.new(
         params: ActionController::Parameters.new,
         provider_user: provider_user,
@@ -28,11 +30,33 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       number_of_courses = 3
 
       expect(page_state.filters).to be_a(Array)
-      expect(page_state.filters.size).to be(expected_number_of_filters)
-      expect(page_state.filters[providers_array_index][:options].size).to be(number_of_courses)
+      expect(page_state.filters.size).to eq(expected_number_of_filters)
+      expect(page_state.filters[providers_array_index][:options].size).to eq(number_of_courses)
+    end
+
+    it 'calculates a correct list of possible filters when filtering by recruitment cycle is allowed' do
+      FeatureFlag.activate(:providers_can_filter_by_recruitment_cycle)
+
+      page_state = described_class.new(
+        params: ActionController::Parameters.new,
+        provider_user: provider_user,
+        state_store: {},
+      )
+
+      expected_number_of_filters = 4
+      recruitment_cycle_index = 1
+      providers_array_index = 3
+      number_of_courses = 3
+
+      expect(page_state.filters).to be_a(Array)
+      expect(page_state.filters.size).to eq(expected_number_of_filters)
+      expect(page_state.filters[recruitment_cycle_index][:options].size).to eq(2)
+      expect(page_state.filters[providers_array_index][:options].size).to eq(number_of_courses)
     end
 
     it 'does not include providers if avaible providers is < 2' do
+      FeatureFlag.deactivate(:providers_can_filter_by_recruitment_cycle)
+
       page_state = described_class.new(
         params: ActionController::Parameters.new,
         provider_user: another_provider_user,
@@ -43,11 +67,13 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
       headings = page_state.filters.map { |filter| filter[:heading] }
 
-      expect(page_state.filters.size).to be(expected_number_of_filters)
+      expect(page_state.filters.size).to eq(expected_number_of_filters)
       expect(headings).not_to include('Provider')
     end
 
     it 'can return filter config for a list of provider locations' do
+      FeatureFlag.deactivate(:providers_can_filter_by_recruitment_cycle)
+
       page_state = described_class.new(
         params: ActionController::Parameters.new({ provider: [provider1.id] }),
         provider_user: another_provider_user,
@@ -97,14 +123,14 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
     let(:empty_params) { ActionController::Parameters.new }
 
-    it 'returns true if filers have been applied' do
+    it 'returns true if filters have been applied' do
       page_state = described_class.new(params: params, provider_user: provider_user, state_store: {})
-      expect(page_state.filtered?).to be(true)
+      expect(page_state.filtered?).to eq(true)
     end
 
     it 'returns false if filters have not been applied' do
       page_state = described_class.new(params: empty_params, provider_user: provider_user, state_store: {})
-      expect(page_state.filtered?).to be(false)
+      expect(page_state.filtered?).to eq(false)
     end
   end
 

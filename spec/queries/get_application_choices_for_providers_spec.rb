@@ -26,7 +26,7 @@ RSpec.describe GetApplicationChoicesForProviders do
     )
 
     returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
-    expect(returned_applications.size).to be(2)
+    expect(returned_applications.size).to eq(2)
   end
 
   it 'returns the application for multiple providers' do
@@ -99,7 +99,7 @@ RSpec.describe GetApplicationChoicesForProviders do
     )
 
     returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
-    expect(returned_applications.size).to be(3)
+    expect(returned_applications.size).to eq(3)
   end
 
   it 'returns application_choice that the provider is the accredited body for' do

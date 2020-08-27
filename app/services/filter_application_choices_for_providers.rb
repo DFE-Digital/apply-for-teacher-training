@@ -14,6 +14,14 @@ class FilterApplicationChoicesForProviders
       application_choices.where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{candidates_name}%")
     end
 
+    def recruitment_cycle_year(application_choices, years)
+      return application_choices if years.blank?
+
+      return application_choices unless FeatureFlag.active?(:providers_can_filter_by_recruitment_cycle)
+
+      application_choices.where('courses.recruitment_cycle_year' => years)
+    end
+
     def status(application_choices, statuses)
       return application_choices if statuses.blank?
 
@@ -40,6 +48,7 @@ class FilterApplicationChoicesForProviders
 
     def create_filter_query(application_choices, filters)
       filtered_application_choices = search(application_choices, filters[:candidate_name])
+      filtered_application_choices = recruitment_cycle_year(filtered_application_choices, filters[:recruitment_cycle_year])
       filtered_application_choices = provider(filtered_application_choices, filters[:provider])
       filtered_application_choices = accredited_provider(filtered_application_choices, filters[:accredited_provider])
       filtered_application_choices = status(filtered_application_choices, filters[:status])

@@ -182,7 +182,7 @@ RSpec.feature 'See providers' do
     expect(page).to have_content 'Primary (ABC-1) - Full time at Main site Vacancies'
 
     within '[data-qa="applications"]' do
-      expect(page.all('tbody tr').size).to be(2)
+      expect(page.all('tbody tr').size).to eq(2)
     end
   end
 

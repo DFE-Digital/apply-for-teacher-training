@@ -21,12 +21,15 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications
     and_i_sign_in_to_the_provider_interface
+    and_the_filter_by_recruitment_cycle_flag_is_on
 
     when_i_visit_the_provider_page
 
     then_i_expect_to_see_the_filter_dialogue
 
     then_i_location_filters_should_not_be_visible
+
+    then_i_can_see_applications_from_the_previous_year_too
 
     when_i_filter_for_rejected_applications
     then_only_rejected_applications_should_be_visible
@@ -68,6 +71,10 @@ RSpec.feature 'Providers should be able to filter applications' do
     when_i_filter_by_provider_location
     then_i_only_see_applications_for_that_provider_location
     and_i_expect_the_relevant_provider_location_tags_to_be_visible
+
+    when_i_filter_by_recruitment_cycle
+    then_i_only_see_applications_for_that_recruitment_cycle
+    and_i_expect_the_relevant_recruitment_cycle_tags_to_be_visible
 
     when_i_clear_the_filters
     then_i_expect_all_applications_to_be_visible_again
@@ -150,6 +157,25 @@ RSpec.feature 'Providers should be able to filter applications' do
     expect(page).to have_css('.moj-filter-tags', text: site.name)
   end
 
+  def and_the_filter_by_recruitment_cycle_flag_is_on
+    FeatureFlag.activate(:providers_can_filter_by_recruitment_cycle)
+  end
+
+  def when_i_filter_by_recruitment_cycle
+    find(:css, "#recruitment_cycle_year-#{RecruitmentCycle.current_year}").set(true)
+    click_button('Apply filters')
+  end
+
+  def then_i_only_see_applications_for_that_recruitment_cycle
+    expect(page).not_to have_content('Anne Blast')
+  end
+
+  def and_i_expect_the_relevant_recruitment_cycle_tags_to_be_visible
+    current_year = RecruitmentCycle.current_year
+    tag_text = "#{current_year} to #{current_year + 1} (Current)"
+    expect(page).to have_css('.moj-filter-tags', text: tag_text)
+  end
+
   def when_i_visit_the_provider_page
     visit provider_interface_path
   end
@@ -178,6 +204,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     course_option_six = course_option_for_provider(provider: third_provider, course: create(:course, name: 'Maths', provider: third_provider))
     course_option_seven = course_option_for_provider(provider: third_provider, course: create(:course, name: 'Engineering', provider: third_provider))
+    course_option_from_previous_year = course_option_for_provider(provider: current_provider, course: create(:course, :previous_year, name: 'Engineering', provider: current_provider))
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_one, status: 'withdrawn', application_form:
            create(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 1.day.ago)
@@ -205,6 +232,13 @@ RSpec.feature 'Providers should be able to filter applications' do
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer_withdrawn', offer_withdrawn_at: 2.days.ago, application_form:
            create(:application_form, first_name: 'John', last_name: 'Smith'), updated_at: 8.days.ago)
+
+    create(:application_choice, :offer, course_option: course_option_from_previous_year, status: 'offer', application_form:
+           create(:application_form, first_name: 'Anne', last_name: 'Blast'), updated_at: 366.days.ago)
+  end
+
+  def then_i_can_see_applications_from_the_previous_year_too
+    expect(page).to have_content('Anne Blast')
   end
 
   def then_i_expect_to_see_the_filter_dialogue
