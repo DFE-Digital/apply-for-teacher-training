@@ -6,7 +6,7 @@ class ApplicationStateChange
   STATES_THAT_MAY_BE_SENT_TO_PROVIDER = %i[application_complete unsubmitted].freeze
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted awaiting_references application_complete cancelled].freeze
   STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn rejected_at_end_of_cycle].freeze
-  ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited].freeze
+  ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited offer_deferred].freeze
   OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
   POST_OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer_withdrawn]).freeze
   UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn rejected_at_end_of_cycle].freeze
@@ -73,15 +73,23 @@ class ApplicationStateChange
       event :confirm_conditions_met, transitions_to: :recruited
       event :conditions_not_met, transitions_to: :conditions_not_met
       event :withdraw, transitions_to: :withdrawn
+      event :defer_offer, transitions_to: :offer_deferred
     end
 
     state :conditions_not_met
 
     state :recruited do
       event :withdraw, transitions_to: :withdrawn
+      event :defer_offer, transitions_to: :offer_deferred
     end
 
     state :cancelled
+
+    state :offer_deferred do
+      event :reinstate_conditions_met, transitions_to: :recruited
+      event :reinstate_pending_conditions, transitions_to: :pending_conditions
+      event :withdraw, transitions_to: :withdrawn
+    end
   end
 
   def load_workflow_state

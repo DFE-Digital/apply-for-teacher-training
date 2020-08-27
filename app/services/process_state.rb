@@ -53,9 +53,18 @@ class ProcessState
     state :pending_conditions do
       event :conditions_met, transitions_to: :recruited
       event :conditions_not_met, transitions_to: :ended_without_success
+      event :defer_offer, transitions_to: :offer_deferred
     end
 
-    state :recruited
+    state :recruited do
+      event :defer_offer, transitions_to: :offer_deferred
+    end
+
+    state :offer_deferred do
+      event :reinstate_conditions_met, transitions_to: :recruited
+      event :reinstate_pending_conditions, transitions_to: :pending_conditions
+      event :withdraw, transitions_to: :ended_without_success
+    end
   end
 
   def state
@@ -76,6 +85,8 @@ class ProcessState
       :recruited
     elsif any_state_is?('pending_conditions')
       :pending_conditions
+    elsif any_state_is?('offer_deferred')
+      :offer_deferred
     elsif (states.uniq - ApplicationStateChange::UNSUCCESSFUL_END_STATES).empty?
       :ended_without_success
     else

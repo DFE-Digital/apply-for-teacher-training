@@ -20,6 +20,7 @@ module ProviderInterface
       'declined' => 'Offer declined',
       'recruited' => 'Recruited',
       'conditions_not_met' => 'Conditions marked not met',
+      'offer_deferred' => 'Offer deferred',
     }.freeze
 
   private
