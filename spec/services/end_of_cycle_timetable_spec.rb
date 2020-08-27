@@ -268,7 +268,7 @@ RSpec.describe EndOfCycleTimetable do
 
     it 'returns false for an application for courses in the previous cycle' do
       expect(
-        described_class.current_cycle?(create_application_for(RecruitmentCycle.current_year - 1)),
+        described_class.current_cycle?(create_application_for(RecruitmentCycle.previous_year)),
       ).to be false
     end
   end
