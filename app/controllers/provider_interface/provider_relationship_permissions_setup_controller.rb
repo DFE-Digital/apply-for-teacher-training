@@ -112,7 +112,10 @@ module ProviderInterface
 
     def wizard_for(options)
       options[:checking_answers] = true if params[:checking_answers] == 'true'
-      ProviderRelationshipPermissionsSetupWizard.new(session, options)
+      ProviderRelationshipPermissionsSetupWizard.new(
+        WizardStateStores::SessionStore.new(session: session, key: persistence_key_for_current_user),
+        options,
+      )
     end
 
     def require_feature_flag!
@@ -146,6 +149,10 @@ module ProviderInterface
       @permissions_form = ProviderInterface::ProviderRelationshipPermissionsSetupWizard::PermissionsForm.new(
         @wizard.permissions_for_relationship(@permissions_model.id).merge(id: @permissions_model.id),
       )
+    end
+
+    def persistence_key_for_current_user
+      "provider_user_permissions_wizard-#{current_provider_user.id}"
     end
   end
 end
