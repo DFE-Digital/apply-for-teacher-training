@@ -21,6 +21,8 @@ class EndOfCycleTimetable
   end
 
   def self.stop_applications_to_unavailable_course_options?
+    return true if FeatureFlag.active?(:simulate_stop_applications_to_unavailable_course_options)
+
     Time.zone.now > date(:stop_applications_to_unavailable_course_options).end_of_day &&
       Time.zone.now < date(:next_cycle_opens).beginning_of_day
   end

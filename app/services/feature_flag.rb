@@ -23,6 +23,7 @@ class FeatureFlag
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Malcolm Baig'],
     [:simulate_time_between_cycles, 'Simulates the time between recruitment cycles so that EoC features can be tested', 'Steve Hook'],
     [:simulate_time_mid_cycle, 'Simulates the mid recruitment cycle time so that normal functionality can be tested between cycles', 'Steve Hook'],
+    [:simulate_stop_applications_to_unavailable_course_options, 'Simulate EoC behaviour where applications to unavailable options are cancelled before they can be sent to the provider', 'Malcolm Baig'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
