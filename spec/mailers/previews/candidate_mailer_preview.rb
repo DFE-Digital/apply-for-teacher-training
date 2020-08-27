@@ -385,6 +385,29 @@ class CandidateMailerPreview < ActionMailer::Preview
     )
   end
 
+  def eoc_choice_unavailable_and_still_waiting_on_other_choices
+    application_form = application_form_with_course_choices(
+      [
+        FactoryBot.build_stubbed(:application_choice, course_option: course_option),
+        FactoryBot.build_stubbed(:application_choice, course_option: course_option),
+        FactoryBot.build_stubbed(:application_choice, course_option: course_option),
+      ],
+    )
+    CandidateMailer.eoc_choice_unavailable_and_still_waiting_on_other_choices(
+      application_form.application_choices.first,
+    )
+  end
+
+  def eoc_choice_unavailable_and_no_other_choices
+    application_form = application_form_with_course_choices(
+      [FactoryBot.build_stubbed(:application_choice, course_option: course_option)],
+    )
+
+    CandidateMailer.eoc_choice_unavailable_and_no_other_choices(
+      application_form.application_choices.first,
+    )
+  end
+
 private
 
   def candidate
