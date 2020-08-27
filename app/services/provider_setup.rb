@@ -8,7 +8,7 @@ class ProviderSetup
   end
 
   def next_agreement_pending
-    providers = @provider_user.providers
+    providers = @provider_user.providers.order(:created_at)
     pending_dsa_providers = providers.where.not(
       id: ProviderAgreement.data_sharing_agreements.for_provider(providers).select(:provider_id),
     )
