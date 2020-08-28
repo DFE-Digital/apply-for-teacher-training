@@ -126,7 +126,6 @@ RSpec.feature 'Candidate submits the application' do
 
   def and_i_can_see_my_other_qualification
     expect(page).to have_content 'A level Believing in the Heart of the Cards'
-    expect(page).to have_content 'Yugi College'
     expect(page).to have_content 'A'
     expect(page).to have_content '2015'
   end

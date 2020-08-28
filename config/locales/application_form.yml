@@ -251,11 +251,9 @@ en:
         change_action: subject
       institution_country:
         label: Country where you studied
-      institution_name:
-        label: Institution where you studied
-      institution:
-        label: Institution
-        change_action: institution
+      country:
+        label: Country
+        change_action: country
       grade:
         label: Grade
         optional_label: Grade (optional)

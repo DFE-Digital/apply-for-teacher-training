@@ -7,11 +7,9 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:qualification_type) }
-    it { is_expected.to validate_presence_of(:institution_name) }
     it { is_expected.to validate_presence_of(:award_year) }
     it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
     it { is_expected.to validate_length_of(:subject).is_at_most(255) }
-    it { is_expected.to validate_length_of(:institution_name).is_at_most(255) }
     it { is_expected.to validate_length_of(:grade).is_at_most(255) }
 
     describe 'subject' do
@@ -114,7 +112,6 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
           level: 'other',
           qualification_type: 'BTEC',
           subject: 'Being a Superhero',
-          institution_name: 'School of Heroes',
           grade: 'Distinction',
           predicted_grade: false,
           award_year: '2012',
@@ -132,7 +129,6 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
         have_attributes(
           qualification_type: 'BTEC',
           subject: 'Being a Superhero',
-          institution_name: 'School of Heroes',
           grade: 'Distinction',
           award_year: '2012',
         ),
@@ -162,7 +158,6 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
         level: 'other',
         qualification_type: 'BTEC',
         subject: 'Being a Sidekick',
-        institution_name: 'School of Sidekicks',
         grade: 'Merit',
         predicted_grade: false,
         award_year: '2010',
@@ -187,7 +182,6 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
       form_data = {
         qualification_type: 'BTEC',
         subject: 'Being a Superhero',
-        institution_name: 'School of Heroes',
         grade: 'Distinction',
         award_year: '2012',
         choice: 'no',
@@ -196,7 +190,6 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
       expected_attributes = {
         qualification_type: 'BTEC',
         subject: 'Being a Superhero',
-        institution_name: 'School of Heroes',
         grade: 'Distinction',
         award_year: '2012',
       }
@@ -223,7 +216,6 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
         level: 'other',
         qualification_type: 'BTEC',
         subject: 'Being a Everyday Hero',
-        institution_name: 'School of Hoomans',
         grade: 'Pass',
         predicted_grade: false,
         award_year: '2011',
@@ -232,7 +224,6 @@ RSpec.describe CandidateInterface::OtherQualificationForm, type: :model do
       form_data = {
         qualification_type: 'BTEC',
         subject: 'Being a Everyday Hero',
-        institution_name: 'School of Humans',
         grade: 'Distinction',
         award_year: '2011',
       }

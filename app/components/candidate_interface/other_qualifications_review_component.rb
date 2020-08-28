@@ -14,13 +14,31 @@ module CandidateInterface
     end
 
     def other_qualifications_rows(qualification)
-      [
-        qualification_row(qualification),
-        subject_row(qualification),
-        institution_row(qualification),
-        award_year_row(qualification),
-        grade_row(qualification),
-      ]
+      if FeatureFlag.active?('international_other_qualifications')
+        if qualification.institution_country.present?
+          [
+            qualification_row(qualification),
+            subject_row(qualification),
+            country_row(qualification),
+            award_year_row(qualification),
+            grade_row(qualification),
+          ]
+        else
+          [
+            qualification_row(qualification),
+            subject_row(qualification),
+            award_year_row(qualification),
+            grade_row(qualification),
+          ]
+        end
+      else
+        [
+          qualification_row(qualification),
+          subject_row(qualification),
+          award_year_row(qualification),
+          grade_row(qualification),
+        ]
+      end
     end
 
     def show_missing_banner?
@@ -76,20 +94,20 @@ module CandidateInterface
       end
     end
 
-    def institution_row(qualification)
+    def country_row(qualification)
       {
-        key: t('application_form.other_qualification.institution.label'),
-        value: institution_value(qualification),
-        action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.institution.change_action')),
+        key: t('application_form.other_qualification.country.label'),
+        value: country_value(qualification),
+        action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.country.change_action')),
         change_path: edit_other_qualification_details_path(qualification),
       }
     end
 
-    def institution_value(qualification)
+    def country_value(qualification)
       if non_uk_qualification?(qualification) && qualification.institution_country.present?
-        "#{qualification.institution_name}, #{COUNTRIES[qualification.institution_country]}"
+        COUNTRIES[qualification.institution_country].to_s
       else
-        set_rows_value(qualification.institution_name)
+        set_rows_value(qualification.institution_country)
       end
     end
 
@@ -137,7 +155,7 @@ module CandidateInterface
 
     def generate_action(qualification:, attribute: '')
       "#{attribute.presence} for #{qualification.get_qualification_name}, #{qualification.subject}, "\
-        "#{institution_value(qualification)}, #{qualification.award_year}"
+        "#{qualification.award_year}"
     end
   end
 end
