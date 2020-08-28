@@ -8,7 +8,7 @@ module WizardStateStores
     end
 
     def write(value)
-      @redis.set(@key, value)
+      @redis.set(@key, value, ex: ActiveSupport::Duration::SECONDS_PER_DAY)
     end
 
     def read
