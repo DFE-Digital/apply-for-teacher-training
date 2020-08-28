@@ -29,6 +29,7 @@ FactoryBot.define do
       uk_residency_status { 'I have the right to study and/or work in the UK' }
       disclose_disability { %w[true false].sample }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
+      safeguarding_issues_status { 'no_safeguarding_issues_to_declare' }
       submitted_at { Faker::Time.backward(days: 7, period: :day) }
       edit_by { submitted_at ? 5.business_days.after(submitted_at) : nil }
       phone_number { Faker::PhoneNumber.cell_phone }
