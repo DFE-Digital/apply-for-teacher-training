@@ -1,6 +1,7 @@
 class EndOfCycleTimetable
   DATES = {
     apply_1_deadline: Date.new(2020, 8, 24),
+    stop_applications_to_unavailable_course_options: Date.new(2020, 9, 7),
     apply_2_deadline: Date.new(2020, 9, 18),
     find_closes: Date.new(2020, 9, 19),
     find_reopens: Date.new(2020, 10, 3),
@@ -17,6 +18,13 @@ class EndOfCycleTimetable
 
   def self.show_apply_2_deadline_banner?
     Time.zone.now < date(:apply_2_deadline).end_of_day
+  end
+
+  def self.stop_applications_to_unavailable_course_options?
+    return true if FeatureFlag.active?(:simulate_stop_applications_to_unavailable_course_options)
+
+    Time.zone.now > date(:stop_applications_to_unavailable_course_options).end_of_day &&
+      Time.zone.now < date(:next_cycle_opens).beginning_of_day
   end
 
   def self.apply_1_deadline

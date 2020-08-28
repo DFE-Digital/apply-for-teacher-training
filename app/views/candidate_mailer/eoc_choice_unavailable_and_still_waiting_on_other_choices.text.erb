@@ -1,0 +1,20 @@
+Dear <%= @application_form.first_name %>
+
+# Application could not be sent for <%= @application_choice.course_option.course.name_and_code %> at <%= @application_choice.course_option.provider.name %>
+
+Due to places filling up for <%= @application_choice.course_option.course.name_and_code %> at <%= @application_choice.course_option.provider.name %>, we could not send your application for consideration for this course.
+
+However, you’re waiting to hear back about <%= @other_choices.count > 1 ? 'other courses' : 'another course'%>.
+
+# Your other <%= 'course'.pluralize(@other_choices.count) %>
+
+You’re waiting to hear back about:
+
+<% @other_choices.each do |choice| %>
+  - <%= choice.course_option.course.name_and_code %>
+<% end %>
+
+You can check the progress of your application anytime by signing in to your account:
+
+<%= candidate_magic_link(@application_choice.application_form.candidate) %>
+
