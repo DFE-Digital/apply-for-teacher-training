@@ -10,6 +10,7 @@ class Candidate < ApplicationRecord
                             length: { maximum: 100 },
                             email_address: true
 
+  has_one :ucas_match
   has_many :application_forms
   belongs_to :course_from_find, class_name: 'Course', optional: true
 

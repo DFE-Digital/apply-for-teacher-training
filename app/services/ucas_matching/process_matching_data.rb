@@ -109,7 +109,11 @@ module UCASMatching
         end
       end
 
-      message = ":dfe: :ucas: Hello, this is the Apply/UCAS matching robot. I’ve just received a new file from UCAS. It contained #{new_matches} new matches, #{updated_matches} updated matches, and #{existing_matches} matches that we’ve already seen."
+      new_matches_string = "#{new_matches} new #{'match'.pluralize(new_matches)}"
+      updated_matches_string = "#{updated_matches} updated #{'match'.pluralize(updated_matches)}"
+      existing_matches_string = "#{existing_matches} #{'match'.pluralize(existing_matches)}"
+
+      message = ":dfe: :ucas: Hello, this is the Apply/UCAS matching robot. I’ve just received a new file from UCAS. It contained #{new_matches_string}, #{updated_matches_string}, and #{existing_matches_string} we’ve already seen."
       url = Rails.application.routes.url_helpers.support_interface_ucas_matches_url
       SlackNotificationWorker.perform_async(message, url)
     end
