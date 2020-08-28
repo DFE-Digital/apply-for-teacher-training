@@ -4,19 +4,17 @@ Dear <%= @application_form.first_name %>
 
 Due to <%= @application_choice.course_option.course.name_and_code %> filling up at <%= @application_choice.course_option.course.provider.name %>, your recent application did not lead to a place on a course.
 
-# Re-submit no later than 18 September
+# Resubmit no later than 18 September
 
-You can re-submit your application for an available course until the 18 September.
+You can resubmit your application for an available course until the 18 September.
 
 Find out if there are any other suitable courses available:
 
 https://www.find-postgraduate-teacher-training.service.gov.uk/
 
-We’ve saved your last application, so all you have to do is sign-in, choose a course and resubmit.
+If you find a course, continue your application:
 
-Sign back into your account and re-submit no later than 18 September:
-
-<%= candidate_magic_link(@application_choice.application_form.candidate) %>
+<%= candidate_interface_start_apply_again_url %>
 
 # Get help from a teacher training adviser
 
