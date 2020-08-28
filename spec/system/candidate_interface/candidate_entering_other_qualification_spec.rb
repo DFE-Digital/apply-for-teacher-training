@@ -28,7 +28,7 @@ RSpec.feature 'Entering their other qualifications' do
     and_select_add_another_a_level
     and_click_save_and_continue
     then_i_see_the_other_qualifications_form
-    and_the_year_fields_is_pre_populated_with_my_previous_details
+    and_the_year_field_is_pre_populated_with_my_previous_details
 
     when_i_fill_out_the_remainder_of_the_form
     and_i_choose_a_different_type_of_qualification
@@ -146,7 +146,7 @@ RSpec.feature 'Entering their other qualifications' do
     click_button 'Save and continue'
   end
 
-  def and_the_year_fields_is_pre_populated_with_my_previous_details
+  def and_the_year_field_is_pre_populated_with_my_previous_details
     expect(page.find('#candidate-interface-other-qualification-form-award-year-field').value).to eq('2015')
   end
 
