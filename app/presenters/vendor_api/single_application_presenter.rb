@@ -1,5 +1,7 @@
 module VendorAPI
   class SingleApplicationPresenter
+    include Rails.application.routes.url_helpers
+
     def initialize(application_choice)
       @application_choice = application_choice
       @application_form = application_choice.application_form
@@ -43,6 +45,8 @@ module VendorAPI
           rejection: get_rejection,
           withdrawal: withdrawal,
           further_information: application_form.further_information,
+          safeguarding_issues_status: application_form.safeguarding_issues_status,
+          safeguarding_issues_details_url: safeguarding_issues_details_url,
         },
       }
       if application_choice.status == 'enrolled'
@@ -262,6 +266,10 @@ module VendorAPI
       else
         ''
       end
+    end
+
+    def safeguarding_issues_details_url
+      application_form.has_safeguarding_issues_to_declare? ? provider_interface_application_choice_url(application_choice, anchor: 'criminal-convictions-and-professional-misconduct') : nil
     end
   end
 end
