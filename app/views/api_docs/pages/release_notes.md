@@ -1,3 +1,9 @@
+### 1st September 2020
+
+- Deprecate the `enrolled` state which will not be part of the Apply service
+- Deprecate the `enrol` endpoint which will now simply return the application unchanged
+- Remove mentions of enrolment from the API documentation
+
 ### 28th August 2020
 
 New attributes:

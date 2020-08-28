@@ -51,21 +51,9 @@ Once you know the conditions are met, make the following request.
 POST /applications/11fc0d3b2f/confirm-conditions-met
 ```
 
-This returns an [application](/api-docs/reference/#application-object) with an updated `status`.
+This returns an [application](/api-docs/reference/#application-object) with an updated `status` of `recruited`.
 
 _See [confirm offer conditions are met](/api-docs/reference/#post-applications-application_id-confirm-conditions-met) endpoint._
-
-### 4. Confirm candidate enrolment
-
-Once the candidate has enrolled, make the following request.
-
-```
-POST /applications/11fc0d3b2f/confirm-enrolment
-```
-
-This returns an [application](/api-docs/reference/#application-object) with an updated `status`.
-
-_See [confirm candidate enrolment](/api-docs/reference/#post-applications-application_id-confirm-enrolment) endpoint._
 
 ## When the candidate fails to meet their offer conditions
 
