@@ -16,7 +16,6 @@ RSpec.feature 'Candidates awaiting references application choices are rejected w
   end
 
   def when_the_apply_2_deadline_has_passed
-    FeatureFlag.activate('switch_to_2021_recruitment_cycle')
     Timecop.travel(EndOfCycleTimetable.apply_2_deadline + 1.day) do
       RejectAwaitingReferencesCourseChoicesWorker.new.perform
     end
