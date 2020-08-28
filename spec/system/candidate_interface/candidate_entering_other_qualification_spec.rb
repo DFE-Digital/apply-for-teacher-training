@@ -28,7 +28,7 @@ RSpec.feature 'Entering their other qualifications' do
     and_select_add_another_a_level
     and_click_save_and_continue
     then_i_see_the_other_qualifications_form
-    and_the_year_and_institution_fields_are_pre_populated_with_my_previous_details
+    and_the_year_fields_is_pre_populated_with_my_previous_details
 
     when_i_fill_out_the_remainder_of_the_form
     and_i_choose_a_different_type_of_qualification
@@ -37,7 +37,7 @@ RSpec.feature 'Entering their other qualifications' do
 
     when_i_choose_other
     and_i_click_continue
-    then_the_year_and_institution_fields_are_not_pre_populated_with_my_previous_details
+    then_the_year_field_is_not_pre_populated_with_my_previous_details
 
     when_i_fill_in_my_other_qualifications_details
     and_i_choose_not_to_add_additional_qualifications
@@ -129,12 +129,11 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def then_i_see_validation_errors_for_my_qualification
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_form.attributes.institution_name.blank')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_form.attributes.award_year.blank')
   end
 
   def when_i_fill_in_my_qualification
     fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards'
-    fill_in t('application_form.other_qualification.institution_name.label'), with: 'Yugi College'
     fill_in t('application_form.other_qualification.grade.label'), with: 'A'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
   end
@@ -147,8 +146,7 @@ RSpec.feature 'Entering their other qualifications' do
     click_button 'Save and continue'
   end
 
-  def and_the_year_and_institution_fields_are_pre_populated_with_my_previous_details
-    expect(page.find('#candidate-interface-other-qualification-form-institution-name-field').value).to eq('Yugi College')
+  def and_the_year_fields_is_pre_populated_with_my_previous_details
     expect(page.find('#candidate-interface-other-qualification-form-award-year-field').value).to eq('2015')
   end
 
@@ -165,15 +163,13 @@ RSpec.feature 'Entering their other qualifications' do
     choose 'Other'
   end
 
-  def then_the_year_and_institution_fields_are_not_pre_populated_with_my_previous_details
-    expect(page.find('#candidate-interface-other-qualification-form-institution-name-field').value).to eq(nil)
+  def then_the_year_field_is_not_pre_populated_with_my_previous_details
     expect(page.find('#candidate-interface-other-qualification-form-award-year-field').value).to eq(nil)
   end
 
   def when_i_fill_in_my_other_qualifications_details
     fill_in t('application_form.other_qualification.qualification_type.label'), with: 'Access Course'
     fill_in t('application_form.other_qualification.subject.label'), with: 'History, English and Psychology'
-    fill_in t('application_form.other_qualification.institution_name.label'), with: 'College'
     fill_in t('application_form.other_qualification.grade.label'), with: 'Distinction'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2012'
   end
@@ -240,7 +236,6 @@ RSpec.feature 'Entering their other qualifications' do
   def then_i_see_my_qualification_filled_in
     expect(page).to have_selector("input[value='A level']")
     expect(page).to have_selector("input[value='Oh']")
-    expect(page).to have_selector("input[value='Yugi College']")
     expect(page).to have_selector("input[value='B']")
     expect(page).to have_selector("input[value='2015']")
   end

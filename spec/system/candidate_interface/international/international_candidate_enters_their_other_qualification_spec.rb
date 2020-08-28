@@ -119,7 +119,6 @@ RSpec.feature 'Non-uk Other qualifications' do
 
   def when_i_fill_in_my_qualification
     fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards'
-    fill_in t('application_form.other_qualification.institution_name.label'), with: 'Yugi College'
     select 'Japan'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
   end
@@ -139,7 +138,6 @@ RSpec.feature 'Non-uk Other qualifications' do
   def and_i_should_see_my_qualification
     expect(page).to have_content('Master Rules')
     expect(page).to have_content('Believing in the Heart of the Cards')
-    expect(page).to have_content('Yugi College, Japan')
     expect(page).to have_content('2015')
   end
 
@@ -192,13 +190,12 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def and_i_fill_in_the_year_institution_and_country
-    fill_in t('application_form.other_qualification.institution_name.label'), with: 'Clown College'
     select 'United States'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
   end
 
   def then_i_should_see_my_second_qualification
-    expect(page).to have_content('Clown College, United States')
+    expect(page).to have_content('United States')
     expect(page).to have_content('2015')
   end
 

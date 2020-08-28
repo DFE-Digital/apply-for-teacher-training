@@ -150,7 +150,7 @@ RSpec.feature 'Vendor receives the application' do
               grade: 'A',
               start_year: nil,
               award_year: '2015',
-              institution_details: 'Yugi College',
+              institution_details: nil,
               awarding_body: nil,
               equivalency_details: nil,
             },

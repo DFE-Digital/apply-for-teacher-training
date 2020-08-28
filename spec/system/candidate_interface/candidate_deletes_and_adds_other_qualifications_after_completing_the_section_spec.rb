@@ -62,7 +62,6 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   def and_i_change_my_qualification
     fill_in t('application_form.other_qualification.qualification_type.label'), with: 'A-Level'
     fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards'
-    fill_in t('application_form.other_qualification.institution_name.label'), with: 'Yugi College'
     fill_in t('application_form.other_qualification.grade.label'), with: 'A'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
   end
