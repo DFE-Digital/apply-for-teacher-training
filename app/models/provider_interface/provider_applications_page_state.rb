@@ -28,7 +28,7 @@ module ProviderInterface
   private
 
     def parse_params(params)
-      params.permit(:candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: []).to_h
+      params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: []).to_h
     end
 
     def save_filter_state!
@@ -55,8 +55,8 @@ module ProviderInterface
       previous_year = RecruitmentCycle.previous_year
 
       label = {
-        current_year => "#{current_year} to #{current_year + 1} (Current)",
-        previous_year => "#{previous_year} to #{previous_year + 1}",
+        current_year => "#{current_year - 1} to #{current_year} (Current)",
+        previous_year => "#{previous_year - 1} to #{previous_year}",
       }
 
       cycle_options = [current_year, previous_year].map do |year|

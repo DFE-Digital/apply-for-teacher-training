@@ -17,7 +17,7 @@
             </div>
             <div class="moj-filter__heading-action">
               <p class="govuk-body">
-              <%= govuk_link_to "Clear", provider_interface_applications_path(sort_by: @page_state.sort_by), class: 'govuk-link--no-visited-state' %>
+              <%= govuk_link_to "Clear", provider_interface_applications_path(remove: true), class: 'govuk-link--no-visited-state' %>
               </p>
             </div>
           </div>
@@ -40,8 +40,6 @@
        -->
       <div class="moj-filter__options" tabindex="-1">
         <form method="get">
-          <%= hidden_field_tag :sort_by, page_state.sort_by %>
-
           <%= submit_tag "Apply filters", class: "govuk-button" %>
 
           <% filters.each do |filter, idx| %>

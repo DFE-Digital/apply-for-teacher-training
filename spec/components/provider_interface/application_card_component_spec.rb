@@ -76,7 +76,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
     it 'renders the recruitment cycle' do
       current_year = RecruitmentCycle.current_year
-      expect(card).to include("#{current_year} to #{current_year + 1}")
+      expect(card).to include("#{current_year - 1} to #{current_year}")
     end
 
     it 'renders the location of the course' do
@@ -175,7 +175,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       let(:rbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
 
       let(:app_double) do
-        double(
+        instance_double(
           'Application Choice',
           pg_days_left_to_respond: 5,
           updated_at: Time.zone.now,
@@ -213,13 +213,13 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     context 'for current year' do
       let(:course_option) { create(:course_option) }
 
-      it { is_expected.to eq("Current cycle (#{current_year} to #{current_year + 1})") }
+      it { is_expected.to eq("Current cycle (#{current_year - 1} to #{current_year})") }
     end
 
     context 'for previous year' do
       let(:course_option) { create(:course_option, :previous_year) }
 
-      it { is_expected.to eq("Previous cycle (#{current_year - 1} to #{current_year})") }
+      it { is_expected.to eq("Previous cycle (#{current_year - 2} to #{current_year - 1})") }
     end
 
     context 'for any other year' do
@@ -228,7 +228,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
         create(:course_option, course: course)
       end
 
-      it { is_expected.to eq("#{current_year - 2} to #{current_year - 1}") }
+      it { is_expected.to eq("#{current_year - 3} to #{current_year - 2}") }
     end
   end
 end

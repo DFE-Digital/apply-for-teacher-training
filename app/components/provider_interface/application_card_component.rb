@@ -28,13 +28,13 @@ module ProviderInterface
     def recruitment_cycle_label
       if application_choice.current_recruitment_cycle == RecruitmentCycle.current_year
         year = RecruitmentCycle.current_year
-        "Current cycle (#{year} to #{year + 1})"
+        "Current cycle (#{year - 1} to #{year})"
       elsif application_choice.current_recruitment_cycle == RecruitmentCycle.previous_year
         year = RecruitmentCycle.previous_year
-        "Previous cycle (#{year} to #{year + 1})"
+        "Previous cycle (#{year - 1} to #{year})"
       else
         year = application_choice.current_recruitment_cycle
-        "#{year} to #{year + 1}"
+        "#{year - 1} to #{year}"
       end
     end
 
@@ -50,10 +50,6 @@ module ProviderInterface
         rbd = application_choice.reject_by_default_at
         ((rbd - Time.zone.now) / 1.day).floor if rbd && rbd > Time.zone.now
       end
-    end
-
-    def pg_days_left_to_respond
-      application_choice.pg_days_left_to_respond
     end
   end
 end
