@@ -14,6 +14,18 @@ RSpec.describe CarryOverUnsubmittedApplicationsWorker do
         course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year)),
       )
 
+      hidden_application_from_last_year = create(
+        :completed_application_form,
+        submitted_at: nil,
+        candidate: create(:candidate, hide_in_reporting: true),
+      )
+      create(
+        :application_choice,
+        status: :unsubmitted,
+        application_form: hidden_application_from_last_year,
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year)),
+      )
+
       unsubmitted_application_from_this_year = create(
         :completed_application_form,
         submitted_at: nil,
@@ -40,6 +52,7 @@ RSpec.describe CarryOverUnsubmittedApplicationsWorker do
       expect(unsubmitted_application_from_last_year.reload.subsequent_application_form).to be_present
       expect(unsubmitted_application_from_this_year.reload.subsequent_application_form).not_to be_present
       expect(rejected_application_from_last_year.reload.subsequent_application_form).not_to be_present
+      expect(hidden_application_from_last_year.reload.subsequent_application_form).not_to be_present
 
       carried_over_application_form = unsubmitted_application_from_last_year.reload.subsequent_application_form
 
