@@ -26,17 +26,22 @@
     <%= f.govuk_check_box :make_decisions, true, multiple: false,
                           label: { text: 'Make decisions' },
                           hint_text: 'Make offers, amend offers and reject applications' %>
-    <%= render AssociatedProvidersPermissionsListComponent.new(permissions_form, permission_name: 'make_decisions') %>
-
+    <div class="govuk-body govuk-!-margin-left-6">
+      <%= render AssociatedProvidersPermissionsListComponent.new(permissions_form, permission_name: 'make_decisions') %>
+    </div>
     <%= f.govuk_check_box :view_safeguarding_information, true, multiple: false,
                           label: { text: 'Access safeguarding information' },
                           hint_text: 'View sensitive material about the candidate' %>
-    <%= render AssociatedProvidersPermissionsListComponent.new(permissions_form, permission_name: 'view_safeguarding_information') %>
+    <div class="govuk-body govuk-!-margin-left-6">
+      <%= render AssociatedProvidersPermissionsListComponent.new(permissions_form, permission_name: 'view_safeguarding_information') %>
+    </div>
 
     <%= f.govuk_check_box :view_diversity_information, true, multiple: false,
                           label: { text: 'Access diversity information' },
                           hint_text: 'View diversity information about the candidate' %>
-    <%= render AssociatedProvidersPermissionsListComponent.new(permissions_form, permission_name: 'view_diversity_information') %>
+    <div class="govuk-body govuk-!-margin-left-6">
+      <%= render AssociatedProvidersPermissionsListComponent.new(permissions_form, permission_name: 'view_diversity_information') %>
+    </div>
   <% end %>
 
   <%= f.govuk_submit 'Save' %>
