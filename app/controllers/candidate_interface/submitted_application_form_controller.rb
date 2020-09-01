@@ -24,6 +24,10 @@ module CandidateInterface
       redirect_to candidate_interface_before_you_start_path
     end
 
+    def start_carry_over
+      render EndOfCycleTimetable.between_cycles_apply_2? ? :start_carry_over_between_cycles : :start_carry_over
+    end
+
     def carry_over
       CarryOverApplication.new(current_application).call
       flash[:success] = 'Your application is ready for editing'

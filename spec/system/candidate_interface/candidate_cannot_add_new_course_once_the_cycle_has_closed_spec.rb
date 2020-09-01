@@ -105,7 +105,7 @@ RSpec.describe 'Candidate vists their applicatin form after the cycle has ended'
   end
 
   def given_the_new_cycle_is_open
-    Timecop.travel(EndOfCycleTimetable.next_cycle_opens + 1.day)
+    Timecop.travel(EndOfCycleTimetable.apply_reopens + 1.day)
   end
 
   def and_i_logout

@@ -76,17 +76,17 @@ RSpec.describe CandidateInterface::ApplyAgainBannerComponent do
   end
 
   describe 'visibility of banner between cycles' do
-    it 'is rendered' do
+    it 'is rendered with apply again call to action before apply 2 closes' do
       Timecop.freeze(Time.zone.local(2020, 9, 17, 12, 0, 0)) do
         result = render_inline(described_class.new(application_form: application_form))
         expect(result.text).to include('Do you want to apply again?')
       end
     end
 
-    it 'is not rendered' do
+    it 'is rendered with continue application call to action after apply 2 closes' do
       Timecop.freeze(Time.zone.local(2020, 9, 25, 12, 0, 0)) do
         result = render_inline(described_class.new(application_form: application_form))
-        expect(result.text).to eq('')
+        expect(result.text).to include('Do you want to continue applying?')
       end
     end
   end

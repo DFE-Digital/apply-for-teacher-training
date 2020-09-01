@@ -11,16 +11,25 @@ module CandidateInterface
       EndOfCycleTimetable.show_apply_2_deadline_banner? && FeatureFlag.active?(:deadline_notices)
     end
 
-    def render?
-      !EndOfCycleTimetable.between_cycles_apply_2?
-    end
+    # def render?
+    #   !EndOfCycleTimetable.between_cycles_apply_2?
+    # end
 
     def start_path
-      if EndOfCycleTimetable.current_cycle?(@application_form)
+      if EndOfCycleTimetable.current_cycle?(@application_form) &&
+          !EndOfCycleTimetable.between_cycles_apply_2?
         candidate_interface_start_apply_again_path
       else
         candidate_interface_start_carry_over_path
       end
+    end
+
+    def reopen_date
+      EndOfCycleTimetable.date(:apply_reopens).to_s(:govuk_date)
+    end
+
+    def find_reopen_date
+      EndOfCycleTimetable.date(:find_reopens).to_s(:govuk_date)
     end
   end
 end

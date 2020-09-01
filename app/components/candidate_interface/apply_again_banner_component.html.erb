@@ -1,18 +1,32 @@
 <div class="app-banner">
   <div class="app-banner__message">
     <div class="govuk-heading-m">
-      <p>
-      <% if @application_form.application_choices.all?(&:cancelled?) %>
-        Your application has been withdrawn. <%= govuk_link_to 'Do you want to apply again?', start_path %>
-      <% else %>
-        <%= govuk_link_to 'Do you want to apply again?', start_path %>
-      <% end %>
-      </p>
-
-      <% if show_deadline_copy? %>
-        <p class='govuk-body govuk-!-font-size-24'>
-          The deadline when applying again is 18 September for courses starting this academic year.
+      <% if EndOfCycleTimetable.between_cycles_apply_2? %>
+        <p>
+          Do you want to continue applying?
         </p>
+
+        <p class='govuk-body govuk-!-font-size-24'>
+          You'll be able to find courses from <%= find_reopen_date %> and submit from <%= reopen_date %>.
+        </p>
+
+        <p class='govuk-body govuk-!-font-size-24'>
+          You can <%= govuk_link_to 'make changes to your application', start_path %> until then.
+        </p>
+      <% else %> 
+        <p>
+        <% if @application_form.application_choices.all?(&:cancelled?) %>
+          Your application has been withdrawn. <%= govuk_link_to 'Do you want to apply again?', start_path %>
+        <% else %>
+          <%= govuk_link_to 'Do you want to apply again?', start_path %>
+        <% end %>
+        </p>
+
+        <% if show_deadline_copy? %>
+          <p class='govuk-body govuk-!-font-size-24'>
+            The deadline when applying again is 18 September for courses starting this academic year.
+          </p>
+        <% end %>
       <% end %>
     </div>
   </div>
