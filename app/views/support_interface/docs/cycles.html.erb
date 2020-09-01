@@ -1,0 +1,40 @@
+<%= content_for :title, 'Recruitment cycles' %>
+
+<% content_for :before_content do %>
+  <%= render SubNavigationComponent.new(items: [
+    { name: 'Provider application flow', url: support_interface_provider_flow_path },
+    { name: 'Candidate application flow', url: support_interface_candidate_flow_path },
+    { name: 'When emails are sent', url: support_interface_when_emails_are_sent_path },
+    { name: 'Recruitment cycles', url: support_interface_cycles_path },
+  ]) %>
+<% end %>
+
+<h2 class='govuk-heading-m'>Cycle years</h2>
+
+<%= render SummaryListComponent.new(rows: {
+  'Previous cycle year' => RecruitmentCycle.previous_year,
+  'Current cycle year' => RecruitmentCycle.current_year,
+  'Next cycle year' => EndOfCycleTimetable.next_cycle_year,
+  'Years visible to providers' => RecruitmentCycle.visible_years.to_sentence,
+}) %>
+
+<h2 class='govuk-heading-m'>Deadlines</h2>
+
+<%= render SummaryListComponent.new(rows: {
+  'Appy 1 deadline' => EndOfCycleTimetable.apply_1_deadline.to_s(:govuk_date),
+  'Apply 2 deadline' => EndOfCycleTimetable.apply_2_deadline.to_s(:govuk_date),
+  'Find closes on' => EndOfCycleTimetable.find_closes.to_s(:govuk_date),
+  'Find reopens on' => EndOfCycleTimetable.find_reopens.to_s(:govuk_date),
+  'Next cycle opens on' => EndOfCycleTimetable.next_cycle_opens.to_s(:govuk_date),
+}) %>
+
+<h2 class='govuk-heading-m'>Flags</h2>
+
+<%= render SummaryListComponent.new(rows: {
+  'Show Apply 1 deadline banner?' => boolean_to_word(EndOfCycleTimetable.show_apply_1_deadline_banner?),
+  'Show Apply 2 deadline banner?' => boolean_to_word(EndOfCycleTimetable.show_apply_2_deadline_banner?),
+  'Are we between cycles for Apply 1?' => boolean_to_word(EndOfCycleTimetable.between_cycles_apply_1?),
+  'Are we between cycles for Apply 2?' => boolean_to_word(EndOfCycleTimetable.between_cycles_apply_2?),
+  'Stop applications to unavailable course options?' => boolean_to_word(EndOfCycleTimetable.stop_applications_to_unavailable_course_options?),
+  'Is find down?' => boolean_to_word(EndOfCycleTimetable.find_down?),
+}) %>
