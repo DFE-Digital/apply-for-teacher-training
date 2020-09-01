@@ -244,7 +244,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         create(:application_choice, status: 'awaiting_provider_decision', application_form: create(:completed_application_form))
       end
 
-      let(:given_relation) { GetApplicationChoicesForProviders.call(providers: application_choice.provider) }
+      let(:given_relation) { GetApplicationChoicesForProviders.call(providers: application_choice.provider, vendor_api: true) }
       let!(:presenter) { VendorAPI::SingleApplicationPresenter.new(given_relation.first) }
 
       it 'does not trigger any additional queries' do

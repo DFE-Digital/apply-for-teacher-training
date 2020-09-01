@@ -397,7 +397,6 @@ components:
           - recruited
           - rejected
           - withdrawn
-          - offer_deferred
           example: awaiting_provider_decision
         phase:
           type: string

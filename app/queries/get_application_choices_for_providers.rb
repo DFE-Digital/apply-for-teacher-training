@@ -1,5 +1,5 @@
 class GetApplicationChoicesForProviders
-  def self.call(providers:)
+  def self.call(providers:, vendor_api: false)
     providers = Array.wrap(providers).select(&:present?)
 
     raise MissingProvider if providers.none?
@@ -16,10 +16,12 @@ class GetApplicationChoicesForProviders
       course_option: [{ course: %i[provider] }, :site],
     ]
 
+    statuses = vendor_api ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.states_visible_to_provider
+
     ApplicationChoice.includes(*includes)
       .where('courses.provider_id' => providers, 'courses.recruitment_cycle_year' => RecruitmentCycle.visible_years)
       .or(ApplicationChoice.includes(*includes)
         .where('courses.accredited_provider_id' => providers, 'courses.recruitment_cycle_year' => RecruitmentCycle.visible_years))
-      .where('status IN (?)', ApplicationStateChange.states_visible_to_provider).includes([:accredited_provider])
+      .where('status IN (?)', statuses).includes([:accredited_provider])
   end
 end
