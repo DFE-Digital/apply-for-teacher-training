@@ -83,6 +83,12 @@ module ViewHelper
     (application_choice.reject_by_default_at.to_date - Date.current).to_i
   end
 
+  def boolean_to_word(boolean)
+    return nil if boolean.nil?
+
+    boolean ? 'Yes' : 'No'
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)

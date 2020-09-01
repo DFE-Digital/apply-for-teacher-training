@@ -11,6 +11,9 @@ RSpec.feature 'Docs' do
 
     when_i_click_on_candidate_flow_documentation
     then_i_see_the_candidate_flow_documentation
+
+    when_i_click_on_the_recruitment_cycle_link
+    then_i_see_the_cycle_information
   end
 
   def given_i_am_a_support_user
@@ -60,5 +63,15 @@ RSpec.feature 'Docs' do
 
   def then_i_see_the_candidate_flow_documentation
     expect(page).to have_title 'Candidate application flow'
+  end
+
+  def when_i_click_on_the_recruitment_cycle_link
+    within '.govuk-tabs' do
+      click_on 'Recruitment cycles'
+    end
+  end
+
+  def then_i_see_the_cycle_information
+    expect(page).to have_title 'Recruitment cycles'
   end
 end

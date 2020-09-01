@@ -645,6 +645,7 @@ Rails.application.routes.draw do
     get '/provider-flow', to: 'docs#provider_flow', as: :provider_flow
     get '/candidate-flow', to: 'docs#candidate_flow', as: :candidate_flow
     get '/when-emails-are-sent', to: 'docs#when_emails_are_sent', as: :when_emails_are_sent
+    get '/docs/cycles', to: 'docs#cycles', as: :cycles
 
     get '/email-log', to: 'email_log#index', as: :email_log
 
