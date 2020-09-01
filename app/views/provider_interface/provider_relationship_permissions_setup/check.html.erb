@@ -12,6 +12,7 @@
       </h2>
       <%= render ProviderInterface::ProviderRelationshipPermissionsListComponent.new(
         permissions_model: permissions_model,
+        change_link_builder: ProviderInterface::ProviderRelationshipWizardChangeLinkBuilder,
       ) %>
     <% end %>
 

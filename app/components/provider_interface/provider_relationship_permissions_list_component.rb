@@ -1,10 +1,10 @@
 module ProviderInterface
   class ProviderRelationshipPermissionsListComponent < ViewComponent::Base
     include ViewHelper
-    CHANGE_LINK_ANCHOR_PREFIX = 'provider-interface-provider-relationship-permissions-setup-wizard-provider-relationship-permissions'.freeze
 
-    def initialize(permissions_model:)
+    def initialize(permissions_model:, change_link_builder:)
       @permissions_model = permissions_model
+      @change_link_builder = change_link_builder
     end
 
     def rows
@@ -17,7 +17,7 @@ module ProviderInterface
 
   private
 
-    attr_reader :permissions_model
+    attr_reader :permissions_model, :change_link_builder
     delegate :ratifying_provider, :training_provider, to: :permissions_model
 
     def permissions_row(permission_name)
@@ -31,11 +31,7 @@ module ProviderInterface
     end
 
     def change_path(permissions_name)
-      provider_interface_setup_provider_relationship_permissions_path(
-        permissions_model,
-        anchor: [CHANGE_LINK_ANCHOR_PREFIX, permissions_model.id, permissions_name, 'training', 'field'].join('-'),
-        checking_answers: true,
-      )
+      change_link_builder.change_link_for(permissions_model, permissions_name)
     end
 
     def permissions_list(permission_name)
