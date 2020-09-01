@@ -54,9 +54,7 @@ module ProviderInterface
     def check
       @wizard = wizard_for(current_step: 'check')
       @wizard.save_state!
-      @permissions_models = ProviderRelationshipPermissions
-        .includes(:training_provider, :ratifying_provider)
-        .where(id: @wizard.provider_relationships)
+      @permissions_models = @wizard.permissions_for_persistence
     end
 
     def commit

@@ -3,9 +3,8 @@ module ProviderInterface
     include ViewHelper
     CHANGE_LINK_ANCHOR_PREFIX = 'provider-interface-provider-relationship-permissions-setup-wizard-provider-relationship-permissions'.freeze
 
-    def initialize(permissions_model:, wizard:)
+    def initialize(permissions_model:)
       @permissions_model = permissions_model
-      @wizard = wizard
     end
 
     def rows
@@ -18,7 +17,7 @@ module ProviderInterface
 
   private
 
-    attr_reader :permissions_model, :wizard
+    attr_reader :permissions_model
     delegate :ratifying_provider, :training_provider, to: :permissions_model
 
     def permissions_row(permission_name)
@@ -39,11 +38,10 @@ module ProviderInterface
     end
 
     def permissions_list(permission_name)
-      provider_types_with_enabled_permissions = wizard.permissions_for_relationship(permissions_model.id).fetch(permission_name, [])
-      [].tap do |ary|
-        ary << training_provider.name if provider_types_with_enabled_permissions.include?('training')
-        ary << ratifying_provider.name if provider_types_with_enabled_permissions.include?('ratifying')
-      end
+      [
+        (permissions_model.send("training_provider_can_#{permission_name}") && training_provider.name) || nil,
+        (permissions_model.send("ratifying_provider_can_#{permission_name}") && ratifying_provider.name) || nil,
+      ].compact
     end
   end
 end
