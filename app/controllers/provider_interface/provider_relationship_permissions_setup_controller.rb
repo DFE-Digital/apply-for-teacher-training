@@ -61,7 +61,7 @@ module ProviderInterface
 
     def commit
       @wizard = wizard_for({})
-      if SetupProviderRelationshipPermissions.call(@wizard.provider_relationship_permissions)
+      if SetupProviderRelationshipPermissions.call(@wizard.permissions_for_persistence)
         @wizard.clear_state!
         redirect_to provider_interface_provider_relationship_permissions_success_path
       else
