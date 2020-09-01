@@ -29,8 +29,6 @@ module CandidateInterface
         :orange
       when 'conditions_not_met'
         :red
-      when 'enrolled'
-        :default
       else
         raise "You need to define a colour for the #{status} state"
       end

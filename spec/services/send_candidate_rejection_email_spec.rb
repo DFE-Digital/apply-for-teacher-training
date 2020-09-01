@@ -43,7 +43,7 @@ RSpec.describe SendCandidateRejectionEmail do
 
     context 'when the service receives any other combination of statuses' do
       before do
-        create(:application_choice, status: :enrolled, application_form: application_form)
+        create(:application_choice, status: :recruited, application_form: application_form)
       end
 
       it 'returns nil' do

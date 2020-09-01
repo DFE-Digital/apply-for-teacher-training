@@ -14,7 +14,6 @@ class PerformanceStatistics
             WHEN 'application_complete' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['3', 'waiting_to_be_sent']
             WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['4', 'awaiting_provider_decisions']
             WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['6', 'awaiting_candidate_response']
-            WHEN 'enrolled' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['9', 'enrolled']
             WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['8', 'recruited']
             WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['7', 'pending_conditions']
             WHEN ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_REMOVE(ARRAY_AGG(DISTINCT ch.status), 'cancelled'), 'withdrawn'), 'offer_withdrawn'), 'rejected'), 'declined'), 'conditions_not_met') = '{}' THEN ARRAY['5', 'ended_without_success']
@@ -69,6 +68,6 @@ class PerformanceStatistics
   end
 
   def accepted_offer_count
-    total_candidate_count(only: %i[pending_conditions recruited enrolled])
+    total_candidate_count(only: %i[pending_conditions recruited])
   end
 end

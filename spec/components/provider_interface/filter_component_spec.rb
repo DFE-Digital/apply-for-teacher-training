@@ -17,7 +17,6 @@ RSpec.describe ProviderInterface::FilterComponent do
                  { value: 'offer', label: 'Offered', checked: false },
                  { value: 'pending_conditions', label: 'Accepted', checked: false },
                  { value: 'recruited', label: 'Conditions met', checked: false },
-                 { value: 'enrolled', label: 'Enrolled', checked: false },
                  { value: 'rejected', label: 'Rejected', checked: false },
                  { value: 'declined', label: 'Declined', checked: true },
                  { value: 'withdrawn', label: 'Application withdrawn', checked: true },
@@ -51,7 +50,6 @@ RSpec.describe ProviderInterface::FilterComponent do
     expect(result.css('#status-offer').attr('checked')).to eq(nil)
     expect(result.css('#status-pending_conditions').attr('checked').value).to eq('checked')
     expect(result.css('#status-recruited').attr('checked').value).to eq('checked')
-    expect(result.css('#status-enrolled').attr('checked')).to eq(nil)
     expect(result.css('#status-rejected').attr('checked')).to eq(nil)
     expect(result.css('#status-declined').attr('checked').value).to eq('checked')
     expect(result.css('#status-withdrawn').attr('checked')).to eq(nil)
@@ -71,7 +69,6 @@ RSpec.describe ProviderInterface::FilterComponent do
     expect(result.css('#status-offer').attr('checked')).to eq(nil)
     expect(result.css('#status-pending_conditions').attr('checked')).to eq(nil)
     expect(result.css('#status-recruited').attr('checked')).to eq(nil)
-    expect(result.css('#status-enrolled').attr('checked')).to eq(nil)
     expect(result.css('#status-rejected').attr('checked')).to eq(nil)
     expect(result.css('#status-declined').attr('checked')).to eq(nil)
     expect(result.css('#status-withdrawn').attr('checked')).to eq(nil)

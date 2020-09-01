@@ -10,7 +10,7 @@ Providers can then use the API for:
 
 - [Retrieving applications](/api-docs/reference/#get-applications)
 - [Making an offer to a candidate](/api-docs/reference/#post-applications-application_id-offer)
-- Confirming a candidate [has met conditions](/api-docs/reference/#post-applications-application_id-confirm-conditions-met), or [has been enrolled](/api-docs/reference/#post-applications-application_id-confirm-enrolment)
+- Confirming a candidate [has met conditions](/api-docs/reference/#post-applications-application_id-confirm-conditions-met)
 - [Rejecting unsuccessful applications](/api-docs/reference/#post-applications-application_id-reject)
 
 To get an idea of how the API works, we recommend you [review the example usage scenarios](/api-docs/usage-scenarios).

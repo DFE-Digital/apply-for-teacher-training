@@ -5,11 +5,13 @@ class ApplicationStateChange
   # as they do not need references or the 7-day cooling off period
   STATES_THAT_MAY_BE_SENT_TO_PROVIDER = %i[application_complete unsubmitted].freeze
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted awaiting_references application_complete cancelled].freeze
-  ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited enrolled].freeze
+  STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn rejected_at_end_of_cycle].freeze
+  ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited].freeze
   OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
   POST_OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer_withdrawn]).freeze
   UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn rejected_at_end_of_cycle].freeze
   DECISION_PENDING_STATUSES = %w[awaiting_references application_complete awaiting_provider_decision].freeze
+  TERMINAL_STATES = UNSUCCESSFUL_END_STATES + %i[recruited].freeze
 
   attr_reader :application_choice
 
@@ -76,11 +78,8 @@ class ApplicationStateChange
     state :conditions_not_met
 
     state :recruited do
-      event :confirm_enrolment, transitions_to: :enrolled
       event :withdraw, transitions_to: :withdrawn
     end
-
-    state :enrolled
 
     state :cancelled
   end
@@ -98,7 +97,7 @@ class ApplicationStateChange
   end
 
   def self.states_visible_to_provider
-    valid_states - STATES_NOT_VISIBLE_TO_PROVIDER
+    STATES_VISIBLE_TO_PROVIDER
   end
 
   def self.i18n_namespace
