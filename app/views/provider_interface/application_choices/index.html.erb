@@ -51,7 +51,7 @@
             </h2>
             <% previous_header = group_header %>
           <% end %>
-          <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice, show_date: @page_state.sort_by) %>
+          <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice) %>
         <% end %>
       </div>
     <% elsif @page_state.filtered? %>

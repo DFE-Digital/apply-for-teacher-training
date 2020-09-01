@@ -25,18 +25,10 @@ module ProviderInterface
       applied_filters.values.any?
     end
 
-    def sort_by
-      sort_options.map(&:last).flatten.include?(applied_filters[:sort_by]) ? applied_filters[:sort_by] : 'last_changed'
-    end
-
-    def sort_options
-      [['Last changed', 'last_changed'], ['Days left to respond', 'days_left_to_respond']]
-    end
-
   private
 
     def parse_params(params)
-      params.permit(:candidate_name, :sort_by, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: []).to_h
+      params.permit(:candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: []).to_h
     end
 
     def save_filter_state!
@@ -115,7 +107,7 @@ module ProviderInterface
 
       {
         type: :checkboxes,
-        heading: 'Provider',
+        heading: 'Courses run by',
         name: 'provider',
         options: provider_options,
       }
@@ -136,7 +128,7 @@ module ProviderInterface
 
       {
         type: :checkboxes,
-        heading: 'Accredited provider',
+        heading: 'Courses ratified by',
         name: 'accredited_provider',
         options: accredited_providers_options,
       }

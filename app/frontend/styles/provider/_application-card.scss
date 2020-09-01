@@ -1,6 +1,6 @@
 .app-application-cards {
   h2.task_view_group_header {
-    padding-top: govuk-spacing(5);
+    padding-top: govuk-spacing(4);
   }
   h2.task_view_group_header:first-of-type {
     padding-top: 0;
@@ -49,18 +49,49 @@
     }
   }
 
+ &__days_to_respond {
+    dd {
+      max-width: 240px;
+      display: inline;
+      margin-top: govuk-spacing(3);
+
+      color: $govuk-text-colour;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.25;
+      text-align: right;
+
+      @include govuk-media-query($from: tablet) {
+        float: right;
+      }
+    }
+  }
+
+  &__cycle {
+    width: 320px;
+
+    dd, dt {
+      @include govuk-font($size: 16);
+      color: govuk-colour('dark-grey');
+      display: inline;
+    }
+
+  }
+
   &__date {
     dd {
       display: flex;
+
       @include govuk-media-query($from: tablet) {
         float: right;
-        display: inline
+        display: inline;
       }
     }
   }
 
   &__status {
     float: right;
+    text-align: right;
   }
 }
 

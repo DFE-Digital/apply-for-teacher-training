@@ -4,9 +4,9 @@ module ProviderInterface
 
     attr_accessor :accredited_provider, :application_choice, :application_choice_path,
                   :candidate_name, :course_name_and_code, :course_provider_name, :changed_at,
-                  :most_recent_note, :site_name_and_code, :show_date
+                  :site_name_and_code
 
-    def initialize(application_choice:, show_date: 'last_changed')
+    def initialize(application_choice:)
       @accredited_provider = application_choice.accredited_provider
       @application_choice = application_choice
       @candidate_name = application_choice.application_form.full_name
@@ -14,34 +14,46 @@ module ProviderInterface
       @course_provider_name = application_choice.offered_course.provider.name
       @changed_at = application_choice.updated_at.to_s(:govuk_date_and_time)
       @site_name_and_code = application_choice.site.name_and_code
-      @most_recent_note = application_choice.notes.order('created_at DESC').first
-      @show_date = show_date
     end
 
-    def contextual_date
-      return changed_at_date unless show_date == 'days_left_to_respond'
-      return changed_at_date unless application_choice.status == 'awaiting_provider_decision'
-      return changed_at_date unless reject_by_default_in_future?
+    def contextual_days_to_respond
+      if days_left_to_respond
+        return '1 day to respond' if days_left_to_respond == 1
+        return 'Less than 1 day to respond' if days_left_to_respond < 1
 
-      return '1 day to respond' if days_to_respond == 1
-      return 'Less than 1 day to respond' if days_to_respond < 1
+        "#{days_left_to_respond} days to respond"
+      end
+    end
 
-      "#{days_to_respond} days to respond"
+    def recruitment_cycle_label
+      if application_choice.current_recruitment_cycle == RecruitmentCycle.current_year
+        year = RecruitmentCycle.current_year
+        "Current cycle (#{year} to #{year + 1})"
+      elsif application_choice.current_recruitment_cycle == RecruitmentCycle.previous_year
+        year = RecruitmentCycle.previous_year
+        "Previous cycle (#{year} to #{year + 1})"
+      else
+        year = application_choice.current_recruitment_cycle
+        "#{year} to #{year + 1}"
+      end
     end
 
   private
 
-    def changed_at_date
-      "Changed #{changed_at}"
+    def days_left_to_respond
+      if application_choice.respond_to?(:pg_days_left_to_respond)
+        # pre-computed by sorting query
+        return application_choice.pg_days_left_to_respond
+      end
+
+      if application_choice.status == 'awaiting_provider_decision'
+        rbd = application_choice.reject_by_default_at
+        ((rbd - Time.zone.now) / 1.day).floor if rbd && rbd > Time.zone.now
+      end
     end
 
-    def reject_by_default_in_future?
-      application_choice.reject_by_default_at.present? &&
-        application_choice.reject_by_default_at > Time.zone.now
-    end
-
-    def days_to_respond
-      @days_to_respond ||= ((application_choice.reject_by_default_at - Time.zone.now) / 1.day).floor
+    def pg_days_left_to_respond
+      application_choice.pg_days_left_to_respond
     end
   end
 end

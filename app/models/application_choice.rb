@@ -44,6 +44,10 @@ class ApplicationChoice < ApplicationRecord
     offered_option.site
   end
 
+  def current_recruitment_cycle
+    offered_course.recruitment_cycle_year
+  end
+
   delegate :course_not_available?, to: :course_option
   delegate :withdrawn?, to: :course, prefix: true
 

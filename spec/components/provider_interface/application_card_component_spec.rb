@@ -49,15 +49,6 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     )
   end
 
-  let(:note) do
-    provider_user = current_provider.provider_users.first
-    Note.new(
-      provider_user: provider_user,
-      subject: 'Needs review',
-      message: 'Please review asap as the deadline is looming.',
-    )
-  end
-
   let(:result) { render_inline described_class.new(application_choice: application_choice) }
 
   let(:card) { result.css('.app-application-card').to_html }
@@ -83,13 +74,9 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       expect(card).to include('Application withdrawn')
     end
 
-    it 'renders the subject of the most recent note' do
-      application_choice.notes << note
-      expect(card).to include(note.subject)
-    end
-
-    it 'renders the last "changed at" date in the correct format' do
-      expect(card).to include('Changed 25 March 2020 at 12:00am')
+    it 'renders the recruitment cycle' do
+      current_year = RecruitmentCycle.current_year
+      expect(card).to include("#{current_year} to #{current_year + 1}")
     end
 
     it 'renders the location of the course' do
@@ -131,77 +118,117 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     end
   end
 
-  describe '#contextual_date' do
+  describe '#contextual_days_to_respond' do
     around do |example|
-      Timecop.freeze(Time.zone.local(2020, 7, 31, 12, 30, 0)) { example.run }
+      Timecop.freeze(Time.zone.local(2020, 6, 1, 12, 30, 0)) { example.run }
     end
 
-    let(:reject_by_default_at) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
-    let(:updated_at) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
-    let(:status) { 'awaiting_provider_decision' }
-    let(:show_date) { 'days_left_to_respond' }
     let(:application_choice) do
-      build_stubbed(
+      create(
         :application_choice,
-        reject_by_default_at: reject_by_default_at,
-        updated_at: updated_at,
-        course_option: course_option,
-        status: status,
+        :awaiting_provider_decision,
+        updated_at: Time.zone.parse('2020-06-01T09:05:00+01:00'),
       )
     end
 
-    subject(:contextual_date) { described_class.new(application_choice: application_choice, show_date: show_date).contextual_date }
+    before { application_choice.reject_by_default_at = rbd }
 
-    context 'when not sorting by reject by default date' do
-      let(:show_date) { 'last_changed' }
-
-      it { is_expected.to eq('Changed  2 June 2020 at  9:05am') }
+    subject(:contextual_days_to_respond) do
+      described_class.new(application_choice: application_choice).contextual_days_to_respond
     end
 
-    context 'when application is not in awaiting_provider_decision state' do
-      let(:status) { 'withdrawn' }
+    context 'when application status is not awaiting_provider_decision' do
+      let(:rbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
 
-      it { is_expected.to eq('Changed  2 June 2020 at  9:05am') }
-    end
+      before { application_choice.status = 'offer' }
 
-    context 'when reject_by_default_at is nil' do
-      let(:reject_by_default_at) { nil }
-
-      it { is_expected.to eq('Changed  2 June 2020 at  9:05am') }
+      it { is_expected.to be_nil }
     end
 
     context 'when reject_by_default_at is in the past' do
-      let(:reject_by_default_at) { 1.day.ago }
+      let(:rbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
 
-      it { is_expected.to eq('Changed  2 June 2020 at  9:05am') }
+      before { application_choice.reject_by_default_at = Time.zone.parse('2020-05-30T09:05:00+01:00') }
+
+      it { is_expected.to be_nil }
     end
 
-    context 'when reject_by_default_at is less than a day away' do
-      let(:reject_by_default_at) { 1.hour.from_now }
+    context 'when less than a day is left to respond' do
+      let(:rbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
 
       it { is_expected.to eq('Less than 1 day to respond') }
     end
 
-    context 'when reject_by_default_at is less than a day away and on the next date' do
-      around do |example|
-        Timecop.freeze(Time.zone.local(2020, 7, 31, 23, 30, 0)) { example.run }
-      end
-
-      let(:reject_by_default_at) { 1.hour.from_now }
-
-      it { is_expected.to eq('Less than 1 day to respond') }
-    end
-
-    context 'when reject_by_default_at is a day away' do
-      let(:reject_by_default_at) { 1.day.from_now }
+    context 'when 1 day is left to respond' do
+      let(:rbd) { Time.zone.parse('2020-06-03T09:05:00+01:00') }
 
       it { is_expected.to eq('1 day to respond') }
     end
 
-    context 'when reject_by_default_at is more than a day away' do
-      let(:reject_by_default_at) { 5.days.from_now }
+    context 'when 2 days are left to respond' do
+      let(:rbd) { Time.zone.parse('2020-06-04T09:05:00+01:00') }
 
-      it { is_expected.to eq('5 days to respond') }
+      it { is_expected.to eq('2 days to respond') }
+    end
+
+    context 'when pg_days_left_to_respond is available' do
+      let(:rbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
+
+      let(:app_double) do
+        double(
+          'Application Choice',
+          pg_days_left_to_respond: 5,
+          updated_at: Time.zone.now,
+        ).as_null_object
+      end
+
+      it 'is used instead of reject_by_default_at' do
+        result = described_class.new(application_choice: app_double).contextual_days_to_respond
+        expect(result).to eq('5 days to respond')
+      end
+    end
+  end
+
+  describe '#recruitment_cycle_label' do
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 7, 31, 12, 30, 0)) { example.run }
+    end
+
+    let(:current_year) { RecruitmentCycle.current_year }
+
+    let(:course_option) { create(:course_option) }
+
+    let(:application_choice) do
+      build_stubbed(
+        :application_choice,
+        :awaiting_provider_decision,
+        course_option: course_option,
+        reject_by_default_at: Time.zone.parse('2020-06-02T09:05:00+01:00'),
+        updated_at: Time.zone.parse('2020-06-02T09:05:00+01:00'),
+      )
+    end
+
+    subject(:recruitment_cycle_label) { described_class.new(application_choice: application_choice).recruitment_cycle_label }
+
+    context 'for current year' do
+      let(:course_option) { create(:course_option) }
+
+      it { is_expected.to eq("Current cycle (#{current_year} to #{current_year + 1})") }
+    end
+
+    context 'for previous year' do
+      let(:course_option) { create(:course_option, :previous_year) }
+
+      it { is_expected.to eq("Previous cycle (#{current_year - 1} to #{current_year})") }
+    end
+
+    context 'for any other year' do
+      let(:course_option) do
+        course = create(:course, :open_on_apply, recruitment_cycle_year: RecruitmentCycle.previous_year - 1)
+        create(:course_option, course: course)
+      end
+
+      it { is_expected.to eq("#{current_year - 2} to #{current_year - 1}") }
     end
   end
 end
