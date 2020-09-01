@@ -11,11 +11,13 @@
         <% end %>
       </ul>
     </dd>
-    <dd class="govuk-summary-list__actions">
-      <%= govuk_link_to(nil, row[:change_path]) do %>
-        Change<span class="govuk-visually-hidden"><%= row[:action] %></span>
-      <% end %>
-    </dd>
+    <% if editable %>
+      <dd class="govuk-summary-list__actions">
+        <%= govuk_link_to(nil, row[:change_path]) do %>
+          Change<span class="govuk-visually-hidden"><%= row[:action] %></span>
+        <% end %>
+      </dd>
+    <% end %>
   </div>
 <% end %>
 </dl>

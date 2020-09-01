@@ -2,9 +2,10 @@ module ProviderInterface
   class ProviderRelationshipPermissionsListComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize(permissions_model:, change_link_builder:)
+    def initialize(permissions_model:, change_link_builder:, editable: true)
       @permissions_model = permissions_model
       @change_link_builder = change_link_builder
+      @editable = editable
     end
 
     def rows
@@ -17,7 +18,7 @@ module ProviderInterface
 
   private
 
-    attr_reader :permissions_model, :change_link_builder
+    attr_reader :permissions_model, :change_link_builder, :editable
     delegate :ratifying_provider, :training_provider, to: :permissions_model
 
     def permissions_row(permission_name)
