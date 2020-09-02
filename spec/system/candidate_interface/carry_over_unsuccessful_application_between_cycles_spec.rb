@@ -42,7 +42,6 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   def when_the_2020_apply2_deadline_passes
     Timecop.safe_mode = false
     Timecop.travel(Time.zone.local(2020, 9, 19, 12, 0, 0))
-    allow(RecruitmentCycle).to receive(:current_year).and_return(2021)
   ensure
     Timecop.safe_mode = true
   end
