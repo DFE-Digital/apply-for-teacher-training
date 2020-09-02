@@ -11,10 +11,6 @@ module CandidateInterface
       EndOfCycleTimetable.show_apply_2_deadline_banner? && FeatureFlag.active?(:deadline_notices)
     end
 
-    # def render?
-    #   !EndOfCycleTimetable.between_cycles_apply_2?
-    # end
-
     def start_path
       if EndOfCycleTimetable.current_cycle?(@application_form) &&
           !EndOfCycleTimetable.between_cycles_apply_2?
