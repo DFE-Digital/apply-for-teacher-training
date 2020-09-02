@@ -1,15 +1,16 @@
 <h2 class="govuk-heading-m"><%= t('layout.support.title') %></h2>
-<ul class="govuk-footer__meta-custom govuk-list govuk-!-font-size-16">
+<ul class="govuk-footer__meta-custom govuk-list govuk-!-font-size-16 govuk-!-margin-bottom-8">
   <li>Email: <%= bat_contact_mail_to(html_options: { class: 'govuk-footer__link' }) %></li>
   <li><%= t('layout.support.availability') %></li>
   <li><%= t('layout.support.response_time') %></li>
 </ul>
-<ul class="govuk-footer__inline-list govuk-!-margin-top-8">
+<h2 class="govuk-visually-hidden"><%= t('layout.support_links') %></h2>
+<ul class="govuk-footer__inline-list govuk-!-margin-bottom-0">
   <li class="govuk-footer__inline-list-item">
     <%= link_to t('layout.accessibility'), candidate_interface_accessibility_path, class: 'govuk-footer__link' %>
   </li>
   <li class="govuk-footer__inline-list-item">
-    <%= link_to t('layout.cookie_policy'), candidate_interface_cookies_path, class: 'govuk-footer__link' %>
+    <%= link_to t('layout.cookies'), candidate_interface_cookies_path, class: 'govuk-footer__link' %>
   </li>
   <li class="govuk-footer__inline-list-item">
     <%= link_to t('layout.privacy_policy'), candidate_interface_privacy_policy_path, class: 'govuk-footer__link' %>
