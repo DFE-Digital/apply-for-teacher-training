@@ -34,9 +34,9 @@ module ViewHelper
   def govuk_button_link_to(body, url, html_options = {}, &_block)
     html_options[:class] = prepend_css_class('govuk-button', html_options[:class])
 
-    return link_to(url, role: 'button', class: html_options[:class], 'data-module': 'govuk-button', draggable: false) { yield } if block_given?
+    return link_to(url, role: 'button', class: html_options[:class], target: html_options[:target], rel: html_options[:rel], 'aria-describedby': html_options[:'aria-describedby'], 'data-module': 'govuk-button', draggable: false) { yield } if block_given?
 
-    link_to(body, url, role: 'button', class: html_options[:class], 'data-module': 'govuk-button', draggable: false)
+    link_to(body, url, role: 'button', class: html_options[:class], target: html_options[:target], rel: html_options[:rel], 'aria-describedby': html_options[:'aria-describedby'], 'data-module': 'govuk-button', draggable: false)
   end
 
   def submitted_at_date
