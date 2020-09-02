@@ -235,7 +235,7 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <%= render partial: '/candidate_interface/shared/need_help', locals: { support_reference: @application_form.support_reference } %>
+    <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form.support_reference } %>
 
     <% if @application_form.candidate_has_previously_applied? %>
       <h2 class="govuk-heading-s">Previous applications</h2>

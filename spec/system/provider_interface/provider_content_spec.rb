@@ -45,7 +45,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_the_service_guidance
-    within('.govuk-footer') { click_link t('layout.service_guidance') }
+    within('.govuk-footer') { click_link t('layout.guidance.provider') }
   end
 
   def then_i_can_see_the_service_guidance_provider

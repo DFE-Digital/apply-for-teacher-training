@@ -1,33 +1,36 @@
 <% if try(:current_support_user) %>
-  <h2 class="govuk-heading-m">Docs</h2>
-
-  <ul class="govuk-footer__list">
-    <li class="govuk-footer__list-item">
-      <%= govuk_link_to 'Provider application flow', support_interface_provider_flow_path %>
-    </li>
-
-    <li class="govuk-footer__list-item">
-      <%= govuk_link_to 'Candidate application flow', support_interface_candidate_flow_path %>
-    </li>
-
-    <li class="govuk-footer__list-item">
-      <%= govuk_link_to 'When emails are sent', support_interface_when_emails_are_sent_path %>
-    </li>
-
-    <li class="govuk-footer__list-item">
-      <%= govuk_link_to 'Recruitment cycles', support_interface_cycles_path %>
-    </li>
-
+<div class="govuk-footer__navigation">
+  <div class="govuk-footer__section">
+    <h2 class="govuk-heading-m">Documentation</h2>
+    <ul class="govuk-footer__list">
+      <li class="govuk-footer__list-item">
+        <%= govuk_link_to 'Candidate application flow', support_interface_candidate_flow_path, class: 'govuk-footer__link' %>
+      </li>
+      <li class="govuk-footer__list-item">
+        <%= govuk_link_to 'Provider application flow', support_interface_provider_flow_path, class: 'govuk-footer__link' %>
+      </li>
+      <li class="govuk-footer__list-item">
+        <%= govuk_link_to 'When emails are sent', support_interface_when_emails_are_sent_path, class: 'govuk-footer__link' %>
+      </li>
+      <li class="govuk-footer__list-item">
+        <%= govuk_link_to 'Recruitment cycles', support_interface_cycles_path, class: 'govuk-footer__link' %>
+      </li>
+    </ul>
+  </div>
+  <div class="govuk-footer__section">
+    <h2 class="govuk-heading-m">Previews</h2>
+    <ul class="govuk-footer__list">
     <% if Rails.application.config.action_mailer.show_previews %>
-    <li class="govuk-footer__list-item">
-      <%= govuk_link_to 'Mail previews', '/support/mailers' %>
-    </li>
+      <li class="govuk-footer__list-item">
+        <%= govuk_link_to 'Mail previews', '/support/mailers', class: 'govuk-footer__link' %>
+      </li>
     <% end %>
-
     <% if Rails.application.config.view_component.show_previews %>
-    <li class="govuk-footer__list-item">
-      <%= govuk_link_to 'Component previews', '/rails/view_components' %>
-    </li>
+      <li class="govuk-footer__list-item">
+        <%= govuk_link_to 'Component previews', '/rails/view_components', class: 'govuk-footer__link' %>
+      </li>
     <% end %>
-  </ul>
+    </ul>
+  </div>
+</div>
 <% end %>
