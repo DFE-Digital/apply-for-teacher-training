@@ -1,13 +1,4 @@
 class EndOfCycleTimetable
-  DATES = {
-    apply_1_deadline: Date.new(2020, 8, 24),
-    stop_applications_to_unavailable_course_options: Date.new(2020, 9, 7),
-    apply_2_deadline: Date.new(2020, 9, 18),
-    find_closes: Date.new(2020, 9, 19),
-    find_reopens: Date.new(2020, 10, 3),
-    next_cycle_opens: Date.new(2020, 10, 13),
-  }.freeze
-
   def self.between_cycles?(phase)
     phase == 'apply_1' ? between_cycles_apply_1? : between_cycles_apply_2?
   end
@@ -21,14 +12,16 @@ class EndOfCycleTimetable
   end
 
   def self.stop_applications_to_unavailable_course_options?
-    return true if FeatureFlag.active?(:simulate_stop_applications_to_unavailable_course_options)
-
     Time.zone.now > date(:stop_applications_to_unavailable_course_options).end_of_day &&
       Time.zone.now < date(:next_cycle_opens).beginning_of_day
   end
 
   def self.apply_1_deadline
     date(:apply_1_deadline)
+  end
+
+  def self.stop_applications_to_unavailable_course_options
+    date(:stop_applications_to_unavailable_course_options)
   end
 
   def self.apply_2_deadline
@@ -62,38 +55,57 @@ class EndOfCycleTimetable
   end
 
   def self.date(name)
-    if HostingEnvironment.test_environment? || HostingEnvironment.sandbox_mode?
-      if FeatureFlag.active?(:simulate_time_between_cycles)
-        return simulate_time_between_cycles_dates[name]
-      elsif FeatureFlag.active?(:simulate_time_mid_cycle)
-        return simulate_time_mid_cycle_dates[name]
-      end
-    end
+    schedule = schedules.fetch(current_cycle_schedule)
+    schedule.fetch(name)
+  end
 
-    DATES[name]
+  def self.current_cycle_schedule
+    return :real unless HostingEnvironment.test_environment? || HostingEnvironment.sandbox_mode?
+    return :today_is_between_cycles if FeatureFlag.active?(:simulate_time_between_cycles)
+    return :today_is_mid_cycle if FeatureFlag.active?(:simulate_time_mid_cycle)
+    return :today_applications_are_unavailable_to_stopped_courses if FeatureFlag.active?(:simulate_stop_applications_to_unavailable_course_options)
+
+    :real
   end
 
   def self.next_cycle_year
     RecruitmentCycle.current_year + 1
   end
 
-  def self.simulate_time_between_cycles_dates
+  def self.schedules
     {
-      apply_1_deadline: 5.days.ago.to_date,
-      apply_2_deadline: 2.days.ago.to_date,
-      find_closes: 1.day.ago.to_date,
-      find_reopens: 5.days.from_now.to_date,
-      next_cycle_opens: Date.new(2020, 10, 13) > Time.zone.today ? Date.new(2020, 10, 13) : (Time.zone.today + 1),
-    }
-  end
-
-  def self.simulate_time_mid_cycle_dates
-    {
-      apply_1_deadline: 20.weeks.from_now.to_date,
-      apply_2_deadline: 22.weeks.from_now.to_date,
-      find_closes: 22.weeks.from_now.to_date,
-      find_reopens: 25.weeks.from_now.to_date,
-      next_cycle_opens: 26.weeks.from_now.to_date,
+      real: {
+        apply_1_deadline: Date.new(2020, 8, 24),
+        stop_applications_to_unavailable_course_options: Date.new(2020, 9, 7),
+        apply_2_deadline: Date.new(2020, 9, 18),
+        find_closes: Date.new(2020, 9, 19),
+        find_reopens: Date.new(2020, 10, 3),
+        next_cycle_opens: Date.new(2020, 10, 13),
+      },
+      today_is_between_cycles: {
+        apply_1_deadline: 5.days.ago.to_date,
+        stop_applications_to_unavailable_course_options: 3.days.ago.to_date,
+        apply_2_deadline: 2.days.ago.to_date,
+        find_closes: 1.day.ago.to_date,
+        find_reopens: 5.days.from_now.to_date,
+        next_cycle_opens: Date.new(2020, 10, 13) > Time.zone.today ? Date.new(2020, 10, 13) : (Time.zone.today + 1),
+      },
+      today_applications_are_unavailable_to_stopped_courses: {
+        apply_1_deadline: 5.days.ago.to_date,
+        stop_applications_to_unavailable_course_options: 1.day.ago.to_date,
+        apply_2_deadline: 1.day.from_now.to_date,
+        find_closes: 2.days.from_now.to_date,
+        find_reopens: 4.days.from_now.to_date,
+        next_cycle_opens: 4.days.from_now.to_date,
+      },
+      today_is_mid_cycle: {
+        apply_1_deadline: 20.weeks.from_now.to_date,
+        stop_applications_to_unavailable_course_options: 20.weeks.from_now.to_date,
+        apply_2_deadline: 22.weeks.from_now.to_date,
+        find_closes: 22.weeks.from_now.to_date,
+        find_reopens: 25.weeks.from_now.to_date,
+        next_cycle_opens: 26.weeks.from_now.to_date,
+      },
     }
   end
 
