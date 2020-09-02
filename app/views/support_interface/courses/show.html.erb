@@ -1,15 +1,15 @@
 <% content_for :context, @course.provider.name_and_code %>
-<% content_for :title, @course.name_and_code %>
+<% content_for :title, @course.year_name_and_code %>
 <% content_for :before_content, govuk_back_link_to(support_interface_provider_path(@course.provider), 'Back to provider') %>
 
 <h2 class='govuk-heading-m'>Course info</h2>
 
 <%= render(SummaryCardComponent.new(rows: {
+  'Recruitment cycle year' => @course.recruitment_cycle_year,
   'Name' => @course.name_and_code,
   'Provider' => govuk_link_to(@course.provider.name_and_code, support_interface_provider_path(@course.provider)),
   'Accredited body' => @course.accredited_provider&.name_and_code || 'None',
   'Level' => @course.level.humanize,
-  'Recruitment cycle year' => @course.recruitment_cycle_year,
   'Last updated' => @course.updated_at.to_s(:govuk_date_and_time),
   'Study modes' => @course.study_mode.humanize,
   'Funding type' => Course.human_attribute_name("funding_type.#{@course.funding_type}"),

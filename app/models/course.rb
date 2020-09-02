@@ -57,6 +57,10 @@ class Course < ApplicationRecord
     "#{name} #{accredited_provider&.name} #{description}"
   end
 
+  def year_name_and_code
+    "#{recruitment_cycle_year}: #{name} (#{code})"
+  end
+
   def name_and_code
     "#{name} (#{code})"
   end
