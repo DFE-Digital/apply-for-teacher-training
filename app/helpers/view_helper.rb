@@ -32,11 +32,16 @@ module ViewHelper
   end
 
   def govuk_button_link_to(body, url, html_options = {}, &_block)
-    html_options[:class] = prepend_css_class('govuk-button', html_options[:class])
+    html_options = {
+      class: prepend_css_class('govuk-button', html_options[:class]),
+      role: 'button',
+      data: { module: 'govuk-button' },
+      draggable: false,
+    }.merge(html_options)
 
-    return link_to(url, role: 'button', class: html_options[:class], 'data-module': 'govuk-button', draggable: false) { yield } if block_given?
+    return link_to(url, html_options) { yield } if block_given?
 
-    link_to(body, url, role: 'button', class: html_options[:class], 'data-module': 'govuk-button', draggable: false)
+    link_to(body, url, html_options)
   end
 
   def submitted_at_date
