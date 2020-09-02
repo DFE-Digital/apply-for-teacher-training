@@ -110,6 +110,10 @@ class Course < ApplicationRecord
     Course.find_by(recruitment_cycle_year: recruitment_cycle_year - 1, provider_id: provider_id, code: code)
   end
 
+  def in_next_cycle
+    Course.find_by(recruitment_cycle_year: recruitment_cycle_year + 1, provider_id: provider_id, code: code)
+  end
+
   def application_forms
     ApplicationForm
       .includes(:candidate, :application_choices)

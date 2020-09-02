@@ -16,6 +16,8 @@
   'Financial support' => @course.financial_support,
   'Info page' => govuk_link_to('View on Find', @course.find_url),
   'Start on Apply' => govuk_link_to('View on Apply (candidate)', candidate_interface_apply_from_find_path(providerCode: @course.provider.code, courseCode: @course.code)),
+  'Course in previous cycle' => @course.in_previous_cycle ? govuk_link_to(@course.in_previous_cycle.year_name_and_code, support_interface_course_path(@course.in_previous_cycle)) : 'None',
+  'Course in next cycle' => @course.in_next_cycle ? govuk_link_to(@course.in_next_cycle.year_name_and_code, support_interface_course_path(@course.in_next_cycle)) : 'None',
 })) %>
 
 <h2 class='govuk-heading-m'>Vacancies</h2>
