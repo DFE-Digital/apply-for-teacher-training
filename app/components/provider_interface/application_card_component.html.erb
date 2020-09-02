@@ -16,13 +16,15 @@
   </h3>
 
   <dl>
-    <div class="app-application-card__primary" >
+    <div class="app-application-card__primary app-application-card__provider" >
       <dt class="govuk-visually-hidden">Provider:</dt>
       <dd class="govuk-body"><%= course_provider_name %> - <%= site_name_and_code %></dd>
     </div>
 
-    <dt class="govuk-visually-hidden">Course:</dt>
-    <dd class="govuk-body"><%= course_name_and_code %></dd>
+    <div class="app-application-card__course">
+      <dt class="govuk-visually-hidden">Course:</dt>
+      <dd class="govuk-body"><%= course_name_and_code %></dd>
+    </div>
 
     <div class="app-application-card__footer">
       <div class="app-application-card__secondary">

@@ -27,18 +27,18 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
 
     # TODO: groups 1, 3, 9 require the relevant EoC implementation first
 
-    it '#pending_conditions_previous_cycle' do
-      create(:application_choice, :pending_conditions, :previous_year)
-      expect(application_choice.task_view_group).to eq(2)
-    end
-
     it '#about_to_be_rejected_automatically' do
       create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now)
-      expect(application_choice.task_view_group).to eq(4)
+      expect(application_choice.task_view_group).to eq(2)
     end
 
     it '#awaiting_provider_decision_non_urgent' do
       create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now)
+      expect(application_choice.task_view_group).to eq(4)
+    end
+
+    it '#pending_conditions_previous_cycle' do
+      create(:application_choice, :pending_conditions, :previous_year)
       expect(application_choice.task_view_group).to eq(5)
     end
 
@@ -76,13 +76,13 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
         # --- 6
         create(:application_choice, :offer),
         # --- 5
+        create(:application_choice, :pending_conditions, :previous_year),
+        # --- 4
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now),
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now), # has more recent updated_at, will appear first
-        # --- 4
+        # --- 2
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now),
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now), # has more recent updated_at, will appear first
-        # --- 2
-        create(:application_choice, :pending_conditions, :previous_year),
       ]
     end
 

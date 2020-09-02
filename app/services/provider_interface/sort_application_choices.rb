@@ -10,9 +10,9 @@ module ProviderInterface
           SELECT a.*, c.recruitment_cycle_year,
             CASE
               WHEN #{deferred_offers_pending_reconfirmation} THEN 1
-              WHEN #{pending_conditions_previous_cycle} THEN 2
-              WHEN #{about_to_be_rejected_automatically} THEN 4
-              WHEN #{awaiting_provider_decision_non_urgent} THEN 5
+              WHEN #{about_to_be_rejected_automatically} THEN 2
+              WHEN #{awaiting_provider_decision_non_urgent} THEN 4
+              WHEN #{pending_conditions_previous_cycle} THEN 5
               WHEN #{waiting_on_candidate} THEN 6
               WHEN #{pending_conditions_current_cycle} THEN 7
               WHEN #{successful_candidates} THEN 8
