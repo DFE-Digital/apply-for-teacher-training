@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'See providers' do
+RSpec.feature 'Providers and courses' do
   include DfESignInHelpers
   include FindAPIHelper
 
@@ -174,7 +174,7 @@ RSpec.feature 'See providers' do
     course = Course.find_by(code: 'ABC-1')
     create(:application_choice, course_option: course.course_options.first)
     create(:application_choice, course_option: course.course_options.first)
-    first('table').click_link('ABC-1')
+    click_link('ABC-1')
   end
 
   def then_i_see_the_course_information
