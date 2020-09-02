@@ -22,6 +22,7 @@
 
 <%= render SummaryListComponent.new(rows: {
   'Appy 1 deadline' => EndOfCycleTimetable.apply_1_deadline.to_s(:govuk_date),
+  'Stop applications to unavailable course options' => EndOfCycleTimetable.stop_applications_to_unavailable_course_options.to_s(:govuk_date),
   'Apply 2 deadline' => EndOfCycleTimetable.apply_2_deadline.to_s(:govuk_date),
   'Find closes on' => EndOfCycleTimetable.find_closes.to_s(:govuk_date),
   'Find reopens on' => EndOfCycleTimetable.find_reopens.to_s(:govuk_date),

@@ -20,6 +20,10 @@ class EndOfCycleTimetable
     date(:apply_1_deadline)
   end
 
+  def self.stop_applications_to_unavailable_course_options
+    date(:stop_applications_to_unavailable_course_options)
+  end
+
   def self.apply_2_deadline
     date(:apply_2_deadline)
   end
