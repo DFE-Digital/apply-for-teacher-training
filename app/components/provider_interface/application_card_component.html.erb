@@ -7,10 +7,10 @@
         <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
       </div>
     <div>
-    <% if contextual_days_to_respond %>
+    <% if days_to_respond_text %>
       <div class="app-application-card__days_to_respond">
         <dt class="govuk-visually-hidden">Days left to respond:</dt>
-        <dd class="govuk-body"><%= contextual_days_to_respond %></dd>
+        <dd class="govuk-body"><%= days_to_respond_text %></dd>
       </div>
     <% end %>
   </h3>
@@ -37,7 +37,7 @@
       <div class="app-application-card__cycle">
         <div class="app-application-card__date">
           <dt class="govuk-visually-hidden">Cycle:</dt>
-          <dd class="govuk-body"><%= recruitment_cycle_label %></dd>
+          <dd class="govuk-body"><%= recruitment_cycle_text %></dd>
         </div>
       </div>
     </div>

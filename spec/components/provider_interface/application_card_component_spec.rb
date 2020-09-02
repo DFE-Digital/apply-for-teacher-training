@@ -118,7 +118,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
     end
   end
 
-  describe '#contextual_days_to_respond' do
+  describe '#days_to_respond_text' do
     around do |example|
       Timecop.freeze(Time.zone.local(2020, 6, 1, 12, 30, 0)) { example.run }
     end
@@ -133,8 +133,8 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
     before { application_choice.reject_by_default_at = rbd }
 
-    subject(:contextual_days_to_respond) do
-      described_class.new(application_choice: application_choice).contextual_days_to_respond
+    subject(:days_to_respond_text) do
+      described_class.new(application_choice: application_choice).days_to_respond_text
     end
 
     context 'when application status is not awaiting_provider_decision' do
@@ -170,26 +170,9 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
 
       it { is_expected.to eq('2 days to respond') }
     end
-
-    context 'when pg_days_left_to_respond is available' do
-      let(:rbd) { Time.zone.parse('2020-06-02T09:05:00+01:00') }
-
-      let(:app_double) do
-        instance_double(
-          'Application Choice',
-          pg_days_left_to_respond: 5,
-          updated_at: Time.zone.now,
-        ).as_null_object
-      end
-
-      it 'is used instead of reject_by_default_at' do
-        result = described_class.new(application_choice: app_double).contextual_days_to_respond
-        expect(result).to eq('5 days to respond')
-      end
-    end
   end
 
-  describe '#recruitment_cycle_label' do
+  describe '#recruitment_cycle_text' do
     around do |example|
       Timecop.freeze(Time.zone.local(2020, 7, 31, 12, 30, 0)) { example.run }
     end
@@ -208,7 +191,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       )
     end
 
-    subject(:recruitment_cycle_label) { described_class.new(application_choice: application_choice).recruitment_cycle_label }
+    subject(:recruitment_cycle_text) { described_class.new(application_choice: application_choice).recruitment_cycle_text }
 
     context 'for current year' do
       let(:course_option) { create(:course_option) }

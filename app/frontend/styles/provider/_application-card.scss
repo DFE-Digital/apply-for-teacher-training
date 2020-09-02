@@ -51,13 +51,13 @@
 
   &__provider {
     @include govuk-media-query($from: tablet) {
-      max-width: 410px;
+      max-width: 400px;
     }
   }
 
   &__course {
     @include govuk-media-query($from: tablet) {
-      max-width: 410px;
+      max-width: 400px;
     }
   }
 

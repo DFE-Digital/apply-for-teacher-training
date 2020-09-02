@@ -16,8 +16,8 @@ module ProviderInterface
       @site_name_and_code = application_choice.site.name_and_code
     end
 
-    def contextual_days_to_respond
-      if days_left_to_respond
+    def days_to_respond_text
+      if (days_left_to_respond = application_choice.days_left_to_respond)
         return '1 day to respond' if days_left_to_respond == 1
         return 'Less than 1 day to respond' if days_left_to_respond < 1
 
@@ -25,30 +25,16 @@ module ProviderInterface
       end
     end
 
-    def recruitment_cycle_label
-      if application_choice.current_recruitment_cycle == RecruitmentCycle.current_year
+    def recruitment_cycle_text
+      if application_choice.recruitment_cycle == RecruitmentCycle.current_year
         year = RecruitmentCycle.current_year
         "Current cycle (#{year - 1} to #{year})"
-      elsif application_choice.current_recruitment_cycle == RecruitmentCycle.previous_year
+      elsif application_choice.recruitment_cycle == RecruitmentCycle.previous_year
         year = RecruitmentCycle.previous_year
         "Previous cycle (#{year - 1} to #{year})"
       else
-        year = application_choice.current_recruitment_cycle
+        year = application_choice.recruitment_cycle
         "#{year - 1} to #{year}"
-      end
-    end
-
-  private
-
-    def days_left_to_respond
-      if application_choice.respond_to?(:pg_days_left_to_respond)
-        # pre-computed by sorting query
-        return application_choice.pg_days_left_to_respond
-      end
-
-      if application_choice.status == 'awaiting_provider_decision'
-        rbd = application_choice.reject_by_default_at
-        ((rbd - Time.zone.now) / 1.day).floor if rbd && rbd > Time.zone.now
       end
     end
   end

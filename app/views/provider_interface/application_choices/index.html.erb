@@ -43,7 +43,7 @@
     <% if @application_choices.any? %>
       <div class="app-application-cards">
         <% previous_header = '' %>
-        <% @application_choices.each_with_index do |choice, index| %>
+        <% @application_choices.each do |choice| %>
           <% group_header = task_view_header choice %>
           <% if group_header != previous_header %>
             <h2 class='govuk-heading-m task_view_group_header'>

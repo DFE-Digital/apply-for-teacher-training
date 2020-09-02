@@ -44,8 +44,20 @@ class ApplicationChoice < ApplicationRecord
     offered_option.site
   end
 
-  def current_recruitment_cycle
+  def recruitment_cycle
     offered_course.recruitment_cycle_year
+  end
+
+  def days_left_to_respond
+    if respond_to?(:pg_days_left_to_respond)
+      # pre-computed by sorting query
+      return pg_days_left_to_respond
+    end
+
+    if status == 'awaiting_provider_decision'
+      rbd = reject_by_default_at
+      ((rbd - Time.zone.now) / 1.day).floor if rbd && rbd > Time.zone.now
+    end
   end
 
   delegate :course_not_available?, to: :course_option
