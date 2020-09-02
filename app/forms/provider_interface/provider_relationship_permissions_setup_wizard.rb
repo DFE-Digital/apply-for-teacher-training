@@ -1,7 +1,6 @@
 module ProviderInterface
   class ProviderRelationshipPermissionsSetupWizard
     include ActiveModel::Model
-    STATE_STORE_KEY = :provider_relationship_permissions_setup_wizard
 
     attr_accessor :current_step, :current_provider_relationship_id, :checking_answers
     attr_writer :provider_relationships, :provider_relationship_permissions, :state_store
@@ -73,11 +72,11 @@ module ProviderInterface
     end
 
     def save_state!
-      @state_store[STATE_STORE_KEY] = state
+      @state_store.write(state)
     end
 
     def clear_state!
-      @state_store.delete(STATE_STORE_KEY)
+      @state_store.delete
     end
 
   private
@@ -87,7 +86,13 @@ module ProviderInterface
     end
 
     def last_saved_state
-      JSON.parse(@state_store[STATE_STORE_KEY].presence || '{}')
+      state = @state_store.read
+
+      if state
+        JSON.parse(state)
+      else
+        {}
+      end
     end
 
     def next_provider_relationship_id

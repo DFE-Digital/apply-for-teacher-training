@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
   def state_store_for(state)
-    { described_class::STATE_STORE_KEY => state.to_json }
+    WizardStateStores::SessionStore.new(session: { 'key' => state.to_json }, key: 'key')
   end
 
   describe 'next_step' do
@@ -103,7 +103,7 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
 
       wizard.save_state!
 
-      expect(JSON.parse(state_store[described_class::STATE_STORE_KEY]).symbolize_keys).to eq({
+      expect(JSON.parse(state_store.read).symbolize_keys).to eq({
         first_name: 'Bob',
         last_name: 'Roberts',
         email_address: 'bob@roberts.com',
@@ -119,7 +119,7 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
 
       wizard.clear_state!
 
-      expect(state_store[described_class::STATE_STORE_KEY]).to be_nil
+      expect(state_store.read).to be_nil
     end
   end
 
