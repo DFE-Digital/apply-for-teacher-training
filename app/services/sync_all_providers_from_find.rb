@@ -4,12 +4,7 @@ class SyncAllProvidersFromFind
     #
     # For the full response, see:
     # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers
-    find_providers = if FeatureFlag.active?(:switch_to_2021_recruitment_cycle)
-                       FindAPI::Provider.recruitment_cycle(2021).all
-                     else
-                       FindAPI::Provider.recruitment_cycle(RecruitmentCycle.current_year).all
-                     end
-
+    find_providers = FindAPI::Provider.recruitment_cycle(RecruitmentCycle.current_year).all
     sync_providers(find_providers)
 
     FindSyncCheck.set_last_sync(Time.zone.now)
