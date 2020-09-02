@@ -153,7 +153,7 @@ en:
       international_institution_name:
         label: Institution name
       institution_name:
-        label: What institution did you study at?
+        label: Which institution did you study at?
         review_label: Institution
         change_action: institution
       institution_country:
