@@ -31,7 +31,7 @@ RSpec.feature 'Candidate content' do
   end
 
   def when_i_click_on_the_cookie_policy
-    within('.govuk-footer') { click_link t('layout.cookie_policy') }
+    within('.govuk-footer') { click_link t('layout.cookies') }
   end
 
   def then_i_can_see_the_cookie_policy

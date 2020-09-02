@@ -5,15 +5,16 @@
   <li><%= t('layout.support.response_time') %></li>
 </ul>
 <h2 class="govuk-heading-m"><%= t('layout.guidance.title') %></h2>
-<p class="govuk-body govuk-list govuk-!-font-size-16">
+<p class="govuk-body govuk-list govuk-!-font-size-16 govuk-!-margin-bottom-8">
   <%= link_to t('layout.guidance.provider'), provider_interface_service_guidance_path, class: 'govuk-footer__link' %>
 </p>
-<ul class="govuk-footer__inline-list govuk-!-margin-top-8">
+<h2 class="govuk-visually-hidden"><%= t('layout.support_links') %></h2>
+<ul class="govuk-footer__inline-list govuk-!-margin-bottom-0">
   <li class="govuk-footer__inline-list-item">
     <%= link_to t('layout.accessibility'), provider_interface_accessibility_path, class: 'govuk-footer__link' %>
   </li>
   <li class="govuk-footer__inline-list-item">
-    <%= link_to t('layout.cookie_policy'), provider_interface_cookies_path, class: 'govuk-footer__link' %>
+    <%= link_to t('layout.cookies'), provider_interface_cookies_path, class: 'govuk-footer__link' %>
   </li>
   <li class="govuk-footer__inline-list-item">
     <%= link_to t('layout.privacy_policy'), provider_interface_privacy_policy_path, class: 'govuk-footer__link' %>

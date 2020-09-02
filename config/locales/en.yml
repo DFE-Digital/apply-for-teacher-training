@@ -150,8 +150,9 @@ en:
     guidance:
       title: Guidance
       provider: How to use Manage teacher training applications
+    support_links: Support links
     accessibility: Accessibility
-    cookie_policy: Cookie policy
+    cookies: Cookies
     terms_of_use: Terms of use
     privacy_policy: Privacy policy
   activemodel:
