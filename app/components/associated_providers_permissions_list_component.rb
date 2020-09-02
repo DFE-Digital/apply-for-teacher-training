@@ -1,8 +1,8 @@
 class AssociatedProvidersPermissionsListComponent < ViewComponent::Base
   attr_reader :permission_name
 
-  def initialize(permission_model, permission_name:)
-    @permission_model = permission_model
+  def initialize(provider:, permission_name:)
+    @provider = provider
     @permission_name = permission_name
   end
 
@@ -21,10 +21,10 @@ class AssociatedProvidersPermissionsListComponent < ViewComponent::Base
 private
 
   def permissions_as_ratifying_provider
-    @permissions_as_ratifying_provider ||= ProviderRelationshipPermissions.where(ratifying_provider_id: @permission_model.provider.id)
+    @permissions_as_ratifying_provider ||= ProviderRelationshipPermissions.where(ratifying_provider_id: @provider.id)
   end
 
   def permissions_as_training_provider
-    @permissions_as_training_provider ||= ProviderRelationshipPermissions.where(training_provider_id: @permission_model.provider.id)
+    @permissions_as_training_provider ||= ProviderRelationshipPermissions.where(training_provider_id: @provider.id)
   end
 end
