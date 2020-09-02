@@ -20,11 +20,11 @@
 <% end %>
 
 <% %w[2021 2020 2019].each do |year| %>
-  <h2 class='govuk-heading-l'><%= year %>: <%= pluralize(@provider.courses.size, 'course') %> (<%= @provider.courses.where(recruitment_cycle_year: year).open_on_apply.size %> on DfE Apply)</h2>
-  <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @provider.courses.includes(:accredited_provider).where(recruitment_cycle_year: year))) %>
+  <h2 class='govuk-heading-l'><%= year %>: <%= pluralize(@provider.courses.in_cycle(year).size, 'course') %> (<%= @provider.courses.in_cycle(year).open_on_apply.size %> on DfE Apply)</h2>
+  <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @provider.courses.includes(:accredited_provider).in_cycle(year))) %>
 
-  <% if @provider.accredited_courses.where(recruitment_cycle_year: year).any? %>
-    <h2 class='govuk-heading-l'><%= year %>: ratifies <%= pluralize(@provider.accredited_courses.size, 'course') %> (<%= @provider.accredited_courses.where(recruitment_cycle_year: year).open_on_apply.size %> on DfE Apply)</h2>
-    <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @provider.accredited_courses.where(recruitment_cycle_year: year))) %>
+  <% if @provider.accredited_courses.in_cycle(year).any? %>
+    <h2 class='govuk-heading-l'><%= year %>: ratifies <%= pluralize(@provider.accredited_courses.in_cycle(year).size, 'course') %> (<%= @provider.accredited_courses.in_cycle(year).open_on_apply.size %> on DfE Apply)</h2>
+    <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @provider.accredited_courses.in_cycle(year))) %>
   <% end %>
 <% end %>

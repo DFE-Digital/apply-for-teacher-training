@@ -13,6 +13,7 @@ class Course < ApplicationRecord
   scope :exposed_in_find, -> { where(exposed_in_find: true) }
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.previous_year) }
+  scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
 
   CODE_LENGTH = 4
 
