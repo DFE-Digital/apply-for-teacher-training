@@ -5,7 +5,6 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <p class="govuk-body">We’ll ask the candidate to suggest another referee.</p>
-
       <p class="govuk-body">If you have any questions about the Apply for teacher training service, please contact <%= bat_contact_mail_to %>.</p>
     </div>
   </div>
@@ -20,11 +19,10 @@
 
   <%= form_with model: @questionnaire_form, url: referee_interface_submit_questionnaire_path(token: @token_param), method: :patch do |f| %>
     <div class="govuk-grid-row">
-      <h2 class="govuk-heading-l">Tell us about your experience of giving a reference</h2>
-
-      <p class="govuk-body">Your feedback will help us to improve our service.</p>
-
       <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">Tell us about your experience of giving a reference</h2>
+        <p class="govuk-body">Your feedback will help us to improve our service.</p>
+
         <%= f.govuk_radio_buttons_fieldset :experience, legend: { text: RefereeQuestionnaire::EXPERIENCE_QUESTION, tag: 'span' } do %>
           <%= f.govuk_radio_button :experience_rating, 'very_poor', label: { text: t('questionnaire_form.very_poor') } do %>
             <%= f.govuk_text_area :experience_explanation_very_poor, label: { text: t('questionnaire_form.why_that_rating') } %>
