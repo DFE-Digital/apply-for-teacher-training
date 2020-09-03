@@ -163,7 +163,7 @@ module CandidateHelper
     fill_in 'What subject is your degree?', with: 'Doge'
     click_button t('application_form.degree.base.button')
 
-    fill_in 'What institution did you study at?', with: 'University of Much Wow'
+    fill_in 'Which institution did you study at?', with: 'University of Much Wow'
     click_button t('application_form.degree.base.button')
 
     choose 'First class honours'
