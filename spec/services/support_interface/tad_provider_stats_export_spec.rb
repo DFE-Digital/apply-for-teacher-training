@@ -6,8 +6,9 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
   subject(:exported_rows) { SupportInterface::TADProviderStatsExport.new.call }
 
   describe 'calculating offers and acceptances' do
-    accepted_states = ApplicationStateChange::ACCEPTED_STATES
-    offered_states = ApplicationStateChange::OFFERED_STATES
+    states_excluded_from_tad_export = [:offer_deferred]
+    accepted_states = ApplicationStateChange::ACCEPTED_STATES - states_excluded_from_tad_export
+    offered_states = ApplicationStateChange::OFFERED_STATES - states_excluded_from_tad_export
 
     unless accepted_states.count < offered_states.count &&
         (offered_states & accepted_states) == accepted_states
