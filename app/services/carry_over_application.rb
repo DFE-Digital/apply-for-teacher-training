@@ -18,8 +18,10 @@ private
   end
 
   def application_from_current_cycle?
+    new_recruitment_cycle_year = EndOfCycleTimetable.between_cycles_apply_2? ? EndOfCycleTimetable.next_cycle_year : RecruitmentCycle.current_year
+
     @application_form.application_choices.any? do |application_choice|
-      application_choice.course.recruitment_cycle_year == RecruitmentCycle.current_year
+      application_choice.course.recruitment_cycle_year == new_recruitment_cycle_year
     end
   end
 end

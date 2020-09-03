@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::GetPreviousCyclesAwaitingReferencesCourseChoi
 
     context 'after the new cycle has launched' do
       it 'returns []' do
-        Timecop.travel(EndOfCycleTimetable.next_cycle_opens + 1.day) do
+        Timecop.travel(EndOfCycleTimetable.apply_reopens + 1.day) do
           expect(described_class.call).to eq []
         end
       end

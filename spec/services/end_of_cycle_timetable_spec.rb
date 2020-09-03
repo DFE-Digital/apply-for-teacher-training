@@ -274,7 +274,7 @@ RSpec.describe EndOfCycleTimetable do
   end
 
   describe 'stop_applications_to_unavailable_course_options?' do
-    it 'is true when between "stop_applications_to_unavailable_course_options" and "next_cycle_opens"' do
+    it 'is true when between "stop_applications_to_unavailable_course_options" and "apply_reopens"' do
       Timecop.travel(Time.zone.local(2020, 9, 7).end_of_day + 1.minute) do
         expect(EndOfCycleTimetable.stop_applications_to_unavailable_course_options?).to be true
       end
