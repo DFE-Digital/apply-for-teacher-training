@@ -53,6 +53,8 @@ class ApplicationForm < ApplicationRecord
   }
   attribute :address_type, :string, default: 'uk'
 
+  attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
+
   before_create lambda {
     self.support_reference ||= GenerateSupportRef.call
   }
