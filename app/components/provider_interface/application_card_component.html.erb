@@ -6,33 +6,38 @@
       <div>
         <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
       </div>
-      <% if most_recent_note %>
-        <span class="app-application-card__note"><span aria-hidden='true' class='note-bullet-point'> </span><%= most_recent_note.subject %></span>
-      <% end %>
     <div>
+    <% if days_to_respond_text %>
+      <div class="app-application-card__days_to_respond">
+        <dt class="govuk-visually-hidden">Days left to respond:</dt>
+        <dd class="govuk-body"><%= days_to_respond_text %></dd>
+      </div>
+    <% end %>
   </h3>
 
   <dl>
-    <div class="app-application-card__primary" >
+    <div class="app-application-card__primary app-application-card__provider" >
       <dt class="govuk-visually-hidden">Provider:</dt>
       <dd class="govuk-body"><%= course_provider_name %> - <%= site_name_and_code %></dd>
     </div>
 
-    <dt class="govuk-visually-hidden">Course:</dt>
-    <dd class="govuk-body"><%= course_name_and_code %></dd>
+    <div class="app-application-card__course">
+      <dt class="govuk-visually-hidden">Course:</dt>
+      <dd class="govuk-body"><%= course_name_and_code %></dd>
+    </div>
 
     <div class="app-application-card__footer">
       <div class="app-application-card__secondary">
-        <dt class="govuk-body">Accredited body:</dt>
+        <dt class="govuk-body">Ratified by</dt>
         <dd class="govuk-body">
           <%= accredited_provider.nil? ? course_provider_name : accredited_provider.name %>
         </dd>
       </div>
 
-      <div class="app-application-card__secondary">
+      <div class="app-application-card__cycle">
         <div class="app-application-card__date">
-          <dt class="govuk-visually-hidden">Date:</dt>
-          <dd class="govuk-body"><%= contextual_date %></dd>
+          <dt class="govuk-visually-hidden">Cycle:</dt>
+          <dd class="govuk-body"><%= recruitment_cycle_text %></dd>
         </div>
       </div>
     </div>

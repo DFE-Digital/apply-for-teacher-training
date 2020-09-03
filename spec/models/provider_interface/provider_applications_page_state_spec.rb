@@ -134,39 +134,17 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
   end
 
-  describe '#sort_options' do
-    let(:params) { ActionController::Parameters.new }
-
-    subject(:sort_options) { described_class.new(params: params, provider_user: provider_user, state_store: {}).sort_options }
-
-    it { is_expected.to eq([['Last changed', 'last_changed'], ['Days left to respond', 'days_left_to_respond']]) }
-  end
-
-  describe '#sort_by' do
-    let(:params) { ActionController::Parameters.new }
-
-    subject(:sort_by) { described_class.new(params: params, provider_user: provider_user, state_store: {}).sort_by }
-
-    it { is_expected.to eq('last_changed') }
-
-    context 'with a valid sort option' do
-      let(:params) { ActionController::Parameters.new({ 'sort_by' => 'days_left_to_respond' }) }
-
-      it { is_expected.to eq('days_left_to_respond') }
-    end
-  end
-
   it 'can load and persist its own state' do
     state_store = {}
 
     state_one = described_class.new(
-      params: ActionController::Parameters.new({ 'sort_by' => 'days_left_to_respond' }),
+      params: ActionController::Parameters.new({ 'candidate_name' => 'Tom Thumb' }),
       provider_user: provider_user,
       state_store: state_store,
     )
 
     # The state is what we passed in
-    expect(state_one.applied_filters).to eq({ 'sort_by' => 'days_left_to_respond' })
+    expect(state_one.applied_filters).to eq({ 'candidate_name' => 'Tom Thumb' })
 
     state_two = described_class.new(
       params: ActionController::Parameters.new, # empty params
@@ -175,15 +153,15 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     )
 
     # The state is kept from last time
-    expect(state_two.applied_filters).to eq({ 'sort_by' => 'days_left_to_respond' })
+    expect(state_two.applied_filters).to eq({ 'candidate_name' => 'Tom Thumb' })
 
     state_three = described_class.new(
-      params: ActionController::Parameters.new({ 'candidate_name' => 'Tom Thumb' }),
+      params: ActionController::Parameters.new({ 'candidate_name' => 'Another Tom' }),
       provider_user: provider_user,
       state_store: state_store,
     )
 
     # Providing new params replaces the saved state
-    expect(state_three.applied_filters).to eq({ 'candidate_name' => 'Tom Thumb' })
+    expect(state_three.applied_filters).to eq({ 'candidate_name' => 'Another Tom' })
   end
 end

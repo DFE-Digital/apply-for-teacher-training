@@ -10,7 +10,7 @@ module ProviderInterface
       )
 
       application_choices = GetApplicationChoicesForProviders.call(
-        providers: current_provider_user.providers,
+        providers: available_providers,
       )
 
       application_choices = FilterApplicationChoicesForProviders.call(
@@ -18,9 +18,15 @@ module ProviderInterface
         filters: @page_state.applied_filters,
       )
 
+      # Eager load / prevent Bullet::Notification::UnoptimizedQueryError
+      with_includes = ApplicationChoice.includes(
+        %i[application_form provider offered_course_option site accredited_provider],
+      )
+
+      # Using id: below turns all previous queries into a subquery for sorting
+      # which preserves the virtual attributes from the sorting SELECT
       application_choices = ProviderInterface::SortApplicationChoices.call(
-        application_choices: application_choices,
-        sort_by: @page_state.sort_by,
+        application_choices: with_includes.where(id: application_choices),
       )
 
       @application_choices = application_choices.page(params[:page] || 1).per(15)

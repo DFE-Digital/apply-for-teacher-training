@@ -25,18 +25,10 @@ module ProviderInterface
       applied_filters.values.any?
     end
 
-    def sort_by
-      sort_options.map(&:last).flatten.include?(applied_filters[:sort_by]) ? applied_filters[:sort_by] : 'last_changed'
-    end
-
-    def sort_options
-      [['Last changed', 'last_changed'], ['Days left to respond', 'days_left_to_respond']]
-    end
-
   private
 
     def parse_params(params)
-      params.permit(:candidate_name, :sort_by, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: []).to_h
+      params.permit(:remove, :candidate_name, recruitment_cycle_year: [], provider: [], status: [], accredited_provider: [], provider_location: []).to_h
     end
 
     def save_filter_state!
@@ -63,8 +55,8 @@ module ProviderInterface
       previous_year = RecruitmentCycle.previous_year
 
       label = {
-        current_year => "#{current_year} to #{current_year + 1} (Current)",
-        previous_year => "#{previous_year} to #{previous_year + 1}",
+        current_year => "#{current_year - 1} to #{current_year} (Current)",
+        previous_year => "#{previous_year - 1} to #{previous_year}",
       }
 
       cycle_options = [current_year, previous_year].map do |year|
@@ -115,7 +107,7 @@ module ProviderInterface
 
       {
         type: :checkboxes,
-        heading: 'Provider',
+        heading: 'Courses run by',
         name: 'provider',
         options: provider_options,
       }
@@ -136,7 +128,7 @@ module ProviderInterface
 
       {
         type: :checkboxes,
-        heading: 'Accredited provider',
+        heading: 'Courses ratified by',
         name: 'accredited_provider',
         options: accredited_providers_options,
       }
