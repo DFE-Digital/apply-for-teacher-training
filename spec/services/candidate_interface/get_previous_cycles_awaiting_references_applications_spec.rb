@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::GetPreviousCyclesAwaitingReferencesCourseChoices do
+RSpec.describe CandidateInterface::GetPreviousCyclesAwaitingReferencesApplications do
   describe '#call' do
     let!(:application_choice1) { create(:awaiting_references_application_choice) }
 
@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::GetPreviousCyclesAwaitingReferencesCourseChoi
     context 'between the apply_2_deadline and the new cycle launching' do
       it 'returns application forms in the awaiting reference state' do
         Timecop.travel(EndOfCycleTimetable.apply_2_deadline + 1.day) do
-          expect(described_class.call).to eq [application_choice1]
+          expect(described_class.call).to eq [application_choice1.application_form]
         end
       end
     end

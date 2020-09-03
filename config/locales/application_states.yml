@@ -211,9 +211,11 @@ en:
       description: If the application has not been sent to the provider, the candidate can still cancel the application.
 
     awaiting_references-reject_at_end_of_cycle:
-      name: Awaiting references applications rejected
+      name: Applications awaiting references are rejected at the end of the cycle
       by: system
       description: Application choices that are awaiting references are automatically rejected at the end of the cycle
+      emails:
+        - candidate_mailer-application_on_pause
 
     application_complete-cancel:
       name: Candidate cancels
