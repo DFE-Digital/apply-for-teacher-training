@@ -1,6 +1,6 @@
 module RecruitmentCycle
   def self.current_year
-    if FeatureFlag.active?('switch_to_2021_recruitment_cycle')
+    if FeatureFlag.active?('switch_to_next_recruitment_cycle')
       2021
     else
       2020
@@ -9,6 +9,10 @@ module RecruitmentCycle
 
   def self.previous_year
     current_year - 1
+  end
+
+  def self.next_year
+    current_year + 1
   end
 
   def self.visible_years
