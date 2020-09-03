@@ -29,6 +29,7 @@ class ApplicationStateChange
     state :unsubmitted do
       event :submit, transitions_to: :awaiting_references
       event :send_to_provider, transitions_to: :awaiting_provider_decision
+      event :cancel, transitions_to: :cancelled
     end
 
     state :awaiting_references do
