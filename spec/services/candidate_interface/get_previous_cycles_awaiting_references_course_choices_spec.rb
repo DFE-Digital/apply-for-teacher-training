@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::GetPreviousCyclesAwaitingReferencesCourseChoices do
   describe '#call' do
-    let!(:course_option_from_last_year) { create(:course_option, :previous_year) }
-    let!(:application_choice1) { create(:awaiting_references_application_choice, course_option: course_option_from_last_year) }
+    let!(:application_choice1) { create(:awaiting_references_application_choice) }
 
     before do
       create(:application_choice, :with_offer)
