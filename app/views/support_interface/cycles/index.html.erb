@@ -9,6 +9,16 @@
   ]) %>
 <% end %>
 
+<% unless HostingEnvironment.production? %>
+  <h2 class='govuk-heading-m'>This environment is currently on the ‘<%= EndOfCycleTimetable.current_cycle_schedule.to_s.humanize %>’ schedule </h2>
+
+  <% EndOfCycleTimetable.schedules.each do |cycle_schedule_name, _| %>
+    <% if EndOfCycleTimetable.current_cycle_schedule != cycle_schedule_name %>
+      <%= button_to "Switch to the ‘#{cycle_schedule_name.to_s.humanize}’ schedule", support_interface_switch_cycle_schedule_path(cycle_schedule_name: cycle_schedule_name), class: 'govuk-button' %>
+    <% end %>
+  <% end %>
+<% end %>
+
 <h2 class='govuk-heading-m'>Cycle years</h2>
 
 <%= render SummaryListComponent.new(rows: {
@@ -19,6 +29,10 @@
 }) %>
 
 <h2 class='govuk-heading-m'>Deadlines</h2>
+
+<p class='govuk-body'>
+  (Today is <%= Date.today.to_s(:govuk_date) %>)
+</p>
 
 <%= render SummaryListComponent.new(rows: {
   'Appy 1 deadline' => EndOfCycleTimetable.apply_1_deadline.to_s(:govuk_date),
