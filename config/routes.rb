@@ -645,7 +645,13 @@ Rails.application.routes.draw do
     get '/provider-flow', to: 'docs#provider_flow', as: :provider_flow
     get '/candidate-flow', to: 'docs#candidate_flow', as: :candidate_flow
     get '/when-emails-are-sent', to: 'docs#when_emails_are_sent', as: :when_emails_are_sent
-    get '/docs/cycles', to: 'docs#cycles', as: :cycles
+
+    get '/docs/cycles' => redirect('/cycles')
+    get '/cycles', to: 'cycles#index', as: :cycles
+
+    unless HostingEnvironment.production?
+      post '/cycles', to: 'cycles#switch_cycle_schedule', as: :switch_cycle_schedule
+    end
 
     get '/email-log', to: 'email_log#index', as: :email_log
 

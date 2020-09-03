@@ -11,9 +11,6 @@ RSpec.feature 'Docs' do
 
     when_i_click_on_candidate_flow_documentation
     then_i_see_the_candidate_flow_documentation
-
-    when_i_click_on_the_recruitment_cycle_link
-    then_i_see_the_cycle_information
   end
 
   def given_i_am_a_support_user

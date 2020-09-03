@@ -60,12 +60,10 @@ class EndOfCycleTimetable
   end
 
   def self.current_cycle_schedule
-    return :real unless HostingEnvironment.test_environment? || HostingEnvironment.sandbox_mode?
-    return :today_is_between_cycles if FeatureFlag.active?(:simulate_time_between_cycles)
-    return :today_is_mid_cycle if FeatureFlag.active?(:simulate_time_mid_cycle)
-    return :today_applications_are_unavailable_to_stopped_courses if FeatureFlag.active?(:simulate_stop_applications_to_unavailable_course_options)
+    # Make sure this setting only has effect on non-production environments
+    return :real if HostingEnvironment.production?
 
-    :real
+    SiteSetting.cycle_schedule
   end
 
   def self.next_cycle_year
@@ -82,29 +80,73 @@ class EndOfCycleTimetable
         find_reopens: Date.new(2020, 10, 3),
         apply_reopens: Date.new(2020, 10, 13),
       },
-      today_is_between_cycles: {
-        apply_1_deadline: 5.days.ago.to_date,
+
+      today_is_mid_cycle: {
+        apply_1_deadline: 1.day.from_now.to_date,
+        stop_applications_to_unavailable_course_options: 2.days.from_now.to_date,
+        apply_2_deadline: 3.days.from_now.to_date,
+        find_closes: 4.days.from_now.to_date,
+        find_reopens: 5.days.from_now.to_date,
+        apply_reopens: 6.days.from_now.to_date,
+      },
+
+      today_is_after_apply_1_deadline_passed: {
+        apply_1_deadline: 1.day.ago.to_date,
+
+        stop_applications_to_unavailable_course_options: 1.day.from_now.to_date,
+        apply_2_deadline: 2.days.from_now.to_date,
+        find_closes: 3.days.from_now.to_date,
+        find_reopens: 4.days.from_now.to_date,
+        apply_reopens: 5.days.from_now.to_date,
+      },
+
+      today_is_after_full_course_deadline_passed: {
+        apply_1_deadline: 2.days.ago.to_date,
+        stop_applications_to_unavailable_course_options: 1.day.ago.to_date,
+
+        apply_2_deadline: 1.day.from_now.to_date,
+        find_closes: 2.days.from_now.to_date,
+        find_reopens: 3.days.from_now.to_date,
+        apply_reopens: 4.days.from_now.to_date,
+      },
+
+      today_is_after_apply_2_deadline_passed: {
+        apply_1_deadline: 3.days.ago.to_date,
+        stop_applications_to_unavailable_course_options: 2.days.ago.to_date,
+        apply_2_deadline: 1.day.ago.to_date,
+
+        find_closes: 1.day.from_now.to_date,
+        find_reopens: 2.days.from_now.to_date,
+        apply_reopens: 3.days.from_now.to_date,
+      },
+
+      today_is_after_find_closes: {
+        apply_1_deadline: 4.days.ago.to_date,
         stop_applications_to_unavailable_course_options: 3.days.ago.to_date,
         apply_2_deadline: 2.days.ago.to_date,
         find_closes: 1.day.ago.to_date,
-        find_reopens: 5.days.from_now.to_date,
-        apply_reopens: Date.new(2020, 10, 13) > Time.zone.today ? Date.new(2020, 10, 13) : (Time.zone.today + 1),
+
+        find_reopens: 1.day.from_now.to_date,
+        apply_reopens: 2.days.from_now.to_date,
       },
-      today_applications_are_unavailable_to_stopped_courses: {
+
+      today_is_after_find_reopens: {
         apply_1_deadline: 5.days.ago.to_date,
-        stop_applications_to_unavailable_course_options: 1.day.ago.to_date,
-        apply_2_deadline: 1.day.from_now.to_date,
-        find_closes: 2.days.from_now.to_date,
-        find_reopens: 4.days.from_now.to_date,
-        apply_reopens: 4.days.from_now.to_date,
+        stop_applications_to_unavailable_course_options: 4.days.ago.to_date,
+        apply_2_deadline: 3.days.ago.to_date,
+        find_closes: 2.days.ago.to_date,
+        find_reopens: 1.day.ago.to_date,
+
+        apply_reopens: 1.day.from_now.to_date,
       },
-      today_is_mid_cycle: {
-        apply_1_deadline: 20.weeks.from_now.to_date,
-        stop_applications_to_unavailable_course_options: 20.weeks.from_now.to_date,
-        apply_2_deadline: 22.weeks.from_now.to_date,
-        find_closes: 22.weeks.from_now.to_date,
-        find_reopens: 25.weeks.from_now.to_date,
-        apply_reopens: 26.weeks.from_now.to_date,
+
+      today_is_after_apply_reopens: {
+        apply_1_deadline: 6.days.ago.to_date,
+        stop_applications_to_unavailable_course_options: 5.days.ago.to_date,
+        apply_2_deadline: 4.days.ago.to_date,
+        find_closes: 3.days.ago.to_date,
+        find_reopens: 2.days.ago.to_date,
+        apply_reopens: 1.day.ago.to_date,
       },
     }
   end
