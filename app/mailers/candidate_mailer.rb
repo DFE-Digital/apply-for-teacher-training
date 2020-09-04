@@ -286,6 +286,20 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def find_another_course(application_choice)
+    @application_form = application_choice.application_form
+    @course_name_and_code = application_choice.course_option.course.name_and_code
+    @provider_name = application_choice.course_option.provider.name
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.find_another_course.subject', {
+        course_name_and_code: @course_name_and_code,
+        provider_name: @provider_name,
+      }),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)
