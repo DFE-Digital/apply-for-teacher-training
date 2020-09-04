@@ -146,16 +146,14 @@ en:
   layout:
     support:
       title: Get support
-      availability: Monday to Friday (except public holidays)
       response_time: We respond within 5 working days, or one working day for more urgent queries
-    guidance:
-      title: Guidance
-      provider: How to use Manage teacher training applications
-    support_links: Support links
-    accessibility: Accessibility
-    cookies: Cookies
-    terms_of_use: Terms of use
-    privacy_policy: Privacy policy
+      provider_service_guidance: How to use Manage teacher training applications
+    support_links:
+      title: Support links
+      accessibility: Accessibility
+      cookies: Cookies
+      terms_of_use: Terms of use
+      privacy_policy: Privacy policy
   activemodel:
     attributes:
       vendor_api/metadata:
