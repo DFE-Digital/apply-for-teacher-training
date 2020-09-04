@@ -15,5 +15,10 @@ module CandidateInterface
           application_choice.course_withdrawn?
         )
     end
+
+    def self.can_carry_over_unsubmitted?(application_form)
+      application_form.recruitment_cycle_year < RecruitmentCycle.current_year &&
+        (application_form.ended_without_success? || application_form.application_choices.blank?)
+    end
   end
 end
