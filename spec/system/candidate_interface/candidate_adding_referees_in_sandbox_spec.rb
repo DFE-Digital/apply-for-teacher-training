@@ -70,7 +70,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
   def then_i_should_see_all_sections_are_complete
     CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
-      expect(page).not_to have_selector "[aria-describedby='missing-#{section}']"
+      expect(page).not_to have_selector "[data-qa='missing-#{section}']"
     end
   end
 
