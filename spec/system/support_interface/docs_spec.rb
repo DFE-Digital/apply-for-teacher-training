@@ -36,6 +36,7 @@ RSpec.feature 'Docs' do
       provider_mailer-fallback_sign_in_email
       candidate_mailer-apply_again_call_to_action
       candidate_mailer-course_unavailable_notification
+      candidate_mailer-find_another_course
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"

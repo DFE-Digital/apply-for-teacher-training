@@ -47,5 +47,18 @@ RSpec.describe SendCourseFullNotificationsWorker do
       expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).to be_present
       expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_slack_notification)).to be_present
     end
+
+    it "sends emails to candidates that applied to a course that is now full and it's the end of the cycle" do
+      Timecop.travel(Time.zone.local(2020, 9, 7).end_of_day + 1.minute) do
+        application_choice = create :application_choice
+        application_choice.course_option.update(vacancy_status: :no_vacancies)
+        allow(CandidateMailer).to receive(:find_another_course).and_call_original
+        allow(GetApplicationChoicesWithNewlyUnavailableCourses).to receive(:call).and_return([application_choice])
+        SendCourseFullNotificationsWorker.new.perform
+        expect(CandidateMailer).to have_received(:find_another_course).with(application_choice).at_least(:once)
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_notification)).to be_present
+        expect(ChaserSent.where(chased: application_choice, chaser_type: :course_unavailable_slack_notification)).to be_present
+      end
+    end
   end
 end
