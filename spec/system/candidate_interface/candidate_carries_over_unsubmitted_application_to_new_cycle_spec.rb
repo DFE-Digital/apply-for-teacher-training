@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Automatically carry over unsubmitted applications' do
+RSpec.feature 'Manually carry over unsubmitted applications' do
   include CandidateHelper
 
   around do |example|
@@ -9,15 +9,19 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
     end
   end
 
-  scenario 'Carry over application and remove all application choices' do
+  scenario 'Carry over application and remove all application choices when new cycle opens' do
     given_i_am_signed_in_as_a_candidate
     and_i_am_in_the_2020_recruitment_cycle
     when_i_have_an_unsubmitted_application
     and_the_recruitment_cycle_ends
-    and_the_unsubmitted_application_carry_over_worker_runs
+    and_the_cancel_unsubmitted_applications_worker_runs
 
     when_i_sign_in_again
     and_i_visit_the_application_dashboard
+    and_i_click_on_apply_again
+    and_i_click_on_start_now
+    and_i_click_go_to_my_application_form
+
     then_i_see_a_copy_of_my_application
 
     when_i_view_referees
@@ -70,8 +74,8 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
     Timecop.safe_mode = true
   end
 
-  def and_the_unsubmitted_application_carry_over_worker_runs
-    CarryOverUnsubmittedApplicationsWorker.new.perform
+  def and_the_cancel_unsubmitted_applications_worker_runs
+    CancelUnsubmittedApplicationsWorker.new.perform
   end
 
   def when_i_sign_in_again
@@ -83,7 +87,15 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
     visit candidate_interface_application_complete_path
   end
 
-  def when_i_click_go_to_my_application_form
+  def and_i_click_on_apply_again
+    click_link 'Do you want to apply again?'
+  end
+
+  def and_i_click_on_start_now
+    click_button 'Start now'
+  end
+
+  def and_i_click_go_to_my_application_form
     click_link 'Go to your application form'
   end
 
