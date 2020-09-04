@@ -1,6 +1,6 @@
 module CandidateInterface
   class SubmittedApplicationFormController < CandidateInterfaceController
-    before_action :redirect_to_application_form_unless_submitted
+    before_action :redirect_to_application_form_unless_submitted, except: %i[start_carry_over carry_over]
 
     def review_submitted
       @application_form = current_application

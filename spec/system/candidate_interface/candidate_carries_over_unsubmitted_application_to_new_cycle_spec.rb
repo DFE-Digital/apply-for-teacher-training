@@ -53,7 +53,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
       with_gces: true,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
     )
-    create(
+    @application_choice = create(
       :application_choice,
       status: :unsubmitted,
       application_form: @application_form,
