@@ -412,6 +412,10 @@ class CandidateMailerPreview < ActionMailer::Preview
     )
   end
 
+  def find_another_course
+    CandidateMailer.find_another_course(application_choice_awaiting_references)
+  end
+
 private
 
   def candidate
@@ -470,6 +474,7 @@ private
   def application_choice_awaiting_references
     FactoryBot.build_stubbed(
       :application_choice,
+      application_form: application_form,
       status: 'awaiting_references',
       course_option: FactoryBot.build_stubbed(
         :course_option,
