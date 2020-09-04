@@ -1,4 +1,12 @@
 class CandidateMailer < ApplicationMailer
+  def application_on_pause(application_form)
+    @candidate_magic_link = candidate_magic_link(application_form.candidate)
+
+    email_for_candidate(
+      application_form,
+    )
+  end
+
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
     @respond_within_days = TimeLimitCalculator.new(

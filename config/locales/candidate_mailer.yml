@@ -1,5 +1,7 @@
 en:
   candidate_mailer:
+    application_on_pause:
+      subject: "Your application is on pause: resubmit in October for courses starting next academic year"
     eoc_choice_unavailable_no_other_choices:
       subject: Find a different course and re-submit your application
     eoc_choice_unavailable_has_other_choices:
