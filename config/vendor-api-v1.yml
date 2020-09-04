@@ -434,7 +434,7 @@ components:
         interview_preferences:
           type: string
           maxLength: 10240
-          description: The candidate’s interview preferences
+          description: The candidate’s interview needs
           example: I cannot come to interview on Thursdays
         candidate:
           "$ref": "#/components/schemas/Candidate"
