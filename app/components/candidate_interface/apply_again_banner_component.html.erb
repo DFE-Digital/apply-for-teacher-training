@@ -7,13 +7,13 @@
         </p>
 
         <p class='govuk-body govuk-!-font-size-24'>
-          You'll be able to find courses from <%= find_reopen_date %> and submit from <%= reopen_date %>.
+          Applications for this academic year <%= current_cycle_span %> are now closed.
         </p>
 
         <p class='govuk-body govuk-!-font-size-24'>
-          You can <%= govuk_link_to 'make changes to your application', start_path %> until then.
+          You can still <%= govuk_link_to 'continue with your application', start_path %> so it’s ready to submit for courses starting next academic year <%= next_cycle_span %>.
         </p>
-      <% else %> 
+      <% else %>
         <p>
         <% if @application_form.application_choices.all?(&:cancelled?) %>
           Your application has been withdrawn. <%= govuk_link_to 'Do you want to apply again?', start_path %>

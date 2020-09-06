@@ -54,7 +54,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
   def and_i_click_on_apply_again
     expect(page).to have_content 'Do you want to continue applying?'
-    click_link 'make changes to your application'
+    click_link 'continue with your application'
   end
 
   def and_i_click_on_start_now
