@@ -1,9 +1,9 @@
 module RecruitmentCycle
   def self.current_year
-    if FeatureFlag.active?('switch_to_next_recruitment_cycle')
-      2021
-    else
+    if Time.zone.today < EndOfCycleTimetable.apply_reopens
       2020
+    else
+      2021
     end
   end
 
