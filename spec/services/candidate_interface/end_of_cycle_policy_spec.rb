@@ -123,36 +123,4 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
       end
     end
   end
-
-  describe '.can_carry_over_unsubmitted' do
-    before { allow(RecruitmentCycle).to receive(:current_year).and_return(2021) }
-
-    it 'returns false for an application in the current cycle' do
-      application_form = build :application_form, recruitment_cycle_year: 2021
-      expect(described_class.can_carry_over_unsubmitted?(application_form)).to be false
-    end
-
-    it 'returns true for an application in the previous cycle that has no application choices' do
-      application_form = build :application_form, recruitment_cycle_year: 2020
-      expect(described_class.can_carry_over_unsubmitted?(application_form)).to be true
-    end
-
-    it 'returns true for an application in the previous cycle that has a cancelled application choice' do
-      application_form = build(
-        :application_form,
-        recruitment_cycle_year: 2020,
-        application_choices: [build(:application_choice, status: :cancelled)],
-      )
-      expect(described_class.can_carry_over_unsubmitted?(application_form)).to be true
-    end
-
-    it 'returns false for an application in the previous cycle that has an unsubmitted application choice' do
-      application_form = build(
-        :application_form,
-        recruitment_cycle_year: 2020,
-        application_choices: [build(:application_choice, status: :unsubmitted)],
-      )
-      expect(described_class.can_carry_over_unsubmitted?(application_form)).to be false
-    end
-  end
 end

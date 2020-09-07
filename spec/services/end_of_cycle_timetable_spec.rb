@@ -105,13 +105,7 @@ RSpec.describe EndOfCycleTimetable do
 
   describe '.current_cycle?' do
     def create_application_for(recruitment_cycle_year)
-      application_form = create :application_form
-      create(
-        :application_choice,
-        application_form: application_form,
-        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: recruitment_cycle_year)),
-      )
-      application_form
+      create :application_form, recruitment_cycle_year: recruitment_cycle_year
     end
 
     it 'returns true for an application for courses in the current cycle' do

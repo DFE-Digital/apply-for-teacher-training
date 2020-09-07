@@ -7,25 +7,21 @@ module CandidateInterface
       @application_form = application_form
     end
 
+    def render?
+      !EndOfCycleTimetable.between_cycles_apply_2? &&
+        @application_form.recruitment_cycle_year == RecruitmentCycle.current_year
+    end
+
     def show_deadline_copy?
       EndOfCycleTimetable.show_apply_2_deadline_banner? && FeatureFlag.active?(:deadline_notices)
     end
 
     def start_path
-      if EndOfCycleTimetable.current_cycle?(@application_form) &&
-          !EndOfCycleTimetable.between_cycles_apply_2?
-        candidate_interface_start_apply_again_path
-      else
-        candidate_interface_start_carry_over_path
-      end
+      candidate_interface_start_apply_again_path
     end
 
-    def reopen_date
-      EndOfCycleTimetable.date(:apply_reopens).to_s(:govuk_date)
-    end
-
-    def find_reopen_date
-      EndOfCycleTimetable.date(:find_reopens).to_s(:govuk_date)
+    def apply_2_deadline_date
+      EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date)
     end
 
     def current_cycle_span
