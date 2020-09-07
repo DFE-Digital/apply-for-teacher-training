@@ -6,7 +6,11 @@ class CarryOverApplication
   def call
     raise_if_application_from_current_cycle
 
-    DuplicateApplication.new(@application_form, target_phase: 'apply_1').duplicate
+    DuplicateApplication.new(
+      @application_form,
+      target_phase: 'apply_1',
+      recruitment_cycle_year: recruitment_cycle_year,
+    ).duplicate
   end
 
 private
@@ -20,8 +24,13 @@ private
   def application_from_current_cycle?
     new_recruitment_cycle_year = EndOfCycleTimetable.between_cycles_apply_2? ? EndOfCycleTimetable.next_cycle_year : RecruitmentCycle.current_year
 
-    @application_form.application_choices.any? do |application_choice|
-      application_choice.course.recruitment_cycle_year == new_recruitment_cycle_year
+    @application_form.recruitment_cycle_year == new_recruitment_cycle_year
+  end
+
+  def recruitment_cycle_year
+    if !EndOfCycleTimetable.between_cycles_apply_2? && EndOfCycleTimetable.current_cycle?(@application_form)
+      RecruitmentCycle.next_year
     end
+    RecruitmentCycle.current_year
   end
 end
