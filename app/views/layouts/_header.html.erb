@@ -19,7 +19,7 @@
 
                                <% if controller.controller_name == 'start_page' %>
                                  <%= render PhaseBanner.new(no_border: true) %>
-                               <% elsif controller.controller_name.in? %w[sessions content start_page provider_agreements] %>
+                               <% elsif controller.controller_name.in? %w[sessions content provider_agreements] %>
                                  <%= render PhaseBanner.new %>
                                <% else %>
                                  <%= render PhaseBanner.new(no_border: true) %>
