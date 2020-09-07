@@ -1,6 +1,6 @@
 <% course_name_and_status = capture do %>
   <%= govuk_link_to(
-    application_choice.offered_course.name_and_code,
+    application_choice.offered_course.year_name_and_code,
     support_interface_course_path(application_choice.offered_course)
   ) %>
 
@@ -26,6 +26,7 @@
 <% end %>
 
 <% rows = [
+  { key: 'Recruitment cycle', value: application_choice.offered_option.course.recruitment_cycle_year },
   { key: 'Provider', value: govuk_link_to(application_choice.offered_course.provider.name_and_code, support_interface_provider_path(application_choice.offered_course.provider)) },
   { key: 'Course', value: course_name_and_status },
   { key: 'Location', value: location_and_status },
