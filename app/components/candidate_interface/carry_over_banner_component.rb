@@ -21,12 +21,12 @@ module CandidateInterface
       candidate_interface_start_carry_over_path
     end
 
-    def reopen_date
-      EndOfCycleTimetable.date(:apply_reopens).to_s(:govuk_date)
+    def current_cycle_span
+      "(#{RecruitmentCycle.current_year} - #{RecruitmentCycle.next_year})"
     end
 
-    def find_reopen_date
-      EndOfCycleTimetable.date(:find_reopens).to_s(:govuk_date)
+    def next_cycle_span
+      "(#{RecruitmentCycle.next_year} - #{RecruitmentCycle.next_year + 1})"
     end
   end
 end
