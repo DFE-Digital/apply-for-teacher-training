@@ -78,7 +78,7 @@ private
       @application_form.fifth_nationality,
     ]
     .reject(&:blank?)
-    .to_sentence
+    .to_sentence(last_word_connector: ' and ')
   end
 
   def date_of_birth_row
