@@ -4,6 +4,8 @@ module SupportInterface
   class PerformanceController < SupportInterfaceController
     def index; end
 
+    def course_stats; end
+
     def application_timings
       applications = SupportInterface::ApplicationsExport.new.applications
       csv = to_csv(applications)
