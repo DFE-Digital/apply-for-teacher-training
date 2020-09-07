@@ -14,7 +14,7 @@ module ProviderInterface
     def type
       case status
       when 'unsubmitted', 'application_complete', 'cancelled', 'awaiting_references'
-        # will mever be visible to the provider
+        # will never be visible to the provider
       when 'awaiting_provider_decision'
         :purple
       when 'offer'
@@ -27,6 +27,8 @@ module ProviderInterface
         :orange
       when 'declined', 'withdrawn'
         :red
+      when 'offer_deferred'
+        :yellow
       else
         raise "You need to define a colour for the #{status} state"
       end

@@ -20,16 +20,18 @@ RSpec.describe ApplicationStateChange do
   end
 
   describe '.states_visible_to_provider' do
-    it 'has corresponding entries in the OpenAPI spec' do
-      valid_states_in_openapi = VendorAPISpecification.as_hash['components']['schemas']['ApplicationAttributes']['properties']['status']['enum']
-
-      expect(ApplicationStateChange.states_visible_to_provider - %i[offer_withdrawn rejected_at_end_of_cycle])
-        .to match_array(valid_states_in_openapi.map(&:to_sym))
-    end
-
     it 'matches the valid states and states not visible' do
       expect(ApplicationStateChange.states_visible_to_provider)
         .to match_array(ApplicationStateChange.valid_states - ApplicationStateChange::STATES_NOT_VISIBLE_TO_PROVIDER)
+    end
+  end
+
+  describe '.states_visible_to_provider_without_deferred' do
+    it 'has corresponding entries in the OpenAPI spec' do
+      valid_states_in_openapi = VendorAPISpecification.as_hash['components']['schemas']['ApplicationAttributes']['properties']['status']['enum']
+
+      expect(ApplicationStateChange.states_visible_to_provider_without_deferred - %i[offer_withdrawn rejected_at_end_of_cycle])
+        .to match_array(valid_states_in_openapi.map(&:to_sym))
     end
   end
 

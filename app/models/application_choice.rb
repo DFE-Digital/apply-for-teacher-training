@@ -30,6 +30,7 @@ class ApplicationChoice < ApplicationRecord
     declined: 'declined',
     withdrawn: 'withdrawn',
     conditions_not_met: 'conditions_not_met',
+    offer_deferred: 'offer_deferred',
   }
 
   def offered_option

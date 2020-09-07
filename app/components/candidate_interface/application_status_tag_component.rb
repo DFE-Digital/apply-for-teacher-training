@@ -29,6 +29,8 @@ module CandidateInterface
         :orange
       when 'conditions_not_met'
         :red
+      when 'offer_deferred'
+        :yellow
       else
         raise "You need to define a colour for the #{status} state"
       end

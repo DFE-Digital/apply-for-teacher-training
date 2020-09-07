@@ -98,8 +98,15 @@ RSpec.describe GetApplicationChoicesForProviders do
       status: 'awaiting_references',
     )
 
+    create_list(
+      :application_choice,
+      2,
+      course_option: course_option_for_provider(provider: current_provider),
+      status: 'offer_deferred',
+    )
+
     returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
-    expect(returned_applications.size).to eq(3)
+    expect(returned_applications.size).to eq(5)
   end
 
   it 'returns application_choice that the provider is the accredited body for' do
@@ -188,5 +195,27 @@ RSpec.describe GetApplicationChoicesForProviders do
     expect(returned_applications.map(&:id)).to include(choice_for_this_cycle.id)
     expect(returned_applications.map(&:id)).not_to include(choice_for_past_cycle.id)
     expect(returned_applications.map(&:id)).not_to include(ratified_choice_for_past_cycle.id)
+  end
+
+  context 'when vendor_api argument is true' do
+    it 'returns applications that are in a state visible to providers in vendor api' do
+      current_provider = create(:provider, code: 'BAT')
+
+      create_list(
+        :application_choice,
+        1,
+        course_option: course_option_for_provider(provider: current_provider),
+        status: 'awaiting_provider_decision',
+      )
+      create_list(
+        :application_choice,
+        2,
+        course_option: course_option_for_provider(provider: current_provider),
+        status: 'offer_deferred',
+      )
+
+      returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider, vendor_api: true)
+      expect(returned_applications.size).to eq(1)
+    end
   end
 end
