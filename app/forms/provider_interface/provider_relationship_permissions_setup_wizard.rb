@@ -4,12 +4,21 @@ module ProviderInterface
 
     attr_accessor :current_step, :current_provider_relationship_id, :checking_answers
     attr_writer :provider_relationships, :provider_relationship_permissions, :state_store
-    validate :at_least_one_organisation_has_permissions, on: :permissions
+    validate :validate_permissions_form, on: :permissions
 
     class PermissionsForm
       include ActiveModel::Model
       attr_accessor :id
       attr_accessor(*ProviderRelationshipPermissions::PERMISSIONS)
+      validate :at_least_one_organisation_has_permissions
+
+      def at_least_one_organisation_has_permissions
+        ProviderRelationshipPermissions::PERMISSIONS.each do |permission|
+          if send(permission).all?(&:blank?)
+            errors.add(permission, "Select which organisations can #{permission.to_s.humanize.downcase}")
+          end
+        end
+      end
     end
 
     def initialize(state_store, attrs = {})
@@ -101,10 +110,16 @@ module ProviderInterface
       @state_store.delete
     end
 
+    def current_permissions_form
+      @_current_permissions_form ||= PermissionsForm.new(
+        permissions_for_relationship(current_provider_relationship_id).merge(id: current_provider_relationship_id),
+      )
+    end
+
   private
 
     def state
-      as_json(except: %w[state_store errors validation_context current_step]).to_json
+      as_json(except: %w[state_store errors validation_context _current_permissions_form current_step]).to_json
     end
 
     def last_saved_state
@@ -141,14 +156,11 @@ module ProviderInterface
       next_provider_relationship_needing_permissions_setup.present?
     end
 
-    def at_least_one_organisation_has_permissions
-      permissions = permissions_for_relationship
+    def validate_permissions_form
+      return if current_permissions_form.valid?
 
-      ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name|
-        permissions_values = permissions.fetch(permission_name.to_s, [])
-        if permissions_values.blank? || permissions_values.all?(&:blank?)
-          errors.add(permission_name, "Select which organisations can #{permission_name.to_s.humanize.downcase}")
-        end
+      current_permissions_form.errors.map do |key, message|
+        errors.add("provider_relationship_permissions[#{current_provider_relationship_id}][#{key}]", message)
       end
     end
   end

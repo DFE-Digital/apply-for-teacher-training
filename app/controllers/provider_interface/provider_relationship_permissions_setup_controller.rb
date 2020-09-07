@@ -26,7 +26,7 @@ module ProviderInterface
       )
       @wizard.save_state!
 
-      setup_permissions_form
+      @permissions_form = @wizard.current_permissions_form
     end
 
     def save_permissions
@@ -44,8 +44,7 @@ module ProviderInterface
         end
       else
         @permissions_model = ProviderRelationshipPermissions.find(params[:id])
-
-        setup_permissions_form
+        @permissions_form = @wizard.current_permissions_form
 
         render :setup_permissions
       end
@@ -141,12 +140,6 @@ module ProviderInterface
       params.require(:provider_interface_provider_relationship_permissions_setup_wizard)
         .permit(provider_relationship_permissions: {}).to_h
         .merge(current_provider_relationship_id: params[:id], checking_answers: params[:checking_answers])
-    end
-
-    def setup_permissions_form
-      @permissions_form = ProviderInterface::ProviderRelationshipPermissionsSetupWizard::PermissionsForm.new(
-        @wizard.permissions_for_relationship(@permissions_model.id).merge(id: @permissions_model.id),
-      )
     end
 
     def persistence_key_for_current_user

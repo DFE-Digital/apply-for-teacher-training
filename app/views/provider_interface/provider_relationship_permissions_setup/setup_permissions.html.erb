@@ -41,7 +41,7 @@
       <%= f.fields_for "provider_relationship_permissions[]", @permissions_form do |pf| %>
         <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
           <div class="govuk-form-group <%= permission_name.to_s.dasherize %>" id="<%= permission_name %>">
-            <%= f.govuk_check_boxes_fieldset permission_name, legend: { text: "Which organisations can #{permission_name.to_s.humanize.downcase}?" } do %>
+            <%= pf.govuk_check_boxes_fieldset permission_name, legend: { text: "Which organisations can #{permission_name.to_s.humanize.downcase}?" } do %>
               <%= hidden_field_tag "#{pf.object_name}[#{permission_name}][]", '' %>
               <%= pf.govuk_check_box permission_name, 'training', link_errors: true,
                                      label: { text: @permissions_model.training_provider.name } %>
