@@ -1,8 +1,8 @@
-<%= content_for :title, t("page_titles.#{@page_name}", recruitment_cycle_span: @recruitment_cycle_span) %>
+<%= content_for :title, t("page_titles.#{@page_name}") %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl"><%= t("page_titles.#{@page_name}", recruitment_cycle_span: @recruitment_cycle_span) %></h1>
+    <h1 class="govuk-heading-xl"><%= t("page_titles.#{@page_name}") %></h1>
     <div class="app-styled-content">
       <%= @converted_markdown %>
     </div>
