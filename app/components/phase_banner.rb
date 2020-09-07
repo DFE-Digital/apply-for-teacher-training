@@ -13,7 +13,7 @@ class PhaseBanner < ViewComponent::Base
 
     case HostingEnvironment.environment_name
     when 'production'
-      "This is a new service - <a href='#{@feedback_link || DEFAULT_FEEDBACK_LINK}' class='govuk-link'>give feedback or report a problem</a>".html_safe
+      "This is a new service - <a href='#{@feedback_link || DEFAULT_FEEDBACK_LINK}' class='govuk-link govuk-link--no-visited-state'>give feedback or report a problem</a>".html_safe
     when 'qa'
       'This is the QA version of the Apply service'
     when 'staging'
