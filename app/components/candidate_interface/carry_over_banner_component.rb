@@ -20,13 +20,5 @@ module CandidateInterface
     def start_path
       candidate_interface_start_carry_over_path
     end
-
-    def current_cycle_span
-      "(#{RecruitmentCycle.current_year} - #{RecruitmentCycle.next_year})"
-    end
-
-    def next_cycle_span
-      "(#{RecruitmentCycle.next_year} - #{RecruitmentCycle.next_year + 1})"
-    end
   end
 end

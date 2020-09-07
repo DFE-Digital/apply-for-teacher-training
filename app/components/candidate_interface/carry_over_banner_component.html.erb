@@ -15,7 +15,15 @@
         </p>
       <% else %> 
         <p>
-          <%= govuk_link_to 'Do you want to apply again?', start_path %>
+          Do you want to continue applying?
+        </p>
+
+        <p class='govuk-body govuk-!-font-size-24'>
+          Applications are open for courses starting next academic year <%= current_cycle_span %>.
+        </p>
+
+        <p class='govuk-body govuk-!-font-size-24'>
+          <%= govuk_link_to 'Continue your application', start_path %>
         </p>
       <% end %>
     </div>

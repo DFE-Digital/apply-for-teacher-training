@@ -5,13 +5,14 @@
 <div class="govuk-grid-row">
 
   <div class="govuk-grid-column-two-thirds">
-
-    <p class="govuk-body">If you apply again we'll:</p>
     <p class="govuk-body">
-      <ul class="govuk-body">
-        <li>edit your saved application, so you do not need to start again</li>
-        <li>keep your references, so you will not need to request new ones</li>
-      </ul>
+      Applications are open for courses starting next academic year <%= current_cycle_span %>.
+    </p>
+    <p class="govuk-body">
+      The application you started has been saved.
+    </p>
+    <p class="govuk-body">
+      You'll have 3 course choices.
     </p>
 
     <%= button_to 'Start now', candidate_interface_carry_over_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>

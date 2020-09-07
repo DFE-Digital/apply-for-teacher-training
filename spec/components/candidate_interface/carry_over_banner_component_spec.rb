@@ -25,7 +25,8 @@ RSpec.describe CandidateInterface::CarryOverBannerComponent do
       application_form.recruitment_cycle_year = 2020
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include('Do you want to apply again?')
+      expect(result.text).to include('Do you want to continue applying?')
+      expect(result.text).to include('Continue your application')
       expect(result.css('a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_start_carry_over_path)
     end
 
@@ -35,7 +36,8 @@ RSpec.describe CandidateInterface::CarryOverBannerComponent do
       application_form.submitted_at = nil
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include('Do you want to apply again?')
+      expect(result.text).to include('Do you want to continue applying?')
+      expect(result.text).to include('Continue your application')
       expect(result.css('a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_start_carry_over_path)
     end
 
@@ -44,7 +46,8 @@ RSpec.describe CandidateInterface::CarryOverBannerComponent do
       application_form.submitted_at = nil
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include('Do you want to apply again?')
+      expect(result.text).to include('Do you want to continue applying?')
+      expect(result.text).to include('Continue your application')
       expect(result.css('a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_start_carry_over_path)
     end
 
