@@ -21,9 +21,9 @@ module HostingEnvironment
 
   def self.phase
     if production?
-      'beta'
+      'Beta'
     else
-      environment_name
+      environment_name.capitalize
     end
   end
 
