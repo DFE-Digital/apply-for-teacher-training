@@ -18,11 +18,11 @@
                                  navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, @provider_setup&.pending?))) %>
 
                                <% if controller.controller_name == 'start_page' %>
-                                 <%= render PhaseBanner.new(no_border: true) %>
+                                 <%= render PhaseBanner.new(no_border: true, feedback_link: ProviderInterface::FEEDBACK_LINK) %>
                                <% elsif controller.controller_name.in? %w[sessions content provider_agreements] %>
-                                 <%= render PhaseBanner.new %>
+                                 <%= render PhaseBanner.new(feedback_link: ProviderInterface::FEEDBACK_LINK) %>
                                <% else %>
-                                 <%= render PhaseBanner.new(no_border: true) %>
+                                 <%= render PhaseBanner.new(no_border: true, feedback_link: ProviderInterface::FEEDBACK_LINK) %>
                                  <%= render(ProviderInterface::PrimaryNavigation.new(
                                    navigation_items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, @provider_setup&.pending?))) %>
                                <% end %>
