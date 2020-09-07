@@ -472,10 +472,10 @@ en:
         candidate_interface/interview_preferences_form:
           attributes:
             any_preferences:
-              blank: Choose if you have any interview preferences
+              blank: Choose if you have any interview needs
             interview_preferences:
-              blank: Enter your interview preferences
-              too_many_words: Your interview preferences must be %{count} words or fewer
+              blank: Enter your interview needs
+              too_many_words: Your interview needs must be %{count} words or fewer
         candidate_interface/further_information_form:
           attributes:
             further_information:
