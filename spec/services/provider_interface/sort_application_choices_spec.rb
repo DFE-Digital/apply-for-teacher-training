@@ -20,6 +20,27 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
     end
   end
 
+  describe 'pg_days_left_to_respond' do
+    let(:pg_days_left_to_respond) do
+      described_class.call(application_choices: ApplicationChoice.all).first.pg_days_left_to_respond
+    end
+
+    it 'is nil when reject_by_default_at is in the past' do
+      create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 1.day.ago)
+      expect(pg_days_left_to_respond).to be_nil
+    end
+
+    it 'is zero when reject_by_default_at is tonight' do
+      create(:application_choice, :awaiting_provider_decision, reject_by_default_at: Time.zone.now.end_of_day)
+      expect(pg_days_left_to_respond).to eq(0)
+    end
+
+    it 'is the correct number of days when reject_by_default_at is in the future' do
+      create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 3.days.from_now.end_of_day)
+      expect(pg_days_left_to_respond).to eq(3)
+    end
+  end
+
   describe 'task view groups' do
     let(:application_choice) do
       described_class.call(application_choices: ApplicationChoice.all).first
