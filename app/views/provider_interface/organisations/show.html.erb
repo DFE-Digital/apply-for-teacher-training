@@ -21,7 +21,11 @@
         </div>
       </div>
 
-      <%= render ProviderRelationshipPermissionsList.new(permissions) %>
+      <%= render ProviderInterface::ProviderRelationshipPermissionsListComponent.new(
+        permissions_model: permissions,
+        change_link_builder: ProviderInterface::ProviderRelationshipEditChangeLinkBuilder,
+        editable: false,
+      ) %>
     <% end %>
 
     <% @training_permissions.each do |permissions| %>
@@ -29,15 +33,11 @@
         For courses run by <%= permissions.training_provider.name %> and ratified by <%= permissions.ratifying_provider.name %>
       </h2>
 
-      <%= render ProviderRelationshipPermissionsList.new(permissions) %>
-
-      <% if current_provider_user.can_manage_organisations? %>
-        <p class="govuk-body">
-          <%= govuk_link_to nil, provider_interface_edit_provider_relationship_permissions_path(permissions) do %>
-            Change<span class="govuk-visually-hidden"> permissions for <%= permissions.training_provider.name %> and <%= permissions.ratifying_provider.name %></span>
-          <% end %>
-        </p>
-      <% end %>
+      <%= render ProviderInterface::ProviderRelationshipPermissionsListComponent.new(
+        permissions_model: permissions,
+        change_link_builder: ProviderInterface::ProviderRelationshipEditChangeLinkBuilder,
+        editable: current_provider_user.can_manage_organisations?
+      ) %>
     <% end %>
   </div>
 </div>

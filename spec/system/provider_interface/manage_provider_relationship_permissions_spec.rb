@@ -119,7 +119,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def and_i_can_see_the_training_provider_has_permission_to_view_safeguarding
-    expect(page).to have_content('The following organisation(s) can view safeguarding information:')
+    expect(page).to have_content('Which organisations can view safeguarding information?')
 
     within(find('.view-safeguarding-information', match: :first)) do
       expect(page).to have_content @training_provider.name
@@ -170,7 +170,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def and_i_can_see_the_training_provider_has_permission_to_view_diversity
-    expect(page).to have_content('The following organisation(s) can view diversity information:')
+    expect(page).to have_content('Which organisations can view diversity information?')
 
     within(find('.view-diversity-information', match: :first)) do
       expect(page).to have_content @training_provider.name

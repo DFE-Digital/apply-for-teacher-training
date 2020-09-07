@@ -36,6 +36,28 @@ module ProviderInterface
       provider_relationship_permissions.fetch(relationship_id.to_s, {})
     end
 
+    # We hold data in the form
+    # { permission_id => { permission1 => [ "training" ], permission2 => [ "training", "ratifying" ] } }
+    #
+    # This method massages it into attrs suitable for ProviderRelationshipPermissions models
+    # and returns those models ready for persistence, either for actually saving or for previewing
+    # on the check-answers page
+    def permissions_for_persistence
+      provider_relationship_permissions.map do |id, permissions|
+        record = ProviderRelationshipPermissions.find(id)
+        permissions_attributes = %w[training ratifying].reduce({}) do |hash, role|
+          hash.merge({
+            "#{role}_provider_can_make_decisions" => permissions.fetch('make_decisions', []).include?(role),
+            "#{role}_provider_can_view_safeguarding_information" => permissions.fetch('view_safeguarding_information', []).include?(role),
+            "#{role}_provider_can_view_diversity_information" => permissions.fetch('view_diversity_information', []).include?(role),
+          })
+        end
+        record.assign_attributes(permissions_attributes)
+
+        record
+      end
+    end
+
     # Steps are
     # 1. provider_relationships
     # 2. info
