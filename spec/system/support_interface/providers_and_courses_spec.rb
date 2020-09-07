@@ -4,6 +4,10 @@ RSpec.feature 'See providers' do
   include DfESignInHelpers
   include FindAPIHelper
 
+  before do
+    stub_new_recruitment_year_sync
+  end
+
   scenario 'User visits providers page' do
     given_i_am_a_support_user
     and_providers_are_configured_to_be_synced

@@ -4,6 +4,10 @@ RSpec.feature 'See provider course syncing' do
   include DfESignInHelpers
   include FindAPIHelper
 
+  before do
+    stub_new_recruitment_year_sync
+  end
+
   scenario 'User switches sync courses on Provider' do
     given_i_am_a_support_user
     and_a_provider_exists
