@@ -30,6 +30,7 @@ class FeatureFlag
     [:international_addresses, 'Candidates who live outside the UK can enter their local address in free-text format', 'Steve Hook'],
     [:international_personal_details, 'Changes to the candidate personal details section to account for international applicants.', 'David Gisbey'],
     [:efl_section, 'Allow candidates with nationalities other then British or Irish to specify their English as a Foreign Language experience', 'Malcolm Baig'],
+    [:start_syncing_2021_courses, 'Sync the courses for the 2021 recruitment cycle', 'Tijmen Brommet'],
     [:international_degrees, 'Changes to the model and forms for degree qualifications to cater for non-UK degrees.', 'Steve Hook'],
     [:international_gcses, 'Candidates can provide details of international GCSE equivalents.', 'George Holborn'],
     [:international_other_qualifications, 'Candidates can provide details of Other international qualifications .', 'David Gisbey'],
