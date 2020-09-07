@@ -5,11 +5,11 @@ class ApplicationStateChange
   # as they do not need references or the 7-day cooling off period
   STATES_THAT_MAY_BE_SENT_TO_PROVIDER = %i[application_complete unsubmitted].freeze
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted awaiting_references application_complete cancelled].freeze
-  STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn rejected_at_end_of_cycle offer_deferred].freeze
+  STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn application_not_sent offer_deferred].freeze
   ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited offer_deferred].freeze
   OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
   POST_OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer_withdrawn]).freeze
-  UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn rejected_at_end_of_cycle].freeze
+  UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent].freeze
   DECISION_PENDING_STATUSES = %w[awaiting_references application_complete awaiting_provider_decision].freeze
   TERMINAL_STATES = UNSUCCESSFUL_END_STATES + %i[recruited].freeze
 
@@ -34,7 +34,7 @@ class ApplicationStateChange
     state :awaiting_references do
       event :references_complete, transitions_to: :application_complete
       event :cancel, transitions_to: :cancelled
-      event :reject_at_end_of_cycle, transitions_to: :rejected_at_end_of_cycle
+      event :reject_at_end_of_cycle, transitions_to: :application_not_sent
     end
 
     state :application_complete do
@@ -53,7 +53,7 @@ class ApplicationStateChange
       event :make_offer, transitions_to: :offer
     end
 
-    state :rejected_at_end_of_cycle
+    state :application_not_sent
 
     state :offer do
       event :make_offer, transitions_to: :offer
