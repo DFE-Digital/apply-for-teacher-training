@@ -27,5 +27,13 @@ module CandidateInterface
     def find_reopen_date
       EndOfCycleTimetable.date(:find_reopens).to_s(:govuk_date)
     end
+
+    def current_cycle_span
+      "(#{RecruitmentCycle.current_year} - #{RecruitmentCycle.next_year})"
+    end
+
+    def next_cycle_span
+      "(#{RecruitmentCycle.next_year} - #{RecruitmentCycle.next_year + 1})"
+    end
   end
 end

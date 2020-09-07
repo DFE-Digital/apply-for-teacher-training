@@ -9,12 +9,12 @@ RSpec.feature 'Candidate with unsuccessful application' do
     end
   end
 
-  scenario 'Sees between cycles banner and cannot apply again' do
+  scenario 'Sees the carry over application banner and cannot apply again' do
     given_i_am_signed_in_as_a_candidate
     and_i_have_an_unsuccessful_application
     and_i_visit_the_application_dashboard
     then_i_do_not_see_an_apply_again_banner
-    and_i_do_see_a_reopen_banner
+    and_i_do_see_a_carry_over_application_banner
   end
 
   def given_i_am_signed_in_as_a_candidate
@@ -42,7 +42,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
     expect(page).not_to have_content('Do you want to apply again?')
   end
 
-  def and_i_do_see_a_reopen_banner
-    expect(page).to have_content('Applications for courses starting this academic year have now closed')
+  def and_i_do_see_a_carry_over_application_banner
+    expect(page).to have_content('Do you want to continue applying?')
   end
 end
