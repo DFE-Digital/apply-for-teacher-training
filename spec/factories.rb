@@ -444,6 +444,12 @@ FactoryBot.define do
       rejected_by_default { true }
     end
 
+    trait :application_not_sent do
+      status { 'application_not_sent' }
+      rejected_at { Time.zone.now }
+      rejection_reason { 'Awaiting references when the recruitment cycle closed.' }
+    end
+
     trait :with_offer do
       association :application_form, factory: %i[completed_application_form with_completed_references]
       status { 'offer' }
