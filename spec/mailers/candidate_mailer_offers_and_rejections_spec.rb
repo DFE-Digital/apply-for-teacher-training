@@ -32,16 +32,6 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.new_offer_single_offer' do
-    context 'when the covid-19 feature flag is on' do
-      before { FeatureFlag.activate('covid_19') }
-
-      it_behaves_like(
-        'a mail with subject and content', :new_offer_single_offer,
-        'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
-        'Days to make an offer' => 'If you do not reply by 25 February 2020'
-      )
-    end
-
     it_behaves_like(
       'a mail with subject and content', :new_offer_single_offer,
       'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
@@ -148,54 +138,6 @@ RSpec.describe CandidateMailer, type: :mailer do
         'courses they are awaiting decisions' => 'Law (UFHG)',
         'providers they are awaiting decisions' => 'Vertapple University'
       )
-    end
-
-    describe '.application_rejected_offers_made' do
-      context 'one offer has been made' do
-        before do
-          FeatureFlag.activate('covid_19')
-          provider = build_stubbed(:provider, name: 'Vertapple University')
-          course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Law', code: 'UFHG', provider: provider))
-          @application_choice_with_offer = @application_form.application_choices.build(
-            application_form: @application_form,
-            course_option: course_option,
-            status: :offer,
-            decline_by_default_at: 10.business_days.from_now,
-            decline_by_default_days: 10,
-          )
-        end
-
-        it_behaves_like(
-          'a mail with subject and content', :application_rejected_offers_made,
-          I18n.t!('candidate_mailer.application_rejected.offers_made.subject', provider_name: 'Falconholt Technical College', dbd_days: 10),
-          'heading' => 'Dear Tyrell',
-          'course name and code' => 'Forensic Science (E0FO)',
-          'other course with an offer ' => 'Law (UFHG)',
-          'other provider they got an offer from' => 'Vertapple University',
-          'their DBD date' => 'Make a decision about your offer by 25 February 2020',
-          'prompt to reply with one offer' => 'You’ve received an offer for a place on',
-          'updated covid-19 prompt' => 'If you do not reply by 25 February 2020 your application will be withdrawn.'
-        )
-      end
-
-      context 'multiple offers have been made' do
-        before do
-          FeatureFlag.activate('covid_19')
-          setup_application_form_with_two_offers(@application_form)
-        end
-
-        it_behaves_like(
-          'a mail with subject and content', :application_rejected_offers_made,
-          I18n.t!('candidate_mailer.application_rejected.offers_made.subject', provider_name: 'Falconholt Technical College', dbd_days: 10),
-          'heading' => 'Dear Tyrell',
-          'course name and code' => 'MS Painting (P00)',
-          'first course with offer' => 'Code Refactoring (Z00)',
-          'first course provider with offer' => 'Wen University',
-          'their DBD date' => 'Make a decision about your offers by 25 February 2020',
-          'prompt to reply with multiple offers' => 'You’ve received the following offers:',
-          'updated covid-19 prompt' => 'If you do not reply by 25 February 2020 your application will be withdrawn.'
-        )
-      end
     end
   end
 
