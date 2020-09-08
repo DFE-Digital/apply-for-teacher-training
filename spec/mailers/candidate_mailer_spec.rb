@@ -35,7 +35,6 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_submitted.subject'),
       'heading' => 'Application submitted',
       'support reference' => 'SUPPORT-REFERENCE',
-      'RBD time limit' => -> { "to make an offer within #{TimeLimitCalculator.new(rule: :reject_by_default, effective_date: Time.zone.today).call.fetch(:days)} working days" },
       'magic link to authenticate' => 'http://localhost:3000/candidate/confirm_authentication?token=raw_token&u=encrypted_id',
     )
   end
