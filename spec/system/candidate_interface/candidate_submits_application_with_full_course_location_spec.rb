@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application' do
+RSpec.feature 'Candidate submits the application with full course choice location' do
   include CandidateHelper
 
   scenario 'The location that the candidate picked is full but others have vacancies' do

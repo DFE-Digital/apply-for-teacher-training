@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application' do
+RSpec.feature 'International candidate submits the application' do
   include CandidateHelper
   include EFLHelper
 
