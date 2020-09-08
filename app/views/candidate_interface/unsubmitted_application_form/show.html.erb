@@ -1,13 +1,5 @@
 <% content_for :title, t('page_titles.application_form') %>
 
-<% if FeatureFlag.active?('covid_19') && flash.empty? %>
-  <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
-    <div class="app-banner__message">
-      <h2 class="govuk-heading-m" id="success-message">There might be a delay in processing your application due to the impact of coronavirus (COVID-19)</h2>
-    </div>
-  </div>
-<% end %>
-
 <%= render(CandidateInterface::DeadlineBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?)) %>
 <%= render(CandidateInterface::ReopenBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?)) %>
 
