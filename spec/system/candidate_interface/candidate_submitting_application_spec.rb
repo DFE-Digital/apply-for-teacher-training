@@ -5,7 +5,6 @@ RSpec.feature 'Candidate submits the application' do
 
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in
-    and_the_covid_19_feature_flag_is_on
 
     when_i_have_completed_my_application
 
@@ -38,7 +37,6 @@ RSpec.feature 'Candidate submits the application' do
     then_i_can_see_my_application_has_been_successfully_submitted
 
     and_i_can_see_my_support_ref
-    and_that_covid_19_may_affect_my_application
     and_i_receive_an_email_with_my_support_ref
     and_my_referees_receive_a_request_for_a_reference_by_email
     and_a_slack_notification_is_sent
@@ -52,14 +50,6 @@ RSpec.feature 'Candidate submits the application' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_covid_19_feature_flag_is_on
-    FeatureFlag.activate('covid_19')
-  end
-
-  def and_the_covid_19_feature_flag_is_on
-    FeatureFlag.activate('covid_19')
   end
 
   def when_i_have_completed_my_application
@@ -192,10 +182,6 @@ RSpec.feature 'Candidate submits the application' do
   def and_i_can_see_my_support_ref
     support_ref = page.find('span#application-ref').text
     expect(support_ref).not_to be_empty
-  end
-
-  def and_that_covid_19_may_affect_my_application
-    expect(page).to have_content 'Coronavirus (COVID-19)'
   end
 
   def and_i_receive_an_email_with_my_support_ref
