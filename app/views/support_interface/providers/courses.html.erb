@@ -1,7 +1,7 @@
 <%= render 'provider_navigation', title: 'Courses' %>
 
 <% if @provider.sync_courses? %>
-  <% if @provider.courses.any? %>
+  <% unless @courses[RecruitmentCycle.current_year].to_a.all?(&:open_on_apply?) %>
     <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
       <h3 class="govuk-heading-m">
         Open all courses
