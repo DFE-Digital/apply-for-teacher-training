@@ -1,0 +1,24 @@
+<% content_for :title, 'Course stats' %>
+
+<% %w[2021 2020].each do |year| %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-4"><%= year %></h2>
+
+  <div id="headline-stat" class="govuk-!-margin-bottom-4">
+    <%= render SupportInterface::TileComponent.new(count: Course.in_cycle(year).open_on_apply.count, label: 'courses available on Apply', colour: :blue) %>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+          <%= render SupportInterface::TileComponent.new(count: Course.in_cycle(year).exposed_in_find.where(open_on_apply: false).count, label: 'courses only on UCAS', size: :reduced) %>
+        </div>
+        <div class="govuk-grid-column-one-third">
+          <%= render SupportInterface::TileComponent.new(count: Provider.where(id: Course.in_cycle(year).open_on_apply.select(:provider_id)).count, label: 'providers with open courses', size: :reduced) %>
+        </div>
+        <div class="govuk-grid-column-one-third">
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
