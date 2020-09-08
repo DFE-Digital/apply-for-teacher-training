@@ -121,8 +121,11 @@ class ApplicationForm < ApplicationRecord
     application_choices.map.any?(&:offer?)
   end
 
-  def application_not_sent?
-    application_choices.map.all?(&:application_not_sent?)
+  def all_applications_not_sent?
+    application_choices.any?(&:application_not_sent?) &&
+      application_choices.all? do |application_choice|
+        application_choice.application_not_sent? || application_choice.withdrawn?
+      end
   end
 
   def science_gcse_needed?

@@ -15,7 +15,7 @@ module CandidateInterface
              :all_choices_withdrawn?,
              :any_recruited?,
              :any_offers?,
-             :application_not_sent?, to: :application_form
+             :all_applications_not_sent?, to: :application_form
 
     def editable?
       @dates.form_open_to_editing?

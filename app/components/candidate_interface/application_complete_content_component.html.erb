@@ -19,7 +19,7 @@
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     <%= t('application_complete.dashboard.all_withdrawn') %>
   </h2>
-<% elsif application_not_sent? %>
+<% elsif all_applications_not_sent? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     <%= t('application_complete.dashboard.application_not_sent', count: choice_count) %>
   </h2>
