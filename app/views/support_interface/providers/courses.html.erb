@@ -18,7 +18,7 @@
     <% end %>
   <% end %>
 
-  <% %w[2021 2020 2019].map(&:to_i).each do |year| %>
+  <% RecruitmentCycle.years_visible_in_support.each do |year| %>
     <% if @courses[year] %>
       <h3 class='govuk-heading-m'><%= year %>: <%= pluralize(@courses[year].size, 'course') %> (<%= @courses[year].count(&:open_on_apply?) %> on DfE Apply)</h3>
 

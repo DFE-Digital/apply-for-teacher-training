@@ -17,9 +17,9 @@ class GetApplicationChoicesForProviders
     statuses = vendor_api ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.states_visible_to_provider
 
     ApplicationChoice.includes(*includes)
-      .where('courses.provider_id' => providers, 'courses.recruitment_cycle_year' => RecruitmentCycle.visible_years)
+      .where('courses.provider_id' => providers, 'courses.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers)
       .or(ApplicationChoice.includes(*includes)
-        .where('courses.accredited_provider_id' => providers, 'courses.recruitment_cycle_year' => RecruitmentCycle.visible_years))
+        .where('courses.accredited_provider_id' => providers, 'courses.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers))
       .where('status IN (?)', statuses)
   end
 end

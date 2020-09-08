@@ -15,7 +15,11 @@ module RecruitmentCycle
     current_year + 1
   end
 
-  def self.visible_years
+  def self.years_visible_to_providers
     [current_year, previous_year]
+  end
+
+  def self.years_visible_in_support
+    [2021, 2020, 2019]
   end
 end
