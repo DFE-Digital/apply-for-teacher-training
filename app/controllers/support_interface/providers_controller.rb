@@ -17,6 +17,12 @@ module SupportInterface
 
     def courses
       @provider = Provider.includes(courses: [:accredited_provider]).find(params[:provider_id])
+      @courses = @provider.courses.includes(accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
+    end
+
+    def ratified_courses
+      @provider = Provider.includes(courses: [:accredited_provider]).find(params[:provider_id])
+      @ratified_courses = @provider.accredited_courses.includes(:provider, accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
     end
 
     def vacancies
@@ -46,7 +52,7 @@ module SupportInterface
     end
 
     def enable_course_syncing
-      update_provider('Successfully updated provider') { |provider| provider.update!(sync_courses: true) }
+      update_provider('Courses will now be synced') { |provider| provider.update!(sync_courses: true) }
     end
 
   private

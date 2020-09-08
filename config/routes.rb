@@ -709,6 +709,7 @@ Rails.application.routes.draw do
     scope path: '/providers/:provider_id' do
       get '/' => 'providers#show', as: :provider
       get '/courses' => 'providers#courses', as: :provider_courses
+      get '/ratified-courses' => 'providers#ratified_courses', as: :provider_ratified_courses
       get '/vacancies' => 'providers#vacancies', as: :provider_vacancies
       get '/sites' => 'providers#sites', as: :provider_sites
       get '/users' => 'providers#users', as: :provider_user_list

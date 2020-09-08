@@ -1,6 +1,6 @@
 <% content_for :title, 'Course stats' %>
 
-<% %w[2021 2020].each do |year| %>
+<% RecruitmentCycle.years_visible_in_support.each do |year| %>
   <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-4"><%= year %></h2>
 
   <div id="headline-stat" class="govuk-!-margin-bottom-4">

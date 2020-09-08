@@ -2,3 +2,9 @@
 @import "~@ministryofjustice/frontend/moj/components/sub-navigation/sub-navigation";
 @import "_checkboxes-scroll";
 @import "_relationship-diagram";
+
+// Hack the padding for the tab items so that we can have a lot of tabs on the
+// provider page without wrapping.
+.js-enabled .govuk-tabs__list-item {
+  padding: 10px 16px;
+}
