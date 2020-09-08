@@ -81,10 +81,6 @@ RSpec.configure do |config|
         # Avoid 2 queries by creating the flag enabled, instead of doing a find + update.
         Feature.create(name: name, active: true)
       end
-    else
-      # When disabling all flags it's faster to just delete all the records
-      # instead of creating the record and disabling it.
-      Feature.delete_all
     end
   end
 
