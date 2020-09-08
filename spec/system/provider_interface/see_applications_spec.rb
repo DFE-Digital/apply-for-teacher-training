@@ -14,7 +14,6 @@ RSpec.feature 'See applications' do
     when_my_apply_account_has_been_created
     and_i_sign_in_to_the_provider_interface
     then_i_should_see_the_applications_from_my_organisation
-    and_i_should_not_see_a_covid19_information_banner
     and_i_should_see_the_applications_menu_item_highlighted
 
     when_i_click_on_an_application
@@ -59,10 +58,6 @@ RSpec.feature 'See applications' do
   def then_i_should_see_the_applications_from_my_organisation
     expect(page).to have_content @my_provider_choice1.application_form.full_name
     expect(page).to have_content @my_provider_choice2.application_form.full_name
-  end
-
-  def and_i_should_not_see_a_covid19_information_banner
-    expect(page).not_to have_content 'coronavirus'
   end
 
   def and_i_should_see_the_applications_menu_item_highlighted
