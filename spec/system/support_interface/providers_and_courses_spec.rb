@@ -31,6 +31,9 @@ RSpec.feature 'Providers and courses' do
     and_i_click_on_courses
     then_i_see_the_provider_courses
 
+    and_i_click_on_ratified_courses
+    then_i_see_the_provider_ratified_courses
+
     when_i_click_on_a_course_with_applications
     then_i_see_the_course_information
 
@@ -66,6 +69,8 @@ RSpec.feature 'Providers and courses' do
 
     create :provider, code: 'DEF', name: 'Gorse SCITT', sync_courses: true
     create :provider, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
+
+    create(:course_option, course: create(:course, accredited_provider: provider))
   end
 
   def then_i_should_see_the_providers
@@ -148,6 +153,10 @@ RSpec.feature 'Providers and courses' do
     click_link 'Courses'
   end
 
+  def and_i_click_on_ratified_courses
+    click_link 'Ratified courses'
+  end
+
   def when_i_click_on_users
     within 'main' do
       click_link 'Users'
@@ -170,15 +179,21 @@ RSpec.feature 'Providers and courses' do
     expect(page).to have_content '2 courses (0 on DfE Apply)'
   end
 
+  def then_i_see_the_provider_ratified_courses
+    expect(page).to have_content 'ratifies 1 course (0 on DfE Apply)'
+  end
+
   def then_i_see_the_provider_sites
     expect(page).to have_content 'Main site'
   end
 
   def when_i_click_on_a_course_with_applications
+
     course = Course.find_by(code: 'ABC-1')
     create(:application_choice, course_option: course.course_options.first)
     create(:application_choice, course_option: course.course_options.first)
-    click_link('ABC-1')
+    click_link 'Courses'
+    click_link 'ABC-1'
   end
 
   def then_i_see_the_course_information
