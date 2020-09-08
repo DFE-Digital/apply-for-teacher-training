@@ -244,7 +244,7 @@ FactoryBot.define do
       level { 'degree' }
       qualification_type { Hesa::DegreeType.all.sample.name }
       subject { Hesa::Subject.all.sample.name }
-      institution_name { Hesa::Institution.all.sample }
+      institution_name { Hesa::Institution.all.sample.name }
       grade { Hesa::Grade.all.sample.description }
     end
 
