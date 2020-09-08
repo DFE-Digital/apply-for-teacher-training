@@ -131,7 +131,6 @@ en:
     provider:
       respond: Respond to application
       confirm: Confirm offer
-    covid_19_guidance: "Coronavirus (COVID-19): deadlines for processing applications extended to 31 May 2020"
     start_apply_again: Do you want to apply again?
     start_carry_over: Do you want to apply again?
     start_carry_over_between_cycles: "Get your application ready to submit from %{reopen_date}"

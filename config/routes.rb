@@ -533,7 +533,7 @@ Rails.application.routes.draw do
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_provider', as: :cookies
     get '/service-guidance', to: 'content#service_guidance_provider', as: :service_guidance
-    get '/covid-19-guidance', to: 'content#covid_19_guidance', as: :covid_19_guidance
+    get '/covid-19-guidance', to: redirect('/')
     get '/getting-ready-for-next-cycle', to: 'content#getting_ready_for_next_cycle', as: :getting_ready_for_next_cycle
 
     get '/data-sharing-agreements/new', to: 'provider_agreements#new_data_sharing_agreement', as: :new_data_sharing_agreement
