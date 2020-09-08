@@ -42,7 +42,7 @@ private
   end
 
   def application_choice_visible_to_user?(application_choice:)
-    GetApplicationChoicesForProviders.call(providers: @actor.providers).include?(application_choice)
+    GetApplicationChoicesForProviders.call(providers: @actor.providers, includes: [course_option: :course]).include?(application_choice)
   end
 
   def actor_has_permissions_via_provider_to_provider_permissions?(training_provider:, ratifying_provider:)
