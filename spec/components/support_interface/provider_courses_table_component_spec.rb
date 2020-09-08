@@ -22,7 +22,6 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       ).to_h
 
       expect(fields['Course']).to eq('My course (ABC)')
-      expect(fields['Level']).to eq('Secondary')
       expect(fields['Cycle']).to eq('2020')
       expect(fields['Apply from Find']).to match(/DfE & UCAS/)
       expect(fields['Page on Find']).to match(/Find course page/)
@@ -69,7 +68,6 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       ).to_h
 
       expect(fields['Course']).to eq('My course (ABC)')
-      expect(fields['Level']).to eq('Secondary')
       expect(fields['Cycle']).to eq('2020')
       expect(fields['Apply from Find']).to match(/DfE & UCAS/)
       expect(fields['Page on Find']).to match(/Find course page/)

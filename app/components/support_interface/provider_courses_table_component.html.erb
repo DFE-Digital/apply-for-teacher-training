@@ -6,7 +6,6 @@
       <% if providers_vary? %>
         <th scope='col' class='govuk-table__header'>Provider</th>
       <% end %>
-      <th scope='col' class='govuk-table__header'>Level</th>
       <th scope='col' class='govuk-table__header'>Apply from Find</th>
       <th scope='col' class='govuk-table__header'>Page on Find</th>
       <% if accredited_bodies_vary? %>
@@ -23,7 +22,6 @@
         <% if providers_vary? %>
           <td class='govuk-table__cell'><%= course[:provider_link] %></td>
         <% end %>
-        <td class='govuk-table__cell'><%= course[:level] %></td>
         <td class='govuk-table__cell'>
           <% if course[:apply_from_find_link] %>
             <%= course[:apply_from_find_link] %>
