@@ -60,9 +60,18 @@ module VendorAPI
     attr_reader :application_choice, :application_form
 
     # V2: for backwards compatibility `offer_withdrawn` state is displayed as `rejected` in the API.
+<<<<<<< HEAD
     def status
       if application_choice.offer_withdrawn?
         'rejected'
+=======
+    # V2: for backwards compatibility `application_not_sent` state is displayed as `rejected` in the API.
+    def status
+      if application_choice.offer_withdrawn?
+        'rejected'
+      elsif application_choice.application_not_sent?
+        'rejected'
+>>>>>>> Use forthcoming application_not_sent status
       else
         application_choice.status
       end
