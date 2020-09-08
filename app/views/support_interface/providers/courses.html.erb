@@ -1,34 +1,42 @@
 <%= render 'provider_navigation', title: 'Courses' %>
 
-<%= render(SupportInterface::ProviderSyncCoursesToggleComponent.new(provider: @provider)) %>
+<% if @provider.sync_courses? %>
+  <% if @provider.courses.any? %>
+    <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
+      <h3 class="govuk-heading-m">
+        Open all courses
+      </h3>
 
-<% if @provider.courses.any? %>
-  <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
-    <h3 class="govuk-heading-m">
-      Open all courses
-    </h3>
+      <p class="govuk-body">This will toggle every course on this provider to be available through Apply.</p>
 
-    <p class="govuk-body">This will toggle every course on this provider to be available through Apply.</p>
-
-    <% unless @provider.all_associated_accredited_providers_onboarded? %>
-      <%= render WarningTextComponent.new(
-        text: 'Some of this provider’s courses are ratified by an accredited body which does not yet participate in the beta. The accredited body might expect to manage applications to those courses. Check before clicking this button.')
-      %>
+      <% unless @provider.all_associated_accredited_providers_onboarded? %>
+        <%= render WarningTextComponent.new(
+          text: 'Some of this provider’s courses are ratified by an accredited body which does not yet participate in the beta. The accredited body might expect to manage applications to those courses. Check before clicking this button.')
+        %>
+      <% end %>
+      <%= f.govuk_submit "Open #{pluralize(@provider.courses.size, 'course')}" %>
     <% end %>
-    <%= f.govuk_submit "Open #{pluralize(@provider.courses.size, 'course')}" %>
   <% end %>
-<% end %>
 
-<% %w[2021 2020 2019].map(&:to_i).each do |year| %>
-  <% if @courses[year] %>
-    <h3 class='govuk-heading-m'><%= year %>: <%= pluralize(@courses[year].size, 'course') %> (<%= @courses[year].count(&:open_on_apply?) %> on DfE Apply)</h3>
+  <% %w[2021 2020 2019].map(&:to_i).each do |year| %>
+    <% if @courses[year] %>
+      <h3 class='govuk-heading-m'><%= year %>: <%= pluralize(@courses[year].size, 'course') %> (<%= @courses[year].count(&:open_on_apply?) %> on DfE Apply)</h3>
 
-    <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @courses[year])) %>
-  <% else %>
-    <h3 class='govuk-heading-m'><%= year %>: No courses</h3>
+      <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @courses[year])) %>
+    <% else %>
+      <h3 class='govuk-heading-m'><%= year %>: No courses</h3>
 
-    <p class='govuk-body'>
-      There aren't any courses for <%= year %>.
-    </p>
+      <p class='govuk-body'>
+        There aren't any courses for <%= year %>.
+      </p>
+    <% end %>
+  <% end %>
+<% else %>
+  <p class='govuk-body'>
+    There aren't any courses for this provider because the courses aren't synced yet.
+  </p>
+
+  <%= form_with model: @provider, url: support_interface_enable_provider_course_syncing_path(@provider), method: :post do |f| %>
+    <%= f.govuk_submit 'Enable course syncing from Find' %>
   <% end %>
 <% end %>
