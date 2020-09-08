@@ -78,10 +78,14 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
   end
 
   def and_i_click_on_apply_again
-    click_link 'Do you want to apply again?'
+    expect(page).to have_content 'Do you want to continue applying?'
+    expect(page).to have_content 'Applications are open for courses starting next academic year (2021 - 2022).'
+    click_link 'Continue your application'
   end
 
   def and_i_click_on_start_now
+    expect(page).to have_content 'Applications are open for courses starting next academic year (2021 - 2022).'
+    expect(page).to have_content 'You\'ll have 3 course choices.'
     click_button 'Start now'
   end
 
