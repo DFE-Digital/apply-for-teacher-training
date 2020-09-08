@@ -10,42 +10,23 @@ You have submitted an application for:
 
 Your application reference is <%= @application_form.support_reference %>.
 
-You can track the progress of your <%= 'application'.pluralize(@application_form.application_choices.count) %> here:
+Sign in to your account anytime to check the progress of your application:
 
 <%= @candidate_magic_link %>
 
-# Making changes to your application
+# What's next?
 
-Get in touch with us as soon as possible if you need to make any amends, as we only have <%= TimeLimitConfig.edit_by %> to make changes.
+If your training provider decides to progress your application, they’ll contact you to organise an interview.
 
-Once we’ve processed your request, you cannot make any more changes.
+# Get your references
 
-However, you can ask us to update your name or contact details at any point.
+Ask your referees to check their email and give a reference as soon as possible.
 
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) if you need to make changes.
+Courses can become full at any time and your application will not be considered without references.
 
-# Withdrawing your application
+# Get support
 
-You can withdraw your application to your <%= 'course'.pluralize(@application_form.application_choices.count) %> at any point, even after you’ve accepted an offer.
+Email [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
 
-Sign in to your account and click ‘withdraw’ next to the course(s) you want to withdraw:
+We typically respond within one working day for urgent queries or 5 working days for less urgent queries.
 
-<%= @candidate_magic_link %>
-
-# References
-
-We’ve emailed your referees and will send them a reminder in <%= (TimeLimitConfig.chase_referee_by - 2) %> working days.
-
-Your application will not be considered without references. Courses can become full at any time - keep in touch with your referees to ensure they give a reference as soon as possible.
-
-# Application decision
-
-If your training provider decides to progress your application, they’ll contact you directly to organise an interview date.
-
-They should make a decision on whether to make an offer within <%= @respond_within_days %> working days of receiving your application.
-
-# Need help?
-
-Contact the team on [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
-
-We typically respond within one working day for urgent queries. It can take up to 5 working days for less urgent queries. We do not provide support over the weekend or on public holidays.
