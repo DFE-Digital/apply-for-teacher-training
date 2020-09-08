@@ -17,7 +17,9 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
 
     when_i_sign_in_again
     and_i_visit_the_application_dashboard
-    and_i_click_on_apply_again
+    then_i_cannot_submit_my_application
+
+    when_i_click_on_apply_again
     and_i_click_on_start_now
     and_i_click_go_to_my_application_form
 
@@ -77,7 +79,11 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
     visit candidate_interface_application_complete_path
   end
 
-  def and_i_click_on_apply_again
+  def then_i_cannot_submit_my_application
+    expect(page).not_to have_link('Check and submit your application')
+  end
+
+  def when_i_click_on_apply_again
     expect(page).to have_content 'Do you want to continue applying?'
     expect(page).to have_content 'Applications are open for courses starting next academic year (2021 - 2022).'
     click_link 'Continue your application'

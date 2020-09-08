@@ -221,7 +221,7 @@
         Applications for courses starting in <%= EndOfCycleTimetable.next_cycle_year %> open from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>. You can continue to make changes to your application until then.
       </p>
       <%= govuk_button_link_to 'Review your application', candidate_interface_application_review_path %>
-    <% else %>
+    <% elsif CandidateInterface::EndOfCyclePolicy.can_submit?(@application_form) %>
       <h2 class="govuk-heading-m govuk-!-font-size-27">Check and submit</h2>
       <%= govuk_button_link_to 'Check and submit your application', candidate_interface_application_review_path %>
     <% end %>

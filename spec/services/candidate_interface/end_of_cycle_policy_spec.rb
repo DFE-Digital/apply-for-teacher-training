@@ -123,4 +123,18 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
       end
     end
   end
+
+  describe '.can_submit?' do
+    before { allow(RecruitmentCycle).to receive(:current_year).and_return(2021) }
+
+    it 'returns true for an application in the current recruitment cycle' do
+      application_form = build :application_form, recruitment_cycle_year: 2021
+      expect(described_class.can_submit?(application_form)).to be true
+    end
+
+    it 'returns false for an application in the previous recruitment cycle' do
+      application_form = build :application_form, recruitment_cycle_year: 2020
+      expect(described_class.can_submit?(application_form)).to be false
+    end
+  end
 end
