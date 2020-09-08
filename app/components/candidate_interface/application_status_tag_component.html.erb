@@ -1,1 +1,7 @@
 <%= render TagComponent.new(text: text, type: type) %>
+
+<% if @application_choice.application_not_sent? %>
+  <p class="govuk-body govuk-body govuk-!-margin-top-2">
+    Your application was not sent for this course because references were not given before the deadline.
+  </p>
+<% end %>

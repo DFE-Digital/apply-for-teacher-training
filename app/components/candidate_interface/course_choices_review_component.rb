@@ -157,12 +157,7 @@ module CandidateInterface
     end
 
     def status_row_value(application_choice)
-      if ApplicationStatusTagComponent.new(application_choice: application_choice).status == 'application_not_sent'
-        render(ApplicationStatusTagComponent.new(application_choice: application_choice)) +
-          tag.p('Your application was not sent for this course because references were not given before the deadline.', class: 'govuk-body govuk-body govuk-!-margin-top-2')
-      else
-        render(ApplicationStatusTagComponent.new(application_choice: application_choice))
-      end
+      render(ApplicationStatusTagComponent.new(application_choice: application_choice))
     end
 
     def rejection_reason_row(application_choice)
