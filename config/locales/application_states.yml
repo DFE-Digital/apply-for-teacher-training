@@ -206,6 +206,11 @@ en:
         - candidate_mailer-application_sent_to_provider
         - provider_mailer-application_submitted
 
+    unsubmitted-reject_at_end_of_cycle:
+      name: Unsubmitted applications rejected at end of cycle
+      by: system
+      description: Application choices that are unsubmitted are automatically rejected at the end of the cycle but can be carried over in the next cycle
+
     awaiting_references-references_complete:
       name: References are completed
       by: referee
@@ -213,11 +218,6 @@ en:
       emails:
         - candidate_mailer-reference_received
         - referee_mailer-reference_confirmation_email
-
-    unsubmitted-cancel:
-      name: Unsubmitted applications cancelled
-      by: system
-      description: Application choices that are unsubmitted are automatically cancelled at the end of the cycle
 
     awaiting_references-cancel:
       name: Candidate cancels

@@ -23,7 +23,7 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     when_i_return_after_new_cycle_opens
     and_i_log_in_again
     and_i_visit_the_application_form_page
-    then_i_can_see_the_submit_link
+    then_i_can_see_the_carry_over_link_but_not_submit
   end
 
   def and_i_visit_the_application_form_page
@@ -74,7 +74,8 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     create_and_sign_in_candidate
   end
 
-  def then_i_can_see_the_submit_link
-    expect(page).to have_link 'Check and submit your application'
+  def then_i_can_see_the_carry_over_link_but_not_submit
+    expect(page).to have_link 'Continue your application'
+    expect(page).not_to have_link 'Check and submit your application'
   end
 end
