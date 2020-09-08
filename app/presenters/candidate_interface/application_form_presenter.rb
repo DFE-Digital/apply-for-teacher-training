@@ -108,6 +108,10 @@ module CandidateInterface
       @application_form.contact_details_completed
     end
 
+    def contact_details_valid?
+      ContactDetailsForm.build_from_application(@application_form).valid?
+    end
+
     def work_experience_completed?
       @application_form.work_history_completed
     end

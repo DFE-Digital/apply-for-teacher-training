@@ -32,6 +32,22 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe '#contact_details_valid?' do
+    it 'returns true if contact details section is completed' do
+      application_form = FactoryBot.build(:application_form, contact_details_completed: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_contact_details_valid
+    end
+
+    it 'returns true if contact details section is incomplete' do
+      application_form = FactoryBot.build(:application_form, contact_details_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_contact_details_valid
+    end
+  end
+
   describe '#maths_gcse_completed?' do
     it 'returns true if maths gcse section is completed' do
       application_form = FactoryBot.build(:application_form, maths_gcse_completed: true)
