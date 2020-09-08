@@ -50,6 +50,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
 
   describe '#call! if API response is successful given a ProviderUser#email_address' do
     before do
+      allow(SlackNotificationWorker).to receive(:perform_async)
       set_dsi_api_response(success: true)
       InviteProviderUser.new(provider_user: provider_user.email_address).call!
     end
@@ -57,10 +58,18 @@ RSpec.describe InviteProviderUser, sidekiq: true do
     it 'queues an email' do
       expect(ProviderMailer.deliveries.count).to be 1
     end
+
+    it 'sends a slack message' do
+      url = Rails.application.routes.url_helpers.support_interface_provider_user_url(provider_user)
+
+      expect(SlackNotificationWorker).to have_received(:perform_async)
+        .with("Firstname has been invited to join #{provider.name}", url)
+    end
   end
 
   describe '#call! if API response is not successful' do
     before do
+      allow(SlackNotificationWorker).to receive(:perform_async)
       set_dsi_api_response(success: false)
     end
 
@@ -70,6 +79,10 @@ RSpec.describe InviteProviderUser, sidekiq: true do
 
     it 'does not queue an email' do
       expect(ProviderMailer.deliveries.count).to be 0
+    end
+
+    it 'does not notify slack' do
+      expect(SlackNotificationWorker).not_to have_received(:perform_async)
     end
   end
 end
