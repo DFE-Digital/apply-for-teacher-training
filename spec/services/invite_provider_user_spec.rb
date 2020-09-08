@@ -60,7 +60,7 @@ RSpec.describe InviteProviderUser, sidekiq: true do
     end
 
     it 'sends a slack message' do
-      url = Rails.application.routes.url_helpers.support_interface_provider_user_url(provider_user)
+      url = Rails.application.routes.url_helpers.edit_support_interface_provider_user_url(provider_user)
 
       expect(SlackNotificationWorker).to have_received(:perform_async)
         .with("Firstname has been invited to join #{provider.name}", url)
