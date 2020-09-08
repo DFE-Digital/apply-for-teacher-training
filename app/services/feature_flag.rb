@@ -19,7 +19,6 @@ class FeatureFlag
     [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Michael Nacos'],
     [:pilot_open, 'Enables the Apply for Teacher Training service', 'Tijmen Brommet'],
     [:getting_ready_for_next_cycle_banner, 'Displays an information banner related to the end-of-cycle with link to static page', 'Steve Hook'],
-    [:switch_to_next_recruitment_cycle, 'Sync and serve courses for the next recruitment cycle. DO NOT ENABLE IN PRODUCTION.', 'Duncan Brown'],
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Malcolm Baig'],
   ].freeze
 
