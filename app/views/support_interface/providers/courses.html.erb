@@ -25,6 +25,6 @@
 
   <% if @provider.accredited_courses.in_cycle(year).any? %>
     <h2 class='govuk-heading-l'><%= year %>: ratifies <%= pluralize(@provider.accredited_courses.in_cycle(year).size, 'course') %> (<%= @provider.accredited_courses.in_cycle(year).open_on_apply.size %> on DfE Apply)</h2>
-    <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @provider.accredited_courses.in_cycle(year))) %>
+    <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @provider.accredited_courses.includes(:provider, accredited_provider: [:provider_agreements]).in_cycle(year))) %>
   <% end %>
 <% end %>
