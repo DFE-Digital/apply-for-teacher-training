@@ -1,4 +1,4 @@
-import accessibleAutocomplete from "accessible-autocomplete";
+import { accessibleAutocompleteFromSource } from "./helpers.js";
 
 const initDegreeSubjectAutocomplete = () => {
   try {
@@ -15,24 +15,7 @@ const initDegreeSubjectAutocomplete = () => {
       const container = document.getElementById(containerId);
       if (!container) return;
 
-      // Move autocomplete to the form group containing the input to be replaced
-      const inputFormGroup = container.previousElementSibling
-      if (inputFormGroup.contains(input)) {
-        inputFormGroup.appendChild(container)
-      }
-
-      const sourceData = JSON.parse(container.dataset.source);
-
-      accessibleAutocomplete({
-        element: container,
-        id: inputId,
-        name: input.name,
-        source: sourceData,
-        showNoOptionsFound: true,
-        defaultValue: input.value
-      });
-
-      input.remove();
+      accessibleAutocompleteFromSource(input, container);
     });
 
   } catch (err) {
