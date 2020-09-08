@@ -8,7 +8,7 @@ module SupportInterface
     end
 
     def course_rows
-      courses.order(:name).map do |course|
+      courses.map do |course|
         {
           course_link: govuk_link_to(course.name_and_code, support_interface_course_path(course)),
           provider_link: link_to_provider_page(course.provider),

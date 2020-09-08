@@ -188,7 +188,6 @@ RSpec.feature 'Providers and courses' do
   end
 
   def when_i_click_on_a_course_with_applications
-
     course = Course.find_by(code: 'ABC-1')
     create(:application_choice, course_option: course.course_options.first)
     create(:application_choice, course_option: course.course_options.first)

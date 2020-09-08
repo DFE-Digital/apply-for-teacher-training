@@ -1,8 +1,13 @@
 <%= render 'provider_navigation', title: 'Ratified courses' %>
 
-<% %w[2021 2020 2019].each do |year| %>
-  <% if @provider.accredited_courses.in_cycle(year).any? %>
-    <h2 class='govuk-heading-l'><%= year %>: ratifies <%= pluralize(@provider.accredited_courses.in_cycle(year).size, 'course') %> (<%= @provider.accredited_courses.in_cycle(year).open_on_apply.size %> on DfE Apply)</h2>
-    <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @provider.accredited_courses.includes(:provider, accredited_provider: [:provider_agreements]).in_cycle(year))) %>
+<% %w[2021 2020 2019].map(&:to_i).each do |year| %>
+  <% if @ratified_courses[year] %>
+    <h2 class='govuk-heading-l'><%= year %>: ratifies <%= pluralize(@ratified_courses[year].size, 'course') %> (<%= @ratified_courses[year].count(&:open_on_apply?) %> on DfE Apply)</h2>
+    <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @ratified_courses[year])) %>
+  <% else %>
+    <h2 class='govuk-heading-l'><%= year %>: No courses</h2>
+    <p class='govuk-body'>
+      There aren't any courses for <%= year %>.
+    </p>
   <% end %>
 <% end %>

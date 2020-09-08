@@ -17,10 +17,12 @@ module SupportInterface
 
     def courses
       @provider = Provider.includes(courses: [:accredited_provider]).find(params[:provider_id])
+      @courses = @provider.courses.includes(accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
     end
 
     def ratified_courses
       @provider = Provider.includes(courses: [:accredited_provider]).find(params[:provider_id])
+      @ratified_courses = @provider.accredited_courses.includes(:provider, accredited_provider: [:provider_agreements]).order(:name).group_by(&:recruitment_cycle_year)
     end
 
     def vacancies
