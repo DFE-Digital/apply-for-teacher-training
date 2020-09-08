@@ -27,27 +27,6 @@ module HostingEnvironment
     end
   end
 
-  def self.phase_banner_text
-    if sandbox_mode?
-      return 'This is a <a href="/" class="govuk-link">test version of Apply</a> for providers and software vendors'.html_safe
-    end
-
-    case environment_name
-    when 'production'
-      'This is a new service - <a href="mailto:becomingateacher@digital.education.gov.uk?subject=Apply+feedback" class="govuk-link">give feedback or report a problem</a>'.html_safe
-    when 'qa'
-      'This is the QA version of the Apply service'
-    when 'staging'
-      'This is a internal environment used by DfE to test deploys'
-    when 'development'
-      'This is a development version of the Apply service'
-    when 'review'
-      'This is a review environment used to test a pull request'
-    when 'unknown-environment'
-      'This is a unknown version of the Apply service'
-    end
-  end
-
   def self.environment_name
     ENV.fetch('HOSTING_ENVIRONMENT_NAME', 'unknown-environment')
   end
