@@ -29,6 +29,23 @@ RSpec.describe GetApplicationChoicesForProviders do
     expect(returned_applications.size).to eq(2)
   end
 
+  it 'pre-fetches default model includes' do
+    current_provider = create(:provider, code: 'BAT')
+
+    create_list(
+      :application_choice,
+      2,
+      course_option: course_option_for_provider(provider: current_provider),
+      status: 'awaiting_provider_decision',
+    )
+
+    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider)
+
+    expect(returned_applications.first.association(:site)).to be_loaded
+    expect(returned_applications.first.association(:application_form)).to be_loaded
+    expect(returned_applications.first.association(:provider)).to be_loaded
+  end
+
   it 'returns the application for multiple providers' do
     bat_provider = create(:provider, code: 'BAT')
     man_provider = create(:provider, code: 'MAN')
@@ -216,6 +233,25 @@ RSpec.describe GetApplicationChoicesForProviders do
 
       returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider, vendor_api: true)
       expect(returned_applications.size).to eq(1)
+    end
+  end
+
+  context 'when query includes argument is provided' do
+    it 'only joins to the includes specified' do
+      current_provider = create(:provider, code: 'BAT')
+
+      create_list(
+        :application_choice,
+        1,
+        course_option: course_option_for_provider(provider: current_provider),
+        status: 'awaiting_provider_decision',
+      )
+
+      returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider, includes: [course_option: :course])
+
+      expect(returned_applications.first.association(:site)).not_to be_loaded
+      expect(returned_applications.first.association(:application_form)).not_to be_loaded
+      expect(returned_applications.first.association(:provider)).not_to be_loaded
     end
   end
 end
