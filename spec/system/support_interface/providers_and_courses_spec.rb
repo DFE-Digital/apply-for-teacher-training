@@ -227,7 +227,7 @@ RSpec.feature 'Providers and courses' do
   end
 
   def and_i_choose_to_open_all_courses
-    click_button 'Open 1 course'
+    click_button 'Open all courses for the 2020 cycle'
   end
 
   def then_all_courses_should_be_open_on_apply

@@ -14,7 +14,7 @@
           text: 'Some of this provider’s courses are ratified by an accredited body which does not yet participate in the beta. The accredited body might expect to manage applications to those courses. Check before clicking this button.')
         %>
       <% end %>
-      <%= f.govuk_submit "Open #{pluralize(@provider.courses.size, 'course')}" %>
+      <%= f.govuk_submit "Open all courses for the #{RecruitmentCycle.current_year} cycle" %>
     <% end %>
   <% end %>
 
