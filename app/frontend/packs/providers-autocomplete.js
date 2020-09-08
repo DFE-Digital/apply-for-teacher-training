@@ -4,7 +4,6 @@ const initProvidersAutocomplete = () => {
   try {
     const id = "#pick-provider-form .govuk-select";
     const providersSelect = document.querySelector(id);
-
     if (!providersSelect) return;
 
     // Replace "Select a provider" with empty string

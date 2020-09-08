@@ -9,7 +9,6 @@ const initIeltsBandScoreAutocomplete = () => {
 
     ids.forEach(id => {
       const bandScoreSelect = document.querySelector(id);
-
       if (!bandScoreSelect) return;
 
       accessibleAutocomplete.enhanceSelectElement({
