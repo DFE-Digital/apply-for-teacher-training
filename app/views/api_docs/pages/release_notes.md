@@ -1,3 +1,8 @@
+### 9th September 2020
+
+- fix a bug with test data generation where provider names in qualifications
+were strings like `#<struct HESA::Institution::InstitutionStruct...>`
+
 ### 1st September 2020
 
 - Deprecate the `enrolled` state which will not be part of the Apply service
