@@ -205,6 +205,10 @@ module CandidateInterface
       @application_form.training_with_a_disability_completed
     end
 
+    def training_with_a_disability_valid?
+      TrainingWithADisabilityForm.build_from_application(@application_form).valid?
+    end
+
     def course_choices_completed?
       @application_form.course_choices_completed
     end

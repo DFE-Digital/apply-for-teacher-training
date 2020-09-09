@@ -205,6 +205,22 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe 'training_with_a_disability_valid?' do
+    it 'returns true if training with a disability section is completed' do
+      application_form = FactoryBot.build(:application_form, training_with_a_disability_completed: true, disclose_disability: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_training_with_a_disability_valid
+    end
+
+    it 'returns true if training with a disability section is incomplete' do
+      application_form = FactoryBot.build(:application_form, training_with_a_disability_completed: false, disclose_disability: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_training_with_a_disability_valid
+    end
+  end
+
   describe '#volunteering_completed?' do
     it 'returns true if volunteering section is completed' do
       application_form = build(:application_form, volunteering_completed: true)
