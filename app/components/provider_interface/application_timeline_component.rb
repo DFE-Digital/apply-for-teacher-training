@@ -13,7 +13,6 @@ module ProviderInterface
       'awaiting_provider_decision' => 'Application submitted',
       'withdrawn' => 'Application withdrawn',
       'rejected' => 'Application rejected',
-      'application_not_sent' => 'Application not sent',
       'offer_withdrawn' => 'Offer withdrawn',
       'offer' => 'Offer made',
       'pending_conditions' => 'Offer accepted',
