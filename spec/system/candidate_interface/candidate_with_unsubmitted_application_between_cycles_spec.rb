@@ -13,17 +13,16 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     when_i_have_completed_my_application
     and_i_return_after_submission_deadline
     and_i_visit_the_application_form_page
-
     then_i_can_only_review_my_application
     and_i_cannot_submit_my_application
 
     when_i_try_to_visit_the_submit_page
     then_i_am_redirected_to_the_application_page
 
-    when_i_return_after_new_cycle_opens
+    when_i_the_new_cycle_opens
     and_i_log_in_again
     and_i_visit_the_application_form_page
-    then_i_can_see_the_carry_over_link_but_not_submit
+    then_i_am_redirected_to_the_carry_over_interstitial
   end
 
   def and_i_visit_the_application_form_page
@@ -46,6 +45,24 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     visit candidate_interface_application_form_path
   end
 
+  def when_i_try_to_visit_the_submit_page
+    visit candidate_interface_application_submit_show_path
+  end
+
+  def then_i_am_redirected_to_the_application_page
+    expect(page).to have_content('Applications for courses starting this academic year have now closed')
+    expect(page).to have_current_path(candidate_interface_application_form_path)
+  end
+
+  def when_i_the_new_cycle_opens
+    Timecop.travel(Time.zone.local(2020, 10, 13, 12, 0, 0))
+  end
+
+  def and_i_log_in_again
+    logout
+    create_and_sign_in_candidate
+  end
+
   def then_i_can_only_review_my_application
     expect(page).not_to have_link 'Check and submit your application'
     expect(page).to have_content 'Applications for courses starting in 2021 open from 13 October'
@@ -56,26 +73,9 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
     expect(page).not_to have_link 'Continue'
   end
 
-  def when_i_try_to_visit_the_submit_page
-    visit candidate_interface_application_submit_show_path
-  end
-
-  def then_i_am_redirected_to_the_application_page
-    expect(page).to have_content('Applications for courses starting this academic year have now closed')
-    expect(page).to have_current_path(candidate_interface_application_form_path)
-  end
-
-  def when_i_return_after_new_cycle_opens
-    Timecop.travel(Time.zone.local(2020, 10, 13, 12, 0, 0))
-  end
-
-  def and_i_log_in_again
-    logout
-    create_and_sign_in_candidate
-  end
-
-  def then_i_can_see_the_carry_over_link_but_not_submit
-    expect(page).to have_link 'Continue your application'
-    expect(page).not_to have_link 'Check and submit your application'
+  def then_i_am_redirected_to_the_carry_over_interstitial
+    expect(page).to have_content 'Applications are open for courses starting next academic year (2021 - 2022).'
+    expect(page).to have_content 'You\'ll have 3 course choices.'
+    expect(page).to have_button 'Start now'
   end
 end

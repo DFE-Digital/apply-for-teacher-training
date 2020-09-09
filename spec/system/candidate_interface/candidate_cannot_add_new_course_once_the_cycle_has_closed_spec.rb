@@ -33,9 +33,6 @@ RSpec.describe 'Candidate vists their applicatin form after the cycle has ended'
     and_i_logout
     and_i_am_signed_in
 
-    when_i_visit_the_site
-    then_there_is_a_link_to_the_course_choices_section
-
     given_my_application_forms_phase_is_apply_2
     and_it_is_the_day_before_the_apply_2_deadline
 
@@ -53,7 +50,7 @@ RSpec.describe 'Candidate vists their applicatin form after the cycle has ended'
     and_i_am_signed_in
 
     when_i_visit_the_site
-    then_there_is_a_link_to_the_course_choices_section
+    then_there_is_a_link_to_the_carry_over_journey
 
     given_it_is_before_before_the_apply_1_deadline
     and_i_have_submitted_my_application
@@ -78,6 +75,11 @@ RSpec.describe 'Candidate vists their applicatin form after the cycle has ended'
 
   def then_there_is_a_link_to_the_course_choices_section
     expect(page).to have_link('Course choices')
+  end
+
+  def then_there_is_a_link_to_the_carry_over_journey
+    expect(page).to have_content('Do you want to continue applying?')
+    expect(page).to have_button('Start now')
   end
 
   def given_it_is_the_day_after_the_apply1_deadline

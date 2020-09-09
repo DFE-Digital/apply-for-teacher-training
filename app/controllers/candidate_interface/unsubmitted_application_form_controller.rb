@@ -63,7 +63,7 @@ module CandidateInterface
 
     def redirect_to_carry_over_if_unsubmitted_previous_cycle
       if !current_application.submitted? &&
-          !EndOfCycleTimetable.current_cycle?(current_application)
+          current_application.recruitment_cycle_year < RecruitmentCycle.current_year
         redirect_to candidate_interface_start_carry_over_path and return false
       end
 
