@@ -12,6 +12,7 @@ RSpec.feature 'Entering their contact details' do
     and_i_visit_the_site
 
     when_i_click_on_contact_details
+    and_i_click_on_change_my_phone_number
     and_i_incorrectly_fill_in_my_phone_number
     and_i_submit_my_phone_number
     then_i_should_see_validation_errors_for_my_phone_number
@@ -59,6 +60,10 @@ RSpec.feature 'Entering their contact details' do
 
   def when_i_click_on_contact_details
     click_link t('page_titles.contact_details')
+  end
+
+  def and_i_click_on_change_my_phone_number
+    all('.govuk-summary-list__actions')[0].click_link 'Change'
   end
 
   def and_i_incorrectly_fill_in_my_phone_number

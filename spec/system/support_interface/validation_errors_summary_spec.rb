@@ -24,6 +24,7 @@ RSpec.feature 'Validation errors summary' do
   def and_i_enter_invalid_contact_details
     visit candidate_interface_application_form_path
     click_link t('page_titles.contact_details')
+    all('.govuk-summary-list__actions')[0].click_link 'Change'
     fill_in t('application_form.contact_details.phone_number.label'), with: 'ABCDEF'
     click_button t('application_form.contact_details.base.button')
   end
