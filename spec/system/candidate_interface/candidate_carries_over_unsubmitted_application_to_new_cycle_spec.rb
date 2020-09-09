@@ -18,8 +18,9 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
 
     when_i_sign_in_again
     and_i_visit_the_application_dashboard
-    and_i_click_on_apply_again
-    and_i_click_on_start_now
+    then_i_am_redirected_to_the_carry_over_interstitial
+
+    when_i_click_on_start_now
     and_i_click_go_to_my_application_form
 
     then_i_see_a_copy_of_my_application
@@ -87,13 +88,13 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     visit candidate_interface_application_complete_path
   end
 
-  def and_i_click_on_apply_again
-    expect(page).to have_content 'Do you want to continue applying?'
+  def then_i_am_redirected_to_the_carry_over_interstitial
+    expect(page).not_to have_link 'Continue your application'
     expect(page).to have_content 'Applications are open for courses starting next academic year (2021 - 2022).'
-    click_link 'Continue your application'
+    expect(page).to have_content 'You\'ll have 3 course choices.'
   end
 
-  def and_i_click_on_start_now
+  def when_i_click_on_start_now
     expect(page).to have_content 'Applications are open for courses starting next academic year (2021 - 2022).'
     expect(page).to have_content 'You\'ll have 3 course choices.'
     click_button 'Start now'
