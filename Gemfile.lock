@@ -194,7 +194,7 @@ GEM
       bindata
     json-schema (2.8.1)
       addressable (>= 2.4)
-    json_api_client (1.17.0)
+    json_api_client (1.17.1)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
       addressable (~> 2.2)
@@ -292,7 +292,7 @@ GEM
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     psych (3.1.0)
-    public_suffix (4.0.5)
+    public_suffix (4.0.6)
     puma (4.3.6)
       nio4r (~> 2.0)
     rack (2.2.3)
