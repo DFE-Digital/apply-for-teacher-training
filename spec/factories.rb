@@ -419,6 +419,10 @@ FactoryBot.define do
       status { :application_complete }
     end
 
+    trait :withdrawn do
+      status { :withdrawn }
+    end
+
     trait :withdrawn_with_survey_completed do
       association :application_form, factory: %i[completed_application_form with_completed_references ready_to_send_to_provider]
       status { :withdrawn }
@@ -442,6 +446,12 @@ FactoryBot.define do
       status { 'rejected' }
       rejected_at { Time.zone.now }
       rejected_by_default { true }
+    end
+
+    trait :application_not_sent do
+      status { 'application_not_sent' }
+      rejected_at { Time.zone.now }
+      rejection_reason { 'Awaiting references when the recruitment cycle closed.' }
     end
 
     trait :with_offer do

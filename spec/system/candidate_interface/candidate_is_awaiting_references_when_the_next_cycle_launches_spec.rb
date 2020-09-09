@@ -22,7 +22,7 @@ RSpec.feature 'Candidates awaiting references application choices are rejected w
   end
 
   def then_the_candidates_application_choices_should_be_rejected
-    expect(@application.application_choices.reload.first.status).to eq 'rejected_at_end_of_cycle'
+    expect(@application.application_choices.reload.first.status).to eq 'application_not_sent'
     expect(@application.application_choices.reload.first.rejection_reason).to eq 'Awaiting references when the recruitment cycle closed.'
   end
 end

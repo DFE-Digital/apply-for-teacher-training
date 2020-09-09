@@ -3,6 +3,9 @@ en:
     dashboard:
       edit_link: Edit your application
       some_provider_decisions_made: Some of your training providers have not reached a decision yet
+      application_not_sent:
+        one: Course you applied to
+        other: Courses you applied to
       all_provider_decisions_made:
         one: Your training provider has now reached a decision
         other: All your training providers have now reached a decision

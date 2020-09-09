@@ -384,4 +384,21 @@ RSpec.describe ApplicationForm do
       end
     end
   end
+
+  describe '#all_applications_not_sent?' do
+    let(:application_form) { build(:application_form) }
+
+    it 'returns true if all application choices are in the application_not_sent or withdrawn state' do
+      create(:application_choice, :application_not_sent, application_form: application_form)
+      create(:application_choice, :withdrawn, application_form: application_form)
+
+      expect(application_form.all_applications_not_sent?).to eq true
+    end
+
+    it 'returns false if application choices are in any other state' do
+      create(:application_choice, :withdrawn, application_form: application_form)
+
+      expect(application_form.all_applications_not_sent?).to eq false
+    end
+  end
 end

@@ -152,8 +152,12 @@ module CandidateInterface
     def status_row(application_choice)
       {
         key: 'Status',
-        value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
+        value: status_row_value(application_choice),
       }
+    end
+
+    def status_row_value(application_choice)
+      render(ApplicationStatusTagComponent.new(application_choice: application_choice))
     end
 
     def rejection_reason_row(application_choice)

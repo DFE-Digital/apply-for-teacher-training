@@ -25,7 +25,7 @@ class ApplicationChoice < ApplicationRecord
     pending_conditions: 'pending_conditions',
     recruited: 'recruited',
     rejected: 'rejected',
-    rejected_at_end_of_cycle: 'rejected_at_end_of_cycle',
+    application_not_sent: 'application_not_sent',
     offer_withdrawn: 'offer_withdrawn',
     declined: 'declined',
     withdrawn: 'withdrawn',

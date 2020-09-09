@@ -23,8 +23,10 @@ module ProviderInterface
         :blue
       when 'recruited'
         :green
-      when 'rejected', 'conditions_not_met', 'offer_withdrawn', 'rejected_at_end_of_cycle'
+      when 'rejected', 'conditions_not_met', 'offer_withdrawn'
         :orange
+      when 'application_not_sent'
+        :pink
       when 'declined', 'withdrawn'
         :red
       when 'offer_deferred'
