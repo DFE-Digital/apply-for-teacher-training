@@ -29,6 +29,7 @@ class GenerateTestApplications
     create states: %i[offer rejected]
     create states: [:rejected] * 2
     create states: [:offer_withdrawn]
+    create states: [:offer_deferred] * 2
     create states: [:declined]
     create states: [:accepted]
     create states: [:accepted_no_conditions]

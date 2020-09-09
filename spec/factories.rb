@@ -481,6 +481,25 @@ FactoryBot.define do
       declined_by_default { true }
     end
 
+    trait :with_withdrawn_offer do
+      with_offer
+      status { 'offer_withdrawn' }
+      offer_withdrawal_reason { 'There has been a mistake' }
+      offer_withdrawn_at { Time.zone.now - 1.day }
+    end
+
+    trait :with_deferred_offer do
+      with_accepted_offer
+      status { 'offer_deferred' }
+      offer_deferred_at { Time.zone.now - 1.day }
+    end
+
+    trait :with_recruited do
+      with_accepted_offer
+      status { 'recruited' }
+      recruited_at { Time.zone.now }
+    end
+
     trait :previous_year do
       course_option { create(:course_option, :previous_year) }
     end
