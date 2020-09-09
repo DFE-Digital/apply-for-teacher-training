@@ -3,7 +3,7 @@ class CancelUnsubmittedApplicationsWorker
 
   def perform
     unsubmitted_applications_from_earlier_cycle.each do |application_form|
-      CandidateInterface::CancelUnsubmittedApplicationAtEndOfCycle.new(application_form).call
+      CarryOverApplication.new(application_form).call
     end
   end
 
@@ -13,7 +13,7 @@ private
     ApplicationForm
       .joins(application_choices: :course)
       .where(submitted_at: nil)
-      .where(recruitment_cycle_year: RecruitmentCycle.previous_year)
+      .where('courses.recruitment_cycle_year' => RecruitmentCycle.previous_year)
       .where(
         'application_forms.candidate_id NOT IN (:hidden_candidates)',
         hidden_candidates: Candidate.where(hide_in_reporting: true).select(:id),
