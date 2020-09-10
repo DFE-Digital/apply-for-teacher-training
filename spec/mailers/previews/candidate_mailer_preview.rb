@@ -416,6 +416,19 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.find_another_course(application_choice_awaiting_references)
   end
 
+  def deferred_offer
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Harry',
+      application_choices: [
+        FactoryBot.build_stubbed(:application_choice, status: 'pending_conditions', course_option: course_option),
+      ],
+      candidate: candidate,
+    )
+
+    CandidateMailer.deferred_offer(application_form.application_choices.first)
+  end
+
 private
 
   def candidate
