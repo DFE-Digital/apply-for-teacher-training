@@ -40,11 +40,11 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       expect(presenter).to be_contact_details_valid
     end
 
-    it 'returns true if contact details section is incomplete' do
-      application_form = FactoryBot.build(:application_form, contact_details_completed: false)
+    it 'returns false if contact details section is invalid' do
+      application_form = FactoryBot.build(:completed_application_form, phone_number: '')
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-      expect(presenter).to be_contact_details_valid
+      expect(presenter).to_not be_contact_details_valid
     end
   end
 
