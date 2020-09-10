@@ -91,9 +91,7 @@ RSpec.feature 'See an application' do
   end
 
   def when_i_return_to_the_support_page
-    within '.govuk-breadcrumbs' do
-      click_on 'Applications'
-    end
+    click_on 'Applications'
   end
 
   def and_i_click_on_an_unsubmitted_application

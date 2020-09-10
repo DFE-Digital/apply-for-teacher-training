@@ -4,21 +4,9 @@
   Application history
 <% end %>
 
-<% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to break_email_address(@application_form.candidate.email_address), support_interface_application_form_path(@application_form), class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        Application history
-      </li>
-    </ol>
-  </div>
-<% end %>
+<%= render 'support_interface/candidates/candidates_navigation', current: 'Applications' %>
+
+<%= render 'application_navigation' %>
 
 <%= govuk_button_link_to 'Add comment', support_interface_application_form_new_comment_path %>
 
