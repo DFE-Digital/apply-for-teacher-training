@@ -33,6 +33,9 @@ module CandidateInterface
           current_application.update!(application_form_params)
           redirect_to candidate_interface_application_form_path
         else
+          @personal_details_review = PersonalDetailsReviewComponent.new(
+            application_form: current_application,
+          )
           render :show
         end
       end
