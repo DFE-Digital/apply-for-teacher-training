@@ -7,7 +7,9 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
         RefereeQuestionnaire::GUIDANCE_QUESTION => 'very_poor | I could not read it.',
         RefereeQuestionnaire::EXPERIENCE_QUESTION => 'very_good | I could read it.',
         RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => 'yes | 02113131',
-        RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION => 'yes | ',
+
+        # Legacy question that is no longer asked.
+        'If we asked whether a candidate was safe to work with children, would you feel able to answer?' => 'yes | ',
       }
     end
 
@@ -16,7 +18,6 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
         RefereeQuestionnaire::GUIDANCE_QUESTION => 'good | ',
         RefereeQuestionnaire::EXPERIENCE_QUESTION => 'poor | ',
         RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => ' | ',
-        RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION => ' | ',
       }
     end
 
@@ -25,7 +26,6 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
         RefereeQuestionnaire::GUIDANCE_QUESTION => ' | ',
         RefereeQuestionnaire::EXPERIENCE_QUESTION => ' | ',
         RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION => ' | ',
-        RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION => ' | ',
       }
     end
 
@@ -62,8 +62,6 @@ private
       'Experience explanation' => extract_explanation(reference, RefereeQuestionnaire::EXPERIENCE_QUESTION),
       'Consent to be contacted' => extract_rating(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
       'Contact details' => extract_explanation(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
-      'Safe to work with children?' => extract_rating(reference, RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION),
-      'Safe to work with children explanation' => extract_explanation(reference, RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION),
     }
   end
 end
