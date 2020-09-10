@@ -704,13 +704,13 @@ FactoryBot.define do
   factory :ielts_qualification do
     trf_number { '123456' }
     band_score { '6.5' }
-    award_year { '1999' }
+    award_year { 1999 }
   end
 
   factory :toefl_qualification do
     registration_number { '123456' }
     total_score { 20 }
-    award_year { '1999' }
+    award_year { 1999 }
   end
 
   factory :other_efl_qualification do
