@@ -30,23 +30,31 @@
           <%= pf.govuk_check_box :permissions, 'make_decisions',
                                 label: { text: 'Make decisions' },
                                 hint_text: 'Make offers, amend offers and reject applications' %>
-          <div class="govuk-body govuk-!-margin-left-6">
-            <%= render AssociatedProvidersPermissionsListComponent.new(provider: @provider, permission_name: 'make_decisions') %>
-          </div>
+          <% if FeatureFlag.active?(:enforce_provider_to_provider_permissions) %>
+            <div class="govuk-body govuk-!-margin-left-6">
+              <%= render AssociatedProvidersPermissionsListComponent.new(provider: @provider, permission_name: 'make_decisions') %>
+            </div>
+          <% end %>
 
           <%= pf.govuk_check_box :permissions, 'view_safeguarding_information',
                                 label: { text: 'Access safeguarding information' },
                                 hint_text: 'View sensitive material about the candidate' %>
-          <div class="govuk-body govuk-!-margin-left-6">
-            <%= render AssociatedProvidersPermissionsListComponent.new(provider: @provider, permission_name: 'view_safeguarding_information') %>
-          </div>
+
+          <% if FeatureFlag.active?(:enforce_provider_to_provider_permissions) %>
+            <div class="govuk-body govuk-!-margin-left-6">
+              <%= render AssociatedProvidersPermissionsListComponent.new(provider: @provider, permission_name: 'view_safeguarding_information') %>
+            </div>
+          <% end %>
 
           <%= pf.govuk_check_box :permissions, 'view_diversity_information',
                                 label: { text: 'Access diversity information' },
                                 hint_text: 'View diversity information about the candidate' %>
-          <div class="govuk-body govuk-!-margin-left-6">
-            <%= render AssociatedProvidersPermissionsListComponent.new(provider: @provider, permission_name: 'view_diversity_information') %>
-          </div>
+
+          <% if FeatureFlag.active?(:enforce_provider_to_provider_permissions) %>
+            <div class="govuk-body govuk-!-margin-left-6">
+              <%= render AssociatedProvidersPermissionsListComponent.new(provider: @provider, permission_name: 'view_diversity_information') %>
+            </div>
+          <% end %>
         <% end %>
       <% end %>
 
