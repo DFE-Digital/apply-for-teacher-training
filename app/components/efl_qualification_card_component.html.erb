@@ -1,0 +1,17 @@
+<div class='app-qualification-card'>
+  <h3 class='govuk-heading-m'> English as a foreign language</h2>
+
+  <p class='govuk-body'><%= qualification_status %></p>
+
+  <% if english_proficiency.has_qualification? %>
+    <div class='app-qualification-card__solo-details-card'>
+      <h4 class='govuk-heading-s govuk-!-margin-bottom-0'><%= name %></h4>
+      <p class='govuk-caption-m govuk-!-font-size-14 govuk-!-margin-top-0'><%= award_year %></p>
+      <p class='govuk-body'><%= grade %></p>
+      <p class='govuk-caption-m govuk-!-font-size-14 govuk-!-margin-bottom-0'><%= unique_reference_number %></p>
+    </div>
+  <% elsif english_proficiency.no_qualification? %>
+    <h4 class='govuk-heading-s govuk-!-margin-bottom-0'>Reason given</h4>
+    <p class='govuk-body govuk-!-margin-bottom-0'><%= no_qualification_details %></p>
+  <% end %>
+</div>
