@@ -213,6 +213,16 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def deferred_offer(application_choice)
+    @application_choice = application_choice
+    @course_option = @application_choice.offered_option
+
+    email_for_candidate(
+      @application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.deferred_offer.subject', provider_name: @course_option.course.provider.name),
+    )
+  end
+
   def withdraw_last_application_choice(application_form)
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }

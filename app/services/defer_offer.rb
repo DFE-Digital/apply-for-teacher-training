@@ -13,6 +13,11 @@ class DeferOffer
       ApplicationStateChange.new(@application_choice).defer_offer!
       @application_choice.update(offer_deferred_at: Time.zone.now)
     end
+
+    CandidateMailer.deferred_offer(@application_choice).deliver_later
+    StateChangeNotifier.call(:defer_offer, application_choice: @application_choice)
+
+    true
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,
