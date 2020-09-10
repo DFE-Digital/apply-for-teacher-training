@@ -34,7 +34,7 @@ RSpec.feature 'See applications' do
   end
 
   def when_i_follow_the_link_to_applications
-    click_link 'applications list'
+    click_link 'Applications'
   end
 
   def then_i_should_see_the_application_references

@@ -1,11 +1,6 @@
 <% content_for :title, 'Synced providers' %>
 
-<% content_for :before_content do %>
-  <%= render SubNavigationComponent.new(items: [
-    { name: 'Synced providers', url: support_interface_providers_path, current: true },
-    { name: 'Other providers', url: support_interface_other_providers_path },
-  ]) %>
-<% end %>
+<%= render 'providers_navigation' %>
 
 <table class='govuk-table'>
   <thead class='govuk-table__head'>

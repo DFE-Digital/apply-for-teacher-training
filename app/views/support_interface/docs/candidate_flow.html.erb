@@ -1,13 +1,6 @@
 <%= content_for :title, 'Candidate application flow' %>
 
-<% content_for :before_content do %>
-  <%= render SubNavigationComponent.new(items: [
-    { name: 'Provider application flow', url: support_interface_provider_flow_path },
-    { name: 'Candidate application flow', url: support_interface_candidate_flow_path, current: true },
-    { name: 'When emails are sent', url: support_interface_when_emails_are_sent_path },
-    { name: 'Recruitment cycles', url: support_interface_cycles_path },
-  ]) %>
-<% end %>
+<%= render 'docs_navigation' %>
 
 <p class="govuk-body">
   This page documents the states and transitions that make up the Apply service, from the perspective of the candidate.

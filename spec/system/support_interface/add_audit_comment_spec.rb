@@ -9,14 +9,13 @@ RSpec.feature 'Add comments to the application history', with_audited: true do
     end
   end
 
-  scenario 'Support user visits application audit page' do
+  scenario 'Support user adds a comment to the application audit page' do
     given_i_am_a_support_user
     and_there_is_an_application_in_the_system_logged_by_a_candidate
     and_i_visit_the_support_page
 
     when_i_click_on_an_application
     when_i_click_on_an_application_history
-    then_i_should_be_on_the_application_history_page
     when_i_click_on_add_comment
     and_i_fill_and_submit_the_comment_form
     then_i_should_see_my_comment_in_application_history
@@ -55,11 +54,6 @@ RSpec.feature 'Add comments to the application history', with_audited: true do
 
   def when_i_click_on_an_application_history
     click_on 'History'
-  end
-
-  def then_i_should_be_on_the_application_history_page
-    expect(page).to have_content 'Application history'
-    expect(page).to have_content 'alice@example.com'
   end
 
   def when_i_click_on_add_comment

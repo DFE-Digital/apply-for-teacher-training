@@ -22,9 +22,7 @@ RSpec.feature 'Docs' do
   end
 
   def then_i_see_the_provider_flow_documentation
-    within '.govuk-tabs' do
-      expect(page).to have_title 'Provider application flow'
-    end
+    expect(page).to have_title 'Provider application flow'
   end
 
   def and_it_contains_documentation_for_all_emails
@@ -54,22 +52,10 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_click_on_candidate_flow_documentation
-    within '.govuk-tabs' do
-      click_on 'Candidate application flow'
-    end
+    click_on 'Flow for candidates'
   end
 
   def then_i_see_the_candidate_flow_documentation
     expect(page).to have_title 'Candidate application flow'
-  end
-
-  def when_i_click_on_the_recruitment_cycle_link
-    within '.govuk-tabs' do
-      click_on 'Recruitment cycles'
-    end
-  end
-
-  def then_i_see_the_cycle_information
-    expect(page).to have_title 'Recruitment cycles'
   end
 end

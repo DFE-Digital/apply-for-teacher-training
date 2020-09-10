@@ -68,7 +68,7 @@ RSpec.feature 'See providers' do
   end
 
   def and_when_i_click_the_other_providers_tab
-    within('.govuk-tabs__list') { click_link 'Other providers' }
+    click_link 'Other providers'
   end
 
   def and_i_should_see_the_list_of_other_providers

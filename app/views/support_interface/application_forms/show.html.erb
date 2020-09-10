@@ -4,22 +4,9 @@
   <%= break_email_address(@application_form.candidate.email_address) %>
 <% end %>
 
-<% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to 'Applications', support_interface_applications_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to break_email_address(@application_form.candidate.email_address), support_interface_candidate_path(@application_form.candidate), class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        <span class="govuk-visually-hidden">Support reference</span>
-        <%= @application_form.support_reference %>
-      </li>
-    </ol>
-  </div>
-<% end %>
+<%= render 'support_interface/candidates/candidates_navigation', current: 'Applications' %>
+
+<%= render 'application_navigation' %>
 
 <%= render SupportInterface::ApplicationSummaryComponent.new(application_form: @application_form) %>
 

@@ -1,3 +1,5 @@
 <% content_for :title, 'Applications' %>
 
+<%= render 'support_interface/candidates/candidates_navigation' %>
+
 <%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @application_forms) %>

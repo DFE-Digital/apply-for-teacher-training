@@ -17,7 +17,8 @@ RSpec.feature 'Cycle switching' do
   end
 
   def when_i_click_on_the_recruitment_cycle_link
-    click_on 'Recruitment cycles'
+    click_on 'Docs'
+    click_on 'Cycles'
   end
 
   def then_i_see_the_cycle_information

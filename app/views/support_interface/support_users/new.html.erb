@@ -1,18 +1,7 @@
 <% content_for :browser_title, title_with_error_prefix('Add support user', @support_user.errors.any?) %>
-<% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to 'Users', support_interface_users_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        <%= link_to 'Support users', support_interface_support_users_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        Add support user
-      </li>
-    </ol>
-  </div>
+
+<% content_for :navigation do %>
+  <%= render 'support_interface/tasks/tasks_navigation', current: 'Support users' %>
 <% end %>
 
 <div class="govuk-grid-row">

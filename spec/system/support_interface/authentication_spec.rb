@@ -6,7 +6,7 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
   scenario 'signing in successfully' do
     given_i_have_a_dfe_sign_in_account_and_support_authorisation
 
-    when_i_visit_the_support_interface_users_path
+    when_i_visit_a_page_in_the_support_interface
     then_i_should_be_redirected_to_login_page
     and_i_should_not_see_support_menu
 
@@ -29,8 +29,8 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
     user_is_a_support_user(email_address: 'user@apply-support.com', dfe_sign_in_uid: 'abc')
   end
 
-  def when_i_visit_the_support_interface_users_path
-    visit support_interface_users_path(some_key: 'some_value')
+  def when_i_visit_a_page_in_the_support_interface
+    visit support_interface_candidates_path(some_key: 'some_value')
   end
 
   def then_i_should_be_redirected_to_login_page
@@ -48,7 +48,7 @@ RSpec.describe 'A support user authenticates via DfE Sign-in' do
   end
 
   def then_i_should_be_redirected_to_the_support_interface_users_path
-    expect(page).to have_current_path support_interface_users_path(some_key: 'some_value')
+    expect(page).to have_current_path support_interface_candidates_path(some_key: 'some_value')
   end
 
   def and_i_should_have_received_an_email_about_the_new_login

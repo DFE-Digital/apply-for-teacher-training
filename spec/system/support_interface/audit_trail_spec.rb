@@ -18,7 +18,6 @@ RSpec.feature 'See application history', with_audited: true do
 
     when_i_click_on_an_application
     when_i_click_on_an_application_history
-    then_i_should_be_on_the_application_history_page
     then_i_should_be_able_to_see_history_events
   end
 
@@ -76,11 +75,6 @@ RSpec.feature 'See application history', with_audited: true do
 
   def when_i_click_on_an_application_history
     click_on 'History'
-  end
-
-  def then_i_should_be_on_the_application_history_page
-    expect(page).to have_content 'Application history'
-    expect(page).to have_content 'alice@example.com'
   end
 
   def then_i_should_be_able_to_see_history_events
