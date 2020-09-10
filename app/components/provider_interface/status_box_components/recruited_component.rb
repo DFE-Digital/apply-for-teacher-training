@@ -4,10 +4,11 @@ module ProviderInterface
       include ViewHelper
       include StatusBoxComponents::CourseRows
 
-      attr_reader :application_choice
+      attr_reader :application_choice, :provider_can_respond
 
       def initialize(application_choice:, options: {})
         @application_choice = application_choice
+        @provider_can_respond = options[:provider_can_respond]
         @options = options
       end
 
