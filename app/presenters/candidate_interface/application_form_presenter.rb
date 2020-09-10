@@ -229,6 +229,10 @@ module CandidateInterface
       @application_form.safeguarding_issues_completed
     end
 
+    def safeguarding_valid?
+      SafeguardingIssuesDeclarationForm.build_from_application(@application_form).valid?
+    end
+
     def no_incomplete_qualifications?
       @application_form.application_qualifications.other.select(&:incomplete_other_qualification?).blank?
     end
