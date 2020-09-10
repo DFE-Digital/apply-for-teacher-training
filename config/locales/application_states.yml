@@ -379,12 +379,16 @@ en:
     pending_conditions-defer_offer:
       name: Provider defers offer
       by: provider
-      description: ""
+      description: "A provider defers an offer with pending conditions until the next recruitment cycle"
+      emails:
+        - candidate_mailer-deferred_offer
 
     recruited-defer_offer:
       name: Provider defers offer
       by: provider
-      description: ""
+      description: "A provider defers an offer until the next recruitment cycle"
+      emails:
+        - candidate_mailer-deferred_offer
 
     offer_deferred-reinstate_conditions_met:
       name: Provider reinstates deferred offer and conditions are still valid
