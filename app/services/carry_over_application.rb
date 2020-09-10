@@ -22,15 +22,14 @@ private
   end
 
   def application_from_current_cycle?
-    new_recruitment_cycle_year = EndOfCycleTimetable.between_cycles_apply_2? ? EndOfCycleTimetable.next_cycle_year : RecruitmentCycle.current_year
-
-    @application_form.recruitment_cycle_year == new_recruitment_cycle_year
+    @application_form.recruitment_cycle_year == recruitment_cycle_year
   end
 
   def recruitment_cycle_year
-    if !EndOfCycleTimetable.between_cycles_apply_2? && EndOfCycleTimetable.current_cycle?(@application_form)
+    if EndOfCycleTimetable.between_cycles_apply_2? && EndOfCycleTimetable.current_cycle?(@application_form)
       RecruitmentCycle.next_year
+    else
+      RecruitmentCycle.current_year
     end
-    RecruitmentCycle.current_year
   end
 end
