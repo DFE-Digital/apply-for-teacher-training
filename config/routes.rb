@@ -66,8 +66,8 @@ Rails.application.routes.draw do
       get '/edit' => 'submitted_application_form#edit', as: :application_edit
       get '/start-apply-again' => 'submitted_application_form#start_apply_again', as: :start_apply_again
       post '/apply-again' => 'submitted_application_form#apply_again', as: :apply_again
-      get '/start-carry-over' => 'submitted_application_form#start_carry_over', as: :start_carry_over
-      post '/carry-over' => 'submitted_application_form#carry_over', as: :carry_over
+      get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
+      post '/carry-over' => 'carry_over#create', as: :carry_over
 
       scope '/personal-details' do
         get '/' => 'personal_details/base#new', as: :personal_details_new
