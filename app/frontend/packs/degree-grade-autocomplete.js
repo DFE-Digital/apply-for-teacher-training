@@ -1,4 +1,4 @@
-import accessibleAutocomplete from "accessible-autocomplete";
+import { accessibleAutocompleteFromSource } from "./helpers.js";
 
 const initDegreeGradeAutocomplete = () => {
   try {
@@ -15,18 +15,7 @@ const initDegreeGradeAutocomplete = () => {
       const container = document.getElementById(containerId);
       if (!container) return;
 
-      const sourceData = JSON.parse(container.dataset.source);
-
-      accessibleAutocomplete({
-        element: container,
-        id: inputId,
-        name: input.name,
-        source: sourceData,
-        showNoOptionsFound: true,
-        defaultValue: input.value
-      });
-
-      input.remove();
+      accessibleAutocompleteFromSource(input, container);
     });
 
   } catch (err) {
