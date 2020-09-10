@@ -40,7 +40,7 @@ class TestApplications
       )
     end
 
-    courses_to_apply_to ||= Course.includes(:course_options).joins(:course_options).distinct.open_on_apply
+    courses_to_apply_to = courses_to_apply_to.presence || Course.includes(:course_options).joins(:course_options).distinct.open_on_apply
     courses_to_apply_to =
       if course_full
         # Always use the first n courses, so that we can reliably generate
@@ -119,6 +119,8 @@ class TestApplications
         @application_form.update_columns(submitted_at: time, edit_by: Time.zone.now + 7.days, updated_at: time)
 
         return if states.include? :awaiting_references
+
+        @application_form.application_choices.each(&:application_not_sent!) and return if states.include? :application_not_sent
 
         @application_form.application_references.each do |reference|
           reference.relationship_correction = ['', Faker::Lorem.sentence].sample

@@ -18,6 +18,7 @@ RSpec.describe GenerateTestApplications do
       'unsubmitted',
       'awaiting_provider_decision',
       'awaiting_references',
+      'application_not_sent',
       'offer',
       'rejected',
       'declined',
