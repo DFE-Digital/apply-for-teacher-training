@@ -22,4 +22,8 @@ module RecruitmentCycle
   def self.years_visible_in_support
     [2021, 2020, 2019]
   end
+
+  def self.next_cycle_name
+    "#{next_year} to #{next_year + 1}"
+  end
 end
