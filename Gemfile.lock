@@ -71,9 +71,6 @@ GEM
     ast (2.4.1)
     attr_required (1.0.1)
     bcrypt (3.1.13)
-    benchmark-malloc (0.2.0)
-    benchmark-perf (0.6.0)
-    benchmark-trend (0.4.0)
     bindata (2.4.7)
     bindex (0.8.1)
     brakeman (4.9.1)
@@ -361,11 +358,6 @@ GEM
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
       rspec-mocks (~> 3.9.0)
-    rspec-benchmark (0.6.0)
-      benchmark-malloc (~> 0.2)
-      benchmark-perf (~> 0.6)
-      benchmark-trend (~> 0.4)
-      rspec (>= 3.0)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.2)
@@ -550,7 +542,6 @@ DEPENDENCIES
   request_store-sidekiq
   request_store_rails
   rouge
-  rspec-benchmark
   rspec-rails
   rspec_junit_formatter
   rubocop-govuk
