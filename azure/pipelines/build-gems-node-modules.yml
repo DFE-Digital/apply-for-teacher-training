@@ -107,6 +107,13 @@ steps:
 
 - powershell: |
     $azureDevOpsAuthorizationHeader = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+    $getApplyTeacherTrainingInprogressBuildsApi = "$($env:COLLECTION_URL)$env:PROJECT_ID/_apis/build/builds?definitions=49&branchName=$($env:SOURCE_BRANCH)&sourceVersion=$($env:SOURCE_VERSION)&statusFilter=inProgress&api-version=5.1"
+    $applyTeacherTrainingInprogressBuilds = Invoke-RestMethod -Uri $getApplyTeacherTrainingInprogressBuildsApi -Headers $azureDevOpsAuthorizationHeader -Method Get -ErrorAction Stop -ErrorVariable $errorVariable
+    if($applyTeacherTrainingInprogressBuilds.count -gt 0){
+        # A build is already in progress for the same commit, no need to trigger a new build
+        Write-Host $applyTeacherTrainingInprogressBuilds | ConvertTo-Json
+        exit 0
+    }
     $newBuild = @{
       definition = @{
         id = 49
