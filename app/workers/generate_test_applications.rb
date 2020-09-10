@@ -23,6 +23,7 @@ class GenerateTestApplications
     create states: [:awaiting_references]
     create states: [:unsubmitted], course_full: true
     create states: [:awaiting_references], course_full: true
+    create states: [:application_not_sent]
     create states: [:application_complete]
     create states: [:awaiting_provider_decision] * 3
     create states: [:offer] * 2
