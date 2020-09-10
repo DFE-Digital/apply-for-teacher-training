@@ -1,0 +1,31 @@
+<div class="app-banner">
+  <div class="app-banner__message">
+    <div class="govuk-heading-m">
+      <% if EndOfCycleTimetable.between_cycles_apply_2? %>
+        <p>
+          Do you want to continue applying?
+        </p>
+
+        <p class='govuk-body govuk-!-font-size-24'>
+          Applications for this academic year <%= current_cycle_span %> are now closed.
+        </p>
+
+        <p class='govuk-body govuk-!-font-size-24'>
+          You can still <%= govuk_link_to 'continue with your application', start_path %> so it’s ready to submit for courses starting next academic year <%= next_cycle_span %>.
+        </p>
+      <% else %> 
+        <p>
+          Do you want to continue applying?
+        </p>
+
+        <p class='govuk-body govuk-!-font-size-24'>
+          Applications are open for courses starting next academic year <%= current_cycle_span %>.
+        </p>
+
+        <p class='govuk-body govuk-!-font-size-24'>
+          <%= govuk_link_to 'Continue your application', start_path %>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</div>

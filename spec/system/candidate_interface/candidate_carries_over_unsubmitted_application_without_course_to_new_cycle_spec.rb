@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Automatically carry over unsubmitted applications' do
+RSpec.feature 'Manually carry over unsubmitted applications that do not have course choices' do
   include CandidateHelper
 
   around do |example|
@@ -9,15 +9,20 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
     end
   end
 
-  scenario 'Carry over application and remove all application choices' do
+  scenario 'Carry over application when new cycle opens' do
     given_i_am_signed_in_as_a_candidate
     and_i_am_in_the_2020_recruitment_cycle
-    when_i_have_an_unsubmitted_application
+    when_i_have_an_unsubmitted_application_without_a_course
     and_the_recruitment_cycle_ends
-    and_the_unsubmitted_application_carry_over_worker_runs
 
     when_i_sign_in_again
     and_i_visit_the_application_dashboard
+    then_i_cannot_submit_my_application
+    and_i_am_redirected_to_the_carry_over_interstitial
+
+    when_i_click_on_start_now
+    and_i_click_go_to_my_application_form
+
     then_i_see_a_copy_of_my_application
 
     when_i_view_referees
@@ -41,18 +46,13 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
     allow(RecruitmentCycle).to receive(:current_year).and_return(2020)
   end
 
-  def when_i_have_an_unsubmitted_application
+  def when_i_have_an_unsubmitted_application_without_a_course
     @application_form = create(
       :completed_application_form,
       submitted_at: nil,
       candidate: @candidate,
       with_gces: true,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
-    )
-    create(
-      :application_choice,
-      status: :unsubmitted,
-      application_form: @application_form,
     )
     @unrequested_references = create_list(
       :reference,
@@ -70,10 +70,6 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
     Timecop.safe_mode = true
   end
 
-  def and_the_unsubmitted_application_carry_over_worker_runs
-    CarryOverUnsubmittedApplicationsWorker.new.perform
-  end
-
   def when_i_sign_in_again
     logout
     login_as(@candidate)
@@ -83,7 +79,23 @@ RSpec.feature 'Automatically carry over unsubmitted applications' do
     visit candidate_interface_application_complete_path
   end
 
-  def when_i_click_go_to_my_application_form
+  def then_i_cannot_submit_my_application
+    expect(page).not_to have_link('Check and submit your application')
+  end
+
+  def and_i_am_redirected_to_the_carry_over_interstitial
+    expect(page).not_to have_link 'Continue your application'
+    expect(page).to have_content 'Applications are open for courses starting next academic year (2021 - 2022).'
+    expect(page).to have_content 'You\'ll have 3 course choices.'
+  end
+
+  def when_i_click_on_start_now
+    expect(page).to have_content 'Applications are open for courses starting next academic year (2021 - 2022).'
+    expect(page).to have_content 'You\'ll have 3 course choices.'
+    click_button 'Start now'
+  end
+
+  def and_i_click_go_to_my_application_form
     click_link 'Go to your application form'
   end
 

@@ -1,9 +1,9 @@
-class CarryOverUnsubmittedApplicationsWorker
+class CancelUnsubmittedApplicationsWorker
   include Sidekiq::Worker
 
   def perform
     unsubmitted_applications_from_earlier_cycle.each do |application_form|
-      CarryOverApplication.new(application_form).call
+      CandidateInterface::CancelUnsubmittedApplicationAtEndOfCycle.new(application_form).call
     end
   end
 
@@ -13,7 +13,7 @@ private
     ApplicationForm
       .joins(application_choices: :course)
       .where(submitted_at: nil)
-      .where('courses.recruitment_cycle_year' => RecruitmentCycle.previous_year)
+      .where(recruitment_cycle_year: RecruitmentCycle.previous_year)
       .where(
         'application_forms.candidate_id NOT IN (:hidden_candidates)',
         hidden_candidates: Candidate.where(hide_in_reporting: true).select(:id),

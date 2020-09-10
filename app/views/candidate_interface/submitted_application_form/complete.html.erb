@@ -10,6 +10,7 @@
 
 <% if @application_form.ended_without_success? %>
   <%= render CandidateInterface::ApplyAgainBannerComponent.new(application_form: @application_form) %>
+  <%= render CandidateInterface::CarryOverBannerComponent.new(application_form: @application_form) %>
 <% end %>
 
 <h1 class="govuk-heading-xl govuk-heading-xl govuk-!-margin-bottom-2">

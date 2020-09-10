@@ -11,6 +11,7 @@ RSpec.describe ApplyAgain do
         volunteering_experiences_count: 1,
         with_gces: true,
         full_work_history: true,
+        recruitment_cycle_year: RecruitmentCycle.current_year,
       )
       create_list(:reference, 2, feedback_status: :feedback_provided, application_form: @original_application_form)
       create(:reference, feedback_status: :feedback_refused, application_form: @original_application_form)
@@ -18,5 +19,5 @@ RSpec.describe ApplyAgain do
     @original_application_form
   end
 
-  it_behaves_like 'duplicates application form', 'apply_2'
+  it_behaves_like 'duplicates application form', 'apply_2', RecruitmentCycle.current_year
 end

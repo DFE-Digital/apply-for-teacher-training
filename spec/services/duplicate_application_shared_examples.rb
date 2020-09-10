@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'duplicates application form' do |expected_phase|
+RSpec.shared_examples 'duplicates application form' do |expected_phase, expected_cycle|
   def duplicate_application_form
     return @duplicate_application_form if @duplicate_application_form
 
@@ -29,6 +29,10 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase|
 
   it "sets the phase to `#{expected_phase}`" do
     expect(duplicate_application_form.phase).to eq expected_phase
+  end
+
+  it "sets the recruitment_cycle_year to `#{expected_cycle}`" do
+    expect(duplicate_application_form.recruitment_cycle_year).to eq expected_cycle
   end
 
   it 'copies application references' do
