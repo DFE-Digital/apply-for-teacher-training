@@ -45,6 +45,10 @@ class DuplicateApplication
       )
     end
 
+    if new_application_form.can_add_reference?
+      new_application_form.update! references_completed: false
+    end
+
     original_application_form.application_work_history_breaks.each do |w|
       new_application_form.application_work_history_breaks.create!(
         w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
