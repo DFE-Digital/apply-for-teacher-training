@@ -13,7 +13,7 @@ module CandidateInterface
 
       def create
         @application_form = current_application
-        @nationalities_form = NationalitiesForm.new(nationalities_params)
+        @nationalities_form = NationalitiesForm.new(prepare_nationalities_params)
 
         if @nationalities_form.save(current_application)
           current_application.update!(personal_details_completed: false)
@@ -36,7 +36,7 @@ module CandidateInterface
 
       def update
         @application_form = current_application
-        @nationalities_form = NationalitiesForm.new(nationalities_params)
+        @nationalities_form = NationalitiesForm.new(prepare_nationalities_params)
 
         if @nationalities_form.save(current_application)
           current_application.update!(personal_details_completed: false)
@@ -53,9 +53,20 @@ module CandidateInterface
 
     private
 
+      def prepare_nationalities_params
+        nationalities_params
+          .tap { |np| np.delete(:nationalities) }
+          .merge(nationalities_hash)
+      end
+
+      def nationalities_hash
+        nationalities_options = nationalities_params[:nationalities]
+        nationalities_options ? nationalities_options.index_by(&:downcase) : {}
+      end
+
       def nationalities_params
         params.require(:candidate_interface_nationalities_form).permit(
-          :first_nationality, :second_nationality, :british, :irish, :other, :other_nationality1, :other_nationality2, :other_nationality3
+          :first_nationality, :second_nationality, :other_nationality1, :other_nationality2, :other_nationality3, nationalities: []
         )
       end
 

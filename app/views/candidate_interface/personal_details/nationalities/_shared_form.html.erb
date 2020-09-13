@@ -2,9 +2,9 @@
 
 <% if FeatureFlag.active?('international_personal_details') %>
   <%= f.govuk_check_boxes_fieldset :nationalities, legend: { size: 'xl', text:  t('page_titles.nationalities') } do %>
-    <%= f.govuk_check_box 'british', 'British', multiple: false, label: { text: 'British' } %>
-    <%= f.govuk_check_box 'irish', 'Irish', multiple: false, label: { text: 'Irish' } %>
-    <%= f.govuk_check_box 'other', 'other', multiple: false, label: { text: 'Other' } do %>
+    <%= f.govuk_check_box :nationalities, 'British', link_errors: true, multiple: true, label: { text: 'British' } %>
+    <%= f.govuk_check_box :nationalities, 'Irish', multiple: true, label: { text: 'Irish' } %>
+    <%= f.govuk_check_box :nationalities, 'other', multiple: true, label: { text: 'Other' } do %>
       <%= f.govuk_collection_select :other_nationality1, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
       <%= f.govuk_collection_select :other_nationality2, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
       <%= f.govuk_collection_select :other_nationality3, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>

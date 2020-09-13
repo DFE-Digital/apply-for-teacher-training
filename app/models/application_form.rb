@@ -202,7 +202,7 @@ class ApplicationForm < ApplicationRecord
     nationalities.present? && !english_speaking_nationality? && FeatureFlag.active?(:efl_section)
   end
 
-  def build_nationalties_hash
+  def build_nationalities_hash
     CandidateInterface::GetNationalitiesFormHash.new(application_form: self).call
   end
 

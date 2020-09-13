@@ -41,9 +41,10 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
       let(:form_data) do
         {
-          british: data[:first_nationality],
-          irish: data[:second_nationality],
-          other: 'other',
+          # british: data[:first_nationality],
+          # irish: data[:second_nationality],
+          # other: 'other',
+          nationalities: [data[:first_nationality], data[:second_nationality], 'other'],
           other_nationality1: data[:third_nationality],
           other_nationality2: data[:fourth_nationality],
           other_nationality3: data[:fifth_nationality],
@@ -74,7 +75,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
           other_nationality2: 'German',
           other_nationality3: 'Swedish',
         )
-        expect(nationalities.candidates_nationalties).to match_array %w[British Irish German Swedish]
+        expect(nationalities.candidates_nationalities).to match_array %w[British Irish German Swedish]
       end
     end
 
@@ -88,7 +89,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
           other_nationality2: 'German',
           other_nationality3: 'Swedish',
         )
-        expect(nationalities.candidates_nationalties).to match_array %w[British Irish]
+        expect(nationalities.candidates_nationalities).to match_array %w[British Irish]
       end
     end
   end
@@ -124,7 +125,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
         }
       end
 
-      it 'updates the provided ApplicationForms nationalties' do
+      it 'updates the provided ApplicationForms nationalities' do
         FeatureFlag.activate('international_personal_details')
         application_form = FactoryBot.create(:application_form)
         nationalities = CandidateInterface::NationalitiesForm.new(form_data)
@@ -172,7 +173,36 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
         FeatureFlag.activate('international_personal_details')
       end
 
-      it 'validates the candidate has provided a nationality' do
+      context 'with no nationality option selected' do
+        it 'validates the candidate has provided a nationality' do
+          details_with_invalid_nationality = CandidateInterface::NationalitiesForm.new
+
+          details_with_invalid_nationality.validate
+
+          expect(details_with_invalid_nationality.errors.keys).to include :nationalities
+        end
+      end
+
+      context "with 'Other' nationality option selected but first nationality is not selected" do
+        it 'validates the candidate has provided a first nationality' do
+          details_with_invalid_nationality = CandidateInterface::NationalitiesForm.new(other: 'other')
+
+          details_with_invalid_nationality.validate
+
+          expect(details_with_invalid_nationality.errors.keys).not_to include :other
+          expect(details_with_invalid_nationality.errors.keys).to include :other_nationality1
+        end
+      end
+
+      context "with 'Other' nationality option and and first nationality selected" do
+        it 'is valid' do
+          details_with_valid_nationality = CandidateInterface::NationalitiesForm.new(
+            other: 'other',
+            other_nationality1: 'New Zealander',
+          )
+
+          expect(details_with_valid_nationality).to be_valid
+        end
       end
 
       it 'validates nationalities against the NATIONALITY_DEMONYMS list' do
