@@ -23,16 +23,15 @@ RSpec.feature 'Cycle switching' do
 
   def then_i_see_the_cycle_information
     expect(page).to have_title 'Recruitment cycles'
-    expect(page).to have_content('This environment is currently on the ‘Real’ schedule')
     expect(page).to have_content("Find closes on\n19 September 2020")
   end
 
   def when_i_click_to_choose_a_new_schedule
-    click_button 'Switch to the ‘Today is after apply 1 deadline passed’ schedule'
+    choose 'Apply 1 deadline has passed'
+    click_on 'Update point in recruitment cycle'
   end
 
   def then_the_schedule_is_updated
-    expect(page).to have_content('This environment is currently on the ‘Today is after apply 1 deadline passed’ schedule')
     expect(page).to have_content("Appy 1 deadline\n31 December 2019")
   end
 end
