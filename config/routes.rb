@@ -543,6 +543,7 @@ Rails.application.routes.draw do
 
     scope path: '/applications/:application_choice_id' do
       get '/' => 'application_choices#show', as: :application_choice
+      get '/offer' => 'application_choices#offer', as: :application_choice_offer
       get '/notes' => 'application_choices#notes', as: :application_choice_notes
       get '/notes/new' => 'application_choices#new_note', as: :application_choice_new_note
       post '/notes' => 'application_choices#create_note', as: :application_choice_create_note
@@ -550,7 +551,7 @@ Rails.application.routes.draw do
       get '/emails' => 'application_choices#emails', as: :application_choice_emails
       get '/respond' => 'decisions#respond', as: :application_choice_respond
       post '/respond' => 'decisions#submit_response', as: :application_choice_submit_response
-      get '/offer' => 'decisions#new_offer', as: :application_choice_new_offer
+      get '/offer/new' => 'decisions#new_offer', as: :application_choice_new_offer
       get '/reject' => 'decisions#new_reject', as: :application_choice_new_reject
       post '/reject/confirm' => 'decisions#confirm_reject', as: :application_choice_confirm_reject
       post '/reject' => 'decisions#create_reject', as: :application_choice_create_reject
