@@ -63,7 +63,7 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def and_i_click_on_change_my_phone_number
-    	click_link 'Change phone number'
+    click_link 'Change phone number'
   end
 
   def and_i_incorrectly_fill_in_my_phone_number

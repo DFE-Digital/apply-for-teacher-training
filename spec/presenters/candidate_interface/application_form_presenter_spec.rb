@@ -44,7 +44,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       application_form = FactoryBot.build(:completed_application_form, phone_number: '')
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-      expect(presenter).to_not be_contact_details_valid
+      expect(presenter).not_to be_contact_details_valid
     end
   end
 
