@@ -1,6 +1,15 @@
+### 16th September 2020
+
+Changes to existing attributes:
+
+- Increase the limit of elements in the `nationality` array to 5. Nationalities are sorted so British or Irish are first.
+- `uk_residency_status` now returns strings indicating candidate's right to work and study in the UK
+
 ### 15th September 2020
 
-Maximum length of `address_line1` increased to 200 characters to account for international addresses.
+Changes to existing attributes:
+
+- Maximum length of `address_line1` increased to 200 characters to account for international addresses.
 
 ### 9th September 2020
 
