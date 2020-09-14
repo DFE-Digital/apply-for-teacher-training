@@ -532,7 +532,7 @@ components:
         uk_residency_status:
           type: string
           maxLength: 256
-          description: The candidate’s UK residency status, e.g. Citizen
+          description: The candidate’s UK residency status indicating their right to work and study in the UK
           example: UK Citizen
         english_main_language:
           type: boolean

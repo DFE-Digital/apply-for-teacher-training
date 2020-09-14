@@ -151,6 +151,56 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.candidate.uk_residency_status' do
+    it 'returns UK Citizen if the candidates nationalties include UK' do
+      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Irish', second_nationality: 'British')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('UK Citizen')
+    end
+
+    it 'returns Irish Citizen if the candidates nationalties is Irish' do
+      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Canadian', second_nationality: 'Irish')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Irish Citizen')
+    end
+
+    it 'returns details of the residency status if the candidates answered the have the right to work/study in the UK' do
+      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Canadian',
+                                                                                         right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have Settled status')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('I have Settled status')
+    end
+
+    it 'returns correct message if the candidates answered they do not yet have the right to work/study in the UK' do
+      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Canadian',
+                                                                                         right_to_work_or_study: 'no')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate needs to apply for permission to work and study in the UK')
+    end
+
+    it 'returns correct message if the candidates answered they do not know if they have the right to work/study in the UK' do
+      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Canadian',
+                                                                                         right_to_work_or_study: 'decide_later')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate does not know')
+    end
+  end
+
   describe 'attributes.contact_details' do
     it 'returns contact details in correct format for UK addresses' do
       application_form_attributes = {

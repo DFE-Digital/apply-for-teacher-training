@@ -26,7 +26,6 @@ FactoryBot.define do
       english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
-      uk_residency_status { 'I have the right to study and/or work in the UK' }
       disclose_disability { %w[true false].sample }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
       safeguarding_issues_status { 'no_safeguarding_issues_to_declare' }

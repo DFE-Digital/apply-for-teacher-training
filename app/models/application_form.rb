@@ -45,7 +45,7 @@ class ApplicationForm < ApplicationRecord
     yes: 'yes',
     no: 'no',
     decide_later: 'decide_later',
-  }
+  }, _prefix: true
 
   enum address_type: {
     uk: 'uk',
