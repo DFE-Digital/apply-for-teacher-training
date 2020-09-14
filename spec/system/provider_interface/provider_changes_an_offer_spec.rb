@@ -82,6 +82,7 @@ RSpec.feature 'Provider changes an offer' do
 
   def when_i_click_on_change_provider
     visit provider_interface_application_choice_path(@application_offered.id)
+    click_on 'Offer'
     click_on 'Change training provider'
   end
 
@@ -136,6 +137,8 @@ RSpec.feature 'Provider changes an offer' do
   end
 
   def then_the_offer_has_new_course_study_mode_and_location_details
+    click_on 'Offer'
+
     expect(page).to have_content @course_option_three.course.name_and_code
     expect(page).to have_content @course_option_three.site.name_and_address
     expect(page).to have_content 'Part time'

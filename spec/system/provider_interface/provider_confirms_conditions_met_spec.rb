@@ -12,6 +12,7 @@ RSpec.feature 'Confirm conditions met' do
     and_i_can_access_the_provider_interface
 
     when_i_navigate_to_an_offer_accepted_by_the_candidate
+    and_i_navigate_to_the_offer_tab
     and_click_on_confirm_conditions
     and_select_they_have_met_the_conditions
     and_confirm_my_selection_in_the_next_page
@@ -53,8 +54,12 @@ RSpec.feature 'Confirm conditions met' do
     visit provider_interface_application_choice_path(@application_choice.id)
   end
 
+  def and_i_navigate_to_the_offer_tab
+    click_on 'Offer'
+  end
+
   def and_click_on_confirm_conditions
-    click_on 'Confirm conditions'
+    click_on 'Mark all conditions as met'
   end
 
   def and_select_they_have_met_the_conditions
