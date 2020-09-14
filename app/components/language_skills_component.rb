@@ -17,6 +17,10 @@ class LanguageSkillsComponent < ViewComponent::Base
     ]
   end
 
+  def render?
+    !application_form.english_main_language(fetch_database_value: true).nil?
+  end
+
 private
 
   def english_main_language_row
