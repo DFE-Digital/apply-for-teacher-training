@@ -18,35 +18,6 @@ module ProviderInterface
       validates :providers, presence: true
     end
 
-    PermissionOption = Struct.new(:slug, :name, :hint)
-    AVAILABLE_PERMISSIONS = [
-      PermissionOption.new(
-        'manage_organisations',
-        'Manage organisations',
-        'Change permissions between organisations',
-      ),
-      PermissionOption.new(
-        'manage_users',
-        'Manage users',
-        'Invite or delete users and set their permissions',
-      ),
-      PermissionOption.new(
-        'make_decisions',
-        'Make decisions',
-        'Make offers, amend offers and reject applications',
-      ),
-      PermissionOption.new(
-        'view_safeguarding_information',
-        'Access safeguarding information',
-        'View sensitive material about the candidate',
-      ),
-      PermissionOption.new(
-        'view_diversity_information',
-        'Access diversity information',
-        'View diversity information about the candidate',
-      ),
-    ].freeze
-
     class PermissionsForm
       include ActiveModel::Model
 
