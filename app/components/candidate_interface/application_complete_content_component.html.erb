@@ -6,6 +6,14 @@
   <p class="govuk-body">
     Your training provider will be in touch with you directly to explain what happens next.
   </p>
+<% elsif any_deferred? %>
+<h2 class="govuk-heading-m govuk-!-font-size-27">
+  <%= t('application_complete.dashboard.deferred') %>
+</h2>
+<p class="govuk-body">
+  We’ve sent you an email to confirm this. Your training provider will be in
+  touch with you directly to explain what happens next.
+</p>
 <% elsif any_accepted_offer? %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     <%= t('application_complete.dashboard.accepted_offer') %>

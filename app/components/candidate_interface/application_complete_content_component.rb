@@ -14,6 +14,7 @@ module CandidateInterface
              :any_awaiting_provider_decision?,
              :all_choices_withdrawn?,
              :any_recruited?,
+             :any_deferred?,
              :any_offers?,
              :all_applications_not_sent?, to: :application_form
 

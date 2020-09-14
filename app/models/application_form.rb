@@ -100,6 +100,10 @@ class ApplicationForm < ApplicationRecord
     application_choices.map.any?(&:recruited?)
   end
 
+  def any_deferred?
+    application_choices.map.any?(&:offer_deferred?)
+  end
+
   def any_accepted_offer?
     application_choices.map.any?(&:pending_conditions?)
   end
