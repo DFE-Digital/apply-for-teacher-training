@@ -58,6 +58,9 @@ class StateChangeNotifier
     when :withdraw_offer
       text = ":no_good: #{provider_name} has just withdrawn #{applicant}’s offer"
       url = helpers.support_interface_application_form_url(application_form_id)
+    when :defer_offer
+      text = ":double_vertical_bar: #{provider_name} has just deferred #{applicant}’s offer"
+      url = helpers.support_interface_application_form_url(application_form_id)
     else
       raise 'StateChangeNotifier: unsupported state transition event'
     end

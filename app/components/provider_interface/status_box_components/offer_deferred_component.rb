@@ -24,8 +24,8 @@ module ProviderInterface
       def rows
         [
           {
-            key: 'Offer made',
-            value: application_choice.offered_at.to_s(:govuk_date),
+            key: 'Offer deferred',
+            value: application_choice.offer_deferred_at.to_s(:govuk_date),
           },
         ] + add_change_links_to(course_rows(course_option: application_choice.offered_option))
       end

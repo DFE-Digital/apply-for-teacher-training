@@ -1,3 +1,7 @@
 <h2 class="govuk-heading-l">Offer</h2>
 <%= render SummaryListComponent.new(rows: rows) %>
 <%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
+
+<% if provider_can_respond %>
+  <%= govuk_button_link_to 'Defer offer', provider_interface_application_choice_new_defer_offer_path(@application_choice.id), class: 'govuk-!-margin-bottom-0 govuk-!-display-none-print'  %>
+<% end %>

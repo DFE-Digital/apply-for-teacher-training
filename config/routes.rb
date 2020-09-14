@@ -564,6 +564,8 @@ Rails.application.routes.draw do
       get '/offer/new_withdraw' => 'decisions#new_withdraw_offer', as: :application_choice_new_withdraw_offer
       post '/offer/confirm_withdraw' => 'decisions#confirm_withdraw_offer', as: :application_choice_confirm_withdraw_offer
       post '/offer/withdraw' => 'decisions#withdraw_offer', as: :application_choice_withdraw_offer
+      get '/offer/defer' => 'decisions#new_defer_offer', as: :application_choice_new_defer_offer
+      post '/offer/defer' => 'decisions#defer_offer', as: :application_choice_defer_offer
     end
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
