@@ -33,11 +33,9 @@
     <% end %>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Course details</h2>
-
     <%= render ProviderInterface::CourseDetailsComponent.new(application_choice: @application_choice)%>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="disabilities">Disability, access and other needs</h2>
-
     <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="criminal-convictions-and-professional-misconduct">Criminal convictions and professional misconduct</h2>
@@ -45,21 +43,19 @@
 
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="qualifications">Interview</h2>
-
     <%= render InterviewPreferencesComponent.new(application_form: @application_choice.application_form) %>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="qualifications">Qualifications</h2>
 
+    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="qualifications">Qualifications</h2>
     <%= render QualificationsComponent.new(application_form: @application_choice.application_form) %>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="work-history">Work history</h2>
 
+    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="work-history">Work history</h2>
     <div data-qa="work-history">
       <%= render ProviderInterface::WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
     </div>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="volunteering">Unpaid experience and volunteering</h2>
-
     <div data-qa="volunteering">
       <%= render ProviderInterface::VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
     </div>
@@ -71,12 +67,10 @@
     <% end %>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="personal-statement">Personal statement</h2>
-
     <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 
     <% if @application_choice.application_form.application_references.any? %>
       <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="references">References</h2>
-
       <%= render 'references_context' %>
 
       <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
@@ -86,7 +80,6 @@
     <% end %>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2">Diversity information</h2>
-
     <%= render ProviderInterface::DiversityInformationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>
   </div>
 </div>
