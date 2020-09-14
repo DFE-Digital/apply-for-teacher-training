@@ -18,12 +18,7 @@ module ProviderInterface
       end
 
       def rows
-        [
-          {
-            key: 'Offer accepted',
-            value: application_choice.accepted_at.to_s(:govuk_date),
-          },
-        ] + course_rows(course_option: application_choice.offered_option)
+        course_rows(course_option: application_choice.offered_option)
       end
     end
   end

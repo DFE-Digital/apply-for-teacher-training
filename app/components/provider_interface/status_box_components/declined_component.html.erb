@@ -1,3 +1,9 @@
-<h2 class="govuk-heading-l">Offer</h2>
-<%= render SummaryListComponent.new(rows: rows) %>
-<%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
+<div class="app-offer-panel">
+  <h2 class="govuk-heading-l govuk-!-margin-bottom-3">Offer</h2>
+
+  <h3 class="govuk-heading-m">Course details</h3>
+  <%= render SummaryListComponent.new(rows: rows) %>
+
+  <h3 class="govuk-heading-m">Conditions</h3>
+  <%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice) %>
+</div>
