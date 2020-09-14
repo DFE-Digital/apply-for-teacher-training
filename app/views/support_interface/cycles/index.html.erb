@@ -3,12 +3,23 @@
 <%= render 'support_interface/docs/docs_navigation' %>
 
 <% unless HostingEnvironment.production? %>
-  <h2 class='govuk-heading-m'>This environment is currently on the ‘<%= EndOfCycleTimetable.current_cycle_schedule.to_s.humanize %>’ schedule </h2>
+  <%= form_with model: SupportInterface::ChangeCycleForm.new, url: support_interface_switch_cycle_schedule_path, method: :post do |f| %>
+    <%= f.govuk_radio_buttons_fieldset :cycle_schedule_name do %>
 
-  <% EndOfCycleTimetable.schedules.each do |cycle_schedule_name, _| %>
-    <% if EndOfCycleTimetable.current_cycle_schedule != cycle_schedule_name %>
-      <%= button_to "Switch to the ‘#{cycle_schedule_name.to_s.humanize}’ schedule", support_interface_switch_cycle_schedule_path(cycle_schedule_name: cycle_schedule_name), class: 'govuk-button' %>
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h2 class='govuk-heading-m'>Current point in the recruitment cycle</h2>
+        </legend>
+
+      <%= f.govuk_radio_button :cycle_schedule_name, 'real', label: { text: t('cycles.real.name') }, hint_text: t('cycles.real.description') %>
+
+      <%= f.govuk_radio_divider %>
+
+      <% (EndOfCycleTimetable.schedules.keys.map(&:to_s) - %w[real]).each do |option| %>
+        <%= f.govuk_radio_button :cycle_schedule_name, option, label: { text: t("cycles.#{option}.name") }, hint_text: t("cycles.#{option}.description") %>
+      <% end %>
     <% end %>
+
+    <%= f.govuk_submit 'Update point in recruitment cycle' %>
   <% end %>
 <% end %>
 
