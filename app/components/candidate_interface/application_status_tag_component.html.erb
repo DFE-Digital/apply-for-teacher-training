@@ -4,4 +4,8 @@
   <p class="govuk-body govuk-body govuk-!-margin-top-2">
     Your application was not sent for this course because references were not given before the deadline.
   </p>
+<% elsif  @application_choice.offer_deferred? %>
+  <p class="govuk-body govuk-body govuk-!-margin-top-2">
+    Your training will now start in <%= (@application_choice.course.start_date + 1.year).strftime('%B %Y') %>.
+  </p>
 <% end %>
