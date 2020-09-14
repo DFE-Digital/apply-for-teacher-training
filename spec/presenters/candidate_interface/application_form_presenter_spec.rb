@@ -191,14 +191,14 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe '#training_with_a_disability_completed?' do
     it 'returns true if training with a disabilitty section is completed' do
-      application_form = FactoryBot.build(:application_form, training_with_a_disability_completed: true)
+      application_form = FactoryBot.build(:completed_application_form)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_training_with_a_disability_completed
     end
 
     it 'returns false if maths training with a disabilitty section is incomplete' do
-      application_form = FactoryBot.build(:application_form, training_with_a_disability_completed: false)
+      application_form = FactoryBot.build(:application_form)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).not_to be_training_with_a_disability_completed
@@ -207,17 +207,17 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe 'training_with_a_disability_valid?' do
     it 'returns true if training with a disability section is completed' do
-      application_form = FactoryBot.build(:application_form, training_with_a_disability_completed: true, disclose_disability: true)
+      application_form = FactoryBot.build(:completed_application_form)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_training_with_a_disability_valid
     end
 
     it 'returns true if training with a disability section is incomplete' do
-      application_form = FactoryBot.build(:application_form, training_with_a_disability_completed: false, disclose_disability: true)
+      application_form = FactoryBot.build(:completed_application_form, disclose_disability: '')
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-      expect(presenter).to be_training_with_a_disability_valid
+      expect(presenter).not_to be_training_with_a_disability_valid
     end
   end
 
