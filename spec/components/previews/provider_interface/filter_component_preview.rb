@@ -11,7 +11,7 @@ module ProviderInterface
   private
 
     def render_component_for(page_state:)
-      render ProviderInterface::FilterComponent.new(page_state: page_state)
+      render FilterComponent.new(page_state: page_state)
     end
 
     def page_state_mock(filters:)
