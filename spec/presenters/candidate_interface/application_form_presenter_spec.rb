@@ -294,10 +294,10 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
 
     it 'returns true if safeguarding section is incomplete' do
-      application_form = FactoryBot.build(:completed_application_form, :with_safeguarding_issues_disclosed, safeguarding_issues_completed: false)
+      application_form = FactoryBot.build(:application_form)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-      expect(presenter).to be_safeguarding_valid
+      expect(presenter).not_to be_safeguarding_valid
     end
   end
 
