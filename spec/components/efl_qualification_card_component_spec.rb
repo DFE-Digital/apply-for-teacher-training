@@ -23,8 +23,8 @@ RSpec.describe EflQualificationCardComponent, type: :component do
           result = render_inline(described_class.new(application_form))
 
           expect(result.text).to include 'Candidate has an English as a foreign language qualification'
-          details_card = result.css('.app-qualification-card__solo-details-card')
 
+          details_card = result.css('#efl-qualification-section .app-card--outline')
           expect(details_card.text).to include 'IELTS'
           expect(details_card.text).to include '1999'
           expect(details_card.text).to include '6.5'
@@ -41,8 +41,8 @@ RSpec.describe EflQualificationCardComponent, type: :component do
           result = render_inline(described_class.new(application_form))
 
           expect(result.text).to include 'Candidate has an English as a foreign language qualification'
-          details_card = result.css('.app-qualification-card__solo-details-card')
 
+          details_card = result.css('#efl-qualification-section .app-card--outline')
           expect(details_card.text).to include 'TOEFL'
           expect(details_card.text).to include '1999'
           expect(details_card.text).to include '20'
@@ -59,8 +59,8 @@ RSpec.describe EflQualificationCardComponent, type: :component do
           result = render_inline(described_class.new(application_form))
 
           expect(result.text).to include 'Candidate has an English as a foreign language qualification'
-          details_card = result.css('.app-qualification-card__solo-details-card')
 
+          details_card = result.css('#efl-qualification-section .app-card--outline')
           expect(details_card.text).to include 'Cockney Rhyming Slang Proficiency Test'
           expect(details_card.text).to include '2001'
           expect(details_card.text).to include '20'
@@ -84,7 +84,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
         expect(result.text).to include 'Candidate does not have an English as a foreign language qualification yet'
         expect(result.text).to include 'Waiting for results'
-        details_card = result.css('.app-qualification-card__solo-details-card')
+        details_card = result.css('#efl-qualification-section .app-card--outline')
         expect(details_card).to be_blank
       end
     end
@@ -98,7 +98,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
         result = render_inline(described_class.new(application_form))
 
         expect(result.text).to include 'Candidate said that English is not a foreign language to them'
-        details_card = result.css('.app-qualification-card__solo-details-card')
+        details_card = result.css('#efl-qualification-section .app-card--outline')
         expect(details_card).to be_blank
       end
     end
