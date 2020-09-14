@@ -33,12 +33,6 @@ module ProviderInterface
     end
 
     def show
-      auth = ProviderAuthorisation.new(actor: current_provider_user)
-      @provider_can_respond = auth.can_make_decisions?(
-        application_choice: @application_choice,
-        course_option_id: @application_choice.offered_option.id,
-      )
-
       if @application_choice.status == 'offer_deferred'
         @deferred_offer_wizard_applicable =
           @application_choice.recruitment_cycle == RecruitmentCycle.previous_year
@@ -47,17 +41,18 @@ module ProviderInterface
           @application_choice.offered_option.in_next_cycle.course.open_on_apply
       end
 
-      @status_box_options = if @application_choice.offer? && @provider_can_respond
-                              get_all_change_options @application_choice
-                            else
-                              {}
-                            end
-
-      @status_box_options[:provider_can_respond] = @provider_can_respond
       @show_language_details = @application_choice
         .application_form
         .english_main_language(fetch_database_value: true)
         .present?
+    end
+
+    def offer
+      @status_box_options = { provider_can_respond: @provider_can_respond }
+
+      if @application_choice.offer? && @provider_can_respond
+        @status_box_options.merge!(get_all_change_options(@application_choice))
+      end
     end
 
     def notes
@@ -98,6 +93,8 @@ module ProviderInterface
 
     def set_application_choice_and_sub_navigation_items
       @application_choice = get_application_choice
+      @provider_can_respond = get_provider_can_respond
+      @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
       @sub_navigation_items = get_sub_navigation_items
     end
 
@@ -113,6 +110,12 @@ module ProviderInterface
       sub_navigation_items = [
         { name: 'Application', url: provider_interface_application_choice_path(@application_choice) },
       ]
+
+      if @offer_present
+        sub_navigation_items.push(
+          { name: 'Offer', url: provider_interface_application_choice_offer_path(@application_choice) },
+        )
+      end
 
       sub_navigation_items.push(
         { name: 'Notes', url: provider_interface_application_choice_notes_path(@application_choice) },
@@ -142,6 +145,14 @@ module ProviderInterface
       params.require(:provider_interface_new_note_form).permit(:subject, :message).merge \
         application_choice: @application_choice,
         provider_user: current_provider_user
+    end
+
+    def get_provider_can_respond
+      auth = ProviderAuthorisation.new(actor: current_provider_user)
+      @provider_can_respond = auth.can_make_decisions?(
+        application_choice: @application_choice,
+        course_option_id: @application_choice.offered_option.id,
+      )
     end
   end
 end
