@@ -64,6 +64,22 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe '#maths_gcse_added?' do
+    it 'returns true if maths gcse has been added' do
+      application_form = FactoryBot.build(:completed_application_form)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_maths_gcse_added
+    end
+
+    it 'returns false if maths gcse has been not been added' do
+      application_form = FactoryBot.build(:application_form)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_maths_gcse_added
+    end
+  end
+
   describe '#english_gcse_completed?' do
     it 'returns true if english gcse section is completed' do
       application_form = FactoryBot.build(:application_form, english_gcse_completed: true)
@@ -294,10 +310,10 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
 
     it 'returns true if safeguarding section is incomplete' do
-      application_form = FactoryBot.build(:completed_application_form, :with_safeguarding_issues_disclosed, safeguarding_issues_completed: false)
+      application_form = FactoryBot.build(:application_form)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
-      expect(presenter).to be_safeguarding_valid
+      expect(presenter).not_to be_safeguarding_valid
     end
   end
 
