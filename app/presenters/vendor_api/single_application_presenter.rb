@@ -95,7 +95,12 @@ module VendorAPI
       [
         application_form.first_nationality,
         application_form.second_nationality,
+        application_form.third_nationality,
+        application_form.fourth_nationality,
+        application_form.fifth_nationality,
       ].map { |n| NATIONALITIES_BY_NAME[n] }.compact.uniq
+        .sort.partition { |e| %w[GB IE].include? e }.flatten
+    end
     end
 
     def course_info_for(course_option)

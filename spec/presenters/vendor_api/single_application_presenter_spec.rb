@@ -136,9 +136,22 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response[:attributes][:candidate][:nationality]).to eq(%w[GB US])
     end
+
+    it 'returns sorted array of nationalties so British or Irish are first' do
+      application_form = create(:completed_application_form,
+                                first_nationality: 'Canadian',
+                                second_nationality: 'Spanish',
+                                third_nationality: 'Irish',
+                                fourth_nationality: 'Welsh')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :nationality)).to eq(%w[GB IE CA ES])
+    end
   end
 
-  describe 'attributes.candidate.contact_details' do
+  describe 'attributes.contact_details' do
     it 'returns contact details in correct format for UK addresses' do
       application_form_attributes = {
         phone_number: '07700 900 982',
