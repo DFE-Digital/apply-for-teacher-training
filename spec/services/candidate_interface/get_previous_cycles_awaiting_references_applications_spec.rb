@@ -5,6 +5,11 @@ RSpec.describe CandidateInterface::GetPreviousCyclesAwaitingReferencesApplicatio
     let!(:application_choice1) { create(:awaiting_references_application_choice) }
 
     before do
+      create(
+        :application_choice,
+        :awaiting_references,
+        application_form: create(:application_form, recruitment_cycle_year: RecruitmentCycle.next_year),
+      )
       create(:application_choice, :with_offer)
     end
 
