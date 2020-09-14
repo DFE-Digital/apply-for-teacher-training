@@ -1,0 +1,21 @@
+<% content_for :title, t('page_titles.start_carry_over_between_cycles_unsubmitted', reopen_date: EndOfCycleTimetable.apply_reopens.to_s(:govuk_date)) %>
+
+<h1 class="govuk-heading-xl"><%= t('page_titles.start_carry_over_between_cycles_unsubmitted', reopen_date: EndOfCycleTimetable.apply_reopens.to_s(:govuk_date)) %></h1>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">You can no longer apply to courses for the <%= current_cycle_span %> academic year.</p>
+    <p class="govuk-body">Carry on with your application and submit it for courses starting in the <%= next_cycle_span %> academic year.</p>
+    <p class="govuk-body">You can submit from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>.</p>
+    <p class="govuk-body">Your course choices have been removed. Choose courses from <%= EndOfCycleTimetable.find_reopens.to_s(:govuk_date) %>.</p>
+    <p class="govuk-body">You'll have 3 course choices.</p>
+
+    <%= button_to 'Start now', candidate_interface_carry_over_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>
+
+    <p class="govuk-body">or</p>
+
+    <%= govuk_link_to 'Review existing application', candidate_interface_application_review_path, class: 'govuk-body' %>
+  </div>
+</div>
+

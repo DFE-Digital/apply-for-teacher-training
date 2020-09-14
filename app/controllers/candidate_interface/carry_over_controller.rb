@@ -1,7 +1,11 @@
 module CandidateInterface
   class CarryOverController < CandidateInterfaceController
     def start
-      render EndOfCycleTimetable.between_cycles_apply_2? ? :start_between_cycles : :start
+      if EndOfCycleTimetable.between_cycles_apply_2?
+        render current_application.submitted? ? :start_between_cycles : :start_between_cycles_unsubmitted
+      else
+        render :start
+      end
     end
 
     def create
