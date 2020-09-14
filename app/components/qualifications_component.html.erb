@@ -12,7 +12,18 @@
   </div>
 </details>
 
-<%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.degrees, type_label: 'Degree') %>
-<%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.gcses, type_label: 'GCSE or equivalent') %>
-<%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, type_label: 'Academic or other qualification') %>
-<%= render EflQualificationCardComponent.new(application_form) %>
+<div class="govuk-grid-column-two-thirds">
+  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.degrees, type_label: 'Degree') %>
+</div>
+
+<div class="govuk-grid-column-full">
+  <%= render GcseQualificationCardComponent.new(application_form) %>
+</div>
+
+<div class="govuk-grid-column-two-thirds">
+  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, type_label: 'Academic or other qualification') %>
+</div>
+
+ <div class="govuk-grid-column-full">
+  <%= render EflQualificationCardComponent.new(application_form) %>
+</div>
