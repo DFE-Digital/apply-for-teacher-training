@@ -1,3 +1,12 @@
+@import "~@ministryofjustice/frontend/moj/settings/assets";
+@import "~@ministryofjustice/frontend/moj/settings/measurements";
+@import "~@ministryofjustice/frontend/moj/helpers/all";
+@import "~@ministryofjustice/frontend/moj/objects/width-container";
+@import "~@ministryofjustice/frontend/moj/components/pagination/pagination";
+@import "~@ministryofjustice/frontend/moj/objects/filter-layout";
+@import "~@ministryofjustice/frontend/moj/objects/scrollable-pane";
+@import "~@ministryofjustice/frontend/moj/components/filter/filter";
+
 .moj-filter-layout__content {
   overflow-x: hidden;
   .moj-action-bar {
@@ -73,4 +82,10 @@
   outline: none;
 }
 
+.moj-pagination__item--prev .moj-pagination__link:before {
+  margin-right: 1px;
+}
 
+.moj-pagination__item--next .moj-pagination__link:after {
+  margin-left: 1px;
+}
