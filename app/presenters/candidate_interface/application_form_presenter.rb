@@ -109,7 +109,8 @@ module CandidateInterface
     end
 
     def contact_details_valid?
-      ContactDetailsForm.build_from_application(@application_form).valid?
+      form = ContactDetailsForm.build_from_application(@application_form)
+      form.valid?(:base) && form.valid?(:address) && form.valid?(:address_type)
     end
 
     def work_experience_completed?

@@ -34,7 +34,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe '#contact_details_valid?' do
     it 'returns true if contact details section is completed' do
-      application_form = FactoryBot.build(:application_form, contact_details_completed: true)
+      application_form = FactoryBot.build(:completed_application_form, contact_details_completed: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_contact_details_valid
