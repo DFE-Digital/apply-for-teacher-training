@@ -30,7 +30,7 @@ module CandidateInterface
 
         if !@pick_course.open_on_apply?
           redirect_to candidate_interface_course_choices_ucas_with_course_path(@pick_course.provider_id, @pick_course.course_id)
-        elsif @pick_course.full?
+        elsif !@pick_course.available?
           redirect_to candidate_interface_course_choices_full_path(
             @pick_course.provider_id,
             @pick_course.course_id,
