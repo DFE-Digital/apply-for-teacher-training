@@ -108,6 +108,11 @@ module CandidateInterface
       @application_form.contact_details_completed
     end
 
+    def contact_details_valid?
+      form = ContactDetailsForm.build_from_application(@application_form)
+      form.valid?(:base) && form.valid?(:address) && form.valid?(:address_type)
+    end
+
     def work_experience_completed?
       @application_form.work_history_completed
     end
@@ -200,6 +205,10 @@ module CandidateInterface
       @application_form.training_with_a_disability_completed
     end
 
+    def training_with_a_disability_valid?
+      TrainingWithADisabilityForm.build_from_application(@application_form).valid?
+    end
+
     def course_choices_completed?
       @application_form.course_choices_completed
     end
@@ -218,6 +227,10 @@ module CandidateInterface
 
     def safeguarding_completed?
       @application_form.safeguarding_issues_completed
+    end
+
+    def safeguarding_valid?
+      SafeguardingIssuesDeclarationForm.build_from_application(@application_form).valid?
     end
 
     def no_incomplete_qualifications?
