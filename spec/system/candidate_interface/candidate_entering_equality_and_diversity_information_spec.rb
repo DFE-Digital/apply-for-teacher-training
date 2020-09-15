@@ -110,7 +110,7 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_have_an_application_form_that_is_ready_to_submit
     create_list :reference, 2, application_form: @application
-    click_link 'Complete section', match: :first
+    click_link 'Add your references', match: :first
     check t('application_form.completed_checkbox')
     click_button t('application_form.continue')
   end
