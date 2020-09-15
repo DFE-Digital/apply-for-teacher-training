@@ -7,7 +7,7 @@ class GenerateVendorProviders
       { name: 'Ellucian Provider', code: 'ELLU' },
       { name: 'Oracle Provider', code: 'ORAC' },
       { name: 'NASBITT Provider', code: 'NASB' },
-      { name: 'Unit 4 Provider', code: 'UNIT' },
+      { name: 'Unit 4 Provider', code: 'Z88' },
       { name: 'Capita Provider', code: 'CAPI' },
       { name: 'Technology One Provider', code: 'TECH' },
       { name: 'Gordon Associates Provider', code: 'GORD' },
