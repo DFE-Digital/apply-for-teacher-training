@@ -71,7 +71,7 @@ class TestApplications
         full_work_history: true,
         volunteering_experiences_count: 1,
         references_count: 2,
-        with_gces: true,
+        with_gcses: true,
         with_degree: true,
         submitted_at: nil,
         candidate: candidate,

@@ -104,7 +104,7 @@ RSpec.feature 'Entering their equality and diversity information' do
       candidate: @current_candidate,
       submitted_at: nil,
       references_completed: false,
-      with_gces: true,
+      with_gcses: true,
     )
   end
 

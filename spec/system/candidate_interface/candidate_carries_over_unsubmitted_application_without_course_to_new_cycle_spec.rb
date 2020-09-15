@@ -51,7 +51,7 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
       :completed_application_form,
       submitted_at: nil,
       candidate: @candidate,
-      with_gces: true,
+      with_gcses: true,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
     )
     @unrequested_references = create_list(

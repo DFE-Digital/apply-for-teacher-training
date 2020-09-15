@@ -7,7 +7,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   subject(:mailer) { described_class }
 
   describe '.chase_reference' do
-    let(:application_form) { build(:completed_application_form, references_count: 1, with_gces: true) }
+    let(:application_form) { build(:completed_application_form, references_count: 1, with_gcses: true) }
     let(:reference) { application_form.application_references.first }
     let(:mail) { mailer.chase_reference(reference) }
 

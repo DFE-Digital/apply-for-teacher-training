@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
         :completed_application_form,
         references_state: 'unsubmitted',
         references_count: 2,
-        with_gces: true,
+        with_gcses: true,
       )
     end
 
@@ -162,7 +162,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
   end
 
   context 'when referees are not editable' do
-    let(:application_form) { create(:completed_application_form, references_count: 1, with_gces: true) }
+    let(:application_form) { create(:completed_application_form, references_count: 1, with_gcses: true) }
 
     it 'renders component without an edit link' do
       result = render_inline(described_class.new(application_form: application_form, editable: false))

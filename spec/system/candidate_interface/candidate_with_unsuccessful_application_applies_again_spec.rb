@@ -52,7 +52,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
       :completed_application_form,
       :with_completed_references,
       references_count: 2,
-      with_gces: true,
+      with_gcses: true,
       candidate: @candidate,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
     )

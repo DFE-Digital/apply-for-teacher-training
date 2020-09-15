@@ -9,7 +9,7 @@ RSpec.describe ApplyAgain do
         application_choices_count: 3,
         work_experiences_count: 1,
         volunteering_experiences_count: 1,
-        with_gces: true,
+        with_gcses: true,
         full_work_history: true,
         recruitment_cycle_year: RecruitmentCycle.current_year,
       )
