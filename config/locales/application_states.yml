@@ -327,6 +327,7 @@ en:
       description: The candidate can accept the offer. All other application choices will be withdrawn.
       emails:
         - provider_mailer-offer_accepted
+        - candidate_mailer-offer_accepted
 
     offer-decline:
       name: Candidate declines offer
