@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::FilterComponent do
+RSpec.describe FilterComponent do
   let(:applied_filters) do
     ActionController::Parameters.new({ 'status' => %w[awaiting_provider_decision
                                                       pending_conditions
