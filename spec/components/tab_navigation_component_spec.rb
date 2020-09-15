@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SubNavigationComponent do
+RSpec.describe TabNavigationComponent do
   let(:items) do
     [{ name: 'Application', url: '#', current: true },
      { name: 'Notes', url: '#' },
