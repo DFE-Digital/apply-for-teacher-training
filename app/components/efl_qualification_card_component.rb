@@ -27,6 +27,26 @@ class EflQualificationCardComponent < ViewComponent::Base
     end
   end
 
+  def grade_title
+    case english_proficiency.efl_qualification_type
+    when 'IeltsQualification'
+      'Overall band score'
+    when 'ToeflQualification'
+      'Total score'
+    else
+      'Score or grade'
+    end
+  end
+
+  def reference_number_title
+    case english_proficiency.efl_qualification_type
+    when 'IeltsQualification'
+      'TRF number'
+    when 'ToeflQualification'
+      'Registration number'
+    end
+  end
+
   delegate :name, :award_year, :grade, :unique_reference_number, to: :efl_qualification
   delegate :no_qualification_details, to: :english_proficiency
 end

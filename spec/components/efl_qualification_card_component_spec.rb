@@ -27,7 +27,9 @@ RSpec.describe EflQualificationCardComponent, type: :component do
           details_card = result.css('#english-as-a-foreign-language .app-card--outline')
           expect(details_card.text).to include 'IELTS'
           expect(details_card.text).to include '1999'
+          expect(details_card.text).to include 'Overall band score'
           expect(details_card.text).to include '6.5'
+          expect(details_card.text).to include 'TRF number'
           expect(details_card.text).to include '123456'
         end
       end
@@ -45,7 +47,9 @@ RSpec.describe EflQualificationCardComponent, type: :component do
           details_card = result.css('#english-as-a-foreign-language .app-card--outline')
           expect(details_card.text).to include 'TOEFL'
           expect(details_card.text).to include '1999'
+          expect(details_card.text).to include 'Total score'
           expect(details_card.text).to include '20'
+          expect(details_card.text).to include 'Registration number'
           expect(details_card.text).to include '123456'
         end
       end
@@ -63,6 +67,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
           details_card = result.css('#english-as-a-foreign-language .app-card--outline')
           expect(details_card.text).to include 'Cockney Rhyming Slang Proficiency Test'
           expect(details_card.text).to include '2001'
+          expect(details_card.text).to include 'Score or grade'
           expect(details_card.text).to include '20'
         end
       end
