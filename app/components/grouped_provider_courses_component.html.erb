@@ -1,3 +1,5 @@
+<% find_down = EndOfCycleTimetable.find_down? %>
+
 <% courses_by_provider_and_region.each do |region_code, courses_by_provider| %>
   <h2 class="govuk-heading-m govuk-!-margin-bottom-2 govuk-!-margin-top-8"><%= label_for(region_code) %></h2>
   <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
@@ -10,7 +12,7 @@
         </header>
         <div class="govuk-accordion__section-content" id="accordion-default-content-<%= index %>" aria-labelledby="accordion-default-heading-<%= index %>">
           <ul class="govuk-list govuk-list--bullet">
-            <% if EndOfCycleTimetable.find_down? %>
+            <% if find_down %>
              <% provider.courses.sort_by(&:name).each do |course| %>
                <li><%= course.name_and_code %></li>
              <% end %>
