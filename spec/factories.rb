@@ -237,6 +237,22 @@ FactoryBot.define do
       subject { %w[maths english science].sample }
       grade { %w[A B C].sample }
       awarding_body { Faker::Educator.secondary_school }
+
+      trait :non_uk do
+        qualification_type { 'non_uk' }
+        non_uk_qualification_type { 'High School Diploma' }
+        grade { %w[pass merit distinction].sample }
+        institution_country { Faker::Address.country_code }
+        naric_reference { '4000123456' }
+        comparable_uk_qualification { 'Between GCSE and GCSE AS Level' }
+      end
+
+      trait :missing do
+        qualification_type { 'missing' }
+        grade { nil }
+        awarding_body { nil }
+        missing_explanation { 'I will be taking an equivalency test in a few weeks' }
+      end
     end
 
     factory :degree_qualification do
