@@ -6,6 +6,38 @@
   </p>
 <% elsif  @application_choice.offer_deferred? %>
   <p class="govuk-body govuk-body govuk-!-margin-top-2">
-    Your training will now start in <%= (@application_choice.course.start_date + 1.year).strftime('%B %Y') %>.
+  Your training will now start in <%= (@application_choice.course.start_date + 1.year).to_s(:month_and_year) %>.
+  </p>
+<% elsif @application_choice.pending_conditions? || @application_choice.recruited? || @application_choice.offer? %>
+  <p class="govuk-body govuk-body govuk-!-margin-top-2">
+    <details class="govuk-details" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          What to do if you’re unable to start training in <%= (@application_choice.course.start_date + 1.year).to_s(:month_and_year) %>
+        </span>
+      </summary>
+
+      <div class="govuk-details__text govuk-!-padding-bottom-0">
+        Some providers allow you to defer your offer. This means that you could start your course a year later.
+      </div>
+
+      <div class="govuk-details__text govuk-!-padding-bottom-0">
+        Every provider is different, so it may or may not be possible to do this.
+      </div>
+
+      <div class="govuk-details__text govuk-!-padding-bottom-0">
+        Find out by contacting <%= @application_choice.provider.name %>.
+      </div>
+
+      <div class="govuk-details__text govuk-!-padding-bottom-0">
+        Asking if it’s possible to defer will not affect your existing offer.
+      </div>
+
+      <% if @application_choice.offer? %>
+        <div class="govuk-details__text govuk-!-padding-bottom-0">
+          If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.
+        </div>
+      <% end %>
+    </details>
   </p>
 <% end %>

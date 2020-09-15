@@ -22,7 +22,34 @@ RSpec.describe CandidateInterface::ApplicationStatusTagComponent do
         application_choice = create(:application_choice, :offer_deferred, course: course)
         result = render_inline(described_class.new(application_choice: application_choice))
 
-        expect(result.text).to include("Your training will now start in #{(application_choice.course.start_date + 1.year).strftime('%B %Y')}.")
+        expect(result.text).to include("Your training will now start in #{(application_choice.course.start_date + 1.year).to_s(:month_and_year)}.")
+      end
+
+      context 'when the application choice is in the pending_conditions state' do
+        it 'provides guidance on how to defer your application' do
+          application_choice = create(:application_choice, :pending_conditions, course: course)
+          result = render_inline(described_class.new(application_choice: application_choice))
+
+          expect(result.text).to include('Some providers allow you to defer your offer. This means that you could start your course a year later.')
+        end
+      end
+
+      context 'when the application choice is in the recruited state' do
+        it 'provides guidance on how to defer your application' do
+          application_choice = create(:application_choice, :recruited, course: course)
+          result = render_inline(described_class.new(application_choice: application_choice))
+
+          expect(result.text).to include('Some providers allow you to defer your offer. This means that you could start your course a year later.')
+        end
+      end
+
+      context 'when the application choice is in the offer state' do
+        it 'provides guidance on how to defer your application' do
+          application_choice = create(:application_choice, :offer, course: course)
+          result = render_inline(described_class.new(application_choice: application_choice))
+
+          expect(result.text).to include('If your provider agrees to defer your offer, you’ll need to accept the offer on your account first.')
+        end
       end
     end
   end
