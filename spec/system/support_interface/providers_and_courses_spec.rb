@@ -17,6 +17,8 @@ RSpec.feature 'Providers and courses' do
 
     when_i_visit_the_providers_page
     and_i_should_see_the_updated_list_of_providers
+    when_i_search_a_provider
+    then_i_see_the_search_results
 
     when_i_click_on_a_provider
     and_i_click_on_sites
@@ -139,6 +141,17 @@ RSpec.feature 'Providers and courses' do
     expect(page).to have_content('Royal Academy of Dance')
     expect(page).to have_content('Gorse SCITT')
     expect(page).to have_content('Somerset SCITT Consortium')
+  end
+
+  def when_i_search_a_provider
+    fill_in :q, with: 'Royal'
+    click_on 'Apply filters'
+  end
+
+  def then_i_see_the_search_results
+    expect(page).to have_content('Royal Academy of Dance')
+    expect(page).not_to have_content('Gorse SCITT')
+    expect(page).not_to have_content('Somerset SCITT Consortium')
   end
 
   def when_i_click_on_a_provider

@@ -1,7 +1,17 @@
 module SupportInterface
   class ApplicationFormsController < SupportInterfaceController
     def index
-      @application_forms = ApplicationForm.includes(:candidate, :application_choices).sort_by(&:updated_at).reverse
+      @application_forms = ApplicationForm
+        .joins(:candidate)
+        .includes(:candidate, :application_choices)
+        .order(updated_at: :desc)
+        .page(params[:page] || 1).per(15)
+
+      if params[:q]
+        @application_forms = @application_forms.where("CONCAT(application_forms.first_name, ' ', application_forms.last_name, ' ', candidates.email_address) ILIKE ?", "%#{params[:q]}%")
+      end
+
+      @filter = SupportInterface::ApplicationsFilter.new(params: params)
     end
 
     def show
