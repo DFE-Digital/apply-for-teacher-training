@@ -102,6 +102,10 @@ class Course < ApplicationRecord
     course_options.all?(&:no_vacancies?)
   end
 
+  def available?
+    course_options.available.present?
+  end
+
   def find_url
     "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{code}"
   end

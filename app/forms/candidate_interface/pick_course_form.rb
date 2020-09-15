@@ -59,6 +59,8 @@ module CandidateInterface
 
     delegate :full?, to: :course
 
+    delegate :available?, to: :course
+
     def course
       @course ||= provider.courses.find(course_id)
     end

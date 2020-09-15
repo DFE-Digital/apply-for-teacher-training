@@ -8,11 +8,10 @@ module CandidateInterface
 
     def available_sites
       CourseOption
-        .selectable
+        .available
         .includes(:site)
         .where(course_id: course.id)
         .where(study_mode: study_mode)
-        .reject(&:no_vacancies?)
         .sort_by { |course_option| course_option.site.name }
     end
 
