@@ -39,7 +39,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       'decline by default date' => 'Make a decision by 25 February 2020',
       'first_condition' => 'DBS check',
       'second_condition' => 'Pass exams',
-      'Days to make an offer' => 'You have 10 working days to make a decision. If you do not reply by 25 February 2020'
+      'Days to make an offer' => 'You have 10 working days to make a decision. If you do not reply by 25 February 2020',
+      'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.'
     )
   end
 
@@ -67,7 +68,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       'first_condition' => 'DBS check',
       'second_condition' => 'Pass exams',
       'first_offer' => 'Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
-      'second_offers' => 'Forensic Science (E0FO) at Falconholt Technical College'
+      'second_offers' => 'Forensic Science (E0FO) at Falconholt Technical College',
+      'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.'
     )
   end
 
@@ -89,7 +91,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       'heading' => 'Dear Bob',
       'first_condition' => 'DBS check',
       'second_condition' => 'Pass exams',
-      'instructions' => 'You can wait to hear back about your other application(s) before making a decision'
+      'instructions' => 'You can wait to hear back about your other application(s) before making a decision',
+      'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.'
     )
   end
 
