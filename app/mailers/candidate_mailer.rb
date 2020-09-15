@@ -306,6 +306,22 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def offer_accepted(application_choice)
+    @application_form = application_choice.application_form
+    @course_name_and_code = application_choice.course_option.course.name_and_code
+    @provider_name = application_choice.course_option.provider.name
+    @start_date = application_choice.course_option.course.start_date.to_s(:month_and_year)
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.offer_accepted.subject', {
+        course_name_and_code: @course_name_and_code,
+        provider_name: @provider_name,
+        start_date: @start_date,
+      }),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)
