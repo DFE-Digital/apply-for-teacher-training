@@ -1,11 +1,11 @@
 class FilterComponent < ViewComponent::Base
   include ViewHelper
 
-  attr_reader :page_state
-  delegate :filters, to: :page_state
+  attr_reader :filter
+  delegate :filters, to: :filter
 
-  def initialize(page_state:)
-    @page_state = page_state
+  def initialize(filter:)
+    @filter = filter
   end
 
   def tags_for_active_filter(filter)

@@ -1,22 +1,22 @@
 module ProviderInterface
   class FilterComponentPreview < ViewComponent::Preview
     def default_view
-      render_component_for(page_state: page_state_mock(filters: with_name_status_provider_and_accredited_provider))
+      render_component_for(filter: filter_mock(filters: with_name_status_provider_and_accredited_provider))
     end
 
     def with_locations_view
-      render_component_for(page_state: page_state_mock(filters: with_name_status_provider_accredited_provider_and_locations))
+      render_component_for(filter: filter_mock(filters: with_name_status_provider_accredited_provider_and_locations))
     end
 
   private
 
-    def render_component_for(page_state:)
-      render FilterComponent.new(page_state: page_state)
+    def render_component_for(filter:)
+      render FilterComponent.new(filter: filter)
     end
 
-    def page_state_mock(filters:)
-      page_state = Struct.new(:filters)
-      page_state.new(filters)
+    def filter_mock(filters:)
+      filter = Struct.new(:filters)
+      filter.new(filters)
     end
 
     def with_name_status_provider_and_accredited_provider

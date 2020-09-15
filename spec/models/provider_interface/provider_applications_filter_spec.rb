@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::ProviderApplicationsPageState do
+RSpec.describe ProviderInterface::ProviderApplicationsFilter do
   let(:course1) { create(:course) }
   let(:course2) { create(:course) }
   let(:course3) { create(:course) }
@@ -19,7 +19,7 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     it 'calculates a correct list of possible filters' do
       FeatureFlag.deactivate(:providers_can_filter_by_recruitment_cycle)
 
-      page_state = described_class.new(
+      filter = described_class.new(
         params: ActionController::Parameters.new,
         provider_user: provider_user,
         state_store: {},
@@ -29,15 +29,15 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       providers_array_index = 2
       number_of_courses = 3
 
-      expect(page_state.filters).to be_a(Array)
-      expect(page_state.filters.size).to eq(expected_number_of_filters)
-      expect(page_state.filters[providers_array_index][:options].size).to eq(number_of_courses)
+      expect(filter.filters).to be_a(Array)
+      expect(filter.filters.size).to eq(expected_number_of_filters)
+      expect(filter.filters[providers_array_index][:options].size).to eq(number_of_courses)
     end
 
     it 'calculates a correct list of possible filters when filtering by recruitment cycle is allowed' do
       FeatureFlag.activate(:providers_can_filter_by_recruitment_cycle)
 
-      page_state = described_class.new(
+      filter = described_class.new(
         params: ActionController::Parameters.new,
         provider_user: provider_user,
         state_store: {},
@@ -48,16 +48,16 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
       providers_array_index = 3
       number_of_courses = 3
 
-      expect(page_state.filters).to be_a(Array)
-      expect(page_state.filters.size).to eq(expected_number_of_filters)
-      expect(page_state.filters[recruitment_cycle_index][:options].size).to eq(2)
-      expect(page_state.filters[providers_array_index][:options].size).to eq(number_of_courses)
+      expect(filter.filters).to be_a(Array)
+      expect(filter.filters.size).to eq(expected_number_of_filters)
+      expect(filter.filters[recruitment_cycle_index][:options].size).to eq(2)
+      expect(filter.filters[providers_array_index][:options].size).to eq(number_of_courses)
     end
 
     it 'does not include providers if avaible providers is < 2' do
       FeatureFlag.deactivate(:providers_can_filter_by_recruitment_cycle)
 
-      page_state = described_class.new(
+      filter = described_class.new(
         params: ActionController::Parameters.new,
         provider_user: another_provider_user,
         state_store: {},
@@ -65,33 +65,33 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
 
       expected_number_of_filters = 2
 
-      headings = page_state.filters.map { |filter| filter[:heading] }
+      headings = filter.filters.map { |f| f[:heading] }
 
-      expect(page_state.filters.size).to eq(expected_number_of_filters)
+      expect(filter.filters.size).to eq(expected_number_of_filters)
       expect(headings).not_to include('Provider')
     end
 
     it 'can return filter config for a list of provider locations' do
       FeatureFlag.deactivate(:providers_can_filter_by_recruitment_cycle)
 
-      page_state = described_class.new(
+      filter = described_class.new(
         params: ActionController::Parameters.new({ provider: [provider1.id] }),
         provider_user: another_provider_user,
         state_store: {},
       )
 
-      headings = page_state.filters.map { |filter| filter[:heading] }
+      headings = filter.filters.map { |f| f[:heading] }
 
       expect(headings).to include("Locations for #{provider1.name}")
 
       relevant_provider_ids = [provider1.sites.first.id, provider1.sites.last.id]
       relevant_provider_names = [provider1.sites.first.name, provider1.sites.last.name]
 
-      expect(relevant_provider_ids).to include(page_state.filters[2][:options][0][:value])
-      expect(relevant_provider_ids).to include(page_state.filters[2][:options][1][:value])
+      expect(relevant_provider_ids).to include(filter.filters[2][:options][0][:value])
+      expect(relevant_provider_ids).to include(filter.filters[2][:options][1][:value])
 
-      expect(relevant_provider_names).to include(page_state.filters[2][:options][0][:label])
-      expect(relevant_provider_names).to include(page_state.filters[2][:options][1][:label])
+      expect(relevant_provider_names).to include(filter.filters[2][:options][0][:label])
+      expect(relevant_provider_names).to include(filter.filters[2][:options][1][:label])
     end
   end
 
@@ -106,11 +106,11 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     end
 
     it 'returns a has of permitted parameters' do
-      page_state = described_class.new(params: params, provider_user: provider_user, state_store: {})
+      filter = described_class.new(params: params, provider_user: provider_user, state_store: {})
 
-      expect(page_state.applied_filters).to be_a(Hash)
-      expect(page_state.applied_filters.keys).to include('status')
-      expect(page_state.applied_filters.keys).not_to include('weekdays')
+      expect(filter.applied_filters).to be_a(Hash)
+      expect(filter.applied_filters.keys).to include('status')
+      expect(filter.applied_filters.keys).not_to include('weekdays')
     end
   end
 
@@ -124,13 +124,13 @@ RSpec.describe ProviderInterface::ProviderApplicationsPageState do
     let(:empty_params) { ActionController::Parameters.new }
 
     it 'returns true if filters have been applied' do
-      page_state = described_class.new(params: params, provider_user: provider_user, state_store: {})
-      expect(page_state.filtered?).to eq(true)
+      filter = described_class.new(params: params, provider_user: provider_user, state_store: {})
+      expect(filter.filtered?).to eq(true)
     end
 
     it 'returns false if filters have not been applied' do
-      page_state = described_class.new(params: empty_params, provider_user: provider_user, state_store: {})
-      expect(page_state.filtered?).to eq(false)
+      filter = described_class.new(params: empty_params, provider_user: provider_user, state_store: {})
+      expect(filter.filtered?).to eq(false)
     end
   end
 
