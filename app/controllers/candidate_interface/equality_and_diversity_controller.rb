@@ -117,8 +117,10 @@ module CandidateInterface
       params.dig(:candidate_interface_equality_and_diversity_disability_status_form, :disability_status)
     end
 
-      params.require(:candidate_interface_equality_and_diversity_disabilities_form).permit(:other_disability, disabilities: [])
     def disabilities_params
+      params.require(:candidate_interface_equality_and_diversity_disabilities_form).permit(:other_disability, disabilities: []).tap do |dp|
+        dp.delete(:disabilities) if dp[:disabilities] == [""]
+      end
     end
 
     def ethnic_group_param
