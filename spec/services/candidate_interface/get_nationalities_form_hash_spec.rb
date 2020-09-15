@@ -14,6 +14,11 @@ RSpec.describe CandidateInterface::GetNationalitiesFormHash do
 
     let(:expected_hash) do
       {
+        nationalities: [
+          data[:first_nationality],
+          data[:second_nationality],
+          'other',
+        ],
         british: data[:first_nationality],
         irish: data[:second_nationality],
         other: 'other',

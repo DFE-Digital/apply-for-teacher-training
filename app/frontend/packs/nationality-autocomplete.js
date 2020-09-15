@@ -17,6 +17,10 @@ const initNationalityAutocomplete = () => {
       const nationalitySelect = document.querySelector(id);
       if (!nationalitySelect) return;
 
+      const nationalitySelectValue = nationalitySelect.querySelector("[value='']");
+
+      if(!nationalitySelectValue) return;
+
       // Replace "Select a nationality" with empty string
       nationalitySelect.querySelector("[value='']").innerHTML = "";
 
