@@ -205,6 +205,10 @@ module CandidateInterface
       @application_form.becoming_a_teacher_completed
     end
 
+    def becoming_a_teacher_valid?
+      BecomingATeacherForm.build_from_application(@application_form).valid?
+    end
+
     def subject_knowledge_completed?
       @application_form.subject_knowledge_completed
     end

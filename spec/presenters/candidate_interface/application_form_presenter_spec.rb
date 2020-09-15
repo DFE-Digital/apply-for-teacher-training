@@ -555,8 +555,8 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#becoming_a_teacher_valid?' do
-    it 'returns true if the becoming a teacher section is completed' do
-      application_form = FactoryBot.build(:application_form, becoming_a_teacher_completed: true)
+    it 'returns true if the becoming a teacher section is valid' do
+      application_form = FactoryBot.build(:completed_application_form, becoming_a_teacher_completed: false)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_becoming_a_teacher_valid
