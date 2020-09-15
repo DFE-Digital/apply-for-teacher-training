@@ -5,8 +5,14 @@ module SupportInterface
     def index
       @candidates = Candidate
         .includes(application_forms: :application_choices)
-        .sort_by { |candidate| (candidate.application_forms.collect(&:updated_at) + [candidate.updated_at]).max }
-        .reverse
+        .order(last_signed_in_at: :desc)
+        .page(params[:page] || 1).per(15)
+
+      if params[:q]
+        @candidates = @candidates.where('CONCAT(email_address) ILIKE ?', "%#{params[:q]}%")
+      end
+
+      @filter = SupportInterface::CandidatesFilter.new(params: params)
     end
 
     def show

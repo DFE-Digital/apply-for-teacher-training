@@ -2,4 +2,6 @@
 
 <%= render 'support_interface/candidates/candidates_navigation' %>
 
-<%= render SupportInterface::CandidatesTableComponent.new(candidates: @candidates) %>
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @candidates) do %>
+  <%= render SupportInterface::CandidatesTableComponent.new(candidates: @candidates) %>
+<% end %>

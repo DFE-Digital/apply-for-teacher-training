@@ -1,13 +1,29 @@
 module SupportInterface
   class ProvidersController < SupportInterfaceController
     def index
+      @filter = SupportInterface::ProvidersFilter.new(params: params)
+
       @providers = Provider.where(sync_courses: true)
         .includes(:sites, :courses, :provider_agreements)
         .order(:name)
+        .page(params[:page] || 1).per(15)
+
+      if params[:q]
+        @providers = @providers.where("CONCAT(name, ' ', code) ILIKE ?", "%#{params[:q]}%")
+      end
     end
 
     def other_providers
-      @providers = Provider.where(sync_courses: false).order(:name)
+      @filter = SupportInterface::ProvidersFilter.new(params: params)
+
+      @providers = Provider
+        .where(sync_courses: false)
+        .order(:name)
+        .page(params[:page] || 1).per(15)
+
+      if params[:q]
+        @providers = @providers.where("CONCAT(name, ' ', code) ILIKE ?", "%#{params[:q]}%")
+      end
     end
 
     def show
