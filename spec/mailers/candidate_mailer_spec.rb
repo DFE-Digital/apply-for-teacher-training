@@ -673,4 +673,55 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
   end
+
+  describe '#offer_accepted' do
+    def build_stubbed_application_form
+      build_stubbed(
+        :application_form,
+        first_name: 'Bob',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(
+            :application_choice,
+            status: 'pending_conditions',
+            course_option: build_stubbed(
+              :course_option,
+              site: build_stubbed(
+                :site,
+                name: 'West Wilford School',
+              ),
+              course: build_stubbed(
+                :course,
+                name: 'Mathematics',
+                code: 'M101',
+                start_date: Time.zone.local(2021, 9, 6),
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Arithmetic College',
+                ),
+              ),
+            ),
+          ),
+        ],
+      )
+    end
+
+    def send_email
+      application_form = build_stubbed_application_form
+      application_choice = application_form.application_choices.first
+      described_class.offer_accepted(application_choice)
+    end
+
+    it 'has the correct subject and content' do
+      email = send_email
+
+      expect(email.subject).to eq(
+        'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      )
+      expect(email.body).to include('Dear Bob,')
+      expect(email.body).to include(
+        'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      )
+    end
+  end
 end
