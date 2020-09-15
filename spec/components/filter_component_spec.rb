@@ -38,13 +38,13 @@ RSpec.describe FilterComponent do
   let(:current_provider_user) { build_stubbed(:provider_user) }
 
   it 'marks checkboxes as checked if they have already been pre-selected' do
-    page_state = ProviderInterface::ProviderApplicationsPageState.new(
+    filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: applied_filters,
       provider_user: current_provider_user,
       state_store: {},
     )
 
-    result = render_inline described_class.new(page_state: page_state)
+    result = render_inline described_class.new(filter: filter)
 
     expect(result.css('#status-awaiting_provider_decision').attr('checked').value).to eq('checked')
     expect(result.css('#status-offer').attr('checked')).to eq(nil)
@@ -58,12 +58,12 @@ RSpec.describe FilterComponent do
   end
 
   it 'on initial load all of the checkboxes are unchecked' do
-    page_state = ProviderInterface::ProviderApplicationsPageState.new(
+    filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: ActionController::Parameters.new({}),
       provider_user: current_provider_user,
       state_store: {},
     )
-    result = render_inline described_class.new(page_state: page_state)
+    result = render_inline described_class.new(filter: filter)
 
     expect(result.css('#status-awaiting_provider_decision').attr('checked')).to eq(nil)
     expect(result.css('#status-offer').attr('checked')).to eq(nil)
@@ -77,25 +77,25 @@ RSpec.describe FilterComponent do
   end
 
   it 'when filters have been selected filters dialogue to appear' do
-    page_state = ProviderInterface::ProviderApplicationsPageState.new(
+    filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: applied_filters,
       provider_user: current_provider_user,
       state_store: {},
     )
 
-    result = render_inline described_class.new(page_state: page_state)
+    result = render_inline described_class.new(filter: filter)
 
     expect(result.text).to include('Selected filters')
   end
 
   it 'selected filters dialogue should not appear if is nothing filtered for' do
-    page_state = ProviderInterface::ProviderApplicationsPageState.new(
+    filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: ActionController::Parameters.new({}),
       provider_user: current_provider_user,
       state_store: {},
     )
 
-    result = render_inline described_class.new(page_state: page_state)
+    result = render_inline described_class.new(filter: filter)
 
     expect(result.text).not_to include('Selected filters')
   end

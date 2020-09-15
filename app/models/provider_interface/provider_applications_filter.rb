@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ProviderApplicationsPageState
+  class ProviderApplicationsFilter
     attr_accessor :available_filters, :filter_selections, :provider_user
     attr_reader :applied_filters
 

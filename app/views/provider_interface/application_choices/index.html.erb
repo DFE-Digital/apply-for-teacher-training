@@ -20,7 +20,7 @@
 
 <h1 class='govuk-heading-xl'>Applications</h1>
 
-<%= render PaginatedFilterComponent.new(filter: @page_state, collection: @application_choices) do %>
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_choices) do %>
   <% if @application_choices.any? %>
     <div class="app-application-cards">
       <% previous_header = '' %>
@@ -35,7 +35,7 @@
         <%= render ProviderInterface::ApplicationCardComponent.new(application_choice: choice) %>
       <% end %>
     </div>
-  <% elsif @page_state.filtered? %>
+  <% elsif @filter.filtered? %>
     <p class='govuk-body'>No applications for the selected filters.</p>
   <% else %>
     <p class='govuk-body'>You have not received any applications from <%= t('service_name.apply') %>.</p>

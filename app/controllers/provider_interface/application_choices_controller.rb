@@ -3,7 +3,7 @@ module ProviderInterface
     before_action :set_application_choice_and_sub_navigation_items, except: %i[index]
 
     def index
-      @page_state = ProviderApplicationsPageState.new(
+      @filter = ProviderApplicationsFilter.new(
         params: params,
         provider_user: current_provider_user,
         state_store: session,
@@ -15,7 +15,7 @@ module ProviderInterface
 
       application_choices = FilterApplicationChoicesForProviders.call(
         application_choices: application_choices,
-        filters: @page_state.applied_filters,
+        filters: @filter.applied_filters,
       )
 
       # Eager load / prevent Bullet::Notification::UnoptimizedQueryError
