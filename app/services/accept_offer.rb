@@ -21,6 +21,8 @@ class AcceptOffer
       ProviderMailer.offer_accepted(provider_user, @application_choice).deliver_later
     end
 
+    CandidateMailer.offer_accepted(@application_choice).deliver_later
+
     StateChangeNotifier.call(:offer_accepted, application_choice: @application_choice)
   end
 
