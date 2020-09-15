@@ -1,3 +1,7 @@
+### 15th September 2020
+
+Maximum length of `address_line1` increased to 200 characters to account for international addresses.
+
 ### 9th September 2020
 
 - fix a bug with test data generation where provider names in qualifications
