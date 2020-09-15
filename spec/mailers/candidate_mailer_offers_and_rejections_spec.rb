@@ -39,7 +39,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'decline by default date' => 'Make a decision by 25 February 2020',
       'first_condition' => 'DBS check',
       'second_condition' => 'Pass exams',
-      'Days to make an offer' => 'You have 10 working days to make a decision. If you do not reply by 25 February 2020',
+      'Days to make an offer' => 'If you do not reply by 25 February 2020',
       'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.'
     )
   end
