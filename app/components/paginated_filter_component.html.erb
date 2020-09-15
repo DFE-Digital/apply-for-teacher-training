@@ -1,0 +1,9 @@
+<div class='moj-filter-layout'>
+  <%= render FilterComponent.new(page_state: filter) %>
+
+  <div class='moj-filter-layout__content'>
+    <%= content %>
+
+    <%= render(PaginatorComponent.new(scope: collection)) %>
+  </div>
+</div>
