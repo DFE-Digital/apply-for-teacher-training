@@ -205,12 +205,24 @@ module CandidateInterface
       @application_form.becoming_a_teacher_completed
     end
 
+    def becoming_a_teacher_valid?
+      BecomingATeacherForm.build_from_application(@application_form).valid?
+    end
+
     def subject_knowledge_completed?
       @application_form.subject_knowledge_completed
     end
 
+    def subject_knowledge_valid?
+      SubjectKnowledgeForm.build_from_application(@application_form).valid?
+    end
+
     def interview_preferences_completed?
       @application_form.interview_preferences_completed
+    end
+
+    def interview_preferences_valid?
+      InterviewPreferencesForm.build_from_application(@application_form).valid?
     end
 
     def training_with_a_disability_completed?
