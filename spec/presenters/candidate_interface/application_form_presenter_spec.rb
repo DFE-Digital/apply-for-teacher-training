@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe '#maths_gcse_added?' do
     it 'returns true if maths gcse has been added' do
-      application_form = FactoryBot.build(:completed_application_form)
+      application_form = FactoryBot.build(:completed_application_form, with_gcses: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_maths_gcse_added
@@ -96,6 +96,22 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe '#english_gcse_added?' do
+    it 'returns true if english gcse has been added' do
+      application_form = FactoryBot.build(:completed_application_form, with_gcses: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_english_gcse_added
+    end
+
+    it 'returns false if english gcse has been not been added' do
+      application_form = FactoryBot.build(:application_form)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_english_gcse_added
+    end
+  end
+
   describe '#science_gcse_completed?' do
     it 'returns true if science gcse section is completed' do
       application_form = FactoryBot.build(:application_form, science_gcse_completed: true)
@@ -109,6 +125,22 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).not_to be_science_gcse_completed
+    end
+  end
+
+  describe '#science_gcse_added?' do
+    it 'returns true if science gcse has been added' do
+      application_form = FactoryBot.build(:completed_application_form, with_gcses: true)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_science_gcse_added
+    end
+
+    it 'returns false if science gcse has been not been added' do
+      application_form = FactoryBot.build(:application_form)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_science_gcse_added
     end
   end
 

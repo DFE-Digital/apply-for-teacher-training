@@ -71,7 +71,7 @@ FactoryBot.define do
         volunteering_experiences_count { 0 }
         references_count { 0 }
         references_state { :requested }
-        with_gces { false }
+        with_gcses { false }
         full_work_history { false }
         with_degree { false }
       end
@@ -144,7 +144,7 @@ FactoryBot.define do
       end
 
       after(:build) do |application_form, evaluator|
-        if evaluator.with_gces
+        if evaluator.with_gcses
           create(:gcse_qualification, application_form: application_form, subject: 'maths')
           create(:gcse_qualification, application_form: application_form, subject: 'english')
           create(:gcse_qualification, application_form: application_form, subject: 'science')
