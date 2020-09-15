@@ -1,0 +1,40 @@
+<% content_for :browser_title, title_with_error_prefix('Review deferred offer', @application_choice.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(previous_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+      Review deferred offer
+    </h1>
+
+    <div class="govuk-!-margin-bottom-7">
+      <% if @wizard.course_option_in_new_cycle %>
+        <p class="govuk-body-m">
+          The course offered to the candidate in the previous cycle is available in the current cycle. On the next screen, you can change the status of the conditions of the offer.
+        </p>
+       <% else %>
+        <p class="govuk-body-m">
+          You can’t make the same offer that you made last year, because the course is no longer available in the same form. You’ll have to change some of the course details – you cannot make the same offer that you made in the previous cycle.
+        </p>
+        <p class="govuk-body-m">
+          To change the details of your offer, please contact support.
+        </p>
+       <% end %>
+      <details class="govuk-details govuk-!-margin-bottom-0 app-details--no-boder" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Details of deferred offer
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <%= render ProviderInterface::DeferredOfferDetailsComponent.new(application_choice: @wizard.modified_application_choice) %>
+        </div>
+      </details>
+    </div>
+
+    <% if @wizard.course_option_in_new_cycle %>
+      <%= govuk_link_to 'Continue', next_path, class: 'govuk-button' %>
+    <% end %>
+  </div>
+</div>

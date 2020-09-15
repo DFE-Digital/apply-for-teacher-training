@@ -39,6 +39,13 @@ module ProviderInterface
         course_option_id: @application_choice.offered_option.id,
       )
 
+      if @application_choice.status == 'offer_deferred'
+        @deferred_offer_wizard_applicable =
+          @application_choice.recruitment_cycle == RecruitmentCycle.previous_year
+        @deferred_offer_equivalent_course_option_available =
+          @application_choice.offered_option.in_next_cycle
+      end
+
       @status_box_options = if @application_choice.offer? && @provider_can_respond
                               get_all_change_options @application_choice
                             else

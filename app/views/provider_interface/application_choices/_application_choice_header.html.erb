@@ -20,6 +20,30 @@
   </div>
 <% end -%>
 
+<% if @deferred_offer_wizard_applicable && flash.empty? && @provider_can_respond -%>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <div class="govuk-inset-text govuk-!-margin-top-0">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-3">
+          Review and confirm the deferred offer
+        </h2>
+
+        <% if @deferred_offer_equivalent_course_option_available %>
+          <p class="govuk-body">
+            The course offered to the candidate in the previous cycle is available in the current cycle.
+          </p>
+        <% else %>
+          <p class="govuk-body">
+            The course offered to the candidate in the previous cycle is <strong>not available</strong> in the current cycle.
+          </p>
+        <% end %>
+
+        <%= govuk_button_link_to 'Review deferred offer', provider_interface_reconfirm_deferred_offer_path(@application_choice) %>
+      </div>
+    </div>
+  </div>
+<% end -%>
+
 <% if @sub_navigation_items.count > 1 %>
   <%= render TabNavigationComponent.new(items: @sub_navigation_items) %>
 <% end %>

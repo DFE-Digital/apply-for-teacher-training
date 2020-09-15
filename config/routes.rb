@@ -628,6 +628,17 @@ Rails.application.routes.draw do
             as: :update_provider_relationship_permissions
     end
 
+    scope path: '/applications/:application_choice_id/offer/reconfirm' do
+      get '/' => 'reconfirm_deferred_offers#start',
+          as: :reconfirm_deferred_offer
+      get '/conditions' => 'reconfirm_deferred_offers#conditions',
+          as: :reconfirm_deferred_offer_conditions
+      patch '/conditions' => 'reconfirm_deferred_offers#update_conditions'
+      get '/check' => 'reconfirm_deferred_offers#check',
+          as: :reconfirm_deferred_offer_check
+      post '/' => 'reconfirm_deferred_offers#commit'
+    end
+
     get '*path', to: 'errors#not_found'
   end
 

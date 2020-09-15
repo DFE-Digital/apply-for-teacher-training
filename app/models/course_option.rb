@@ -53,4 +53,28 @@ class CourseOption < ApplicationRecord
   def get_alternative_study_mode
     CourseOption.find_by(site: site, course: course, study_mode: alternative_study_mode)
   end
+
+  def in_previous_cycle
+    equivalent_course = course.in_previous_cycle
+
+    if equivalent_course
+      CourseOption.find_by(
+        course: equivalent_course,
+        site: site,
+        study_mode: study_mode,
+      )
+    end
+  end
+
+  def in_next_cycle
+    equivalent_course = course.in_next_cycle
+
+    if equivalent_course
+      CourseOption.find_by(
+        course: equivalent_course,
+        site: site,
+        study_mode: study_mode,
+      )
+    end
+  end
 end

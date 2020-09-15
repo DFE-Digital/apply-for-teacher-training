@@ -1,28 +1,19 @@
-class DeferOffer
+class ReinstatePendingConditions
   include ActiveModel::Validations
 
-  def initialize(actor:, application_choice:)
+  def initialize(actor:, application_choice:, course_option_id:)
     @auth = ProviderAuthorisation.new(actor: actor)
     @application_choice = application_choice
+    @course_option_id = course_option_id
   end
 
   def save
     @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
 
-    prior_status = @application_choice.status
-
     ActiveRecord::Base.transaction do
-      ApplicationStateChange.new(@application_choice).defer_offer!
-      @application_choice.update(
-        status_before_deferral: prior_status,
-        offer_deferred_at: Time.zone.now,
-      )
+      ApplicationStateChange.new(@application_choice).reinstate_pending_conditions!
+      @application_choice.update(offered_course_option_id: @course_option_id)
     end
-
-    CandidateMailer.deferred_offer(@application_choice).deliver_later
-    StateChangeNotifier.call(:defer_offer, application_choice: @application_choice)
-
-    true
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,

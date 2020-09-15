@@ -1,0 +1,31 @@
+<% content_for :browser_title, title_with_error_prefix('Review offer', @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(previous_path) %>
+
+<%= form_with model: @wizard, url: next_path, method: :post do |f| %>
+  <%= f.govuk_error_summary %>
+  <%= f.hidden_field :course_option_id %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+        Review offer
+      </h1>
+
+      <div class="app-offer-panel govuk-!-margin-bottom-5">
+        <%= render ProviderInterface::DeferredOfferDetailsComponent.new(application_choice: @wizard.modified_application_choice, course_option: @wizard.course_option) %>
+      </div>
+
+      <p class="govuk-body">
+        <% and_remind = ' and remind them of the conditions for it' unless @wizard.conditions_met? %>
+        We’ll email the candidate to confirm their new offer<%= and_remind %>.
+      </p>
+
+      <%= f.submit 'Confirm offer', class: 'govuk-button', 'data-module': 'govuk-button' %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id) %>
+      </p>
+    </div>
+  </div>
+<% end %>
