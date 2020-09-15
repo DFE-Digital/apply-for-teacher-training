@@ -574,7 +574,7 @@ components:
         address_line1:
           type: string
           description: The candidate’s address line 1
-          maxLength: 50
+          maxLength: 200
           example: 45 Dialstone Lane
         address_line2:
           type: string
