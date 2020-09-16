@@ -1,6 +1,8 @@
 class CandidateMailer < ApplicationMailer
   def application_on_pause(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
+    @current_cycle_name = RecruitmentCycle.current_cycle_name
+    @next_cycle_name = RecruitmentCycle.next_cycle_name
 
     email_for_candidate(
       application_form,
