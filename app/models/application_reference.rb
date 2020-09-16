@@ -83,7 +83,7 @@ class ApplicationReference < ApplicationRecord
 
   def feedback_overdue?
     return unless replace_referee_at
-    return unless feedback_requested?
+    return unless feedback_requested? || cancelled_at_end_of_cycle?
 
     replace_referee_at < Time.zone.now
   end
