@@ -3,17 +3,13 @@
     <div class="govuk-heading-m">
       <% if EndOfCycleTimetable.between_cycles_apply_2? %>
         <p>
-          Do you want to continue applying?
+          Courses for the <%= current_cycle_span %> academic year are now closed
         </p>
 
         <p class='govuk-body govuk-!-font-size-24'>
-          Applications for this academic year <%= current_cycle_span %> are now closed.
+          Your references did not come back in time, but you can <%= govuk_link_to 'apply again', start_path %>
         </p>
-
-        <p class='govuk-body govuk-!-font-size-24'>
-          You can still <%= govuk_link_to 'continue with your application', start_path %> so it’s ready to submit for courses starting next academic year <%= next_cycle_span %>.
-        </p>
-      <% else %> 
+      <% else %>
         <p>
           Do you want to continue applying?
         </p>

@@ -43,6 +43,6 @@ RSpec.feature 'Candidate with unsuccessful application' do
   end
 
   def and_i_do_see_a_carry_over_application_banner
-    expect(page).to have_content('Do you want to continue applying?')
+    expect(page).to have_content('Courses for the (2020 - 2021) academic year are now closed')
   end
 end
