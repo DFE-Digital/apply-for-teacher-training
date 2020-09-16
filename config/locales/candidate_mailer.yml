@@ -1,6 +1,6 @@
 en:
   candidate_mailer:
-    application_on_pause:
+    referees_did_not_respond_before_end_of_cycle:
       subject: "Your references did not come back in time"
     eoc_choice_unavailable_no_other_choices:
       subject: Find a different course and re-submit your application

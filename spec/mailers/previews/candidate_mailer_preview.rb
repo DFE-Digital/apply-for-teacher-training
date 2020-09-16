@@ -1,6 +1,6 @@
 class CandidateMailerPreview < ActionMailer::Preview
   def application_on_pause
-    CandidateMailer.application_on_pause(application_form)
+    CandidateMailer.referees_did_not_respond_before_end_of_cycle(application_form)
   end
 
   def application_submitted
