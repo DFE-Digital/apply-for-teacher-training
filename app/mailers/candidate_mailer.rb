@@ -332,6 +332,7 @@ private
     @offers = @application_choice.application_form.application_choices.select(&:offer?).map do |offer|
       "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
     end
+    @start_date = @application_choice.course_option.course.start_date.to_s(:month_and_year)
 
     email_for_candidate(
       application_choice.application_form,
