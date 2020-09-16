@@ -98,7 +98,7 @@ RSpec.feature 'Vendor receives the application' do
           last_name: 'Calrissian',
           date_of_birth: '1937-04-06',
           nationality: %w[GB US],
-          uk_residency_status: nil,
+          uk_residency_status: 'UK Citizen',
           english_main_language: true,
           other_languages: "I'm great at Galactic Basic so English is a piece of cake",
           english_language_qualifications: nil,

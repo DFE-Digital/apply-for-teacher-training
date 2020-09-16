@@ -527,12 +527,12 @@ components:
             type: string
             pattern: "^[A-Z]{2}$"
             example: NL
-          maxItems: 2
+          maxItems: 5
           description: One or more ISO 3166-2 country codes
         uk_residency_status:
           type: string
           maxLength: 256
-          description: The candidate’s UK residency status, e.g. Citizen
+          description: The candidate’s UK residency status indicating their right to work and study in the UK
           example: UK Citizen
         english_main_language:
           type: boolean
