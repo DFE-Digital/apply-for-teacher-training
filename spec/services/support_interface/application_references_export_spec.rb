@@ -32,6 +32,18 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
           'Ref 3 state',
           'Ref 4 type',
           'Ref 4 state',
+          'Ref 5 type',
+          'Ref 5 state',
+          'Ref 6 type',
+          'Ref 6 state',
+          'Ref 7 type',
+          'Ref 7 state',
+          'Ref 8 type',
+          'Ref 8 state',
+          'Ref 9 type',
+          'Ref 9 state',
+          'Ref 10 type',
+          'Ref 10 state',
         ],
       )
     end

@@ -1,18 +1,17 @@
 module SupportInterface
   class ApplicationReferencesExport
     def self.header_row
-      [
+      header_row = [
         'Support Ref Number',
-        'Phase',
-        'Ref 1 type',
-        'Ref 1 state',
-        'Ref 2 type',
-        'Ref 2 state',
-        'Ref 3 type',
-        'Ref 3 state',
-        'Ref 4 type',
-        'Ref 4 state',
+        'Phase'
       ]
+
+      ApplicationForm::MAXIMUM_REFERENCES.times do |i|
+        header_row << "Ref #{i + 1} type"
+        header_row << "Ref #{i + 1} state"
+      end
+
+      header_row
     end
 
     def self.call
