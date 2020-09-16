@@ -13,8 +13,10 @@
               <dd class="app-qualification__value app-qualification__value--caption"><%= award_year %></dd>
               <dt class="app-qualification__key"><%= grade_title %></dt>
               <dd class="app-qualification__value"><%= grade %></dd>
-              <dt class="app-qualification__key"><%= reference_number_title %></dt>
-              <dd class="app-qualification__value"><%= unique_reference_number %></dd>
+              <% if unique_reference_number %>
+                <dt class="app-qualification__key"><%= reference_number_title %></dt>
+                <dd class="app-qualification__value"><%= unique_reference_number %></dd>
+              <% end %>
             </dl>
           </div>
         </div>
