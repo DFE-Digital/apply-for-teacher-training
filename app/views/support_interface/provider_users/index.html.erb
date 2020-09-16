@@ -6,4 +6,6 @@
 
 <%= govuk_button_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path %>
 
-<%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @provider_users) do %>
+  <%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>
+<% end %>
