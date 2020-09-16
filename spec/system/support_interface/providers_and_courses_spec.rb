@@ -8,7 +8,7 @@ RSpec.feature 'Providers and courses' do
     stub_new_recruitment_year_sync
   end
 
-  scenario 'User visits providers page' do
+  scenario 'User syncs provider and browses providers' do
     given_i_am_a_support_user
     and_providers_are_configured_to_be_synced
     when_i_visit_the_tasks_page
@@ -52,6 +52,9 @@ RSpec.feature 'Providers and courses' do
     and_i_click_on_courses
     and_i_choose_to_open_all_courses
     then_all_courses_should_be_open_on_apply
+
+    and_when_i_click_the_other_providers_tab
+    and_i_should_see_the_list_of_other_providers
   end
 
   def given_i_am_a_support_user
@@ -71,6 +74,7 @@ RSpec.feature 'Providers and courses' do
 
     create :provider, code: 'DEF', name: 'Gorse SCITT', sync_courses: true
     create :provider, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
+    create :provider, code: 'DOF', name: 'An Unsynced Provider', sync_courses: false
 
     create(:course_option, course: create(:course, accredited_provider: provider))
   end
@@ -245,5 +249,14 @@ RSpec.feature 'Providers and courses' do
 
   def then_all_courses_should_be_open_on_apply
     expect(page).to have_content '1 course (1 on DfE Apply)'
+  end
+
+  def and_when_i_click_the_other_providers_tab
+    click_link 'Providers'
+    click_link 'Other providers'
+  end
+
+  def and_i_should_see_the_list_of_other_providers
+    expect(page).to have_content('An Unsynced Provider')
   end
 end
