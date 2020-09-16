@@ -169,12 +169,24 @@ module CandidateInterface
       @application_form.maths_gcse_completed
     end
 
+    def maths_gcse_added?
+      @application_form.maths_gcse.present?
+    end
+
     def english_gcse_completed?
       @application_form.english_gcse_completed
     end
 
+    def english_gcse_added?
+      @application_form.english_gcse.present?
+    end
+
     def science_gcse_completed?
       @application_form.science_gcse_completed
+    end
+
+    def science_gcse_added?
+      @application_form.science_gcse.present?
     end
 
     def other_qualifications_completed?
@@ -193,12 +205,24 @@ module CandidateInterface
       @application_form.becoming_a_teacher_completed
     end
 
+    def becoming_a_teacher_valid?
+      BecomingATeacherForm.build_from_application(@application_form).valid?
+    end
+
     def subject_knowledge_completed?
       @application_form.subject_knowledge_completed
     end
 
+    def subject_knowledge_valid?
+      SubjectKnowledgeForm.build_from_application(@application_form).valid?
+    end
+
     def interview_preferences_completed?
       @application_form.interview_preferences_completed
+    end
+
+    def interview_preferences_valid?
+      InterviewPreferencesForm.build_from_application(@application_form).valid?
     end
 
     def training_with_a_disability_completed?

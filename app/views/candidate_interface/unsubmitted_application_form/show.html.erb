@@ -121,7 +121,7 @@
           TaskListItemComponent.new(
             text: 'Maths GCSE or equivalent',
             completed: @application_form_presenter.maths_gcse_completed?,
-            path: @application_form_presenter.maths_gcse_completed? ? candidate_interface_gcse_review_path(subject: :maths) : candidate_interface_gcse_details_edit_type_path(subject: :maths)
+            path: @application_form_presenter.maths_gcse_added? ? candidate_interface_gcse_review_path(subject: :maths) : candidate_interface_gcse_details_edit_type_path(subject: :maths)
           )
         ) %>
       </li>
@@ -130,7 +130,7 @@
           TaskListItemComponent.new(
             text: 'English GCSE or equivalent',
             completed: @application_form_presenter.english_gcse_completed?,
-            path: @application_form_presenter.english_gcse_completed? ? candidate_interface_gcse_review_path(subject: :english) : candidate_interface_gcse_details_edit_type_path(subject: :english)
+            path: @application_form_presenter.english_gcse_added? ? candidate_interface_gcse_review_path(subject: :english) : candidate_interface_gcse_details_edit_type_path(subject: :english)
           )
         ) %>
       </li>
@@ -140,7 +140,7 @@
             TaskListItemComponent.new(
               text: 'Science GCSE or equivalent',
               completed: @application_form_presenter.science_gcse_completed?,
-              path: @application_form_presenter.science_gcse_completed? ? candidate_interface_gcse_review_path(subject: :science) : candidate_interface_gcse_details_edit_type_path(subject: :science)
+              path: @application_form_presenter.science_gcse_added? ? candidate_interface_gcse_review_path(subject: :science) : candidate_interface_gcse_details_edit_type_path(subject: :science)
             )
           ) %>
         </li>
@@ -178,7 +178,7 @@
           TaskListItemComponent.new(
             text: t('page_titles.becoming_a_teacher'),
             completed: @application_form_presenter.becoming_a_teacher_completed?,
-            path: @application_form_presenter.becoming_a_teacher_completed? ? candidate_interface_becoming_a_teacher_show_path : candidate_interface_becoming_a_teacher_edit_path
+            path: @application_form_presenter.becoming_a_teacher_valid? ? candidate_interface_becoming_a_teacher_show_path : candidate_interface_becoming_a_teacher_edit_path
           )
         ) %>
       </li>
@@ -187,7 +187,7 @@
           TaskListItemComponent.new(
             text: t('page_titles.subject_knowledge'),
             completed: @application_form_presenter.subject_knowledge_completed?,
-            path: @application_form_presenter.subject_knowledge_completed? ? candidate_interface_subject_knowledge_show_path : candidate_interface_subject_knowledge_edit_path
+            path: @application_form_presenter.subject_knowledge_valid? ? candidate_interface_subject_knowledge_show_path : candidate_interface_subject_knowledge_edit_path
           )
         ) %>
       </li>
@@ -196,7 +196,7 @@
           TaskListItemComponent.new(
             text: t('page_titles.interview_preferences'),
             completed: @application_form_presenter.interview_preferences_completed?,
-            path: @application_form_presenter.interview_preferences_completed? ? candidate_interface_interview_preferences_show_path : candidate_interface_interview_preferences_edit_path
+            path: @application_form_presenter.interview_preferences_valid? ? candidate_interface_interview_preferences_show_path : candidate_interface_interview_preferences_edit_path
           )
         ) %>
       </li>

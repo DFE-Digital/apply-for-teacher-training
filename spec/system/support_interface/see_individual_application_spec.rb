@@ -30,10 +30,10 @@ RSpec.feature 'See an application' do
   end
 
   def and_there_are_applications_in_the_system
-    @completed_application = create(:completed_application_form, references_count: 2, with_gces: true)
+    @completed_application = create(:completed_application_form, references_count: 2, with_gcses: true)
     SubmitApplication.new(@completed_application).call
     @unsubmitted_application = create(:application_form)
-    @application_with_reference = create(:completed_application_form, references_count: 2, with_gces: true)
+    @application_with_reference = create(:completed_application_form, references_count: 2, with_gcses: true)
   end
 
   def and_an_application_has_received_a_reference
