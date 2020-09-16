@@ -22,8 +22,9 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
     it 'returns an array containing column headings' do
       expect(described_class.header_row).to eq(
         [
-          'Support Ref Number',
+          'Support ref number',
           'Phase',
+          'Application state',
           'Ref 1 type',
           'Ref 1 state',
           'Ref 2 type',
@@ -51,8 +52,9 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
 
   def return_expected_hash(application_form)
     {
-      'Support Ref Number' => application_form.support_reference,
+      'Support ref number' => application_form.support_reference,
       'Phase' => application_form.phase,
+      'Application state' => ProcessState.new(application_form).state,
       'Ref 1 type' => application_form.application_references[0].referee_type,
       'Ref 1 state' => application_form.application_references[0].feedback_status,
       'Ref 2 type' => application_form.application_references[1].referee_type,

@@ -2,8 +2,9 @@ module SupportInterface
   class ApplicationReferencesExport
     def self.header_row
       header_row = [
-        'Support Ref Number',
-        'Phase'
+        'Support ref number',
+        'Phase',
+        'Application state',
       ]
 
       ApplicationForm::MAXIMUM_REFERENCES.times do |i|
@@ -19,8 +20,9 @@ module SupportInterface
 
       application_forms.map do |af|
         output = {
-          'Support Ref Number' => af.support_reference,
+          'Support ref number' => af.support_reference,
           'Phase' => af.phase,
+          'Application state' => ProcessState.new(af).state,
         }
 
         af.application_references.map.with_index(1) do |reference, index|
