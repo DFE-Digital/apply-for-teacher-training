@@ -5,7 +5,7 @@ module SupportInterface
     def index
       @candidates = Candidate
         .includes(application_forms: :application_choices)
-        .order(last_signed_in_at: :desc)
+        .order(updated_at: :desc)
         .page(params[:page] || 1).per(15)
 
       if params[:q]
