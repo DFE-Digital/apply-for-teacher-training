@@ -5,7 +5,7 @@ class ApplicationForm < ApplicationRecord
 
   include Chased
 
-  belongs_to :candidate
+  belongs_to :candidate, touch: true
   has_many :application_choices
   has_many :application_work_experiences
   has_many :application_volunteering_experiences
