@@ -19,6 +19,7 @@ class ApplicationReference < ApplicationRecord
 
   enum feedback_status: {
     cancelled: 'cancelled',
+    cancelled_at_end_of_cycle: 'cancelled_at_end_of_cycle',
     not_requested_yet: 'not_requested_yet',
     feedback_requested: 'feedback_requested',
     feedback_provided: 'feedback_provided',
