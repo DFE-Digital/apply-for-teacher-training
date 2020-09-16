@@ -1,18 +1,20 @@
 <% content_for :title, 'Email log' %>
 
-<table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Email</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-  <% @emails.each do |email| %>
-    <%= render SupportInterface::EmailLogRowComponent.new(email: email) %>
-  <% end %>
-  </tbody>
-</table>
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @emails) do %>
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Time</th>
+        <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Email</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    <% @emails.each do |email| %>
+      <%= render SupportInterface::EmailLogRowComponent.new(email: email) %>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
 
 <p class='govuk-body'>
   Note that only emails sent since <%= Email.order(:id).first&.created_at&.to_s(:govuk_date_and_time) %> have been logged.

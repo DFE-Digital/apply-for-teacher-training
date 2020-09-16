@@ -15,6 +15,9 @@ RSpec.feature 'Email log' do
 
     when_notify_tells_us_the_emails_have_not_been_delivered
     then_the_delivery_status_is_displayed_on_the_page
+
+    when_i_search_for_an_email
+    i_see_only_the_filtered_email
   end
 
   def given_i_am_a_support_user
@@ -80,9 +83,25 @@ RSpec.feature 'Email log' do
 
   def then_the_delivery_status_is_displayed_on_the_page
     visit support_interface_email_log_path(delivery_status: 'permanent_failure')
-    expect(page).to have_content 'Permanent failure'
+
+    within '.moj-filter-layout__content' do
+      expect(page).to have_content 'Permanent failure'
+    end
 
     visit support_interface_email_log_path(delivery_status: 'delivered')
-    expect(page).not_to have_content 'Permanent failure'
+
+    within '.moj-filter-layout__content' do
+      expect(page).not_to have_content 'Permanent failure'
+    end
+  end
+
+  def when_i_search_for_an_email
+    fill_in :q, with: 'harry'
+    click_on 'Apply filters'
+  end
+
+  def i_see_only_the_filtered_email
+    expect(page).to have_content 'Application submitted (Candidate mailer)'
+    expect(page).not_to have_content 'Sign up email (Authentication mailer)'
   end
 end
