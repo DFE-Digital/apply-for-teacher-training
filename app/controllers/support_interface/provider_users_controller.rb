@@ -2,7 +2,7 @@ module SupportInterface
   class ProviderUsersController < SupportInterfaceController
     def index
       @provider_users = ProviderUser
-        .includes(:providers)
+        .includes(providers: %i[training_provider_permissions ratifying_provider_permissions])
         .page(params[:page] || 1).per(15)
 
       if params[:q]
