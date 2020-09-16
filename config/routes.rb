@@ -742,6 +742,7 @@ Rails.application.routes.draw do
     get '/performance/tad-provider-performance', to: 'performance#tad_provider_performance', as: :tad_provider_performance
     get '/performance/course-choice-withdrawal', to: 'performance#course_choice_withdrawal', as: :course_choice_withdrawal_survey
     get '/performance/candidate-journey-tracking', to: 'performance#candidate_journey_tracking', as: :candidate_journey_tracking
+    get 'performance/reference-types', to: 'performance#application_references', as: :application_references
 
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'

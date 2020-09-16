@@ -81,6 +81,14 @@ module SupportInterface
       end
     end
 
+    def application_references
+      references = SupportInterface::ApplicationReferencesExport.call
+      header_row = SupportInterface::ApplicationReferencesExport.header_row
+      csv = to_csv(references, header_row)
+
+      send_data csv, filename: "application-references-#{Time.zone.today}.csv", disposition: :attachment
+    end
+
   private
 
     def to_csv(objects, header_row = nil)
