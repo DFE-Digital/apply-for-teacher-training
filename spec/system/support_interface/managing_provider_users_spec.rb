@@ -30,6 +30,7 @@ RSpec.feature 'Managing provider users' do
     and_i_click_add_user
 
     then_i_should_see_the_list_of_provider_users
+    when_i_filter_the_list_of_provider_users
     and_i_should_see_the_user_i_created
     and_the_user_should_be_sent_a_welcome_email
 
@@ -147,6 +148,11 @@ RSpec.feature 'Managing provider users' do
 
   def then_i_should_see_the_list_of_provider_users
     expect(page).to have_title('Provider users')
+  end
+
+  def when_i_filter_the_list_of_provider_users
+    fill_in :q, with: 'harrison'
+    click_on 'Apply filters'
   end
 
   def and_i_should_see_the_user_i_created

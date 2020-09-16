@@ -1,7 +1,15 @@
 module SupportInterface
   class ProviderUsersController < SupportInterfaceController
     def index
-      @provider_users = ProviderUser.includes(:providers).all
+      @provider_users = ProviderUser
+        .includes(providers: %i[training_provider_permissions ratifying_provider_permissions])
+        .page(params[:page] || 1).per(15)
+
+      if params[:q]
+        @provider_users = @provider_users.where("CONCAT(first_name, ' ', last_name, ' ', email_address) ILIKE ?", "%#{params[:q]}%")
+      end
+
+      @filter = SupportInterface::ProviderUsersFilter.new(params: params)
     end
 
     def new
