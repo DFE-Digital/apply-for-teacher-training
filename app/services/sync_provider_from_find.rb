@@ -23,7 +23,7 @@ class SyncProviderFromFind
         ),
       )
 
-      SyncCoursesFromFind.new(provider.id, provider_recruitment_cycle_year).sync
+      SyncCoursesFromFind.perform_async(provider.id, provider_recruitment_cycle_year)
     else
       @provider = create_or_update_provider(base_provider_attrs)
     end

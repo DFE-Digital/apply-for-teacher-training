@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SyncProviderFromFind do
+RSpec.describe SyncProviderFromFind, sidekiq: true do
   include FindAPIHelper
 
   describe '.call' do

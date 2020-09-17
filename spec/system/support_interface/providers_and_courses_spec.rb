@@ -132,9 +132,9 @@ RSpec.feature 'Providers and courses' do
   end
 
   def then_requests_to_find_should_be_made
-    expect(@request1).to have_been_made
-    expect(@request2).to have_been_made
-    expect(@request3).to have_been_made
+    expect(@request1).to have_been_made.twice
+    expect(@request2).to have_been_made.twice
+    expect(@request3).to have_been_made.twice
   end
 
   def when_i_visit_the_providers_page

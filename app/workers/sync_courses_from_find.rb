@@ -1,12 +1,13 @@
 class SyncCoursesFromFind
-  attr_reader :provider, :provider_recruitment_cycle_year
+  attr_reader :provider
 
-  def initialize(provider_id, provider_recruitment_cycle_year)
+  include Sidekiq::Worker
+  sidekiq_options retry: 3
+
+  def perform(provider_id, provider_recruitment_cycle_year)
     @provider = Provider.find(provider_id)
     @provider_recruitment_cycle_year = provider_recruitment_cycle_year
-  end
 
-  def sync
     find_provider.courses.each do |find_course|
       create_or_update_course(find_course)
     end
@@ -18,7 +19,7 @@ private
     # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers/1N1/?include=sites,courses.sites
     @find_provider ||= begin
       FindAPI::Provider
-        .recruitment_cycle(provider_recruitment_cycle_year)
+        .recruitment_cycle(@provider_recruitment_cycle_year)
         .includes(:sites, courses: [:sites, :subjects, site_statuses: [:site]])
         .find(provider.code)
         .first
