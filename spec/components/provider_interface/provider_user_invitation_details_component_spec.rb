@@ -72,4 +72,27 @@ RSpec.describe ProviderInterface::ProviderUserInvitationDetailsComponent do
       expect(result.css('.govuk-summary-list__value')[3].text).to include('Manage users')
     end
   end
+
+  context 'when no permissions are granted' do
+    let(:provider) { create(:provider) }
+    let(:wizard) do
+      instance_double(
+        ProviderInterface::ProviderUserInvitationWizard,
+        first_name: 'Ed',
+        last_name: 'Yewcator',
+        email_address: 'ed@example.com',
+        providers: [provider.id.to_s],
+        provider_permissions: {
+          provider.id.to_s => { 'provider_id' => provider.id },
+        },
+        single_provider: 'true',
+      )
+    end
+
+    it 'presents the default view applications message' do
+      result = render_inline(described_class.new(wizard: wizard))
+
+      expect(result.css('.govuk-summary-list__value')[3].text).to include('The user will only be able to view applications')
+    end
+  end
 end
