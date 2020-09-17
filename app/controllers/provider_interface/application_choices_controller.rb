@@ -93,6 +93,8 @@ module ProviderInterface
       GetApplicationChoicesForProviders.call(
         providers: available_providers,
       ).find(params[:application_choice_id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
 
     def get_sub_navigation_items
