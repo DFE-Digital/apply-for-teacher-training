@@ -1,8 +1,7 @@
+<h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="qualifications">Qualifications</h2>
 <details class="govuk-details" data-module="govuk-details">
   <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      View guidance given to candidate
-    </span>
+    <span class="govuk-details__summary-text">View guidance given to candidate</span>
   </summary>
   <div class="govuk-details__text">
     <h2 class="govuk-heading-m">Academic and other relevant qualifications</h2>
@@ -12,18 +11,9 @@
   </div>
 </details>
 
-<div class="govuk-grid-column-full">
+<div class="govuk-grid-row">
   <%= render DegreeQualificationCardsComponent.new(application_form.application_qualifications.degrees, application_choice_state: application_choice_state) %>
-</div>
-
-<div class="govuk-grid-column-full">
   <%= render GcseQualificationCardsComponent.new(application_form) %>
-</div>
-
-<div class="govuk-grid-column-two-thirds">
   <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, type_label: 'Academic or other qualification') %>
-</div>
-
- <div class="govuk-grid-column-full">
   <%= render EflQualificationCardComponent.new(application_form) %>
 </div>

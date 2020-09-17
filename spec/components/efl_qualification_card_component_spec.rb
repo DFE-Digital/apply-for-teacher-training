@@ -24,7 +24,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
           expect(result.text).to include 'Candidate has an English as a foreign language qualification'
 
-          details_card = result.css('#english-as-a-foreign-language .app-card--outline')
+          details_card = result.css('[data-qa="english-proficiency-qualification"]')
           expect(details_card.text).to include 'IELTS'
           expect(details_card.text).to include '1999'
           expect(details_card.text).to include 'Overall band score'
@@ -44,7 +44,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
           expect(result.text).to include 'Candidate has an English as a foreign language qualification'
 
-          details_card = result.css('#english-as-a-foreign-language .app-card--outline')
+          details_card = result.css('[data-qa="english-proficiency-qualification"]')
           expect(details_card.text).to include 'TOEFL'
           expect(details_card.text).to include '1999'
           expect(details_card.text).to include 'Total score'
@@ -64,7 +64,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
 
           expect(result.text).to include 'Candidate has an English as a foreign language qualification'
 
-          details_card = result.css('#english-as-a-foreign-language .app-card--outline')
+          details_card = result.css('[data-qa="english-proficiency-qualification"]')
           expect(details_card.text).to include 'Cockney Rhyming Slang Proficiency Test'
           expect(details_card.text).to include '2001'
           expect(details_card.text).to include 'Score or grade'
