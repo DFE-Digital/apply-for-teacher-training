@@ -10,9 +10,26 @@ module SupportInterface
       [
         {
           type: :search,
-          heading: 'Name or email',
+          heading: 'Name, email or reference',
           value: applied_filters[:q],
           name: 'q',
+        },
+        {
+          type: :checkboxes,
+          heading: 'Phase',
+          name: 'phase',
+          options: [
+            {
+              value: 'apply_1',
+              label: 'Apply 1',
+              checked: applied_filters[:phase]&.include?('apply_1'),
+            },
+            {
+              value: 'apply_2',
+              label: 'Apply 2',
+              checked: applied_filters[:phase]&.include?('apply_2'),
+            },
+          ],
         },
       ]
     end

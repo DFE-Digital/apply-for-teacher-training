@@ -8,7 +8,11 @@ module SupportInterface
         .page(params[:page] || 1).per(15)
 
       if params[:q]
-        @application_forms = @application_forms.where("CONCAT(application_forms.first_name, ' ', application_forms.last_name, ' ', candidates.email_address) ILIKE ?", "%#{params[:q]}%")
+        @application_forms = @application_forms.where("CONCAT(application_forms.first_name, ' ', application_forms.last_name, ' ', candidates.email_address, ' ', application_forms.support_reference) ILIKE ?", "%#{params[:q]}%")
+      end
+
+      if params[:phase]
+        @application_forms = @application_forms.where('phase IN (?)', params[:phase])
       end
 
       @filter = SupportInterface::ApplicationsFilter.new(params: params)
