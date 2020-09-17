@@ -363,7 +363,7 @@ RSpec.describe SyncProviderFromFind do
         { description: 'part_time_vacancies', vacancy_status: :vacancies },
       ].each do |pair|
         it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
-          derived_status = SyncProviderFromFind::CourseVacancyStatus.new(
+          derived_status = SyncCoursesFromFind::CourseVacancyStatus.new(
             pair[:description],
             study_mode,
           ).derive
@@ -374,9 +374,9 @@ RSpec.describe SyncProviderFromFind do
 
       it 'raises an error when description is an unexpected value' do
         expect {
-          SyncProviderFromFind::CourseVacancyStatus.new('foo', study_mode).derive
+          SyncCoursesFromFind::CourseVacancyStatus.new('foo', study_mode).derive
         }.to raise_error(
-          SyncProviderFromFind::CourseVacancyStatus::InvalidFindStatusDescriptionError,
+          SyncCoursesFromFind::CourseVacancyStatus::InvalidFindStatusDescriptionError,
         )
       end
     end
@@ -391,7 +391,7 @@ RSpec.describe SyncProviderFromFind do
         { description: 'part_time_vacancies', vacancy_status: :no_vacancies },
       ].each do |pair|
         it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
-          derived_status = SyncProviderFromFind::CourseVacancyStatus.new(
+          derived_status = SyncCoursesFromFind::CourseVacancyStatus.new(
             pair[:description],
             study_mode,
           ).derive
@@ -402,9 +402,9 @@ RSpec.describe SyncProviderFromFind do
 
       it 'raises an error when description is an unexpected value' do
         expect {
-          SyncProviderFromFind::CourseVacancyStatus.new('foo', study_mode).derive
+          SyncCoursesFromFind::CourseVacancyStatus.new('foo', study_mode).derive
         }.to raise_error(
-          SyncProviderFromFind::CourseVacancyStatus::InvalidFindStatusDescriptionError,
+          SyncCoursesFromFind::CourseVacancyStatus::InvalidFindStatusDescriptionError,
         )
       end
     end
@@ -417,14 +417,14 @@ RSpec.describe SyncProviderFromFind do
       it 'returns both study modes if the course supports both study modes' do
         course.full_time_or_part_time!
 
-        study_modes = SyncProviderFromFind::CourseStudyModes.new(course).derive
+        study_modes = SyncCoursesFromFind::CourseStudyModes.new(course).derive
         expect(study_modes).to match_array %w[full_time part_time]
       end
 
       it 'returns one study mode if the course only supports one' do
         course.full_time!
 
-        study_modes = SyncProviderFromFind::CourseStudyModes.new(course).derive
+        study_modes = SyncCoursesFromFind::CourseStudyModes.new(course).derive
         expect(study_modes).to match_array %w[full_time]
       end
     end
@@ -441,21 +441,21 @@ RSpec.describe SyncProviderFromFind do
       end
 
       it 'returns the existing study mode' do
-        study_modes = SyncProviderFromFind::CourseStudyModes.new(course).derive
+        study_modes = SyncCoursesFromFind::CourseStudyModes.new(course).derive
         expect(study_modes).to match_array %w[part_time]
       end
 
       it 'returns both study modes if the course changes to support both study modes' do
         course.full_time_or_part_time!
 
-        study_modes = SyncProviderFromFind::CourseStudyModes.new(course).derive
+        study_modes = SyncCoursesFromFind::CourseStudyModes.new(course).derive
         expect(study_modes).to match_array %w[full_time part_time]
       end
 
       it 'returns both study modes if the course changes from one to the other' do
         course.full_time!
 
-        study_modes = SyncProviderFromFind::CourseStudyModes.new(course).derive
+        study_modes = SyncCoursesFromFind::CourseStudyModes.new(course).derive
         expect(study_modes).to match_array %w[full_time part_time]
       end
     end
@@ -472,14 +472,14 @@ RSpec.describe SyncProviderFromFind do
       end
 
       it 'returns both study modes' do
-        study_modes = SyncProviderFromFind::CourseStudyModes.new(course).derive
+        study_modes = SyncCoursesFromFind::CourseStudyModes.new(course).derive
         expect(study_modes).to match_array %w[full_time part_time]
       end
 
       it 'returns both study modes even if the course changes to a specific one' do
         course.full_time!
 
-        study_modes = SyncProviderFromFind::CourseStudyModes.new(course).derive
+        study_modes = SyncCoursesFromFind::CourseStudyModes.new(course).derive
         expect(study_modes).to match_array %w[full_time part_time]
       end
     end
