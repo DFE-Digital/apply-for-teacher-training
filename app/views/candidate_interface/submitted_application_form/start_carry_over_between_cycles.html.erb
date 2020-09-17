@@ -5,16 +5,36 @@
 <div class="govuk-grid-row">
 
   <div class="govuk-grid-column-two-thirds">
-    <p class="govuk-body">Your last application has been saved, so you do not need to start again.</p>
-    <p class="govuk-body">You can make changes to your application whenever you like.</p>
-    <p class="govuk-body">You will be able to choose courses from <%= EndOfCycleTimetable.find_reopens.to_s(:govuk_date) %> and submit from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>. </p>
-    <p class="govuk-body">You'll have 3 course choices.</p>
 
-    <%= button_to 'Start now', candidate_interface_carry_over_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>
+    <% if EndOfCycleTimetable.find_down? %>
+      <p class="govuk-body">
+        Applications for courses starting in the <%= current_cycle_span %> academic year are closed.
+      </p>
+    <% end %>
+
+    <p class="govuk-body">
+      Carry on with your application for courses starting in the <%= next_cycle_span %> year.
+    </p>
+
+    <p class="govuk-body">
+      You can submit your application from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date)%>
+    </p>
+
+    <p class="govuk-body">
+      Your courses have been removed.
+      <% if EndOfCycleTimetable.find_down? %>
+        You can add them again later.
+      <% else %>
+        You can add them now.
+      <% end %>
+    </p>
+
+    <%= button_to 'Apply again', candidate_interface_carry_over_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>
 
     <p class="govuk-body">or</p>
 
-    <%= govuk_link_to 'Go to your dashboard', candidate_interface_application_form_path, class: 'govuk-body' %>
+    <%= govuk_link_to 'Go to dashboard', candidate_interface_application_form_path, class: 'govuk-body' %>
+
   </div>
 </div>
 

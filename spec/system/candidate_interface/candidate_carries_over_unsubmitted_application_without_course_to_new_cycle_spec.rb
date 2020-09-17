@@ -85,14 +85,14 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
 
   def and_i_am_redirected_to_the_carry_over_interstitial
     expect(page).not_to have_link 'Continue your application'
-    expect(page).to have_content 'Applications are open for courses starting next academic year (2021 - 2022).'
-    expect(page).to have_content 'You\'ll have 3 course choices.'
+    expect(page).to have_content 'Carry on with your application for courses starting in the (2021 - 2022) academic year.'
+    expect(page).to have_content 'Your courses have been removed. You can add them again now.'
   end
 
   def when_i_click_on_start_now
-    expect(page).to have_content 'Applications are open for courses starting next academic year (2021 - 2022).'
-    expect(page).to have_content 'You\'ll have 3 course choices.'
-    click_button 'Start now'
+    expect(page).to have_content 'Carry on with your application for courses starting in the (2021 - 2022) academic year.'
+    expect(page).to have_content 'Your courses have been removed. You can add them again now.'
+    click_button 'Apply again'
   end
 
   def and_i_click_go_to_my_application_form
