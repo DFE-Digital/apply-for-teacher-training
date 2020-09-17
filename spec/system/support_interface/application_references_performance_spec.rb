@@ -36,6 +36,7 @@ RSpec.feature 'Application references performance CSV' do
     af = ApplicationForm.first
     expect(page).to have_content af.support_reference
     expect(page).to have_content af.phase
+    expect(page).to have_content ProcessState.new(af).state
     expect(page).to have_content af.application_references[0].referee_type
     expect(page).to have_content af.application_references[0].feedback_status
     expect(page).to have_content af.application_references[1].referee_type
