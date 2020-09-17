@@ -95,11 +95,11 @@ module ViewHelper
   end
 
   def current_cycle_span
-    "(#{RecruitmentCycle.current_year} - #{RecruitmentCycle.next_year})"
+    "#{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year}"
   end
 
   def next_cycle_span
-    "(#{RecruitmentCycle.next_year} - #{RecruitmentCycle.next_year + 1})"
+    "#{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1}"
   end
 
 private

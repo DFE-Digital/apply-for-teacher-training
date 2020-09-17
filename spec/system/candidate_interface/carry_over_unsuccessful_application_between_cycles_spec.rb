@@ -53,13 +53,13 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_click_on_apply_again
-    expect(page).to have_content 'Courses for the (2020 - 2021) academic year are now closed'
+    expect(page).to have_content 'Courses for the 2020 to 2021 academic year are now closed'
     click_link 'apply again'
   end
 
   def and_i_click_on_start_now
     expect(page).to have_content 'You can apply again'
-    expect(page).to have_content 'Carry on with your application for courses starting in the (2021 - 2022) year.'
+    expect(page).to have_content 'Carry on with your application for courses starting in the 2021 to 2022 year.'
     expect(page).to have_content 'Your courses have been removed.'
     click_button 'Apply again'
   end
