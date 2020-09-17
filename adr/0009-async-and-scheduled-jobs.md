@@ -48,7 +48,6 @@ class Clock
   include Clockwork
 
   every(1.minute,  'SayHello') { Rails.logger.info "hi!" }
-  every(5.minutes, 'ClockworkCheck') { ClockworkCheck.perform_async }
 end
 ```
 
