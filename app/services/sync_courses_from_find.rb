@@ -1,9 +1,9 @@
 class SyncCoursesFromFind
-  attr_reader :provider, :find_provider
+  attr_reader :provider, :provider_recruitment_cycle_year
 
-  def initialize(provider, find_provider)
-    @provider = provider
-    @find_provider = find_provider
+  def initialize(provider_id, provider_recruitment_cycle_year)
+    @provider = Provider.find(provider_id)
+    @provider_recruitment_cycle_year = provider_recruitment_cycle_year
   end
 
   def sync
@@ -13,6 +13,17 @@ class SyncCoursesFromFind
   end
 
 private
+
+  def find_provider
+    # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers/1N1/?include=sites,courses.sites
+    @find_provider ||= begin
+      FindAPI::Provider
+        .recruitment_cycle(provider_recruitment_cycle_year)
+        .includes(:sites, courses: [:sites, :subjects, site_statuses: [:site]])
+        .find(provider.code)
+        .first
+    end
+  end
 
   def create_or_update_course(find_course)
     course = provider.courses.find_or_create_by(
