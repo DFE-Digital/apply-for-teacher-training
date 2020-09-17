@@ -5,7 +5,7 @@ module ProviderInterface
     STEPS = %w[start conditions update_conditions check commit].freeze
 
     attr_accessor :application_choice_id, :current_step
-    attr_accessor :course_in_new_cycle, :course_option_in_new_cycle
+    attr_accessor :course_option_in_new_cycle
     attr_accessor :conditions_status, :course_option_id
     attr_writer :state_store
 
@@ -48,19 +48,11 @@ module ProviderInterface
       super(last_saved_state.deep_merge(attrs))
     end
 
-    def is_course_still_available
-      @course_in_new_cycle = current_form.application_choice.offered_course.in_next_cycle
-
-      if current_step != 'start'
-        errors.add(:course_in_new_cycle, "Course is not available in #{RecruitmentCycle.current_year}") unless @course_in_new_cycle
-      end
-    end
-
     def is_course_option_still_available
       @course_option_in_new_cycle = current_form.application_choice&.offered_option&.in_next_cycle
 
       if current_step != 'start'
-        errors.add(:course_in_new_cycle, "No matching course option in #{RecruitmentCycle.current_year}") unless @course_option_in_new_cycle
+        errors.add(:course_option_in_new_cycle, "No matching course option in #{RecruitmentCycle.current_year}") unless @course_option_in_new_cycle
       end
     end
 
@@ -73,6 +65,8 @@ module ProviderInterface
     end
 
     def modified_application_choice
+      return unless current_form.application_choice
+
       clone = current_form.application_choice.dup
 
       clone.status = if conditions_status.present?

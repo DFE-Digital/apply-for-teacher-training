@@ -8,7 +8,7 @@ class ReinstateConditionsMet
   end
 
   def save
-    @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
+    @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @course_option_id)
 
     ActiveRecord::Base.transaction do
       ApplicationStateChange.new(@application_choice).reinstate_conditions_met!
