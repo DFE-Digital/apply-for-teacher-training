@@ -1,5 +1,7 @@
 desc 'Set up your local development environment with data from Find'
 task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses] do
+  Audited.auditing_enabled = false
+
   puts 'Creating a provider-only user with DfE Sign-in UID `dev-provider` and email `provider@example.com`...'
   ProviderUser.create!(
     dfe_sign_in_uid: 'dev-provider',
