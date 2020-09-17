@@ -12,8 +12,8 @@
   </div>
 </details>
 
-<div class="govuk-grid-column-two-thirds">
-  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.degrees, type_label: 'Degree') %>
+<div class="govuk-grid-column-full">
+  <%= render DegreeQualificationCardsComponent.new(application_form.application_qualifications.degrees, application_choice_state: application_choice_state) %>
 </div>
 
 <div class="govuk-grid-column-full">

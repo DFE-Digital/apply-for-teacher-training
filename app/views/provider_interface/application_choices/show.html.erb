@@ -49,7 +49,7 @@
 
 <div class="govuk-grid-row">
     <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="qualifications">Qualifications</h2>
-    <%= render QualificationsComponent.new(application_form: @application_choice.application_form) %>
+    <%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
 </div>
 
 
