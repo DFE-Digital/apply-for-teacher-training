@@ -64,9 +64,11 @@
       <%= render ProviderInterface::VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
     </div>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="language-skills">Language skills</h2>
-
-    <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
+    <% language_skills_component = LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
+    <% if language_skills_component.render? %>
+      <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="language-skills">Language skills</h2>
+      <%= render language_skills_component %>
+    <% end %>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="personal-statement">Personal statement</h2>
 

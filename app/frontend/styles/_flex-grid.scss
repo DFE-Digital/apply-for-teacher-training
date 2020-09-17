@@ -1,0 +1,16 @@
+@include govuk-media-query($from: tablet) {
+  .app-grid-row--flex {
+    display: flex;
+
+    @each $width in map-keys($govuk-grid-widths) {
+      .govuk-grid-column-#{$width} {
+        display: flex;
+        float: none;
+      }
+
+      .govuk-grid-column-#{$width} > * {
+        flex: 1;
+      }
+    }
+  }
+}

@@ -46,6 +46,10 @@ module ProviderInterface
                             end
 
       @status_box_options[:provider_can_respond] = @provider_can_respond
+      @show_language_details = @application_choice
+        .application_form
+        .english_main_language(fetch_database_value: true)
+        .present?
     end
 
     def notes
