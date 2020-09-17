@@ -76,8 +76,8 @@ class EndOfCycleTimetable
         apply_1_deadline: Date.new(2020, 8, 24),
         stop_applications_to_unavailable_course_options: Date.new(2020, 9, 7),
         apply_2_deadline: Date.new(2020, 9, 18),
-        find_closes: Date.new(2020, 9, 19),
-        find_reopens: Date.new(2020, 10, 3),
+        find_closes: Date.new(2020, 10, 3),
+        find_reopens: Date.new(2020, 10, 6),
         apply_reopens: Date.new(2020, 10, 13),
       },
 

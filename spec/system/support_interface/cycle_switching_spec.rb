@@ -23,7 +23,7 @@ RSpec.feature 'Cycle switching' do
 
   def then_i_see_the_cycle_information
     expect(page).to have_title 'Recruitment cycles'
-    expect(page).to have_content("Find closes on\n19 September 2020")
+    expect(page).to have_content("Find closes on\n3 October 2020")
   end
 
   def when_i_click_to_choose_a_new_schedule
