@@ -15,6 +15,14 @@ RSpec.describe RecruitmentCycle do
     end
   end
 
+  describe '.current_cycle_name' do
+    it 'is current year to the following year' do
+      Timecop.travel(Time.zone.local(2020, 1, 1, 1, 0, 0)) do
+        expect(RecruitmentCycle.current_cycle_name).to eq('2020 to 2021')
+      end
+    end
+  end
+
   describe '.next_cycle_name' do
     it 'is next year to the following year' do
       Timecop.travel(Time.zone.local(2020, 1, 1, 1, 0, 0)) do

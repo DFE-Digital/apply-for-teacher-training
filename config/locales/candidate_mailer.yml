@@ -1,7 +1,7 @@
 en:
   candidate_mailer:
-    application_on_pause:
-      subject: "Your application is on pause: resubmit in October for courses starting next academic year"
+    referees_did_not_respond_before_end_of_cycle:
+      subject: "Your references did not come back in time"
     eoc_choice_unavailable_no_other_choices:
       subject: Find a different course and re-submit your application
     eoc_choice_unavailable_has_other_choices:
