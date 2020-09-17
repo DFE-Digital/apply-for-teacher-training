@@ -2,7 +2,7 @@ class SyncCoursesFromFind
   attr_reader :provider
 
   include Sidekiq::Worker
-  sidekiq_options retry: 3
+  sidekiq_options retry: 3, queue: :low_priority
 
   def perform(provider_id, provider_recruitment_cycle_year)
     @provider = Provider.find(provider_id)
