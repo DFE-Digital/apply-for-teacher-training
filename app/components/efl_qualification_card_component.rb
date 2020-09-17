@@ -19,9 +19,9 @@ class EflQualificationCardComponent < ViewComponent::Base
 
   def qualification_status
     if english_proficiency.has_qualification?
-      'Candidate has an English as a foreign language qualification.'
+      'Candidate has an English as a foreign language assessment.'
     elsif english_proficiency.no_qualification?
-      'Candidate does not have an English as a foreign language qualification yet.'
+      'Candidate does not have an English as a foreign language assessment yet.'
     else
       'Candidate said that English is not a foreign language to them.'
     end

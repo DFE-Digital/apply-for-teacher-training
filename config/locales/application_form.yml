@@ -578,7 +578,7 @@ en:
         candidate_interface/english_foreign_language/start_form:
           attributes:
             qualification_status:
-              blank: Do you have an English as a foreign language qualification?
+              blank: Do you have an English as a foreign language assessment?
         candidate_interface/english_foreign_language/type_form:
           attributes:
             type:

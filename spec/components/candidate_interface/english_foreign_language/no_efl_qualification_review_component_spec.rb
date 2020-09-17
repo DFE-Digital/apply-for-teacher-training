@@ -12,8 +12,8 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::NoEflQualificationRev
 
     row = {
       position: 0,
-      title: 'Do you have an English as a foreign language qualification?',
-      answer: 'No, I do not have an English as a foreign language qualification',
+      title: 'Do you have an English as a foreign language assessment?',
+      answer: 'No, I do not have an English as a foreign language assessment',
       detail: "I'm working on it.",
     }
     expect(result.css('.govuk-summary-list__key')[row[:position]].text).to include(row[:title])
@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::NoEflQualificationRev
 
     row = {
       position: 0,
-      title: 'Do you have an English as a foreign language qualification?',
+      title: 'Do you have an English as a foreign language assessment?',
       answer: 'No, English is not a foreign language to me',
     }
     expect(result.css('.govuk-summary-list__key')[row[:position]].text).to include(row[:title])

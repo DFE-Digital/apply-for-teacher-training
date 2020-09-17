@@ -20,7 +20,7 @@ RSpec.feature 'Declare no EFL qualification' do
   end
 
   def when_i_declare_i_have_no_qualification
-    choose 'No, I do not have an English as a foreign language qualification'
+    choose 'No, I do not have an English as a foreign language assessment'
     fill_in(
       'If you’re working towards a qualification, give details here',
       with: "I'm working towards an IELTS.",
@@ -30,7 +30,7 @@ RSpec.feature 'Declare no EFL qualification' do
 
   def then_i_see_the_review_page
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
-    expect(page).to have_content 'No, I do not have an English as a foreign language qualification'
+    expect(page).to have_content 'No, I do not have an English as a foreign language assessment'
     expect(page).to have_content "I'm working towards an IELTS."
   end
 

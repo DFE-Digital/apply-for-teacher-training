@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::OtherEflQualification
     result = render_inline(described_class.new(other_qualification))
 
     [
-      { position: 0, title: 'Do you have an English as a foreign language qualification?', value: 'Yes' },
+      { position: 0, title: 'Do you have an English as a foreign language assessment?', value: 'Yes' },
       { position: 1, title: 'Type of qualification', value: 'Some English Test' },
       { position: 2, title: 'Score or grade', value: '8' },
       { position: 3, title: 'Year awarded', value: '2001' },

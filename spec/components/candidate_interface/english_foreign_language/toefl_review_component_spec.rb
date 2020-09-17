@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflReviewComponent,
     result = render_inline(described_class.new(toefl_qualification))
 
     [
-      { position: 0, title: 'Do you have an English as a foreign language qualification?', value: 'Yes' },
+      { position: 0, title: 'Do you have an English as a foreign language assessment?', value: 'Yes' },
       { position: 1, title: 'Type of qualification', value: 'TOEFL' },
       { position: 2, title: 'TOEFL registration number', value: '222222 22222' },
       { position: 3, title: 'Year awarded', value: '2001' },

@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsReviewComponent,
     result = render_inline(described_class.new(ielts_qualification))
 
     [
-      { position: 0, title: 'Do you have an English as a foreign language qualification?', value: 'Yes' },
+      { position: 0, title: 'Do you have an English as a foreign language assessment?', value: 'Yes' },
       { position: 1, title: 'Type of qualification', value: 'IELTS' },
       { position: 2, title: 'Test report form (TRF) number', value: '111111' },
       { position: 3, title: 'Year awarded', value: '2001' },

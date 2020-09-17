@@ -5,7 +5,7 @@ module CandidateInterface
 
       def do_you_have_a_qualification_row(value:)
         {
-          key: 'Do you have an English as a foreign language qualification?',
+          key: 'Do you have an English as a foreign language assessment?',
           value: value,
           action: 'Change whether or not you have a qualification',
           change_path: candidate_interface_english_foreign_language_edit_start_path,
