@@ -1,6 +1,6 @@
-<% content_for :title, t('page_titles.start_carry_over_between_cycles_unsubmitted', reopen_date: EndOfCycleTimetable.apply_reopens.to_s(:govuk_date)) %>
+<% content_for :title, t('page_titles.start_carry_over_between_cycles_unsubmitted') %>
 
-<h1 class="govuk-heading-xl"><%= t('page_titles.start_carry_over_between_cycles_unsubmitted', reopen_date: EndOfCycleTimetable.apply_reopens.to_s(:govuk_date)) %></h1>
+<h1 class="govuk-heading-xl"><%= t('page_titles.start_carry_over_between_cycles_unsubmitted') %></h1>
 
 <div class="govuk-grid-row">
 
@@ -18,4 +18,3 @@
     <%= govuk_link_to 'Review existing application', candidate_interface_application_review_path, class: 'govuk-body' %>
   </div>
 </div>
-
