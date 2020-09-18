@@ -241,6 +241,14 @@ class ApplicationForm < ApplicationRecord
     self[:english_language_details].presence || english_proficiency&.formatted_qualification_description
   end
 
+  def has_rejection_reason?
+    application_choices.any? { |application_choice| application_choice.rejection_reason? || application_choice.offer_withdrawal_reason }
+  end
+
+  def references_did_not_come_back_in_time?
+    application_references.any?(&:cancelled_at_end_of_cycle?)
+  end
+
 private
 
   def enough_references_have_been_provided?
