@@ -4,7 +4,7 @@ RSpec.describe QualificationsTableComponent do
   it 'renders nothing when no qualifications present' do
     result = render_inline(described_class.new(qualifications: [], type_label: 'My label'))
 
-    expect(result.to_s).to be_blank
+    expect(result.css('table')).to be_blank
   end
 
   it 'renders a qualifications table' do
@@ -13,6 +13,6 @@ RSpec.describe QualificationsTableComponent do
     ]
     result = render_inline(described_class.new(qualifications: qualifications, type_label: 'My label'))
 
-    expect(result.css('th').text).to include('My label')
+    expect(result.css('table').first['data-qa']).to eq 'qualifications-table-my-label'
   end
 end
