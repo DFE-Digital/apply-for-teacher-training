@@ -26,7 +26,7 @@ If you’re a candidate using Apply for teacher training, we may collect the fol
 * phone number
 * email address
 * references
-* any other personal data you choose to include in your application form – for example, you might disclose a disability or long-term health condition
+* any other information you choose to share during the application process - for example, you might disclose a disability or long-term health condition, or share information about yourself in the equality and diversity form and the end of the application form
 
 ### What data we collect if you’re a referee
 
