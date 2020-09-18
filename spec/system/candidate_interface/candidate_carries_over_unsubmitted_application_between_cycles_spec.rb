@@ -84,7 +84,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
   end
 
   def when_i_click_on_start_now
-    click_button 'Start now'
+    click_button 'Continue'
   end
 
   def then_i_see_a_copy_of_my_application
