@@ -109,5 +109,22 @@ RSpec.describe CandidateInterface::CarryOverBannerComponent do
       expect(result.text).to include('Courses for the 2021 to 2022 academic year are now closed')
       expect(result.css('a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_start_carry_over_path)
     end
+
+    it 'renders component when references did not come back in time' do
+      create(:application_choice, :with_rejection, application_form: application_form)
+      create(:reference, application_form: application_form, feedback_status: :cancelled_at_end_of_cycle)
+      application_form.recruitment_cycle_year = 2021
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.text).to include('Your references did not come back in time')
+    end
+
+    it 'renders component when between cycles and rejected' do
+      create(:application_choice, :with_rejection, application_form: application_form)
+      application_form.recruitment_cycle_year = 2021
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.text).to include('Your application did not lead to a place')
+    end
   end
 end
