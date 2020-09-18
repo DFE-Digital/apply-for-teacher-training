@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Candidate vists their applicatin form after the cycle has ended' do
+RSpec.describe 'Candidate vists their application form after the cycle has ended' do
   include CandidateHelper
 
   around do |example|
@@ -110,7 +110,6 @@ RSpec.describe 'Candidate vists their applicatin form after the cycle has ended'
   end
 
   def then_i_see_that_i_can_carry_over_my_application
-    expect(page).to have_content('Get your application ready to submit from 13 October 2020')
-    expect(page).to have_content('Your course choices have been removed. Choose courses from 6 October 2020.')
+    expect(page).to have_content('You did not submit your application in time')
   end
 end

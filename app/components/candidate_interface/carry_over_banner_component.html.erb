@@ -1,13 +1,21 @@
 <div class="app-banner">
   <div class="app-banner__message">
     <div class="govuk-heading-m">
-      <% if EndOfCycleTimetable.between_cycles_apply_2? %>
+      <% if references_did_not_come_back_in_time? %>
         <p>
           Courses for the <%= current_cycle_span %> academic year are now closed
         </p>
 
         <p class='govuk-body govuk-!-font-size-24'>
           Your references did not come back in time, but you can <%= govuk_link_to 'apply again', start_path %>
+        </p>
+      <% elsif between_cycles? %>
+        <p>
+          Courses for the <%= current_cycle_span %> academic year are now closed
+        </p>
+
+        <p class='govuk-body govuk-!-font-size-24'>
+          Your application did not lead to a place, but you can <%= govuk_link_to 'apply again', start_path %>
         </p>
       <% else %>
         <p>

@@ -401,4 +401,24 @@ RSpec.describe ApplicationForm do
       expect(application_form.all_applications_not_sent?).to eq false
     end
   end
+
+  describe '#has_rejection_reason?' do
+    let(:application_form) { create(:completed_application_form) }
+
+    it 'returns true if any of the choices are rejected' do
+      create(:application_choice, :with_rejection, application_form: application_form)
+
+      expect(application_form.has_rejection_reason?).to eq true
+    end
+  end
+
+  describe '#references_did_not_come_back_in_time?' do
+    let(:application_form) { create(:completed_application_form) }
+
+    it 'returns true if all references were cancelled at end of cycle' do
+      create(:reference, application_form: application_form, feedback_status: :cancelled_at_end_of_cycle)
+
+      expect(application_form.references_did_not_come_back_in_time?).to eq true
+    end
+  end
 end
