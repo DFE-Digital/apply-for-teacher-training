@@ -2,7 +2,7 @@
 
 <%= render 'application_choice_header' %>
 
-<p class="govuk-body govuk-!-margin-bottom-9 govuk-!-display-none-print">
+<p class="govuk-body govuk-!-margin-bottom-8 govuk-!-display-none-print">
   <%= govuk_link_to(
     'Download application (PDF)',
     provider_interface_application_choice_path(@application_choice.id, format: :pdf),
@@ -12,18 +12,15 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-
     <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) %>
 
-    <h2 class="govuk-heading-l" id="course-info">Application</h2>
+    <h2 class="govuk-heading-l" id="application">Application</h2>
     <%= render PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
 
     <% unless HostingEnvironment.production? %>
       <div class="app-status-box app-status-box--sandbox govuk-!-display-none-print">
         <p class="govuk-body">
-          <strong class="govuk-tag govuk-phase-banner__content__tag app-environment-tag app-environment-tag--sandbox">
-            sandbox feature
-          </strong>
+          <strong class="govuk-tag govuk-phase-banner__content__tag app-environment-tag app-environment-tag--sandbox">Sandbox feature</strong>
         </p>
         <p class="govuk-body">
           See what this application looks like from the candidate side by signing in as <%= @application_choice.application_form.full_name %>:
@@ -32,26 +29,21 @@
       </div>
     <% end %>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-info">Course details</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-details">Course details</h2>
     <%= render ProviderInterface::CourseDetailsComponent.new(application_choice: @application_choice)%>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="disabilities">Disability, access and other needs</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="disability-access-and-other-needs">Disability, access and other needs</h2>
     <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
 
     <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="criminal-convictions-and-professional-misconduct">Criminal convictions and professional misconduct</h2>
     <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user)%>
 
-
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="qualifications">Interview</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="interview">Interview</h2>
     <%= render InterviewPreferencesComponent.new(application_form: @application_choice.application_form) %>
   </div>
 </div>
 
-<div class="govuk-grid-row">
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="qualifications">Qualifications</h2>
-    <%= render QualificationsComponent.new(application_form: @application_choice.application_form) %>
-</div>
-
+<%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -60,7 +52,7 @@
       <%= render ProviderInterface::WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
     </div>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="volunteering">Unpaid experience and volunteering</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="unpaid-experience-and-volunteering">Unpaid experience and volunteering</h2>
     <div data-qa="volunteering">
       <%= render ProviderInterface::VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
     </div>
@@ -79,12 +71,12 @@
       <%= render 'references_context' %>
 
       <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
-        <h2 class="govuk-heading-m govuk-!-margin-top-8"><%= "#{TextOrdinalizer.call((i + 1)).capitalize} referee" %></h2>
+        <h3 class="govuk-heading-m govuk-!-margin-top-8"><%= "#{TextOrdinalizer.call((i + 1)).capitalize} referee" %></h3>
         <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference) %>
       <% end %>
     <% end %>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2">Diversity information</h2>
+    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="diversity-information">Diversity information</h2>
     <%= render ProviderInterface::DiversityInformationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>
   </div>
 </div>

@@ -169,13 +169,11 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   )
 
   def then_i_should_see_the_candidates_degrees
-    expect(page).to have_selector('[data-qa="qualifications-table-degree"] tbody tr', count: 1)
+    expect(page).to have_selector('[data-qa="degree-qualification"]', count: 1)
   end
 
   def and_i_should_see_the_candidates_gcses
-    within '#gcses' do
-      expect(page).to have_selector('.app-card--outline', count: 2)
-    end
+    expect(page).to have_selector('[data-qa="gcse-qualification"]', count: 2)
   end
 
   def and_i_should_see_the_candidates_other_qualifications
