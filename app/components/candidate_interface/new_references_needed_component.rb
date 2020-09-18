@@ -9,7 +9,7 @@ module CandidateInterface
     end
 
     def render?
-      reference_status.still_more_references_needed?
+      reference_status.still_more_references_needed? && EndOfCyclePolicy.can_add_course_choice?(application_form)
     end
 
     def pluralize_referee
