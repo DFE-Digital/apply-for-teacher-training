@@ -108,7 +108,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
   end
 
   def then_i_can_see_that_i_need_to_select_courses_when_apply_reopens
-    expect(page).to have_content 'You can apply for courses from 13 October.'
+    expect(page).to have_content 'You’ll be able to find courses in 17 days (6 October 2020). You can keep making changes to the rest of your application until then.'
     expect(page).not_to have_link 'Course choices'
   end
 end

@@ -18,7 +18,9 @@
       </h2>
 
       <p class="govuk-body">
-        You can apply for courses from 13 October.
+        You’ll be able to find courses in <%= days_until_find_reopens %> <%= 'day'.pluralize(days_until_find_reopens) %>
+        (<%= EndOfCycleTimetable.find_reopens.to_s(:govuk_date) %>).
+        You can keep making changes to the rest of your application until then.
       </p>
     <% elsif @application_form.candidate_has_previously_applied? %>
       <% if @application_form.previous_application_form.application_choices.rejected.any?  %>
@@ -218,7 +220,7 @@
     <% if EndOfCycleTimetable.between_cycles?(@application_form.phase) %>
       <h2 class="govuk-heading-m govuk-!-font-size-27">Review</h2>
       <p class="govuk-body">
-        Applications for courses starting in <%= EndOfCycleTimetable.next_cycle_year %> open from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>. You can continue to make changes to your application until then.
+        You cannot submit your application until <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>. You can keep making changes to the rest of your application until then.
       </p>
       <%= govuk_button_link_to 'Review your application', candidate_interface_application_review_path %>
     <% elsif CandidateInterface::EndOfCyclePolicy.can_submit?(@application_form) %>

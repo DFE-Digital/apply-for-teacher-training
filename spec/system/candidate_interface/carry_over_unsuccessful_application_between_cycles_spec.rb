@@ -76,7 +76,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def and_i_can_see_that_no_courses_are_selected_and_i_cannot_add_any_yet
-    expect(page).to have_content('You can apply for courses from 13 October.')
+    expect(page).to have_content 'You’ll be able to find courses in 17 days (6 October 2020). You can keep making changes to the rest of your application until then.'
     expect(page).not_to have_link 'Course choice'
   end
 
