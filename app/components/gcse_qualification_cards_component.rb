@@ -35,7 +35,7 @@ class GcseQualificationCardsComponent < ViewComponent::Base
     elsif qualification.non_uk_qualification_type.present?
       qualification.non_uk_qualification_type
     else
-      I18n.t!("application_form.gcse.qualification_types.#{qualification.qualification_type}")
+      I18n.t("application_form.gcse.qualification_types.#{qualification.qualification_type}", default: qualification.qualification_type)
     end
   end
 
