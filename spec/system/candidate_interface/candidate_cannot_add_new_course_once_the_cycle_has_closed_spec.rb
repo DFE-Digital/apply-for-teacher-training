@@ -111,6 +111,6 @@ RSpec.describe 'Candidate vists their applicatin form after the cycle has ended'
 
   def then_i_see_that_i_can_carry_over_my_application
     expect(page).to have_content('Get your application ready to submit from 13 October 2020')
-    expect(page).to have_content('You will be able to choose courses from 3 October 2020 and submit from 13 October 2020.')
+    expect(page).to have_content('Your course choices have been removed. Choose courses from 6 October 2020.')
   end
 end
