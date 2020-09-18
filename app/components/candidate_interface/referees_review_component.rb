@@ -121,10 +121,8 @@ module CandidateInterface
         :green
       when 'feedback_overdue'
         :yellow
-      when 'cancelled'
+      when 'cancelled', 'cancelled_at_end_of_cycle'
         :orange
-      when 'cancelled_at_end_of_cycle'
-        :pink
       when 'feedback_refused', 'email_bounced'
         :red
       end

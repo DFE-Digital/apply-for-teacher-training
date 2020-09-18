@@ -120,7 +120,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-tag.govuk-tag--pink.app-tag').to_html).to include('Cancelled at end of cycle')
+      expect(result.css('.govuk-tag.govuk-tag--orange.app-tag').to_html).to include('Cancelled')
       expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.cancelled_at_end_of_cycle'))
     end
 
