@@ -2,8 +2,6 @@ require 'rails_helper'
 require 'services/duplicate_application_shared_examples'
 
 RSpec.describe CarryOverApplication do
-  before { allow(RecruitmentCycle).to receive(:current_year).and_return(2021) }
-
   def original_application_form
     @original_application_form ||= Timecop.travel(-1.day) do
       application_form = create(
@@ -22,8 +20,14 @@ RSpec.describe CarryOverApplication do
   end
 
   context 'when original application is from an earlier recruitment cycle' do
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 10, 15, 12, 0, 0)) do
+        example.run
+      end
+    end
+
     before do
-      original_application_form.update(recruitment_cycle_year: 2020)
+      Timecop.travel(-1.day) { original_application_form.update(recruitment_cycle_year: 2020) }
     end
 
     it_behaves_like 'duplicates application form', 'apply_1', 2021
@@ -31,10 +35,7 @@ RSpec.describe CarryOverApplication do
 
   context 'when original application is from the current open recruitment cycle' do
     before do
-      allow(RecruitmentCycle).to receive(:current_year).and_return(2020)
-      original_application_form.update(
-        recruitment_cycle_year: 2020,
-      )
+      original_application_form.update(recruitment_cycle_year: 2020)
     end
 
     it 'raises an error' do
