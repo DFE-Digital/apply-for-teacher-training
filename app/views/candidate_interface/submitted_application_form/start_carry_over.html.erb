@@ -5,21 +5,20 @@
 <div class="govuk-grid-row">
 
   <div class="govuk-grid-column-two-thirds">
+
     <p class="govuk-body">
-      Applications are open for courses starting next academic year <%= current_cycle_span %>.
-    </p>
-    <p class="govuk-body">
-      The application you started has been saved.
-    </p>
-    <p class="govuk-body">
-      You'll have 3 course choices.
+      Carry on with your application for courses starting in the <%= current_cycle_span %> academic year.
     </p>
 
-    <%= button_to 'Start now', candidate_interface_carry_over_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>
+    <p class="govuk-body">
+      Your courses have been removed. You can add them again now.
+    </p>
+
+    <%= button_to 'Apply again', candidate_interface_carry_over_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>
 
     <p class="govuk-body">or</p>
 
-    <%= govuk_link_to 'Go to your dashboard', candidate_interface_application_form_path, class: 'govuk-body' %>
+    <%= govuk_link_to 'Go to dashboard', candidate_interface_application_form_path, class: 'govuk-body' %>
   </div>
 </div>
 

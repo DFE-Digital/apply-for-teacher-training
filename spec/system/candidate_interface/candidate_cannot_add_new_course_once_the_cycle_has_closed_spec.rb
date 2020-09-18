@@ -79,7 +79,7 @@ RSpec.describe 'Candidate vists their applicatin form after the cycle has ended'
 
   def then_there_is_a_link_to_the_carry_over_journey
     expect(page).to have_content('Do you want to continue applying?')
-    expect(page).to have_button('Start now')
+    expect(page).to have_button('Apply again')
   end
 
   def given_it_is_the_day_after_the_apply1_deadline
