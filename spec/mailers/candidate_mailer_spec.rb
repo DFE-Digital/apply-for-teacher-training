@@ -454,7 +454,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '#application_rejected_all_rejected' do
-    def build_stubbed_application_form(rejected_by_default: false)
+    def build_stubbed_application_form(rejected_by_default: false, rejection_reason: nil)
       build_stubbed(
         :application_form,
         first_name: 'Fred',
@@ -464,6 +464,7 @@ RSpec.describe CandidateMailer, type: :mailer do
             :application_choice,
             status: 'rejected',
             rejected_by_default: rejected_by_default,
+            rejection_reason: rejection_reason,
             course_option: build_stubbed(
               :course_option,
               site: build_stubbed(
@@ -485,8 +486,11 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    def send_email(rejected_by_default: false)
-      application_form = build_stubbed_application_form(rejected_by_default: rejected_by_default)
+    def send_email(rejected_by_default: false, rejection_reason: nil)
+      application_form = build_stubbed_application_form(
+        rejected_by_default: rejected_by_default,
+        rejection_reason: rejection_reason,
+      )
       application_choice = application_form.application_choices.first
       described_class.application_rejected_all_rejected(application_choice)
     end
@@ -494,21 +498,30 @@ RSpec.describe CandidateMailer, type: :mailer do
     it 'has the correct subject and content' do
       email = send_email
 
-      expect(email.subject).to eq 'Bilberry College has responded: next steps'
+      expect(email.subject).to eq 'Your application was unsuccessful but you can apply again'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include(
         'Bilberry College has decided not to progress your teacher training application for Mathematics (M101) on this occasion.',
       )
+      expect(email.body).to include('Apply again:')
+      expect(email.body).not_to include('Review your feedback and apply again:')
     end
 
     it 'has the correct subject and content for rejection by default' do
       email = send_email(rejected_by_default: true)
 
-      expect(email.subject).to eq 'Bilberry College did not respond'
+      expect(email.subject).to eq 'Your application was unsuccessful but you can apply again'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include(
-        'Your application for Mathematics (M101) has been automatically rejected because Bilberry College did not respond in time.',
+        'Bilberry College did not respond to your application for Mathematics (M101) in time.',
       )
+    end
+
+    it 'has the correct content when rejection reason is given' do
+      email = send_email(rejected_by_default: true, rejection_reason: 'Not clever enough')
+
+      expect(email.body).not_to include('Apply again:')
+      expect(email.body).to include('Review your feedback and apply again:')
     end
   end
 
@@ -584,7 +597,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     it 'has the correct subject and content for rejection by default' do
       email = send_email(rejected_by_default: true)
 
-      expect(email.subject).to eq 'Bilberry College did not respond'
+      expect(email.subject).to eq 'Your application was unsuccessful but you can apply again'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include(
         'Your application for Mathematics (M101) has been automatically rejected because Bilberry College did not respond in time.',
@@ -666,7 +679,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     it 'has the correct subject and content for rejection by default' do
       email = send_email(rejected_by_default: true)
 
-      expect(email.subject).to eq 'Bilberry College did not respond'
+      expect(email.subject).to eq 'Your application was unsuccessful but you can apply again'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include(
         'Your application for Mathematics (M101) has been automatically rejected because Bilberry College did not respond in time.',

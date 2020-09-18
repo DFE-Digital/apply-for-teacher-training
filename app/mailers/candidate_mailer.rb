@@ -76,15 +76,12 @@ class CandidateMailer < ApplicationMailer
     @application_choice = application_choice
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
 
-    template_name = :application_rejected_all_rejected_apply_again
-
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!(
         application_choice.rejected_by_default ? 'candidate_mailer.application_rejected_by_default.subject' : 'candidate_mailer.application_rejected.all_rejected.subject',
-        provider_name: @course.provider.name,
       ),
-      template_name: template_name,
+      template_name: :application_rejected_all_rejected,
     )
   end
 
