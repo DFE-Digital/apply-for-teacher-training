@@ -24,6 +24,14 @@ module SupportInterface
         DeleteTestApplications.perform_async
         flash[:success] = 'Scheduled job to delete test applications'
         redirect_to support_interface_tasks_path
+      when 'cancel_applications_at_end_of_cycle'
+        CancelUnsubmittedApplicationsWorker.perform_async
+        flash[:success] = 'Scheduled job to cancel unsubmitted applications that reached end-of-cycle'
+        redirect_to support_interface_tasks_path
+      when 'reject_applications_awaiting_references_at_end_of_cycle'
+        RejectAwaitingReferencesCourseChoicesWorker.perform_async
+        flash[:success] = 'Scheduled job to reject applications awaiting references at end-of-cycle'
+        redirect_to support_interface_tasks_path
       else
         render_404
       end

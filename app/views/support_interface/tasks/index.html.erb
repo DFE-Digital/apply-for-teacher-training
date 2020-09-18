@@ -20,6 +20,24 @@
   <%= button_to 'Recalculate dates', support_interface_run_task_path('recalculate_dates'), class: 'govuk-button' %>
 </div>
 
+<div>
+  <h2 class='govuk-heading-m'>Cancel unsubmitted applications that reach end-of-cycle</h2>
+  <div class='govuk-body'>
+    Finds any unsubmitted applications from the recently closed recruitment cycle and moves them to the 'application_not_sent' status.
+    This should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>
+  </div>
+  <%= govuk_button_link_to 'Cancel unsubmitted applications', support_interface_confirm_cancel_applications_at_end_of_cycle_path, class: 'govuk-button' %>
+</div>
+
+<div>
+  <h2 class='govuk-heading-m'>Reject applications awaiting references at end-of-cycle</h2>
+  <div class='govuk-body'>
+    Finds any applications that have been submitted but not sent to providers because they are awaiting references from the recently closed recruitment cycle and moves them to the 'application_not_sent' status.
+    This should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>
+  </div>
+  <%= govuk_button_link_to 'Reject applications awaiting references', support_interface_confirm_reject_applications_awaiting_references_at_end_of_cycle_path, class: 'govuk-button' %>
+</div>
+
 <% if DeleteTestApplications.can_run_in_this_environment? %>
   <div>
     <h2 class='govuk-heading-m'>Delete test applications</h2>

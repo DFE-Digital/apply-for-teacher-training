@@ -21,9 +21,6 @@ class Clock
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
   every(1.hour, 'SendCourseFullNotifications', at: '**:45') { SendCourseFullNotificationsWorker.perform_async }
 
-  every(1.day, 'RejectAwaitingReferencesCourseChoices', at: '00:01', if: ->(t) { t.to_date == EndOfCycleTimetable.date(:apply_2_deadline) + 1 }) { RejectAwaitingReferencesCourseChoicesWorker.perform_async }
-  every(1.day, 'CarryOverUnsubmittedApplications', at: '00:01', if: ->(t) { t.to_date == EndOfCycleTimetable.date(:apply_reopens) }) { CarryOverUnsubmittedApplicationsWorker.perform_async }
-
   every(1.day, 'UCASMatching::UploadMatchingData', at: '06:23') do
     if Time.zone.today.weekday?
       UCASMatching::UploadMatchingData.perform_async
