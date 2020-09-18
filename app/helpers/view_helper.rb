@@ -102,6 +102,10 @@ module ViewHelper
     "#{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1}"
   end
 
+  def days_until_find_reopens
+    (EndOfCycleTimetable.find_reopens - Time.zone.today).to_i
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)

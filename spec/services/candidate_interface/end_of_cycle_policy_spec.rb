@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(EndOfCycleTimetable.apply_reopens) do
+          Timecop.travel(EndOfCycleTimetable.find_reopens) do
             expect(execute_service).to eq true
           end
         end
