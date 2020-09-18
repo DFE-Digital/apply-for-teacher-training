@@ -53,7 +53,7 @@ RSpec.describe LogstashLogging do
     end
 
     context 'sidekiq' do
-      let(:ctx) { { 'class' => 'ClockworkCheck', 'jid' => 'de35b052045557e5b26b4659' } }
+      let(:ctx) { { 'class' => 'Something', 'jid' => 'de35b052045557e5b26b4659' } }
 
       before do
         Thread.current['sidekiq_tid'] = 'gnar6jfq9'
