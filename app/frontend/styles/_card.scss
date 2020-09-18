@@ -1,13 +1,9 @@
 .app-card {
+  @include govuk-responsive-padding(4);
+  @include govuk-font($size: 19);
   background-color: govuk-colour("light-grey");
   display: block;
-  padding: govuk-spacing(2);
   text-decoration: none;
-  @include govuk-font($size: 19);
-
-  @include govuk-media-query($from: desktop) {
-    padding: govuk-spacing(4);
-  }
 }
 
 .app-card--blue {
