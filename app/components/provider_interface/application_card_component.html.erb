@@ -1,45 +1,33 @@
-<div class="app-application-card">
+<section class="app-application-card">
+  <header class="app-application-card__header">
+    <h3 class="govuk-heading-s">
+      <%= govuk_link_to candidate_name, provider_interface_application_choice_path(application_choice), class: 'govuk-link--no-visited-state' %>
+    </h3>
+    <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
+  </header>
 
-  <h3 class="govuk-heading-m">
-    <%= govuk_link_to candidate_name, provider_interface_application_choice_path(application_choice) %>
-    <div class="app-application-card__status">
-      <div>
-        <%= render ProviderInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
-      </div>
-    <div>
-    <% if days_to_respond_text %>
-      <div class="app-application-card__days_to_respond">
-        <dt class="govuk-visually-hidden">Days left to respond:</dt>
-        <dd class="govuk-body"><%= days_to_respond_text %></dd>
-      </div>
-    <% end %>
-  </h3>
-
-  <dl>
-    <div class="app-application-card__primary app-application-card__provider" >
-      <dt class="govuk-visually-hidden">Provider:</dt>
-      <dd class="govuk-body"><%= course_provider_name %> - <%= site_name_and_code %></dd>
-    </div>
-
-    <div class="app-application-card__course">
-      <dt class="govuk-visually-hidden">Course:</dt>
-      <dd class="govuk-body"><%= course_name_and_code %></dd>
-    </div>
-
-    <div class="app-application-card__footer">
-      <div class="app-application-card__secondary">
-        <dt class="govuk-body">Ratified by</dt>
-        <dd class="govuk-body">
-          <%= accredited_provider.nil? ? course_provider_name : accredited_provider.name %>
+  <div class="govuk-grid-row app-grid-row--flex">
+    <div class="govuk-grid-column-two-thirds">
+      <dl class="app-application-card__list">
+        <dt class="govuk-visually-hidden">Course</dt>
+        <dd class="govuk-body-s"><%= course_name_and_code %> – <%= site_name_and_code %></dd>
+        <dt class="govuk-visually-hidden">Provider</dt>
+        <dd class="govuk-hint govuk-!-font-size-16">
+          <span data-qa="provider"><%= course_provider_name %></span>
+          <% if !accredited_provider.nil? %>– ratified by <%= accredited_provider.name %><% end %>
         </dd>
-      </div>
-
-      <div class="app-application-card__cycle">
-        <div class="app-application-card__date">
-          <dt class="govuk-visually-hidden">Cycle:</dt>
-          <dd class="govuk-body"><%= recruitment_cycle_text %></dd>
-        </div>
-      </div>
+      </dl>
     </div>
-  </dl>
-</div>
+
+    <div class="govuk-grid-column-one-third">
+      <dl class="app-application-card__list app-application-card__list--secondary">
+        <% if days_to_respond_text %>
+          <dt class="govuk-visually-hidden">Days left to respond</dt>
+          <dd class="govuk-body-s"><%= days_to_respond_text %></dd>
+        <% end %>
+        <dt class="govuk-visually-hidden">Cycle</dt>
+        <dd class="govuk-hint govuk-!-font-size-16"><%= recruitment_cycle_text %></dd>
+      </dl>
+    </div>
+  </div>
+</section>

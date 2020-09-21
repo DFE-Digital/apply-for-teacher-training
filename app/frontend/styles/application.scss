@@ -29,6 +29,7 @@ $govuk-breakpoints: (
 @import "_back_link";
 
 // Shared (custom components)
+@import "_application-card";
 @import "_autocomplete";
 @import "_banner";
 @import "_card";
