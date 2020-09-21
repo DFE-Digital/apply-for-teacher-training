@@ -88,7 +88,7 @@ module ProviderInterface
     end
 
     def available_choices
-      available_providers.first.application_choices
+      available_providers.map(&:application_choices).flatten
     end
 
     def initial_step(step)
@@ -100,11 +100,11 @@ module ProviderInterface
     end
 
     def application_choice_awaiting_decision
-      available_choices.where(status: :awaiting_provider_decision).order('created_at').first
+      available_choices.select(&:awaiting_provider_decision?).min_by(&:created_at)
     end
 
     def application_choice_with_offer
-      available_choices.where(status: :offer).order('created_at').first
+      available_choices.select(&:offer?).min_by(&:created_at)
     end
 
     def submitted_form(hash)
