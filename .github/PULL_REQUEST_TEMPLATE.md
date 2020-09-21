@@ -20,3 +20,5 @@
 - [ ] If this code includes a migration adding or changing columns, it also backfills existing records for consistency
 - [ ] API release notes have been updated if necessary
 - [ ] New environment variables have been [added to the Azure config](https://github.com/DFE-Digital/apply-for-teacher-training#azure-hosting-devops-pipeline)
+- [ ] Any interface changes have been reviewed by an interaction designer
+- [ ] Any content changes have been reviewed by a content designer
