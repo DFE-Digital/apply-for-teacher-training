@@ -53,6 +53,8 @@ module SupportInterface
 
     def applications
       @provider = Provider.find(params[:provider_id])
+      @filter = SupportInterface::ApplicationsFilter.new(params: params)
+      @application_forms = @filter.filter_records(@provider.application_forms)
     end
 
     def sites
