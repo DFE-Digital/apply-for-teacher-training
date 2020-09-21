@@ -4,4 +4,8 @@
 
 <h2 class="govuk-heading-m">Conditions of offer</h2>
 
+<p class="govuk-body-m">
+  <%= govuk_link_to 'Update status of conditions', provider_interface_reconfirm_deferred_offer_conditions_path(application_choice.id), class: 'govuk-link--no-visited-state' %>
+</p>
+
 <%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice, show_header: false) %>

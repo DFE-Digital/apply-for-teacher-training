@@ -73,6 +73,7 @@ module ProviderInterface
       return unless current_form.application_choice
 
       clone = current_form.application_choice.dup
+      clone.id = current_form.application_choice.id
 
       clone.status = if conditions_status.present?
                        conditions_met? ? 'recruited' : 'pending_conditions'
