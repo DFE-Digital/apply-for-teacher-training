@@ -24,11 +24,16 @@ module SupportInterface
         row_data = { course_choice_details: course_choice_details(course) }
 
         matched_applications_for_course(course).each do |application|
-          status = displayed_status(application)
+          status = DISPLAYED_STATUSES[application.status]
           if application.ucas_scheme?
-            row_data.merge!(status_on_ucas: status)
+            row_data.merge!(status_on_ucas: status, status_on_apply: 'N/A')
           elsif application.dfe_scheme?
-            row_data.merge!(status_on_apply: status)
+            row_data.merge!(status_on_ucas: 'N/A', status_on_apply: status)
+          else
+            row_data.merge!(
+              status_on_ucas: DISPLAYED_STATUSES[application.mapped_ucas_status],
+              status_on_apply: status,
+            )
           end
         end
 
@@ -54,10 +59,6 @@ module SupportInterface
 
     def course_choice_details(course)
       "#{course.code} — #{course.name} — #{course.provider.name}"
-    end
-
-    def displayed_status(ucas_matched_application)
-      DISPLAYED_STATUSES[ucas_matched_application.status]
     end
   end
 end

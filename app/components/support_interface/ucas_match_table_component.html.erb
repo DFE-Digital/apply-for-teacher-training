@@ -11,8 +11,8 @@
     <% table_rows.each do |table_row| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell"><%= table_row[:course_choice_details] %></td>
-        <td class="govuk-table__cell"><%= table_row[:status_on_ucas] || 'N/A' %></td>
-        <td class="govuk-table__cell"><%= table_row[:status_on_apply] || 'N/A' %></td>
+        <td class="govuk-table__cell"><%= table_row[:status_on_ucas] %></td>
+        <td class="govuk-table__cell"><%= table_row[:status_on_apply] %></td>
       </tr>
     <% end %>
   </tbody>
