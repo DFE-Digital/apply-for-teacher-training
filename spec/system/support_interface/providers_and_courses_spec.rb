@@ -215,10 +215,7 @@ RSpec.feature 'Providers and courses' do
   def then_i_see_the_course_information
     expect(page).to have_title 'Primary (ABC-1)'
     expect(page).to have_content 'Primary (ABC-1) - Full time at Main site Vacancies'
-
-    within '[data-qa="applications"]' do
-      expect(page.all('tbody tr').size).to eq(2)
-    end
+    expect(page.all('.app-application-card').size).to eq(2)
   end
 
   def when_i_choose_to_open_the_course_on_apply

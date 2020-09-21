@@ -106,7 +106,7 @@ RSpec.feature 'See an application' do
   end
 
   def and_i_click_on_an_application_with_a_reference
-    click_on @application_with_reference.candidate.email_address
+    click_on @application_with_reference.full_name
   end
 
   def then_i_should_see_the_reference_from_first_referee

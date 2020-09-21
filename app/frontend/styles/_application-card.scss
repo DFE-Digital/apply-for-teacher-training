@@ -1,0 +1,78 @@
+.app-application-cards {
+  h2.task_view_group_header {
+    margin-top: govuk-spacing(6);
+    margin-bottom: govuk-spacing(2);
+  }
+
+  h2.task_view_group_header:first-of-type {
+    margin-top: 0;
+  }
+}
+
+.app-application-card {
+  border-bottom: 1px solid govuk-colour("mid-grey");
+  @include govuk-responsive-margin(2, "bottom");
+
+  .govuk-tag {
+    @include govuk-font($size: 14, $weight: "bold");
+    padding: 2px govuk-spacing(1);
+    white-space: nowrap;
+  }
+
+  .govuk-grid-column-one-third {
+    @include govuk-media-query($from: tablet) {
+      width: 36%;
+    }
+  }
+
+  .govuk-grid-column-two-thirds {
+    @include govuk-media-query($from: tablet) {
+      width: 64%;
+    }
+  }
+
+  &__header {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  &__header .govuk-heading-s {
+    margin-bottom: govuk-spacing(1);
+  }
+
+  &__list {
+    margin-top: 0;
+    margin-bottom: govuk-spacing(2);
+  }
+
+  &__list dd {
+    margin: 0;
+  }
+
+  &__list .govuk-tag {
+    margin-right: govuk-spacing(1);
+  }
+
+  &__list .govuk-hint {
+    margin-top: govuk-spacing(1);
+  }
+
+  &__list--secondary {
+    display: flex;
+
+    @include govuk-media-query($from: tablet) {
+      flex-direction: column;
+      text-align: right;
+    }
+  }
+
+  &__list--secondary *:last-child {
+    margin-left: auto;
+
+    @include govuk-media-query($from: tablet) {
+      margin-top: auto;
+    }
+  }
+}

@@ -113,7 +113,7 @@ RSpec.describe ProviderInterface::ApplicationCardComponent do
       let(:result) { render_inline described_class.new(application_choice: application_choice_without_accredited_provider) }
 
       it 'renders the course provider name instead' do
-        expect(result.css('.app-application-card__secondary').text).to include('Hoth Teacher Training')
+        expect(result.css('[data-qa="provider"]').text).to include('Hoth Teacher Training')
       end
     end
   end

@@ -3,7 +3,7 @@ module SupportInterface
     def index
       @application_forms = ApplicationForm
         .joins(:candidate)
-        .includes(:candidate, :application_choices)
+        .includes(:candidate, application_choices: %i[course provider])
         .order(updated_at: :desc)
         .page(params[:page] || 1).per(15)
 
