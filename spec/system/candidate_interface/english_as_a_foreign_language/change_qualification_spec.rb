@@ -31,7 +31,7 @@ RSpec.feature 'Change qualification' do
   end
 
   def then_i_can_change_my_qualification
-    click_link 'Change type of qualification'
+    click_link 'Change type of assessment'
     choose 'Test of English as a Foreign Language (TOEFL)'
     click_button 'Continue'
 

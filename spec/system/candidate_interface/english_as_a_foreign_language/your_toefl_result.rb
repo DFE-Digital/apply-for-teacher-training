@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Add TOEFL qualification' do
+RSpec.feature 'Your TOEFL result' do
   include CandidateHelper
   include EFLHelper
 

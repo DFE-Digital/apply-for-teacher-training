@@ -10,12 +10,12 @@ en:
     application_edit: Editing your application
     eligibility: Check we’re ready for you to use this service
     efl:
-      ielts: Add IELTS qualification
-      other: Add English language qualification
+      ielts: Your IELTS result
+      other: Your English language assessment result
       review: English as a foreign language
       start: English as a foreign language
-      toefl: Add TOEFL qualification
-      type: What English language qualification do you have?
+      toefl: Your TOEFL result
+      type: What English language assessment did you do?
     error_prefix: "Error: "
     success_prefix: "Success: "
     not_eligible_yet: We’re sorry, but we’re not ready for you yet

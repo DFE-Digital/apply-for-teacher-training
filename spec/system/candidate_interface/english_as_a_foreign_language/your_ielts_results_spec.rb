@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Add IELTS qualification' do
+RSpec.feature 'Your IELTS result' do
   include CandidateHelper
   include EFLHelper
 
