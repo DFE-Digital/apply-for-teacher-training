@@ -9,16 +9,13 @@
     </h1>
 
     <div class="govuk-!-margin-bottom-7">
-      <% if @wizard.course_option_in_new_cycle %>
+      <% if @wizard.applicable? %>
         <p class="govuk-body-m">
           The course offered to the candidate in the previous cycle is available in the current cycle. On the next screen, you can change the status of the conditions of the offer.
         </p>
        <% else %>
         <p class="govuk-body-m">
-          You can’t make the same offer that you made last year, because the course is no longer available in the same form. You’ll have to change some of the course details – you cannot make the same offer that you made in the previous cycle.
-        </p>
-        <p class="govuk-body-m">
-          To change the details of your offer, please contact support.
+          The details of the course you offered previously are not available in the current cycle.
         </p>
        <% end %>
       <details class="govuk-details govuk-!-margin-bottom-0 app-details--no-boder" data-module="govuk-details">
@@ -31,9 +28,33 @@
           <%= render ProviderInterface::DeferredOfferDetailsComponent.new(application_choice: @wizard.modified_application_choice) %>
         </div>
       </details>
+
+      <% unless @wizard.applicable? %>
+        <p class="govuk-body-m govuk-!-margin-top-5">
+          To change the details of this offer, contact us at
+          <a class="govuk-link" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher@digital.education.gov.uk</a>.
+        </p>
+        <p class="govuk-body-m">
+          Tell us which of the following details you’d like to change:
+          <ul class="govuk-list govuk-list--bullet">
+            <li>provider</li>
+            <li>course</li>
+            <li>location</li>
+            <li>whether it’s full time or part time</li>
+          </ul>
+        </p>
+
+        <p class="govuk-body-m">
+          You should also let us know if any of the conditions of the offer are currently pending.
+        </p>
+
+        <p class="govuk-body-m">
+          We’ll contact you within one working day to confirm that the offer has been updated. We’ll also contact the candidate confirming the new details.
+        </p>
+      <% end %>
     </div>
 
-    <% if @wizard.course_option_in_new_cycle %>
+    <% if @wizard.applicable? %>
       <%= govuk_link_to 'Continue', next_path, class: 'govuk-button' %>
     <% end %>
   </div>

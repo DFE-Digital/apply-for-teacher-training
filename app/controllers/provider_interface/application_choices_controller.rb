@@ -43,7 +43,8 @@ module ProviderInterface
         @deferred_offer_wizard_applicable =
           @application_choice.recruitment_cycle == RecruitmentCycle.previous_year
         @deferred_offer_equivalent_course_option_available =
-          @application_choice.offered_option.in_next_cycle
+          @application_choice.offered_option.in_next_cycle &&
+          @application_choice.offered_option.in_next_cycle.course.open_on_apply
       end
 
       @status_box_options = if @application_choice.offer? && @provider_can_respond

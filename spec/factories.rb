@@ -325,6 +325,7 @@ FactoryBot.define do
         unless (new_course = course_option.course.in_next_cycle)
           new_course = course_option.course.dup
           new_course.recruitment_cycle_year = RecruitmentCycle.current_year
+          new_course.open_on_apply = true
           new_course.save
         end
 
@@ -553,6 +554,7 @@ FactoryBot.define do
     trait :with_deferred_offer_previously_recruited do
       with_deferred_offer
       status_before_deferral { 'recruited' }
+      recruited_at { Time.zone.now - 1.day }
     end
 
     trait :previous_year do

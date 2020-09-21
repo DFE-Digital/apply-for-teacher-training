@@ -269,6 +269,18 @@ en:
           attributes:
             conditions_status:
               blank: Select whether to mark conditions as met for the new offer
+        reinstate_conditions_met:
+          attributes:
+            course_option:
+              blank: could not be found
+              not_open_on_apply: is not open for applications via the Apply service
+              not_in_current_cycle: does not belong to the current cycle
+        reinstate_pending_conditions:
+          attributes:
+            course_option:
+              blank: could not be found
+              not_open_on_apply: is not open for applications via the Apply service
+              not_in_current_cycle: does not belong to the current cycle
   activerecord:
     attributes:
       application_qualification/qualification_type:

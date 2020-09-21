@@ -27,7 +27,7 @@ module ProviderInterface
       service = service_class.new(
         actor: current_provider_user,
         application_choice: @application_choice,
-        course_option_id: @wizard.course_option_id,
+        course_option: @wizard.course_option,
       )
 
       if service.save
