@@ -5,7 +5,7 @@ module CandidateInterface
     end
 
     def call
-      @application_form.application_choices.each do |application_choice|
+      @application_form.application_choices.unsubmitted.each do |application_choice|
         ApplicationStateChange.new(application_choice).reject_at_end_of_cycle!
       end
     end

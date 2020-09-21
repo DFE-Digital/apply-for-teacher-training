@@ -55,6 +55,18 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
         course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year)),
       )
 
+      unsubmitted_cancelled_application_from_this_year = create(
+        :completed_application_form,
+        submitted_at: nil,
+        recruitment_cycle_year: RecruitmentCycle.current_year,
+      )
+      create(
+        :application_choice,
+        status: :application_not_sent,
+        application_form: unsubmitted_cancelled_application_from_this_year,
+        course_option: create(:course_option, course: create(:course, recruitment_cycle_year: RecruitmentCycle.current_year)),
+      )
+
       described_class.new.perform
 
       expect(unsubmitted_application_from_this_year.reload.application_choices.first).to be_application_not_sent
@@ -62,6 +74,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
       expect(unsubmitted_application_from_last_year.reload.application_choices.first).not_to be_application_not_sent
       expect(rejected_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent
       expect(hidden_application_from_this_year.reload.application_choices.first).not_to be_application_not_sent
+      expect(unsubmitted_cancelled_application_from_this_year.reload.application_choices.first).to be_application_not_sent
     end
   end
 end

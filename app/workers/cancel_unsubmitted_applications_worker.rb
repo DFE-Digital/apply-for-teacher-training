@@ -20,8 +20,8 @@ private
         hidden_candidates: Candidate.where(hide_in_reporting: true).select(:id),
       )
       .where(
-        'application_forms.id NOT IN (:duplicated_applications)',
-        duplicated_applications: ApplicationForm.where.not(previous_application_form_id: nil).select(:previous_application_form_id),
+        'application_forms.id IN (:unsubmitted_application_choices)',
+        unsubmitted_application_choices: ApplicationChoice.unsubmitted.select(:application_form_id),
       )
       .includes(:application_choices)
       .distinct
