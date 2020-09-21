@@ -31,6 +31,6 @@ RSpec.feature 'View EFL form' do
   end
 
   def then_i_see_the_efl_form
-    expect(page).to have_content 'Do you have an English as a foreign language assessment?'
+    expect(page).to have_content 'Have you done an English as a foreign language assessment?'
   end
 end

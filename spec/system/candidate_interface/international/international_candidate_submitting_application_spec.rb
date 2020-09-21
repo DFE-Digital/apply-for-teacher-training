@@ -136,7 +136,7 @@ RSpec.feature 'International candidate submits the application' do
 
   def when_i_complete_the_efl_section
     within '#missing-efl-error' do
-      click_link 'Do you have an English as a foreign language assessment?'
+      click_link 'Have you done an English as a foreign language assessment?'
     end
 
     choose 'No, English is not a foreign language to me'

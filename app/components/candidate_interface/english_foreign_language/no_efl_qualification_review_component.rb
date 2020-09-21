@@ -21,7 +21,7 @@ module CandidateInterface
         if english_proficiency.qualification_not_needed?
           'No, English is not a foreign language to me'
         else
-          tag.p('No, I do not have an English as a foreign language assessment', class: 'govuk-body') +
+          tag.p('No, I have not done an English as a foreign language assessment', class: 'govuk-body') +
             tag.p(english_proficiency.no_qualification_details, class: 'govuk-body')
         end
       end
