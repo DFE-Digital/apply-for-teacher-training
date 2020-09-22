@@ -63,7 +63,7 @@ RSpec.describe SummaryListComponent do
     expect(result.css('.govuk-summary-list__value p').to_html).to eq('<p class="govuk-body">Unsafe</p>')
   end
 
-  it 'does not render a span if no row has an action' do
+  it 'does not render an extra dd if no row has an action' do
     rows = [{ key: 'Job',
               value: ['Teacher', 'Clearcourt High'] },
             { key: 'Working pattern',
@@ -75,10 +75,10 @@ RSpec.describe SummaryListComponent do
 
     result = render_inline(SummaryListComponent.new(rows: rows))
 
-    expect(result.to_html).not_to include('<span class="govuk-summary-list__actions"></span>')
+    expect(result.to_html).not_to include('<dd class="govuk-summary-list__actions"></dd>')
   end
 
-  it 'does render a span if any row as an action' do
+  it 'does render an extra dd if any row as an action' do
     rows = [{ key: 'Job',
               value: ['Teacher', 'Clearcourt High'] },
             { key: 'Working pattern',
@@ -91,6 +91,6 @@ RSpec.describe SummaryListComponent do
 
     result = render_inline(SummaryListComponent.new(rows: rows))
 
-    expect(result.to_html).to include('<span class="govuk-summary-list__actions"></span>')
+    expect(result.to_html).to include('<dd class="govuk-summary-list__actions"></dd>')
   end
 end
