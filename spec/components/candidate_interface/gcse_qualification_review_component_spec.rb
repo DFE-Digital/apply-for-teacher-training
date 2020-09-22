@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.text).to match(/Country\s+#{COUNTRIES[@qualification.institution_country]}/)
     end
 
-    it 'displays "Not provided" for naric_reference and comparable_uk_qualification when nil' do
+    it 'displays "Not provided" for naric_reference and hides comparable_uk_qualification when nil' do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
@@ -47,7 +47,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       )
 
       expect(result.text).to match(/NARIC reference number\s+Not provided/)
-      expect(result.text).to match(/Comparable UK qualification\s+Not provided/)
+      expect(result.css('.govuk-summary-list__key').text).not_to include('Comparable UK qualification')
     end
   end
 

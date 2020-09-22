@@ -13,7 +13,7 @@ module CandidateInterface
     def gcse_qualification_rows
       if application_qualification.missing_qualification?
         [missing_qualification_row]
-      elsif FeatureFlag.active?('international_gcses') && @application_qualification.qualification_type == 'non_uk'
+      else
         [
           qualification_row,
           country_row,
@@ -21,13 +21,7 @@ module CandidateInterface
           comparable_uk_qualification_row,
           grade_row,
           award_year_row,
-        ]
-      else
-        [
-          qualification_row,
-          grade_row,
-          award_year_row,
-        ]
+        ].compact
       end
     end
 
@@ -95,6 +89,8 @@ module CandidateInterface
     end
 
     def naric_row
+      return nil unless FeatureFlag.active?('international_gcses') && application_qualification.qualification_type == 'non_uk'
+
       {
         key: 'NARIC reference number',
         value: application_qualification.naric_reference || 'Not provided',
@@ -104,6 +100,10 @@ module CandidateInterface
     end
 
     def comparable_uk_qualification_row
+      return nil unless FeatureFlag.active?('international_gcses') &&
+        application_qualification.qualification_type == 'non_uk' &&
+        application_qualification.naric_reference
+
       {
         key: 'Comparable UK qualification',
         value: application_qualification.comparable_uk_qualification || 'Not provided',
