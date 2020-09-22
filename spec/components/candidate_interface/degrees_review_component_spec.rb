@@ -210,21 +210,50 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       )
     end
 
-    it 'renders component with correct values for NARIC statement' do
-      result = render_inline(described_class.new(application_form: application_form))
+    context 'when a NARIC reference number has been provided' do
+      it 'renders component with correct values for NARIC statement' do
+        result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
-      expect(result.css('.govuk-summary-list__value')[3].text.strip).to eq('0123456789')
-      expect(result.css('.govuk-summary-list__actions a')[3].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree1),
-      )
-      expect(result.css('.govuk-summary-list__value')[4].text.strip).to eq('Bachelor (Honours) degree')
-      expect(result.css('.govuk-summary-list__actions a')[4].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree1),
-      )
-      expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
-      )
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
+        expect(result.css('.govuk-summary-list__value')[3].text.strip).to eq('0123456789')
+        expect(result.css('.govuk-summary-list__actions a')[3].attr('href')).to include(
+          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree1),
+        )
+        expect(result.css('.govuk-summary-list__value')[4].text.strip).to eq('Bachelor (Honours) degree')
+        expect(result.css('.govuk-summary-list__actions a')[4].attr('href')).to include(
+          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree1),
+        )
+        expect(result.css('.govuk-summary-list__actions').text).to include(
+          "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+        )
+      end
+    end
+
+    context 'when the candidate has not provided a NARIC reference number' do
+      let(:degree1) do
+        build_stubbed(
+          :degree_qualification,
+          qualification_type: 'BA',
+          subject: 'Woof',
+          institution_name: 'University of Doge',
+          institution_country: 'DE',
+          naric_reference: '',
+          comparable_uk_degree: nil,
+          grade: 'erste Klasse',
+          predicted_grade: false,
+          start_year: '2005',
+          award_year: '2008',
+          international: true,
+        )
+      end
+
+      it 'does not render a row for comparable UK degree and sets UK NARIC reference number to "Not provided"' do
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__key')[3].text).to include(t('application_form.degree.naric_reference.review_label'))
+        expect(result.css('.govuk-summary-list__value')[3].text.strip).to eq('Not provided')
+        expect(result.css('.govuk-summary-list__key').text).not_to include(t('application_form.degree.comparable_uk_degree.review_label'))
+      end
     end
   end
 

@@ -92,14 +92,14 @@ module CandidateInterface
 
       {
         key: t('application_form.degree.naric_reference.review_label'),
-        value: degree.naric_reference,
+        value: degree.naric_reference.presence || 'Not provided',
         action: generate_action(degree: degree, attribute: t('application_form.degree.naric_reference.change_action')),
         change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree.id),
       }
     end
 
     def comparable_uk_degree_row(degree)
-      return nil unless international?(degree)
+      return nil unless international?(degree) && degree.naric_reference.present?
 
       {
         key: t('application_form.degree.comparable_uk_degree.review_label'),
