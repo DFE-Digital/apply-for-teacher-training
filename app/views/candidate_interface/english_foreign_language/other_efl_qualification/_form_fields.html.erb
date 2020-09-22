@@ -1,6 +1,6 @@
 <%= f.govuk_text_field(
   :name,
-  label: { text: 'Qualification name', size: 'm' },
+  label: { text: 'Assessment name', size: 'm' },
   hint_text: 'For example, CAE (Cambridge Advanced English), Pearson Test of English') %>
 
 <%= f.govuk_text_field(
@@ -10,7 +10,8 @@
 
 <%= f.govuk_text_field(
   :award_year,
-  label: { text: 'Year qualification was awarded', size: 'm' },
+  label: { text: 'When did you complete the assessment?', size: 'm' },
+  hint_text: 'Give the year, for example: ‘2020’',
   type: :number,
   width: 4) %>
 
