@@ -21,7 +21,7 @@ class PhaseBanner < ViewComponent::Base
     when 'development'
       'This is a development version of the Apply service'
     when 'review'
-      'This is a review environment used to test a pull request'
+      'This is a review environment used for demos'
     when 'unknown-environment'
       'This is a unknown version of the Apply service'
     end
