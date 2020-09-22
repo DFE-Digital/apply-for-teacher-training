@@ -48,6 +48,12 @@ task sync_dev_providers_and_open_courses: :environment do
   provider_codes.each do |code|
     SyncProviderFromFind.call(provider_code: code, sync_courses: true, provider_recruitment_cycle_year: RecruitmentCycle.previous_year)
     SyncProviderFromFind.call(provider_code: code, sync_courses: true, provider_recruitment_cycle_year: RecruitmentCycle.current_year)
+
+    # Temporary hack to make sure that we run this background inline, and the
+    # next bit of the script has courses to work with. This is a duplication, because
+    # `SyncProviderFromFind` already schedules a background job.
+    SyncCoursesFromFind.new.perform(Provider.find_by(code: code).id, RecruitmentCycle.previous_year)
+    SyncCoursesFromFind.new.perform(Provider.find_by(code: code).id, RecruitmentCycle.current_year)
   end
 
   puts 'Making all the courses open on Apply...'
