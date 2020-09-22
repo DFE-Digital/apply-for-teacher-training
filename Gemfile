@@ -97,6 +97,7 @@ group :test do
   gem 'database_cleaner'
   gem 'clockwork-test'
   gem 'deepsort'
+  gem 'ruby-jmeter'
 end
 
 group :development, :test do
