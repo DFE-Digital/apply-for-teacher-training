@@ -18,7 +18,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::OtherEflQualification
       form = valid_form.tap { |f| f.name = nil }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages) .to eq ['Name Enter qualification name']
+      expect(form.errors.full_messages) .to eq ['Name Enter assessment name']
     end
 
     it 'is invalid if given an invalid year' do
