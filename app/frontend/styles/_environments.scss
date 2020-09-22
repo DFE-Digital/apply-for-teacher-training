@@ -28,7 +28,3 @@ $app-colour-development: govuk-colour("dark-grey", $legacy: "grey-1");
 .app-header--unknown-environment .govuk-header__container {
   border-bottom-color: $app-colour-development;
 }
-
-.app-environment-tag--sandbox {
-  background-color: $app-colour-sandbox;
-}
