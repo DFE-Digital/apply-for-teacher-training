@@ -114,28 +114,56 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
     end
 
     context 'when the international_personal_details flag on' do
-      let(:form_data) do
-        {
-          british: 'British',
-          irish: 'Irish',
-          other: 'other',
-          other_nationality1: 'Belgian',
-          other_nationality2: 'German',
-          other_nationality3: 'Swedish',
-        }
+      context 'when the candidate is British or Irish' do
+        let(:form_data) do
+          {
+            british: 'British',
+            irish: 'Irish',
+            other: 'other',
+            other_nationality1: 'Belgian',
+            other_nationality2: 'German',
+            other_nationality3: 'Swedish',
+          }
+        end
+
+        it 'updates the provided ApplicationForms nationalities and resets the right to work fields to nil' do
+          FeatureFlag.activate('international_personal_details')
+          application_form = FactoryBot.create(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
+          nationalities = CandidateInterface::NationalitiesForm.new(form_data)
+
+          expect(nationalities.save(application_form)).to eq(true)
+          expect(application_form.first_nationality).to eq 'British'
+          expect(application_form.second_nationality).to eq 'Irish'
+          expect(application_form.third_nationality).to eq 'Belgian'
+          expect(application_form.fourth_nationality).to eq 'German'
+          expect(application_form.fifth_nationality).to eq 'Swedish'
+          expect(application_form.right_to_work_or_study).to eq nil
+          expect(application_form.right_to_work_or_study_details).to eq nil
+        end
       end
 
-      it 'updates the provided ApplicationForms nationalities' do
-        FeatureFlag.activate('international_personal_details')
-        application_form = FactoryBot.create(:application_form)
-        nationalities = CandidateInterface::NationalitiesForm.new(form_data)
+      context 'when the candidate is not British or Irish' do
+        let(:form_data) do
+          {
+            other: 'other',
+            other_nationality1: 'Belgian',
+            other_nationality2: 'German',
+            other_nationality3: 'Swedish',
+          }
+        end
 
-        expect(nationalities.save(application_form)).to eq(true)
-        expect(application_form.first_nationality).to eq 'British'
-        expect(application_form.second_nationality).to eq 'Irish'
-        expect(application_form.third_nationality).to eq 'Belgian'
-        expect(application_form.fourth_nationality).to eq 'German'
-        expect(application_form.fifth_nationality).to eq 'Swedish'
+        it 'updates the provided ApplicationForms nationalities and retains the right to work fields' do
+          FeatureFlag.activate('international_personal_details')
+          application_form = FactoryBot.create(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
+          nationalities = CandidateInterface::NationalitiesForm.new(form_data)
+
+          expect(nationalities.save(application_form)).to eq(true)
+          expect(application_form.first_nationality).to eq 'Belgian'
+          expect(application_form.second_nationality).to eq 'German'
+          expect(application_form.third_nationality).to eq 'Swedish'
+          expect(application_form.right_to_work_or_study).to eq 'yes'
+          expect(application_form.right_to_work_or_study_details).to eq 'I have a visa.'
+        end
       end
     end
   end
