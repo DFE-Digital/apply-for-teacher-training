@@ -19,6 +19,10 @@ class UCASMatchedApplication
     scheme == 'D'
   end
 
+  def both_scheme?
+    scheme == 'B'
+  end
+
   def status
     if ucas_scheme?
       mapped_ucas_status

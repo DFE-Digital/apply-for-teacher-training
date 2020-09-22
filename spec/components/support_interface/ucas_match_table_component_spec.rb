@@ -23,6 +23,12 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
       expect(result.css('td')[1].text).to include('Application rejected')
       expect(result.css('td')[2].text).to include('Offer received')
     end
+
+    it 'renders correct summary' do
+      result = render_inline(described_class.new(ucas_match))
+
+      expect(result.text).to include('This applicant has applied to the same course on both services.')
+    end
   end
 
   context 'when application is only on Apply' do
@@ -32,6 +38,12 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
       expect(result.css('td')[1].text).to include('N/A')
       expect(result.css('td')[2].text).to include('Offer received')
     end
+
+    it 'renders correct summary' do
+      result = render_inline(described_class.new(ucas_match_for_apply_application))
+
+      expect(result.text).to include('This applicant has applied on both services but not for the same course.')
+    end
   end
 
   context 'when application is only on UCAS' do
@@ -40,6 +52,12 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
 
       expect(result.css('td')[1].text).to include('Application rejected')
       expect(result.css('td')[2].text).to include('N/A')
+    end
+
+    it 'renders correct summary' do
+      result = render_inline(described_class.new(ucas_match_for_ucas_application))
+
+      expect(result.text).to include('This applicant has applied on both services but not for the same course.')
     end
   end
 end

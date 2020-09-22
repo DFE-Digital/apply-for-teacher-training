@@ -17,6 +17,7 @@ module SupportInterface
 
     def initialize(match)
       @match = match
+      @summary = applied_on_both_services? ? 'This applicant has applied to the same course on both services.' : 'This applicant has applied on both services but not for the same course.'
     end
 
     def table_rows
@@ -55,6 +56,10 @@ module SupportInterface
 
     def matched_applications_for_course(course)
       ucas_matched_applications.select { |application| application.course == course }
+    end
+
+    def applied_on_both_services?
+      ucas_matched_applications.map(&:both_scheme?).any?
     end
 
     def course_choice_details(course)
