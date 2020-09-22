@@ -1,12 +1,12 @@
-Dear <%= @application_form.first_name %>
+Dear <%= @application_form.first_name %>,
 
-If you do not reply within <%= @dbd_days %> working days, your applications will be withdrawn.
-
-# Respond within <%= @days_until_chaser %> working days
+# Respond by <%= @dbd_date %>
 
 <% if @application_choices.count > 1 %>
 
-  Respond to your teacher training applications by <%= @dbd_date %>, otherwise they will be withdrawn.
+You have until <%= @dbd_date %> to respond to your offers.
+
+If you do not respond by <%= @dbd_date %>, your application will be withdrawn.
 
   # Offers you’ve received
   <% @application_choices.each do |choice| %>
@@ -15,9 +15,9 @@ If you do not reply within <%= @dbd_days %> working days, your applications will
 
 <% else%>
 
-  You have until <%= @dbd_date %> to respond to your offer to study <%= @application_choices.first.course_option.course.name %> at <%= @application_choices.first.course_option.course.provider.name %>.
+You have until <%= @dbd_date %> to respond to your offer to study <%= @application_choices.first.course_option.course.name %> at <%= @application_choices.first.course_option.course.provider.name %>.
 
-  If you do not respond by <%= @dbd_date %>, your application will be withdrawn.
+If you do not respond by <%= @dbd_date %>, your application will be withdrawn.
 
 <% end %>
 
@@ -25,6 +25,8 @@ Sign in to your account to respond:
 
 <%= candidate_magic_link(@application_form.candidate) %>
 
-# Give feedback or report a problem
+# Get support
 
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+Email: [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+
+We respond within 5 working days, or one working day for more urgent queries.
