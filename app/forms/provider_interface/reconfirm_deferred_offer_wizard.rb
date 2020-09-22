@@ -2,44 +2,23 @@ module ProviderInterface
   class ReconfirmDeferredOfferWizard
     include ActiveModel::Model
 
-    STEPS = %w[start conditions update_conditions check commit].freeze
+    STEPS = %w[start conditions check].freeze
 
-    attr_accessor :application_choice_id, :current_step
-    attr_accessor :course_option_in_new_cycle
+    attr_accessor :current_step, :application_choice_id
     attr_accessor :conditions_status, :course_option_id
     attr_writer :state_store
 
     validates :application_choice_id, :current_step, presence: true
-    validate :validate_step, :validate_form, :is_course_option_still_available
 
-    validates :conditions_status, presence: true, if: proc { |f|
-      %w[update_conditions check commit].include? f.current_step
-    }
+    validate :validate_step,
+             :validate_application_choice,
+             :is_course_option_still_available
 
-    validates :course_option_id, presence: true, if: proc { |f|
-      %w[commit].include? f.current_step
-    }
+    validates :conditions_status, presence: true, on: %i[conditions check]
+    validates :course_option_id, presence: true, on: %i[check]
 
-    class DeferredOfferForm
-      include ActiveModel::Model
-      attr_accessor :id
-      attr_reader :application_choice
-
-      validates :id, presence: true
-      validate :validate_application_choice
-
-      def validate_application_choice
-        @application_choice = ApplicationChoice.find_by(id: id)
-
-        if application_choice
-          errors.add(:id, 'is not a deferred offer') \
-            unless application_choice.status == 'offer_deferred'
-          errors.add(:id, 'is not from the previous recruitment cycle') \
-            unless application_choice.recruitment_cycle == RecruitmentCycle.previous_year
-        else
-          errors.add(:id, 'does not exist')
-        end
-      end
+    def valid?
+      super(current_step&.to_sym)
     end
 
     def initialize(state_store, attrs = {})
@@ -48,12 +27,29 @@ module ProviderInterface
       super(last_saved_state.deep_merge(attrs))
     end
 
-    def is_course_option_still_available
-      @course_option_in_new_cycle = current_form.application_choice&.offered_option&.in_next_cycle
+    def application_choice
+      @application_choice ||= ApplicationChoice.find(application_choice_id)
+    end
 
+    def validate_application_choice
+      if application_choice
+        errors.add(:application_choice_id, 'Application status is not a deferred offer') \
+          unless application_choice.status == 'offer_deferred'
+        errors.add(:application_choice_id, "Deferred offer is not from #{RecruitmentCycle.previous_year}") \
+          unless application_choice.recruitment_cycle == RecruitmentCycle.previous_year
+      else
+        errors.add(:application_choice_id, 'No application choice has been supplied')
+      end
+    end
+
+    def course_option_in_new_cycle
+      @course_option_in_new_cycle ||= application_choice&.offered_option&.in_next_cycle
+    end
+
+    def is_course_option_still_available
       if current_step != 'start'
-        errors.add(:course_option_in_new_cycle, "No matching course option in #{RecruitmentCycle.current_year}") unless @course_option_in_new_cycle
-        errors.add(:course_option_in_new_cycle, 'New course option is not open on Apply') unless @course_option_in_new_cycle&.course&.open_on_apply == true
+        errors.add(:course_option_in_new_cycle, "No matching course option in #{RecruitmentCycle.current_year}") unless course_option_in_new_cycle
+        errors.add(:course_option_in_new_cycle, 'New course option is not open on Apply') unless course_option_in_new_cycle&.course&.open_on_apply == true
       end
     end
 
@@ -70,10 +66,10 @@ module ProviderInterface
     end
 
     def modified_application_choice
-      return unless current_form.application_choice
+      return unless application_choice
 
-      clone = current_form.application_choice.dup
-      clone.id = current_form.application_choice.id
+      clone = application_choice.dup
+      clone.id = application_choice.id
 
       clone.status = if conditions_status.present?
                        conditions_met? ? 'recruited' : 'pending_conditions'
@@ -85,17 +81,13 @@ module ProviderInterface
 
     def next_step
       if current_step == 'start'
-        [:conditions]
+        :conditions
       elsif current_step == 'conditions'
-        [:update_conditions]
-      elsif current_step == 'update_conditions'
-        [:check]
+        :check
       elsif current_step == 'check'
-        [:commit]
-      elsif current_step == 'commit'
         nil
       else
-        [:start]
+        :start
       end
     end
 
@@ -103,13 +95,9 @@ module ProviderInterface
       if current_step == 'start'
         nil
       elsif current_step == 'conditions'
-        [:start]
-      elsif current_step == 'update_conditions'
-        [:conditions]
+        :start
       elsif current_step == 'check'
-        [:conditions]
-      elsif current_step == 'commit'
-        [:check]
+        :conditions
       end
     end
 
@@ -121,16 +109,10 @@ module ProviderInterface
       @state_store.delete
     end
 
-    def current_form
-      @_current_form ||= DeferredOfferForm.new(
-        deferred_offer_data.merge(id: application_choice_id),
-      )
-    end
-
   private
 
     def state
-      as_json(except: %w[state_store errors validation_context _current_form current_step]).to_json
+      as_json(except: %w[state_store errors validation_context application_choice course_option_in_new_cycle current_step]).to_json
     end
 
     def last_saved_state
@@ -148,16 +130,7 @@ module ProviderInterface
     end
 
     def validate_step
-      errors.add(:current_step, 'is not a valid step') unless STEPS.include?(current_step)
-    end
-
-    def validate_form
-      return if current_form.valid?
-
-      current_form.errors.map do |key, message|
-        key = :application_choice_id if key == :id
-        errors.add(key, message)
-      end
+      errors.add(:current_step, 'Specified step is not valid') unless STEPS.include?(current_step)
     end
   end
 end
