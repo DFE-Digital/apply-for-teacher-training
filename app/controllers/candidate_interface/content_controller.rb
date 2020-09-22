@@ -30,6 +30,7 @@ module CandidateInterface
     def courses_grouped_by_provider_and_region
       Course
         .open_on_apply
+        .current_cycle
         .includes(:provider)
         .order('providers.region_code', 'providers.name')
         .group_by { |course| [course.provider.region_code, course.provider.name] }
