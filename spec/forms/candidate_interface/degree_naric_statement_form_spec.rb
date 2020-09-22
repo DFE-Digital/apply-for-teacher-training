@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::DegreeNaricStatementForm do
     end
 
     context 'when `have_naric_reference` is "no"' do
-      it 'returns false if naric_reference and comparable_uk_degree are empty' do
+      it 'returns true and updated naric_reference and comparable_uk_degree to nil' do
         degree = create(
           :degree_qualification,
           international: true,
@@ -55,6 +55,8 @@ RSpec.describe CandidateInterface::DegreeNaricStatementForm do
         form = described_class.new(
           degree: degree,
           have_naric_reference: 'no',
+          naric_reference: '0123456789',
+          comparable_uk_degree: 'bachelor_ordinary_degree',
         )
 
         expect(form.save).to eq true
