@@ -274,18 +274,24 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   context 'when the international personal details flag is on and the candidate is British or Irish' do
     before { FeatureFlag.activate(:international_personal_details) }
 
-    it 'renders the right to work row' do
+    it 'does not render the right to work row' do
       nationalities_form = build(
         :nationalities_form,
         first_nationality: 'British',
+        second_nationality: 'Albanian',
       )
       right_to_work_form = build(
         :right_to_work_form,
         right_to_work_or_study: 'yes',
         right_to_work_or_study_details: 'I have the right.',
       )
+      application_form = build(
+        :application_form,
+        first_nationality: 'Albanian',
+        second_nationality: 'British',
+      )
 
-      expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).not_to include(
+      expect(rows(application_form: application_form, nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).not_to include(
         row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", candidate_interface_edit_right_to_work_or_study_path),
       )
     end

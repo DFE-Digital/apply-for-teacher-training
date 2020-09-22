@@ -96,14 +96,18 @@ module CandidateInterface
     end
 
     def right_to_work_row
-      if NationalitiesForm::UK_AND_IRISH_NATIONALITIES.exclude?(@nationalities_form.first_nationality)
-        {
-          key: 'Residency status',
-          value: formatted_right_to_work_or_study,
-          action: ('Right to work or study' if @editable),
-          change_path: candidate_interface_edit_right_to_work_or_study_path,
-        }
-      end
+      return nil if british_or_irish?
+
+      {
+        key: 'Residency status',
+        value: formatted_right_to_work_or_study,
+        action: ('Right to work or study' if @editable),
+        change_path: candidate_interface_edit_right_to_work_or_study_path,
+      }
+    end
+
+    def british_or_irish?
+      @application_form.build_nationalities_hash[:irish] || @application_form.build_nationalities_hash[:british]
     end
 
     def formatted_nationalities
