@@ -268,7 +268,7 @@ en:
         provider_interface/reconfirm_deferred_offer_wizard:
           attributes:
             conditions_status:
-              blank: Select whether to mark conditions as met for the new offer
+              blank: Select yes if the candidate has met all of the conditions
         reinstate_conditions_met:
           attributes:
             course_option:
