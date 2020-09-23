@@ -17,7 +17,8 @@ module CandidateInterface
         [
           qualification_row,
           country_row,
-          naric_row,
+          naric_statment_row,
+          naric_reference_row,
           comparable_uk_qualification_row,
           grade_row,
           award_year_row,
@@ -88,12 +89,25 @@ module CandidateInterface
       }
     end
 
-    def naric_row
+    def naric_statment_row
       return nil unless FeatureFlag.active?('international_gcses') && application_qualification.qualification_type == 'non_uk'
 
       {
+        key: 'Do you have a NARIC statment of comparability?',
+        value: application_qualification.naric_reference ? 'Yes' : 'No',
+        action: 'Change the NARIC statement',
+        change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
+      }
+    end
+
+    def naric_reference_row
+      return nil unless FeatureFlag.active?('international_gcses') &&
+        application_qualification.qualification_type == 'non_uk' &&
+        application_qualification.naric_reference
+
+      {
         key: 'NARIC reference number',
-        value: application_qualification.naric_reference || 'Not provided',
+        value: application_qualification.naric_reference,
         action: 'Change the NARIC reference number',
         change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
       }
@@ -106,7 +120,7 @@ module CandidateInterface
 
       {
         key: 'Comparable UK qualification',
-        value: application_qualification.comparable_uk_qualification || 'Not provided',
+        value: application_qualification.comparable_uk_qualification,
         action: 'Change the comparable uk qualification',
         change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
       }
