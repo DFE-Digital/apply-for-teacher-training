@@ -5,15 +5,13 @@
     <%= form_with model: nil,
       url: support_interface_run_task_path('delete_test_applications') do |f|
     %>
-      <h1 class="govuk-heading-xl">
-        Delete test applications
-      </h1>
+      <h1 class="govuk-heading-xl">Are you sure you want to delete all test applications?</h1>
 
-      <p class="govuk-body">
-        This will delete all candidates with emails that end in “@example.com”, their applications and associated data. Are you sure?
-      </p>
+      <div class="app-styled-content">
+        <p>This task deletes all candidates with emails that end in <code>@example.com</code>, their applications and associated data.</p>
+      </div>
 
-      <%= f.submit 'Yes, I\'m sure',
+      <%= f.submit 'Yes, I’m sure - delete all test applications',
         class: 'govuk-button govuk-button--warning',
         data: { module: 'govuk-button' }
       %>
