@@ -29,9 +29,9 @@ RSpec.feature 'Add Other qualification' do
   end
 
   def when_i_provide_my_qualification_details
-    fill_in 'Qualification name', with: 'Pearson Test of English'
+    fill_in 'Assessment name', with: 'Pearson Test of English'
     fill_in 'Score or grade', with: '90'
-    fill_in 'Year qualification was awarded', with: '1999'
+    fill_in 'When did you complete the assessment?', with: '1999'
     click_button 'Save and continue'
   end
 
@@ -47,8 +47,8 @@ RSpec.feature 'Add Other qualification' do
       click_link 'Change year'
     end
 
-    expect(page).to have_field('Year qualification was awarded', with: '1999')
-    fill_in 'Year qualification was awarded', with: '2001'
+    expect(page).to have_field('When did you complete the assessment?', with: '1999')
+    fill_in 'When did you complete the assessment?', with: '2001'
     click_button 'Save and continue'
 
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path

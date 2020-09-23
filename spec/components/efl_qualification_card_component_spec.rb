@@ -22,7 +22,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
         it 'renders the expected output' do
           result = render_inline(described_class.new(application_form))
 
-          expect(result.text).to include 'Candidate has an English as a foreign language assessment'
+          expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
 
           details_card = result.css('[data-qa="english-proficiency-qualification"]')
           expect(details_card.text).to include 'IELTS'
@@ -42,7 +42,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
         it 'renders the expected output' do
           result = render_inline(described_class.new(application_form))
 
-          expect(result.text).to include 'Candidate has an English as a foreign language assessment'
+          expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
 
           details_card = result.css('[data-qa="english-proficiency-qualification"]')
           expect(details_card.text).to include 'TOEFL'
@@ -62,7 +62,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
         it 'renders the expected output' do
           result = render_inline(described_class.new(application_form))
 
-          expect(result.text).to include 'Candidate has an English as a foreign language assessment'
+          expect(result.text).to include 'Candidate has done an English as a foreign language assessment.'
 
           details_card = result.css('[data-qa="english-proficiency-qualification"]')
           expect(details_card.text).to include 'Cockney Rhyming Slang Proficiency Test'
@@ -87,7 +87,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       it 'renders the expected output' do
         result = render_inline(described_class.new(application_form))
 
-        expect(result.text).to include 'Candidate does not have an English as a foreign language assessment yet'
+        expect(result.text).to include 'Candidate has not done an English as a foreign language assessment yet.'
         expect(result.text).to include 'Waiting for results'
         details_card = result.css('#english-as-a-foreign-language .app-card--outline')
         expect(details_card).to be_blank

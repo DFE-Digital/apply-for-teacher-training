@@ -20,9 +20,9 @@ module CandidateInterface
             change_path: candidate_interface_edit_ielts_path,
           },
           {
-            key: 'Year awarded',
+            key: 'Year completed',
             value: ielts_qualification.award_year,
-            action: 'Change year awarded',
+            action: 'Change year completed',
             change_path: candidate_interface_edit_ielts_path,
           },
           {

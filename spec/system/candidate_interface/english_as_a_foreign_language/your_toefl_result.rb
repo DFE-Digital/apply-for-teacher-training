@@ -31,7 +31,7 @@ RSpec.feature 'Your TOEFL result' do
   def when_i_provide_my_toefl_details
     fill_in 'TOEFL registration number', with: '123456'
     fill_in 'Total score', with: '10'
-    fill_in 'Year qualification was awarded', with: '1999'
+    fill_in 'When did you complete the assessment?', with: '1999'
     click_button 'Save and continue'
   end
 
