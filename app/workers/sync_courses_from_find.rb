@@ -59,7 +59,7 @@ private
 
       find_site_status = site_statuses.find { |ss| ss.site.id == find_site.id }
 
-      study_modes = CourseStudyModes.new(course).derive
+      study_modes = FindSync::CourseStudyModes.new(course).derive
 
       study_modes.each do |mode|
         course_option = CourseOption.find_or_initialize_by(
@@ -68,7 +68,7 @@ private
           study_mode: mode,
         )
 
-        vacancy_status = CourseVacancyStatus.new(
+        vacancy_status = FindSync::CourseVacancyStatus.new(
           find_site_status.vac_status,
           course_option.study_mode,
         ).derive
@@ -139,44 +139,6 @@ private
       next if course_option.site_still_valid == false
 
       course_option.update!(site_still_valid: false)
-    end
-  end
-
-  class CourseVacancyStatus
-    def initialize(find_status_description, study_mode)
-      @find_status_description = find_status_description
-      @study_mode = study_mode
-    end
-
-    def derive
-      case @find_status_description
-      when 'no_vacancies'
-        :no_vacancies
-      when 'both_full_time_and_part_time_vacancies'
-        :vacancies
-      when 'full_time_vacancies'
-        @study_mode == 'full_time' ? :vacancies : :no_vacancies
-      when 'part_time_vacancies'
-        @study_mode == 'part_time' ? :vacancies : :no_vacancies
-      else
-        raise InvalidFindStatusDescriptionError, @find_status_description
-      end
-    end
-
-    class InvalidFindStatusDescriptionError < StandardError; end
-  end
-
-  class CourseStudyModes
-    def initialize(course)
-      @course = course
-    end
-
-    def derive
-      both_modes = %w[full_time part_time]
-      return both_modes if @course.both_study_modes_available?
-
-      from_existing_course_options = @course.course_options.pluck(:study_mode).uniq
-      (from_existing_course_options + [@course.study_mode]).uniq
     end
   end
 end
