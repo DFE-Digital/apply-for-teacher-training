@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SyncAllProvidersFromFind do
+RSpec.describe FindSync::SyncAllProvidersFromFind do
   include FindAPIHelper
 
   before do
@@ -20,7 +20,7 @@ RSpec.describe SyncAllProvidersFromFind do
         },
       ])
 
-      expect { SyncAllProvidersFromFind.call }.to change { Provider.count }.by(2)
+      expect { described_class.call }.to change { Provider.count }.by(2)
     end
 
     it 'sets the last updated timestamp' do
@@ -33,7 +33,7 @@ RSpec.describe SyncAllProvidersFromFind do
         },
       ])
 
-      SyncAllProvidersFromFind.call
+      described_class.call
 
       expect(FindSyncCheck.last_sync).not_to be_blank
     end
@@ -43,7 +43,7 @@ RSpec.describe SyncAllProvidersFromFind do
 
       stub_find_api_all_providers_503
 
-      expect { SyncAllProvidersFromFind.call }.to raise_error(SyncAllProvidersFromFind::SyncFindApiError)
+      expect { described_class.call }.to raise_error(FindSync::SyncAllProvidersFromFind::SyncFindApiError)
 
       expect(FindSyncCheck.last_sync).to be_blank
     end
@@ -62,7 +62,7 @@ RSpec.describe SyncAllProvidersFromFind do
         },
       ])
 
-      expect { SyncAllProvidersFromFind.call }.to change { Provider.count }.by(1)
+      expect { described_class.call }.to change { Provider.count }.by(1)
     end
 
     it 'updates the name of existing providers' do
@@ -79,7 +79,7 @@ RSpec.describe SyncAllProvidersFromFind do
         },
       ])
 
-      SyncAllProvidersFromFind.call
+      described_class.call
       expect(existing_provider.reload.name).to eq 'DEF College'
     end
   end

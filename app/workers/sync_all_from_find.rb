@@ -3,6 +3,6 @@ class SyncAllFromFind
   sidekiq_options retry: 3, queue: :low_priority
 
   def perform
-    SyncAllProvidersFromFind.call
+    FindSync::SyncAllProvidersFromFind.call
   end
 end
