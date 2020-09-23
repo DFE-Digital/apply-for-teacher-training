@@ -225,7 +225,6 @@ RSpec.describe FindSync::SyncProviderFromFind, sidekiq: true do
           site_code: 'A',
           findable: true,
         )
-        allow(Raven).to receive(:capture_message)
 
         described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
