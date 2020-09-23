@@ -5,16 +5,15 @@
     <%= form_with model: nil,
       url: support_interface_run_task_path('reject_applications_awaiting_references_at_end_of_cycle') do |f|
     %>
-      <h1 class="govuk-heading-xl">
-        Reject applications awaiting references at end-of-cycle
-      </h1>
+      <span class="govuk-caption-xl">End-of-cycle</span>
+      <h1 class="govuk-heading-xl">Are you sure you want to reject all applications awaiting references?</h1>
 
-      <p class="govuk-body">
-        Finds any applications that have been submitted but not sent to providers because they are awaiting references from the recently closed recruitment cycle and moves them to the 'application_not_sent' status.
-        This should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>
-      </p>
+      <div class="app-styled-content">
+        <p>This task finds any applications that have been submitted but not sent to providers because they are awaiting references from the recently closed recruitment cycle, and moves them to the <code>application_not_sent</code> status.</p>
+        <p>This should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>.</p>
+      </div>
 
-      <%= f.submit 'Yes, I\'m sure',
+      <%= f.submit 'Yes, I’m sure - reject all applications awaiting references',
         class: 'govuk-button govuk-button--warning',
         data: { module: 'govuk-button' }
       %>
