@@ -26,4 +26,29 @@ class PhaseBanner < ViewComponent::Base
       'This is a unknown version of the Apply service'
     end
   end
+
+  def app_environment_css_class
+    return '' if HostingEnvironment.production?
+
+    "govuk-tag--#{css_colour}"
+  end
+
+private
+
+  def css_colour
+    return :purple if HostingEnvironment.sandbox_mode?
+
+    case HostingEnvironment.environment_name
+    when 'qa'
+      :orange
+    when 'staging'
+      :red
+    when 'development'
+      :grey
+    when 'review'
+      :purple
+    when 'unknown-environment'
+      :yellow
+    end
+  end
 end
