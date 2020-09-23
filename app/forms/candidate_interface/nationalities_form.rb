@@ -33,13 +33,25 @@ module CandidateInterface
       if FeatureFlag.active?('international_personal_details')
         nationalities = candidates_nationalities
 
-        application_form.update!(
-          first_nationality: nationalities[0],
-          second_nationality: nationalities[1],
-          third_nationality: nationalities[2],
-          fourth_nationality: nationalities[3],
-          fifth_nationality: nationalities[4],
-        )
+        if british.present? || irish.present?
+          application_form.update!(
+            first_nationality: nationalities[0],
+            second_nationality: nationalities[1],
+            third_nationality: nationalities[2],
+            fourth_nationality: nationalities[3],
+            fifth_nationality: nationalities[4],
+            right_to_work_or_study: nil,
+            right_to_work_or_study_details: nil,
+          )
+        else
+          application_form.update!(
+            first_nationality: nationalities[0],
+            second_nationality: nationalities[1],
+            third_nationality: nationalities[2],
+            fourth_nationality: nationalities[3],
+            fifth_nationality: nationalities[4],
+          )
+        end
       else
         application_form.update!(
           first_nationality: first_nationality,
