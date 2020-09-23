@@ -15,7 +15,10 @@ class AddDefaultPermissionsForProviderRelationships < ActiveRecord::Migration[6.
 
     if provider_ids_with_no_manage_org_permissions.any?
       # Fetch users who accepted DSA for these unmanaged organisations.
-      provider_user_ids_from_agreements = ProviderAgreement.where(provider_id: provider_ids_with_no_manage_org_permissions).pluck(:provider_user_id).uniq
+      provider_user_ids_from_agreements = ProviderAgreement
+        .joins('INNER JOIN provider_users ON provider_agreements.provider_user_id = provider_users.id')
+        .where(provider_id: provider_ids_with_no_manage_org_permissions)
+        .pluck(:provider_user_id).uniq
 
       # Grant the manage_organisations permission to the user who accepted the DSA.
       ProviderPermissions.where(
