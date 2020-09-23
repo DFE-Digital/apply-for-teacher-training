@@ -46,11 +46,11 @@
 
             <div class="govuk-form-group">
               <fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                <legend id="filter-legend-<%= filter[:name] %>" class="govuk-fieldset__legend govuk-fieldset__legend--s">
                   <%= filter[:heading] %>
                 </legend>
                 <% if filter[:type] == :search %>
-                  <input class="govuk-input" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" >
+                  <input class="govuk-input" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>" >
 
                 <% elsif filter[:type] == :checkboxes %>
                     <% filter[:options].each do |option| %>
