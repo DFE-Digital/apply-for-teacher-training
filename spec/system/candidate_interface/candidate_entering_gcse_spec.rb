@@ -24,6 +24,7 @@ RSpec.feature 'Candidate entering GCSE details' do
     then_the_maths_gcse_should_be_incomplete
 
     when_i_click_on_the_maths_gcse_link
+    and_i_click_to_change_qualification_type
     and_i_select_gcse_option
     and_i_click_save_and_continue
 
@@ -95,6 +96,10 @@ RSpec.feature 'Candidate entering GCSE details' do
 
   def then_the_maths_gcse_should_be_incomplete
     expect(page).to have_content 'Maths GCSE or equivalent Incomplete'
+  end
+
+  def and_i_click_to_change_qualification_type
+    find_link('Change', href: candidate_interface_gcse_details_edit_type_path(subject: 'maths')).click
   end
 
   def then_i_see_the_add_gcse_maths_page

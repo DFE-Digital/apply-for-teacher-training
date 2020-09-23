@@ -113,7 +113,11 @@ module ProviderInterface
 
     def wizard_for(options)
       options[:checking_answers] = true if params[:checking_answers] == 'true'
-      ProviderUserInvitationWizard.new(session, options)
+
+      ProviderUserInvitationWizard.new(
+        WizardStateStores::SessionStore.new(session: session, key: persistence_key_for_current_user),
+        options,
+      )
     end
 
     def path_for(step, provider_id)
@@ -156,6 +160,10 @@ module ProviderInterface
         provider_id: @provider.id,
         permissions: @wizard.permissions_for_provider(@provider.id),
       )
+    end
+
+    def persistence_key_for_current_user
+      "provider_user_invitation_wizard-#{current_provider_user.id}"
     end
   end
 end

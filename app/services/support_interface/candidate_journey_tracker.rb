@@ -30,7 +30,6 @@ module SupportInterface
       conditions_outcome
       conditions_met
       conditions_not_met
-      enrolled
       ended_without_success
     ].freeze
 
@@ -136,10 +135,6 @@ module SupportInterface
 
     def conditions_not_met
       @application_choice.conditions_not_met_at
-    end
-
-    def enrolled
-      @application_choice.enrolled_at
     end
 
     def ended_without_success

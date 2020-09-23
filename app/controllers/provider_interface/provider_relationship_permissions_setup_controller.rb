@@ -26,7 +26,7 @@ module ProviderInterface
       )
       @wizard.save_state!
 
-      setup_permissions_form
+      @permissions_form = @wizard.current_permissions_form
     end
 
     def save_permissions
@@ -44,8 +44,7 @@ module ProviderInterface
         end
       else
         @permissions_model = ProviderRelationshipPermissions.find(params[:id])
-
-        setup_permissions_form
+        @permissions_form = @wizard.current_permissions_form
 
         render :setup_permissions
       end
@@ -54,14 +53,12 @@ module ProviderInterface
     def check
       @wizard = wizard_for(current_step: 'check')
       @wizard.save_state!
-      @permissions_models = ProviderRelationshipPermissions
-        .includes(:training_provider, :ratifying_provider)
-        .where(id: @wizard.provider_relationships)
+      @permissions_models = @wizard.permissions_for_persistence
     end
 
     def commit
       @wizard = wizard_for({})
-      if SetupProviderRelationshipPermissions.call(@wizard.provider_relationship_permissions)
+      if SetupProviderRelationshipPermissions.call(@wizard.permissions_for_persistence)
         @wizard.clear_state!
         redirect_to provider_interface_provider_relationship_permissions_success_path
       else
@@ -112,7 +109,10 @@ module ProviderInterface
 
     def wizard_for(options)
       options[:checking_answers] = true if params[:checking_answers] == 'true'
-      ProviderRelationshipPermissionsSetupWizard.new(session, options)
+      ProviderRelationshipPermissionsSetupWizard.new(
+        WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
+        options,
+      )
     end
 
     def require_feature_flag!
@@ -142,10 +142,8 @@ module ProviderInterface
         .merge(current_provider_relationship_id: params[:id], checking_answers: params[:checking_answers])
     end
 
-    def setup_permissions_form
-      @permissions_form = ProviderInterface::ProviderRelationshipPermissionsSetupWizard::PermissionsForm.new(
-        @wizard.permissions_for_relationship(@permissions_model.id).merge(id: @permissions_model.id),
-      )
+    def persistence_key_for_current_user
+      "provider_user_permissions_wizard-#{current_provider_user.id}"
     end
   end
 end

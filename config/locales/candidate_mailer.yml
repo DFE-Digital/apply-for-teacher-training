@@ -1,5 +1,7 @@
 en:
   candidate_mailer:
+    referees_did_not_respond_before_end_of_cycle:
+      subject: "Your references did not come back in time"
     eoc_choice_unavailable_no_other_choices:
       subject: Find a different course and re-submit your application
     eoc_choice_unavailable_has_other_choices:
@@ -20,6 +22,10 @@ en:
       subject: "Chase %{referee_name}: they have not given a reference yet"
     chase_reference_again:
       subject: "Give new referee as soon as possible: %{referee_name} has not responded"
+    find_another_course:
+      subject: "Find another course - %{course_name_and_code} at %{provider_name} is not available"
+    offer_accepted:
+      subject: "You’ve accepted %{provider_name}’s offer to study %{course_name_and_code}"
     new_referee_request:
       not_responded:
         subject: "Give details of a new referee: %{referee_name} has not responded"
@@ -37,13 +43,13 @@ en:
           We emailed the referee using this address: %{referee_email}
     application_rejected:
       all_rejected:
-        subject: "%{provider_name} has responded: next steps"
+        subject: Your application was unsuccessful but you can apply again
       awaiting_decisions:
         subject: "%{provider_name} has made a decision on your application for %{course_name}"
       offers_made:
         subject: "%{provider_name} has responded: make a decision within %{dbd_days} working days"
     application_rejected_by_default:
-      subject: "%{provider_name} did not respond"
+      subject: Your application was unsuccessful but you can apply again
     declined_by_default:
       subject:
         one: Application withdrawn automatically
@@ -64,6 +70,8 @@ en:
       subject: "You have not met your conditions for %{course_name}: next steps"
     changed_offer:
       subject: "%{provider_name} changed the details of your offer"
+    deferred_offer:
+      subject: "%{provider_name} has deferred your offer"
     apply_again_call_to_action:
       subject: You can still apply for teacher training
     course_unavailable_notification:

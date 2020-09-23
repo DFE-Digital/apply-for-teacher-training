@@ -14,15 +14,10 @@ RSpec.feature 'See applications' do
     when_my_apply_account_has_been_created
     and_i_sign_in_to_the_provider_interface
     then_i_should_see_the_applications_from_my_organisation
-    and_i_should_not_see_a_covid19_information_banner
     and_i_should_see_the_applications_menu_item_highlighted
 
     when_i_click_on_an_application
     then_i_should_be_on_the_application_view_page
-
-    when_covid19_feature_flag_is_active
-    and_i_visit_the_provider_page
-    then_i_should_see_a_covid19_information_banner
   end
 
   def when_my_apply_account_has_been_created
@@ -65,10 +60,6 @@ RSpec.feature 'See applications' do
     expect(page).to have_content @my_provider_choice2.application_form.full_name
   end
 
-  def and_i_should_not_see_a_covid19_information_banner
-    expect(page).not_to have_content 'coronavirus'
-  end
-
   def and_i_should_see_the_applications_menu_item_highlighted
     link = page.find_link('Applications', class: 'moj-primary-navigation__link')
     expect(link['aria-current']).to eq('page')
@@ -81,13 +72,5 @@ RSpec.feature 'See applications' do
   def then_i_should_be_on_the_application_view_page
     expect(page).to have_content @my_provider_choice1.application_form.support_reference
     expect(page).to have_content @my_provider_choice1.application_form.full_name
-  end
-
-  def when_covid19_feature_flag_is_active
-    FeatureFlag.activate('covid_19')
-  end
-
-  def then_i_should_see_a_covid19_information_banner
-    expect(page).to have_content 'Coronavirus (COVID-19): check our guidance to see new deadlines for processing applications'
   end
 end

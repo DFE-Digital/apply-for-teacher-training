@@ -1,0 +1,20 @@
+<% content_for :navigation do %>
+  <% items = [
+    { name: 'Guidance', url: support_interface_guidance_path },
+    { name: 'Flow for candidates', url: support_interface_candidate_flow_path },
+    { name: 'Flow for providers', url: support_interface_provider_flow_path },
+    { name: 'When emails are sent', url: support_interface_when_emails_are_sent_path },
+    { name: 'Cycles', url: support_interface_cycles_path },
+  ] %>
+
+
+  <% if Rails.application.config.action_mailer.show_previews %>
+    <% items << { name: 'Emails', url: '/support/mailers' } %>
+  <% end %>
+
+  <% if Rails.application.config.view_component.show_previews %>
+    <% items << { name: 'Components', url: '/rails/view_components' } %>
+  <% end %>
+
+  <%= render SubNavigationComponent.new(items: items) %>
+<% end %>

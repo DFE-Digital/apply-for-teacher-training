@@ -10,6 +10,4 @@
   <p class="govuk-body">Courses can become full at any time. Keep in touch with your referees to ensure they’re planning on giving a reference as soon as possible.</p>
 <% end %>
 
-<% unless FeatureFlag.active?('covid_19') %>
-  <p class="govuk-body">Training providers then have <%= reject_by_default_days %> working days to respond to your application.</p>
-<% end %>
+<p class="govuk-body">Training providers then have <%= reject_by_default_days %> working days to respond to your application.</p>

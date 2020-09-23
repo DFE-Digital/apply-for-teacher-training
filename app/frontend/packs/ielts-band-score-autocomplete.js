@@ -9,7 +9,6 @@ const initIeltsBandScoreAutocomplete = () => {
 
     ids.forEach(id => {
       const bandScoreSelect = document.querySelector(id);
-
       if (!bandScoreSelect) return;
 
       accessibleAutocomplete.enhanceSelectElement({
@@ -19,6 +18,9 @@ const initIeltsBandScoreAutocomplete = () => {
         showNoOptionsFound: true,
         confirmOnBlur: false
       });
+
+      const accessibleAutocompleteWrapper = document.querySelector(".govuk-form-group--ielts-band-score .autocomplete__wrapper");
+      accessibleAutocompleteWrapper.classList.add("govuk-input--width-5");
     });
   } catch (err) {
     console.error("Could not enhance IELTS score select:", err);

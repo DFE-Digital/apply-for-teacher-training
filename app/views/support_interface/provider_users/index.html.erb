@@ -1,25 +1,11 @@
 <% content_for :title, 'Provider users' %>
 
+<%= render 'support_interface/providers/providers_navigation' %>
+
 <%= govuk_button_link_to 'Add provider user', new_support_interface_provider_user_path %>
-
-<% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to 'Users', support_interface_users_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        Provider users
-      </li>
-    </ol>
-  </div>
-
-  <%= render SubNavigationComponent.new(items: [
-    { name: 'Support users', url: support_interface_support_users_path },
-    { name: 'Provider users', url: support_interface_provider_users_path, current: true },
-  ]) %>
-<% end %>
 
 <%= govuk_button_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path %>
 
-<%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @provider_users) do %>
+  <%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>
+<% end %>

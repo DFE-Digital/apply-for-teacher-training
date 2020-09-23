@@ -1,26 +1,10 @@
 Dear <%= @provider_user_name || 'colleague' %>
 
-<% if FeatureFlag.active?('covid_19') %>
-
-# Respond by <%= @application.rbd_date.to_s(:govuk_date).strip %>
-
-<% else %>
-
 # Only <%= @working_days_left %> working days left to respond
-
-<% end %>
 
 <%= @application.candidate_name %> submitted an application for <%= @application.course_name_and_code %> on <%= @application.submitted_at %>.
 
-<% if FeatureFlag.active?('covid_19') %>
-
-Sign in to Manage teacher training applications to respond:
-
-<% else %>
-
 Sign in to Manage teacher training applications to respond within <%= @working_days_left %> working days:
-
-<% end %>
 
 <%= provider_interface_application_choice_url(@application.application_choice) %>
 

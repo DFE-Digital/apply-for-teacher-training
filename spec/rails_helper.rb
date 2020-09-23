@@ -77,14 +77,11 @@ RSpec.configure do |config|
 
   config.before do
     if ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on'
-      FeatureFlag::TEMPORARY_FEATURE_FLAGS.each do |name, _|
-        # Avoid 2 queries by creating the flag enabled, instead of doing a find + update.
-        Feature.create(name: name, active: true)
+      records = FeatureFlag::TEMPORARY_FEATURE_FLAGS.map do |name, _|
+        { name: name, active: true, created_at: Time.zone.now, updated_at: Time.zone.now }
       end
-    else
-      # When disabling all flags it's faster to just delete all the records
-      # instead of creating the record and disabling it.
-      Feature.delete_all
+
+      Feature.insert_all(records)
     end
   end
 

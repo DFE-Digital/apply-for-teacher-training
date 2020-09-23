@@ -120,13 +120,14 @@ paths:
     post:
       tags:
       - Application management
-      summary: Confirm enrolment
+      summary: Confirm enrolment (DEPRECATED)
       description: |
-        Confirm that the candidate has enrolled.
+        This endpoint has been deprecated and will return the application without changing it.
 
-        This will transition the application to the [enrolled state](/api-docs/lifecycle#enrolled).
+        There is currently no meaning to "enrolment" in Apply for teacher training.
       parameters:
       - "$ref": "#/components/parameters/application_id"
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -391,7 +392,6 @@ components:
           - awaiting_provider_decision
           - conditions_not_met
           - declined
-          - enrolled
           - offer
           - pending_conditions
           - recruited
@@ -434,7 +434,7 @@ components:
         interview_preferences:
           type: string
           maxLength: 10240
-          description: The candidate’s interview preferences
+          description: The candidate’s interview needs
           example: I cannot come to interview on Thursdays
         candidate:
           "$ref": "#/components/schemas/Candidate"
@@ -527,12 +527,12 @@ components:
             type: string
             pattern: "^[A-Z]{2}$"
             example: NL
-          maxItems: 2
+          maxItems: 5
           description: One or more ISO 3166-2 country codes
         uk_residency_status:
           type: string
           maxLength: 256
-          description: The candidate’s UK residency status, e.g. Citizen
+          description: The candidate’s UK residency status indicating their right to work and study in the UK
           example: UK Citizen
         english_main_language:
           type: boolean
@@ -574,7 +574,7 @@ components:
         address_line1:
           type: string
           description: The candidate’s address line 1
-          maxLength: 50
+          maxLength: 200
           example: 45 Dialstone Lane
         address_line2:
           type: string
@@ -933,8 +933,7 @@ components:
       additionalProperties: false
       description: |
         Information required by HESA for the Initial Teacher Training data
-        return. This information will only be returned once the application
-        status is `enrolled`.
+        return.
       required:
       - sex
       - disability

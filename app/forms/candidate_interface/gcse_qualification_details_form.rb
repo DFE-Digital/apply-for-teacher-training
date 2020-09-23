@@ -14,7 +14,7 @@ module CandidateInterface
     Grade = Struct.new(:value, :option)
 
     def self.all_grade_drop_down_options
-      ALL_GCSE_GRADES.map { |g| Grade.new(g, g) }
+      ALL_GCSE_GRADES.map { |g| Grade.new(g, g) }.unshift(Grade.new(nil, nil))
     end
 
     def self.build_from_qualification(qualification)

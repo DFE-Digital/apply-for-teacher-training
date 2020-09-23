@@ -108,6 +108,11 @@ module CandidateInterface
       @application_form.contact_details_completed
     end
 
+    def contact_details_valid?
+      form = ContactDetailsForm.build_from_application(@application_form)
+      form.valid?(:base) && form.valid?(:address) && form.valid?(:address_type)
+    end
+
     def work_experience_completed?
       @application_form.work_history_completed
     end
@@ -164,12 +169,24 @@ module CandidateInterface
       @application_form.maths_gcse_completed
     end
 
+    def maths_gcse_added?
+      @application_form.maths_gcse.present?
+    end
+
     def english_gcse_completed?
       @application_form.english_gcse_completed
     end
 
+    def english_gcse_added?
+      @application_form.english_gcse.present?
+    end
+
     def science_gcse_completed?
       @application_form.science_gcse_completed
+    end
+
+    def science_gcse_added?
+      @application_form.science_gcse.present?
     end
 
     def other_qualifications_completed?
@@ -188,16 +205,32 @@ module CandidateInterface
       @application_form.becoming_a_teacher_completed
     end
 
+    def becoming_a_teacher_valid?
+      BecomingATeacherForm.build_from_application(@application_form).valid?
+    end
+
     def subject_knowledge_completed?
       @application_form.subject_knowledge_completed
+    end
+
+    def subject_knowledge_valid?
+      SubjectKnowledgeForm.build_from_application(@application_form).valid?
     end
 
     def interview_preferences_completed?
       @application_form.interview_preferences_completed
     end
 
+    def interview_preferences_valid?
+      InterviewPreferencesForm.build_from_application(@application_form).valid?
+    end
+
     def training_with_a_disability_completed?
       @application_form.training_with_a_disability_completed
+    end
+
+    def training_with_a_disability_valid?
+      TrainingWithADisabilityForm.build_from_application(@application_form).valid?
     end
 
     def course_choices_completed?
@@ -218,6 +251,10 @@ module CandidateInterface
 
     def safeguarding_completed?
       @application_form.safeguarding_issues_completed
+    end
+
+    def safeguarding_valid?
+      SafeguardingIssuesDeclarationForm.build_from_application(@application_form).valid?
     end
 
     def no_incomplete_qualifications?

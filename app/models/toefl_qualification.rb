@@ -8,4 +8,8 @@ class ToeflQualification < ApplicationRecord
   def grade
     total_score
   end
+
+  def unique_reference_number
+    registration_number
+  end
 end

@@ -24,9 +24,8 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
 
   def then_i_should_be_able_to_click_through_and_complete_each_required_section
     (CandidateHelper::APPLICATION_FORM_SECTIONS - %i[science_gcse efl]).each do |section|
-      expect(page).to have_selector "[aria-describedby='missing-#{section}']"
       within "#missing-#{section}-error" do
-        expect(page).to have_link('Complete section')
+        expect(page).to have_selector("a[data-qa='missing-#{section}']")
       end
     end
   end

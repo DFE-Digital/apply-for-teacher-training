@@ -23,12 +23,14 @@ class GenerateTestApplications
     create states: [:awaiting_references]
     create states: [:unsubmitted], course_full: true
     create states: [:awaiting_references], course_full: true
+    create states: [:application_not_sent]
     create states: [:application_complete]
     create states: [:awaiting_provider_decision] * 3
     create states: [:offer] * 2
     create states: %i[offer rejected]
     create states: [:rejected] * 2
     create states: [:offer_withdrawn]
+    create states: [:offer_deferred] * 2
     create states: [:declined]
     create states: [:accepted]
     create states: [:accepted_no_conditions]

@@ -12,32 +12,6 @@ RSpec.describe Clockwork do
     end
   end
 
-  describe 'ClockworkCheck schedule' do
-    it 'runs immediately after boot' do
-      Clockwork::Test.run(max_ticks: 1, file: './config/clock.rb')
-      expect(Clockwork::Test.ran_job?('ClockworkCheck')).to be_truthy
-    end
-
-    it 'runs the job every 1 minute over the course of an hour' do
-      start_time = Time.zone.local(2019, 11, 7, 2, 0, 0)
-      end_time = Time.zone.local(2019, 11, 7, 3, 0, 0)
-      Clockwork::Test.run(
-        start_time: start_time,
-        end_time: end_time,
-        tick_speed: 1.minute,
-        file: './config/clock.rb',
-      )
-      expect(Clockwork::Test.times_run('ClockworkCheck')).to eq 60
-    end
-
-    it 'enqueues a background ClockworkCheck job' do
-      allow(ClockworkCheck).to receive(:perform_async)
-      Clockwork::Test.run(max_ticks: 1, file: './config/clock.rb')
-      Clockwork::Test.block_for('ClockworkCheck').call
-      expect(ClockworkCheck).to have_received(:perform_async).once
-    end
-  end
-
   describe 'SendApplicationsToProviderWorker schedule' do
     before do
       @service = instance_double(SendApplicationsToProvider, call: true)
@@ -78,7 +52,6 @@ RSpec.describe Clockwork do
     { worker: SendAdditionalReferenceChaseEmailToBothPartiesWorker, task: 'SendAdditionalReferenceChaseEmailToCandidates' },
     { worker: SendChaseEmailToProvidersWorker, task: 'SendChaseEmailToProviders' },
     { worker: SendChaseEmailToCandidatesWorker, task: 'SendChaseEmailToCandidates' },
-    { worker: RejectAwaitingReferencesCourseChoicesWorker, task: 'RejectAwaitingReferencesCourseChoices' },
   ].each do |worker|
     describe 'worker schedule' do
       it 'runs the job every hour' do
@@ -99,32 +72,6 @@ RSpec.describe Clockwork do
         Clockwork::Test.block_for(worker[:task]).call
         expect(worker[:worker]).to have_received(:perform_async)
       end
-    end
-  end
-
-  describe 'CarryOverUnsubmittedApplications schedule' do
-    it 'runs the job once on first day of new cycle' do
-      start_time = Time.zone.local(2020, 10, 13, 0, 0, 0)
-      end_time = Time.zone.local(2020, 10, 13, 23, 59, 59)
-      Clockwork::Test.run(
-        start_time: start_time,
-        end_time: end_time,
-        tick_speed: 1.minute,
-        file: './config/clock.rb',
-      )
-      expect(Clockwork::Test.times_run('CarryOverUnsubmittedApplications')).to eq 1
-    end
-
-    it 'does NOT run the job on other days' do
-      start_time = Time.zone.local(2020, 8, 1, 0, 0, 0)
-      end_time = Time.zone.local(2020, 8, 1, 1, 0, 0)
-      Clockwork::Test.run(
-        start_time: start_time,
-        end_time: end_time,
-        tick_speed: 1.minute,
-        file: './config/clock.rb',
-      )
-      expect(Clockwork::Test.times_run('CarryOverUnsubmittedApplications')).to eq 0
     end
   end
 end

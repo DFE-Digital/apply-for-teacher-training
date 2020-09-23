@@ -29,7 +29,7 @@ module CandidateInterface
         location_row(application_choice),
         type_row(application_choice.course),
         course_length_row(application_choice.course),
-        start_date_row(application_choice.course),
+        start_date_row(application_choice),
       ].compact
 
       rows.tap do |r|
@@ -142,11 +142,13 @@ module CandidateInterface
       }
     end
 
-    def start_date_row(course)
-      {
-        key: 'Date course starts',
-        value: course.start_date.strftime('%B %Y'),
-      }
+    def start_date_row(application_choice)
+      unless application_choice.offer_deferred?
+        {
+          key: 'Date course starts',
+          value: application_choice.course.start_date.to_s(:month_and_year),
+        }
+      end
     end
 
     def status_row(application_choice)

@@ -1,0 +1,23 @@
+Dear <%= @application_form.first_name %>,
+
+# Your course is not available anymore
+
+<%= @course_name_and_code %> at <%= @provider_name %> is not available anymore.
+
+We cannot send your application to <%= @provider_name %> to be considered for this course.
+
+# You may be able to find another course
+
+Find out if there are any other suitable courses available:
+
+https://www.find-postgraduate-teacher-training.service.gov.uk/
+
+If you find a course, sign in to your account to add the course as soon as possible:
+
+<%= candidate_magic_link(@candidate) %>
+
+As soon as your references come in, your application will be sent for consideration for the courses you’ve chosen - but not for any courses that are full.
+
+# Get help from a teacher training adviser
+
+You can talk to a teacher training adviser on the phone or online: https://register.getintoteaching.education.gov.uk/register

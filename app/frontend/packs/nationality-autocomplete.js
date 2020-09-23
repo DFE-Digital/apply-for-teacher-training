@@ -15,8 +15,11 @@ const initNationalityAutocomplete = () => {
       "#candidate-interface-nationalities-form-other-nationality3-field-error",
     ].forEach(id => {
       const nationalitySelect = document.querySelector(id);
-
       if (!nationalitySelect) return;
+
+      const nationalitySelectValue = nationalitySelect.querySelector("[value='']");
+
+      if(!nationalitySelectValue) return;
 
       // Replace "Select a nationality" with empty string
       nationalitySelect.querySelector("[value='']").innerHTML = "";

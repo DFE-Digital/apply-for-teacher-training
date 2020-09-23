@@ -1,0 +1,91 @@
+@import "~@ministryofjustice/frontend/moj/settings/assets";
+@import "~@ministryofjustice/frontend/moj/settings/measurements";
+@import "~@ministryofjustice/frontend/moj/helpers/all";
+@import "~@ministryofjustice/frontend/moj/objects/width-container";
+@import "~@ministryofjustice/frontend/moj/components/pagination/pagination";
+@import "~@ministryofjustice/frontend/moj/objects/filter-layout";
+@import "~@ministryofjustice/frontend/moj/objects/scrollable-pane";
+@import "~@ministryofjustice/frontend/moj/components/filter/filter";
+
+.moj-filter-layout__content {
+  overflow-x: hidden;
+  .moj-action-bar {
+    height: 60px;
+  }
+}
+
+.moj-action-bar__filter {
+  @include govuk-media-query($from: desktop) {
+    display: none;
+  }
+}
+
+.filter-toggle-button {
+  float: right;
+  margin-bottom: govuk-spacing(1);
+  @include govuk-media-query($from: desktop) {
+    display: none;
+  }
+}
+
+.moj-action-bar__filter:after {
+  background: none;
+}
+
+@media (min-width: 48.0625em) {
+  .moj-filter-layout__filter {
+    max-width: 300px;
+  }
+}
+
+.moj-filter__header {
+  background: govuk-colour('white');
+  box-shadow: none;
+  border: 1px solid $govuk-border-colour;
+  border-bottom: 0;
+  padding-top: govuk-spacing(3);
+  padding-bottom: govuk-spacing(3);
+}
+
+.moj-filter__selected {
+  box-shadow: none;
+  border: 1px solid $govuk-border-colour;
+  border-top: 0;
+  border-bottom: 0;
+  padding-top: govuk-spacing(5);
+  padding-bottom: govuk-spacing(5);
+}
+
+.moj-filter__options {
+  box-shadow: none;
+}
+
+.moj-pagination__list {
+  padding-left: 3px;
+}
+
+.app-filter {
+  @include govuk-media-query($from: tablet) {
+    margin-bottom: govuk-spacing(3);
+  }
+}
+
+// Apply GOV.UK focus styles - only needed with js.
+.js-enabled .app-filter:focus {
+  outline: $govuk-focus-width solid $govuk-focus-colour;
+}
+
+// Fix for focus issue - see https://github.com/DFE-Digital/apply-for-teacher-training/pull/2640
+
+// We're catching the focus on a second element rather than having the filter component itself flash with focus when checkbox labels are clicked.
+.moj-filter__options:focus {
+  outline: none;
+}
+
+.moj-pagination__item--prev .moj-pagination__link:before {
+  margin-right: 1px;
+}
+
+.moj-pagination__item--next .moj-pagination__link:after {
+  margin-left: 1px;
+}

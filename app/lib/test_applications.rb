@@ -40,7 +40,7 @@ class TestApplications
       )
     end
 
-    courses_to_apply_to ||= Course.includes(:course_options).joins(:course_options).distinct.open_on_apply
+    courses_to_apply_to = courses_to_apply_to.presence || Course.includes(:course_options).joins(:course_options).distinct.open_on_apply
     courses_to_apply_to =
       if course_full
         # Always use the first n courses, so that we can reliably generate
@@ -71,7 +71,7 @@ class TestApplications
         full_work_history: true,
         volunteering_experiences_count: 1,
         references_count: 2,
-        with_gces: true,
+        with_gcses: true,
         with_degree: true,
         submitted_at: nil,
         candidate: candidate,
@@ -119,6 +119,8 @@ class TestApplications
         @application_form.update_columns(submitted_at: time, edit_by: Time.zone.now + 7.days, updated_at: time)
 
         return if states.include? :awaiting_references
+
+        @application_form.application_choices.each(&:application_not_sent!) and return if states.include? :application_not_sent
 
         @application_form.application_references.each do |reference|
           reference.relationship_correction = ['', Faker::Lorem.sentence].sample
@@ -174,6 +176,10 @@ class TestApplications
     when :offer_withdrawn
       make_offer(choice)
       withdraw_offer(choice)
+    when :offer_deferred
+      make_offer(choice)
+      accept_offer(choice)
+      defer_offer(choice)
     when :declined
       make_offer(choice)
       decline_offer(choice)
@@ -202,6 +208,8 @@ class TestApplications
     fast_forward(1..3)
     AcceptOffer.new(application_choice: choice).save!
     choice.update_columns(accepted_at: time, updated_at: time)
+    # accept generates two audit writes (minimum), one for status, one for timestamp
+    choice.audits.second_to_last&.update_columns(created_at: time)
     choice.audits.last&.update_columns(created_at: time)
   end
 
@@ -209,6 +217,8 @@ class TestApplications
     fast_forward(1..3)
     WithdrawApplication.new(application_choice: choice).save!
     choice.update_columns(withdrawn_at: time, updated_at: time)
+    # service generates two audit writes, one for status, one for timestamp
+    choice.audits.second_to_last&.update_columns(created_at: time)
     choice.audits.last&.update_columns(created_at: time)
   end
 
@@ -216,6 +226,9 @@ class TestApplications
     fast_forward(1..3)
     DeclineOffer.new(application_choice: choice).save!
     choice.update_columns(declined_at: time, updated_at: time)
+    choice.audits.last&.update_columns(created_at: time)
+    # service generates two audit writes, one for status, one for timestamp
+    choice.audits.second_to_last&.update_columns(created_at: time)
     choice.audits.last&.update_columns(created_at: time)
   end
 
@@ -239,6 +252,8 @@ class TestApplications
       RejectApplication.new(actor: actor, application_choice: choice, rejection_reason: 'Some').save
       choice.update_columns(rejected_at: time, updated_at: time)
     end
+    # service generates two audit writes, one for status, one for timestamp
+    choice.audits.second_to_last&.update_columns(created_at: time)
     choice.audits.last&.update_columns(created_at: time)
   end
 
@@ -251,12 +266,26 @@ class TestApplications
     choice.audits.last&.update_columns(created_at: time)
   end
 
+  def defer_offer(choice)
+    as_provider_user(choice) do
+      fast_forward(1..3)
+      confirm_offer_conditions(choice) if rand > 0.5 # 'recruited' can also be deferred
+      DeferOffer.new(actor: actor, application_choice: choice).save
+      choice.update_columns(offer_deferred_at: time, updated_at: time)
+    end
+    # service generates two audit writes, one for status, one for timestamp
+    choice.audits.second_to_last&.update_columns(created_at: time)
+    choice.audits.last&.update_columns(created_at: time)
+  end
+
   def conditions_not_met(choice)
     as_provider_user(choice) do
       fast_forward(1..3)
       ConditionsNotMet.new(actor: actor, application_choice: choice).save
       choice.update_columns(conditions_not_met_at: time, updated_at: time)
     end
+    # service generates two audit writes, one for status, one for timestamp
+    choice.audits.second_to_last&.update_columns(created_at: time)
     choice.audits.last&.update_columns(created_at: time)
   end
 
@@ -266,6 +295,8 @@ class TestApplications
       ConfirmOfferConditions.new(actor: actor, application_choice: choice).save
       choice.update_columns(recruited_at: time, updated_at: time)
     end
+    # service generates two audit writes, one for status, one for timestamp
+    choice.audits.second_to_last&.update_columns(created_at: time)
     choice.audits.last&.update_columns(created_at: time)
   end
 

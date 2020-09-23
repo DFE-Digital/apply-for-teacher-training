@@ -1,4 +1,4 @@
-<footer class="govuk-footer app-footer govuk-!-display-none-print" role="contentinfo">
+<footer class="govuk-footer govuk-!-display-none-print" role="contentinfo">
   <div class="govuk-width-container">
     <div class="govuk-footer__meta">
       <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
@@ -7,12 +7,10 @@
           <%= render 'layouts/footer_meta_candidate' %>
         <% when 'provider_interface' %>
           <%= render 'layouts/footer_meta_provider' %>
-        <% when 'support_interface' %>
-          <%= render 'layouts/footer_meta_support' %>
         <% end %>
       </div>
       <div class="govuk-footer__meta-item">
-        <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
+        <a class="govuk-footer__link govuk-footer__copyright-logo govuk-!-margin-bottom-1" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
       </div>
     </div>
   </div>

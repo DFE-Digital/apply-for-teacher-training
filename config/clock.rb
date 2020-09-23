@@ -6,7 +6,6 @@ require 'clockwork'
 class Clock
   include Clockwork
 
-  every(1.minute, 'ClockworkCheck') { ClockworkCheck.perform_async }
   every(15.minutes, 'SyncAllFromFind') { SyncAllFromFind.perform_async }
   every(1.hour, 'DetectInvariants') { DetectInvariants.perform_async }
   every(1.hour, 'SendApplicationsToProvider', at: '**:05') { SendApplicationsToProviderWorker.perform_async }
@@ -20,9 +19,6 @@ class Clock
   every(1.hour, 'SendChaseEmailToProviders', at: '**:35') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
   every(1.hour, 'SendCourseFullNotifications', at: '**:45') { SendCourseFullNotificationsWorker.perform_async }
-
-  every(1.hour, 'RejectAwaitingReferencesCourseChoices', at: '**:50') { RejectAwaitingReferencesCourseChoicesWorker.perform_async }
-  every(1.day, 'CarryOverUnsubmittedApplications', at: '00:01', if: ->(t) { t.to_date == EndOfCycleTimetable.date(:next_cycle_opens) }) { CarryOverUnsubmittedApplicationsWorker.perform_async }
 
   every(1.day, 'UCASMatching::UploadMatchingData', at: '06:23') do
     if Time.zone.today.weekday?

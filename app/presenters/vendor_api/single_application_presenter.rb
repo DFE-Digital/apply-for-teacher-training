@@ -26,7 +26,7 @@ module VendorAPI
             last_name: application_form.last_name,
             date_of_birth: application_form.date_of_birth,
             nationality: nationalities,
-            uk_residency_status: application_form.uk_residency_status,
+            uk_residency_status: uk_residency_status,
             english_main_language: application_form.english_main_language,
             english_language_qualifications: application_form.english_language_details,
             other_languages: application_form.other_language_details,
@@ -60,11 +60,8 @@ module VendorAPI
     attr_reader :application_choice, :application_form
 
     # V2: for backwards compatibility `offer_withdrawn` state is displayed as `rejected` in the API.
-    # V2: for backwards compatibility `rejected_at_end_of_cycle` state is displayed as `rejected` in the API.
     def status
       if application_choice.offer_withdrawn?
-        'rejected'
-      elsif application_choice.rejected_at_end_of_cycle?
         'rejected'
       else
         application_choice.status
@@ -98,7 +95,23 @@ module VendorAPI
       [
         application_form.first_nationality,
         application_form.second_nationality,
+        application_form.third_nationality,
+        application_form.fourth_nationality,
+        application_form.fifth_nationality,
       ].map { |n| NATIONALITIES_BY_NAME[n] }.compact.uniq
+        .sort.partition { |e| %w[GB IE].include? e }.flatten
+    end
+
+    def uk_residency_status
+      return 'UK Citizen' if nationalities.include?('GB')
+
+      return 'Irish Citizen' if nationalities.include?('IE')
+
+      return application_form.right_to_work_or_study_details if application_form.right_to_work_or_study_yes?
+
+      return 'Candidate needs to apply for permission to work and study in the UK' if application_form.right_to_work_or_study_no?
+
+      'Candidate does not know'
     end
 
     def course_info_for(course_option)

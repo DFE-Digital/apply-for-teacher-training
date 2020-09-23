@@ -6,13 +6,11 @@
   <%= render new_references_needed_component %>
 <% elsif CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(current_application) && new_application_choice_needed_component.render? %>
   <%= render new_application_choice_needed_component %>
-<% elsif flash.empty? %>
-  <%= render CandidateInterface::Covid19DashboardBannerComponent.new(application_form: @application_form) %>
 <% end %>
 
 <% if @application_form.ended_without_success? %>
   <%= render CandidateInterface::ApplyAgainBannerComponent.new(application_form: @application_form) %>
-  <%= render CandidateInterface::ReopenBannerComponent.new(phase: 'apply_2', flash_empty: flash.empty?) %>
+  <%= render CandidateInterface::CarryOverBannerComponent.new(application_form: @application_form) %>
 <% end %>
 
 <h1 class="govuk-heading-xl govuk-heading-xl govuk-!-margin-bottom-2">
@@ -37,7 +35,7 @@
   </div>
 
   <div class="govuk-grid-column-one-third">
-    <%= render partial: '/candidate_interface/shared/need_help', locals: { support_reference: @application_form.support_reference } %>
+    <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form.support_reference } %>
 
     <aside class="app-related" role="complementary">
       <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Updating your contact details</h2>

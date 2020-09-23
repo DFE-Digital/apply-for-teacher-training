@@ -8,14 +8,12 @@ module SupportInterface
     end
 
     def course_rows
-      courses.order(:name).map do |course|
+      courses.map do |course|
         {
           course_link: govuk_link_to(course.name_and_code, support_interface_course_path(course)),
           provider_link: link_to_provider_page(course.provider),
-          level: course.level.titleize,
           recruitment_cycle_year: course.recruitment_cycle_year,
-          apply_from_find_link: link_to_apply_from_find_page(course),
-          link_to_find_course_page: link_to_find_course_page(course),
+          status_tag: status_tag(course),
           accredited_body: link_to_provider_page(course.accredited_provider),
           accredited_body_onboarded: course.accredited_provider&.onboarded?,
         }
@@ -34,17 +32,13 @@ module SupportInterface
 
     attr_reader :provider, :courses
 
-    def link_to_apply_from_find_page(course)
-      if course.exposed_in_find? && course.open_on_apply?
-        govuk_link_to 'Apply from Find (DfE & UCAS)', candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code)
+    def status_tag(course)
+      if course.open_on_apply?
+        render TagComponent.new(text: 'Open on Apply', type: :green)
       elsif course.exposed_in_find?
-        govuk_link_to 'Apply from Find (UCAS only)', candidate_interface_apply_from_find_path(providerCode: course.provider.code, courseCode: course.code)
-      end
-    end
-
-    def link_to_find_course_page(course)
-      if course.exposed_in_find?
-        govuk_link_to 'Find course page', course.find_url
+        render TagComponent.new(text: 'Only on UCAS', type: :blue)
+      else
+        render TagComponent.new(text: 'Hidden in Find', type: :grey)
       end
     end
 

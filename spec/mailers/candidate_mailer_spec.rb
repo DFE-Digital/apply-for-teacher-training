@@ -35,20 +35,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_submitted.subject'),
       'heading' => 'Application submitted',
       'support reference' => 'SUPPORT-REFERENCE',
-      'RBD time limit' => -> { "to make an offer within #{TimeLimitCalculator.new(rule: :reject_by_default, effective_date: Time.zone.today).call.fetch(:days)} working days" },
       'magic link to authenticate' => 'http://localhost:3000/candidate/confirm_authentication?token=raw_token&u=encrypted_id',
     )
-
-    context 'when the covid-19 feature flag is on' do
-      before { FeatureFlag.activate('covid_19') }
-
-      it_behaves_like(
-        'a mail with subject and content',
-        :application_submitted,
-        I18n.t!('candidate_mailer.application_submitted.subject'),
-        'RBD time limit' => 'Due to the impact of coronavirus, it might take some time for providers to get back to you.',
-      )
-    end
   end
 
   describe 'Send survey email' do
@@ -77,29 +65,9 @@ RSpec.describe CandidateMailer, type: :mailer do
         'magic link to authenticate' => 'http://localhost:3000/candidate/confirm_authentication?token=raw_token&u=encrypted_id'
       )
     end
-
-    context 'when the covid-19 feature flag is on' do
-      before { FeatureFlag.activate('covid_19') }
-
-      it_behaves_like(
-        'a mail with subject and content', :application_sent_to_provider,
-        'Your application is being considered',
-        'time frame provider has to respond' => "They’ll be in touch with you if they want to arrange an interview.\r\n\r\nDue to the impact of coronavirus, this may take some time."
-      )
-    end
   end
 
   describe 'Candidate decision chaser email' do
-    context 'when the covid-19 feature flag is on' do
-      before { FeatureFlag.activate('covid_19') }
-
-      it_behaves_like(
-        'a mail with subject and content', :chase_candidate_decision,
-        I18n.t!('chase_candidate_decision_email.subject_singular'),
-        'Date to respond by' => -> { "Respond by #{10.business_days.from_now.to_s(:govuk_date).strip}" }
-      )
-    end
-
     context 'when a candidate has one appication choice with offer' do
       it_behaves_like(
         'a mail with subject and content', :chase_candidate_decision,
@@ -129,24 +97,6 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.decline_by_default' do
-    context 'when the covid-19 feature flag is on' do
-      before do
-        FeatureFlag.activate('covid_19')
-        @application_form = build_stubbed(
-          :application_form,
-          candidate: @candidate,
-          first_name: 'Fred',
-          application_choices: [build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10)],
-        )
-      end
-
-      it_behaves_like(
-        'a mail with subject and content', :declined_by_default,
-        'You did not respond to your offer: next steps',
-        'Reason' => 'You did not respond in time so we declined your'
-      )
-    end
-
     context 'when a candidate has 1 offer that was declined' do
       before do
         @application_form = build_stubbed(
@@ -504,7 +454,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '#application_rejected_all_rejected' do
-    def build_stubbed_application_form(rejected_by_default: false)
+    def build_stubbed_application_form(rejected_by_default: false, rejection_reason: nil)
       build_stubbed(
         :application_form,
         first_name: 'Fred',
@@ -514,6 +464,7 @@ RSpec.describe CandidateMailer, type: :mailer do
             :application_choice,
             status: 'rejected',
             rejected_by_default: rejected_by_default,
+            rejection_reason: rejection_reason,
             course_option: build_stubbed(
               :course_option,
               site: build_stubbed(
@@ -535,8 +486,11 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    def send_email(rejected_by_default: false)
-      application_form = build_stubbed_application_form(rejected_by_default: rejected_by_default)
+    def send_email(rejected_by_default: false, rejection_reason: nil)
+      application_form = build_stubbed_application_form(
+        rejected_by_default: rejected_by_default,
+        rejection_reason: rejection_reason,
+      )
       application_choice = application_form.application_choices.first
       described_class.application_rejected_all_rejected(application_choice)
     end
@@ -544,21 +498,30 @@ RSpec.describe CandidateMailer, type: :mailer do
     it 'has the correct subject and content' do
       email = send_email
 
-      expect(email.subject).to eq 'Bilberry College has responded: next steps'
+      expect(email.subject).to eq 'Your application was unsuccessful but you can apply again'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include(
         'Bilberry College has decided not to progress your teacher training application for Mathematics (M101) on this occasion.',
       )
+      expect(email.body).to include('Apply again:')
+      expect(email.body).not_to include('Review your feedback and apply again:')
     end
 
     it 'has the correct subject and content for rejection by default' do
       email = send_email(rejected_by_default: true)
 
-      expect(email.subject).to eq 'Bilberry College did not respond'
+      expect(email.subject).to eq 'Your application was unsuccessful but you can apply again'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include(
-        'Your application for Mathematics (M101) has been automatically rejected because Bilberry College did not respond in time.',
+        'Bilberry College did not respond to your application for Mathematics (M101) in time.',
       )
+    end
+
+    it 'has the correct content when rejection reason is given' do
+      email = send_email(rejected_by_default: true, rejection_reason: 'Not clever enough')
+
+      expect(email.body).not_to include('Apply again:')
+      expect(email.body).to include('Review your feedback and apply again:')
     end
   end
 
@@ -634,7 +597,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     it 'has the correct subject and content for rejection by default' do
       email = send_email(rejected_by_default: true)
 
-      expect(email.subject).to eq 'Bilberry College did not respond'
+      expect(email.subject).to eq 'Your application was unsuccessful but you can apply again'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include(
         'Your application for Mathematics (M101) has been automatically rejected because Bilberry College did not respond in time.',
@@ -716,10 +679,61 @@ RSpec.describe CandidateMailer, type: :mailer do
     it 'has the correct subject and content for rejection by default' do
       email = send_email(rejected_by_default: true)
 
-      expect(email.subject).to eq 'Bilberry College did not respond'
+      expect(email.subject).to eq 'Your application was unsuccessful but you can apply again'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include(
         'Your application for Mathematics (M101) has been automatically rejected because Bilberry College did not respond in time.',
+      )
+    end
+  end
+
+  describe '#offer_accepted' do
+    def build_stubbed_application_form
+      build_stubbed(
+        :application_form,
+        first_name: 'Bob',
+        candidate: @candidate,
+        application_choices: [
+          build_stubbed(
+            :application_choice,
+            status: 'pending_conditions',
+            course_option: build_stubbed(
+              :course_option,
+              site: build_stubbed(
+                :site,
+                name: 'West Wilford School',
+              ),
+              course: build_stubbed(
+                :course,
+                name: 'Mathematics',
+                code: 'M101',
+                start_date: Time.zone.local(2021, 9, 6),
+                provider: build_stubbed(
+                  :provider,
+                  name: 'Arithmetic College',
+                ),
+              ),
+            ),
+          ),
+        ],
+      )
+    end
+
+    def send_email
+      application_form = build_stubbed_application_form
+      application_choice = application_form.application_choices.first
+      described_class.offer_accepted(application_choice)
+    end
+
+    it 'has the correct subject and content' do
+      email = send_email
+
+      expect(email.subject).to eq(
+        'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      )
+      expect(email.body).to include('Dear Bob,')
+      expect(email.body).to include(
+        'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
       )
     end
   end

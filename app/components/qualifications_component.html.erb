@@ -1,3 +1,19 @@
-<%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.degrees, type_label: 'Degree') %>
-<%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.gcses, type_label: 'GCSE or equivalent') %>
-<%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, type_label: 'Academic or other qualification') %>
+<h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="qualifications">Qualifications</h2>
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">View guidance given to candidate</span>
+  </summary>
+  <div class="govuk-details__text">
+    <h2 class="govuk-heading-m">Academic and other relevant qualifications</h2>
+    <p class="govuk-body">Your undergraduate degree confirms your eligibility to teach. Enter the details of your degree as they appear on your certificate, translating them into English if necessary.</p>
+    <p class="govuk-body">You should also include any postgraduate degrees.</p>
+    <p class="govuk-body">Enter your other qualifications as completely as you can, including all your GCSEs and A levels (or equivalents), and any other qualifications where you showed skills that might help you as a teacher.</p>
+  </div>
+</details>
+
+<div class="govuk-grid-row">
+  <%= render DegreeQualificationCardsComponent.new(application_form.application_qualifications.degrees, application_choice_state: application_choice_state) %>
+  <%= render GcseQualificationCardsComponent.new(application_form) %>
+  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, type_label: 'Academic or other qualification') %>
+  <%= render EflQualificationCardComponent.new(application_form) %>
+</div>

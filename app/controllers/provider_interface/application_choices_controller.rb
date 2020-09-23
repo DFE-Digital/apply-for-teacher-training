@@ -3,24 +3,30 @@ module ProviderInterface
     before_action :set_application_choice_and_sub_navigation_items, except: %i[index]
 
     def index
-      @page_state = ProviderApplicationsPageState.new(
+      @filter = ProviderApplicationsFilter.new(
         params: params,
         provider_user: current_provider_user,
         state_store: session,
       )
 
       application_choices = GetApplicationChoicesForProviders.call(
-        providers: current_provider_user.providers,
+        providers: available_providers,
       )
 
       application_choices = FilterApplicationChoicesForProviders.call(
         application_choices: application_choices,
-        filters: @page_state.applied_filters,
+        filters: @filter.applied_filters,
       )
 
+      # Eager load / prevent Bullet::Notification::UnoptimizedQueryError
+      with_includes = ApplicationChoice.includes(
+        %i[application_form provider offered_course_option site accredited_provider],
+      )
+
+      # Using id: below turns all previous queries into a subquery for sorting
+      # which preserves the virtual attributes from the sorting SELECT
       application_choices = ProviderInterface::SortApplicationChoices.call(
-        application_choices: application_choices,
-        sort_by: @page_state.sort_by,
+        application_choices: with_includes.where(id: application_choices),
       )
 
       @application_choices = application_choices.page(params[:page] || 1).per(15)
@@ -40,6 +46,10 @@ module ProviderInterface
                             end
 
       @status_box_options[:provider_can_respond] = @provider_can_respond
+      @show_language_details = @application_choice
+        .application_form
+        .english_main_language(fetch_database_value: true)
+        .present?
     end
 
     def notes
@@ -87,6 +97,8 @@ module ProviderInterface
       GetApplicationChoicesForProviders.call(
         providers: available_providers,
       ).find(params[:application_choice_id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
 
     def get_sub_navigation_items

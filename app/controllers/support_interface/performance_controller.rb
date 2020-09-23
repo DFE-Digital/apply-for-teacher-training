@@ -4,6 +4,8 @@ module SupportInterface
   class PerformanceController < SupportInterfaceController
     def index; end
 
+    def course_stats; end
+
     def application_timings
       applications = SupportInterface::ApplicationsExport.new.applications
       csv = to_csv(applications)
@@ -77,6 +79,14 @@ module SupportInterface
 
         redirect_to support_interface_performance_path
       end
+    end
+
+    def application_references
+      references = SupportInterface::ApplicationReferencesExport.call
+      header_row = SupportInterface::ApplicationReferencesExport.header_row
+      csv = to_csv(references, header_row)
+
+      send_data csv, filename: "application-references-#{Time.zone.today}.csv", disposition: :attachment
     end
 
   private

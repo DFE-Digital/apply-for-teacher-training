@@ -24,13 +24,13 @@ class ApplicationChoice < ApplicationRecord
     offer: 'offer',
     pending_conditions: 'pending_conditions',
     recruited: 'recruited',
-    enrolled: 'enrolled',
     rejected: 'rejected',
-    rejected_at_end_of_cycle: 'rejected_at_end_of_cycle',
+    application_not_sent: 'application_not_sent',
     offer_withdrawn: 'offer_withdrawn',
     declined: 'declined',
     withdrawn: 'withdrawn',
     conditions_not_met: 'conditions_not_met',
+    offer_deferred: 'offer_deferred',
   }
 
   def offered_option
@@ -43,6 +43,22 @@ class ApplicationChoice < ApplicationRecord
 
   def offered_site
     offered_option.site
+  end
+
+  def recruitment_cycle
+    offered_course.recruitment_cycle_year
+  end
+
+  def days_left_to_respond
+    if respond_to?(:pg_days_left_to_respond)
+      # pre-computed by sorting query
+      return pg_days_left_to_respond
+    end
+
+    if status == 'awaiting_provider_decision'
+      rbd = reject_by_default_at
+      ((rbd - Time.zone.now) / 1.day).floor if rbd && rbd > Time.zone.now
+    end
   end
 
   delegate :course_not_available?, to: :course_option

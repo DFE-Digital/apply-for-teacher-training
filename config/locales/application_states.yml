@@ -32,10 +32,10 @@ en:
       description: The candidate has accepted an offer. The provider now has to confirm to us that the candidate has met the conditions in the offer.
     recruited:
       name: Recruited
-      description: The candidate has been recruited, but has not enrolled yet.
-    enrolled:
-      name: Enrolled
-      description: The candidate has enrolled in the course.
+      description: The candidate has been recruited.
+    offer_deferred:
+      name: Offer deferred
+      description: The provider deferred an offer to the next recruitment cycle. The offer will have to be reinstated by the provider at the start of the next cycle.
     ended_without_success:
       name: Ended without success
       description: All of the candidate’s applications have been withdrawn, rejected or declined.
@@ -48,24 +48,23 @@ en:
     awaiting_references: Submitted
     cancelled: Application cancelled
     declined: Offer declined
-    enrolled: Enrolled
     offer: Offer received
     offer_withdrawn: Offer withdrawn
     pending_conditions: Offer accepted
     recruited: Conditions met
     rejected: Unsuccessful
-    rejected_at_end_of_cycle: Rejected at end of cycle
+    application_not_sent: Application not sent
     unsubmitted: Not submitted yet
     withdrawn: Application withdrawn
     conditions_not_met: Conditions not met
+    offer_deferred: Offer deferred
   provider_application_states:
     application_complete: Submitted
     awaiting_provider_decision: Submitted
     awaiting_references: Awaiting references
-    rejected_at_end_of_cycle: Rejected at end of cycle
+    application_not_sent: Application not sent
     cancelled: Application cancelled
     declined: Declined
-    enrolled: Enrolled
     offer: Offered
     pending_conditions: Accepted
     recruited: Conditions met
@@ -74,6 +73,7 @@ en:
     unsubmitted: Not submitted yet
     withdrawn: Application withdrawn
     conditions_not_met: Conditions not met
+    offer_deferred: Deferred
 
   application_states:
     unsubmitted:
@@ -96,7 +96,7 @@ en:
         - referee_mailer-reference_request_chaser_email
         - referee_mailer-reference_request_chase_again_email
 
-    rejected_at_end_of_cycle:
+    application_not_sent:
       name: Reject at the end of the cycle
       description: Application choices that are awaiting references are automatically rejected at the end of the cycle
 
@@ -145,19 +145,6 @@ en:
       description: |
         When the provider confirms that the offer conditions have been met, the application is marked ‘recruited’.
 
-    enrolled:
-      name: Candidate enrolled
-      description: |
-        Once the candidate has completed the enrolment process, the provider confirms
-        their enrolment onto the training programme. Since this status would be used
-        to claim bursaries/grants from DfE, the provider may delay enrolling the trainee
-        until a few weeks after the start of the training, since trainees can still
-        not show up on the first day or drop out within the first couple of weeks.
-        This reduces the risk that DfE over-pays that provider for training they did not
-        deliver and has to reconcile later on.
-
-        The candidate’s HESA equality monitoring information is made available to the provider.
-
     pending_conditions:
       name: Pending conditions
       description: Provider is waiting for the candidate to prove that they have met the conditions.
@@ -191,6 +178,10 @@ en:
       emails:
         - candidate_mailer-decline_last_application_choice
 
+    offer_deferred:
+      name: Offer deferred
+      description: The provider has deferred the candidate’s offer to the next recruitment cycle. The offer will have to be reinstated by the provider at the start of the next cycle.
+
   events:
     unsubmitted-submit:
       name: Candidate submits
@@ -215,6 +206,11 @@ en:
         - candidate_mailer-application_sent_to_provider
         - provider_mailer-application_submitted
 
+    unsubmitted-reject_at_end_of_cycle:
+      name: Unsubmitted applications rejected at end of cycle
+      by: system
+      description: Application choices that are unsubmitted are automatically rejected at the end of the cycle but can be carried over in the next cycle
+
     awaiting_references-references_complete:
       name: References are completed
       by: referee
@@ -229,9 +225,11 @@ en:
       description: If the application has not been sent to the provider, the candidate can still cancel the application.
 
     awaiting_references-reject_at_end_of_cycle:
-      name: Awaiting references applications rejected
+      name: Applications awaiting references are rejected at the end of the cycle
       by: system
       description: Application choices that are awaiting references are automatically rejected at the end of the cycle
+      emails:
+        - candidate_mailer-referees_did_not_respond_before_end_of_cycle
 
     application_complete-cancel:
       name: Candidate cancels
@@ -329,6 +327,7 @@ en:
       description: The candidate can accept the offer. All other application choices will be withdrawn.
       emails:
         - provider_mailer-offer_accepted
+        - candidate_mailer-offer_accepted
 
     offer-decline:
       name: Candidate declines offer
@@ -358,11 +357,6 @@ en:
       emails:
         - provider_mailer-application_withdrawn
 
-    recruited-confirm_enrolment:
-      name: Provider confirms enrolment
-      by: provider
-      description: ""
-
     recruited-withdraw:
       name: Candidate withdraws
       by: candidate
@@ -387,6 +381,35 @@ en:
         - candidate_mailer-new_offer_single_offer
         - candidate_mailer-new_offer_multiple_offers
         - candidate_mailer-new_offer_decisions_pending
+
+    pending_conditions-defer_offer:
+      name: Provider defers offer
+      by: provider
+      description: "A provider defers an offer with pending conditions until the next recruitment cycle"
+      emails:
+        - candidate_mailer-deferred_offer
+
+    recruited-defer_offer:
+      name: Provider defers offer
+      by: provider
+      description: "A provider defers an offer until the next recruitment cycle"
+      emails:
+        - candidate_mailer-deferred_offer
+
+    offer_deferred-reinstate_conditions_met:
+      name: Provider reinstates deferred offer and conditions are still valid
+      by: provider
+      description: ""
+
+    offer_deferred-reinstate_pending_conditions:
+      name: Provider reinstates deferred offer but conditions changed or are no longer valid
+      by: provider
+      description: ""
+
+    offer_deferred-withdraw:
+      name: Withdraw
+      by: candidate
+      description: ""
 
   candidate_flow_events:
     not_signed_up-sign_up:
@@ -469,8 +492,18 @@ en:
       by: provider
       description: ""
 
+    pending_conditions-defer_offer:
+      name: Provider defers offer
+      by: provider
+      description: ""
+
     recruited-enrol:
       name: Enrol
+      by: provider
+      description: ""
+
+    recruited-defer_offer:
+      name: Provider defers offer
       by: provider
       description: ""
 
@@ -478,3 +511,18 @@ en:
       name: Apply again
       by: candidate
       description: Candidates can go into a second phase where they apply again, 1 course at a time.
+
+    offer_deferred-reinstate_conditions_met:
+      name: Provider reinstates deferred offer and conditions are still valid
+      by: provider
+      description: ""
+
+    offer_deferred-reinstate_pending_conditions:
+      name: Provider reinstates deferred offer but conditions changed
+      by: provider
+      description: ""
+
+    offer_deferred-withdraw:
+      name: Withdraw
+      by: candidate
+      description: Candidates can withdraw at any time.

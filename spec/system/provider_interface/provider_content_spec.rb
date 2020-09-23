@@ -21,7 +21,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_accessibility
-    within('.govuk-footer') { click_link t('layout.accessibility') }
+    within('.govuk-footer') { click_link t('layout.support_links.accessibility') }
   end
 
   def then_i_can_see_the_accessibility_statement
@@ -29,7 +29,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_the_cookie_policy
-    within('.govuk-footer') { click_link t('layout.cookie_policy') }
+    within('.govuk-footer') { click_link t('layout.support_links.cookies') }
   end
 
   def then_i_can_see_the_cookie_policy
@@ -37,7 +37,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_the_privacy_policy
-    within('.govuk-footer') { click_link t('layout.privacy_policy') }
+    within('.govuk-footer') { click_link t('layout.support_links.privacy_policy') }
   end
 
   def then_i_can_see_the_privacy_policy
@@ -45,7 +45,7 @@ RSpec.feature 'Provider content' do
   end
 
   def when_i_click_on_the_service_guidance
-    within('.govuk-footer') { click_link t('layout.service_guidance') }
+    within('.govuk-footer') { click_link t('layout.support.provider_service_guidance') }
   end
 
   def then_i_can_see_the_service_guidance_provider

@@ -1,0 +1,22 @@
+.app-qualification {
+  @include govuk-font($size: 16);
+  margin: 0;
+}
+
+.app-qualification__key {
+  font-weight: bold;
+  margin-bottom: govuk-spacing(1);
+}
+
+.app-qualification__value {
+  margin-bottom: govuk-spacing(4);
+  margin-left: 0;
+}
+
+.app-qualification__value:last-of-type {
+  margin-bottom: 0;
+}
+
+.app-qualification__value--caption {
+  color: $govuk-secondary-text-colour;
+}

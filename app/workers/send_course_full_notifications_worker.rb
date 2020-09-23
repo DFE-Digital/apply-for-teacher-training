@@ -8,7 +8,11 @@ class SendCourseFullNotificationsWorker
         chased: application_choice,
         chaser_type: :course_unavailable_notification,
       )
-      CandidateMailer.course_unavailable_notification(application_choice, reason).deliver_later
+      if EndOfCycleTimetable.stop_applications_to_unavailable_course_options?
+        CandidateMailer.find_another_course(application_choice).deliver_later
+      else
+        CandidateMailer.course_unavailable_notification(application_choice, reason).deliver_later
+      end
       send_slack_message(application_choice, reason)
     end
   end

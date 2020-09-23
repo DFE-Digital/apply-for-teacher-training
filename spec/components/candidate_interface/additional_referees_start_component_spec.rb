@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::AdditionalRefereesStartComponent do
-  let(:application_form) { build_stubbed(:completed_application_form, references_count: 0, with_gces: true) }
+  let(:application_form) { build_stubbed(:completed_application_form, references_count: 0, with_gcses: true) }
   let(:reference) { build_stubbed(:reference, :complete, application_form: application_form) }
   let(:references) { [] }
 

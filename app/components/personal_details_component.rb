@@ -1,5 +1,10 @@
 class PersonalDetailsComponent < ViewComponent::Base
   MISSING = '<em>Not provided</em>'.html_safe
+  RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES = {
+    'yes' => 'Yes',
+    'no' => 'Not yet',
+    'decide_later' => 'Candidate does not know',
+  }.freeze
 
   include ViewHelper
 
@@ -24,6 +29,8 @@ class PersonalDetailsComponent < ViewComponent::Base
       name_row,
       date_of_birth_row,
       nationality_row,
+      right_to_work_or_study_row,
+      residency_details_row,
       phone_number_row,
       email_row,
       address_row,
@@ -78,7 +85,25 @@ private
       @application_form.fifth_nationality,
     ]
     .reject(&:blank?)
-    .to_sentence
+    .to_sentence(last_word_connector: ' and ')
+  end
+
+  def right_to_work_or_study_row
+    return if @application_form.right_to_work_or_study.blank?
+
+    {
+      key: 'Has the right to work or study in the UK?',
+      value: RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.fetch(@application_form.right_to_work_or_study),
+    }
+  end
+
+  def residency_details_row
+    return unless @application_form.right_to_work_or_study == 'yes'
+
+    {
+      key: 'Residency details',
+      value: @application_form.right_to_work_or_study_details,
+    }
   end
 
   def date_of_birth_row

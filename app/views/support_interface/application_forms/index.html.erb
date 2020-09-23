@@ -1,3 +1,7 @@
 <% content_for :title, 'Applications' %>
 
-<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @application_forms) %>
+<%= render 'support_interface/candidates/candidates_navigation' %>
+
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_forms) do %>
+  <%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @application_forms) %>
+<% end %>

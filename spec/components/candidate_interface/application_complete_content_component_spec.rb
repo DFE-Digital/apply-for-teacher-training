@@ -140,14 +140,14 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
   end
 
-  context 'when the application is enrolled' do
-    it 'renders with enrolled content' do
+  context 'when the application is deferred' do
+    it 'renders with deferred content' do
       stub_application_dates_with_form_uneditable
-      application_form = create_application_form_with_course_choices(statuses: %w[enrolled declined])
+      application_form = create_application_form_with_course_choices(statuses: %w[offer_deferred declined])
 
       render_result = render_inline(described_class.new(application_form: application_form))
 
-      expect(render_result.text).to include(t('application_complete.dashboard.enrolled'))
+      expect(render_result.text).to include(t('application_complete.dashboard.deferred'))
     end
   end
 

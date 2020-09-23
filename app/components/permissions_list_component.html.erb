@@ -10,21 +10,21 @@
   <% if permission_model.make_decisions? %>
     <li>
       <%= render CheckIcon.new %><span class="govuk-!-font-weight-bold">Make decisions</span>
-      <%= render AssociatedProvidersPermissionsListComponent.new(permission_model, permission_name: 'make_decisions') %>
+      <%= render AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'make_decisions') %>
     </li>
   <% end %>
 
   <% if permission_model.view_safeguarding_information? %>
     <li>
       <%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Access safeguarding information</span>
-      <%= render AssociatedProvidersPermissionsListComponent.new(permission_model, permission_name: 'view_safeguarding_information') %>
+      <%= render AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'view_safeguarding_information') %>
     </li>
   <% end %>
 
   <% if permission_model.view_diversity_information? %>
     <li>
       <%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Access diversity information</span>
-      <%= render AssociatedProvidersPermissionsListComponent.new(permission_model, permission_name: 'view_diversity_information') %>
+      <%= render AssociatedProvidersPermissionsListComponent.new(provider: permission_model.provider, permission_name: 'view_diversity_information') %>
     </li>
   <% end %>
 

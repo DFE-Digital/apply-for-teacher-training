@@ -1,13 +1,9 @@
 .app-card {
+  @include govuk-responsive-padding(4);
+  @include govuk-font($size: 19);
   background-color: govuk-colour("light-grey");
   display: block;
-  padding: govuk-spacing(2);
   text-decoration: none;
-  @include govuk-font($size: 19);
-
-  @include govuk-media-query($from: desktop) {
-    padding: govuk-spacing(4);
-  }
 }
 
 .app-card--blue {
@@ -37,4 +33,10 @@
 .app-card__secondary-count {
   @include govuk-font($size: 36, $weight: bold);
   display: block;
+}
+
+.app-card--outline {
+  background-color: govuk-colour("white");
+  border: 1px solid govuk-colour("mid-grey");
+  font-size: 18px;
 }

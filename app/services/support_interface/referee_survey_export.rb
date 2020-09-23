@@ -17,8 +17,6 @@ module SupportInterface
           'Experience explanation' => extract_explanation(reference, RefereeQuestionnaire::EXPERIENCE_QUESTION),
           'Consent to be contacted' => extract_rating(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
           'Contact details' => extract_explanation(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
-          'Safe to work with children?' => extract_rating(reference, RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION),
-          'Safe to work with children explanation' => extract_explanation(reference, RefereeQuestionnaire::SAFE_TO_WORK_WITH_CHILDREN_QUESTION),
         }
 
         output << hash

@@ -9,7 +9,7 @@ RSpec.describe CarryOverApplication do
         application_choices_count: 1,
         work_experiences_count: 1,
         volunteering_experiences_count: 1,
-        with_gces: true,
+        with_gcses: true,
         full_work_history: true,
       )
       create(:reference, feedback_status: :feedback_provided, application_form: application_form)
@@ -20,18 +20,73 @@ RSpec.describe CarryOverApplication do
   end
 
   context 'when original application is from an earlier recruitment cycle' do
-    before do
-      original_application_form.application_choices.first.course.update(
-        recruitment_cycle_year: Time.zone.today.year - 1,
-      )
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 10, 15, 12, 0, 0)) do
+        example.run
+      end
     end
 
-    it_behaves_like 'duplicates application form', 'apply_1'
+    before do
+      Timecop.travel(-1.day) { original_application_form.update(recruitment_cycle_year: 2020) }
+    end
+
+    it_behaves_like 'duplicates application form', 'apply_1', 2021
   end
 
-  context 'when original application is from the current recruitment cycle' do
+  context 'when original application is from the current open recruitment cycle' do
+    before do
+      original_application_form.update(recruitment_cycle_year: 2020)
+    end
+
     it 'raises an error' do
-      expect { described_class.new(original_application_form).call }.to raise_error(ArgumentError)
+      Timecop.freeze(Time.zone.local(2020, 8, 1, 12, 0, 0)) do
+        expect { described_class.new(original_application_form).call }.to raise_error(ArgumentError)
+      end
+    end
+  end
+
+  context 'when original application is from the current recruitment cycle but that cycle has now closed' do
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 9, 19, 12, 0, 0)) do
+        example.run
+      end
+    end
+
+    it_behaves_like 'duplicates application form', 'apply_1', 2021
+  end
+
+  context 'when the application_form has references has an application_reference in the cancelled_at_end_of_cycle state' do
+    around do |example|
+      Timecop.freeze(Time.zone.local(2020, 9, 19, 12, 0, 0)) do
+        example.run
+      end
+    end
+
+    let(:application_form) { create(:completed_application_form) }
+
+    it 'sets the reference to the not_requested state and sets the application forms references_completed value to false' do
+      create(:reference, feedback_status: :feedback_provided, application_form: application_form)
+      create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form)
+      create(:reference, feedback_status: :feedback_refused, application_form: application_form)
+
+      described_class.new(application_form).call
+
+      expect(ApplicationForm.count).to eq 2
+      expect(ApplicationForm.last.references_completed).to eq false
+      expect(ApplicationForm.last.application_references.count).to eq 2
+      expect(ApplicationForm.last.application_references.map(&:feedback_status)).to eq %w[feedback_provided not_requested_yet]
+    end
+
+    it 'does not carry over references whose feedback is overdue' do
+      create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 1.month.ago)
+      create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 1.month.ago)
+      create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 2.days.ago, name: 'Carrie Over')
+      create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form, requested_at: 1.day.ago, name: 'Nixt Cycle')
+
+      described_class.new(application_form).call
+
+      expect(ApplicationForm.last.application_references.count).to eq 2
+      expect(ApplicationForm.last.application_references.map(&:name)).to eq ['Carrie Over', 'Nixt Cycle']
     end
   end
 end

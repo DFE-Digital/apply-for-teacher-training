@@ -1,10 +1,16 @@
 class CandidateMailer < ApplicationMailer
+  def referees_did_not_respond_before_end_of_cycle(application_form)
+    @candidate_magic_link = candidate_magic_link(application_form.candidate)
+    @current_cycle_name = RecruitmentCycle.current_cycle_name
+    @next_cycle_name = RecruitmentCycle.next_cycle_name
+
+    email_for_candidate(
+      application_form,
+    )
+  end
+
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
-    @respond_within_days = TimeLimitCalculator.new(
-      rule: :reject_by_default,
-      effective_date: application_form.application_choices.first&.sent_to_provider_at || Time.zone.now,
-    ).call[:days]
 
     email_for_candidate(
       application_form,
@@ -70,15 +76,12 @@ class CandidateMailer < ApplicationMailer
     @application_choice = application_choice
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
 
-    template_name = :application_rejected_all_rejected_apply_again
-
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!(
         application_choice.rejected_by_default ? 'candidate_mailer.application_rejected_by_default.subject' : 'candidate_mailer.application_rejected.all_rejected.subject',
-        provider_name: @course.provider.name,
       ),
-      template_name: template_name,
+      template_name: :application_rejected_all_rejected,
     )
   end
 
@@ -209,6 +212,16 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def deferred_offer(application_choice)
+    @application_choice = application_choice
+    @course_option = @application_choice.offered_option
+
+    email_for_candidate(
+      @application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.deferred_offer.subject', provider_name: @course_option.course.provider.name),
+    )
+  end
+
   def withdraw_last_application_choice(application_form)
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
@@ -278,6 +291,36 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def find_another_course(application_choice)
+    @application_form = application_choice.application_form
+    @course_name_and_code = application_choice.course_option.course.name_and_code
+    @provider_name = application_choice.course_option.provider.name
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.find_another_course.subject', {
+        course_name_and_code: @course_name_and_code,
+        provider_name: @provider_name,
+      }),
+    )
+  end
+
+  def offer_accepted(application_choice)
+    @application_form = application_choice.application_form
+    @course_name_and_code = application_choice.course_option.course.name_and_code
+    @provider_name = application_choice.course_option.provider.name
+    @start_date = application_choice.course_option.course.start_date.to_s(:month_and_year)
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.offer_accepted.subject', {
+        course_name_and_code: @course_name_and_code,
+        provider_name: @provider_name,
+        start_date: @start_date,
+      }),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)
@@ -288,6 +331,7 @@ private
     @offers = @application_choice.application_form.application_choices.select(&:offer?).map do |offer|
       "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
     end
+    @start_date = @application_choice.course_option.course.start_date.to_s(:month_and_year)
 
     email_for_candidate(
       application_choice.application_form,

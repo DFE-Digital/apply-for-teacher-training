@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate submits the application' do
+RSpec.feature 'International candidate submits the application' do
   include CandidateHelper
   include EFLHelper
 
@@ -125,7 +125,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def then_i_should_see_the_efl_section_is_incomplete
-    expect(page).to have_selector "[aria-describedby='missing-efl']"
+    expect(page).to have_selector "[data-qa='missing-efl']"
   end
 
   def then_i_see_an_error_about_the_efl_section
@@ -136,7 +136,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def when_i_complete_the_efl_section
     within '#missing-efl-error' do
-      click_link 'Complete section'
+      click_link 'Have you done an English as a foreign language assessment?'
     end
 
     choose 'No, English is not a foreign language to me'
@@ -147,7 +147,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def then_i_should_see_all_sections_are_complete
     CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
-      expect(page).not_to have_selector "[aria-describedby='missing-#{section}']"
+      expect(page).not_to have_selector "[data-qa='missing-#{section}']"
     end
   end
 

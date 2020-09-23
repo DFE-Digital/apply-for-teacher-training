@@ -14,16 +14,11 @@ class FeatureFlag
   PERMANENT_SETTINGS = [
     [:banner_about_problems_with_dfe_sign_in, 'Displays a banner to notify users that DfE-Sign is having problems', 'Jake Benilov'],
     [:banner_for_ucas_downtime, 'Displays a banner to notify users that UCAS is having problems', 'Theodor Vararu'],
-    [:covid_19, 'Alters deadlines and displays an information banner related to our response to Covid-19', 'Theodor Vararu'],
     [:dfe_sign_in_fallback, 'Use this when DfE Sign-in is down', 'Tijmen Brommet'],
     [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Michael Nacos'],
     [:pilot_open, 'Enables the Apply for Teacher Training service', 'Tijmen Brommet'],
-    [:getting_ready_for_next_cycle_banner, 'Displays an information banner related to 2020 end-of-cycle with link to static page', 'Steve Hook'],
-    [:switch_to_2021_recruitment_cycle, 'Sync and serve courses for the 2021 recruitment cycle. DO NOT ENABLE IN PRODUCTION.', 'Duncan Brown'],
+    [:getting_ready_for_next_cycle_banner, 'Displays an information banner related to the end-of-cycle with link to static page', 'Steve Hook'],
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Malcolm Baig'],
-    [:simulate_time_between_cycles, 'Simulates the time between recruitment cycles so that EoC features can be tested', 'Steve Hook'],
-    [:simulate_time_mid_cycle, 'Simulates the mid recruitment cycle time so that normal functionality can be tested between cycles', 'Steve Hook'],
-    [:simulate_stop_applications_to_unavailable_course_options, 'Simulate EoC behaviour where applications to unavailable options are cancelled before they can be sent to the provider', 'Malcolm Baig'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
@@ -33,6 +28,7 @@ class FeatureFlag
     [:international_addresses, 'Candidates who live outside the UK can enter their local address in free-text format', 'Steve Hook'],
     [:international_personal_details, 'Changes to the candidate personal details section to account for international applicants.', 'David Gisbey'],
     [:efl_section, 'Allow candidates with nationalities other then British or Irish to specify their English as a Foreign Language experience', 'Malcolm Baig'],
+    [:start_syncing_2021_courses, 'Sync the courses for the 2021 recruitment cycle', 'Tijmen Brommet'],
     [:international_degrees, 'Changes to the model and forms for degree qualifications to cater for non-UK degrees.', 'Steve Hook'],
     [:international_gcses, 'Candidates can provide details of international GCSE equivalents.', 'George Holborn'],
     [:international_other_qualifications, 'Candidates can provide details of Other international qualifications .', 'David Gisbey'],

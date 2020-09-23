@@ -66,8 +66,8 @@ Rails.application.routes.draw do
       get '/edit' => 'submitted_application_form#edit', as: :application_edit
       get '/start-apply-again' => 'submitted_application_form#start_apply_again', as: :start_apply_again
       post '/apply-again' => 'submitted_application_form#apply_again', as: :apply_again
-      get '/start-carry-over' => 'submitted_application_form#start_carry_over', as: :start_carry_over
-      post '/carry-over' => 'submitted_application_form#carry_over', as: :carry_over
+      get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
+      post '/carry-over' => 'carry_over#create', as: :carry_over
 
       scope '/personal-details' do
         get '/' => 'personal_details/base#new', as: :personal_details_new
@@ -533,7 +533,7 @@ Rails.application.routes.draw do
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_provider', as: :cookies
     get '/service-guidance', to: 'content#service_guidance_provider', as: :service_guidance
-    get '/covid-19-guidance', to: 'content#covid_19_guidance', as: :covid_19_guidance
+    get '/covid-19-guidance', to: redirect('/')
     get '/getting-ready-for-next-cycle', to: 'content#getting_ready_for_next_cycle', as: :getting_ready_for_next_cycle
 
     get '/data-sharing-agreements/new', to: 'provider_agreements#new_data_sharing_agreement', as: :new_data_sharing_agreement
@@ -564,6 +564,8 @@ Rails.application.routes.draw do
       get '/offer/new_withdraw' => 'decisions#new_withdraw_offer', as: :application_choice_new_withdraw_offer
       post '/offer/confirm_withdraw' => 'decisions#confirm_withdraw_offer', as: :application_choice_confirm_withdraw_offer
       post '/offer/withdraw' => 'decisions#withdraw_offer', as: :application_choice_withdraw_offer
+      get '/offer/defer' => 'decisions#new_defer_offer', as: :application_choice_new_defer_offer
+      post '/offer/defer' => 'decisions#defer_offer', as: :application_choice_defer_offer
     end
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
@@ -646,6 +648,13 @@ Rails.application.routes.draw do
     get '/candidate-flow', to: 'docs#candidate_flow', as: :candidate_flow
     get '/when-emails-are-sent', to: 'docs#when_emails_are_sent', as: :when_emails_are_sent
 
+    get '/docs/cycles' => redirect('/cycles')
+    get '/cycles', to: 'cycles#index', as: :cycles
+
+    unless HostingEnvironment.production?
+      post '/cycles', to: 'cycles#switch_cycle_schedule', as: :switch_cycle_schedule
+    end
+
     get '/email-log', to: 'email_log#index', as: :email_log
 
     get '/applications' => 'application_forms#index'
@@ -702,6 +711,7 @@ Rails.application.routes.draw do
     scope path: '/providers/:provider_id' do
       get '/' => 'providers#show', as: :provider
       get '/courses' => 'providers#courses', as: :provider_courses
+      get '/ratified-courses' => 'providers#ratified_courses', as: :provider_ratified_courses
       get '/vacancies' => 'providers#vacancies', as: :provider_vacancies
       get '/sites' => 'providers#sites', as: :provider_sites
       get '/users' => 'providers#users', as: :provider_user_list
@@ -723,6 +733,7 @@ Rails.application.routes.draw do
 
     get '/performance' => 'performance#index', as: :performance
     get '/performance/application-timings', to: 'performance#application_timings', as: :application_timings
+    get '/performance/course-stats', to: 'performance#course_stats', as: :course_stats
     get '/performance/submitted-application-choices', to: 'performance#submitted_application_choices', as: :submitted_application_choices
     get '/performance/referee-survey', to: 'performance#referee_survey', as: :referee_survey
     get '/performance/providers', to: 'performance#providers_export', as: :providers_export
@@ -731,11 +742,14 @@ Rails.application.routes.draw do
     get '/performance/tad-provider-performance', to: 'performance#tad_provider_performance', as: :tad_provider_performance
     get '/performance/course-choice-withdrawal', to: 'performance#course_choice_withdrawal', as: :course_choice_withdrawal_survey
     get '/performance/candidate-journey-tracking', to: 'performance#candidate_journey_tracking', as: :candidate_journey_tracking
+    get 'performance/reference-types', to: 'performance#application_references', as: :application_references
 
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
     post '/tasks/:task' => 'tasks#run', as: :run_task
-    get '/tasks/confirm_delete_test_applications' => 'tasks#confirm_delete_test_applications', as: :confirm_delete_test_applications
+    get '/tasks/confirm-delete-test-applications' => 'tasks#confirm_delete_test_applications', as: :confirm_delete_test_applications
+    get '/tasks/confirm-cancel-applications-at-end-of-cycle' => 'tasks#confirm_cancel_applications_at_end_of_cycle', as: :confirm_cancel_applications_at_end_of_cycle
+    get '/tasks/confirm-reject-applications-awaiting-references-at-end-of-cycle' => 'tasks#confirm_reject_applications_awaiting_references_at_end_of_cycle', as: :confirm_reject_applications_awaiting_references_at_end_of_cycle
 
     get '/validation-errors' => 'validation_errors#index', as: :validation_errors
     get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search

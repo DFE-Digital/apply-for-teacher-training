@@ -1,6 +1,7 @@
 en:
   reference_status:
     cancelled: Cancelled
+    cancelled_at_end_of_cycle: Cancelled at end of cycle
     not_requested_yet: Not requested yet
     feedback_requested: Requested
     feedback_provided: Feedback provided
@@ -8,6 +9,7 @@ en:
     email_bounced: Email bounced
   candidate_reference_status:
     cancelled: Cancelled
+    cancelled_at_end_of_cycle: Cancelled
     not_requested_yet: Not requested yet
     feedback_requested: Awaiting response
     feedback_provided: Reference given

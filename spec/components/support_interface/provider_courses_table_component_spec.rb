@@ -22,10 +22,8 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       ).to_h
 
       expect(fields['Course']).to eq('My course (ABC)')
-      expect(fields['Level']).to eq('Secondary')
-      expect(fields['Recruitment Cycle']).to eq('2020')
-      expect(fields['Apply from Find']).to match(/DfE & UCAS/)
-      expect(fields['Page on Find']).to match(/Find course page/)
+      expect(fields['Cycle']).to eq('2020')
+      expect(fields['Status']).to match(/Open on Apply/)
       expect(fields).not_to have_key('Accredited body')
     end
 
@@ -69,10 +67,7 @@ RSpec.describe SupportInterface::ProviderCoursesTableComponent do
       ).to_h
 
       expect(fields['Course']).to eq('My course (ABC)')
-      expect(fields['Level']).to eq('Secondary')
-      expect(fields['Recruitment Cycle']).to eq('2020')
-      expect(fields['Apply from Find']).to match(/DfE & UCAS/)
-      expect(fields['Page on Find']).to match(/Find course page/)
+      expect(fields['Cycle']).to eq('2020')
       expect(fields).to have_key('Accredited body')
       expect(fields['Accredited body']).to match(/Accredited University \(AU1\)/)
     end

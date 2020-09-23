@@ -1,7 +1,9 @@
 <% content_for :title, 'API tokens' %>
 
+<%= render 'support_interface/providers/providers_navigation' %>
+
 <%= form_with model: VendorAPIToken.new, url: support_interface_api_tokens_path do |f| %>
-  <%= f.govuk_collection_select :provider_id, Provider.all, :id, :name, label: { text: 'Provider' } %>
+  <%= f.govuk_collection_select :provider_id, Provider.all, :id, :name, label: { text: 'Select a provider to generate a token for' }, options: { include_blank: true } %>
   <%= f.govuk_submit 'Create new token' %>
 <% end %>
 

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
   def state_store_for(state)
-    { described_class::STATE_STORE_KEY => state.to_json }
+    WizardStateStores::SessionStore.new(session: { 'key' => state.to_json }, key: 'key')
   end
 
   describe 'next_step' do
@@ -130,7 +130,7 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
         )
 
         expect(wizard.valid?(:permissions)).to be false
-        expect(wizard.errors.keys).to eq(%i[make_decisions])
+        expect(wizard.errors.keys).to eq([:'provider_relationship_permissions[123][make_decisions]'])
       end
     end
   end
@@ -145,7 +145,7 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
 
       wizard.save_state!
 
-      expect(JSON.parse(state_store[described_class::STATE_STORE_KEY]).symbolize_keys).to eq({
+      expect(JSON.parse(state_store.read).symbolize_keys).to eq({
         provider_relationships: [123],
         provider_relationship_permissions: {
           '123' => {
@@ -164,7 +164,43 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
 
       wizard.clear_state!
 
-      expect(state_store[described_class::STATE_STORE_KEY]).to be_nil
+      expect(state_store.read).to be_nil
+    end
+  end
+
+  describe '#permissions_for_persistence' do
+    it 'returns ProviderRelationshipPermissions records' do
+      permission_one = create(:provider_relationship_permissions, :not_set_up_yet)
+      permission_two = create(:provider_relationship_permissions, :not_set_up_yet)
+
+      state_store = state_store_for({
+        provider_relationships: [permission_one.id, permission_two.id],
+        provider_relationship_permissions: {
+          permission_one.id => { make_decisions: %w[ratifying training], view_safeguarding_information: %w[training] },
+          permission_two.id => { make_decisions: %w[ratifying], view_safeguarding_information: %w[training], view_diversity_information: %w[training] },
+        },
+      })
+
+      wizard = described_class.new(state_store, current_step: 'check')
+      permissions = wizard.permissions_for_persistence
+      draft_permission_one = permissions.find { |p| p.id == permission_one.id }
+      draft_permission_two = permissions.find { |p| p.id == permission_two.id }
+
+      expect(draft_permission_one.setup_at).to be_nil
+      expect(draft_permission_one.training_provider_can_make_decisions).to be true
+      expect(draft_permission_one.ratifying_provider_can_make_decisions).to be true
+      expect(draft_permission_one.training_provider_can_view_safeguarding_information).to be true
+      expect(draft_permission_one.ratifying_provider_can_view_safeguarding_information).to be false
+      expect(draft_permission_one.training_provider_can_view_diversity_information).to be false
+      expect(draft_permission_one.ratifying_provider_can_view_diversity_information).to be false
+
+      expect(draft_permission_two.setup_at).to be_nil
+      expect(draft_permission_two.training_provider_can_make_decisions).to be false
+      expect(draft_permission_two.ratifying_provider_can_make_decisions).to be true
+      expect(draft_permission_two.training_provider_can_view_safeguarding_information).to be true
+      expect(draft_permission_two.ratifying_provider_can_view_safeguarding_information).to be false
+      expect(draft_permission_two.training_provider_can_view_diversity_information).to be true
+      expect(draft_permission_two.ratifying_provider_can_view_diversity_information).to be false
     end
   end
 end

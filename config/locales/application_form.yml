@@ -153,7 +153,7 @@ en:
       international_institution_name:
         label: Institution name
       institution_name:
-        label: What institution did you study at?
+        label: Which institution did you study at?
         review_label: Institution
         change_action: institution
       institution_country:
@@ -377,6 +377,7 @@ en:
         awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
         awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
         cancelled: You cancelled your reference request.
+        cancelled_at_end_of_cycle: The referee did not respond before courses closed.
         feedback_overdue: Your referee has not responded yet. Keep chasing the referee or cancel the request in favour of another referee.
   activemodel:
     errors:
@@ -433,19 +434,20 @@ en:
               below_lower_age_limit: Enter a date of birth before %{date} – you must be over 16 years old to Apply for teacher training
         candidate_interface/nationalities_form:
           attributes:
+            nationalities:
+              blank: Select your nationality
             first_nationality:
-              blank: Select your nationality from the list
+              blank: If you have more than one nationality, select at least one other nationality from the list
               inclusion: Select your nationality from the list
             second_nationality:
               inclusion: Select your second nationality from the list
             other_nationality1:
+              blank: If you have an additional nationality, select it from the list
               inclusion: Select your third nationality from the list
             other_nationality2:
               inclusion: Select your fourth nationality from the list
             other_nationality3:
               inclusion: Select your fifth nationality from the list
-            other:
-              blank: Select your nationality
         candidate_interface/languages_form:
           attributes:
             english_main_language:
@@ -472,10 +474,10 @@ en:
         candidate_interface/interview_preferences_form:
           attributes:
             any_preferences:
-              blank: Choose if you have any interview preferences
+              blank: Choose if you have any interview needs
             interview_preferences:
-              blank: Enter your interview preferences
-              too_many_words: Your interview preferences must be %{count} words or fewer
+              blank: Enter your interview needs
+              too_many_words: Your interview needs must be %{count} words or fewer
         candidate_interface/further_information_form:
           attributes:
             further_information:
@@ -574,10 +576,14 @@ en:
               blank: Enter your graduation year
               invalid: Enter a real graduation year
               greater_than_limit: Enter a year before %{date}
+        candidate_interface/english_foreign_language/start_form:
+          attributes:
+            qualification_status:
+              blank: Have you done an English as a foreign language assessment?
         candidate_interface/english_foreign_language/type_form:
           attributes:
             type:
-              blank: Choose your qualification type
+              blank: Select your qualification type
         candidate_interface/english_foreign_language/ielts_form:
           attributes:
             trf_number:

@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(EndOfCycleTimetable.next_cycle_opens) do
+          Timecop.travel(EndOfCycleTimetable.find_reopens) do
             expect(execute_service).to eq true
           end
         end
@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
       context 'when the date is post find reopening' do
         it 'returns true' do
-          Timecop.travel(EndOfCycleTimetable.next_cycle_opens) do
+          Timecop.travel(EndOfCycleTimetable.apply_reopens) do
             expect(execute_service).to eq true
           end
         end
@@ -121,6 +121,20 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
 
         expect(described_class.cancel_application_because_option_unavailable?(application_choice)).to eq false
       end
+    end
+  end
+
+  describe '.can_submit?' do
+    before { allow(RecruitmentCycle).to receive(:current_year).and_return(2021) }
+
+    it 'returns true for an application in the current recruitment cycle' do
+      application_form = build :application_form, recruitment_cycle_year: 2021
+      expect(described_class.can_submit?(application_form)).to be true
+    end
+
+    it 'returns false for an application in the previous recruitment cycle' do
+      application_form = build :application_form, recruitment_cycle_year: 2020
+      expect(described_class.can_submit?(application_form)).to be false
     end
   end
 end

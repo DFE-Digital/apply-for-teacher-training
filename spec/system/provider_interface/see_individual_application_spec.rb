@@ -95,7 +95,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     )
 
     create_list(:application_qualification, 1, application_form: application_form, level: :degree)
-    create_list(:application_qualification, 2, application_form: application_form, level: :gcse)
+    create(:gcse_qualification, subject: 'maths', application_form: application_form)
+    create(:gcse_qualification, subject: 'english', application_form: application_form)
     create_list(:application_qualification, 3, application_form: application_form, level: :other)
 
     create(:application_work_experience,
@@ -168,11 +169,11 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   )
 
   def then_i_should_see_the_candidates_degrees
-    expect(page).to have_selector('[data-qa="qualifications-table-degree"] tbody tr', count: 1)
+    expect(page).to have_selector('[data-qa="degree-qualification"]', count: 1)
   end
 
   def and_i_should_see_the_candidates_gcses
-    expect(page).to have_selector('[data-qa="qualifications-table-gcse-or-equivalent"] tbody tr', count: 2)
+    expect(page).to have_selector('[data-qa="gcse-qualification"]', count: 2)
   end
 
   def and_i_should_see_the_candidates_other_qualifications

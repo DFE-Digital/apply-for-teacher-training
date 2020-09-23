@@ -9,6 +9,9 @@ RSpec.feature 'See applications' do
     and_i_visit_the_support_page
     then_i_should_see_the_latest_applications
 
+    when_i_search_for_an_application
+    then_i_see_only_that_application
+
     when_i_follow_the_link_to_applications
     then_i_should_see_the_application_references
   end
@@ -33,8 +36,19 @@ RSpec.feature 'See applications' do
     expect(page).to have_content @unsubmitted_application.candidate.email_address
   end
 
+  def when_i_search_for_an_application
+    fill_in :q, with: @completed_application.candidate.email_address
+    click_on 'Apply filters'
+  end
+
+  def then_i_see_only_that_application
+    expect(page).to have_content @completed_application.candidate.email_address
+    expect(page).not_to have_content @application_with_reference.candidate.email_address
+    expect(page).not_to have_content @unsubmitted_application.candidate.email_address
+  end
+
   def when_i_follow_the_link_to_applications
-    click_link 'applications list'
+    click_link 'Applications'
   end
 
   def then_i_should_see_the_application_references

@@ -1,6 +1,6 @@
 module CandidateInterface
   class SubmittedApplicationFormController < CandidateInterfaceController
-    before_action :redirect_to_application_form_unless_submitted
+    before_action :redirect_to_application_form_unless_submitted, except: %i[start_carry_over carry_over]
 
     def review_submitted
       @application_form = current_application
@@ -22,6 +22,10 @@ module CandidateInterface
       ApplyAgain.new(current_application).call
       flash[:success] = 'Your new application is ready for editing'
       redirect_to candidate_interface_before_you_start_path
+    end
+
+    def start_carry_over
+      render EndOfCycleTimetable.between_cycles_apply_2? ? :start_carry_over_between_cycles : :start_carry_over
     end
 
     def carry_over

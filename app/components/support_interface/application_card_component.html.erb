@@ -1,0 +1,22 @@
+<section class="app-application-card">
+  <header class="app-application-card__header">
+    <h3 class="govuk-heading-s">
+      <%= govuk_link_to candidate_name, support_interface_application_form_path(application_form) %>
+      <span class="govuk-body-s"><%= support_reference %> <%= application_form.apply_2? ? '(Apply again)' : '' %></span>
+    </h3>
+    <p class="govuk-body-s govuk-!-margin-bottom-2"><strong><%= overall_status %></strong></p>
+  </header>
+
+  <% if application_form.application_choices.any? %>
+  <ul class="app-application-card__list govuk-list govuk-list--bullet">
+    <% application_form.application_choices.each do |application_choice| %>
+      <li class="govuk-list__item govuk-body-s">
+        <%= render SupportInterface::ApplicationStatusTagComponent.new(application_choice: application_choice) %>
+        <%= application_choice.course.name_and_code %> at <%= application_choice.provider.name %>
+      </li>
+    <% end %>
+  </ul>
+  <% end %>
+
+  <p class="govuk-hint govuk-!-font-size-16 govuk-!-margin-top-0">Updated on <%= updated_at %></p>
+</section>

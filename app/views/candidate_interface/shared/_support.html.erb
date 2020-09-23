@@ -1,0 +1,7 @@
+<aside class="app-related" role="complementary">
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="support-title"><%= t('layout.support.title') %></h2>
+  <ul class="govuk-list govuk-!-font-size-16">
+    <li>Email: <%= bat_contact_mail_to(html_options: { subject: "Query about application #{support_reference}" }) %></li>
+    <li><%= t('layout.support.response_time') %></li>
+  </ul>
+</aside>

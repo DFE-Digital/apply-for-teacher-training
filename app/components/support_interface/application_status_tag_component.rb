@@ -15,7 +15,7 @@ module SupportInterface
       case status
       when 'unsubmitted'
         :grey
-      when 'application_complete', 'awaiting_references', 'awaiting_provider_decision'
+      when 'application_complete', 'awaiting_references', 'awaiting_provider_decision', 'offer_deferred'
         :yellow
       when 'offer'
         :turquoise
@@ -23,10 +23,8 @@ module SupportInterface
         :blue
       when 'recruited'
         :green
-      when 'conditions_not_met', 'declined', 'rejected', 'offer_withdrawn', 'withdrawn', 'cancelled', 'rejected_at_end_of_cycle'
+      when 'conditions_not_met', 'declined', 'rejected', 'offer_withdrawn', 'withdrawn', 'cancelled', 'application_not_sent'
         :red
-      when 'enrolled'
-        :default
       else
         raise "You need to define a colour for the #{status} state"
       end

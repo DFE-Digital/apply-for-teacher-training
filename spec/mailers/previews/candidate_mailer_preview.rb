@@ -1,4 +1,8 @@
 class CandidateMailerPreview < ActionMailer::Preview
+  def application_on_pause
+    CandidateMailer.referees_did_not_respond_before_end_of_cycle(application_form)
+  end
+
   def application_submitted
     application_form = FactoryBot.build_stubbed(
       :completed_application_form,
@@ -408,6 +412,23 @@ class CandidateMailerPreview < ActionMailer::Preview
     )
   end
 
+  def find_another_course
+    CandidateMailer.find_another_course(application_choice_awaiting_references)
+  end
+
+  def deferred_offer
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Harry',
+      application_choices: [
+        FactoryBot.build_stubbed(:application_choice, status: 'pending_conditions', course_option: course_option),
+      ],
+      candidate: candidate,
+    )
+
+    CandidateMailer.deferred_offer(application_form.application_choices.first)
+  end
+
 private
 
   def candidate
@@ -466,6 +487,7 @@ private
   def application_choice_awaiting_references
     FactoryBot.build_stubbed(
       :application_choice,
+      application_form: application_form,
       status: 'awaiting_references',
       course_option: FactoryBot.build_stubbed(
         :course_option,

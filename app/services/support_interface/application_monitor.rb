@@ -27,7 +27,7 @@ module SupportInterface
   private
 
     def active_applications
-      ApplicationChoice.where('status NOT IN (?)', %w[rejected declined withdrawn enrolled conditions_not_met])
+      ApplicationChoice.where('status NOT IN (?)', ApplicationStateChange::TERMINAL_STATES)
     end
   end
 end

@@ -1,24 +1,10 @@
 <% content_for :title, 'Support users' %>
 
-<%= govuk_button_link_to 'Add support user', new_support_interface_support_user_path %>
-
-<% content_for :before_content do %>
-  <div class="govuk-breadcrumbs">
-    <ol class="govuk-breadcrumbs__list">
-      <li class="govuk-breadcrumbs__list-item">
-        <%= link_to 'Users', support_interface_users_path, class: 'govuk-breadcrumbs__link' %>
-      </li>
-      <li class="govuk-breadcrumbs__list-item" aria-current="page">
-        Support users
-      </li>
-    </ol>
-  </div>
-
-  <%= render SubNavigationComponent.new(items: [
-    { name: 'Support users', url: support_interface_support_users_path, current: true },
-    { name: 'Provider users', url: support_interface_provider_users_path },
-  ]) %>
+<% content_for :navigation do %>
+  <%= render 'support_interface/tasks/tasks_navigation' %>
 <% end %>
+
+<%= govuk_button_link_to 'Add support user', new_support_interface_support_user_path %>
 
 <table class='govuk-table'>
   <thead class='govuk-table__head'>

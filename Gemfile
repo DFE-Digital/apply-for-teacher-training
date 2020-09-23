@@ -4,11 +4,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.1'
 
 gem 'rails', '~> 6.0'
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 5.0'
 gem 'pg', '~> 1.2.3'
 
 gem 'webpacker'
-gem 'govuk_design_system_formbuilder', '~> 1.2.7'
+gem 'govuk_design_system_formbuilder', '~> 1.2.9'
 
 # GovUK Notify
 gem 'mail-notify'
@@ -97,7 +97,6 @@ group :test do
   gem 'database_cleaner'
   gem 'clockwork-test'
   gem 'deepsort'
-  gem 'rspec-benchmark'
 end
 
 group :development, :test do

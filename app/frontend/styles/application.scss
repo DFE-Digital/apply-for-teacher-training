@@ -21,7 +21,6 @@ $govuk-breakpoints: (
 // Shared (govuk-frontend components and overrides)
 @import "~govuk-frontend/govuk/all";
 @import "_breadcrumbs";
-@import "_footer";
 @import "_header";
 @import "_input";
 @import "_phase-banner";
@@ -30,11 +29,14 @@ $govuk-breakpoints: (
 @import "_back_link";
 
 // Shared (custom components)
+@import "_application-card";
 @import "_autocomplete";
 @import "_banner";
 @import "_card";
 @import "_contents-list";
 @import "_environments";
+@import "_flex-grid";
+@import "_qualification";
 @import "_status-box";
 @import "_styled-content";
 @import "_summary-card";

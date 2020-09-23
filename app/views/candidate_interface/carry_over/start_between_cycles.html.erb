@@ -1,0 +1,41 @@
+<% content_for :title, t('page_titles.start_carry_over_between_cycles') %>
+
+<div class="govuk-grid-row">
+
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-xl"><%= t('page_titles.start_carry_over_between_cycles') %></h1>
+
+    <% if CandidateInterface::EndOfCyclePolicy.before_find_reopens? %>
+      <p class="govuk-body">
+        Applications for courses starting in the <%= current_cycle_span %> academic year are closed.
+      </p>
+    <% end %>
+
+    <p class="govuk-body">
+      Carry on with your application for courses starting in the <%= next_cycle_span %> year.
+    </p>
+
+    <% if CandidateInterface::EndOfCyclePolicy.before_apply_reopens? %>
+      <p class="govuk-body">
+        You can submit your application from <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>.
+      </p>
+    <% end %>
+
+    <p class="govuk-body">
+      Your courses have been removed.
+      <% if CandidateInterface::EndOfCyclePolicy.before_find_reopens? %>
+        You can add them again later.
+      <% else %>
+        You can add them again now.
+      <% end %>
+    </p>
+
+    <%= button_to 'Apply again', candidate_interface_carry_over_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>
+
+    <p class="govuk-body">or</p>
+
+    <%= govuk_link_to 'Go to dashboard', candidate_interface_application_form_path, class: 'govuk-body' %>
+
+  </div>
+</div>

@@ -1,9 +1,26 @@
 module SupportInterface
   class EmailLogController < SupportInterfaceController
     def index
-      @emails = Email.order(id: :desc).includes(:application_form).limit(1000)
+      @filter = SupportInterface::EmailsFilter.new(params: params)
 
-      %w[to subject mailer mail_template notify_reference application_form_id delivery_status].each do |column|
+      @emails = Email
+        .order(id: :desc)
+        .includes(:application_form)
+        .page(params[:page] || 1).per(15)
+
+      if params[:q]
+        @emails = @emails.where("CONCAT('to', ' ', subject, ' ', notify_reference, ' ', body) ILIKE ?", "%#{params[:q]}%")
+      end
+
+      if params[:delivery_status]
+        @emails = @emails.where('delivery_status IN (?)', params[:delivery_status])
+      end
+
+      if params[:mailer]
+        @emails = @emails.where('mailer IN (?)', params[:mailer])
+      end
+
+      %w[to subject mail_template notify_reference application_form_id].each do |column|
         next unless params[column]
 
         @emails = @emails.where(column => params[column])

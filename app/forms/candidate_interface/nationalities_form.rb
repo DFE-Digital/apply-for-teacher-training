@@ -3,7 +3,7 @@ module CandidateInterface
     include ActiveModel::Model
 
     attr_accessor :first_nationality, :second_nationality, :british, :irish, :other,
-                  :other_nationality1, :other_nationality2, :other_nationality3
+                  :other_nationality1, :other_nationality2, :other_nationality3, :nationalities
 
     validates :first_nationality, presence: true, unless: :international_flag_is_on?
 
@@ -17,7 +17,7 @@ module CandidateInterface
     def self.build_from_application(application_form)
       if FeatureFlag.active?('international_personal_details')
         new(
-          application_form.build_nationalties_hash,
+          application_form.build_nationalities_hash,
         )
       else
         new(
@@ -31,7 +31,7 @@ module CandidateInterface
       return false unless valid?
 
       if FeatureFlag.active?('international_personal_details')
-        nationalities = candidates_nationalties
+        nationalities = candidates_nationalities
 
         application_form.update!(
           first_nationality: nationalities[0],
@@ -48,7 +48,7 @@ module CandidateInterface
       end
     end
 
-    def candidates_nationalties
+    def candidates_nationalities
       other.present? ? [british, irish, other_nationality1, other_nationality2, other_nationality3].select(&:present?).uniq : [british, irish].select(&:present?)
     end
 
@@ -59,7 +59,12 @@ module CandidateInterface
     end
 
     def candidate_provided_nationality
-      errors.add(:other, :blank) if candidates_nationalties.blank?
+      errors.add(:nationalities, :blank) if [british, irish, other].all?(&:blank?)
+      if other.present? && other_nationality1.blank?
+        # 'nationalities' needs to be set in order for govuk form builder to be able to display this error
+        self.nationalities = ['other', british, irish].compact
+        errors.add(:other_nationality1, :blank)
+      end
     end
   end
 end

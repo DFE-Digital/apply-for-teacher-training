@@ -18,6 +18,7 @@ RSpec.describe 'Selecting a full course' do
     @course = create(:course, :open_on_apply)
 
     create(:course_option, course: @course, vacancy_status: 'no_vacancies')
+    create(:course_option, course: @course, vacancy_status: 'vacancies', site_still_valid: false)
   end
 
   def when_i_select_the_full_course

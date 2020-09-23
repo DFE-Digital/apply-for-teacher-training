@@ -1,10 +1,14 @@
 require 'rails_helper'
 
-RSpec.feature 'See providers' do
+RSpec.feature 'Providers and courses' do
   include DfESignInHelpers
   include FindAPIHelper
 
-  scenario 'User visits providers page' do
+  before do
+    stub_new_recruitment_year_sync
+  end
+
+  scenario 'User syncs provider and browses providers' do
     given_i_am_a_support_user
     and_providers_are_configured_to_be_synced
     when_i_visit_the_tasks_page
@@ -13,6 +17,8 @@ RSpec.feature 'See providers' do
 
     when_i_visit_the_providers_page
     and_i_should_see_the_updated_list_of_providers
+    when_i_search_a_provider
+    then_i_see_the_search_results
 
     when_i_click_on_a_provider
     and_i_click_on_sites
@@ -26,6 +32,9 @@ RSpec.feature 'See providers' do
 
     and_i_click_on_courses
     then_i_see_the_provider_courses
+
+    and_i_click_on_ratified_courses
+    then_i_see_the_provider_ratified_courses
 
     when_i_click_on_a_course_with_applications
     then_i_see_the_course_information
@@ -43,6 +52,9 @@ RSpec.feature 'See providers' do
     and_i_click_on_courses
     and_i_choose_to_open_all_courses
     then_all_courses_should_be_open_on_apply
+
+    and_when_i_click_the_other_providers_tab
+    and_i_should_see_the_list_of_other_providers
   end
 
   def given_i_am_a_support_user
@@ -62,6 +74,9 @@ RSpec.feature 'See providers' do
 
     create :provider, code: 'DEF', name: 'Gorse SCITT', sync_courses: true
     create :provider, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
+    create :provider, code: 'DOF', name: 'An Unsynced Provider', sync_courses: false
+
+    create(:course_option, course: create(:course, accredited_provider: provider))
   end
 
   def then_i_should_see_the_providers
@@ -117,9 +132,9 @@ RSpec.feature 'See providers' do
   end
 
   def then_requests_to_find_should_be_made
-    expect(@request1).to have_been_made
-    expect(@request2).to have_been_made
-    expect(@request3).to have_been_made
+    expect(@request1).to have_been_made.twice
+    expect(@request2).to have_been_made.twice
+    expect(@request3).to have_been_made.twice
   end
 
   def when_i_visit_the_providers_page
@@ -132,6 +147,17 @@ RSpec.feature 'See providers' do
     expect(page).to have_content('Somerset SCITT Consortium')
   end
 
+  def when_i_search_a_provider
+    fill_in :q, with: 'Royal'
+    click_on 'Apply filters'
+  end
+
+  def then_i_see_the_search_results
+    expect(page).to have_content('Royal Academy of Dance')
+    expect(page).not_to have_content('Gorse SCITT')
+    expect(page).not_to have_content('Somerset SCITT Consortium')
+  end
+
   def when_i_click_on_a_provider
     click_link 'Royal Academy of Dance'
   end
@@ -142,6 +168,10 @@ RSpec.feature 'See providers' do
 
   def and_i_click_on_courses
     click_link 'Courses'
+  end
+
+  def and_i_click_on_ratified_courses
+    click_link 'Ratified courses'
   end
 
   def when_i_click_on_users
@@ -166,6 +196,10 @@ RSpec.feature 'See providers' do
     expect(page).to have_content '2 courses (0 on DfE Apply)'
   end
 
+  def then_i_see_the_provider_ratified_courses
+    expect(page).to have_content 'ratifies 1 course (0 on DfE Apply)'
+  end
+
   def then_i_see_the_provider_sites
     expect(page).to have_content 'Main site'
   end
@@ -174,16 +208,14 @@ RSpec.feature 'See providers' do
     course = Course.find_by(code: 'ABC-1')
     create(:application_choice, course_option: course.course_options.first)
     create(:application_choice, course_option: course.course_options.first)
-    first('table').click_link('ABC-1')
+    click_link 'Courses'
+    click_link 'ABC-1'
   end
 
   def then_i_see_the_course_information
     expect(page).to have_title 'Primary (ABC-1)'
     expect(page).to have_content 'Primary (ABC-1) - Full time at Main site Vacancies'
-
-    within '[data-qa="applications"]' do
-      expect(page.all('tbody tr').size).to eq(2)
-    end
+    expect(page.all('.app-application-card').size).to eq(2)
   end
 
   def when_i_choose_to_open_the_course_on_apply
@@ -209,10 +241,19 @@ RSpec.feature 'See providers' do
   end
 
   def and_i_choose_to_open_all_courses
-    click_button 'Open 1 course'
+    click_button 'Open all courses for the 2020 cycle'
   end
 
   def then_all_courses_should_be_open_on_apply
     expect(page).to have_content '1 course (1 on DfE Apply)'
+  end
+
+  def and_when_i_click_the_other_providers_tab
+    click_link 'Providers'
+    click_link 'Other providers'
+  end
+
+  def and_i_should_see_the_list_of_other_providers
+    expect(page).to have_content('An Unsynced Provider')
   end
 end

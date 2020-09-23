@@ -154,7 +154,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_see_the_degree_institution_page
-    expect(page).to have_content 'What institution did you study at?'
+    expect(page).to have_content 'Which institution did you study at?'
   end
 
   def then_i_see_validation_errors_for_degree_institution
@@ -162,7 +162,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_fill_in_the_degree_institution
-    fill_in 'What institution did you study at?', with: 'MIT'
+    fill_in 'Which institution did you study at?', with: 'MIT'
   end
 
   def then_i_can_see_the_degree_grade_page
@@ -240,7 +240,7 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_save_and_continue
     fill_in 'What subject is your degree?', with: 'Maths'
     and_i_click_on_save_and_continue
-    fill_in 'What institution did you study at?', with: 'Thames Valley University'
+    fill_in 'Which institution did you study at?', with: 'Thames Valley University'
     and_i_click_on_save_and_continue
     when_i_select_the_degree_grade
     and_i_click_on_save_and_continue
@@ -328,7 +328,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_change_my_undergraduate_degree_institution
-    fill_in 'What institution did you study at?', with: 'Stanford'
+    fill_in 'Which institution did you study at?', with: 'Stanford'
   end
 
   def when_i_change_my_undergraduate_degree_grade

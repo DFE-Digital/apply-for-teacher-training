@@ -18,35 +18,6 @@ module ProviderInterface
       validates :providers, presence: true
     end
 
-    PermissionOption = Struct.new(:slug, :name, :hint)
-    AVAILABLE_PERMISSIONS = [
-      PermissionOption.new(
-        'manage_organisations',
-        'Manage organisations',
-        'Change permissions between organisations',
-      ),
-      PermissionOption.new(
-        'manage_users',
-        'Manage users',
-        'Invite or delete users and set their permissions',
-      ),
-      PermissionOption.new(
-        'make_decisions',
-        'Make decisions',
-        'Make offers, amend offers and reject applications',
-      ),
-      PermissionOption.new(
-        'view_safeguarding_information',
-        'Access safeguarding information',
-        'View sensitive material about the candidate',
-      ),
-      PermissionOption.new(
-        'view_diversity_information',
-        'Access diversity information',
-        'View diversity information about the candidate',
-      ),
-    ].freeze
-
     class PermissionsForm
       include ActiveModel::Model
 
@@ -135,11 +106,11 @@ module ProviderInterface
     end
 
     def save_state!
-      @state_store[STATE_STORE_KEY] = state
+      @state_store.write(state)
     end
 
     def clear_state!
-      @state_store.delete(STATE_STORE_KEY)
+      @state_store.delete
     end
 
     def new_user?
@@ -157,7 +128,13 @@ module ProviderInterface
     end
 
     def last_saved_state
-      JSON.parse(@state_store[STATE_STORE_KEY].presence || '{}')
+      saved_state = @state_store.read
+
+      if saved_state
+        JSON.parse(saved_state)
+      else
+        {}
+      end
     end
 
     def next_provider_id

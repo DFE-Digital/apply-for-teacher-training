@@ -2,39 +2,55 @@ en:
   review_application:
     title: Review your application
     heading: Review your application
-    complete_section: Complete section
     button_continue: Continue
-    becoming_a_teacher:
-      incomplete: Tell us why you want to be a teacher
-    contact_details:
-      incomplete: Contact details not entered
     course_choices:
       incomplete: Course choices are not marked as completed
-    degrees:
-      incomplete: Degree(s) are not marked as completed
-    maths_gcse:
-      incomplete: Maths GCSE or equivalent not entered
-    english_gcse:
-      incomplete: English GCSE or equivalent not entered
-    science_gcse:
-      incomplete: Science GCSE or equivalent not entered
-    interview_preferences:
-      incomplete: Tell us your interview preferences
+      complete_section: Complete your course choices
     personal_details:
       incomplete: Personal details not entered
-    references:
-      incomplete: Add %{minimum_references} referees to your application
-    subject_knowledge:
-      incomplete: Tell us about your knowledge about the subject you want to teach
+      complete_section: Enter your personal details
+    contact_details:
+      incomplete: Contact details not entered
+      complete_section: Enter your contact details
     training_with_a_disability:
-      incomplete: Training with a disability not entered
-    volunteering:
-      incomplete: Volunteering with children and young people is not marked as completed
-    work_experience:
-      incomplete: Work history is not marked as completed
+      incomplete: Any disability or other needs not entered
+      complete_section: Do you want to ask for help to become a teacher?
     safeguarding:
       incomplete: Safeguarding information not entered
+      complete_section: Do you need to declare any safeguarding issues?
+    work_experience:
+      incomplete: Work history is not marked as completed
+      complete_section: Complete your work history
+    volunteering:
+      incomplete: Volunteering with children and young people is not marked as completed
+      complete_section: Do you have any experience working with children and young people?
+    degrees:
+      incomplete: Degree(s) section not marked as completed
+      complete_section: Enter your degree(s)
+    maths_gcse:
+      incomplete: Maths GCSE or equivalent not entered
+      complete_section: Enter your Maths GCSE or equivalent
+    english_gcse:
+      incomplete: English GCSE or equivalent not entered
+      complete_section: Enter your English GCSE or equivalent
+    science_gcse:
+      incomplete: Science GCSE or equivalent not entered
+      complete_section: Enter your Science GCSE or equivalent
     other_qualifications:
-      incomplete: Your Other Qualifications section has an incomplete qualification
+      incomplete: The academic and other relevant qualifications section has an incomplete qualification
+      complete_section: Complete your academic and other relevant qualifications
     efl:
       incomplete: English as a foreign language not marked as complete
+      complete_section: Have you done an English as a foreign language assessment?
+    becoming_a_teacher:
+      incomplete: Personal statement not entered
+      complete_section: Why do you want to be a teacher?
+    subject_knowledge:
+      incomplete: Subject knowledge not entered
+      complete_section: What you know about the subject you want to teach?
+    interview_preferences:
+      incomplete: Interview needs not entered
+      complete_section: Do you have any interview needs?
+    references:
+      incomplete: Add %{minimum_references} referees to your application
+      complete_section: Add your references

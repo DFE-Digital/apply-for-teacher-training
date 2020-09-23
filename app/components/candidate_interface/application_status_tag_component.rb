@@ -25,12 +25,14 @@ module CandidateInterface
         :blue
       when 'recruited'
         :green
-      when 'declined', 'withdrawn', 'cancelled', 'rejected_at_end_of_cycle'
+      when 'declined', 'withdrawn', 'cancelled'
         :orange
+      when 'application_not_sent'
+        :pink
       when 'conditions_not_met'
         :red
-      when 'enrolled'
-        :default
+      when 'offer_deferred'
+        :yellow
       else
         raise "You need to define a colour for the #{status} state"
       end

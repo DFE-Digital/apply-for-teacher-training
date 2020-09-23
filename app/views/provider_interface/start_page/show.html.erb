@@ -25,16 +25,6 @@
   </div>
 </div>
 
-<% if FeatureFlag.active?('covid_19') %>
-  <div class="govuk-width-container">
-    <div class="app-banner govuk-!-margin-top-4 govuk-!-margin-bottom-0" aria-labelledby="covid-message" >
-      <div class="app-banner__message">
-        <h2 class="govuk-heading-m" id="covid-message">Coronavirus (COVID-19): <%= link_to 'find out how this service is changing', provider_interface_covid_19_guidance_path, class: 'govuk-link' %> to help you right now</h2>
-      </div>
-    </div>
-  </div>
-<% end %>
-
 <% if FeatureFlag.active?('getting_ready_for_next_cycle_banner') %>
   <div class="govuk-width-container">
     <div class="app-banner govuk-!-margin-top-4 govuk-!-margin-bottom-0" aria-labelledby="getting-ready-for-next-cycle-message" >

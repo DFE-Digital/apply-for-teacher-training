@@ -1,7 +1,4 @@
 const nationalitiesComponent = () => {
-  const pageHasErrors = document.querySelector(".govuk-error-summary");
-  if (pageHasErrors) return;
-
   const secondSelectEl = document.getElementById(
     "candidate-interface-nationalities-form-other-nationality2-field"
   );
@@ -25,7 +22,7 @@ const nationalitiesComponent = () => {
   addRemoveLink(thirdFormLabel, thirdSelectEl);
 
   addAddNationalityButton(
-    "#candidate-interface-nationalities-form-other-other-conditional"
+    "#candidate-interface-nationalities-form-nationalities-other-conditional"
   );
 
   hideSection(secondSelectEl, secondFormLabel);

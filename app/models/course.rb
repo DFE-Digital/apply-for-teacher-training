@@ -13,6 +13,7 @@ class Course < ApplicationRecord
   scope :exposed_in_find, -> { where(exposed_in_find: true) }
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.previous_year) }
+  scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
 
   CODE_LENGTH = 4
 
@@ -57,6 +58,10 @@ class Course < ApplicationRecord
     "#{name} #{accredited_provider&.name} #{description}"
   end
 
+  def year_name_and_code
+    "#{recruitment_cycle_year}: #{name} (#{code})"
+  end
+
   def name_and_code
     "#{name} (#{code})"
   end
@@ -97,12 +102,20 @@ class Course < ApplicationRecord
     course_options.all?(&:no_vacancies?)
   end
 
+  def available?
+    course_options.available.present?
+  end
+
   def find_url
     "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{provider.code}/#{code}"
   end
 
   def in_previous_cycle
     Course.find_by(recruitment_cycle_year: recruitment_cycle_year - 1, provider_id: provider_id, code: code)
+  end
+
+  def in_next_cycle
+    Course.find_by(recruitment_cycle_year: recruitment_cycle_year + 1, provider_id: provider_id, code: code)
   end
 
   def application_forms

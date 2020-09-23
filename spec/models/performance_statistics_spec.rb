@@ -71,14 +71,6 @@ RSpec.describe PerformanceStatistics, type: :model do
       expect(count_for_process_state(:awaiting_candidate_response)).to be(1)
     end
 
-    it 'counts enrolled applications' do
-      application_choice = create(:application_choice, status: 'enrolled')
-
-      expect(ProcessState.new(application_choice.application_form).state).to be :enrolled
-
-      expect(count_for_process_state(:enrolled)).to be(1)
-    end
-
     it 'counts recruited applications' do
       application_choice = create(:application_choice, status: 'recruited')
 
@@ -113,15 +105,14 @@ RSpec.describe PerformanceStatistics, type: :model do
 
   describe '#total_candidate_count' do
     it 'optionally filters only on certain process states and excludes certain states' do
-      create(:application_choice, status: 'enrolled')
+      create(:application_choice, status: 'recruited')
       create(:application_choice, status: 'recruited')
       create(:application_choice, status: 'pending_conditions')
 
       stats = PerformanceStatistics.new
 
-      expect(stats.total_candidate_count).to eq(3)
-      expect(stats.total_candidate_count(only: %i[enrolled recruited])).to eq(2)
-      expect(stats.total_candidate_count(except: %i[enrolled pending_conditions])).to eq(1)
+      expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
+      expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(2)
     end
   end
 

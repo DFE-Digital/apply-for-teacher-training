@@ -95,15 +95,6 @@ RSpec.describe ProcessState do
       expect(state).to be(:recruited)
     end
 
-    it 'is enrolled when the candidate has been enrolled' do
-      application_form = create(:application_form)
-      create(:application_choice, application_form: application_form, status: 'enrolled')
-
-      state = ProcessState.new(application_form).state
-
-      expect(state).to be(:enrolled)
-    end
-
     it 'is "ended without success" when the candidate has no succesfull applications' do
       application_form = create(:application_form)
       create(:application_choice, application_form: application_form, status: 'withdrawn')

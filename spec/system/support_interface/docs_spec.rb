@@ -22,9 +22,7 @@ RSpec.feature 'Docs' do
   end
 
   def then_i_see_the_provider_flow_documentation
-    within '.govuk-tabs' do
-      expect(page).to have_title 'Provider application flow'
-    end
+    expect(page).to have_title 'Provider application flow'
   end
 
   def and_it_contains_documentation_for_all_emails
@@ -36,6 +34,7 @@ RSpec.feature 'Docs' do
       provider_mailer-fallback_sign_in_email
       candidate_mailer-apply_again_call_to_action
       candidate_mailer-course_unavailable_notification
+      candidate_mailer-find_another_course
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"
@@ -53,9 +52,7 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_click_on_candidate_flow_documentation
-    within '.govuk-tabs' do
-      click_on 'Candidate application flow'
-    end
+    click_on 'Flow for candidates'
   end
 
   def then_i_see_the_candidate_flow_documentation

@@ -32,11 +32,16 @@ module ViewHelper
   end
 
   def govuk_button_link_to(body, url, html_options = {}, &_block)
-    html_options[:class] = prepend_css_class('govuk-button', html_options[:class])
+    html_options = {
+      class: prepend_css_class('govuk-button', html_options[:class]),
+      role: 'button',
+      data: { module: 'govuk-button' },
+      draggable: false,
+    }.merge(html_options)
 
-    return link_to(url, role: 'button', class: html_options[:class], 'data-module': 'govuk-button', draggable: false) { yield } if block_given?
+    return link_to(url, html_options) { yield } if block_given?
 
-    link_to(body, url, role: 'button', class: html_options[:class], 'data-module': 'govuk-button', draggable: false)
+    link_to(body, url, html_options)
   end
 
   def submitted_at_date
@@ -81,6 +86,24 @@ module ViewHelper
 
   def days_to_respond_to(application_choice)
     (application_choice.reject_by_default_at.to_date - Date.current).to_i
+  end
+
+  def boolean_to_word(boolean)
+    return nil if boolean.nil?
+
+    boolean ? 'Yes' : 'No'
+  end
+
+  def current_cycle_span
+    "#{RecruitmentCycle.current_year} to #{RecruitmentCycle.next_year}"
+  end
+
+  def next_cycle_span
+    "#{RecruitmentCycle.next_year} to #{RecruitmentCycle.next_year + 1}"
+  end
+
+  def days_until_find_reopens
+    (EndOfCycleTimetable.find_reopens - Time.zone.today).to_i
   end
 
 private

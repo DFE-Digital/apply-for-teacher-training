@@ -61,7 +61,7 @@ module ProviderInterface
           key: key,
           value: render(
             ProviderInterface::ProviderUserInvitationPermissionsComponent.new(
-              @wizard.provider_permissions[provider.id.to_s]['permissions'].reject(&:blank?),
+              @wizard.provider_permissions[provider.id.to_s].fetch('permissions', []).reject(&:blank?),
             ),
           ),
           change_path: provider_interface_update_invitation_provider_permissions_path(

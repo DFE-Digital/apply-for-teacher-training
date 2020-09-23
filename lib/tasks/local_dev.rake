@@ -1,5 +1,7 @@
 desc 'Set up your local development environment with data from Find'
 task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses] do
+  Audited.auditing_enabled = false
+
   puts 'Creating a provider-only user with DfE Sign-in UID `dev-provider` and email `provider@example.com`...'
   ProviderUser.create!(
     dfe_sign_in_uid: 'dev-provider',
@@ -46,6 +48,12 @@ task sync_dev_providers_and_open_courses: :environment do
   provider_codes.each do |code|
     SyncProviderFromFind.call(provider_code: code, sync_courses: true, provider_recruitment_cycle_year: RecruitmentCycle.previous_year)
     SyncProviderFromFind.call(provider_code: code, sync_courses: true, provider_recruitment_cycle_year: RecruitmentCycle.current_year)
+
+    # Temporary hack to make sure that we run this background inline, and the
+    # next bit of the script has courses to work with. This is a duplication, because
+    # `SyncProviderFromFind` already schedules a background job.
+    SyncCoursesFromFind.new.perform(Provider.find_by(code: code).id, RecruitmentCycle.previous_year)
+    SyncCoursesFromFind.new.perform(Provider.find_by(code: code).id, RecruitmentCycle.current_year)
   end
 
   puts 'Making all the courses open on Apply...'

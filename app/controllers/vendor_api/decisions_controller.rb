@@ -81,19 +81,18 @@ module VendorAPI
       respond_to_decision(decision)
     end
 
+    # This method is a no-op since we removed enrolment from the app
     def confirm_enrolment
-      decision = ConfirmEnrolment.new(
-        actor: @api_user,
-        application_choice: application_choice,
-      )
+      render_application
 
-      respond_to_decision(decision)
+      e = Exception.new("Vendor API token ##{@current_vendor_api_token.id} tried to enrol application choice ##{application_choice.id}, but enrolment is not supported")
+      Raven.capture_exception(e)
     end
 
   private
 
     def application_choice
-      @application_choice ||= GetApplicationChoicesForProviders.call(providers: current_provider).find(params[:application_id])
+      @application_choice ||= GetApplicationChoicesForProviders.call(providers: current_provider, vendor_api: true).find(params[:application_id])
     end
 
     def find_api_user

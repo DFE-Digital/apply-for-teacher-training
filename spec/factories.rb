@@ -26,7 +26,6 @@ FactoryBot.define do
       english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
-      uk_residency_status { 'I have the right to study and/or work in the UK' }
       disclose_disability { %w[true false].sample }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
       safeguarding_issues_status { 'no_safeguarding_issues_to_declare' }
@@ -71,7 +70,7 @@ FactoryBot.define do
         volunteering_experiences_count { 0 }
         references_count { 0 }
         references_state { :requested }
-        with_gces { false }
+        with_gcses { false }
         full_work_history { false }
         with_degree { false }
       end
@@ -144,7 +143,7 @@ FactoryBot.define do
       end
 
       after(:build) do |application_form, evaluator|
-        if evaluator.with_gces
+        if evaluator.with_gcses
           create(:gcse_qualification, application_form: application_form, subject: 'maths')
           create(:gcse_qualification, application_form: application_form, subject: 'english')
           create(:gcse_qualification, application_form: application_form, subject: 'science')
@@ -238,13 +237,29 @@ FactoryBot.define do
       subject { %w[maths english science].sample }
       grade { %w[A B C].sample }
       awarding_body { Faker::Educator.secondary_school }
+
+      trait :non_uk do
+        qualification_type { 'non_uk' }
+        non_uk_qualification_type { 'High School Diploma' }
+        grade { %w[pass merit distinction].sample }
+        institution_country { Faker::Address.country_code }
+        naric_reference { '4000123456' }
+        comparable_uk_qualification { 'Between GCSE and GCSE AS Level' }
+      end
+
+      trait :missing do
+        qualification_type { 'missing' }
+        grade { nil }
+        awarding_body { nil }
+        missing_explanation { 'I will be taking an equivalency test in a few weeks' }
+      end
     end
 
     factory :degree_qualification do
       level { 'degree' }
       qualification_type { Hesa::DegreeType.all.sample.name }
       subject { Hesa::Subject.all.sample.name }
-      institution_name { Hesa::Institution.all.sample }
+      institution_name { Hesa::Institution.all.sample.name }
       grade { Hesa::Grade.all.sample.description }
     end
 
@@ -377,6 +392,13 @@ FactoryBot.define do
     training_provider_can_view_safeguarding_information { true }
     training_provider_can_view_diversity_information { true }
     setup_at { Time.zone.now }
+
+    trait :not_set_up_yet do
+      training_provider_can_make_decisions { false }
+      training_provider_can_view_safeguarding_information { false }
+      training_provider_can_view_diversity_information { false }
+      setup_at { nil }
+    end
   end
 
   factory :application_choice do
@@ -412,6 +434,10 @@ FactoryBot.define do
       status { :application_complete }
     end
 
+    trait :withdrawn do
+      status { :withdrawn }
+    end
+
     trait :withdrawn_with_survey_completed do
       association :application_form, factory: %i[completed_application_form with_completed_references ready_to_send_to_provider]
       status { :withdrawn }
@@ -435,6 +461,12 @@ FactoryBot.define do
       status { 'rejected' }
       rejected_at { Time.zone.now }
       rejected_by_default { true }
+    end
+
+    trait :application_not_sent do
+      status { 'application_not_sent' }
+      rejected_at { Time.zone.now }
+      rejection_reason { 'Awaiting references when the recruitment cycle closed.' }
     end
 
     trait :with_offer do
@@ -472,6 +504,25 @@ FactoryBot.define do
       status { 'declined' }
       declined_at { Time.zone.now }
       declined_by_default { true }
+    end
+
+    trait :with_withdrawn_offer do
+      with_offer
+      status { 'offer_withdrawn' }
+      offer_withdrawal_reason { 'There has been a mistake' }
+      offer_withdrawn_at { Time.zone.now - 1.day }
+    end
+
+    trait :with_deferred_offer do
+      with_accepted_offer
+      status { 'offer_deferred' }
+      offer_deferred_at { Time.zone.now - 1.day }
+    end
+
+    trait :with_recruited do
+      with_accepted_offer
+      status { 'recruited' }
+      recruited_at { Time.zone.now }
     end
 
     trait :previous_year do
@@ -669,13 +720,13 @@ FactoryBot.define do
   factory :ielts_qualification do
     trf_number { '123456' }
     band_score { '6.5' }
-    award_year { '1999' }
+    award_year { 1999 }
   end
 
   factory :toefl_qualification do
     registration_number { '123456' }
     total_score { 20 }
-    award_year { '1999' }
+    award_year { 1999 }
   end
 
   factory :other_efl_qualification do

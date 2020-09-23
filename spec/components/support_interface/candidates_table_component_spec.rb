@@ -19,10 +19,6 @@ RSpec.describe SupportInterface::CandidatesTableComponent do
     end
   end
 
-  it 'renders the date last updated' do
-    expect(render_result.text).to include(application_forms.first.updated_at.to_s(:govuk_date_and_time))
-  end
-
   it 'renders the apply again text for the first application' do
     expect(render_result.css('td').first.text).to include('Apply again')
   end

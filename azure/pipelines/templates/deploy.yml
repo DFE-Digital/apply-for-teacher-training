@@ -185,7 +185,7 @@ jobs:
 
           - task: AzureResourceGroupDeployment@2
             displayName: 'ARM Deployment - Create Or Update Resource Group action on $(resourceGroupName)'
-            condition: and(eq(variables['buildCancelled'], false), eq(variables['fullDeployment'], true))
+            condition: and(eq(variables['buildCancelled'], false), or(eq(variables['fullDeployment'], true), eq(variables['overrideFullDeployment'], true) ))
             inputs:
               azureSubscription: '${{parameters.subscriptionName}}'
               resourceGroupName: '$(resourceGroupName)'

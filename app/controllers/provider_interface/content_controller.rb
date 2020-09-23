@@ -23,10 +23,6 @@ module ProviderInterface
       render_content_page :service_guidance_provider
     end
 
-    def covid_19_guidance
-      render_content_page :covid_19_guidance
-    end
-
     def getting_ready_for_next_cycle
       render_content_page :getting_ready_for_next_cycle
     end

@@ -1,3 +1,27 @@
+### 16th September 2020
+
+Changes to existing attributes:
+
+- Increase the limit of elements in the `nationality` array to 5. Nationalities are sorted so British or Irish are first.
+- `uk_residency_status` now returns strings indicating candidate's right to work and study in the UK
+
+### 15th September 2020
+
+Changes to existing attributes:
+
+- Maximum length of `address_line1` increased to 200 characters to account for international addresses.
+
+### 9th September 2020
+
+- fix a bug with test data generation where provider names in qualifications
+were strings like `#<struct HESA::Institution::InstitutionStruct...>`
+
+### 1st September 2020
+
+- Deprecate the `enrolled` state which will not be part of the Apply service
+- Deprecate the `enrol` endpoint which will now simply return the application unchanged
+- Remove mentions of enrolment from the API documentation
+
 ### 28th August 2020
 
 New attributes:

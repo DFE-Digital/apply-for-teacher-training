@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe SyncAllProvidersFromFind do
   include FindAPIHelper
 
+  before do
+    stub_new_recruitment_year_sync
+  end
+
   describe 'ingesting providers' do
     it 'correctly creates all the providers when the database is empty' do
       stub_find_api_all_providers_200([

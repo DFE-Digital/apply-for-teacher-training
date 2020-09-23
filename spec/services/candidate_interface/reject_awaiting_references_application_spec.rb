@@ -8,7 +8,7 @@ RSpec.describe CandidateInterface::RejectAwaitingReferencesApplication do
       Timecop.freeze do
         described_class.call(application_choice)
 
-        expect(application_choice.status).to eq 'rejected_at_end_of_cycle'
+        expect(application_choice.status).to eq 'application_not_sent'
         expect(application_choice.rejection_reason).to eq 'Awaiting references when the recruitment cycle closed.'
         expect(application_choice.rejected_at).to eq Time.zone.now
       end

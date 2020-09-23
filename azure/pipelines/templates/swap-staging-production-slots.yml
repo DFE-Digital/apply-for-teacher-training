@@ -34,7 +34,18 @@ steps:
       WebAppName: '${{ parameters.appService }}'
       ResourceGroupName: '${{ parameters.resourceGroup }}'
       SourceSlot: 'staging'
-  
+
+  - task: AzureAppServiceManage@0
+    condition: and(succeeded(), eq(variables.buildCancelled, false))
+    displayName: Start Production slot in ${{ parameters.appService }}
+    inputs:
+      azureSubscription: '${{ parameters.azureSubscription }}'
+      Action: 'Start Azure App Service'
+      WebAppName: '${{ parameters.appService }}'
+      SpecifySlotOrASE: true
+      ResourceGroupName: '${{ parameters.resourceGroup }}'
+      Slot: 'production'      
+
   - template: health-check.yml
     parameters:
       url: ${{ format('https://{0}.azurewebsites.net/check', parameters.appService) }}

@@ -127,7 +127,7 @@ module SupportInterface
         :green
       when 'feedback_overdue'
         :yellow
-      when 'cancelled'
+      when 'cancelled', 'cancelled_at_end_of_cycle'
         :orange
       when 'feedback_refused', 'email_bounced'
         :red

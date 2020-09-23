@@ -10,7 +10,8 @@
                                  service_name: service_name,
                                  service_url: service_link,
                                  navigation_items: NavigationItems.for_support_interface(try(:current_support_user), controller))) %>
-                               <%= render PhaseBanner.new %>
+  <%= render PhaseBanner.new(no_border: true) %>
+  <%= yield(:navigation) if content_for?(:navigation) %>
 <% when 'provider_interface' %>
   <%= render(ProviderInterface::HeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  product_name: service_name,
@@ -18,11 +19,11 @@
                                  navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, @provider_setup&.pending?))) %>
 
                                <% if controller.controller_name == 'start_page' %>
-                                 <%= render PhaseBanner.new(no_border: true) %>
-                               <% elsif controller.controller_name.in? %w[sessions content start_page provider_agreements] %>
-                                 <%= render PhaseBanner.new %>
+                                 <%= render PhaseBanner.new(no_border: true, feedback_link: ProviderInterface::FEEDBACK_LINK) %>
+                               <% elsif controller.controller_name.in? %w[sessions content provider_agreements] %>
+                                 <%= render PhaseBanner.new(feedback_link: ProviderInterface::FEEDBACK_LINK) %>
                                <% else %>
-                                 <%= render PhaseBanner.new(no_border: true) %>
+                                 <%= render PhaseBanner.new(no_border: true, feedback_link: ProviderInterface::FEEDBACK_LINK) %>
                                  <%= render(ProviderInterface::PrimaryNavigation.new(
                                    navigation_items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, @provider_setup&.pending?))) %>
                                <% end %>

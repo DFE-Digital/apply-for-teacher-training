@@ -5,7 +5,7 @@ class ApplicationForm < ApplicationRecord
 
   include Chased
 
-  belongs_to :candidate
+  belongs_to :candidate, touch: true
   has_many :application_choices
   has_many :application_work_experiences
   has_many :application_volunteering_experiences
@@ -45,13 +45,15 @@ class ApplicationForm < ApplicationRecord
     yes: 'yes',
     no: 'no',
     decide_later: 'decide_later',
-  }
+  }, _prefix: true
 
   enum address_type: {
     uk: 'uk',
     international: 'international',
   }
   attribute :address_type, :string, default: 'uk'
+
+  attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
   before_create lambda {
     self.support_reference ||= GenerateSupportRef.call
@@ -94,12 +96,12 @@ class ApplicationForm < ApplicationRecord
     qualification_in_subject(:gcse, :science)
   end
 
-  def any_enrolled?
-    application_choices.map.any?(&:enrolled?)
-  end
-
   def any_recruited?
     application_choices.map.any?(&:recruited?)
+  end
+
+  def any_deferred?
+    application_choices.map.any?(&:offer_deferred?)
   end
 
   def any_accepted_offer?
@@ -121,6 +123,13 @@ class ApplicationForm < ApplicationRecord
 
   def any_offers?
     application_choices.map.any?(&:offer?)
+  end
+
+  def all_applications_not_sent?
+    application_choices.any?(&:application_not_sent?) &&
+      application_choices.all? do |application_choice|
+        application_choice.application_not_sent? || application_choice.withdrawn?
+      end
   end
 
   def science_gcse_needed?
@@ -166,7 +175,8 @@ class ApplicationForm < ApplicationRecord
   end
 
   def ended_without_success?
-    application_choices.map(&:status).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
+    application_choices.present? &&
+      application_choices.map(&:status).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
   end
 
   def can_add_reference?
@@ -197,7 +207,7 @@ class ApplicationForm < ApplicationRecord
     nationalities.present? && !english_speaking_nationality? && FeatureFlag.active?(:efl_section)
   end
 
-  def build_nationalties_hash
+  def build_nationalities_hash
     CandidateInterface::GetNationalitiesFormHash.new(application_form: self).call
   end
 
@@ -229,6 +239,14 @@ class ApplicationForm < ApplicationRecord
 
   def english_language_details
     self[:english_language_details].presence || english_proficiency&.formatted_qualification_description
+  end
+
+  def has_rejection_reason?
+    application_choices.any? { |application_choice| application_choice.rejection_reason? || application_choice.offer_withdrawal_reason }
+  end
+
+  def references_did_not_come_back_in_time?
+    application_references.any?(&:cancelled_at_end_of_cycle?)
   end
 
 private

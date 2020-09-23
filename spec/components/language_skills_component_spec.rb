@@ -1,6 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe LanguageSkillsComponent do
+  describe '#render?' do
+    it 'is false if application_form english_main_language is blank' do
+      application_form = build_stubbed(:application_form, english_main_language: nil)
+      expect(described_class.new(application_form: application_form).render?).to eq false
+    end
+
+    it 'is true if application_form english_main_language has a value' do
+      application_form = build_stubbed(:application_form, english_main_language: true)
+      expect(described_class.new(application_form: application_form).render?).to eq true
+      application_form = build_stubbed(:application_form, english_main_language: false)
+      expect(described_class.new(application_form: application_form).render?).to eq true
+    end
+  end
+
   it 'renders other languages spoken when english is the main language' do
     application_form = build_stubbed(
       :application_form,

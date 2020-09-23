@@ -4,7 +4,6 @@ const initCoursesAutocomplete = () => {
   try {
     const id = "#pick-course-form .govuk-select";
     const coursesSelect = document.querySelector(id);
-
     if (!coursesSelect) return;
 
     // Replace "Select a course" with empty string

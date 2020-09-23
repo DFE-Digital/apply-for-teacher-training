@@ -1,0 +1,59 @@
+<%= content_for :title, 'Recruitment cycles' %>
+
+<%= render 'support_interface/docs/docs_navigation' %>
+
+<% unless HostingEnvironment.production? %>
+  <%= form_with model: SupportInterface::ChangeCycleForm.new, url: support_interface_switch_cycle_schedule_path, method: :post do |f| %>
+    <%= f.govuk_radio_buttons_fieldset :cycle_schedule_name do %>
+
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h2 class='govuk-heading-m'>Current point in the recruitment cycle</h2>
+        </legend>
+
+      <%= f.govuk_radio_button :cycle_schedule_name, 'real', label: { text: t('cycles.real.name') }, hint_text: t('cycles.real.description') %>
+
+      <%= f.govuk_radio_divider %>
+
+      <% (EndOfCycleTimetable.schedules.keys.map(&:to_s) - %w[real]).each do |option| %>
+        <%= f.govuk_radio_button :cycle_schedule_name, option, label: { text: t("cycles.#{option}.name") }, hint_text: t("cycles.#{option}.description") %>
+      <% end %>
+    <% end %>
+
+    <%= f.govuk_submit 'Update point in recruitment cycle' %>
+  <% end %>
+<% end %>
+
+<h2 class='govuk-heading-m'>Cycle years</h2>
+
+<%= render SummaryListComponent.new(rows: {
+  'Previous cycle year' => RecruitmentCycle.previous_year,
+  'Current cycle year' => RecruitmentCycle.current_year,
+  'Next cycle year' => EndOfCycleTimetable.next_cycle_year,
+  'Years visible to providers' => RecruitmentCycle.years_visible_to_providers.to_sentence,
+}) %>
+
+<h2 class='govuk-heading-m'>Deadlines</h2>
+
+<p class='govuk-body'>
+  (Today is <%= Date.today.to_s(:govuk_date) %>)
+</p>
+
+<%= render SummaryListComponent.new(rows: {
+  'Appy 1 deadline' => EndOfCycleTimetable.apply_1_deadline.to_s(:govuk_date),
+  'Stop applications to unavailable course options' => EndOfCycleTimetable.stop_applications_to_unavailable_course_options.to_s(:govuk_date),
+  'Apply 2 deadline' => EndOfCycleTimetable.apply_2_deadline.to_s(:govuk_date),
+  'Find closes on' => EndOfCycleTimetable.find_closes.to_s(:govuk_date),
+  'Find reopens on' => EndOfCycleTimetable.find_reopens.to_s(:govuk_date),
+  'Apply reopens on' => EndOfCycleTimetable.apply_reopens.to_s(:govuk_date),
+}) %>
+
+<h2 class='govuk-heading-m'>Flags</h2>
+
+<%= render SummaryListComponent.new(rows: {
+  'Show Apply 1 deadline banner?' => boolean_to_word(EndOfCycleTimetable.show_apply_1_deadline_banner?),
+  'Show Apply 2 deadline banner?' => boolean_to_word(EndOfCycleTimetable.show_apply_2_deadline_banner?),
+  'Are we between cycles for Apply 1?' => boolean_to_word(EndOfCycleTimetable.between_cycles_apply_1?),
+  'Are we between cycles for Apply 2?' => boolean_to_word(EndOfCycleTimetable.between_cycles_apply_2?),
+  'Stop applications to unavailable course options?' => boolean_to_word(EndOfCycleTimetable.stop_applications_to_unavailable_course_options?),
+  'Is find down?' => boolean_to_word(EndOfCycleTimetable.find_down?),
+}) %>

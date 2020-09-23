@@ -1,43 +1,40 @@
 <% content_for :title, 'Synced providers' %>
 
-<% content_for :before_content do %>
-  <%= render SubNavigationComponent.new(items: [
-    { name: 'Synced providers', url: support_interface_providers_path, current: true },
-    { name: 'Other providers', url: support_interface_other_providers_path },
-  ]) %>
-<% end %>
+<%= render 'providers_navigation' %>
 
-<table class='govuk-table'>
-  <thead class='govuk-table__head'>
-    <tr class='govuk-table__row'>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Provider Name</th>
-      <th scope='col' class='govuk-table__header'>Courses</th>
-      <th scope='col' class='govuk-table__header'>Sites</th>
-      <th scope='col' class='govuk-table__header'>DSA signed date</th>
-    </tr>
-  </thead>
-
-  <tbody class='govuk-table__body'>
-    <% @providers.each do |provider| %>
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @providers) do %>
+  <table class='govuk-table'>
+    <thead class='govuk-table__head'>
       <tr class='govuk-table__row'>
-        <td class='govuk-table__cell'>
-          <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
-        </td>
-        <td class='govuk-table__cell'>
-          <%= pluralize provider.courses.size, 'course' %><br/>
-          <%= provider.courses.open_on_apply.size %> on DfE Apply
-        </td>
-        <td class='govuk-table__cell'>
-          <%= provider.sites.size %>
-        </td>
-        <td class='govuk-table__cell'>
-          <% if provider.provider_agreements.data_sharing_agreements.any? %>
-            <%= provider.provider_agreements.data_sharing_agreements.first.accepted_at.to_s(:govuk_date) %>
-          <% else %>
-            Not accepted yet
-          <% end %>
-        </td>
+        <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Provider Name</th>
+        <th scope='col' class='govuk-table__header'>Courses</th>
+        <th scope='col' class='govuk-table__header'>Sites</th>
+        <th scope='col' class='govuk-table__header'>DSA signed date</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody class='govuk-table__body'>
+      <% @providers.each do |provider| %>
+        <tr class='govuk-table__row'>
+          <td class='govuk-table__cell'>
+            <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
+          </td>
+          <td class='govuk-table__cell'>
+            <%= pluralize provider.courses.size, 'course' %><br/>
+            <%= provider.courses.open_on_apply.size %> on DfE Apply
+          </td>
+          <td class='govuk-table__cell'>
+            <%= provider.sites.size %>
+          </td>
+          <td class='govuk-table__cell'>
+            <% if provider.provider_agreements.data_sharing_agreements.any? %>
+              <%= provider.provider_agreements.data_sharing_agreements.first.accepted_at.to_s(:govuk_date) %>
+            <% else %>
+              Not accepted yet
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

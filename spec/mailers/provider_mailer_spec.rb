@@ -52,54 +52,25 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send application submitted email' do
-    context 'with the covid_19 feature flag off' do
-      it_behaves_like('a provider mail with subject and content', :application_submitted,
-                      I18n.t!('provider_mailer.application_submitted.subject',
-                              course_name_and_code: 'Computer Science (6IND)'),
-                      'provider name' => 'Dear Johny English',
-                      'candidate name' => 'Harry Potter',
-                      'course name and code' => 'Computer Science (6IND)',
-                      'reject by default days' => 'after 123 working days',
-                      'link to the application' => 'http://localhost:3000/provider/applications/')
-    end
-
-    context 'with the covid_19 feature flag on' do
-      before { FeatureFlag.activate('covid_19') }
-
-      it_behaves_like('a provider mail with subject and content', :application_submitted,
-                      I18n.t!('provider_mailer.application_submitted.subject',
-                              course_name_and_code: 'Computer Science (6IND)'),
-                      'provider name' => 'Dear Johny English',
-                      'candidate name' => 'Harry Potter',
-                      'course name and code' => 'Computer Science (6IND)',
-                      'reject by default at' => -> { (Time.zone.now + 40.days).to_s(:govuk_date).strip },
-                      'link to the application' => 'http://localhost:3000/provider/applications/')
-    end
+    it_behaves_like('a provider mail with subject and content', :application_submitted,
+                    I18n.t!('provider_mailer.application_submitted.subject',
+                            course_name_and_code: 'Computer Science (6IND)'),
+                    'provider name' => 'Dear Johny English',
+                    'candidate name' => 'Harry Potter',
+                    'course name and code' => 'Computer Science (6IND)',
+                    'reject by default days' => 'after 123 working days',
+                    'link to the application' => 'http://localhost:3000/provider/applications/')
   end
 
   describe 'Send application rejected by default email' do
-    context 'with the covid_19 feature flag off' do
-      it_behaves_like('a provider mail with subject and content', :application_rejected_by_default,
-                      I18n.t!('provider_mailer.application_rejected_by_default.subject',
-                              candidate_name: 'Harry Potter', support_reference: '123A'),
-                      'provider name' => 'Dear Johny English',
-                      'candidate name' => 'Harry Potter',
-                      'course name and code' => 'Computer Science (6IND)',
-                      'reject by default days' => 'within 123 working days',
-                      'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip })
-    end
-
-    context 'with the covid_19 feature flag on' do
-      before { FeatureFlag.activate('covid_19') }
-
-      it_behaves_like('a provider mail with subject and content', :application_rejected_by_default,
-                      I18n.t!('provider_mailer.application_rejected_by_default.subject',
-                              candidate_name: 'Harry Potter', support_reference: '123A'),
-                      'provider name' => 'Dear Johny English',
-                      'candidate name' => 'Harry Potter',
-                      'course name and code' => 'Computer Science (6IND)',
-                      'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip })
-    end
+    it_behaves_like('a provider mail with subject and content', :application_rejected_by_default,
+                    I18n.t!('provider_mailer.application_rejected_by_default.subject',
+                            candidate_name: 'Harry Potter', support_reference: '123A'),
+                    'provider name' => 'Dear Johny English',
+                    'candidate name' => 'Harry Potter',
+                    'course name and code' => 'Computer Science (6IND)',
+                    'reject by default days' => 'within 123 working days',
+                    'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip })
   end
 
   describe 'Send provider decision chaser email' do
@@ -107,32 +78,16 @@ RSpec.describe ProviderMailer, type: :mailer do
       @application_choice.update(reject_by_default_at: 20.business_days.from_now)
     end
 
-    context 'with the covid_19 feature flag off' do
-      it_behaves_like('a provider mail with subject and content', :chase_provider_decision,
-                      I18n.t!('provider_mailer.application_waiting_for_decision.subject',
-                              candidate_name: 'Harry Potter', support_reference: '123A'),
-                      'provider name' => 'Dear Johny English',
-                      'candidate name' => 'Harry Potter',
-                      'course name and code' => 'Computer Science (6IND)',
-                      'time to respond' => 'Only 20 working days left to respond',
-                      'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip },
-                      'reject by default at' => -> { 20.business_days.from_now.to_s(:govuk_date).strip },
-                      'link to the application' => 'http://localhost:3000/provider/applications/')
-    end
-
-    context 'with the covid_19 feature flag on' do
-      before { FeatureFlag.activate('covid_19') }
-
-      it_behaves_like('a provider mail with subject and content', :chase_provider_decision,
-                      I18n.t!('provider_mailer.application_waiting_for_decision.subject',
-                              candidate_name: 'Harry Potter', support_reference: '123A'),
-                      'provider name' => 'Dear Johny English',
-                      'candidate name' => 'Harry Potter',
-                      'course name and code' => 'Computer Science (6IND)',
-                      'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip },
-                      'reject by default at' => -> { 20.business_days.from_now.to_s(:govuk_date).strip },
-                      'link to the application' => 'http://localhost:3000/provider/applications/')
-    end
+    it_behaves_like('a provider mail with subject and content', :chase_provider_decision,
+                    I18n.t!('provider_mailer.application_waiting_for_decision.subject',
+                            candidate_name: 'Harry Potter', support_reference: '123A'),
+                    'provider name' => 'Dear Johny English',
+                    'candidate name' => 'Harry Potter',
+                    'course name and code' => 'Computer Science (6IND)',
+                    'time to respond' => 'Only 20 working days left to respond',
+                    'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip },
+                    'reject by default at' => -> { 20.business_days.from_now.to_s(:govuk_date).strip },
+                    'link to the application' => 'http://localhost:3000/provider/applications/')
   end
 
   describe '.offer_accepted' do

@@ -30,4 +30,8 @@ class IeltsQualification < ApplicationRecord
   def grade
     band_score
   end
+
+  def unique_reference_number
+    trf_number
+  end
 end

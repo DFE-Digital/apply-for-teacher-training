@@ -104,13 +104,13 @@ RSpec.feature 'Entering their equality and diversity information' do
       candidate: @current_candidate,
       submitted_at: nil,
       references_completed: false,
-      with_gces: true,
+      with_gcses: true,
     )
   end
 
   def when_i_have_an_application_form_that_is_ready_to_submit
     create_list :reference, 2, application_form: @application
-    click_link 'Complete section', match: :first
+    click_link 'Add your references', match: :first
     check t('application_form.completed_checkbox')
     click_button t('application_form.continue')
   end
@@ -129,7 +129,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_see_the_equality_and_diversity_page
-    expect(page).to have_content('Equality and diversity')
+    expect(page).to have_content('Can you complete a 3-minute questionnaire?')
   end
 
   def when_i_choose_not_to_complete_equality_and_diversity
@@ -145,7 +145,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def and_i_choose_to_complete_equality_and_diversity
-    click_link 'Continue'
+    click_link 'Yes, continue to the questionnaire'
   end
 
   def then_i_am_asked_to_choose_my_sex
@@ -312,7 +312,7 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_manually_restart_the_questionnaire
     visit candidate_interface_start_equality_and_diversity_path
-    click_link 'Continue'
+    click_link 'Yes, continue to the questionnaire'
   end
 
   def then_i_go_straight_to_the_review_page

@@ -2,6 +2,7 @@ module CandidateInterface
   class UnsubmittedApplicationFormController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
     before_action :redirect_to_application_if_between_cycles, except: %w[show review]
+    before_action :redirect_to_carry_over_if_unsubmitted_previous_cycle, except: %w[review]
 
     def before_you_start; end
 
@@ -57,6 +58,18 @@ module CandidateInterface
         flash[:warning] = 'Applications for courses starting this academic year have now closed.'
         redirect_to candidate_interface_application_form_path and return false
       end
+      true
+    end
+
+    def redirect_to_carry_over_if_unsubmitted_previous_cycle
+      if !current_application.submitted? &&
+          (
+            current_application.recruitment_cycle_year < RecruitmentCycle.current_year ||
+            (current_application.recruitment_cycle_year == RecruitmentCycle.current_year && EndOfCycleTimetable.between_cycles_apply_2?)
+          )
+        redirect_to candidate_interface_start_carry_over_path and return false
+      end
+
       true
     end
   end

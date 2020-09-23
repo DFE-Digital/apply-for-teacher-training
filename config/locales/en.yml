@@ -10,12 +10,12 @@ en:
     application_edit: Editing your application
     eligibility: Check we’re ready for you to use this service
     efl:
-      ielts: Add IELTS qualification
-      other: Add English language qualification
+      ielts: Your IELTS result
+      other: Your English language assessment result
       review: English as a foreign language
       start: English as a foreign language
-      toefl: Add TOEFL qualification
-      type: What English language qualification do you have?
+      toefl: Your TOEFL result
+      type: What English language assessment did you do?
     error_prefix: "Error: "
     success_prefix: "Success: "
     not_eligible_yet: We’re sorry, but we’re not ready for you yet
@@ -131,9 +131,10 @@ en:
     provider:
       respond: Respond to application
       confirm: Confirm offer
-    covid_19_guidance: "Coronavirus (COVID-19): deadlines for processing applications extended to 31 May 2020"
     start_apply_again: Do you want to apply again?
-    start_carry_over: Do you want to apply again?
+    start_carry_over: Do you want to continue applying?
+    start_carry_over_between_cycles: You can apply again
+    start_carry_over_between_cycles_unsubmitted: You did not submit your application in time
     pick_choice_to_replace: Some of your choices are not available anymore
     pick_replacement_action: Update course choice
     confirm_replacement_course_choice: Your updated course choice
@@ -143,11 +144,16 @@ en:
     guidance: User guidance
     applications_closed: Create an Apply for teacher training account
   layout:
-    accessibility: Accessibility
-    terms_of_use: Terms of use
-    privacy_policy: Privacy policy
-    cookie_policy: Cookie policy
-    service_guidance: Using the Manage teacher training applications service
+    support:
+      title: Get support
+      response_time: We respond within 5 working days, or one working day for more urgent queries
+      provider_service_guidance: How to use Manage teacher training applications
+    support_links:
+      title: Support links
+      accessibility: Accessibility
+      cookies: Cookies
+      terms_of_use: Terms of use
+      privacy_policy: Privacy policy
   activemodel:
     attributes:
       vendor_api/metadata:

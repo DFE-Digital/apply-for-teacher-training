@@ -110,7 +110,8 @@ RSpec.feature 'See organisation permissions' do
 
   def then_i_can_see_permissions_for_the_ratifying_provider
     expect(page.text).to include("For courses ratified by #{@ratifying_provider.name} and run by #{@unmanageable_training_provider.name}")
-    expect(page).to have_content("The following organisation(s) can view safeguarding information:\n#{@ratifying_provider.name}")
+    expect(page).to have_content('Which organisations can view safeguarding information?')
+
     expect(page).to have_content("#{@unmanageable_training_provider.name} have not set up permissions yet - only they can set up permissions. Contact them to do this.")
 
     expect(page.text).to include("For courses ratified by #{@ratifying_provider.name} and run by #{@another_unmanageable_training_provider.name}")
@@ -131,7 +132,10 @@ RSpec.feature 'See organisation permissions' do
   def then_i_can_see_permissions_for_the_training_provider
     expect(page).to have_content("For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}")
 
-    expect(page).to have_link('Change', href: provider_interface_edit_provider_relationship_permissions_path(@permissions))
+    expect(page).to have_link(
+      'Change which organisations can make decisions for courses run by Example Provider and ratified by Another Provider',
+      href: Regexp.new(provider_interface_edit_provider_relationship_permissions_path(@permissions)),
+    )
   end
 
   def and_i_can_not_see_permissions_for_unassociated_providers

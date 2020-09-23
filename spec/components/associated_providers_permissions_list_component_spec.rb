@@ -12,43 +12,43 @@ RSpec.describe AssociatedProvidersPermissionsListComponent do
   end
 
   it 'renders ratifying providers the permission also applies to' do
-    permission_model = create(:provider_permissions,
-                              provider: training_provider,
-                              make_decisions: true)
+    create(:provider_permissions,
+           provider: training_provider,
+           make_decisions: true)
     provider_relationship_permissions
-    result = render_inline(described_class.new(permission_model, permission_name: 'make_decisions'))
+    result = render_inline(described_class.new(provider: training_provider, permission_name: 'make_decisions'))
 
     expect(result.text).to include('Applies to courses ratified by:')
     expect(result.css('li').text).to include(ratifying_provider.name.to_s)
   end
 
   it 'renders training providers the permission also applies to' do
-    permission_model = create(:provider_permissions,
-                              provider: ratifying_provider,
-                              make_decisions: true)
+    create(:provider_permissions,
+           provider: ratifying_provider,
+           make_decisions: true)
     provider_relationship_permissions
-    result = render_inline(described_class.new(permission_model, permission_name: 'make_decisions'))
+    result = render_inline(described_class.new(provider: ratifying_provider, permission_name: 'make_decisions'))
 
     expect(result.text).to include('Applies to courses run by:')
     expect(result.css('li').text).to include(training_provider.name.to_s)
   end
 
   it 'does not render associated training providers permissions if there are not any' do
-    permission_model = create(:provider_permissions,
-                              provider: training_provider,
-                              make_decisions: false)
+    create(:provider_permissions,
+           provider: training_provider,
+           make_decisions: false)
     provider_relationship_permissions
-    result = render_inline(described_class.new(permission_model, permission_name: 'make_decisions'))
+    result = render_inline(described_class.new(provider: training_provider, permission_name: 'make_decisions'))
 
     expect(result.text).not_to include('Applies to courses run by:')
   end
 
   it 'does not render associated ratifying providers permissions if there are not any' do
-    permission_model = create(:provider_permissions,
-                              provider: ratifying_provider,
-                              make_decisions: false)
+    create(:provider_permissions,
+           provider: ratifying_provider,
+           make_decisions: false)
     provider_relationship_permissions
-    result = render_inline(described_class.new(permission_model, permission_name: 'make_decisions'))
+    result = render_inline(described_class.new(provider: ratifying_provider, permission_name: 'make_decisions'))
 
     expect(result.text).not_to include('Applies to courses ratified by:')
   end

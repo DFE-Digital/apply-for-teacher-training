@@ -4,11 +4,13 @@
 
 <ul class='govuk-body'>
   <li><%= govuk_link_to 'Performance dashboard', integrations_performance_path %> (public)</li>
+  <li><%= govuk_link_to 'Course stats', support_interface_course_stats_path %></li>
   <li><%= govuk_link_to 'Course options without vacancies', support_interface_course_options_path %></li>
   <li><%= govuk_link_to 'Applications with unavailable choices', support_interface_unavailable_choices_path %></li>
   <li><%= govuk_link_to 'Validation errors', support_interface_validation_errors_path %></li>
   <li><%= govuk_link_to 'Validation error summary', support_interface_validation_error_summary_path %></li>
   <li><%= govuk_link_to 'UCAS Matches', support_interface_ucas_matches_path %></li>
+  <li><%= govuk_link_to 'Email log', support_interface_email_log_path %></li>
 </ul>
 
 <h2 class='govuk-heading-l'>Downloads for analysis</h2>
@@ -99,4 +101,12 @@
 
 <p class='govuk-body'>
   <%= govuk_link_to 'Download provider performance for TAD (CSV)', support_interface_tad_provider_performance_path %>
+</p>
+
+<h3 class="govuk-heading-m">Application references</h3>
+
+<p class="govuk-body">A list of all application references which have been selected by candidates to date</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download application references (CSV)', support_interface_application_references_path %>
 </p>

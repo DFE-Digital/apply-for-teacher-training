@@ -1,17 +1,29 @@
-<%= render 'application_rejected_intro' %>
+Dear <%= @application_form.first_name %>,
 
-# Apply for more courses
+# Application decision
 
-You can still apply to more courses this year through UCAS.
+<% if @application_choice.rejected_by_default %>
+  <%= @course.provider.name %> did not respond to your application for <%= @course.name_and_code %> in time.
+<% else %>
+  <%= @course.provider.name %> has decided not to progress your teacher training application for <%= @course.name_and_code %> on this occasion.
+<% end %>
 
-Get Into Teaching can help you with this. Call them for free on 0800 389 2500 or chat to an adviser online:
+# You can apply again
 
-https://getintoteaching.education.gov.uk
+It’s easy to apply again. We’ve saved your last application, so all you have to do is make any changes and submit.
 
-# Get feedback from your training provider
+<% if @application_form.has_rejection_reason? %>
+  Review your feedback and apply again:
+<% else %>
+  Apply again:
+<% end %>
 
-If you'd like to apply to the same training <%= 'provider'.pluralize(@application_form.application_choices.count) %> again, contact them for advice on improving your application.
+<%= @candidate_magic_link %>
 
-# Give feedback or report a problem
+# Get help
 
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
+We’re here to help you get a place on a course. Call Get Into Teaching for free on 0800 389 2500 or chat to an adviser online:
+
+https://getintoteaching.education.gov.uk/contacts
+
+For any technical issues using Apply for teacher training, contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)

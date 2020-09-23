@@ -1,0 +1,76 @@
+<div class="moj-filter-layout__filter app-filter">
+  <div class="moj-filter">
+    <div class="moj-filter__header">
+      <div class="moj-filter__header-title">
+        <h2 class="govuk-heading-m">Filter</h2>
+      </div>
+      <div class="moj-filter__header-action">
+      </div>
+    </div>
+
+    <div class="moj-filter__content">
+      <% if active_filters.any? %>
+        <div class="moj-filter__selected">
+          <div class="moj-filter__selected-heading">
+            <div class="moj-filter__heading-title">
+              <h2 class="govuk-heading-m">Selected filters</h2>
+            </div>
+            <div class="moj-filter__heading-action">
+              <p class="govuk-body">
+              <%= govuk_link_to 'Clear', '?remove=true', class: 'govuk-link--no-visited-state' %>
+              </p>
+            </div>
+          </div>
+
+          <% active_filters.each do |active_filter| %>
+            <h3 class="govuk-heading-s govuk-!-margin-bottom-0"><%= active_filter[:heading] %></h3>
+            <ul class="moj-filter-tags">
+              <% tags_for_active_filter(active_filter).each do |tag| %>
+                <li>
+                  <%= link_to(tag[:title], tag[:remove_link], class: "moj-filter__tag", id: "tag-#{tag[:title].parameterize}") %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+
+        </div>
+      <% end %>
+
+      <!-- Div made focusable to 'catch' focus from checkboxes. see https://github.com/DFE-Digital/apply-for-teacher-training/pull/2640
+       -->
+      <div class="moj-filter__options" tabindex="-1">
+        <form method="get">
+          <%= submit_tag "Apply filters", class: "govuk-button" %>
+
+          <% filters.each do |filter, idx| %>
+
+            <div class="govuk-form-group">
+              <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                  <%= filter[:heading] %>
+                </legend>
+                <% if filter[:type] == :search %>
+                  <input class="govuk-input" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" >
+
+                <% elsif filter[:type] == :checkboxes %>
+                    <% filter[:options].each do |option| %>
+                      <div class="govuk-checkboxes govuk-checkboxes--small">
+
+                        <div class="govuk-checkboxes__item">
+                          <input class="govuk-checkboxes__input" id="<%= filter[:name] %>-<%= option[:value] %>" name="<%= filter[:name] %>[]" type="checkbox" <%= "checked" if option[:checked] %> value="<%= option[:value] %>">
+                          <label class="govuk-label govuk-checkboxes__label" for="<%= filter[:name] %>-<%= option[:value] %>">
+                            <%= option[:label] %>
+                          </label>
+
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
+              </fieldset>
+            </div>
+          <% end %>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
