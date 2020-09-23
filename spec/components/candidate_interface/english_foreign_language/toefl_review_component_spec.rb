@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflReviewComponent,
       { position: 0, title: 'Have you done an English as a foreign language assessment?', value: 'Yes' },
       { position: 1, title: 'Type of assessment', value: 'TOEFL' },
       { position: 2, title: 'TOEFL registration number', value: '222222 22222' },
-      { position: 3, title: 'Year awarded', value: '2001' },
+      { position: 3, title: 'Year completed', value: '2001' },
       { position: 4, title: 'Total score', value: '80' },
     ].each do |row|
       expect(result.css('.govuk-summary-list__key')[row[:position]].text).to include(row[:title])

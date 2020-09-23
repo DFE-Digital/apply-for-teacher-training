@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::OtherEflQualification
       { position: 0, title: 'Have you done an English as a foreign language assessment?', value: 'Yes' },
       { position: 1, title: 'Type of assessment', value: 'Some English Test' },
       { position: 2, title: 'Score or grade', value: '8' },
-      { position: 3, title: 'Year awarded', value: '2001' },
+      { position: 3, title: 'Year completed', value: '2001' },
     ].each do |row|
       expect(result.css('.govuk-summary-list__key')[row[:position]].text).to include(row[:title])
       expect(result.css('.govuk-summary-list__value')[row[:position]].text).to include(row[:value])
