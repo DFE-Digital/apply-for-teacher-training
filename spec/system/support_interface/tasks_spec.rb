@@ -32,7 +32,7 @@ RSpec.feature 'Tasks', sidekiq: false do
   end
 
   def and_when_i_click_on_generate_fake_provider
-    click_button 'Generate a fake provider for a vendor'
+    click_button 'Create a fake provider'
   end
 
   def then_i_see_new_providers_details_and_api_token
