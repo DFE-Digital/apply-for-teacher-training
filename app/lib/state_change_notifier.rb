@@ -61,6 +61,12 @@ class StateChangeNotifier
     when :defer_offer
       text = ":double_vertical_bar: #{provider_name} has just deferred #{applicant}’s offer"
       url = helpers.support_interface_application_form_url(application_form_id)
+    when :reinstate_offer_conditions_met
+      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{applicant} (conditions met)"
+      url = helpers.support_interface_application_form_url(application_form_id)
+    when :reinstate_offer_pending_conditions
+      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{applicant} (pending conditions)"
+      url = helpers.support_interface_application_form_url(application_form_id)
     else
       raise 'StateChangeNotifier: unsupported state transition event'
     end

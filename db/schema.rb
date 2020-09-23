@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2020_09_22_092516) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -44,6 +45,7 @@ ActiveRecord::Schema.define(version: 2020_09_22_092516) do
     t.text "structured_rejection_reasons"
     t.jsonb "withdrawal_feedback"
     t.datetime "offer_deferred_at"
+    t.string "status_before_deferral"
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
   end

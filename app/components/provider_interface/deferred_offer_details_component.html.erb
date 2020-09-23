@@ -1,0 +1,7 @@
+<h2 class="govuk-heading-m">Course details</h2>
+
+<%= render SummaryListComponent.new(rows: rows) %>
+
+<h2 class="govuk-heading-m">Conditions of offer</h2>
+
+<%= render ProviderInterface::ConditionsComponent.new(application_choice: application_choice, show_header: false) %>

@@ -1,3 +1,5 @@
 <%= render 'provider_navigation', title: 'Applications' %>
 
-<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @provider.application_forms.includes(:candidate, :application_choices).order(updated_at: :desc)) %>
+<%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_forms) do %>
+  <%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @application_forms) %>
+<% end %>

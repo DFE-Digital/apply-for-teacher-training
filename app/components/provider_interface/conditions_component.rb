@@ -4,8 +4,9 @@ module ProviderInterface
 
     attr_reader :application_choice
 
-    def initialize(application_choice:)
+    def initialize(application_choice:, show_header: true)
       @application_choice = application_choice
+      @show_header = show_header
     end
 
     def render?
@@ -30,6 +31,10 @@ module ProviderInterface
 
     def known_conditions_state?
       conditions_met? || application_state.conditions_not_met?
+    end
+
+    def show_header?
+      @show_header
     end
   end
 end

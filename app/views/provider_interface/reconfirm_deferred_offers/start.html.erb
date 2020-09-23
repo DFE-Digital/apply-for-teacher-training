@@ -1,0 +1,61 @@
+<% content_for :browser_title, title_with_error_prefix('Review deferred offer', @application_choice.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(previous_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+      Review deferred offer
+    </h1>
+
+    <div class="govuk-!-margin-bottom-7">
+      <% if @wizard.applicable? %>
+        <p class="govuk-body-m">
+          The course offered to the candidate in the previous cycle is available in the current cycle. On the next screen, you can change the status of the conditions of the offer.
+        </p>
+       <% else %>
+        <p class="govuk-body-m">
+          The details of the course you offered previously are not available in the current cycle.
+        </p>
+       <% end %>
+      <details class="govuk-details govuk-!-margin-bottom-0 app-details--no-boder" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Details of deferred offer
+          </span>
+        </summary>
+        <div class="govuk-details__text govuk-!-padding-bottom-0">
+          <%= render ProviderInterface::DeferredOfferDetailsComponent.new(application_choice: @wizard.modified_application_choice) %>
+        </div>
+      </details>
+
+      <% unless @wizard.applicable? %>
+        <p class="govuk-body-m govuk-!-margin-top-5">
+          To change the details of this offer, contact us at
+          <a class="govuk-link" href="mailto:becomingateacher@digital.education.gov.uk">becomingateacher@digital.education.gov.uk</a>.
+        </p>
+        <p class="govuk-body-m">
+          Tell us which of the following details you’d like to change:
+          <ul class="govuk-list govuk-list--bullet">
+            <li>provider</li>
+            <li>course</li>
+            <li>location</li>
+            <li>whether it’s full time or part time</li>
+          </ul>
+        </p>
+
+        <p class="govuk-body-m">
+          You should also let us know if any of the conditions of the offer are currently pending.
+        </p>
+
+        <p class="govuk-body-m">
+          We’ll contact you within one working day to confirm that the offer has been updated. We’ll also contact the candidate confirming the new details.
+        </p>
+      <% end %>
+    </div>
+
+    <% if @wizard.applicable? %>
+      <%= govuk_link_to 'Continue', provider_interface_reconfirm_deferred_offer_conditions_path(@application_choice.id), class: 'govuk-button' %>
+    <% end %>
+  </div>
+</div>
