@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__value')[0].text).to include('High school diploma')
       expect(result.css('.govuk-summary-list__key')[1].text).to include('Country')
       expect(result.css('.govuk-summary-list__value')[1].text).to include('United States')
-      expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a NARIC statment of comparability?')
+      expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a NARIC statement of comparability?')
       expect(result.css('.govuk-summary-list__value')[2].text).to include('Yes')
       expect(result.css('.govuk-summary-list__key')[3].text).to include('NARIC reference number')
       expect(result.css('.govuk-summary-list__value')[3].text).to include('12345')
@@ -57,7 +57,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
       )
 
-      expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a NARIC statment of comparability?')
+      expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a NARIC statement of comparability?')
       expect(result.css('.govuk-summary-list__value')[2].text).to include('No')
       expect(result.css('.govuk-summary-list__key').text).not_to include('NARIC reference number')
       expect(result.css('.govuk-summary-list__key').text).not_to include('Comparable UK qualification')

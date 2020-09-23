@@ -180,7 +180,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def and_i_fill_in_naric_reference
-    fill_in 'UK NARIC reference number', with: '0123456789'
+    fill_in 'NARIC reference number', with: '0123456789'
   end
 
   def and_i_fill_in_comparable_uk_degree_type
@@ -266,7 +266,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_change_my_reference_number_and_comparable_uk_degree_type
-    fill_in 'UK NARIC reference number', with: '9876543210'
+    fill_in 'NARIC reference number', with: '9876543210'
     choose 'Post Doctoral award'
   end
 

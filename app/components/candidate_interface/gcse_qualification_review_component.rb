@@ -93,7 +93,7 @@ module CandidateInterface
       return nil unless FeatureFlag.active?('international_gcses') && application_qualification.qualification_type == 'non_uk'
 
       {
-        key: 'Do you have a NARIC statment of comparability?',
+        key: 'Do you have a NARIC statement of comparability?',
         value: application_qualification.naric_reference ? 'Yes' : 'No',
         action: 'Change the NARIC statement',
         change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
