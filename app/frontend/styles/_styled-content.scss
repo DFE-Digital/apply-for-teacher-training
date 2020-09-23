@@ -41,6 +41,12 @@
     @extend %govuk-link;
   }
 
+  code {
+    background-color: govuk-colour("light-grey");
+    font-family: monospace;
+    padding: 2px 5px;
+  }
+
   hr {
     @extend %govuk-section-break;
     @extend %govuk-section-break--visible;

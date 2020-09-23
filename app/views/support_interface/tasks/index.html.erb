@@ -4,72 +4,104 @@
   <%= render 'support_interface/tasks/tasks_navigation' %>
 <% end %>
 
-<div>
-  <h2 class='govuk-heading-m'>Sync providers</h2>
-  <div class='govuk-body'>
-    Download providers from Find.
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Sync providers from Find</h2>
+      <p>This task downloads providers from Find.</p>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <%= button_to 'Sync providers', support_interface_run_task_path('sync_providers'), class: 'govuk-button govuk-button--secondary' %>
+    </div>
   </div>
-  <%= button_to 'Sync Providers from Find', support_interface_run_task_path('sync_providers'), class: 'govuk-button' %>
-</div>
+</section>
 
-<div>
-  <h2 class='govuk-heading-m'>Recalculate dates</h2>
-  <div class='govuk-body'>
-    Runs the RecalculateDates worker when we add or remove business time holidays in response to things like COVID-19.
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Recalculate dates</h3>
+      <p>This task runs the <code>RecalculateDates</code> worker when we add or remove business time holidays in response to things like COVID-19.</p>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <%= button_to 'Recalculate dates', support_interface_run_task_path('recalculate_dates'), class: 'govuk-button govuk-button--secondary' %>
+    </div>
   </div>
-  <%= button_to 'Recalculate dates', support_interface_run_task_path('recalculate_dates'), class: 'govuk-button' %>
-</div>
+</section>
 
-<div>
-  <h2 class='govuk-heading-m'>Cancel unsubmitted applications that reach end-of-cycle</h2>
-  <div class='govuk-body'>
-    Finds any unsubmitted applications from the recently closed recruitment cycle and moves them to the 'application_not_sent' status.
-    This should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>End-of-cycle: Cancel unsubmitted applications</h3>
+      <p>This task finds any unsubmitted applications from the most recently closed recruitment cycle and moves them to the <code>application_not_sent</code> status.</p>
+      <p>It should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>.</p>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <%= govuk_button_link_to 'Cancel applications', support_interface_confirm_cancel_applications_at_end_of_cycle_path, class: 'govuk-button--warning' %>
+    </div>
   </div>
-  <%= govuk_button_link_to 'Cancel unsubmitted applications', support_interface_confirm_cancel_applications_at_end_of_cycle_path, class: 'govuk-button' %>
-</div>
+</section>
 
-<div>
-  <h2 class='govuk-heading-m'>Reject applications awaiting references at end-of-cycle</h2>
-  <div class='govuk-body'>
-    Finds any applications that have been submitted but not sent to providers because they are awaiting references from the recently closed recruitment cycle and moves them to the 'application_not_sent' status.
-    This should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>End-of-cycle: Reject applications awaiting references</h3>
+      <p>This task finds any applications that have been submitted but not sent to providers because they are awaiting references from the recently closed recruitment cycle, and moves them to the <code>application_not_sent</code> status.</p>
+      <p>It should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>.</p>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <%= govuk_button_link_to 'Reject applications', support_interface_confirm_reject_applications_awaiting_references_at_end_of_cycle_path, class: 'govuk-button--warning' %>
+    </div>
   </div>
-  <%= govuk_button_link_to 'Reject applications awaiting references', support_interface_confirm_reject_applications_awaiting_references_at_end_of_cycle_path, class: 'govuk-button' %>
-</div>
+</section>
 
 <% if DeleteTestApplications.can_run_in_this_environment? %>
-  <div>
-    <h2 class='govuk-heading-m'>Delete test applications</h2>
-    <div class='govuk-body'>
-      This will delete all candidates with emails that end in  “@example.com”, their applications and associated data.
+  <section class="app-section app-section--with-top-border">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds app-styled-content">
+        <h3>Delete test applications</h3>
+        <p>This task deletes all candidates with emails that end in <code>@example.com</code>, their applications and associated data.</p>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <%= govuk_button_link_to 'Delete test applications', support_interface_confirm_delete_test_applications_path, class: 'govuk-button--warning' %>
+      </div>
     </div>
-    <%= govuk_button_link_to 'Delete test applications', support_interface_confirm_delete_test_applications_path, class: 'govuk-button--warning' %>
-  </div>
+  </section>
 <% end %>
 
 <% unless HostingEnvironment.production? %>
-  <div>
-    <h2 class='govuk-heading-m'>Test applications</h2>
-    <div class='govuk-body'>
-      This will generate ~10 mostly-random test applications in all of the states.
+  <section class="app-section app-section--with-top-border">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds app-styled-content">
+        <h3>Generate test applications</h3>
+        <p>This task generates ~10 mostly-random test applications in all of the states.</p>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <%= button_to 'Generate test applications', support_interface_run_task_path('generate_test_applications'), class: 'govuk-button govuk-button--secondary' %>
+      </div>
     </div>
-    <%= button_to 'Generate test applications', support_interface_run_task_path('generate_test_applications'), class: 'govuk-button' %>
-  </div>
+  </section>
 
-  <div>
-    <h2 class='govuk-heading-m'>Vendor providers</h2>
-    <div class='govuk-body'>
-      This will generate providers for providers to test with. It also generates 10 courses run by those providers and 3 courses ratified by them.
-    </div>
-    <%= button_to 'Generate providers for vendors', support_interface_run_task_path('create_vendor_providers'), class: 'govuk-button' %>
-  </div>
+  <section class="app-section app-section--with-top-border">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds app-styled-content">
+        <h3>Generate fake providers</h3>
+        <p>This task generates providers for vendors to test with. It also generates 10 courses run by those providers and 3 courses ratified by them.</p>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <%= button_to 'Generate fake providers', support_interface_run_task_path('create_vendor_providers'), class: 'govuk-button govuk-button--secondary' %>
+      </div>
+    <div>
+  </section>
 
-  <div>
-    <h2 class='govuk-heading-m'>Fake provider for vendors</h2>
-    <div class='govuk-body'>
-      This will generate a fake provider with 10 courses and 3 ratified courses. You will be shown their name, code and vendor API token.
-    </div>
-    <%= button_to 'Generate a fake provider for a vendor', support_interface_tasks_create_fake_provider_path, class: 'govuk-button' %>
-  </div>
+  <section class="app-section app-section--with-top-border">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds app-styled-content">
+        <h3>Create a fake provider for vendors</h3>
+        <p>This task creates a fake provider with 10 courses and 3 ratified courses. You will be shown their name, code and vendor API token.</p>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <%= button_to 'Create a fake provider', support_interface_tasks_create_fake_provider_path, class: 'govuk-button govuk-button--secondary' %>
+      </div>
+    <div>
+  </section>
 <% end %>

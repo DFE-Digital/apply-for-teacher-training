@@ -1,4 +1,4 @@
-.app-product-section {
+.app-section {
   @include govuk-responsive-padding(6, "top");
   @include govuk-responsive-padding(4, "bottom");
 
@@ -7,11 +7,11 @@
   }
 }
 
-.app-product-section--with-top-border {
+.app-section--with-top-border {
   border-top: 1px solid $govuk-border-colour;
 }
 
-.app-product-section__title--with-top-border {
+.app-section__title--with-top-border {
   @include govuk-responsive-padding(4, "top");
   border-top: 1px solid $govuk-border-colour;
 }
