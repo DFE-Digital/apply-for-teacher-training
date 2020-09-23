@@ -317,6 +317,21 @@ FactoryBot.define do
     trait :previous_year do
       course { create(:course, :previous_year) }
     end
+
+    trait :previous_year_but_still_available do
+      previous_year
+
+      after(:create) do |course_option|
+        unless (new_course = course_option.course.in_next_cycle)
+          new_course = course_option.course.dup
+          new_course.recruitment_cycle_year = RecruitmentCycle.current_year
+          new_course.open_on_apply = true
+          new_course.save
+        end
+
+        create(:course_option, course: new_course, site: course_option.site)
+      end
+    end
   end
 
   factory :course do
@@ -358,6 +373,16 @@ FactoryBot.define do
 
     trait :previous_year do
       recruitment_cycle_year { RecruitmentCycle.previous_year }
+    end
+
+    trait :previous_year_but_still_available do
+      previous_year
+
+      after(:create) do |course|
+        new_course = course.dup
+        new_course.recruitment_cycle_year = RecruitmentCycle.current_year
+        new_course.save
+      end
     end
   end
 
@@ -513,20 +538,31 @@ FactoryBot.define do
       offer_withdrawn_at { Time.zone.now - 1.day }
     end
 
-    trait :with_deferred_offer do
-      with_accepted_offer
-      status { 'offer_deferred' }
-      offer_deferred_at { Time.zone.now - 1.day }
-    end
-
     trait :with_recruited do
       with_accepted_offer
       status { 'recruited' }
       recruited_at { Time.zone.now }
     end
 
+    trait :with_deferred_offer do
+      with_accepted_offer
+      status { 'offer_deferred' }
+      status_before_deferral { 'pending_conditions' }
+      offer_deferred_at { Time.zone.now - 1.day }
+    end
+
+    trait :with_deferred_offer_previously_recruited do
+      with_deferred_offer
+      status_before_deferral { 'recruited' }
+      recruited_at { Time.zone.now - 1.day }
+    end
+
     trait :previous_year do
       course_option { create(:course_option, :previous_year) }
+    end
+
+    trait :previous_year_but_still_available do
+      course_option { create(:course_option, :previous_year_but_still_available) }
     end
   end
 

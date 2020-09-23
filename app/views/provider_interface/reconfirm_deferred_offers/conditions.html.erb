@@ -1,0 +1,34 @@
+<% content_for :browser_title, title_with_error_prefix('Confirm status of conditions', @application_choice.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(previous_path) %>
+
+<%= form_with model: @wizard, url: provider_interface_reconfirm_deferred_offer_conditions_path, method: :patch do |f| %>
+  <%= f.govuk_error_summary %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+        Confirm status of conditions
+      </h1>
+
+      <div class="app-offer-panel govuk-!-margin-bottom-7">
+        <%= render ProviderInterface::ConditionsComponent.new(application_choice: @wizard.modified_application_choice, show_header: false) %>
+      </div>
+
+      <% met = @wizard.modified_application_choice.status == 'recruited' ? 'still met' : 'met' %>
+
+      <%= f.govuk_radio_buttons_fieldset :conditions_status,
+        legend: { text: "Has the candidate #{met} all of the conditions?" , size: "m" } do %>
+        <%= f.govuk_radio_button :conditions_status, 'met', label: { text: "Yes, all conditions are #{met}" }, link_errors: true %>
+
+        <%= f.govuk_radio_button :conditions_status, 'not met', label: { text: 'No, one or more conditions are pending' }, link_errors: true %>
+      <% end %>
+
+      <%= f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button' %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      </p>
+    </div>
+  </div>
+<% end %>
