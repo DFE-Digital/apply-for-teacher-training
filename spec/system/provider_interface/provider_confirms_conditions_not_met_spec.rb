@@ -59,7 +59,7 @@ RSpec.feature 'Confirm conditions not met' do
   end
 
   def and_click_on_confirm_conditions
-    click_on 'Mark all conditions as met'
+    click_on 'Update status of conditions'
   end
 
   def and_select_they_have_not_met_the_conditions
