@@ -1,0 +1,2 @@
+class VendorAPIRequest < ApplicationRecord
+end
