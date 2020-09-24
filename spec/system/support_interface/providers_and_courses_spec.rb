@@ -127,7 +127,7 @@ RSpec.feature 'Providers and courses' do
     )
 
     Sidekiq::Testing.inline! do
-      click_button 'Sync Providers from Find'
+      click_button 'Sync providers'
     end
   end
 
