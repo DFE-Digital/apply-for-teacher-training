@@ -145,7 +145,6 @@ module ProviderInterface
     def pick_different_option
       new_provider = available_providers.sample
       new_course = new_provider.courses.where(
-        open_on_apply: true,
         recruitment_cycle_year: @application_choice.offered_course.recruitment_cycle_year,
       ).sample
       new_course.course_options.sample
