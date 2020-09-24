@@ -1,0 +1,101 @@
+<% content_for :title, 'Export performance data' %>
+
+<% content_for :navigation do %>
+  <%= render 'support_interface/performance/performance_navigation' %>
+<% end %>
+
+<h3 class='govuk-heading-m'>Application timings</h3>
+
+<p class='govuk-body'>
+  The application timings provides data on when an application
+  form attribute was last updated by the candidate.
+</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download application timings (CSV)', support_interface_application_timings_path %>
+</p>
+
+<h3 class='govuk-heading-m'>Submitted application choices</h3>
+
+<p class='govuk-body'>
+  The submitted application choices export provides data about which courses candidates applied to,
+  as well as info about offers and candidate decisions.
+</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download submitted application choices (CSV)', support_interface_submitted_application_choices_path %>
+</p>
+
+<h3 class='govuk-heading-m'>Candidate journey tracking</h3>
+
+<p class='govuk-body'>
+  Candidate journey tracking provides data on when each application choice
+  progressed through the various steps in the candidate application journey.
+</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download candidate journey tracking (CSV)', support_interface_candidate_journey_tracking_path %>
+</p>
+
+<h3 class='govuk-heading-m'>Providers</h3>
+
+<p class='govuk-body'>
+  The list of providers that are being synced from the Find service, along
+  with when they signed the data sharing agreement.
+</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download providers (CSV)', support_interface_providers_export_path %>
+</p>
+
+<h3 class='govuk-heading-m'>Referee survey</h3>
+
+<p class='govuk-body'>
+  This provides the compiled results of all the referee surveys
+</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download referee survey results (CSV)', support_interface_referee_survey_path %>
+</p>
+
+<h3 class='govuk-heading-m'>Candidate survey</h3>
+
+<p class='govuk-body'>
+  This provides the compiled results of all the candidate satisfaction surveys
+</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download candidate survey results (CSV)', support_interface_candidate_survey_path %>
+</p>
+
+<h3 class="govuk-heading-m">Active provider users</h3>
+
+<p class="govuk-body">The list of provider users that have signed in to apply at least once</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path %>
+</p>
+
+<h3 class="govuk-heading-m">Candidate course choice withdrawal survey</h3>
+
+<p class="govuk-body">A list of candidates explanations for withdrawing a course choice. Also includes contact details for candidates who have agreed to be contacted.</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download course choice withdrawal survey results (CSV)', support_interface_course_choice_withdrawal_survey_path %>
+</p>
+
+<h3 class="govuk-heading-m">Provider performance for TAD</h3>
+
+<p class="govuk-body">A list of all application/offered/accepted counts for all courses in Apply</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download provider performance for TAD (CSV)', support_interface_tad_provider_performance_path %>
+</p>
+
+<h3 class="govuk-heading-m">Application references</h3>
+
+<p class="govuk-body">A list of all application references which have been selected by candidates to date</p>
+
+<p class='govuk-body'>
+  <%= govuk_link_to 'Download application references (CSV)', support_interface_application_references_path %>
+</p>

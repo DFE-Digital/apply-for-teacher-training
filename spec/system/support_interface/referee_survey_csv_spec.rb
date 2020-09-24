@@ -7,7 +7,7 @@ RSpec.feature 'Referee survery CSV' do
     given_i_am_a_support_user
     and_there_are_referee_survey_results
 
-    when_i_visit_the_service_performance_page
+    when_i_visit_the_service_performance_data_page
     and_i_click_on_download_referee_survey_results
     then_i_should_be_able_to_download_a_csv
   end
@@ -20,8 +20,8 @@ RSpec.feature 'Referee survery CSV' do
     create_list(:reference, 3, :complete)
   end
 
-  def when_i_visit_the_service_performance_page
-    visit support_interface_performance_path
+  def when_i_visit_the_service_performance_data_page
+    visit support_interface_performance_data_path
   end
 
   def and_i_click_on_download_referee_survey_results

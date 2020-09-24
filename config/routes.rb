@@ -743,6 +743,7 @@ Rails.application.routes.draw do
     post '/feature-flags/:feature_name/deactivate' => 'feature_flags#deactivate', as: :deactivate_feature_flag
 
     get '/performance' => 'performance#index', as: :performance
+    get '/performance/data' => 'performance#data', as: :performance_data
     get '/performance/application-timings', to: 'performance#application_timings', as: :application_timings
     get '/performance/course-stats', to: 'performance#course_stats', as: :course_stats
     get '/performance/submitted-application-choices', to: 'performance#submitted_application_choices', as: :submitted_application_choices
