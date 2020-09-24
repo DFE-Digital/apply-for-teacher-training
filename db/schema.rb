@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_22_092516) do
+ActiveRecord::Schema.define(version: 2020_09_24_081721) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(version: 2020_09_22_092516) do
     t.datetime "accepted_at"
     t.datetime "recruited_at"
     t.datetime "conditions_not_met_at"
-    t.datetime "enrolled_at"
     t.string "offer_withdrawal_reason"
     t.datetime "offer_withdrawn_at"
     t.datetime "sent_to_provider_at"
