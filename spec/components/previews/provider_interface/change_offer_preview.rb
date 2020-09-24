@@ -143,11 +143,7 @@ module ProviderInterface
     end
 
     def pick_different_option
-      new_provider = available_providers.sample
-      new_course = new_provider.courses.where(
-        recruitment_cycle_year: @application_choice.offered_course.recruitment_cycle_year,
-      ).sample
-      new_course.course_options.sample
+      CourseOption.available.sample
     end
 
     def render_component(component_to_render, form:, completion_url:)
