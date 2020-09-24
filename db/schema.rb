@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_141522) do
+ActiveRecord::Schema.define(version: 2020_09_24_161708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -492,6 +492,18 @@ ActiveRecord::Schema.define(version: 2020_09_08_141522) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["form_object"], name: "index_validation_errors_on_form_object"
+  end
+
+  create_table "vendor_api_requests", force: :cascade do |t|
+    t.string "request_path"
+    t.jsonb "request_headers"
+    t.jsonb "request_body"
+    t.jsonb "response_body"
+    t.integer "status_code"
+    t.bigint "response_time"
+    t.string "hashed_token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "vendor_api_tokens", force: :cascade do |t|
