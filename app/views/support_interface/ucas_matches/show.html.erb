@@ -1,5 +1,7 @@
 <% content_for :title, "UCAS match: #{@match.candidate.email_address}" %>
 
+<%= render 'support_interface/candidates/candidates_navigation' %>
+
 <p class="govuk-body">
   <%= render TagComponent.new(text: @match.matching_state.humanize, type: @match.processed? ? :green : :default) %> Last updated <%= @match.updated_at.to_s(:govuk_date_and_time) %>
 </p>
