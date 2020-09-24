@@ -1,7 +1,7 @@
 <% content_for :title, @support_user.display_name %>
 
 <% content_for :navigation do %>
-  <%= render 'support_interface/tasks/tasks_navigation', current: 'Support users' %>
+  <%= render 'support_interface/settings/settings_navigation', current: 'Support users' %>
 <% end %>
 
 <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @support_user) %>
