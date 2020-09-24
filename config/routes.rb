@@ -115,14 +115,20 @@ Rails.application.routes.draw do
       end
 
       scope '/contact-details' do
-        get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
-        post '/' => 'contact_details/base#update', as: :contact_details_update_base
+        get '/' => 'contact_details/base#new', as: :contact_details_new_base
+        post '/' => 'contact_details/base#create', as: :contact_details_create_base
+        get '/edit' => 'contact_details/base#edit', as: :contact_details_edit_base
+        post '/edit' => 'contact_details/base#update', as: :contact_details_update_base
 
-        get '/address_type' => 'contact_details/address_type#edit', as: :contact_details_edit_address_type
-        post '/address_type' => 'contact_details/address_type#update', as: :contact_details_update_address_type
+        get '/address_type' => 'contact_details/address_type#new', as: :contact_details_new_address_type
+        post '/address_type' => 'contact_details/address_type#create', as: :contact_details_create_address_type
+        get '/address_type/edit' => 'contact_details/address_type#edit', as: :contact_details_edit_address_type
+        post '/address_type/edit' => 'contact_details/address_type#update', as: :contact_details_update_address_type
 
-        get '/address' => 'contact_details/address#edit', as: :contact_details_edit_address
-        post '/address' => 'contact_details/address#update', as: :contact_details_update_address
+        get '/address' => 'contact_details/address#new', as: :contact_details_new_address
+        post '/address' => 'contact_details/address#create', as: :contact_details_create_address
+        get '/address/edit' => 'contact_details/address#edit', as: :contact_details_edit_address
+        post '/address/edit' => 'contact_details/address#update', as: :contact_details_update_address
 
         get '/review' => 'contact_details/review#show', as: :contact_details_review
         post '/complete' => 'contact_details/review#complete', as: :contact_details_complete
