@@ -18,6 +18,7 @@ module SupportInterface
             decided_at: choice.offered_at || choice.rejected_at,
             offer_response: offer_response_interpretation(choice: choice),
             offer_response_at: choice.accepted_at || choice.declined_at,
+            rejection_reason: choice.rejection_reason,
           }
         end
       end
