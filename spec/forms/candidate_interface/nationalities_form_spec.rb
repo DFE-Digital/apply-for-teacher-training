@@ -41,9 +41,6 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
 
       let(:form_data) do
         {
-          # british: data[:first_nationality],
-          # irish: data[:second_nationality],
-          # other: 'other',
           nationalities: [data[:first_nationality], data[:second_nationality], 'other'],
           other_nationality1: data[:third_nationality],
           other_nationality2: data[:fourth_nationality],
