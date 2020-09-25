@@ -32,11 +32,11 @@
 
               <% if show_hesa_codes? %>
                 <dt class="app-qualification__key">HESA codes</dt>
-                <dd class="app-qualification__value">
-                  <% hesa_code_values(degree).each do |key, value| %>
-                    <%= key %>: <%= value %><br/>
-                  <% end %>
-                </dd>
+                <% hesa_code_values(degree).each do |key, value| %>
+                  <dd class="app-qualification__value govuk-!-margin-bottom-0">
+                    <%= key %>: <%= value %>
+                  </dd>
+                <% end %>
               <% end %>
             </dl>
           </div>
