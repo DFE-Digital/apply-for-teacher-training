@@ -1,5 +1,5 @@
 HESA_SEX = [
-  [1, 'Male'],
-  [2, 'Female'],
-  [3, 'Other'],
+  [1, 'male'],
+  [2, 'female'],
+  [3, 'other'],
 ].freeze
