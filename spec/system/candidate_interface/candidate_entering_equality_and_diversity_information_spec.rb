@@ -129,7 +129,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_see_the_equality_and_diversity_page
-    expect(page).to have_content('Can you complete a 3-minute questionnaire?')
+    expect(page).to have_content 'Can you complete a 3-minute equality and diversity questionnaire?'
   end
 
   def when_i_choose_not_to_complete_equality_and_diversity
