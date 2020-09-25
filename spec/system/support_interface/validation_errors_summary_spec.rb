@@ -35,6 +35,7 @@ RSpec.feature 'Validation errors summary' do
   def when_i_navigate_to_the_validation_errors_summary_page
     visit support_interface_path
     click_link 'Performance'
+    click_link 'Validation errors'
     click_link 'Validation error summary'
   end
 

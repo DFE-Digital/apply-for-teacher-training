@@ -32,7 +32,7 @@ RSpec.feature 'Managing support users' do
   end
 
   def and_i_click_the_manange_support_users_link
-    click_link 'Tasks'
+    click_link 'Service settings'
     click_link 'Support users'
   end
 

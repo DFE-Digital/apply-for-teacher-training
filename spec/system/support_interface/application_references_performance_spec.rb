@@ -7,7 +7,7 @@ RSpec.feature 'Application references performance CSV' do
     given_i_am_a_support_user
     and_there_is_an_application_with_references_in_the_system
 
-    when_i_visit_the_service_performance_page
+    when_i_visit_the_service_performance_data_page
     and_i_click_on_download_reference_types_performance_report
 
     then_i_should_be_able_to_download_a_csv
@@ -24,8 +24,8 @@ RSpec.feature 'Application references performance CSV' do
     create(:reference, feedback_status: 'feedback_refused', referee_type: 'professional', application_form: application_form)
   end
 
-  def when_i_visit_the_service_performance_page
-    visit support_interface_performance_path
+  def when_i_visit_the_service_performance_data_page
+    visit support_interface_performance_data_path
   end
 
   def and_i_click_on_download_reference_types_performance_report

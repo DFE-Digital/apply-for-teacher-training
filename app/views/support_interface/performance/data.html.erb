@@ -1,0 +1,105 @@
+<% content_for :title, 'Export performance data' %>
+
+<% content_for :navigation do %>
+  <%= render 'support_interface/performance/performance_navigation' %>
+<% end %>
+
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Application timings</h3>
+      <p>The application timings provides data on when an application form attribute was last updated by the candidate.</p>
+      <p><%= govuk_link_to 'Download application timings (CSV)', support_interface_application_timings_path %></p>
+    </div>
+  </div>
+</section>
+
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Submitted application choices</h3>
+      <p>The submitted application choices export provides data about which courses candidates applied to, as well as info about offers and candidate decisions.</p>
+      <p><%= govuk_link_to 'Download submitted application choices (CSV)', support_interface_submitted_application_choices_path %></p>
+    </div>
+  </div>
+</section>
+
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Candidate journey tracking</h3>
+      <p>Candidate journey tracking provides data on when each application choice progressed through the various steps in the candidate application journey.</p>
+      <p><%= govuk_link_to 'Download candidate journey tracking (CSV)', support_interface_candidate_journey_tracking_path %></p>
+    </div>
+  </div>
+</section>
+
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Providers</h3>
+      <p>The list of providers that are being synced from the Find service, along with when they signed the data sharing agreement.</p>
+      <p><%= govuk_link_to 'Download providers (CSV)', support_interface_providers_export_path %></p>
+    </div>
+  </div>
+</section>
+
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Referee survey</h3>
+      <p>This provides the compiled results of all the referee surveys.</p>
+      <p><%= govuk_link_to 'Download referee survey results (CSV)', support_interface_referee_survey_path %></p>
+    </div>
+  </div>
+</section>
+
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Candidate survey</h3>
+      <p>This provides the compiled results of all the candidate satisfaction surveys.</p>
+      <p><%= govuk_link_to 'Download candidate survey results (CSV)', support_interface_candidate_survey_path %></p>
+    </div>
+  </div>
+</section>
+
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Active provider users</h3>
+      <p>The list of provider users that have signed in to apply at least once.</p>
+      <p><%= govuk_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path %></p>
+    </div>
+  </div>
+</section>
+
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Candidate course choice withdrawal survey</h3>
+      <p>A list of candidates explanations for withdrawing a course choice. Also includes contact details for candidates who have agreed to be contacted.</p>
+      <p><%= govuk_link_to 'Download course choice withdrawal survey results (CSV)', support_interface_course_choice_withdrawal_survey_path %></p>
+    </div>
+  </div>
+</section>
+
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Provider performance for TAD</h3>
+      <p>A list of all application/offered/accepted counts for all courses in Apply.</p>
+      <p><%= govuk_link_to 'Download provider performance for TAD (CSV)', support_interface_tad_provider_performance_path %></p>
+    </div>
+  </div>
+</section>
+
+<section class="app-section app-section--with-top-border">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds app-styled-content">
+      <h3>Application references</h3>
+      <p>A list of all application references which have been selected by candidates to date.</p>
+      <p><%= govuk_link_to 'Download application references (CSV)', support_interface_application_references_path %></p>
+    </div>
+  </div>
+</section>

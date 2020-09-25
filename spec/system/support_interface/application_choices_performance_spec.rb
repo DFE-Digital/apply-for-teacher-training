@@ -7,7 +7,7 @@ RSpec.feature 'Candidate journey tracking CSV' do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
 
-    when_i_visit_the_service_performance_page
+    when_i_visit_the_service_performance_data_page
     then_i_should_be_able_to_download_a_csv
   end
 
@@ -19,8 +19,8 @@ RSpec.feature 'Candidate journey tracking CSV' do
     create(:application_choice, :awaiting_provider_decision)
   end
 
-  def when_i_visit_the_service_performance_page
-    visit support_interface_performance_path
+  def when_i_visit_the_service_performance_data_page
+    visit support_interface_performance_data_path
   end
 
   def then_i_should_be_able_to_download_a_csv

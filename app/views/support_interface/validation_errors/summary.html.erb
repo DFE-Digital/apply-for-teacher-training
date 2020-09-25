@@ -1,4 +1,9 @@
 <% content_for :title, 'Validation error summary' %>
+<% content_for :before_content, govuk_back_link_to(support_interface_validation_errors_path) %>
+
+<% content_for :navigation do %>
+  <%= render 'support_interface/performance/performance_navigation', current: 'Validation errors' %>
+<% end %>
 
 <table class="govuk-table">
   <thead class="govuk-table__head">

@@ -6,13 +6,13 @@ RSpec.feature 'Candidate survey CSV' do
   scenario 'support user can download a CSV with the candidate satisfaction survey results' do
     given_i_am_a_support_user
 
-    when_i_visit_the_service_performance_page
+    when_i_visit_the_service_performance_data_page
     and_i_click_on_download_candidate_survey_results
     then_i_should_be_informed_there_are_no_survey_results
 
     given_there_are_candidate_survey_results
 
-    when_i_visit_the_service_performance_page
+    when_i_visit_the_service_performance_data_page
     and_i_click_on_download_candidate_survey_results
     then_i_should_be_able_to_download_a_csv
   end
@@ -21,8 +21,8 @@ RSpec.feature 'Candidate survey CSV' do
     sign_in_as_support_user
   end
 
-  def when_i_visit_the_service_performance_page
-    visit support_interface_performance_path
+  def when_i_visit_the_service_performance_data_page
+    visit support_interface_performance_data_path
   end
 
   def and_i_click_on_download_candidate_survey_results
