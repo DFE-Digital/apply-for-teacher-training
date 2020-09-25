@@ -14,6 +14,6 @@
 <div class="govuk-grid-row">
   <%= render DegreeQualificationCardsComponent.new(application_form.application_qualifications.degrees, application_choice_state: application_choice_state) %>
   <%= render GcseQualificationCardsComponent.new(application_form) %>
-  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, type_label: 'Academic or other qualification') %>
+  <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, header: 'Other qualifications') %>
   <%= render EflQualificationCardComponent.new(application_form) %>
 </div>

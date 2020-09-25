@@ -1,8 +1,8 @@
 class QualificationsTableComponent < ViewComponent::Base
-  attr_reader :qualifications, :type_label
+  attr_reader :qualifications, :header
 
-  def initialize(qualifications:, type_label:)
+  def initialize(qualifications:, header:)
     @qualifications = qualifications
-    @type_label = type_label
+    @header = header
   end
 end
