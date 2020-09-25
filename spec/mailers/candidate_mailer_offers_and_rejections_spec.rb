@@ -42,6 +42,28 @@ RSpec.describe CandidateMailer, type: :mailer do
       'Days to make an offer' => 'If you do not reply by 25 February 2020',
       'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.'
     )
+
+    context 'when the provider offers the candidate a different course option' do
+      before do
+        provider = build_stubbed(:provider, name: 'Falconholt Technical College')
+        new_course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
+
+        @application_choice.offered_course_option_id = new_course_option.id
+
+        allow(CourseOption).to receive(:find_by).and_return new_course_option
+      end
+
+      it_behaves_like(
+        'a mail with subject and content', :new_offer_single_offer,
+        'Offer received for Forensic Science (E0FO) at Falconholt Technical College',
+        'heading' => 'Dear Bob',
+        'decline by default date' => 'Make a decision by 25 February 2020',
+        'first_condition' => 'DBS check',
+        'second_condition' => 'Pass exams',
+        'Days to make an offer' => 'If you do not reply by 25 February 2020',
+        'deferral_guidance' => 'Some teacher training providers allow you to defer your offer.'
+      )
+    end
   end
 
   describe '.new_offer_multiple_offers' do
