@@ -325,20 +325,21 @@ private
 
   def new_offer(application_choice, template_name)
     @application_choice = application_choice
-    @provider_name = @application_choice.course_option.course.provider.name
-    @course_name = @application_choice.course_option.course.name_and_code
+    course_option = CourseOption.find_by(id: @application_choice.offered_course_option_id) || @application_choice.course_option
+    @provider_name = course_option.course.provider.name
+    @course_name = course_option.course.name_and_code
     @conditions = @application_choice.offer&.dig('conditions') || []
     @offers = @application_choice.application_form.application_choices.select(&:offer?).map do |offer|
       "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
     end
-    @start_date = @application_choice.course_option.course.start_date.to_s(:month_and_year)
+    @start_date = course_option.course.start_date.to_s(:month_and_year)
 
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!(
         "candidate_offer.#{template_name}.subject",
-        course_name: application_choice.course_option.course.name_and_code,
-        provider_name: application_choice.course_option.course.provider.name,
+        course_name: course_option.course.name_and_code,
+        provider_name: course_option.course.provider.name,
       ),
       template_path: 'candidate_mailer/new_offer',
       template_name: template_name,
