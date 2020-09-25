@@ -11,8 +11,20 @@
     <% table_rows.each do |table_row| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell"><%= table_row[:course_choice_details] %></td>
-        <td class="govuk-table__cell"><%= table_row[:status_on_ucas] %></td>
-        <td class="govuk-table__cell"><%= table_row[:status_on_apply] %></td>
+        <td class="govuk-table__cell">
+          <% if table_row[:status_on_ucas] == 'N/A' %>
+            N/A
+          <% else %>
+            <%= render SupportInterface::ApplicationStatusTagComponent.new(status: table_row[:status_on_ucas]) %>
+          <% end %>
+        </td>
+        <td class="govuk-table__cell">
+          <% if table_row[:status_on_apply] == 'N/A' %>
+            N/A
+          <% else %>
+            <%= render SupportInterface::ApplicationStatusTagComponent.new(status: table_row[:status_on_apply]) %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

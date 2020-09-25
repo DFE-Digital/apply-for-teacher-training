@@ -20,8 +20,8 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
     it 'renders correct statuses for both' do
       result = render_inline(described_class.new(ucas_match))
 
-      expect(result.css('td')[1].text).to include('Application rejected')
-      expect(result.css('td')[2].text).to include('Offer received')
+      expect(result.css('td')[1].text).to include('Rejected')
+      expect(result.css('td')[2].text).to include('Offer made')
     end
 
     it 'renders correct summary' do
@@ -36,7 +36,7 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
       result = render_inline(described_class.new(ucas_match_for_apply_application))
 
       expect(result.css('td')[1].text).to include('N/A')
-      expect(result.css('td')[2].text).to include('Offer received')
+      expect(result.css('td')[2].text).to include('Offer made')
     end
 
     it 'renders correct summary' do
@@ -50,7 +50,7 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
     it 'renders correct statuses' do
       result = render_inline(described_class.new(ucas_match_for_ucas_application))
 
-      expect(result.css('td')[1].text).to include('Application rejected')
+      expect(result.css('td')[1].text).to include('Rejected')
       expect(result.css('td')[2].text).to include('N/A')
     end
 
