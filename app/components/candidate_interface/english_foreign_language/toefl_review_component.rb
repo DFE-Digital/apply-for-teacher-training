@@ -16,19 +16,19 @@ module CandidateInterface
           {
             key: 'TOEFL registration number',
             value: toefl_qualification.registration_number,
-            action: 'Change registration number',
+            action: 'registration number',
             change_path: candidate_interface_edit_toefl_path,
           },
           {
             key: 'Year completed',
             value: toefl_qualification.award_year,
-            action: 'Change year completed',
+            action: 'year completed',
             change_path: candidate_interface_edit_toefl_path,
           },
           {
             key: 'Total score',
             value: toefl_qualification.total_score,
-            action: 'Change total score',
+            action: 'total score',
             change_path: candidate_interface_edit_toefl_path,
           },
         ]
