@@ -31,7 +31,7 @@
   { key: 'Course', value: course_name_and_status },
   { key: 'Location', value: location_and_status },
   { key: 'Study mode', value: application_choice.offered_option.study_mode.humanize },
-  { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(application_choice: application_choice)) },
+  { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)) },
 ] %>
 
 <% rows << { key: 'Feedback', value: application_choice.rejection_reason } if application_choice.rejection_reason.present? %>
