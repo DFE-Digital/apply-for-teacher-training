@@ -12,7 +12,7 @@
 </details>
 
 <div class="govuk-grid-row">
-  <%= render DegreeQualificationCardsComponent.new(application_form.application_qualifications.degrees, application_choice_state: application_choice_state) %>
+  <%= render DegreeQualificationCardsComponent.new(application_form.application_qualifications.degrees, application_choice_state: application_choice_state, show_hesa_codes: show_hesa_codes) %>
   <%= render GcseQualificationCardsComponent.new(application_form) %>
   <%= render QualificationsTableComponent.new(qualifications: application_form.application_qualifications.other, header: 'Other qualifications') %>
   <%= render EflQualificationCardComponent.new(application_form) %>

@@ -10,6 +10,10 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
         institution_name: 'The University of Oxford',
         grade: 'First class honours',
         predicted_grade: false,
+        qualification_type_hesa_code: 1234,
+        subject_hesa_code: 4567,
+        institution_hesa_code: 9876,
+        grade_hesa_code: 4321,
       )
     end
 
@@ -23,6 +27,24 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
       expect(result.text).to include 'First class honours'
       expect(result.text).to include 'Institution'
       expect(result.text).to include 'The University of Oxford'
+      expect(result.text).not_to include 'HESA codes'
+    end
+
+    it 'renders all expected detail including HESA codes' do
+      result = render_inline described_class.new([degree], show_hesa_codes: true)
+
+      expect(result.text).to include 'BA (Hons) Computer Science'
+      expect(result.text).to include degree.start_year
+      expect(result.text).to include degree.award_year
+      expect(result.text).to include 'Grade'
+      expect(result.text).to include 'First class honours'
+      expect(result.text).to include 'Institution'
+      expect(result.text).to include 'The University of Oxford'
+      expect(result.text).to include 'HESA codes'
+      expect(result.text).to include 'Type: 1234'
+      expect(result.text).to include 'Subject: 4567'
+      expect(result.text).to include 'Establishment: 9876'
+      expect(result.text).to include 'Class: 4321'
     end
 
     context 'when it is an international degree' do
