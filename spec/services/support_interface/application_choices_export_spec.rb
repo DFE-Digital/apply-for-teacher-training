@@ -26,6 +26,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           decision: nil,
           offer_response: nil,
           offer_response_at: nil,
+          rejection_reason: nil,
         },
         {
           support_reference: submitted_form.support_reference,
@@ -42,6 +43,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           decision: nil,
           offer_response: nil,
           offer_response_at: nil,
+          rejection_reason: nil,
         },
       )
     end
@@ -74,12 +76,18 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
 
       it 'returns the decision outcome and time for rejections' do
         decision_time = Time.zone.local(2019, 10, 1, 12, 0, 0)
-        choice = create(:application_choice, :with_rejection, rejected_at: decision_time)
+        choice = create(
+          :application_choice,
+          :with_rejection,
+          rejected_at: decision_time,
+          rejection_reason: 'Does not have curriculum knowledge',
+        )
         choice.application_form.update(submitted_at: Time.zone.now)
 
         choice_row = described_class.new.application_choices.first
         expect(choice_row).to include(decided_at: decision_time)
         expect(choice_row).to include(decision: :rejected)
+        expect(choice_row).to include(rejection_reason: 'Does not have curriculum knowledge')
       end
 
       it 'returns the decision outcome and time for rejections-by-default' do
