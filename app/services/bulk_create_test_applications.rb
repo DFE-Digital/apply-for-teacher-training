@@ -8,24 +8,33 @@ class BulkCreateTestApplications
   end
 
   def call
-    random_id = SecureRandom.hex(10)
+    begin
+      tries ||= 0
+      sql = compose_insert_statements(unique_id: SecureRandom.hex(10))
+      ActiveRecord::Base.connection.execute(sql)
+    rescue ActiveRecord::RecordNotUnique
+      retry unless (tries += 1) > 3
+      raise UniqueCandidateError, 'Failed to create a uniquely identifiable candidate, tried 3 times'
+    end
+  end
 
+  def compose_insert_statements(unique_id:)
     candidate_field_names_sql, candidate_values_to_persist = compose_sql_fragments(
       candidate,
       ignore_fields: %w[id magic_link_token magic_link_token_sent_at],
-      custom_fields: { 'email_address' => "#{random_id}@example.com" },
+      custom_fields: { 'email_address' => "#{unique_id}@example.com" },
     )
     application_form_field_names_sql, application_form_values_to_persist = compose_sql_fragments(
       template_application_form,
       ignore_fields: %w[id candidate_id],
-      custom_fields: { 'last_name' => random_id },
+      custom_fields: { 'last_name' => unique_id },
     )
     application_choice_field_names_sql, application_choice_values_to_persist = compose_sql_fragments(
       application_choice,
       ignore_fields: %w[id application_form_id],
     )
 
-    query = <<~SQL
+    <<~SQL
       WITH created_candidate AS (
         INSERT INTO "candidates" ( #{candidate_field_names_sql})
         VALUES ( #{candidate_values_to_persist})
@@ -41,8 +50,6 @@ class BulkCreateTestApplications
       VALUES ( #{application_choice_values_to_persist}, (SELECT id FROM created_application_form) )
       RETURNING "id"
     SQL
-
-    ActiveRecord::Base.connection.execute(query)
   end
 
   def compose_sql_fragments(model, ignore_fields: [], custom_fields: {})
@@ -66,4 +73,6 @@ class BulkCreateTestApplications
 
     [field_names_sql, values_to_persist]
   end
+
+  class UniqueCandidateError < StandardError; end
 end
