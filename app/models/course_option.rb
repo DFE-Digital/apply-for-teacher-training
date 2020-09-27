@@ -22,28 +22,14 @@ class CourseOption < ApplicationRecord
     no_vacancies: 'no_vacancies',
   }
 
+  delegate :full?, :withdrawn?, :closed_on_apply?, :not_available?, to: :course, prefix: true
+
   def validate_providers
     return unless site.present? && course.present?
 
     return if site.provider == course.provider
 
     errors.add(:site, 'must have the same Provider as the course')
-  end
-
-  def course_not_available?
-    !course.exposed_in_find?
-  end
-
-  def course_closed_on_apply?
-    !course.open_on_apply?
-  end
-
-  def course_full?
-    course.course_options.vacancies.blank?
-  end
-
-  def course_withdrawn?
-    course.withdrawn
   end
 
   def alternative_study_mode
