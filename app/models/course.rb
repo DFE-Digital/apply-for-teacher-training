@@ -99,7 +99,7 @@ class Course < ApplicationRecord
   end
 
   def full?
-    course_options.all?(&:no_vacancies?)
+    course_options.vacancies.blank?
   end
 
   def available?
