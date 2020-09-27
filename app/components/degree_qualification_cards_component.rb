@@ -1,9 +1,12 @@
 class DegreeQualificationCardsComponent < ViewComponent::Base
-  attr_reader :degrees, :application_choice_state
+  attr_reader :degrees, :application_choice_state, :show_hesa_codes
 
-  def initialize(degrees, application_choice_state: nil)
+  alias_method :show_hesa_codes?, :show_hesa_codes
+
+  def initialize(degrees, application_choice_state: nil, show_hesa_codes: false)
     @degrees = degrees
     @application_choice_state = application_choice_state
+    @show_hesa_codes = show_hesa_codes
   end
 
   def section_title
@@ -39,6 +42,15 @@ class DegreeQualificationCardsComponent < ViewComponent::Base
       degree_name = I18n.t("application_form.degree.comparable_uk_degree.values.#{degree.comparable_uk_degree}")
       "NARIC statement #{degree.naric_reference} says this is comparable to a #{degree_name}"
     end
+  end
+
+  def hesa_code_values(degree)
+    {
+      'Type' => degree.qualification_type_hesa_code,
+      'Subject' => degree.subject_hesa_code,
+      'Establishment' => degree.institution_hesa_code,
+      'Class' => degree.grade_hesa_code,
+    }
   end
 
 private

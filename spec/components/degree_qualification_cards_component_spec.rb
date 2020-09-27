@@ -6,7 +6,7 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
       create(
         :degree_qualification,
         qualification_type: 'Bachelor of Arts',
-        subject: 'Computer Science',
+        subject: 'Computer science',
         institution_name: 'The University of Oxford',
         grade: 'First class honours',
         predicted_grade: false,
@@ -16,13 +16,31 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
     it 'renders all expected detail' do
       result = render_inline described_class.new([degree])
 
-      expect(result.text).to include 'BA (Hons) Computer Science'
+      expect(result.text).to include 'BA (Hons) Computer science'
       expect(result.text).to include degree.start_year
       expect(result.text).to include degree.award_year
       expect(result.text).to include 'Grade'
       expect(result.text).to include 'First class honours'
       expect(result.text).to include 'Institution'
       expect(result.text).to include 'The University of Oxford'
+      expect(result.text).not_to include 'HESA codes'
+    end
+
+    it 'renders all expected detail including HESA codes' do
+      result = render_inline described_class.new([degree], show_hesa_codes: true)
+
+      expect(result.text).to include 'BA (Hons) Computer science'
+      expect(result.text).to include degree.start_year
+      expect(result.text).to include degree.award_year
+      expect(result.text).to include 'Grade'
+      expect(result.text).to include 'First class honours'
+      expect(result.text).to include 'Institution'
+      expect(result.text).to include 'The University of Oxford'
+      expect(result.text).to include 'HESA codes'
+      expect(result.text).to include "Type: #{Hesa::DegreeType.find_by_name(degree.qualification_type)&.hesa_code}"
+      expect(result.text).to include "Subject: #{Hesa::Subject.find_by_name(degree.subject)&.hesa_code}"
+      expect(result.text).to include "Establishment: #{Hesa::Institution.find_by_name(degree.institution_name)&.hesa_code}"
+      expect(result.text).to include "Class: #{Hesa::Grade.find_by_description(degree.grade)&.hesa_code}"
     end
 
     context 'when it is an international degree' do
@@ -59,7 +77,7 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
 
       it 'does not display (Hons) after the degree type' do
         result = render_inline described_class.new([degree])
-        expect(result.text).to include 'BA Computer Science'
+        expect(result.text).to include 'BA Computer science'
       end
     end
 

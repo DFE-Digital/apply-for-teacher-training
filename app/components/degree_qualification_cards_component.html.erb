@@ -29,6 +29,15 @@
                 <dt class="app-qualification__key">Comparability</dt>
                 <dd class="app-qualification__value"><%= naric_statement(degree) %></dd>
               <% end %>
+
+              <% if show_hesa_codes? %>
+                <dt class="app-qualification__key">HESA codes</dt>
+                <% hesa_code_values(degree).each do |key, value| %>
+                  <dd class="app-qualification__value govuk-!-margin-bottom-0">
+                    <%= key %>: <%= value %>
+                  </dd>
+                <% end %>
+              <% end %>
             </dl>
           </div>
         </div>
