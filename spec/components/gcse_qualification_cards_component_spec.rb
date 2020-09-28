@@ -72,15 +72,15 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
         expect(result.text).to include 'Maths Diploma'
         expect(result.text).to include '2006, France'
         expect(result.text).to include 'C'
-        expect(result.text).to include 'NARIC statement 4000123456 says this is comparable to a Between GCSE and GCSE AS Level.'
+        expect(result.text).to include 'UK NARIC statement 4000123456 says this is comparable to a Between GCSE and GCSE AS Level.'
       end
 
-      context 'when the NARIC reference is not provided' do
+      context 'when the UK NARIC reference is not provided' do
         before { application_form.maths_gcse.update(naric_reference: nil) }
 
-        it 'does not show a NARIC statement' do
+        it 'does not show a UK NARIC statement' do
           result = render_inline(described_class.new(application_form))
-          expect(result.text).not_to include 'NARIC'
+          expect(result.text).not_to include 'UK NARIC'
         end
       end
     end

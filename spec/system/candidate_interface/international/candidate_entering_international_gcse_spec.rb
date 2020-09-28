@@ -116,7 +116,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   def when_i_do_not_input_my_naric_reference_or_choose_an_equivalency; end
 
   def then_i_see_the_do_you_have_a_naric_reference_error
-    expect(page).to have_content 'Select if you have a NARIC statement of comparability'
+    expect(page).to have_content 'Select if you have a UK NARIC statement of comparability'
   end
 
   def when_i_choose_yes
@@ -124,7 +124,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def then_i_see_the_naric_reference_blank_error
-    expect(page).to have_content 'Enter your NARIC reference number'
+    expect(page).to have_content 'Enter your UK NARIC reference number'
   end
 
   def and_i_see_the_choose_a_equivalency_option_error
