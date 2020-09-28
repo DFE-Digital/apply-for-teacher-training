@@ -55,9 +55,9 @@ module CandidateInterface
 
     def redirect_to_application_if_between_cycles
       if EndOfCycleTimetable.between_cycles?(current_application.phase)
-        flash[:warning] = 'Applications for courses starting this academic year have now closed.'
         redirect_to candidate_interface_application_form_path and return false
       end
+
       true
     end
 
