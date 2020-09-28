@@ -12,6 +12,7 @@ RSpec.feature 'Provider withdraws an offer' do
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
     and_i_view_an_offered_application
+    and_i_navigate_to_the_offer_tab
 
     when_i_click_on_withdraw_application
     then_i_see_a_form_prompting_for_reasons
@@ -44,10 +45,11 @@ RSpec.feature 'Provider withdraws an offer' do
     )
   end
 
+  def and_i_navigate_to_the_offer_tab
+    click_on 'Offer'
+  end
+
   def when_i_click_on_withdraw_application
-    visit provider_interface_application_choice_path(
-      @application_offered.id,
-    )
     click_on 'Withdraw offer'
   end
 
