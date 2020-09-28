@@ -159,12 +159,14 @@ RSpec.feature 'Vendor receives the application' do
         },
         references: [
           {
+            id: @application.application_references.first.id,
             name: 'Terri Tudor',
             email: 'terri@example.com',
             relationship: 'Tutor',
             reference: 'My ideal person',
           },
           {
+            id: @application.application_references.last.id,
             name: 'Anne Other',
             email: 'anne@other.com',
             relationship: 'First boss',
