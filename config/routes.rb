@@ -298,8 +298,8 @@ Rails.application.routes.draw do
         get '/edit-type/:id' => 'other_qualifications/type#edit', as: :edit_other_qualification_type
         post '/edit-type/:id' => 'other_qualifications/type#update'
 
-        get '/new/:id' => 'other_qualifications/details#new', as: :new_other_qualification_details
-        post '/new/:id' => 'other_qualifications/details#create', as: :create_other_qualification_details
+        get '/new' => 'other_qualifications/details#new', as: :new_other_qualification_details
+        post '/new' => 'other_qualifications/details#create', as: :create_other_qualification_details
 
         get '/edit-details/:id' => 'other_qualifications/details#edit', as: :edit_other_qualification_details
         post '/edit-details/:id' => 'other_qualifications/details#update'

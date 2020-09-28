@@ -1,13 +1,25 @@
 module CandidateInterface
   class OtherQualifications::TypeController < OtherQualifications::BaseController
     def new
-      @qualification_type = OtherQualificationTypeForm.new
+      @wizard = wizard_for(current_step: :type)
+      @qualification_type = @wizard.qualification_type_form
     end
 
     def create
-      @qualification_type = OtherQualificationTypeForm.new(other_qualification_type_params)
-      if @qualification_type.save(current_application)
-        redirect_to candidate_interface_new_other_qualification_details_path(id: current_application.application_qualifications.last.id)
+      @wizard = wizard_for(other_qualification_type_params.merge(current_step: :type))
+      @qualification_type = @wizard.qualification_type_form
+
+      if @wizard.valid?(:type)
+        @wizard.save_state!
+
+        next_step = @wizard.next_step
+
+        if next_step.first == :details
+          redirect_to candidate_interface_new_other_qualification_details_path
+        else
+          track_validation_error(@qualification_type)
+          render :new
+        end
       else
         track_validation_error(@qualification_type)
         render :new
@@ -36,6 +48,18 @@ module CandidateInterface
     end
 
   private
+
+    def wizard_for(options)
+      options[:checking_answers] = true if params[:checking_answers] == 'true'
+      OtherQualificationWizard.new(
+        WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
+        options,
+      )
+    end
+
+    def persistence_key_for_current_user
+      "candidate_user_other_qualification_wizard-#{current_candidate.id}"
+    end
 
     def other_qualification_type_params
       params.fetch(:candidate_interface_other_qualification_type_form, {}).permit(
