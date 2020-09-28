@@ -8,6 +8,8 @@ class BulkCreateTestApplications
   end
 
   def call
+    error_if_application_choice_state_is_not_unsubmitted
+
     begin
       tries ||= 0
       sql = compose_insert_statements(unique_id: SecureRandom.hex(10))
@@ -15,6 +17,14 @@ class BulkCreateTestApplications
     rescue ActiveRecord::RecordNotUnique
       retry unless (tries += 1) > 3
       raise UniqueCandidateError, 'Failed to create a uniquely identifiable candidate, tried 3 times'
+    end
+  end
+
+private
+
+  def error_if_application_choice_state_is_not_unsubmitted
+    unless application_choice.unsubmitted?
+      raise UnsupportedApplicationStateError, 'This task currently only supports template applications that are unsubmitted'
     end
   end
 
@@ -75,4 +85,5 @@ class BulkCreateTestApplications
   end
 
   class UniqueCandidateError < StandardError; end
+  class UnsupportedApplicationStateError < StandardError; end
 end
