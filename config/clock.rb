@@ -5,4 +5,5 @@ require 'clockwork'
 
 class Clock
   include Clockwork
+
 end
