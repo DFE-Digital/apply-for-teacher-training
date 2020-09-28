@@ -17,7 +17,7 @@ module CandidateInterface
       )
     end
 
-    def update
+    def create
       render_404 and return unless FeatureFlag.active?(:international_addresses)
 
       @contact_details_form = ContactDetailsForm.new(address_type_params)

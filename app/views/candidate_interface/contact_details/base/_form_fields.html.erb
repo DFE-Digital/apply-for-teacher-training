@@ -1,0 +1,9 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.contact_details') %>
+</h1>
+
+<%= f.govuk_phone_field :phone_number, label: { text: t('application_form.contact_details.phone_number.label'), size: 'm' }, hint_text: t('application_form.contact_details.phone_number.hint_text'), width: 20, autocomplete: 'tel' %>
+
+<%= f.govuk_submit t('application_form.contact_details.base.button') %>
