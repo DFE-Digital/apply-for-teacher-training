@@ -2,9 +2,27 @@
 
 <% if FeatureFlag.active?('international_personal_details') %>
   <%= f.govuk_check_boxes_fieldset :nationalities, legend: { size: 'xl', text:  t('page_titles.nationalities') } do %>
-    <%= f.govuk_check_box :nationalities, 'British', link_errors: true, multiple: true, label: { text: 'British' } %>
-    <%= f.govuk_check_box :nationalities, 'Irish', multiple: true, label: { text: 'Irish' } %>
-    <%= f.govuk_check_box :nationalities, 'other', multiple: true, label: { text: 'Other' } do %>
+    <%= f.govuk_check_box(
+      :nationalities,
+      'British',
+      link_errors: true,
+      multiple: true,
+      label: { text: 'British' },
+      hint_text: 'including English, Scottish, Welsh or from Northern Ireland',
+    ) %>
+    <%= f.govuk_check_box(
+      :nationalities,
+      'Irish',
+      multiple: true,
+      label: { text: 'Irish' },
+      hint_text: 'including from Northern Ireland',
+    ) %>
+    <%= f.govuk_check_box(
+      :nationalities,
+      'other',
+      multiple: true,
+      label: { text: 'Citizen of a different country' },
+    ) do %>
       <%= f.govuk_collection_select :other_nationality1, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
       <%= f.govuk_collection_select :other_nationality2, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
       <%= f.govuk_collection_select :other_nationality3, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
@@ -16,7 +34,7 @@
     <%= t('page_titles.nationalities') %>
   </h1>
 
-  <%= f.govuk_collection_select :first_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
+  <%= f.govuk_collection_select :first_nationality, select_nationality_options(include_british_and_irish: true), :id, :name, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
 
     <details class="govuk-details" data-module="govuk-details" <%= 'open' if @nationalities_form.second_nationality.present? %>>
     <summary class="govuk-details__summary">

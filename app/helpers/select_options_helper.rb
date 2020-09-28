@@ -1,8 +1,8 @@
 module SelectOptionsHelper
-  def select_nationality_options
+  def select_nationality_options(include_british_and_irish: false)
     [
       OpenStruct.new(id: '', name: t('application_form.personal_details.nationality.default_option')),
-    ] + NATIONALITIES.map { |_, nationality| OpenStruct.new(id: nationality, name: nationality) }
+    ] + nationality_options(include_british_and_irish: include_british_and_irish).map { |_, nationality| OpenStruct.new(id: nationality, name: nationality) }
   end
 
   def select_country_options
@@ -21,5 +21,11 @@ module SelectOptionsHelper
     [
       OpenStruct.new(id: '', name: t('activemodel.errors.models.candidate_interface/pick_provider_form.attributes.provider_id.blank')),
     ] + providers.map { |provider| OpenStruct.new(id: provider.id, name: "#{provider.name} (#{provider.code})") }
+  end
+
+private
+
+  def nationality_options(include_british_and_irish:)
+    include_british_and_irish ? NATIONALITIES : NATIONALITIES.reject { |iso_code, _| %w[GB IE].include?(iso_code) }
   end
 end

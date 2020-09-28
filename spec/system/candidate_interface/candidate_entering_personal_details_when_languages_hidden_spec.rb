@@ -51,7 +51,7 @@ RSpec.describe 'Entering personal details' do
 
     # Go back and change nationality
     visit candidate_interface_nationalities_path
-    check 'Other'
+    check 'Citizen of a different country'
     within all('.govuk-form-group')[1] do
       select 'Pakistani'
     end
