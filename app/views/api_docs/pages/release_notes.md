@@ -1,3 +1,9 @@
+### 29th September 2020
+
+New attributes:
+
+- `Reference` now has a unique `id` attribute of type integer to assist with tracking of reference changes.
+
 ### 16th September 2020
 
 Changes to existing attributes:
