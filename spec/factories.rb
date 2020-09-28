@@ -120,11 +120,18 @@ FactoryBot.define do
           other_disability = 'Acquired brain injury'
           all_disabilities = CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map(&:second) << other_disability
           disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
+          hesa_sex = [1, 2, 3].sample
+          hesa_disabilities = disabilities ? HESA_DISABILITIES.map(&:first).sample : %w[00]
+          hesa_ethnicity = HESA_ETHNICITIES_2020_2021.map(&:first).sample
+
           {
             sex: ['male', 'female', 'intersex', 'Prefer not to say'].sample,
             ethnic_group: ethnicity.first,
             ethnic_background: ethnicity.last,
             disabilities: disabilities,
+            hesa_sex: hesa_sex,
+            hesa_disabilities: hesa_disabilities,
+            hesa_ethnicity: hesa_ethnicity,
           }
         end
       end

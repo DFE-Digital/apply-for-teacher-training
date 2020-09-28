@@ -42,6 +42,7 @@ module VendorAPI
             work_history_break_explanation: work_history_breaks,
           },
           offer: offer,
+          hesa_itt_data: hesa_itt_data,
           rejection: get_rejection,
           withdrawal: withdrawal,
           further_information: application_form.further_information,
@@ -255,11 +256,15 @@ module VendorAPI
     end
 
     def hesa_itt_data
-      {
-        sex: '2',
-        disability: '00',
-        ethnicity: '10',
-      }
+      equality_and_diversity_data = application_form&.equality_and_diversity
+
+      if equality_and_diversity_data
+        {
+          sex: equality_and_diversity_data['hesa_sex'],
+          disability: equality_and_diversity_data['hesa_disabilities'],
+          ethnicity: equality_and_diversity_data['hesa_ethnicity'],
+        }
+      end
     end
 
     def work_history_breaks

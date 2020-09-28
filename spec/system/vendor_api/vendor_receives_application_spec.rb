@@ -74,6 +74,7 @@ RSpec.feature 'Vendor receives the application' do
         support_reference: @provider.application_forms.first.support_reference,
         personal_statement: "Why do you want to become a teacher?: I believe I would be a first-rate teacher \n What is your subject knowledge?: Everything",
         interview_preferences: 'Not on a Wednesday',
+        hesa_itt_data: nil,
         offer: nil,
         contact_details: {
           phone_number: '07700 900 982',
