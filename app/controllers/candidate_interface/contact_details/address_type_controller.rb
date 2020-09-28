@@ -8,7 +8,6 @@ module CandidateInterface
       )
     end
 
-
     def edit
       render_404 and return unless FeatureFlag.active?(:international_addresses)
 

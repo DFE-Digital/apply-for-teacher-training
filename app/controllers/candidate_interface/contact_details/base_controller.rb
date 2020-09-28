@@ -1,13 +1,11 @@
 module CandidateInterface
   class ContactDetails::BaseController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
-
     def new
       @contact_details_form = ContactDetailsForm.build_from_application(
         current_application,
       )
     end
-
 
     def edit
       @contact_details_form = ContactDetailsForm.build_from_application(
