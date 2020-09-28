@@ -11,7 +11,7 @@ RSpec.describe SubmitApplication do
       application_form
     end
 
-    it 'sets application_form.submitted_at and edit_by on the application foorm and choices' do
+    it 'sets application_form.submitted_at and edit_by on the application form and choices' do
       application_form = create_application_form
       Timecop.freeze(Time.zone.local(2019, 11, 11, 15, 0, 0)) do
         expected_edit_by = Time.zone.local(2019, 11, 18).end_of_day # business days
