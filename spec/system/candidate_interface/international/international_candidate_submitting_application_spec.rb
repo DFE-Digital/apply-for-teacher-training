@@ -63,7 +63,7 @@ RSpec.feature 'International candidate submits the application' do
     click_button t('complete_form_button', scope: scope)
 
     # Nationality
-    check 'Other'
+    check 'Citizen of a different country'
     within all('.govuk-form-group')[1] do
       select 'Belgian'
     end

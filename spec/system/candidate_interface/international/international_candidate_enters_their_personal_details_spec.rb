@@ -41,14 +41,16 @@ RSpec.feature 'Entering their personal details' do
 
     when_i_click_change_on_my_nationality
     and_i_uncheck_that_i_am_irish
+    and_i_check_that_i_am_british
     and_i_check_other
-    and_select_i_am_english
+    and_select_i_am_french
     and_i_submit_the_form
     then_i_see_the_personal_details_review_page
-    and_i_see_i_am_english
+    and_i_see_i_am_french
 
     when_i_click_change_on_my_nationality
     and_i_select_i_am_german_dutch_and_belgian
+    and_i_uncheck_that_i_am_british
     and_i_submit_the_form
     then_i_see_the_right_to_work_or_study_page
 
@@ -172,18 +174,22 @@ RSpec.feature 'Entering their personal details' do
     uncheck 'Irish'
   end
 
-  def and_i_check_other
-    check 'Other'
+  def and_i_check_that_i_am_british
+    check 'British'
   end
 
-  def and_select_i_am_english
+  def and_i_check_other
+    check 'Citizen of a different country'
+  end
+
+  def and_select_i_am_french
     within all('.govuk-form-group')[1] do
-      select 'English'
+      select 'French'
     end
   end
 
-  def and_i_see_i_am_english
-    expect(page).to have_content 'English'
+  def and_i_see_i_am_french
+    expect(page).to have_content 'French'
   end
 
   def and_i_select_i_am_german_dutch_and_belgian
