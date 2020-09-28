@@ -677,6 +677,7 @@ Rails.application.routes.draw do
     end
 
     get '/email-log', to: 'email_log#index', as: :email_log
+    get '/vendor-api-requests', to: 'vendor_api_requests#index', as: :vendor_api_requests
 
     get '/applications' => 'application_forms#index'
     get '/applications/unavailable-choices' => 'application_forms#unavailable_choices', as: :unavailable_choices
