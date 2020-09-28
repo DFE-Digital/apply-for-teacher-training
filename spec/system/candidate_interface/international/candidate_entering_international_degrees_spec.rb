@@ -34,7 +34,7 @@ RSpec.feature 'Entering their degrees' do
     and_i_fill_in_the_country
     and_i_click_on_save_and_continue
 
-    # Add NARIC statement
+    # Add UK NARIC statement
     then_i_can_see_the_naric_page
     when_i_click_on_save_and_continue
     then_i_see_validation_errors_for_naric_question
@@ -163,7 +163,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_see_the_naric_page
-    expect(page).to have_content 'Do you have a NARIC statement of comparability for your degree?'
+    expect(page).to have_content 'Do you have a statement of comparability from The National Recognition Information Centre?'
   end
 
   def then_i_see_validation_errors_for_naric_question
@@ -180,7 +180,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def and_i_fill_in_naric_reference
-    fill_in 'NARIC reference number', with: '0123456789'
+    fill_in 'UK NARIC reference number', with: '0123456789'
   end
 
   def and_i_fill_in_comparable_uk_degree_type
@@ -258,7 +258,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_click_to_change_my_naric_details
-    page.all('.govuk-summary-list__actions').to_a.fourth.click_link 'Change NARIC statement'
+    page.all('.govuk-summary-list__actions').to_a.fourth.click_link 'Change UK NARIC statement'
   end
 
   def then_i_see_my_original_naric_details_filled_in
@@ -266,7 +266,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_change_my_reference_number_and_comparable_uk_degree_type
-    fill_in 'NARIC reference number', with: '9876543210'
+    fill_in 'UK NARIC reference number', with: '9876543210'
     choose 'Post Doctoral award'
   end
 

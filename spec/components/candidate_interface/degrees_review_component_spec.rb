@@ -210,8 +210,8 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       )
     end
 
-    context 'when a NARIC reference number has been provided' do
-      it 'renders component with correct values for NARIC statement' do
+    context 'when a UK NARIC reference number has been provided' do
+      it 'renders component with correct values for UK NARIC statement' do
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
@@ -233,7 +233,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       end
     end
 
-    context 'when the candidate has not provided a NARIC reference number' do
+    context 'when the candidate has not provided a UK NARIC reference number' do
       let(:degree1) do
         build_stubbed(
           :degree_qualification,
