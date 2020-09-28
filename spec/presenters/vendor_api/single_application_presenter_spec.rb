@@ -315,4 +315,18 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       end
     end
   end
+
+  describe 'attributes.references' do
+    let(:application_choice) { create(:application_choice, :with_offer) }
+
+    it 'returns application references with their respective ids' do
+      reference = create(
+        :reference,
+        :complete,
+        application_form: application_choice.application_form,
+      )
+      presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)
+      expect(presenter.as_json[:attributes][:references].first[:id]).to eq(reference.id)
+    end
+  end
 end

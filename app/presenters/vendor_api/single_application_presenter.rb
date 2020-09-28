@@ -163,6 +163,7 @@ module VendorAPI
 
     def reference_to_hash(reference)
       {
+        id: reference.id,
         name: reference.name,
         email: reference.email_address,
         relationship: reference.relationship,
