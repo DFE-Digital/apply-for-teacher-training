@@ -1,15 +1,13 @@
-<div class="govuk-tabs app-tabs govuk-!-display-none-print" data-qa="sub-navigation">
-  <ul class="govuk-tabs__list">
+<nav class="app-tab-navigation" aria-label="Sub navigation" data-qa="sub-navigation">
+  <ul class="app-tab-navigation__list">
     <% items.each do |item| %>
-      <% if item.fetch(:current, false) || current_page?(item.fetch(:url)) %>
-        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected app-tabs__list-item--selected">
-          <%= govuk_link_to item[:name], item[:url],  class: "govuk-tabs__tab app-tabs__tab", aria: { selected: "true" }, role:"tab" %>
-        </li>
-      <% else %>
-        <li class="govuk-tabs__list-item">
-          <%= govuk_link_to item[:name], item[:url],  class: "govuk-tabs__tab app-tabs__tab", role:"tab" %>
-        </li>
-      <% end %>
+      <li class="app-tab-navigation__item">
+        <% if item.fetch(:current, false) || current_page?(item.fetch(:url)) %>
+          <%= govuk_link_to item[:name], item[:url],  class: "app-tab-navigation__link", aria: { selected: "true" }, role:"tab" %>
+        <% else %>
+          <%= govuk_link_to item[:name], item[:url],  class: "app-tab-navigation__link", role:"tab" %>
+        <% end %>
+      </li>
     <% end %>
   </ul>
-</div>
+</nav>

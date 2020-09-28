@@ -11,7 +11,7 @@ RSpec.describe TabNavigationComponent do
     it 'when the item is "current" then that tab is selected' do
       result = render_inline(described_class.new(items: items))
 
-      expect(result.css('.govuk-tabs__list-item--selected').text).to include('Application')
+      expect(result.css('.app-tab-navigation__link[aria-selected="true"]').text).to include('Application')
     end
   end
 
