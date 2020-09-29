@@ -1,5 +1,9 @@
 <% content_for :title, 'Vendor API Requests' %>
 
+<% content_for :navigation do %>
+  <%= render 'support_interface/performance/performance_navigation' %>
+<% end %>
+
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @vendor_api_requests) do %>
   <table class="govuk-table">
     <thead class="govuk-table__head">
