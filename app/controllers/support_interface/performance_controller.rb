@@ -89,6 +89,13 @@ module SupportInterface
       send_data csv, filename: "application-references-#{Time.zone.today}.csv", disposition: :attachment
     end
 
+    def offer_conditions
+      offers = SupportInterface::OfferConditionsExport.new.offers
+      csv = to_csv(offers)
+
+      send_data csv, filename: "offer-conditions-#{Time.zone.today}.csv", disposition: :attachment
+    end
+
   private
 
     def to_csv(objects, header_row = nil)
