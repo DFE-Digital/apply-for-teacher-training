@@ -15,6 +15,10 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
 
     when_i_click_continue
     then_i_see_the_type_page
+
+    when_i_select_academic
+    and_i_click_save_and_continue
+    then_i_should_see_the_referee_name_page
   end
 
   def given_i_am_signed_in
@@ -47,5 +51,17 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
 
   def then_i_see_the_type_page
     expect(page).to have_current_path candidate_interface_decoupled_references_type_path
+  end
+
+  def when_i_select_academic
+    choose 'Academic'
+  end
+
+  def and_i_click_save_and_continue
+    click_button 'Save and continue'
+  end
+
+  def then_i_should_see_the_referee_name_page
+    expect(page).to have_current_path candidate_interface_decoupled_referee_name_path
   end
 end
