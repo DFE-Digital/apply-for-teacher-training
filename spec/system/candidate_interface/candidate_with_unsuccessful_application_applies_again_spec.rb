@@ -5,6 +5,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
   scenario 'Can apply again' do
     given_the_pilot_is_open
+    and_the_decoupled_references_flag_is_on
     and_i_am_signed_in_as_a_candidate
 
     when_i_have_an_unsuccessful_application
@@ -40,6 +41,10 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_the_decoupled_references_flag_is_on
+    FeatureFlag.activate('decoupled_references')
   end
 
   def and_i_am_signed_in_as_a_candidate
@@ -156,7 +161,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
   end
 
   def when_i_click_view_my_application
-    click_link 'To view your application, return to your application dashboard'
+    click_link 'You can track the progress of your application on your dashboard'
   end
 
   def then_i_do_not_see_a_link_to_edit_my_application

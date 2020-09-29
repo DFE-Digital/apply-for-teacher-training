@@ -35,7 +35,7 @@ module CandidateInterface
     end
 
     def edit
-      redirect_to candidate_interface_application_complete_path and return unless current_application.can_edit_after_submission?
+      redirect_to candidate_interface_application_complete_path and return unless current_application.can_edit_after_submission? || !FeatureFlag.active?('decoupled_references')
 
       @application_form = current_application
       render :edit_by_support
