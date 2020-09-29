@@ -11,6 +11,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
 
   scenario 'Carry over application and remove all application choices when new cycle opens' do
     given_i_am_signed_in_as_a_candidate
+    and_the_decoupled_references_flag_is_off
     and_i_am_in_the_2020_recruitment_cycle
     when_i_have_an_unsubmitted_application
     and_the_recruitment_cycle_ends
@@ -33,6 +34,10 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
   def given_i_am_signed_in_as_a_candidate
     @candidate = create(:candidate)
     login_as(@candidate)
+  end
+
+  def and_the_decoupled_references_flag_is_off
+    FeatureFlag.deactivate('decoupled_references')
   end
 
   def and_i_am_in_the_2020_recruitment_cycle

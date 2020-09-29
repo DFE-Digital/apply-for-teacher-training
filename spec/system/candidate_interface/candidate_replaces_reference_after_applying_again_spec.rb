@@ -5,6 +5,7 @@ RSpec.feature 'Candidate applying again' do
 
   scenario 'Can replace a completed reference' do
     given_the_pilot_is_open
+    and_the_decoupled_references_flag_is_off
     and_i_am_signed_in_as_a_candidate
 
     when_i_have_an_unsuccessful_application_with_references
@@ -36,6 +37,10 @@ RSpec.feature 'Candidate applying again' do
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_the_decoupled_references_flag_is_off
+    FeatureFlag.deactivate('decoupled_references')
   end
 
   def and_i_am_signed_in_as_a_candidate
