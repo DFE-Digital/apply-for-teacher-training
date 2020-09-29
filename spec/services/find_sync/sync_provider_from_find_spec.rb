@@ -105,7 +105,7 @@ RSpec.describe FindSync::SyncProviderFromFind, sidekiq: true do
         expect(Course.first.withdrawn).to eq true
       end
 
-      it 'correctly handles accredited providers' do
+      it 'sets the accredited provider' do
         stub_find_api_provider_200_with_accredited_provider(
           provider_code: 'ABC',
           course_code: '9CBA',
@@ -119,6 +119,33 @@ RSpec.describe FindSync::SyncProviderFromFind, sidekiq: true do
         course_option = CourseOption.last
         expect(course_option.course.accredited_provider.code).to eq 'DEF'
         expect(course_option.course.accredited_provider.name).to eq 'Test Accredited Provider'
+      end
+
+      it 'does not set the accredited provider if it is the same as the training provider' do
+        stub_find_api_provider_200_with_accredited_provider(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+          study_mode: 'full_time',
+          accredited_provider_code: 'ABC',
+          accredited_provider_name: 'ABC College',
+        )
+
+        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
+
+        expect(Course.find_by(code: '9CBA').accredited_provider).to be_nil
+      end
+
+      it 'resets the accredited provider if it is no longer specified' do
+        course = create(:course, accredited_provider: create(:provider), code: '9CBA', provider: create(:provider, code: 'ABC'))
+
+        stub_find_api_provider_200(
+          provider_code: 'ABC',
+          course_code: '9CBA',
+        )
+
+        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
+
+        expect(course.reload.accredited_provider).to be_nil
       end
 
       it 'correctly creates provider relationships' do
