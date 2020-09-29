@@ -1,27 +1,27 @@
 module Hesa
   class Disability
-    DisabilityStruct = Struct.new(:hesa_code, :type)
+    DisabilityStruct = Struct.new(:hesa_code, :value)
 
     def self.all
       HESA_DISABILITIES.map { |disability| DisabilityStruct.new(*disability) }
     end
 
-    def self.find_by_type(disability_type)
-      all.find { |disability| disability.type == disability_type }
+    def self.find_by_value(value)
+      all.find { |disability| disability.value == value }
     end
 
-    def self.convert_to_hesa_type(disability)
+    def self.convert_to_hesa_value(disability)
       {
-        'None' => HesaDisabilityTypes::NONE,
-        'Multiple' => HesaDisabilityTypes::MULTIPLE,
-        'Learning difficulty' => HesaDisabilityTypes::LEARNING,
-        'Social or communication impairment' => HesaDisabilityTypes::SOCIAL_OR_COMMUNICATION,
-        'Long-standing illness' => HesaDisabilityTypes::LONGSTANDING_ILLNESS,
-        'Mental health condition' => HesaDisabilityTypes::MENTAL_HEALTH_CONDITION,
-        'Physical disability or mobility issue' => HesaDisabilityTypes::PHYSICAL_OR_MOBILITY,
-        'Deaf' => HesaDisabilityTypes::DEAF,
-        'Blind' => HesaDisabilityTypes::BLIND,
-        'Other' => HesaDisabilityTypes::OTHER,
+        'None' => HesaDisabilityValues::NONE,
+        'Multiple' => HesaDisabilityValues::MULTIPLE,
+        'Learning difficulty' => HesaDisabilityValues::LEARNING,
+        'Social or communication impairment' => HesaDisabilityValues::SOCIAL_OR_COMMUNICATION,
+        'Long-standing illness' => HesaDisabilityValues::LONGSTANDING_ILLNESS,
+        'Mental health condition' => HesaDisabilityValues::MENTAL_HEALTH_CONDITION,
+        'Physical disability or mobility issue' => HesaDisabilityValues::PHYSICAL_OR_MOBILITY,
+        'Deaf' => HesaDisabilityValues::DEAF,
+        'Blind' => HesaDisabilityValues::BLIND,
+        'Other' => HesaDisabilityValues::OTHER,
       }.freeze[disability]
     end
   end

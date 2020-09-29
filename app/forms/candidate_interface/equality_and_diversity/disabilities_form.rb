@@ -59,8 +59,8 @@ module CandidateInterface
 
     def hesa_disability_codes
       disabilities.map { |disability|
-        disability_type = Hesa::Disability.convert_to_hesa_type(disability)
-        Hesa::Disability.find_by_type(disability_type)&.hesa_code
+        disability_type = Hesa::Disability.convert_to_hesa_value(disability)
+        Hesa::Disability.find_by_value(disability_type)&.hesa_code
       }.compact
     end
   end

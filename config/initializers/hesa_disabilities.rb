@@ -1,4 +1,4 @@
-module HesaDisabilityTypes
+module HesaDisabilityValues
   NONE = 'No known disability'.freeze
   MULTIPLE = 'Multiple disabilities'.freeze
   LEARNING = 'A specific learning difficulty such as dyslexia, dyspraxia or AD(H)D'.freeze
@@ -13,14 +13,14 @@ end
 
 # https://www.hesa.ac.uk/collection/c20053/e/disable
 HESA_DISABILITIES = [
-  ['00', HesaDisabilityTypes::NONE],
-  ['08', HesaDisabilityTypes::MULTIPLE],
-  ['51', HesaDisabilityTypes::LEARNING],
-  ['53', HesaDisabilityTypes::SOCIAL_OR_COMMUNICATION],
-  ['54', HesaDisabilityTypes::LONGSTANDING_ILLNESS],
-  ['55', HesaDisabilityTypes::MENTAL_HEALTH_CONDITION],
-  ['56', HesaDisabilityTypes::PHYSICAL_OR_MOBILITY],
-  ['57', HesaDisabilityTypes::DEAF],
-  ['58', HesaDisabilityTypes::BLIND],
-  ['96', HesaDisabilityTypes::OTHER],
+  ['00', HesaDisabilityValues::NONE],
+  ['08', HesaDisabilityValues::MULTIPLE],
+  ['51', HesaDisabilityValues::LEARNING],
+  ['53', HesaDisabilityValues::SOCIAL_OR_COMMUNICATION],
+  ['54', HesaDisabilityValues::LONGSTANDING_ILLNESS],
+  ['55', HesaDisabilityValues::MENTAL_HEALTH_CONDITION],
+  ['56', HesaDisabilityValues::PHYSICAL_OR_MOBILITY],
+  ['57', HesaDisabilityValues::DEAF],
+  ['58', HesaDisabilityValues::BLIND],
+  ['96', HesaDisabilityValues::OTHER],
 ].freeze

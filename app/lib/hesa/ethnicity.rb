@@ -1,6 +1,6 @@
 module Hesa
   class Ethnicity
-    EthnicityStruct = Struct.new(:hesa_code, :type)
+    EthnicityStruct = Struct.new(:hesa_code, :value)
 
     def self.all(cycle_year)
       if cycle_year == 2020
@@ -12,31 +12,31 @@ module Hesa
       end
     end
 
-    def self.find_by_type(ethnicity_type, cycle_year)
-      all(cycle_year).find { |ethnicity| ethnicity.type == ethnicity_type }
+    def self.find_by_value(value, cycle_year)
+      all(cycle_year).find { |ethnicity| ethnicity.value == value }
     end
 
-    def self.convert_to_hesa_type(background)
+    def self.convert_to_hesa_value(background)
       {
-        'British, English, Northern Irish, Scottish, or Welsh' => HesaEthnicityTypes::WHITE,
-        'Irish' => HesaEthnicityTypes::WHITE,
-        'Irish Traveller or Gypsy' => HesaEthnicityTypes::GYPSY_OR_TRAVELLER,
-        'Another White background' => HesaEthnicityTypes::WHITE,
-        'Prefer not to say' => HesaEthnicityTypes::INFORMATION_REFUSED,
-        'Bangladeshi' => HesaEthnicityTypes::BANGLADESHI,
-        'Chinese' => HesaEthnicityTypes::CHINESE,
-        'Indian' => HesaEthnicityTypes::INDIAN,
-        'Pakistani' => HesaEthnicityTypes::PAKISTANI,
-        'Another Asian background' => HesaEthnicityTypes::OTHER_ASIAN,
-        'African' => HesaEthnicityTypes::AFRICAN,
-        'Caribbean' => HesaEthnicityTypes::CARIBBEAN,
-        'Another Black background' => HesaEthnicityTypes::OTHER_BLACK,
-        'Asian and White' => HesaEthnicityTypes::WHITE_AND_ASIAN,
-        'Black African and White' => HesaEthnicityTypes::WHITE_AND_BLACK_AFRICAN,
-        'Black Caribbean and White' => HesaEthnicityTypes::WHITE_AND_BLACK_CARIBBEAN,
-        'Another Mixed background' => HesaEthnicityTypes::OTHER_MIXED,
-        'Arab' => HesaEthnicityTypes::ARAB,
-        'Another ethnic background' => HesaEthnicityTypes::OTHER_ETHNIC,
+        'British, English, Northern Irish, Scottish, or Welsh' => HesaEthnicityValues::WHITE,
+        'Irish' => HesaEthnicityValues::WHITE,
+        'Irish Traveller or Gypsy' => HesaEthnicityValues::GYPSY_OR_TRAVELLER,
+        'Another White background' => HesaEthnicityValues::WHITE,
+        'Prefer not to say' => HesaEthnicityValues::INFORMATION_REFUSED,
+        'Bangladeshi' => HesaEthnicityValues::BANGLADESHI,
+        'Chinese' => HesaEthnicityValues::CHINESE,
+        'Indian' => HesaEthnicityValues::INDIAN,
+        'Pakistani' => HesaEthnicityValues::PAKISTANI,
+        'Another Asian background' => HesaEthnicityValues::OTHER_ASIAN,
+        'African' => HesaEthnicityValues::AFRICAN,
+        'Caribbean' => HesaEthnicityValues::CARIBBEAN,
+        'Another Black background' => HesaEthnicityValues::OTHER_BLACK,
+        'Asian and White' => HesaEthnicityValues::WHITE_AND_ASIAN,
+        'Black African and White' => HesaEthnicityValues::WHITE_AND_BLACK_AFRICAN,
+        'Black Caribbean and White' => HesaEthnicityValues::WHITE_AND_BLACK_CARIBBEAN,
+        'Another Mixed background' => HesaEthnicityValues::OTHER_MIXED,
+        'Arab' => HesaEthnicityValues::ARAB,
+        'Another ethnic background' => HesaEthnicityValues::OTHER_ETHNIC,
       }.freeze[background]
     end
   end

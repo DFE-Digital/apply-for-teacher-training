@@ -20,7 +20,7 @@ module CandidateInterface
 
       if application_form.equality_and_diversity.nil?
         hesa_code = Hesa::Disability
-                      .find_by_type(HesaDisabilityTypes::NONE)
+                      .find_by_value(HesaDisabilityValues::NONE)
                       .hesa_code
         application_form.update(equality_and_diversity: {
           'disabilities' => [],

@@ -1,4 +1,4 @@
-module HesaEthnicityTypes
+module HesaEthnicityValues
   WHITE = 'White'.freeze
   GYPSY_OR_TRAVELLER = 'Gypsy or Traveller'.freeze
   CARIBBEAN = 'Black or Black British - Caribbean'.freeze
@@ -21,24 +21,24 @@ end
 
 # https://www.hesa.ac.uk/collection/c19053/e/ethnic
 HESA_ETHNICITIES_2019_2020 = [
-  [10, HesaEthnicityTypes::WHITE],
-  [15, HesaEthnicityTypes::GYPSY_OR_TRAVELLER],
-  [21, HesaEthnicityTypes::CARIBBEAN],
-  [22, HesaEthnicityTypes::AFRICAN],
-  [29, HesaEthnicityTypes::OTHER_BLACK],
-  [31, HesaEthnicityTypes::INDIAN],
-  [32, HesaEthnicityTypes::PAKISTANI],
-  [33, HesaEthnicityTypes::BANGLADESHI],
-  [34, HesaEthnicityTypes::CHINESE],
-  [39, HesaEthnicityTypes::OTHER_ASIAN],
-  [41, HesaEthnicityTypes::WHITE_AND_BLACK_CARIBBEAN],
-  [42, HesaEthnicityTypes::WHITE_AND_BLACK_AFRICAN],
-  [43, HesaEthnicityTypes::WHITE_AND_ASIAN],
-  [49, HesaEthnicityTypes::OTHER_MIXED],
-  [50, HesaEthnicityTypes::ARAB],
-  [80, HesaEthnicityTypes::OTHER_ETHNIC],
-  [90, HesaEthnicityTypes::NOT_KNOWN],
-  [98, HesaEthnicityTypes::INFORMATION_REFUSED],
+  [10, HesaEthnicityValues::WHITE],
+  [15, HesaEthnicityValues::GYPSY_OR_TRAVELLER],
+  [21, HesaEthnicityValues::CARIBBEAN],
+  [22, HesaEthnicityValues::AFRICAN],
+  [29, HesaEthnicityValues::OTHER_BLACK],
+  [31, HesaEthnicityValues::INDIAN],
+  [32, HesaEthnicityValues::PAKISTANI],
+  [33, HesaEthnicityValues::BANGLADESHI],
+  [34, HesaEthnicityValues::CHINESE],
+  [39, HesaEthnicityValues::OTHER_ASIAN],
+  [41, HesaEthnicityValues::WHITE_AND_BLACK_CARIBBEAN],
+  [42, HesaEthnicityValues::WHITE_AND_BLACK_AFRICAN],
+  [43, HesaEthnicityValues::WHITE_AND_ASIAN],
+  [49, HesaEthnicityValues::OTHER_MIXED],
+  [50, HesaEthnicityValues::ARAB],
+  [80, HesaEthnicityValues::OTHER_ETHNIC],
+  [90, HesaEthnicityValues::NOT_KNOWN],
+  [98, HesaEthnicityValues::INFORMATION_REFUSED],
 ].freeze
 
 # Two codes have been dropped in 2020/21
