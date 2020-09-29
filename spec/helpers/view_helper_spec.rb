@@ -44,7 +44,7 @@ RSpec.describe ViewHelper, type: :helper do
     it 'returns an anchor tag with the app-back-link--no-js class if given :back as an argument' do
       anchor_tag = helper.govuk_back_link_to(:back)
 
-      expect(anchor_tag).to eq('<a class="app-back-link app-back-link--no-js" href="javascript:history.back()">Back</a>')
+      expect(anchor_tag).to eq('<a class="app-back-link app-back-link--fallback app-back-link--no-js" href="javascript:history.back()">Back</a>')
     end
   end
 

@@ -12,10 +12,15 @@ module ViewHelper
 
     if url == :back
       url = controller.request.env['HTTP_REFERER'] || 'javascript:history.back()'
+      classes += ' app-back-link--fallback'
     end
 
     if url == 'javascript:history.back()'
       classes += ' app-back-link--no-js'
+    end
+
+    if url.is_a?(String) && url.end_with?(candidate_interface_application_form_path)
+      body = 'Back to application'
     end
 
     link_to(body, url, class: classes)
