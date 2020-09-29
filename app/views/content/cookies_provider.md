@@ -4,6 +4,6 @@ Cookies are used to remember who you are when you have signed in so we can show 
 
 Manage teacher training applications cookies may include:
 
-| Name                                                   | Purpose                                        | Expires  |
-| :------------------------------------------------      | :--------------------------------------------- | :------- |
-| \_apply\_for\_postgraduate\_teacher\_training\_session | Used to remember your identity when signed in  | 6 hours  |
+| Name                                                   | Purpose                                        | Expires                      |
+| :------------------------------------------------      | :--------------------------------------------- | :--------------------------- |
+| \_apply\_for\_postgraduate\_teacher\_training\_session | Used to remember your identity when signed in  | When you close your browser  |

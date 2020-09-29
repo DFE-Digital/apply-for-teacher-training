@@ -36,7 +36,7 @@ RSpec.feature 'Candidate content' do
 
   def then_i_can_see_the_cookie_policy
     expect(page).to have_content(t('page_titles.cookies_candidate'))
-    expect(page).to have_content(distance_of_time_in_words(Devise.timeout_in))
+    expect(page).to have_content('When you close your browser')
   end
 
   def when_i_click_on_the_privacy_policy
