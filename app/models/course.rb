@@ -99,11 +99,19 @@ class Course < ApplicationRecord
   end
 
   def full?
-    course_options.all?(&:no_vacancies?)
+    course_options.vacancies.blank?
   end
 
   def available?
     course_options.available.present?
+  end
+
+  def closed_on_apply?
+    !open_on_apply
+  end
+
+  def not_available?
+    !exposed_in_find
   end
 
   def find_url
