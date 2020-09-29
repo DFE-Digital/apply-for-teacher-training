@@ -724,7 +724,7 @@ en:
             award_year:
               blank: Enter year the assessment was done
               invalid: Enter a real year
-        candidate_interface/other_qualification_type_form:
+        candidate_interface/other_qualification_wizard:
           attributes:
             qualification_type:
               blank: Enter the type of qualification

@@ -21,7 +21,7 @@ module CandidateInterface
           render :new
         end
       else
-        track_validation_error(@qualification_type)
+        track_validation_error(@wizard)
         render :new
       end
     end
