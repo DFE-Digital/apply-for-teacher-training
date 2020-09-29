@@ -756,6 +756,7 @@ Rails.application.routes.draw do
     get '/performance/course-choice-withdrawal', to: 'performance#course_choice_withdrawal', as: :course_choice_withdrawal_survey
     get '/performance/candidate-journey-tracking', to: 'performance#candidate_journey_tracking', as: :candidate_journey_tracking
     get 'performance/reference-types', to: 'performance#application_references', as: :application_references
+    get 'performance/offer-conditions', to: 'performance#offer_conditions', as: :offer_conditions
 
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
