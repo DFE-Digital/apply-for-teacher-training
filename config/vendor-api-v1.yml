@@ -757,11 +757,16 @@ components:
       type: object
       additionalProperties: false
       required:
+      - id
       - name
       - email
       - relationship
       - reference
       properties:
+        id:
+          type: integer
+          description: A unique reference id
+          example: 4321
         name:
           type: string
           description: The referee’s name
