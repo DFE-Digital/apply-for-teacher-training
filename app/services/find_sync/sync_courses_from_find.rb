@@ -100,12 +100,14 @@ module FindSync
     end
 
     def add_accredited_provider(course, find_accredited_provider)
-      if find_accredited_provider.present?
+      if find_accredited_provider.present? && course.provider.code != find_accredited_provider[:provider_code]
         accredited_provider = Provider.find_or_initialize_by(code: find_accredited_provider[:provider_code])
         accredited_provider.name = find_accredited_provider[:provider_name]
         accredited_provider.save!
 
         course.accredited_provider = accredited_provider
+      else
+        course.accredited_provider = nil
       end
     end
 
