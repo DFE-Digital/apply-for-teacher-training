@@ -28,7 +28,7 @@ module CandidateInterface
           return redirect_to action: 'type', id: @id
         end
 
-        @reference_type_form.save(current_referee(@id))
+        @reference_type_form.update(current_referee(@id))
 
         redirect_to candidate_interface_confirm_additional_referees_path
       else

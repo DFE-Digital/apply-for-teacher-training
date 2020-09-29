@@ -37,7 +37,7 @@ module CandidateInterface
           return redirect_to action: 'type', id: @id
         end
 
-        @reference_type_form.save(@referee)
+        @reference_type_form.update(@referee)
 
         current_application.update!(references_completed: false)
 
