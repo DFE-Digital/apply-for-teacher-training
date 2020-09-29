@@ -73,7 +73,7 @@ GEM
     bcrypt (3.1.16)
     bindata (2.4.7)
     bindex (0.8.1)
-    brakeman (4.9.1)
+    brakeman (4.10.0)
     builder (3.2.4)
     bullet (6.1.0)
       activesupport (>= 3.0.0)
