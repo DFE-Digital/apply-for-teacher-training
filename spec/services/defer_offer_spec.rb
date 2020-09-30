@@ -8,7 +8,7 @@ RSpec.describe DeferOffer do
       DeferOffer.new(
         actor: create(:support_user),
         application_choice: application_choice,
-      ).save
+      ).save!
 
       expect(application_choice.reload.status).to eq 'offer_deferred'
     end
@@ -19,7 +19,7 @@ RSpec.describe DeferOffer do
       DeferOffer.new(
         actor: create(:support_user),
         application_choice: application_choice,
-      ).save
+      ).save!
 
       expect(application_choice.reload.offer_deferred_at).not_to be_nil
     end
@@ -30,7 +30,7 @@ RSpec.describe DeferOffer do
       DeferOffer.new(
         actor: create(:support_user),
         application_choice: application_choice,
-      ).save
+      ).save!
 
       expect(application_choice.reload.status).to eq 'offer_deferred'
     end
@@ -45,7 +45,7 @@ RSpec.describe DeferOffer do
         application_choice: application_choice,
       )
 
-      expect { service.save }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
+      expect { service.save! }.to raise_error(ProviderAuthorisation::NotAuthorisedError)
 
       expect(application_choice.reload.status).to eq 'pending_conditions'
     end
@@ -55,7 +55,7 @@ RSpec.describe DeferOffer do
       deliverer = instance_double(ActionMailer::MessageDelivery, deliver_later: true)
       allow(CandidateMailer).to receive(:deferred_offer).and_return(deliverer)
 
-      DeferOffer.new(actor: create(:support_user), application_choice: application_choice).save
+      DeferOffer.new(actor: create(:support_user), application_choice: application_choice).save!
 
       expect(CandidateMailer).to have_received(:deferred_offer).once.with(application_choice)
     end
@@ -64,7 +64,7 @@ RSpec.describe DeferOffer do
       application_choice = create(:application_choice, :with_recruited)
       allow(StateChangeNotifier).to receive(:call)
 
-      DeferOffer.new(actor: create(:support_user), application_choice: application_choice).save
+      DeferOffer.new(actor: create(:support_user), application_choice: application_choice).save!
 
       expect(StateChangeNotifier).to have_received(:call).with(:defer_offer, application_choice: application_choice)
     end
