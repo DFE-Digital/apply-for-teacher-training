@@ -80,7 +80,6 @@ module CandidateInterface
 
       if previous_qualification_is_of_same_type?(qualifications)
         {
-          qualification_type: qualifications[-1].qualification_type,
           institution_country: qualifications[-1].institution_country,
           award_year: qualifications[-1].award_year,
           non_uk_qualification_type: qualifications[-1].non_uk_qualification_type,
@@ -88,7 +87,6 @@ module CandidateInterface
         }
       else
         {
-          qualification_type: qualifications[-1].qualification_type,
           non_uk_qualification_type: qualifications[-1].non_uk_qualification_type,
           other_uk_qualification_type: qualifications[-1].other_uk_qualification_type,
         }

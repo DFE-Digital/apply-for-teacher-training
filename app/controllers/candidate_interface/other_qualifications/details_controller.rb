@@ -8,6 +8,7 @@ module CandidateInterface
           current_application.application_qualifications.other.order(:created_at),
         ),
       )
+      @wizard.save_state!
     end
 
     def create
@@ -83,17 +84,18 @@ module CandidateInterface
       if FeatureFlag.active?('international_other_qualifications')
         params.require(:candidate_interface_other_qualification_wizard).permit(
           :subject, :grade, :award_year, :choice, :institution_country
-        ).merge!(id: params[:id],
-                 qualification_type: current_qualification.qualification_type,
-                 non_uk_qualification_type: current_qualification.non_uk_qualification_type,
-                 other_uk_qualification_type: current_qualification.other_uk_qualification_type)
+        ).merge!(
+          id: params[:id],
+          qualification_type: get_qualification.qualification_type,
+          non_uk_qualification_type: get_qualification.non_uk_qualification_type,
+          other_uk_qualification_type: get_qualification.other_uk_qualification_type,
+        )
       else
         params.require(:candidate_interface_other_qualification_wizard).permit(
           :subject, :grade, :award_year, :choice, :institution_country,
           :other_uk_qualification_type, :non_uk_qualification_type
         ).merge!(
           id: params[:id],
-          qualification_type: params.dig('candidate_interface_other_qualification_wizard', 'qualification_type') || get_qualification.qualification_type,
         )
       end
     end
