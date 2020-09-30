@@ -3,13 +3,14 @@ class ApplicationReference < ApplicationRecord
 
   self.table_name = 'references'
 
-  validates :name, presence: true, length: { minimum: 2, maximum: 200 }
+  validates :name, presence: true, length: { minimum: 2, maximum: 200 }, unless: -> { FeatureFlag.active?('decoupled_references') }
   validates :email_address, presence: true,
                             email_address: true,
                             length: { maximum: 100 },
-                            uniqueness: { case_sensitive: false, scope: :application_form_id }
+                            uniqueness: { case_sensitive: false, scope: :application_form_id },
+                            unless: -> { FeatureFlag.active?('decoupled_references') }
   validate :email_address_not_own
-  validates :relationship, presence: true, word_count: { maximum: 50 }
+  validates :relationship, presence: true, word_count: { maximum: 50 }, unless: -> { FeatureFlag.active?('decoupled_references') }
   validates :application_form_id, presence: true
 
   belongs_to :application_form, touch: true

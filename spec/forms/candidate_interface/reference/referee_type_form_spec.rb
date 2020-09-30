@@ -4,9 +4,34 @@ RSpec.describe CandidateInterface::Reference::RefereeTypeForm, type: :model do
   describe '.build_from_reference' do
     it 'creates an object based on the reference' do
       application_reference = build_stubbed(:reference, referee_type: :school_based)
-      form = CandidateInterface::Reference::RefereeTypeForm.build_from_reference(application_reference)
+      form = described_class.build_from_reference(application_reference)
 
       expect(form.referee_type).to eq('school_based')
+    end
+  end
+
+  describe '#save' do
+    let(:application_form) { create(:application_form) }
+
+    before do
+      FeatureFlag.activate('decoupled_references')
+    end
+
+    context 'when referee_type is blank' do
+      it 'returns false' do
+        form = described_class.new
+
+        expect(form.save(application_form)).to be(false)
+      end
+    end
+
+    context 'when referee_type has a value' do
+      it 'creates the referee' do
+        form = described_class.new(referee_type: 'professional')
+        form.save(application_form)
+
+        expect(application_form.application_references.last.referee_type).to eq('professional')
+      end
     end
   end
 
@@ -15,7 +40,7 @@ RSpec.describe CandidateInterface::Reference::RefereeTypeForm, type: :model do
 
     context 'when referee_type is blank' do
       it 'returns false' do
-        form = CandidateInterface::Reference::RefereeTypeForm.new
+        form = described_class.new
 
         expect(form.update(application_reference)).to be(false)
       end
@@ -23,7 +48,7 @@ RSpec.describe CandidateInterface::Reference::RefereeTypeForm, type: :model do
 
     context 'when referee_type has a value' do
       it 'updates the reference' do
-        form = CandidateInterface::Reference::RefereeTypeForm.new(referee_type: 'professional')
+        form = described_class.new(referee_type: 'professional')
         form.update(application_reference)
 
         expect(application_reference.referee_type).to eq('professional')
@@ -31,7 +56,7 @@ RSpec.describe CandidateInterface::Reference::RefereeTypeForm, type: :model do
 
       it 'updates the existing referee_type of the reference' do
         application_reference = create(:reference, referee_type: 'school-based')
-        form = CandidateInterface::Reference::RefereeTypeForm.new(referee_type: 'professional')
+        form = described_class.new(referee_type: 'professional')
         form.update(application_reference)
 
         expect(application_reference.referee_type).to eq('professional')
