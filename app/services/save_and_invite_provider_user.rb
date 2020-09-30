@@ -16,11 +16,13 @@ class SaveAndInviteProviderUser
         save_service.call!
         invite_service.call! if new_user
       end
-    rescue DfeSignInAPIError
+    rescue DfeSignInAPIError => e
       form.errors.add(
         :base,
         'A problem occurred inviting this user. Please try again. If problems persist, please contact support.',
       )
+      Raven.capture_exception(e)
+
       return false
     end
 

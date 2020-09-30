@@ -63,6 +63,12 @@ RSpec.describe SaveAndInviteProviderUser do
         expect { service.call }.not_to change(ProviderUser, :count)
       end
 
+      it 'notifies Sentry' do
+        allow(Raven).to receive(:capture_exception)
+        service.call
+        expect(Raven).to have_received(:capture_exception)
+      end
+
       it 'populates form errors' do
         service.call
 
