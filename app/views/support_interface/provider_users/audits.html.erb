@@ -1,20 +1,7 @@
-<% content_for :browser_title, "History for provider user #{@provider_user.full_name}" %>
+<% content_for :browser_title, "History - #{@form.provider_user.full_name}" %>
 
 <%= render 'support_interface/providers/providers_navigation', current: 'Provider users' %>
 
-<% content_for :before_content do %>
-  <%= render TabNavigationComponent.new(items: [
-    { name: 'Details', url: edit_support_interface_provider_user_path(@provider_user) },
-    { name: 'History', url: support_interface_provider_user_audits_path(@provider_user), current: true },
-  ]) %>
-<% end %>
+<%= render 'provider_user_navigation', current: 'History' %>
 
-<h1 class='govuk-heading-xl'>
-  History for provider user <%= @provider_user.full_name %>
-</h1>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @provider_user) %>
-  </div>
-</div>
+<%= render SupportInterface::AuditTrailComponent.new(audited_thing: @form.provider_user) %>

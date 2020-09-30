@@ -1,0 +1,9 @@
+<% content_for :title do %>
+  <span class="govuk-caption-xl">Provider user</span>
+  <%= @form.provider_user.full_name %>
+<% end %>
+
+<%= render TabNavigationComponent.new(items: [
+  { name: 'Details', url: edit_support_interface_provider_user_path(@form.provider_user), current: local_assigns[:current] == 'Details' },
+  { name: 'History', url: support_interface_provider_user_audits_path(@form.provider_user), current: local_assigns[:current] == 'History' },
+]) %>
