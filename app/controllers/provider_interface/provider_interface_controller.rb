@@ -57,8 +57,13 @@ module ProviderInterface
     def add_identity_to_log
       return unless current_provider_user
 
-      RequestLocals.store[:identity] = { dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid }
-      Raven.user_context(dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid)
+      useful_debugging_info = {
+        dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid,
+        provider_user_admin_url: support_interface_provider_user_url(current_provider_user),
+      }
+
+      RequestLocals.store[:identity] = useful_debugging_info
+      Raven.user_context(useful_debugging_info)
     end
 
     def redirect_if_setup_required
