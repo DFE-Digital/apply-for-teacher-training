@@ -5,6 +5,7 @@ RSpec.feature 'Candidate adding referees' do
 
   scenario 'Candidate adds references' do
     given_i_am_signed_in
+    and_the_decoupled_references_flag_is_off
     and_i_visit_the_application_form
 
     given_i_have_no_existing_references_on_the_form
@@ -77,6 +78,10 @@ RSpec.feature 'Candidate adding referees' do
 
   def and_i_visit_the_application_form
     visit candidate_interface_application_form_path
+  end
+
+  def and_the_decoupled_references_flag_is_off
+    FeatureFlag.deactivate('decoupled_references')
   end
 
   def when_i_click_on_referees
