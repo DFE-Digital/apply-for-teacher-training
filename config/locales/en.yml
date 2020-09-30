@@ -55,7 +55,7 @@ en:
     degree_grade: What grade is your degree?
     degree_institution: Which institution did you study at?
     degree_subject: What subject is your degree?
-    degree_naric_statement: Do you have a NARIC statement of comparability for your degree?
+    degree_naric_statement: How your degree compares to a UK degree
     add_undergraduate_degree: Add undergraduate degree
     when_did_you_study_for_your_degree: When did you study for your degree?
     what_year_did_you_graduate: What year did you graduate?
@@ -142,7 +142,6 @@ en:
     confirm_replacement_course_choice: Your updated course choice
     remove_course_choice: Remove your course choice
     withdraw_application: Are you sure you want to withdraw your application?
-    gcse_naric_reference: Do you have a NARIC statement of comparability for your maths qualification?
     guidance: User guidance
     applications_closed: Create an Apply for teacher training account
   layout:

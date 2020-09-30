@@ -93,9 +93,9 @@ module CandidateInterface
       return nil unless FeatureFlag.active?('international_gcses') && application_qualification.qualification_type == 'non_uk'
 
       {
-        key: 'Do you have a NARIC statement of comparability?',
+        key: t('application_form.gcse.naric_statement.review_label'),
         value: application_qualification.naric_reference ? 'Yes' : 'No',
-        action: 'Change the NARIC statement',
+        action: t('application_form.gcse.naric_statement.change_action'),
         change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
       }
     end
@@ -106,9 +106,9 @@ module CandidateInterface
         application_qualification.naric_reference
 
       {
-        key: 'NARIC reference number',
+        key: t('application_form.gcse.naric_reference.review_label'),
         value: application_qualification.naric_reference,
-        action: 'Change the NARIC reference number',
+        action: t('application_form.gcse.naric_reference.change_action'),
         change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
       }
     end
@@ -119,9 +119,9 @@ module CandidateInterface
         application_qualification.naric_reference
 
       {
-        key: 'Comparable UK qualification',
+        key: t('application_form.gcse.comparable_uk_qualification.review_label'),
         value: application_qualification.comparable_uk_qualification,
-        action: 'Change the comparable uk qualification',
+        action: t('application_form.gcse.comparable_uk_qualification.change_action'),
         change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
       }
     end

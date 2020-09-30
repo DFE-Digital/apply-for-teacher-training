@@ -41,7 +41,7 @@ class GcseQualificationCardsComponent < ViewComponent::Base
 
   def naric_statement(qualification)
     if qualification.naric_reference.present? && qualification.comparable_uk_qualification.present?
-      "NARIC statement #{qualification.naric_reference} says this is comparable to a #{qualification.comparable_uk_qualification}."
+      "UK NARIC statement #{qualification.naric_reference} says this is comparable to a #{qualification.comparable_uk_qualification}."
     end
   end
 end

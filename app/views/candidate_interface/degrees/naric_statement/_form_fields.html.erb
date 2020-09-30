@@ -1,5 +1,5 @@
-<p class="govuk-body">This shows how your qualifications compare to UK qualifications. Not all providers ask for a NARIC statement of comparability.</p>
-<%= f.govuk_radio_buttons_fieldset :have_naric_reference, legend: { tag: 'span' } do %>
+<p class="govuk-body">You can get a statement from The National Recognition Information Centre for the United Kingdom (UK NARIC) which shows how your qualifications compare to UK qualifications. Not all providers need this.</p>
+<%= f.govuk_radio_buttons_fieldset :have_naric_reference, legend: { text: t('application_form.degree.naric_statment.label'), tag: 'span' } do %>
   <%= f.govuk_radio_button :have_naric_reference, 'yes', label: { text: 'Yes' } do %>
     <%= f.govuk_text_field(
       :naric_reference,
@@ -21,10 +21,7 @@
     <% end %>
   <% end %>
   <%= f.govuk_radio_button :have_naric_reference, 'no', label: { text: 'No' } do %>
-    <p class="govuk-body">Ask your training provider if they need a NARIC statement of comparability.
-    Register with <%= govuk_link_to "Get Into Teaching", "https://register.getintoteaching.education.gov.uk/register" %>
-    for help if you need to get one.
-    </p>
+    <p class="govuk-body">Ask your training provider if they need a UK NARIC statement of comparability. Register with <%= govuk_link_to "Get Into Teaching", "https://register.getintoteaching.education.gov.uk/register" %> for help if you need to get one.</p>
   <% end %>
 <% end %>
 <%= f.govuk_submit t('application_form.degree.base.button') %>
