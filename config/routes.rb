@@ -369,49 +369,48 @@ Rails.application.routes.draw do
         patch '/review' => 'english_foreign_language/review#complete', as: :english_foreign_language_complete
       end
 
+      #---------------------------------
+      # Referees - start
+      #---------------------------------
+      # Legacy referees flow, to be replaced with decoupled_references feature
       scope '/referees' do
         get '/' => 'referees#index', as: :referees
-
         get '/type/(:id)' => 'referees#type', as: :referees_type
         post '/update-type/(:id)' => 'referees#update_type', as: :update_referees_type
-
         get '/new/(:type)' => 'referees#new', as: :new_referee, constraints: { type: Regexp.new(ApplicationReference.referee_types.values.join('|')) }
         post '/(:type)' => 'referees#create'
-
         get '/review' => 'referees#review', as: :review_referees
         patch '/complete' => 'referees#complete', as: :complete_referees
-
         get '/edit/:id' => 'referees#edit', as: :edit_referee
         patch '/update/:id' => 'referees#update', as: :update_referee
-
         get '/delete/:id' => 'referees#confirm_destroy', as: :confirm_destroy_referee
         delete '/delete/:id' => 'referees#destroy', as: :destroy_referee
-
         get '/cancel/:id' => 'referees#confirm_cancel', as: :confirm_cancel_referee
         patch '/cancel/:id' => 'referees#cancel', as: :cancel_referee
       end
-
       scope '/new-referee' do
         get '/' => 'additional_referees#show', as: :additional_referee
-
         get '/type/(:id)' => 'additional_referees#type', as: :additional_referee_type
         post '/type/(:id)' => 'additional_referees#type'
         post '/update-type/(:id)' => 'additional_referees#update_type', as: :update_additional_referee_type
-
         get '/new' => 'additional_referees#new', as: :new_additional_referee, constraints: ->(request) { request.query_parameters['type'] =~ Regexp.new(ApplicationReference.referee_types.values.join('|')) }
         post '/new' => 'additional_referees#create'
-
         get '/:application_reference_id/edit' => 'additional_referees#edit', as: :edit_additional_referee
         patch '/:application_reference_id/edit' => 'additional_referees#update'
-
         get '/confirm' => 'additional_referees#confirm', as: :confirm_additional_referees
         post '/confirm' => 'additional_referees#request_references'
-
         get '/add-another-referee' => 'additional_referees#add_another_referee', as: :add_another_referee
         post '/add-another-referee' => 'additional_referees#add_another_referee_decision'
-
         get '/contact-support' => 'additional_referees#contact_support', as: :additional_referee_contact_support
       end
+
+      # Routes for decoupled_references
+      scope '/references/' do
+        get '/' => 'references#index', as: :references
+      end
+      #---------------------------------
+      # Referees - end
+      #---------------------------------
 
       scope '/equality-and-diversity' do
         get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
