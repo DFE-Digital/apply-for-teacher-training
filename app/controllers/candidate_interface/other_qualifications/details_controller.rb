@@ -33,21 +33,24 @@ module CandidateInterface
     end
 
     def edit
-      @qualification = OtherQualificationForm.build_from_qualification(current_qualification)
-      @type = @qualification.set_type(current_qualification)
+      # @qualification = OtherQualificationForm.build_from_qualification(current_qualification)
+      # @type = @qualification.set_type(current_qualification)
+      @wizard = wizard_for(current_step: :details)
+      @wizard.copy_attributes(get_qualification)
     end
 
     def update
-      @qualification = OtherQualificationForm.new(other_qualification_params)
+      @wizard = wizard_for(
+        other_qualification_update_params.merge(current_step: :details),
+      )
 
-      if @qualification.update(current_qualification)
-        current_application.update!(other_qualifications_completed: false)
-
+      if @wizard.valid?(:details)
+        @wizard.clear_state!
+        commit
         redirect_to candidate_interface_review_other_qualifications_path
       else
-        track_validation_error(@qualification)
-        @type = @qualification.set_type(current_qualification)
-
+        # @type = @qualification.set_type(current_qualification)
+        track_validation_error(@wizard)
         render :edit
       end
     end
@@ -98,6 +101,12 @@ module CandidateInterface
           id: params[:id],
         )
       end
+    end
+
+    def other_qualification_update_params
+      other_qualification_params.merge(
+        params.require(:candidate_interface_other_qualification_wizard).permit(:qualification_type),
+      )
     end
 
     def get_qualification

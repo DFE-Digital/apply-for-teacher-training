@@ -8,6 +8,8 @@ module CandidateInterface
     attr_accessor :id, :subject, :predicted_grade, :grade, :award_year, :choice, :institution_country
     attr_reader :attrs
 
+    PERSISTENT_ATTRIBUTES = %w[qualification_type other_uk_qualification_type non_uk_qualification_type subject predicted_grade grade award_year institution_country].freeze
+
     validates :qualification_type, presence: true
     validates :qualification_type, inclusion: { in: ['A level', 'AS level', 'GCSE', 'Other', 'non_uk'], allow_blank: false }
     validates :qualification_type, :subject, :grade, length: { maximum: 255 }
@@ -91,6 +93,10 @@ module CandidateInterface
           other_uk_qualification_type: qualifications[-1].other_uk_qualification_type,
         }
       end
+    end
+
+    def copy_attributes(application_qualification)
+      assign_attributes(application_qualification.attributes.select { |key, _| PERSISTENT_ATTRIBUTES.include?(key) })
     end
 
     def previous_qualification_is_of_same_type?(qualifications)

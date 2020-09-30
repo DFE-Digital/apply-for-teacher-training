@@ -71,6 +71,7 @@ RSpec.feature 'Entering their other qualifications' do
     then_i_can_check_my_answers
 
     when_i_mark_this_section_as_completed
+    and_i_have_an_incomplete_qualification
     and_i_click_on_continue
     then_i_should_be_told_i_cannot_submit_incomplete_qualifications
 
@@ -264,6 +265,13 @@ RSpec.feature 'Entering their other qualifications' do
     check t('application_form.other_qualification.review.completed_checkbox')
   end
 
+  def and_i_have_an_incomplete_qualification
+    current_candidate.current_application.application_qualifications.create!(
+      level: 'other',
+      qualification_type: 'AS level',
+    )
+  end
+
   def and_i_click_on_continue
     when_i_click_on_continue
   end
@@ -273,7 +281,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_delete_my_incomplete_qualification
-    within(all('.app-summary-card')[2]) do
+    within(all('.app-summary-card')[3]) do
       click_link(t('application_form.other_qualification.delete'))
     end
   end
@@ -300,6 +308,8 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_delete_my_remaining_qualifications
+    when_i_click_on_delete_my_first_qualification
+    and_i_confirm_that_i_want_to_delete_my_additional_qualification
     when_i_click_on_delete_my_first_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
     when_i_click_on_delete_my_first_qualification
