@@ -5,7 +5,9 @@ RSpec.describe 'GET /provider/applications' do
     before do
       allow(ProviderUser).to receive(:load_from_session)
         .and_return(
-          ProviderUser.new(
+          FactoryBot.build_stubbed(
+            :provider_user,
+            id: 12345,
             email_address: 'email@example.com',
             dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
           ),
@@ -27,7 +29,11 @@ RSpec.describe 'GET /provider/applications' do
 
       get '/provider/applications'
 
-      expect(Raven).to have_received(:user_context).with(dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+      expect(Raven).to have_received(:user_context).with(
+        dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
+        provider_user_admin_url: 'http://www.example.com/support/users/provider/12345',
+      )
+
       expect(Raven).to have_received(:capture_exception)
     end
   end

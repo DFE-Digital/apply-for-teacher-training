@@ -5,7 +5,8 @@ RSpec.describe 'GET /provider' do
     before do
       allow(ProviderUser).to receive(:load_from_session)
         .and_return(
-          ProviderUser.new(
+          build_stubbed(
+            :provider_user,
             email_address: 'email@example.com',
             dfe_sign_in_uid: 'DFE_SIGN_IN_UID',
           ),
