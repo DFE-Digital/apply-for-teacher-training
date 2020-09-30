@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate application choices are delivered to providers' do
+RSpec.feature 'Decoupled references' do
   include CandidateHelper
 
-  scenario 'the candidate receives an email' do
+  scenario 'candidate adds a new reference' do
     given_i_am_signed_in
     and_the_decoupled_references_flag_is_on
 
@@ -86,6 +86,6 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
   end
 
   def then_i_see_the_referee_email_page
-    expect(page).to have_current_path candidate_interface_decoupled_references_email_path(@application.application_references.last.id)
+    expect(page).to have_current_path candidate_interface_decoupled_references_new_email_path(@application.application_references.last.id)
   end
 end

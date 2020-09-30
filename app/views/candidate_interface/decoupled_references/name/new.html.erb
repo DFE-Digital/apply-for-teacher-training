@@ -6,11 +6,8 @@
     <%= form_with model: @reference_name_form, url: candidate_interface_decoupled_references_create_name_path(@reference.id) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.references_name') %>
-      </h1>
+      <%= f.govuk_text_field :name, label: { text: tag.h1(t('page_titles.references_name')), size: 'm' } %>
 
-      <%= f.govuk_text_field :name, label: { text: '' }  %>
 
       <%= f.govuk_submit 'Save and continue' %>
     <% end %>

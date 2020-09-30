@@ -11,10 +11,6 @@ module CandidateInterface
         redirect_to candidate_interface_application_form_path unless FeatureFlag.active?('decoupled_references')
       end
 
-      def referee_name_param
-        params.dig(:candidate_interface_reference_referee_name_form, :name)
-      end
-
       def set_reference
         @reference = current_candidate.current_application
                                       .application_references

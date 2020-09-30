@@ -4,6 +4,10 @@ RSpec.describe ApplicationReference, type: :model do
   subject { build(:reference) }
 
   describe 'a valid reference' do
+    before do
+      FeatureFlag.deactivate('decoupled_references')
+    end
+
     let(:candidate) { build(:candidate) }
     let(:application_form) { build(:application_form, candidate: candidate) }
 
