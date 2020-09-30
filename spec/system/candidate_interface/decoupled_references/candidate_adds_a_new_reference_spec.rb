@@ -19,6 +19,12 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
     when_i_select_academic
     and_i_click_save_and_continue
     then_i_should_see_the_referee_name_page
+
+    when_i_click_save_and_continue_without_giving_a_name
+    then_i_should_see_an_error
+
+    when_i_fill_in_my_references_name
+    and_i_click_save_and_continue
   end
 
   def given_i_am_signed_in
@@ -65,5 +71,21 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
 
   def then_i_should_see_the_referee_name_page
     expect(page).to have_current_path candidate_interface_decoupled_references_name_path(@application.application_references.last.id)
+  end
+
+  def when_i_click_save_and_continue_without_giving_a_name
+    and_i_click_save_and_continue
+  end
+
+  def then_i_should_see_an_error
+    expect(page).to have_content 'Enter your referees name'
+  end
+
+  def when_i_fill_in_my_references_name
+    fill_in 'candidate-interface-reference-referee-name-form-name-field-error', with: 'Walter White'
+  end
+
+  def then_i_see_the_referee_email_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_email_path(@application.application_references.last.id)
   end
 end
