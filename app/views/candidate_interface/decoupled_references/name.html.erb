@@ -1,0 +1,18 @@
+<% content_for :title, t('page_titles.references_name') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_referees_type_path, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @referee_name_form, url: candidate_interface_update_decoupled_references_name_path(@reference.id) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.references_name') %>
+      </h1>
+
+      <%= f.govuk_text_field :name, label: { text: '' }  %>
+
+      <%= f.govuk_submit 'Save and continue' %>
+    <% end %>
+  </div>
+</div>

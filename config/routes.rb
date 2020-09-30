@@ -372,8 +372,6 @@ Rails.application.routes.draw do
       scope '/referees' do
         get '/' => 'referees#index', as: :referees
 
-        get '/start' => 'referees#start', as: :referees_start
-
         get '/type/(:id)' => 'referees#type', as: :referees_type
         post '/update-type/(:id)' => 'referees#update_type', as: :update_referees_type
 
@@ -398,6 +396,9 @@ Rails.application.routes.draw do
 
         get '/type' => 'decoupled_references#type', as: :decoupled_references_type
         post '/update-type' => 'decoupled_references#update_type', as: :update_decoupled_references_type
+
+        get '/name/:id' => 'decoupled_references#name', as: :decoupled_references_name
+        post '/name/:id' => 'decoupled_references#update_name', as: :update_decoupled_references_name
 
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
       end

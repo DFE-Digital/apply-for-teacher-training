@@ -35,7 +35,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     @candidate = create(:candidate)
     login_as(@candidate)
   end
-  
+
   def and_the_decoupled_references_flag_is_off
     FeatureFlag.deactivate('decoupled_references')
   end

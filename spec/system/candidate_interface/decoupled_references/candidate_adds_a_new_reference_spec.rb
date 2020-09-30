@@ -22,7 +22,9 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
   end
 
   def given_i_am_signed_in
-    create_and_sign_in_candidate
+    @candidate = create(:candidate)
+    login_as(@candidate)
+    @application = @candidate.current_application
   end
 
   def and_the_decoupled_references_flag_is_on
@@ -62,6 +64,6 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
   end
 
   def then_i_should_see_the_referee_name_page
-    expect(page).to have_current_path candidate_interface_decoupled_referee_name_path
+    expect(page).to have_current_path candidate_interface_decoupled_references_name_path(@application.application_references.last.id)
   end
 end
