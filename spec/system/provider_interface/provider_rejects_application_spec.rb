@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Provider rejects application' do
   include CourseOptionHelpers
   include DfESignInHelpers
+  include ProviderUserPermissionsHelper
 
   let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
   let(:application_awaiting_provider_decision) do
@@ -10,10 +11,9 @@ RSpec.feature 'Provider rejects application' do
   end
 
   scenario 'Provider rejects application' do
-    FeatureFlag.deactivate(:providers_can_manage_users_and_permissions)
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
+    and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
     when_i_respond_to_an_application
@@ -33,6 +33,10 @@ RSpec.feature 'Provider rejects application' do
 
   def and_i_am_permitted_to_see_applications_for_my_provider
     provider_user_exists_in_apply_database
+  end
+
+  def and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
+    permit_make_decisions!
   end
 
   def when_i_respond_to_an_application

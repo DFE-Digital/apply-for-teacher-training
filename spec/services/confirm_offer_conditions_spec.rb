@@ -6,8 +6,6 @@ RSpec.describe ConfirmOfferConditions do
     provider_user = create(:provider_user)
     provider_user.providers << application_choice.offered_course.provider
 
-    FeatureFlag.activate(:providers_can_manage_users_and_permissions)
-
     service = ConfirmOfferConditions.new(
       actor: provider_user,
       application_choice: application_choice,
