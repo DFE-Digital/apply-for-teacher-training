@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Vendor API Requests' do
   include DfESignInHelpers
 
-  scenario 'API requests are logged' do
+  scenario 'Listed requests are filtered' do
     FeatureFlag.activate(:vendor_api_request_tracing)
 
     given_i_am_a_support_user
@@ -17,11 +17,14 @@ RSpec.feature 'Vendor API Requests' do
     when_i_click_on_details_of_the_request
     then_i_see_the_request_and_response_info
 
+    when_i_filter_by_status
+    then_i_only_see_api_requests_filtered_by_status
+
     when_i_search_for_a_specific_request_path
     then_i_only_see_api_requests_filtered_by_the_search
 
-    when_i_filter_by_status
-    then_i_only_see_api_requests_filtered_by_status
+    when_i_filter_by_provider
+    then_i_only_see_api_requests_filtered_by_provider
   end
 
   def given_i_am_a_support_user
@@ -74,7 +77,18 @@ RSpec.feature 'Vendor API Requests' do
     expect(page).to have_content('Unauthorized')
   end
 
+  def when_i_filter_by_status
+    check '200'
+    click_on 'Apply filters'
+  end
+
+  def then_i_only_see_api_requests_filtered_by_status
+    expect(page).not_to have_content(vendor_api_path(@first_application_choice))
+    expect(page).to have_content(vendor_api_path(@last_application_choice))
+  end
+
   def when_i_search_for_a_specific_request_path
+    uncheck '200'
     fill_in :q, with: "applications/#{@first_application_choice.id}"
     click_on 'Apply filters'
   end
@@ -84,13 +98,13 @@ RSpec.feature 'Vendor API Requests' do
     expect(page).not_to have_content(vendor_api_path(@last_application_choice))
   end
 
-  def when_i_filter_by_status
+  def when_i_filter_by_provider
     fill_in :q, with: ''
-    check '200'
+    check @last_application_choice.provider.name
     click_on 'Apply filters'
   end
 
-  def then_i_only_see_api_requests_filtered_by_status
+  def then_i_only_see_api_requests_filtered_by_provider
     expect(page).not_to have_content(vendor_api_path(@first_application_choice))
     expect(page).to have_content(vendor_api_path(@last_application_choice))
   end

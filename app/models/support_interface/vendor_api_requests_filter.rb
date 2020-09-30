@@ -7,7 +7,7 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= [free_text] + [status_code]
+      @filters ||= [free_text] + [status_code] + [provider]
     end
 
   private
@@ -34,6 +34,23 @@ module SupportInterface
         type: :checkboxes,
         heading: 'Status code',
         name: 'status_code',
+        options: options,
+      }
+    end
+
+    def provider
+      options = Provider.where(id: VendorAPIRequest.distinct(:provider_id).pluck(:provider_id).compact).map do |provider|
+        {
+          value: provider.id,
+          label: provider.name,
+          checked: applied_filters[:provider_id]&.include?(provider.id),
+        }
+      end
+
+      {
+        type: :checkboxes,
+        heading: 'Provider',
+        name: 'provider_id',
         options: options,
       }
     end

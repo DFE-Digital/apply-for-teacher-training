@@ -22,7 +22,7 @@
             <%= render SummaryListComponent.new(rows: [
               { key: 'Status', value: vendor_api_request.status_code },
               { key: 'Path', value: vendor_api_request.request_path },
-              { key: 'Duration', value: "#{vendor_api_request.response_time} ms" },
+              { key: 'Provider', value: vendor_api_request.provider.present? ? vendor_api_request.provider.name : 'Unknown' },
             ]) %>
             <details class="govuk-details" data-module="govuk-details">
               <summary class="govuk-details__summary">
