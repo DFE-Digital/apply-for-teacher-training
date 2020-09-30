@@ -393,6 +393,13 @@ Rails.application.routes.draw do
         patch '/cancel/:id' => 'referees#cancel', as: :cancel_referee
       end
 
+      scope '/decoupled-referees' do
+        get '/start' => 'decoupled_referees#start', as: :decoupled_referees_start
+
+        get '/type' => 'decoupled_referees#type', as: :decoupled_referees_type
+        post '/update-type' => 'decoupled_referees#update_type', as: :update_decoupled_referees_type
+      end
+
       scope '/new-referee' do
         get '/' => 'additional_referees#show', as: :additional_referee
 

@@ -14,8 +14,6 @@ module CandidateInterface
       end
     end
 
-    def start; end
-
     def type
       if params[:id]
         set_referee_id
