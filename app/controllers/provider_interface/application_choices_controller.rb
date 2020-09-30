@@ -96,8 +96,6 @@ module ProviderInterface
       @provider_can_respond = get_provider_can_respond
       @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
       @sub_navigation_items = get_sub_navigation_items
-    rescue ActiveRecord::RecordNotFound
-      render_404
     end
 
     def get_sub_navigation_items
