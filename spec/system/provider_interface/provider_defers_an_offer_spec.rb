@@ -3,10 +3,9 @@ require 'rails_helper'
 RSpec.feature 'Provider defers an offer' do
   include CourseOptionHelpers
   include DfESignInHelpers
+  include ProviderUserPermissionsHelper
 
   scenario 'Provider defers an offer' do
-    FeatureFlag.deactivate(:providers_can_manage_users_and_permissions)
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_an_offered_application_choice_exists_for_my_provider
     and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
@@ -33,6 +32,7 @@ RSpec.feature 'Provider defers an offer' do
 
   def and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
     provider_user_exists_in_apply_database
+    permit_make_decisions!
   end
 
   def and_i_view_an_offered_application

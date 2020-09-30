@@ -3,10 +3,9 @@ require 'rails_helper'
 RSpec.feature 'Confirm conditions met' do
   include CourseOptionHelpers
   include DfESignInHelpers
+  include ProviderUserPermissionsHelper
 
   scenario 'Provider user confirms offer conditions have been met by the candidate' do
-    FeatureFlag.deactivate(:providers_can_manage_users_and_permissions)
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
@@ -30,6 +29,7 @@ RSpec.feature 'Confirm conditions met' do
   def and_i_am_an_authorised_provider_user
     @provider = create(:provider, :with_signed_agreement)
     create(:provider_user, providers: [@provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    permit_make_decisions!
   end
 
   def and_i_can_access_the_provider_interface
