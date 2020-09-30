@@ -17,7 +17,7 @@ module FindSync
 
       FindSyncCheck.set_last_sync(Time.zone.now)
     rescue JsonApiClient::Errors::ApiError
-      raise SyncFindApiError
+      raise FindSync::SyncError
     end
 
     def self.sync_providers(find_providers)
@@ -31,7 +31,5 @@ module FindSync
     end
 
     private_class_method :sync_providers
-
-    class SyncFindApiError < StandardError; end
   end
 end

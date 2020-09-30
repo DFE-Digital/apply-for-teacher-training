@@ -8,6 +8,6 @@ Raven.configure do |config|
     'ActionController::UnknownHttpMethod',
     'ActionDispatch::Http::Parameters::ParseError',
     'Redis::CannotConnectError',
-    'SyncAllProvidersFromFind::SyncFindApiError',
+    'FindSync::SyncError',
   ]
 end
