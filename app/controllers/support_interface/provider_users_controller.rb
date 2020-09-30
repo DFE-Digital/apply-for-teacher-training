@@ -12,6 +12,10 @@ module SupportInterface
       @filter = SupportInterface::ProviderUsersFilter.new(params: params)
     end
 
+    def show
+      redirect_to edit_support_interface_provider_user_path(params[:id])
+    end
+
     def new
       @form = ProviderUserForm.new
     end
