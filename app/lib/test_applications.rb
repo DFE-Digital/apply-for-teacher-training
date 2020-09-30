@@ -270,7 +270,7 @@ class TestApplications
     as_provider_user(choice) do
       fast_forward(1..3)
       confirm_offer_conditions(choice) if rand > 0.5 # 'recruited' can also be deferred
-      DeferOffer.new(actor: actor, application_choice: choice).save
+      DeferOffer.new(actor: actor, application_choice: choice).save!
       choice.update_columns(offer_deferred_at: time, updated_at: time)
     end
     # service generates two audit writes, one for status, one for timestamp

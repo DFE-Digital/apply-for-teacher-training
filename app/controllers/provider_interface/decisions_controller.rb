@@ -143,18 +143,13 @@ module ProviderInterface
     end
 
     def defer_offer
-      @defer_offer = DeferOffer.new(
+      DeferOffer.new(
         actor: current_provider_user,
         application_choice: @application_choice,
-      )
-      if @defer_offer.save
-        flash[:success] = 'Offer successfully deferred'
-        redirect_to provider_interface_application_choice_path(
-          application_choice_id: @application_choice.id,
-        )
-      else
-        render action: :new_defer_offer
-      end
+      ).save!
+
+      flash[:success] = 'Offer successfully deferred'
+      redirect_to provider_interface_application_choice_path(@application_choice)
     end
 
   private
