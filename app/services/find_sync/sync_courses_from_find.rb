@@ -12,6 +12,8 @@ module FindSync
       find_provider.courses.each do |find_course|
         create_or_update_course(find_course)
       end
+    rescue JsonApiClient::Errors::ApiError
+      raise FindSync::SyncError
     end
 
   private
