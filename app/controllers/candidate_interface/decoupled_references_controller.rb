@@ -1,8 +1,7 @@
 module CandidateInterface
   class DecoupledReferencesController < CandidateInterfaceController
     before_action :redirect_to_application_form_if_flag_is_not_active
-    before_action :set_reference, only: %i[name]
-
+    before_action :set_reference, only: %i[name update_name]
 
     def start; end
 
@@ -19,7 +18,18 @@ module CandidateInterface
       redirect_to candidate_interface_decoupled_references_name_path(current_application.application_references.last.id)
     end
 
-    def name; end
+    def name
+      @reference_name_form = Reference::RefereeNameForm.new
+    end
+
+    def update_name
+      @reference_name_form = Reference::RefereeNameForm.new(name: referee_name_param)
+      return render :name unless @reference_name_form.valid?
+
+      @reference_name_form.save(@reference)
+
+      redirect_to candidate_interface_decoupled_references_email_path(@reference.id)
+    end
 
   private
 
@@ -36,6 +46,10 @@ module CandidateInterface
 
     def referee_type_param
       params.dig(:candidate_interface_reference_referee_type_form, :referee_type)
+    end
+
+    def referee_name_param
+      params.dig(:candidate_interface_reference_referee_name_form, :name)
     end
   end
 end

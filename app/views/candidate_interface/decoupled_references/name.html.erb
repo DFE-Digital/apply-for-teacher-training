@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @referee_name_form, url: candidate_interface_update_decoupled_references_name_path(@reference.id) do |f| %>
+    <%= form_with model: @reference_name_form, url: candidate_interface_update_decoupled_references_name_path(@reference.id) do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
