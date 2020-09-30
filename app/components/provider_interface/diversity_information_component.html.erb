@@ -1,22 +1,17 @@
-<details class="govuk-details" data-module="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      View guidance given to candidate
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <h2 class="govuk-heading-m">Equality and diversity</h2>
-    <p class="govuk-body">
-      The equality and diversity questionnaire is optional and has no impact on the progress of your application.
-    </p>
-    <p class="govuk-body">
-      We collect this data to reduce discrimination on the basis of sex, disability and ethnicity.
-    </p>
-    <p class="govuk-body">
-      Your data will only be shared with training providers when you have successfully completed your application.
-    </p>
-  </div>
-</details>
+<% details_body = capture do %>
+  <h2 class="govuk-heading-m">Equality and diversity</h2>
+  <p class="govuk-body">
+    The equality and diversity questionnaire is optional and has no impact on the progress of your application.
+  </p>
+  <p class="govuk-body">
+    We collect this data to reduce discrimination on the basis of sex, disability and ethnicity.
+  </p>
+  <p class="govuk-body">
+    Your data will only be shared with training providers when you have successfully completed your application.
+  </p>
+<% end %>
+
+<%= render DetailsComponent.new(summary_text: 'View guidance given to candidate', details_body: details_body) %>
 
 <% if display_diversity_information? -%>
   <%= render SummaryListComponent.new(rows: rows) %>

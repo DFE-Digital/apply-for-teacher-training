@@ -57,35 +57,20 @@
 
   <%= render 'properties_list', properties: operation.request_body.schema.properties %>
 
-  <details class="govuk-details" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        Example request body
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <%= json_code_sample(operation.request_body.example) %>
-    </div>
-  </details>
+  <%= render DetailsComponent.new(summary_text: 'Example request body', details_body: json_code_sample(operation.request_body.example)) %>
 <% end %>
 
 <% if operation.responses.any? %>
   <h4 class="govuk-heading-s">Possible reponses</h4>
 
   <% operation.responses.each do |response| %>
-    <details class="govuk-details" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          HTTP <%= response.code %> - <%= response.description %>
-        </span>
-      </summary>
-      <div class="govuk-details__text">
-        This request will return a <%= govuk_link_to response.schema_name, "##{response.schema_name.parameterize}-object" %> object.
+    <% details_body = capture do %>
+      This request will return a <%= govuk_link_to response.schema_name, "##{response.schema_name.parameterize}-object" %> object.
+      <% if response.example %>
+        <%= json_code_sample(response.example) %>
+      <% end %>
+    <% end %>
 
-        <% if response.example %>
-          <%= json_code_sample(response.example) %>
-        <% end %>
-      </div>
-    </details>
+    <%= render DetailsComponent.new(summary_text: "HTTP #{response.code} - #{response.description}", details_body: details_body) %>
   <% end %>
 <% end %>

@@ -35,17 +35,16 @@
   </h1>
 
   <%= f.govuk_collection_select :first_nationality, select_nationality_options(include_british_and_irish: true), :id, :name, label: { text: t('application_form.personal_details.nationality.label'), size: 'm' } %>
+  <% details_body = capture do %>
+    <%= f.govuk_collection_select :second_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.second_nationality.label') } %>
+  <% end %>
+  <%= render DetailsComponent.new(
+    summary_text: 'Add another nationality',
+    details_body: details_body,
+    open: @nationalities_form.second_nationality.present?,
+    )
+  %>
 
-    <details class="govuk-details" data-module="govuk-details" <%= 'open' if @nationalities_form.second_nationality.present? %>>
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        Add another nationality
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <%= f.govuk_collection_select :second_nationality, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.second_nationality.label') } %>
-    </div>
-  </details>
 <% end %>
 
 <%= f.govuk_submit 'Save and continue' %>

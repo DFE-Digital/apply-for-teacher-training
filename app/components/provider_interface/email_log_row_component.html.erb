@@ -5,15 +5,6 @@
   <td class="govuk-table__cell">
     <%= render SummaryListComponent.new(rows: summary_list_rows) %>
 
-    <details class="govuk-details" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          Email body
-        </span>
-      </summary>
-      <div class="govuk-details__text">
-        <%= tag.pre(email.body) %>
-      </div>
-    </details>
+    <%= render DetailsComponent.new(summary_text: 'Email body', details_body: tag.pre(email.body)) %>
   </td>
 </tr>

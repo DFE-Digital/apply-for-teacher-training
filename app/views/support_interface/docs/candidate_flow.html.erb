@@ -6,16 +6,11 @@
   This page documents the states and transitions that make up the Apply service, from the perspective of the candidate.
 </p>
 
-<details class="govuk-details" data-module="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      View full diagram
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <%= StateDiagram.svg(only_from_state: nil, machine: ProcessState) %>
-  </div>
-</details>
+<%= render DetailsComponent.new(
+  summary_text: 'View full diagram',
+  details_body: StateDiagram.svg(only_from_state: nil, machine: ProcessState),
+  )
+%>
 
 <style>
   svg { max-width: 100%; }

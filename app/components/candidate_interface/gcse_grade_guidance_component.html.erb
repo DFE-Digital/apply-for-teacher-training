@@ -13,26 +13,18 @@
 <% end %>
 
 <% if english? && (gcse? || gce_o_level?) %>
-  <details class="govuk-details govuk-!-margin-bottom-2" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        <% type = gcse? ? 'a GCSE' : 'an O level' %>
-        <%= t('gcse_edit_grade.guidance.english_literature_only.summary', type: type) %>
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <%= t('gcse_edit_grade.guidance.english_literature_only.details') %>
-    </div>
-  </details>
+  <% type = gcse? ? 'a GCSE' : 'an O level' %>
+  <%= render DetailsComponent.new(
+    summary_text: t('gcse_edit_grade.guidance.english_literature_only.summary', type: type),
+    details_body: t('gcse_edit_grade.guidance.english_literature_only.details'),
+    additional_css_classes: 'govuk-!-margin-bottom-2',
+    )
+  %>
 
-  <details class="govuk-details govuk-!-margin-bottom-6" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        <%= t('gcse_edit_grade.guidance.multiple_english_qualifications.summary') %>
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <%= t('gcse_edit_grade.guidance.multiple_english_qualifications.details') %>
-    </div>
-  </details>
+  <%= render DetailsComponent.new(
+    summary_text: t('gcse_edit_grade.guidance.multiple_english_qualifications.summary'),
+    details_body: t('gcse_edit_grade.guidance.multiple_english_qualifications.details'),
+    additional_css_classes: 'govuk-!-margin-bottom-6',
+    )
+  %>
 <% end %>
