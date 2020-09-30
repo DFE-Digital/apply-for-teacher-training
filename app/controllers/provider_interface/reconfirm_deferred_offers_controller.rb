@@ -79,7 +79,9 @@ module ProviderInterface
   private
 
     def find_application_choice
-      @application_choice = ApplicationChoice.find(params[:application_choice_id])
+      @application_choice = GetApplicationChoicesForProviders.call(
+        providers: current_provider_user.providers,
+      ).find(params[:application_choice_id])
     end
 
     def require_deferred_offer_from_previous_cycle
