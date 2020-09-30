@@ -71,6 +71,13 @@ module ProviderInterface
       @application_choice = GetApplicationChoicesForProviders.call(
         providers: current_provider_user.providers,
       ).find(params[:application_choice_id])
+
+      debugging_info = {
+        application_support_url: support_interface_application_form_url(@application_choice.application_form),
+      }
+
+      Raven.extra_context(debugging_info)
+      RequestLocals.store[:debugging_info] = debugging_info
     rescue ActiveRecord::RecordNotFound
       render_404
     end
