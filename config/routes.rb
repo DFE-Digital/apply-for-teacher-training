@@ -397,10 +397,10 @@ Rails.application.routes.draw do
         get '/type' => 'decoupled_references/type#new', as: :decoupled_references_new_type
         post '/update-type' => 'decoupled_references/type#create', as: :decoupled_references_create_type
 
-        get '/name/:id' => 'decoupled_references/base#name', as: :decoupled_references_name
-        post '/name/:id' => 'decoupled_references/base#update_name', as: :update_decoupled_references_name
+        get '/name/:id' => 'decoupled_references/name#new', as: :decoupled_references_new_name
+        post '/name/:id' => 'decoupled_references/name#create', as: :decoupled_references_create_name
 
-        get '/name/:id' => 'decoupled_references/base#email', as: :decoupled_references_email
+        get '/email/:id' => 'decoupled_references/base#email', as: :decoupled_references_email
 
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
       end

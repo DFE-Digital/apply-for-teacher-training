@@ -1,8 +1,6 @@
 module CandidateInterface
   module DecoupledReferences
     class TypeController < BaseController
-      before_action :set_reference, only: %i[name update_name]
-
       def new
         @reference_type_form = Reference::RefereeTypeForm.new
       end
@@ -13,7 +11,7 @@ module CandidateInterface
 
         @reference_type_form.save(current_application)
 
-        redirect_to candidate_interface_decoupled_references_name_path(current_application.application_references.last.id)
+        redirect_to candidate_interface_decoupled_references_new_name_path(current_application.application_references.last.id)
       end
 
     private
@@ -28,8 +26,6 @@ module CandidateInterface
       def referee_type_param
         params.dig(:candidate_interface_reference_referee_type_form, :referee_type)
       end
-
-
     end
   end
 end

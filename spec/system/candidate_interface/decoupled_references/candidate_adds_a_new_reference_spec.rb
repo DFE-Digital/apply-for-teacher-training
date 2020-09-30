@@ -70,7 +70,7 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
   end
 
   def then_i_should_see_the_referee_name_page
-    expect(page).to have_current_path candidate_interface_decoupled_references_name_path(@application.application_references.last.id)
+    expect(page).to have_current_path candidate_interface_decoupled_references_new_name_path(@application.application_references.last.id)
   end
 
   def when_i_click_save_and_continue_without_giving_a_name
