@@ -40,12 +40,5 @@ module ProviderInterface
 
       redirect_to provider_interface_application_choice_path(@application_choice.id)
     end
-
-  private
-
-    def set_application_choice
-      @application_choice = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
-        .find(params[:application_choice_id])
-    end
   end
 end

@@ -1,6 +1,7 @@
 module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
-    before_action :set_application_choice_and_sub_navigation_items, except: %i[index]
+    before_action :set_application_choice, except: %i[index]
+    before_action :set_sub_navigation_items, except: %i[index]
 
     def index
       @filter = ProviderApplicationsFilter.new(
@@ -91,19 +92,12 @@ module ProviderInterface
       current_provider_user.providers
     end
 
-    def set_application_choice_and_sub_navigation_items
-      @application_choice = get_application_choice
+    def set_sub_navigation_items
       @provider_can_respond = get_provider_can_respond
       @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
       @sub_navigation_items = get_sub_navigation_items
     rescue ActiveRecord::RecordNotFound
       render_404
-    end
-
-    def get_application_choice
-      GetApplicationChoicesForProviders.call(
-        providers: available_providers,
-      ).find(params[:application_choice_id])
     end
 
     def get_sub_navigation_items

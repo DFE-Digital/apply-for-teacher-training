@@ -66,6 +66,13 @@ module ProviderInterface
       Raven.user_context(useful_debugging_info)
     end
 
+    # Set the `@application_choice` instance variable for use in views.
+    def set_application_choice
+      @application_choice = GetApplicationChoicesForProviders.call(
+        providers: current_provider_user.providers,
+      ).find(params[:application_choice_id])
+    end
+
     def redirect_if_setup_required
       return unless current_provider_user
 
