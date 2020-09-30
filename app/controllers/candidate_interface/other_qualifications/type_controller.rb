@@ -2,12 +2,10 @@ module CandidateInterface
   class OtherQualifications::TypeController < OtherQualifications::BaseController
     def new
       @wizard = wizard_for(current_step: :type)
-      @qualification_type = @wizard.qualification_type_form
     end
 
     def create
       @wizard = wizard_for(other_qualification_type_params.merge(current_step: :type))
-      @qualification_type = @wizard.qualification_type_form
 
       if @wizard.valid?(:type)
         @wizard.save_state!
@@ -17,7 +15,7 @@ module CandidateInterface
         if next_step.first == :details
           redirect_to candidate_interface_new_other_qualification_details_path
         else
-          track_validation_error(@qualification_type)
+          track_validation_error(@wizard)
           render :new
         end
       else
@@ -62,7 +60,7 @@ module CandidateInterface
     end
 
     def other_qualification_type_params
-      params.fetch(:candidate_interface_other_qualification_type_form, {}).permit(
+      params.fetch(:candidate_interface_other_qualification_wizard, {}).permit(
         :qualification_type, :other_uk_qualification_type, :non_uk_qualification_type
       )
     end

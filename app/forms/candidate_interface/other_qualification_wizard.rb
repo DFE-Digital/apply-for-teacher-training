@@ -1,15 +1,25 @@
 module CandidateInterface
   class OtherQualificationWizard
     include ActiveModel::Model
+    include ValidationUtils
 
     attr_accessor :current_step, :current_other_qualification_id, :checking_answers
     attr_accessor :qualification_type, :other_uk_qualification_type, :non_uk_qualification_type
+    attr_accessor :id, :subject, :predicted_grade, :grade, :award_year, :choice, :institution_country
     attr_reader :attrs
 
     validates :qualification_type, presence: true
-    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications') }
-    validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == 'non_uk' }
     validates :qualification_type, inclusion: { in: ['A level', 'AS level', 'GCSE', 'Other', 'non_uk'], allow_blank: false }
+    validates :qualification_type, :subject, :grade, length: { maximum: 255 }
+
+    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications') }, on: :type
+    validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == 'non_uk' }, on: :type
+
+    validates :award_year, presence: true, on: :details
+    validates :subject, :grade, presence: true, unless: -> { qualification_type == 'non_uk' || qualification_type == 'Other' }, on: :details
+    validates :institution_country, presence: true, if: -> { qualification_type == 'non_uk' }, on: :details
+    validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == 'non_uk' }, on: :details
+    validate :award_year_is_date_and_before_current_year, if: :award_year, on: :details
 
     def initialize(state_store, attrs = {})
       @attrs = attrs
@@ -52,6 +62,44 @@ module CandidateInterface
       @qualification_type_form ||= OtherQualificationTypeForm.new(attrs.select { |key, _| OTHER_QUALIFICATION_ATTRIBUTES.include?(key) })
     end
 
+    def attributes_for_persistence
+      {
+        qualification_type: qualification_type,
+        subject: subject,
+        institution_country: institution_country,
+        predicted_grade: predicted_grade,
+        grade: grade,
+        other_uk_qualification_type: other_uk_qualification_type,
+        non_uk_qualification_type: non_uk_qualification_type,
+        award_year: award_year,
+      }
+    end
+
+    def attributes_for_new_qualification(qualifications)
+      return {} if qualifications.blank?
+
+      if previous_qualification_is_of_same_type?(qualifications)
+        {
+          qualification_type: qualifications[-1].qualification_type,
+          institution_country: qualifications[-1].institution_country,
+          award_year: qualifications[-1].award_year,
+          non_uk_qualification_type: qualifications[-1].non_uk_qualification_type,
+          other_uk_qualification_type: qualifications[-1].other_uk_qualification_type,
+        }
+      else
+        {
+          qualification_type: qualifications[-1].qualification_type,
+          non_uk_qualification_type: qualifications[-1].non_uk_qualification_type,
+          other_uk_qualification_type: qualifications[-1].other_uk_qualification_type,
+        }
+      end
+    end
+
+    def previous_qualification_is_of_same_type?(qualifications)
+      last_qualification = qualifications[-1]
+      qualification_type == last_qualification.qualification_type
+    end
+
   private
 
     def state
@@ -65,6 +113,23 @@ module CandidateInterface
         JSON.parse(state)
       else
         {}
+      end
+    end
+
+    def choice_present?
+      return true if choice.present?
+
+      errors.add(:choice, 'Do you want to add another qualification?')
+      false
+    end
+
+    def award_year_is_date_and_before_current_year
+      year_limit = Time.zone.today.year.to_i + 1
+
+      if !valid_year?(award_year)
+        errors.add(:award_year, :invalid)
+      elsif award_year.to_i >= year_limit
+        errors.add(:award_year, :in_the_future, date: year_limit)
       end
     end
   end

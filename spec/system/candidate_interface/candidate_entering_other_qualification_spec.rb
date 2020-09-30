@@ -129,7 +129,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def then_i_see_validation_errors_for_my_qualification
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_form.attributes.award_year.blank')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_wizard.attributes.award_year.blank')
   end
 
   def when_i_fill_in_my_qualification
@@ -147,7 +147,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_the_year_field_is_pre_populated_with_my_previous_details
-    expect(page.find('#candidate-interface-other-qualification-form-award-year-field').value).to eq('2015')
+    expect(page.find('#candidate-interface-other-qualification-wizard-award-year-field').value).to eq('2015')
   end
 
   def when_i_fill_out_the_remainder_of_the_form
@@ -164,7 +164,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def then_the_year_field_is_not_pre_populated_with_my_previous_details
-    expect(page.find('#candidate-interface-other-qualification-form-award-year-field').value).to eq(nil)
+    expect(page.find('#candidate-interface-other-qualification-wizard-award-year-field').value).to eq(nil)
   end
 
   def when_i_fill_in_my_other_qualifications_details
