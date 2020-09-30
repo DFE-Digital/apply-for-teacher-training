@@ -392,15 +392,15 @@ Rails.application.routes.draw do
       end
 
       scope '/references' do
-        get '/start' => 'decoupled_references#start', as: :decoupled_references_start
+        get '/start' => 'decoupled_references/base#start', as: :decoupled_references_start
 
-        get '/type' => 'decoupled_references#type', as: :decoupled_references_type
-        post '/update-type' => 'decoupled_references#update_type', as: :update_decoupled_references_type
+        get '/type' => 'decoupled_references/type#new', as: :decoupled_references_new_type
+        post '/update-type' => 'decoupled_references/type#create', as: :decoupled_references_create_type
 
-        get '/name/:id' => 'decoupled_references#name', as: :decoupled_references_name
-        post '/name/:id' => 'decoupled_references#update_name', as: :update_decoupled_references_name
+        get '/name/:id' => 'decoupled_references/base#name', as: :decoupled_references_name
+        post '/name/:id' => 'decoupled_references/base#update_name', as: :update_decoupled_references_name
 
-        get '/name/:id' => 'decoupled_references#email', as: :decoupled_references_email
+        get '/name/:id' => 'decoupled_references/base#email', as: :decoupled_references_email
 
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
       end

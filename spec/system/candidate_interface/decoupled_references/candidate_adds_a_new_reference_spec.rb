@@ -58,7 +58,7 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
   end
 
   def then_i_see_the_type_page
-    expect(page).to have_current_path candidate_interface_decoupled_references_type_path
+    expect(page).to have_current_path candidate_interface_decoupled_references_new_type_path
   end
 
   def when_i_select_academic
