@@ -1,5 +1,5 @@
 module CandidateInterface
-  class DecoupledRefereesController < CandidateInterfaceController
+  class DecoupledReferencesController < CandidateInterfaceController
     def start; end
 
     def type
