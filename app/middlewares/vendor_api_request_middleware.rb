@@ -46,6 +46,10 @@ private
     @request.env.slice(*REQUEST_HEADER_KEYS)
   end
 
+  def trace_request?
+    FeatureFlag.active?('vendor_api_request_tracing') && vendor_api_path?
+  end
+
   def vendor_api_path?
     @request.path =~ /^\/api\/.*$/
   end

@@ -20,6 +20,7 @@ class FeatureFlag
     [:getting_ready_for_next_cycle_banner, 'Displays an information banner related to the end-of-cycle with link to static page', 'Steve Hook'],
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Malcolm Baig'],
     [:hold_courses_open, 'Force all courses to appear to have vacancies. Do not enable in production!', 'Duncan Brown'],
+    [:vendor_api_request_tracing, 'Enable middleware which records vendor API requests', 'Steve Laing'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
