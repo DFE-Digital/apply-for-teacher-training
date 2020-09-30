@@ -159,11 +159,6 @@ module ProviderInterface
 
   private
 
-    def set_application_choice
-      @application_choice = GetApplicationChoicesForProviders.call(providers: current_provider_user.providers)
-        .find(params[:application_choice_id])
-    end
-
     def make_an_offer_params
       params.require(:make_an_offer)
     end

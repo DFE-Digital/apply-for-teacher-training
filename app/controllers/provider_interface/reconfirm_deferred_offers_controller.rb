@@ -1,6 +1,6 @@
 module ProviderInterface
   class ReconfirmDeferredOffersController < ProviderInterfaceController
-    before_action :find_application_choice
+    before_action :set_application_choice
     before_action :require_deferred_offer_from_previous_cycle
 
     def start
@@ -77,10 +77,6 @@ module ProviderInterface
     helper_method :previous_path
 
   private
-
-    def find_application_choice
-      @application_choice = ApplicationChoice.find(params[:application_choice_id])
-    end
 
     def require_deferred_offer_from_previous_cycle
       unless @application_choice.status == 'offer_deferred' &&

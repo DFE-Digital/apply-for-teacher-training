@@ -781,7 +781,7 @@ Rails.application.routes.draw do
 
       resources :support_users, only: %i[index new create show], path: :support
 
-      resources :provider_users, only: %i[index new create edit update], path: :provider do
+      resources :provider_users, only: %i[show index new create edit update], path: :provider do
         get '/audits' => 'provider_users#audits'
       end
     end

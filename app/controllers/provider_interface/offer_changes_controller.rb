@@ -24,7 +24,7 @@ module ProviderInterface
 
       @change_offer_component = ProviderInterface::ChangeOfferComponent.new(
         change_offer_form: change_offer_form,
-        providers: available_providers,
+        providers: current_provider_user.providers,
         completion_url: {
           action: :update_offer,
           application_choice_id: @application_choice.id,
@@ -49,16 +49,6 @@ module ProviderInterface
     end
 
   private
-
-    def available_providers
-      current_provider_user.providers
-    end
-
-    def set_application_choice
-      @application_choice = GetApplicationChoicesForProviders.call(
-        providers: available_providers,
-      ).find(params[:application_choice_id])
-    end
 
     def change_offer_form_from_params
       ProviderInterface::ChangeOfferForm.new(

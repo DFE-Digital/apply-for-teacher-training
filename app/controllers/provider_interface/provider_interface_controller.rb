@@ -57,8 +57,29 @@ module ProviderInterface
     def add_identity_to_log
       return unless current_provider_user
 
-      RequestLocals.store[:identity] = { dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid }
-      Raven.user_context(dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid)
+      useful_debugging_info = {
+        dfe_sign_in_uid: current_provider_user.dfe_sign_in_uid,
+        provider_user_admin_url: support_interface_provider_user_url(current_provider_user),
+      }
+
+      RequestLocals.store[:identity] = useful_debugging_info
+      Raven.user_context(useful_debugging_info)
+    end
+
+    # Set the `@application_choice` instance variable for use in views.
+    def set_application_choice
+      @application_choice = GetApplicationChoicesForProviders.call(
+        providers: current_provider_user.providers,
+      ).find(params[:application_choice_id])
+
+      debugging_info = {
+        application_support_url: support_interface_application_form_url(@application_choice.application_form),
+      }
+
+      Raven.extra_context(debugging_info)
+      RequestLocals.store[:debugging_info] = debugging_info
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
 
     def redirect_if_setup_required

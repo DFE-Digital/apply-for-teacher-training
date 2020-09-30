@@ -15,7 +15,7 @@ class LogstashLogging
         if params
           event['params'] = params # add query params to the logs, if available
         end
-        add_identity_fields(event)
+        add_debugging_fields(event)
         add_sidekiq_fields(event)
       end
     end
@@ -63,9 +63,12 @@ class LogstashLogging
     rails_config.lograge.formatter = Lograge::Formatters::Logstash.new
   end
 
-  def self.add_identity_fields(event)
+  def self.add_debugging_fields(event)
     identity_hash = RequestLocals.fetch(:identity) {} # block is required
     identity_hash.each { |key, val| event[key] = val } if identity_hash
+
+    debugging_info = RequestLocals.fetch(:debugging_info) {} # block is required
+    debugging_info.each { |key, val| event[key] = val } if debugging_info
   end
 
   def self.add_sidekiq_fields(event)
