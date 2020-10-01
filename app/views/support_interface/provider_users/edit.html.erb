@@ -2,7 +2,7 @@
 
 <%= render 'support_interface/providers/providers_navigation', current: 'Provider users' %>
 
-<%= render 'provider_user_navigation', current: 'Details' %>
+<%= render 'provider_user_navigation' %>
 
 <%= form_with model: @form, url: support_interface_provider_user_path(@form.provider_user) do |f| %>
   <%= f.govuk_error_summary %>
