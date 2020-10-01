@@ -10,7 +10,7 @@ class SetupDataForVideos < ActiveRecord::Migration[6.0]
     )
     provider.provider_permissions.first.update(
       manage_users: true,
-      manage_organisations: true,
+      manage_organisations: false,
       make_decisions: true,
       view_safeguarding_information: true,
       view_diversity_information: true,
@@ -45,7 +45,7 @@ class SetupDataForVideos < ActiveRecord::Migration[6.0]
     )
     provider.provider_permissions.first.update(
       manage_users: true,
-      manage_organisations: true,
+      manage_organisations: false,
       make_decisions: true,
       view_safeguarding_information: true,
       view_diversity_information: true,
