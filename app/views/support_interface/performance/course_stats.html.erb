@@ -1,10 +1,6 @@
 <% content_for :title, 'Course stats' %>
 <% content_for :before_content, govuk_back_link_to(support_interface_performance_path) %>
 
-<% content_for :navigation do %>
-  <%= render 'support_interface/performance/performance_navigation', current: 'Dashboards' %>
-<% end %>
-
 <% RecruitmentCycle.years_visible_in_support.each do |year| %>
   <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-4"><%= year %></h2>
 

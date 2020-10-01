@@ -1,9 +1,5 @@
-<% content_for :title, "Search validation errors" %>
+<% content_for :title, 'Search validation errors' %>
 <% content_for :before_content, govuk_back_link_to(support_interface_validation_errors_path) %>
-
-<% content_for :navigation do %>
-  <%= render 'support_interface/performance/performance_navigation', current: 'Validation errors' %>
-<% end %>
 
 <p class='govuk-body'>
   <% if params[:id] %>

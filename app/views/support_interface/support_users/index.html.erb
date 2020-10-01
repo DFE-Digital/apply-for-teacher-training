@@ -1,8 +1,4 @@
-<% content_for :title, 'Support users' %>
-
-<% content_for :navigation do %>
-  <%= render 'support_interface/settings/settings_navigation' %>
-<% end %>
+<%= render 'support_interface/settings/settings_navigation', title: 'Support users' %>
 
 <%= govuk_button_link_to 'Add support user', new_support_interface_support_user_path %>
 

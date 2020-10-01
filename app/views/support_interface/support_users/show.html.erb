@@ -1,7 +1,9 @@
-<% content_for :title, @support_user.display_name %>
+<% content_for :browser_title, "Support user #{@support_user.display_name}" %>
+<% content_for :before_content, govuk_back_link_to(support_interface_support_users_path) %>
 
-<% content_for :navigation do %>
-  <%= render 'support_interface/settings/settings_navigation', current: 'Support users' %>
-<% end %>
+<% content_for :title do %>
+   <span class="govuk-caption-xl">Support user</span>
+   <%= @support_user.display_name %>
+ <% end %>
 
 <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @support_user) %>

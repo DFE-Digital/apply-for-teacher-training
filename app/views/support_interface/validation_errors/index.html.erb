@@ -1,8 +1,4 @@
-<% content_for :title, 'Validation errors' %>
-
-<% content_for :navigation do %>
-  <%= render 'support_interface/performance/performance_navigation' %>
-<% end %>
+<%= render 'support_interface/performance/performance_navigation', title: 'Validation errors' %>
 
 <p class="govuk-body"><%= govuk_link_to 'Validation error summary', support_interface_validation_error_summary_path %></p>
 

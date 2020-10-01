@@ -1,8 +1,4 @@
-<% content_for :title, 'Dashboards' %>
-
-<% content_for :navigation do %>
-  <%= render 'support_interface/performance/performance_navigation' %>
-<% end %>
+<%= render 'performance_navigation', title: 'Dashboards' %>
 
 <ul class="govuk-list govuk-list--bullet">
   <li><%= govuk_link_to 'Service performance', integrations_performance_path %> (public)</li>

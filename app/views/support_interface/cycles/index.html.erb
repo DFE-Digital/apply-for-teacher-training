@@ -1,8 +1,4 @@
-<%= content_for :title, 'Recruitment cycles' %>
-
-<% content_for :navigation do %>
-  <%= render 'support_interface/settings/settings_navigation' %>
-<% end %>
+<%= render 'support_interface/settings/settings_navigation', title: 'Recruitment cycles' %>
 
 <% unless HostingEnvironment.production? %>
   <%= form_with model: SupportInterface::ChangeCycleForm.new, url: support_interface_switch_cycle_schedule_path, method: :post do |f| %>
