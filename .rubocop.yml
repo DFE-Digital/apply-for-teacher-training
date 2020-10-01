@@ -162,3 +162,6 @@ Layout/FirstMethodArgumentLineBreak:
 # 🤷‍♂️
 Style/AsciiComments:
   Enabled: false
+
+Style/ConditionalAssignment:
+  Enabled: false
