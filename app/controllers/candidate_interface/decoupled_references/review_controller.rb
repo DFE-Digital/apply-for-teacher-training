@@ -10,7 +10,9 @@ module CandidateInterface
         @references_sent = current_application.application_references.pending_feedback_or_failed
       end
 
-      def unsubmitted; end
+      def unsubmitted
+        @submit_reference_form = Reference::RefereeSubmitForm.new
+      end
     end
   end
 end

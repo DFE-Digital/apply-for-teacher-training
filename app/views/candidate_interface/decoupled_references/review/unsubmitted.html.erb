@@ -1,0 +1,25 @@
+<% content_for :title, t('page_titles.references_unsubmitted_review') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl">
+        <%= @reference.name %>
+      </span>
+      <%= t('page_titles.references_unsubmitted_review') %>
+    </h1>
+
+    <%= render CandidateInterface::UnsubmittedReferenceReviewComponent.new(reference: @reference) %>
+
+    <%= form_with model: @submit_reference_form, url: candidate_interface_decoupled_references_submit_path, class: 'govuk-!-margin-top-8' do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :submit_reference, legend: { text: "Are you ready to send a reference request to #{@reference.name}?", size: 'm' } do %>
+          <%= f.govuk_radio_button :submit, 'yes', label: { text: 'Yes, send a reference request now' } %>
+          <%= f.govuk_radio_button :submit, 'no', label: { text: 'No, not at the moment' } %>
+      <% end %>
+
+      <%= f.govuk_submit 'Save and continue' %>
+    <% end %>
+  </div>
+</div>
