@@ -207,8 +207,18 @@ module VendorAPI
         award_year: qualification.award_year,
         institution_details: institution_details(qualification),
         awarding_body: qualification.awarding_body,
-        equivalency_details: qualification.equivalency_details,
+        equivalency_details: composite_equivalency_details(qualification),
       }.merge HesaQualificationFieldsPresenter.new(qualification).to_hash
+    end
+
+    def composite_equivalency_details(qualification)
+      details = [
+        ("Naric: #{qualification.naric_reference}" if qualification.naric_reference),
+        qualification.comparable_uk_qualification,
+        qualification.equivalency_details,
+      ].compact.join(' - ')
+
+      details.strip if details.present? # return nil instead of empty string
     end
 
     def institution_details(qualification)
