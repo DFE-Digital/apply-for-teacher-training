@@ -1,6 +1,4 @@
-<% content_for :title, 'Mailer previews' %>
-
-<%= render 'support_interface/docs/docs_navigation' %>
+<%= render 'support_interface/docs/docs_navigation', title: 'Mailer previews' %>
 
 <% @previews.each do |preview| %>
 <h3 class="govuk-heading-m"><%= preview.preview_name.titleize %></h3>
