@@ -123,6 +123,7 @@ en:
     references_start: Choose your referees
     references_name: What is the referee’s name?
     references_email_address: What is the referee’s email address?
+    references_relationship: How do you know this referee and how long have you known them?
     providers: Courses on this service
     view_and_respond_to_offer: Details of offer
     api_docs:
