@@ -58,7 +58,7 @@ RSpec.feature 'Managing support users' do
   end
 
   def when_i_go_back_to_the_manage_support_users_page
-    click_link 'Support users'
+    click_link 'Back'
   end
 
   def and_i_submit_the_same_email_address_again

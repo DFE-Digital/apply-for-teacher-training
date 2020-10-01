@@ -1,8 +1,5 @@
 <% content_for :browser_title, title_with_error_prefix('Add support user', @support_user.errors.any?) %>
-
-<% content_for :navigation do %>
-  <%= render 'support_interface/settings/settings_navigation', current: 'Support users' %>
-<% end %>
+<% content_for :before_content, govuk_back_link_to(support_interface_support_users_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
