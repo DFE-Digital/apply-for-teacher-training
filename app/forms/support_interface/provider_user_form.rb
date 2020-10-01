@@ -51,11 +51,17 @@ module SupportInterface
     end
 
     def possible_permissions
-      Provider.where(sync_courses: true).pluck(:id).map do |id|
-        ProviderPermissions.find_or_initialize_by(
-          provider_id: id,
-          provider_user_id: provider_user.try(:id),
-        )
+      @possible_permissions ||= begin
+        if provider_user
+          existing_permissions_for_user = ProviderPermissions.includes(:provider, :provider_user).where(provider_user_id: provider_user.id)
+        else
+          existing_permissions_for_user = []
+        end
+
+        Provider.where(sync_courses: true).map do |provider|
+          provider_permissions = existing_permissions_for_user.find { |existing_permission| existing_permission.provider_id == provider.id }
+          provider_permissions || ProviderPermissions.new(provider: provider)
+        end
       end
     end
 
