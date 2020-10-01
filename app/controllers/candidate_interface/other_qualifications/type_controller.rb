@@ -25,27 +25,42 @@ module CandidateInterface
     end
 
     def edit
-      @qualification_type = OtherQualificationTypeForm.build_from_qualification(current_qualification)
+      @wizard = wizard_for(current_step: :type)
+      @wizard.copy_attributes(get_qualification)
+      @wizard.save_state!
     end
 
     def update
-      @qualification_type = OtherQualificationTypeForm.new(other_qualification_type_params)
+      @qualification = ApplicationQualification.find(params[:id])
+      @wizard = wizard_for(
+        other_qualification_type_params.merge(current_step: :type, checking_answers: true),
+      )
+      if @wizard.valid?(:type)
+        @wizard.save_state!
+        # TODO: current_application.update!(other_qualifications_completed: false)
+        commit
 
-      if qualification_type_has_changed && @qualification_type.update(current_qualification)
-        current_application.update!(other_qualifications_completed: false)
+        next_step = @wizard.next_step
 
-        redirect_to candidate_interface_edit_other_qualification_details_path(current_qualification)
-      elsif @qualification_type.update(current_qualification)
-        current_application.update!(other_qualifications_completed: false)
-
-        redirect_to candidate_interface_review_other_qualifications_path
+        if next_step.first == :details
+          redirect_to candidate_interface_edit_other_qualification_details_path(@qualification.id)
+        elsif next_step.first == :check
+          redirect_to candidate_interface_review_other_qualifications_path
+        else
+          render :edit
+        end
       else
-        track_validation_error(@qualification_type)
+        track_validation_error(@wizard)
         render :edit
       end
     end
 
   private
+
+    def commit
+      application_qualification = get_qualification
+      application_qualification.update!(@wizard.attributes_for_persistence)
+    end
 
     def wizard_for(options)
       options[:checking_answers] = true if params[:checking_answers] == 'true'
@@ -67,6 +82,12 @@ module CandidateInterface
 
     def qualification_type_has_changed
       @qualification_type.qualification_type != current_qualification.qualification_type
+    end
+
+    def get_qualification
+      return nil unless params[:id]
+
+      @get_qualification ||= current_application.application_qualifications.other.find(params[:id])
     end
   end
 end

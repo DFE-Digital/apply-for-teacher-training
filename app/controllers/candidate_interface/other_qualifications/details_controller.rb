@@ -3,16 +3,15 @@ module CandidateInterface
     def new
       @wizard = wizard_for(current_step: :details)
       @wizard.qualification_type ||= get_qualification&.qualification_type
-      @wizard.assign_attributes(
-        @wizard.attributes_for_new_qualification(
-          current_application.application_qualifications.other.order(:created_at),
-        ),
+      @wizard.initialize_new_qualification(
+        current_application.application_qualifications.other.order(:created_at),
       )
       @wizard.save_state!
     end
 
     def create
       @wizard = wizard_for(other_qualification_params.merge(current_step: :details))
+      @wizard.save_state!
 
       if @wizard.valid?(:details)
         @wizard.clear_state!
@@ -37,16 +36,19 @@ module CandidateInterface
       # @type = @qualification.set_type(current_qualification)
       @wizard = wizard_for(current_step: :details)
       @wizard.copy_attributes(get_qualification)
+      @wizard.save_state!
     end
 
     def update
       @wizard = wizard_for(
-        other_qualification_update_params.merge(current_step: :details),
+        other_qualification_update_params.merge(current_step: :details, checking_answers: true),
       )
+      @wizard.save_state!
 
       if @wizard.valid?(:details)
         @wizard.clear_state!
-        commit
+        commit(qualification_id: params[:id])
+        current_application.update!(other_qualifications_completed: false)
         redirect_to candidate_interface_review_other_qualifications_path
       else
         # @type = @qualification.set_type(current_qualification)
@@ -86,7 +88,8 @@ module CandidateInterface
     def other_qualification_params
       if FeatureFlag.active?('international_other_qualifications')
         params.require(:candidate_interface_other_qualification_wizard).permit(
-          :subject, :grade, :award_year, :choice, :institution_country
+          :subject, :grade, :award_year, :choice, :institution_country,
+          :other_uk_qualification_type, :non_uk_qualification_type
         ).merge!(
           id: params[:id],
           qualification_type: get_qualification.qualification_type,
@@ -95,8 +98,7 @@ module CandidateInterface
         )
       else
         params.require(:candidate_interface_other_qualification_wizard).permit(
-          :subject, :grade, :award_year, :choice, :institution_country,
-          :other_uk_qualification_type, :non_uk_qualification_type
+          :subject, :grade, :award_year, :choice, :institution_country
         ).merge!(
           id: params[:id],
         )

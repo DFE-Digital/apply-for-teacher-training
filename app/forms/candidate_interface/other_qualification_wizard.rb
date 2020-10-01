@@ -31,7 +31,7 @@ module CandidateInterface
     end
 
     def next_step
-      if checking_answers.present?
+      if checking_answers.present? && !qualification_type_changed?
         [:check]
       elsif current_step.to_s == 'type'
         [:details]
@@ -65,34 +65,35 @@ module CandidateInterface
     end
 
     def attributes_for_persistence
-      {
-        qualification_type: qualification_type,
-        subject: subject,
-        institution_country: institution_country,
-        predicted_grade: predicted_grade,
-        grade: grade,
-        other_uk_qualification_type: other_uk_qualification_type,
-        non_uk_qualification_type: non_uk_qualification_type,
-        award_year: award_year,
-      }
-    end
-
-    def attributes_for_new_qualification(qualifications)
-      return {} if qualifications.blank?
-
-      if previous_qualification_is_of_same_type?(qualifications)
+      if current_step == :type
         {
-          institution_country: qualifications[-1].institution_country,
-          award_year: qualifications[-1].award_year,
-          non_uk_qualification_type: qualifications[-1].non_uk_qualification_type,
-          other_uk_qualification_type: qualifications[-1].other_uk_qualification_type,
+          qualification_type: qualification_type,
+          other_uk_qualification_type: other_uk_qualification_type,
+          non_uk_qualification_type: non_uk_qualification_type,
         }
       else
         {
-          non_uk_qualification_type: qualifications[-1].non_uk_qualification_type,
-          other_uk_qualification_type: qualifications[-1].other_uk_qualification_type,
+          qualification_type: qualification_type,
+          subject: subject,
+          institution_country: institution_country,
+          predicted_grade: predicted_grade,
+          grade: grade,
+          other_uk_qualification_type: other_uk_qualification_type,
+          non_uk_qualification_type: non_uk_qualification_type,
+          award_year: award_year,
         }
       end
+    end
+
+    def initialize_new_qualification(qualifications)
+      return if qualifications.blank?
+
+      if previous_qualification_is_of_same_type?(qualifications)
+        self.institution_country ||= qualifications[-1].institution_country
+        self.award_year ||= qualifications[-1].award_year
+      end
+      self.non_uk_qualification_type ||= qualifications[-1].non_uk_qualification_type
+      self.other_uk_qualification_type ||= qualifications[-1].other_uk_qualification_type
     end
 
     def copy_attributes(application_qualification)
@@ -104,7 +105,26 @@ module CandidateInterface
       qualification_type == last_qualification.qualification_type
     end
 
+    def qualication_type_name
+      if qualification_type == 'non_uk'
+        non_uk_qualification_type
+      elsif qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications')
+        other_uk_qualification_type
+      else
+        qualification_type
+      end
+    end
+
   private
+
+    def qualification_type_changed?
+      application_qualification &&
+        application_qualification.qualification_type != qualification_type
+    end
+
+    def application_qualification
+      @application_qualification ||= id.present? && ApplicationQualification.find(id)
+    end
 
     def state
       as_json(only: %w[current_step current_other_qualification_id checking_answers qualification_type other_uk_qualification_type non_uk_qualification_type]).to_json
