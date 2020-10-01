@@ -301,23 +301,26 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
   end
 
-  describe '#as_json' do
-    context 'given a relation that includes application_qualifications' do
-      let(:application_choice) do
-        create(:application_choice, status: 'awaiting_provider_decision', application_form: create(:completed_application_form))
-      end
-
-      let(:given_relation) { GetApplicationChoicesForProviders.call(providers: application_choice.provider, vendor_api: true) }
-      let!(:presenter) { VendorAPI::SingleApplicationPresenter.new(given_relation.first) }
-
-      it 'does not trigger any additional queries' do
-        expect { presenter.as_json }.not_to make_database_queries
-      end
-    end
-  end
-
   describe 'attributes.references' do
     let(:application_choice) { create(:application_choice, :with_offer) }
+
+    it 'returns only references with feedback' do
+      with_feedback = create(
+        :reference,
+        :complete,
+        application_form: application_choice.application_form,
+      )
+
+      refused = create(
+        :reference,
+        :refused,
+        application_form: application_choice.application_form,
+      )
+
+      presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)
+      expect(presenter.as_json[:attributes][:references].map { |r| r[:id] }).to include(with_feedback.id)
+      expect(presenter.as_json[:attributes][:references].map { |r| r[:id] }).not_to include(refused.id)
+    end
 
     it 'returns application references with their respective ids' do
       reference = create(
