@@ -20,11 +20,22 @@ RSpec.feature 'Decoupled references' do
     and_i_click_save_and_continue
     then_i_should_see_the_referee_name_page
 
-    when_i_click_save_and_continue_without_giving_a_name
-    then_i_should_see_an_error
+    when_i_click_save_and_continue_without_providing_a_name
+    then_i_should_be_told_to_provide_a_name
 
     when_i_fill_in_my_references_name
     and_i_click_save_and_continue
+
+    when_i_click_save_and_continue_without_providing_an_emailing
+    then_i_should_be_told_to_provide_an_email_address
+
+    when_i_provide_an_email_address_with_an_invalid_format
+    and_i_click_save_and_continue
+    then_i_am_told_my_email_address_needs_a_valid_format
+
+    when_i_provide_a_valid_email_address
+    and_i_click_save_and_continue
+    then_i_see_the_description_page
   end
 
   def given_i_am_signed_in
@@ -73,11 +84,11 @@ RSpec.feature 'Decoupled references' do
     expect(page).to have_current_path candidate_interface_decoupled_references_new_name_path(@application.application_references.last.id)
   end
 
-  def when_i_click_save_and_continue_without_giving_a_name
+  def when_i_click_save_and_continue_without_providing_a_name
     and_i_click_save_and_continue
   end
 
-  def then_i_should_see_an_error
+  def then_i_should_be_told_to_provide_a_name
     expect(page).to have_content 'Enter your referees name'
   end
 
@@ -87,5 +98,29 @@ RSpec.feature 'Decoupled references' do
 
   def then_i_see_the_referee_email_page
     expect(page).to have_current_path candidate_interface_decoupled_references_new_email_path(@application.application_references.last.id)
+  end
+
+  def when_i_click_save_and_continue_without_providing_an_emailing
+    and_i_click_save_and_continue
+  end
+
+  def then_i_should_be_told_to_provide_an_email_address
+    expect(page).to have_content 'Enter your referees email address'
+  end
+
+  def when_i_provide_an_email_address_with_an_invalid_format
+    fill_in 'candidate-interface-reference-referee-email-form-email-field-error', with: 'invalid.email.address'
+  end
+
+  def then_i_am_told_my_email_address_needs_a_valid_format
+    expect(page).to have_content 'Enter an email address in the correct format, like name@example.com'
+  end
+
+  def when_i_provide_a_valid_email_address
+    fill_in 'candidate-interface-reference-referee-email-form-email-field-error', with: 'iamtheone@whoknocks.com'
+  end
+
+  def then_i_see_the_description_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_new_description_path(@application.application_references.last.id)
   end
 end
