@@ -1,6 +1,4 @@
-<% content_for :before_content do %>
-  <%= render TabNavigationComponent.new(items: [
-    { name: 'Details', url: support_interface_application_form_path(@application_form) },
-    { name: 'History', url: support_interface_application_form_audit_path(@application_form) },
-  ]) %>
-<% end %>
+<%= render TabNavigationComponent.new(items: [
+  { name: 'Details', url: support_interface_application_form_path(@application_form) },
+  { name: 'History', url: support_interface_application_form_audit_path(@application_form) },
+]) %>

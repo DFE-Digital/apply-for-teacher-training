@@ -1,28 +1,33 @@
-<% content_for :browser_title, title_with_success_prefix("Application ##{@application_form.id}", flash[:success].present?) %>
-<% content_for :title do %>
-  <span class="govuk-caption-xl">Application #<%= @application_form.id %></span>
-  <%= break_email_address(@application_form.candidate.email_address) %>
-<% end %>
+<% content_for :browser_title, title_with_success_prefix("Application details – Application ##{@application_form.id}", flash[:success].present?) %>
 
 <%= render 'support_interface/candidates/candidates_navigation', current: 'Applications' %>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-4">
+  <span class="govuk-caption-xl">Application #<%= @application_form.id %></span>
+  <%= break_email_address(@application_form.candidate.email_address) %>
+</h1>
+
+<p class="govuk-body govuk-!-margin-bottom-6">
+  <%= govuk_link_to 'Emails about this application', support_interface_email_log_path(application_form_id: @application_form.id), class: 'govuk-link--no-visited-state' %>
+</p>
 
 <%= render 'application_navigation' %>
 
 <%= render SupportInterface::ApplicationSummaryComponent.new(application_form: @application_form) %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Personal details</h2>
-
-<%= render PersonalDetailsComponent.new(application_form: @application_form) %>
-
 <% unless HostingEnvironment.production? %>
-  <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), class: 'govuk-button' %>
+  <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), class: 'govuk-button', form_class: 'govuk-!-display-inline-block' %>
 <% end %>
 
 <% if @application_form.candidate.hide_in_reporting? %>
-  <%= button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary' %>
+  <%= button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
 <% else %>
-  <%= button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary' %>
+  <%= button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
 <% end %>
+
+<h2 class="govuk-heading-l govuk-!-margin-top-8">Personal details</h2>
+
+<%= render PersonalDetailsComponent.new(application_form: @application_form) %>
 
 <% if @application_form.application_choices.any? %>
   <h2 class="govuk-heading-l govuk-!-margin-top-8">Course choices</h2>
@@ -52,9 +57,6 @@
     <%= render SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: i + 1) %>
   <% end %>
 <% end %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-1" id="qualifications">Qualifications</h2>
-<p class='govuk-hint govuk-!-margin-top-0'>(HESA codes in brackets, where relevant)</p>
 
 <%= render QualificationsComponent.new(application_form: @application_form, show_hesa_codes: true) %>
 

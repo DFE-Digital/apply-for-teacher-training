@@ -31,7 +31,7 @@ module SupportInterface
     def last_updated_row
       {
         key: 'Last updated',
-        value: "#{updated_at.to_s(:govuk_date_and_time)} (#{govuk_link_to('See history', support_interface_application_form_audit_path(application_form))}, #{govuk_link_to('Emails about application', support_interface_email_log_path(application_form_id: application_form.id))})".html_safe,
+        value: updated_at.to_s(:govuk_date_and_time),
       }
     end
 
@@ -104,7 +104,7 @@ module SupportInterface
       process_state = ProcessState.new(application_form).state
       name = I18n.t!("candidate_flow_application_states.#{process_state}.name")
       desc = I18n.t!("candidate_flow_application_states.#{process_state}.description")
-      "#{name} – #{desc}"
+      "<strong>#{name}</strong><br>#{desc}".html_safe
     end
 
     def ucas_match

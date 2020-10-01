@@ -1,17 +1,18 @@
 <% content_for :browser_title, "Application history – Application ##{@application_form.id}" %>
-<% content_for :title do %>
-  <span class="govuk-caption-xl"><%= break_email_address(@application_form.candidate.email_address) %></span>
-  Application history
-<% end %>
 
 <%= render 'support_interface/candidates/candidates_navigation', current: 'Applications' %>
+
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-4">
+  <span class="govuk-caption-xl">Application #<%= @application_form.id %></span>
+  <%= break_email_address(@application_form.candidate.email_address) %>
+</h1>
+
+<p class="govuk-body govuk-!-margin-bottom-6">
+  <%= govuk_link_to 'Emails about this application', support_interface_email_log_path(application_form_id: @application_form.id), class: 'govuk-link--no-visited-state' %>
+</p>
 
 <%= render 'application_navigation' %>
 
 <%= govuk_button_link_to 'Add comment', support_interface_application_form_new_comment_path %>
-
-<p class="govuk-body">
-  <%= govuk_link_to 'View all emails about this application', support_interface_email_log_path(application_form_id: @application_form.id) %>
-</p>
 
 <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @application_form) %>
