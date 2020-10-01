@@ -26,7 +26,13 @@ module CandidateInterface
     end
 
     def show_missing_banner?
-      !@application_form.references_completed && @editable if @submitting_application
+      !@application_form.references_completed && @editable && @submitting_application
+    end
+
+    def show_references_not_provided?
+      return false unless FeatureFlag.active?(:decoupled_references)
+
+      !@application_form.enough_references_have_been_provided? && @editable && @submitting_application
     end
 
   private
