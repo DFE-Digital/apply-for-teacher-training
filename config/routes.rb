@@ -403,7 +403,7 @@ Rails.application.routes.draw do
         get '/email/:id' => 'decoupled_references/email_address#new', as: :decoupled_references_new_email_address
         post '/email/:id' => 'decoupled_references/email_address#create', as: :decoupled_references_create_email_address
 
-        get '/description/:id' => 'decoupled_references/description#new', as: :decoupled_references_new_description
+        get '/relationship/:id' => 'decoupled_references/relationship#new', as: :decoupled_references_new_relationship
 
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
       end

@@ -128,7 +128,7 @@ RSpec.feature 'Decoupled references' do
   end
 
   def then_i_see_the_description_page
-    expect(page).to have_current_path candidate_interface_decoupled_references_new_description_path(@application.application_references.last.id)
+    expect(page).to have_current_path candidate_interface_decoupled_references_new_relationship_path(@application.application_references.last.id)
   end
 
   def when_i_click_save_and_continue_without_providing_a_description
