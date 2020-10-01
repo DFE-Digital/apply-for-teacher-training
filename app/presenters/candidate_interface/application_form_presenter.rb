@@ -245,6 +245,10 @@ module CandidateInterface
       @application_form.application_volunteering_experiences.any?
     end
 
+    def enough_references_provided?
+      @application_form.enough_references_have_been_provided?
+    end
+
     def all_referees_provided_by_candidate?
       @application_form.references_completed
     end

@@ -249,11 +249,11 @@ class ApplicationForm < ApplicationRecord
     application_references.any?(&:cancelled_at_end_of_cycle?)
   end
 
-private
-
   def enough_references_have_been_provided?
     application_references.feedback_provided.count >= MINIMUM_COMPLETE_REFERENCES
   end
+
+private
 
   def withdrawn_course_choices
     application_choices.includes(%i[provider course]).select { |choice| choice.course.withdrawn == true }
