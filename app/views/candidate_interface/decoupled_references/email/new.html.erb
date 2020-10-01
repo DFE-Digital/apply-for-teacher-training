@@ -1,0 +1,34 @@
+<% content_for :title, t('page_titles.references_email_address') %>
+<% content_for :before_content, govuk_back_link_to %>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @reference_email_address_form, url: candidate_interface_decoupled_references_create_email_path(@reference.id) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl">
+          <%= @reference.name %>
+        </span>
+        <%= t('page_titles.references_email_address') %>
+      </h1>
+
+      <% if HostingEnvironment.sandbox_mode? %>
+        <div class="app-status-box app-status-box--sandbox govuk-!-margin-bottom-4">
+          <p class="govuk-body">
+            <strong class="govuk-tag govuk-phase-banner__content__tag app-environment-tag govuk-tag--purple">
+              sandbox feature
+            </strong>
+          </p>
+          <p class="govuk-body govuk-!-margin-bottom-0">
+            Enter <code>refbot1@example.com</code> and <code>refbot2@example.com</code> as your referee email addresses to have the references automatically completed
+          </p>
+        </div>
+      <% end %>
+      <%= f.govuk_text_field :email_address, type: 'email', label: { text: '' }, hint_text: 'In most cases, this should be a work address.' %>
+
+      <%= f.govuk_submit 'Save and continue' %>
+    <% end %>
+  </div>
+</div>

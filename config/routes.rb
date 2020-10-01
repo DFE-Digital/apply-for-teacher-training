@@ -401,6 +401,7 @@ Rails.application.routes.draw do
         post '/name/:id' => 'decoupled_references/name#create', as: :decoupled_references_create_name
 
         get '/email/:id' => 'decoupled_references/email#new', as: :decoupled_references_new_email
+        post '/email/:id' => 'decoupled_references/email#create', as: :decoupled_references_create_email
 
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
       end
