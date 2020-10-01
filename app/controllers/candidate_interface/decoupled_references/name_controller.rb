@@ -8,7 +8,7 @@ module CandidateInterface
       end
 
       def create
-        @reference_name_form = Reference::RefereeNameForm.new(name: referee_name_param)
+        @reference_name_form = Reference::RefereeNameForm.new(referee_name_param)
         return render :new unless @reference_name_form.valid?
 
         @reference_name_form.save(@reference)
@@ -19,7 +19,7 @@ module CandidateInterface
     private
 
       def referee_name_param
-        params.dig(:candidate_interface_reference_referee_name_form, :name)
+        params.require(:candidate_interface_reference_referee_name_form).permit(:name)
       end
     end
   end
