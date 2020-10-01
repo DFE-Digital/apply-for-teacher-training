@@ -140,7 +140,7 @@ RSpec.feature 'Decoupled references' do
   end
 
   def when_i_fill_in_my_references_description
-    fill_in 'candidate-interface-reference-referee-description-form-description-field-error', with: 'Through nefarious behaviour.'
+    fill_in 'candidate-interface-reference-referee-relationship-form-relationship-field-error', with: 'Through nefarious behaviour.'
   end
 
   def then_i_should_see_the_review_unsubmitted_page

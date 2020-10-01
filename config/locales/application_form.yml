@@ -829,6 +829,10 @@ en:
               blank: Enter your referees email address
               invalid: Enter an email address in the correct format, like name@example.com
               duplicate: Please give a different email address for each referee
+        candidate_interface/reference/referee_relationship_form:
+          attributes:
+            relationship:
+              blank: Enter how you know this referee.
         referee_interface/reference_relationship_form:
           attributes:
             relationship_confirmation:

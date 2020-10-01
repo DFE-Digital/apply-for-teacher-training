@@ -406,6 +406,8 @@ Rails.application.routes.draw do
         get '/relationship/:id' => 'decoupled_references/relationship#new', as: :decoupled_references_new_relationship
         post '/relationship/:id' => 'decoupled_references/relationship#create', as: :decoupled_references_create_relationship
 
+        get '/review-unsubmitted/:id' => 'decoupled_references/review#unsubmitted', as: :decoupled_references_review_unsubmitted
+
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
       end
 
