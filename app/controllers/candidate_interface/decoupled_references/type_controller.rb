@@ -16,13 +16,6 @@ module CandidateInterface
 
     private
 
-      def set_reference
-        @reference = current_candidate.current_application
-                                      .application_references
-                                      .includes(:application_form)
-                                      .find_by(id: params[:id])
-      end
-
       def referee_type_param
         params.require(:candidate_interface_reference_referee_type_form).permit(:referee_type)
       end

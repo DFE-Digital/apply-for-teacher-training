@@ -8,7 +8,7 @@ module CandidateInterface
       end
 
       def create
-        @reference_email_address_form = Reference::RefereeEmailAddressForm.new(email_address: referee_email_address_param)
+        @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
         return render :new unless @reference_email_address_form.valid?
 
         @reference_email_address_form.save(@reference)
@@ -19,7 +19,8 @@ module CandidateInterface
     private
 
       def referee_email_address_param
-        params.dig(:candidate_interface_reference_referee_email_address_form, :email_address)
+        params.require(:candidate_interface_reference_referee_email_address_form).permit(:email_address)
+        .merge!(application_form_id: current_application.id)
       end
     end
   end
