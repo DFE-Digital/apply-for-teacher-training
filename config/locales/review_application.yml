@@ -54,3 +54,6 @@ en:
     references:
       incomplete: Add %{minimum_references} referees to your application
       complete_section: Add your references
+    references_provided:
+      incomplete: You need %{minimum_references} references before you can submit your application
+      complete_section: Manage your references
