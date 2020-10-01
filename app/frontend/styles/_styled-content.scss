@@ -37,14 +37,34 @@
     @include govuk-typography-weight-bold;
   }
 
+  dd + dt {
+    margin-top: govuk-spacing(4);
+  }
+
+  dd {
+    margin-left: 0;
+  }
+
+  dd + dd {
+    margin-top: govuk-spacing(2);
+  }
+
   a {
-    @extend %govuk-link;
+    @include govuk-link-style-default;
   }
 
   code {
     background-color: govuk-colour("light-grey");
     font-family: monospace;
     padding: 2px 5px;
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   }
 
   hr {

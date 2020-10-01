@@ -2,9 +2,7 @@
 
 <%= render 'docs_navigation' %>
 
-<p class="govuk-body">
-  This page documents the states and transitions that make up the Apply service, from the perspective of the candidate.
-</p>
+<p class="govuk-body-l">The states and transitions that make up the Apply service, from the perspective of the candidate.</p>
 
 <details class="govuk-details" data-module="govuk-details">
   <summary class="govuk-details__summary">
@@ -23,5 +21,4 @@
 
 <% ProcessState.workflow_spec.states.each do |_, state| %>
   <%= render StateExplanationComponent.new(state: state, machine: ProcessState, development_details: true) %>
-  <hr class='govuk-section-break govuk-section-break--xl govuk-section-break--visible'>
 <% end %>
