@@ -72,7 +72,11 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
 
         form.save(application_form)
 
-        expect(application_form.equality_and_diversity).to eq('ethnic_group' => 'Asian or Asian British', 'ethnic_background' => 'Bangladeshi')
+        expect(application_form.equality_and_diversity).to eq(
+          'ethnic_group' => 'Asian or Asian British',
+          'ethnic_background' => 'Bangladeshi',
+          'hesa_ethnicity' => 33,
+        )
       end
 
       it 'updates the existing record of equality and diversity information' do
@@ -82,7 +86,10 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'male', 'ethnic_group' => 'Asian or Asian British', 'ethnic_background' => 'Bangladeshi',
+          'sex' => 'male',
+          'ethnic_group' => 'Asian or Asian British',
+          'ethnic_background' => 'Bangladeshi',
+          'hesa_ethnicity' => 33,
         )
       end
     end
@@ -93,7 +100,11 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
 
         form.save(application_form)
 
-        expect(application_form.equality_and_diversity).to eq('ethnic_group' => 'Asian or Asian British', 'ethnic_background' => 'Unlisted ethnic background')
+        expect(application_form.equality_and_diversity).to eq(
+          'ethnic_group' => 'Asian or Asian British',
+          'ethnic_background' => 'Unlisted ethnic background',
+          'hesa_ethnicity' => 39,
+        )
       end
 
       it 'updates the application form with the ethnic background value if other background is not provided' do
@@ -101,7 +112,11 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
 
         form.save(application_form)
 
-        expect(application_form.equality_and_diversity).to eq('ethnic_group' => 'Asian or Asian British', 'ethnic_background' => 'Another Asian background')
+        expect(application_form.equality_and_diversity).to eq(
+          'ethnic_group' => 'Asian or Asian British',
+          'ethnic_background' => 'Another Asian background',
+          'hesa_ethnicity' => 39,
+        )
       end
     end
   end

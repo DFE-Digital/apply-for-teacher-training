@@ -55,14 +55,20 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
         form = CandidateInterface::EqualityAndDiversity::DisabilitiesForm.new(disabilities: %w[Blind Other], other_disability: 'Other disability')
         form.save(application_form)
 
-        expect(application_form.equality_and_diversity).to eq('disabilities' => ['Blind', 'Other disability'])
+        expect(application_form.equality_and_diversity).to eq(
+          'disabilities' => ['Blind', 'Other disability'],
+          'hesa_disabilities' => %w[58 96],
+        )
       end
 
       it 'allows other_disability field to be optional' do
         form = CandidateInterface::EqualityAndDiversity::DisabilitiesForm.new(disabilities: %w[Blind Other], other_disability: '')
         form.save(application_form)
 
-        expect(application_form.equality_and_diversity).to eq('disabilities' => %w[Blind Other])
+        expect(application_form.equality_and_diversity).to eq(
+          'disabilities' => %w[Blind Other],
+          'hesa_disabilities' => %w[58 96],
+        )
       end
 
       it 'updates the existing record of equality and diversity information' do
@@ -71,7 +77,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'male', 'disabilities' => %w[Blind],
+          'sex' => 'male', 'hesa_disabilities' => %w[58], 'disabilities' => %w[Blind],
         )
       end
 
@@ -81,7 +87,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilitiesForm, type:
         form.save(application_form)
 
         expect(application_form.equality_and_diversity).to eq(
-          'sex' => 'male', 'disabilities' => %w[Blind],
+          'sex' => 'male', 'hesa_disabilities' => %w[58], 'disabilities' => %w[Blind],
         )
       end
     end

@@ -42,13 +42,18 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.hesa_itt_data' do
     let(:application_choice) do
-      application_form = create(:completed_application_form, :with_completed_references)
+      application_form = create(:completed_application_form, :with_completed_references, :with_equality_and_diversity_data)
       create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
     end
 
-    it 'is hidden by default' do
+    it 'returns the hesa_itt_data attribute of an application' do
+      equality_and_diversity_data = application_choice.application_form.equality_and_diversity
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
-      expect(response.dig(:attributes, :hesa_itt_data)).to be_nil
+      expect(response.dig(:attributes, :hesa_itt_data)).to eq(
+        disability: equality_and_diversity_data['hesa_disabilities'],
+        ethnicity: equality_and_diversity_data['hesa_ethnicity'],
+        sex: equality_and_diversity_data['hesa_sex'],
+      )
     end
   end
 

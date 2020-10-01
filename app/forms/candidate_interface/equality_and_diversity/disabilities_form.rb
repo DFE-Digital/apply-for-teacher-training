@@ -34,17 +34,34 @@ module CandidateInterface
     def save(application_form)
       return false unless valid?
 
+      hesa_codes = hesa_disability_codes
+
       if disabilities.include?('Other') && other_disability.present?
         disabilities.delete('Other')
         disabilities << other_disability
       end
 
       if application_form.equality_and_diversity.nil?
-        application_form.update(equality_and_diversity: { 'disabilities' => disabilities })
+        application_form.update(
+          equality_and_diversity: {
+            'disabilities' => disabilities,
+            'hesa_disabilities' => hesa_codes,
+          },
+        )
       else
         application_form.equality_and_diversity['disabilities'] = disabilities
+        application_form.equality_and_diversity['hesa_disabilities'] = hesa_codes
         application_form.save
       end
+    end
+
+  private
+
+    def hesa_disability_codes
+      disabilities.map { |disability|
+        disability_type = Hesa::Disability.convert_to_hesa_value(disability)
+        Hesa::Disability.find_by_value(disability_type)&.hesa_code
+      }.compact
     end
   end
 end

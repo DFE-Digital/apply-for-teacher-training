@@ -19,7 +19,13 @@ module CandidateInterface
       return false unless valid?
 
       if application_form.equality_and_diversity.nil?
-        application_form.update(equality_and_diversity: { 'disabilities' => [] })
+        hesa_code = Hesa::Disability
+                      .find_by_value(HesaDisabilityValues::NONE)
+                      .hesa_code
+        application_form.update(equality_and_diversity: {
+          'disabilities' => [],
+          'hesa_disabilities' => [hesa_code],
+        })
       elsif reset_disabilities?(application_form)
         application_form.equality_and_diversity['disabilities'] = []
         application_form.save

@@ -66,7 +66,10 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
         form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'no')
         form.save(application_form)
 
-        expect(application_form.equality_and_diversity).to eq('disabilities' => [])
+        expect(application_form.equality_and_diversity).to eq(
+          'disabilities' => [],
+          'hesa_disabilities' => %w[00],
+        )
       end
 
       it 'updates the existing record of equality and diversity information' do
