@@ -9,11 +9,9 @@ module FindSync
         FindAPI::Provider.recruitment_cycle(2020).all,
       )
 
-      if FeatureFlag.active?(:start_syncing_2021_courses)
-        sync_providers(
-          FindAPI::Provider.recruitment_cycle(2021).all,
-        )
-      end
+      sync_providers(
+        FindAPI::Provider.recruitment_cycle(2021).all,
+      )
 
       FindSyncCheck.set_last_sync(Time.zone.now)
     rescue JsonApiClient::Errors::ApiError
