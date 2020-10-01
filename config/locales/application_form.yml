@@ -814,6 +814,7 @@ en:
             email_address:
               blank: Enter your referees email address
               invalid: Enter an email address in the correct format, like name@example.com
+              duplicate: Please give a different email address for each referee
         referee_interface/reference_relationship_form:
           attributes:
             relationship_confirmation:
