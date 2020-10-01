@@ -98,7 +98,7 @@ module CandidateInterface
         )
       else
         params.require(:candidate_interface_other_qualification_wizard).permit(
-          :subject, :grade, :award_year, :choice, :institution_country
+          :subject, :grade, :award_year, :choice, :institution_country, :other_uk_qualification_type
         ).merge!(
           id: params[:id],
         )

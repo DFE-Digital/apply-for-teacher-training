@@ -281,7 +281,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_delete_my_incomplete_qualification
-    within(all('.app-summary-card')[3]) do
+    within(all('.app-summary-card')[2]) do
       click_link(t('application_form.other_qualification.delete'))
     end
   end
@@ -308,8 +308,6 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_delete_my_remaining_qualifications
-    when_i_click_on_delete_my_first_qualification
-    and_i_confirm_that_i_want_to_delete_my_additional_qualification
     when_i_click_on_delete_my_first_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
     when_i_click_on_delete_my_first_qualification
