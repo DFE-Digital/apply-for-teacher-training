@@ -4,7 +4,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @reference_email_address_form, url: candidate_interface_decoupled_references_create_email_path(@reference.id) do |f| %>
+    <%= form_with model: @reference_email_address_form, url: candidate_interface_decoupled_references_create_email_address_path(@reference.id) do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">

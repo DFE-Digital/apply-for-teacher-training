@@ -97,7 +97,7 @@ RSpec.feature 'Decoupled references' do
   end
 
   def then_i_see_the_referee_email_page
-    expect(page).to have_current_path candidate_interface_decoupled_references_new_email_path(@application.application_references.last.id)
+    expect(page).to have_current_path candidate_interface_decoupled_references_new_email_address_path(@application.application_references.last.id)
   end
 
   def when_i_click_save_and_continue_without_providing_an_emailing
@@ -109,7 +109,7 @@ RSpec.feature 'Decoupled references' do
   end
 
   def when_i_provide_an_email_address_with_an_invalid_format
-    fill_in 'candidate-interface-reference-referee-email-form-email-field-error', with: 'invalid.email.address'
+    fill_in 'candidate-interface-reference-referee-email-address-form-email-address-field-error', with: 'invalid.email.address'
   end
 
   def then_i_am_told_my_email_address_needs_a_valid_format
@@ -117,7 +117,7 @@ RSpec.feature 'Decoupled references' do
   end
 
   def when_i_provide_a_valid_email_address
-    fill_in 'candidate-interface-reference-referee-email-form-email-field-error', with: 'iamtheone@whoknocks.com'
+    fill_in 'candidate-interface-reference-referee-email-address-form-email-address-field-error', with: 'iamtheone@whoknocks.com'
   end
 
   def then_i_see_the_description_page

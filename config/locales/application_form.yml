@@ -809,6 +809,11 @@ en:
           attributes:
             name:
               blank: Enter your referees name
+        candidate_interface/reference/referee_email_address_form:
+          attributes:
+            email_address:
+              blank: Enter your referees email address
+              invalid: Enter an email address in the correct format, like name@example.com
         referee_interface/reference_relationship_form:
           attributes:
             relationship_confirmation:
