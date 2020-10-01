@@ -1,8 +1,4 @@
 <% content_for :title, 'Course options without vacancies' %>
 <% content_for :before_content, govuk_back_link_to(support_interface_performance_path) %>
 
-<% content_for :navigation do %>
-  <%= render 'support_interface/performance/performance_navigation', current: 'Dashboards' %>
-<% end %>
-
 <%= render(SupportInterface::CourseChoicesTableComponent.new(course_options: @course_options)) %>
