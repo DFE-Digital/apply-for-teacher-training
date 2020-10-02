@@ -1,6 +1,5 @@
 <% content_for :browser_title, "Application history – Application ##{@application_form.id}" %>
-
-<%= render 'support_interface/candidates/candidates_navigation', current: 'Applications' %>
+<% content_for :before_content, govuk_back_link_to(support_interface_applications_path) %>
 
 <h1 class="govuk-heading-xl govuk-!-margin-bottom-4">
   <span class="govuk-caption-xl">Application #<%= @application_form.id %></span>
