@@ -36,7 +36,7 @@ module CandidateInterface
 
         # "References" section
         [:references, all_referees_provided_by_candidate?],
-        [:references_provider, enough_references_provided?],
+        [:references_provided, enough_references_provided?],
       ].compact
     end
 
