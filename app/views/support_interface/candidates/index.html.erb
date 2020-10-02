@@ -1,6 +1,4 @@
-<% content_for :title, 'Candidates' %>
-
-<%= render 'support_interface/candidates/candidates_navigation' %>
+<%= render 'candidates_navigation', title: 'Candidates' %>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @candidates) do %>
   <%= render SupportInterface::CandidatesTableComponent.new(candidates: @candidates) %>

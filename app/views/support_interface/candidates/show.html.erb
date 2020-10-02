@@ -1,10 +1,10 @@
 <% content_for :browser_title, "Candidate ##{@candidate.id}" %>
+<% content_for :before_content, govuk_back_link_to(support_interface_candidates_path) %>
+
 <% content_for :title do %>
   <span class="govuk-caption-xl">Candidate #<%= @candidate.id %></span>
   <%= @candidate.email_address %>
 <% end %>
-
-<%= render 'support_interface/candidates/candidates_navigation', current: 'Candidates' %>
 
 <% unless HostingEnvironment.production? %>
   <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@candidate), class: 'govuk-button', form_class: 'govuk-!-display-inline-block' %>

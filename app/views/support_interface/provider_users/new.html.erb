@@ -1,6 +1,5 @@
 <% content_for :browser_title, title_with_error_prefix('Add provider user', @form.errors.any?) %>
-
-<%= render 'support_interface/providers/providers_navigation', current: 'Provider users' %>
+<% content_for :before_content, govuk_back_link_to(support_interface_provider_users_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

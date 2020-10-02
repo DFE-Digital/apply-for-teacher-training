@@ -1,7 +1,10 @@
-<% content_for :navigation do %>
-  <%= render SubNavigationComponent.new(items: [
-    { name: 'Applications', url: support_interface_applications_path, current: local_assigns[:current] == 'Applications' },
-    { name: 'Candidates', url: support_interface_candidates_path, current: local_assigns[:current] == 'Candidates' },
-    { name: 'UCAS matches', url: support_interface_ucas_matches_path, current: local_assigns[:current] == 'UCAS matches' },
-  ]) %>
-<% end %>
+<% content_for :browser_title, "#{title} - Candidates" %>
+<% content_for :title, 'Candidates' %>
+
+<%= render TabNavigationComponent.new(items: [
+  { name: 'Applications', url: support_interface_applications_path, current: local_assigns[:current] == 'Applications' },
+  { name: 'Candidates', url: support_interface_candidates_path, current: local_assigns[:current] == 'Candidates' },
+  { name: 'UCAS matches', url: support_interface_ucas_matches_path, current: local_assigns[:current] == 'UCAS matches' },
+]) %>
+
+<h2 class="govuk-visually-hidden"><%= title %></h2>
