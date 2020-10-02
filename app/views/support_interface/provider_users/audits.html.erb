@@ -1,6 +1,5 @@
 <% content_for :browser_title, "History - #{@form.provider_user.full_name}" %>
-
-<%= render 'support_interface/providers/providers_navigation', current: 'Provider users' %>
+<% content_for :before_content, govuk_back_link_to(support_interface_provider_users_path) %>
 
 <%= render 'provider_user_navigation', current: 'History' %>
 

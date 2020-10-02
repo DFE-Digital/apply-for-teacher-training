@@ -1,6 +1,4 @@
-<% content_for :title, 'Synced providers' %>
-
-<%= render 'providers_navigation' %>
+<%= render 'providers_navigation', title: 'Synced providers' %>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @providers) do %>
   <table class="govuk-table">
