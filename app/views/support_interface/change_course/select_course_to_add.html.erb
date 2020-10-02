@@ -6,7 +6,7 @@
     <%= form_with model: @form, url: support_interface_add_course_to_application_path(@form.application_form), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class='govuk-heading-xl'>
+      <h1 class='govuk-heading-l'>
         Add a course to <%= @form.application_form.full_name %>’s application
       </h1>
 

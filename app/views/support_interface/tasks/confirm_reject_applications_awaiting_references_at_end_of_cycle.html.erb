@@ -5,8 +5,8 @@
     <%= form_with model: nil,
       url: support_interface_run_task_path('reject_applications_awaiting_references_at_end_of_cycle') do |f|
     %>
-      <span class="govuk-caption-xl">End-of-cycle</span>
-      <h1 class="govuk-heading-xl">Are you sure you want to reject all applications awaiting references?</h1>
+      <span class="govuk-caption-l">End-of-cycle</span>
+      <h1 class="govuk-heading-l">Are you sure you want to reject all applications awaiting references?</h1>
 
       <div class="app-styled-content">
         <p>This task finds any applications that have been submitted but not sent to providers because they are awaiting references from the recently closed recruitment cycle, and moves them to the <code>application_not_sent</code> status.</p>

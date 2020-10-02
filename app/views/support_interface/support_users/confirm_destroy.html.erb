@@ -5,7 +5,7 @@
     <%= form_with model: @support_user,
       url: support_interface_destroy_support_user_path(@support_user.id),
       method: :delete do |f| %>
-      <h1 class="govuk-heading-xl">
+      <h1 class="govuk-heading-l">
         <span class="govuk-caption-xl">Support user</span>
         <%= t('support_interface.support_user.confirm_remove',
               email: @support_user.email_address) %>
