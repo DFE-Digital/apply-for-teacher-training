@@ -179,7 +179,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def when_i_click_the_audit_trail_tab
-    click_on 'Audit trail'
+    click_on 'History'
   end
 
   def then_i_should_see_the_audit_trail_for_that_user_record

@@ -66,7 +66,8 @@ module SupportInterface
     end
 
     def audits
-      @provider_user = ProviderUser.find(params[:provider_user_id])
+      provider_user = ProviderUser.find(params[:provider_user_id])
+      @form = ProviderUserForm.from_provider_user(provider_user)
     end
 
   private

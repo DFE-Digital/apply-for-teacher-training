@@ -3,9 +3,7 @@
 <% if @provider.sync_courses? %>
   <% unless @courses[RecruitmentCycle.current_year].to_a.all?(&:open_on_apply?) %>
     <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
-      <h3 class="govuk-heading-m">
-        Open all courses
-      </h3>
+      <h3 class="govuk-heading-m">Open all courses</h3>
 
       <p class="govuk-body">This will toggle every course on this provider to be available through Apply.</p>
 
@@ -24,17 +22,13 @@
 
       <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @courses[year])) %>
     <% else %>
-      <h3 class='govuk-heading-m'><%= year %>: No courses</h3>
+      <h3 class="govuk-heading-m"><%= year %>: No courses</h3>
 
-      <p class='govuk-body'>
-        There aren't any courses for <%= year %>.
-      </p>
+      <p class="govuk-body">There aren’t any courses for <%= year %>.</p>
     <% end %>
   <% end %>
 <% else %>
-  <p class='govuk-body'>
-    There aren't any courses for this provider because the courses aren't synced yet.
-  </p>
+  <p class="govuk-body">There aren’t any courses for this provider because the courses aren’t synced yet.</p>
 
   <%= form_with model: @provider, url: support_interface_enable_provider_course_syncing_path(@provider), method: :post do |f| %>
     <%= f.govuk_submit 'Enable course syncing from Find' %>

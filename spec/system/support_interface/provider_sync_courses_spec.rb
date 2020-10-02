@@ -47,7 +47,7 @@ RSpec.feature 'See provider course syncing' do
   end
 
   def then_i_see_that_course_syncing_is_off
-    expect(page).to have_content('There aren\'t any courses for this provider because the courses aren\'t synced yet')
+    expect(page).to have_content('There aren’t any courses for this provider because the courses aren’t synced yet')
   end
 
   def when_i_click_on_the_enable_course_syncing_button
@@ -55,7 +55,7 @@ RSpec.feature 'See provider course syncing' do
   end
 
   def then_i_see_that_course_syncing_is_on
-    expect(page).not_to have_content('There aren\'t any courses for this provider because the courses aren\'t synced yet')
+    expect(page).not_to have_content('There aren’t any courses for this provider because the courses aren’t synced yet')
   end
 
   def when_provider_syncing_runs

@@ -1,5 +1,17 @@
 .app-checkboxes-scroll {
-  max-height: 13.5em;
+  border: 1px solid $govuk-border-colour;
+  height: 75vh;
+  min-height: 13.5em;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
+  padding: govuk-spacing(2);
+}
+
+.app-checkboxes-scroll::-webkit-scrollbar {
+  width: 20px;
+}
+
+.app-checkboxes-scroll::-webkit-scrollbar-thumb {
+  background-color: govuk-colour("mid-grey");
+  border: $govuk-border-width solid govuk-colour("white");
 }
