@@ -3,9 +3,9 @@
     <% items.each do |item| %>
       <li class="app-tab-navigation__item">
         <% if item.fetch(:current, false) || current_page?(item.fetch(:url)) %>
-          <%= govuk_link_to item[:name], item[:url],  class: "app-tab-navigation__link", aria: { selected: "true" }, role:"tab" %>
+          <%= govuk_link_to item[:name], item[:url],  class: "app-tab-navigation__link", aria: { current: "page" } %>
         <% else %>
-          <%= govuk_link_to item[:name], item[:url],  class: "app-tab-navigation__link", role:"tab" %>
+          <%= govuk_link_to item[:name], item[:url],  class: "app-tab-navigation__link" %>
         <% end %>
       </li>
     <% end %>
