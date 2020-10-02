@@ -23,7 +23,7 @@ class VendorAPIRequestMiddleware
 
     begin
       if trace_request?
-        VendorAPIRequestWorker.perform_async(request_data, response.body, status, Time.zone.now)
+        VendorAPIRequestWorker.perform_async(request_data, body_from(response), status, Time.zone.now)
       end
     rescue Redis::BaseError => e
       Rails.logger.warn e.message
@@ -33,6 +33,12 @@ class VendorAPIRequestMiddleware
   end
 
 private
+
+  def body_from(response)
+    body = response.respond_to?(:body) ? response.body : response.join
+    body = body.join if body.is_a?(Array)
+    body
+  end
 
   def request_data
     {
