@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::HeaderComponent do
+RSpec.describe ProductHeaderComponent do
   let(:navigation_items) { [] }
 
   subject(:rendered_component) do
