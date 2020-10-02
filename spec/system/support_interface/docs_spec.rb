@@ -52,7 +52,7 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_click_on_candidate_flow_documentation
-    click_on 'Flow for candidates'
+    click_on 'Candidate flow'
   end
 
   def then_i_see_the_candidate_flow_documentation
