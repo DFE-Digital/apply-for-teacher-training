@@ -8,6 +8,7 @@ RSpec.feature 'Candidate submits the application' do
     and_the_decoupled_references_flag_is_on
 
     when_i_have_completed_my_application
+    and_i_have_received_2_references
 
     and_i_review_my_application
 
@@ -39,7 +40,6 @@ RSpec.feature 'Candidate submits the application' do
 
     and_i_can_see_my_support_ref
     and_i_receive_an_email_with_my_support_ref
-    and_my_referees_receive_a_request_for_a_reference_by_email
     and_a_slack_notification_is_sent
 
     when_i_click_on_track_your_application
@@ -59,6 +59,12 @@ RSpec.feature 'Candidate submits the application' do
 
   def when_i_have_completed_my_application
     candidate_completes_application_form
+  end
+
+  def and_i_have_received_2_references
+    @current_candidate.current_application.application_references.each do |reference|
+      reference.update!(feedback_status: :feedback_provided)
+    end
   end
 
   def and_i_review_my_application
@@ -192,15 +198,6 @@ RSpec.feature 'Candidate submits the application' do
   def and_i_receive_an_email_with_my_support_ref
     open_email(current_candidate.email_address)
     expect(current_email).to have_content 'Application submitted'
-  end
-
-  def and_my_referees_receive_a_request_for_a_reference_by_email
-    current_application = current_candidate.current_application
-    current_application.application_references.each do |reference|
-      open_email(reference.email_address)
-      expect(current_email).to have_content "#{current_application.first_name} #{current_application.last_name} put us in touch with you to get a reference"
-      expect(current_email).to have_content reference.name
-    end
   end
 
   def and_a_slack_notification_is_sent
