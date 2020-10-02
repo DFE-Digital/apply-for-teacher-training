@@ -147,6 +147,8 @@ class TestApplications
         states.zip(application_choices).each do |state, application_choice|
           put_application_choice_in_state(application_choice, state)
         end
+
+        FactoryBot.create(:ucas_match, application_form: @application_form) if rand < 0.5
       end
 
       application_choices.each do |application_choice|

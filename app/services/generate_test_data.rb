@@ -44,6 +44,8 @@ class GenerateTestData
             application_form: application_form,
           )
         end
+
+        FactoryBot.create(:ucas_match, application_form: application_form) if rand < 0.5
       end
     end
   end

@@ -1,5 +1,41 @@
 FactoryBot.define do
   factory :ucas_match do
+    candidate { application_form.candidate }
+    matching_state { %w[new_match matching_data_updated processed].sample }
+
+    transient do
+      application_form { create(:completed_application_form, application_choices_count: 1) }
+      ucas_status { nil }
+      scheme { nil }
+    end
+
+    after(:build) do |ucas_match, evaluator|
+      ucas_statuses = {
+        rejected: { 'Rejects' => '1' },
+        withdrawn: { 'Withdrawns' => '1' },
+        declined: { 'Declined offers' => '1' },
+        offer: { 'Offers' => '1' },
+        awaiting_provider_decision: { 'Applications' => '1' },
+      }.freeze
+
+      ucas_match.matching_data = evaluator.application_form.application_choices.map do |application_choice|
+        scheme = evaluator.scheme || %w[U D B].sample
+
+        data = {
+          'Scheme' => scheme,
+          'Apply candidate ID' => ucas_match.candidate.id.to_s,
+          'Course code' => application_choice.offered_option.course.code.to_s,
+          'Provider code' => application_choice.offered_option.course.provider.code.to_s,
+        }
+
+        unless scheme == 'D'
+          status_on_ucas = ucas_statuses[evaluator.ucas_status] || ucas_statuses[%i[rejected withdrawn declined offer awaiting_provider_decision].sample]
+          data.merge!(status_on_ucas)
+        end
+
+        data
+      end
+    end
   end
 
   factory :chaser_sent do
@@ -73,6 +109,7 @@ FactoryBot.define do
         with_gcses { false }
         full_work_history { false }
         with_degree { false }
+        with_ucas_match { false }
       end
 
       trait :international_address do
@@ -199,6 +236,11 @@ FactoryBot.define do
         else
           create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
         end
+
+        if evaluator.with_ucas_match
+          create(:ucas_match, candidate: application_form.candidate)
+        end
+
         create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
       end
     end
