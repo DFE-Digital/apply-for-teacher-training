@@ -18,7 +18,7 @@ class NavigationItems
       end
     end
 
-    def for_support_interface(current_support_user, current_controller)
+    def for_support_primary_nav(current_support_user, current_controller)
       if current_support_user
         [
           NavigationItem.new('Candidates', support_interface_applications_path, is_active(current_controller, %w[candidates import_references application_forms ucas_matches])),
@@ -26,11 +26,22 @@ class NavigationItems
           NavigationItem.new('Performance', support_interface_performance_path, is_active(current_controller, %w[performance performance_data course_options email_log])),
           NavigationItem.new('Service settings', support_interface_feature_flags_path, is_active(current_controller, %w[feature_flags cycles support_users tasks])),
           NavigationItem.new('Docs', support_interface_guidance_path, is_active(current_controller, %w[docs guidance mailer_previews])),
+        ]
+      else
+        []
+      end
+    end
+
+    def for_support_account_nav(current_support_user, current_controller)
+      if current_support_user
+        [
           NavigationItem.new(current_support_user.email_address, nil, false),
           NavigationItem.new('Sign out', support_interface_sign_out_path, false),
         ]
       else
-        []
+        [
+          NavigationItem.new('Sign in', support_interface_sign_in_path, false),
+        ]
       end
     end
 
