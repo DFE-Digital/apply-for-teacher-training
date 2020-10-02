@@ -3,7 +3,7 @@
   <% human_state_name = I18n.t!("application_states.#{state_name}.name") %>
   <% next unless state.events.any? %>
   <section class="app-section app-section--with-top-border">
-    <h2 class="govuk-heading-m govuk-!-font-size-27" id='<%= state_name %>'><%= human_state_name %></h2>
+    <h2 class="govuk-heading-m" id="<%= state_name %>"><%= human_state_name %></h2>
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half app-styled-content">
         <% chaser_emails = I18n.exists?("application_states.#{state_name}.emails") ? I18n.t!("application_states.#{state_name}.emails") : [] %>
