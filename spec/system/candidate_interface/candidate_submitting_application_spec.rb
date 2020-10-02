@@ -208,7 +208,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def when_i_click_on_track_your_application
-    click_link 'You can track the progress of your application on your dashboard'
+    click_link 'To view your application, return to your application dashboard'
   end
 
   def then_i_can_see_my_application_dashboard

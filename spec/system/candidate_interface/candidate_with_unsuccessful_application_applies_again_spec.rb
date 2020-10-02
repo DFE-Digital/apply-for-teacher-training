@@ -161,7 +161,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
   end
 
   def when_i_click_view_my_application
-    click_link 'You can track the progress of your application on your dashboard'
+    click_link 'To view your application, return to your application dashboard'
   end
 
   def then_i_do_not_see_a_link_to_edit_my_application
