@@ -1,0 +1,37 @@
+<% references.each do |reference| %>
+
+  <%= render(SummaryCardComponent.new(rows: reference_rows(reference), editable: editable && reference.editable?)) do %>
+    <%= render(SummaryCardHeaderComponent.new(title: card_title(reference))) do %>
+
+      <% if reference.feedback_requested? %>
+        <div class="app-summary-card__actions">
+          <% # TODO: add cancel path for decoupled references once it's ready %>
+          <%= link_to '', class: 'govuk-link' do %>
+            <%= t('application_form.referees.cancel_request') + ' TODO' %>
+            <span class="govuk-visually-hidden"> <%= reference.name %></span>
+          <% end %>
+        </div>
+      <% elsif editable %>
+        <div class="app-summary-card__actions">
+          <% # TODO: add delete path for decoupled references once it's ready %>
+          <%= link_to '', class: 'govuk-link' do %>
+            <%= t('application_form.referees.delete') + ' TODO' %>
+            <span class="govuk-visually-hidden"> <%= reference.name %></span>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+
+<% end %>
+
+<% if show_missing_banner? %>
+  <%= render(
+    SectionMissingBannerComponent.new(
+      section: :references,
+      section_path: candidate_interface_referees_path,
+      text: t('review_application.references.incomplete', minimum_references: 2),
+      error: style_as_errored,
+    )
+  ) %>
+<% end %>

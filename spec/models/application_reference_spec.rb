@@ -151,4 +151,13 @@ RSpec.describe ApplicationReference, type: :model do
       end
     end
   end
+
+  describe '#pending_feedback_or_failed' do
+    it 'returns references in every state except not_requested_yet and feedback_provided' do
+      expected_states = ApplicationReference.feedback_statuses.values - %w[not_requested_yet feedback_provided]
+      expected_states.each { |s| create(:reference, feedback_status: s) }
+
+      expect(ApplicationReference.pending_feedback_or_failed.size).to eq expected_states.size
+    end
+  end
 end

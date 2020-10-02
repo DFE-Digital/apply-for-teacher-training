@@ -13,4 +13,33 @@
   </div>
 <% end %>
 
-<%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: true)) %>
+<% if @references_given.present? %>
+  <h2 class="govuk-heading-m">References that have been given</h2>
+  <%= render(
+    CandidateInterface::DecoupledReferencesReviewComponent.new(
+      references: @references_given,
+      references_section_completed: @application_form.references_completed,
+      editable: false
+    )
+  ) %>
+<% end %>
+
+<% if @references_waiting_to_be_sent.present? %>
+  <h2 class="govuk-heading-m">Requests that have not been sent</h2>
+  <%= render(
+    CandidateInterface::DecoupledReferencesReviewComponent.new(
+      references: @references_waiting_to_be_sent,
+      references_section_completed: @application_form.references_completed,
+    )
+  ) %>
+<% end %>
+
+<% if @references_sent.present? %>
+  <h2 class="govuk-heading-m">Reference requests</h2>
+  <%= render(
+    CandidateInterface::DecoupledReferencesReviewComponent.new(
+      references: @references_sent,
+      references_section_completed: @application_form.references_completed,
+    )
+  ) %>
+<% end %>
