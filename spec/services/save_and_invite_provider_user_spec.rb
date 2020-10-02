@@ -10,7 +10,13 @@ RSpec.describe SaveAndInviteProviderUser do
     )
   end
   let(:provider_user) { form.build }
-  let(:save_service) { instance_double(SaveProviderUser, call!: true) }
+  let(:save_service) do
+    SaveProviderUser.new(
+      provider_user: provider_user,
+      provider_permissions: [],
+      deselected_provider_permissions: [],
+    )
+  end
   let(:invite_service) { instance_double(InviteProviderUser, call!: true) }
 
   describe '#initialize' do
@@ -26,6 +32,10 @@ RSpec.describe SaveAndInviteProviderUser do
   describe '#call!' do
     subject(:service) do
       described_class.new(form: form, save_service: save_service, invite_service: invite_service)
+    end
+
+    it 'saves the user' do
+      expect { service.call }.to change { ProviderUser.count }.by(1)
     end
 
     context 'form is invalid' do
@@ -61,6 +71,12 @@ RSpec.describe SaveAndInviteProviderUser do
 
       it 'rolls back the transaction' do
         expect { service.call }.not_to change(ProviderUser, :count)
+      end
+
+      it 'notifies Sentry' do
+        allow(Raven).to receive(:capture_exception)
+        service.call
+        expect(Raven).to have_received(:capture_exception)
       end
 
       it 'populates form errors' do
