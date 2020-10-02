@@ -312,7 +312,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       expect(presenter).to be_enough_references_provided
     end
 
-    it 'returns false if the referees section has been created and only one reference has been provided' do
+    it 'returns false if the referees section has been completed and only one reference has been provided' do
       application_form = create(:application_form, references_completed: true)
       create(:reference, application_form: application_form, feedback_status: :feedback_provided)
       create(:reference, application_form: application_form, feedback_status: :feedback_requested)
