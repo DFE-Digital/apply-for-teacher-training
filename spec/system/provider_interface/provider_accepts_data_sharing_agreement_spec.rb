@@ -35,7 +35,6 @@ RSpec.feature 'Accept data sharing agreement' do
   scenario 'Provider user with an organisation to set up accepts the data sharing agreement' do
     given_i_am_an_authorised_provider_user
     and_no_data_sharing_agreement_for_my_provider_has_been_accepted
-    and_the_provider_permissions_feature_is_enabled
     and_i_need_to_set_up_organisation_permissions
     and_i_am_presented_with_a_data_sharing_agreement
     and_i_cannot_navigate_to_pages_i_do_not_have_access_to
@@ -62,10 +61,6 @@ RSpec.feature 'Accept data sharing agreement' do
     provider2.provider_users << provider_user
     ProviderAgreement.data_sharing_agreements.for_provider(provider1).destroy_all
     ProviderAgreement.data_sharing_agreements.for_provider(provider2).destroy_all
-  end
-
-  def and_the_provider_permissions_feature_is_enabled
-    FeatureFlag.activate('enforce_provider_to_provider_permissions')
   end
 
   def and_i_need_to_set_up_organisation_permissions

@@ -1,6 +1,5 @@
 module ProviderInterface
   class ProviderRelationshipPermissionsSetupController < ProviderInterfaceController
-    before_action :require_feature_flag!
     before_action :require_manage_organisations_permission!
     before_action :require_access_to_manage_provider_relationship_permissions!, only: %i[setup_permissions save_permissions]
     before_action :redirect_unless_permissions_to_setup, except: %i[success]
@@ -113,10 +112,6 @@ module ProviderInterface
         WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
         options,
       )
-    end
-
-    def require_feature_flag!
-      render_404 unless FeatureFlag.active?(:enforce_provider_to_provider_permissions)
     end
 
     def require_manage_organisations_permission!

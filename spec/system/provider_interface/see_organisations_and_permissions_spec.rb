@@ -5,7 +5,6 @@ RSpec.feature 'See organisation permissions' do
 
   scenario 'A provider user views the organisations they belong to' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_provider_permissions_feature_is_enabled
     and_i_can_manage_organisations_for_a_provider
     and_the_provider_has_courses_ratified_by_another_provider
     and_the_ratifying_provider_has_courses_run_by_another_provider
@@ -27,10 +26,6 @@ RSpec.feature 'See organisation permissions' do
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
     provider_user_exists_in_apply_database
-  end
-
-  def and_the_provider_permissions_feature_is_enabled
-    FeatureFlag.activate('enforce_provider_to_provider_permissions')
   end
 
   def and_i_can_manage_organisations_for_a_provider

@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
-  before { FeatureFlag.deactivate(:enforce_provider_to_provider_permissions) }
-
   let(:training_provider) { create(:provider) }
   let(:ratifying_provider) { create(:provider) }
   let(:course) { create(:course, provider: training_provider, accredited_provider: ratifying_provider) }
@@ -10,6 +8,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
     create(
       :provider_relationship_permissions,
       training_provider: training_provider,
+      ratifying_provider: ratifying_provider,
       training_provider_can_view_safeguarding_information: true,
     )
   end
@@ -47,6 +46,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
     context 'when provider user can view safeguarding information' do
       it 'displays the correct text' do
         provider_relationship_permissions
+
         provider_user.provider_permissions.find_by(provider: training_provider)
           .update!(view_safeguarding_information: true)
         result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))

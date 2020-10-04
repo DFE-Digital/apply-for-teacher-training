@@ -5,8 +5,6 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   include DsiAPIHelper
 
   scenario 'Provider sends invite to user' do
-    FeatureFlag.activate(:providers_can_manage_users_and_permissions)
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_applications_for_two_providers
     and_i_sign_in_to_the_provider_interface

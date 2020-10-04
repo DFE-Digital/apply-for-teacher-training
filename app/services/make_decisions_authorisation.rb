@@ -14,14 +14,12 @@ class MakeDecisionsAuthorisation
     related_providers = [training_provider, ratifying_provider].compact
     return false unless actor_has_permission_to_make_decisions?(providers: related_providers)
 
-    if FeatureFlag.active?(:enforce_provider_to_provider_permissions)
-      # enforce org-level 'make_decisions' restriction
-      if ratifying_provider
-        return false unless actor_has_permissions_via_provider_to_provider_permissions?(
-          training_provider: training_provider,
-          ratifying_provider: ratifying_provider,
-        )
-      end
+    # enforce org-level 'make_decisions' restriction
+    if ratifying_provider
+      return false unless actor_has_permissions_via_provider_to_provider_permissions?(
+        training_provider: training_provider,
+        ratifying_provider: ratifying_provider,
+      )
     end
 
     # check (indirect) relationship between course_option and @actor

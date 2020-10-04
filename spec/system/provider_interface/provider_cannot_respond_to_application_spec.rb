@@ -23,8 +23,6 @@ RSpec.feature 'Provider cannot respond to application' do
   end
 
   scenario 'Provider cannot respond to an application they cannot make offer on' do
-    FeatureFlag.activate('enforce_provider_to_provider_permissions')
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_my_provider_relationship_permissions_have_been_set_up

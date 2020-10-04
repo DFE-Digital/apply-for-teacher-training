@@ -5,8 +5,6 @@ RSpec.feature 'Providers can view managed users' do
   include DsiAPIHelper
 
   scenario 'Provider use can see their individual users permissions' do
-    FeatureFlag.activate(:providers_can_manage_users_and_permissions)
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_applications_for_two_providers
     and_i_can_manage_users_for_a_provider
