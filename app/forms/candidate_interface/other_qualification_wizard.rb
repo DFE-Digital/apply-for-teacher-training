@@ -9,6 +9,7 @@ module CandidateInterface
     attr_reader :attrs
 
     PERSISTENT_ATTRIBUTES = %w[qualification_type other_uk_qualification_type non_uk_qualification_type subject predicted_grade grade award_year institution_country].freeze
+    OTHER_QUALIFICATION_ATTRIBUTES = %i[id qualification_type other_uk_qualification_type non_uk_qualification_type].freeze
 
     validates :qualification_type, presence: true
     validates :qualification_type, inclusion: { in: ['A level', 'AS level', 'GCSE', 'Other', 'non_uk'], allow_blank: false }
@@ -23,11 +24,24 @@ module CandidateInterface
     validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == 'non_uk' }, on: :details
     validate :award_year_is_date_and_before_current_year, if: :award_year, on: :details
 
-    def initialize(state_store, attrs = {})
+    def initialize(state_store = nil, attrs = {})
       @attrs = attrs
       @state_store = state_store
 
       super(last_saved_state.deep_merge(attrs))
+    end
+
+    def self.build_all_from_application(application_form)
+      application_form.application_qualifications.other.order(:created_at).map do |qualification|
+        build_from_qualification(qualification)
+      end
+    end
+
+    def self.build_from_qualification(qualification)
+      wizard = CandidateInterface::OtherQualificationWizard.new
+      wizard.id = qualification.id
+      wizard.copy_attributes(qualification)
+      wizard
     end
 
     def next_step
@@ -56,12 +70,6 @@ module CandidateInterface
 
     def clear_state!
       @state_store.delete
-    end
-
-    OTHER_QUALIFICATION_ATTRIBUTES = %i[id qualification_type other_uk_qualification_type non_uk_qualification_type].freeze
-
-    def qualification_type_form
-      @qualification_type_form ||= OtherQualificationTypeForm.new(attrs.select { |key, _| OTHER_QUALIFICATION_ATTRIBUTES.include?(key) })
     end
 
     def attributes_for_persistence
@@ -105,10 +113,14 @@ module CandidateInterface
       qualification_type == last_qualification.qualification_type
     end
 
-    def qualication_type_name
+    def title
+      "#{qualification_type_name} #{subject}"
+    end
+
+    def qualification_type_name
       if qualification_type == 'non_uk'
         non_uk_qualification_type
-      elsif qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications')
+      elsif qualification_type == 'Other' && other_uk_qualification_type.present?
         other_uk_qualification_type
       else
         qualification_type
@@ -131,7 +143,7 @@ module CandidateInterface
     end
 
     def last_saved_state
-      state = @state_store.read
+      state = @state_store&.read
 
       if state
         JSON.parse(state)

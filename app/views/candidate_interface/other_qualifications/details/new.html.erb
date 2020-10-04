@@ -13,12 +13,12 @@
       <% if FeatureFlag.active?('international_other_qualifications') %>
         <h1 class="govuk-heading-xl">
           <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
-          Add <%= @wizard.qualication_type_name %> qualification
+          Add <%= @wizard.qualification_type_name %> qualification
         </h1>
       <% elsif @wizard.qualification_type != 'Other' %>
         <h1 class="govuk-heading-xl">
           <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
-          Add <%= @wizard.qualication_type_name %> qualification
+          Add <%= @wizard.qualification_type_name %> qualification
         </h1>
       <% else %>
         <h1 class="govuk-heading-xl">
