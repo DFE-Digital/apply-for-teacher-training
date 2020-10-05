@@ -1,6 +1,6 @@
 module RecruitmentCycle
   def self.current_year
-    if Time.zone.today < EndOfCycleTimetable.apply_reopens
+    if Time.zone.today < EndOfCycleTimetable.find_reopens
       2020
     else
       2021
