@@ -10,7 +10,7 @@ class ProductHeaderComponent < ViewComponent::Base
     @classes          = classes
   end
 
-  def app_environment_css_class
+  def phase_tag_class
     return '' if HostingEnvironment.production?
 
     "govuk-tag--#{HostingEnvironment.phase_colour}"
