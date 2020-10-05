@@ -1,8 +1,10 @@
 require 'rails_helper'
 
+# TODO: remove this entire system spec when removing International feature flags
 RSpec.feature 'Candidate eligibility' do
   scenario 'Candidate confirms that they are eligible' do
     given_the_pilot_is_open
+    and_the_international_personal_details_feature_is_inactive
 
     when_i_click_start_on_the_start_page
     and_i_confirm_i_am_not_already_signed_up
@@ -15,10 +17,23 @@ RSpec.feature 'Candidate eligibility' do
     and_i_confirm_i_am_not_already_signed_up
     when_i_answer_yes_to_all_questions
     then_should_be_redirected_to_the_signup_page
+
+    given_the_international_personal_details_feature_is_active
+    when_i_click_start_on_the_start_page
+    and_i_confirm_i_am_not_already_signed_up
+    then_should_be_redirected_to_the_signup_page
   end
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_the_international_personal_details_feature_is_inactive
+    FeatureFlag.deactivate('international_personal_details')
+  end
+
+  def given_the_international_personal_details_feature_is_active
+    FeatureFlag.activate('international_personal_details')
   end
 
   def when_i_click_start_on_the_start_page

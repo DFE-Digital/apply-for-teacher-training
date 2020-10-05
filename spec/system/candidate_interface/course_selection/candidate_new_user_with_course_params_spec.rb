@@ -5,12 +5,12 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
   scenario 'retaining their course selection through the sign up process' do
     given_the_pilot_is_open
+    and_the_international_personal_details_feature_is_active
     and_the_course_i_selected_only_has_one_site
 
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
     and_i_choose_to_apply_on_apply
     and_i_choose_i_need_an_account
-    when_i_fill_in_the_eligiblity_form_with_yes
     when_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_course_selection_page
@@ -38,6 +38,10 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_the_international_personal_details_feature_is_active
+    FeatureFlag.activate('international_personal_details')
   end
 
   def and_the_course_i_selected_only_has_one_site
@@ -71,18 +75,6 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
   def and_i_choose_i_need_an_account
     choose 'No, I need to create an account'
-    click_on 'Continue'
-  end
-
-  def when_i_fill_in_the_eligiblity_form_with_yes
-    within_fieldset('Are you a citizen of the UK or the EU?') do
-      choose 'Yes'
-    end
-
-    within_fieldset('Did you gain all your qualifications at institutions based in the UK?') do
-      choose 'Yes'
-    end
-
     click_on 'Continue'
   end
 

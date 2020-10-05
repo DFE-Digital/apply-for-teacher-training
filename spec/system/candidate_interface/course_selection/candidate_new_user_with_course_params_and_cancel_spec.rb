@@ -5,6 +5,7 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   scenario 'Candidate signs in and recieves an email inviting them to sign up and is prompted to select the course' do
     given_the_pilot_is_open
+    and_the_international_personal_details_feature_is_active
 
     given_i_am_a_candidate_without_an_account
     and_there_is_a_course_with_multiple_sites
@@ -12,7 +13,6 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
     when_i_follow_a_link_from_find
     and_i_choose_to_use_apply
     and_i_confirm_i_am_not_already_signed_up
-    and_i_answer_eligibility_questions
     and_i_submit_my_email_address
     then_i_receive_an_email_inviting_me_to_sign_up
 
@@ -25,6 +25,10 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_the_international_personal_details_feature_is_active
+    FeatureFlag.activate('international_personal_details')
   end
 
   def given_i_am_a_candidate_without_an_account
@@ -49,18 +53,6 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
   def and_i_confirm_i_am_not_already_signed_up
     choose 'No, I need to create an account'
     click_button 'Continue'
-  end
-
-  def and_i_answer_eligibility_questions
-    within_fieldset('Are you a citizen of the UK or the EU?') do
-      choose 'Yes'
-    end
-
-    within_fieldset('Did you gain all your qualifications at institutions based in the UK?') do
-      choose 'Yes'
-    end
-
-    click_on 'Continue'
   end
 
   def and_i_submit_my_email_address
