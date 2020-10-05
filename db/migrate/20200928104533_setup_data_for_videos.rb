@@ -2,6 +2,7 @@ class SetupDataForVideos < ActiveRecord::Migration[6.0]
   def up
     provider = Provider.find_by(code: 'B72')
     provider.update(name: 'University of West Devonshire')
+
     provider.provider_users.first.update(
       dfe_sign_in_uid: 'michelle',
       email_address: 'michelle.walker@uowd.ac.uk',
@@ -21,6 +22,7 @@ class SetupDataForVideos < ActiveRecord::Migration[6.0]
 
     provider = Provider.find_by(code: '2LR')
     provider.update(name: 'Mullerstad TSA')
+
     provider.provider_users.first.update(
       dfe_sign_in_uid: 'paul',
       email_address: 'paul.lamb@mullerstad.ac.uk',
@@ -37,6 +39,7 @@ class SetupDataForVideos < ActiveRecord::Migration[6.0]
 
     provider = Provider.find_by(code: '1N1')
     provider.update(name: 'Springbank SCITT')
+
     provider.provider_users.first.update(
       dfe_sign_in_uid: 'maria',
       email_address: 'maria.spicer@springbankscitt.ac.uk',
