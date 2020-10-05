@@ -163,7 +163,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_see_the_naric_page
-    expect(page).to have_content 'Do you have a statement of comparability from The National Recognition Information Centre?'
+    expect(page).to have_content 'Do you have a statement of comparability from the National Recognition Information Centre?'
   end
 
   def then_i_see_validation_errors_for_naric_question

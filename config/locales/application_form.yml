@@ -191,7 +191,7 @@ en:
       delete: Delete degree
       confirm_delete: Yes I’m sure - delete this degree
       naric_statment:
-        label: Do you have a statement of comparability from The National Recognition Information Centre?
+        label: Do you have a statement of comparability from the National Recognition Information Centre?
         review_label: Do you have a UK NARIC statement of comparability?
         change_action: UK NARIC statement
       naric_reference:
@@ -236,7 +236,7 @@ en:
         label: Enter year
         hint_text: For example, 1996
       naric_statement:
-        label: Do you have a statement of comparability from The National Recognition Information Centre?
+        label: Do you have a statement of comparability from the National Recognition Information Centre?
         review_label: Do you have a UK NARIC statement of comparability?
         change_action: UK NARIC statement
       naric_reference:

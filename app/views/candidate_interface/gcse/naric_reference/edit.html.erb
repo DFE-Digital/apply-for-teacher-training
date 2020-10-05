@@ -10,7 +10,7 @@
         <%= t("gcse_edit_naric_reference.page_title", subject: @subject.capitalize) %>
       </h1>
 
-      <p class="govuk-body">You can get a statement from The National Recognition Information Centre for the United Kingdom (UK NARIC) which shows how your qualifications compare to UK qualifications. Not all providers need this.</p>
+      <p class="govuk-body">You can get a statement from the National Recognition Information Centre for the United Kingdom (UK NARIC) which shows how your qualifications compare to UK qualifications. Not all providers need this.</p>
       <%= f.govuk_radio_buttons_fieldset :naric_details, legend: { text: t('application_form.gcse.naric_statement.label'), tag: 'span' } do %>
         <%= f.govuk_radio_button :naric_reference_choice, 'Yes', label: { text: 'Yes' } do %>
           <%= f.govuk_text_field(
