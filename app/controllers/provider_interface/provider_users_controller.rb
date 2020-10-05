@@ -1,6 +1,5 @@
 module ProviderInterface
   class ProviderUsersController < ProviderInterfaceController
-    before_action :require_feature_flag!
     before_action :require_manage_users_permission!
     before_action :find_provider_user, except: %i[index]
 
@@ -82,10 +81,6 @@ module ProviderInterface
     def provider_update_permissions_params
       params.require(:provider_interface_provider_user_permissions_form)
             .permit(*ProviderPermissions::VALID_PERMISSIONS)
-    end
-
-    def require_feature_flag!
-      render_404 unless FeatureFlag.active?(:providers_can_manage_users_and_permissions)
     end
 
     def require_manage_users_permission!

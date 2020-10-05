@@ -5,7 +5,6 @@ RSpec.feature 'Setting up provider relationship permissions' do
 
   scenario 'Provider user sets up permissions for their organisation' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_the_provider_permissions_feature_is_enabled
     and_i_can_manage_organisations
     and_my_organisations_have_not_had_permissions_setup
 
@@ -35,10 +34,6 @@ RSpec.feature 'Setting up provider relationship permissions' do
   def given_i_am_a_provider_user_with_dfe_sign_in
     provider_exists_in_dfe_sign_in
     provider_user_exists_in_apply_database
-  end
-
-  def and_the_provider_permissions_feature_is_enabled
-    FeatureFlag.activate('enforce_provider_to_provider_permissions')
   end
 
   def and_i_can_manage_organisations

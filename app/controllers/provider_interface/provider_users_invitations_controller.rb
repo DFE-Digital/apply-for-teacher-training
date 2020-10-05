@@ -1,6 +1,5 @@
 module ProviderInterface
   class ProviderUsersInvitationsController < ProviderInterfaceController
-    before_action :require_feature_flag!
     before_action :require_manage_user_permission!
 
     def edit_details
@@ -143,10 +142,6 @@ module ProviderInterface
     def permissions_params
       params.require(:provider_interface_provider_user_invitation_wizard)
         .permit(provider_permissions: {})
-    end
-
-    def require_feature_flag!
-      render_404 unless FeatureFlag.active?(:providers_can_manage_users_and_permissions)
     end
 
     def require_manage_user_permission!

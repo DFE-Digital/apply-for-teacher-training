@@ -24,8 +24,6 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
-    [:providers_can_manage_users_and_permissions, 'Allows provider users to invite other provider users, and allows providers to manage other users permissions to do make decisions, view safeguarding, and add other users', 'Tijmen Brommet'],
-    [:enforce_provider_to_provider_permissions, 'Provider-to-provider permissions affect what provider users can see and do', 'Duncan Brown'],
     [:providers_can_filter_by_recruitment_cycle, 'Allows provider users to filter applications by recruitment cycle', 'Michael Nacos'],
     [:international_addresses, 'Candidates who live outside the UK can enter their local address in free-text format', 'Steve Hook'],
     [:international_personal_details, 'Changes to the candidate personal details section to account for international applicants.', 'David Gisbey'],

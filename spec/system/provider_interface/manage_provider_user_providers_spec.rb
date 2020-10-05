@@ -4,8 +4,6 @@ RSpec.feature 'Managing providers a user has access to' do
   include DfESignInHelpers
 
   scenario 'Provider adds and removes providers from a user' do
-    FeatureFlag.activate(:providers_can_manage_users_and_permissions)
-
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_can_manage_users_for_two_providers
     and_there_is_a_user_with_access_to_one_of_the_providers

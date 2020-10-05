@@ -83,10 +83,6 @@ RSpec.describe ProviderAuthorisation do
     end
 
     context 'actor: provider user (org-level permissions)' do
-      before do
-        FeatureFlag.activate(:enforce_provider_to_provider_permissions)
-      end
-
       it 'training_provider without make_decisions' do
         provider_relationship_permissions.update(training_provider_can_make_decisions: false)
 
@@ -168,10 +164,6 @@ RSpec.describe ProviderAuthorisation do
     end
 
     context 'actor: api user (org-level permissions)' do
-      before do
-        FeatureFlag.activate(:enforce_provider_to_provider_permissions)
-      end
-
       it 'is false for training_provider without make_decisions' do
         provider_relationship_permissions.update(training_provider_can_make_decisions: false)
 
@@ -201,10 +193,6 @@ RSpec.describe ProviderAuthorisation do
         ratifying_provider: ratifying_provider,
         training_provider: training_provider,
       )
-    end
-
-    before do
-      FeatureFlag.activate(:enforce_provider_to_provider_permissions)
     end
 
     subject(:can_view_safeguarding_information) do
@@ -306,10 +294,6 @@ RSpec.describe ProviderAuthorisation do
         ratifying_provider: ratifying_provider,
         training_provider: training_provider,
       )
-    end
-
-    before do
-      FeatureFlag.activate(:enforce_provider_to_provider_permissions)
     end
 
     subject(:can_view_diversity_information) do

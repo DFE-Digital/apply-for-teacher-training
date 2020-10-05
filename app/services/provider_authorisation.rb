@@ -59,29 +59,19 @@ class ProviderAuthorisation
   end
 
   def can_view_safeguarding_information?(course:)
-    if FeatureFlag.active?(:enforce_provider_to_provider_permissions)
-      @actor.provider_permissions.view_safeguarding_information
-        .exists?(provider: [course.provider, course.accredited_provider].compact) &&
-        (course.accredited_provider.blank? ||
-          ratifying_provider_can_view_safeguarding_information?(course: course) ||
-            training_provider_can_view_safeguarding_information?(course: course))
-    else
-      @actor.provider_permissions.view_safeguarding_information
-        .exists?(provider: [course.provider, course.accredited_provider].compact)
-    end
+    @actor.provider_permissions.view_safeguarding_information
+      .exists?(provider: [course.provider, course.accredited_provider].compact) &&
+      (course.accredited_provider.blank? ||
+        ratifying_provider_can_view_safeguarding_information?(course: course) ||
+          training_provider_can_view_safeguarding_information?(course: course))
   end
 
   def can_view_diversity_information?(course:)
-    if FeatureFlag.active?(:enforce_provider_to_provider_permissions)
-      @actor.provider_permissions.view_diversity_information
-        .exists?(provider: [course.provider, course.accredited_provider].compact) &&
-        (course.accredited_provider.blank? ||
-          ratifying_provider_can_view_diversity_information?(course: course) ||
-            training_provider_can_view_diversity_information?(course: course))
-    else
-      @actor.provider_permissions.view_diversity_information
-        .exists?(provider: [course.provider, course.accredited_provider].compact)
-    end
+    @actor.provider_permissions.view_diversity_information
+      .exists?(provider: [course.provider, course.accredited_provider].compact) &&
+      (course.accredited_provider.blank? ||
+        ratifying_provider_can_view_diversity_information?(course: course) ||
+          training_provider_can_view_diversity_information?(course: course))
   end
 
   def can_manage_organisation?(provider:)

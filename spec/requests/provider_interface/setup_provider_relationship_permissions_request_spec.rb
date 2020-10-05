@@ -5,8 +5,6 @@ RSpec.describe 'Set up ProviderRelationshipPermissions', type: :request do
   let(:provider_user) { create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
 
   before do
-    FeatureFlag.activate(:enforce_provider_to_provider_permissions)
-
     allow(DfESignInUser).to receive(:load_from_session)
       .and_return(
         DfESignInUser.new(
