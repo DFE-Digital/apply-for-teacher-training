@@ -27,6 +27,23 @@ module HostingEnvironment
     end
   end
 
+  def self.phase_colour
+    return :purple if HostingEnvironment.sandbox_mode?
+
+    case HostingEnvironment.environment_name
+    when 'qa'
+      :orange
+    when 'staging'
+      :red
+    when 'development'
+      :grey
+    when 'review'
+      :purple
+    when 'unknown-environment'
+      :yellow
+    end
+  end
+
   def self.environment_name
     ENV.fetch('HOSTING_ENVIRONMENT_NAME', 'unknown-environment')
   end
