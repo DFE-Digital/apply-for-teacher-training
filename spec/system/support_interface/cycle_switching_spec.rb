@@ -17,7 +17,7 @@ RSpec.feature 'Cycle switching' do
   end
 
   def when_i_click_on_the_recruitment_cycle_link
-    click_on 'Service settings'
+    click_on 'Settings'
     click_on 'Recruitment cycles'
   end
 
