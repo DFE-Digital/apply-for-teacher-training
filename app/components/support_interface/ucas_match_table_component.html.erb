@@ -1,0 +1,36 @@
+<table class="govuk-table" data-qa="ucas-matched-courses">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Course choice</th>
+      <th scope="col" class="govuk-table__header">Status on UCAS</th>
+      <th scope="col" class="govuk-table__header">Status on Apply</th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% table_rows.each do |table_row| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell"><%= table_row[:course_choice_details] %></td>
+        <td class="govuk-table__cell">
+          <% if table_row[:status_on_ucas] == 'N/A' %>
+            N/A
+          <% else %>
+            <%= render SupportInterface::ApplicationStatusTagComponent.new(status: table_row[:status_on_ucas]) %>
+          <% end %>
+        </td>
+        <td class="govuk-table__cell">
+          <% if table_row[:status_on_apply] == 'N/A' %>
+            N/A
+          <% else %>
+            <%= render SupportInterface::ApplicationStatusTagComponent.new(status: table_row[:status_on_apply]) %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2 class='govuk-heading-l'>Summary</h2>
+<p class="govuk-body">
+  <%= @summary %>
+</p>

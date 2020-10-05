@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :ucas_match do
     candidate { application_form.candidate }
     matching_state { %w[new_match matching_data_updated processed].sample }
+    matching_data { nil }
 
     transient do
       application_form { create(:completed_application_form, application_choices_count: 1) }
@@ -10,30 +11,32 @@ FactoryBot.define do
     end
 
     after(:build) do |ucas_match, evaluator|
-      ucas_statuses = {
-        rejected: { 'Rejects' => '1' },
-        withdrawn: { 'Withdrawns' => '1' },
-        declined: { 'Declined offers' => '1' },
-        offer: { 'Offers' => '1' },
-        awaiting_provider_decision: { 'Applications' => '1' },
-      }.freeze
+      if ucas_match.matching_data.nil?
+        ucas_statuses = {
+          rejected: { 'Rejects' => '1' },
+          withdrawn: { 'Withdrawns' => '1' },
+          declined: { 'Declined offers' => '1' },
+          offer: { 'Offers' => '1' },
+          awaiting_provider_decision: { 'Applications' => '1' },
+        }.freeze
 
-      ucas_match.matching_data = evaluator.application_form.application_choices.map do |application_choice|
-        scheme = evaluator.scheme || %w[U D B].sample
+        ucas_match.matching_data = evaluator.application_form.application_choices.map do |application_choice|
+          scheme = evaluator.scheme || %w[U D B].sample
 
-        data = {
-          'Scheme' => scheme,
-          'Apply candidate ID' => ucas_match.candidate.id.to_s,
-          'Course code' => application_choice.offered_option.course.code.to_s,
-          'Provider code' => application_choice.offered_option.course.provider.code.to_s,
-        }
+          data = {
+            'Scheme' => scheme,
+            'Apply candidate ID' => ucas_match.candidate.id.to_s,
+            'Course code' => application_choice.offered_option.course.code.to_s,
+            'Provider code' => application_choice.offered_option.course.provider.code.to_s,
+          }
 
-        unless scheme == 'D'
-          status_on_ucas = ucas_statuses[evaluator.ucas_status] || ucas_statuses[%i[rejected withdrawn declined offer awaiting_provider_decision].sample]
-          data.merge!(status_on_ucas)
+          unless scheme == 'D'
+            status_on_ucas = ucas_statuses[evaluator.ucas_status] || ucas_statuses[%i[rejected withdrawn declined offer awaiting_provider_decision].sample]
+            data.merge!(status_on_ucas)
+          end
+
+          data
         end
-
-        data
       end
     end
   end
