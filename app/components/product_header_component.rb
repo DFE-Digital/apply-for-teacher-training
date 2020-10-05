@@ -1,4 +1,4 @@
-class ProviderInterface::HeaderComponent < ViewComponent::Base
+class ProductHeaderComponent < ViewComponent::Base
   attr_reader :navigation_items, :service_url, :product_name, :classes
   include ViewHelper
 
