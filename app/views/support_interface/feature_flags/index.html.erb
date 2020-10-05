@@ -1,42 +1,38 @@
 <%= render 'support_interface/settings/settings_navigation', title: 'Feature flags' %>
 
-<table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th class="govuk-table__header">Feature</th>
-      <th class="govuk-table__header">Activated?</th>
-      <th class="govuk-table__header">Action</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <% FeatureFlag::FEATURES.each do |feature_name, feature_flag| %>
-      <tr class="govuk-table__row">
-
-        <td class="govuk-table__cell">
-          <h3 class="govuk-!-margin-top-0"><%= feature_name.humanize %></h3>
-          <p>Owner: <%= feature_flag.owner %></p>
-          <p><%= feature_flag.description %></p>
-          <p>
-            <%= render SupportInterface::FeatureAuditTrailComponent.new(feature: feature_flag.feature) %>
-          </p>
-        </td>
-
-        <td class="govuk-table__cell">
-          <% if FeatureFlag.active?(feature_name) %>
-            <strong class="govuk-tag govuk-tag--turquoise app-tag">Active</strong>
-          <% else %>
-            <strong class="govuk-tag govuk-tag--grey app-tag">Inactive</strong>
-          <% end %>
-        </td>
-
-        <td class="govuk-table__cell">
-          <% if FeatureFlag.active?(feature_name) %>
-            <%= button_to 'Deactivate', support_interface_deactivate_feature_flag_path(feature_name), class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-2' %>
-          <% else %>
-            <%= button_to 'Activate', support_interface_activate_feature_flag_path(feature_name), class: 'govuk-button govuk-button--secondary govuk-!-margin-bottom-2' %>
-          <% end %>
-        </td>
-      </tr>
+<% FeatureFlag::FEATURES.each do |feature_name, feature_flag| %>
+  <%= render SummaryCardComponent.new(editable: true, border: true, rows: [
+    {
+      key: 'Description',
+      value: feature_flag.description
+    },
+    {
+      key: 'Status',
+      value: render(
+        TagComponent.new(
+          text: FeatureFlag.active?(feature_name) ? 'Active' : 'Inactive',
+          type: FeatureFlag.active?(feature_name) ? 'green' : 'grey'
+        ),
+      )
+    },
+    {
+      key: 'Owner',
+      value: feature_flag.owner
+    },
+    {
+      key: 'History',
+      value: render(
+        SupportInterface::FeatureAuditTrailComponent.new(feature: feature_flag.feature)
+      )
+    }
+  ].compact
+  ) do %>
+    <%= render SummaryCardHeaderComponent.new(title: feature_name.humanize, heading_level: 3) do %>
+      <% if FeatureFlag.active?(feature_name) %>
+        <%= button_to 'Deactivate', support_interface_deactivate_feature_flag_path(feature_name), class: 'govuk-button app-button--tertiary govuk-!-margin-bottom-0' %>
+      <% else %>
+        <%= button_to 'Activate', support_interface_activate_feature_flag_path(feature_name), class: 'govuk-button app-button--tertiary govuk-!-margin-bottom-0' %>
+      <% end %>
     <% end %>
-  </tbody>
-</table>
+  <% end %>
+<% end %>

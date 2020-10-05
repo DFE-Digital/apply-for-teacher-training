@@ -1,0 +1,38 @@
+// Tertiary button variables
+$button-shadow-size: $govuk-border-width-form-element;
+$app-button-tertiary-button-colour: govuk-colour("blue");
+$app-button-tertiary-button-hover-colour: govuk-shade($app-button-tertiary-button-colour, 10%);
+$app-button-tertiary-button-shadow-colour: govuk-shade($app-button-tertiary-button-colour, 40%);
+$app-button-tertiary-button-text-colour: govuk-colour("white");
+
+.app-button--tertiary {
+  background-color: $app-button-tertiary-button-colour;
+  box-shadow: 0 $button-shadow-size 0 $app-button-tertiary-button-shadow-colour;
+
+  &,
+  &:link,
+  &:visited,
+  &:active,
+  &:hover {
+    color: $app-button-tertiary-button-text-colour;
+  }
+
+  // alphagov/govuk_template includes a specific a:link:focus selector
+  // designed to make unvisited links a slightly darker blue when focussed, so
+  // we need to override the text colour for that combination of selectors so
+  // so that unvisited links styled as buttons do not end up with dark blue
+  // text when focussed.
+  @include govuk-compatibility(govuk_template) {
+    &:link:focus {
+      color: $app-button-tertiary-button-text-colour;
+    }
+  }
+
+  &:hover {
+    background-color: $app-button-tertiary-button-hover-colour;
+
+    &[disabled] {
+      background-color: $app-button-tertiary-button-colour;
+    }
+  }
+}

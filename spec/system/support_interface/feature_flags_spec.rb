@@ -32,47 +32,39 @@ RSpec.feature 'Feature flags', with_audited: true do
   end
 
   def then_i_should_see_the_existing_feature_flags
-    expect(page).to have_content(
-      "Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}",
-    )
+    expect(page).to have_content('Pilot open')
+    expect(page).to have_content(pilot_open_feature.owner)
+    expect(page).to have_content(pilot_open_feature.description)
   end
 
   def when_i_activate_the_feature
-    within(pilot_open_row) { click_button 'Activate' }
+    within(pilot_open_summary_card) { click_button 'Activate' }
   end
 
   def then_the_feature_is_activated
-    expect(page).to have_content(
-      /Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}\n.*\nActive/,
-    )
+    expect(page).to have_content('Active')
     expect(FeatureFlag.active?('pilot_open')).to be true
   end
 
   def and_i_can_see_the_activation_in_the_audit_trail
-    expect(page).to have_content(
-      'Changed to Active by user@apply-support.com',
-    )
+    expect(page).to have_content('Changed to active by user@apply-support.com')
   end
 
   def when_i_deactivate_the_feature
-    within(pilot_open_row) { click_button 'Deactivate' }
+    within(pilot_open_summary_card) { click_button 'Deactivate' }
   end
 
   def then_the_feature_is_deactivated
-    expect(page).to have_content(
-      /Pilot open\nOwner: #{pilot_open_feature.owner}\n#{pilot_open_feature.description}\n.*\nInactive/,
-    )
+    expect(page).to have_content('Inactive')
     expect(FeatureFlag.active?('pilot_open')).to be false
   end
 
   def and_i_can_see_the_deactivation_in_the_audit_trail
-    expect(page).to have_content(
-      'Changed to Inactive by user@apply-support.com',
-    )
+    expect(page).to have_content('Changed to inactive by user@apply-support.com')
   end
 
-  def pilot_open_row
-    find(:xpath, "//tr[td[contains(.,'Pilot open')]]")
+  def pilot_open_summary_card
+    find('.app-summary-card', text: 'Pilot open')
   end
 
   def pilot_open_feature
