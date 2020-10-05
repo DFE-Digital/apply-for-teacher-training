@@ -39,7 +39,7 @@ module SupportInterface
     end
 
     def provider
-      options = Provider.where(id: VendorAPIRequest.distinct(:provider_id).pluck(:provider_id).compact).map do |provider|
+      options = Provider.where(id: VendorAPIRequest.distinct(:provider_id).select(:provider_id)).map do |provider|
         {
           value: provider.id,
           label: provider.name,
