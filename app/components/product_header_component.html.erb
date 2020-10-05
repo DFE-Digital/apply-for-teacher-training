@@ -14,6 +14,11 @@
         <span class="govuk-header__product-name">
           <%= product_name %>
         </span>
+        <% if phase_tag %>
+          <strong class="govuk-tag <%= app_environment_css_class %>">
+            <%= HostingEnvironment.phase %>
+          </strong>
+        <% end %>
       <% end %>
     </div>
     <div class="govuk-header__content app-header__content--provider">
