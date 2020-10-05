@@ -337,4 +337,25 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(presenter.as_json[:attributes][:references].first[:id]).to eq(reference.id)
     end
   end
+
+  describe 'attributes.qualifications' do
+    let(:application_choice) { create(:application_choice, :with_offer) }
+    let(:presenter) { VendorAPI::SingleApplicationPresenter.new(application_choice) }
+
+    it 'contains HESA qualification fields' do
+      create(
+        :other_qualification,
+        :non_uk,
+        application_form: application_choice.application_form,
+      )
+
+      qualification_hash = presenter.as_json.dig(
+        :attributes,
+        :qualifications,
+        :other_qualifications,
+      ).first
+
+      expect(qualification_hash[:hesa_degstdt]).to be_present
+    end
+  end
 end

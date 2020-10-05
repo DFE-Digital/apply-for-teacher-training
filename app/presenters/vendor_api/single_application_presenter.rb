@@ -207,7 +207,7 @@ module VendorAPI
         institution_details: institution_details(qualification),
         awarding_body: qualification.awarding_body,
         equivalency_details: qualification.equivalency_details,
-      }
+      }.merge HesaQualificationFieldsPresenter.new(qualification).to_hash
     end
 
     def institution_details(qualification)
