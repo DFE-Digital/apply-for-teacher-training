@@ -341,6 +341,8 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#all_referees_provided_by_candidate?' do
+    before { FeatureFlag.deactivate(:decoupled_references) }
+
     it 'returns true if the referees section has been completed' do
       application_form = build(:application_form, references_completed: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)

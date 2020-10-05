@@ -173,6 +173,8 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
     end
 
     it 'renders an error when references are marked incomplete' do
+      FeatureFlag.deactivate(:decoupled_references)
+
       application_form.update!(references_completed: false)
 
       result = render_inline(described_class.new(application_form: application_form, submitting_application: true))

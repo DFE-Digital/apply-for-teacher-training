@@ -253,6 +253,8 @@ module CandidateInterface
     end
 
     def all_referees_provided_by_candidate?
+      return true if FeatureFlag.active?(:decoupled_references)
+
       @application_form.references_completed
     end
 
