@@ -17,5 +17,4 @@
 
 <% ApplicationStateChange.workflow_spec.states.each do |_, state| %>
   <%= render StateExplanationComponent.new(machine: ApplicationStateChange, state: state) %>
-  <hr class='govuk-section-break govuk-section-break--xl govuk-section-break--visible'>
 <% end %>
