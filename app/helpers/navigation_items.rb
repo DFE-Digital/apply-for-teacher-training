@@ -32,7 +32,7 @@ class NavigationItems
       end
     end
 
-    def for_support_account_nav(current_support_user, current_controller)
+    def for_support_account_nav(current_support_user)
       if current_support_user
         [
           NavigationItem.new(current_support_user.email_address, nil, false),

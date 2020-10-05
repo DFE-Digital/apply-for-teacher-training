@@ -9,7 +9,7 @@
   <%= render(ProductHeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
                                  product_name: service_name,
                                  service_url: service_link,
-                                 navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user), controller))) %>
+                                 navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user)))) %>
                                <%= render PhaseBanner.new(no_border: true) %>
                                <%= render(PrimaryNavigationComponent.new(
                                  navigation_items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller))) %>
