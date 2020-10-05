@@ -4,6 +4,8 @@ RSpec.describe 'A course option selected by a candidate has become full or been 
   include CandidateHelper
   include CourseOptionHelpers
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   scenario 'when a candidate arrives at the dashboard they can follow the replace course flow' do
     given_i_have_submitted_my_application
     and_my_course_is_only_available_on_ucas

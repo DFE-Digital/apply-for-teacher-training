@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Candidates awaiting references application choices are rejected when the new cycle launches' do
   include CandidateHelper
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   scenario 'An application is rejected when find opens for a new cycle' do
     given_i_have_submitted_my_application
 

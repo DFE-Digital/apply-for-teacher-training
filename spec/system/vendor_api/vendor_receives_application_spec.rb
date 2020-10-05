@@ -5,6 +5,8 @@ require 'rails_helper'
 RSpec.feature 'Vendor receives the application' do
   include CandidateHelper
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   scenario 'A completed application is submitted with references' do
     Timecop.freeze do # simplify date assertions in the response
       given_a_candidate_has_submitted_their_application

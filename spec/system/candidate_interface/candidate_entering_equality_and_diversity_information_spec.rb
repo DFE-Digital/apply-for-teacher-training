@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Entering their equality and diversity information' do
   include CandidateHelper
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   scenario 'Candidate submits equality and diversity information' do
     given_i_am_signed_in
     and_i_have_an_application_form_that_is_not_ready_to_submit

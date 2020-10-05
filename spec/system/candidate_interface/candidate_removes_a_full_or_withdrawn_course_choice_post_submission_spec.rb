@@ -4,6 +4,8 @@ RSpec.describe 'Both a candidates course choices have become full or been withdr
   include CandidateHelper
   include CourseOptionHelpers
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   scenario 'when a candidate arrives at the dashboard they can follow the replace course flow' do
     given_i_have_submitted_my_application
     and_both_of_my_application_choices_have_become_full

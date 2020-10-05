@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Refusing to give a reference' do
   include CandidateHelper
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   scenario 'Referee refuses to give a reference' do
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application

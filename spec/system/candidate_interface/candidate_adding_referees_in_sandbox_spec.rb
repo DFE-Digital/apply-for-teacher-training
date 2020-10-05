@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
   include CandidateHelper
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   def candidate_provides_two_referees
     visit candidate_interface_referees_type_path
     choose 'Academic'
