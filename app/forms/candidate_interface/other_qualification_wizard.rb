@@ -19,7 +19,7 @@ module CandidateInterface
     validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == 'non_uk' }, on: :type
 
     validates :award_year, presence: true, on: :details
-    validates :subject, :grade, presence: true, unless: -> { qualification_type == 'non_uk' || qualification_type == 'Other' }, on: :details
+    validates :subject, :grade, presence: true, unless: -> { qualification_type == 'non_uk' || qualification_type == 'Other' }
     validates :institution_country, presence: true, if: -> { qualification_type == 'non_uk' }, on: :details
     validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == 'non_uk' }, on: :details
     validate :award_year_is_date_and_before_current_year, if: :award_year, on: :details

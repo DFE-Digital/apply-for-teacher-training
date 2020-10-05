@@ -1,297 +1,338 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
-  # let(:error_message_scope) do
-  #   'activemodel.errors.models.candidate_interface/other_qualification_form.attributes.'
-  # end
+  let(:error_message_scope) do
+    'activemodel.errors.models.candidate_interface/other_qualification_wizard.attributes.'
+  end
 
-  # describe 'validations' do
-  #   it { is_expected.to validate_presence_of(:qualification_type) }
-  #   it { is_expected.to validate_presence_of(:award_year) }
-  #   it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
-  #   it { is_expected.to validate_length_of(:subject).is_at_most(255) }
-  #   it { is_expected.to validate_length_of(:grade).is_at_most(255) }
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:qualification_type) }
+    it { is_expected.to validate_presence_of(:award_year).on(:details) }
+    it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
+    it { is_expected.to validate_length_of(:subject).is_at_most(255) }
+    it { is_expected.to validate_length_of(:grade).is_at_most(255) }
 
-  #   describe 'subject' do
-  #     it 'validates presence except for non-uk and other qualifications' do
-  #       non_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', subject: nil)
-  #       other_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other', subject: nil)
-  #       gcse = CandidateInterface::OtherQualificationForm.new(qualification_type: 'GCSE', subject: nil)
+    describe 'subject' do
+      it 'validates presence except for non-uk and other qualifications' do
+        non_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'non_uk', subject: nil)
+        other_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'Other', subject: nil)
+        gcse = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'GCSE', subject: nil)
 
-  #       non_uk_qualification.validate
-  #       other_uk_qualification.validate
-  #       gcse.validate
+        non_uk_qualification.valid?(on: :details)
+        other_uk_qualification.valid?(on: :details)
+        gcse.valid?(on: :details)
 
-  #       expect(non_uk_qualification.errors.full_messages_for(:subject)).to be_empty
-  #       expect(other_uk_qualification.errors.full_messages_for(:subject)).to be_empty
-  #       expect(gcse.errors.full_messages_for(:subject)).not_to be_empty
-  #     end
-  #   end
+        expect(non_uk_qualification.errors.full_messages_for(:subject)).to be_empty
+        expect(other_uk_qualification.errors.full_messages_for(:subject)).to be_empty
+        expect(gcse.errors.full_messages_for(:subject)).not_to be_empty
+      end
+    end
 
-  #   describe 'grade' do
-  #     it 'validates presence except for non-uk and other qualifications' do
-  #       non_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', grade: nil)
-  #       other_uk_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other', grade: nil)
-  #       gcse = CandidateInterface::OtherQualificationForm.new(qualification_type: 'GCSE', grade: nil)
+    describe 'grade' do
+      it 'validates presence except for non-uk and other qualifications' do
+        non_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'non_uk', grade: nil)
+        other_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'Other', grade: nil)
+        gcse = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'GCSE', grade: nil)
 
-  #       non_uk_qualification.validate
-  #       other_uk_qualification.validate
-  #       gcse.validate
+        non_uk_qualification.valid?(:details)
+        other_uk_qualification.valid?(:details)
+        gcse.valid?(:details)
 
-  #       expect(non_uk_qualification.errors.full_messages_for(:grade)).to be_empty
-  #       expect(other_uk_qualification.errors.full_messages_for(:grade)).to be_empty
-  #       expect(gcse.errors.full_messages_for(:grade)).not_to be_empty
-  #     end
-  #   end
+        expect(non_uk_qualification.errors.full_messages_for(:grade)).to be_empty
+        expect(other_uk_qualification.errors.full_messages_for(:grade)).to be_empty
+        expect(gcse.errors.full_messages_for(:grade)).not_to be_empty
+      end
+    end
 
-  #   it { is_expected.to validate_presence_of(:subject) }
-  #   it { is_expected.to validate_presence_of(:grade) }
+    it { is_expected.to validate_presence_of(:subject) }
+    it { is_expected.to validate_presence_of(:grade) }
 
-  #   describe 'institution country' do
-  #     context 'when it is a non-uk qualification' do
-  #       it 'validates for presence and inclusion in the COUNTY_NAMES constant' do
-  #         valid_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'GB')
-  #         blank_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk')
-  #         inavlid_country_qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk', institution_country: 'QQ')
+    describe 'institution country' do
+      context 'when it is a non-uk qualification' do
+        it 'validates for presence and inclusion in the COUNTY_NAMES constant' do
+          valid_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'non_uk', institution_country: 'GB')
+          blank_country_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'non_uk')
+          inavlid_country_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'non_uk', institution_country: 'QQ')
 
-  #         valid_qualification.validate
-  #         blank_country_qualification.validate
-  #         inavlid_country_qualification.validate
+          valid_qualification.valid?(:details)
+          blank_country_qualification.valid?(:details)
+          inavlid_country_qualification.valid?(:details)
 
-  #         expect(valid_qualification.errors.full_messages_for(:institution_country)).to be_empty
-  #         expect(blank_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
-  #         expect(inavlid_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
-  #       end
-  #     end
-  #   end
+          expect(valid_qualification.errors.full_messages_for(:institution_country)).to be_empty
+          expect(blank_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
+          expect(inavlid_country_qualification.errors.full_messages_for(:institution_country)).not_to be_empty
+        end
+      end
+    end
 
-  #   describe 'award year' do
-  #     it 'is valid if the award year is 4 digits' do
-  #       qualification = CandidateInterface::OtherQualificationForm.new(award_year: '2009')
+    describe 'award year' do
+      it 'is valid if the award year is 4 digits' do
+        qualification = CandidateInterface::OtherQualificationWizard.new(nil, award_year: '2009')
 
-  #       qualification.validate
+        qualification.valid?(:details)
 
-  #       expect(qualification.errors.full_messages_for(:award_year)).to be_empty
-  #     end
+        expect(qualification.errors.full_messages_for(:award_year)).to be_empty
+      end
 
-  #     ['a year', '200'].each do |invalid_date|
-  #       it "is invalid if the award year is '#{invalid_date}'" do
-  #         qualification = CandidateInterface::OtherQualificationForm.new(award_year: invalid_date)
-  #         error_message = t('award_year.invalid', scope: error_message_scope)
+      ['a year', '200'].each do |invalid_date|
+        it "is invalid if the award year is '#{invalid_date}'" do
+          qualification = CandidateInterface::OtherQualificationWizard.new(nil, award_year: invalid_date)
+          error_message = t('award_year.invalid', scope: error_message_scope)
 
-  #         qualification.validate
+          qualification.valid?(:details)
 
-  #         expect(qualification.errors.full_messages_for(:award_year)).to eq(
-  #           ["Award year #{error_message}"],
-  #         )
-  #       end
-  #     end
+          expect(qualification.errors.full_messages_for(:award_year)).to eq(
+            ["Award year #{error_message}"],
+          )
+        end
+      end
 
-  #     it 'is invalid if the award year is in the future' do
-  #       Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
-  #         qualification = CandidateInterface::OtherQualificationForm.new(award_year: '2029')
+      it 'is invalid if the award year is in the future' do
+        Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
+          qualification = CandidateInterface::OtherQualificationWizard.new(nil, award_year: '2029')
 
-  #         qualification.validate
+          qualification.valid?(:details)
 
-  #         expect(qualification.errors.full_messages_for(:award_year)).to eq(
-  #           ['Award year Enter a year before 2020'],
-  #         )
-  #       end
-  #     end
-  #   end
-  # end
+          expect(qualification.errors.full_messages_for(:award_year)).to eq(
+            ['Award year Enter a year before 2020'],
+          )
+        end
+      end
+    end
+  end
 
-  # describe '.build_all_from_application' do
-  #   let(:application_form) do
-  #     create(:application_form) do |form|
-  #       form.application_qualifications.create(
-  #         level: 'other',
-  #         created_at: Time.zone.local(2019, 1, 1, 1, 9, 0, 0),
-  #       )
-  #       form.application_qualifications.create(
-  #         level: 'other',
-  #         qualification_type: 'BTEC',
-  #         subject: 'Being a Superhero',
-  #         grade: 'Distinction',
-  #         predicted_grade: false,
-  #         award_year: '2012',
-  #         created_at: Time.zone.local(2019, 1, 1, 21, 0, 0),
-  #       )
-  #       form.application_qualifications.create(level: 'degree')
-  #       form.application_qualifications.create(level: 'gcse')
-  #     end
-  #   end
+  describe '.build_all_from_application' do
+    let(:application_form) do
+      create(:application_form) do |form|
+        form.application_qualifications.create(
+          level: 'other',
+          created_at: Time.zone.local(2019, 1, 1, 1, 9, 0, 0),
+        )
+        form.application_qualifications.create(
+          level: 'other',
+          qualification_type: 'BTEC',
+          subject: 'Being a Superhero',
+          grade: 'Distinction',
+          predicted_grade: false,
+          award_year: '2012',
+          created_at: Time.zone.local(2019, 1, 1, 21, 0, 0),
+        )
+        form.application_qualifications.create(level: 'degree')
+        form.application_qualifications.create(level: 'gcse')
+      end
+    end
 
-  #   it 'creates an array of objects based on the provided ApplicationForm' do
-  #     qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(application_form)
+    it 'creates an array of objects based on the provided ApplicationForm' do
+      qualifications = CandidateInterface::OtherQualificationWizard.build_all_from_application(application_form)
 
-  #     expect(qualifications).to include(
-  #       have_attributes(
-  #         qualification_type: 'BTEC',
-  #         subject: 'Being a Superhero',
-  #         grade: 'Distinction',
-  #         award_year: '2012',
-  #       ),
-  #     )
-  #   end
+      expect(qualifications).to include(
+        have_attributes(
+          qualification_type: 'BTEC',
+          subject: 'Being a Superhero',
+          grade: 'Distinction',
+          award_year: '2012',
+        ),
+      )
+    end
 
-  #   it 'only includes other qualifications and not degrees or GCSEs' do
-  #     qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(application_form)
+    it 'only includes other qualifications and not degrees or GCSEs' do
+      qualifications = CandidateInterface::OtherQualificationWizard.build_all_from_application(application_form)
 
-  #     expect(qualifications.count).to eq(2)
-  #   end
+      expect(qualifications.count).to eq(2)
+    end
 
-  #   it 'orders other qualifications by created at' do
-  #     qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(application_form)
+    it 'orders other qualifications by created at' do
+      qualifications = CandidateInterface::OtherQualificationWizard.build_all_from_application(application_form)
 
-  #     expect(qualifications.last).to have_attributes(
-  #       qualification_type: 'BTEC',
-  #       subject: 'Being a Superhero',
-  #     )
-  #   end
-  # end
+      expect(qualifications.last).to have_attributes(
+        qualification_type: 'BTEC',
+        subject: 'Being a Superhero',
+      )
+    end
+  end
 
-  # describe '.build_from_qualification' do
-  #   it 'returns a new OtherQualificationForm object using an application qualification' do
-  #     application_qualification = build_stubbed(
-  #       :application_qualification,
-  #       level: 'other',
-  #       qualification_type: 'BTEC',
-  #       subject: 'Being a Sidekick',
-  #       grade: 'Merit',
-  #       predicted_grade: false,
-  #       award_year: '2010',
-  #     )
+  describe '.build_from_qualification' do
+    it 'returns a new OtherQualificationWizard object using an application qualification' do
+      application_qualification = build_stubbed(
+        :application_qualification,
+        level: 'other',
+        qualification_type: 'BTEC',
+        subject: 'Being a Sidekick',
+        grade: 'Merit',
+        predicted_grade: false,
+        award_year: '2010',
+      )
 
-  #     qualification = CandidateInterface::OtherQualificationForm.build_from_qualification(application_qualification)
+      qualification = CandidateInterface::OtherQualificationWizard.build_from_qualification(application_qualification)
 
-  #     expect(qualification).to have_attributes(qualification_type: 'BTEC', subject: 'Being a Sidekick')
-  #   end
-  # end
+      expect(qualification).to have_attributes(qualification_type: 'BTEC', subject: 'Being a Sidekick')
+    end
+  end
 
-  # describe '#save' do
-  #   it 'returns false if not valid' do
-  #     qualification = CandidateInterface::OtherQualificationForm.new
-  #     application_qualification = create(:other_qualification)
+  describe '#title' do
+    context 'for a non-uk qualification' do
+      it 'concatenates the non_uk_qualification_type and subject' do
+        qualification = CandidateInterface::OtherQualificationWizard.new(
+          nil,
+          qualification_type: 'non_uk',
+          non_uk_qualification_type: 'Master Craftsman',
+          subject: 'Igloo Building 101',
+        )
 
-  #     expect(qualification.save(application_qualification)).to eq(false)
-  #   end
+        expect(qualification.title).to eq('Master Craftsman Igloo Building 101')
+      end
+    end
 
-  #   it 'saves the provided ApplicationForm if valid' do
-  #     application_qualification = create(:other_qualification)
-  #     form_data = {
-  #       qualification_type: 'BTEC',
-  #       subject: 'Being a Superhero',
-  #       grade: 'Distinction',
-  #       award_year: '2012',
-  #       choice: 'no',
-  #     }
+    context 'for an other uk qualification with the international feature flag on' do
+      it 'concatenates the other_uk_qualification_type and subject' do
+        FeatureFlag.activate('international_other_qualifications')
+        qualification = CandidateInterface::OtherQualificationWizard.new(
+          nil,
+          qualification_type: 'Other',
+          other_uk_qualification_type: 'Master Craftsman',
+          subject: 'Chopping Trees 1-0-done',
+        )
 
-  #     expected_attributes = {
-  #       qualification_type: 'BTEC',
-  #       subject: 'Being a Superhero',
-  #       grade: 'Distinction',
-  #       award_year: '2012',
-  #     }
+        expect(qualification.title).to eq('Master Craftsman Chopping Trees 1-0-done')
+      end
+    end
 
-  #     qualification = CandidateInterface::OtherQualificationForm.new(form_data)
+    context 'for other uk qualificaitons and GCSEs and A-levels' do
+      it 'concatenates the qualification type and subject' do
+        qualification = CandidateInterface::OtherQualificationWizard.new(
+          nil,
+          qualification_type: 'BTEC',
+          subject: 'Being a Supervillain',
+        )
 
-  #     expect(qualification.save(application_qualification)).to eq(true)
-  #     expect(application_qualification)
-  #       .to have_attributes(expected_attributes)
-  #   end
-  # end
+        expect(qualification.title).to eq('BTEC Being a Supervillain')
+      end
+    end
+  end
 
-  # describe '#update' do
-  #   it 'returns false if not valid' do
-  #     qualification = CandidateInterface::OtherQualificationForm.new
-  #     application_qualification = double
+  describe '#qualification_type_name' do
+    context 'for a non-uk qualification' do
+      it 'returns the non_uk_qualification_type' do
+        qualification = CandidateInterface::OtherQualificationWizard.new(
+          nil,
+          qualification_type: 'non_uk',
+          non_uk_qualification_type: 'Master Craftsman',
+        )
 
-  #     expect(qualification.update(application_qualification)).to eq(false)
-  #   end
+        expect(qualification.qualification_type_name).to eq('Master Craftsman')
+      end
+    end
 
-  #   it 'updates the provided ApplicationForm if valid' do
-  #     existing_qualification = create(
-  #       :other_qualification,
-  #       level: 'other',
-  #       qualification_type: 'BTEC',
-  #       subject: 'Being a Everyday Hero',
-  #       grade: 'Pass',
-  #       predicted_grade: false,
-  #       award_year: '2011',
-  #     )
+    context 'for an other uk qualification with the qualification type Other' do
+      it 'returns the other_uk_qualification_type' do
+        FeatureFlag.activate('international_other_qualifications')
+        qualification = CandidateInterface::OtherQualificationWizard.new(
+          nil,
+          qualification_type: 'Other',
+          other_uk_qualification_type: 'Master Craftsman',
+        )
 
-  #     form_data = {
-  #       qualification_type: 'BTEC',
-  #       subject: 'Being a Everyday Hero',
-  #       grade: 'Distinction',
-  #       award_year: '2011',
-  #     }
-  #     qualification_form = CandidateInterface::OtherQualificationForm.new(form_data)
+        expect(qualification.qualification_type_name).to eq('Master Craftsman')
+      end
+    end
 
-  #     expect(qualification_form.update(existing_qualification)).to eq(true)
-  #     expect(existing_qualification)
-  #       .to have_attributes(form_data)
-  #   end
-  # end
+    context 'for other uk qualificaitons and GCSEs and A-levels' do
+      it 'returns the qualification type' do
+        qualification = CandidateInterface::OtherQualificationWizard.new(
+          nil,
+          qualification_type: 'BTEC',
+        )
 
-  # describe '#title' do
-  #   context 'for a non-uk qualification' do
-  #     it 'concatenates the non_uk_qualification_type and subject' do
-  #       qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk',
-  #                                                                      non_uk_qualification_type: 'Master Craftsman',
-  #                                                                      subject: 'Igloo Building 101')
+        expect(qualification.qualification_type_name).to eq('BTEC')
+      end
+    end
+  end
 
-  #       expect(qualification.title).to eq('Master Craftsman Igloo Building 101')
-  #     end
-  #   end
+  describe '#next_step' do
+    it 'returns `check` if `checking_answers` option is given and current step is `type`' do
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        current_step: :type,
+        checking_answers: true,
+      )
 
-  #   context 'for an other uk qualification with the international feature flag on' do
-  #     it 'concatenates the other_uk_qualification_type and subject' do
-  #       FeatureFlag.activate('international_other_qualifications')
-  #       qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other',
-  #                                                                      other_uk_qualification_type: 'Master Craftsman',
-  #                                                                      subject: 'Chopping Trees 1-0-done')
+      expect(qualification.next_step).to eq [:check]
+    end
 
-  #       expect(qualification.title).to eq('Master Craftsman Chopping Trees 1-0-done')
-  #     end
-  #   end
+    it 'returns `details` if `checking_answers` option is not given and current step is `type`' do
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        current_step: :type,
+      )
 
-  #   context 'for other uk qualificaitons and GCSEs and A-levels' do
-  #     it 'concatenates the qualification type and subject' do
-  #       qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'BTEC', subject: 'Being a Supervillain')
+      expect(qualification.next_step).to eq [:details]
+    end
 
-  #       expect(qualification.title).to eq('BTEC Being a Supervillain')
-  #     end
-  #   end
-  # end
+    it 'returns `details` if `checking_answers` option is given and current step is `type` and `qualification_type` has changed' do
+      application_qualification = create :other_qualification, qualification_type: 'Other'
 
-  # describe '#get_qualification_name' do
-  #   context 'for a non-uk qualification' do
-  #     it 'returns the non_uk_qualification_type' do
-  #       qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'non_uk',
-  #                                                                      non_uk_qualification_type: 'Master Craftsman')
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        id: application_qualification.id,
+        current_step: :type,
+        checking_answers: true,
+        qualification_type: 'A level',
+      )
 
-  #       expect(qualification.get_qualification_name).to eq('Master Craftsman')
-  #     end
-  #   end
+      expect(qualification.next_step).to eq [:details]
+    end
 
-  #   context 'for an other uk qualification with the qualification type Other' do
-  #     it 'returns the other_uk_qualification_type' do
-  #       FeatureFlag.activate('international_other_qualifications')
-  #       qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'Other',
-  #                                                                      other_uk_qualification_type: 'Master Craftsman')
+    it 'returns `check` if `checking_answers` option is given and current step is `type` and `qualification_type` has not changed' do
+      application_qualification = create :other_qualification, qualification_type: 'Other'
 
-  #       expect(qualification.get_qualification_name).to eq('Master Craftsman')
-  #     end
-  #   end
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        id: application_qualification.id,
+        current_step: :type,
+        checking_answers: true,
+        qualification_type: 'Other',
+      )
 
-  #   context 'for other uk qualificaitons and GCSEs and A-levels' do
-  #     it 'returns the qualification type' do
-  #       qualification = CandidateInterface::OtherQualificationForm.new(qualification_type: 'BTEC')
+      expect(qualification.next_step).to eq [:check]
+    end
 
-  #       expect(qualification.get_qualification_name).to eq('BTEC')
-  #     end
-  #   end
-  # end
+    it 'returns `check` if current_step is `details`' do
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        current_step: :details,
+      )
+
+      expect(qualification.next_step).to eq [:check]
+    end
+  end
+
+  describe '#previous_step' do
+    it 'returns `type` if current_step is `details`' do
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        current_step: :details,
+      )
+
+      expect(qualification.previous_step).to eq [:type]
+    end
+
+    it 'returns `details` if current_step is `check`' do
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        current_step: :check,
+      )
+
+      expect(qualification.previous_step).to eq [:details]
+    end
+
+    it 'returns `check` if current_step is `details` and checking_answers option is given' do
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        current_step: :details,
+        checking_answers: true,
+      )
+
+      expect(qualification.previous_step).to eq [:check]
+    end
+  end
 end
