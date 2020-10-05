@@ -3,6 +3,7 @@ en:
     apply: Apply for teacher training
     manage: Manage teacher training applications
     support: Support for Apply
+    api: Apply for teacher training API
   page_titles:
     application: ""
     application_form: Your application
