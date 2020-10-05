@@ -1,7 +1,8 @@
 <ul class="govuk-list govuk-list--bullet">
   <% audits.select { |audit| visible?(audit) }.each do |audit| %>
     <li>
-      <%= l(audit.created_at.to_date, format: :long) %> <%= l(audit.created_at, format: :time) %> - <%= action_label_for(audit) %> <%= active_value_for(audit) %><%= user_label_for(audit) %>
+      <%= action_label_for(audit) %> <%= active_value_for(audit).downcase %><%= user_label_for(audit) %>
+      <span class="govuk-hint govuk-!-margin-bottom-0 govuk-!-font-size-16"><%= l(audit.created_at.to_date, format: :long) %> at <%= l(audit.created_at, format: :time) %></span>
     </li>
   <% end %>
 </ul>
