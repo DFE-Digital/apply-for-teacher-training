@@ -1,3 +1,11 @@
+### 5th October 2020
+
+Changes to existing attributes:
+
+- clarify that `hesa_itt_data` will be populated once an offer has been
+  accepted. (Previously it was following enrolment, but enrolment has been
+  removed).
+
 ### 29th September 2020
 
 New attributes:
