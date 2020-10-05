@@ -52,6 +52,9 @@ module ApplyForPostgraduateTeacherTraining
 
     config.active_job.queue_adapter = :sidekiq
 
+    config.action_controller.perform_caching = true
+    config.cache_store = :memory_store
+
     config.middleware.insert_after ActionDispatch::HostAuthorization, RedirectToServiceGovUkMiddleware
     config.middleware.use PDFKit::Middleware, { print_media_type: true }, disposition: 'attachment', only: [%r[^/provider/applications/\d+]]
     config.skylight.environments = ENV['SKYLIGHT_ENABLE'].to_s == 'true' ? [Rails.env] : []
