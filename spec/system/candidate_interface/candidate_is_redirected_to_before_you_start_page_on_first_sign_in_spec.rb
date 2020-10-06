@@ -5,11 +5,11 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   scenario 'Candidate is redirected to the before you start page on their first sign in' do
     given_the_pilot_is_open
+    and_the_international_personal_details_feature_is_active
 
     when_i_visit_apply
     and_i_click_start_now
     and_i_confirm_i_am_not_already_signed_up
-    and_i_fill_in_the_eligiblity_form_with_yes
     and_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_before_you_start_page
@@ -21,7 +21,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     when_i_visit_apply
     and_i_click_start_now
     and_i_confirm_i_am_not_already_signed_up
-    and_i_fill_in_the_eligiblity_form_with_yes
     and_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_before_you_start_page
@@ -37,7 +36,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     when_i_visit_apply
     and_i_click_start_now
     and_i_confirm_i_am_not_already_signed_up
-    and_i_fill_in_the_eligiblity_form_with_yes
     and_i_submit_my_email_address
     and_click_on_the_magic_link
     then_i_should_see_the_application_page
@@ -46,6 +44,10 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_the_international_personal_details_feature_is_active
+    FeatureFlag.activate('international_personal_details')
   end
 
   def when_i_visit_apply
@@ -59,18 +61,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
   def and_i_confirm_i_am_not_already_signed_up
     choose 'No, I need to create an account'
     click_button 'Continue'
-  end
-
-  def and_i_fill_in_the_eligiblity_form_with_yes
-    within_fieldset('Are you a citizen of the UK or the EU?') do
-      choose 'Yes'
-    end
-
-    within_fieldset('Did you gain all your qualifications at institutions based in the UK?') do
-      choose 'Yes'
-    end
-
-    click_on 'Continue'
   end
 
   def and_i_submit_my_email_address

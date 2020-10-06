@@ -5,6 +5,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
 
   scenario 'seeing their course information on the landing page' do
     given_the_pilot_is_open
+    and_the_international_personal_details_feature_is_active
 
     when_i_arrive_from_find_with_invalid_course_parameters
     then_i_should_see_an_error_page
@@ -30,7 +31,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
 
     when_i_choose_to_apply_through_apply
     and_i_confirm_i_am_not_already_signed_up
-    then_i_see_the_eligibility_page
+    then_i_see_the_sign_up_page
 
     given_the_pilot_is_not_open
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
@@ -43,6 +44,10 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
+  end
+
+  def and_the_international_personal_details_feature_is_active
+    FeatureFlag.activate('international_personal_details')
   end
 
   def when_i_arrive_from_find_with_invalid_course_parameters
@@ -123,7 +128,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     click_button 'Continue'
   end
 
-  def then_i_see_the_eligibility_page
-    expect(page).to have_content('Check we’re ready for you to use this service')
+  def then_i_see_the_sign_up_page
+    expect(page).to have_content 'Create an Apply for teacher training account'
   end
 end
