@@ -77,15 +77,18 @@
 
 <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('page_titles.referees') %></h2>
 <% if FeatureFlag.active?(:decoupled_references) %>
-  <%= render(
-    CandidateInterface::DecoupledReferencesReviewComponent.new(
-      references: application_form.application_references.feedback_provided,
-      references_section_completed: application_form.references_completed,
-      editable: editable,
-      style_as_errored: missing_error,
-      submitting_application: true,
-    )
-  ) %>
+  <% if !application_form.references_completed && editable %>
+    <%= render(
+      SectionMissingBannerComponent.new(
+        section: :references,
+        section_path: candidate_interface_decoupled_references_start_path,
+        text: t('review_application.references.incomplete', minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES),
+        error: missing_error,
+      )
+    ) %>
+  <% else %>
+    <%= render(CandidateInterface::DecoupledReferencesReviewComponent.new(references: application_form.application_references.feedback_provided, editable: editable)) %>
+  <% end %>
 <% else %>
   <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: true, missing_error: missing_error, submitting_application: true)) %>
 <% end %>

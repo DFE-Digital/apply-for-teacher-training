@@ -1,19 +1,10 @@
 module CandidateInterface
   class DecoupledReferencesReviewComponent < ViewComponent::Base
-    attr_reader :references, :references_section_completed, :editable, :style_as_errored, :submitting_application
+    attr_reader :references, :editable
 
-    def initialize(
-      references:,
-      references_section_completed:,
-      editable: true,
-      style_as_errored: false,
-      submitting_application: false
-    )
+    def initialize(references:, editable: true)
       @references = references
-      @references_section_completed = references_section_completed
       @editable = editable
-      @style_as_errored = style_as_errored
-      @submitting_application = submitting_application
     end
 
     def card_title(reference)
@@ -28,10 +19,6 @@ module CandidateInterface
         relationship_row(reference),
         feedback_status_row(reference),
       ].compact
-    end
-
-    def show_missing_banner?
-      submitting_application && !references_section_completed && editable
     end
 
   private
