@@ -11,7 +11,12 @@
           Respond to application
         </h2>
         <p class="govuk-body">
-          <%= "You have #{days_until(@application_choice.reject_by_default_at.to_date)} to respond to this application. On #{@application_choice.reject_by_default_at.to_s(:govuk_date)} this application will be automatically rejected." %>
+          <% if time_is_today_or_tomorrow?(@application_choice.reject_by_default_at) %>
+            You have until <%= time_today_or_tomorrow(@application_choice.reject_by_default_at) %> to respond to this application, or it will be automatically rejected.
+          <% else %>
+            <%= "You have #{days_until(@application_choice.reject_by_default_at.to_date)} to respond to this application." %>
+            On <%= @application_choice.reject_by_default_at.to_s(:govuk_date) %> this application will be automatically rejected.
+          <% end %>
         </p>
         <%= govuk_button_link_to 'Respond to application', provider_interface_application_choice_respond_path(@application_choice) %>
       </div>

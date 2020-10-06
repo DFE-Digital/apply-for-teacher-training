@@ -89,6 +89,22 @@ module ViewHelper
     end
   end
 
+  def time_is_today_or_tomorrow?(time)
+    time.between?(Time.zone.now.beginning_of_day, Time.zone.tomorrow.end_of_day)
+  end
+
+  def time_today_or_tomorrow(time)
+    unless time_is_today_or_tomorrow?(time)
+      raise "#{time} was expected to be today or tomorrow, but is not"
+    end
+
+    if time.to_date == Date.tomorrow
+      "#{time.to_s(:govuk_time)} tomorrow"
+    else
+      time.to_s(:govuk_time).to_s
+    end
+  end
+
   def days_until(date)
     days = (date - Date.current).to_i
     if days.zero?
