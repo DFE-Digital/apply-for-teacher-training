@@ -18,5 +18,13 @@ module SupportInterface
       process_state = ProcessState.new(application_form).state
       I18n.t!("candidate_flow_application_states.#{process_state}.name")
     end
+
+    def apply_again_context
+      if application_form.apply_2?
+        '(Apply again)'
+      elsif application_form.candidate_has_previously_applied?
+        '(Carried over)'
+      end
+    end
   end
 end

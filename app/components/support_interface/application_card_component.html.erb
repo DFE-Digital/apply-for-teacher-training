@@ -2,7 +2,7 @@
   <header class="app-application-card__header">
     <h3 class="govuk-heading-s">
       <%= govuk_link_to candidate_name, support_interface_application_form_path(application_form) %>
-      <span class="govuk-body-s"><%= support_reference %> <%= application_form.apply_2? ? '(Apply again)' : '' %></span>
+      <span class="govuk-body-s"><%= support_reference %> <%= apply_again_context %></span>
     </h3>
     <p class="govuk-body-s govuk-!-margin-bottom-2"><strong><%= overall_status %></strong></p>
   </header>
