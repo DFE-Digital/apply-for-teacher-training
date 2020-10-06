@@ -58,4 +58,9 @@ class Provider < ApplicationRecord
     accredited_providers = courses.map(&:accredited_provider).uniq.compact
     accredited_providers.all?(&:onboarded?)
   end
+
+  def no_admin_users?
+    !(provider_permissions.exists?(manage_users: true) &&
+      provider_permissions.exists?(manage_organisations: true))
+  end
 end

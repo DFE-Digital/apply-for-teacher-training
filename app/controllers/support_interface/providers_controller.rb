@@ -4,7 +4,7 @@ module SupportInterface
       @filter = SupportInterface::ProvidersFilter.new(params: params)
 
       @providers = Provider.where(sync_courses: true)
-        .includes(:sites, :courses, :provider_agreements)
+        .includes(:sites, :courses, :provider_agreements, :provider_users)
         .order(:name)
         .page(params[:page] || 1).per(15)
 
