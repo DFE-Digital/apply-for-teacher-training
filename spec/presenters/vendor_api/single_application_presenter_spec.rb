@@ -366,7 +366,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         :other_qualifications,
       ).first
 
-      expect(qualification_hash[:hesa_degstdt]).to be_present
+      expect(qualification_hash).to have_key(:hesa_degstdt)
     end
   end
 end
