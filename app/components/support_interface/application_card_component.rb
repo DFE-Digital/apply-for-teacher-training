@@ -21,9 +21,11 @@ module SupportInterface
 
     def apply_again_context
       if application_form.apply_2?
-        '(Apply again)'
+        "(#{application_form.recruitment_cycle_year}, apply again)"
       elsif application_form.candidate_has_previously_applied?
-        '(Carried over)'
+        "(#{application_form.recruitment_cycle_year}, carried over)"
+      else
+        "(#{application_form.recruitment_cycle_year})"
       end
     end
   end

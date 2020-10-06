@@ -32,7 +32,7 @@ module SupportInterface
       @filters ||= [search_filter] + [year_filter] + [phase_filter]
     end
 
-private
+  private
 
     def year_filter
       {
