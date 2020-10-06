@@ -26,6 +26,7 @@ module VendorAPI
             last_name: application_form.last_name,
             date_of_birth: application_form.date_of_birth,
             nationality: nationalities,
+            domicile: application_form.country,
             uk_residency_status: uk_residency_status,
             english_main_language: application_form.english_main_language,
             english_language_qualifications: application_form.english_language_details,

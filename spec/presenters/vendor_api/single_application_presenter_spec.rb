@@ -156,6 +156,17 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.candidate.domicile' do
+    it 'returns country code from the candidate\'s address' do
+      application_form = create(:completed_application_form, :with_completed_references)
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :domicile)).to eq(application_form.country)
+    end
+  end
+
   describe 'attributes.candidate.uk_residency_status' do
     it 'returns UK Citizen if the candidates nationalties include UK' do
       application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Irish', second_nationality: 'British')

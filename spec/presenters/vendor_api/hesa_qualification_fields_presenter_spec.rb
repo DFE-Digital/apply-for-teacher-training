@@ -5,17 +5,20 @@ RSpec.describe VendorAPI::HesaQualificationFieldsPresenter do
     let(:qualification) { create(:degree_qualification) }
     let(:presenter) { VendorAPI::HesaQualificationFieldsPresenter.new(qualification) }
 
-    direct_mapping_fields = {
-      hesa_degtype: :qualification_type_hesa_code,
-      hesa_degsbj: :subject_hesa_code,
-      hesa_degclss: :grade_hesa_code,
-      hesa_degest: :institution_hesa_code,
-      hesa_degctry: :institution_country,
+    direct_mappings = {
+      hesa_degtype: { attr: :qualification_type_hesa_code, zeropad: 3 },
+      hesa_degsbj: { attr: :subject_hesa_code, zeropad: 6 },
+      hesa_degclss: { attr: :grade_hesa_code, zeropad: 2 },
+      hesa_degest: { attr: :institution_hesa_code, zeropad: 4 },
+      hesa_degctry: { attr: :institution_country, zeropad: 2 },
     }
 
-    direct_mapping_fields.each do |hesa_field, our_field|
-      it "#{hesa_field} is #{our_field}" do
-        expect(presenter.to_hash[hesa_field]).to eq(qualification.send(our_field))
+    direct_mappings.each do |hesa_field, data|
+      our_field = data[:attr]
+      pad_to = data[:zeropad]
+
+      it "#{hesa_field} is #{our_field} zero-padded to #{pad_to} chars" do
+        expect(presenter.to_hash[hesa_field]).to eq(qualification.send(our_field)&.to_s.rjust(pad_to, '0'))
       end
     end
 
