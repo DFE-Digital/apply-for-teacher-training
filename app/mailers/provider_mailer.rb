@@ -20,6 +20,16 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def application_submitted_with_safeguarding_issues(provider_user, application_choice)
+    @application = map_application_choice_params(application_choice)
+
+    email_for_provider(
+      provider_user,
+      application_choice.application_form,
+      subject: I18n.t!('provider_mailer.application_submitted_with_safeguarding_issues.subject', course_name_and_code: @application.course_name_and_code),
+    )
+  end
+
   def application_rejected_by_default(provider_user, application_choice)
     @application = map_application_choice_params(application_choice)
 

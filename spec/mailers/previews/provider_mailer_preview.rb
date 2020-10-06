@@ -7,6 +7,10 @@ class ProviderMailerPreview < ActionMailer::Preview
     ProviderMailer.application_submitted(provider_user, application_choice)
   end
 
+  def application_submitted_with_safeguarding_issues
+    ProviderMailer.application_submitted_with_safeguarding_issues(provider_user, application_choice)
+  end
+
   def application_rejected_by_default
     ProviderMailer.application_rejected_by_default(provider_user, application_choice)
   end
