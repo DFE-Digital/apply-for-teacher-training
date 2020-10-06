@@ -18,7 +18,7 @@ RSpec.describe VendorAPI::HesaQualificationFieldsPresenter do
       pad_to = data[:zeropad]
 
       it "#{hesa_field} is #{our_field} zero-padded to #{pad_to} chars" do
-        expect(presenter.to_hash[hesa_field]).to eq(qualification.send(our_field)&.to_s.rjust(pad_to, '0'))
+        expect(presenter.to_hash[hesa_field]).to eq(qualification.send(our_field)&.to_s&.rjust(pad_to, '0'))
       end
     end
 
@@ -30,10 +30,19 @@ RSpec.describe VendorAPI::HesaQualificationFieldsPresenter do
       expect(presenter.to_hash[:hesa_degenddt]).to eq("#{qualification.award_year}-01-01")
     end
 
-    it 'returns an empty hash for non-degree qualifications' do
+    it 'returns nil values for non-degree qualifications' do
       non_degree = create(:gcse_qualification)
       presenter = VendorAPI::HesaQualificationFieldsPresenter.new(non_degree)
-      expect(presenter.to_hash).to eq({})
+      expected = {
+        hesa_degtype: nil,
+        hesa_degsbj: nil,
+        hesa_degclss: nil,
+        hesa_degest: nil,
+        hesa_degctry: nil,
+        hesa_degstdt: nil,
+        hesa_degenddt: nil,
+      }
+      expect(presenter.to_hash).to eq(expected)
     end
   end
 end
