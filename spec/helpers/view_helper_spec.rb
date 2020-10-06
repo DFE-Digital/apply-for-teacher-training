@@ -148,10 +148,11 @@ RSpec.describe ViewHelper, type: :helper do
     end
   end
 
-  describe '#days_to_respond_to' do
-    it 'returns the number of days before application is rejected' do
-      choice = build(:application_choice, reject_by_default_at: Date.current + 1.week)
-      expect(helper.days_to_respond_to(choice)).to eq(7)
+  describe '#days_until' do
+    it 'returns a phrase expressing the number of days' do
+      expect(helper.days_until(Date.current + 2)).to eq('2 days')
+      expect(helper.days_until(Date.current + 1)).to eq('1 day')
+      expect(helper.days_until(Date.current + 0.5)).to eq('less than 1 day')
     end
   end
 end

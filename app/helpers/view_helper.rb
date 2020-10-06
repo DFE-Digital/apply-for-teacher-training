@@ -89,8 +89,13 @@ module ViewHelper
     end
   end
 
-  def days_to_respond_to(application_choice)
-    (application_choice.reject_by_default_at.to_date - Date.current).to_i
+  def days_until(date)
+    days = (date - Date.current).to_i
+    if days.zero?
+      'less than 1 day'
+    else
+      pluralize(days, 'day')
+    end
   end
 
   def boolean_to_word(boolean)
