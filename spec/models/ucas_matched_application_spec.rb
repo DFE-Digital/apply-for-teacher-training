@@ -6,9 +6,11 @@ RSpec.describe UCASMatchedApplication do
   let(:course_option) { create(:course_option, course: course) }
   let(:application_choice) { create(:application_choice, course_option: course_option) }
   let(:application_form) { create(:completed_application_form, candidate_id: candidate.id, application_choices: [application_choice]) }
+  let(:apply_again_application_form) { create(:application_form, candidate_id: candidate.id) }
   let(:recruitment_cycle_year) { 2020 }
 
   before do
+    apply_again_application_form
     application_form
     create(:course, code: course.code, provider: course.provider, recruitment_cycle_year: 2021)
   end

@@ -1,5 +1,4 @@
 class UCASMatchedApplication
-
   def initialize(matching_data, recruitment_cycle_year)
     @matching_data = matching_data
     @recruitment_cycle_year = recruitment_cycle_year
@@ -33,8 +32,9 @@ class UCASMatchedApplication
     if ucas_scheme?
       mapped_ucas_status
     else
-      ApplicationForm.find_by(candidate_id: @matching_data['Apply candidate ID'])
-        .application_choices.find_by(course_option: course.course_options)
+      ApplicationChoice.includes(:application_form)
+        .where('application_forms.candidate_id = ?', @matching_data['Apply candidate ID']).references(:application_forms)
+        .find_by(course_option: course.course_options)
         .status
     end
   end
