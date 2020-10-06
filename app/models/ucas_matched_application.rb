@@ -1,10 +1,16 @@
 class UCASMatchedApplication
-  def initialize(matching_data)
+
+  def initialize(matching_data, recruitment_cycle_year)
     @matching_data = matching_data
+    @recruitment_cycle_year = recruitment_cycle_year
   end
 
   def course
-    Course.find_by(code: @matching_data['Course code'], provider: Provider.find_by(code: @matching_data['Provider code']))
+    Course.find_by(
+      code: @matching_data['Course code'],
+      provider: Provider.find_by(code: @matching_data['Provider code']),
+      recruitment_cycle_year: @recruitment_cycle_year,
+    )
   end
 
   def scheme
