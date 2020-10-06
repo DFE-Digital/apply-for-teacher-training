@@ -27,28 +27,9 @@ class PhaseBanner < ViewComponent::Base
     end
   end
 
-  def app_environment_css_class
+  def phase_tag_class
     return '' if HostingEnvironment.production?
 
-    "govuk-tag--#{css_colour}"
-  end
-
-private
-
-  def css_colour
-    return :purple if HostingEnvironment.sandbox_mode?
-
-    case HostingEnvironment.environment_name
-    when 'qa'
-      :orange
-    when 'staging'
-      :red
-    when 'development'
-      :grey
-    when 'review'
-      :purple
-    when 'unknown-environment'
-      :yellow
-    end
+    "govuk-tag--#{HostingEnvironment.phase_colour}"
   end
 end

@@ -1,32 +1,33 @@
-$app-colour-qa: govuk-colour("orange");
-$app-colour-sandbox: govuk-colour("purple");
-$app-colour-review: govuk-colour("purple");
-$app-colour-staging: govuk-colour("red");
-$app-colour-development: govuk-colour("dark-grey", $legacy: "grey-1");
-
-.app-header--production .govuk-header__container {
-  // default blue styling
+.govuk-header .govuk-tag {
+  vertical-align: middle;
 }
 
-.app-header--qa .govuk-header__container {
-  border-bottom-color: $app-colour-qa;
+.app-header--production.app-header--full-border {
+  border-bottom-color: govuk-colour("blue");
 }
 
-.app-header--staging .govuk-header__container {
-  border-bottom-color: $app-colour-staging;
+.app-header--qa .govuk-header__container,
+.app-header--qa.app-header--full-border {
+  border-bottom-color: govuk-colour("orange");
 }
 
-.app-header--sandbox .govuk-header__container {
-  border-bottom-color: $app-colour-sandbox;
+.app-header--staging .govuk-header__container,
+.app-header--staging.app-header--full-border {
+  border-bottom-color: govuk-colour("red");
 }
 
-.app-header--review .govuk-header__container {
-  border-bottom-color: $app-colour-review;
+.app-header--review .govuk-header__container,
+.app-header--review.app-header--full-border,
+.app-header--sandbox .govuk-header__container,
+.app-header--sandbox.app-header--full-border {
+  border-bottom-color: govuk-colour("purple");
 }
 
 .app-header--development .govuk-header__container,
-.app-header--unknown-environment .govuk-header__container {
-  border-bottom-color: $app-colour-development;
+.app-header--development.app-header--full-border,
+.app-header--unknown-environment .govuk-header__container,
+.app-header--unknown-environment.app-header--full-border {
+  border-bottom-color: govuk-colour("dark-grey");
 }
 
 .app-header__logo--provider {

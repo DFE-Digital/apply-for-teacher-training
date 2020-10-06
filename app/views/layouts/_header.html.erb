@@ -6,11 +6,11 @@
                                  navigation_items: NavigationItems.for_candidate_interface(try(:current_candidate), controller))) %>
                                <%= render PhaseBanner.new %>
 <% when 'support_interface' %>
-  <%= render(ProductHeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
+  <%= render(ProductHeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
                                  product_name: service_name,
                                  service_url: service_link,
+                                 phase_tag: true,
                                  navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user)))) %>
-                               <%= render PhaseBanner.new(no_border: true) %>
                                <%= render(PrimaryNavigationComponent.new(
                                  navigation_items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller))) %>
   <%= yield(:navigation) if content_for?(:navigation) %>
