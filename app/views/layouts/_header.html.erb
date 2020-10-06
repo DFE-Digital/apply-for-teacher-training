@@ -15,7 +15,7 @@
                                  navigation_items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller))) %>
   <%= yield(:navigation) if content_for?(:navigation) %>
 <% when 'provider_interface' %>
-  <%= render(ProductHeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name}",
+  <%= render(ProductHeaderComponent.new(classes: "app-header--#{HostingEnvironment.environment_name} app-header--full-border",
                                  product_name: service_name,
                                  service_url: service_link,
                                  navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, @provider_setup&.pending?))) %>
