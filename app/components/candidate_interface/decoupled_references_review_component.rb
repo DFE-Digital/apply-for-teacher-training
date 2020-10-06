@@ -47,7 +47,7 @@ module CandidateInterface
 
     def relationship_row(reference)
       {
-        key: 'Relationship',
+        key: 'Relationship to referee',
         value: reference.relationship,
         action: "relationship for #{reference.name}",
         change_path: candidate_interface_edit_referee_path(reference.id),

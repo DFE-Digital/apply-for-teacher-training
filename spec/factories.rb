@@ -677,10 +677,35 @@ FactoryBot.define do
       requested_at { Time.zone.now }
     end
 
+    trait :cancelled_at_end_of_cycle do
+      feedback_status { 'cancelled_at_end_of_cycle' }
+      feedback { nil }
+      requested_at { Time.zone.now }
+    end
+
     trait :requested do
       feedback_status { 'feedback_requested' }
       feedback { nil }
       requested_at { Time.zone.now }
+    end
+
+    trait :sent_less_than_5_days_ago do
+      feedback_status { 'feedback_requested' }
+      feedback { nil }
+      requested_at { Time.zone.now - 2.days }
+    end
+
+    trait :sent_more_than_5_days_ago do
+      feedback_status { 'feedback_requested' }
+      feedback { nil }
+      requested_at { Time.zone.now - 6.days }
+    end
+
+    trait :feedback_overdue do
+      feedback_status { 'feedback_requested' }
+      feedback { nil }
+      requested_at { 11.business_days.ago }
+      created_at { 11.business_days.ago }
     end
 
     trait :complete do
