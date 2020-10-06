@@ -1,13 +1,11 @@
 <%= content_for :title, 'Application lifecycle' %>
 
-<% content_for :before_content do %>
-  <%= render TabNavigationComponent.new(items: [
-    { name: 'Application lifecycle', url: api_docs_lifecycle_path, current: true },
-    { name: 'When emails are sent', url: api_docs_when_emails_are_sent_path },
-  ]) %>
-<% end %>
+<h1 class="govuk-heading-xl">Lifecycle</h1>
 
-<h1 class="govuk-heading-xl">Application lifecycle</h1>
+<%= render TabNavigationComponent.new(items: [
+  { name: 'Application lifecycle', url: api_docs_lifecycle_path, current: true },
+  { name: 'When emails are sent', url: api_docs_when_emails_are_sent_path },
+]) %>
 
 <%= StateDiagram.svg(only_from_state: nil, machine: ApplicationStateChange) %>
 
@@ -17,5 +15,4 @@
 
 <% ApplicationStateChange.workflow_spec.states.each do |_, state| %>
   <%= render StateExplanationComponent.new(machine: ApplicationStateChange, state: state) %>
-  <hr class='govuk-section-break govuk-section-break--xl govuk-section-break--visible'>
 <% end %>

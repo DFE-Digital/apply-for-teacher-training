@@ -12,6 +12,8 @@ module ApplicationHelper
       t('service_name.manage')
     when 'support_interface'
       t('service_name.support')
+    when 'api_docs'
+      t('service_name.api')
     else
       t('service_name.apply')
     end
