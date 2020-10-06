@@ -46,10 +46,10 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
         )
       end
 
-      it "populates 'hesa_disabilities' with hesa_code '96' for an unknown disability" do
+      it "populates 'hesa_disabilities' with hesa_code '96' for unknown disabilities" do
         application_form = create(:application_form,
                                   equality_and_diversity: {
-                                    disabilities: ['Acquired brain injury'],
+                                    disabilities: ['Acquired brain injury', 'Many unexplained illnesses'],
                                   })
 
         cycle_year = 2020
@@ -59,7 +59,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
         application_form.reload
 
         expect(application_form.equality_and_diversity).to eq(
-          'disabilities' => ['Acquired brain injury'],
+          'disabilities' => ['Acquired brain injury', 'Many unexplained illnesses'],
           'hesa_disabilities' => [described_class::HESA_DISABILITY_CODE_OTHER],
           'hesa_ethnicity' => nil,
           'hesa_sex' => nil,

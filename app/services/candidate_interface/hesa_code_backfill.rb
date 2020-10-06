@@ -46,11 +46,15 @@ module CandidateInterface
       disabilities = application_form.equality_and_diversity['disabilities']
       return if disabilities.empty?
 
-      disabilities.map do |disability|
+      codes = disabilities.map do |disability|
         break if disability == 'Prefer not to say'
 
         hesa_value = Hesa::Disability.convert_to_hesa_value(disability)
         Hesa::Disability.find_by_value(hesa_value)&.hesa_code || HESA_DISABILITY_CODE_OTHER
+      end
+
+      if codes.present?
+        codes.uniq
       end
     end
 
