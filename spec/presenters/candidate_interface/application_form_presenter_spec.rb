@@ -301,7 +301,48 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe '#enough_references_provided?' do
+    before { FeatureFlag.activate(:decoupled_references) }
+
+    it 'returns true if the referees section has been created and two references have been provided' do
+      application_form = create(:application_form, references_completed: true)
+      create_list(:reference, 2, application_form: application_form, feedback_status: :feedback_provided)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_enough_references_provided
+    end
+
+    it 'returns false if the referees section has been completed and only one reference has been provided' do
+      application_form = create(:application_form, references_completed: true)
+      create(:reference, application_form: application_form, feedback_status: :feedback_provided)
+      create(:reference, application_form: application_form, feedback_status: :feedback_requested)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_enough_references_provided
+    end
+
+    it 'returns false if the referees section is incomplete' do
+      application_form = build(:application_form, references_completed: false)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).not_to be_enough_references_provided
+    end
+
+    context 'when the `decoupled_references` feature flag is NOT active (REMOVE CONTEXT WHEN DROPPING FEATURE FLAG)' do
+      before { FeatureFlag.deactivate(:decoupled_references) }
+
+      it 'returns true even if the referees section is incomplete' do
+        application_form = build(:application_form, references_completed: false)
+        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+        expect(presenter).to be_enough_references_provided
+      end
+    end
+  end
+
   describe '#all_referees_provided_by_candidate?' do
+    before { FeatureFlag.deactivate(:decoupled_references) }
+
     it 'returns true if the referees section has been completed' do
       application_form = build(:application_form, references_completed: true)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)

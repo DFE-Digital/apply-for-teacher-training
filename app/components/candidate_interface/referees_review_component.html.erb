@@ -30,3 +30,13 @@
 <% if show_missing_banner? %>
   <%= render(SectionMissingBannerComponent.new(section: :references, section_path: candidate_interface_referees_path, text: t('review_application.references.incomplete', minimum_references: minimum_references), error: @missing_error)) %>
 <% end %>
+
+<% if show_references_not_provided? %>
+  <%= render(SectionMissingBannerComponent.new(
+    section: :references,
+    section_path: candidate_interface_referees_path,
+    text: t('review_application.references_provided.incomplete', minimum_references: minimum_references),
+    link_text: t('review_application.references_provided.complete_section'),
+    error: @missing_error),
+  ) %>
+<% end %>

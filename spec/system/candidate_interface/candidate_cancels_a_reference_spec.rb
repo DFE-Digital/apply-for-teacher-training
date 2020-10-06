@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Cancelling a reference' do
   include CandidateHelper
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   scenario 'candidate cancels a reference request after completing their application' do
     given_i_have_completed_and_submitted_my_application
 

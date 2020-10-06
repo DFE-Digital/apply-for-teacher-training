@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Referee can submit reference', with_audited: true do
   include CandidateHelper
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   scenario 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application

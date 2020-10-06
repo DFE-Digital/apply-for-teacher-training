@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.feature 'Referee does not respond in time' do
   include CandidateHelper
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   scenario 'Emails are sent if a referee does not respond in time' do
     given_a_candidate_completed_an_application
     when_the_candidate_submits_the_application

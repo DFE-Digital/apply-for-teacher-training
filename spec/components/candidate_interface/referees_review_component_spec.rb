@@ -171,6 +171,22 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(change_reference_type).to eq("Change reference type for #{first_referee.name}")
     end
+
+    it 'renders an error when references are marked incomplete' do
+      FeatureFlag.deactivate(:decoupled_references)
+
+      application_form.update!(references_completed: false)
+
+      result = render_inline(described_class.new(application_form: application_form, submitting_application: true))
+      expect(result.text).to include('Add 2 referees to your application')
+    end
+
+    it 'renders an error when references have not come back from referees' do
+      FeatureFlag.activate(:decoupled_references)
+
+      result = render_inline(described_class.new(application_form: application_form, submitting_application: true))
+      expect(result.text).to include('You need 2 references before you can submit your application')
+    end
   end
 
   context 'when referees are not editable' do
