@@ -16,7 +16,7 @@ module CandidateInterface
       submitted_applications = ApplicationForm.where.not(equality_and_diversity: nil)
                                               .where(recruitment_cycle_year: @cycle_year)
 
-      submitted_applications.each do |application_form|
+      submitted_applications.find_each do |application_form|
         fields_to_update = {
           hesa_sex: hesa_sex_code(application_form),
           hesa_disabilities: hesa_disability_codes(application_form),
