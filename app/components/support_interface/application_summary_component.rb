@@ -15,6 +15,7 @@ module SupportInterface
 
     def rows
       [
+        recruitment_cycle_year,
         support_reference_row,
         submitted_row,
         edit_by_row,
@@ -27,6 +28,13 @@ module SupportInterface
     end
 
   private
+
+    def recruitment_cycle_year
+      {
+        key: 'Recruitment cycle year',
+        value: application_form.recruitment_cycle_year,
+      }
+    end
 
     def last_updated_row
       {
