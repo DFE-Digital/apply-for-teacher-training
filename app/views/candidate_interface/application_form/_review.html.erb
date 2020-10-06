@@ -81,7 +81,7 @@
     <%= render(
       SectionMissingBannerComponent.new(
         section: :references_provided,
-        section_path: candidate_interface_decoupled_references_start_path,
+        section_path: candidate_interface_decoupled_references_review_path,
         text: t('review_application.references_provided.incomplete', minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES),
         link_text: t('review_application.references_provided.complete_section'),
         error: missing_error
