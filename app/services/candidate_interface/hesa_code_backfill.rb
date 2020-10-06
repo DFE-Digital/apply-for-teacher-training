@@ -35,9 +35,9 @@ module CandidateInterface
       return HESA_ETHNICITY_CODE_REFUSED if @cycle_year == 2020 && ethnic_group == 'Prefer not to say'
 
       ethnic_background = application_form.equality_and_diversity['ethnic_background']
-      hesa_ethnicity_value = Hesa::Ethnicity.convert_to_hesa_value(ethnic_background)
 
       if ethnic_background
+        hesa_ethnicity_value = Hesa::Ethnicity.convert_to_hesa_value(ethnic_background)
         Hesa::Ethnicity.find_by_value(hesa_ethnicity_value, @cycle_year)&.hesa_code || HESA_ETHNICITY_CODE_UNKNOWN
       end
     end
