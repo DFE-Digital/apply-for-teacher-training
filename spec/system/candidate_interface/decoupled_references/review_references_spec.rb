@@ -8,6 +8,7 @@ RSpec.feature 'Review references' do
     and_the_decoupled_references_flag_is_on
     and_i_have_added_references
     then_i_can_review_my_references_before_submission
+    and_i_can_return_to_the_application_page
   end
 
   def given_i_am_signed_in
@@ -50,5 +51,10 @@ RSpec.feature 'Review references' do
       expect(page).not_to have_link 'Delete referee'
       expect(page).to have_link 'Cancel request'
     end
+  end
+
+  def and_i_can_return_to_the_application_page
+    click_link 'Continue'
+    expect(page).to have_current_path candidate_interface_application_form_path
   end
 end

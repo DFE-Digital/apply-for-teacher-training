@@ -35,3 +35,5 @@
     <%= render(CandidateInterface::DecoupledReferencesReviewComponent.new(references: @references_sent, editable: false)) %>
   </div>
 <% end %>
+
+<%= govuk_link_to 'Continue', candidate_interface_application_form_path, class: 'govuk-button' %>
