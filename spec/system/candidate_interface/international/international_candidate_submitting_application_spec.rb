@@ -181,7 +181,7 @@ RSpec.feature 'International candidate submits the application' do
   end
 
   def and_i_submit_the_application
-    click_button 'Submit application'
+    click_button(FeatureFlag.active?(:decoupled_references) ? 'Send application' : 'Submit application')
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted

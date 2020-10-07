@@ -1,4 +1,4 @@
-<% content_for :title, t('submit_application.title') %>
+<% content_for :title, t('submit_application.without_decoupled_references.title') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_review_path) %>
 
 <div class="govuk-grid-row">
@@ -7,12 +7,12 @@
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
-        <%= t('submit_application.heading') %>
+        <%= t('submit_application.without_decoupled_references.heading') %>
       </h1>
 
       <p class="govuk-body">
         I understand I will have to undergo an enhanced
-        <%= govuk_link_to t('submit_application.disclosure_link'), 'https://www.gov.uk/government/organisations/disclosure-and-barring-service' %>
+        <%= govuk_link_to t('submit_application.without_decoupled_references.disclosure_link'), 'https://www.gov.uk/government/organisations/disclosure-and-barring-service' %>
         as part of my application.
       </p>
 
@@ -29,7 +29,7 @@
           convictions.
         </p>
         <p class="govuk-body">
-          <%= govuk_link_to t('submit_application.conviction_link'), 'https://www.gov.uk/exoffenders-and-employment' %>.
+          <%= govuk_link_to t('submit_application.without_decoupled_references.conviction_link'), 'https://www.gov.uk/exoffenders-and-employment' %>.
         </p>
       </div>
 
@@ -42,11 +42,11 @@
       <% end %>
 
       <p class="govuk-body">
-        By sending this application to providers,
-        I confirm that the information given is true, complete and accurate.
+        By submitting, I confirm that the information given is true, complete
+        and accurate.
       </p>
 
-      <%= f.govuk_submit t('submit_application.submit_button') %>
+      <%= f.govuk_submit t('submit_application.without_decoupled_references.submit_button') %>
     <% end %>
   </div>
 </div>
