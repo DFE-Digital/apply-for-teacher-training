@@ -350,7 +350,7 @@
 
       <% declaration = "#{@provider_agreement.provider.name} agrees to comply with the data sharing practices outlined in this agreement" %>
 
-      <%= f.govuk_check_boxes_fieldset :accept_agreement do %>
+      <%= f.govuk_check_boxes_fieldset :accept_agreement, legend: nil do %>
         <%= f.govuk_check_box :accept_agreement, true, multiple: false, link_errors: true, label: { text: declaration } %>
       <% end %>
 

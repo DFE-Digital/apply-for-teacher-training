@@ -1,6 +1,6 @@
 <% if FeatureFlag.active? :international_degrees %>
 
-  <%= f.govuk_radio_buttons_fieldset :uk_degree, legend: { tag: 'span' } do %>
+  <%= f.govuk_radio_buttons_fieldset :uk_degree, legend: { tag: 'span' }, legend: nil do %>
     <%= f.govuk_radio_button :uk_degree, 'yes', label: { text: t('application_form.degree.uk_degree.label') } do %>
       <%= f.govuk_text_field(
         :type_description,

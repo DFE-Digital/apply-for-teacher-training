@@ -9,14 +9,9 @@
       <%= f.hidden_field :provider_id %>
       <%= f.hidden_field :study_mode %>
       <%= f.hidden_field :course_option_id %>
-      <%= f.govuk_radio_buttons_fieldset :course_id do %>
-
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-          <h1 class="govuk-fieldset__heading">
-            <span class="govuk-caption-xl"><%= application_choice.application_form.full_name %></span>
-              <%= page_title %>
-          </h1>
-        </legend>
+      <%= f.govuk_radio_buttons_fieldset :course_id,
+        legend: { text: page_title, size: "xl" },
+        caption: { text: application_choice.application_form.full_name, size: "xl" } do %>
 
         <% courses.each do |course| %>
           <%= f.govuk_radio_button :course_id, course.id, label: { text: course.name_and_code }, hint: { text: course.description } %>
