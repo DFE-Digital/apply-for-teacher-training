@@ -27,7 +27,8 @@ RSpec.describe SupportInterface::FeatureAuditTrailComponent, with_audited: true 
     end
 
     it 'renders the create audit entry' do
-      expect(render_result.text).to include('1 May 2020 12:00 - Created Inactive by bob@example.com')
+      expect(render_result.text).to include('Created inactive by bob@example.com')
+      expect(render_result.text).to include('1 May 2020 at 12:00')
     end
   end
 
@@ -47,11 +48,13 @@ RSpec.describe SupportInterface::FeatureAuditTrailComponent, with_audited: true 
     end
 
     it 'renders the create audit entry' do
-      expect(render_result.text).to include("1 May 2020 12:00 - Created Active\n")
+      expect(render_result.text).to include('Created active')
+      expect(render_result.text).to include('1 May 2020 at 12:00')
     end
 
     it 'renders the update audit entry' do
-      expect(render_result.text).to include("3 May 2020 15:30 - Changed to Inactive by alice@example.com\n")
+      expect(render_result.text).to include('Changed to inactive by alice@example.com')
+      expect(render_result.text).to include('3 May 2020 at 15:30')
     end
   end
 end

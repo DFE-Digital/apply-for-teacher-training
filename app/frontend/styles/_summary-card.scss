@@ -17,7 +17,7 @@
     @include govuk-media-query($from: desktop) {
       display: flex;
       justify-content: space-between;
-      align-items: start;
+      align-items: center;
     }
 
     @include govuk-media-query($media-type: print) {
