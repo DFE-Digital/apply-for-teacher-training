@@ -51,6 +51,39 @@ module SupportInterface
       @relationship_diagram = SupportInterface::ProviderRelationshipsDiagram.new(provider: @provider)
     end
 
+    def relationships
+      @provider = Provider.find(params[:provider_id])
+      relationships = ProviderRelationshipPermissions.where(
+        training_provider: @provider,
+      ).or(
+        ProviderRelationshipPermissions.where(
+          ratifying_provider: @provider,
+        ),
+      )
+
+      @relationships_form = SupportInterface::ProviderRelationshipsForm.from_models(relationships)
+    end
+
+    def update_relationships
+      @provider = Provider.find(params[:provider_id])
+      @relationships_form = SupportInterface::ProviderRelationshipsForm.from_params(
+        relationships_params[:relationships],
+      )
+
+      if @relationships_form.valid?
+        @relationships_form.save!
+        flash[:success] = 'Relationships updated'
+        redirect_to support_interface_provider_relationships_path
+      else
+        render :relationships
+      end
+    end
+
+    def relationships_params
+      params.require(:support_interface_provider_relationships_form)
+        .permit(relationships: {})
+    end
+
     def applications
       @provider = Provider.find(params[:provider_id])
       @filter = SupportInterface::ApplicationsFilter.new(params: params)
