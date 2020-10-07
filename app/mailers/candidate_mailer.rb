@@ -139,6 +139,7 @@ class CandidateMailer < ApplicationMailer
 
   def reference_received(reference)
     @reference = reference
+    @candidate_magic_link = candidate_magic_link(application_form.candidate)
 
     email_for_candidate(
       reference.application_form,
