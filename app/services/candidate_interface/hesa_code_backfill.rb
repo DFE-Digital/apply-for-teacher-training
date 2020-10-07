@@ -1,8 +1,9 @@
 module CandidateInterface
   class HesaCodeBackfill
     HESA_DISABILITY_CODE_OTHER = '96'.freeze
-    HESA_ETHNICITY_CODE_REFUSED = '98'.freeze
-    HESA_ETHNICITY_CODE_UNKNOWN = '80'.freeze
+    HESA_ETHNICITY_CODE_REFUSED = 98
+    HESA_ETHNICITY_CODE_UNKNOWN = 80
+    HESA_SEX_CODE_OTHER = 3
 
     def self.call(cycle_year)
       new(cycle_year).call
@@ -60,6 +61,8 @@ module CandidateInterface
 
     def hesa_sex_code(application_form)
       sex = application_form.equality_and_diversity['sex']
+      return HESA_SEX_CODE_OTHER if sex == 'intersex'
+
       Hesa::Sex.find_by_type(sex)&.hesa_code
     end
   end

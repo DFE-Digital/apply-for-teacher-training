@@ -159,5 +159,28 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
         end
       end
     end
+
+    context 'sex' do
+      it "populates 'hesa_sex' with hesa_code '3' when candidate is 'intersex'" do
+        application_form = create(:application_form,
+                                  equality_and_diversity: {
+                                    sex: 'intersex',
+                                  },
+                                  recruitment_cycle_year: 2021)
+
+        cycle_year = 2021
+
+        described_class.call(cycle_year)
+
+        application_form.reload
+
+        expect(application_form.equality_and_diversity).to eq(
+          'sex' => 'intersex',
+          'hesa_sex' => described_class::HESA_SEX_CODE_OTHER,
+          'hesa_disabilities' => nil,
+          'hesa_ethnicity' => nil,
+        )
+      end
+    end
   end
 end
