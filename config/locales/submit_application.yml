@@ -5,3 +5,9 @@ en:
     disclosure_link: Disclosure and Barring Service (DBS) check
     submit_button: Send application
     conviction_link: Learn more about telling an employer about your conviction
+    without_decoupled_references:
+      title: Submit application
+      heading: Submit application
+      disclosure_link: Disclosure and Barring Service (DBS) check
+      submit_button: Submit application
+      conviction_link: Learn more about telling an employer about your conviction

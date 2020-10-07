@@ -28,6 +28,13 @@ module CandidateInterface
 
         render 'candidate_interface/unsubmitted_application_form/review'
       end
+
+      # TODO: When dropping the decoupled_references feature flag delete the
+      # following `unless` block, the submit_show_without_decoupled_references
+      # view template and the associated i18n strings in `submit_application.yml`
+      unless FeatureFlag.active?(:decoupled_references)
+        render 'candidate_interface/unsubmitted_application_form/submit_show_without_decoupled_references' and return
+      end
     end
 
     def submit
