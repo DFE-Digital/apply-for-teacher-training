@@ -50,6 +50,13 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
         result = render_inline described_class.new([degree])
         expect(result.text).to include 'The University of Oxford, Afghanistan'
       end
+
+      it 'renders the institution even when the offer has not been accepted yet' do
+        (ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER - ApplicationStateChange::ACCEPTED_STATES).each do |state|
+          result = render_inline described_class.new([degree], application_choice_state: state)
+          expect(result.text).to include 'The University of Oxford'
+        end
+      end
     end
 
     context 'when the grade is predicted' do
@@ -101,7 +108,7 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
           result = render_inline described_class.new([degree], application_choice_state: state)
           expect(result.text).to include 'Institution'
           expect(result.text).not_to include 'The University of Oxford'
-          expect(result.text).to include 'Only available once an offer has been accepted'
+          expect(result.text).to include 'Institution name is withheld at this stage to avoid any unconscious bias in favour of certain institutions.'
         end
       end
     end
