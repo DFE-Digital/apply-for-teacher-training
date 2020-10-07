@@ -44,7 +44,7 @@ module CandidateInterface
 
     def hesa_disability_codes(application_form)
       disabilities = application_form.equality_and_diversity['disabilities']
-      return if disabilities.empty?
+      return if disabilities.blank?
 
       codes = disabilities.map do |disability|
         break if disability == 'Prefer not to say'
