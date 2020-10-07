@@ -21,35 +21,66 @@ module SupportInterface
         application_forms = application_forms.where('phase IN (?)', applied_filters[:phase])
       end
 
+      if applied_filters[:year]
+        application_forms = application_forms.where('recruitment_cycle_year IN (?)', applied_filters[:year])
+      end
+
       application_forms
     end
 
     def filters
-      [
-        {
-          type: :search,
-          heading: 'Name, email or reference',
-          value: applied_filters[:q],
-          name: 'q',
-        },
-        {
-          type: :checkboxes,
-          heading: 'Phase',
-          name: 'phase',
-          options: [
-            {
-              value: 'apply_1',
-              label: 'Apply 1',
-              checked: applied_filters[:phase]&.include?('apply_1'),
-            },
-            {
-              value: 'apply_2',
-              label: 'Apply 2',
-              checked: applied_filters[:phase]&.include?('apply_2'),
-            },
-          ],
-        },
-      ]
+      @filters ||= [search_filter] + [year_filter] + [phase_filter]
+    end
+
+  private
+
+    def year_filter
+      {
+        type: :checkboxes,
+        heading: 'Recruitment cycle year',
+        name: 'year',
+        options: [
+          {
+            value: '2020',
+            label: '2020 to 2021',
+            checked: applied_filters[:year]&.include?('2020'),
+          },
+          {
+            value: '2021',
+            label: '2021 to 2022',
+            checked: applied_filters[:year]&.include?('2021'),
+          },
+        ],
+      }
+    end
+
+    def search_filter
+      {
+        type: :search,
+        heading: 'Name, email or reference',
+        value: applied_filters[:q],
+        name: 'q',
+      }
+    end
+
+    def phase_filter
+      {
+        type: :checkboxes,
+        heading: 'Phase',
+        name: 'phase',
+        options: [
+          {
+            value: 'apply_1',
+            label: 'Apply 1',
+            checked: applied_filters[:phase]&.include?('apply_1'),
+          },
+          {
+            value: 'apply_2',
+            label: 'Apply 2',
+            checked: applied_filters[:phase]&.include?('apply_2'),
+          },
+        ],
+      }
     end
   end
 end
