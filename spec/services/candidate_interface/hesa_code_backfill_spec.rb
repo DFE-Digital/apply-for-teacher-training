@@ -46,6 +46,26 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
         )
       end
 
+      it "does not populate 'hesa_disabilities' if disabilities is nil" do
+        application_form = create(:application_form,
+                                  equality_and_diversity: {
+                                    disabilities: nil,
+                                  })
+
+        cycle_year = 2020
+
+        described_class.call(cycle_year)
+
+        application_form.reload
+
+        expect(application_form.equality_and_diversity).to eq(
+          'disabilities' => nil,
+          'hesa_disabilities' => nil,
+          'hesa_ethnicity' => nil,
+          'hesa_sex' => nil,
+        )
+      end
+
       it "populates 'hesa_disabilities' with hesa_code '96' for unknown disabilities" do
         application_form = create(:application_form,
                                   equality_and_diversity: {
