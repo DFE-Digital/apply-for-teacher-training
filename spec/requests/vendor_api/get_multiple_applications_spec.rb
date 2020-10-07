@@ -62,7 +62,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
   end
 
   it 'returns HTTP status 422 given an unparseable `since` date value' do
-    get_api_request '/api/v1/applications?since=bad-date'
+    get_api_request '/api/v1/applications?since=17/07/2020T12:00:42Z'
 
     expect(response).to have_http_status(422)
 
