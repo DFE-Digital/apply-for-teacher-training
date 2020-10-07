@@ -52,6 +52,15 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::SexForm, type: :model d
         )
       end
     end
+
+    context "sex is 'intersex'" do
+      it 'updates equality and diversity information with the correct HESA code' do
+        form = CandidateInterface::EqualityAndDiversity::SexForm.new(sex: 'intersex')
+        form.save(application_form)
+
+        expect(application_form.equality_and_diversity).to eq('sex' => 'intersex', 'hesa_sex' => 3)
+      end
+    end
   end
 
   describe 'validations' do
