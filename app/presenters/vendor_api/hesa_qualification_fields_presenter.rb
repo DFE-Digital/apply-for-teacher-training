@@ -2,7 +2,7 @@ module VendorAPI
   class HesaQualificationFieldsPresenter
     HESA_MAPPING = {
       hesa_degtype: { attr: :qualification_type_hesa_code, pad_to: 3 },
-      hesa_degsbj: { attr: :subject_hesa_code, pad_to: 6 },
+      hesa_degsbj: { attr: :subject_hesa_code, pad_to: nil },
       hesa_degclss: { attr: :grade_hesa_code, pad_to: 2 },
       hesa_degest: { attr: :institution_hesa_code, pad_to: 4 },
       hesa_degctry: { attr: :institution_country, pad_to: nil },
