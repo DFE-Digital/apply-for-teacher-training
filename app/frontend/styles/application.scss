@@ -20,7 +20,6 @@ $govuk-breakpoints: (
 
 // Shared (govuk-frontend components and overrides)
 @import "~govuk-frontend/govuk/all";
-@import "_breadcrumbs";
 @import "_header";
 @import "_input";
 @import "_phase-banner";
