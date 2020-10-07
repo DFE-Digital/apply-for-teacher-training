@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Vendor API - POST /api/v1/test-data/generate', type: :request do
   include VendorAPISpecHelpers
 
+  before { FeatureFlag.deactivate(:decoupled_references) }
+
   it 'generates test data' do
     create(:course_option, course: create(:course, :open_on_apply, provider: currently_authenticated_provider))
 
