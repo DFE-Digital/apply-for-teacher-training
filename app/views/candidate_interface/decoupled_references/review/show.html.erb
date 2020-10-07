@@ -1,0 +1,45 @@
+<% content_for :title, t('page_titles.referees') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.referees') %>
+</h1>
+
+<% unless @application_form.enough_references_have_been_provided? %>
+  <div class='govuk-inset-text govuk-!-margin-top-0'>
+    <p class='govuk-body'>You need 2 references before you can submit your application.</p>
+    <p class='govuk-body'>You can add as many referees as you like to increase the chances of getting 2 references quickly.</p>
+    <%= link_to 'Add another referee', candidate_interface_decoupled_references_start_path, class: 'govuk-button' %>
+  </div>
+<% end %>
+
+<% if @references_given.present? %>
+  <h2 class="govuk-heading-m">References that have been given</h2>
+  <%= render(
+    CandidateInterface::DecoupledReferencesReviewComponent.new(
+      references: @references_given,
+      references_section_completed: @application_form.references_completed,
+      editable: false
+    )
+  ) %>
+<% end %>
+
+<% if @references_waiting_to_be_sent.present? %>
+  <h2 class="govuk-heading-m">Requests that have not been sent</h2>
+  <%= render(
+    CandidateInterface::DecoupledReferencesReviewComponent.new(
+      references: @references_waiting_to_be_sent,
+      references_section_completed: @application_form.references_completed,
+    )
+  ) %>
+<% end %>
+
+<% if @references_sent.present? %>
+  <h2 class="govuk-heading-m">Reference requests</h2>
+  <%= render(
+    CandidateInterface::DecoupledReferencesReviewComponent.new(
+      references: @references_sent,
+      references_section_completed: @application_form.references_completed,
+    )
+  ) %>
+<% end %>

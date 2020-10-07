@@ -373,6 +373,7 @@ en:
       complete_form_button: Save and continue
       delete: Delete referee
       cancel: Cancel referee
+      cancel_request: Cancel request
       email_address:
         label: Email address
         hint_text:

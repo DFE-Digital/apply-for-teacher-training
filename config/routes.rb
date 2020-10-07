@@ -398,6 +398,8 @@ Rails.application.routes.draw do
 
         get '/type' => 'decoupled_references#type', as: :decoupled_references_type
         post '/update-type' => 'decoupled_references#update_type', as: :update_decoupled_references_type
+
+        get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
       end
 
       scope '/new-referee' do
