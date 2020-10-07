@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate application choices are delivered to providers' do
+RSpec.feature 'Decoupled references' do
   include CandidateHelper
 
-  scenario 'the candidate receives an email' do
+  scenario 'candidate adds a new reference' do
     given_i_am_signed_in
     and_the_decoupled_references_flag_is_on
 
@@ -15,10 +15,22 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
 
     when_i_click_continue
     then_i_see_the_type_page
+
+    when_i_select_academic
+    and_i_click_save_and_continue
+    then_i_should_see_the_referee_name_page
+
+    when_i_click_save_and_continue_without_giving_a_name
+    then_i_should_see_an_error
+
+    when_i_fill_in_my_references_name
+    and_i_click_save_and_continue
   end
 
   def given_i_am_signed_in
-    create_and_sign_in_candidate
+    @candidate = create(:candidate)
+    login_as(@candidate)
+    @application = @candidate.current_application
   end
 
   def and_the_decoupled_references_flag_is_on
@@ -46,6 +58,34 @@ RSpec.feature 'Candidate application choices are delivered to providers' do
   end
 
   def then_i_see_the_type_page
-    expect(page).to have_current_path candidate_interface_decoupled_references_type_path
+    expect(page).to have_current_path candidate_interface_decoupled_references_new_type_path
+  end
+
+  def when_i_select_academic
+    choose 'Academic'
+  end
+
+  def and_i_click_save_and_continue
+    click_button 'Save and continue'
+  end
+
+  def then_i_should_see_the_referee_name_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_new_name_path(@application.application_references.last.id)
+  end
+
+  def when_i_click_save_and_continue_without_giving_a_name
+    and_i_click_save_and_continue
+  end
+
+  def then_i_should_see_an_error
+    expect(page).to have_content 'Enter your referees name'
+  end
+
+  def when_i_fill_in_my_references_name
+    fill_in 'candidate-interface-reference-referee-name-form-name-field-error', with: 'Walter White'
+  end
+
+  def then_i_see_the_referee_email_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_new_email_path(@application.application_references.last.id)
   end
 end

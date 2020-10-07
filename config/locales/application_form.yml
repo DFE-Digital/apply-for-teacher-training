@@ -805,6 +805,10 @@ en:
           attributes:
             referee_type:
               blank: Choose the type of your reference
+        candidate_interface/reference/referee_name_form:
+          attributes:
+            name:
+              blank: Enter your referees name
         referee_interface/reference_relationship_form:
           attributes:
             relationship_confirmation:

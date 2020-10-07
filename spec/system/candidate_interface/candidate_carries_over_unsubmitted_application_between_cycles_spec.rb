@@ -40,6 +40,10 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     FeatureFlag.deactivate('decoupled_references')
   end
 
+  def and_the_decoupled_references_flag_is_off
+    FeatureFlag.deactivate('decoupled_references')
+  end
+
   def and_i_am_in_the_2020_recruitment_cycle
     allow(RecruitmentCycle).to receive(:current_year).and_return(2020)
   end

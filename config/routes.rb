@@ -372,8 +372,6 @@ Rails.application.routes.draw do
       scope '/referees' do
         get '/' => 'referees#index', as: :referees
 
-        get '/start' => 'referees#start', as: :referees_start
-
         get '/type/(:id)' => 'referees#type', as: :referees_type
         post '/update-type/(:id)' => 'referees#update_type', as: :update_referees_type
 
@@ -394,10 +392,15 @@ Rails.application.routes.draw do
       end
 
       scope '/references' do
-        get '/start' => 'decoupled_references#start', as: :decoupled_references_start
+        get '/start' => 'decoupled_references/base#start', as: :decoupled_references_start
 
-        get '/type' => 'decoupled_references#type', as: :decoupled_references_type
-        post '/update-type' => 'decoupled_references#update_type', as: :update_decoupled_references_type
+        get '/type' => 'decoupled_references/type#new', as: :decoupled_references_new_type
+        post '/update-type' => 'decoupled_references/type#create', as: :decoupled_references_create_type
+
+        get '/name/:id' => 'decoupled_references/name#new', as: :decoupled_references_new_name
+        post '/name/:id' => 'decoupled_references/name#create', as: :decoupled_references_create_name
+
+        get '/email/:id' => 'decoupled_references/email#new', as: :decoupled_references_new_email
 
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
       end

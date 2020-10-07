@@ -10,7 +10,13 @@ module CandidateInterface
       new(referee_type: reference.referee_type)
     end
 
-    def save(reference)
+    def save(application_form)
+      return false unless valid?
+
+      application_form.application_references.create!(referee_type: referee_type)
+    end
+
+    def update(reference)
       return false unless valid?
 
       reference.update!(referee_type: referee_type)

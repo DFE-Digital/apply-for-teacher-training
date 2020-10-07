@@ -4,8 +4,9 @@ RSpec.feature 'Candidate submits the application' do
   include CandidateHelper
 
   scenario 'Candidate with a completed application' do
+    FeatureFlag.deactivate(:decoupled_references)
+
     given_i_am_signed_in
-    and_the_decoupled_references_flag_is_on
 
     when_i_have_completed_my_application
     and_i_have_received_2_references
@@ -51,10 +52,6 @@ RSpec.feature 'Candidate submits the application' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_decoupled_references_flag_is_on
-    FeatureFlag.activate('decoupled_references')
   end
 
   def when_i_have_completed_my_application
@@ -182,7 +179,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_can_submit_the_application
-    click_button 'Send application'
+    click_button 'Submit application'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
@@ -205,7 +202,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def when_i_click_on_track_your_application
-    click_link 'To view your application, return to your application dashboard'
+    click_link 'To edit your application, return to your application dashboard.'
   end
 
   def then_i_can_see_my_application_dashboard

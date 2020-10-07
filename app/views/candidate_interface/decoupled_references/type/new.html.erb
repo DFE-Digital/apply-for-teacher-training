@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @reference_type_form, url: candidate_interface_update_decoupled_references_type_path, method: :post do |f| %>
+    <%= form_with model: @reference_type_form, url: candidate_interface_decoupled_references_create_type_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :referee_type, legend: { text: t('page_titles.referee_type'), size: 'xl' } do %>
