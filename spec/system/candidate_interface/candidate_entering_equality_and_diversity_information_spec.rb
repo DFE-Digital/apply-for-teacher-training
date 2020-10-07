@@ -139,7 +139,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_can_submit_my_application
-    expect(page).to have_content('Submit application')
+    expect(page).to have_content(FeatureFlag.active?(:decoupled_references) ? 'Send application': 'Submit application')
   end
 
   def when_i_am_on_the_equality_and_diversity_page

@@ -87,7 +87,7 @@ module CandidateHelper
     click_link 'Continue without completing questionnaire'
     choose 'No' # "Is there anything else you would like to tell us?"
 
-    click_button 'Submit application'
+    click_button(FeatureFlag.active?(:decoupled_references) ? 'Send application': 'Submit application')
 
     @application = ApplicationForm.last
   end

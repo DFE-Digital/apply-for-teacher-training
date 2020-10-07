@@ -26,7 +26,7 @@ module CandidateInterface
         @errors = @application_form_presenter.section_errors
         @application_choice_errors = @application_form_presenter.application_choice_errors
 
-        render 'candidate_interface/unsubmitted_application_form/review'
+        render 'candidate_interface/unsubmitted_application_form/review' and return
       end
 
       # TODO: When dropping the decoupled_references feature flag delete the
