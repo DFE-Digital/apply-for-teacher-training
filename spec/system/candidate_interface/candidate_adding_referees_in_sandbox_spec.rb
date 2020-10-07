@@ -89,7 +89,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
   end
 
   def and_i_submit_the_application
-    click_button(FeatureFlag.active?(:decoupled_references) ? 'Send application': 'Submit application')
+    click_button(FeatureFlag.active?(:decoupled_references) ? 'Send application' : 'Submit application')
   end
 
   def then_i_see_that_the_application_was_sent_to_provider
