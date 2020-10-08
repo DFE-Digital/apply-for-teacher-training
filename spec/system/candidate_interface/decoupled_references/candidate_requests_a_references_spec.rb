@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Review references' do
+RSpec.feature 'Candidate requests a reference' do
   include CandidateHelper
 
   scenario 'the candidate has created a reference and chooses to send the request' do
