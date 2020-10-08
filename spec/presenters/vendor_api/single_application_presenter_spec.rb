@@ -156,6 +156,17 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.candidate.domicile' do
+    it 'returns country code from the candidate\'s address' do
+      application_form = create(:completed_application_form, :with_completed_references)
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :domicile)).to eq(application_form.country)
+    end
+  end
+
   describe 'attributes.candidate.uk_residency_status' do
     it 'returns UK Citizen if the candidates nationalties include UK' do
       application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Irish', second_nationality: 'British')
@@ -335,6 +346,27 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       )
       presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)
       expect(presenter.as_json[:attributes][:references].first[:id]).to eq(reference.id)
+    end
+  end
+
+  describe 'attributes.qualifications' do
+    let(:application_choice) { create(:application_choice, :with_offer) }
+    let(:presenter) { VendorAPI::SingleApplicationPresenter.new(application_choice) }
+
+    it 'contains HESA qualification fields' do
+      create(
+        :other_qualification,
+        :non_uk,
+        application_form: application_choice.application_form,
+      )
+
+      qualification_hash = presenter.as_json.dig(
+        :attributes,
+        :qualifications,
+        :other_qualifications,
+      ).first
+
+      expect(qualification_hash).to have_key(:hesa_degstdt)
     end
   end
 end
