@@ -22,7 +22,7 @@ module ProviderInterface
     rescue_from MissingProvider, with: lambda { |e|
       Raven.capture_exception(e)
 
-      render template: 'provider_interface/account_creation_in_progress', status: :forbidden
+      render template: 'provider_interface/email_address_not_recognised', status: :forbidden
     }
 
     rescue_from ProviderInterface::AccessDenied, with: :permission_error

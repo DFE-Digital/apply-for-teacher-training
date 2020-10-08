@@ -8,10 +8,12 @@
 
     <p class="govuk-body">
       You have signed in to DfE as
-      <span style="font-weight: bold; white-space: nowrap;">
-        <%= @dfe_sign_in_user.email_address %>
-      </span>.
+      <span style="white-space: nowrap;">
+        <%= @dfe_sign_in_user&.email_address %>
+      </span>
+    </p>
 
+    <p class="govuk-body">
       We can’t find an ‘<%= t('service_name.apply') %>’ account associated with that address.
       Please <%= govuk_link_to 'sign in', provider_interface_applications_path %>
       again, using the email address associated with your Apply account.
