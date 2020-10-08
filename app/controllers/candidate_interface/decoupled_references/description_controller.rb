@@ -1,6 +1,6 @@
 module CandidateInterface
   module DecoupledReferences
-    class EmailController < BaseController
+    class DescriptionController < BaseController
       before_action :set_reference
 
       def new; end
