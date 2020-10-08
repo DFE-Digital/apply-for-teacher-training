@@ -397,14 +397,26 @@ Rails.application.routes.draw do
         get '/type' => 'decoupled_references/type#new', as: :decoupled_references_type
         post '/type' => 'decoupled_references/type#create'
 
+        get '/type/edit/:id' => 'decoupled_references/type#edit', as: :decoupled_references_edit_type
+        patch '/type/edit/:id' => 'decoupled_references/type#update'
+
         get '/name/:id' => 'decoupled_references/name#new', as: :decoupled_references_name
         patch '/name/:id' => 'decoupled_references/name#create'
+
+        get '/name/edit/:id' => 'decoupled_references/name#edit', as: :decoupled_references_edit_name
+        patch '/name/edit/:id' => 'decoupled_references/name#update'
 
         get '/email/:id' => 'decoupled_references/email_address#new', as: :decoupled_references_email_address
         patch '/email/:id' => 'decoupled_references/email_address#create'
 
+        get '/email/edit/:id' => 'decoupled_references/email_address#edit', as: :decoupled_references_edit_email_address
+        patch '/email/edit/:id' => 'decoupled_references/email_address#update'
+
         get '/relationship/:id' => 'decoupled_references/relationship#new', as: :decoupled_references_relationship
         patch '/relationship/:id' => 'decoupled_references/relationship#create'
+
+        get '/relationship/edit/:id' => 'decoupled_references/relationship#edit', as: :decoupled_references_edit_relationship
+        patch '/relationship/edit/:id' => 'decoupled_references/relationship#update'
 
         get '/review-unsubmitted/:id' => 'decoupled_references/review#unsubmitted', as: :decoupled_references_review_unsubmitted
         patch '/review-unsubmitted/:id' => 'decoupled_references/review#submit', as: :decoupled_references_submit
