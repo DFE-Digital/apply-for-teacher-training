@@ -412,6 +412,9 @@ Rails.application.routes.draw do
 
         get '/request/:id' => 'decoupled_references/request#new', as: :decoupled_references_new_request
         post '/request/:id' => 'decoupled_references/request#create', as: :decoupled_references_create_request
+
+        get '/candidate_name/:id' => 'decoupled_references/candidate_name#new', as: :decoupled_references_new_candidate_name
+        post '/candidate_name/:id' => 'decoupled_references/candidate_name#create', as: :decoupled_references_create_candidate_name
       end
 
       scope '/new-referee' do

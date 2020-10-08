@@ -30,8 +30,10 @@ RSpec.feature 'Review references' do
   end
 
   def and_i_choose_to_request_reference_immediately
-    choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    # TODO: Navigate to the last page of the reference creation flow
+    # choose 'Yes, send a reference request now'
+    # click_button 'Save and continue'
+    visit candidate_interface_decoupled_references_new_request_path(@reference.id)
   end
 
   def then_i_am_prompted_for_my_name
@@ -56,4 +58,6 @@ RSpec.feature 'Review references' do
     open_email(@reference.email_address)
     expect(current_email).to have_content "Give #{@application_form.full_name} a reference for their teacher training application as soon as possible"
   end
+
+  # TODO: Request a second reference
 end
