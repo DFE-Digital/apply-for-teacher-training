@@ -17,10 +17,10 @@ module CandidateInterface
 
         @reference_candidate_name_form.save(@reference)
 
-        # TODO: Not sure where this redirect should really go...
-        redirect_to candidate_interface_decoupled_references_new_request_path(
-          @reference.id,
-        )
+        # TODO: Refactor this to DRY wrt to RequestController
+        CandidateInterface::RequestReference.call(@reference)
+        flash[:success] = "Reference request sent to #{@reference.name}"
+        redirect_to candidate_interface_decoupled_references_review_path
       end
 
     private
