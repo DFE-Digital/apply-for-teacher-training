@@ -11,7 +11,7 @@ module CandidateInterface
 
         @reference_type_form.save(current_application)
 
-        redirect_to candidate_interface_decoupled_references_new_name_path(current_application.application_references.last.id)
+        redirect_to candidate_interface_decoupled_references_name_path(current_application.application_references.last.id)
       end
 
     private
