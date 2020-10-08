@@ -512,11 +512,13 @@ FactoryBot.define do
 
     trait :withdrawn do
       status { :withdrawn }
+      withdrawn_at { Time.zone.now }
     end
 
     trait :withdrawn_with_survey_completed do
       association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :withdrawn }
+      withdrawn_at { Time.zone.now }
       withdrawal_feedback do
         {
           CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION => 'yes',

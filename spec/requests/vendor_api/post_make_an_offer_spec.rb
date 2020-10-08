@@ -4,6 +4,10 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
   include VendorAPISpecHelpers
   include CourseOptionHelpers
 
+  around do |ex|
+    Timecop.freeze { ex.run }
+  end
+
   it_behaves_like 'an endpoint that requires metadata', '/offer'
 
   describe 'making an offer with specified conditions' do
@@ -32,6 +36,9 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           'Completion of professional skills test',
         ],
         'course' => course_option_to_course_payload(course_option),
+        'offer_made_at' => Time.zone.now.iso8601(3),
+        'offer_accepted_at' => nil,
+        'offer_declined_at' => nil,
       )
     end
   end
@@ -55,6 +62,9 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
         'course' => course_option_to_course_payload(other_course_option),
+        'offer_made_at' => Time.zone.now.iso8601(3),
+        'offer_accepted_at' => nil,
+        'offer_declined_at' => nil,
       )
     end
 
@@ -160,6 +170,9 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
           'Completion of professional skills test',
         ],
         'course' => course_option_to_course_payload(new_course_option),
+        'offer_made_at' => Time.zone.now.iso8601(3),
+        'offer_accepted_at' => nil,
+        'offer_declined_at' => nil,
       )
     end
 
@@ -181,6 +194,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       application_choice = create_application_choice_for_currently_authenticated_provider(
         status: 'awaiting_provider_decision',
       )
+
       post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
         "data": {
           "conditions": [],
@@ -193,6 +207,9 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(parsed_response['data']['attributes']['offer']).to eq(
         'conditions' => [],
         'course' => course_option_to_course_payload(course_option),
+        'offer_made_at' => Time.zone.now.iso8601(3),
+        'offer_accepted_at' => nil,
+        'offer_declined_at' => nil,
       )
     end
   end

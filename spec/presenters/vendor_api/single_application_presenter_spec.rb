@@ -350,6 +350,26 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)
       expect(presenter.as_json[:attributes][:references].first[:id]).to eq(reference.id)
     end
+
+    it 'includes safeguarding concerns' do
+      create(
+        :reference,
+        :complete,
+        safeguarding_concerns_status: 'has_safeguarding_concerns_to_declare',
+        application_form: application_choice.application_form,
+      )
+
+      create(
+        :reference,
+        :complete,
+        safeguarding_concerns_status: 'no_safeguarding_concerns_to_declare',
+        application_form: application_choice.application_form,
+      )
+
+      presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)
+      expect(presenter.as_json[:attributes][:references].map { |r| r[:safeguarding_concerns] })
+        .to match_array [true, false]
+    end
   end
 
   describe 'attributes.qualifications' do
@@ -408,6 +428,55 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       ].join(' - ')
 
       expect(equivalency_details).to eq(composite_equivalency_details)
+    end
+
+    it 'includes a non_uk_qualification_type for non-UK qualifications' do
+      create(
+        :gcse_qualification,
+        :non_uk,
+        non_uk_qualification_type: 'High School Diploma',
+        application_form: application_choice.application_form,
+      )
+
+      qualification = presenter.as_json.dig(
+        :attributes,
+        :qualifications,
+        :gcses,
+      ).find { |q| q[:non_uk_qualification_type] == 'High School Diploma' }
+
+      expect(qualification[:non_uk_qualification_type]).to eq 'High School Diploma'
+    end
+  end
+
+  describe 'attributes.offer' do
+    it 'includes an offer_made_at date for offers' do
+      choice = create(:application_choice, :with_offer)
+
+      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
+      expect(presenter.as_json[:attributes][:offer][:offer_made_at]).to be_present
+    end
+
+    it 'includes an accepted_at date for accepted offers' do
+      choice = create(:application_choice, :with_accepted_offer)
+
+      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
+      expect(presenter.as_json[:attributes][:offer][:offer_accepted_at]).to be_present
+    end
+
+    it 'includes a declined_at date for declined offers' do
+      choice = create(:application_choice, :with_declined_offer)
+
+      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
+      expect(presenter.as_json[:attributes][:offer][:offer_declined_at]).to be_present
+    end
+  end
+
+  describe 'attributes.recruited_at' do
+    it 'includes the date the candidate was recruited' do
+      choice = create(:application_choice, :with_recruited)
+
+      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
+      expect(presenter.as_json[:attributes][:recruited_at]).to be_present
     end
   end
 end

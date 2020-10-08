@@ -372,6 +372,7 @@ components:
       - submitted_at
       - updated_at
       - reject_by_default_at
+      - recruited_at
       - withdrawal
       - further_information
       - work_experience
@@ -424,6 +425,12 @@ components:
           format: date-time
           nullable: true
           description: Time when the application is due to be rejected by default
+          example: 2019-06-13T23:59:59Z
+        recruited_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the candidate met their conditions, receiving a firm place on the course
           example: 2019-06-13T23:59:59Z
         personal_statement:
           type: string
@@ -666,6 +673,9 @@ components:
       required:
       - conditions
       - course
+      - offer_made_at
+      - offer_accepted_at
+      - offer_declined_at
       properties:
         conditions:
           type: array
@@ -679,6 +689,23 @@ components:
           - Completion of professional skills test
         course:
           "$ref": "#/components/schemas/Course"
+        offer_made_at:
+          type: string
+          format: date-time
+          description: Date and time the offer was made
+          example: 2019-09-18T15:33:49.216Z
+        offer_accepted_at:
+          type: string
+          format: date-time
+          description: Date and time the offer was accepted
+          example: 2019-09-18T15:33:49.216Z
+          nullable: true
+        offer_declined_at:
+          type: string
+          format: date-time
+          description: Date and time the offer was declined
+          example: 2019-09-18T15:33:49.216Z
+          nullable: true
     MakeOffer:
       type: object
       additionalProperties: false
@@ -705,6 +732,7 @@ components:
       required:
       - id
       - qualification_type
+      - non_uk_qualification_type
       - subject
       - grade
       - start_year
@@ -729,6 +757,12 @@ components:
           maxLength: 256
           description: The qualification awarded
           example: BA
+        non_uk_qualification_type:
+          nullable: true
+          type: string
+          maxLength: 256
+          description: For a qualification of type non_uk, this field will contain a free-text description of the qualification type
+          example: High School Diploma
         subject:
           type: string
           description: The subject studied
@@ -819,6 +853,8 @@ components:
       - email
       - relationship
       - reference
+      - referee_type
+      - safeguarding_concerns
       properties:
         id:
           type: integer
@@ -836,7 +872,8 @@ components:
           example: julia@example.com
         relationship:
           type: string
-          description: The referee’s relationship to the candidate
+          description: |
+            The candidate’s description of their relationship with the referee
           maxLength: 10240
           example: Julia was my mentor at Cheadle Hulme High
         reference:
@@ -844,6 +881,21 @@ components:
           description: The reference content provided by the referee.
           maxLength: 10240
           example: Boris is committed to the profession of teaching...
+        safeguarding_concerns:
+          type: boolean
+          description: |
+            Whether the referee flagged safeguarding concerns about this candidate
+          example: true
+        referee_type:
+          description: |
+            The referee’s relationship to the candidate
+          type: string
+          example: professional
+          enum:
+          - academic,
+          - professional,
+          - school-based,
+          - character,
     Rejection:
       type: object
       additionalProperties: false
