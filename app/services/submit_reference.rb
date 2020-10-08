@@ -8,7 +8,20 @@ class SubmitReference
 
   def save!
     if enough_references_have_been_submitted?
-      progress_applications
+      # With the decoupled_references feature active, we should be preventing
+      # submission of the application unless the MINIMUM_COMPLETE_REFERENCES
+      # have been provided. We also no longer allow the candidate to manually
+      # mark the section complete - it is considered complete when the minimum
+      # references are given. We check the references directly when attempting
+      # to submit the form, rather than inspecting the
+      # ApplicationForm#references_completed flag.
+      #
+      # As such, this method only needs to update the state of the reference,
+      # not the application form.
+      #
+      # TODO: drop the ApplicationForm#references_completed column when
+      # removing the decoupled_references feature flag.
+      FeatureFlag.active?(:decoupled_references) ? reference_feedback_provided! : progress_applications
     else
       reference_feedback_provided!
     end

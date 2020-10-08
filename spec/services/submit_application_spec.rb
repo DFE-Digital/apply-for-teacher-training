@@ -4,6 +4,8 @@ RSpec.describe SubmitApplication do
   describe 'Submit an application', sandbox: false do
     let(:current_date) { Time.zone.local(2019, 11, 11, 15, 0, 0) }
 
+    before { FeatureFlag.deactivate(:decoupled_references) }
+
     def create_application_form
       application_form = create(:application_form, submitted_at: current_date)
       create(:application_choice, application_form: application_form, status: 'unsubmitted')
