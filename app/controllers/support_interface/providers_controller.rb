@@ -61,7 +61,11 @@ module SupportInterface
         ),
       )
 
-      @relationships_form = SupportInterface::ProviderRelationshipsForm.from_models(relationships)
+      if relationships.empty?
+        render 'no_relationships'
+      else
+        @relationships_form = SupportInterface::ProviderRelationshipsForm.from_models(relationships)
+      end
     end
 
     def update_relationships
