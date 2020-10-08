@@ -32,4 +32,3 @@ module CandidateInterface
     end
   end
 end
-
