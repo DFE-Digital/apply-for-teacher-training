@@ -1,0 +1,27 @@
+<% content_for :browser_title, t('page_titles.application') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      Your email address is not recognised
+    </h1>
+
+    <p class="govuk-body">
+      You have signed in to DfE as
+      <span style="white-space: nowrap;">
+        <%= @dfe_sign_in_user&.email_address %>
+      </span>
+    </p>
+
+    <p class="govuk-body">
+      We can’t find an ‘<%= t('service_name.apply') %>’ account associated with that address.
+      Please <%= govuk_link_to 'sign in', provider_interface_applications_path %>
+      again, using the email address associated with your Apply account.
+    </p>
+
+    <p class="govuk-body">
+      If you are using the correct email address to sign in to Apply and you’re still receiving this message, please contact us at
+      <%= bat_contact_mail_to %>.
+    </p>
+  </div>
+</div>

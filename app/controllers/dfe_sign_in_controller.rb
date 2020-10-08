@@ -86,7 +86,7 @@ private
     if target_path_is_support_path
       'support_interface/unauthorized'
     else
-      'provider_interface/account_creation_in_progress'
+      'provider_interface/email_address_not_recognised'
     end
   end
 

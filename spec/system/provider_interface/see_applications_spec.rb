@@ -9,7 +9,7 @@ RSpec.feature 'See applications' do
     and_my_organisation_has_applications
 
     and_i_sign_in_to_the_provider_interface
-    then_i_should_see_the_account_creation_in_progress_page
+    then_i_should_see_the_email_address_not_recognised_page
 
     when_my_apply_account_has_been_created
     and_i_sign_in_to_the_provider_interface
@@ -34,8 +34,8 @@ RSpec.feature 'See applications' do
     provider_signs_in_using_dfe_sign_in
   end
 
-  def then_i_should_see_the_account_creation_in_progress_page
-    expect(page).to have_content('Your account is not ready yet')
+  def then_i_should_see_the_email_address_not_recognised_page
+    expect(page).to have_content('Your email address is not recognised')
   end
 
   def when_i_have_been_assigned_to_my_training_provider

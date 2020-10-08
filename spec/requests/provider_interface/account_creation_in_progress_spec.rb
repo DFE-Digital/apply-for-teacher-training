@@ -16,11 +16,11 @@ RSpec.describe 'GET /provider/applications' do
       # do not grant the user permission to view a provider's applications
     end
 
-    it 'returns 403 with the account-creation-in-progress page' do
+    it 'returns 403 with the email-address-not-recognised page' do
       get '/provider/applications'
 
       expect(response).to have_http_status 403
-      expect(response.body).to include('Your account is not ready yet')
+      expect(response.body).to include('Your email address is not recognised')
     end
 
     it 'reports the error to Sentry, appending the Sign-in UID' do
