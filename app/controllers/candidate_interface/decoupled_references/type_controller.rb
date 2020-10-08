@@ -8,7 +8,7 @@ module CandidateInterface
       end
 
       def create
-        @reference_type_form = Reference::RefereeTypeForm.new(referee_type_param)
+        @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
         return render :new unless @reference_type_form.valid?
 
         @reference_type_form.save(current_application)
@@ -21,7 +21,7 @@ module CandidateInterface
       end
 
       def update
-        @reference_type_form = Reference::RefereeTypeForm.new(referee_type_param)
+        @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
         return render :edit unless @reference_type_form.valid?
 
         @reference_type_form.update(@reference)
@@ -32,7 +32,7 @@ module CandidateInterface
     private
 
       def referee_type_param
-        params.require(:candidate_interface_reference_referee_type_form).permit(:referee_type)
+        params.dig(:candidate_interface_reference_referee_type_form, :referee_type)
       end
     end
   end

@@ -64,6 +64,11 @@ RSpec.feature 'Decoupled references' do
     and_i_input_my_relationship_to_the_referee
     and_i_click_save_and_continue
     then_i_see_the_updated_relationship
+
+    when_i_choose_that_im_not_ready_to_submit_my_reference
+    and_i_click_save_and_continue
+    then_i_see_the_review_references_page
+    and_i_should_see_my_reference
   end
 
   def given_i_am_signed_in
@@ -221,5 +226,17 @@ RSpec.feature 'Decoupled references' do
 
   def then_i_see_the_updated_relationship
     expect(page).to have_content 'I sold him a moterhome.'
+  end
+
+  def when_i_choose_that_im_not_ready_to_submit_my_reference
+    choose 'No, not at the moment'
+  end
+
+  def then_i_see_the_review_references_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_review_path
+  end
+
+  def and_i_should_see_my_reference
+    expect(page).to have_content 'Character reference from Jessie Pinkman'
   end
 end

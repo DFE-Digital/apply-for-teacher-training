@@ -419,7 +419,7 @@ Rails.application.routes.draw do
         patch '/relationship/edit/:id' => 'decoupled_references/relationship#update'
 
         get '/review-unsubmitted/:id' => 'decoupled_references/review#unsubmitted', as: :decoupled_references_review_unsubmitted
-        patch '/review-unsubmitted/:id' => 'decoupled_references/review#submit', as: :decoupled_references_submit
+        post '/review-unsubmitted/:id' => 'decoupled_references/review#submit', as: :decoupled_references_submit
 
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
       end

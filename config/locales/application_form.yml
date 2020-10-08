@@ -833,6 +833,10 @@ en:
           attributes:
             relationship:
               blank: Enter how you know this referee.
+        candidate_interface/reference/referee_submit_form:
+          attributes:
+            submit:
+              blank: Choose whether to send your reference request now
         referee_interface/reference_relationship_form:
           attributes:
             relationship_confirmation:
