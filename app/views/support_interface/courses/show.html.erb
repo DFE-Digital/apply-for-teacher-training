@@ -1,6 +1,24 @@
-<% content_for :context, @course.provider.name_and_code %>
-<% content_for :title, @course.year_name_and_code %>
-<% content_for :before_content, govuk_back_link_to(support_interface_provider_path(@course.provider), 'Back to provider') %>
+<% content_for :title, @course.name_and_code %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Providers',
+      path: support_interface_providers_path
+    },
+    {
+      text: @course.provider.name,
+      path: support_interface_provider_path(@course.provider)
+    },
+    {
+      text: 'Courses',
+      path: support_interface_provider_courses_path(@course.provider)
+    },
+    {
+      text: @course.name
+    }
+  ]) %>
+<% end %>
 
 <h2 class='govuk-heading-m'>Course info</h2>
 

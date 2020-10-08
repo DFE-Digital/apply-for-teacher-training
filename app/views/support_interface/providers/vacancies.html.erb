@@ -1,5 +1,5 @@
-<%= render 'no_admin_users_warning' %>
-
 <%= render 'provider_navigation', title: 'Vacancies' %>
+
+<%= render 'no_admin_users_warning' %>
 
 <%= render(SupportInterface::CourseChoicesTableComponent.new(course_options: @course_options)) %>
