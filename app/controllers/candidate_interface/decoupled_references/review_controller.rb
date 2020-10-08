@@ -14,6 +14,17 @@ module CandidateInterface
         @submit_reference_form = Reference::RefereeSubmitForm.new
       end
 
+      def submit
+        @submit_reference_form = Reference::RefereeSubmitForm.new(submit: submit_param)
+        return render :unsubmitted unless @submit_reference_form.valid?
+
+        if @submit_reference_form.submit == 'yes'
+          # call the ref service and redirect to the ref revie page
+        else
+          redirect_to candidate_interface_decoupled_references_review_path
+        end
+      end
+
       def confirm_destroy
         @reference = ApplicationReference.find(params[:id])
       end
@@ -22,6 +33,12 @@ module CandidateInterface
         @reference = ApplicationReference.find(params[:id])
         @reference.destroy!
         redirect_to candidate_interface_decoupled_references_review_path
+      end
+
+    private
+
+      def submit_param
+        params.dig(:candidate_interface_reference_referee_submit_form, :submit)
       end
     end
   end
