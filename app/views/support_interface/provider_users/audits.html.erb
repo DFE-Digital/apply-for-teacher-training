@@ -1,6 +1,4 @@
-<% content_for :browser_title, "History - #{@form.provider_user.full_name}" %>
-<% content_for :before_content, govuk_back_link_to(support_interface_provider_users_path) %>
-
-<%= render 'provider_user_navigation', current: 'History' %>
+<% content_for :browser_title, "History - #{provider_user_name(@form.provider_user)}" %>
+<%= render 'provider_user_navigation', title: 'History' %>
 
 <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @form.provider_user) %>

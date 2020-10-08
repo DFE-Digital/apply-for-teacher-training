@@ -1,7 +1,6 @@
-<% content_for :browser_title, title_with_error_prefix("Edit - #{@form.provider_user.full_name}", @form.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(support_interface_provider_users_path) %>
+<% content_for :browser_title, title_with_error_prefix("Edit - #{provider_user_name(@form.provider_user)}", @form.errors.any?) %>
 
-<%= render 'provider_user_navigation' %>
+<%= render 'provider_user_navigation', title: 'Details' %>
 
 <%= form_with model: @form, url: support_interface_provider_user_path(@form.provider_user) do |f| %>
   <%= f.govuk_error_summary %>
