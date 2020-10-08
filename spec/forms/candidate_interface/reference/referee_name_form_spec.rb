@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::Reference::RefereeNameForm, type: :model do
+  FeatureFlag.activate('decoupled_references')
+
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_least(2) }
+    it { is_expected.to validate_length_of(:name).is_at_most(200) }
   end
 
   describe '.build_from_reference' do
@@ -16,10 +20,6 @@ RSpec.describe CandidateInterface::Reference::RefereeNameForm, type: :model do
 
   describe '#save' do
     let(:application_reference) { create(:reference) }
-
-    before do
-      FeatureFlag.activate('decoupled_references')
-    end
 
     context 'when name is blank' do
       it 'returns false' do

@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::Reference::RefereeRelationshipForm, type: :model do
   describe 'validations' do
     it { is_expected.to validate_presence_of(:relationship) }
+
+    valid_word_count = Faker::Lorem.sentence(word_count: 50)
+    invalid_word_count = Faker::Lorem.sentence(word_count: 51)
+
+    it { is_expected.to allow_value(valid_word_count).for(:relationship) }
+    it { is_expected.not_to allow_value(invalid_word_count).for(:relationship) }
   end
 
   describe '.build_from_reference' do
