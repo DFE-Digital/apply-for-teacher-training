@@ -14,7 +14,7 @@
   <% end %>
 <% end %>
 
-<%= render(SummaryCardComponent.new(rows: {
+<%= render(SummaryListComponent.new(rows: {
   'Name' => @provider.name,
   'Code' => @provider.code,
   'Last updated' => @provider.updated_at.to_s(:govuk_date_and_time),
