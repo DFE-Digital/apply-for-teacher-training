@@ -13,9 +13,9 @@
 
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_field :first_name, label: { text: 'First name', size: 'm' } %>
+      <%= f.govuk_text_field :first_name, label: { text: 'First name', size: 'm' }, hint_text: 'Or given names' %>
 
-      <%= f.govuk_text_field :last_name, label: { text: 'Last name', size: 'm' } %>
+      <%= f.govuk_text_field :last_name, label: { text: 'Last name', size: 'm' }, hint_text: 'Or family name' %>
 
       <%= f.govuk_submit 'Save and continue' %>
     <% end %>
