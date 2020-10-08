@@ -33,7 +33,7 @@ module CandidateInterface
 
       def referee_email_address_param
         params.require(:candidate_interface_reference_referee_email_address_form).permit(:email_address)
-        .merge!(application_form_id: current_application.id)
+        .merge!(reference_id: @reference.id)
       end
     end
   end

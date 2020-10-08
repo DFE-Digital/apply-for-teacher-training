@@ -13,7 +13,6 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
     end
 
     it { is_expected.to validate_presence_of(:email_address) }
-    it { is_expected.to validate_presence_of(:application_form_id) }
 
     one_hundred_character_email = "#{SecureRandom.hex(44)}@example.com"
     one_hundred_and_two_character_email = "#{SecureRandom.hex(45)}@example.com"
@@ -25,9 +24,9 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
       it 'is not valid' do
         application_form = create(:application_form)
         create(:reference, email_address: 'iamtheone@whoknocks.com', application_form: application_form)
-        application_reference = create(:reference, email_address: nil)
+        application_reference = create(:reference, email_address: nil, application_form: application_form)
 
-        form = described_class.new(email_address: 'iamtheone@whoknocks.com', application_form_id: application_form.id)
+        form = described_class.new(email_address: 'iamtheone@whoknocks.com', reference_id: application_reference.id)
         expect(form.save(application_reference)).to be(false)
       end
     end
@@ -47,7 +46,7 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
 
     context 'when email_address has a value' do
       it 'creates the referee' do
-        form = described_class.new(email_address: 'iamtheone@whoknocks.com', application_form_id: application_reference.application_form.id)
+        form = described_class.new(email_address: 'iamtheone@whoknocks.com', reference_id: application_reference.id)
         form.save(application_reference)
 
         expect(application_reference.email_address).to eq('iamtheone@whoknocks.com')
