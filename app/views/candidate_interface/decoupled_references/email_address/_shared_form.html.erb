@@ -17,6 +17,6 @@
   <%= @reference.name %>
 </span>
 
-<%= f.govuk_text_field :email_address, label: { text: tag.h1(t('page_titles.references_email_address'), class: 'govuk-!-margin-top-0'), size: 'm' }, hint_text: 'In most cases, this should be a work address.' %>
+<%= f.govuk_text_field :email_address, label: { text: tag.h1(t('page_titles.references_email_address'), class: 'govuk-heading-xl govuk-!-margin-top-0'), size: 'm' }, hint_text: 'In most cases, this should be a work address.' %>
 
 <%= f.govuk_submit 'Save and continue' %>
