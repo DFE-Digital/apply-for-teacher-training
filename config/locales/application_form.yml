@@ -833,6 +833,12 @@ en:
           attributes:
             relationship:
               blank: Enter how you know this referee.
+        candidate_interface/reference/candidate_name_form:
+          attributes:
+            first_name:
+              blank: Enter your first name
+            last_name:
+              blank: Enter your last name
         referee_interface/reference_relationship_form:
           attributes:
             relationship_confirmation:
