@@ -18,8 +18,22 @@ module CandidateInterface
         @submit_reference_form = Reference::RefereeSubmitForm.new(submit: submit_param)
         return render :unsubmitted unless @submit_reference_form.valid?
 
+        # TODO: Refactor the below into one form object so we don't need 5 condtionals
+        # Will be done in a follow up PR
         if @submit_reference_form.submit == 'yes'
-          # call the ref service and redirect to the ref revie page
+          if Reference::RefereeTypeForm.build_from_reference(@reference).valid? &&
+              Reference::RefereeNameForm.build_from_reference(@reference).valid? &&
+              Reference::RefereeRelationshipForm.build_from_reference(@reference).valid? &&
+              Reference::RefereeEmailForm.build_from_reference(@reference).valid?
+
+            # TODO: Link up with Steve's work
+          else
+            # TODO: Once the forms are moved into objects this won't be necessary
+            # It can just call valid? and render the errors.
+            flash[:warning] = 'You must complete all of your referees details before your reference request can be submitted'
+
+            render :unsubmitted
+          end
         else
           redirect_to candidate_interface_decoupled_references_review_path
         end
