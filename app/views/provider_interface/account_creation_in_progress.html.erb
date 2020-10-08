@@ -6,13 +6,24 @@
       Your account is not ready yet
     </h1>
     <p class="govuk-body">
-      You’re seeing this page because you’ve signed in
-      to the <%= t('service_name.apply') %> service but your account
-      is not ready to use yet.
+      You have signed in to DfE as
+      <span style="font-weight: bold; white-space: nowrap;">
+        <%= @dfe_sign_in_user.email_address %>
+      </span>
+      but we cannot find your
+      <span style="white-space: nowrap;">
+        <%= govuk_link_to t('service_name.apply'), provider_interface_applications_path %>
+      </span>
+      account.
     </p>
 
     <p class="govuk-body">
-      If you’ve registered to work with us and you think your account should be ready, contact
+      Is this the email address that has been invited to this service?
+    </p>
+
+    <p class="govuk-body">
+      If you’ve registered to work with us with this email address and you think your account should be ready, please contact:<br><br>
+
       <%= bat_contact_mail_to %>.
     </p>
   </div>
