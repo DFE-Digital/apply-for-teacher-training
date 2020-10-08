@@ -4,7 +4,8 @@ module CandidateInterface
       before_action :set_reference
 
       def new
-        @reference_candidate_name_form = Reference::CandidateNameForm.new
+        @reference_candidate_name_form =
+          Reference::CandidateNameForm.build_from_reference(@reference)
       end
 
       def create
@@ -17,7 +18,9 @@ module CandidateInterface
         @reference_candidate_name_form.save(@reference)
 
         # TODO: Not sure where this redirect should really go...
-        redirect_to candidate_interface_decoupled_references_new_request_path(@reference.id)
+        redirect_to candidate_interface_decoupled_references_new_request_path(
+          @reference.id,
+        )
       end
 
     private

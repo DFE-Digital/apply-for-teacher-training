@@ -7,6 +7,13 @@ module CandidateInterface
     validates :first_name, presence: true
     validates :last_name, presence: true
 
+    def self.build_from_reference(reference)
+      new(
+        first_name: reference.application_form.first_name,
+        last_name: reference.application_form.last_name,
+      )
+    end
+
     def save(reference)
       return false unless valid?
 
