@@ -1,0 +1,30 @@
+<% content_for :title, @course.name_and_code %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Providers',
+      path: support_interface_providers_path
+    },
+    {
+      text: @course.provider.name,
+      path: support_interface_provider_path(@course.provider)
+    },
+    {
+      text: 'Courses',
+      path: support_interface_provider_courses_path(@course.provider)
+    },
+    {
+      text: @course.name,
+      href: support_interface_course_path(@course)
+    }
+  ].concat(title != 'Details' ? [{ text: title }] : [])) %>
+<% end %>
+
+<%= render TabNavigationComponent.new(items: [
+  { name: 'Details', url: support_interface_course_path(@course) },
+  { name: 'Applications', url: support_interface_course_applications_path(@course) },
+  { name: 'Vacancies', url: support_interface_course_vacancies_path(@course) },
+]) %>
+
+<h2 class="govuk-visually-hidden"><%= title %></h2>
