@@ -122,7 +122,7 @@ RSpec.feature 'Decoupled references' do
   end
 
   def then_i_should_be_told_to_provide_a_name
-    expect(page).to have_content 'Enter your referees name'
+    expect(page).to have_content 'Enter your referee’s name'
   end
 
   def when_i_fill_in_my_references_name
@@ -138,7 +138,7 @@ RSpec.feature 'Decoupled references' do
   end
 
   def then_i_should_be_told_to_provide_an_email_address
-    expect(page).to have_content 'Enter your referees email address'
+    expect(page).to have_content 'Enter your referee’s email address'
   end
 
   def when_i_provide_an_email_address_with_an_invalid_format
@@ -162,7 +162,7 @@ RSpec.feature 'Decoupled references' do
   end
 
   def then_i_should_be_told_to_provide_a_description
-    expect(page).to have_content 'Enter how you know this referee.'
+    expect(page).to have_content 'Enter how you know this referee and for how long'
   end
 
   def when_i_fill_in_my_references_description
