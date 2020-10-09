@@ -1,11 +1,11 @@
 <% if @reason == :email_bounced %>
-<h1 class="govuk-heading-m">Referee request did not reach<%= @referee.name %></h1>
+# Referee request did not reach <%= @reference.name %>
 
 Check you gave the correct email address and request the reference again.
 <% elsif @reason == :refused %>
-<h1 class="govuk-heading-m"><%= @referee.name %> has declined your reference request</h1>
+# <%= @reference.name %> has declined your reference request
 <% else %>
-<h1 class="govuk-heading-m"><%= @referee.name %> has not responded yet</h1>
+# <%= @reference.name %> has not responded yet
 <% end %>
 
 You can add as many referees as you like to increase the chances of getting 2 references quickly.

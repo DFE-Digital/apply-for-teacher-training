@@ -11,7 +11,7 @@ en:
     survey_chaser_email:
       subject: We’d love to hear from you about your teacher training application
     reference_received:
-      subject: "You have a reference for your teacher training application"
+      subject: "You have a reference from %{referee_name}"
     application_submitted:
       subject: "You’ve submitted your teacher training application"
     application_submitted_apply_again:
@@ -19,24 +19,24 @@ en:
     application_sent_to_provider:
       subject: Your application is being considered
     chase_reference:
-      subject: "Chase %{referee_name}: they have not given a reference yet"
+      subject: "%{referee_name} has not responded yet"
     chase_reference_again:
-      subject: "Give new referee as soon as possible: %{referee_name} has not responded"
+      subject: "%{referee_name} has not responded yet"
     find_another_course:
       subject: "Find another course - %{course_name_and_code} at %{provider_name} is not available"
     offer_accepted:
       subject: "You’ve accepted %{provider_name}’s offer to study %{course_name_and_code}"
     new_referee_request:
       not_responded:
-        subject: "Give details of a new referee: %{referee_name} has not responded"
+        subject: "%{referee_name} has not responded yet"
         explanation: |-
           We have not had a reference from %{referee_name}.
       refused:
-        subject: "Give new referee as soon as possible: %{referee_name} will not give a reference"
+        subject: "%{referee_name} has declined your reference request"
         explanation: |-
           %{referee_name} said they will not give a reference.
       email_bounced:
-        subject: "Give new referee as soon as possible. Our email did not reach %{referee_name}"
+        subject: "Referee request did not reach %{referee_name}"
         explanation: |-
           Our email requesting a reference did not reach %{referee_name}.
 

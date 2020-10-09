@@ -1,6 +1,6 @@
-<h1 class="govuk-heading-m">You have a reference from<%= @referee.name %></h1>
+# You have a reference from <%= @reference.name %>
 
-<% if current_application.application_references.feedback_provided > 1 %>
+<% if @application_form.application_references.any?(&:feedback_provided) %>
 You’ve got 2 references back now.
 
 When you’re ready, you can send your application to training providers.
@@ -14,4 +14,4 @@ You can add as many referees as you like to increase the chances of getting 2 re
 Manage your references:
 <% end %>
 
-<%= @candidate_magic_link %>
+<%= candidate_magic_link(@application_form.candidate) %>
