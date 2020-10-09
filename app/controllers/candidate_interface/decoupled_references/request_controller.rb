@@ -4,6 +4,7 @@ module CandidateInterface
       before_action :set_reference
       before_action :prompt_for_candidate_name_if_not_already_given, only: :create
 
+      # TODO: Replace this action when integrating with ref summary page
       def start
         @request_form = Reference::RequestForm.build_from_reference(@reference)
       end
