@@ -115,6 +115,7 @@ en:
     referee_type: What kind of referee do you want to add?
     referee_destroy: Are you sure you want to delete this referee?
     referee_cancel: Are you sure you want to cancel this request for a reference?
+    reference_destroy: Are you sure you want to delete this reference request?
     add_referee: Details of referee
     maximum_referees: You cannot add any more referees
     give_a_reference:

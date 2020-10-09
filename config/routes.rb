@@ -409,6 +409,8 @@ Rails.application.routes.draw do
         get '/review-unsubmitted/:id' => 'decoupled_references/review#unsubmitted', as: :decoupled_references_review_unsubmitted
 
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
+        get '/review/delete/:id' => 'decoupled_references/review#confirm_destroy', as: :destroy_decoupled_reference
+        delete '/review/delete/:id' => 'decoupled_references/review#destroy'
 
         get '/request/:id' => 'decoupled_references/request#new', as: :decoupled_references_new_request
         post '/request/:id' => 'decoupled_references/request#create', as: :decoupled_references_create_request
