@@ -30,18 +30,17 @@ module CandidateInterface
       other_background_present = ethnic_background == EthnicBackgroundHelper::OTHER_ETHNIC_BACKGROUNDS[group].first && other_background.present?
 
       background = other_background_present ? other_background : ethnic_background
-      ethnicity_value = hesa_ethnicity_value(ethnic_background)
 
       if application_form.equality_and_diversity.nil?
         application_form.update(
           equality_and_diversity: {
             'ethnic_background' => background,
-            'hesa_ethnicity' => hesa_ethnicity_code(ethnicity_value),
+            'hesa_ethnicity' => hesa_ethnicity_code,
           },
         )
       else
         application_form.equality_and_diversity['ethnic_background'] = background
-        application_form.equality_and_diversity['hesa_ethnicity'] = hesa_ethnicity_code(ethnicity_value)
+        application_form.equality_and_diversity['hesa_ethnicity'] = hesa_ethnicity_code
         application_form.save
       end
     end
@@ -52,13 +51,9 @@ module CandidateInterface
 
   private
 
-    def hesa_ethnicity_value(background)
-      Hesa::Ethnicity.convert_to_hesa_value(background)
-    end
-
-    def hesa_ethnicity_code(type)
+    def hesa_ethnicity_code
       Hesa::Ethnicity
-        .find_by_value(type, RecruitmentCycle.current_year)
+        .find(ethnic_background, RecruitmentCycle.current_year)
         &.hesa_code
     end
   end

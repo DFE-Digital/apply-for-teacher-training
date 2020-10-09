@@ -14,10 +14,10 @@ RSpec.describe Hesa::Disability do
     end
   end
 
-  describe '.find_by_value' do
+  describe '.find' do
     context 'given a valid value' do
       it 'returns the matching struct' do
-        result = described_class.find_by_value('Deaf or a serious hearing impairment')
+        result = described_class.find('Deaf')
 
         expect(result.value).to eq HesaDisabilityValues::DEAF
         expect(result.hesa_code).to eq '57'
@@ -26,9 +26,10 @@ RSpec.describe Hesa::Disability do
 
     context 'given an unrecognised value' do
       it 'returns nil' do
-        result = described_class.find_by_value('Unrecognised disability')
+        result = described_class.find('Unrecognised disability')
 
-        expect(result).to eq nil
+        expect(result.value).to eq HesaDisabilityValues::OTHER
+        expect(result.hesa_code).to eq '96'
       end
     end
   end
@@ -46,7 +47,7 @@ RSpec.describe Hesa::Disability do
       it 'returns nil' do
         result = described_class.convert_to_hesa_value('unrecognised disability')
 
-        expect(result).to eq nil
+        expect(result).to eq 'A disability, impairment or medical condition that is not listed above'
       end
     end
   end

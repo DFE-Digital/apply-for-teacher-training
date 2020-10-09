@@ -31,11 +31,11 @@ RSpec.describe Hesa::Ethnicity do
     end
   end
 
-  describe '.find_by_value' do
+  describe '.find' do
     context 'given a valid value' do
       it 'returns the matching struct' do
         cycle_year = 2021
-        result = described_class.find_by_value('Chinese', cycle_year)
+        result = described_class.find('Chinese', cycle_year)
 
         expect(result.value).to eq HesaEthnicityValues::CHINESE
         expect(result.hesa_code).to eq 34
@@ -44,7 +44,7 @@ RSpec.describe Hesa::Ethnicity do
 
     context 'given an unrecognised value' do
       it 'returns nil' do
-        result = described_class.find_by_value('Information refused', 2021)
+        result = described_class.find('Information refused', 2021)
 
         expect(result).to eq nil
       end
@@ -64,7 +64,7 @@ RSpec.describe Hesa::Ethnicity do
       it 'returns nil' do
         result = described_class.convert_to_hesa_value('unknown ethnicity')
 
-        expect(result).to eq nil
+        expect(result).to eq 'Not known'
       end
     end
   end

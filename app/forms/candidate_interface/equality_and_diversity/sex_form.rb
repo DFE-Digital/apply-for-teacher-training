@@ -32,11 +32,7 @@ module CandidateInterface
   private
 
     def hesa_sex_code
-      Hesa::Sex.find_by_type(hesa_sex_type)&.hesa_code
-    end
-
-    def hesa_sex_type
-      sex == 'intersex' ? 'other' : sex
+      Hesa::Sex.find(sex)&.hesa_code
     end
   end
 end

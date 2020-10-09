@@ -14,10 +14,10 @@ RSpec.describe Hesa::Sex do
     end
   end
 
-  describe '.find_by_type' do
+  describe '.find' do
     context 'given a valid type' do
       it 'returns the matching struct' do
-        result = described_class.find_by_type('female')
+        result = described_class.find('female')
 
         expect(result.type).to eq 'female'
         expect(result.hesa_code).to eq 2
@@ -26,7 +26,7 @@ RSpec.describe Hesa::Sex do
 
     context 'given an unrecognised type' do
       it 'returns nil' do
-        result = described_class.find_by_type('An unrecognised type')
+        result = described_class.find('An unrecognised type')
 
         expect(result).to eq nil
       end

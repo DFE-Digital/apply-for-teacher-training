@@ -12,12 +12,13 @@ module Hesa
       end
     end
 
-    def self.find_by_value(value, cycle_year)
-      all(cycle_year).find { |ethnicity| ethnicity.value == value }
+    def self.find(value, cycle_year)
+      converted_value = convert_to_hesa_value(value)
+      all(cycle_year).find { |hesa_ethnicity| hesa_ethnicity.value == converted_value }
     end
 
     def self.convert_to_hesa_value(background)
-      {
+      hesa_conversion = {
         'British, English, Northern Irish, Scottish, or Welsh' => HesaEthnicityValues::WHITE,
         'Irish' => HesaEthnicityValues::WHITE,
         'Irish Traveller or Gypsy' => HesaEthnicityValues::GYPSY_OR_TRAVELLER,
@@ -37,7 +38,9 @@ module Hesa
         'Another Mixed background' => HesaEthnicityValues::OTHER_MIXED,
         'Arab' => HesaEthnicityValues::ARAB,
         'Another ethnic background' => HesaEthnicityValues::OTHER_ETHNIC,
-      }.freeze[background]
+      }.freeze
+
+      hesa_conversion[background] || HesaEthnicityValues::NOT_KNOWN
     end
   end
 end

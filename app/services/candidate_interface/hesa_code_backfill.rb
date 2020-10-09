@@ -2,8 +2,7 @@ module CandidateInterface
   class HesaCodeBackfill
     HESA_DISABILITY_CODE_OTHER = '96'.freeze
     HESA_ETHNICITY_CODE_REFUSED = 98
-    HESA_ETHNICITY_CODE_UNKNOWN = 80
-    HESA_SEX_CODE_OTHER = 3
+    HESA_ETHNICITY_CODE_UNKNOWN = 90
 
     def self.call(cycle_year)
       new(cycle_year).call
@@ -33,13 +32,15 @@ module CandidateInterface
 
     def hesa_ethnicity_code(application_form)
       ethnic_group = application_form.equality_and_diversity['ethnic_group']
-      return HESA_ETHNICITY_CODE_REFUSED if @cycle_year == 2020 && ethnic_group == 'Prefer not to say'
+
+      if ethnic_group == 'Prefer not to say'
+        return Hesa::Ethnicity.find(ethnic_group, @cycle_year)&.hesa_code
+      end
 
       ethnic_background = application_form.equality_and_diversity['ethnic_background']
 
       if ethnic_background
-        hesa_ethnicity_value = Hesa::Ethnicity.convert_to_hesa_value(ethnic_background)
-        Hesa::Ethnicity.find_by_value(hesa_ethnicity_value, @cycle_year)&.hesa_code || HESA_ETHNICITY_CODE_UNKNOWN
+        Hesa::Ethnicity.find(ethnic_background, @cycle_year)&.hesa_code
       end
     end
 
@@ -50,8 +51,7 @@ module CandidateInterface
       codes = disabilities.map do |disability|
         break if disability == 'Prefer not to say'
 
-        hesa_value = Hesa::Disability.convert_to_hesa_value(disability)
-        Hesa::Disability.find_by_value(hesa_value)&.hesa_code || HESA_DISABILITY_CODE_OTHER
+        Hesa::Disability.find(disability)&.hesa_code
       end
 
       if codes.present?
@@ -61,9 +61,8 @@ module CandidateInterface
 
     def hesa_sex_code(application_form)
       sex = application_form.equality_and_diversity['sex']
-      return HESA_SEX_CODE_OTHER if sex == 'intersex'
 
-      Hesa::Sex.find_by_type(sex)&.hesa_code
+      Hesa::Sex.find(sex)&.hesa_code
     end
   end
 end
