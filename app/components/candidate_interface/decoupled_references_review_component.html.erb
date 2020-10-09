@@ -5,10 +5,6 @@
       <% if reference.feedback_requested? %>
         <div class="app-summary-card__actions">
           <% # TODO: add cancel path for decoupled references once it's ready %>
-          <%= link_to '', class: 'govuk-link' do %>
-            <%= t('application_form.referees.cancel_request') + ' TODO' %>
-            <span class="govuk-visually-hidden"> <%= reference.name %></span>
-          <% end %>
         </div>
       <% elsif editable %>
         <div class="app-summary-card__actions">

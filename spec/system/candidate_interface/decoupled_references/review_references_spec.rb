@@ -35,14 +35,12 @@ RSpec.feature 'Review references' do
       expect(page).to have_content @complete_reference.email_address
       expect(page).not_to have_link 'Change'
       expect(page).not_to have_link 'Delete referee'
-      expect(page).not_to have_link 'Cancel request'
     end
 
     within '#references_waiting_to_be_sent' do
       expect(page).to have_content @not_sent_reference.email_address
       expect(page).to have_link 'Change'
       expect(page).to have_link 'Delete referee'
-      expect(page).not_to have_link 'Cancel request'
     end
 
     within '#references_sent' do
@@ -50,7 +48,6 @@ RSpec.feature 'Review references' do
       expect(page).to have_content @refused_reference.email_address
       expect(page).not_to have_link 'Change'
       expect(page).not_to have_link 'Delete referee'
-      expect(page).to have_link 'Cancel request'
     end
   end
 
