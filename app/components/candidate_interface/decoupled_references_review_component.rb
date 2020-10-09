@@ -32,7 +32,7 @@ module CandidateInterface
         key: 'Name',
         value: reference.name,
         action: "name for #{reference.name}",
-        change_path: candidate_interface_edit_referee_path(reference.id),
+        change_path: candidate_interface_decoupled_references_edit_name_path(reference.id),
       }
     end
 
@@ -41,7 +41,7 @@ module CandidateInterface
         key: 'Email address',
         value: reference.email_address,
         action: "email address for #{reference.name}",
-        change_path: candidate_interface_edit_referee_path(reference.id),
+        change_path: candidate_interface_decoupled_references_edit_email_address_path(reference.id),
       }
     end
 
@@ -50,7 +50,7 @@ module CandidateInterface
         key: 'Relationship to referee',
         value: reference.relationship,
         action: "relationship for #{reference.name}",
-        change_path: candidate_interface_edit_referee_path(reference.id),
+        change_path: candidate_interface_decoupled_references_edit_relationship_path(reference.id),
       }
     end
 
@@ -59,7 +59,7 @@ module CandidateInterface
         key: 'Reference type',
         value: formatted_reference_type(reference),
         action: "reference type for #{reference.name}",
-        change_path: candidate_interface_referees_type_path(reference.id),
+        change_path: candidate_interface_decoupled_references_edit_type_path(reference.id),
       }
     end
 

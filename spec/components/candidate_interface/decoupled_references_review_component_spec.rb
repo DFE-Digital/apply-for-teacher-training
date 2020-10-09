@@ -60,7 +60,11 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     let(:result) { render_inline(described_class.new(references: [reference], editable: true)) }
 
     it 'fields can be changed' do
-      expect(result.css('.app-summary-card__body').text).to include 'Change'
+      actions = result.css('.govuk-summary-list__actions')
+      ordered_edit_paths(reference).each_with_index do |path, index|
+        expect(actions[index].to_html).to include path
+        expect(actions[index].text).to include 'Change'
+      end
     end
 
     it 'the reference can be deleted' do
@@ -73,7 +77,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     let(:result) { render_inline(described_class.new(references: [reference], editable: false)) }
 
     it 'fields cannot be changed' do
-      expect(result.css('.app-summary-card__body').text).not_to include 'Change'
+      expect(result.text).not_to include 'Change'
     end
 
     it 'the reference cannot be deleted' do
@@ -123,6 +127,16 @@ private
       Status.new(sent_less_than_5_days_ago, :purple, 'feedback_requested', 'awaiting_reference_sent_less_than_5_days_ago'),
       Status.new(sent_more_than_5_days_ago, :purple, 'feedback_requested', 'awaiting_reference_sent_more_than_5_days_ago'),
       Status.new(feedback_provided, :green, 'feedback_provided', ''),
+    ]
+  end
+
+  def ordered_edit_paths(reference)
+    url_helpers = Rails.application.routes.url_helpers
+    [
+      url_helpers.candidate_interface_decoupled_references_edit_name_path(reference),
+      url_helpers.candidate_interface_decoupled_references_edit_email_address_path(reference),
+      url_helpers.candidate_interface_decoupled_references_edit_type_path(reference),
+      url_helpers.candidate_interface_decoupled_references_edit_relationship_path(reference),
     ]
   end
 end
