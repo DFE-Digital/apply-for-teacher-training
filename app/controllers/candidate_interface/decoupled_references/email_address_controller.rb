@@ -13,7 +13,7 @@ module CandidateInterface
 
         @reference_email_address_form.save(@reference)
 
-        redirect_to candidate_interface_decoupled_references_new_description_path(@reference.id)
+        redirect_to candidate_interface_decoupled_references_new_relationship_path(@reference.id)
       end
 
     private

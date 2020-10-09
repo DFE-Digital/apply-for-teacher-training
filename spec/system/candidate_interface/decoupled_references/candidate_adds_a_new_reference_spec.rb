@@ -36,6 +36,13 @@ RSpec.feature 'Decoupled references' do
     when_i_provide_a_valid_email_address
     and_i_click_save_and_continue
     then_i_see_the_description_page
+
+    when_i_click_save_and_continue_without_providing_a_description
+    then_i_should_be_told_to_provide_a_description
+
+    when_i_fill_in_my_references_description
+    and_i_click_save_and_continue
+    then_i_should_see_the_review_unsubmitted_page
   end
 
   def given_i_am_signed_in
@@ -121,6 +128,22 @@ RSpec.feature 'Decoupled references' do
   end
 
   def then_i_see_the_description_page
-    expect(page).to have_current_path candidate_interface_decoupled_references_new_description_path(@application.application_references.last.id)
+    expect(page).to have_current_path candidate_interface_decoupled_references_new_relationship_path(@application.application_references.last.id)
+  end
+
+  def when_i_click_save_and_continue_without_providing_a_description
+    and_i_click_save_and_continue
+  end
+
+  def then_i_should_be_told_to_provide_a_description
+    expect(page).to have_content 'Enter how you know this referee.'
+  end
+
+  def when_i_fill_in_my_references_description
+    fill_in 'candidate-interface-reference-referee-relationship-form-relationship-field-error', with: 'Through nefarious behaviour.'
+  end
+
+  def then_i_should_see_the_review_unsubmitted_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_review_unsubmitted_path(@application.application_references.last.id)
   end
 end

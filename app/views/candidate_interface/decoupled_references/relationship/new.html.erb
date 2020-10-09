@@ -1,0 +1,16 @@
+<% content_for :title, t('page_titles.references_relationship') %>
+<% content_for :before_content, govuk_back_link_to %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @references_relationship_form, url: candidate_interface_decoupled_references_create_relationship_path(@reference.id) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_area :relationship,
+                              label: { text: tag.h1(t('page_titles.references_relationship'), class: 'govuk-!-margin-top-0'), size: 'm' },
+                              hint_text: t("application_form.references.relationship.hint_text.#{@reference.referee_type.downcase}"), max_words: 50  %>
+
+      <%= f.govuk_submit 'Save and continue' %>
+    <% end %>
+  </div>
+</div>
