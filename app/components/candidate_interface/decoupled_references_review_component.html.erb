@@ -1,27 +1,29 @@
 <% references.each do |reference| %>
   <%= render(SummaryCardComponent.new(rows: reference_rows(reference), editable: editable && reference.editable?)) do %>
     <%= render(SummaryCardHeaderComponent.new(title: card_title(reference))) do %>
-
-      <% if reference.feedback_requested? %>
-        <div class="app-summary-card__actions">
-          <% # TODO: add cancel path for decoupled references once it's ready %>
-        </div>
-      <% elsif editable %>
-        <div class="app-summary-card__actions">
-          <%= link_to candidate_interface_destroy_decoupled_reference_path(reference), class: 'govuk-link' do %>
-            <%= t('application_form.referees.delete') %>
-            <span class="govuk-visually-hidden"> <%= reference.name %></span>
+          
+      <div class="app-summary-card__actions">
+        <ul class="app-summary-card__actions-list">
+          <% if reference.feedback_requested? %>
+            <% # TODO: add cancel path for decoupled references once it's ready %>
+          <% elsif editable %>
+            <li class="app-summary-card__actions-list-item">
+              <%= link_to candidate_interface_destroy_decoupled_reference_path(reference), class: 'govuk-link' do %>
+                <%= t('application_form.referees.delete') %>
+                <span class="govuk-visually-hidden"> <%= reference.name %></span>
+              <% end %>
+            </li>
           <% end %>
-        </div>
-      <% end %>
-      <% if reference.not_requested_yet? %>
-        <div class="app-summary-card__actions">
-          <%= link_to candidate_interface_decoupled_references_new_request_path(reference.id), class: 'govuk-link' do %>
-            <%= t('application_form.referees.send_request') %>
-            <span class="govuk-visually-hidden"> <%= reference.name %></span>
+          <% if reference.not_requested_yet? %>
+            <li class="app-summary-card__actions-list-item">
+              <%= link_to candidate_interface_decoupled_references_new_request_path(reference.id), class: 'govuk-link' do %>
+                <%= t('application_form.referees.send_request') %>
+                <span class="govuk-visually-hidden"> <%= reference.name %></span>
+              <% end %>
+            </li>
           <% end %>
-        </div>
-      <% end %>
+        </ul>
+      </div>
     <% end %>
   <% end %>
 <% end %>
