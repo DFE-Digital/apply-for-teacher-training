@@ -13,14 +13,27 @@ module CandidateInterface
 
         @reference_email_address_form.save(@reference)
 
-        redirect_to candidate_interface_decoupled_references_new_relationship_path(@reference.id)
+        redirect_to candidate_interface_decoupled_references_relationship_path(@reference.id)
+      end
+
+      def edit
+        @reference_email_address_form = Reference::RefereeEmailAddressForm.build_from_reference(@reference)
+      end
+
+      def update
+        @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
+        return render :edit unless @reference_email_address_form.valid?
+
+        @reference_email_address_form.save(@reference)
+
+        redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
       end
 
     private
 
       def referee_email_address_param
         params.require(:candidate_interface_reference_referee_email_address_form).permit(:email_address)
-        .merge!(application_form_id: current_application.id)
+        .merge!(reference_id: @reference.id)
       end
     end
   end

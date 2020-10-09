@@ -89,7 +89,7 @@ RSpec.feature 'Candidate adding referees' do
   end
 
   def then_i_see_an_error_to_choose_the_type_of_my_first_reference
-    expect(page).to have_content('Choose the type of your reference')
+    expect(page).to have_content('Choose a type of referee')
   end
 
   def when_i_choose_academic_as_reference_type

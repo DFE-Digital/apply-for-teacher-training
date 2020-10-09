@@ -818,21 +818,25 @@ en:
         candidate_interface/reference/referee_type_form:
           attributes:
             referee_type:
-              blank: Choose the type of your reference
+              blank: Choose a type of referee
         candidate_interface/reference/referee_name_form:
           attributes:
             name:
-              blank: Enter your referees name
+              blank: Enter your referee’s name
         candidate_interface/reference/referee_email_address_form:
           attributes:
             email_address:
-              blank: Enter your referees email address
+              blank: Enter your referee’s email address
               invalid: Enter an email address in the correct format, like name@example.com
               duplicate: Please give a different email address for each referee
         candidate_interface/reference/referee_relationship_form:
           attributes:
             relationship:
-              blank: Enter how you know this referee.
+              blank: Enter how you know this referee and for how long
+        candidate_interface/reference/referee_submit_form:
+          attributes:
+            submit:
+              blank: Choose whether to send your reference request now
         candidate_interface/reference/candidate_name_form:
           attributes:
             first_name:

@@ -16,6 +16,19 @@ module CandidateInterface
         redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
       end
 
+      def edit
+        @references_relationship_form = Reference::RefereeRelationshipForm.build_from_reference(@reference)
+      end
+
+      def update
+        @references_relationship_form = Reference::RefereeRelationshipForm.new(references_relationship_params)
+        return render :edit unless @references_relationship_form.valid?
+
+        @references_relationship_form.save(@reference)
+
+        redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+      end
+
     private
 
       def references_relationship_params

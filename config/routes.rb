@@ -394,19 +394,32 @@ Rails.application.routes.draw do
       scope '/references' do
         get '/start' => 'decoupled_references/base#start', as: :decoupled_references_start
 
-        get '/type' => 'decoupled_references/type#new', as: :decoupled_references_new_type
-        post '/update-type' => 'decoupled_references/type#create', as: :decoupled_references_create_type
+        get '/type' => 'decoupled_references/type#new', as: :decoupled_references_type
+        post '/type' => 'decoupled_references/type#create'
 
-        get '/name/:id' => 'decoupled_references/name#new', as: :decoupled_references_new_name
-        post '/name/:id' => 'decoupled_references/name#create', as: :decoupled_references_create_name
+        get '/type/edit/:id' => 'decoupled_references/type#edit', as: :decoupled_references_edit_type
+        patch '/type/edit/:id' => 'decoupled_references/type#update'
 
-        get '/email/:id' => 'decoupled_references/email_address#new', as: :decoupled_references_new_email_address
-        post '/email/:id' => 'decoupled_references/email_address#create', as: :decoupled_references_create_email_address
+        get '/name/:id' => 'decoupled_references/name#new', as: :decoupled_references_name
+        patch '/name/:id' => 'decoupled_references/name#create'
 
-        get '/relationship/:id' => 'decoupled_references/relationship#new', as: :decoupled_references_new_relationship
-        post '/relationship/:id' => 'decoupled_references/relationship#create', as: :decoupled_references_create_relationship
+        get '/name/edit/:id' => 'decoupled_references/name#edit', as: :decoupled_references_edit_name
+        patch '/name/edit/:id' => 'decoupled_references/name#update'
+
+        get '/email/:id' => 'decoupled_references/email_address#new', as: :decoupled_references_email_address
+        patch '/email/:id' => 'decoupled_references/email_address#create'
+
+        get '/email/edit/:id' => 'decoupled_references/email_address#edit', as: :decoupled_references_edit_email_address
+        patch '/email/edit/:id' => 'decoupled_references/email_address#update'
+
+        get '/relationship/:id' => 'decoupled_references/relationship#new', as: :decoupled_references_relationship
+        patch '/relationship/:id' => 'decoupled_references/relationship#create'
+
+        get '/relationship/edit/:id' => 'decoupled_references/relationship#edit', as: :decoupled_references_edit_relationship
+        patch '/relationship/edit/:id' => 'decoupled_references/relationship#update'
 
         get '/review-unsubmitted/:id' => 'decoupled_references/review#unsubmitted', as: :decoupled_references_review_unsubmitted
+        post '/review-unsubmitted/:id' => 'decoupled_references/review#submit', as: :decoupled_references_submit
 
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
         get '/review/delete/:id' => 'decoupled_references/review#confirm_destroy', as: :destroy_decoupled_reference
