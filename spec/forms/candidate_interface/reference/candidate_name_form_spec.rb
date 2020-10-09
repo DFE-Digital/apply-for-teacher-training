@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::Reference::CandidateNameForm, type: :model do
   end
 
   describe '.build_from_reference' do
-    it 'creates an object based on the reference' do
+    it 'populates the form based from a reference' do
       application_reference = build_stubbed(
         :reference,
         application_form: build_stubbed(:application_form, first_name: 'Walter', last_name: 'White'),
