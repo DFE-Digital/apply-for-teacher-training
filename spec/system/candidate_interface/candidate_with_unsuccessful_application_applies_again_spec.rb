@@ -149,7 +149,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
   def and_i_receive_an_email_that_my_application_has_been_sent
     open_email(@candidate.email_address)
-    expect(current_email.subject).to have_content t('candidate_mailer.application_sent_to_provider.subject')
+    expect(current_email.subject).to have_content t('candidate_mailer.application_submitted.subject')
   end
 
   def and_i_do_not_see_referee_related_guidance

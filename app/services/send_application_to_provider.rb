@@ -3,6 +3,10 @@ class SendApplicationToProvider
 
   attr_accessor :application_choice
 
+  def self.call(application_choice)
+    new(application_choice: application_choice).call
+  end
+
   def initialize(application_choice:)
     self.application_choice = application_choice
   end
