@@ -6,8 +6,12 @@ module Hesa
       HESA_SEX.map { |sex| SexStruct.new(*sex) }
     end
 
-    def self.find_by_type(sex_type)
-      all.find { |sex| sex.type == sex_type }
+    def self.find(sex)
+      if sex == 'intersex'
+        sex = 'other'
+      end
+
+      all.find { |hesa_sex| hesa_sex.type == sex }
     end
   end
 end

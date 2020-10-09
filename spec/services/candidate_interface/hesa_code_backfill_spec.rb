@@ -73,6 +73,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                   })
 
         cycle_year = 2020
+        hesa_disability_code_other = '96'
 
         described_class.call(cycle_year)
 
@@ -80,7 +81,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
 
         expect(application_form.equality_and_diversity).to eq(
           'disabilities' => ['Acquired brain injury', 'Many unexplained illnesses'],
-          'hesa_disabilities' => [described_class::HESA_DISABILITY_CODE_OTHER],
+          'hesa_disabilities' => [hesa_disability_code_other],
           'hesa_ethnicity' => nil,
           'hesa_sex' => nil,
         )
@@ -94,8 +95,8 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                     ethnic_background: 'Maori',
                                     disabilities: [],
                                   })
-
         cycle_year = 2020
+        hesa_ethnicity_code_unknown = 90
 
         described_class.call(cycle_year)
 
@@ -105,7 +106,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
           'ethnic_background' => 'Maori',
           'disabilities' => [],
           'hesa_disabilities' => nil,
-          'hesa_ethnicity' => described_class::HESA_ETHNICITY_CODE_UNKNOWN,
+          'hesa_ethnicity' => hesa_ethnicity_code_unknown,
           'hesa_sex' => nil,
         )
       end
@@ -117,6 +118,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                       ethnic_group: 'Prefer not to say',
                                       disabilities: [],
                                     })
+          hesa_ethnicity_code_refused = 98
 
           cycle_year = 2020
 
@@ -128,7 +130,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
             'ethnic_group' => 'Prefer not to say',
             'disabilities' => [],
             'hesa_disabilities' => nil,
-            'hesa_ethnicity' => described_class::HESA_ETHNICITY_CODE_REFUSED,
+            'hesa_ethnicity' => hesa_ethnicity_code_refused,
             'hesa_sex' => nil,
           )
         end
@@ -169,6 +171,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                   recruitment_cycle_year: 2021)
 
         cycle_year = 2021
+        hesa_sex_code_intersex = 3
 
         described_class.call(cycle_year)
 
@@ -176,7 +179,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
 
         expect(application_form.equality_and_diversity).to eq(
           'sex' => 'intersex',
-          'hesa_sex' => described_class::HESA_SEX_CODE_OTHER,
+          'hesa_sex' => hesa_sex_code_intersex,
           'hesa_disabilities' => nil,
           'hesa_ethnicity' => nil,
         )
