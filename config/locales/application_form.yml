@@ -388,6 +388,7 @@ en:
       delete: Delete referee
       cancel: Cancel referee
       cancel_request: Cancel request
+      send_request: Send request
       email_address:
         label: Email address
         hint_text:

@@ -4,8 +4,13 @@ module CandidateInterface
       before_action :set_reference
       before_action :prompt_for_candidate_name_if_not_already_given, only: :create
 
+      def start
+        @request_form = Reference::RequestForm.build_from_reference(@reference)
+      end
+
       def new
         @request_form = Reference::RequestForm.build_from_reference(@reference)
+        @request_form.request_now = 'yes'
       end
 
       def create

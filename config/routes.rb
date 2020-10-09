@@ -425,6 +425,7 @@ Rails.application.routes.draw do
         get '/review/delete/:id' => 'decoupled_references/review#confirm_destroy', as: :destroy_decoupled_reference
         delete '/review/delete/:id' => 'decoupled_references/review#destroy'
 
+        get '/request/:id/start' => 'decoupled_references/request#start', as: :decoupled_references_start_request
         get '/request/:id' => 'decoupled_references/request#new', as: :decoupled_references_new_request
         post '/request/:id' => 'decoupled_references/request#create', as: :decoupled_references_create_request
 

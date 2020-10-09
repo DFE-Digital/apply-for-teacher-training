@@ -55,7 +55,7 @@ RSpec.feature 'Candidate requests a reference' do
 
   def and_i_visit_the_reference_review_page
     # TODO: Navigate to the last page of the reference creation flow
-    visit candidate_interface_decoupled_references_new_request_path(@reference.id)
+    visit candidate_interface_decoupled_references_start_request_path(@reference.id)
   end
 
   def and_i_choose_to_request_reference_immediately
