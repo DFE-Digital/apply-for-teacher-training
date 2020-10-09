@@ -52,7 +52,7 @@ RSpec.feature 'Add another course to application' do
   end
 
   def and_i_fill_in_the_course_option_id_for_the_desired_course
-    fill_in 'Course Option ID', with: @new_course_option.id
+    fill_in 'Course option ID', with: @new_course_option.id
     click_on 'Add course'
   end
 
@@ -63,7 +63,7 @@ RSpec.feature 'Add another course to application' do
   def and_i_can_no_longer_add_a_course_because_3_is_the_max
     click_on 'Add or withdraw course choices'
 
-    expect(page).to have_content 'Note that you can no longer add a course because this application already has 3'
+    expect(page).to have_content 'You can no longer add a course because this application already has 3.'
 
     visit support_interface_add_course_to_application_path(@application_form)
 

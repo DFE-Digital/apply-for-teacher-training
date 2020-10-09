@@ -1,6 +1,6 @@
 <% content_for :content do %>
   <% if yield(:context).present? %>
-    <span class="govuk-caption-xl"><%= yield :context %></span>
+    <span class="govuk-caption-l"><%= yield :context %></span>
   <% end %>
 
   <% if yield(:title).present? && controller_name != 'errors' %>

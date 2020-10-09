@@ -6,7 +6,7 @@
     <%= form_with model: @change_course_form, url: support_interface_change_course_path(@change_course_form.application_form) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :change_type, legend: { size: 'xl', text: t('support_interface.change_course.page_title'), tag: 'h1' } do %>
+      <%= f.govuk_radio_buttons_fieldset :change_type, caption: { text: @change_course_form.application_form.support_reference, size: 'l' }, legend: { text: t('support_interface.change_course.page_title'), size: 'l', tag: 'h1' } do %>
         <div class="govuk-!-margin-top-6">
           <% if @change_course_form.can_add_course? %>
             <%= f.govuk_radio_button :change_type, :add_course, label: { text: t('support_interface.change_course.add_course') } %>
@@ -21,9 +21,9 @@
       <% end %>
 
       <% unless @change_course_form.can_add_course? %>
-        <div class='govuk-body'>
-          Note that you can no longer add a course because this application already has 3.
-        </div>
+        <p class="govuk-body">
+          You can no longer add a course because this application already has 3.
+        </p>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>
