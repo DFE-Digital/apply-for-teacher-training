@@ -1,22 +1,21 @@
-<% content_for :before_content, govuk_back_link_to(support_interface_applications_path) %>
+<% content_for :browser_title, title_with_error_prefix('Add a comment about this application', @application_comment.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_audit_path(@application_form)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @application_comment, url: support_interface_application_form_comments_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
-          <h1 class="govuk-fieldset__heading">
-            <%= 'Add application comment' %>
-          </h1>
-        </legend>
+      <%= f.govuk_text_area :comment,
+        label: {
+          text: 'Add a comment about this application',
+          tag: 'h1',
+          size: 'xl'
+        },
+        hint_text: 'Comments appear in the application history and can only be viewed by other support users'
+      %>
 
-        <div class="govuk-form-group <% if @error %>govuk-form-group--error<% end %>">
-          <%= f.govuk_text_area :comment, label: { text: 'Comment', size: 'm' }, hint_text: 'Comments will appear in the support interface application history but are hidden from other users' %>
-        </div>
-        <%= f.govuk_submit 'Add comment' %>
-      </fieldset>
+      <%= f.govuk_submit 'Add comment' %>
     <% end %>
   </div>
 </div>

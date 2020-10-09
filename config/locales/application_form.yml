@@ -781,7 +781,7 @@ en:
         support_interface/application_comment_form:
           attributes:
             comment:
-              blank: Enter a comment
+              blank: Enter a comment about this application
         receive_reference:
           attributes:
             feedback:
