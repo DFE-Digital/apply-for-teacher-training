@@ -8,6 +8,7 @@ RSpec.feature 'Review references' do
     and_the_decoupled_references_flag_is_on
     and_i_have_added_references
     then_i_can_review_my_references_before_submission
+    and_i_can_delete_a_reference
     and_i_can_return_to_the_application_page
   end
 
@@ -34,14 +35,12 @@ RSpec.feature 'Review references' do
       expect(page).to have_content @complete_reference.email_address
       expect(page).not_to have_link 'Change'
       expect(page).not_to have_link 'Delete referee'
-      expect(page).not_to have_link 'Cancel request'
     end
 
     within '#references_waiting_to_be_sent' do
       expect(page).to have_content @not_sent_reference.email_address
       expect(page).to have_link 'Change'
       expect(page).to have_link 'Delete referee'
-      expect(page).not_to have_link 'Cancel request'
     end
 
     within '#references_sent' do
@@ -49,8 +48,18 @@ RSpec.feature 'Review references' do
       expect(page).to have_content @refused_reference.email_address
       expect(page).not_to have_link 'Change'
       expect(page).not_to have_link 'Delete referee'
-      expect(page).to have_link 'Cancel request'
     end
+  end
+
+  def and_i_can_delete_a_reference
+    within '#references_waiting_to_be_sent' do
+      click_link 'Delete referee'
+    end
+    click_button 'Yes I’m sure'
+
+    expect(page).to have_current_path candidate_interface_decoupled_references_review_path
+    expect(page).not_to have_css('#references_waiting_to_be_sent')
+    expect(page).not_to have_link 'Delete referee'
   end
 
   def and_i_can_return_to_the_application_page

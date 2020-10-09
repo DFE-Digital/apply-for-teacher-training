@@ -11,6 +11,16 @@ module CandidateInterface
       end
 
       def unsubmitted; end
+
+      def confirm_destroy
+        @reference = ApplicationReference.find(params[:id])
+      end
+
+      def destroy
+        @reference = ApplicationReference.find(params[:id])
+        @reference.destroy!
+        redirect_to candidate_interface_decoupled_references_review_path
+      end
     end
   end
 end
