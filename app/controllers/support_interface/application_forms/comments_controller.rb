@@ -2,10 +2,12 @@ module SupportInterface
   module ApplicationForms
     class CommentsController < SupportInterfaceController
       def new
+        @application_form = application_form
         @application_comment = ApplicationCommentForm.new
       end
 
       def create
+        @application_form = application_form
         @application_comment = ApplicationCommentForm.new(application_comment_params)
 
         if @application_comment.save(application_form)
