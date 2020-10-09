@@ -66,8 +66,28 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a new reference request mail with subject and content', :email_bounced,
         I18n.t!('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'),
-        'heading' => 'Referee request did not reach Scott Knowles',
+        'heading' => 'Referee request did not reach Scott Knowles'
       )
+    end
+  end
+
+  describe '.reference_received' do
+    it 'sends an email with the correct body if one reference complete' do
+      application_form = create(:completed_application_form, :with_completed_references)
+      reference1 = create(:reference, :complete, application_form: application_form)
+      reference2 = create(:reference, :requested, application_form: application_form)
+
+      email = described_class.send(:reference_received, application_form.application_references.first)
+      expect(email.body).to include("You need to get another reference")
+    end
+
+    it 'sends an email with the correct body if two references complete' do
+      application_form = create(:completed_application_form, :with_completed_references)
+      reference1 = create(:reference, :complete, application_form: application_form)
+      reference2 = create(:reference, :complete, application_form: application_form)
+
+      email = described_class.send(:reference_received, application_form.application_references.first)
+      expect(email.body).to include("You’ve got 2 references back now.")
     end
   end
 end

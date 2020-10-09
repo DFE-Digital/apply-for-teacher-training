@@ -1,6 +1,6 @@
 # You have a reference from <%= @reference.name %>
 
-<% if @application_form.application_references.any?(&:feedback_provided) %>
+<% if @application_form.enough_references_have_been_provided? %>
 You’ve got 2 references back now.
 
 When you’re ready, you can send your application to training providers.

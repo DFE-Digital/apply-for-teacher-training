@@ -44,7 +44,7 @@ RSpec.feature 'Referee does not respond in time' do
   def and_an_email_is_sent_to_the_candidate
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to end_with('Chase Anne Other: they have not given a reference yet')
+    expect(current_email.subject).to end_with('Anne Other has not responded yet')
   end
 
   def when_the_candidate_does_not_respond_within_14_days
@@ -56,7 +56,7 @@ RSpec.feature 'Referee does not respond in time' do
   def then_an_email_is_sent_to_the_candidate_asking_for_a_new_referee
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to have_content('Give details of a new referee')
+    expect(current_email.subject).to have_content('Anne Other has not responded yet')
   end
 
   def when_the_candidate_does_not_respond_within_28_days
@@ -68,7 +68,7 @@ RSpec.feature 'Referee does not respond in time' do
   def then_the_candidate_is_sent_a_chase_email
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to have_content('Give new referee as soon as possible: Anne Other has not responded')
+    expect(current_email.subject).to have_content('Anne Other has not responded yet')
   end
 
   def and_the_referee_is_sent_a_chase_email

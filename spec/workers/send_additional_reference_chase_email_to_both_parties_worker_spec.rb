@@ -15,9 +15,9 @@ RSpec.describe SendAdditionalReferenceChaseEmailToBothPartiesWorker do
 
       emails = ActionMailer::Base.deliveries
       expect(emails.length).to eq 4
-      expect(emails.first.subject).to match "Give new referee as soon as possible: #{reference_triggering_a_chase.name} has not responded"
+      expect(emails.first.subject).to match "#{reference_triggering_a_chase.name} has not responded yet"
       expect(emails.second.subject).to match "Will you not give #{application_form.full_name} a reference?"
-      expect(emails.third.subject).to match "Give new referee as soon as possible: #{other_overdue_reference.name} has not responded"
+      expect(emails.third.subject).to match "#{other_overdue_reference.name} has not responded yet"
       expect(emails.fourth.subject).to match "Will you not give #{application_form.full_name} a reference?"
 
       expect(application_form_id_of(emails.first)).to eq reference_triggering_a_chase.application_form.id
