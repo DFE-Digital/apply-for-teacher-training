@@ -1,6 +1,20 @@
-<% content_for :title do %>
-  <span class="govuk-caption-xl">Provider user</span>
-  <%= @form.provider_user.full_name %>
+<% content_for :title, provider_user_name(@form.provider_user) %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Providers',
+      path: support_interface_providers_path
+    },
+    {
+      text: 'Provider users',
+      path: support_interface_provider_users_path
+    },
+    {
+      text: provider_user_name(@form.provider_user),
+      path: support_interface_provider_user_path(@form.provider_user)
+    }
+  ].concat(title != 'Details' ? [{ text: title }] : [])) %>
 <% end %>
 
 <%= render TabNavigationComponent.new(items: [

@@ -1,9 +1,20 @@
 <% content_for :browser_title, "Support user #{@support_user.display_name}" %>
-<% content_for :before_content, govuk_back_link_to(support_interface_support_users_path) %>
+<% content_for :title, @support_user.display_name %>
 
-<% content_for :title do %>
-   <span class="govuk-caption-xl">Support user</span>
-   <%= @support_user.display_name %>
- <% end %>
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Settings',
+      path: support_interface_feature_flags_path
+    },
+    {
+      text: 'Support users',
+      path: support_interface_support_users_path
+    },
+    {
+      text: @support_user.display_name
+    }
+  ]) %>
+<% end %>
 
 <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @support_user) %>

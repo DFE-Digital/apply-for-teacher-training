@@ -176,7 +176,7 @@ RSpec.feature 'Providers and courses' do
 
   def when_i_click_on_users
     within 'main' do
-      click_link 'Users'
+      click_link 'Provider users'
     end
   end
 
@@ -249,7 +249,7 @@ RSpec.feature 'Providers and courses' do
   end
 
   def and_when_i_click_the_other_providers_tab
-    click_link 'Providers'
+    click_link 'Providers', match: :prefer_exact
     click_link 'Other providers'
   end
 

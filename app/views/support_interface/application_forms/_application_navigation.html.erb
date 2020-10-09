@@ -1,4 +1,27 @@
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Candidates',
+      path: support_interface_candidates_path
+    },
+    {
+      text: @application_form.candidate.email_address,
+      path: support_interface_candidate_path(@application_form.candidate)
+    },
+    {
+      text: @application_form.support_reference,
+      path: support_interface_application_form_path(@application_form)
+    }
+  ].concat(title != 'Details' ? [{ text: title }] : [])) %>
+<% end %>
+
+<p class="govuk-body govuk-!-margin-bottom-6">
+  <%= govuk_link_to 'Emails about this application', support_interface_email_log_path(application_form_id: @application_form.id), class: 'govuk-link--no-visited-state' %>
+</p>
+
 <%= render TabNavigationComponent.new(items: [
   { name: 'Details', url: support_interface_application_form_path(@application_form) },
   { name: 'History', url: support_interface_application_form_audit_path(@application_form) },
 ]) %>
+
+<h2 class="govuk-visually-hidden"><%= title %></h2>

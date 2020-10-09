@@ -1,6 +1,6 @@
-<%= render 'no_admin_users_warning' %>
-
 <%= render 'provider_navigation', title: 'Ratified courses' %>
+
+<%= render 'no_admin_users_warning' %>
 
 <% RecruitmentCycle.years_visible_in_support.each do |year| %>
   <% if @ratified_courses[year] %>

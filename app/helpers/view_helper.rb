@@ -103,6 +103,18 @@ module ViewHelper
     (EndOfCycleTimetable.find_reopens - Time.zone.today).to_i
   end
 
+  def provider_user_name(provider_user)
+    first_name = provider_user.first_name
+    last_name = provider_user.last_name
+    email_address = provider_user.email_address
+
+    if first_name.present? && last_name.present?
+      "#{first_name} #{last_name}" if first_name.present? && last_name.present?
+    else
+      email_address
+    end
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)

@@ -1,9 +1,16 @@
 <% content_for :browser_title, "Candidate ##{@candidate.id}" %>
-<% content_for :before_content, govuk_back_link_to(support_interface_candidates_path) %>
+<% content_for :title, @candidate.email_address %>
 
-<% content_for :title do %>
-  <span class="govuk-caption-xl">Candidate #<%= @candidate.id %></span>
-  <%= @candidate.email_address %>
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Candidates',
+      path: support_interface_candidates_path
+    },
+    {
+      text: @candidate.email_address
+    }
+  ]) %>
 <% end %>
 
 <% unless HostingEnvironment.production? %>

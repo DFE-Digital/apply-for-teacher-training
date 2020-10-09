@@ -1,16 +1,8 @@
 <% content_for :browser_title, title_with_success_prefix("Application details – Application ##{@application_form.id}", flash[:success].present?) %>
-<% content_for :before_content, govuk_back_link_to(support_interface_applications_path) %>
+<% content_for :context, @application_form.support_reference %>
+<% content_for :title, break_email_address(@application_form.candidate.email_address) %>
 
-<h1 class="govuk-heading-l govuk-!-margin-bottom-4">
-  <span class="govuk-caption-xl">Application #<%= @application_form.id %></span>
-  <%= break_email_address(@application_form.candidate.email_address) %>
-</h1>
-
-<p class="govuk-body govuk-!-margin-bottom-6">
-  <%= govuk_link_to 'Emails about this application', support_interface_email_log_path(application_form_id: @application_form.id), class: 'govuk-link--no-visited-state' %>
-</p>
-
-<%= render 'application_navigation' %>
+<%= render 'application_navigation', title: 'Details' %>
 
 <%= render SupportInterface::ApplicationSummaryComponent.new(application_form: @application_form) %>
 
