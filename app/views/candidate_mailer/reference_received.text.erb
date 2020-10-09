@@ -1,11 +1,17 @@
-Dear <%= @application_form.first_name %>,
+# You have a reference from <%= @reference.name %>
 
-# You have a reference
+<% if @application_form.enough_references_have_been_provided? %>
+You’ve got 2 references back now.
 
-<%= @reference.name %> submitted a reference for your teacher training application.
+When you’re ready, you can send your application to training providers.
 
-We’ve attached this to your application form.
+Sign in to continue your application:
+<% else %>
+You need to get another reference back before you can send your application to training providers.
 
-# Give feedback or report a problem
+You can add as many referees as you like to increase the chances of getting 2 references quickly.
 
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
+Manage your references:
+<% end %>
+
+<%= candidate_magic_link(@application_form.candidate) %>

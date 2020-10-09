@@ -142,6 +142,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       reference.application_form,
+      subject: I18n.t!('candidate_mailer.reference_received.subject', referee_name: @reference.name),
     )
   end
 

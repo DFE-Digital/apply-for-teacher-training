@@ -16,11 +16,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include("Dear #{application_form.first_name}")
-    end
-
-    it 'sends an email containing the referee email' do
-      expect(mail.body.encoded).to include(reference.email_address)
+      expect(mail.body.encoded).to include("#{reference.name} has not responded yet")
     end
   end
 
@@ -54,8 +50,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a new reference request mail with subject and content', :not_responded,
         I18n.t!('candidate_mailer.new_referee_request.not_responded.subject', referee_name: 'Scott Knowles'),
-        'heading' => 'Dear Tyrell',
-        'explanation' => I18n.t!('candidate_mailer.new_referee_request.not_responded.explanation', referee_name: 'Scott Knowles')
+        'heading' => 'Scott Knowles has not responded yet'
       )
     end
 
@@ -63,8 +58,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a new reference request mail with subject and content', :refused,
         I18n.t!('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Scott Knowles'),
-        'heading' => 'Dear Tyrell',
-        'explanation' => I18n.t!('candidate_mailer.new_referee_request.refused.explanation', referee_name: 'Scott Knowles')
+        'heading' => 'Scott Knowles has declined your reference request'
       )
     end
 
@@ -72,10 +66,28 @@ RSpec.describe CandidateMailer, type: :mailer do
       it_behaves_like(
         'a new reference request mail with subject and content', :email_bounced,
         I18n.t!('candidate_mailer.new_referee_request.email_bounced.subject', referee_name: 'Scott Knowles'),
-        'heading' => 'Dear Tyrell',
-        'explanation' => 'Our email requesting a reference did not reach Scott Knowles.',
-        'referee email' => 'ting@canpaint.com'
+        'heading' => 'Referee request did not reach Scott Knowles'
       )
+    end
+  end
+
+  describe '.reference_received' do
+    it 'sends an email with the correct body if one reference complete' do
+      application_form = create(:completed_application_form, :with_completed_references)
+      create(:reference, :complete, application_form: application_form)
+      create(:reference, :requested, application_form: application_form)
+
+      email = described_class.send(:reference_received, application_form.application_references.first)
+      expect(email.body).to include('You need to get another reference')
+    end
+
+    it 'sends an email with the correct body if two references complete' do
+      application_form = create(:completed_application_form, :with_completed_references)
+      create(:reference, :complete, application_form: application_form)
+      create(:reference, :complete, application_form: application_form)
+
+      email = described_class.send(:reference_received, application_form.application_references.first)
+      expect(email.body).to include('You’ve got 2 references back now.')
     end
   end
 end

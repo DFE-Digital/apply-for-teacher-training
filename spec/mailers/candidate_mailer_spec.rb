@@ -333,9 +333,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     it 'has the right subject and content' do
-      expect(email.subject).to eq "Give new referee as soon as possible: #{@referee.name} has not responded"
-      expect(email).to have_content 'Dear Bob'
-      expect(email).to have_content "We have not had a reference from #{@referee.name} yet."
+      expect(email.subject).to eq "#{@referee.name} has not responded yet"
     end
   end
 
