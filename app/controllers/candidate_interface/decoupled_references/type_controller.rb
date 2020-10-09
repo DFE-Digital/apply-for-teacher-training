@@ -26,7 +26,11 @@ module CandidateInterface
 
         @reference_type_form.update(@reference)
 
-        redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+        if return_to_path.present?
+          redirect_to return_to_path
+        else
+          redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+        end
       end
 
     private

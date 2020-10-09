@@ -17,6 +17,13 @@ module CandidateInterface
                                       .includes(:application_form)
                                       .find_by(id: params[:id])
       end
+
+      def return_to_path
+        case params[:return_to]&.to_sym
+        when :review
+          candidate_interface_decoupled_references_review_path
+        end
+      end
     end
   end
 end
