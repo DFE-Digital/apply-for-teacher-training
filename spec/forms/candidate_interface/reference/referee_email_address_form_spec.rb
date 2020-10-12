@@ -34,7 +34,7 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
 
   describe '.build_from_reference' do
     it 'creates an object based on the reference' do
-      application_reference = create(:reference, email_address: 'iamtheone@whoknocks.com')
+      application_reference = create(:reference, email_address: 'iAmTheOne@whoknocks.com')
       form = described_class.build_from_reference(application_reference)
 
       expect(form.email_address).to eq('iamtheone@whoknocks.com')

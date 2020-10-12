@@ -14,7 +14,7 @@ module CandidateInterface
 
     def self.build_from_reference(reference)
       new(
-        email_address: reference.email_address,
+        email_address: reference.email_address.downcase,
         reference_id: reference.id,
       )
     end
