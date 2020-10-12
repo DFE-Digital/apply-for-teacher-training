@@ -78,6 +78,14 @@ RSpec.describe TestApplications do
     }.to raise_error(/You cannot have zero courses per application/)
   end
 
+  it 'does not create UCAS match for applications in the next cycle' do
+    srand(1)
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: Time.zone.now.year + 1))
+    TestApplications.new.create_application(states: %i[offer])
+
+    expect(UCASMatch.count).to eq(0)
+  end
+
   describe 'supplying our own courses' do
     it 'creates applications only for the supplied courses' do
       course_we_want = create(:course_option, course: create(:course, :open_on_apply)).course

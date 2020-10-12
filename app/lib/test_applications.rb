@@ -148,7 +148,7 @@ class TestApplications
           put_application_choice_in_state(application_choice, state)
         end
 
-        FactoryBot.create(:ucas_match, application_form: @application_form) if rand < 0.5
+        FactoryBot.create(:ucas_match, application_form: @application_form) if (courses_to_apply_to.map(&:recruitment_cycle_year).uniq == [Time.zone.now.year]) && rand < 0.7
       end
 
       application_choices.each do |application_choice|
