@@ -148,10 +148,48 @@ RSpec.describe ViewHelper, type: :helper do
     end
   end
 
-  describe '#days_to_respond_to' do
-    it 'returns the number of days before application is rejected' do
-      choice = build(:application_choice, reject_by_default_at: Date.current + 1.week)
-      expect(helper.days_to_respond_to(choice)).to eq(7)
+  describe '#days_until' do
+    it 'returns a phrase expressing the number of days' do
+      expect(helper.days_until(Date.current + 2)).to eq('2 days')
+      expect(helper.days_until(Date.current + 1)).to eq('1 day')
+      expect(helper.days_until(Date.current + 0.5)).to eq('less than 1 day')
+    end
+  end
+
+  describe '#time_is_today_or_tomorrow?' do
+    it 'is true for now' do
+      expect(helper.time_is_today_or_tomorrow?(Time.zone.now)).to be true
+    end
+
+    it 'is true for a time in an hour' do
+      expect(helper.time_is_today_or_tomorrow?(Time.zone.now + 1.hour)).to be true
+    end
+
+    it 'is not true for a time 24 hours ago' do
+      expect(helper.time_is_today_or_tomorrow?(Time.zone.now - 24.hours)).to be false
+    end
+
+    it 'is not true for a time in 49 hours' do
+      expect(helper.time_is_today_or_tomorrow?(Time.zone.now - 49.hours)).to be false
+    end
+  end
+
+  describe '#time_today_or_tomorrow' do
+    it 'returns the time tomorrow for a time tomorrow' do
+      time = Time.zone.tomorrow.midnight + 3.hours
+      expect(helper.time_today_or_tomorrow(time)).to eq ' 3:00am tomorrow'
+    end
+
+    it 'returns the bare time for a time today' do
+      Timecop.freeze(Time.zone.now.midnight) do
+        time = Time.zone.now + 6.hours
+        expect(helper.time_today_or_tomorrow(time)).to eq ' 6:00am'
+      end
+    end
+
+    it 'throws an exception when the time is not today or tomorrow' do
+      time = Time.zone.now + 2.days
+      expect { helper.time_today_or_tomorrow(time) }.to raise_error(/was expected to be today or tomorrow/)
     end
   end
 end

@@ -18,10 +18,7 @@ module ProviderInterface
 
     def days_to_respond_text
       if (days_left_to_respond = application_choice.days_left_to_respond)
-        return '1 day to respond' if days_left_to_respond == 1
-        return 'Less than 1 day to respond' if days_left_to_respond < 1
-
-        "#{days_left_to_respond} days to respond"
+        "#{days_until(Date.current + days_left_to_respond).capitalize} to respond"
       end
     end
 
