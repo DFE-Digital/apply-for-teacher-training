@@ -772,6 +772,8 @@ Rails.application.routes.draw do
       get '/users' => 'providers#users', as: :provider_user_list
       get '/applications' => 'providers#applications', as: :provider_applications
       get '/history' => 'providers#history', as: :provider_history
+      get '/relationships' => 'providers#relationships', as: :provider_relationships
+      post '/relationships' => 'providers#update_relationships', as: :update_provider_relationships
 
       post '' => 'providers#open_all_courses'
       post '/enable_course_syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing
