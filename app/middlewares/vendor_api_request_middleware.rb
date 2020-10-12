@@ -53,7 +53,7 @@ private
   end
 
   def trace_request?
-    FeatureFlag.active?('vendor_api_request_tracing') && vendor_api_path?
+    vendor_api_path? && FeatureFlag.active?('vendor_api_request_tracing')
   end
 
   def vendor_api_path?
