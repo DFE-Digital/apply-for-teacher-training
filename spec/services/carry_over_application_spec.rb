@@ -33,18 +33,6 @@ RSpec.describe CarryOverApplication do
     it_behaves_like 'duplicates application form', 'apply_1', 2021
   end
 
-  context 'when original application is from the current open recruitment cycle' do
-    before do
-      original_application_form.update(recruitment_cycle_year: 2020)
-    end
-
-    it 'raises an error' do
-      Timecop.freeze(Time.zone.local(2020, 8, 1, 12, 0, 0)) do
-        expect { described_class.new(original_application_form).call }.to raise_error(ArgumentError)
-      end
-    end
-  end
-
   context 'when original application is from the current recruitment cycle but that cycle has now closed' do
     around do |example|
       Timecop.freeze(Time.zone.local(2020, 9, 19, 12, 0, 0)) do
