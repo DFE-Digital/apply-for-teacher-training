@@ -16,8 +16,7 @@ module CandidateInterface
 
       def create
         if request_now?
-          CandidateInterface::RequestReference.call(@reference)
-          flash[:success] = "Reference request sent to #{@reference.name}"
+          CandidateInterface::DecoupledReferences::RequestReference.call(@reference, flash)
         end
         redirect_to candidate_interface_decoupled_references_review_path
       end

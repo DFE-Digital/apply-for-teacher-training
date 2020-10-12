@@ -17,9 +17,7 @@ module CandidateInterface
 
         @reference_candidate_name_form.save(@reference)
 
-        # TODO: Refactor this to DRY wrt to RequestController
-        CandidateInterface::RequestReference.call(@reference)
-        flash[:success] = "Reference request sent to #{@reference.name}"
+        CandidateInterface::DecoupledReferences::RequestReference.call(@reference, flash)
         redirect_to candidate_interface_decoupled_references_review_path
       end
 
