@@ -31,4 +31,20 @@
       <%= details %>
     </div>
   </details>
+<% elsif safeguarding_issues_declared? %>
+  <p class="govuk-body">
+    <% if provider_user_associated_with_training_provider? %>
+      <% if fix_it_yourself_path %>
+        Since you have administrator privileges, you may allow yourself access to this information by visiting <%= govuk_link_to fix_it_yourself_path, fix_it_yourself_path %>.
+      <% elsif training_provider_user_who_can_fix_this %>
+        If you think you should have access to this information, please contact
+        <a class="govuk-link" href="mailto:<%= training_provider_user_who_can_fix_this.email_address %>">
+          <%= training_provider_user_who_can_fix_this.email_address %>
+        </a>
+      <% end %>
+    <% else %>
+      If you think your organisation should have access to this information, please contact
+      <%= application_choice.offered_course.provider.name %>
+    <% end %>
+  </p>
 <% end %>

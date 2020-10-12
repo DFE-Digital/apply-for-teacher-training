@@ -69,15 +69,60 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
     end
 
     context 'when training provider organisation does not have permissions to view safeguarding information' do
-      it 'displays the correct text' do
+      before do
         provider_relationship_permissions.update!(
           training_provider_can_view_safeguarding_information: false,
           ratifying_provider_can_view_safeguarding_information: true,
         )
+
+        provider_user.provider_permissions.find_by(provider: training_provider).update(view_safeguarding_information: true)
+      end
+
+      it 'when user has manage_organisations' do
+        provider_user.provider_permissions.find_by(provider: training_provider).update(manage_organisations: true)
         result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
         expect(result.text).to include(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare_no_permissions'))
         expect(result.text).not_to include('View information disclosed by the candidate')
+        expect(result.text).to include('allow yourself access to this information')
+      end
+
+      it 'when user does not have manage_organisations' do
+        provider_user.provider_permissions.find_by(provider: training_provider).update(manage_organisations: false)
+        provider_user_who_can_fix = create(
+          :provider_permissions,
+          provider: training_provider,
+          manage_organisations: true,
+        ).provider_user
+
+        result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
+
+        expect(result.text).to include(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare_no_permissions'))
+        expect(result.text).not_to include('View information disclosed by the candidate')
+        expect(result.text).to include(provider_user_who_can_fix.email_address)
+      end
+    end
+
+    context 'when ratifying provider organisation does not have permissions to view safeguarding information' do
+      let(:provider_user) { create(:provider_user, providers: [ratifying_provider]) }
+
+      before do
+        provider_relationship_permissions.update!(
+          training_provider_can_view_safeguarding_information: false,
+          ratifying_provider_can_view_safeguarding_information: true,
+        )
+      end
+
+      it 'displays the correct text' do
+        result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
+
+        expect(result.text).to include(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare_no_permissions'))
+        expect(result.text).not_to include('View information disclosed by the candidate')
+      end
+
+      it 'suggests contacting the training provider to fix' do
+        result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
+        expect(result.text).to include(training_provider.name)
       end
     end
   end
