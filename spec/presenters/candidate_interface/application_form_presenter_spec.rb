@@ -693,4 +693,48 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       expect(presenter).not_to be_no_incomplete_qualifications
     end
   end
+
+  describe '#references_link_text' do
+    context 'no references present' do
+      let(:application_form) { create(:application_form) }
+
+      it 'returns the correct link text' do
+        presenter = described_class.new(application_form)
+        expect(presenter.references_link_text).to eq 'Add your references'
+      end
+    end
+
+    context 'references present' do
+      let(:application_form) { create(:application_form) }
+
+      before { create(:reference, application_form: application_form) }
+
+      it 'returns the correct link text' do
+        presenter = described_class.new(application_form)
+        expect(presenter.references_link_text).to eq 'Manage your references'
+      end
+    end
+  end
+
+  describe '#references_path' do
+    context 'no references present' do
+      let(:application_form) { create(:application_form) }
+
+      it 'is the references start page' do
+        presenter = described_class.new(application_form)
+        expect(presenter.references_path).to eq Rails.application.routes.url_helpers.candidate_interface_decoupled_references_start_path
+      end
+    end
+
+    context 'references present' do
+      let(:application_form) { create(:application_form) }
+
+      before { create(:reference, application_form: application_form) }
+
+      it 'is the references review page' do
+        presenter = described_class.new(application_form)
+        expect(presenter.references_path).to eq Rails.application.routes.url_helpers.candidate_interface_decoupled_references_review_path
+      end
+    end
+  end
 end

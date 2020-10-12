@@ -6,8 +6,15 @@ RSpec.feature 'Review references' do
   scenario 'the candidate has several references in different states' do
     given_i_am_signed_in
     and_the_decoupled_references_flag_is_on
-    and_i_have_added_references
-    then_i_can_review_my_references_before_submission
+    when_i_view_my_application
+    then_the_references_section_is_incomplete
+
+    when_i_have_added_references
+    then_the_references_section_is_still_incomplete
+
+    when_enough_references_have_been_given
+    then_the_references_section_is_complete
+    and_i_can_review_my_references_before_submission
     and_i_can_edit_a_reference
     and_i_can_delete_a_reference
     and_i_can_return_to_the_application_page
@@ -21,7 +28,25 @@ RSpec.feature 'Review references' do
     FeatureFlag.activate('decoupled_references')
   end
 
-  def and_i_have_added_references
+  def when_i_view_my_application
+    visit candidate_interface_application_form_path
+  end
+
+  def then_the_references_section_is_incomplete
+    when_i_view_my_application
+    within '#add-your-references-badge-id' do
+      expect(page).to have_content 'Incomplete'
+    end
+  end
+
+  def then_the_references_section_is_still_incomplete
+    when_i_view_my_application
+    within '#manage-your-references-badge-id' do
+      expect(page).to have_content 'Incomplete'
+    end
+  end
+
+  def when_i_have_added_references
     application_form = current_candidate.current_application
     @complete_reference = create(:reference, :complete, application_form: application_form)
     @not_sent_reference = create(:reference, :unsubmitted, application_form: application_form)
@@ -29,8 +54,20 @@ RSpec.feature 'Review references' do
     @refused_reference = create(:reference, :refused, application_form: application_form)
   end
 
-  def then_i_can_review_my_references_before_submission
-    visit candidate_interface_decoupled_references_review_path
+  def when_enough_references_have_been_given
+    create(:reference, :complete, application_form: current_candidate.current_application)
+  end
+
+  def then_the_references_section_is_complete
+    when_i_view_my_application
+    within '#manage-your-references-badge-id' do
+      expect(page).to have_content 'Complete'
+    end
+  end
+
+  def and_i_can_review_my_references_before_submission
+    click_link 'Manage your references'
+    expect(page).to have_current_path candidate_interface_decoupled_references_review_path
 
     within '#references_given' do
       expect(page).to have_content @complete_reference.email_address
