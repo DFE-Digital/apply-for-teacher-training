@@ -15,9 +15,9 @@
       <% @providers.each do |provider| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
-            <p class="govuk-!-margin-top-1 govuk-!-margin-bottom-1">
+            <span class="govuk-!-display-block govuk-!-margin-bottom-1">
               <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
-            </p>
+            </span>
             <% if provider.no_admin_users? %>
               <%= render TagComponent.new(text: 'Needs attention', type: :red) %>
             <% end %>
