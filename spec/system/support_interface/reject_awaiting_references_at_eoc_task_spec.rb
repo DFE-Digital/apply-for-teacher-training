@@ -43,7 +43,7 @@ RSpec.feature 'Reject applications awaiting references suppor task', sidekiq: tr
   end
 
   def and_i_click_the_i_am_sure_button
-    click_button 'Yes, I’m sure - reject all applications awaiting references'
+    click_button 'Yes, I’m sure – reject all applications awaiting references'
   end
 
   def then_i_see_that_the_job_has_been_scheduled

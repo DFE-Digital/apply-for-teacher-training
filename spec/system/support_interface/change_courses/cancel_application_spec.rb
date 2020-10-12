@@ -42,7 +42,7 @@ RSpec.feature 'Cancel application' do
   end
 
   def and_i_confirm_the_cancellation
-    click_on 'Cancel the application'
+    click_on 'Yes I’m sure – cancel this application'
   end
 
   def then_the_application_is_cancelled

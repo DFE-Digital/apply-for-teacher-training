@@ -21,7 +21,7 @@ class NavigationItems
     def for_support_primary_nav(current_support_user, current_controller)
       if current_support_user
         [
-          NavigationItem.new('Candidates', support_interface_applications_path, is_active(current_controller, %w[candidates import_references application_forms ucas_matches])),
+          NavigationItem.new('Candidates', support_interface_applications_path, is_active(current_controller, %w[candidates change_course import_references application_forms ucas_matches])),
           NavigationItem.new('Providers', support_interface_providers_path, is_active(current_controller, %w[providers courses provider_users api_tokens])),
           NavigationItem.new('Performance', support_interface_performance_path, is_active(current_controller, %w[performance performance_data course_options email_log validation_errors])),
           NavigationItem.new('Settings', support_interface_feature_flags_path, is_active(current_controller, %w[feature_flags cycles support_users tasks])),

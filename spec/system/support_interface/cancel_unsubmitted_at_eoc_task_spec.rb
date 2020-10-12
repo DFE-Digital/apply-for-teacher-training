@@ -43,7 +43,7 @@ RSpec.feature 'Cancel unsubmitted applications support task', sidekiq: true do
   end
 
   def and_i_click_the_i_am_sure_button
-    click_button 'Yes, I’m sure - cancel all unsubmitted applications'
+    click_button 'Yes, I’m sure – cancel all unsubmitted applications'
   end
 
   def then_i_see_that_the_job_has_been_scheduled
