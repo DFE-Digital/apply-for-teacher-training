@@ -1,17 +1,17 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @request_form, url: candidate_interface_decoupled_references_create_request_path, method: :post do |f| %>
-      <%= f.govuk_error_summary %>
+    <span class="govuk-caption-xl">
+      <%= @reference.name %>
+    </span>
+    <h1 class="govuk-heading-xl">Are you ready to send a reference request?</h1>
 
-      <%= f.govuk_radio_buttons_fieldset :request_now, legend: { text: "Are you ready to send a reference request to #{@request_form.referee_name}?", size: 'xl' } do %>
-        <div class="govuk-!-margin-top-7">
-          <%= f.govuk_radio_button :request_now, 'yes', link_errors: true, label: { text: 'Yes, send a reference request now' } %>
-          <%= f.govuk_radio_button :request_now, 'no', label: { text: 'No, not at the moment' } %>
-        </div>
-      <% end %>
-
-      <%= f.govuk_submit 'Save and continue' %>
+    <p class="govuk-body">We’ll send <%= @reference.name %> an email asking them to give you a reference.</p>
+    <%= form_with model: @request_form, url: candidate_interface_decoupled_references_create_request_path(@reference.id) do |f| %>
+      <%= f.govuk_text_field :request_now, label: { hidden: true }, hidden: true %>
+      <%= f.govuk_submit 'Yes I’m sure - send my reference request' %>
+      <p class="govuk-body">
+        <%= govuk_link_to 'No - I’ve changed my mind', candidate_interface_decoupled_references_review_path, class: 'govuk-body' %>
+      </p>
     <% end %>
   </div>
 </div>
-

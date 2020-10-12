@@ -100,6 +100,20 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     end
   end
 
+  context 'when reference state is "not_requested_yet"' do
+    let(:feedback_requested) { create(:reference, :requested) }
+    let(:not_requested_yet) { create(:reference, :not_requested_yet) }
+
+    it 'a send request link is available' do
+      result = render_inline(described_class.new(references: [feedback_requested, not_requested_yet]))
+
+      feedback_requested_summary = result.css('.app-summary-card')[0]
+      feedback_refused_summary = result.css('.app-summary-card')[1]
+      expect(feedback_requested_summary.text).not_to include 'Send request'
+      expect(feedback_refused_summary.text).to include 'Send request'
+    end
+  end
+
 private
 
   def status_table

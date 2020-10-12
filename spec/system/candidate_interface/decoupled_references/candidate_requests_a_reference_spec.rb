@@ -32,6 +32,12 @@ RSpec.feature 'Candidate requests a reference' do
     then_i_do_not_see_a_confirmation_message
     and_the_reference_is_not_moved_to_the_requested_state
     and_an_email_is_not_sent_to_the_referee
+
+    when_i_click_the_send_reference_link
+    and_i_confirm_that_i_am_ready_to_send_a_reference_request
+    then_i_see_a_confirmation_message
+    and_the_reference_is_moved_to_the_requested_state
+    and_an_email_is_sent_to_the_referee
   end
 
   def given_i_am_signed_in
@@ -49,7 +55,7 @@ RSpec.feature 'Candidate requests a reference' do
 
   def and_i_visit_the_reference_review_page
     # TODO: Navigate to the last page of the reference creation flow
-    visit candidate_interface_decoupled_references_new_request_path(@reference.id)
+    visit candidate_interface_decoupled_references_start_request_path(@reference.id)
   end
 
   def and_i_choose_to_request_reference_immediately
@@ -114,5 +120,14 @@ RSpec.feature 'Candidate requests a reference' do
   def and_an_email_is_not_sent_to_the_referee
     open_email(@reference.email_address)
     expect(current_email).to be_nil
+  end
+
+  def when_i_click_the_send_reference_link
+    click_link 'Send request'
+  end
+
+  def and_i_confirm_that_i_am_ready_to_send_a_reference_request
+    expect(page).to have_content('Are you ready to send a reference request?')
+    click_button 'Yes I’m sure - send my reference request'
   end
 end
