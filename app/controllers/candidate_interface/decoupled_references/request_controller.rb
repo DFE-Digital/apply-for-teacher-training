@@ -10,6 +10,8 @@ module CandidateInterface
       end
 
       def new
+        render_404 and return unless can_send?
+
         @request_form = Reference::RequestForm.build_from_reference(@reference)
         @request_form.request_now = 'yes'
       end
@@ -22,6 +24,13 @@ module CandidateInterface
       end
 
     private
+
+      def can_send?
+        CandidateInterface::Reference::SubmitRefereeForm.new(
+          submit: 'yes',
+          reference_id: @reference.id,
+        ).valid?
+      end
 
       def prompt_for_candidate_name_if_not_already_given
         if request_now? &&

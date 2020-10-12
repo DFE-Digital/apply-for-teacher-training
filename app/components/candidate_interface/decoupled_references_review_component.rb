@@ -25,7 +25,7 @@ module CandidateInterface
       reference.not_requested_yet? &&
         CandidateInterface::Reference::SubmitRefereeForm.new(
           submit: 'yes',
-          reference_id: reference.id
+          reference_id: reference.id,
         ).valid?
     end
 
