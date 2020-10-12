@@ -21,6 +21,7 @@ private
       .index_with { |question| survey[question] }
     {
       'Name' => application_form.full_name,
+      'Recruitment cycle year' => application_form.recruitment_cycle_year,
       'Email_address' => application_form.candidate.email_address,
       'Phone number' => application_form.phone_number,
     }.merge(survey_fields)

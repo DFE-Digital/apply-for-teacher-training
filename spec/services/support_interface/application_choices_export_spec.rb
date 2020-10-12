@@ -12,6 +12,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
 
       expect(choices).to contain_exactly(
         {
+          recruitment_cycle_year: submitted_form.recruitment_cycle_year,
           support_reference: submitted_form.support_reference,
           phase: submitted_form.phase,
           submitted_at: submitted_form.submitted_at,
@@ -29,6 +30,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           rejection_reason: nil,
         },
         {
+          recruitment_cycle_year: submitted_form.recruitment_cycle_year,
           support_reference: submitted_form.support_reference,
           phase: submitted_form.phase,
           submitted_at: submitted_form.submitted_at,

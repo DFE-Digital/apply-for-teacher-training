@@ -22,6 +22,7 @@ module SupportInterface
 
         output = {
           support_reference: application_form.support_reference,
+          recruitment_cycle_year: application_form.recruitment_cycle_year,
           process_state: ProcessState.new(application_form).state,
           signed_up_at: application_form.candidate.created_at,
           first_signed_in_at: application_form.created_at,
