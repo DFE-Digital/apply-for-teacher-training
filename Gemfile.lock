@@ -141,6 +141,8 @@ GEM
       i18n (>= 1.6, < 2)
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
+    faraday-http-cache (2.2.0)
+      faraday (>= 0.8)
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
     ffi (1.12.2)
@@ -524,6 +526,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
+  faraday-http-cache
   govuk_design_system_formbuilder (~> 1.2.9)
   guard-rspec
   holidays
