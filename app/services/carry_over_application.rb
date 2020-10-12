@@ -26,10 +26,6 @@ private
   end
 
   def recruitment_cycle_year
-    if EndOfCycleTimetable.between_cycles_apply_2? && EndOfCycleTimetable.current_cycle?(@application_form)
-      RecruitmentCycle.next_year
-    else
-      RecruitmentCycle.current_year
-    end
+    @application_form.recruitment_cycle_year + 1
   end
 end
