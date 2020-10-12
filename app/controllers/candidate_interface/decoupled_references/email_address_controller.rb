@@ -26,14 +26,19 @@ module CandidateInterface
 
         @reference_email_address_form.save(@reference)
 
-        redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+        if return_to_path.present?
+          redirect_to return_to_path
+        else
+          redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+        end
       end
 
     private
 
       def referee_email_address_param
-        params.require(:candidate_interface_reference_referee_email_address_form).permit(:email_address)
-        .merge!(reference_id: @reference.id)
+        params
+          .require(:candidate_interface_reference_referee_email_address_form).permit(:email_address)
+          .merge!(reference_id: @reference.id)
       end
     end
   end

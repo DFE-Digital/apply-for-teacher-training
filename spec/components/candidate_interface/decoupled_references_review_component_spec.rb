@@ -147,10 +147,18 @@ private
   def ordered_edit_paths(reference)
     url_helpers = Rails.application.routes.url_helpers
     [
-      url_helpers.candidate_interface_decoupled_references_edit_name_path(reference),
-      url_helpers.candidate_interface_decoupled_references_edit_email_address_path(reference),
-      url_helpers.candidate_interface_decoupled_references_edit_type_path(reference),
-      url_helpers.candidate_interface_decoupled_references_edit_relationship_path(reference),
+      url_helpers.candidate_interface_decoupled_references_edit_name_path(
+        reference, return_to: :review
+      ),
+      url_helpers.candidate_interface_decoupled_references_edit_email_address_path(
+        reference, return_to: :review
+      ),
+      url_helpers.candidate_interface_decoupled_references_edit_type_path(
+        reference, return_to: :review
+      ),
+      url_helpers.candidate_interface_decoupled_references_edit_relationship_path(
+        reference, return_to: :review
+      ),
     ]
   end
 end
