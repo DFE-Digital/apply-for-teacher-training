@@ -69,6 +69,18 @@ RSpec.feature 'Decoupled references' do
     and_i_click_save_and_continue
     then_i_see_the_review_references_page
     and_i_should_see_my_reference
+
+    when_i_visit_the_unsubmitted_reference_page
+    and_i_choose_to_submit_my_reference_now
+    and_i_click_save_and_continue
+    then_i_see_the_candidate_name_page
+
+    when_i_visit_the_unsubmitted_reference_page
+    and_i_have_added_my_name_to_the_application_form
+    and_i_choose_to_submit_my_reference_now
+    and_i_click_save_and_continue
+    then_i_see_the_review_references_page
+    and_i_should_be_told_my_reference_request_has_been_sent
   end
 
   def given_i_am_signed_in
@@ -238,5 +250,25 @@ RSpec.feature 'Decoupled references' do
 
   def and_i_should_see_my_reference
     expect(page).to have_content 'Character reference from Jessie Pinkman'
+  end
+
+  def when_i_visit_the_unsubmitted_reference_page
+    visit candidate_interface_decoupled_references_review_unsubmitted_path(@application.application_references.last.id)
+  end
+
+  def and_i_choose_to_submit_my_reference_now
+    choose 'Yes, send a reference request now'
+  end
+
+  def then_i_see_the_candidate_name_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_create_candidate_name_path(@application.application_references.last.id)
+  end
+
+  def and_i_have_added_my_name_to_the_application_form
+    @application.update!(first_name: 'Hank', last_name: 'Schrader')
+  end
+
+  def and_i_should_be_told_my_reference_request_has_been_sent
+    expect(page).to have_content 'Reference request sent to Jessie Pinkman'
   end
 end

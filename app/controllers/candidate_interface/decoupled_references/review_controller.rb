@@ -11,29 +11,20 @@ module CandidateInterface
       end
 
       def unsubmitted
-        @submit_reference_form = Reference::RefereeSubmitForm.new
+        @submit_reference_form = Reference::SubmitRefereeForm.new
       end
 
       def submit
-        @submit_reference_form = Reference::RefereeSubmitForm.new(submit: submit_param)
+        @submit_reference_form = Reference::SubmitRefereeForm.new(submit: submit_param, reference_id: @reference.id)
         return render :unsubmitted unless @submit_reference_form.valid?
 
-        # TODO: Refactor the below into one form object so we don't need 5 condtionals
-        # Will be done in a follow up PR
-        if @submit_reference_form.submit == 'yes'
-          if Reference::RefereeTypeForm.build_from_reference(@reference).valid? &&
-              Reference::RefereeNameForm.build_from_reference(@reference).valid? &&
-              Reference::RefereeRelationshipForm.build_from_reference(@reference).valid? &&
-              Reference::RefereeEmailForm.build_from_reference(@reference).valid?
+        @candidate_name_form = Reference::CandidateNameForm.build_from_reference(@reference)
 
-            # TODO: Link up with Steve's work
-          else
-            # TODO: Once the forms are moved into objects this won't be necessary
-            # It can just call valid? and render the errors.
-            flash[:warning] = 'You must complete all of your referees details before your reference request can be submitted'
-
-            render :unsubmitted
-          end
+        if @submit_reference_form.send_request? && !@candidate_name_form.valid?
+          redirect_to candidate_interface_decoupled_references_new_candidate_name_path(@reference.id)
+        elsif @submit_reference_form.send_request?
+          CandidateInterface::DecoupledReferences::RequestReference.call(@reference, flash)
+          redirect_to candidate_interface_decoupled_references_review_path
         else
           redirect_to candidate_interface_decoupled_references_review_path
         end
@@ -52,7 +43,7 @@ module CandidateInterface
     private
 
       def submit_param
-        params.dig(:candidate_interface_reference_referee_submit_form, :submit)
+        params.dig(:candidate_interface_reference_submit_referee_form, :submit)
       end
     end
   end

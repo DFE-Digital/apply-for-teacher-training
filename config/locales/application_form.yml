@@ -834,10 +834,11 @@ en:
           attributes:
             relationship:
               blank: Enter how you know this referee and for how long
-        candidate_interface/reference/referee_submit_form:
+        candidate_interface/reference/submit_referee_form:
           attributes:
             submit:
               blank: Choose whether to send your reference request now
+              incomplete: Add all of your referee’s details
         candidate_interface/reference/candidate_name_form:
           attributes:
             first_name:
