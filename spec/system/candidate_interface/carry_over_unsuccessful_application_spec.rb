@@ -24,6 +24,9 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
 
     then_i_can_see_application_details
     and_i_can_see_that_no_courses_are_selected
+
+    when_i_visit_the_carry_over_page_again
+    then_i_am_redirected_to_my_existing_application
   end
 
   def given_i_am_signed_in
@@ -92,5 +95,13 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     expect(page).to have_content('Course choice Incomplete')
     click_link 'Course choice'
     expect(page).to have_content 'You can apply for up to 3 courses'
+  end
+
+  def when_i_visit_the_carry_over_page_again
+    visit candidate_interface_start_carry_over_path
+  end
+
+  def then_i_am_redirected_to_my_existing_application
+    then_i_can_see_application_details
   end
 end
