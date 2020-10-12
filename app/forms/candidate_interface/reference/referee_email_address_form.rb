@@ -13,7 +13,10 @@ module CandidateInterface
     validate :email_address_unique?
 
     def self.build_from_reference(reference)
-      new(email_address: reference.email_address)
+      new(
+        email_address: reference.email_address,
+        reference_id: reference.id,
+      )
     end
 
     def save(reference)
