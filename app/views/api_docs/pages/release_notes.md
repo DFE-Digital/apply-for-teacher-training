@@ -1,9 +1,13 @@
-### 6th October 2020
+### 8th October 2020
 
 New attributes:
 
 - `Candidate` now has a `domicile` attribute of type string, returning a two-letter country code (ISO 3166-2). Its value is derived from the candidate's address.
 - `Qualification` now includes attributes for HESA qualification codes, if the qualification is degree-level. The attributes are: `hesa_degtype`, `hesa_degsbj`, `hesa_degclss`, `hesa_degest`, `hesa_degctry`, `hesa_degstdt`, `hesa_degenddt`.
+
+Changes to existing attributes:
+
+- The `equivalency_details` attribute of `Qualification` will now contain a NARIC code and its description, if these are avalailable. Example: 'Naric: 4000123456 - Between GCSE and GCSE AS Level - Equivalent to GCSE C'
 
 ### 5th October 2020
 
