@@ -20,12 +20,13 @@ module CandidateInterface
 
         @candidate_name_form = Reference::CandidateNameForm.build_from_reference(@reference)
 
-        if @submit_reference_form.send_request? && @candidate_name_form.valid?
+        if @submit_reference_form.send_request? && !@candidate_name_form.valid?
+          redirect_to candidate_interface_decoupled_references_new_candidate_name_path(@reference.id)
+        elsif @submit_reference_form.send_request?
           CandidateInterface::DecoupledReferences::RequestReference.call(@reference, flash)
-
           redirect_to candidate_interface_decoupled_references_review_path
         else
-          redirect_to candidate_interface_decoupled_references_new_candidate_name_path(@reference.id)
+          redirect_to candidate_interface_decoupled_references_review_path
         end
       end
 
