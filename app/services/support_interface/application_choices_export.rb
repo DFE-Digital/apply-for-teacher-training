@@ -4,6 +4,7 @@ module SupportInterface
       relevant_applications.flat_map do |application_form|
         application_form.application_choices.map do |choice|
           {
+            recruitment_cycle_year: application_form.recruitment_cycle_year,
             support_reference: application_form.support_reference,
             phase: application_form.phase,
             choice_id: choice.id,

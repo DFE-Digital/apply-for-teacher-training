@@ -30,9 +30,9 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
     end
 
     it 'returns a hash of referees responses' do
-      reference1 = create(:reference, questionnaire: questionnaire1)
-      reference2 = create(:reference, questionnaire: questionnaire2)
-      create(:reference, questionnaire: questionnaire3)
+      reference1 = create(:reference, questionnaire: questionnaire1, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      reference2 = create(:reference, questionnaire: questionnaire2, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:reference, questionnaire: questionnaire3, application_form: create(:application_form, recruitment_cycle_year: 2021))
 
       expect(described_class.new.call).to match_array([return_expected_hash(reference1), return_expected_hash(reference2)])
     end
@@ -55,6 +55,7 @@ private
   def return_expected_hash(reference)
     {
       'Name' => reference.name,
+      'Recruitment cycle year' => 2021,
       'Email_address' => reference.email_address,
       'Guidance rating' => extract_rating(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
       'Guidance explanation' => extract_explanation(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
