@@ -9,10 +9,12 @@
       <h1 class='govuk-heading-l'>Add provider user</h1>
 
       <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' } %>
-      <%= f.govuk_text_field :first_name, label: { text: 'First name' } %>
-      <%= f.govuk_text_field :last_name, label: { text: 'Last name' } %>
+      <%= f.govuk_text_field :first_name, label: { text: 'First name', size: 'm' } %>
+      <%= f.govuk_text_field :last_name, label: { text: 'Last name', size: 'm' } %>
 
-      <%= render 'provider_options', f: f %>
+      <%= f.govuk_check_boxes_fieldset :provider, legend: { text: 'Providers and permissions' } do %>
+        <%= render 'provider_options', f: f %>
+      <% end %>
 
       <%= f.govuk_submit 'Add provider user' %>
     <% end %>
