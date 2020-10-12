@@ -21,6 +21,14 @@ module CandidateInterface
       ].compact
     end
 
+    def can_send?(reference)
+      reference.not_requested_yet? &&
+        CandidateInterface::Reference::SubmitRefereeForm.new(
+          submit: 'yes',
+          reference_id: reference.id,
+        ).valid?
+    end
+
   private
 
     def formatted_reference_type(reference)

@@ -14,7 +14,7 @@
               <% end %>
             </li>
           <% end %>
-          <% if reference.not_requested_yet? %>
+          <% if can_send?(reference) %>
             <li class="app-summary-card__actions-list-item">
               <%= link_to candidate_interface_decoupled_references_new_request_path(reference.id), class: 'govuk-link' do %>
                 <%= t('application_form.referees.send_request') %>
