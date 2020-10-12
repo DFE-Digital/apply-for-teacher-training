@@ -88,7 +88,7 @@
       ),
     ) %>
   <% else %>
-    <%= render(CandidateInterface::DecoupledReferencesReviewComponent.new(references: application_form.application_references.feedback_provided, editable: editable)) %>
+    <%= render(CandidateInterface::DecoupledReferencesReviewComponent.new(references: application_form.application_references.feedback_provided, editable: false)) %>
   <% end %>
 <% else %>
   <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: true, missing_error: missing_error, submitting_application: true)) %>
