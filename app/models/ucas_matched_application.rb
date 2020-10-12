@@ -56,6 +56,10 @@ class UCASMatchedApplication
       'withdrawn'
     elsif @matching_data['Declined offers'] == '1'
       'declined'
+    elsif @matching_data['Conditional firm'] == '1'
+      'pending_conditions'
+    elsif @matching_data['Unconditional firm'] == '1'
+      'recruited'
     elsif @matching_data['Offers'] == '1'
       'offer'
     else

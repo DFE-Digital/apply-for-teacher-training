@@ -17,6 +17,8 @@ FactoryBot.define do
           withdrawn: { 'Withdrawns' => '1' },
           declined: { 'Declined offers' => '1' },
           offer: { 'Offers' => '1' },
+          pending_conditions: { 'Offers' => '1', 'Conditional firm' => '1' },
+          recruited: { 'Offers' => '1', 'Unconditional firm' => '1' },
           awaiting_provider_decision: { 'Applications' => '1' },
         }.freeze
 
