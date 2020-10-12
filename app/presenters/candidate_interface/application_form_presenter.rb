@@ -118,6 +118,14 @@ module CandidateInterface
       @application_form.work_history_completed
     end
 
+    def references_link_text
+      if @application_form.application_references.present?
+        'Manage your references'
+      else
+        'Add your references'
+      end
+    end
+
     def references_path
       if @application_form.application_references.present?
         Rails.application.routes.url_helpers.candidate_interface_decoupled_references_review_path

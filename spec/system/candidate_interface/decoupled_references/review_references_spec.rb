@@ -10,7 +10,7 @@ RSpec.feature 'Review references' do
     then_the_references_section_is_incomplete
 
     when_i_have_added_references
-    then_the_references_section_is_incomplete
+    then_the_references_section_is_still_incomplete
 
     when_enough_references_have_been_given
     then_the_references_section_is_complete
@@ -39,6 +39,13 @@ RSpec.feature 'Review references' do
     end
   end
 
+  def then_the_references_section_is_still_incomplete
+    when_i_view_my_application
+    within '#manage-your-references-badge-id' do
+      expect(page).to have_content 'Incomplete'
+    end
+  end
+
   def when_i_have_added_references
     application_form = current_candidate.current_application
     @complete_reference = create(:reference, :complete, application_form: application_form)
@@ -53,13 +60,13 @@ RSpec.feature 'Review references' do
 
   def then_the_references_section_is_complete
     when_i_view_my_application
-    within '#add-your-references-badge-id' do
+    within '#manage-your-references-badge-id' do
       expect(page).to have_content 'Complete'
     end
   end
 
   def and_i_can_review_my_references_before_submission
-    click_link 'Add your references'
+    click_link 'Manage your references'
     expect(page).to have_current_path candidate_interface_decoupled_references_review_path
 
     within '#references_given' do

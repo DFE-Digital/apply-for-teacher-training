@@ -694,6 +694,28 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     end
   end
 
+  describe '#references_link_text' do
+    context 'no references present' do
+      let(:application_form) { create(:application_form) }
+
+      it 'returns the correct link text' do
+        presenter = described_class.new(application_form)
+        expect(presenter.references_link_text).to eq 'Add your references'
+      end
+    end
+
+    context 'references present' do
+      let(:application_form) { create(:application_form) }
+
+      before { create(:reference, application_form: application_form) }
+
+      it 'returns the correct link text' do
+        presenter = described_class.new(application_form)
+        expect(presenter.references_link_text).to eq 'Manage your references'
+      end
+    end
+  end
+
   describe '#references_path' do
     context 'no references present' do
       let(:application_form) { create(:application_form) }
