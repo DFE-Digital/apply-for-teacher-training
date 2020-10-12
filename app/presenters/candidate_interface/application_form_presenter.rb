@@ -118,6 +118,14 @@ module CandidateInterface
       @application_form.work_history_completed
     end
 
+    def references_path
+      if @application_form.application_references.present?
+        Rails.application.routes.url_helpers.candidate_interface_decoupled_references_review_path
+      else
+        Rails.application.routes.url_helpers.candidate_interface_decoupled_references_start_path
+      end
+    end
+
     def work_experience_path
       if @application_form.application_work_experiences.any? || @application_form.work_history_explanation.present?
         Rails.application.routes.url_helpers.candidate_interface_work_history_show_path
