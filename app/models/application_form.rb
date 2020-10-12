@@ -154,6 +154,14 @@ class ApplicationForm < ApplicationRecord
     apply_2?
   end
 
+  def must_be_carried_over?
+    if ended_without_success?
+      recruitment_cycle_year < RecruitmentCycle.current_year || EndOfCycleTimetable.between_cycles_apply_2?
+    elsif !submitted?
+      recruitment_cycle_year < RecruitmentCycle.current_year && !EndOfCycleTimetable.between_cycles_apply_1?
+    end
+  end
+
   def choices_left_to_make
     number_of_choices_candidate_can_make - application_choices.size
   end

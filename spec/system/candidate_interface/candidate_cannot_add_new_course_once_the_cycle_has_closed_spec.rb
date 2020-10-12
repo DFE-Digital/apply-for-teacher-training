@@ -38,11 +38,6 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
 
     when_i_visit_the_site
     then_there_is_a_link_to_the_course_choices_section
-
-    given_it_is_the_day_after_the_apply2_deadline
-
-    when_i_visit_the_site
-    then_i_see_that_i_can_carry_over_my_application
   end
 
   def given_i_am_signed_in
@@ -103,13 +98,5 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
 
   def and_it_is_the_day_before_the_apply_2_deadline
     Timecop.travel(EndOfCycleTimetable.apply_2_deadline)
-  end
-
-  def given_it_is_the_day_after_the_apply2_deadline
-    Timecop.travel(EndOfCycleTimetable.apply_2_deadline + 1.day)
-  end
-
-  def then_i_see_that_i_can_carry_over_my_application
-    expect(page).to have_content('You did not submit your application in time')
   end
 end

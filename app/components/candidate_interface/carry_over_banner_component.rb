@@ -8,13 +8,7 @@ module CandidateInterface
     end
 
     def render?
-      if @application_form.ended_without_success?
-        @application_form.recruitment_cycle_year < RecruitmentCycle.current_year ||
-          EndOfCycleTimetable.between_cycles_apply_2?
-      elsif !@application_form.submitted?
-        @application_form.recruitment_cycle_year < RecruitmentCycle.current_year &&
-          !EndOfCycleTimetable.between_cycles_apply_1?
-      end
+      @application_form.must_be_carried_over?
     end
 
     def references_did_not_come_back_in_time?
