@@ -21,7 +21,7 @@ module CandidateInterface
         @course_on_find = true
       end
     rescue ActiveRecord::RecordNotFound
-      @course = FindAPI::Course.fetch(@provider_code, @course_code)
+      @course = fetch_course_from_api
       @course_on_find = true if @course.present?
     end
 
@@ -37,6 +37,12 @@ module CandidateInterface
 
     def pilot_open?
       FeatureFlag.active?('pilot_open')
+    end
+
+    def fetch_course_from_api
+      Rails.cache.fetch ['course-api-request', @provider_code, @course_code], expires_in: 5.minutes do
+        FindAPI::Course.fetch(@provider_code, @course_code)
+      end
     end
   end
 end
