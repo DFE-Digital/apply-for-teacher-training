@@ -25,6 +25,20 @@ RSpec.describe UCASMatchedApplication do
 
       expect(ucas_matching_application.course).to eq(course)
     end
+
+    it 'returns the course details for a course which is not on Apply' do
+      ucas_matching_data =
+        { 'Scheme' => 'U',
+          'Course code' => '123',
+          'Course name' => 'Not on Apply',
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate.id.to_s }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.course.code).to eq('123')
+      expect(ucas_matching_application.course.name).to eq('Not on Apply')
+      expect(ucas_matching_application.course.provider).to eq(course.provider)
+    end
   end
 
   describe '#status' do

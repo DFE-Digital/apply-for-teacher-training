@@ -5,11 +5,21 @@ class UCASMatchedApplication
   end
 
   def course
-    Course.find_by(
+    course = Course.find_by(
       code: @matching_data['Course code'],
       provider: Provider.find_by(code: @matching_data['Provider code']),
       recruitment_cycle_year: @recruitment_cycle_year,
     )
+
+    if course.nil?
+      OpenStruct.new(
+        code: @matching_data['Course code'],
+        name: @matching_data['Course name'],
+        provider: Provider.find_by(code: @matching_data['Provider code']),
+      )
+    else
+      course
+    end
   end
 
   def scheme
