@@ -29,7 +29,6 @@ private
 
     payload = {
       username: 'Apply for teacher training',
-      icon_emoji: ':shipitbeaver:',
       channel: slack_channel,
       text: slack_message,
       mrkdwn: true,

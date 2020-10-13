@@ -3,7 +3,7 @@ class StateChangeNotifier
     helpers = Rails.application.routes.url_helpers
     candidate_number = Candidate.where(hide_in_reporting: false).count
 
-    return unless (candidate_number % 5).zero?
+    return unless (candidate_number % 25).zero?
 
     candidate_number_is_significant = (candidate_number % 100).zero?
     text = if candidate_number_is_significant
@@ -32,7 +32,7 @@ class StateChangeNotifier
       text = "#{application_form.first_name} has just submitted their application"
       url = helpers.support_interface_application_form_url(application_form)
     when :send_application_to_provider
-      text = "#{applicant}’s application is ready to be reviewed by #{provider_name}"
+      text = ":rocket: #{applicant}’s application has been sent to #{provider_name}"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :make_an_offer
       text = "#{provider_name} has just made an offer to #{applicant}’s application"
