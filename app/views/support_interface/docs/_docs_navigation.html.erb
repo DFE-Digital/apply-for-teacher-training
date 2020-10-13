@@ -2,14 +2,14 @@
 <% content_for :title, 'Documentation' %>
 
 <% items = [
-  { name: 'User guidance', url: support_interface_guidance_path },
-  { name: 'Candidate flow', url: support_interface_candidate_flow_path },
-  { name: 'Provider flow', url: support_interface_provider_flow_path },
-  { name: 'When emails are sent', url: support_interface_when_emails_are_sent_path },
+  { name: 'User guidance', url: support_interface_docs_path },
+  { name: 'Candidate flow', url: support_interface_docs_candidate_flow_path },
+  { name: 'Provider flow', url: support_interface_docs_provider_flow_path },
+  { name: 'When emails are sent', url: support_interface_docs_when_emails_are_sent_path },
 ] %>
 
 <% if Rails.application.config.action_mailer.show_previews %>
-  <% items << { name: 'Emails', url: '/support/mailers' } %>
+  <% items << { name: 'Emails', url: support_interface_docs_mailer_previews_path } %>
 <% end %>
 
 <% if Rails.application.config.view_component.show_previews %>

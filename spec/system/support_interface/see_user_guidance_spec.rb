@@ -6,7 +6,7 @@ RSpec.feature 'User guidance' do
   scenario 'Support user can see user guidance' do
     given_i_am_a_support_user
 
-    when_i_visit_the_guidance_page
+    when_i_visit_the_docs_page
     then_i_should_see_the_user_guidance
   end
 
@@ -14,8 +14,8 @@ RSpec.feature 'User guidance' do
     sign_in_as_support_user
   end
 
-  def when_i_visit_the_guidance_page
-    visit support_interface_guidance_path
+  def when_i_visit_the_docs_page
+    visit support_interface_docs_path
   end
 
   def then_i_should_see_the_user_guidance
