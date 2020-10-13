@@ -21,22 +21,22 @@
 
           <%= pf.govuk_check_box :permissions, 'manage_organisations',
                                 label: { text: 'Manage organisations' },
-                                hint_text: 'Change permissions between organisations' %>
+                                hint: { text: 'Change permissions between organisations' } %>
 
           <%= pf.govuk_check_box :permissions, 'manage_users',
                                 label: { text: 'Manage users' },
-                                hint_text: 'Invite or delete users and set their permissions' %>
+                                hint: { text: 'Invite or delete users and set their permissions' } %>
 
           <%= pf.govuk_check_box :permissions, 'make_decisions',
                                 label: { text: 'Make decisions' },
-                                hint_text: 'Make offers, amend offers and reject applications' %>
+                                hint: { text: 'Make offers, amend offers and reject applications' } %>
           <div class="govuk-body govuk-!-margin-left-6">
             <%= render AssociatedProvidersPermissionsListComponent.new(provider: @provider, permission_name: 'make_decisions') %>
           </div>
 
           <%= pf.govuk_check_box :permissions, 'view_safeguarding_information',
                                 label: { text: 'Access safeguarding information' },
-                                hint_text: 'View sensitive material about the candidate' %>
+                                hint: { text: 'View sensitive material about the candidate' } %>
 
           <div class="govuk-body govuk-!-margin-left-6">
             <%= render AssociatedProvidersPermissionsListComponent.new(provider: @provider, permission_name: 'view_safeguarding_information') %>
@@ -44,7 +44,7 @@
 
           <%= pf.govuk_check_box :permissions, 'view_diversity_information',
                                 label: { text: 'Access diversity information' },
-                                hint_text: 'View diversity information about the candidate' %>
+                                hint: { text: 'View diversity information about the candidate' } %>
 
           <div class="govuk-body govuk-!-margin-left-6">
             <%= render AssociatedProvidersPermissionsListComponent.new(provider: @provider, permission_name: 'view_diversity_information') %>

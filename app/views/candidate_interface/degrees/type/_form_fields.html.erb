@@ -1,11 +1,11 @@
 <% if FeatureFlag.active? :international_degrees %>
 
-  <%= f.govuk_radio_buttons_fieldset :uk_degree, legend: { tag: 'span' } do %>
+  <%= f.govuk_radio_buttons_fieldset :uk_degree, legend: { tag: 'span' }, legend: nil do %>
     <%= f.govuk_radio_button :uk_degree, 'yes', label: { text: t('application_form.degree.uk_degree.label') } do %>
       <%= f.govuk_text_field(
         :type_description,
         label: { text: t('application_form.degree.qualification_type.label'), size: 'm' },
-        hint_text: t('application_form.degree.qualification_type.hint_text.undergraduate')
+        hint: { text: t('application_form.degree.qualification_type.hint_text.undergraduate') }
       ) %>
       <%= tag.div(id: 'degree-type-autocomplete', data: { source: @degree_types }) %>
     <% end %>
@@ -13,7 +13,7 @@
       <%= f.govuk_text_field(
         :international_type_description,
         label: { text: t('application_form.degree.international_qualification_type.label'), size: 's' },
-        hint_text: t('application_form.degree.international_qualification_type.hint_text')
+        hint: { text: t('application_form.degree.international_qualification_type.hint_text') }
       ) %>
     <% end %>
   <% end %>
@@ -23,7 +23,7 @@
   <%= f.govuk_text_field(
     :type_description,
     label: { text: t('application_form.degree.qualification_type.label'), size: 'm' },
-    hint_text: t('application_form.degree.qualification_type.hint_text.undergraduate')
+    hint: { text: t('application_form.degree.qualification_type.hint_text.undergraduate') }
   ) %>
   <%= tag.div(id: 'degree-type-autocomplete', data: { source: @degree_types }) %>
 

@@ -9,7 +9,7 @@
 
       <h1 class="govuk-heading-xl"><%= title %></h1>
 
-      <%= f.govuk_radio_buttons_fieldset :add_another_referee do %>
+      <%= f.govuk_radio_buttons_fieldset :add_another_referee, legend: nil do %>
         <%= f.govuk_radio_button :add_another_referee, :yes, label: { text: 'Yes, I want to  add a second referee' }, link_errors: true %>
         <%= f.govuk_radio_button :add_another_referee, :no, label: { text: 'No, I’ll add a second referee later' } %>
       <% end %>
