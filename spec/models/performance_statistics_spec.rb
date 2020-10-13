@@ -109,15 +109,26 @@ RSpec.describe PerformanceStatistics, type: :model do
       create(:application_choice, status: 'recruited')
       create(:application_choice, status: 'pending_conditions')
 
-      stats = PerformanceStatistics.new
+      stats = PerformanceStatistics.new(nil)
 
       expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
       expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(2)
     end
   end
 
+  describe '#initialize' do
+    it 'can filter by year' do
+      create(:application_choice, status: 'recruited', application_form: create(:application_form, recruitment_cycle_year: 2020))
+      create(:application_choice, status: 'recruited', application_form: create(:application_form, recruitment_cycle_year: 2021))
+
+      stats = PerformanceStatistics.new(2021)
+
+      expect(stats.total_candidate_count).to eq(1)
+    end
+  end
+
   def count_for_process_state(process_state)
-    PerformanceStatistics.new[process_state]
+    PerformanceStatistics.new(nil)[process_state]
   end
 
   it 'excludes candidates marked as hidden from reporting' do
@@ -126,7 +137,7 @@ RSpec.describe PerformanceStatistics, type: :model do
     create(:application_form, candidate: hidden_candidate)
     create(:application_form, candidate: visible_candidate)
 
-    stats = PerformanceStatistics.new
+    stats = PerformanceStatistics.new(nil)
 
     expect(stats.total_candidate_count).to eq(1)
   end

@@ -1,5 +1,13 @@
 class PerformanceStatistics
+  attr_reader :year
+
+  def initialize(year)
+    @year = year
+  end
+
   def candidate_query
+    year_clause = year ? "AND f.recruitment_cycle_year = #{year}" : ''
+
     <<-SQL
       WITH raw_data AS (
           SELECT
@@ -29,6 +37,7 @@ class PerformanceStatistics
               application_choices ch ON ch.application_form_id = f.id
           WHERE
               NOT c.hide_in_reporting
+              #{year_clause}
           GROUP BY
               c.id, f.id
       )
