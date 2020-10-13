@@ -3,7 +3,7 @@ class StateChangeNotifier
     helpers = Rails.application.routes.url_helpers
     candidate_number = Candidate.where(hide_in_reporting: false).count
 
-    return unless (candidate_number % 5).zero?
+    return unless (candidate_number % 25).zero?
 
     candidate_number_is_significant = (candidate_number % 100).zero?
     text = if candidate_number_is_significant
