@@ -2,6 +2,7 @@ module CandidateInterface
   class AdditionalRefereesController < CandidateInterfaceController
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
     before_action :redirect_to_contact_support_if_at_maximum_reference_count, only: %i[type update_type new create]
+    before_action :redirect_to_dashboard_if_decoupled_reference_flag_as_active
 
     def type
       @page_title = page_title_for_new_page
@@ -197,6 +198,10 @@ module CandidateInterface
                         .application_references
                         .includes(:application_form)
                         .find(referee_id)
+    end
+
+    def redirect_to_dashboard_if_decoupled_reference_flag_as_active
+      redirect_to candidate_interface_application_form_path if FeatureFlag.active?(:decoupled_references)
     end
   end
 end
