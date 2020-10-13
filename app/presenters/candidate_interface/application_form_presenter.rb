@@ -119,7 +119,9 @@ module CandidateInterface
     end
 
     def references_link_text
-      if @application_form.application_references.present?
+      if @application_form.enough_references_have_been_provided?
+        'Review your references'
+      elsif @application_form.application_references.present?
         'Manage your references'
       else
         'Add your references'
@@ -269,9 +271,11 @@ module CandidateInterface
     end
 
     def all_referees_provided_by_candidate?
-      return true if FeatureFlag.active?(:decoupled_references)
-
       @application_form.references_completed
+    end
+
+    def references_in_progress?
+      !enough_references_provided? && @application_form.application_references.present?
     end
 
     def safeguarding_completed?

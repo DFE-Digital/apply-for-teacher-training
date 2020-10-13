@@ -33,7 +33,7 @@ RSpec.feature 'Submitting an application' do
   end
 
   def and_i_have_completed_my_application
-    candidate_completes_application_form
+    candidate_completes_application_form(with_referees: false)
   end
 
   def then_i_can_see_references_are_incomplete
@@ -65,6 +65,7 @@ RSpec.feature 'Submitting an application' do
   def when_i_have_added_references
     create(:reference, :unsubmitted, application_form: current_candidate.current_application)
     create(:reference, :unsubmitted, application_form: current_candidate.current_application)
+    application.update(references_completed: true)
   end
 
   def and_i_submit_the_application

@@ -22,7 +22,7 @@ module CandidateHelper
     login_as(current_candidate)
   end
 
-  def candidate_completes_application_form
+  def candidate_completes_application_form(with_referees: true)
     FeatureFlag.deactivate(:international_addresses)
     FeatureFlag.deactivate(:international_personal_details)
     FeatureFlag.deactivate(:efl_section)
@@ -78,7 +78,7 @@ module CandidateHelper
     click_link t('page_titles.interview_preferences')
     candidate_fills_in_interview_preferences
 
-    candidate_provides_two_referees
+    candidate_provides_two_referees if with_referees
   end
 
   def candidate_submits_application
