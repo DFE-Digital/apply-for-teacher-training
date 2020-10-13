@@ -9,12 +9,6 @@ RSpec.feature 'Sign in as candidate' do
     when_i_visit_the_application_form_page
     and_click_the_sign_in_button
     then_i_am_logged_in_as_the_candidate
-
-    when_i_visit_the_application_form_page
-    and_the_application_has_a_referee_that_rejected_to_give_feedback
-    and_click_the_sign_in_button
-
-    then_i_am_redirected_to_the_candidate_interface_additional_referee_path
   end
 
   def given_i_am_a_support_user
@@ -36,14 +30,5 @@ RSpec.feature 'Sign in as candidate' do
 
   def then_i_am_logged_in_as_the_candidate
     expect(page).to have_content 'You are now signed in as candidate'
-  end
-
-  def and_the_application_has_a_referee_that_rejected_to_give_feedback
-    @application.application_references << create(:reference, :refused)
-    @application.application_references << create(:reference, :refused)
-  end
-
-  def then_i_am_redirected_to_the_candidate_interface_additional_referee_path
-    expect(page).to have_current_path(candidate_interface_additional_referee_path)
   end
 end
