@@ -1,0 +1,3 @@
+<%= render 'course_navigation', title: 'Applications' %>
+
+<%= render SupportInterface::ApplicationsTableComponent.new(application_forms: @course.application_forms) %>

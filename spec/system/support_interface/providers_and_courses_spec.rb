@@ -39,6 +39,13 @@ RSpec.feature 'Providers and courses' do
     when_i_click_on_a_course_with_applications
     then_i_see_the_course_information
 
+    when_i_visit_course_applications
+    then_i_see_applicatons_to_this_course
+
+    when_i_visit_course_vacancies
+    then_i_see_courses_with_vacancies
+
+    when_i_visit_course
     when_i_choose_to_open_the_course_on_apply
     then_it_should_be_open_on_apply
 
@@ -214,18 +221,42 @@ RSpec.feature 'Providers and courses' do
 
   def then_i_see_the_course_information
     expect(page).to have_title 'Primary (ABC-1)'
-    expect(page).to have_content 'Primary (ABC-1) - Full time at Main site Vacancies'
+    expect(page).to have_content 'Open on UCAS only'
+  end
+
+  def when_i_visit_course_applications
+    course = Course.find_by(code: 'ABC-1')
+    visit support_interface_course_applications_path(course)
+  end
+
+  def then_i_see_applicatons_to_this_course
+    expect(page).to have_title 'Primary (ABC-1)'
     expect(page.all('.app-application-card').size).to eq(2)
   end
 
+  def when_i_visit_course_vacancies
+    course = Course.find_by(code: 'ABC-1')
+    visit support_interface_course_vacancies_path(course)
+  end
+
+  def then_i_see_courses_with_vacancies
+    expect(page).to have_title 'Primary (ABC-1)'
+    expect(page).to have_content 'Primary (ABC-1) - Full time at Main site Vacancies'
+  end
+
+  def when_i_visit_course
+    course = Course.find_by(code: 'ABC-1')
+    visit support_interface_course_path(course)
+  end
+
   def when_i_choose_to_open_the_course_on_apply
-    expect(page).to have_content "Open on Apply\nNo"
-    choose 'Yes, this course is available on Apply and UCAS'
-    click_button 'Save'
+    expect(page).to have_content 'Where can candidates apply for this course?'
+    choose 'Apply and UCAS'
+    click_button 'Update'
   end
 
   def then_it_should_be_open_on_apply
-    expect(page).to have_content "Open on Apply\nYes"
+    expect(page).to have_content 'Open on Apply & UCAS'
   end
 
   def then_i_see_the_updated_providers_courses_and_sites

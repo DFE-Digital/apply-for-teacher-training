@@ -1,6 +1,14 @@
 module SupportInterface
-  class CoursesController < SupportInterfaceController
+  class CourseController < SupportInterfaceController
     def show
+      @course = Course.find(params[:course_id])
+    end
+
+    def applications
+      @course = Course.find(params[:course_id])
+    end
+
+    def vacancies
       @course = Course.find(params[:course_id])
     end
 

@@ -781,8 +781,13 @@ Rails.application.routes.draw do
 
     get '/course-options' => 'course_options#index', as: :course_options
 
-    get '/courses/:course_id' => 'courses#show', as: :course
-    post '/courses/:course_id' => 'courses#update'
+    scope path: '/courses/:course_id' do
+      get '/' => 'course#show', as: :course
+      get '/applications' => 'course#applications', as: :course_applications
+      get '/vacancies' => 'course#vacancies', as: :course_vacancies
+
+      post '' => 'course#update'
+    end
 
     get '/feature-flags' => 'feature_flags#index', as: :feature_flags
     post '/feature-flags/:feature_name/activate' => 'feature_flags#activate', as: :activate_feature_flag
