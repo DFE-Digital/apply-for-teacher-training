@@ -1,4 +1,9 @@
 module RecruitmentCycle
+  CYCLES = {
+    '2021' => '2021 (current)',
+    '2020' => '2020 (previous)',
+  }.freeze
+
   def self.current_year
     if Time.zone.today < EndOfCycleTimetable.find_reopens
       2020
