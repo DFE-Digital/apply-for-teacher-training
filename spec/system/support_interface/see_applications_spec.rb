@@ -27,7 +27,7 @@ RSpec.feature 'See applications' do
   end
 
   def and_i_visit_the_support_page
-    visit support_interface_path
+    visit support_interface_candidates_path
   end
 
   def then_i_should_see_the_latest_applications
@@ -48,7 +48,9 @@ RSpec.feature 'See applications' do
   end
 
   def when_i_follow_the_link_to_applications
-    click_link 'Applications'
+    within '#main-content' do
+      click_link 'Applications'
+    end
   end
 
   def then_i_should_see_the_application_references

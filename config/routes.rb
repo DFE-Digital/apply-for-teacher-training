@@ -696,7 +696,7 @@ Rails.application.routes.draw do
   end
 
   namespace :support_interface, path: '/support' do
-    get '/' => redirect('/support/candidates')
+    get '/' => redirect('/support/applications')
 
     get '/provider-flow', to: 'docs#provider_flow', as: :provider_flow
     get '/candidate-flow', to: 'docs#candidate_flow', as: :candidate_flow

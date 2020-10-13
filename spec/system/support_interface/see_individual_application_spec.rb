@@ -52,7 +52,7 @@ RSpec.feature 'See an application' do
   end
 
   def and_i_visit_the_support_page
-    visit support_interface_path
+    visit support_interface_candidates_path
   end
 
   def when_i_click_on_a_completed_application
@@ -91,7 +91,7 @@ RSpec.feature 'See an application' do
   end
 
   def when_i_return_to_the_support_page
-    click_on 'Candidates', match: :prefer_exact
+    click_on 'Applications', match: :prefer_exact
   end
 
   def and_i_click_on_an_unsubmitted_application

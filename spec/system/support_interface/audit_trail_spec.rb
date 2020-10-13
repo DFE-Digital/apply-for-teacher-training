@@ -66,7 +66,7 @@ RSpec.feature 'See application history', with_audited: true do
   end
 
   def and_i_visit_the_support_page
-    visit support_interface_path
+    visit support_interface_candidates_path
   end
 
   def when_i_click_on_an_application

@@ -185,7 +185,9 @@ RSpec.feature 'Providers and courses' do
   end
 
   def when_i_click_on_applications
-    click_link 'Applications'
+    within '#main-content' do
+      click_link 'Applications'
+    end
   end
 
   def then_i_see_the_provider_applications
