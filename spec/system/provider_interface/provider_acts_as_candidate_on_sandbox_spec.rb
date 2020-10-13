@@ -16,12 +16,6 @@ RSpec.describe 'A Provider can sign in as a candidate' do
     then_i_am_redirected_to_the_candidate_interface
     and_i_see_a_flash_message
     and_i_am_logged_in_as_that_candidate
-
-    when_i_visit_that_application_in_the_provider_interface
-    and_the_application_has_a_referee_that_rejected_to_give_feedback
-    and_i_click_on_the_sign_in_button
-
-    then_i_am_redirected_to_the_candidate_additional_referee_path
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -57,13 +51,5 @@ RSpec.describe 'A Provider can sign in as a candidate' do
 
   def and_i_am_logged_in_as_that_candidate
     expect(page).to have_content(@candidate.email_address)
-  end
-
-  def and_the_application_has_a_referee_that_rejected_to_give_feedback
-    @application_choice.application_form.application_references << create(:reference, :refused)
-  end
-
-  def then_i_am_redirected_to_the_candidate_additional_referee_path
-    expect(page).to have_current_path(candidate_interface_additional_referee_path)
   end
 end
