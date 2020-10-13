@@ -10,6 +10,10 @@ RSpec.feature 'Confirm conditions not met' do
     and_i_am_an_authorised_provider_user
     and_i_can_access_the_provider_interface
 
+    when_i_navigate_to_a_conditions_met_application
+    and_i_navigate_to_the_offer_tab
+    then_i_cannot_update_the_status_of_conditions
+
     when_i_navigate_to_an_offer_accepted_by_the_candidate
     and_i_navigate_to_the_offer_tab
     and_click_on_confirm_conditions
@@ -54,12 +58,25 @@ RSpec.feature 'Confirm conditions not met' do
     visit provider_interface_application_choice_path(@application_choice.id)
   end
 
+  def when_i_navigate_to_a_conditions_met_application
+    conditions_met = create(
+      :application_choice,
+      :with_recruited,
+      course_option: course_option_for_provider_code(provider_code: @provider.code),
+    )
+    visit provider_interface_application_choice_path(conditions_met.id)
+  end
+
   def and_i_navigate_to_the_offer_tab
     click_on 'Offer'
   end
 
   def and_click_on_confirm_conditions
     click_on 'Update status of conditions'
+  end
+
+  def then_i_cannot_update_the_status_of_conditions
+    expect(page).not_to have_content 'Update status of conditions'
   end
 
   def and_select_they_have_not_met_the_conditions
