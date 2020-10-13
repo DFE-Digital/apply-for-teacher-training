@@ -30,7 +30,7 @@ module CandidateInterface
     def email_address_unique?
       reference = ApplicationReference.find(reference_id)
       current_email_addresses = (reference.application_form.application_references.map(&:email_address) - [reference.email_address]).compact
-      return true if current_email_addresses.blank?
+      return true if current_email_addresses.blank? || email_address.blank?
 
       errors.add(:email_address, :duplicate) if current_email_addresses.map(&:downcase).include?(email_address.downcase)
     end

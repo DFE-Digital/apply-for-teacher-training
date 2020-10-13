@@ -25,9 +25,18 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
         application_form = create(:application_form)
         create(:reference, email_address: 'iamtheone@whoknocks.com', application_form: application_form)
         application_reference = create(:reference, email_address: nil, application_form: application_form)
-
         form = described_class.new(email_address: 'iAMtheone@whoknocks.com', reference_id: application_reference.id)
+
         expect(form.save(application_reference)).to be(false)
+      end
+    end
+
+    context 'when no email is given' do
+      it 'is not valid' do
+        application_reference = create(:reference, email_address: nil)
+        form = described_class.build_from_reference(application_reference)
+
+        expect(form.valid?).to be(false)
       end
     end
   end
