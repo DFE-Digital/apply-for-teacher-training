@@ -107,8 +107,7 @@ GEM
       ruby-enum (~> 0.5)
     concurrent-ruby (1.1.7)
     connection_pool (2.2.3)
-    crack (0.4.3)
-      safe_yaml (~> 1.0.0)
+    crack (0.4.4)
     crass (1.0.6)
     database_cleaner (1.8.5)
     db-query-matchers (0.10.0)
@@ -420,7 +419,6 @@ GEM
       rest-client
     ruby-progressbar (1.10.1)
     rubyzip (2.0.0)
-    safe_yaml (1.0.5)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -484,7 +482,7 @@ GEM
     webfinger (1.1.0)
       activesupport
       httpclient (>= 2.4)
-    webmock (3.9.1)
+    webmock (3.9.2)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
