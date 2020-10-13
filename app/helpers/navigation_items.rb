@@ -49,7 +49,10 @@ class NavigationItems
       if !current_provider_user || performing_setup
         []
       else
-        [NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes]))]
+        [
+          NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes])),
+          NavigationItem.new('Export data', provider_interface_new_applications_export_path, is_active(current_controller, %w[applications_exports])),
+        ]
       end
     end
 

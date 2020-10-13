@@ -31,7 +31,8 @@ RSpec.feature 'Export applications' do
   end
 
   def when_i_visit_the_export_applications_page
-    visit provider_interface_new_applications_export_path
+    visit provider_interface_applications_path
+    click_on 'Export data'
   end
 
   def and_i_click_export_data
