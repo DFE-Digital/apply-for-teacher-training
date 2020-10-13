@@ -23,8 +23,8 @@ module ProviderInterface
       render_content_page :service_guidance_provider
     end
 
-    def getting_ready_for_next_cycle
-      render_content_page :getting_ready_for_next_cycle
+    def guidance_for_the_new_cycle
+      render_content_page :guidance_for_the_new_cycle
     end
   end
 end

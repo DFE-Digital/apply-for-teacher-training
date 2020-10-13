@@ -26,15 +26,15 @@ RSpec.feature 'Provider can view end-of-cycle comms' do
   end
 
   def then_i_see_a_link_to_the_end_of_cycle_comms_page
-    expect(page).to have_link 'Getting ready for the next cycle: dates for your diary and our plans for a smooth transition'
+    expect(page).to have_content 'Guidance for the new cycle (2020 to 2021)'
   end
 
   def when_i_click_the_link_to_the_end_of_cycle_comms_page
-    click_link 'Getting ready for the next cycle: dates for your diary and our plans for a smooth transition'
+    click_link 'Guidance for the new cycle (2020 to 2021)'
   end
 
   def then_i_see_the_end_of_cycle_comms_page
-    expect(page).to have_content 'Getting ready for the next cycle (2020 to 2021)'
+    expect(page).to have_content 'Guidance for the new cycle (2020 to 2021)'
   end
 
   def when_feature_flag_is_off
@@ -42,6 +42,6 @@ RSpec.feature 'Provider can view end-of-cycle comms' do
   end
 
   def then_i_dont_see_a_link_to_the_end_of_cycle_comms_page
-    expect(page).not_to have_link 'Getting ready for the next cycle: dates for your diary and our plans for a smooth transition'
+    expect(page).not_to have_link 'Guidance for the new cycle (2020 to 2021)'
   end
 end
