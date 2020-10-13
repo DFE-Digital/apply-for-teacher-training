@@ -7,7 +7,6 @@ RSpec.feature 'See UCAS matches' do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
     and_there_are_ucas_matches_in_the_system
-    and_i_visit_the_support_page
 
     when_i_go_to_ucas_matches_page
     then_i_should_see_list_of_ucas_matches
@@ -48,10 +47,6 @@ RSpec.feature 'See UCAS matches' do
         'Provider code' => @course2.provider.code.to_s,
       }
     create(:ucas_match, matching_state: 'new_match', application_form: @application_form, matching_data: [ucas_matching_data, dfe_matching_data])
-  end
-
-  def and_i_visit_the_support_page
-    visit support_interface_path
   end
 
   def when_i_go_to_ucas_matches_page
