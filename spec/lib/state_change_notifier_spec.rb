@@ -32,7 +32,7 @@ RSpec.describe StateChangeNotifier do
       before { StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice) }
 
       it 'mentions applicant\'s first name and provider name' do
-        arg1 = "#{applicant}’s application is ready to be reviewed by #{provider_name}"
+        arg1 = ":rocket: #{applicant}’s application has been sent to #{provider_name}"
         expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
       end
 

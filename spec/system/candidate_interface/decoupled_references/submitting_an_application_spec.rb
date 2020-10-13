@@ -74,7 +74,7 @@ RSpec.feature 'Submitting an application' do
   end
 
   def and_a_slack_notification_is_sent
-    expect_slack_message_with_text "#{application.first_name}’s application is ready to be reviewed by #{provider.name}"
+    expect_slack_message_with_text "#{application.first_name}’s application has been sent to #{provider.name}"
   end
 
   def and_i_can_review_my_application
