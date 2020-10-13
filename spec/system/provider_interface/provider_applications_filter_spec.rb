@@ -171,8 +171,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_i_expect_the_relevant_recruitment_cycle_tags_to_be_visible
-    current_year = RecruitmentCycle.current_year
-    tag_text = "#{current_year - 1} to #{current_year} (Current)"
+    tag_text = '2020 (previous)'
     expect(page).to have_css('.moj-filter-tags', text: tag_text)
   end
 
