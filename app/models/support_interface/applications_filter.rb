@@ -9,7 +9,7 @@ module SupportInterface
     def filter_records(application_forms)
       application_forms = application_forms
         .joins(:candidate)
-        .includes(:candidate, :application_choices)
+        .includes(:candidate, application_choices: [:course, :provider])
         .order(updated_at: :desc)
         .page(applied_filters[:page] || 1).per(15)
 
