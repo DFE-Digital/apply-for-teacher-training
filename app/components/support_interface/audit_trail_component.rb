@@ -15,7 +15,7 @@ module SupportInterface
                  standard_audits
                end
 
-      audits.includes(:user).order('id desc')
+      audits.includes(:user).order('id desc').page(params[:page] || 1).per(30)
     end
 
     attr_reader :audited_thing
