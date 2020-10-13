@@ -51,18 +51,10 @@ module ProviderInterface
     def recruitment_cycle_filter
       return nil unless FeatureFlag.active?(:providers_can_filter_by_recruitment_cycle)
 
-      current_year = RecruitmentCycle.current_year
-      previous_year = RecruitmentCycle.previous_year
-
-      label = {
-        current_year => "#{current_year - 1} to #{current_year} (Current)",
-        previous_year => "#{previous_year - 1} to #{previous_year}",
-      }
-
-      cycle_options = [current_year, previous_year].map do |year|
+      cycle_options = RecruitmentCycle::CYCLES.map do |year, label|
         {
           value: year,
-          label: label[year],
+          label: label,
           checked: applied_filters[:recruitment_cycle_year]&.include?(year.to_s),
         }
       end
