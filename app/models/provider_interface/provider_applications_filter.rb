@@ -55,7 +55,7 @@ module ProviderInterface
         {
           value: year,
           label: label,
-          checked: applied_filters[:recruitment_cycle_year]&.include?(year.to_s),
+          checked: applied_filters[:recruitment_cycle_year]&.include?(year),
         }
       end
 

@@ -10,7 +10,7 @@
   </p>
 
   <% year_choices = RecruitmentCycle::CYCLES.map do |year, label| %>
-    <% { name: label, url: "?year=#{year}&screen=#{params[:screen] || 0}", current: params[:year] == year.to_s } %>
+    <% { name: label, url: "?year=#{year}&screen=#{params[:screen] || 0}", current: params[:year] == year } %>
   <% end %>
 
   <%= render TabNavigationComponent.new(items: [

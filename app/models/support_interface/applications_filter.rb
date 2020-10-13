@@ -39,7 +39,7 @@ module SupportInterface
         {
           value: year,
           label: label,
-          checked: applied_filters[:year]&.include?(year.to_s),
+          checked: applied_filters[:year]&.include?(year),
         }
       end
 
