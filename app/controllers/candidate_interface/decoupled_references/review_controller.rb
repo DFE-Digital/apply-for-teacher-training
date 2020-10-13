@@ -40,6 +40,25 @@ module CandidateInterface
         redirect_to candidate_interface_decoupled_references_review_path
       end
 
+      def confirm_cancel
+        if @reference.feedback_requested?
+          @application_form = current_application
+        else
+          redirect_to candidate_interface_decoupled_references_review_path
+        end
+      end
+
+      def cancel
+        if @reference.feedback_requested?
+          CancelReference.new.call(reference: @reference)
+
+          redirect_to candidate_interface_decoupled_references_review_path
+          flash[:success] = "Reference request cancelled for #{@reference.name}"
+        else
+          redirect_to candidate_interface_decoupled_references_review_path
+        end
+      end
+
     private
 
       def submit_param
