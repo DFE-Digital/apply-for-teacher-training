@@ -12,7 +12,7 @@ module CandidateInterface
 
     def determine_whether_course_is_on_find_or_apply
       provider = Provider.find_by!(code: @provider_code)
-      @course = provider.courses.where(exposed_in_find: true).find_by!(code: @course_code)
+      @course = provider.courses.current_cycle.where(exposed_in_find: true).find_by!(code: @course_code)
 
       if @course&.open_on_apply? && pilot_open?
         @can_apply_on_apply = true
