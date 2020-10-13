@@ -1,0 +1,34 @@
+<h1 class="govuk-heading-xl">Export data</h1>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @form, url: provider_interface_applications_export_path(format: :csv), method: :get do |f| %>
+      <div class="govuk-form-group">
+        <%= f.govuk_collection_check_boxes :recruitment_cycle_years, f.object.recruitment_cycle_options, :id, :name, legend: { text: "Select cycles" } %>
+      </div>
+      <div class="govuk-form-group">
+        <%= f.govuk_radio_buttons_fieldset(:filter_by_status, legend: { text: 'Select applications' }) do %>
+          <%= f.govuk_radio_button :filter_by_status, 'false', label: { text: 'All applications' } %>
+          <%= f.govuk_radio_button :filter_by_status, 'true', label: { text: 'Applications with a specific status' }, link_errors: true do %>
+            <%= f.govuk_collection_check_boxes :statuses, f.object.status_options, :id, :name, legend: { text: "Select statuses" } %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="govuk-form-group">
+        <%= f.govuk_check_boxes_fieldset :include_diversity_information, legend: { text: 'Select to include diversity information' } do %>
+          <div id="diversity-hint" class="govuk-hint">
+            Diversity information is only provided for applications with ‘Accepted’ or ‘Conditions met’ statuses
+          </div>
+          <%= f.govuk_check_box :include_diversity_information, 1, 0, multiple: false, link_errors: true,
+            label: { text: 'Yes – include diversity information' } %>
+        <% end %>
+      </div>
+      <div class="govuk-form-group">
+        <%= f.govuk_collection_check_boxes :provider_ids, @available_providers, :id, :name, legend: { text: "Select applications for certain organisations" } %>
+      </div>
+      <button class="govuk-button" data-module="govuk-button">
+        Export data
+      </button>
+    <% end %>
+  </div>
+</div>
