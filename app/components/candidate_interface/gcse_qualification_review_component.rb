@@ -81,6 +81,8 @@ module CandidateInterface
     end
 
     def country_row
+      return nil unless FeatureFlag.active?('international_gcses') && application_qualification.qualification_type == 'non_uk'
+
       {
         key: 'Country',
         value: COUNTRIES[application_qualification.institution_country],
