@@ -2,7 +2,7 @@
 
 <%= govuk_button_link_to 'Add provider user', new_support_interface_provider_user_path %>
 
-<%= govuk_button_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path %>
+<%= govuk_button_link_to 'Download active provider users (CSV)', support_interface_active_provider_users_path, class: 'govuk-button--secondary' %>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @provider_users) do %>
   <%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>

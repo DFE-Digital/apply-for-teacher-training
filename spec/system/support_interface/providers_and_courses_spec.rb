@@ -176,7 +176,7 @@ RSpec.feature 'Providers and courses' do
 
   def when_i_click_on_users
     within 'main' do
-      click_link 'Provider users'
+      click_link 'Users'
     end
   end
 
