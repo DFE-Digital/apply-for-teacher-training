@@ -78,6 +78,7 @@ Users in your team will be able to:
 * make an offer
 * set conditions
 * offer a different course, location or provider
+* defer an offer
 * withdraw
 * reject, with reasons
 
@@ -134,11 +135,28 @@ By selecting this menu item, and then selecting users from the list, the member 
 
 When you sign into [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) for the first time, you’ll be guided through the process of setting permissions for your team. You can customise permissions to suit your ways of working, and continue to edit them as and when you need.
 
-#### Still to come: setting permissions between organisations
+### Setting permissions between organisations
 
-We’ll soon be releasing a further improvement to the Permissions feature, allowing you to set permissions between you and the organisations you work with (for example, your accredited body).
+You can also set permissions at an organisational level, through the ‘Organisations’ menu item at the top of the screen. You’ll be able to do this for your own organisation and for any accredited bodies you work with.
 
-We’ll update this page when we release organisational permissions.
+We’ve set the following default permissions for accredited bodies:
+
+* all their users can make decisions on applications
+* none of their users can access sensitive candidate information
+
+Only training providers can change these settings - accredited bodies will not be able to do this themselves. You should agree permissions with your partners before changing their settings. 
+
+Once you assign a permission to an accredited body, they can customise it for their own users. For example, if they have decision-making power at an organisational level, they can switch this on and off for particular colleagues. 
+
+### Deferring an offer
+
+You can defer an existing offer to the next cycle. Please bear in mind that you can only do this at the candidate’s request.
+
+Once you’ve agreed on a deferral with the candidate, you’ll need to confirm it in Manage. Search for the relevant application in your applications list, select the ‘Offer’ menu item and click ‘Defer offer’. The application will be marked as deferred and an email will be sent to the candidate confirming this.
+
+You’ll need to review and confirm your offer again at the start of the next cycle. You can also change the details of the offer at that stage - for example, if a location is no longer available. (You’ll be notified within Manage if any course details need to be changed). In addition, you can reset the conditions of the offer, for instance if another criminal record check needs to be carried out. 
+
+Note that you can defer an offer at any point in the cycle, and with conditions in a state of either ‘pending’ or ‘met’. 
 
 ### Email alerts
 
@@ -170,17 +188,21 @@ Training providers have 40 working days to respond to an application (starting f
 
 Candidates have 10 working days to accept or reject offer(s) (starting from the date when all their training providers have responded to their application).
 
-As currently, the reject by default deadline changes over the summer. In 2020, for all applications received between 1 July and 3 October, providers have 20 working days to respond before the application is automatically rejected.
-
 ### Changing the terms of an offer
 
-When you respond to an application, the service allows you change the details of the offer, including the course, main training location and training provider (for example, to another organisation with courses you run or ratify).
+When you respond to an application, the service allows you to change the details of the offer, including the course, main training location and training provider (for example, to another organisation with courses you run or ratify).
 
 You can make these changes, and also amend conditions, even if the offer has already been made, up until the point a candidate accepts it.
 
 The candidate will receive a formal notification of the changed offer, but you should also explain and agree any changes with them directly via email or phone.
 
 Once the candidate has accepted your offer, you cannot change the terms of the offer without their permission.
+
+### Confirming the conditions of an offer 
+
+There is no deadline for confirming that a candidate has satisfied the conditions of an offer. You can update the status of the conditions in Manage whenever the candidate meets them.
+
+To do this, find the relevant application in your applications list, select the ‘Offer’ menu item, and click ‘Update status of conditions’. The application will be marked as ‘Conditions met’. 
 
 ### Apply again (Apply 2)
 
