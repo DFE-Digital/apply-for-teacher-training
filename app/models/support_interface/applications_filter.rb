@@ -35,22 +35,19 @@ module SupportInterface
   private
 
     def year_filter
+      cycle_options = RecruitmentCycle::CYCLES.map do |year, label|
+        {
+          value: year,
+          label: label,
+          checked: applied_filters[:year]&.include?(year.to_s),
+        }
+      end
+
       {
         type: :checkboxes,
         heading: 'Recruitment cycle year',
         name: 'year',
-        options: [
-          {
-            value: '2020',
-            label: '2020 to 2021',
-            checked: applied_filters[:year]&.include?('2020'),
-          },
-          {
-            value: '2021',
-            label: '2021 to 2022',
-            checked: applied_filters[:year]&.include?('2021'),
-          },
-        ],
+        options: cycle_options,
       }
     end
 
