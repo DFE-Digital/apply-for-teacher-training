@@ -1,9 +1,7 @@
 <ul class="govuk-list">
   <% references.each do |reference| %>
     <li class="govuk-body-s">
-      <span class="app-status-indicator app-status-indicator--<%= colour_for(reference) %>">
-      </span>&nbsp;
-      <b><%= reference.name %></b>: <%= status_label_for(reference) %>
+      <span class="app-status-indicator app-status-indicator--<%= colour_for(reference) %>"></span>&nbsp;<b><%= reference.name %></b>: <%= status_label_for(reference) %>
     </li>
   <% end %>
 </ul>
