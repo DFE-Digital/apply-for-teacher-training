@@ -53,16 +53,14 @@
 
       <ul class="app-task-list govuk-!-margin-bottom-8">
         <li class="app-task-list__item">
-          <div class="app-task-list__content">
-            <%= render(
-              TaskListItemComponent.new(
-                text: @application_form_presenter.references_link_text,
-                completed: @application_form_presenter.enough_references_provided?,
-                path: @application_form_presenter.references_path,
-                custom_status: @application_form_presenter.references_in_progress? ? 'In progress' : nil
-              )
-            ) %>
-          </div>
+          <%= render(
+            TaskListItemComponent.new(
+              text: @application_form_presenter.references_link_text,
+              completed: @application_form_presenter.enough_references_provided?,
+              path: @application_form_presenter.references_path,
+              custom_status: @application_form_presenter.references_in_progress? ? 'In progress' : nil
+            )
+          ) %>
           <%= render(
             TaskListItemReferencesComponent.new(
               references: @application_form_presenter.references,
