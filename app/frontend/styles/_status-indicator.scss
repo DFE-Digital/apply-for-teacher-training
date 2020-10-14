@@ -1,55 +1,45 @@
 .app-status-indicator {
   align-items: center;
-  border: govuk-spacing(1) solid;
   border-radius: 100%;
   display: inline-flex;
-  height: govuk-spacing(1);
+  height: govuk-spacing(2);
   justify-content: center;
-  width: govuk-spacing(1);
+  width: govuk-spacing(2);
   margin-right: govuk-spacing(1);
 }
 
 .app-status-indicator--grey {
-  background-color: govuk-shade(govuk-colour("dark-grey"), 30);
-  border-color: govuk-tint(govuk-colour("dark-grey"), 90);
+  background-color: govuk-colour("mid-grey");
 }
 
 .app-status-indicator--purple {
-  background-color: govuk-shade(govuk-colour("purple"), 20);
-  border-color: govuk-tint(govuk-colour("purple"), 80);
+  background-color: govuk-colour("purple");
 }
 
 .app-status-indicator--turquoise {
-  background-color: govuk-shade(govuk-colour("turquoise"), 60);
-  border-color: govuk-tint(govuk-colour("turquoise"), 70);
+  background-color: govuk-colour("turquoise");
 }
 
 .app-status-indicator--blue {
-  background-color: govuk-shade(govuk-colour("blue"), 30);
-  border-color: govuk-tint(govuk-colour("blue"), 80);
+  background-color: govuk-colour("blue");
 }
 
 .app-status-indicator--yellow {
-  background-color: govuk-shade(govuk-colour("yellow"), 65);
-  border-color: govuk-tint(govuk-colour("yellow"), 75);
+  background-color: govuk-colour("yellow");
 }
 
 .app-status-indicator--orange {
-  background-color: govuk-shade(govuk-colour("orange"), 55);
-  border-color: govuk-tint(govuk-colour("orange"), 70);
+  background-color: govuk-colour("orange");
 }
 
 .app-status-indicator--red {
-  background-color: govuk-shade(govuk-colour("red"), 30);
-  border-color: govuk-tint(govuk-colour("red"), 80);
+  background-color: govuk-colour("red");
 }
 
 .app-status-indicator--pink {
-  background-color: govuk-shade(govuk-colour("pink"), 40);
-  border-color: govuk-tint(govuk-colour("pink"), 80);
+  background-color: govuk-colour("pink");
 }
 
 .app-status-indicator--green {
-  background-color: govuk-shade(govuk-colour("green"), 20);
-  border-color: govuk-tint(govuk-colour("green"), 80);
+  background-color: govuk-colour("green");
 }
