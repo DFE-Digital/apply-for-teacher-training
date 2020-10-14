@@ -8,10 +8,18 @@ RSpec.describe UCASMatchedApplication do
   let(:application_form) { create(:completed_application_form, candidate_id: candidate.id, application_choices: [application_choice]) }
   let(:apply_again_application_form) { create(:application_form, candidate_id: candidate.id) }
   let(:recruitment_cycle_year) { 2020 }
+  let(:candidate1) { create(:candidate) }
+  let(:application_choice1) { create(:application_choice, :with_accepted_offer, course_option: course_option) }
+  let(:application_form1) { create(:completed_application_form, candidate_id: candidate1.id, application_choices: [application_choice1]) }
+  let(:candidate2) { create(:candidate) }
+  let(:application_choice2) { create(:application_choice, :with_rejection, course_option: course_option) }
+  let(:application_form2) { create(:completed_application_form, candidate_id: candidate2.id, application_choices: [application_choice2]) }
 
   before do
     apply_again_application_form
     application_form
+    application_form1
+    application_form2
     create(:course, code: course.code, provider: course.provider, recruitment_cycle_year: 2021)
   end
 
@@ -109,6 +117,178 @@ RSpec.describe UCASMatchedApplication do
 
         expect(ucas_matching_application.status).to eq(application_choice.status)
       end
+    end
+  end
+
+  describe '#application_in_progress_on_ucas?' do
+    it 'retruns true if application is not in an unsucesfull state on UCAS' do
+      ucas_matching_data =
+        { 'Scheme' => 'B',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate.id.to_s,
+          'Offers' => '1',
+          'Rejects' => '.',
+          'Withdrawns' => '.',
+          'Applications' => '.',
+          'Unconditional firm' => '1',
+          'Applicant withdrawn entirely from scheme' => '.',
+          'Applicant withdrawn from scheme while offer awaiting applicant reply' => '.',
+          'Applicant withdrawn from scheme after firmly accepting a conditional offer' => '.',
+          'Applicant withdrawn from scheme after firmly accepting an unconditional offer' => '.' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(true)
+    end
+
+    it 'retruns false if application is in unsucesfull state on UCAS' do
+      ucas_matching_data =
+        { 'Scheme' => 'B',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate1.id.to_s,
+          'Offers' => '.',
+          'Rejects' => '.',
+          'Withdrawns' => '1',
+          'Applications' => '.',
+          'Unconditional firm' => '.',
+          'Applicant withdrawn entirely from scheme' => '.',
+          'Applicant withdrawn from scheme while offer awaiting applicant reply' => '.',
+          'Applicant withdrawn from scheme after firmly accepting a conditional offer' => '.',
+          'Applicant withdrawn from scheme after firmly accepting an unconditional offer' => '.' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
+    end
+
+    it 'retruns false the application is DfE scheme' do
+      ucas_matching_data = { 'Scheme' => 'D' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
+    end
+
+    it 'retruns false the provider is not on apply' do
+      ucas_matching_data = { 'Scheme' => 'U', 'Provider code' => 'WELSH PROVIDER CODE' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
+    end
+  end
+
+  describe '#application_in_progress_on_apply?' do
+    it 'retruns true if application is not in an unsucesfull state on Apply' do
+      ucas_matching_data =
+        { 'Scheme' => 'B',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate1.id.to_s }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(true)
+    end
+
+    it 'retruns false if application is in unsucesfull state on Apply' do
+      ucas_matching_data =
+        { 'Scheme' => 'B',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate2.id.to_s }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
+    end
+
+    it 'retruns false the application is UCAS scheme' do
+      ucas_matching_data = { 'Scheme' => 'U' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
+    end
+  end
+
+  describe '#application_accepted_on_ucas?' do
+    it 'retruns true if application is in recruited state on UCAS' do
+      ucas_matching_data =
+        { 'Scheme' => 'U',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate.id.to_s,
+          'Offers' => '1',
+          'Unconditional firm' => '1' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_accepted_on_ucas?).to eq(true)
+    end
+
+    it 'retruns true if application is in pending_conditions state on UCAS' do
+      ucas_matching_data =
+        { 'Scheme' => 'B',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate.id.to_s,
+          'Offers' => '1',
+          'Conditional firm' => '1' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_accepted_on_ucas?).to eq(true)
+    end
+
+    it 'retruns false if application is in unsucesfull state on UCAS' do
+      ucas_matching_data =
+        { 'Scheme' => 'U',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate1.id.to_s,
+          'Withdrawns' => '1' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
+    end
+
+    it 'retruns false the application is DfE scheme' do
+      ucas_matching_data = { 'Scheme' => 'D' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
+    end
+
+    it 'retruns false the provider is not on Apply' do
+      ucas_matching_data = { 'Scheme' => 'U', 'Provider code' => 'WELSH PROVIDER CODE' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
+    end
+  end
+
+  describe '#application_accepted_on_apply?' do
+    it 'retruns true if application is accepted on Apply' do
+      ucas_matching_data =
+        { 'Scheme' => 'D',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate1.id.to_s }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(true)
+    end
+
+    it 'retruns false if application is in unsucesfull state on Apply' do
+      ucas_matching_data =
+        { 'Scheme' => 'B',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate2.id.to_s }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
+    end
+
+    it 'retruns false the application is UCAS scheme' do
+      ucas_matching_data = { 'Scheme' => 'U' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
     end
   end
 end

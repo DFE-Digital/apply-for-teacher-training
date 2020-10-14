@@ -66,4 +66,34 @@ class UCASMatchedApplication
       'awaiting_provider_decision'
     end
   end
+
+  def application_in_progress_on_ucas?
+    return false if dfe_scheme? || provider_not_on_apply?
+
+    !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(mapped_ucas_status)
+  end
+
+  def application_in_progress_on_apply?
+    return false if ucas_scheme?
+
+    !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status)
+  end
+
+  def application_accepted_on_ucas?
+    return false if dfe_scheme? || provider_not_on_apply?
+
+    ApplicationStateChange::ACCEPTED_STATES.include?(mapped_ucas_status.to_sym)
+  end
+
+  def application_accepted_on_apply?
+    return false if ucas_scheme?
+
+    ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym)
+  end
+
+private
+
+  def provider_not_on_apply?
+    Provider.find_by(code: @matching_data['Provider code']).nil?
+  end
 end
