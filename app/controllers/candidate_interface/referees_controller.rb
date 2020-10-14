@@ -5,6 +5,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_referee_destroyed, only: %i[confirm_destroy destroy]
     before_action :set_referees, only: %i[type update_type new create index review]
     before_action :set_nth_referee, only: %i[type new]
+    before_action :redirect_to_dashboard_if_decoupled_reference_flag_is_active
 
     def index
       if @referees.empty?
@@ -178,6 +179,10 @@ module CandidateInterface
     def application_form_params
       params.require(:application_form).permit(:references_completed)
         .transform_values(&:strip)
+    end
+
+    def redirect_to_dashboard_if_decoupled_reference_flag_is_active
+      redirect_to candidate_interface_application_form_path if FeatureFlag.active?(:decoupled_references)
     end
   end
 end
