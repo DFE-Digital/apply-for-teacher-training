@@ -22,11 +22,19 @@ private
       .feedback_requested
       .where(['requested_at < ?', time_limit])
 
-    application_form_ids =
-      outstanding_reference_requests
-      .where(application_form_id: applications_waiting_on_reference_feedback.pluck(:id))
-      .distinct(:application_form_id)
-      .pluck(:application_form_id)
+    if FeatureFlag.active?(:decoupled_references)
+      application_form_ids =
+        outstanding_reference_requests
+        .where(application_form_id: unsubmitted_application_forms.pluck(:id))
+        .distinct(:application_form_id)
+        .pluck(:application_form_id)
+    else
+      application_form_ids =
+        outstanding_reference_requests
+        .where(application_form_id: applications_waiting_on_reference_feedback.pluck(:id))
+        .distinct(:application_form_id)
+        .pluck(:application_form_id)
+    end
 
     ApplicationForm
       .where(id: application_form_ids)
@@ -38,6 +46,10 @@ private
       .joins(:application_choices)
       .group('application_forms.id, application_choices.status')
       .having('application_choices.status = ?', :awaiting_references)
+  end
+
+  def unsubmitted_application_forms
+    ApplicationForm.where(submitted_at: nil)
   end
 
   def time_limit

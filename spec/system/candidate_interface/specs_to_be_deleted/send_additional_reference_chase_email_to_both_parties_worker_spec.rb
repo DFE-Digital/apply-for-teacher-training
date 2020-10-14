@@ -2,10 +2,13 @@ require 'rails_helper'
 
 RSpec.describe SendAdditionalReferenceChaseEmailToBothPartiesWorker do
   describe '#perform', sidekiq: true do
-    FeatureFlag.activate(:decoupled_references)
+    FeatureFlag.deactivate(:decoupled_references)
 
-    it 'sends a chaser email for application forms still awaiting references feedback beyond the configured time limit' do
-      application_form = create(:application_form, first_name: 'Steve', last_name: 'Book')
+    it 'sends a chaser email for application forms still awaiting reference feedback beyond the configured time limit' do
+      application_form = create(
+        :completed_application_form,
+        application_choices: [create(:application_choice, status: :awaiting_references)],
+      )
       reference_triggering_a_chase = create(:reference, :requested, application_form: application_form, requested_at: 29.days.ago)
       other_overdue_reference = create(:reference, :requested, application_form: application_form, requested_at: 29.days.ago)
       create(:reference, :complete, application_form: application_form, requested_at: 29.days.ago)
@@ -23,8 +26,10 @@ RSpec.describe SendAdditionalReferenceChaseEmailToBothPartiesWorker do
     end
 
     it 'persists a record of the application form being chased' do
-      application_form = create(:application_form, first_name: 'Steve', last_name: 'Book')
-
+      application_form = create(
+        :completed_application_form,
+        application_choices: [create(:application_choice, status: :awaiting_references)],
+      )
       create(:reference, :requested, application_form: application_form, requested_at: 29.days.ago)
 
       described_class.new.perform
@@ -34,9 +39,10 @@ RSpec.describe SendAdditionalReferenceChaseEmailToBothPartiesWorker do
       expect(chaser.chased).to eq application_form
     end
 
-    it 'does not send chasers for application forms that have been submitted' do
+    it 'does not send chasers for application forms that are not submitted' do
       application_form = create(
-        :completed_application_form,
+        :application_form,
+        application_choices: [create(:application_choice, status: :unsubmitted)],
       )
       create(:reference, :unsubmitted, requested_at: nil, application_form: application_form)
 
@@ -47,7 +53,12 @@ RSpec.describe SendAdditionalReferenceChaseEmailToBothPartiesWorker do
     end
 
     context 'when a chaser is already sent for an eligible application form' do
-      let(:application_form) { create(:application_form, first_name: 'Steve', last_name: 'Book') }
+      let(:application_form) do
+        create(
+          :completed_application_form,
+          application_choices: [create(:application_choice, status: :awaiting_references)],
+        )
+      end
 
       before { create(:chaser_sent, chased: application_form, chaser_type: :follow_up_missing_references) }
 
