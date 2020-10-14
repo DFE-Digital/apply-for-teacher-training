@@ -63,13 +63,11 @@
               )
             ) %>
           </div>
-          <div class="app-task-list__content">
-            <%= render(
-              TaskListItemReferencesComponent.new(
-                references: @application_form_presenter.references,
-              )
-            ) %>
-          </div>
+          <%= render(
+            TaskListItemReferencesComponent.new(
+              references: @application_form_presenter.references,
+            )
+          ) if @application_form_presenter.references.present? %>
         </li>
       </ul>
     <% end %>
