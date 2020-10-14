@@ -14,20 +14,20 @@
           <td class="govuk-table__cell">
             <%= vendor_api_request.created_at.to_s(:govuk_date_and_time) %>
           </td>
-          <td class="govuk-table__cell">
+          <td class="govuk-table__cell govuk-!-padding-top-0">
             <%= render SummaryListComponent.new(rows: [
               { key: 'Status', value: vendor_api_request.status_code },
               { key: 'Path', value: vendor_api_request.request_path },
               { key: 'Provider', value: vendor_api_request.provider.present? ? vendor_api_request.provider.name : 'Unknown' },
             ]) %>
-            <details class="govuk-details" data-module="govuk-details">
+            <details class="govuk-details app-details" data-module="govuk-details">
               <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text">
                   Details
                 </span>
               </summary>
               <div class="govuk-details__text govuk-body-xs">
-                <h3>Headers</h3>
+                <h3 class="govuk-!-margin-top-0">Headers</h3>
                 <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_headers)) %>
                 <h3>Request params</h3>
                 <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_body)) %>
