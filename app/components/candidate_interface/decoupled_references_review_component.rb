@@ -29,6 +29,14 @@ module CandidateInterface
         ).valid?
     end
 
+    def can_resend?(reference)
+      (reference.cancelled? || reference.email_bounced?) &&
+        CandidateInterface::Reference::SubmitRefereeForm.new(
+          submit: 'yes',
+          reference_id: reference.id,
+        ).valid?
+    end
+
   private
 
     def formatted_reference_type(reference)
