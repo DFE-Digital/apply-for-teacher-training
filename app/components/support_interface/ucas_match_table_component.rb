@@ -50,7 +50,7 @@ module SupportInterface
     end
 
     def course_choice_details(course)
-      "#{course.code} — #{course.name} — #{course.provider.name}"
+      "#{course.code} — #{course.name} — #{course.provider&.name || 'Provider not on Apply'}"
     end
   end
 end

@@ -13,8 +13,8 @@ class UCASMatchedApplication
 
     if course.nil?
       OpenStruct.new(
-        code: @matching_data['Course code'],
-        name: @matching_data['Course name'],
+        code: @matching_data['Course code'].presence || 'Missing course code',
+        name: @matching_data['Course name'].presence || 'Missing course name',
         provider: Provider.find_by(code: @matching_data['Provider code']),
       )
     else
