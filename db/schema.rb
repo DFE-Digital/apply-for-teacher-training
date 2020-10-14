@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_12_081521) do
+ActiveRecord::Schema.define(version: 2020_10_14_115230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -271,6 +271,17 @@ ActiveRecord::Schema.define(version: 2020_10_12_081521) do
     t.index ["recruitment_cycle_year", "provider_id", "code"], name: "index_courses_on_cycle_provider_and_code", unique: true
   end
 
+  create_table "data_exports", force: :cascade do |t|
+    t.string "name"
+    t.binary "data"
+    t.datetime "completed_at"
+    t.string "initiator_type"
+    t.bigint "initiator_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["initiator_type", "initiator_id"], name: "index_data_exports_on_initiator_type_and_initiator_id"
+  end
+
   create_table "emails", force: :cascade do |t|
     t.string "to", null: false
     t.string "subject", null: false
@@ -375,8 +386,8 @@ ActiveRecord::Schema.define(version: 2020_10_12_081521) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", default: -> { "now()" }, null: false
+    t.datetime "updated_at", default: -> { "now()" }, null: false
     t.boolean "manage_users", default: false, null: false
     t.boolean "view_safeguarding_information", default: false, null: false
     t.boolean "make_decisions", default: false, null: false

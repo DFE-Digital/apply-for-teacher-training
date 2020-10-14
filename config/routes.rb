@@ -707,6 +707,9 @@ Rails.application.routes.draw do
     get '/email-log', to: 'email_log#index', as: :email_log
     get '/vendor-api-requests', to: 'vendor_api_requests#index', as: :vendor_api_requests
 
+    get '/data-exports/:id', to: 'data_exports#show', as: :data_export
+    get '/data-exports/:id/download', to: 'data_exports#download', as: :download_data_export
+
     get '/applications' => 'application_forms#index'
     get '/applications/unavailable-choices' => 'application_forms#unavailable_choices', as: :unavailable_choices
     get '/ucas-matches' => 'ucas_matches#index', as: :ucas_matches

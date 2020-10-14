@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate journey tracking CSV' do
+RSpec.feature 'Candidate journey tracking CSV', sidekiq: false do
   include DfESignInHelpers
 
   scenario 'support user can download a CSV with the candidate journey tracking report' do
@@ -8,7 +8,13 @@ RSpec.feature 'Candidate journey tracking CSV' do
     and_there_are_applications_in_the_system
 
     when_i_visit_the_service_performance_data_page
-    then_i_should_be_able_to_download_a_csv
+    and_i_click_the_generate_report_link
+    then_i_see_that_the_export_has_started
+
+    when_the_sidekiq_worker_has_finished
+    and_i_refresh_the_page
+    and_i_click_the_download_link
+    then_the_export_is_downloaded
   end
 
   def given_i_am_a_support_user
@@ -23,7 +29,28 @@ RSpec.feature 'Candidate journey tracking CSV' do
     visit support_interface_performance_data_path
   end
 
-  def then_i_should_be_able_to_download_a_csv
-    click_link 'Download candidate journey tracking (CSV)'
+  def and_i_click_the_generate_report_link
+    Sidekiq::Worker.clear_all
+    click_link 'Generate candidate journey tracking export'
+  end
+
+  def then_i_see_that_the_export_has_started
+    expect(page).to have_content 'This export is being generated'
+  end
+
+  def when_the_sidekiq_worker_has_finished
+    Sidekiq::Worker.drain_all
+  end
+
+  def and_i_refresh_the_page
+    visit page.current_url
+  end
+
+  def and_i_click_the_download_link
+    click_link 'Download export'
+  end
+
+  def then_the_export_is_downloaded
+    expect(page).to have_content 'id,status,recruitment_cycle_year'
   end
 end
