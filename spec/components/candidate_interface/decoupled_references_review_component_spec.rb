@@ -142,7 +142,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     end
   end
 
-  context 'when reference state is "not_requested_yet" and the reference is incomplete' do
+  context 'when reference state is "cancelled" and the reference is incomplete' do
     let(:cancelled) { create(:reference, :cancelled, name: nil) }
 
     it 'a send request link is NOT available' do
