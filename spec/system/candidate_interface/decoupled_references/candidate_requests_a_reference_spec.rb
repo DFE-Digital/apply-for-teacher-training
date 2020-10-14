@@ -47,6 +47,13 @@ RSpec.feature 'Candidate requests a reference' do
     then_i_should_not_see_a_send_reference_link
     when_i_navigate_to_the_send_request_page
     then_i_should_see_a_not_found_message
+
+    when_i_have_a_cancelled_reference
+    and_i_visit_the_reference_review_page
+    and_i_click_the_resend_reference_link
+    and_i_confirm_that_i_am_ready_to_send_a_reference_request
+    then_i_see_a_confirmation_message
+    and_the_reference_is_moved_to_the_requested_state
   end
 
   def given_i_am_signed_in
@@ -163,5 +170,13 @@ RSpec.feature 'Candidate requests a reference' do
 
   def then_i_should_see_a_not_found_message
     expect(page).to have_content('Page not found')
+  end
+
+  def when_i_have_a_cancelled_reference
+    @reference = create(:reference, :cancelled, application_form: @application_form)
+  end
+
+  def and_i_click_the_resend_reference_link
+    click_link 'Send request again'
   end
 end
