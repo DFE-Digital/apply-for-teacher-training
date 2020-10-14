@@ -1,5 +1,5 @@
 module SupportInterface
-  class CyclesController < SupportInterfaceController
+  class SettingsController < SupportInterfaceController
     def switch_cycle_schedule
       new_cycle = params[:support_interface_change_cycle_form][:cycle_schedule_name]
       SiteSetting.set(name: 'cycle_schedule', value: new_cycle)

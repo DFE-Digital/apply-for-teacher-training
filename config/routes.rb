@@ -683,12 +683,6 @@ Rails.application.routes.draw do
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/applications')
 
-    get '/cycles', to: 'cycles#index', as: :cycles
-
-    unless HostingEnvironment.production?
-      post '/cycles', to: 'cycles#switch_cycle_schedule', as: :switch_cycle_schedule
-    end
-
     get '/email-log', to: 'email_log#index', as: :email_log
     get '/vendor-api-requests', to: 'vendor_api_requests#index', as: :vendor_api_requests
 
@@ -792,6 +786,14 @@ Rails.application.routes.draw do
     get '/performance/candidate-journey-tracking', to: 'performance#candidate_journey_tracking', as: :candidate_journey_tracking
     get 'performance/reference-types', to: 'performance#application_references', as: :application_references
     get 'performance/offer-conditions', to: 'performance#offer_conditions', as: :offer_conditions
+
+    scope '/settings' do
+      get '/cycles', to: 'settings#cycles', as: :cycles
+
+      unless HostingEnvironment.production?
+        post '/cycles', to: 'settings#switch_cycle_schedule', as: :switch_cycle_schedule
+      end
+    end
 
     get '/tasks' => 'tasks#index', as: :tasks
     post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
