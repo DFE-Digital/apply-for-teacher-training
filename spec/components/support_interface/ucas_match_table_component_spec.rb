@@ -20,6 +20,16 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
              'Withdrawns' => '1',
            }])
   end
+  let(:ucas_match_for_welsh_provider) do
+    create(:ucas_match,
+           matching_data: [{
+             'Scheme' => 'U',
+             'Course code' => '',
+             'Course name' => '',
+             'Provider code' => 'T80',
+             'Apply candidate ID' => candidate.id.to_s,
+           }])
+  end
 
   it 'renders course choice details for a course on Apply' do
     result = render_inline(described_class.new(ucas_match))
@@ -31,6 +41,12 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
     result = render_inline(described_class.new(ucas_match_course_only_on_ucas))
 
     expect(result.css('td').first.text).to include("123 — Not on Apply — #{course.provider.name}")
+  end
+
+  it 'renders course choice details for a course with missing data and provider' do
+    result = render_inline(described_class.new(ucas_match_for_welsh_provider))
+
+    expect(result.css('td').first.text).to include('Missing course code — Missing course name — Provider not on Apply')
   end
 
   context 'when application is in both Apply and UCAS' do

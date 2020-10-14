@@ -39,6 +39,20 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.course.name).to eq('Not on Apply')
       expect(ucas_matching_application.course.provider).to eq(course.provider)
     end
+
+    it 'handles missing course data' do
+      ucas_matching_data =
+        { 'Scheme' => 'U',
+          'Course code' => '',
+          'Course name' => '',
+          'Provider code' => 'T80',
+          'Apply candidate ID' => candidate.id.to_s }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.course.code).to eq('Missing course code')
+      expect(ucas_matching_application.course.name).to eq('Missing course name')
+      expect(ucas_matching_application.course.provider).to eq(nil)
+    end
   end
 
   describe '#status' do
