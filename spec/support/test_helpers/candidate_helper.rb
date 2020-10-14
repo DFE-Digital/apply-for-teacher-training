@@ -79,17 +79,47 @@ module CandidateHelper
     candidate_fills_in_interview_preferences
 
     candidate_provides_two_referees if with_referees
+
+    @application = ApplicationForm.last
   end
 
   def candidate_submits_application
+    receive_references if FeatureFlag.active?(:decoupled_references)
+
     click_link 'Check and submit your application'
     click_link 'Continue'
     click_link 'Continue without completing questionnaire'
     choose 'No' # "Is there anything else you would like to tell us?"
 
     click_button(FeatureFlag.active?(:decoupled_references) ? 'Send application' : 'Submit application')
-
     @application = ApplicationForm.last
+  end
+
+  def receive_references
+    application_form = ApplicationForm.last
+    first_reference = application_form.application_references.first
+
+    first_reference.update!(
+      feedback: 'My ideal person',
+      relationship_correction: '',
+      safeguarding_concerns: '',
+    )
+
+    SubmitReference.new(
+      reference: first_reference,
+    ).save!
+
+    second_reference = application_form.application_references.last
+
+    second_reference.update!(
+      feedback: 'Lovable',
+      relationship_correction: '',
+      safeguarding_concerns: '',
+    )
+
+    SubmitReference.new(
+      reference: second_reference,
+    ).save!
   end
 
   def given_courses_exist
