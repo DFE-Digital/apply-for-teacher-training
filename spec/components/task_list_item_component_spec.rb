@@ -24,6 +24,6 @@ RSpec.describe TaskListItemComponent do
   it 'renders with a custom status badge' do
     result = render_component(completed: false, custom_status: 'In progress')
     expect(result.css('#personal-details-badge-id').text).to include('In progress')
-    expect(result.css('#personal-details-badge-id').first[:class]).to include('govuk-tag--in-progress')
+    expect(result.css('#personal-details-badge-id').first[:class]).to include('govuk-tag--purple')
   end
 end
