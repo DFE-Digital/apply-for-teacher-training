@@ -1,4 +1,4 @@
-<%= render 'support_interface/settings/settings_navigation', title: 'Feature flags' %>
+<%= render 'settings_navigation', title: 'Feature flags' %>
 
 <% FeatureFlag::FEATURES.each do |feature_name, feature_flag| %>
   <%= render SummaryCardComponent.new(editable: true, border: true, rows: [

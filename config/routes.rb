@@ -769,10 +769,6 @@ Rails.application.routes.draw do
       post '' => 'course#update'
     end
 
-    get '/feature-flags' => 'feature_flags#index', as: :feature_flags
-    post '/feature-flags/:feature_name/activate' => 'feature_flags#activate', as: :activate_feature_flag
-    post '/feature-flags/:feature_name/deactivate' => 'feature_flags#deactivate', as: :deactivate_feature_flag
-
     get '/performance' => 'performance#index', as: :performance
     get '/performance/application-timings', to: 'performance#application_timings', as: :application_timings
     get '/performance/course-stats', to: 'performance#course_stats', as: :course_stats
@@ -788,6 +784,11 @@ Rails.application.routes.draw do
     get 'performance/offer-conditions', to: 'performance#offer_conditions', as: :offer_conditions
 
     scope '/settings' do
+      get '/' => redirect('/support/settings/feature-flags'), as: :settings
+      get '/feature-flags' => 'settings#feature_flags', as: :feature_flags
+      post '/feature-flags/:feature_name/activate' => 'settings#activate_feature_flag', as: :activate_feature_flag
+      post '/feature-flags/:feature_name/deactivate' => 'settings#deactivate_feature_flag', as: :deactivate_feature_flag
+
       get '/cycles', to: 'settings#cycles', as: :cycles
 
       unless HostingEnvironment.production?
