@@ -1,5 +1,20 @@
 <% content_for :title, 'Validation error summary' %>
-<% content_for :before_content, govuk_back_link_to(support_interface_validation_errors_path) %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'Validation errors',
+      path: support_interface_validation_errors_path
+    },
+    {
+      text: 'Validation error summary'
+    }
+  ]) %>
+<% end %>
 
 <table class="govuk-table">
   <thead class="govuk-table__head">

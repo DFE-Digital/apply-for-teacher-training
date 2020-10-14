@@ -65,7 +65,7 @@ RSpec.feature 'Validation errors' do
   end
 
   def when_i_click_on_link_in_breadcrumb_trail
-    click_link 'Back'
+    click_link 'Validation errors'
   end
 
   def then_i_should_be_back_on_index_page
