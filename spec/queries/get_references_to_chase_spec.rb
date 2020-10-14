@@ -8,8 +8,15 @@ RSpec.describe GetReferencesToChase do
       expect(described_class.call).to include reference
     end
 
-    it 'only returns application choices which are awaiting references' do
+    it 'only returns application references which are awaiting references' do
       create(:reference, :complete, requested_at: 8.days.ago)
+
+      expect(described_class.call).to be_empty
+    end
+
+    it 'does not return application forms that have been submitted' do
+      application_form = create(:completed_application_form)
+      create(:reference, feedback_status: 'feedback_requested', requested_at: 8.days.ago, application_form: application_form)
 
       expect(described_class.call).to be_empty
     end
