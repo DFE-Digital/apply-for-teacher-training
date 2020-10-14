@@ -18,7 +18,7 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_visit_the_process_documentation
-    visit support_interface_provider_flow_path
+    visit support_interface_docs_provider_flow_path
   end
 
   def then_i_see_the_provider_flow_documentation

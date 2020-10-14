@@ -698,11 +698,6 @@ Rails.application.routes.draw do
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/candidates')
 
-    get '/provider-flow', to: 'docs#provider_flow', as: :provider_flow
-    get '/candidate-flow', to: 'docs#candidate_flow', as: :candidate_flow
-    get '/when-emails-are-sent', to: 'docs#when_emails_are_sent', as: :when_emails_are_sent
-
-    get '/docs/cycles' => redirect('/cycles')
     get '/cycles', to: 'cycles#index', as: :cycles
 
     unless HostingEnvironment.production?
@@ -819,6 +814,14 @@ Rails.application.routes.draw do
     get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search
     get '/validation-errors/summary' => 'validation_errors#summary', as: :validation_error_summary
 
+    scope '/docs' do
+      get '/', to: 'docs#index', as: :docs
+      get '/provider-flow', to: 'docs#provider_flow', as: :docs_provider_flow
+      get '/candidate-flow', to: 'docs#candidate_flow', as: :docs_candidate_flow
+      get '/when-emails-are-sent', to: 'docs#when_emails_are_sent', as: :docs_when_emails_are_sent
+      get '/mailers' => 'docs#mailer_previews', as: :docs_mailer_previews
+    end
+
     scope '/users' do
       get '/' => 'users#index', as: :users
 
@@ -834,16 +837,12 @@ Rails.application.routes.draw do
       end
     end
 
-    get '/guidance' => 'guidance#index', as: :guidance
-
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
 
     post '/request-sign-in-by-email' => 'sessions#sign_in_by_email', as: :sign_in_by_email
     get '/sign-in/check-email', to: 'sessions#check_your_email', as: :check_your_email
     get '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
-
-    get '/mailers' => 'mailer_previews#index'
 
     # https://github.com/mperham/sidekiq/wiki/Monitoring#rails-http-basic-auth-from-routes
     require 'sidekiq/web'
