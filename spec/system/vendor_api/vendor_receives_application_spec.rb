@@ -5,12 +5,9 @@ require 'rails_helper'
 RSpec.feature 'Vendor receives the application' do
   include CandidateHelper
 
-  before { FeatureFlag.deactivate(:decoupled_references) }
-
   scenario 'A completed application is submitted with references' do
     Timecop.freeze do # simplify date assertions in the response
       given_a_candidate_has_submitted_their_application
-      and_references_have_been_received
       and_the_edit_by_date_has_passed
       and_the_daily_application_cron_job_has_run
 
@@ -22,32 +19,6 @@ RSpec.feature 'Vendor receives the application' do
   def given_a_candidate_has_submitted_their_application
     candidate_completes_application_form
     candidate_submits_application
-  end
-
-  def and_references_have_been_received
-    reference = @application.application_references.first
-
-    reference.update!(
-      feedback: 'My ideal person',
-      relationship_correction: '',
-      safeguarding_concerns: '',
-    )
-
-    SubmitReference.new(
-      reference: reference,
-    ).save!
-
-    reference = @application.application_references.last
-
-    reference.update!(
-      feedback: 'Lovable',
-      relationship_correction: '',
-      safeguarding_concerns: '',
-    )
-
-    SubmitReference.new(
-      reference: reference,
-    ).save!
   end
 
   def and_the_edit_by_date_has_passed
