@@ -4,6 +4,9 @@ RSpec.feature 'Candidate applying again' do
   include CandidateHelper
 
   scenario 'Can replace a completed reference' do
+    # TODO: this feature cannot pass with the flag off at the moment as currently,
+    # there is no way to delete a reference in the feedback provided state
+
     given_the_pilot_is_open
     and_the_decoupled_references_flag_is_off
     and_i_am_signed_in_as_a_candidate
