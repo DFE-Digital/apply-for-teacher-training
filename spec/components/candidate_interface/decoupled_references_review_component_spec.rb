@@ -154,6 +154,19 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     end
   end
 
+  context 'when reference state is "cancelled" but there are already 2 references provided' do
+    let(:cancelled) { create(:reference, :cancelled) }
+    let(:provided_references) { create_list(:reference, 2, :complete, application_form: cancelled.application_form) }
+
+    it 'a send request link is NOT available' do
+      FeatureFlag.activate(:decoupled_references)
+      result = render_inline(described_class.new(references: [cancelled, *provided_references]))
+
+      feedback_not_requested_summary = result.css('.app-summary-card')[0]
+      expect(feedback_not_requested_summary.text).not_to include 'Send request again'
+    end
+  end
+
 private
 
   def status_table
