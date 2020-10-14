@@ -267,31 +267,65 @@ module CandidateHelper
   end
 
   def candidate_fills_in_referee(params = {})
-    fill_in t('application_form.referees.name.label'), with: params[:name] || 'Terri Tudor'
-    fill_in t('application_form.referees.email_address.label'), with: params[:email_address] || 'terri@example.com'
-    fill_in t('application_form.referees.relationship.label'), with: params[:relationship] || 'Tutor'
+    if FeatureFlag.active?(:decoupled_references)
+      fill_in t('application_form.references.name.label'), with: params[:name] || 'Terri Tudor'
+      click_button 'Save and continue'
+      fill_in t('application_form.references.email_address.label'), with: params[:email_address] || 'terri@example.com'
+      click_button 'Save and continue'
+      fill_in t('application_form.references.relationship.label'), with: params[:relationship] || 'Tutor'
+      click_button 'Save and continue'
+    else
+      fill_in t('application_form.referees.name.label'), with: params[:name] || 'Terri Tudor'
+      fill_in t('application_form.referees.email_address.label'), with: params[:email_address] || 'terri@example.com'
+      fill_in t('application_form.referees.relationship.label'), with: params[:relationship] || 'Tutor'
+    end
   end
 
   def candidate_provides_two_referees
-    visit candidate_interface_referees_type_path
-    choose 'Academic'
-    click_button 'Continue'
+    if FeatureFlag.active?(:decoupled_references)
+      visit candidate_interface_decoupled_references_start_path
+      click_link 'Continue'
+      choose 'Academic'
+      click_button 'Save and continue'
 
-    candidate_fills_in_referee
-    click_button 'Save and continue'
-    click_link 'Add another referee'
+      candidate_fills_in_referee
+      choose 'Yes, send a reference request now'
+      click_button 'Save and continue'
 
-    choose 'Professional'
-    click_button 'Continue'
+      click_link 'Add another referee'
+      click_link 'Continue'
+      choose 'Professional'
+      click_button 'Save and continue'
 
-    candidate_fills_in_referee(
-      name: 'Anne Other',
-      email_address: 'anne@other.com',
-      relationship: 'First boss',
-    )
-    click_button 'Save and continue'
-    check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+      candidate_fills_in_referee(
+        name: 'Anne Other',
+        email_address: 'anne@other.com',
+        relationship: 'First boss',
+      )
+      choose 'Yes, send a reference request now'
+      click_button 'Save and continue'
+      visit candidate_interface_application_form_path
+    else
+      visit candidate_interface_referees_type_path
+      choose 'Academic'
+      click_button 'Continue'
+
+      candidate_fills_in_referee
+      click_button 'Save and continue'
+      click_link 'Add another referee'
+
+      choose 'Professional'
+      click_button 'Continue'
+
+      candidate_fills_in_referee(
+        name: 'Anne Other',
+        email_address: 'anne@other.com',
+        relationship: 'First boss',
+      )
+      click_button 'Save and continue'
+      check t('application_form.completed_checkbox')
+      click_button t('application_form.continue')
+    end
   end
 
   def candidate_fills_in_a_gcse
