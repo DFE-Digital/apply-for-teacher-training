@@ -9,10 +9,6 @@ module SupportInterface
       @application_form = application_form
     end
 
-    def unavailable_choices
-      @monitor = SupportInterface::ApplicationMonitor.new
-    end
-
     def audit
       @application_form = application_form
     end

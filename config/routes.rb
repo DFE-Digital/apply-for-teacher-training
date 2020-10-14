@@ -683,17 +683,8 @@ Rails.application.routes.draw do
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/applications')
 
-    get '/email-log', to: 'email_log#index', as: :email_log
-    get '/vendor-api-requests', to: 'vendor_api_requests#index', as: :vendor_api_requests
-
-    resources :data_exports, path: '/data-exports' do
-      member do
-        get :download
-      end
-    end
-
     get '/applications' => 'application_forms#index'
-    get '/applications/unavailable-choices' => 'application_forms#unavailable_choices', as: :unavailable_choices
+
     get '/ucas-matches' => 'ucas_matches#index', as: :ucas_matches
     get '/ucas-matches/:id' => 'ucas_matches#show', as: :ucas_match
     post '/ucas-matches/:id/process-match' => 'ucas_matches#process_match', as: :process_match
@@ -759,8 +750,6 @@ Rails.application.routes.draw do
       post '/enable_course_syncing' => 'providers#enable_course_syncing', as: :enable_provider_course_syncing
     end
 
-    get '/course-options' => 'course_options#index', as: :course_options
-
     scope path: '/courses/:course_id' do
       get '/' => 'course#show', as: :course
       get '/applications' => 'course#applications', as: :course_applications
@@ -769,19 +758,37 @@ Rails.application.routes.draw do
       post '' => 'course#update'
     end
 
-    get '/performance' => 'performance#index', as: :performance
-    get '/performance/application-timings', to: 'performance#application_timings', as: :application_timings
-    get '/performance/course-stats', to: 'performance#course_stats', as: :course_stats
-    get '/performance/submitted-application-choices', to: 'performance#submitted_application_choices', as: :submitted_application_choices
-    get '/performance/referee-survey', to: 'performance#referee_survey', as: :referee_survey
-    get '/performance/providers', to: 'performance#providers_export', as: :providers_export
-    get '/performance/candidate-survey', to: 'performance#candidate_survey', as: :candidate_survey
-    get '/performance/active-provider-users', to: 'performance#active_provider_users', as: :active_provider_users
-    get '/performance/tad-provider-performance', to: 'performance#tad_provider_performance', as: :tad_provider_performance
-    get '/performance/course-choice-withdrawal', to: 'performance#course_choice_withdrawal', as: :course_choice_withdrawal_survey
-    get '/performance/candidate-journey-tracking', to: 'performance#candidate_journey_tracking', as: :candidate_journey_tracking
-    get 'performance/reference-types', to: 'performance#application_references', as: :application_references
-    get 'performance/offer-conditions', to: 'performance#offer_conditions', as: :offer_conditions
+    scope '/performance' do
+      get '/' => 'performance#index', as: :performance
+      get '/course-stats', to: 'performance#course_stats', as: :course_stats
+      get '/course-options', to: 'performance#course_options', as: :course_options
+      get '/unavailable-choices' => 'performance#unavailable_choices', as: :unavailable_choices
+
+      get '/application-timings', to: 'performance#application_timings', as: :application_timings
+      get '/submitted-application-choices', to: 'performance#submitted_application_choices', as: :submitted_application_choices
+      get '/candidate-journey-tracking', to: 'performance#candidate_journey_tracking', as: :candidate_journey_tracking
+      get '/providers', to: 'performance#providers_export', as: :providers_export
+      get '/referee-survey', to: 'performance#referee_survey', as: :referee_survey
+      get '/candidate-survey', to: 'performance#candidate_survey', as: :candidate_survey
+      get '/active-provider-users', to: 'performance#active_provider_users', as: :active_provider_users
+      get '/course-choice-withdrawal', to: 'performance#course_choice_withdrawal', as: :course_choice_withdrawal_survey
+      get '/tad-provider-performance', to: 'performance#tad_provider_performance', as: :tad_provider_performance
+      get '/offer-conditions', to: 'performance#offer_conditions', as: :offer_conditions
+      get '/reference-types', to: 'performance#application_references', as: :application_references
+
+      get '/validation-errors' => 'validation_errors#index', as: :validation_errors
+      get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search
+      get '/validation-errors/summary' => 'validation_errors#summary', as: :validation_error_summary
+
+      resources :data_exports, path: '/data-exports' do
+        member do
+          get :download
+        end
+      end
+    end
+
+    get '/email-log', to: 'email_log#index', as: :email_log
+    get '/vendor-api-requests', to: 'vendor_api_requests#index', as: :vendor_api_requests
 
     scope '/settings' do
       get '/' => redirect('/support/settings/feature-flags'), as: :settings
@@ -801,10 +808,6 @@ Rails.application.routes.draw do
       get '/tasks/confirm-delete-test-applications' => 'tasks#confirm_delete_test_applications', as: :confirm_delete_test_applications
       get '/tasks/confirm-cancel-applications-at-end-of-cycle' => 'tasks#confirm_cancel_applications_at_end_of_cycle', as: :confirm_cancel_applications_at_end_of_cycle
     end
-
-    get '/validation-errors' => 'validation_errors#index', as: :validation_errors
-    get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search
-    get '/validation-errors/summary' => 'validation_errors#summary', as: :validation_error_summary
 
     scope '/docs' do
       get '/', to: 'docs#index', as: :docs
