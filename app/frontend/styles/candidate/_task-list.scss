@@ -20,6 +20,18 @@
       float: right;
     }
   }
+
+  .app-task-list__content {
+    @include govuk-clearfix;
+  }
+
+  .app-task-list__content + .app-task-list__content {
+    margin-top: govuk-spacing(2);
+  }
+
+  .app-task-list__content > *:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .app-task-list__item:first-child {
