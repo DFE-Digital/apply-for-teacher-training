@@ -67,4 +67,8 @@ class DataExport < ApplicationRecord
   def generation_time
     (completed_at - created_at).seconds.ceil
   end
+
+  def initiator_name
+    initiator&.display_name || 'an automated process'
+  end
 end
