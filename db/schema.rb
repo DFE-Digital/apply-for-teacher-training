@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_14_115230) do
+ActiveRecord::Schema.define(version: 2020_10_15_134829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -435,6 +435,7 @@ ActiveRecord::Schema.define(version: 2020_10_14_115230) do
     t.string "relationship_correction"
     t.string "referee_type"
     t.string "safeguarding_concerns_status", default: "not_answered_yet", null: false
+    t.datetime "reminder_sent_at"
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
     t.index ["feedback_status"], name: "index_references_on_feedback_status"
