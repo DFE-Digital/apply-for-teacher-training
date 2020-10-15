@@ -10,6 +10,8 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
   end
 
   scenario 'Carry over application when new cycle opens' do
+    FeatureFlag.activate(:decoupled_references)
+
     given_i_am_signed_in_as_a_candidate
     and_i_am_in_the_2020_recruitment_cycle
     when_i_have_an_unsubmitted_application_without_a_course
