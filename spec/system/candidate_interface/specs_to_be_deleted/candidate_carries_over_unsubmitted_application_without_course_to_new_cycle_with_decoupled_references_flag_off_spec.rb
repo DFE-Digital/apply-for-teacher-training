@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Manually carry over unsubmitted applications' do
+RSpec.feature 'Manually carry over unsubmitted applications that do not have course choices' do
   include CandidateHelper
 
   around do |example|
@@ -9,18 +9,17 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     end
   end
 
-  scenario 'Carry over application and remove all application choices when new cycle opens' do
-    FeatureFlag.activate(:decoupled_references)
-
+  scenario 'Carry over application when new cycle opens' do
     given_i_am_signed_in_as_a_candidate
+    and_the_decoupled_references_flag_is_off
     and_i_am_in_the_2020_recruitment_cycle
-    when_i_have_an_unsubmitted_application
+    when_i_have_an_unsubmitted_application_without_a_course
     and_the_recruitment_cycle_ends
-    and_the_cancel_unsubmitted_applications_worker_runs
 
     when_i_sign_in_again
     and_i_visit_the_application_dashboard
-    then_i_am_redirected_to_the_carry_over_interstitial
+    then_i_cannot_submit_my_application
+    and_i_am_redirected_to_the_carry_over_interstitial
 
     when_i_click_on_start_now
     and_i_click_go_to_my_application_form
@@ -36,7 +35,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     and_i_select_a_course
     and_i_complete_the_section
     and_i_submit_my_application
-    and_my_application_is_awaiting_provider_decision
+    and_my_application_is_awaiting_references
   end
 
   def given_i_am_signed_in_as_a_candidate
@@ -44,11 +43,15 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     login_as(@candidate)
   end
 
+  def and_the_decoupled_references_flag_is_off
+    FeatureFlag.deactivate('decoupled_references')
+  end
+
   def and_i_am_in_the_2020_recruitment_cycle
     allow(RecruitmentCycle).to receive(:current_year).and_return(2020)
   end
 
-  def when_i_have_an_unsubmitted_application
+  def when_i_have_an_unsubmitted_application_without_a_course
     @application_form = create(
       :completed_application_form,
       submitted_at: nil,
@@ -56,18 +59,9 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
       with_gcses: true,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
     )
-    @application_choice = create(
-      :application_choice,
-      status: :unsubmitted,
-      application_form: @application_form,
-    )
-    @first_reference = create(
+    @unrequested_references = create_list(
       :reference,
-      feedback_status: :not_requested_yet,
-      application_form: @application_form,
-    )
-    @second_reference = create(
-      :reference,
+      2,
       feedback_status: :not_requested_yet,
       application_form: @application_form,
     )
@@ -81,10 +75,6 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     Timecop.safe_mode = true
   end
 
-  def and_the_cancel_unsubmitted_applications_worker_runs
-    CancelUnsubmittedApplicationsWorker.new.perform
-  end
-
   def when_i_sign_in_again
     logout
     login_as(@candidate)
@@ -94,7 +84,11 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     visit candidate_interface_application_complete_path
   end
 
-  def then_i_am_redirected_to_the_carry_over_interstitial
+  def then_i_cannot_submit_my_application
+    expect(page).not_to have_link('Check and submit your application')
+  end
+
+  def and_i_am_redirected_to_the_carry_over_interstitial
     expect(page).not_to have_link 'Continue your application'
     expect(page).to have_content 'Carry on with your application for courses starting in the 2021 to 2022 academic year.'
     expect(page).to have_content 'Your courses have been removed. You can add them again now.'
@@ -115,12 +109,15 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
   end
 
   def when_i_view_referees
-    click_on 'Manage your references'
+    click_on 'Referees'
   end
 
   def then_i_can_see_the_referees_i_previously_added
-    expect(page).to have_content("#{@first_reference.referee_type.capitalize.dasherize} reference from #{@first_reference.name}")
-    expect(page).to have_content("#{@second_reference.referee_type.capitalize.dasherize} reference from #{@second_reference.name}")
+    expect(page).to have_content('First referee')
+    expect(page).to have_content('Second referee')
+    @unrequested_references.each do |reference|
+      expect(page).to have_content(reference.name)
+    end
   end
 
   def when_i_view_courses
@@ -160,8 +157,8 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     @new_application_form = candidate_submits_application
   end
 
-  def and_my_application_is_awaiting_provider_decision
+  def and_my_application_is_awaiting_references
     application_choice = @new_application_form.application_choices.first
-    expect(application_choice.status).to eq 'awaiting_provider_decision'
+    expect(application_choice.status).to eq 'awaiting_references'
   end
 end
