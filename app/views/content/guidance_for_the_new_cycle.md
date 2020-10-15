@@ -4,14 +4,14 @@
 Close of the 2019 to 2020 cycle — any applications without a response by this date will have been rejected automatically. 
 
 ### 6 October 2020 
-Find postgraduate teacher training opens, advertising courses for 2021 to 2022. 
+[Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) opens, featuring courses for 2021 to 2022. 
 
-### 13th October 
-Apply for teacher training and UCAS Teacher Training both open for applications. 
+### 13 October 2020
+[Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate) and UCAS Teacher Training both open for applications. 
 
 ## Deferring offers
 
-The [Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) team has launched a new feature allowing training providers to defer offers to the next cycle. Please bear in mind that you can only defer offers at the request of the candidate.
+The [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) team has launched a new feature allowing training providers to defer offers to the next cycle. Please bear in mind that you can only defer offers at the request of the candidate.
 
 You can:
 
@@ -23,7 +23,7 @@ You can:
 
 You’ll be able to change the details of a deferred offer at the start of the next cycle (2021 to 2022). If you need to alter any details – for example, the location, course or conditions – you should agree those changes with the candidate first, by email or phone.
 
-You can then use [Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider) to send an amended offer to the candidate, who will receive a formal notification.
+You can then use [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) to send an amended offer to the candidate, who will receive a formal notification.
 
 For the purposes of data reporting, deferred offers will not appear as rejected offers in the current cycle. This will allow you to submit accurate figures for rejections in each cycle.
 
@@ -43,27 +43,27 @@ Your notes and actions, including reasons for rejection, will be stored along wi
 
 ## Data reporting
 
-We understand that data reporting to both the Higher Education Statistics Agency (HESA) and the Database of teacher trainees and providers (DTTP) can be time-consuming.
+We understand that data reporting to both the Higher Education Statistics Agency (HESA) and the database of teacher trainees and providers (DTTP) can be time-consuming.
 
-We’re currently developing a feature allowing training providers to download their application data as a csv file. This should make this process easier – however, we’ll continue to work on further improvements, and welcome your feedback.
+We’re currently developing a feature allowing training providers to download their application data as a csv file. This should make this process easier – however, we’ll continue to work on further improvements, and welcome your feedback in the meantime.
 
 
 ## Helping candidates apply again
 
 Candidates who are unsuccessful in the current cycle are strongly encouraged to apply again. Training providers and the Becoming a Teacher team can help them by: 
 
-* offering constructive feedback through Manage teacher training applications
-* providing supportive communications through the Apply for teacher training support team
-* allowing applications to be carried over from the current cycle to the next 
+* offering constructive feedback through [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider)
+* providing supportive communications through the [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate) support team
+* allowing applications to be carried over from the current cycle to the next cycle
 
 
 ## UCAS Teacher Training
 
-UCAS will continue to run alongside [Apply for teacher training](https://www.apply-for-teacher-training.education.gov.uk/candidate) for the 2020 to 2021 cycle.
+UCAS will continue to run alongside [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate) for the 2020 to 2021 cycle.
 
-For the 2021 to 2022 cycle, Apply for teacher training will process all teacher training applications to all teacher training providers in England.
+For the 2021 to 2022 cycle, Apply for teacher training will process all teacher training applications received by all teacher training providers in England.
 
-Check our [guidance on how to use Manage teacher training applications](https://www.apply-for-teacher-training.education.gov.uk/provider/service-guidance) for more about the dual running of these two services.
+Check our [guidance on how to use Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider/service-guidance) for more about the dual running of these two services.
 
 
 ## Recruiting trainees from overseas after 1 January 2021
