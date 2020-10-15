@@ -3,7 +3,7 @@ module SupportInterface
     def new; end
 
     def index
-      @data_exports = DataExport.includes(:initiator).order(id: :desc)
+      @data_exports = DataExport.includes(:initiator).order(id: :desc).page(params[:page] || 1).per(30)
     end
 
     def create

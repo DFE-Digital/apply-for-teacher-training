@@ -14,7 +14,7 @@
     <% @data_exports.each do |data_export| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
-          <%= link_to support_interface_data_export_path(data_export) do %>
+          <%= govuk_link_to '', support_interface_data_export_path(data_export) do %>
             <%= data_export.created_at.to_s(:govuk_date_and_time) %> - <%= data_export.name %>
           <% end %>
         </td>
@@ -23,3 +23,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= render(PaginatorComponent.new(scope: @data_exports)) %>
