@@ -1,7 +1,6 @@
 require 'rails_helper'
-# TODO: Remove file with Decoupled references FeatureFlag as part of deprecation
 
-RSpec.describe CancelReferee do
+RSpec.describe CandidateInterface::DecoupledReferences::CancelReference do
   describe '#call' do
     let(:reference) { create(:reference, feedback_status: 'feedback_requested') }
     let(:execute_service) { described_class.new.call(reference: reference) }

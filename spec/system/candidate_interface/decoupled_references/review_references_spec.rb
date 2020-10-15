@@ -17,6 +17,8 @@ RSpec.feature 'Review references' do
     and_i_can_review_my_references_before_submission
     and_i_can_edit_a_reference
     and_i_can_delete_a_reference
+    and_i_can_cancel_a_sent_reference
+    and_referee_receives_email_about_reference_cancellation
     and_i_can_return_to_the_application_page
   end
 
@@ -113,6 +115,24 @@ RSpec.feature 'Review references' do
     expect(page).to have_current_path candidate_interface_decoupled_references_review_path
     expect(page).not_to have_css('#references_waiting_to_be_sent')
     expect(page).not_to have_link 'Delete referee'
+  end
+
+  def and_i_can_cancel_a_sent_reference
+    within '#references_sent' do
+      click_link 'Cancel request'
+    end
+    click_button 'Yes I’m sure'
+
+    expect(page).to have_current_path candidate_interface_decoupled_references_review_path
+    expect(page).to have_content("Reference request cancelled for #{@requested_reference.name}")
+    expect(page).to have_content('Cancelled')
+  end
+
+  def and_referee_receives_email_about_reference_cancellation
+    open_email(@requested_reference.email_address)
+
+    expect(current_email.subject).to include 'Reference request cancelled by'
+    expect(current_email.text).to include 'The candidate has cancelled their request.'
   end
 
   def and_i_can_return_to_the_application_page
