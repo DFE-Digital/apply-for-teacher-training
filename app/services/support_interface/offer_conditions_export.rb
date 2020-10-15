@@ -22,6 +22,8 @@ module SupportInterface
       end
     end
 
+    alias_method :data_for_export, :offers
+
   private
 
     def qualification_type(form)

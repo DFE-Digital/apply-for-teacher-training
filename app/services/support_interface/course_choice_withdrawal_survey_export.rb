@@ -1,6 +1,6 @@
 module SupportInterface
   class CourseChoiceWithdrawalSurveyExport
-    def self.call
+    def data_for_export
       application_choices = ApplicationChoice.where.not(withdrawal_feedback: nil)
 
       output = []

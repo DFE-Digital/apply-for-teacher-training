@@ -26,6 +26,8 @@ module SupportInterface
       output
     end
 
+    alias_method :data_for_export, :call
+
   private
 
     def extract_rating(reference, field)

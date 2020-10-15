@@ -3,7 +3,7 @@
 
 <%= render TabNavigationComponent.new(items: [
   { name: 'Dashboards', url: support_interface_performance_path, current: local_assigns[:current] == 'Dashboards' },
-  { name: 'Export data', url: support_interface_performance_data_path },
+  { name: 'Export data', url: support_interface_data_exports_path, current: local_assigns[:current] == 'Export data' },
   { name: 'Email log', url: support_interface_email_log_path },
   { name: 'Validation errors', url: support_interface_validation_errors_path, current: local_assigns[:current] == 'Validation errors' },
   { name: 'Vendor API requests', url: support_interface_vendor_api_requests_path },

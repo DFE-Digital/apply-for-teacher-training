@@ -1,6 +1,6 @@
 module SupportInterface
   class CandidateSurveyExport
-    def call
+    def data_for_export
       application_forms = ApplicationForm.where.not(satisfaction_survey: nil)
 
       output = []
