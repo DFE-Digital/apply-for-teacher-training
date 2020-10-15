@@ -6,6 +6,8 @@ module SupportInterface
         .sort_by { |r| r[:provider_code] }
     end
 
+    alias_method :data_for_export, :call
+
   private
 
     def course_to_row(course)

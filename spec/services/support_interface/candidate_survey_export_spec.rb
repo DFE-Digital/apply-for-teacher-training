@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::CandidateSurveyExport do
-  describe '#call' do
+  describe '#data_for_export' do
     it 'returns a hash of candidates satisfaction survey answers' do
       application_form1 = create(:completed_application_form, :with_survey_completed)
       application_form2 = create(:completed_application_form, :with_survey_completed)
       application_form3 = create(:completed_application_form, :with_survey_completed)
       create(:completed_application_form)
 
-      expect(described_class.new.call).to match_array([return_expected_hash(application_form1), return_expected_hash(application_form2), return_expected_hash(application_form3)])
+      expect(described_class.new.data_for_export).to match_array([return_expected_hash(application_form1), return_expected_hash(application_form2), return_expected_hash(application_form3)])
     end
   end
 

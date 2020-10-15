@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ActiveProviderUsersExport do
-  describe '#call' do
+  describe '#data_for_export' do
     it 'returns provider_users who have have signed in at least once' do
       Timecop.freeze(2020, 5, 1, 12, 0, 0) do
         provider1 = create(:provider)
@@ -11,7 +11,7 @@ RSpec.describe SupportInterface::ActiveProviderUsersExport do
         provider_user3 = create(:provider_user, providers: [provider1, provider2], last_signed_in_at: 3.days.ago)
         create(:provider_user, providers: [provider1])
 
-        expect(described_class.call).to match_array([
+        expect(described_class.new.data_for_export).to match_array([
           {
             name: provider_user1.full_name,
             email_address: provider_user1.email_address,

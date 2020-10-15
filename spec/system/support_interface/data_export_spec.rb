@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate journey tracking CSV', sidekiq: false do
+RSpec.feature 'Data export', sidekiq: false do
   include DfESignInHelpers
 
-  scenario 'support user can download a CSV with the candidate journey tracking report' do
+  scenario 'Support user can download CSVs' do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
 
-    when_i_visit_the_service_performance_data_page
+    when_i_visit_the_data_exports_page
     and_i_click_the_generate_report_link
     then_i_see_that_the_export_has_started
 
@@ -25,13 +25,14 @@ RSpec.feature 'Candidate journey tracking CSV', sidekiq: false do
     create(:application_choice, :awaiting_provider_decision)
   end
 
-  def when_i_visit_the_service_performance_data_page
-    visit support_interface_performance_data_path
+  def when_i_visit_the_data_exports_page
+    visit support_interface_data_exports_path
+    click_link 'New export'
   end
 
   def and_i_click_the_generate_report_link
     Sidekiq::Worker.clear_all
-    click_link 'Generate candidate journey tracking export'
+    click_button 'Generate Candidate journey tracking export'
   end
 
   def then_i_see_that_the_export_has_started

@@ -8,7 +8,7 @@ RSpec.describe SupportInterface::CourseChoiceWithdrawalSurveyExport do
       application_choice3 = create(:application_choice, :withdrawn_with_survey_completed)
       create(:application_choice)
 
-      expect(described_class.call).to match_array([return_expected_hash(application_choice1), return_expected_hash(application_choice2), return_expected_hash(application_choice3)])
+      expect(described_class.new.data_for_export).to match_array([return_expected_hash(application_choice1), return_expected_hash(application_choice2), return_expected_hash(application_choice3)])
     end
   end
 

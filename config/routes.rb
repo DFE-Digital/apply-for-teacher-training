@@ -707,8 +707,11 @@ Rails.application.routes.draw do
     get '/email-log', to: 'email_log#index', as: :email_log
     get '/vendor-api-requests', to: 'vendor_api_requests#index', as: :vendor_api_requests
 
-    get '/data-exports/:id', to: 'data_exports#show', as: :data_export
-    get '/data-exports/:id/download', to: 'data_exports#download', as: :download_data_export
+    resources :data_exports, path: '/data-exports' do
+      member do
+        get :download
+      end
+    end
 
     get '/applications' => 'application_forms#index'
     get '/applications/unavailable-choices' => 'application_forms#unavailable_choices', as: :unavailable_choices
@@ -792,7 +795,6 @@ Rails.application.routes.draw do
     post '/feature-flags/:feature_name/deactivate' => 'feature_flags#deactivate', as: :deactivate_feature_flag
 
     get '/performance' => 'performance#index', as: :performance
-    get '/performance/data' => 'performance#data', as: :performance_data
     get '/performance/application-timings', to: 'performance#application_timings', as: :application_timings
     get '/performance/course-stats', to: 'performance#course_stats', as: :course_stats
     get '/performance/submitted-application-choices', to: 'performance#submitted_application_choices', as: :submitted_application_choices

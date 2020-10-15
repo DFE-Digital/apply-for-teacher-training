@@ -1,6 +1,8 @@
-<h1 class="govuk-heading-l">
+<%= render 'support_interface/performance/performance_navigation', title: 'Export performance data', current: 'Export data' %>
+
+<h2 class="govuk-heading-l">
   Data export #<%= @data_export.id %>: <%= @data_export.name %>
-</h1>
+</h2>
 
 <p class='govuk-body'>
   This export was initiated by <%= @data_export.initiator.display_name %> on <%= @data_export.created_at.to_s(:govuk_date_and_time) %>.
@@ -11,7 +13,7 @@
     Export generation completed in <%= @data_export.generation_time %> <%= 'second'.pluralize(@data_export.generation_time) %>.
   </p>
 
-  <%= govuk_button_link_to 'Download export', support_interface_download_data_export_path(@data_export) %>
+  <%= govuk_button_link_to 'Download export', download_support_interface_data_export_path(@data_export) %>
 <% else %>
   <p class='govuk-body'>
     This export is being generated. Refresh the page to see if it completed.
