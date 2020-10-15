@@ -23,10 +23,10 @@ class ProviderSetup
   end
 
   def next_relationship_pending
-    permissions = ProviderRelationshipPermissions.find_by(
-      setup_at: nil,
-      training_provider: @provider_user.providers,
-    )
+    permissions = ProviderRelationshipPermissions
+      .order(:created_at)
+      .where(training_provider: @provider_user.providers)
+      .find { |prp| prp.setup_at.blank? || prp.invalid? }
 
     if permissions.present?
       auth = ProviderAuthorisation.new(actor: @provider_user)

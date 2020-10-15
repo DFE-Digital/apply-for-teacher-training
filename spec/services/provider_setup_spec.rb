@@ -84,6 +84,20 @@ RSpec.describe ProviderSetup do
       expect(next_relationship_pending).to be_nil
     end
 
+    it 'provides the next invalid ProviderRelationshipPermissions record to set up' do
+      relationship = create(
+        :provider_relationship_permissions,
+        training_provider: training_provider,
+        training_provider_can_view_safeguarding_information: false,
+        ratifying_provider_can_view_safeguarding_information: false,
+        setup_at: nil,
+      )
+      relationship.setup_at = Time.zone.now
+      relationship.save(validate: false)
+
+      expect(next_relationship_pending).to eq(relationship)
+    end
+
     it 'returns nil if no relationships exist' do
       expect(next_relationship_pending).to be_nil
     end
