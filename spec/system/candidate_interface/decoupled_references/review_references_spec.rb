@@ -42,7 +42,7 @@ RSpec.feature 'Review references' do
   def then_the_references_section_is_still_incomplete
     when_i_view_my_application
     within '#manage-your-references-badge-id' do
-      expect(page).to have_content 'Incomplete'
+      expect(page).to have_content 'In progress'
     end
   end
 
@@ -60,13 +60,13 @@ RSpec.feature 'Review references' do
 
   def then_the_references_section_is_complete
     when_i_view_my_application
-    within '#manage-your-references-badge-id' do
+    within '#review-your-references-badge-id' do
       expect(page).to have_content 'Complete'
     end
   end
 
   def and_i_can_review_my_references_before_submission
-    click_link 'Manage your references'
+    click_link 'Review your references'
     expect(page).to have_current_path candidate_interface_decoupled_references_review_path
 
     within '#references_given' do

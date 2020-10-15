@@ -3,6 +3,10 @@
   <strong class="govuk-tag govuk-tag--grey app-tag" id=<%= tag_id %>>
     Submitted
   </strong>
+<% elsif custom_status %>
+  <strong class="govuk-tag govuk-tag--purple app-tag" id=<%= tag_id %>>
+    <%= custom_status %>
+  </strong>
 <% elsif completed %>
   <strong class="govuk-tag govuk-tag--complete app-tag" id=<%= tag_id %>>
     Completed
