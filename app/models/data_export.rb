@@ -55,6 +55,11 @@ class DataExport < ApplicationRecord
       description: 'A list of all application references which have been selected by candidates to date.',
       class: SupportInterface::ApplicationReferencesExport,
     },
+    tad_applications: {
+      name: 'Applications for TAD',
+      description: 'A list of all applications for TAD.',
+      class: SupportInterface::TADExport,
+    },
   }.freeze
 
   belongs_to :initiator, polymorphic: true, optional: true
