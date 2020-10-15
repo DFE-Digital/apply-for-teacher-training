@@ -43,13 +43,13 @@ RSpec.feature 'Candidate requests a reference' do
     then_i_am_told_a_reference_has_already_been_sent
 
     when_i_have_added_an_incomplete_reference
-    and_i_visit_the_reference_review_page
+    and_i_visit_the_all_references_review_page
     then_i_should_not_see_a_send_reference_link
     when_i_navigate_to_the_send_request_page
     then_i_should_see_a_not_found_message
 
     when_i_have_a_cancelled_reference
-    and_i_visit_the_reference_review_page
+    and_i_visit_the_all_references_review_page
     and_i_click_the_resend_reference_link
     and_i_confirm_that_i_am_ready_to_send_a_reference_request
     then_i_see_a_confirmation_message
@@ -158,6 +158,10 @@ RSpec.feature 'Candidate requests a reference' do
 
   def when_i_have_added_an_incomplete_reference
     @reference = create(:reference, :unsubmitted, name: nil, application_form: @application_form)
+  end
+
+  def and_i_visit_the_all_references_review_page
+    visit candidate_interface_decoupled_references_review_path
   end
 
   def then_i_should_not_see_a_send_reference_link
