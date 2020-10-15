@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Not requested')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.not_requested_yet'))
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info_without_decoupled_references.not_requested_yet'))
     end
 
     it 'renders component with correct value for status for given reference' do
@@ -55,7 +55,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.govuk-tag--red.app-tag').to_html).to include('Reference declined')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.declined'))
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info_without_decoupled_references.declined'))
     end
 
     it 'renders component with correct value for status for (non-expired) request reference sent less than 5 days ago' do
@@ -69,7 +69,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.govuk-tag--purple.app-tag').to_html).to include('Awaiting response')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.awaiting_reference_sent_less_than_5_days_ago'))
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info_without_decoupled_references.awaiting_reference_sent_less_than_5_days_ago'))
     end
 
     it 'renders component with correct value for status for (non-expired) request reference sent more than 5 days ago' do
@@ -83,7 +83,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.govuk-tag--purple.app-tag').to_html).to include('Awaiting response')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.awaiting_reference_sent_more_than_5_days_ago'))
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info_without_decoupled_references.awaiting_reference_sent_more_than_5_days_ago'))
     end
 
     it 'renders component with correct value for status for expired reference request' do
@@ -97,7 +97,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-tag.govuk-tag--yellow.app-tag').to_html).to include('Response overdue')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.feedback_overdue'))
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info_without_decoupled_references.feedback_overdue'))
     end
 
     it 'renders component with correct value for status for cancelled reference request' do
@@ -108,8 +108,8 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-tag.govuk-tag--orange.app-tag').to_html).to include('Cancelled')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.cancelled'))
+      expect(result.css('.govuk-tag.govuk-tag--orange.app-tag').to_html).to include('Request cancelled')
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info_without_decoupled_references.cancelled'))
     end
 
     it 'renders component with correct value for status for cancelled_at_end_of_cycle reference request' do
@@ -120,8 +120,8 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-tag.govuk-tag--orange.app-tag').to_html).to include('Cancelled')
-      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info.cancelled_at_end_of_cycle'))
+      expect(result.css('.govuk-tag.govuk-tag--orange.app-tag').to_html).to include('Request cancelled')
+      expect(result.css('.govuk-summary-list__value').to_html).to include(t('application_form.referees.info_without_decoupled_references.cancelled_at_end_of_cycle'))
     end
 
     it 'renders component along with a delete link for each referee' do
@@ -206,7 +206,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include('Status')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Not requested')
-      expect(result.css('.govuk-summary-list__value').to_html).not_to include(t('application_form.referees.info.not_requested_yet'))
+      expect(result.css('.govuk-summary-list__value').to_html).not_to include(t('application_form.referees.info_without_decoupled_references.not_requested_yet'))
     end
   end
 end

@@ -95,19 +95,19 @@ module CandidateInterface
 
     def feedback_status_content(referee)
       if referee.not_requested_yet? && !referee.application_form.submitted?
-        tag.p(t('application_form.referees.info.not_requested_yet'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info_without_decoupled_references.not_requested_yet'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.feedback_refused?
-        tag.p(t('application_form.referees.info.declined'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info_without_decoupled_references.declined'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.cancelled_at_end_of_cycle?
-        tag.p(t('application_form.referees.info.cancelled_at_end_of_cycle'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info_without_decoupled_references.cancelled_at_end_of_cycle'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.feedback_overdue?
-        tag.p(t('application_form.referees.info.feedback_overdue'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info_without_decoupled_references.feedback_overdue'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.feedback_requested? && referee.requested_at > Time.zone.now - 5.days
-        tag.p(t('application_form.referees.info.awaiting_reference_sent_less_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info_without_decoupled_references.awaiting_reference_sent_less_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.feedback_requested?
-        tag.p(t('application_form.referees.info.awaiting_reference_sent_more_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info_without_decoupled_references.awaiting_reference_sent_more_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
       elsif referee.cancelled?
-        tag.p(t('application_form.referees.info.cancelled'), class: 'govuk-body govuk-!-margin-top-2')
+        tag.p(t('application_form.referees.info_without_decoupled_references.cancelled'), class: 'govuk-body govuk-!-margin-top-2')
       end
     end
 

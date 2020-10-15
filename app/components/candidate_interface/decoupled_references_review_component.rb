@@ -106,38 +106,36 @@ module CandidateInterface
     end
 
     def feedback_status_content(reference)
-      if reference.not_requested_yet?
-        tag.p(t('application_form.referees.info.not_requested_yet'), class: 'govuk-body govuk-!-margin-top-2')
-      elsif reference.feedback_refused?
-        tag.p(t('application_form.referees.info.declined'), class: 'govuk-body govuk-!-margin-top-2')
-      elsif reference.cancelled_at_end_of_cycle?
-        tag.p(t('application_form.referees.info.cancelled_at_end_of_cycle'), class: 'govuk-body govuk-!-margin-top-2')
-      elsif reference.cancelled?
-        tag.p(t('application_form.referees.info.cancelled'), class: 'govuk-body govuk-!-margin-top-2')
-      elsif reference.feedback_overdue?
-        tag.p(t('application_form.referees.info.feedback_overdue'), class: 'govuk-body govuk-!-margin-top-2')
-      elsif reference.feedback_requested? && reference.requested_at > Time.zone.now - 5.days
-        tag.p(t('application_form.referees.info.awaiting_reference_sent_less_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
-      elsif reference.feedback_requested?
-        tag.p(t('application_form.referees.info.awaiting_reference_sent_more_than_5_days_ago'), class: 'govuk-body govuk-!-margin-top-2')
+      text =
+        if reference.feedback_refused?
+          t('application_form.referees.info.declined', referee_name: reference.name)
+        elsif reference.cancelled_at_end_of_cycle?
+          t('application_form.referees.info.cancelled_at_end_of_cycle')
+        elsif reference.cancelled?
+          t('application_form.referees.info.cancelled')
+        elsif reference.feedback_overdue?
+          t('application_form.referees.info.feedback_overdue')
+        elsif reference.feedback_requested?
+          t('application_form.referees.info.feedback_requested')
+        elsif reference.email_bounced?
+          t('application_form.referees.info.email_bounced')
+        end
+
+      return '' if text.blank?
+
+      if text.is_a?(Array)
+        text.each_with_object('') { |line, content| content.concat(tag.p(line, class: 'govuk-body govuk-!-margin-top-2')) }.html_safe
+      else
+        tag.p(text, class: 'govuk-body govuk-!-margin-top-2')
       end
     end
 
     def feedback_status_colour(reference)
-      case reference.feedback_status
-      when 'not_requested_yet'
-        :grey
-      when 'feedback_refused', 'email_bounced'
-        :red
-      when 'cancelled', 'cancelled_at_end_of_cycle'
-        :orange
-      when 'feedback_overdue'
-        :yellow
-      when 'feedback_requested'
-        reference.feedback_overdue? ? :yellow : :purple
-      when 'feedback_provided'
-        :green
+      if reference.feedback_overdue? && !reference.cancelled_at_end_of_cycle?
+        return t('candidate_reference_colours.feedback_overdue')
       end
+
+      t("candidate_reference_colours.#{reference.feedback_status}")
     end
   end
 end

@@ -418,6 +418,19 @@ en:
       confirm_chase: Are you sure you want to send emails to chase the referee?
       info:
         before_submission: You need to add 2 referees.
+        declined: "%{referee_name} said they will not give a reference."
+        feedback_requested: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
+        feedback_overdue:
+          - Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
+          - You can also add more referees to increase your chances of getting a reference quickly.
+        cancelled: Training providers will not see any information about this reference request.
+        cancelled_at_end_of_cycle: The referee did not respond before courses closed.
+        email_bounced: The reference request never reached your referee.
+        not_requested_yet: We’ll contact your referees after you submit your application.
+        awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
+        awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
+      info_without_decoupled_references:
+        before_submission: You need to add 2 referees.
         not_requested_yet:  We’ll contact your referees after you submit your application.
         declined: Your referee chose not to give a reference.
         awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
