@@ -89,6 +89,12 @@ Regenerate this diagram with `bundle exec rake generate_state_diagram`.
 
 There are two ways to run the application in development. Running a local development environment is the most common approach but it is also possible to run in local Docker containers.
 
+## Development environment
+
+### Running the application with local dependencies
+
+The most common way to run a development version of the application is run with local dependencies.
+
 #### Local development dependencies
 
 - `postgresql`
@@ -97,29 +103,38 @@ There are two ways to run the application in development. Running a local develo
 - [`ruby`](.ruby-version)
 - `bundle 2.1.4+`
 
+You'll also need to copy `.env.example` to `.env` and fill in the secrets.
+This will populate required environment variables
+
+Once those dependencies are installed, run `bundle install` to install required gems.
+
+#### Local db setup
+
+1. Start the postgres service: `sudo service postgresql start`
+1. Populate the `DB_` relevant environment variables with the correct values (those are: `DB_USERNAME`, `DB_PASSWORD`, `DB_HOSTNAME` and `DB_PORT`)
+1. Then local development databases and data can be set up: `bundle exec rake db:setup`
+(You may wish to [set up development data](#development-data) at this point)
+
+#### Running the app
+
+To run the application locally:
+
+1. Run `yarn` to install dependencies for the web app to run
+2. Run `bundle exec rails s` to launch the app on http://localhost:3000
+
+### Running the application in Docker
+
+As an alternative to that, it's also possible to run the application in Docker:
+
 #### Docker dependencies
 
 - `docker`
 - `docker-compose`
 - Graphviz 2.22+ (`brew install graphviz`) to generate the [domain model diagram](#domain-model)
 
-## Development environment
+#### Running the app
 
-The most common way to run a development version of the application is run with local dependencies.
-
-You'll also need to copy `.env.example` to `.env` and fill in the secrets.
-
-Once Postgresql access is granted for the development db user specified in `$DB_USERNAME` you can set up local development databases and data:
-
-`bundle exec rake db:setup`
-
-Then run the application locally:
-
-`bundle exec rails s` to launch the app on http://localhost:3000
-
-### Running the application in Docker
-
-It's also possible to run the application in Docker:
+Install the above dependencies, and then:
 
 1. Copy `.env.example` to `.env` and fill in the secrets
 1. Run `make setup`
@@ -131,7 +146,7 @@ See `Makefile` for the steps involved in building and running the app.
 
 The course and training provider data in the Apply service comes from its
 sister service `Find`. To populate your local database with course data from
-`Find`, run `bundle exec rake setup_local_dev_data`.
+`Find`, first start the redis service (`redis-server`) and then run `bundle exec rake setup_local_dev_data`.
 
 Among other things, this task also creates a support user with DfE Sign-in UID
 `dev-support` that you can use to sign in to the Support interface in your
