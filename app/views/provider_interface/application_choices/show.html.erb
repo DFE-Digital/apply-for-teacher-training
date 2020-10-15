@@ -66,11 +66,11 @@
     <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="personal-statement">Personal statement</h2>
     <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 
-    <% if @application_choice.application_form.application_references.any? %>
+    <% if @application_choice.application_form.application_references.feedback_provided.any? %>
       <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="references">References</h2>
       <%= render 'references_context' %>
 
-      <% @application_choice.application_form.application_references.each_with_index do |reference, i| %>
+      <% @application_choice.application_form.application_references.feedback_provided.each_with_index do |reference, i| %>
         <h3 class="govuk-heading-m govuk-!-margin-top-8"><%= "#{TextOrdinalizer.call((i + 1)).capitalize} referee" %></h3>
         <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference) %>
       <% end %>

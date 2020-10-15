@@ -132,6 +132,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            end_date: nil)
 
     create(:reference,
+           :complete,
            application_form: application_form,
            name: 'R2D2',
            email_address: 'r2d2@rebellion.org',
@@ -139,11 +140,17 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            feedback: 'beep boop beep')
 
     create(:reference,
+           :complete,
            application_form: application_form,
            name: 'C3PO',
            email_address: 'c3p0@rebellion.org',
            relationship: 'Companion droid',
            feedback: 'The possibility of successfully navigating training is approximately three thousand seven hundred and twenty to one')
+
+    create(:reference,
+           :refused,
+           application_form: application_form,
+           name: 'BB-8')
 
     @application_choice = create(:application_choice,
                                  status: :application_complete,
@@ -247,6 +254,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_content 'c3p0@rebellion.org'
     expect(page).to have_content 'Companion droid'
     expect(page).to have_content 'The possibility of successfully'
+
+    expect(page).not_to have_content 'BB-8'
   end
 
   def and_i_should_see_the_disability_disclosure
