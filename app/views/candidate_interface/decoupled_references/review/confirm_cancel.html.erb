@@ -6,7 +6,7 @@
     <%= form_with model: @reference, url: candidate_interface_cancel_decoupled_reference_path(@reference.id), method: :patch do |f| %>
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl"><%= @reference.name %></span>
-        <%= t('page_titles.decoupled_reference_cancel') %>
+        <%= t('page_titles.references_cancel_request') %>
       </h1>
 
       <p class='govuk-body'>We’ll tell <%= @reference.name %> that they do not need to give a reference.</p>
