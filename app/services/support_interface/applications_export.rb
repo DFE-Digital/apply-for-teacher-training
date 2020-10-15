@@ -69,5 +69,7 @@ module SupportInterface
         output
       end
     end
+
+    alias_method :data_for_export, :applications
   end
 end

@@ -7,31 +7,31 @@ module SupportInterface
     def course_stats; end
 
     def application_timings
-      applications = SupportInterface::ApplicationsExport.new.applications
-      csv = to_csv(applications)
+      data_export = DataExport.create!(name: 'Application timings', initiator: current_support_user)
+      DataExporter.perform_async(ApplicationsExport, data_export.id)
 
-      render plain: csv
+      redirect_to support_interface_data_export_path(data_export)
     end
 
     def submitted_application_choices
-      choices = SupportInterface::ApplicationChoicesExport.new.application_choices
-      csv = to_csv(choices)
+      data_export = DataExport.create!(name: 'Submitted application choices', initiator: current_support_user)
+      DataExporter.perform_async(ApplicationChoicesExport, data_export.id)
 
-      send_data csv, filename: "submitted-application-choices-#{Time.zone.today}.csv", disposition: :attachment
+      redirect_to support_interface_data_export_path(data_export)
     end
 
     def candidate_journey_tracking
-      application_choices = SupportInterface::CandidateJourneyTrackingExport.new.application_choices
-      csv = to_csv(application_choices)
+      data_export = DataExport.create!(name: 'Candidate journey tracking', initiator: current_support_user)
+      DataExporter.perform_async(CandidateJourneyTrackingExport, data_export.id)
 
-      send_data csv, filename: "candidate-journey-tracking-#{Time.zone.today}.csv", disposition: :attachment
+      redirect_to support_interface_data_export_path(data_export)
     end
 
     def providers_export
-      providers = SupportInterface::ProvidersExport.new.providers
-      csv = to_csv(providers)
+      data_export = DataExport.create!(name: 'Providers', initiator: current_support_user)
+      DataExporter.perform_async(ProvidersExport, data_export.id)
 
-      render plain: csv
+      redirect_to support_interface_data_export_path(data_export)
     end
 
     def referee_survey

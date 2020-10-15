@@ -10,6 +10,8 @@ module SupportInterface
       end
     end
 
+    alias_method :data_for_export, :providers
+
   private
 
     def relevant_providers

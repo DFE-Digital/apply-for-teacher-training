@@ -13,6 +13,8 @@ module SupportInterface
       end
     end
 
+    alias_method :data_for_export, :application_choices
+
   private
 
     def journey_items(application_choice)
