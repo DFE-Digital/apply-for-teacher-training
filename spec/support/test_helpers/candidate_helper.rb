@@ -109,7 +109,7 @@ module CandidateHelper
       reference: first_reference,
     ).save!
 
-    second_reference = application_form.application_references.last
+    second_reference = application_form.application_references.second
 
     second_reference.update!(
       feedback: 'Lovable',
