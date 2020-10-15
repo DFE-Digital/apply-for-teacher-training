@@ -11,12 +11,11 @@ Rails.application.routes.draw do
   if HostingEnvironment.sandbox_mode?
     root to: 'content#sandbox'
   else
-    root to: redirect('/candidate')
+    root to: redirect('/candidate/account')
   end
 
   namespace :candidate_interface, path: '/candidate' do
-    get '/' => 'start_page#show', as: :start
-
+    get '/', to: redirect(GOVUK_APPLY_START_PAGE_URL)
     get '/accessibility', to: 'content#accessibility'
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_candidate', as: :cookies

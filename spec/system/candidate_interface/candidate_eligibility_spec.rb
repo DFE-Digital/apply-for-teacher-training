@@ -6,20 +6,20 @@ RSpec.feature 'Candidate eligibility' do
     given_the_pilot_is_open
     and_the_international_personal_details_feature_is_inactive
 
-    when_i_click_start_on_the_start_page
+    when_i_visit_apply
     and_i_confirm_i_am_not_already_signed_up
     and_i_press_continue
     then_i_see_validation_errors
     and_i_answer_no_to_some_questions
     then_i_should_be_redirected_to_ucas
 
-    when_i_click_start_on_the_start_page
+    when_i_visit_apply
     and_i_confirm_i_am_not_already_signed_up
     when_i_answer_yes_to_all_questions
     then_should_be_redirected_to_the_signup_page
 
     given_the_international_personal_details_feature_is_active
-    when_i_click_start_on_the_start_page
+    when_i_visit_apply
     and_i_confirm_i_am_not_already_signed_up
     then_should_be_redirected_to_the_signup_page
   end
@@ -36,9 +36,8 @@ RSpec.feature 'Candidate eligibility' do
     FeatureFlag.activate('international_personal_details')
   end
 
-  def when_i_click_start_on_the_start_page
+  def when_i_visit_apply
     visit '/'
-    click_on t('application_form.begin_button')
   end
 
   def and_i_confirm_i_am_not_already_signed_up
