@@ -5,6 +5,7 @@ RSpec.feature 'Export applications' do
   include DfESignInHelpers
 
   scenario 'download a CSV of application data with translated HESA codes' do
+    FeatureFlag.activate(:export_hesa_data)
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_my_organisation_has_courses_with_applications

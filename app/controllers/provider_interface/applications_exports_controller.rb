@@ -1,5 +1,7 @@
 module ProviderInterface
   class ApplicationsExportsController < ProviderInterfaceController
+    before_action :render_404_unless_feature_enabled
+
     def export
       respond_to do |format|
         format.csv do
@@ -13,6 +15,10 @@ module ProviderInterface
 
     def csv_filename
       "#{Time.zone.now}.applications-export.csv"
+    end
+
+    def render_404_unless_feature_enabled
+      render_404 unless FeatureFlag.active?(:export_hesa_data)
     end
   end
 end
