@@ -50,6 +50,8 @@ RSpec.feature 'Submitting an application' do
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('In progress')
       expect(page).to have_link('Manage your references')
+      expect(page).to have_content("#{@reference1.name}: Not requested yet")
+      expect(page).to have_content("#{@reference2.name}: Not requested yet")
     end
   end
 
@@ -59,12 +61,14 @@ RSpec.feature 'Submitting an application' do
     within(all('.app-task-list')[1]) do
       expect(page).to have_content('Complete')
       expect(page).to have_link('Review your references')
+      expect(page).to have_content("#{@reference1.name}: Reference given")
+      expect(page).to have_content("#{@reference2.name}: Reference given")
     end
   end
 
   def when_i_have_added_references
-    create(:reference, :unsubmitted, application_form: current_candidate.current_application)
-    create(:reference, :unsubmitted, application_form: current_candidate.current_application)
+    @reference1 = create(:reference, :unsubmitted, application_form: current_candidate.current_application)
+    @reference2 = create(:reference, :unsubmitted, application_form: current_candidate.current_application)
     application.update(references_completed: true)
   end
 

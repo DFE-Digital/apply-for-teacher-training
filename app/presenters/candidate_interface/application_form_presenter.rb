@@ -294,6 +294,10 @@ module CandidateInterface
       @application_form.efl_section_required?
     end
 
+    def references
+      @application_form.application_references
+    end
+
   private
 
     def show_review_volunteering?

@@ -1,0 +1,45 @@
+.app-status-indicator {
+  align-items: center;
+  border-radius: 100%;
+  display: inline-flex;
+  height: govuk-spacing(2);
+  justify-content: center;
+  width: govuk-spacing(2);
+  margin-right: govuk-spacing(1);
+}
+
+.app-status-indicator--grey {
+  background-color: govuk-colour("mid-grey");
+}
+
+.app-status-indicator--purple {
+  background-color: govuk-colour("purple");
+}
+
+.app-status-indicator--turquoise {
+  background-color: govuk-colour("turquoise");
+}
+
+.app-status-indicator--blue {
+  background-color: govuk-colour("blue");
+}
+
+.app-status-indicator--yellow {
+  background-color: govuk-colour("yellow");
+}
+
+.app-status-indicator--orange {
+  background-color: govuk-colour("orange");
+}
+
+.app-status-indicator--red {
+  background-color: govuk-colour("red");
+}
+
+.app-status-indicator--pink {
+  background-color: govuk-colour("pink");
+}
+
+.app-status-indicator--green {
+  background-color: govuk-colour("green");
+}

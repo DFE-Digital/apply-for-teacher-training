@@ -16,3 +16,12 @@ en:
     feedback_refused: Reference declined
     email_bounced: Email address incorrect
     feedback_overdue: Response overdue
+  candidate_reference_colours:
+    cancelled: orange
+    cancelled_at_end_of_cycle: orange
+    not_requested_yet: grey
+    feedback_requested: purple
+    feedback_provided: green
+    feedback_refused: red
+    email_bounced: red
+    feedback_overdue: yellow
