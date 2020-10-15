@@ -21,7 +21,20 @@ class SubmitReference
       #
       # TODO: drop the ApplicationForm#references_completed column when
       # removing the decoupled_references feature flag.
-      FeatureFlag.active?(:decoupled_references) ? reference_feedback_provided! : progress_applications
+      if FeatureFlag.active?(:decoupled_references)
+        reference_feedback_provided!
+
+        application_form.application_references.select(&:feedback_requested?).each do |reference|
+          # TODO: use the CancelReference service once George merges it in. I'm thinking of adding another
+          # argument to the service which is something like maximum_references_received: false)
+          # which will trigger a different slack message for these cancelled references.
+
+          reference.update!(feedback_status: 'cancelled')
+          RefereeMailer.reference_cancelled_email(reference).deliver_later
+        end
+      else
+        progress_applications
+      end
     else
       reference_feedback_provided!
     end
