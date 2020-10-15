@@ -3,11 +3,10 @@ require 'rails_helper'
 RSpec.feature 'Refusing to give a reference' do
   include CandidateHelper
 
-  before { FeatureFlag.deactivate(:decoupled_references) }
-
   scenario 'Referee refuses to give a reference' do
+    FeatureFlag.activate(:decoupled_references)
+
     given_a_candidate_completed_an_application
-    when_the_candidate_submits_the_application
     then_i_receive_an_email_with_a_reference_request
 
     when_i_click_the_refuse_reference_link_in_the_email
@@ -23,10 +22,6 @@ RSpec.feature 'Refusing to give a reference' do
 
   def given_a_candidate_completed_an_application
     candidate_completes_application_form
-  end
-
-  def when_the_candidate_submits_the_application
-    candidate_submits_application
   end
 
   def then_i_receive_an_email_with_a_reference_request
