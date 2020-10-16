@@ -182,6 +182,10 @@ en:
         course_option: The new course
     errors:
       models:
+        candidate_interface/create_account_or_sign_in_form:
+          attributes:
+            email:
+              blank: Enter your email address
         support_interface/provider_user_form:
           attributes:
             email_address:
