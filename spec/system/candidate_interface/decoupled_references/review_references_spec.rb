@@ -125,7 +125,7 @@ RSpec.feature 'Review references' do
 
     expect(page).to have_current_path candidate_interface_decoupled_references_review_path
     expect(page).to have_content("Reference request cancelled for #{@requested_reference.name}")
-    expect(page).to have_content('Cancelled')
+    expect(page).to have_content('Request cancelled')
   end
 
   def and_referee_receives_email_about_reference_cancellation

@@ -8,13 +8,13 @@ en:
     feedback_refused: Reference declined
     email_bounced: Email bounced
   candidate_reference_status:
-    cancelled: Cancelled
-    cancelled_at_end_of_cycle: Cancelled
+    cancelled: Request cancelled
+    cancelled_at_end_of_cycle: Request cancelled
     not_requested_yet: Not requested yet
     feedback_requested: Awaiting response
     feedback_provided: Reference given
     feedback_refused: Reference declined
-    email_bounced: Email address incorrect
+    email_bounced: Request failed
     feedback_overdue: Response overdue
   candidate_reference_colours:
     cancelled: orange

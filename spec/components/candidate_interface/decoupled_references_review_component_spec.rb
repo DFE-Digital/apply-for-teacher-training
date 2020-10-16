@@ -40,9 +40,12 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
       )
       next if row.info_identifier.blank?
 
-      expect(result.css('.govuk-summary-list__value')[4].text).to(
-        include(t("application_form.referees.info.#{row.info_identifier}")),
-      )
+      info = t("application_form.referees.info.#{row.info_identifier}", row.info_args || {})
+      if info.is_a?(Array)
+        info.each { |line| expect(result.css('.govuk-summary-list__value')[4].text).to(include(line)) }
+      else
+        expect(result.css('.govuk-summary-list__value')[4].text).to(include(info))
+      end
     end
   end
 
@@ -142,17 +145,17 @@ private
     sent_more_than_5_days_ago = create(:reference, :sent_more_than_5_days_ago, application_form: af)
     feedback_provided = create(:reference, :complete, application_form: af)
 
-    status_struct = Struct.new(:reference, :colour, :status_identifier, :info_identifier)
+    status_struct = Struct.new(:reference, :colour, :status_identifier, :info_identifier, :info_args)
     stub_const('Status', status_struct)
     [
-      Status.new(not_requested_yet, :grey, 'not_requested_yet', 'not_requested_yet'),
-      Status.new(feedback_refused, :red, 'feedback_refused', 'declined'),
+      Status.new(not_requested_yet, :grey, 'not_requested_yet', ''),
+      Status.new(feedback_refused, :red, 'feedback_refused', 'declined', referee_name: feedback_refused.name),
       Status.new(email_bounced, :red, 'email_bounced', ''),
       Status.new(cancelled_at_end_of_cycle, :orange, 'cancelled_at_end_of_cycle', 'cancelled_at_end_of_cycle'),
       Status.new(cancelled, :orange, 'cancelled', 'cancelled'),
       Status.new(feedback_overdue, :yellow, 'feedback_overdue', 'feedback_overdue'),
-      Status.new(sent_less_than_5_days_ago, :purple, 'feedback_requested', 'awaiting_reference_sent_less_than_5_days_ago'),
-      Status.new(sent_more_than_5_days_ago, :purple, 'feedback_requested', 'awaiting_reference_sent_more_than_5_days_ago'),
+      Status.new(sent_less_than_5_days_ago, :purple, 'feedback_requested', 'feedback_requested'),
+      Status.new(sent_more_than_5_days_ago, :purple, 'feedback_requested', 'feedback_requested'),
       Status.new(feedback_provided, :green, 'feedback_provided', ''),
     ]
   end

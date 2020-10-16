@@ -113,7 +113,7 @@ RSpec.feature 'Decoupled references' do
   def and_i_can_see_my_remaining_reference_request_has_been_cancelled
     within all('.app-summary-card')[3] do
       expect(find('.app-summary-card__title').text).to have_content 'Character reference from Ms Cancelled'
-      expect(all('.govuk-summary-list__row')[4].text).to have_content 'Cancelled'
+      expect(all('.govuk-summary-list__row')[4].text).to have_content 'Request cancelled'
     end
   end
 
