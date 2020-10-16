@@ -25,12 +25,7 @@ class SubmitReference
         reference_feedback_provided!
 
         application_form.application_references.select(&:feedback_requested?).each do |reference|
-          # TODO: use the CancelReference service once George merges it in. I'm thinking of adding another
-          # argument to the service which is something like maximum_references_received: false)
-          # which will trigger a different slack message for these cancelled references.
-
-          reference.update!(feedback_status: 'cancelled')
-          RefereeMailer.reference_cancelled_email(reference).deliver_later
+          CancelReferee.new.call(reference: reference, cancelled_by_default: true)
         end
       else
         progress_applications

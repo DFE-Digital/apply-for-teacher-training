@@ -6,7 +6,8 @@ RSpec.describe CancelReferee do
     let(:reference) { create(:reference, feedback_status: 'feedback_requested') }
     let(:execute_service) { described_class.new.call(reference: reference) }
     let(:mail) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
-    let(:message) { "Candidate #{reference.application_form.first_name} has cancelled one of their references" }
+    let(:cancelled_message) { "Candidate #{reference.application_form.first_name} has cancelled one of their references" }
+    let(:cancelled_by_default_message) { "Candidate #{reference.application_form.first_name}'s reference request has been cancelled as they have recieved two sets of feedback" }
     let(:url) { Rails.application.routes.url_helpers.support_interface_application_form_url(reference.application_form) }
 
     before do
@@ -24,7 +25,14 @@ RSpec.describe CancelReferee do
     end
 
     it 'sends a the slack notification worker' do
-      expect(SlackNotificationWorker).to have_received(:perform_async).with(message, url)
+      expect(SlackNotificationWorker).to have_received(:perform_async).with(cancelled_message, url)
+    end
+
+    context 'when the cancelled_by_default value is "true"' do
+      it 'sends the cancelled by default message to the slack notification worker' do
+        described_class.new.call(reference: reference, cancelled_by_default: true)
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(cancelled_by_default_message, url)
+      end
     end
   end
 end
