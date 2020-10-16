@@ -21,7 +21,15 @@ class SubmitReference
       #
       # TODO: drop the ApplicationForm#references_completed column when
       # removing the decoupled_references feature flag.
-      FeatureFlag.active?(:decoupled_references) ? reference_feedback_provided! : progress_applications
+      if FeatureFlag.active?(:decoupled_references)
+        reference_feedback_provided!
+
+        application_form.application_references.select(&:feedback_requested?).each do |reference|
+          CancelReferee.new.call(reference: reference, cancelled_by_default: true)
+        end
+      else
+        progress_applications
+      end
     else
       reference_feedback_provided!
     end

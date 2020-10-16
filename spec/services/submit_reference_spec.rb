@@ -18,6 +18,24 @@ RSpec.describe SubmitReference do
         expect(reference_two).to be_feedback_provided
         expect(application_form.reload.application_choices).to all(be_unsubmitted)
       end
+
+      context 'when the second reference is received' do
+        it 'cancels reference requests for all remaining "awaiting_feedback" references' do
+          application_form = create(:application_form)
+          reference1 = create(:reference, :requested, application_form: application_form)
+          reference2 = create(:reference, :requested, application_form: application_form)
+          reference3 = create(:reference, :refused, application_form: application_form)
+          reference4 = create(:reference, :requested, application_form: application_form)
+
+          SubmitReference.new(reference: reference1).save!
+          SubmitReference.new(reference: reference2).save!
+
+          expect(reference1).to be_feedback_provided
+          expect(reference2).to be_feedback_provided
+          expect(reference3.reload).to be_feedback_refused
+          expect(reference4.reload).to be_cancelled
+        end
+      end
     end
 
     describe 'decoupled_references feature OFF' do
