@@ -54,6 +54,7 @@ RSpec.feature 'Candidate requests a reference' do
     and_i_confirm_that_i_am_ready_to_send_a_reference_request
     then_i_see_a_confirmation_message
     and_the_reference_is_moved_to_the_requested_state
+    and_an_email_is_sent_to_the_referee
   end
 
   def given_i_am_signed_in
