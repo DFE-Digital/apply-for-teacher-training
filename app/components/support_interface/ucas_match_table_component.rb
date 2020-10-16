@@ -37,7 +37,7 @@ module SupportInterface
 
     def ucas_matched_applications
       @match.matching_data.map do |data|
-        UCASMatchedApplication.new(data, @match.created_at.year)
+        UCASMatchedApplication.new(data, @match.recruitment_cycle_year)
       end
     end
 

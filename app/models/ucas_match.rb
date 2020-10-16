@@ -19,7 +19,7 @@ private
 
   def ucas_matched_applications
     matching_data.map do |data|
-      UCASMatchedApplication.new(data, created_at.year)
+      UCASMatchedApplication.new(data, recruitment_cycle_year)
     end
   end
 
