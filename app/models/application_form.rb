@@ -19,6 +19,8 @@ class ApplicationForm < ApplicationRecord
   has_one :subsequent_application_form, class_name: 'ApplicationForm', foreign_key: 'previous_application_form_id', inverse_of: 'previous_application_form'
   has_one :english_proficiency
 
+  scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
+
   MINIMUM_COMPLETE_REFERENCES = 2
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
