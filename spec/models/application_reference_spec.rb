@@ -194,4 +194,21 @@ RSpec.describe ApplicationReference, type: :model do
       end
     end
   end
+
+  describe '#can_send_reminder?' do
+    it 'is true when state is feedback_requested and reminder_sent_at is nil' do
+      reference = build(:reference, :requested, reminder_sent_at: nil)
+      expect(reference.can_send_reminder?).to eq true
+    end
+
+    it 'is false when state is not feedback_requested' do
+      reference = build(:reference, :unsubmitted, reminder_sent_at: nil)
+      expect(reference.can_send_reminder?).to eq false
+    end
+
+    it 'is false when reminder_sent_at is filled' do
+      reference = build(:reference, :requested, reminder_sent_at: Time.zone.now)
+      expect(reference.can_send_reminder?).to eq false
+    end
+  end
 end

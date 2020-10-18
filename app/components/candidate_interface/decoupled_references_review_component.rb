@@ -101,6 +101,20 @@ module CandidateInterface
 
     def history_row(reference)
       return nil unless reference.requested_at && show_history
+
+      row_attributes = {
+        key: 'History',
+        value: render(ReferenceHistoryComponent.new(reference)),
+      }
+
+      if reference.can_send_reminder?
+        row_attributes.merge!(
+          action: 'Send a reminder to this referee',
+          action_path: candidate_interface_decoupled_references_new_reminder_path(reference),
+        )
+      end
+
+      row_attributes
     end
 
     def feedback_status_label(reference)

@@ -1,0 +1,15 @@
+<ul class='govuk-list qa-reference-history'>
+  <% if requested_at %>
+    <li>
+      Request sent
+      <span class='govuk-hint govuk-!-margin-bottom-0 govuk-!-font-size-16'><%= requested_at %></span>
+    </li>
+  <% end %>
+
+  <% if reminder_sent_at %>
+    <li>
+      Reminder sent
+      <span class='govuk-hint govuk-!-margin-bottom-0 govuk-!-font-size-16'><%= reminder_sent_at %></span>
+    </li>
+  <% end %>
+</ul>

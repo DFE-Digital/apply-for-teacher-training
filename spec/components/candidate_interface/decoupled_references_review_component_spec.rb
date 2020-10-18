@@ -169,6 +169,37 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     end
   end
 
+  context 'rendering history' do
+    let(:reference) { create(:reference, :requested) }
+
+    it 'does not render by default' do
+      result = render_inline(described_class.new(references: [reference]))
+      expect(result.text).not_to include 'History'
+    end
+
+    it 'renders when argument flag is set to true' do
+      result = render_inline(described_class.new(references: [reference], show_history: true))
+      expect(result.text).to include 'History'
+    end
+
+    it 'does not render if reference has never been requested' do
+      reference.requested_at = nil
+      result = render_inline(described_class.new(references: [reference], show_history: true))
+      expect(result.text).not_to include 'History'
+    end
+
+    it 'renders a reminder link if a reminder has not been sent' do
+      result = render_inline(described_class.new(references: [reference], show_history: true))
+      expect(result.text).to include 'Send a reminder to this referee'
+    end
+
+    it 'does not render a reminder link if a reminder has already been sent' do
+      reference.reminder_sent_at = Time.zone.now
+      result = render_inline(described_class.new(references: [reference], show_history: true))
+      expect(result.text).not_to include 'Send a reminder to this referee'
+    end
+  end
+
 private
 
   def status_table

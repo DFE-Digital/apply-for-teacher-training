@@ -109,4 +109,8 @@ class ApplicationReference < ApplicationRecord
   def editable?
     feedback_status == 'not_requested_yet'
   end
+
+  def can_send_reminder?
+    feedback_requested? && reminder_sent_at.nil?
+  end
 end
