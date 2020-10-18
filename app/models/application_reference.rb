@@ -86,6 +86,19 @@ class ApplicationReference < ApplicationRecord
     TimeLimitConfig.replace_referee_by.days.after(requested_at)
   end
 
+  def additional_chase_referee_at
+    return unless requested_at
+
+    TimeLimitConfig.additional_reference_chase_calendar_days.days.after(requested_at)
+  end
+
+  def next_automated_chase_at
+    return unless requested_at
+    return if additional_chase_referee_at < Time.zone.now
+
+    Time.zone.now < chase_referee_at ? chase_referee_at : additional_chase_referee_at
+  end
+
   def feedback_overdue?
     return unless replace_referee_at
     return unless feedback_requested? || cancelled_at_end_of_cycle?
