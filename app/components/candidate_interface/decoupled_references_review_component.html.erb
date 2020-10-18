@@ -1,7 +1,6 @@
 <% references.each do |reference| %>
-  <%= render(SummaryCardComponent.new(rows: reference_rows(reference), editable: editable && reference.editable?)) do %>
+  <%= render(SummaryCardComponent.new(rows: reference_rows(reference), editable: editable && reference.editable?, ignore_editable: ['History'])) do %>
     <%= render(SummaryCardHeaderComponent.new(title: card_title(reference))) do %>
-
       <div class="app-summary-card__actions">
         <ul class="app-summary-card__actions-list">
           <% if reference.feedback_requested? %>
