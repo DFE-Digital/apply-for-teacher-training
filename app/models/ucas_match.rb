@@ -18,6 +18,10 @@ class UCASMatch < ApplicationRecord
 
     return need_to_send_reminder_emails? if initial_emails_sent?
 
+    dual_application_or_dual_acceptance?
+  end
+
+  def dual_application_or_dual_acceptance?
     application_for_the_same_course_in_progress_on_both_services? ||
       application_accepted_on_ucas_and_in_progress_on_apply? ||
       application_accepted_on_apply_and_in_progress_on_ucas?
@@ -31,6 +35,13 @@ class UCASMatch < ApplicationRecord
     matching_data.map do |data|
       UCASMatchedApplication.new(data, recruitment_cycle_year)
     end
+  end
+
+  def need_to_send_reminder_emails?
+    return false unless initial_emails_sent?
+
+    send_reminder_emails_date = 5.business_days.after(candidate_last_contacted_at).to_date
+    Time.zone.today >= send_reminder_emails_date
   end
 
 private
@@ -50,12 +61,5 @@ private
   def application_accepted_on_apply_and_in_progress_on_ucas?
     ucas_matched_applications.map(&:application_accepted_on_apply?).any? &&
       ucas_matched_applications.map(&:application_in_progress_on_ucas?).any?
-  end
-
-  def need_to_send_reminder_emails?
-    return false unless initial_emails_sent?
-
-    send_reminder_emails_date = 5.business_days.after(candidate_last_contacted_at).to_date
-    Time.zone.today >= send_reminder_emails_date
   end
 end
