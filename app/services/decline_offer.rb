@@ -12,7 +12,7 @@ class DeclineOffer
       CandidateMailer.decline_last_application_choice(@application_choice).deliver_later
     end
 
-    @application_choice.provider.provider_users.each do |provider_user|
+    NotificationsList.for(@application_choice).each do |provider_user|
       ProviderMailer.declined(provider_user, @application_choice).deliver_later
     end
   end

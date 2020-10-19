@@ -2,17 +2,27 @@
 
 <%= render 'provider_user_navigation', title: 'Details' %>
 
+<%= render SummaryListComponent.new(rows: {
+  'First name' => @form.provider_user.first_name,
+  'Last name' => @form.provider_user.last_name,
+  'Email address' => @form.provider_user.email_address,
+  'DfE Sign-in UID' => @form.provider_user.dfe_sign_in_uid,
+  'Account created at' => @form.provider_user.created_at.to_s(:govuk_date_and_time),
+  'Last sign in at' => @form.provider_user.last_signed_in_at&.to_s(:govuk_date_and_time) || 'Not signed in yet',
+  'Send notifications?' => boolean_to_word(@form.provider_user.send_notifications?),
+}) %>
+
+
+<%= form_with model: @form, url: support_interface_provider_user_toggle_notifications_path(@form.provider_user) do |f| %>
+  <% if @form.provider_user.send_notifications? %>
+    <%= f.govuk_submit 'Disable notifications' %>
+  <% else %>
+    <%= f.govuk_submit 'Enable notifications' %>
+  <% end %>
+<% end %>
+
 <%= form_with model: @form, url: support_interface_provider_user_path(@form.provider_user) do |f| %>
   <%= f.govuk_error_summary %>
-
-  <%= render SummaryListComponent.new(rows: {
-    'First name' => @form.provider_user.first_name,
-    'Last name' => @form.provider_user.last_name,
-    'Email address' => @form.provider_user.email_address,
-    'DfE Sign-in UID' => @form.provider_user.dfe_sign_in_uid,
-    'Account created at' => @form.provider_user.created_at.to_s(:govuk_date_and_time),
-    'Last sign in at' => @form.provider_user.last_signed_in_at&.to_s(:govuk_date_and_time) || 'Not signed in yet',
-  }) %>
 
   <%= render 'provider_options', f: f %>
 
