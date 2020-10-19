@@ -61,7 +61,7 @@ module CandidateInterface
     def date_of_birth_is_within_lower_age_limit
       return unless date_of_birth.is_a?(Date) && date_of_birth < Date.today
 
-      age_limit = Date.today - 16.years
+      age_limit = Time.zone.today - 16.years
       errors.add(:date_of_birth, :below_lower_age_limit, date: age_limit.to_s(:govuk_date)) if date_of_birth > age_limit
     end
   end
