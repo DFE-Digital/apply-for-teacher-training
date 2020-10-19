@@ -11,6 +11,7 @@ RSpec.feature 'See UCAS matches' do
 
     when_i_go_to_ucas_matches_page
     then_i_should_see_list_of_ucas_matches
+    and_i_should_which_ucas_matches_need_action
 
     when_i_follow_the_link_to_ucas_match_for_a_candidate
     then_i_should_see_ucas_match_summary
@@ -29,6 +30,9 @@ RSpec.feature 'See UCAS matches' do
     course_option2 = create(:course_option, course: @course2)
     application_choice2 = create(:submitted_application_choice, course_option: course_option2)
     @application_form = create(:application_form, candidate: @candidate, application_choices: [application_choice1, application_choice2])
+    @candidate2 = create(:candidate)
+    application_choice3 = create(:application_choice, :with_offer, course_option: course_option2)
+    @application_form2 = create(:application_form, candidate: @candidate2, application_choices: [application_choice3])
   end
 
   def and_there_are_ucas_matches_in_the_system
@@ -48,6 +52,7 @@ RSpec.feature 'See UCAS matches' do
         'Provider code' => @course2.provider.code.to_s,
       }
     create(:ucas_match, matching_state: 'new_match', application_form: @application_form, matching_data: [ucas_matching_data, dfe_matching_data])
+    create(:ucas_match, matching_state: 'matching_data_updated', scheme: 'B', ucas_status: :offer, application_form: @application_form2)
   end
 
   def and_i_visit_the_support_page
@@ -61,6 +66,10 @@ RSpec.feature 'See UCAS matches' do
   def then_i_should_see_list_of_ucas_matches
     expect(page).to have_content 'New match'
     expect(page).to have_content @candidate.email_address
+  end
+
+  def and_i_should_which_ucas_matches_need_action
+    expect(page).to have_content 'Matching data updated Action needed'
   end
 
   def when_i_follow_the_link_to_ucas_match_for_a_candidate
