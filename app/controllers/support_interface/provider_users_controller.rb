@@ -73,7 +73,7 @@ module SupportInterface
       provider_user = ProviderUser.find(params[:provider_user_id])
       provider_user.update!(send_notifications: !provider_user.send_notifications)
       flash[:success] = 'Provider user updated'
-      redirect_to edit_support_interface_provider_user_path(provider_user)
+      redirect_to support_interface_provider_user_path(provider_user)
     end
 
   private

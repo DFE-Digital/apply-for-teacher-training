@@ -170,7 +170,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def when_i_add_them_to_another_organisation
-    click_link 'Change'
+    click_link 'Change permissions'
     check 'Another provider (DEF)'
     click_button 'Update permissions'
   end
@@ -220,7 +220,7 @@ RSpec.feature 'Managing provider users' do
   end
 
   def when_i_click_to_change_their_permissions
-    click_on 'Change'
+    click_on 'Change permissions'
   end
 
   def and_i_remove_manage_users_permissions
