@@ -194,8 +194,13 @@ RSpec.describe CandidateMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       :changed_offer,
-      'Neverland University changed the details of your offer',
+      'Offer changed by Neverland University',
       'heading' => 'Dear Tingker Bell',
+      'name and code for original course' => 'Flying (F1Y)',
+      'name and code for new course' => 'Course: Fighting (F1G)',
+      'name of new provider' => 'Provider: Neverland University',
+      'location of new offer' => 'Location: Pan School',
+      'study mode of new offer' => 'Full time',
     )
   end
 end
