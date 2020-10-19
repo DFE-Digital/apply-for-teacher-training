@@ -6,12 +6,12 @@ class GenerateTestApplications
     @for_year = for_year
 
     if (dev_support_user = ProviderUser.find_by_dfe_sign_in_uid('dev-support'))
-      open_courses = dev_support_user.providers.map(&:courses).map(&:open_on_apply)
+      open_courses_per_provider = dev_support_user.providers.map { |p| p.courses.open_on_apply }
 
       @courses_to_apply_to = if @for_year == :previous_year
-                               open_courses.map(&:previous_cycle).flatten
+                               open_courses_per_provider.map(&:previous_cycle).flatten
                              else
-                               open_courses.map(&:current_cycle).flatten
+                               open_courses_per_provider.map(&:current_cycle).flatten
                              end
     end
   end
