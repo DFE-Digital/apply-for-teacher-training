@@ -110,7 +110,7 @@ Once those dependencies are installed, run `bundle install` to install required 
 
 #### Local db setup
 
-1. Start the postgres service: `sudo service postgresql start`
+1. Start the postgres service: `sudo service postgresql start` on Linux or `brew services start postgresql` on Mac
 1. Populate the `DB_` relevant environment variables with the correct values (those are: `DB_USERNAME`, `DB_PASSWORD`, `DB_HOSTNAME` and `DB_PORT`)
 1. Then local development databases and data can be set up: `bundle exec rake db:setup`
 (You may wish to [set up development data](#development-data) at this point)
