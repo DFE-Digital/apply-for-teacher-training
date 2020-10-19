@@ -19,8 +19,6 @@ RSpec.describe GenerateTestApplications do
     expect(ApplicationChoice.pluck(:status)).to include(
       'unsubmitted',
       'awaiting_provider_decision',
-      'awaiting_references',
-      'application_not_sent',
       'offer',
       'rejected',
       'declined',
@@ -30,6 +28,6 @@ RSpec.describe GenerateTestApplications do
     # there is at least one unsubmitted application to a full course
     expect(ApplicationChoice.where(status: 'unsubmitted').map(&:course_option).select(&:no_vacancies?)).not_to be_empty
     # there is at least one awaiting_references application to a full course
-    expect(ApplicationChoice.where(status: 'awaiting_references').map(&:course_option).select(&:no_vacancies?)).not_to be_empty
+    expect(ApplicationChoice.where(status: 'unsubmitted').map(&:course_option).select(&:no_vacancies?)).not_to be_empty
   end
 end

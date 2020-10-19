@@ -16,8 +16,8 @@ class TestApplications
   def create_application(states:, courses_to_apply_to: nil, apply_again: false, course_full: false)
     candidate = nil
 
-    min_days_in_the_past = courses_to_apply_to&.first&.recruitment_cycle_year == RecruitmentCycle.previous_year ? 385 : 20
-    travel_to rand(min_days_in_the_past..(min_days_in_the_past + 30)).days.ago
+    min_days_in_the_past = courses_to_apply_to&.first&.recruitment_cycle_year == RecruitmentCycle.previous_year ? 375 : 10
+    travel_to rand(min_days_in_the_past..(min_days_in_the_past + 20)).days.ago
 
     if apply_again
       raise OnlyOneCourseWhenApplyingAgainError, 'You can only apply to one course when applying again' unless states.one?
@@ -110,17 +110,18 @@ class TestApplications
 
       without_slack_message_sending do
         fast_forward(1..2)
-        SubmitApplication.new(@application_form).call
+        SubmitApplicationWithDecoupledReferences.new(@application_form).call
 
-        # To prevent immediate sending to provider, which uses the current
-        # time to decide whether edit_by has passed, temporarily set edit_by to
-        # a date in the future relative to now
-        @application_form.application_choices.each { |choice| choice.update_columns(updated_at: time) }
-        @application_form.update_columns(submitted_at: time, edit_by: Time.zone.now + 7.days, updated_at: time)
+        @application_form.application_choices.each do |choice|
+          choice.update_columns(
+            sent_to_provider_at: time,
+            reject_by_default_at: time + rand(3..30).days,
+            updated_at: time,
+          )
+          choice.audits.last&.update_columns(created_at: time)
+        end
 
-        return if states.include? :awaiting_references
-
-        @application_form.application_choices.each(&:application_not_sent!) and return if states.include? :application_not_sent
+        @application_form.update_columns(submitted_at: time, edit_by: time + 7.days, updated_at: time)
 
         @application_form.application_references.each do |reference|
           reference.relationship_correction = ['', Faker::Lorem.sentence].sample
@@ -134,18 +135,8 @@ class TestApplications
           ).save!
         end
 
-        return if states.include? :application_complete
-
-        # Now that the application has *not* been sent to the provider as a side effect
-        # of SubmitReference, set edit_by back to a time which makes sense with the
-        # false timeline we're building for this application
-        @application_form.update_columns(submitted_at: time, edit_by: time + 7.days, updated_at: time)
-
-        application_choices.map(&:reload)
-        application_choices.each { |choice| choice.update_columns(updated_at: time) }
-
         states.zip(application_choices).each do |state, application_choice|
-          put_application_choice_in_state(application_choice, state)
+          put_application_choice_in_state(application_choice.reload, state)
         end
 
         FactoryBot.create(:ucas_match, application_form: @application_form) if rand < 0.5
@@ -161,10 +152,6 @@ class TestApplications
 
   def put_application_choice_in_state(choice, state)
     travel_to(choice.application_form.edit_by) if choice.application_form.edit_by > time
-    SendApplicationToProvider.new(application_choice: choice).call
-    choice.update_columns(sent_to_provider_at: time)
-    choice.audits.last&.update_columns(created_at: time)
-    SetRejectByDefault.new(choice).call
     choice.update_columns(updated_at: time)
     choice.audits.last&.update_columns(created_at: time)
 
@@ -263,7 +250,7 @@ class TestApplications
     as_provider_user(choice) do
       fast_forward(1..3)
       WithdrawOffer.new(actor: actor, application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
-      choice.update_columns(withdrawn_at: time, updated_at: time)
+      choice.update_columns(offer_withdrawn_at: time, updated_at: time)
     end
     choice.audits.last&.update_columns(created_at: time)
   end

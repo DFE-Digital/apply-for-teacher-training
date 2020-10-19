@@ -1,7 +1,7 @@
 module FindSync
   class SyncProviderFromFind
-    def self.call(provider_code:, provider_name: nil, provider_recruitment_cycle_year:, sync_courses: false)
-      new(provider_code, provider_name, provider_recruitment_cycle_year, sync_courses).call
+    def self.call(provider_code:, provider_name: nil, provider_recruitment_cycle_year:, sync_courses: false, run_in_background: true)
+      new(provider_code, provider_name, provider_recruitment_cycle_year, sync_courses).call(run_in_background: run_in_background)
     end
 
     attr_reader :provider_code, :provider_name, :provider_recruitment_cycle_year
@@ -14,7 +14,7 @@ module FindSync
       @sync_courses = sync_courses
     end
 
-    def call
+    def call(run_in_background: true)
       if sync_courses?
         find_provider = fetch_provider_from_find_api
 
@@ -24,7 +24,11 @@ module FindSync
           ),
         )
 
-        FindSync::SyncCoursesFromFind.perform_async(provider.id, provider_recruitment_cycle_year)
+        if run_in_background
+          FindSync::SyncCoursesFromFind.perform_async(provider.id, provider_recruitment_cycle_year)
+        else
+          FindSync::SyncCoursesFromFind.new.perform(provider.id, provider_recruitment_cycle_year)
+        end
       else
         @provider = create_or_update_provider(base_provider_attrs)
       end
