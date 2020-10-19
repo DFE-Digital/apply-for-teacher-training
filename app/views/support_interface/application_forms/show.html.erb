@@ -16,7 +16,6 @@
   <%= button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
 <% end %>
 
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Personal details</h2>
 <%= render PersonalDetailsComponent.new(application_form: @application_form) %>
 
 <% if @application_form.application_choices.any? %>
