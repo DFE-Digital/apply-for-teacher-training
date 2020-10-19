@@ -159,27 +159,6 @@ Running `make setup` will blow away and recreate those volumes,
 destroying any data you have created in development. It is necessary
 to run it at least once before the app will boot in Docker.
 
-### Dummy data
-
-We have a service `GenerateTestData` which generates `ApplicationChoice`s in
-the database. You can specify how many `ApplicationChoice`s are created and to
-which provider they are applying.
-
-If you do not specify a provider, the `ApplicationChoice`s will be for courses
-at provider code `ABC`.
-
-**Generate 10 applications for the default provider (ABC)**
-
-```
-GenerateTestData.new(10).generate
-```
-
-**Generate 10 applications for a specific provider**
-
-```
-GenerateTestData.new(10, Provider.find_by(code: '1N1')).generate
-```
-
 ## DfE Sign-in
 
 The Provider interface at `/provider` and Support interface at
