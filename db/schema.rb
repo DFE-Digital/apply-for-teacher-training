@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_15_134829) do
+ActiveRecord::Schema.define(version: 2020_10_19_100905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -379,6 +379,7 @@ ActiveRecord::Schema.define(version: 2020_10_15_134829) do
     t.string "last_name"
     t.string "magic_link_token"
     t.datetime "magic_link_token_sent_at"
+    t.boolean "send_notifications", default: true, null: false
     t.index ["dfe_sign_in_uid"], name: "index_provider_users_on_dfe_sign_in_uid", unique: true
     t.index ["email_address"], name: "index_provider_users_on_email_address", unique: true
   end

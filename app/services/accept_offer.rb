@@ -17,7 +17,7 @@ class AcceptOffer
       end
     end
 
-    @application_choice.provider.provider_users.each do |provider_user|
+    NotificationsList.for(@application_choice).each do |provider_user|
       ProviderMailer.offer_accepted(provider_user, @application_choice).deliver_later
     end
 

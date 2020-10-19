@@ -8,7 +8,7 @@ class SendNewApplicationEmailToProvider
   def call
     return false unless application_choice.awaiting_provider_decision?
 
-    application_choice.provider.provider_users.each do |provider_user|
+    NotificationsList.for(application_choice).each do |provider_user|
       if application_choice.application_form.has_safeguarding_issues_to_declare?
         ProviderMailer.application_submitted_with_safeguarding_issues(provider_user, application_choice).deliver_later
       else
