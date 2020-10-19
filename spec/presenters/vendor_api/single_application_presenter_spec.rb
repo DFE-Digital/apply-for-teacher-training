@@ -6,37 +6,40 @@ require 'rails_helper'
 RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'attributes.withdrawal' do
     it 'returns a withdrawal object' do
+      withdrawn_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
       application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
-      application_choice = create(:application_choice, status: 'withdrawn', application_form: application_form, withdrawn_at: '2019-01-01')
+      application_choice = create(:application_choice, status: 'withdrawn', application_form: application_form, withdrawn_at: withdrawn_at)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
-      expect(response[:attributes][:withdrawal]).to eq(reason: nil, date: '2019-01-01T00:00:00+00:00')
+      expect(response[:attributes][:withdrawal]).to eq(reason: nil, date: withdrawn_at.iso8601)
     end
   end
 
   describe 'attributes.rejection' do
     it 'returns a rejection object' do
+      rejected_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
       application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
-      application_choice = create(:application_choice, status: 'rejected', application_form: application_form, rejected_at: '2019-01-01', rejection_reason: 'Course full')
+      application_choice = create(:application_choice, status: 'rejected', application_form: application_form, rejected_at: rejected_at, rejection_reason: 'Course full')
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
-      expect(response[:attributes][:rejection]).to eq(reason: 'Course full', date: '2019-01-01T00:00:00+00:00')
+      expect(response[:attributes][:rejection]).to eq(reason: 'Course full', date: rejected_at.iso8601)
     end
   end
 
   describe 'attributes.rejection with a withdrawn offer' do
     it 'returns a rejection object' do
+      withdrawn_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
       application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
-      application_choice = create(:application_choice, status: 'rejected', application_form: application_form, offer_withdrawn_at: '2019-01-01', offer_withdrawal_reason: 'Course full')
+      application_choice = create(:application_choice, status: 'rejected', application_form: application_form, offer_withdrawn_at: withdrawn_at, offer_withdrawal_reason: 'Course full')
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
-      expect(response[:attributes][:rejection]).to eq(reason: 'Course full', date: '2019-01-01T00:00:00+00:00')
+      expect(response[:attributes][:rejection]).to eq(reason: 'Course full', date: withdrawn_at.iso8601)
     end
   end
 
