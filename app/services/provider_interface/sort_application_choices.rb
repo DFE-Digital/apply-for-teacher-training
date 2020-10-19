@@ -56,9 +56,9 @@ module ProviderInterface
             AND (
               DATE(reject_by_default_at)
               BETWEEN
-                DATE('#{Time.zone.now.iso8601}')
+                DATE('#{Time.zone.now.iso8601}'::TIMESTAMPTZ)
               AND
-                DATE('#{5.business_days.after(Time.zone.now).iso8601}')
+                DATE('#{5.business_days.after(Time.zone.now).iso8601}'::TIMESTAMPTZ)
             )
         )
       AWAITING_PROVIDER_DECISION
@@ -69,7 +69,7 @@ module ProviderInterface
         (
           status = 'awaiting_provider_decision'
             AND (
-              DATE(reject_by_default_at) >= DATE('#{Time.zone.now.iso8601}')
+              DATE(reject_by_default_at) >= DATE('#{Time.zone.now.iso8601}'::TIMESTAMPTZ)
             )
         )
       AWAITING_PROVIDER_DECISION
