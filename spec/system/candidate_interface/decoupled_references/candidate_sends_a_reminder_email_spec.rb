@@ -66,7 +66,7 @@ RSpec.feature 'Candidate sends a reference reminder' do
   def and_the_reference_history_shows_the_reminder_i_just_sent
     within '#references_sent' do
       within '.qa-reference-history' do
-        expect(page).to have_content @reference.reload.reminder_sent_at.to_s(:govuk_date_and_time)
+        expect(page).to have_content @reference.reload.reminder_sent_at.to_s(:govuk_date_and_time).squish
       end
     end
   end
