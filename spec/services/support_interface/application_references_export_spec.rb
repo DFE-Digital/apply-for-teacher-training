@@ -20,6 +20,7 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
 
   def return_expected_hash(application_form)
     {
+      'Recruitment cycle year' => application_form.recruitment_cycle_year,
       'Support ref number' => application_form.support_reference,
       'Phase' => application_form.phase,
       'Application state' => ProcessState.new(application_form).state,

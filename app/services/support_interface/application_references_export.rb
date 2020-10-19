@@ -5,6 +5,7 @@ module SupportInterface
 
       application_forms.map do |af|
         output = {
+          'Recruitment cycle year' => af.recruitment_cycle_year,
           'Support ref number' => af.support_reference,
           'Phase' => af.phase,
           'Application state' => ProcessState.new(af).state,
