@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::VolunteeringHistoryComponent do
+RSpec.describe VolunteeringHistoryComponent do
   context 'with an empty history' do
     it 'renders nothing' do
       application_form = instance_double(ApplicationForm)

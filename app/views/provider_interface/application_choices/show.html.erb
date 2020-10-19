@@ -46,7 +46,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
 
-    <%= render ProviderInterface::VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
+    <%= render VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
 
     <% language_skills_component = LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
     <% if language_skills_component.render? %>

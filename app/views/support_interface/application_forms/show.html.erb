@@ -39,8 +39,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render WorkHistoryComponent.new(application_form: @application_form) %>
 
-    <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Unpaid experience and volunteering</h2>
-    <%= render VolunteeringReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
+    <%= render VolunteeringHistoryComponent.new(application_form: @application_form) %>
 
     <%= render LanguageSkillsComponent.new(application_form: @application_form) %>
 
