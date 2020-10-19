@@ -2,17 +2,19 @@
 
 <%= render 'application_choice_header' %>
 
-<p class="govuk-body govuk-!-display-none-print">
-  <%= govuk_link_to(
-    'Download application (PDF)',
-    provider_interface_application_choice_path(@application_choice.id, format: :pdf),
-    download: @application_choice.application_form.support_reference
-  ) %>
-</p>
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) unless @offer_present %>
+
+    <%= render ProviderInterface::ApplicationSummaryComponent.new(application_form: @application_choice.application_form) %>
+
+    <p class="govuk-body govuk-!-display-none-print">
+      <%= govuk_link_to(
+        'Download application (PDF)',
+        provider_interface_application_choice_path(@application_choice.id, format: :pdf),
+        download: @application_choice.application_form.support_reference
+      ) %>
+    </p>
 
     <%= render PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
 
