@@ -13,7 +13,7 @@ module SupportInterface
     end
 
     def show
-      redirect_to edit_support_interface_provider_user_path(params[:id])
+      @provider_user = ProviderUser.find(params[:id])
     end
 
     def new
@@ -59,22 +59,21 @@ module SupportInterface
 
       if service.call!
         flash[:success] = 'Provider user updated'
-        redirect_to edit_support_interface_provider_user_path(provider_user)
+        redirect_to support_interface_provider_user_path(provider_user)
       else
         render :edit
       end
     end
 
     def audits
-      provider_user = ProviderUser.find(params[:provider_user_id])
-      @form = ProviderUserForm.from_provider_user(provider_user)
+      @provider_user = ProviderUser.find(params[:provider_user_id])
     end
 
     def toggle_notifications
       provider_user = ProviderUser.find(params[:provider_user_id])
       provider_user.update!(send_notifications: !provider_user.send_notifications)
       flash[:success] = 'Provider user updated'
-      redirect_to edit_support_interface_provider_user_path(provider_user)
+      redirect_to support_interface_provider_user_path(provider_user)
     end
 
   private

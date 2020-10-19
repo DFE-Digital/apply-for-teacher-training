@@ -1,4 +1,4 @@
-<% content_for :browser_title, "History - #{provider_user_name(@form.provider_user)}" %>
-<%= render 'provider_user_navigation', title: 'History' %>
+<% content_for :browser_title, "History - #{provider_user_name(@provider_user)}" %>
+<%= render 'provider_user_navigation', title: 'History', provider_user: @provider_user %>
 
-<%= render SupportInterface::AuditTrailComponent.new(audited_thing: @form.provider_user) %>
+<%= render SupportInterface::AuditTrailComponent.new(audited_thing: @provider_user) %>

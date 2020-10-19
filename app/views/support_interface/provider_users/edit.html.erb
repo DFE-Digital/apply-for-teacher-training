@@ -1,30 +1,28 @@
-<% content_for :browser_title, title_with_error_prefix("Edit - #{provider_user_name(@form.provider_user)}", @form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix("Update providers and permissions - #{provider_user_name(@form.provider_user)}", @form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_provider_user_path(@form.provider_user)) %>
 
-<%= render 'provider_user_navigation', title: 'Details' %>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @form, url: support_interface_provider_user_path(@form.provider_user) do |f| %>
+      <%= f.govuk_error_summary %>
 
-<%= render SummaryListComponent.new(rows: {
-  'First name' => @form.provider_user.first_name,
-  'Last name' => @form.provider_user.last_name,
-  'Email address' => @form.provider_user.email_address,
-  'DfE Sign-in UID' => @form.provider_user.dfe_sign_in_uid,
-  'Account created at' => @form.provider_user.created_at.to_s(:govuk_date_and_time),
-  'Last sign in at' => @form.provider_user.last_signed_in_at&.to_s(:govuk_date_and_time) || 'Not signed in yet',
-  'Send notifications?' => boolean_to_word(@form.provider_user.send_notifications?),
-}) %>
+      <%= f.govuk_check_boxes_fieldset :provider, caption: { text: provider_user_name(@form.provider_user), size: 'l' }, legend: { text: 'Update providers and permissions', tag: 'h1', size: 'l' }, classes: 'govuk-!-margin-top-6' do %>
+        <%= render 'provider_options', f: f %>
+      <% end %>
 
+      <%= f.govuk_submit 'Update permissions' %>
+    <% end %>
 
-<%= form_with model: @form, url: support_interface_provider_user_toggle_notifications_path(@form.provider_user) do |f| %>
-  <% if @form.provider_user.send_notifications? %>
-    <%= f.govuk_submit 'Disable notifications' %>
-  <% else %>
-    <%= f.govuk_submit 'Enable notifications' %>
-  <% end %>
-<% end %>
+    <%= form_with model: @form, url: support_interface_provider_user_toggle_notifications_path(@form.provider_user) do |f| %>
+      <%= render SummaryListComponent.new(rows: {
+        'Send notifications?' => boolean_to_word(@form.provider_user.send_notifications?),
+      }) %>
 
-<%= form_with model: @form, url: support_interface_provider_user_path(@form.provider_user) do |f| %>
-  <%= f.govuk_error_summary %>
-
-  <%= render 'provider_options', f: f %>
-
-  <%= f.govuk_submit 'Update user' %>
-<% end %>
+      <% if @form.provider_user.send_notifications? %>
+        <%= f.govuk_submit 'Disable notifications' %>
+      <% else %>
+        <%= f.govuk_submit 'Enable notifications' %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

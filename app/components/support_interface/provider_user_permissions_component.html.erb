@@ -1,0 +1,6 @@
+<% @provider_user.provider_permissions.includes(:provider, provider: [:ratifying_provider_permissions, :training_provider_permissions]).each do |permission| %>
+  <section class="govuk-!-margin-bottom-2">
+    <h3 class="govuk-heading-s"><%= permission.provider.name_and_code %></h3>
+    <%= render PermissionsListComponent.new(permission, user_is_viewing_their_own_permissions: false) %>
+  </section>
+<% end %>

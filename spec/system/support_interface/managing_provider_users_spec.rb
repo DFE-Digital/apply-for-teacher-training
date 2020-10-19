@@ -44,10 +44,11 @@ RSpec.feature 'Managing provider users' do
     and_they_should_be_able_to_make_decisions
     and_they_should_be_able_to_view_diversity_information
 
-    when_i_remove_manage_users_permissions
+    when_i_click_to_change_their_permissions
+    and_i_remove_manage_users_permissions
     and_i_remove_manage_organisations_permissions
     and_i_remove_access_to_a_provider
-    and_i_click_update_user
+    and_i_click_update_permissions
     then_they_should_not_be_able_to_manage_users
     and_they_should_not_be_able_to_manage_organisations
     and_they_should_not_have_access_to_the_removed_provider
@@ -94,31 +95,31 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_i_check_permission_to_manage_users
-    within(permissions_fields_id_for_provider(@provider)) do
+    within(permissions_checkboxes_for_provider(@provider)) do
       check 'Manage users'
     end
   end
 
   def and_i_check_permission_to_manage_organisations
-    within(permissions_fields_id_for_provider(@provider)) do
+    within(permissions_checkboxes_for_provider(@provider)) do
       check 'Manage organisations'
     end
   end
 
   def and_i_check_permission_to_view_safeguarding_information
-    within(permissions_fields_id_for_provider(@provider)) do
+    within(permissions_checkboxes_for_provider(@provider)) do
       check 'Access safeguarding information'
     end
   end
 
   def and_i_check_permission_to_make_decisions
-    within(permissions_fields_id_for_provider(@provider)) do
+    within(permissions_checkboxes_for_provider(@provider)) do
       check 'Make decisions'
     end
   end
 
   def and_i_check_permission_to_view_diversity_information
-    within(permissions_fields_id_for_provider(@provider)) do
+    within(permissions_checkboxes_for_provider(@provider)) do
       check 'Access diversity information'
     end
   end
@@ -169,13 +170,14 @@ RSpec.feature 'Managing provider users' do
   end
 
   def when_i_add_them_to_another_organisation
+    click_link 'Change permissions'
     check 'Another provider (DEF)'
-    click_button 'Update user'
+    click_button 'Update permissions'
   end
 
   def then_i_see_that_they_have_been_added_to_that_organisation
-    expect(page).to have_checked_field('Example provider (ABC)')
-    expect(page).to have_checked_field('Another provider (DEF)')
+    expect(page).to have_content('Example provider (ABC)')
+    expect(page).to have_content('Another provider (DEF)')
   end
 
   def when_i_click_the_audit_trail_tab
@@ -188,43 +190,47 @@ RSpec.feature 'Managing provider users' do
   end
 
   def and_they_should_be_able_to_manage_users
-    within(permissions_fields_id_for_provider(@provider)) do
-      expect(page).to have_checked_field('Manage users')
+    within(permissions_summary_for_provider(@provider)) do
+      expect(page).to have_content('Manage users')
     end
   end
 
   def and_they_should_be_able_to_manage_organisations
-    within(permissions_fields_id_for_provider(@provider)) do
-      expect(page).to have_checked_field('Manage organisations')
+    within(permissions_summary_for_provider(@provider)) do
+      expect(page).to have_content('Manage organisations')
     end
   end
 
   def and_they_should_be_able_to_view_safeguarding_information
-    within(permissions_fields_id_for_provider(@provider)) do
-      expect(page).to have_checked_field('Access safeguarding information')
+    within(permissions_summary_for_provider(@provider)) do
+      expect(page).to have_content('Access safeguarding information')
     end
   end
 
   def and_they_should_be_able_to_make_decisions
-    within(permissions_fields_id_for_provider(@provider)) do
-      expect(page).to have_checked_field('Make decisions')
+    within(permissions_summary_for_provider(@provider)) do
+      expect(page).to have_content('Make decisions')
     end
   end
 
   def and_they_should_be_able_to_view_diversity_information
-    within(permissions_fields_id_for_provider(@provider)) do
-      expect(page).to have_checked_field('Access diversity information')
+    within(permissions_summary_for_provider(@provider)) do
+      expect(page).to have_content('Access diversity information')
     end
   end
 
-  def when_i_remove_manage_users_permissions
-    within(permissions_fields_id_for_provider(@provider)) do
+  def when_i_click_to_change_their_permissions
+    click_on 'Change permissions'
+  end
+
+  def and_i_remove_manage_users_permissions
+    within(permissions_checkboxes_for_provider(@provider)) do
       uncheck 'Manage users'
     end
   end
 
   def and_i_remove_manage_organisations_permissions
-    within(permissions_fields_id_for_provider(@provider)) do
+    within(permissions_checkboxes_for_provider(@provider)) do
       uncheck 'Manage organisations'
     end
   end
@@ -233,30 +239,32 @@ RSpec.feature 'Managing provider users' do
     uncheck 'Another provider (DEF)'
   end
 
-  def and_i_click_update_user
-    click_on 'Update user'
+  def and_i_click_update_permissions
+    click_on 'Update permissions'
   end
 
   def then_they_should_not_be_able_to_manage_users
-    within(permissions_fields_id_for_provider(@provider)) do
-      expect(page).to have_field('Manage users')
-      expect(page).not_to have_checked_field('Manage users')
+    within(permissions_summary_for_provider(@provider)) do
+      expect(page).not_to have_content('Manage users')
     end
   end
 
   def and_they_should_not_be_able_to_manage_organisations
-    within(permissions_fields_id_for_provider(@provider)) do
-      expect(page).to have_field('Manage organisations')
-      expect(page).not_to have_checked_field('Manage organisations')
+    within(permissions_summary_for_provider(@provider)) do
+      expect(page).not_to have_content('Manage organisations')
     end
   end
 
   def and_they_should_not_have_access_to_the_removed_provider
-    expect(page).to have_checked_field('Example provider (ABC)')
-    expect(page).not_to have_checked_field('Another provider (DEF)')
+    expect(page).to have_content('Example provider (ABC)')
+    expect(page).not_to have_content('Another provider (DEF)')
   end
 
-  def permissions_fields_id_for_provider(provider)
+  def permissions_summary_for_provider(provider)
+    "#provider-#{provider.id}-enabled-permissions"
+  end
+
+  def permissions_checkboxes_for_provider(provider)
     "#support-interface-provider-user-form-provider-permissions-forms-#{provider.id}-active-true-conditional"
   end
 end
