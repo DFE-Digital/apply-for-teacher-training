@@ -19,6 +19,6 @@
 
 <div data-qa="volunteering">
   <% history.each do |item| %>
-    <%= render ProviderInterface::WorkHistoryItemComponent.new(item: item) %>
+    <%= render WorkHistoryItemComponent.new(item: item) %>
   <% end %>
 </div>

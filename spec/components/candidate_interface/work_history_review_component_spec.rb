@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WorkHistoryReviewComponent do
+RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
   let(:february2019) { Time.zone.local(2019, 2, 1) }
   let(:april2019) { Time.zone.local(2019, 4, 1) }
   let(:data) do

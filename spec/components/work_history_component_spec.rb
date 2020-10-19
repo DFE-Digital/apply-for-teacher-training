@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::WorkHistoryComponent do
+RSpec.describe WorkHistoryComponent do
   around do |example|
     Timecop.freeze(Time.zone.local(2020, 4, 1)) do
       example.run
