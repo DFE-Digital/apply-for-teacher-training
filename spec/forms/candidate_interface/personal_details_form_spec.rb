@@ -117,8 +117,6 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
       end
 
       it 'is invalid if the candidate is younger than 16' do
-        pending 'broken due to time mismatch'
-
         personal_details = CandidateInterface::PersonalDetailsForm.new(
           day: '2', month: '1', year: '2003',
         )
