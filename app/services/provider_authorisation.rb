@@ -1,6 +1,9 @@
 class ProviderAuthorisation
+  attr_reader :errors
+
   def initialize(actor:)
     @actor = actor
+    @errors = []
   end
 
   def providers_that_actor_can_manage_users_for
@@ -59,11 +62,21 @@ class ProviderAuthorisation
   end
 
   def can_view_safeguarding_information?(course:)
-    @actor.provider_permissions.view_safeguarding_information
-      .exists?(provider: [course.provider, course.accredited_provider].compact) &&
-      (course.accredited_provider.blank? ||
-        ratifying_provider_can_view_safeguarding_information?(course: course) ||
-          training_provider_can_view_safeguarding_information?(course: course))
+    errors << :requires_provider_user_permission unless
+      @actor.provider_permissions.view_safeguarding_information
+        .exists?(provider: [course.provider, course.accredited_provider].compact)
+
+    if course.accredited_provider.present?
+      if @actor.providers.include?(course.provider)
+        errors << :requires_training_provider_permission unless
+          training_provider_can_view_safeguarding_information?(course: course)
+      else
+        errors << :requires_ratifying_provider_permission unless
+          ratifying_provider_can_view_safeguarding_information?(course: course)
+      end
+    end
+
+    errors.blank?
   end
 
   def can_view_diversity_information?(course:)

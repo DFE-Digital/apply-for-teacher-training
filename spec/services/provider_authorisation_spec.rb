@@ -195,10 +195,7 @@ RSpec.describe ProviderAuthorisation do
       )
     end
 
-    subject(:can_view_safeguarding_information) do
-      described_class.new(actor: provider_user)
-        .can_view_safeguarding_information?(course: course)
-    end
+    let(:service) { described_class.new(actor: provider_user) }
 
     context 'when a user is permitted to view safeguarding info for a training provider' do
       let(:provider_user) { create(:provider_user, providers: [training_provider]) }
@@ -220,7 +217,9 @@ RSpec.describe ProviderAuthorisation do
       context 'the course is self-ratified' do
         let(:accredited_provider) { nil }
 
-        it { is_expected.to be true }
+        it 'the user can view safeguarding information' do
+          expect(service.can_view_safeguarding_information?(course: course)).to be true
+        end
       end
 
       context 'the course training provider is not permitted, the course accredited provider is permitted' do
@@ -231,13 +230,18 @@ RSpec.describe ProviderAuthorisation do
           )
         end
 
-        it { is_expected.to be false }
+        it 'the user cannot view safeguarding information' do
+          expect(service.can_view_safeguarding_information?(course: course)).to be false
+          expect(service.errors).to eq([:requires_training_provider_permission])
+        end
       end
 
       context 'the course accredited provider is not permitted, the course training provider is permitted' do
         before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: true) }
 
-        it { is_expected.to be true }
+        it 'the user can view safeguarding information' do
+          expect(service.can_view_safeguarding_information?(course: course)).to be true
+        end
       end
     end
 
@@ -262,13 +266,18 @@ RSpec.describe ProviderAuthorisation do
       context 'the course training provider is not permitted, the course accredited provider is permitted' do
         before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: false, ratifying_provider_can_view_safeguarding_information: true) }
 
-        it { is_expected.to be true }
+        it 'the user can view safeguarding information' do
+          expect(service.can_view_safeguarding_information?(course: course)).to be true
+        end
       end
 
       context 'the course accredited provider is not permitted, the course training provider is permitted' do
         before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: true, ratifying_provider_can_view_safeguarding_information: false) }
 
-        it { is_expected.to be false }
+        it 'the user cannot view safeguarding information' do
+          expect(service.can_view_safeguarding_information?(course: course)).to be false
+          expect(service.errors).to eq([:requires_ratifying_provider_permission])
+        end
       end
     end
 
@@ -279,7 +288,10 @@ RSpec.describe ProviderAuthorisation do
         provider_relationship_permissions.update!(training_provider_can_make_decisions: true, ratifying_provider_can_make_decisions: true)
       end
 
-      it { is_expected.to be false }
+      it 'the user cannot view safeguarding information' do
+        expect(service.can_view_safeguarding_information?(course: course)).to be false
+        expect(service.errors).to eq([:requires_provider_user_permission])
+      end
     end
   end
 
