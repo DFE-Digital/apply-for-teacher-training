@@ -12,8 +12,9 @@ module ProviderInterface
              :safeguarding_concerns_status,
              to: :reference
 
-    def initialize(reference:)
+    def initialize(reference:, index:)
       @reference = reference
+      @ordinal = TextOrdinalizer.call((index + 1))
     end
 
     def rows

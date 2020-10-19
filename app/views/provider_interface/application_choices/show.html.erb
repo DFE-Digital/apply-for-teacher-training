@@ -14,7 +14,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) unless @offer_present %>
 
-    <h2 class="govuk-heading-l" id="application">Application</h2>
+    <h2 class="govuk-heading-m govuk-!-font-size-27" id="application">Application</h2>
     <%= render PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
 
     <% unless HostingEnvironment.production? %>
@@ -29,16 +29,12 @@
       </div>
     <% end %>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8" id="course-details">Course details</h2>
     <%= render ProviderInterface::CourseDetailsComponent.new(application_choice: @application_choice)%>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="disability-access-and-other-needs">Disability, access and other needs</h2>
     <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="criminal-convictions-and-professional-misconduct">Criminal convictions and professional misconduct</h2>
     <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user)%>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="interview">Interview</h2>
     <%= render InterviewPreferencesComponent.new(application_form: @application_choice.application_form) %>
   </div>
 </div>
@@ -47,36 +43,25 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="work-history">Work history</h2>
-    <div data-qa="work-history">
-      <%= render ProviderInterface::WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
-    </div>
+    <%= render ProviderInterface::WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="unpaid-experience-and-volunteering">Unpaid experience and volunteering</h2>
-    <div data-qa="volunteering">
-      <%= render ProviderInterface::VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
-    </div>
+    <%= render ProviderInterface::VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
 
     <% language_skills_component = LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
     <% if language_skills_component.render? %>
-      <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="language-skills">Language skills</h2>
       <%= render language_skills_component %>
     <% end %>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="personal-statement">Personal statement</h2>
     <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 
     <% if @application_choice.application_form.application_references.feedback_provided.any? %>
-      <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="references">References</h2>
       <%= render 'references_context' %>
 
       <% @application_choice.application_form.application_references.feedback_provided.each_with_index do |reference, i| %>
-        <h3 class="govuk-heading-m govuk-!-margin-top-8"><%= "#{TextOrdinalizer.call((i + 1)).capitalize} referee" %></h3>
-        <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference) %>
+        <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference, index: i ) %>
       <% end %>
     <% end %>
 
-    <h2 class="govuk-heading-l govuk-!-margin-top-8 govuk-!-margin-bottom-2" id="diversity-information">Diversity information</h2>
     <%= render ProviderInterface::DiversityInformationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>
   </div>
 </div>

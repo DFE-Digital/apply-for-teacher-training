@@ -16,18 +16,17 @@
   <%= button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
 <% end %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Personal details</h2>
-
+<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Personal details</h2>
 <%= render PersonalDetailsComponent.new(application_form: @application_form) %>
 
 <% if @application_form.application_choices.any? %>
-  <h2 class="govuk-heading-l govuk-!-margin-top-8">Course choices</h2>
+  <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Course choices</h2>
   <% @application_form.application_choices.includes(:course, :provider, :site, :offered_course_option).each do |application_choice| %>
     <%= render SupportInterface::ApplicationChoiceComponent.new(application_choice) %>
   <% end %>
 <% end %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8">References</h2>
+<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">References</h2>
 
 <% if @application_form.application_references.any? %>
   <% @application_form.application_references.includes([:application_form]).each_with_index do |reference, i| %>
@@ -37,32 +36,22 @@
 
 <%= render QualificationsComponent.new(application_form: @application_form, show_hesa_codes: true) %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Work history</h2>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Work history</h2>
+    <%= render WorkHistoryReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
 
-<%= render WorkHistoryReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
+    <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Unpaid experience and volunteering</h2>
+    <%= render VolunteeringReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Unpaid experience and volunteering</h2>
+    <%= render LanguageSkillsComponent.new(application_form: @application_form) %>
 
-<%= render VolunteeringReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3) %>
+    <%= render PersonalStatementComponent.new(application_form: @application_form) %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Language skills</h2>
+    <%= render InterviewPreferencesComponent.new(application_form: @application_form) %>
 
-<%= render LanguageSkillsComponent.new(application_form: @application_form) %>
+    <%= render SupportInterface::SafeguardingIssuesComponent.new(application_form: @application_form) %>
 
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Personal statement</h2>
-
-<%= render PersonalStatementComponent.new(application_form: @application_form) %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Interview</h2>
-
-<%= render InterviewPreferencesComponent.new(application_form: @application_form) %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Criminal convictions and professional misconduct</h2>
-
-<%= render SupportInterface::SafeguardingIssuesComponent.new(application_form: @application_form) %>
-
-<h2 class="govuk-heading-l govuk-!-margin-top-8">Request feedback</h2>
-
-<p class="govuk-body">Ask the candidate to fill out a survey.</p>
-
-<%= govuk_button_link_to t('survey_emails.send.link'), support_interface_survey_emails_path(@application_form), class: 'govuk-button--secondary' %>
+    <%= render 'request_feedback' %>
+  </div>
+</div>

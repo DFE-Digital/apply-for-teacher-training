@@ -1,3 +1,4 @@
+<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8" id="unpaid-experience-and-volunteering">Unpaid experience and volunteering</h2>
 <details class="govuk-details" data-module="govuk-details">
   <summary class="govuk-details__summary">
     <span class="govuk-details__summary-text">
@@ -16,6 +17,8 @@
   </div>
 </details>
 
-<% history.each do |item| %>
-  <%= render ProviderInterface::WorkHistoryItemComponent.new(item: item) %>
-<% end %>
+<div data-qa="volunteering">
+  <% history.each do |item| %>
+    <%= render ProviderInterface::WorkHistoryItemComponent.new(item: item) %>
+  <% end %>
+</div>
