@@ -15,13 +15,9 @@ RSpec.describe PersonalDetailsComponent do
   subject(:result) { render_inline(PersonalDetailsComponent.new(application_form: application_form)) }
 
   it 'renders component with correct labels' do
-    ['Reference', 'Full name', 'Date of birth', 'Nationality', 'Phone number', 'Email address', 'Address'].each do |key|
+    ['Full name', 'Date of birth', 'Nationality', 'Phone number', 'Email address', 'Address'].each do |key|
       expect(result.css('.govuk-summary-list__key').text).to include(key)
     end
-  end
-
-  it 'renders the candidate support reference' do
-    expect(result.css('.govuk-summary-list__value').text).to include('AB123')
   end
 
   it 'renders the candidate name' do
@@ -88,8 +84,8 @@ RSpec.describe PersonalDetailsComponent do
       PersonalDetailsComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
         application_form.right_to_work_or_study = key
         result = render_inline(PersonalDetailsComponent.new(application_form: application_form))
-        row_title = result.css('.govuk-summary-list__row')[5].css('dt').text
-        row_value = result.css('.govuk-summary-list__row')[5].css('dd').text
+        row_title = result.css('.govuk-summary-list__row')[3].css('dt').text
+        row_value = result.css('.govuk-summary-list__row')[3].css('dd').text
         expect(row_title).to include 'Has the right to work or study in the UK?'
         expect(row_value).to include value
       end
