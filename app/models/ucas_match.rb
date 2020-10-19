@@ -9,8 +9,14 @@ class UCASMatch < ApplicationRecord
     processed: 'processed',
   }
 
+  enum action_taken: {
+    initial_emails_sent: 'initial_emails_sent',
+  }
+
   def action_needed?
     return false if processed?
+
+    return need_to_send_reminder_emails? if initial_emails_sent?
 
     application_for_the_same_course_in_progress_on_both_services? ||
       application_accepted_on_ucas_and_in_progress_on_apply? ||
@@ -44,5 +50,12 @@ private
   def application_accepted_on_apply_and_in_progress_on_ucas?
     ucas_matched_applications.map(&:application_accepted_on_apply?).any? &&
       ucas_matched_applications.map(&:application_in_progress_on_ucas?).any?
+  end
+
+  def need_to_send_reminder_emails?
+    return false unless initial_emails_sent?
+
+    send_reminder_emails_date = 5.business_days.after(candidate_last_contacted_at).to_date
+    Time.zone.today >= send_reminder_emails_date
   end
 end

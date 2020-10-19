@@ -2,6 +2,35 @@
 
 <%= render 'ucas_match_navigation', title: 'Details', match: @match %>
 
+<% if @match.action_needed? || @match.initial_emails_sent? %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <div class="govuk-inset-text govuk-!-margin-top-0">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-3">
+          <%= @match.action_needed? ? "Action needed: send initial email" :  'No action required' %>
+        </h2>
+        <% if @match.initial_emails_sent? %>
+          <p class="govuk-body">
+            We sent the initial emails to the candidate and the providers on <%= @match.candidate_last_contacted_at.to_s(:govuk_date_and_time) %>.
+          </p>
+        <% else %>
+          <p class="govuk-body">
+            We need to contact the candidate and the provider.
+            Use an appropriate templates from <%= govuk_link_to 'this document', "https://docs.google.com/document/d/1s5ql4jNUUr3QDPUQYWImkZR6o8upvutrjOEuoZ0qqTE" %>.
+          </p>
+          <p class="govuk-body">
+            Please refer to <%= govuk_link_to 'Dual-running user support manual', "https://docs.google.com/document/d/1XvZiD8_ng_aG_7nvDGuJ9JIdPu6pFdCO2ujfKeFDOk4" %> for more information about the current process.
+          </p>
+          <%= form_with url: support_interface_record_initial_emails_sent_path(@match), method: :post do |f| %>
+            <%= f.submit 'Confirm initial emails were sent', class: 'govuk-button' %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<h2 class='govuk-heading-l'>UCAS match</h2>
 <% application = @match.candidate.application_forms.first %>
 
 <%= render SummaryListComponent.new(rows: {

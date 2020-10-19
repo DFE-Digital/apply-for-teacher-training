@@ -659,6 +659,7 @@ Rails.application.routes.draw do
     scope path: '/ucas-matches/:id' do
       get '/' => 'ucas_matches#show', as: :ucas_match
       get '/audit' => 'ucas_matches#audit', as: :ucas_match_audit
+      post '/initial-emails' => 'ucas_matches#record_initial_emails_sent', as: :record_initial_emails_sent
       post '/process-match' => 'ucas_matches#process_match', as: :process_match
     end
 
