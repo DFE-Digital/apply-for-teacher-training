@@ -130,6 +130,46 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     end
   end
 
+  context 'when reference state is "cancelled" and the reference is complete' do
+    let(:feedback_requested) { create(:reference, :requested) }
+    let(:cancelled) { create(:reference, :cancelled) }
+
+    it 'a re-send request link is available' do
+      FeatureFlag.activate(:decoupled_references)
+      result = render_inline(described_class.new(references: [feedback_requested, cancelled]))
+
+      feedback_requested_summary = result.css('.app-summary-card')[0]
+      feedback_cancelled_summary = result.css('.app-summary-card')[1]
+      expect(feedback_requested_summary.text).not_to include 'Send request again'
+      expect(feedback_cancelled_summary.text).to include 'Send request again'
+    end
+  end
+
+  context 'when reference state is "cancelled" and the reference is incomplete' do
+    let(:cancelled) { create(:reference, :cancelled, name: nil) }
+
+    it 'a send request link is NOT available' do
+      FeatureFlag.activate(:decoupled_references)
+      result = render_inline(described_class.new(references: [cancelled]))
+
+      feedback_not_requested_summary = result.css('.app-summary-card')[0]
+      expect(feedback_not_requested_summary.text).not_to include 'Send request again'
+    end
+  end
+
+  context 'when reference state is "cancelled" but there are already 2 references provided' do
+    let(:cancelled) { create(:reference, :cancelled) }
+    let(:provided_references) { create_list(:reference, 2, :complete, application_form: cancelled.application_form) }
+
+    it 'a send request link is NOT available' do
+      FeatureFlag.activate(:decoupled_references)
+      result = render_inline(described_class.new(references: [cancelled, *provided_references]))
+
+      feedback_not_requested_summary = result.css('.app-summary-card')[0]
+      expect(feedback_not_requested_summary.text).not_to include 'Send request again'
+    end
+  end
+
 private
 
   def status_table

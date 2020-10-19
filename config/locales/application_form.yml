@@ -396,6 +396,7 @@ en:
       cancel: Cancel referee
       cancel_request: Cancel request
       send_request: Send request
+      resend_request: Send request again
       email_address:
         label: Email address
         hint_text:
