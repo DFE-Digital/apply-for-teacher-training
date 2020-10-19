@@ -704,7 +704,7 @@ Rails.application.routes.draw do
   end
 
   namespace :support_interface, path: '/support' do
-    get '/' => redirect('/support/candidates')
+    get '/' => redirect('/support/applications')
 
     get '/cycles', to: 'cycles#index', as: :cycles
 

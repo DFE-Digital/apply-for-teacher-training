@@ -49,7 +49,7 @@ RSpec.feature 'Add comments to the application history', with_audited: true do
   end
 
   def when_i_click_on_an_application
-    click_on 'alice@example.com'
+    click_on 'Alice Wunder'
   end
 
   def when_i_click_on_an_application_history

@@ -56,7 +56,7 @@ RSpec.feature 'See an application' do
   end
 
   def when_i_click_on_a_completed_application
-    click_on @completed_application.candidate.email_address
+    click_on @completed_application.full_name
   end
 
   def then_i_should_be_on_the_application_view_page

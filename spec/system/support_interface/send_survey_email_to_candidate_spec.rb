@@ -32,7 +32,7 @@ RSpec.feature 'Send survey email to candidate', with_audited: true do
   end
 
   def when_i_click_on_the_application
-    click_on @application.candidate.email_address
+    click_on @application.full_name
   end
 
   def then_i_should_be_on_the_view_application_page
