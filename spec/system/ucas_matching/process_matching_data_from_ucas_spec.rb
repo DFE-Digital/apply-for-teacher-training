@@ -27,7 +27,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true, skip: true do
   end
 
   def given_there_is_a_newly_matched_candidate
-    @not_previously_matched = Candidate.create_with(email_address: 'not_previously_matched@abc.com').find_or_create_by(id: 213)
+    @not_previously_matched = Candidate.create_with(email_address: 'not_previously_matched@abc.com').find_or_create_by(id: 999213)
     course = create(:course, code: 'XYZ', provider: create(:provider, code: 'XX'))
     course_option = create(:course_option, course: course)
     application_choice = create(:submitted_application_choice, course_option: course_option)
@@ -35,7 +35,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true, skip: true do
   end
 
   def and_there_is_a_previously_matched_candidate_with_new_data
-    @previously_matched_changed = Candidate.create_with(email_address: 'previously_matched_changed@abc.com').find_or_create_by(id: 44)
+    @previously_matched_changed = Candidate.create_with(email_address: 'previously_matched_changed@abc.com').find_or_create_by(id: 99944)
     course1 = create(:course, code: 'LMN', provider: create(:provider, code: '2FF'))
     course_option1 = create(:course_option, course: course1)
     application_choice1 = create(:submitted_application_choice, course_option: course_option1)
@@ -50,7 +50,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true, skip: true do
   end
 
   def and_there_is_a_previously_matched_candidate_with_no_changes
-    @previously_matched_unchanged = Candidate.create_with(email_address: 'previously_matched_unchanged@abc.com').find_or_create_by(id: 57)
+    @previously_matched_unchanged = Candidate.create_with(email_address: 'previously_matched_unchanged@abc.com').find_or_create_by(id: 99957)
     course = create(:course, code: 'UVW', provider: create(:provider, code: '1EP'))
     course_option = create(:course_option, course: course)
     application_choice = create(:submitted_application_choice, course_option: course_option)
@@ -60,7 +60,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true, skip: true do
            application_form: application_form,
            scheme: 'B',
            ucas_status: :offer,
-           matching_data: [{ 'Apply candidate ID' => '57', 'Provider code' => '1EP', 'Course code' => 'UVW' }])
+           matching_data: [{ 'Apply candidate ID' => '99957', 'Provider code' => '1EP', 'Course code' => 'UVW' }])
   end
 
   def and_ucas_has_uploaded_a_file_to_our_shared_folder
@@ -139,7 +139,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true, skip: true do
   end
 
   def then_i_see_the_matching_info
-    expect(page).to have_content '213'
+    expect(page).to have_content '999213'
     expect(page).to have_content 'XX'
     expect(page).to have_content 'XYZ'
   end
