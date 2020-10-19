@@ -5,6 +5,7 @@
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric">ID</th>
       <th scope="col" class="govuk-table__header">Name</th>
       <th scope="col" class="govuk-table__header">Initiated by</th>
     </tr>
@@ -13,6 +14,9 @@
   <tbody class="govuk-table__body">
     <% @data_exports.each do |data_export| %>
       <tr class="govuk-table__row">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <%= data_export.id %>
+        </td>
         <td class="govuk-table__cell">
           <%= govuk_link_to '', support_interface_data_export_path(data_export) do %>
             <%= data_export.created_at.to_s(:govuk_date_and_time) %> - <%= data_export.name %>
