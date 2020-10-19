@@ -25,7 +25,6 @@ RSpec.describe TestApplications do
     expect(candidate.created_at).to eq candidate.last_signed_in_at
     expect(days_between_ignoring_time_of_day(application_choice.created_at, candidate.created_at)).to be >= 1
     expect(days_between_ignoring_time_of_day(application_form.submitted_at, application_choice.created_at)).to be >= 1
-    expect(days_between_ignoring_time_of_day(application_choice.sent_to_provider_at, application_form.submitted_at)).to be >= 1
     expect(days_between_ignoring_time_of_day(application_choice.offered_at, application_choice.sent_to_provider_at)).to be >= 1
     expect(days_between_ignoring_time_of_day(application_choice.accepted_at, application_choice.offered_at)).to be >= 1
   end
@@ -39,7 +38,6 @@ RSpec.describe TestApplications do
     candidate = application_form.candidate
     expect(days_between_ignoring_time_of_day(application_choice.created_at, candidate.created_at)).to be >= 1
     expect(days_between_ignoring_time_of_day(application_form.submitted_at, application_choice.created_at)).to be >= 1
-    expect(days_between_ignoring_time_of_day(application_choice.sent_to_provider_at, application_form.submitted_at)).to be >= 1
     expect(days_between_ignoring_time_of_day(application_choice.offered_at, application_choice.sent_to_provider_at)).to be >= 1
   end
 
@@ -50,7 +48,7 @@ RSpec.describe TestApplications do
     application_form = application_choice.application_form
     candidate = application_form.candidate
 
-    submission_audit = application_choice.audits.where("audited_changes @> '{\"status\": [\"unsubmitted\", \"awaiting_references\"]}'").first
+    submission_audit = application_choice.audits.where("audited_changes @> '{\"status\": [\"unsubmitted\", \"awaiting_provider_decision\"]}'").first
     expect(submission_audit).not_to be_nil
     expect(submission_audit.user).to eq candidate
   end
