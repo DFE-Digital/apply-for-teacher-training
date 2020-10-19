@@ -17,7 +17,7 @@
   <div id='references_given'>
     <h2 class="govuk-heading-m">References that have been given</h2>
     <%= render(
-      CandidateInterface::DecoupledReferencesReviewComponent.new(references: @references_given, editable: false)
+      CandidateInterface::DecoupledReferencesReviewComponent.new(references: @references_given, editable: false, show_history: true)
     ) %>
   </div>
 <% end %>
@@ -25,14 +25,14 @@
 <% if @references_waiting_to_be_sent.present? %>
   <div id='references_waiting_to_be_sent'>
     <h2 class="govuk-heading-m">Requests that have not been sent</h2>
-    <%= render(CandidateInterface::DecoupledReferencesReviewComponent.new(references: @references_waiting_to_be_sent)) %>
+    <%= render(CandidateInterface::DecoupledReferencesReviewComponent.new(references: @references_waiting_to_be_sent, show_history: true)) %>
   </div>
 <% end %>
 
 <% if @references_sent.present? %>
   <div id='references_sent'>
     <h2 class="govuk-heading-m">Reference requests</h2>
-    <%= render(CandidateInterface::DecoupledReferencesReviewComponent.new(references: @references_sent, editable: false)) %>
+    <%= render(CandidateInterface::DecoupledReferencesReviewComponent.new(references: @references_sent, editable: false, show_history: true)) %>
   </div>
 <% end %>
 

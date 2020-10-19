@@ -1,10 +1,11 @@
 module CandidateInterface
   class DecoupledReferencesReviewComponent < ViewComponent::Base
-    attr_reader :references, :editable
+    attr_reader :references, :editable, :show_history
 
-    def initialize(references:, editable: true)
+    def initialize(references:, editable: true, show_history: false)
       @references = references
       @editable = editable
+      @show_history = show_history
     end
 
     def card_title(reference)
@@ -18,6 +19,7 @@ module CandidateInterface
         reference_type_row(reference),
         relationship_row(reference),
         feedback_status_row(reference),
+        history_row(reference),
       ].compact
     end
 
@@ -95,6 +97,24 @@ module CandidateInterface
         key: 'Status',
         value: value,
       }
+    end
+
+    def history_row(reference)
+      return nil unless reference.requested_at && show_history
+
+      row_attributes = {
+        key: 'History',
+        value: render(ReferenceHistoryComponent.new(reference)),
+      }
+
+      if reference.can_send_reminder?
+        row_attributes.merge!(
+          action: 'Send a reminder to this referee',
+          action_path: candidate_interface_decoupled_references_new_reminder_path(reference),
+        )
+      end
+
+      row_attributes
     end
 
     def feedback_status_label(reference)

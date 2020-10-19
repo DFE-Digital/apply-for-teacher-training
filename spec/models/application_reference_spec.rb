@@ -164,4 +164,51 @@ RSpec.describe ApplicationReference, type: :model do
       expect(ApplicationReference.pending_feedback_or_failed.size).to eq expected_states.size
     end
   end
+
+  describe '#next_automated_chase_at' do
+    context 'requested_at is nil' do
+      it 'returns nil' do
+        reference = build(:reference, requested_at: nil)
+        expect(reference.next_automated_chase_at).to eq nil
+      end
+    end
+
+    context 'current time is before first chase due date' do
+      it 'returns first chase due date' do
+        reference = build(:reference, requested_at: Time.zone.now)
+        expect(reference.next_automated_chase_at).to eq reference.chase_referee_at
+      end
+    end
+
+    context 'current time is after first chase due date' do
+      it 'returns second chase due date' do
+        reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.chase_referee_by.days)
+        expect(reference.next_automated_chase_at).to eq reference.additional_chase_referee_at
+      end
+    end
+
+    context 'current time is after second chase due date' do
+      it 'returns nil' do
+        reference = build(:reference, requested_at: Time.zone.now - TimeLimitConfig.additional_reference_chase_calendar_days.days)
+        expect(reference.next_automated_chase_at).to eq nil
+      end
+    end
+  end
+
+  describe '#can_send_reminder?' do
+    it 'is true when state is feedback_requested and reminder_sent_at is nil' do
+      reference = build(:reference, :requested, reminder_sent_at: nil)
+      expect(reference.can_send_reminder?).to eq true
+    end
+
+    it 'is false when state is not feedback_requested' do
+      reference = build(:reference, :unsubmitted, reminder_sent_at: nil)
+      expect(reference.can_send_reminder?).to eq false
+    end
+
+    it 'is false when reminder_sent_at is filled' do
+      reference = build(:reference, :requested, reminder_sent_at: Time.zone.now)
+      expect(reference.can_send_reminder?).to eq false
+    end
+  end
 end

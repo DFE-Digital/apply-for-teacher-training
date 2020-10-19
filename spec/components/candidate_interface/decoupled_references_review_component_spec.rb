@@ -92,14 +92,13 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     let(:feedback_requested) { create(:reference, :requested) }
     let(:feedback_refused) { create(:reference, :refused) }
 
-    # TODO: uncomment this test when Cancel links are implemented
     it 'a cancel link is available' do
-      # result = render_inline(described_class.new(references: [feedback_requested, feedback_refused]))
+      result = render_inline(described_class.new(references: [feedback_requested, feedback_refused]))
 
-      # feedback_requested_summary = result.css('.app-summary-card')[0]
-      # feedback_refused_summary = result.css('.app-summary-card')[1]
-      # expect(feedback_requested_summary.text).to include 'Cancel request'
-      # expect(feedback_refused_summary.text).not_to include 'Cancel request'
+      feedback_requested_summary = result.css('.app-summary-card')[0]
+      feedback_refused_summary = result.css('.app-summary-card')[1]
+      expect(feedback_requested_summary.text).to include 'Cancel request'
+      expect(feedback_refused_summary.text).not_to include 'Cancel request'
     end
   end
 
@@ -167,6 +166,37 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
 
       feedback_not_requested_summary = result.css('.app-summary-card')[0]
       expect(feedback_not_requested_summary.text).not_to include 'Send request again'
+    end
+  end
+
+  context 'rendering history' do
+    let(:reference) { create(:reference, :requested) }
+
+    it 'does not render by default' do
+      result = render_inline(described_class.new(references: [reference]))
+      expect(result.text).not_to include 'History'
+    end
+
+    it 'renders when argument flag is set to true' do
+      result = render_inline(described_class.new(references: [reference], show_history: true))
+      expect(result.text).to include 'History'
+    end
+
+    it 'does not render if reference has never been requested' do
+      reference.requested_at = nil
+      result = render_inline(described_class.new(references: [reference], show_history: true))
+      expect(result.text).not_to include 'History'
+    end
+
+    it 'renders a reminder link if a reminder has not been sent' do
+      result = render_inline(described_class.new(references: [reference], show_history: true))
+      expect(result.text).to include 'Send a reminder to this referee'
+    end
+
+    it 'does not render a reminder link if a reminder has already been sent' do
+      reference.reminder_sent_at = Time.zone.now
+      result = render_inline(described_class.new(references: [reference], show_history: true))
+      expect(result.text).not_to include 'Send a reminder to this referee'
     end
   end
 
