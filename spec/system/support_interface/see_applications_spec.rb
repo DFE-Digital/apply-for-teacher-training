@@ -31,9 +31,9 @@ RSpec.feature 'See applications' do
   end
 
   def then_i_should_see_the_latest_applications
-    expect(page).to have_content @completed_application.candidate.email_address
-    expect(page).to have_content @application_with_reference.candidate.email_address
-    expect(page).to have_content @unsubmitted_application.candidate.email_address
+    expect(page).to have_content @completed_application.full_name
+    expect(page).to have_content @application_with_reference.full_name
+    expect(page).to have_content @unsubmitted_application.full_name
   end
 
   def when_i_search_for_an_application
