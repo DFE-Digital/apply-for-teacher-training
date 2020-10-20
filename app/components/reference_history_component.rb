@@ -5,16 +5,12 @@ class ReferenceHistoryComponent < ViewComponent::Base
     @reference = reference
   end
 
-  def requested_at
-    return if reference.requested_at.blank?
-
-    date_format(reference.requested_at)
+  def history
+    ReferenceHistory.new(reference).all_events
   end
 
-  def reminder_sent_at
-    return if reference.reminder_sent_at.blank?
-
-    date_format(reference.reminder_sent_at)
+  def event_title(event)
+    event.name.humanize
   end
 
 private
