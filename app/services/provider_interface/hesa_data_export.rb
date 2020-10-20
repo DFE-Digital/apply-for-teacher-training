@@ -14,7 +14,7 @@ module ProviderInterface
           application_form: %i[candidate application_qualifications],
         ).where(
           'candidates.hide_in_reporting' => false,
-          'status' => %w[accepted offer pending_conditions],
+          'status' => ApplicationStateChange::ACCEPTED_STATES,
           'providers.id' => @provider_ids,
           'application_forms.recruitment_cycle_year' => RecruitmentCycle.current_year,
         )
