@@ -1,5 +1,3 @@
-require 'csv'
-
 module ProviderInterface
   class HesaDataExport
     def initialize(provider_ids:)
@@ -21,42 +19,43 @@ module ProviderInterface
           'application_forms.recruitment_cycle_year' => RecruitmentCycle.current_year,
         )
 
-      CSV.generate do |csv|
-        csv << csv_headings
+      rows = []
 
-        applications.each do |application|
-          first_degree = application.application_form.application_qualifications
-            .order(created_at: :asc)
-            .find_by(level: 'degree')
+      applications.each do |application|
+        first_degree = application.application_form.application_qualifications
+          .order(created_at: :asc)
+          .find_by(level: 'degree')
 
-          csv << [
-            application.application_form.support_reference,
-            application.status,
-            application.application_form.first_name,
-            application.application_form.last_name,
-            application.application_form.date_of_birth,
-            application.application_form.first_nationality, # nationality
-            application.application_form.country, # domicile
-            application.application_form.candidate.email_address,
-            application.application_form.recruitment_cycle_year,
-            application.provider.code,
-            application.course.accredited_provider&.name,
-            application.course.code,
-            application.site.code,
-            study_mode(application),
-            subject_codes(application),
-            qualification_aim(application),
-            degrees_completed(application),
-            pad_hesa_value(first_degree, :qualification_type_hesa_code, 3),
-            pad_hesa_value(first_degree, :subject_hesa_code, 4),
-            pad_hesa_value(first_degree, :grade_hesa_code, 2),
-            first_degree&.institution_country,
-            first_degree&.start_year,
-            first_degree&.award_year,
-            pad_hesa_value(first_degree, :institution_hesa_code, 4),
-          ] + diversity_information(application)
-        end
+        rows << {
+          'id' => application.application_form.support_reference,
+          'status' => application.status,
+          'first name' => application.application_form.first_name,
+          'last name' => application.application_form.last_name,
+          'date of birth' => application.application_form.date_of_birth,
+          'nationality' => application.application_form.first_nationality, # nationality
+          'domicile' => application.application_form.country, # domicile
+          'email address' => application.application_form.candidate.email_address,
+          'recruitment cycle' => application.application_form.recruitment_cycle_year,
+          'provider code' => application.provider.code,
+          'accredited body' => application.course.accredited_provider&.name,
+          'course code' => application.course.code,
+          'site code' => application.site.code,
+          'study mode' => study_mode(application),
+          'SBJCA' => subject_codes(application),
+          'QLAIM' => qualification_aim(application),
+          'FIRSTDEG' => degrees_completed(application),
+          'DEGTYPE' => pad_hesa_value(first_degree, :qualification_type_hesa_code, 3),
+          'DEGSBJ' => pad_hesa_value(first_degree, :subject_hesa_code, 4),
+          'DEGCLSS' => pad_hesa_value(first_degree, :grade_hesa_code, 2),
+          'institution country' => first_degree&.institution_country,
+          'DEGSTDT' => first_degree&.start_year,
+          'DEGENDDT' => first_degree&.award_year,
+          'institution details' => pad_hesa_value(first_degree, :institution_hesa_code, 4),
+        }.merge(diversity_information(application))
       end
+
+      header_row ||= rows.first&.keys
+      SafeCSV.generate(rows.map(&:values), header_row)
     end
 
   private
@@ -79,13 +78,13 @@ module ProviderInterface
     end
 
     def diversity_information(application)
-      return ['no data', 'no data', 'no data'] if application.application_form.equality_and_diversity.blank?
+      return { 'sex' => 'no data', 'disabilities' => 'no data', 'ethnicity' => 'no data' } if application.application_form.equality_and_diversity.blank?
 
-      [
-        application.application_form.equality_and_diversity['hesa_sex'] || 'not specified',
-        (application.application_form.equality_and_diversity['hesa_disabilities'] || ['not specified']).join(' '),
-        application.application_form.equality_and_diversity['hesa_ethnicity'] || 'not specified',
-      ]
+      {
+        'sex' => application.application_form.equality_and_diversity['hesa_sex'] || 'not specified',
+        'disabilities' => (application.application_form.equality_and_diversity['hesa_disabilities'] || ['not specified']).join(' '),
+        'ethnicity' => application.application_form.equality_and_diversity['hesa_ethnicity'] || 'not specified',
+      }
     end
 
     def csv_headings
