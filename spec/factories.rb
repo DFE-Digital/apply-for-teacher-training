@@ -3,6 +3,7 @@ FactoryBot.define do
     candidate { application_form.candidate }
     matching_state { %w[new_match matching_data_updated processed].sample }
     matching_data { nil }
+    recruitment_cycle_year { application_form.recruitment_cycle_year }
 
     transient do
       application_form { create(:completed_application_form, application_choices_count: 1) }
@@ -86,6 +87,7 @@ FactoryBot.define do
       work_history_breaks { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
       phase { :apply_1 }
+      recruitment_cycle_year { RecruitmentCycle.current_year }
 
       # Checkboxes to mark a section as complete
       course_choices_completed { true }
