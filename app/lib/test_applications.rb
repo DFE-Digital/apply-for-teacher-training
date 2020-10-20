@@ -102,7 +102,12 @@ class TestApplications
         end
       end
 
-      return if states.include? :unsubmitted
+      if states.include? :unsubmitted_with_completed_references
+        @application_form.application_references.each { |reference| submit_reference!(reference) }
+        return @application_form
+      elsif states.include? :unsubmitted
+        return @application_form
+      end
 
       if states.include? :cancelled
         SupportInterface::CancelApplicationForm.new(application_form: @application_form).save!
@@ -124,17 +129,7 @@ class TestApplications
 
         @application_form.update_columns(submitted_at: time, edit_by: time + 7.days, updated_at: time)
 
-        @application_form.application_references.each do |reference|
-          reference.relationship_correction = ['', Faker::Lorem.sentence].sample
-          reference.safeguarding_concerns = ['', Faker::Lorem.sentence].sample
-          reference.safeguarding_concerns_status = reference.safeguarding_concerns.blank? ? :no_safeguarding_concerns_to_declare : :has_safeguarding_concerns_to_declare
-
-          reference.update!(feedback: 'You are awesome')
-
-          SubmitReference.new(
-            reference: reference,
-          ).save!
-        end
+        @application_form.application_references.each { |reference| submit_reference!(reference) }
 
         states.zip(application_choices).each do |state, application_choice|
           put_application_choice_in_state(application_choice.reload, state)
@@ -149,6 +144,18 @@ class TestApplications
 
       application_choices
     end
+  end
+
+  def submit_reference!(reference)
+    reference.relationship_correction = ['', Faker::Lorem.sentence].sample
+    reference.safeguarding_concerns = ['', Faker::Lorem.sentence].sample
+    reference.safeguarding_concerns_status = reference.safeguarding_concerns.blank? ? :no_safeguarding_concerns_to_declare : :has_safeguarding_concerns_to_declare
+
+    reference.update!(feedback: 'You are awesome')
+
+    SubmitReference.new(
+      reference: reference,
+    ).save!
   end
 
   def put_application_choice_in_state(choice, state)
