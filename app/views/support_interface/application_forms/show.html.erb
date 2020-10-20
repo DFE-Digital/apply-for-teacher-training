@@ -35,14 +35,6 @@
 
 <h2 class="govuk-heading-l govuk-!-margin-top-8">References</h2>
 
-<% reference_status = ReferenceStatus.new(@application_form) %>
-
-<% if reference_status.still_more_references_needed? %>
-  <p class="govuk-body">
-    This candidate needs to provide <%= reference_status.number_of_references_that_currently_need_replacing %> new reference(s).
-  </p>
-<% end %>
-
 <% if @application_form.application_references.any? %>
   <% @application_form.application_references.includes([:application_form]).each_with_index do |reference, i| %>
     <%= render SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: i + 1) %>
