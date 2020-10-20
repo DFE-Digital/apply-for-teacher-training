@@ -89,17 +89,14 @@ module ProviderInterface
 
     def grouped_provider_names_from_relationships
       provider_relationship_permissions_needing_setup
-        .includes(:training_provider, :ratifying_provider).each_with_object({}) do |prp, h|
+        .each_with_object({}) do |prp, h|
         h[prp.training_provider.name] ||= []
         h[prp.training_provider.name] << prp.ratifying_provider.name
       end
     end
 
     def provider_relationship_permissions_needing_setup
-      current_provider_user.authorisation
-        .training_provider_relationships_that_actor_can_manage_organisations_for
-        .where(setup_at: nil)
-        .order(created_at: :asc)
+      ProviderSetup.new(provider_user: current_provider_user).relationships_pending
     end
 
     def provider_relationships_attrs

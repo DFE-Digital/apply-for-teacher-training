@@ -23,14 +23,11 @@ class ProviderSetup
   end
 
   def next_relationship_pending
-    permissions = ProviderRelationshipPermissions
-      .order(:created_at)
-      .where(training_provider: @provider_user.providers)
-      .find { |prp| prp.setup_at.blank? || prp.invalid? }
+    relationships_pending&.first
+  end
 
-    if permissions.present?
-      auth = ProviderAuthorisation.new(actor: @provider_user)
-      permissions if auth.can_manage_organisation?(provider: permissions.training_provider)
-    end
+  def relationships_pending
+    auth = ProviderAuthorisation.new(actor: @provider_user)
+    auth.training_provider_relationships_that_actor_can_manage_organisations_for.select { |prp| prp.setup_at.blank? || prp.invalid? }
   end
 end
