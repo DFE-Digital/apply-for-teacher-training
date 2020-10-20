@@ -439,28 +439,6 @@ Rails.application.routes.draw do
         post '/candidate_name/:id' => 'decoupled_references/candidate_name#create', as: :decoupled_references_create_candidate_name
       end
 
-      scope '/new-referee' do
-        get '/' => 'additional_referees#show', as: :additional_referee
-
-        get '/type/(:id)' => 'additional_referees#type', as: :additional_referee_type
-        post '/type/(:id)' => 'additional_referees#type'
-        post '/update-type/(:id)' => 'additional_referees#update_type', as: :update_additional_referee_type
-
-        get '/new' => 'additional_referees#new', as: :new_additional_referee, constraints: ->(request) { request.query_parameters['type'] =~ Regexp.new(ApplicationReference.referee_types.values.join('|')) }
-        post '/new' => 'additional_referees#create'
-
-        get '/:application_reference_id/edit' => 'additional_referees#edit', as: :edit_additional_referee
-        patch '/:application_reference_id/edit' => 'additional_referees#update'
-
-        get '/confirm' => 'additional_referees#confirm', as: :confirm_additional_referees
-        post '/confirm' => 'additional_referees#request_references'
-
-        get '/add-another-referee' => 'additional_referees#add_another_referee', as: :add_another_referee
-        post '/add-another-referee' => 'additional_referees#add_another_referee_decision'
-
-        get '/contact-support' => 'additional_referees#contact_support', as: :additional_referee_contact_support
-      end
-
       scope '/equality-and-diversity' do
         get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
         get '/sex' => 'equality_and_diversity#edit_sex', as: :edit_equality_and_diversity_sex

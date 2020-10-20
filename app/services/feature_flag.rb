@@ -31,7 +31,6 @@ class FeatureFlag
     [:international_degrees, 'Changes to the model and forms for degree qualifications to cater for non-UK degrees.', 'Steve Hook'],
     [:international_gcses, 'Candidates can provide details of international GCSE equivalents.', 'George Holborn'],
     [:international_other_qualifications, 'Candidates can provide details of Other international qualifications .', 'David Gisbey'],
-    [:separate_additional_referees, 'Candidates can submit and confirm their referees independently of each other in the additional referees flow.', 'George Holborn'],
     [:decoupled_references, 'Candidates now complete and request their references prior to submitting their application.', 'David Gisbey'],
   ].freeze
 

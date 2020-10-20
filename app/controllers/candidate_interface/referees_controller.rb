@@ -100,11 +100,9 @@ module CandidateInterface
     def cancel
       if @referee.feedback_requested?
         CancelReferee.new.call(reference: @referee)
-
-        redirect_to candidate_interface_additional_referee_type_path
-      else
-        redirect_to candidate_interface_review_referees_path
       end
+
+      redirect_to candidate_interface_review_referees_path
     end
 
     def confirm_destroy; end
