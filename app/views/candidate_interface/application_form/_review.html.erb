@@ -35,7 +35,7 @@
       ),
     ) %>
   <% else %>
-    <%= render(CandidateInterface::DecoupledReferencesReviewComponent.new(references: application_form.application_references.feedback_provided, editable: false)) %>
+    <%= render(CandidateInterface::DecoupledReferencesReviewComponent.new(references: application_form.application_references.includes(:application_form).feedback_provided, editable: false)) %>
   <% end %>
 <% end %>
 

@@ -5,8 +5,8 @@ module CandidateInterface
 
       def show
         @application_form = current_application
-        @references_given = current_application.application_references.feedback_provided
-        @references_waiting_to_be_sent = current_application.application_references.not_requested_yet
+        @references_given = current_application.application_references.includes(:application_form).feedback_provided
+        @references_waiting_to_be_sent = current_application.application_references.includes(:application_form).not_requested_yet
         @references_sent = current_application.application_references.includes(:application_form).pending_feedback_or_failed
       end
 
