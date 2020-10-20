@@ -23,9 +23,9 @@ If you were not expecting this change, contact <%= @course_option.course.provide
 
 <% else %>
 
-# Make a decision by <%= @application_choice.decline_by_default_at&.to_s(:govuk_date) %>
+# Make a decision by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>
 
-If you do not reply by <%= @application_choice.decline_by_default_at&.to_s(:govuk_date) %>, your application will be withdrawn.
+If you do not reply by <%= @application_choice.decline_by_default_at.to_s(:govuk_date) %>, your application will be withdrawn.
 
 <% if @offers.count > 1 %>
     <%= render "offer_list" %>
