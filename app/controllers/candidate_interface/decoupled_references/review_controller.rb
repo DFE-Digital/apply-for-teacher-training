@@ -31,11 +31,11 @@ module CandidateInterface
       end
 
       def confirm_destroy
-        redirect_to candidate_interface_decoupled_references_review_path unless reference_can_be_destroyed?
+        redirect_to candidate_interface_decoupled_references_review_path unless @reference.can_be_destroyed?
       end
 
       def destroy
-        redirect_to candidate_interface_decoupled_references_review_path unless reference_can_be_destroyed?
+        redirect_to candidate_interface_decoupled_references_review_path unless @reference.can_be_destroyed?
 
         @reference.destroy!
         redirect_to candidate_interface_decoupled_references_review_path
@@ -64,10 +64,6 @@ module CandidateInterface
 
       def submit_param
         params.dig(:candidate_interface_reference_submit_referee_form, :submit)
-      end
-
-      def reference_can_be_destroyed?
-        @reference.feedback_status.in? %w[not_requested_yet feedback_provided]
       end
     end
   end

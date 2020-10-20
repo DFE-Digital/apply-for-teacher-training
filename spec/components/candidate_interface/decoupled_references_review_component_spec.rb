@@ -58,36 +58,6 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     expect(result.text).to include reference_two.email_address
   end
 
-  context 'when editable is true' do
-    let(:reference) { create(:reference, :unsubmitted) }
-    let(:result) { render_inline(described_class.new(references: [reference], editable: true)) }
-
-    it 'fields can be changed' do
-      actions = result.css('.govuk-summary-list__actions')
-      ordered_edit_paths(reference).each_with_index do |path, index|
-        expect(actions[index].to_html).to include path
-        expect(actions[index].text).to include 'Change'
-      end
-    end
-
-    it 'the reference can be deleted' do
-      expect(result.css('.app-summary-card__header').text).to include 'Delete referee'
-    end
-  end
-
-  context 'when editable is false' do
-    let(:reference) { create(:reference, :unsubmitted) }
-    let(:result) { render_inline(described_class.new(references: [reference], editable: false)) }
-
-    it 'fields cannot be changed' do
-      expect(result.text).not_to include 'Change'
-    end
-
-    it 'the reference cannot be deleted' do
-      expect(result.css('.app-summary-card__header').text).not_to include 'Delete referee'
-    end
-  end
-
   context 'when reference state is "feedback_requested"' do
     let(:feedback_requested) { create(:reference, :requested) }
     let(:feedback_refused) { create(:reference, :refused) }

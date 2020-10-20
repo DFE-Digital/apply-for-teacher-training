@@ -107,7 +107,11 @@ class ApplicationReference < ApplicationRecord
   end
 
   def editable?
-    feedback_status == 'not_requested_yet'
+    not_requested_yet?
+  end
+
+  def can_be_destroyed?
+    not_requested_yet? || feedback_provided?
   end
 
   def can_send_reminder?
