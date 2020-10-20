@@ -8,7 +8,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     and_the_international_personal_details_feature_is_active
 
     when_i_visit_apply
-    and_i_click_start_now
     and_i_confirm_i_am_not_already_signed_up
     and_i_submit_my_email_address
     and_click_on_the_magic_link
@@ -19,7 +18,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
     when_i_sign_out
     when_i_visit_apply
-    and_i_click_start_now
     and_i_confirm_i_am_not_already_signed_up
     and_i_submit_my_email_address
     and_click_on_the_magic_link
@@ -34,7 +32,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     when_i_sign_out
 
     when_i_visit_apply
-    and_i_click_start_now
     and_i_confirm_i_am_not_already_signed_up
     and_i_submit_my_email_address
     and_click_on_the_magic_link
@@ -51,11 +48,7 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
   end
 
   def when_i_visit_apply
-    visit candidate_interface_start_path
-  end
-
-  def and_i_click_start_now
-    click_on 'Start now'
+    visit candidate_interface_create_account_or_sign_in_path
   end
 
   def and_i_confirm_i_am_not_already_signed_up

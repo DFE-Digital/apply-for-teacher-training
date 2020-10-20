@@ -27,7 +27,7 @@ module ApplicationHelper
     when 'provider_interface'
       provider_interface_path
     when 'candidate_interface'
-      candidate_interface_start_path
+      candidate_interface_create_account_or_sign_in_path
     when 'support_interface'
       support_interface_path
     else

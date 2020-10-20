@@ -12,7 +12,6 @@ RSpec.feature 'Candidate without an acccount arrives after the apply1 deadline' 
     and_i_am_a_candidate_without_an_account
 
     when_i_arrive_at_the_site
-    and_click_start_now
     and_choose_that_i_dont_have_an_account
     then_i_am_told_that_applicatons_have_closed_for_this_cycle
 
@@ -27,11 +26,7 @@ RSpec.feature 'Candidate without an acccount arrives after the apply1 deadline' 
   def and_i_am_a_candidate_without_an_account; end
 
   def when_i_arrive_at_the_site
-    visit candidate_interface_start_path
-  end
-
-  def and_click_start_now
-    click_link 'Start now'
+    visit candidate_interface_create_account_or_sign_in_path
   end
 
   def and_choose_that_i_dont_have_an_account

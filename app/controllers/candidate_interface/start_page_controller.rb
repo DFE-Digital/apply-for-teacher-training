@@ -4,8 +4,6 @@ module CandidateInterface
     before_action :redirect_to_application_if_signed_in
     skip_before_action :authenticate_candidate!
 
-    def show; end
-
     def create_account_or_sign_in
       @create_account_or_sign_in_form = CreateAccountOrSignInForm.new
     end

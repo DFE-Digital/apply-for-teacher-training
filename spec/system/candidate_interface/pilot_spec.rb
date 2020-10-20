@@ -16,7 +16,7 @@ RSpec.feature 'Pilot' do
   end
 
   def when_i_visit_the_start_page
-    visit candidate_interface_start_path
+    visit candidate_interface_create_account_or_sign_in_path
   end
 
   def when_i_visit_the_sign_up_page
