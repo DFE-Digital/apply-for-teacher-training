@@ -4,11 +4,9 @@ RSpec.feature 'Candidate applying again' do
   include CandidateHelper
 
   scenario 'Can replace a completed reference' do
-    # TODO: this feature cannot pass with the flag on at the moment as currently,
-    # there is no way to delete a reference in the feedback provided state
+    FeatureFlag.activate(:decoupled_references)
 
     given_the_pilot_is_open
-    and_the_decoupled_references_flag_is_off
     and_i_am_signed_in_as_a_candidate
 
     when_i_have_an_unsuccessful_application_with_references
@@ -28,22 +26,11 @@ RSpec.feature 'Candidate applying again' do
 
     when_i_add_a_new_referee
     then_i_can_see_i_have_two_referees
-    and_i_can_change_new_referee_details
     and_references_for_original_application_are_not_affected
-
-    when_i_complete_the_section
-    and_i_select_a_course
-    and_i_submit_my_application
-    then_i_am_informed_my_new_referee_will_be_contacted
-    and_my_application_is_awaiting_references
   end
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_decoupled_references_flag_is_off
-    FeatureFlag.deactivate('decoupled_references')
   end
 
   def and_i_am_signed_in_as_a_candidate
@@ -83,7 +70,7 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def when_i_view_referees
-    click_on 'Referees'
+    click_on 'Review your references'
   end
 
   def then_i_cannot_change_referee_details
@@ -102,24 +89,23 @@ RSpec.feature 'Candidate applying again' do
 
   def when_i_add_a_new_referee
     click_link 'Add another referee'
+    click_link 'Continue'
     choose 'Academic'
-    click_button 'Continue'
+    click_button 'Save and continue'
 
     candidate_fills_in_referee(
-      name: 'Bob Example',
-      email: 'bob@example.com',
+      name: 'Bob Lawblob',
+      email: 'bob@lawblob.com',
+      relationship: 'I wrote content for him on boblawblobslawblog.com',
     )
+
+    choose 'Yes, send a reference request now'
     click_button 'Save and continue'
   end
 
   def then_i_can_see_i_have_two_referees
     expect(page).to have_content @completed_references[1].name
-    expect(page).to have_content 'Bob Example'
-  end
-
-  def and_i_can_change_new_referee_details
-    expect(page).to have_link('Change name for Bob Example')
-    expect(page).to have_link('Change email address for Bob Example')
+    expect(page).to have_content 'Bob Lawblob'
   end
 
   def and_references_for_original_application_are_not_affected
@@ -129,44 +115,5 @@ RSpec.feature 'Candidate applying again' do
       @completed_references[1].name,
       @refused_reference.name,
     ])
-  end
-
-  def when_i_complete_the_section
-    check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
-  end
-
-  def and_i_select_a_course
-    click_link 'Course choice', exact: true
-    given_courses_exist
-
-    click_link 'Continue'
-    choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
-
-    select 'Gorse SCITT (1N1)'
-    click_button 'Continue'
-
-    choose 'Primary (2XT2)'
-    click_button 'Continue'
-
-    expect(page).to have_link 'Delete choice'
-    expect(page).to have_content 'I have completed this section'
-    expect(page).not_to have_button 'Add another course'
-  end
-
-  def and_i_submit_my_application
-    check t('application_form.courses.complete.completed_checkbox')
-    click_button 'Continue'
-    @apply_again_application_form = candidate_submits_application
-  end
-
-  def then_i_am_informed_my_new_referee_will_be_contacted
-    expect(page).to have_content 'We’ve sent an email to your referee'
-  end
-
-  def and_my_application_is_awaiting_references
-    application_choice = @apply_again_application_form.application_choices.first
-    expect(application_choice.status).to eq 'awaiting_references'
   end
 end

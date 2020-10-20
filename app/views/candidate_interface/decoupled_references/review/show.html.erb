@@ -17,7 +17,7 @@
   <div id='references_given'>
     <h2 class="govuk-heading-m">References that have been given</h2>
     <%= render(
-      CandidateInterface::DecoupledReferencesReviewComponent.new(references: @references_given, editable: false, show_history: true)
+      CandidateInterface::DecoupledReferencesReviewComponent.new(references: @references_given, show_history: true)
     ) %>
   </div>
 <% end %>

@@ -74,7 +74,7 @@ RSpec.feature 'Review references' do
     within '#references_given' do
       expect(page).to have_content @complete_reference.email_address
       expect(page).not_to have_link 'Change'
-      expect(page).not_to have_link 'Delete referee'
+      expect(page).to have_link 'Delete referee'
     end
 
     within '#references_waiting_to_be_sent' do
@@ -114,7 +114,6 @@ RSpec.feature 'Review references' do
 
     expect(page).to have_current_path candidate_interface_decoupled_references_review_path
     expect(page).not_to have_css('#references_waiting_to_be_sent')
-    expect(page).not_to have_link 'Delete referee'
   end
 
   def and_i_can_cancel_a_sent_reference
