@@ -104,9 +104,9 @@ class TestApplications
 
       if states.include? :unsubmitted_with_completed_references
         @application_form.application_references.each { |reference| submit_reference!(reference) }
-        return @application_form
+        return application_choices
       elsif states.include? :unsubmitted
-        return @application_form
+        return application_choices
       end
 
       if states.include? :cancelled
