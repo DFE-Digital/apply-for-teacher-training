@@ -52,8 +52,8 @@ parameters:
   logRetentionDays: 365
   sandbox:
   commonResourceTags: '{
-    "Parent Business Unit": "Teacher Services",
-    "Service Offering": "Become a Teacher"
+    "Parent Business": "Teacher Training and Qualifications",
+    "Service Offering": "Apply for postgraduate teacher training"
   }'
   govukNotifyCallbackAPIKey:
   dsiApiUrl:
@@ -336,9 +336,17 @@ jobs:
                   [string] $environment = "${{parameters.environment}}"
                 )
 
+                $environment_tags = @{
+                  qa = "development";
+                  devops = "development";
+                  staging = "test";
+                  sandbox = "test";
+                  production = "production"
+                }
+
                 $tags = @{
                   Version = "$(Build.SourceVersion)";
-                  Environment = "$environment"
+                  Environment = $environment_tags[$environment]
                 }
 
                 (ConvertFrom-Json $commonResourceTags).psobject.properties | Foreach { $tags[$_.Name] = $_.Value }
