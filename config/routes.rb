@@ -764,18 +764,6 @@ Rails.application.routes.draw do
       get '/course-options', to: 'performance#course_options', as: :course_options
       get '/unavailable-choices' => 'performance#unavailable_choices', as: :unavailable_choices
 
-      get '/application-timings', to: 'performance#application_timings', as: :application_timings
-      get '/submitted-application-choices', to: 'performance#submitted_application_choices', as: :submitted_application_choices
-      get '/candidate-journey-tracking', to: 'performance#candidate_journey_tracking', as: :candidate_journey_tracking
-      get '/providers', to: 'performance#providers_export', as: :providers_export
-      get '/referee-survey', to: 'performance#referee_survey', as: :referee_survey
-      get '/candidate-survey', to: 'performance#candidate_survey', as: :candidate_survey
-      get '/active-provider-users', to: 'performance#active_provider_users', as: :active_provider_users
-      get '/course-choice-withdrawal', to: 'performance#course_choice_withdrawal', as: :course_choice_withdrawal_survey
-      get '/tad-provider-performance', to: 'performance#tad_provider_performance', as: :tad_provider_performance
-      get '/offer-conditions', to: 'performance#offer_conditions', as: :offer_conditions
-      get '/reference-types', to: 'performance#application_references', as: :application_references
-
       get '/validation-errors' => 'validation_errors#index', as: :validation_errors
       get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search
       get '/validation-errors/summary' => 'validation_errors#summary', as: :validation_error_summary
