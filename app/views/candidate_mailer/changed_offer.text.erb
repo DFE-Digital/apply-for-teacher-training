@@ -28,13 +28,7 @@ If you were not expecting this change, contact <%= @course_option.course.provide
 If you do not reply by <%= @application_choice.decline_by_default_at&.to_s(:govuk_date) %>, your application will be withdrawn.
 
 <% if @offers.count > 1 %>
-
-# Offers you've received
-
-<% @offers.each do |offer| %>
-  - <%= offer %>
-<% end %>
-
+    <%= render "offer_list" %>
 <% end %>
 
 Sign in to your account to respond:

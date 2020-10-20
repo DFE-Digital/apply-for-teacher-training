@@ -8,10 +8,7 @@ You have until <%= @dbd_date %> to respond to your offers.
 
 If you do not respond by <%= @dbd_date %>, your application will be withdrawn.
 
-  # Offers you’ve received
-  <% @application_choices.each do |choice| %>
-   - <%= choice.course_option.course.name %> at <%= choice.course_option.course.provider.name %>
-  <% end %>
+  <%= render "offer_list" %>
 
 <% else%>
 
