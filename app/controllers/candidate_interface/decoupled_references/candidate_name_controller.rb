@@ -17,7 +17,7 @@ module CandidateInterface
 
         @reference_candidate_name_form.save(@reference)
 
-        CandidateInterface::DecoupledReferences::RequestReference.call(@reference, flash)
+        CandidateInterface::DecoupledReferences::RequestReference.new.call(@reference, flash)
         redirect_to candidate_interface_decoupled_references_review_path
       end
 

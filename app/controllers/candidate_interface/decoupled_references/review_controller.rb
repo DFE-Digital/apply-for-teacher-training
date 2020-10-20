@@ -23,7 +23,7 @@ module CandidateInterface
         if @submit_reference_form.send_request? && !@candidate_name_form.valid?
           redirect_to candidate_interface_decoupled_references_new_candidate_name_path(@reference.id)
         elsif @submit_reference_form.send_request?
-          CandidateInterface::DecoupledReferences::RequestReference.call(@reference, flash)
+          CandidateInterface::DecoupledReferences::RequestReference.new.call(@reference, flash)
           redirect_to candidate_interface_decoupled_references_review_path
         else
           redirect_to candidate_interface_decoupled_references_review_path
