@@ -45,9 +45,9 @@
         <% validation_error.details.each do |attribute, details| %>
           <% details['messages'].each do |message| %>
             <tr class="govuk-table__row">
-              <td class='govuk-table__cell govuk-!-width-one-half govuk-!-font-size-16'><%= govuk_link_to validation_error.form_object.demodulize.underscore.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object) %>:
+              <td class="govuk-table__cell govuk-!-width-one-half govuk-!-font-size-16"><%= govuk_link_to validation_error.form_object.demodulize.underscore.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object) %>:
                 <strong><%= govuk_link_to attribute.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object, attribute: attribute) %></strong><br/>
-                <%= message.inspect %>
+                <%= message %>
               </td>
               <td class="govuk-table__cell govuk-!-font-size-16">
                 <% if details['value'].blank? %>
