@@ -27,6 +27,11 @@ RSpec.feature 'Candidate applying again' do
     when_i_add_a_new_referee
     then_i_can_see_i_have_two_referees
     and_references_for_original_application_are_not_affected
+
+    when_my_referee_refuses_to_provide_a_reference
+    and_i_try_to_manually_destroy_the_reference
+    then_i_see_the_review_page
+    and_my_reference_has_not_been_destroyed
   end
 
   def given_the_pilot_is_open
@@ -95,17 +100,19 @@ RSpec.feature 'Candidate applying again' do
 
     candidate_fills_in_referee(
       name: 'Bob Lawblob',
-      email: 'bob@lawblob.com',
+      email_address: 'bob@lawblob.com',
       relationship: 'I wrote content for him on boblawblobslawblog.com',
     )
 
     choose 'Yes, send a reference request now'
     click_button 'Save and continue'
+
+    @new_reference = ApplicationReference.find_by!(email_address: 'bob@lawblob.com')
   end
 
   def then_i_can_see_i_have_two_referees
     expect(page).to have_content @completed_references[1].name
-    expect(page).to have_content 'Bob Lawblob'
+    expect(page).to have_content @new_reference.name
   end
 
   def and_references_for_original_application_are_not_affected
@@ -115,5 +122,21 @@ RSpec.feature 'Candidate applying again' do
       @completed_references[1].name,
       @refused_reference.name,
     ])
+  end
+
+  def when_my_referee_refuses_to_provide_a_reference
+    @new_reference.feedback_refused!
+  end
+
+  def and_i_try_to_manually_destroy_the_reference
+    visit candidate_interface_destroy_decoupled_reference_path(@new_reference.id)
+  end
+
+  def then_i_see_the_review_page
+    visit candidate_interface_decoupled_references_review_path
+  end
+
+  def and_my_reference_has_not_been_destroyed
+    expect(@new_reference.reload.feedback_status).to eq 'feedback_refused'
   end
 end
