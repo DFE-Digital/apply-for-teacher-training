@@ -211,4 +211,34 @@ RSpec.describe ApplicationReference, type: :model do
       expect(reference.can_send_reminder?).to eq false
     end
   end
+
+  describe '#can_be_destroyed??' do
+    let(:unsubmitted_application_form) { build_stubbed(:application_form, submitted_at: nil) }
+    let(:submitted_application_form) { build_stubbed(:application_form, submitted_at: Time.zone.now) }
+
+    it 'is true when state is not_requested_yet and the application form has not been submitted' do
+      reference = build_stubbed(:reference, :unsubmitted, application_form: unsubmitted_application_form)
+      expect(reference.can_be_destroyed?).to eq true
+    end
+
+    it 'is true when state is feedback_provided and the application form has not been submitted' do
+      reference = build(:reference, :complete, application_form: unsubmitted_application_form)
+      expect(reference.can_be_destroyed?).to eq true
+    end
+
+    it 'is false when state is feedback_requested state aand the application form has not been submitted' do
+      reference = build(:reference, :requested, application_form: unsubmitted_application_form)
+      expect(reference.can_be_destroyed?).to eq false
+    end
+
+    it 'is false when state is not_requested_yet and the application form has been submitted' do
+      reference = build(:reference, :unsubmitted, application_form: submitted_application_form)
+      expect(reference.can_be_destroyed?).to eq false
+    end
+
+    it 'is false when state is feedback_provided and the application form has been submitted' do
+      reference = build(:reference, :complete, application_form: submitted_application_form)
+      expect(reference.can_be_destroyed?).to eq false
+    end
+  end
 end
