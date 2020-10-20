@@ -22,6 +22,7 @@ RSpec.feature 'Submitting an application' do
     and_i_receive_an_email_about_my_submitted_application
     and_a_slack_notification_is_sent
     and_i_can_review_my_application
+    and_i_do_not_see_references
   end
 
   def given_i_am_signed_in
@@ -116,6 +117,11 @@ RSpec.feature 'Submitting an application' do
     expect(page).to have_content 'Application dashboard'
     expect(page).to have_content 'Application submitted'
     expect(page).to have_link 'View application'
+  end
+
+  def and_i_do_not_see_references
+    expect(page).not_to have_content 'First referee'
+    expect(page).not_to have_content application.application_references.first.name
   end
 
 private
