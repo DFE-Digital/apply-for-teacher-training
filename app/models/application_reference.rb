@@ -15,6 +15,7 @@ class ApplicationReference < ApplicationRecord
 
   belongs_to :application_form, touch: true
   has_many :reference_tokens, dependent: :destroy
+  has_many :reference_events, dependent: :destroy
 
   audited associated_with: :application_form
 
@@ -112,5 +113,9 @@ class ApplicationReference < ApplicationRecord
 
   def can_send_reminder?
     feedback_requested? && reminder_sent_at.nil?
+  end
+
+  def add_event(name)
+    reference_events.create!(name: name)
   end
 end

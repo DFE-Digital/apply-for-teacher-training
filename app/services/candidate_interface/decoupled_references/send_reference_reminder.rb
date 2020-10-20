@@ -16,6 +16,7 @@ module CandidateInterface
         if reference.can_send_reminder?
           RefereeMailer.reference_request_chaser_email(reference.application_form, reference).deliver_later
           reference.update!(reminder_sent_at: Time.zone.now)
+          reference.add_event(:reminder_sent)
           flash[:success] = "Reminder sent to #{reference.name}"
         end
       end

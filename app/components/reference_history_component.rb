@@ -5,6 +5,21 @@ class ReferenceHistoryComponent < ViewComponent::Base
     @reference = reference
   end
 
+  def history
+    reference.reference_events.order(created_at: :asc)
+  end
+
+  def event_title(event)
+    case event.name
+    when 'request_sent'
+      'Request sent'
+    when 'request_cancelled'
+      'Request cancelled'
+    when 'reminder_sent'
+      'Reminder sent'
+    end
+  end
+
   def requested_at
     return if reference.requested_at.blank?
 
@@ -16,8 +31,6 @@ class ReferenceHistoryComponent < ViewComponent::Base
 
     date_format(reference.reminder_sent_at)
   end
-
-private
 
   def date_format(datetime)
     datetime.to_s(:govuk_date_and_time)

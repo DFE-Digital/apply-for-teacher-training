@@ -409,6 +409,14 @@ ActiveRecord::Schema.define(version: 2020_10_20_105805) do
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
+  create_table "reference_events", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "application_reference_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_reference_id"], name: "index_reference_events_on_application_reference_id"
+  end
+
   create_table "reference_tokens", force: :cascade do |t|
     t.bigint "application_reference_id", null: false
     t.string "hashed_token", null: false
@@ -558,6 +566,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_105805) do
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "provider_relationship_permissions", "providers", column: "ratifying_provider_id"
   add_foreign_key "provider_relationship_permissions", "providers", column: "training_provider_id"
+  add_foreign_key "reference_events", "\"references\"", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"

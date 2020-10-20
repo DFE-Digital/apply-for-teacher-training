@@ -3,6 +3,7 @@ module CandidateInterface
     class CancelReference
       def call(reference:)
         reference.update!(feedback_status: 'cancelled')
+        reference.add_event(:request_cancelled)
         RefereeMailer.reference_cancelled_email(reference).deliver_later
         send_slack_message(reference, reference.application_form)
       end
