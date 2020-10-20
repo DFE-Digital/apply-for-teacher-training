@@ -45,12 +45,12 @@ class ProviderAuthorisation
   end
 
   def training_provider_relationships_that_actor_can_manage_organisations_for
-    manageable_provider_ids = ProviderPermissions
-      .where(provider_user: @actor, manage_organisations: true)
-      .pluck(:provider_id)
-
     ProviderRelationshipPermissions
-      .where(training_provider: manageable_provider_ids)
+      .includes(:ratifying_provider, :training_provider)
+      .joins("INNER JOIN #{ProviderPermissions.table_name} ON #{ProviderPermissions.table_name}.provider_id = provider_relationship_permissions.training_provider_id")
+      .where(training_provider: @actor.providers)
+      .where("#{ProviderPermissions.table_name}.provider_user_id": @actor.id, "#{ProviderPermissions.table_name}.manage_organisations": true)
+      .order(:created_at)
   end
 
   def can_manage_organisations_for_at_least_one_provider?

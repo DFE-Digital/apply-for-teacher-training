@@ -64,13 +64,15 @@ RSpec.describe ProviderSetup do
       expect(next_relationship_pending).to be_a(ProviderRelationshipPermissions)
     end
 
-    it 'provides all relationships pending setup for the user when called multiple times', skip: true do
-      relationships = 3.times.map do
-        create(
+    it 'provides all relationships pending setup for the user when called multiple times' do
+      relationships = []
+      3.times do |n|
+        relationships << create(
           :provider_relationship_permissions,
           training_provider: training_provider,
           ratifying_provider: create(:provider),
           setup_at: nil,
+          created_at: Time.zone.now + n,
         )
       end
       create(:provider_relationship_permissions, setup_at: nil) # pending setup but unrelated
@@ -82,6 +84,20 @@ RSpec.describe ProviderSetup do
       end
 
       expect(next_relationship_pending).to be_nil
+    end
+
+    it 'provides the next invalid ProviderRelationshipPermissions record to set up' do
+      relationship = create(
+        :provider_relationship_permissions,
+        training_provider: training_provider,
+        training_provider_can_view_safeguarding_information: false,
+        ratifying_provider_can_view_safeguarding_information: false,
+        setup_at: nil,
+      )
+      relationship.setup_at = Time.zone.now
+      relationship.save(validate: false)
+
+      expect(next_relationship_pending).to eq(relationship)
     end
 
     it 'returns nil if no relationships exist' do
