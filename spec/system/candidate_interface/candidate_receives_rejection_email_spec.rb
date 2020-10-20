@@ -4,6 +4,7 @@ RSpec.feature 'Receives rejection email' do
   include CandidateHelper
 
   around do |example|
+    Time.zone = 'Pacific Time (US & Canada)'
     date_that_avoids_clocks_changing_by_ten_days = Time.zone.local(2020, 1, 13)
     Timecop.freeze(date_that_avoids_clocks_changing_by_ten_days) do
       example.run
@@ -96,8 +97,6 @@ RSpec.feature 'Receives rejection email' do
   end
 
   def and_it_includes_details_of_my_offer
-    pending 'broken due to time mismatch'
-
     expect(current_email.text).to include(@offer.provider.name)
     expect(current_email.text).to include(@offer.course.name_and_code)
 
