@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe TestApplications do
   include DateComparisonHelper
 
-  before { FeatureFlag.deactivate(:decoupled_references) }
-
   it 'generates an application with choices in the given states' do
     create(:course_option, course: create(:course, :open_on_apply))
     create(:course_option, course: create(:course, :open_on_apply))
