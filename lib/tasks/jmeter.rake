@@ -28,6 +28,14 @@ end
 def generate_plan(host:, thread_count:, token:)
   test {
     threads count: thread_count do
+      visit name: 'GET candidate landing page', url: "#{host}/candidate" do
+        assert contains: 'Apply for teacher training'
+      end
+
+      visit name: 'GET candidate account page', url: "#{host}/candidate/account" do
+        assert contains: 'Create an account or sign in'
+      end
+
       header name: 'COOKIE', value: "_apply_for_postgraduate_teacher_training_session=#{token}"
 
       visit name: 'GET application', url: "#{host}/candidate/application" do

@@ -1,6 +1,6 @@
 # Load testing
 
-[Apache JMeter](https://jmeter.apache.org/) allows us to test our service with realistic loads. 
+[Apache JMeter](https://jmeter.apache.org/) allows us to test our service with realistic loads.
 
 ## Instructions
 ### 1. Install Apache JMeter
@@ -19,8 +19,11 @@ brew install jmeter
 bundle exec rake generate_jmeter_plan[HOST,THREAD_COUNT,TOKEN]
 ```
 
-Note: you can also run your plan as part of the rake task in order to iron out bugs. Replace the call to `.jmx` with `.run` 
+Note: you can also run your plan as part of the rake task in order to iron out bugs. Replace the call to `.jmx` with `.run`
 
 ### 4. Run your plan on your JMeter instance
 From here you can either choose to run your plan from the command line or the GUI if you want to configure bar charts and tables.
 
+```sh
+jmeter -n -t ruby-jmeter.jmx
+```
