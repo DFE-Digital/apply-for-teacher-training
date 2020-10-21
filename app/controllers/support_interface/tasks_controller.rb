@@ -24,10 +24,6 @@ module SupportInterface
         CancelUnsubmittedApplicationsWorker.perform_async
         flash[:success] = 'Scheduled job to cancel unsubmitted applications that reached end-of-cycle'
         redirect_to support_interface_tasks_path
-      when 'reject_applications_awaiting_references_at_end_of_cycle'
-        RejectAwaitingReferencesCourseChoicesWorker.perform_async
-        flash[:success] = 'Scheduled job to reject applications awaiting references at end-of-cycle'
-        redirect_to support_interface_tasks_path
       else
         render_404
       end
