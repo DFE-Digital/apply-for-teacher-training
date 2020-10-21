@@ -203,7 +203,6 @@ en:
 
         This means we’ll send the application immediately to the provider.
       emails:
-        - candidate_mailer-application_sent_to_provider
         - provider_mailer-application_submitted
 
     unsubmitted-reject_at_end_of_cycle:
@@ -241,7 +240,6 @@ en:
       by: system
       description: 5 days after submission the application is sent to providers. This is to give candidates the opportunity to edit their application.
       emails:
-        - candidate_mailer-application_sent_to_provider
         - provider_mailer-application_submitted
 
     awaiting_provider_decision-make_offer:

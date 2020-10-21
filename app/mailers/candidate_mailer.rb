@@ -25,12 +25,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def application_sent_to_provider(application_form)
-    email_for_candidate(
-      application_form,
-    )
-  end
-
   def chase_reference(reference)
     @reference = reference
 

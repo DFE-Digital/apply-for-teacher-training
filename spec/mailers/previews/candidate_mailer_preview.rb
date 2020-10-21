@@ -1,7 +1,4 @@
 class CandidateMailerPreview < ActionMailer::Preview
-  def application_on_pause
-    CandidateMailer.referees_did_not_respond_before_end_of_cycle(application_form)
-  end
 
   def application_submitted
     application_form = FactoryBot.build_stubbed(
@@ -22,16 +19,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     )
 
     CandidateMailer.application_submitted_apply_again(application_form)
-  end
-
-  def application_sent_to_provider
-    application_form = FactoryBot.build_stubbed(
-      :completed_application_form,
-      candidate: candidate,
-      application_choices: [FactoryBot.build_stubbed(:application_choice, :awaiting_provider_decision, course_option: course_option)],
-    )
-
-    CandidateMailer.application_sent_to_provider(application_form)
   end
 
   def changed_offer

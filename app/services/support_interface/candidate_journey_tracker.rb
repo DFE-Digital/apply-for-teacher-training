@@ -15,7 +15,6 @@ module SupportInterface
       new_reference_added
       references_completed
       waiting_to_be_sent_to_provider
-      application_sent_to_provider
       rbd_date
       rbd_reminder_sent
       application_rbd
@@ -75,10 +74,6 @@ module SupportInterface
 
     def waiting_to_be_sent_to_provider
       earliest_update_audit_for(@application_choice, status: 'application_complete')
-    end
-
-    def application_sent_to_provider
-      @application_choice.sent_to_provider_at
     end
 
     def rbd_date
