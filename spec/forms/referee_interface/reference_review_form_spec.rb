@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe RefereeInterface::ReferenceReviewForm do
   describe 'validations' do
-    let(:review_form) { described_class.new(reference: build_stubbed(:reference, :complete)) }
+    let(:review_form) { described_class.new(reference: build_stubbed(:reference, :feedback_provided)) }
 
     it 'is valid when all questions are complete' do
       expect(review_form).to be_valid

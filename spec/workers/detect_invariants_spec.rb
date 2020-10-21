@@ -6,12 +6,12 @@ RSpec.describe DetectInvariants do
   describe '#perform' do
     it 'detects weird references state' do
       application_choice = create(:application_choice, status: 'application_complete')
-      create(:reference, :complete, application_form: application_choice.application_form)
-      create(:reference, :complete, application_form: application_choice.application_form)
+      create(:reference, :feedback_provided, application_form: application_choice.application_form)
+      create(:reference, :feedback_provided, application_form: application_choice.application_form)
 
       application_choice = create(:application_choice, status: 'awaiting_references')
-      create(:reference, :complete, application_form: application_choice.application_form)
-      create(:reference, :complete, application_form: application_choice.application_form)
+      create(:reference, :feedback_provided, application_form: application_choice.application_form)
+      create(:reference, :feedback_provided, application_form: application_choice.application_form)
 
       DetectInvariants.new.perform
 

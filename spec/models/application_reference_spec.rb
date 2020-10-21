@@ -222,7 +222,7 @@ RSpec.describe ApplicationReference, type: :model do
     end
 
     it 'is true when state is feedback_provided and the application form has not been submitted' do
-      reference = build(:reference, :complete, application_form: unsubmitted_application_form)
+      reference = build(:reference, :feedback_provided, application_form: unsubmitted_application_form)
       expect(reference.can_be_destroyed?).to eq true
     end
 
@@ -237,7 +237,7 @@ RSpec.describe ApplicationReference, type: :model do
     end
 
     it 'is false when state is feedback_provided and the application form has been submitted' do
-      reference = build(:reference, :complete, application_form: submitted_application_form)
+      reference = build(:reference, :feedback_provided, application_form: submitted_application_form)
       expect(reference.can_be_destroyed?).to eq false
     end
   end

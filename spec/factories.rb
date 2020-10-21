@@ -134,7 +134,7 @@ FactoryBot.define do
 
       trait :with_completed_references do
         transient do
-          references_state { :complete }
+          references_state { :feedback_provided }
         end
       end
 
@@ -712,7 +712,15 @@ FactoryBot.define do
       created_at { 11.business_days.ago }
     end
 
-    trait :complete do
+    trait :feedback_provided do
+      feedback_status { 'feedback_provided' }
+      feedback { Faker::Lorem.paragraph(sentence_count: 10) }
+      requested_at { Time.zone.now }
+      safeguarding_concerns { '' }
+      relationship_correction { '' }
+    end
+
+    trait :feedback_provided_with_completed_referee_questionnaire do
       feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }
       requested_at { Time.zone.now }

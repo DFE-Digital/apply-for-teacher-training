@@ -128,7 +128,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
 
   context 'when reference state is "cancelled" but there are already 2 references provided' do
     let(:cancelled) { create(:reference, :cancelled) }
-    let(:provided_references) { create_list(:reference, 2, :complete, application_form: cancelled.application_form) }
+    let(:provided_references) { create_list(:reference, 2, :feedback_provided, application_form: cancelled.application_form) }
 
     it 'a send request link is NOT available' do
       FeatureFlag.activate(:decoupled_references)
@@ -183,7 +183,7 @@ private
     feedback_overdue = create(:reference, :feedback_overdue, application_form: af)
     sent_less_than_5_days_ago = create(:reference, :feedback_requested_less_than_5_days_ago, application_form: af)
     sent_more_than_5_days_ago = create(:reference, :feedback_requested_more_than_5_days_ago, application_form: af)
-    feedback_provided = create(:reference, :complete, application_form: af)
+    feedback_provided = create(:reference, :feedback_provided, application_form: af)
 
     status_struct = Struct.new(:reference, :colour, :status_identifier, :info_identifier, :info_args)
     stub_const('Status', status_struct)
