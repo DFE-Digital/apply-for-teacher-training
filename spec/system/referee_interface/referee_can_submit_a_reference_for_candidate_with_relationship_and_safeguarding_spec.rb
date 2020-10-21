@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Referee can submit reference', with_audited: true do
   include CandidateHelper
 
-  before { FeatureFlag.deactivate(:decoupled_references) }
+  before { FeatureFlag.activate(:decoupled_references) }
 
   scenario 'Referee submits a reference for a candidate with relationship, safeguarding and review page' do
-    given_a_candidate_completed_an_application
-    when_the_candidate_submits_the_application
-    then_i_receive_an_email_with_a_magic_link
+    given_i_am_a_referee_of_an_application
+    and_i_received_the_initial_reference_request_email
+    then_i_receive_an_email_with_a_reference_request
 
     when_i_try_to_access_the_reference_page_with_invalid_token
     then_i_see_page_not_found
@@ -67,22 +67,17 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
     then_i_see_the_thank_you_page
   end
 
-  def given_a_candidate_completed_an_application
-    candidate_completes_application_form
+  def given_i_am_a_referee_of_an_application
+    @reference = create(:reference, :requested, email_address: 'terri@example.com', name: 'Terri Tudor')
+    @application = create(:completed_application_form, application_references: [@reference], candidate: current_candidate)
   end
 
-  def when_the_candidate_submits_the_application
-    candidate_submits_application
+  def and_i_received_the_initial_reference_request_email
+    RefereeMailer.reference_request_email(@reference).deliver_now
   end
 
-  def then_i_receive_an_email_with_a_magic_link
+  def then_i_receive_an_email_with_a_reference_request
     open_email('terri@example.com')
-
-    matches = current_email.body.match(/(http:\/\/localhost:3000\/reference\?token=[\w-]{20})/)
-    @token = Rack::Utils.parse_query(URI(matches.captures.first).query)['token']
-    @reference_feedback_url = matches.captures.first unless matches.nil?
-
-    expect(@reference_feedback_url).not_to be_nil
   end
 
   def when_i_try_to_access_the_reference_page_with_invalid_token
@@ -94,7 +89,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_click_on_the_link_within_the_email
-    current_email.click_link(@reference_feedback_url)
+    click_sign_in_link(current_email)
   end
 
   def then_i_am_asked_to_confirm_my_relationship_with_the_candidate
