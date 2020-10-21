@@ -66,6 +66,17 @@ RSpec.feature 'Candidate requests a reference' do
     then_i_see_a_confirmation_message
     and_the_reference_is_moved_to_the_requested_state
     and_an_email_is_sent_to_the_referee
+
+    when_i_have_a_failed_reference
+    and_i_visit_the_all_references_review_page
+    then_i_see_the_references_review_page
+    when_i_click_the_retry_request_link
+    and_i_change_the_email_address
+    and_i_confirm_that_i_am_ready_to_retry_a_reference_request
+    then_i_see_a_confirmation_message
+    and_the_reference_is_moved_to_the_requested_state
+    and_the_reference_email_address_has_been_updated
+    and_an_email_is_sent_to_the_referee
   end
 
   def given_i_am_signed_in
@@ -208,7 +219,31 @@ RSpec.feature 'Candidate requests a reference' do
     @reference = create(:reference, :cancelled, application_form: @application_form)
   end
 
+  def when_i_have_a_failed_reference
+    @reference = create(:reference, :email_bounced, application_form: @application_form)
+  end
+
   def and_i_click_the_resend_reference_link
     click_link 'Send request again'
+  end
+
+  def then_i_see_the_references_review_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_review_path
+  end
+
+  def when_i_click_the_retry_request_link
+    click_link 'Retry request'
+  end
+
+  def and_i_change_the_email_address
+    fill_in 'Referee’s email address', with: 'john@example.com'
+  end
+  
+  def and_i_confirm_that_i_am_ready_to_retry_a_reference_request
+    click_button 'Send reference request'
+  end
+
+  def and_the_reference_email_address_has_been_updated
+    expect(@reference.reload.email_address).to eq('john@example.com')
   end
 end

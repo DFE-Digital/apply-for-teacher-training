@@ -401,6 +401,8 @@ en:
         cancel: No, I’ve changed my mind
       resend_request:
         action: Send request again
+      retry_request:
+        action: Retry request
       cancel_request:
         action: Cancel request
         confirm: Yes I’m sure - cancel this reference request
