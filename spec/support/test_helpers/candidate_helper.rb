@@ -15,7 +15,7 @@ module CandidateHelper
     becoming_a_teacher
     subject_knowledge
     interview_preferences
-    references
+    references_provided
   ].freeze
 
   def create_and_sign_in_candidate
