@@ -17,6 +17,7 @@ RSpec.feature 'Review references' do
     and_i_can_review_my_references_before_submission
     and_i_can_edit_a_reference
     and_i_can_delete_a_reference
+    and_i_can_delete_a_reference_request
     and_i_can_cancel_a_sent_reference
     and_referee_receives_email_about_reference_cancellation
     and_i_can_return_to_the_application_page
@@ -54,6 +55,8 @@ RSpec.feature 'Review references' do
     @not_sent_reference = create(:reference, :not_requested_yet, application_form: application_form)
     @requested_reference = create(:reference, :feedback_requested, application_form: application_form)
     @refused_reference = create(:reference, :feedback_refused, application_form: application_form)
+    @cancelled_reference = create(:reference, :cancelled, application_form: application_form)
+    @bounced_reference = create(:reference, :cancelled, application_form: application_form)
   end
 
   def when_enough_references_have_been_given
@@ -84,10 +87,18 @@ RSpec.feature 'Review references' do
     end
 
     within '#references_sent' do
-      expect(page).to have_content @requested_reference.email_address
-      expect(page).to have_content @refused_reference.email_address
-      expect(page).not_to have_link 'Change'
-      expect(page).not_to have_link 'Delete referee'
+      expect(all('.app-summary-card')[0].text).to have_content @requested_reference.email_address
+      expect(all('.app-summary-card')[0]).not_to have_link 'Change'
+      expect(all('.app-summary-card')[0]).not_to have_link 'Delete'
+      expect(all('.app-summary-card')[1].text).to have_content @refused_reference.email_address
+      expect(all('.app-summary-card')[1]).not_to have_link 'Change'
+      expect(all('.app-summary-card')[1]).to have_link 'Delete request'
+      expect(all('.app-summary-card')[2].text).to have_content @cancelled_reference.email_address
+      expect(all('.app-summary-card')[2]).not_to have_link 'Change'
+      expect(all('.app-summary-card')[2]).to have_link 'Delete request'
+      expect(all('.app-summary-card')[3].text).to have_content @bounced_reference.email_address
+      expect(all('.app-summary-card')[3]).not_to have_link 'Change'
+      expect(all('.app-summary-card')[3]).to have_link 'Delete request'
     end
   end
 
@@ -114,6 +125,16 @@ RSpec.feature 'Review references' do
 
     expect(page).to have_current_path candidate_interface_decoupled_references_review_path
     expect(page).not_to have_css('#references_waiting_to_be_sent')
+  end
+
+  def and_i_can_delete_a_reference_request
+    within '#references_sent' do
+      click_link 'Delete request', match: :first
+    end
+    click_button 'Yes I’m sure'
+
+    expect(page).to have_current_path candidate_interface_decoupled_references_review_path
+    expect(page).not_to have_content @refused_reference.name
   end
 
   def and_i_can_cancel_a_sent_reference
