@@ -25,11 +25,14 @@ RSpec.describe ProviderInterface::SetupProviderRelationshipPermissions do
       end
     end
 
-    context 'when a record has been set up' do
-      let(:permissions) { [create(:provider_relationship_permissions, setup_at: Time.zone.now)] }
+    context 'when a record has already been set up' do
+      let(:setup_at) { 1.hour.ago }
+      let(:permissions) { [create(:provider_relationship_permissions, setup_at: setup_at)] }
 
-      it 'raises ProviderInterface::PermissionsSetupError' do
-        expect { described_class.call(permissions) }.to raise_error(ProviderInterface::PermissionsSetupError)
+      it 'updates the record' do
+        permissions.first.ratifying_provider_can_make_decisions = true
+        expect { described_class.call(permissions) }.to(change { permissions.first.updated_at })
+        expect(permissions.first.reload.setup_at.to_s(:db)).to eq(setup_at.to_s(:db))
       end
     end
   end
