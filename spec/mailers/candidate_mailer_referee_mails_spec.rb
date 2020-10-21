@@ -75,7 +75,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     it 'sends an email with the correct body if one reference complete' do
       application_form = create(:completed_application_form, :with_completed_references)
       create(:reference, :complete, application_form: application_form)
-      create(:reference, :requested, application_form: application_form)
+      create(:reference, :feedback_requested, application_form: application_form)
 
       email = described_class.send(:reference_received, application_form.application_references.first)
       expect(email.body).to include('You need to get another reference')

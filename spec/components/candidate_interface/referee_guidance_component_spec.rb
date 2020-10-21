@@ -9,7 +9,7 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
     course_option_for_provider(provider: provider)
     @application_form = create(:application_form)
     create(:application_choice, application_form: @application_form, course_option: provider.courses.first.course_options.first)
-    create(:reference, :requested, application_form: @application_form)
+    create(:reference, :feedback_requested, application_form: @application_form)
   end
 
   around do |example|
@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
   context 'when two references are in the feedback_requested state' do
     context 'when the candidates courses all have the same provider' do
       it 'renders the correct pluralization for referees, references and providers' do
-        create(:reference, :requested, application_form: @application_form)
+        create(:reference, :feedback_requested, application_form: @application_form)
         result = render_inline(described_class.new(application_form: @application_form, editable_days: 5))
 
         expect(result.css('.govuk-heading-m').text).to eq('References')
@@ -70,7 +70,7 @@ RSpec.describe CandidateInterface::RefereeGuidanceComponent do
         provider2 = create(:provider)
         course_option_for_provider(provider: provider2)
         create(:application_choice, application_form: @application_form, course_option: provider2.courses.first.course_options.first)
-        create(:reference, :requested, application_form: @application_form)
+        create(:reference, :feedback_requested, application_form: @application_form)
         result = render_inline(described_class.new(application_form: @application_form, editable_days: 5))
 
         expect(result.css('.govuk-heading-m').text).to eq('References')

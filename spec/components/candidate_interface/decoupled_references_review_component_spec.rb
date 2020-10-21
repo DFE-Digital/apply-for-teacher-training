@@ -59,7 +59,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   context 'when reference state is "feedback_requested"' do
-    let(:feedback_requested) { create(:reference, :requested) }
+    let(:feedback_requested) { create(:reference, :feedback_requested) }
     let(:feedback_refused) { create(:reference, :feedback_refused) }
 
     it 'a cancel link is available' do
@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   context 'when reference state is "not_requested_yet" and the reference is complete' do
-    let(:feedback_requested) { create(:reference, :requested) }
+    let(:feedback_requested) { create(:reference, :feedback_requested) }
     let(:not_requested_yet) { create(:reference, :not_requested_yet) }
 
     it 'a send request link is available' do
@@ -100,7 +100,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   context 'when reference state is "cancelled" and the reference is complete' do
-    let(:feedback_requested) { create(:reference, :requested) }
+    let(:feedback_requested) { create(:reference, :feedback_requested) }
     let(:cancelled) { create(:reference, :cancelled) }
 
     it 'a re-send request link is available' do
@@ -140,7 +140,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   context 'rendering history' do
-    let(:reference) { create(:reference, :requested) }
+    let(:reference) { create(:reference, :feedback_requested) }
 
     it 'does not render by default' do
       result = render_inline(described_class.new(references: [reference]))
@@ -181,8 +181,8 @@ private
     cancelled_at_end_of_cycle = create(:reference, :cancelled_at_end_of_cycle, application_form: af)
     cancelled = create(:reference, :cancelled, application_form: af)
     feedback_overdue = create(:reference, :feedback_overdue, application_form: af)
-    sent_less_than_5_days_ago = create(:reference, :sent_less_than_5_days_ago, application_form: af)
-    sent_more_than_5_days_ago = create(:reference, :sent_more_than_5_days_ago, application_form: af)
+    sent_less_than_5_days_ago = create(:reference, :feedback_requested_less_than_5_days_ago, application_form: af)
+    sent_more_than_5_days_ago = create(:reference, :feedback_requested_more_than_5_days_ago, application_form: af)
     feedback_provided = create(:reference, :complete, application_form: af)
 
     status_struct = Struct.new(:reference, :colour, :status_identifier, :info_identifier, :info_args)

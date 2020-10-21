@@ -112,7 +112,7 @@ FactoryBot.define do
         work_experiences_count { 0 }
         volunteering_experiences_count { 0 }
         references_count { 0 }
-        references_state { :requested }
+        references_state { :feedback_requested }
         with_gcses { false }
         full_work_history { false }
         with_degree { false }
@@ -687,19 +687,19 @@ FactoryBot.define do
       requested_at { Time.zone.now }
     end
 
-    trait :requested do
+    trait :feedback_requested do
       feedback_status { 'feedback_requested' }
       feedback { nil }
       requested_at { Time.zone.now }
     end
 
-    trait :sent_less_than_5_days_ago do
+    trait :feedback_requested_less_than_5_days_ago do
       feedback_status { 'feedback_requested' }
       feedback { nil }
       requested_at { Time.zone.now - 2.days }
     end
 
-    trait :sent_more_than_5_days_ago do
+    trait :feedback_requested_more_than_5_days_ago do
       feedback_status { 'feedback_requested' }
       feedback { nil }
       requested_at { Time.zone.now - 6.days }
