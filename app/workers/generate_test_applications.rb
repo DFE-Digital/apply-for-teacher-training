@@ -1,50 +1,73 @@
 class GenerateTestApplications
   include Sidekiq::Worker
 
-  def initialize(for_year: :current_year)
-    @test_applications = TestApplications.new
-    @for_year = for_year
-
-    if (dev_support_user = ProviderUser.find_by_dfe_sign_in_uid('dev-support'))
-      open_courses_per_provider = dev_support_user.providers.map { |p| p.courses.open_on_apply }
-
-      @courses_to_apply_to = if @for_year == :previous_year
-                               open_courses_per_provider.map(&:previous_cycle).flatten
-                             else
-                               open_courses_per_provider.map(&:current_cycle).flatten
-                             end
-    end
-  end
-
   def perform
     raise 'You cannot generate test data in production' if HostingEnvironment.production?
 
-    create states: [:unsubmitted]
-    create states: [:unsubmitted], course_full: true
-    create states: [:awaiting_provider_decision] * 3
-    create states: [:awaiting_provider_decision] * 3
-    create states: [:awaiting_provider_decision] * 3
-    create states: [:offer] * 2
-    create states: %i[offer rejected]
-    create states: [:rejected] * 2
-    create states: [:offer_withdrawn]
-    create states: [:offer_deferred]
-    create states: [:offer_deferred]
-    create states: [:declined]
-    create states: [:accepted]
-    create states: [:accepted_no_conditions]
-    create states: [:recruited]
-    create states: [:conditions_not_met]
-    create states: [:withdrawn]
-    create states: [:awaiting_provider_decision], apply_again: true
+    create recruitment_cycle_year: 2020, states: %i[rejected rejected]
+    create recruitment_cycle_year: 2020, states: %i[offer_withdrawn]
+    create recruitment_cycle_year: 2020, states: %i[offer_deferred]
+    create recruitment_cycle_year: 2020, states: %i[offer_deferred]
+    create recruitment_cycle_year: 2020, states: %i[declined]
+    create recruitment_cycle_year: 2020, states: %i[accepted]
+    create recruitment_cycle_year: 2020, states: %i[recruited]
+    create recruitment_cycle_year: 2020, states: %i[conditions_not_met]
+    create recruitment_cycle_year: 2020, states: %i[withdrawn]
+    create recruitment_cycle_year: 2020, states: %i[application_not_sent]
+
+    create recruitment_cycle_year: 2021, states: %i[unsubmitted]
+    create recruitment_cycle_year: 2021, states: %i[unsubmitted], course_full: true
+    create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
+    create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
+    create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
+    create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision], apply_again: true
+    create recruitment_cycle_year: 2021, states: %i[offer offer]
+    create recruitment_cycle_year: 2021, states: %i[offer rejected]
+    create recruitment_cycle_year: 2021, states: %i[rejected rejected]
+    create recruitment_cycle_year: 2021, states: %i[offer_withdrawn]
+    create recruitment_cycle_year: 2021, states: %i[offer_deferred]
+    create recruitment_cycle_year: 2021, states: %i[offer_deferred]
+    create recruitment_cycle_year: 2021, states: %i[declined]
+    create recruitment_cycle_year: 2021, states: %i[accepted]
+    create recruitment_cycle_year: 2021, states: %i[accepted_no_conditions]
+    create recruitment_cycle_year: 2021, states: %i[recruited]
+    create recruitment_cycle_year: 2021, states: %i[conditions_not_met]
+    create recruitment_cycle_year: 2021, states: %i[withdrawn]
+
+    without_slack_message_sending do
+      RejectApplicationsByDefault.new.call
+    end
   end
 
-  def create(states:, apply_again: false, course_full: false)
-    @test_applications.create_application(
-      courses_to_apply_to: @courses_to_apply_to,
+private
+
+  def create(recruitment_cycle_year:, states:, apply_again: false, course_full: false)
+    TestApplications.new.create_application(
       states: states,
+      recruitment_cycle_year: recruitment_cycle_year,
+      courses_to_apply_to: courses_to_apply_to(recruitment_cycle_year),
       apply_again: apply_again,
       course_full: course_full,
     )
+  end
+
+  def courses_to_apply_to(year)
+    courses = Course.open_on_apply.in_cycle(year)
+
+    if dev_support_user
+      courses = courses.where(provider: dev_support_user.providers)
+    end
+
+    courses
+  end
+
+  def dev_support_user
+    @dev_support_user ||= ProviderUser.find_by_dfe_sign_in_uid('dev-support')
+  end
+
+  def without_slack_message_sending
+    RequestStore.store[:disable_slack_messages] = true
+    yield
+    RequestStore.store[:disable_slack_messages] = false
   end
 end
