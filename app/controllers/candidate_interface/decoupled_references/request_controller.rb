@@ -18,7 +18,7 @@ module CandidateInterface
 
       def create
         if request_now?
-          CandidateInterface::DecoupledReferences::RequestReference.call(@reference, flash)
+          CandidateInterface::DecoupledReferences::RequestReference.new.call(@reference, flash)
         end
         redirect_to candidate_interface_decoupled_references_review_path
       end
