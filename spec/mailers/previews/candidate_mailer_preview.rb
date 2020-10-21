@@ -1,5 +1,4 @@
 class CandidateMailerPreview < ActionMailer::Preview
-
   def application_submitted
     application_form = FactoryBot.build_stubbed(
       :completed_application_form,
