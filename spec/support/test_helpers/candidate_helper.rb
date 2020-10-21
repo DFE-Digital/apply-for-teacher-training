@@ -15,7 +15,7 @@ module CandidateHelper
     becoming_a_teacher
     subject_knowledge
     interview_preferences
-    references
+    references_provided
   ].freeze
 
   def create_and_sign_in_candidate
@@ -404,10 +404,10 @@ module CandidateHelper
 
   def click_sign_in_link(email)
     matches = email.body.match(/(http:\/\/localhost:3000\/reference\?token=[\w-]{20})/)
-    reference_feedback_url = matches.captures.first unless matches.nil?
+    @reference_feedback_url = matches.captures.first unless matches.nil?
     @token = Rack::Utils.parse_query(URI(matches.captures.first).query)['token']
 
-    email.click_link(reference_feedback_url)
+    email.click_link(@reference_feedback_url)
   end
 
   def current_candidate

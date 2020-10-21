@@ -3,20 +3,12 @@ require 'rails_helper'
 RSpec.feature 'Entering their equality and diversity information' do
   include CandidateHelper
 
-  before { FeatureFlag.deactivate(:decoupled_references) }
+  before { FeatureFlag.activate(:decoupled_references) }
 
   scenario 'Candidate submits equality and diversity information' do
     given_i_am_signed_in
-    and_i_have_an_application_form_that_is_not_ready_to_submit
-    and_i_am_on_the_review_page
-
-    when_i_click_on_continue
-    then_i_see_validation_errors
-
-    when_i_have_an_application_form_that_is_ready_to_submit
-    and_i_am_on_the_review_page
-
-    when_i_click_on_continue
+    and_i_have_completed_my_application_form
+    and_i_submit_my_application
     then_i_see_the_equality_and_diversity_page
 
     when_i_choose_not_to_complete_equality_and_diversity
@@ -99,35 +91,14 @@ RSpec.feature 'Entering their equality and diversity information' do
     create_and_sign_in_candidate
   end
 
-  def and_i_have_an_application_form_that_is_not_ready_to_submit
-    @application = create(
-      :completed_application_form,
-      :with_completed_references,
-      candidate: @current_candidate,
-      submitted_at: nil,
-      references_completed: false,
-      with_gcses: true,
-    )
+  def and_i_have_completed_my_application_form
+    candidate_completes_application_form
   end
 
-  def when_i_have_an_application_form_that_is_ready_to_submit
-    create_list :reference, 2, application_form: @application
-    click_link 'Add your references', match: :first
-    check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
-  end
-
-  def and_i_am_on_the_review_page
-    visit candidate_interface_application_review_path
-  end
-
-  def when_i_click_on_continue
+  def and_i_submit_my_application
+    receive_references
+    click_link 'Check and submit your application'
     click_link 'Continue'
-  end
-
-  def then_i_see_validation_errors
-    expect(page).to have_content('There is a problem')
-    expect(page).to have_content('Add 2 referees to your application')
   end
 
   def then_i_see_the_equality_and_diversity_page

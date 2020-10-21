@@ -4,7 +4,7 @@ RSpec.feature 'Candidate submits the application' do
   include CandidateHelper
 
   scenario 'Candidate with a completed application' do
-    FeatureFlag.deactivate(:decoupled_references)
+    FeatureFlag.activate(:decoupled_references)
 
     given_i_am_signed_in
 
@@ -179,7 +179,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_i_can_submit_the_application
-    click_button 'Submit application'
+    click_button 'Send application'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
@@ -198,11 +198,11 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_a_slack_notification_is_sent
-    expect_slack_message_with_text 'Lando has just submitted their application'
+    expect_slack_message_with_text 'Lando’s application has been sent to'
   end
 
   def when_i_click_on_track_your_application
-    click_link 'To edit your application, return to your application dashboard.'
+    click_link 'To view your application, return to your application dashboard'
   end
 
   def then_i_can_see_my_application_dashboard
@@ -210,8 +210,6 @@ RSpec.feature 'Candidate submits the application' do
     expect(page).to have_content t('page_titles.application_dashboard')
     expect(page).to have_content "Application submitted on #{this_day}"
     expect(page).to have_content 'Gorse SCITT'
-    expect(page).to have_content current_candidate.current_application.application_references.first.name
-    expect(page).to have_content 'Submitted'
   end
 
   def when_i_click_view_application
