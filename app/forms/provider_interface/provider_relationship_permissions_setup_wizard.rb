@@ -69,15 +69,12 @@ module ProviderInterface
 
     # Steps are
     # 1. provider_relationships
-    # 2. info
-    # 3. permissions (repeated per relationship)
-    # 4. check
+    # 2. permissions (repeated per relationship)
+    # 3. check
     def next_step
       if checking_answers.present?
         [:check]
       elsif current_step == 'organisations'
-        [:info]
-      elsif current_step == 'info'
         [:permissions, next_provider_relationship_id]
       elsif current_step == 'permissions' && next_provider_relationship_id.present?
         [:permissions, next_provider_relationship_id]
@@ -89,12 +86,10 @@ module ProviderInterface
     def previous_step
       if checking_answers.present?
         [:check]
-      elsif current_step == 'info'
-        [:organisations]
       elsif current_step == 'organisations'
         [:start]
       elsif current_step == 'permissions'
-        previous_provider_relationship_id.present? ? [:permissions, previous_provider_relationship_id] : [:info]
+        previous_provider_relationship_id.present? ? [:permissions, previous_provider_relationship_id] : [:organisations]
       elsif current_step == 'check'
         [:permissions, provider_relationships.last]
       else

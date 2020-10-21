@@ -6,15 +6,9 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
   end
 
   describe 'next_step' do
-    it 'returns the permissions info page from the provider relationships page' do
-      state_store = state_store_for({})
-      wizard = described_class.new(state_store, current_step: 'organisations')
-      expect(wizard.next_step).to eq([:info])
-    end
-
-    it 'returns the first provider relationship permissions page from the info page' do
+    it 'returns the first provider relationship permissions page from the organisations page' do
       state_store = state_store_for({ provider_relationships: [123, 456] })
-      wizard = described_class.new(state_store, current_step: 'info')
+      wizard = described_class.new(state_store, current_step: 'organisations')
       expect(wizard.next_step).to eq([:permissions, 123])
     end
 
@@ -46,16 +40,10 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
       expect(wizard.previous_step).to eq([:start])
     end
 
-    it 'returns provider relationships page from the permissions info page' do
-      state_store = state_store_for({})
-      wizard = described_class.new(state_store, current_step: 'info')
-      expect(wizard.previous_step).to eq([:organisations])
-    end
-
-    it 'returns the permissions information page from the first provider permissions page' do
+    it 'returns the organisations page from the first provider permissions page' do
       state_store = state_store_for({ provider_relationships: [123, 456], provider_relationship_permissions: { 123 => {} } })
       wizard = described_class.new(state_store, current_step: 'permissions', current_provider_relationship_id: '123')
-      expect(wizard.previous_step).to eq([:info])
+      expect(wizard.previous_step).to eq([:organisations])
     end
 
     it 'returns the first provider relationship permissions page from the last provider relationship permissions page' do

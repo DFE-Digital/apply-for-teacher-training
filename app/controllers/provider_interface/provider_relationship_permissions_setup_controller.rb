@@ -6,13 +6,8 @@ module ProviderInterface
 
     def organisations
       @grouped_provider_names_from_relationships = grouped_provider_names_from_relationships
-      @wizard = wizard_for(provider_relationships_attrs.merge(current_step: 'provider_relationships'))
-      @wizard.save_state!
-    end
-
-    def info
       @permissions_model = provider_relationship_permissions_needing_setup.first
-      @wizard = wizard_for(current_step: 'info')
+      @wizard = wizard_for(provider_relationships_attrs.merge(current_step: 'provider_relationships'))
       @wizard.save_state!
     end
 
