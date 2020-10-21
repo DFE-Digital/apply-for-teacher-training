@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::DecoupledReferences::CancelReference do
       expect(RefereeMailer).to have_received(:reference_cancelled_email).with(reference)
     end
 
-    it 'sends a the slack notification worker' do
+    it 'sends a message and url to the Slack notification worker' do
       expect(SlackNotificationWorker).to have_received(:perform_async).with(message, url)
     end
   end
