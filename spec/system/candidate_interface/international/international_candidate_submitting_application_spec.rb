@@ -4,7 +4,7 @@ RSpec.feature 'International candidate submits the application' do
   include CandidateHelper
   include EFLHelper
 
-  before { FeatureFlag.deactivate(:decoupled_references) }
+  before { FeatureFlag.activate(:decoupled_references) }
 
   scenario 'International candidate completes and submits an application' do
     FeatureFlag.deactivate(:international_addresses)
@@ -120,6 +120,7 @@ RSpec.feature 'International candidate submits the application' do
     candidate_fills_in_interview_preferences
 
     candidate_provides_two_referees
+    receive_references
   end
 
   def when_i_review_my_application
@@ -181,7 +182,7 @@ RSpec.feature 'International candidate submits the application' do
   end
 
   def and_i_submit_the_application
-    click_button(FeatureFlag.active?(:decoupled_references) ? 'Send application' : 'Submit application')
+    click_button 'Send application'
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
