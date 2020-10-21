@@ -140,7 +140,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
       create(:reference, :requested, application_form: application_form)
-      application_reference2 = create(:reference, :refused, application_form: application_form)
+      application_reference2 = create(:reference, :feedback_refused, application_form: application_form)
       Timecop.freeze(now + 1.day) do
         ChaserSent.create!(chased: application_reference2, chaser_type: :reference_replacement)
       end
@@ -163,7 +163,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
       create(:reference, :requested, application_form: application_form)
-      create(:reference, :refused, application_form: application_form)
+      create(:reference, :feedback_refused, application_form: application_form)
 
       Timecop.freeze(now + 1.day) do
         create(:reference, :requested, application_form: application_form)

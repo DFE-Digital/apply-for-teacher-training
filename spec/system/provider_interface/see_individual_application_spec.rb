@@ -148,7 +148,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            feedback: 'The possibility of successfully navigating training is approximately three thousand seven hundred and twenty to one')
 
     create(:reference,
-           :refused,
+           :feedback_refused,
            application_form: application_form,
            name: 'BB-8')
 

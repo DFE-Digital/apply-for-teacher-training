@@ -60,7 +60,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
 
   context 'when reference state is "feedback_requested"' do
     let(:feedback_requested) { create(:reference, :requested) }
-    let(:feedback_refused) { create(:reference, :refused) }
+    let(:feedback_refused) { create(:reference, :feedback_refused) }
 
     it 'a cancel link is available' do
       result = render_inline(described_class.new(references: [feedback_requested, feedback_refused]))
@@ -176,7 +176,7 @@ private
     af = create(:application_form)
 
     not_requested_yet = create(:reference, :not_requested_yet, application_form: af)
-    feedback_refused = create(:reference, :refused, application_form: af)
+    feedback_refused = create(:reference, :feedback_refused, application_form: af)
     email_bounced = create(:reference, :email_bounced, application_form: af)
     cancelled_at_end_of_cycle = create(:reference, :cancelled_at_end_of_cycle, application_form: af)
     cancelled = create(:reference, :cancelled, application_form: af)

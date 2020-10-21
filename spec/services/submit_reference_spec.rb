@@ -24,7 +24,7 @@ RSpec.describe SubmitReference do
           application_form = create(:application_form)
           reference1 = create(:reference, :requested, application_form: application_form)
           reference2 = create(:reference, :requested, application_form: application_form)
-          reference3 = create(:reference, :refused, application_form: application_form)
+          reference3 = create(:reference, :feedback_refused, application_form: application_form)
           reference4 = create(:reference, :requested, application_form: application_form)
 
           SubmitReference.new(reference: reference1).save!

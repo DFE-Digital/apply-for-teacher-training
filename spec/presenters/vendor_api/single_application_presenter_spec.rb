@@ -332,7 +332,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
       refused = create(
         :reference,
-        :refused,
+        :feedback_refused,
         application_form: application_choice.application_form,
       )
 

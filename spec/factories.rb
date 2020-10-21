@@ -663,7 +663,7 @@ FactoryBot.define do
       feedback { nil }
     end
 
-    trait :refused do
+    trait :feedback_refused do
       feedback_status { 'feedback_refused' }
       feedback { nil }
       requested_at { Time.zone.now }
