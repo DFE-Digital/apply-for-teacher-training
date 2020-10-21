@@ -7,22 +7,23 @@ class TestApplications
   def generate_for_provider(provider:, courses_per_application:, count:)
     1.upto(count).flat_map do
       create_application(
+        recruitment_cycle_year: 2021,
         states: [:awaiting_provider_decision] * courses_per_application,
         courses_to_apply_to: Course.current_cycle.includes(:course_options).joins(:course_options).distinct.open_on_apply.where(provider: provider),
       )
     end
   end
 
-  def create_application(states:, courses_to_apply_to: nil, apply_again: false, course_full: false)
+  def create_application(recruitment_cycle_year:, states:, courses_to_apply_to:, apply_again: false, course_full: false)
     candidate = nil
 
-    min_days_in_the_past = courses_to_apply_to&.first&.recruitment_cycle_year == RecruitmentCycle.previous_year ? 375 : 10
+    min_days_in_the_past = recruitment_cycle_year == 2020 ? 375 : 10
     travel_to rand(min_days_in_the_past..(min_days_in_the_past + 20)).days.ago
 
     if apply_again
       raise OnlyOneCourseWhenApplyingAgainError, 'You can only apply to one course when applying again' unless states.one?
 
-      create_application(states: [:rejected], courses_to_apply_to: courses_to_apply_to)
+      create_application(recruitment_cycle_year: recruitment_cycle_year, states: [:rejected], courses_to_apply_to: courses_to_apply_to)
 
       candidate = Candidate.last
       first_name = candidate.current_application.first_name
@@ -40,7 +41,6 @@ class TestApplications
       )
     end
 
-    courses_to_apply_to = courses_to_apply_to.presence || Course.includes(:course_options).joins(:course_options).distinct.open_on_apply
     courses_to_apply_to =
       if course_full
         # Always use the first n courses, so that we can reliably generate
@@ -80,6 +80,7 @@ class TestApplications
         created_at: time,
         updated_at: time,
         edit_by: time,
+        recruitment_cycle_year: recruitment_cycle_year,
         phase: apply_again ? 'apply_2' : 'apply_1',
       )
 
