@@ -12,9 +12,6 @@ RSpec.feature 'Setting up provider relationship permissions' do
     then_i_can_see_the_organisations_needing_permissions_setup
 
     when_i_click_continue
-    then_i_can_see_general_information_about_permissions
-
-    when_i_click_continue
     then_i_can_see_the_permissions_setup_page
 
     when_i_choose_permissions_for_the_first_provider_relationship
@@ -72,8 +69,8 @@ RSpec.feature 'Setting up provider relationship permissions' do
   alias_method :when_i_sign_in_to_the_provider_interface, :and_i_sign_in_to_the_provider_interface
 
   def then_i_can_see_the_organisations_needing_permissions_setup
-    expect(page).to have_content('Set up permissions for your organisation')
-    expect(page).to have_content('The organisations you’ll need to set up')
+    expect(page).to have_content('Set organisational permissions')
+    expect(page).to have_content('You belong to')
     expect(page).to have_content(@training_provider.name)
     expect(page).to have_content(@ratifying_provider.name)
     expect(page).to have_content(@another_training_provider.name)
@@ -95,7 +92,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
   end
 
   def then_i_can_see_the_permissions_setup_page
-    expect(page).to have_content("For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}")
+    expect(page).to have_content("#{@training_provider.name} and #{@ratifying_provider.name}")
   end
 
   def when_i_choose_permissions_for_the_first_provider_relationship
@@ -107,7 +104,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
   end
 
   def and_i_choose_permissions_for_the_next_provider_relationship
-    expect(page).to have_content("For courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}")
+    expect(page).to have_content("#{@another_training_provider.name} and #{@another_ratifying_provider.name}")
 
     within(find('.make-decisions')) { check @another_ratifying_provider.name }
     within(find('.view-safeguarding-information')) { check @another_ratifying_provider.name }

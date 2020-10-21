@@ -120,6 +120,6 @@ RSpec.feature 'Accept data sharing agreement' do
   def and_i_can_proceed_to_set_up_organisation_permissions
     click_on 'Set up permissions'
 
-    expect(page).to have_content('Set up permissions for your organisation')
+    expect(page).to have_content('Set organisational permissions')
   end
 end
