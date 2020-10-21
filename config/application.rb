@@ -60,5 +60,9 @@ module ApplyForPostgraduateTeacherTraining
     config.middleware.use VendorAPIRequestMiddleware
     config.middleware.use PDFKit::Middleware, { print_media_type: true }, disposition: 'attachment', only: [%r[^/provider/applications/\d+]]
     config.skylight.environments = ENV['SKYLIGHT_ENABLE'].to_s == 'true' ? [Rails.env] : []
+
+    config.after_initialize do |app|
+      app.routes.append { get '*path', to: 'errors#not_found' }
+    end
   end
 end
