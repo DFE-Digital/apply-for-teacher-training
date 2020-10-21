@@ -98,6 +98,7 @@ group :test do
   gem 'clockwork-test'
   gem 'deepsort'
   gem 'ruby-jmeter'
+  gem 'super_diff'
 end
 
 group :development, :test do
