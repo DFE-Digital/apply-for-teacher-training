@@ -27,11 +27,14 @@ RSpec.feature 'Referee does not respond in time' do
   def and_the_referee_does_not_respond_within_7_days
     Timecop.travel(7.days.from_now) do
       ChaseReferences.perform_async
+      ChaseReferences.perform_async
     end
   end
 
   def then_the_referee_is_sent_a_chase_email
     open_email('anne@other.com')
+
+    expect(current_emails.size).to eql(1)
 
     expect(current_email.text).to include('We have not had your reference')
   end
@@ -39,11 +42,14 @@ RSpec.feature 'Referee does not respond in time' do
   def and_an_email_is_sent_to_the_candidate
     open_email(@application.candidate.email_address)
 
+    expect(current_emails.size).to eql(1)
+
     expect(current_email.subject).to end_with('Anne Other has not responded yet')
   end
 
   def when_the_candidate_does_not_respond_within_14_days
     Timecop.travel(14.days.from_now) do
+      ChaseReferences.perform_async
       ChaseReferences.perform_async
     end
   end
@@ -51,11 +57,14 @@ RSpec.feature 'Referee does not respond in time' do
   def then_an_email_is_sent_to_the_candidate_asking_for_a_new_referee
     open_email(@application.candidate.email_address)
 
+    expect(current_emails.size).to eql(2)
+
     expect(current_email.subject).to have_content('Anne Other has not responded yet')
   end
 
   def when_the_candidate_does_not_respond_within_28_days
     Timecop.travel(28.days.from_now) do
+      ChaseReferences.perform_async
       ChaseReferences.perform_async
     end
   end
@@ -63,11 +72,15 @@ RSpec.feature 'Referee does not respond in time' do
   def then_the_candidate_is_sent_a_final_chase_email
     open_email(@application.candidate.email_address)
 
+    expect(current_emails.size).to eql(3)
+
     expect(current_email.subject).to have_content('Anne Other has not responded yet')
   end
 
   def and_the_referee_is_sent_a_final_chase_email
     open_email('anne@other.com')
+
+    expect(current_emails.size).to eql(2)
 
     expect(current_email.subject).to have_content("Will you not give #{@application.full_name} a reference?")
   end
