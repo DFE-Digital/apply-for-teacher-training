@@ -22,9 +22,9 @@ class NavigationItems
       if current_support_user
         [
           NavigationItem.new('Candidates', support_interface_applications_path, is_active(current_controller, %w[candidates change_course import_references application_forms ucas_matches])),
-          NavigationItem.new('Providers', support_interface_providers_path, is_active(current_controller, %w[providers courses provider_users api_tokens])),
+          NavigationItem.new('Providers', support_interface_providers_path, is_active(current_controller, %w[providers course provider_users api_tokens])),
           NavigationItem.new('Performance', support_interface_performance_path, is_active(current_controller, %w[performance data_exports course_options email_log validation_errors])),
-          NavigationItem.new('Settings', support_interface_feature_flags_path, is_active(current_controller, %w[feature_flags cycles support_users tasks])),
+          NavigationItem.new('Settings', support_interface_settings_path, is_active(current_controller, %w[settings tasks support_users])),
           NavigationItem.new('Documentation', support_interface_docs_path, is_active(current_controller, %w[docs])),
         ]
       else

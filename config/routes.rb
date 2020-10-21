@@ -683,12 +683,6 @@ Rails.application.routes.draw do
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/applications')
 
-    get '/cycles', to: 'cycles#index', as: :cycles
-
-    unless HostingEnvironment.production?
-      post '/cycles', to: 'cycles#switch_cycle_schedule', as: :switch_cycle_schedule
-    end
-
     get '/email-log', to: 'email_log#index', as: :email_log
     get '/vendor-api-requests', to: 'vendor_api_requests#index', as: :vendor_api_requests
 
@@ -775,10 +769,6 @@ Rails.application.routes.draw do
       post '' => 'course#update'
     end
 
-    get '/feature-flags' => 'feature_flags#index', as: :feature_flags
-    post '/feature-flags/:feature_name/activate' => 'feature_flags#activate', as: :activate_feature_flag
-    post '/feature-flags/:feature_name/deactivate' => 'feature_flags#deactivate', as: :deactivate_feature_flag
-
     get '/performance' => 'performance#index', as: :performance
     get '/performance/application-timings', to: 'performance#application_timings', as: :application_timings
     get '/performance/course-stats', to: 'performance#course_stats', as: :course_stats
@@ -793,11 +783,24 @@ Rails.application.routes.draw do
     get 'performance/reference-types', to: 'performance#application_references', as: :application_references
     get 'performance/offer-conditions', to: 'performance#offer_conditions', as: :offer_conditions
 
-    get '/tasks' => 'tasks#index', as: :tasks
-    post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
-    post '/tasks/:task' => 'tasks#run', as: :run_task
-    get '/tasks/confirm-delete-test-applications' => 'tasks#confirm_delete_test_applications', as: :confirm_delete_test_applications
-    get '/tasks/confirm-cancel-applications-at-end-of-cycle' => 'tasks#confirm_cancel_applications_at_end_of_cycle', as: :confirm_cancel_applications_at_end_of_cycle
+    scope '/settings' do
+      get '/' => redirect('/support/settings/feature-flags'), as: :settings
+      get '/feature-flags' => 'settings#feature_flags', as: :feature_flags
+      post '/feature-flags/:feature_name/activate' => 'settings#activate_feature_flag', as: :activate_feature_flag
+      post '/feature-flags/:feature_name/deactivate' => 'settings#deactivate_feature_flag', as: :deactivate_feature_flag
+
+      get '/cycles', to: 'settings#cycles', as: :cycles
+
+      unless HostingEnvironment.production?
+        post '/cycles', to: 'settings#switch_cycle_schedule', as: :switch_cycle_schedule
+      end
+
+      get '/tasks' => 'tasks#index', as: :tasks
+      post '/tasks/create-fake-provider' => 'tasks#create_fake_provider'
+      post '/tasks/:task' => 'tasks#run', as: :run_task
+      get '/tasks/confirm-delete-test-applications' => 'tasks#confirm_delete_test_applications', as: :confirm_delete_test_applications
+      get '/tasks/confirm-cancel-applications-at-end-of-cycle' => 'tasks#confirm_cancel_applications_at_end_of_cycle', as: :confirm_cancel_applications_at_end_of_cycle
+    end
 
     get '/validation-errors' => 'validation_errors#index', as: :validation_errors
     get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search
