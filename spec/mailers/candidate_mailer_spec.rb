@@ -55,18 +55,6 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe '.application_sent_to_provider' do
-    context 'when initial email' do
-      it_behaves_like(
-        'a mail with subject and content', :application_sent_to_provider,
-        'Your application is being considered',
-        'heading' => 'Dear Bob',
-        'working days the provider has to respond' => '10 working days',
-        'magic link to authenticate' => 'http://localhost:3000/candidate/confirm_authentication?token=raw_token&u=encrypted_id'
-      )
-    end
-  end
-
   describe 'Candidate decision chaser email' do
     context 'when a candidate has one appication choice with offer' do
       it_behaves_like(

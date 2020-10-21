@@ -18,8 +18,6 @@ class SubmitApplication
       application_choices.each do |application_choice|
         SendApplicationToProvider.new(application_choice: application_choice).call
       end
-
-      CandidateMailer.application_sent_to_provider(@application_form).deliver_later
     else
       application_choices.each do |application_choice|
         ApplicationStateChange.new(application_choice).submit!
