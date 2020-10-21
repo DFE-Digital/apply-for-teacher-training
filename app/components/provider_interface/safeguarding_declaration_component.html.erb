@@ -34,17 +34,105 @@
 <% elsif safeguarding_issues_declared? %>
   <p class="govuk-body">
     <% if provider_user_associated_with_training_provider? %>
-      <% if fix_it_yourself_path %>
-        Since you have administrator privileges, you may allow yourself access to this information by visiting <%= govuk_link_to fix_it_yourself_path, fix_it_yourself_path %>.
-      <% elsif training_provider_user_who_can_fix_this %>
-        If you think you should have access to this information, please contact
-        <a class="govuk-link" href="mailto:<%= training_provider_user_who_can_fix_this.email_address %>">
-          <%= training_provider_user_who_can_fix_this.email_address %>
-        </a>
+      <% if provider_relationship_allows_access? %>
+        <% if provider_user_can_manage_users? %>
+          <%= govuk_link_to 'Manage user permissions', fix_user_permissions_path %>
+        <% elsif other_provider_users_who_can_manage_users.present? %>
+          Please contact
+
+          <% if other_provider_users_who_can_manage_users.one? %>
+            <% user = other_provider_users_who_can_manage_users.first %>
+            <%= user.full_name %> at
+            <a class="govuk-link" href="mailto:<%= user.email_address %>">
+              <%= user.email_address %>
+            </a>.
+          <% else %>
+            one of the following people:
+            <ul>
+            <% other_provider_users_who_can_manage_users.each do |user| %>
+              <li>
+                <%= user.full_name %> at
+                <a class="govuk-link" href="mailto:<%= user.email_address %>">
+                  <%= user.email_address %>
+                </a>
+              </li>
+            <% end %>
+            </ul>
+          <% end %>
+        <% else %>
+          Email support at becomingateacher@digital.education.gov.uk
+        <% end %>
+      <% elsif !provider_relationship_has_been_set_up? %>
+        <% if provider_user_can_manage_organisations? %>
+          <%= govuk_link_to 'Manage_organisational_permissions', fix_org_permissions_path %>
+        <% elsif other_provider_users_who_can_manage_organisations.present? %>
+          Please contact
+
+          <% if other_provider_users_who_can_manage_organisations.one? %>
+            <% user = other_provider_users_who_can_manage_organisations.first %>
+            <%= user.full_name %> at
+            <a class="govuk-link" href="mailto:<%= user.email_address %>">
+              <%= user.email_address %>
+            </a>.
+          <% else %>
+            one of the following people:
+            <ul>
+            <% other_provider_users_who_can_manage_organisations.each do |user| %>
+              <li>
+                <%= user.full_name %> at
+                <a class="govuk-link" href="mailto:<%= user.email_address %>">
+                  <%= user.email_address %>
+                </a>
+              </li>
+            <% end %>
+            </ul>
+          <% end %>
+        <% else %>
+          Email support at becomingateacher@digital.education.gov.uk
+        <% end %>
+      <% else %>
+        <% if provider_user_has_user_level_access? %>
+          You have permission to see safeguarding information for <%= @training_provider.name %>. However, <%= @training_provider.name %> does not have permission to see safeguarding information for applications to courses ratified by <%= @ratifying_provider.name %>.
+        <% end %>
       <% end %>
     <% else %>
-      If you think your organisation should have access to this information, please contact
-      <%= application_choice.offered_course.provider.name %>
+      <% if provider_relationship_allows_access? %>
+        <% if provider_user_can_manage_users? %>
+          <%= govuk_link_to 'Manage user permissions', fix_user_permissions_path %>
+        <% elsif other_provider_users_who_can_manage_users.present? %>
+          If you think you should have access to this information, please contact
+
+          <% if other_provider_users_who_can_manage_users.one? %>
+            <% user = other_provider_users_who_can_manage_users.first %>
+            <%= user.full_name %> at
+            <a class="govuk-link" href="mailto:<%= user.email_address %>">
+              <%= user.email_address %>
+            </a>.
+          <% else %>
+            one of the following people:
+            <ul>
+            <% other_provider_users_who_can_manage_users.each do |user| %>
+              <li>
+                <%= user.full_name %> at
+                <a class="govuk-link" href="mailto:<%= user.email_address %>">
+                  <%= user.email_address %>
+                </a>
+              </li>
+            <% end %>
+            </ul>
+          <% end %>
+        <% else %>
+          Email support at becomingateacher@digital.education.gov.uk
+        <% end %>
+      <% elsif !provider_relationship_has_been_set_up? %>
+        <%= @ratifying_provider.name %> does not have permission to see safeguarding information for applications to courses run by <%= @training_provider.name %>.
+
+        Please contact <%= @training_provider.name %> and ask them to adjust these permissions.
+      <% else %>
+        <% if provider_user_has_user_level_access? %>
+          You have permission to see safeguarding information for <%= @ratifying_provider.name %>. However, <%= @ratifying_provider.name %> does not have permission to see safeguarding information for applications to courses run by <%= @training_provider.name %>.
+        <% end %>
+      <% end %>
     <% end %>
   </p>
 <% end %>
