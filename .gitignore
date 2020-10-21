@@ -55,3 +55,7 @@ testArtifacts/*
 .tool-versions
 
 spec/system/ucas_matching/matching_data_example.zip
+
+# jmeter stuff
+ruby-jmeter.jmx
+jmeter.log

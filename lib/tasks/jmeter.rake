@@ -1,7 +1,7 @@
 # Guidance for this task can be found at docs/load_testing.md
 
 desc 'Generates jmeter test plan'
-task :generate_jmeter_plan, [:host, :token, :thread_count] do |_t, args|
+task :generate_jmeter_plan, [:host, :thread_count, :token] do |_t, args|
   require 'ruby-jmeter'
   generate_plan extract_options_from(args)
 end
@@ -14,6 +14,7 @@ def extract_options_from(args)
   }
 
   options = defaults.merge(args)
+  options[:thread_count] = options[:thread_count].to_i
 
   raise ArgumentError, 'Missing token!' if options[:token].nil?
 
@@ -28,6 +29,14 @@ end
 def generate_plan(host:, thread_count:, token:)
   test {
     threads count: thread_count do
+      visit name: 'GET candidate landing page', url: "#{host}/candidate" do
+        assert contains: 'Apply for teacher training'
+      end
+
+      visit name: 'GET candidate account page', url: "#{host}/candidate/account" do
+        assert contains: 'Create an account or sign in'
+      end
+
       header name: 'COOKIE', value: "_apply_for_postgraduate_teacher_training_session=#{token}"
 
       visit name: 'GET application', url: "#{host}/candidate/application" do
