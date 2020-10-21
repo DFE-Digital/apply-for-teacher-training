@@ -136,6 +136,5 @@ RSpec.describe TestApplications do
 
       expect(references.all?(&:feedback_requested?)).to be true
     end
-
   end
 end
