@@ -186,6 +186,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         course_option: course_option,
         offered_course_option: offered_course_option,
         application_form: application_form,
+        decline_by_default_at: 10.business_days.from_now,
       )
 
       magic_link_stubbing(application_form.candidate)
