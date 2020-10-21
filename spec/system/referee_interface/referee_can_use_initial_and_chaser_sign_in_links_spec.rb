@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
+  include CandidateHelper
+
   scenario 'Referee clicks sign in links on the initial and chaser reference request emails' do
     given_i_am_a_referee_of_an_submitted_application
     and_i_received_the_initial_reference_request_email
@@ -42,12 +44,5 @@ RSpec.feature 'Referee can use sign in link in the initial and chaser email' do
     open_email(@reference.email_address)
 
     click_sign_in_link(current_emails.second)
-  end
-
-  def click_sign_in_link(email)
-    matches = email.body.match(/(http:\/\/localhost:3000\/reference\?token=[\w-]{20})/)
-    reference_feedback_url = matches.captures.first unless matches.nil?
-
-    email.click_link(reference_feedback_url)
   end
 end

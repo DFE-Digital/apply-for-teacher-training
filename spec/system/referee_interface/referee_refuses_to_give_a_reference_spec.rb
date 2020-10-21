@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.feature 'Refusing to give a reference' do
   include CandidateHelper
 
-  before { FeatureFlag.deactivate(:decoupled_references) }
+  before { FeatureFlag.activate(:decoupled_references) }
 
   scenario 'Referee refuses to give a reference' do
-    given_a_candidate_completed_an_application
-    when_the_candidate_submits_the_application
+    given_i_am_a_referee_of_an_application
+    and_i_received_the_initial_reference_request_email
     then_i_receive_an_email_with_a_reference_request
 
     when_i_click_the_refuse_reference_link_in_the_email
@@ -21,12 +21,13 @@ RSpec.feature 'Refusing to give a reference' do
     and_i_should_see_the_thank_you_page
   end
 
-  def given_a_candidate_completed_an_application
-    candidate_completes_application_form
+  def given_i_am_a_referee_of_an_application
+    @reference = create(:reference, :requested, email_address: 'terri@example.com', name: 'Terri Tudor')
+    @application = create(:completed_application_form, application_references: [@reference])
   end
 
-  def when_the_candidate_submits_the_application
-    candidate_submits_application
+  def and_i_received_the_initial_reference_request_email
+    RefereeMailer.reference_request_email(@reference).deliver_now
   end
 
   def then_i_receive_an_email_with_a_reference_request
@@ -56,7 +57,7 @@ RSpec.feature 'Refusing to give a reference' do
   def then_an_email_is_sent_to_the_candidate
     open_email(@application.candidate.email_address)
 
-    expect(current_email.subject).to have_content(t('candidate_mailer.new_referee_request.refused.subject', referee_name: 'Terri Tudor'))
+    expect(current_email.subject).to have_content('Terri Tudor has declined your reference request')
   end
 
   def and_i_should_see_the_thank_you_page
