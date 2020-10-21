@@ -658,7 +658,7 @@ FactoryBot.define do
     referee_type { %i[academic professional school_based character].sample }
     questionnaire { nil }
 
-    trait :unsubmitted do
+    trait :not_requested_yet do
       feedback_status { 'not_requested_yet' }
       feedback { nil }
     end

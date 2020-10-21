@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :component do
   it 'renders the referee name and email' do
-    reference = create(:reference, :unsubmitted)
+    reference = create(:reference, :not_requested_yet)
     result = render_inline(described_class.new(references: [reference]))
 
     name_row = result.css('.govuk-summary-list__row')[0].text
@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   it 'renders the reference type' do
-    reference = create(:reference, :unsubmitted, referee_type: :school_based)
+    reference = create(:reference, :not_requested_yet, referee_type: :school_based)
     result = render_inline(described_class.new(references: [reference]))
 
     type_row = result.css('.govuk-summary-list__row')[2].text
@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   it 'renders the relationship' do
-    reference = create(:reference, :unsubmitted)
+    reference = create(:reference, :not_requested_yet)
     result = render_inline(described_class.new(references: [reference]))
 
     relationship_row = result.css('.govuk-summary-list__row')[3].text
@@ -175,7 +175,7 @@ private
   def status_table
     af = create(:application_form)
 
-    not_requested_yet = create(:reference, :unsubmitted, application_form: af)
+    not_requested_yet = create(:reference, :not_requested_yet, application_form: af)
     feedback_refused = create(:reference, :refused, application_form: af)
     email_bounced = create(:reference, :email_bounced, application_form: af)
     cancelled_at_end_of_cycle = create(:reference, :cancelled_at_end_of_cycle, application_form: af)

@@ -67,7 +67,7 @@ RSpec.feature 'Candidate requests a reference' do
 
   def and_i_have_added_a_reference
     @application_form = current_candidate.current_application
-    @reference = create(:reference, :unsubmitted, application_form: @application_form)
+    @reference = create(:reference, :not_requested_yet, application_form: @application_form)
   end
 
   def and_i_visit_the_reference_review_page
@@ -113,11 +113,11 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   def when_i_have_added_a_second_reference
-    @reference = create(:reference, :unsubmitted, application_form: @application_form)
+    @reference = create(:reference, :not_requested_yet, application_form: @application_form)
   end
 
   def when_i_have_added_a_third_reference
-    @reference = create(:reference, :unsubmitted, application_form: @application_form)
+    @reference = create(:reference, :not_requested_yet, application_form: @application_form)
   end
 
   def and_i_choose_not_to_request_reference_immediately
@@ -158,7 +158,7 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   def when_i_have_added_an_incomplete_reference
-    @reference = create(:reference, :unsubmitted, name: nil, application_form: @application_form)
+    @reference = create(:reference, :not_requested_yet, name: nil, application_form: @application_form)
   end
 
   def and_i_visit_the_all_references_review_page

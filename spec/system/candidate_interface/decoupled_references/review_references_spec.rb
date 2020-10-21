@@ -51,7 +51,7 @@ RSpec.feature 'Review references' do
   def when_i_have_added_references
     application_form = current_candidate.current_application
     @complete_reference = create(:reference, :complete, application_form: application_form)
-    @not_sent_reference = create(:reference, :unsubmitted, application_form: application_form)
+    @not_sent_reference = create(:reference, :not_requested_yet, application_form: application_form)
     @requested_reference = create(:reference, :requested, application_form: application_form)
     @refused_reference = create(:reference, :refused, application_form: application_form)
   end
