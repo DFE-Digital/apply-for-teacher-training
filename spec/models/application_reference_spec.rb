@@ -212,33 +212,55 @@ RSpec.describe ApplicationReference, type: :model do
     end
   end
 
-  describe '#can_be_destroyed??' do
+  describe '#can_be_destroyed?' do
     let(:unsubmitted_application_form) { build_stubbed(:application_form, submitted_at: nil) }
-    let(:submitted_application_form) { build_stubbed(:application_form, submitted_at: Time.zone.now) }
+    let(:valid_states) { %i[not_requested_yet feedback_provided] }
+    let(:invalid_states) { %i[cancelled cancelled_at_end_of_cycle email_bounced feedback_refused feedback_requested] }
 
-    it 'is true when state is not_requested_yet and the application form has not been submitted' do
-      reference = build_stubbed(:reference, :not_requested_yet, application_form: unsubmitted_application_form)
-      expect(reference.can_be_destroyed?).to eq true
+    it 'returns true when the reference is in a state that can be destroyed and the application form has not been submitted' do
+      valid_states.each do |state|
+        reference = build_stubbed(:reference, state, application_form: unsubmitted_application_form)
+        expect(reference.can_be_destroyed?).to eq true
+      end
     end
 
-    it 'is true when state is feedback_provided and the application form has not been submitted' do
-      reference = build(:reference, :feedback_provided, application_form: unsubmitted_application_form)
-      expect(reference.can_be_destroyed?).to eq true
+    it 'returns false when the reference is in a state that cannot be destroyed' do
+      invalid_states.each do |state|
+        reference = build_stubbed(:reference, state, application_form: unsubmitted_application_form)
+        expect(reference.can_be_destroyed?).to eq false
+      end
     end
 
-    it 'is false when state is feedback_requested state aand the application form has not been submitted' do
-      reference = build(:reference, :feedback_requested, application_form: unsubmitted_application_form)
+    it 'is false when in a state that has been can be destroyed, but the the application form has been submitted' do
+      submitted_application_form = build_stubbed(:application_form, submitted_at: Time.zone.now)
+      reference = build(:reference, valid_states.sample, application_form: submitted_application_form)
       expect(reference.can_be_destroyed?).to eq false
     end
+  end
 
-    it 'is false when state is not_requested_yet and the application form has been submitted' do
-      reference = build(:reference, :not_requested_yet, application_form: submitted_application_form)
-      expect(reference.can_be_destroyed?).to eq false
+  describe '#request_can_be_deleted?' do
+    let(:unsubmitted_application_form) { build_stubbed(:application_form, submitted_at: nil) }
+    let(:valid_states) { %i[cancelled email_bounced feedback_refused] }
+    let(:invalid_states) { %i[not_requested_yet feedback_provided cancelled_at_end_of_cycle feedback_requested] }
+
+    it 'returns true when the reference is in a state that can be deleted and the application form has not been submitted' do
+      valid_states.each do |state|
+        reference = build_stubbed(:reference, state, application_form: unsubmitted_application_form)
+        expect(reference.request_can_be_deleted?).to eq true
+      end
     end
 
-    it 'is false when state is feedback_provided and the application form has been submitted' do
-      reference = build(:reference, :feedback_provided, application_form: submitted_application_form)
-      expect(reference.can_be_destroyed?).to eq false
+    it 'returns false when the reference is in a state that cannot be deleted' do
+      invalid_states.each do |state|
+        reference = build_stubbed(:reference, state, application_form: unsubmitted_application_form)
+        expect(reference.request_can_be_deleted?).to eq false
+      end
+    end
+
+    it 'is false when in a state that has been can be deleted, but the the application form has been submitted' do
+      submitted_application_form = build_stubbed(:application_form, submitted_at: Time.zone.now)
+      reference = build(:reference, valid_states.sample, application_form: submitted_application_form)
+      expect(reference.request_can_be_deleted?).to eq false
     end
   end
 end
