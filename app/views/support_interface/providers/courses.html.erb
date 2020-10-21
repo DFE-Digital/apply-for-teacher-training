@@ -1,7 +1,5 @@
 <%= render 'provider_navigation', title: 'Courses' %>
 
-<%= render 'no_admin_users_warning' %>
-
 <% if @provider.sync_courses? %>
   <% unless @courses[RecruitmentCycle.current_year].to_a.all?(&:open_on_apply?) %>
     <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>

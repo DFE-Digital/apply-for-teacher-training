@@ -13,6 +13,8 @@
   ].concat(title != 'Details' ? [{ text: title }] : [])) %>
 <% end %>
 
+<%= render 'no_admin_users_warning' %>
+
 <%= render TabNavigationComponent.new(items: [
   { name: 'Details', url: support_interface_provider_path },
   { name: 'Applications', url: support_interface_provider_applications_path },

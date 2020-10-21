@@ -1,5 +1,3 @@
 <%= render 'provider_navigation', title: 'History' %>
 
-<%= render 'no_admin_users_warning' %>
-
 <%= render SupportInterface::AuditTrailComponent.new(audited_thing: @provider) %>

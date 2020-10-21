@@ -1,7 +1,5 @@
 <%= render 'provider_navigation', title: 'Ratified courses' %>
 
-<%= render 'no_admin_users_warning' %>
-
 <% RecruitmentCycle.years_visible_in_support.each do |year| %>
   <% if @ratified_courses[year] %>
     <h3 class="govuk-heading-m"><%= year %>: ratifies <%= pluralize(@ratified_courses[year].size, 'course') %> (<%= @ratified_courses[year].count(&:open_on_apply?) %> on DfE Apply)</h3>
