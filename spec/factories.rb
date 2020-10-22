@@ -165,7 +165,7 @@ FactoryBot.define do
           all_disabilities = CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map(&:second) << other_disability
           disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
           hesa_sex = [1, 2, 3].sample
-          hesa_disabilities = disabilities ? HESA_DISABILITIES.map(&:first).sample : %w[00]
+          hesa_disabilities = disabilities ? [HESA_DISABILITIES.map(&:first).sample] : %w[00]
           hesa_ethnicity = HESA_ETHNICITIES_2020_2021.map(&:first).sample
 
           {
