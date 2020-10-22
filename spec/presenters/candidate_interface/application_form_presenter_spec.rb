@@ -305,24 +305,17 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
     before { FeatureFlag.activate(:decoupled_references) }
 
     it 'returns true if the referees section has been created and two references have been provided' do
-      application_form = create(:application_form, references_completed: true)
-      create_list(:reference, 2, application_form: application_form, feedback_status: :feedback_provided)
+      application_form = create(:application_form)
+      create_list(:reference, 2, :feedback_provided, application_form: application_form)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_enough_references_provided
     end
 
     it 'returns false if the referees section has been completed and only one reference has been provided' do
-      application_form = create(:application_form, references_completed: true)
-      create(:reference, application_form: application_form, feedback_status: :feedback_provided)
-      create(:reference, application_form: application_form, feedback_status: :feedback_requested)
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
-      expect(presenter).not_to be_enough_references_provided
-    end
-
-    it 'returns false if the referees section is incomplete' do
-      application_form = build(:application_form, references_completed: false)
+      application_form = create(:application_form)
+      create(:reference, :feedback_provided, application_form: application_form)
+      create(:reference, :feedback_requested, application_form: application_form)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).not_to be_enough_references_provided

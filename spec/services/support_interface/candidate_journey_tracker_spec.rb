@@ -173,33 +173,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     end
   end
 
-  describe '#references_completed' do
-    it 'returns nil when references_complete is not present in the audit trail' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
-
-      expect(described_class.new(application_choice).references_completed).to be_nil
-    end
-
-    it 'returns the first time when the value changed to true in the audit trail' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
-      Timecop.freeze(now + 1.day) { application_form.update(references_completed: true) }
-      Timecop.freeze(now + 2.days) { application_form.update(references_completed: false) }
-      Timecop.freeze(now + 3.days) { application_form.update(references_completed: true) }
-
-      expect(described_class.new(application_choice).references_completed).to eq(now + 1.day)
-    end
-  end
-
   describe '#waiting_to_be_sent_to_provider' do
-    it 'returns nil if the application never made it to application_complete status' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
-
-      expect(described_class.new(application_choice).references_completed).to be_nil
-    end
-
     it 'returns the first time when the status changed to `application_complete` in the audit trail', audited: true do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)

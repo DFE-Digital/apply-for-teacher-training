@@ -70,7 +70,6 @@ RSpec.feature 'Submitting an application' do
   def when_i_have_added_references
     @reference1 = create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
     @reference2 = create(:reference, :not_requested_yet, application_form: current_candidate.current_application)
-    application.update(references_completed: true)
   end
 
   def and_i_submit_the_application
