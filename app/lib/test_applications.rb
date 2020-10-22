@@ -70,7 +70,6 @@ class TestApplications
         application_choices_count: 0,
         full_work_history: true,
         volunteering_experiences_count: 1,
-        references_count: 2,
         with_gcses: true,
         with_degree: true,
         submitted_at: nil,
@@ -83,6 +82,11 @@ class TestApplications
         recruitment_cycle_year: recruitment_cycle_year,
         phase: apply_again ? 'apply_2' : 'apply_1',
       )
+
+      2.times { FactoryBot.create(:reference, :not_requested_yet, application_form: @application_form) }
+      @application_form.application_references.each do |reference|
+        reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
+      end
 
       fast_forward(1..2)
       application_choices = courses_to_apply_to.map do |course|
