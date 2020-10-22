@@ -393,6 +393,7 @@ en:
       add_referees_later: I’ll add referees later
       complete_form_button: Save and continue
       delete: Delete referee
+      delete_request: Delete request
       cancel: Cancel referee
       cancel_request: Cancel request
       send_request: Send request
