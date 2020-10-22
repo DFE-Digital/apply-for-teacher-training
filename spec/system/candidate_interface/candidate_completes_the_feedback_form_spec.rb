@@ -39,7 +39,7 @@ RSpec.describe 'Candidate feedback form' do
     expect(page).to have_content(t('page_titles.your_feedback'))
   end
 
-  def when_i_choose_1
+  def when_i_choose_very_satisfied
     choose 'Very satisfied'
   end
 

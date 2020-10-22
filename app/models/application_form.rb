@@ -55,6 +55,14 @@ class ApplicationForm < ApplicationRecord
   }
   attribute :address_type, :string, default: 'uk'
 
+  enum feedback_satisfaction_level: {
+    very_satisfied: 'very_satisfied',
+    satisfied: 'satisfied',
+    neither_satisfied_or_dissatisfied: 'neither_satisfied_or_dissatisfied',
+    dissatisfied: 'dissatisfied',
+    very_dissatisfied: 'very_dissatisfied',
+  }
+
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
   before_create lambda {
