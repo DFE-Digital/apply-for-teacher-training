@@ -1,10 +1,8 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl"><%= @provider.name %></h1>
+    <span class="govuk-caption-l">Organisational permissions</span>
+    <h1 class="govuk-heading-l"><%= @provider.name %></h1>
     <% @ratifying_permissions.each do |permissions| %>
-      <h2 class="govuk-heading-m">
-        For courses ratified by <%= permissions.ratifying_provider.name %> and run by <%= permissions.training_provider.name %>
-      </h2>
       <div class="app-banner govuk-!-margin-bottom-4">
         <div class="app-banner__message">
           <% if permissions.setup_at.blank? %>
@@ -16,7 +14,7 @@
               Staff at <%= permissions.ratifying_provider.name %> can still view applications in the meantime.
             </p>
           <% else %>
-            Contact <%= permissions.training_provider.name %> to change permissions.
+            Only <%= permissions.training_provider.name %> can change permissions because they run the courses. Contact them to change these settings.
           <% end %>
         </div>
       </div>
@@ -29,10 +27,6 @@
     <% end %>
 
     <% @training_permissions.each do |permissions| %>
-      <h2 class="govuk-heading-m">
-        For courses run by <%= permissions.training_provider.name %> and ratified by <%= permissions.ratifying_provider.name %>
-      </h2>
-
       <%= render ProviderInterface::ProviderRelationshipPermissionsListComponent.new(
         permissions_model: permissions,
         change_link_builder: ProviderInterface::ProviderRelationshipEditChangeLinkBuilder,
