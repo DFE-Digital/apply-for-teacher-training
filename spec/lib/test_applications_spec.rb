@@ -103,4 +103,36 @@ RSpec.describe TestApplications do
       expect(choices.first.application_form.application_work_history_breaks.count).to eq(1)
     end
   end
+
+  describe 'reference completion' do
+    it 'completes all references for unsubmitted_with_completed_references applications' do
+      courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+
+      application_choice = TestApplications.new.create_application(recruitment_cycle_year: 2021, states: %i[unsubmitted_with_completed_references], courses_to_apply_to: courses_we_want).first
+
+      references = application_choice.application_form.application_references
+
+      expect(references.all?(&:feedback_provided?)).to be true
+    end
+
+    it 'completes all references for other types of application' do
+      courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+
+      application_choice = TestApplications.new.create_application(recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision offer], courses_to_apply_to: courses_we_want).first
+
+      references = application_choice.application_form.application_references
+
+      expect(references.all?(&:feedback_provided?)).to be true
+    end
+
+    it 'does not complete any references for unsubmitted applications' do
+      courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+
+      application_choice = TestApplications.new.create_application(recruitment_cycle_year: 2021, states: %i[unsubmitted], courses_to_apply_to: courses_we_want).first
+
+      references = application_choice.application_form.application_references
+
+      expect(references.all?(&:feedback_requested?)).to be true
+    end
+  end
 end

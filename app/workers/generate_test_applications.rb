@@ -17,6 +17,7 @@ class GenerateTestApplications
 
     create recruitment_cycle_year: 2021, states: %i[unsubmitted]
     create recruitment_cycle_year: 2021, states: %i[unsubmitted], course_full: true
+    create recruitment_cycle_year: 2021, states: %i[unsubmitted_with_completed_references]
     create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
     create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
     create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
