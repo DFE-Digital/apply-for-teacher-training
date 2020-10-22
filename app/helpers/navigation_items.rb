@@ -23,7 +23,7 @@ class NavigationItems
         [
           NavigationItem.new('Candidates', support_interface_applications_path, is_active(current_controller, %w[candidates change_course import_references application_forms ucas_matches])),
           NavigationItem.new('Providers', support_interface_providers_path, is_active(current_controller, %w[providers course provider_users api_tokens])),
-          NavigationItem.new('Performance', support_interface_performance_path, is_active(current_controller, %w[performance data_exports course_options email_log validation_errors])),
+          NavigationItem.new('Performance', support_interface_performance_path, is_active(current_controller, %w[performance data_exports validation_errors email_log vendor_api_requests])),
           NavigationItem.new('Settings', support_interface_settings_path, is_active(current_controller, %w[settings tasks support_users])),
           NavigationItem.new('Documentation', support_interface_docs_path, is_active(current_controller, %w[docs])),
         ]

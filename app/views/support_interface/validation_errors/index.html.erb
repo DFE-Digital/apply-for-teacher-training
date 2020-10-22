@@ -5,8 +5,8 @@
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Attribute error</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
+      <th class="govuk-table__header govuk-!-width-three-quarters">Attribute error</th>
+      <th class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">Error count</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -14,9 +14,9 @@
     <tr class="govuk-table__row">
       <td class="govuk-table__cell">
         <%= govuk_link_to form_object.demodulize.underscore.humanize, support_interface_validation_error_search_path(form_object: form_object) %>: <strong><%= govuk_link_to attribute.humanize, support_interface_validation_error_search_path(form_object: form_object, attribute: attribute) %></strong><br/>
-        "<%= message %>"
+        <%= message %>
       </td>
-      <td class="govuk-table__cell">
+      <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= count %>
       </td>
     </tr>
@@ -27,8 +27,8 @@
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th class="govuk-table__header govuk-table__header govuk-!-width-three-quarters">Form</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
+      <th class="govuk-table__header govuk-!-width-three-quarters">Form</th>
+      <th class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">Error count</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -37,7 +37,7 @@
       <td class="govuk-table__cell">
         <%= govuk_link_to form_object.demodulize.underscore.humanize, support_interface_validation_error_search_path(form_object: form_object) %>
       </td>
-      <td class="govuk-table__cell">
+      <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= count %>
       </td>
     </tr>

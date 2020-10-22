@@ -1,21 +1,34 @@
-<%= render 'support_interface/performance/performance_navigation', title: 'Export performance data', current: 'Export data' %>
+<% content_for :context, "Data export #{@data_export.id}" %>
+<% content_for :title, "#{@data_export.name}" %>
 
-<h2 class="govuk-heading-l">
-  Data export #<%= @data_export.id %>: <%= @data_export.name %>
-</h2>
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'Export data',
+      path: support_interface_data_exports_path
+    },
+    {
+      text: @data_export.name
+    }
+  ]) %>
+<% end %>
 
-<p class='govuk-body'>
+<p class="govuk-body">
   This export was initiated by <%= @data_export.initiator_name %> on <%= @data_export.created_at.to_s(:govuk_date_and_time) %>.
 </p>
 
 <% if @data_export.completed_at %>
-  <p class='govuk-body'>
+  <p class="govuk-body">
     Export generation completed in <%= @data_export.generation_time %> <%= 'second'.pluralize(@data_export.generation_time) %>.
   </p>
 
   <%= govuk_button_link_to 'Download export', download_support_interface_data_export_path(@data_export) %>
 <% else %>
-  <p class='govuk-body'>
+  <p class="govuk-body">
     This export is being generated. Refresh the page to see if it completed.
   </p>
 <% end %>

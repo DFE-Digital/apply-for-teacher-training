@@ -1,7 +1,23 @@
 <% content_for :title, 'New data export' %>
 
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'Export data',
+      path: support_interface_data_exports_path
+    },
+    {
+      text: 'New data export'
+    }
+  ]) %>
+<% end %>
+
 <% DataExport::EXPORT_TYPES.each do |id, export| %>
-  <section class="app-section app-section--with-top-border">
+  <section class="app-section app-section--with-top-border" id="<%= id %>">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds app-styled-content">
         <h3><%= export.fetch(:name) %></h3>

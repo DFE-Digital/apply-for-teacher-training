@@ -1,7 +1,22 @@
 <% content_for :title, 'Search validation errors' %>
-<% content_for :before_content, govuk_back_link_to(support_interface_validation_errors_path) %>
 
-<p class='govuk-body'>
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'Validation errors',
+      path: support_interface_validation_errors_path
+    },
+    {
+      text: 'Search validation errors'
+    }
+  ]) %>
+<% end %>
+
+<p class="govuk-body">
   <% if params[:id] %>
     Showing validation error #<%= params[:id] %>
   <% else %>
@@ -30,9 +45,9 @@
         <% validation_error.details.each do |attribute, details| %>
           <% details['messages'].each do |message| %>
             <tr class="govuk-table__row">
-              <td class='govuk-table__cell govuk-!-width-one-half govuk-!-font-size-16'><%= govuk_link_to validation_error.form_object.demodulize.underscore.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object) %>:
+              <td class="govuk-table__cell govuk-!-width-one-half govuk-!-font-size-16"><%= govuk_link_to validation_error.form_object.demodulize.underscore.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object) %>:
                 <strong><%= govuk_link_to attribute.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object, attribute: attribute) %></strong><br/>
-                <%= message.inspect %>
+                <%= message %>
               </td>
               <td class="govuk-table__cell govuk-!-font-size-16">
                 <% if details['value'].blank? %>

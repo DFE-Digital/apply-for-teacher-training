@@ -1,24 +1,39 @@
 <% content_for :title, 'Validation error summary' %>
-<% content_for :before_content, govuk_back_link_to(support_interface_validation_errors_path) %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'Validation errors',
+      path: support_interface_validation_errors_path
+    },
+    {
+      text: 'Validation error summary'
+    }
+  ]) %>
+<% end %>
 
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter" colspan="2">All time</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter" colspan="2">Last month</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter" colspan="2">Last week</th>
+      <th class="govuk-table__header"></th>
+      <th class="govuk-table__header"></th>
+      <th class="govuk-table__header govuk-table__header--numeric" colspan="2" width="10%">All time</th>
+      <th class="govuk-table__header govuk-table__header--numeric" colspan="2" width="10%">Last month</th>
+      <th class="govuk-table__header govuk-table__header--numeric" colspan="2" width="10%">Last week</th>
     </tr>
     <tr class="govuk-table__row">
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter"></th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Unique users</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Unique users</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Error count</th>
-      <th class="govuk-table__header govuk-table__header govuk-!-width-one-quarter">Unique users</th>
+      <th class="govuk-table__header govuk-table__header--numeric"></th>
+      <th class="govuk-table__header govuk-table__header--numeric"></th>
+      <th class="govuk-table__header govuk-table__header--numeric">Error<br>count</th>
+      <th class="govuk-table__header govuk-table__header--numeric">Unique<br>users</th>
+      <th class="govuk-table__header govuk-table__header--numeric">Error<br>count</th>
+      <th class="govuk-table__header govuk-table__header--numeric">Unique<br>users</th>
+      <th class="govuk-table__header govuk-table__header--numeric">Error<br>count</th>
+      <th class="govuk-table__header govuk-table__header--numeric">Unique<br>users</th>
     </tr>
   </thead>
   <tbody class="govuk-table__body">
@@ -36,22 +51,22 @@
           support_interface_validation_error_search_path(form_object: row['form_object'], attribute: row['attribute']),
         ) %>
       </td>
-      <td class="govuk-table__cell">
+      <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= row['incidents_all_time'] %>
       </td>
-      <td class="govuk-table__cell">
+      <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= row['unique_users_all_time'] %>
       </td>
-      <td class="govuk-table__cell">
+      <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= row['incidents_last_month'] %>
       </td>
-      <td class="govuk-table__cell">
+      <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= row['unique_users_last_month'] %>
       </td>
-      <td class="govuk-table__cell">
+      <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= row['incidents_last_week'] %>
       </td>
-      <td class="govuk-table__cell">
+      <td class="govuk-table__cell govuk-table__cell--numeric">
         <%= row['unique_users_last_week'] %>
       </td>
     </tr>
