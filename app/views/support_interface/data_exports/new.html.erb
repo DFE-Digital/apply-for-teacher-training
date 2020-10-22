@@ -16,8 +16,8 @@
   ]) %>
 <% end %>
 
-<% DataExport::EXPORT_TYPES.each do |id, export| %>
-  <section class="app-section app-section--with-top-border" id="<%= id %>">
+<% @export_types.each do |id, export| %>
+  <section class="app-section app-section--with-top-border">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds app-styled-content">
         <h3><%= export.fetch(:name) %></h3>
