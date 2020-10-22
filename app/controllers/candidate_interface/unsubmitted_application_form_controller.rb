@@ -41,14 +41,7 @@ module CandidateInterface
       @further_information_form = FurtherInformationForm.new(further_information_params)
 
       if @further_information_form.save(current_application)
-        if FeatureFlag.active?(:decoupled_references)
-          # TODO: rename this to SubmitApplication when removing the
-          # decoupled_references feature flag
-          SubmitApplicationWithDecoupledReferences.new(current_application).call
-        else
-          SubmitApplication.new(current_application).call
-        end
-
+        SubmitApplicationWithDecoupledReferences.new(current_application).call
         redirect_to candidate_interface_application_submit_success_path
       else
         track_validation_error(@further_information_form)
