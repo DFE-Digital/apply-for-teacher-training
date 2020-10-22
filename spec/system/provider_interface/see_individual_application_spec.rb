@@ -132,7 +132,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            end_date: nil)
 
     create(:reference,
-           :complete,
+           :feedback_provided,
            application_form: application_form,
            name: 'R2D2',
            email_address: 'r2d2@rebellion.org',
@@ -140,7 +140,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            feedback: 'beep boop beep')
 
     create(:reference,
-           :complete,
+           :feedback_provided,
            application_form: application_form,
            name: 'C3PO',
            email_address: 'c3p0@rebellion.org',
@@ -148,7 +148,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            feedback: 'The possibility of successfully navigating training is approximately three thousand seven hundred and twenty to one')
 
     create(:reference,
-           :refused,
+           :feedback_refused,
            application_form: application_form,
            name: 'BB-8')
 

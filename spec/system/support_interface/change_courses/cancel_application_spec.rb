@@ -22,7 +22,7 @@ RSpec.feature 'Cancel application' do
 
   def and_there_is_a_candidate_who_wants_to_cancel_their_application
     @application_form = create(:completed_application_form)
-    create(:reference, :requested, application_form: @application_form)
+    create(:reference, :feedback_requested, application_form: @application_form)
 
     create(:application_choice, status: 'awaiting_references', application_form: @application_form)
     create(:application_choice, status: 'awaiting_references', application_form: @application_form)

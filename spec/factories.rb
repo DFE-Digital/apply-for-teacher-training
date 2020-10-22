@@ -112,7 +112,7 @@ FactoryBot.define do
         work_experiences_count { 0 }
         volunteering_experiences_count { 0 }
         references_count { 0 }
-        references_state { :requested }
+        references_state { :feedback_requested }
         with_gcses { false }
         full_work_history { false }
         with_degree { false }
@@ -134,7 +134,7 @@ FactoryBot.define do
 
       trait :with_completed_references do
         transient do
-          references_state { :complete }
+          references_state { :feedback_provided }
         end
       end
 
@@ -658,12 +658,12 @@ FactoryBot.define do
     referee_type { %i[academic professional school_based character].sample }
     questionnaire { nil }
 
-    trait :unsubmitted do
+    trait :not_requested_yet do
       feedback_status { 'not_requested_yet' }
       feedback { nil }
     end
 
-    trait :refused do
+    trait :feedback_refused do
       feedback_status { 'feedback_refused' }
       feedback { nil }
       requested_at { Time.zone.now }
@@ -687,19 +687,19 @@ FactoryBot.define do
       requested_at { Time.zone.now }
     end
 
-    trait :requested do
+    trait :feedback_requested do
       feedback_status { 'feedback_requested' }
       feedback { nil }
       requested_at { Time.zone.now }
     end
 
-    trait :sent_less_than_5_days_ago do
+    trait :feedback_requested_less_than_5_days_ago do
       feedback_status { 'feedback_requested' }
       feedback { nil }
       requested_at { Time.zone.now - 2.days }
     end
 
-    trait :sent_more_than_5_days_ago do
+    trait :feedback_requested_more_than_5_days_ago do
       feedback_status { 'feedback_requested' }
       feedback { nil }
       requested_at { Time.zone.now - 6.days }
@@ -712,7 +712,15 @@ FactoryBot.define do
       created_at { 11.business_days.ago }
     end
 
-    trait :complete do
+    trait :feedback_provided do
+      feedback_status { 'feedback_provided' }
+      feedback { Faker::Lorem.paragraph(sentence_count: 10) }
+      requested_at { Time.zone.now }
+      safeguarding_concerns { '' }
+      relationship_correction { '' }
+    end
+
+    trait :feedback_provided_with_completed_referee_questionnaire do
       feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }
       requested_at { Time.zone.now }

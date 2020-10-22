@@ -23,7 +23,7 @@ RSpec.feature 'Cancelling references' do
 
   def and_there_is_an_application
     @application_with_reference = create(:completed_application_form)
-    create(:reference, :requested, name: 'Harry', application_form: @application_with_reference)
+    create(:reference, :feedback_requested, name: 'Harry', application_form: @application_with_reference)
   end
 
   def and_i_visit_the_application

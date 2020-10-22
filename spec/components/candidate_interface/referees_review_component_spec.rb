@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::RefereesReviewComponent do
     let(:application_form) do
       create(
         :completed_application_form,
-        references_state: 'unsubmitted',
+        references_state: 'not_requested_yet',
         references_count: 2,
         with_gcses: true,
       )

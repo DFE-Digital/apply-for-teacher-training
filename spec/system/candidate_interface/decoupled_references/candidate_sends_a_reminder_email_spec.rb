@@ -26,7 +26,7 @@ RSpec.feature 'Candidate sends a reference reminder' do
   end
 
   def and_i_have_added_and_sent_a_reference
-    @reference = create(:reference, :requested, application_form: current_candidate.current_application)
+    @reference = create(:reference, :feedback_requested, application_form: current_candidate.current_application)
     current_candidate.current_application.update(first_name: 'Jeremy', last_name: 'Corbyn')
   end
 

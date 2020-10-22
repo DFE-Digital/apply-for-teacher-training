@@ -68,7 +68,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def given_i_am_a_referee_of_an_application
-    @reference = create(:reference, :requested, email_address: 'terri@example.com', name: 'Terri Tudor')
+    @reference = create(:reference, :feedback_requested, email_address: 'terri@example.com', name: 'Terri Tudor')
     @application = create(:completed_application_form, application_references: [@reference], candidate: current_candidate)
   end
 

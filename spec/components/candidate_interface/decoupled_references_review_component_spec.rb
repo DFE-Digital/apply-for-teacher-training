@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :component do
   it 'renders the referee name and email' do
-    reference = create(:reference, :unsubmitted)
+    reference = create(:reference, :not_requested_yet)
     result = render_inline(described_class.new(references: [reference]))
 
     name_row = result.css('.govuk-summary-list__row')[0].text
@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   it 'renders the reference type' do
-    reference = create(:reference, :unsubmitted, referee_type: :school_based)
+    reference = create(:reference, :not_requested_yet, referee_type: :school_based)
     result = render_inline(described_class.new(references: [reference]))
 
     type_row = result.css('.govuk-summary-list__row')[2].text
@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   it 'renders the relationship' do
-    reference = create(:reference, :unsubmitted)
+    reference = create(:reference, :not_requested_yet)
     result = render_inline(described_class.new(references: [reference]))
 
     relationship_row = result.css('.govuk-summary-list__row')[3].text
@@ -59,8 +59,8 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   context 'when reference state is "feedback_requested"' do
-    let(:feedback_requested) { create(:reference, :requested) }
-    let(:feedback_refused) { create(:reference, :refused) }
+    let(:feedback_requested) { create(:reference, :feedback_requested) }
+    let(:feedback_refused) { create(:reference, :feedback_refused) }
 
     it 'a cancel link is available' do
       result = render_inline(described_class.new(references: [feedback_requested, feedback_refused]))
@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   context 'when reference state is "not_requested_yet" and the reference is complete' do
-    let(:feedback_requested) { create(:reference, :requested) }
+    let(:feedback_requested) { create(:reference, :feedback_requested) }
     let(:not_requested_yet) { create(:reference, :not_requested_yet) }
 
     it 'a send request link is available' do
@@ -100,7 +100,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   context 'when reference state is "cancelled" and the reference is complete' do
-    let(:feedback_requested) { create(:reference, :requested) }
+    let(:feedback_requested) { create(:reference, :feedback_requested) }
     let(:cancelled) { create(:reference, :cancelled) }
 
     it 'a re-send request link is available' do
@@ -128,7 +128,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
 
   context 'when reference state is "cancelled" but there are already 2 references provided' do
     let(:cancelled) { create(:reference, :cancelled) }
-    let(:provided_references) { create_list(:reference, 2, :complete, application_form: cancelled.application_form) }
+    let(:provided_references) { create_list(:reference, 2, :feedback_provided, application_form: cancelled.application_form) }
 
     it 'a send request link is NOT available' do
       FeatureFlag.activate(:decoupled_references)
@@ -140,7 +140,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   end
 
   context 'rendering history' do
-    let(:reference) { create(:reference, :requested) }
+    let(:reference) { create(:reference, :feedback_requested) }
 
     it 'does not render by default' do
       result = render_inline(described_class.new(references: [reference]))
@@ -175,15 +175,15 @@ private
   def status_table
     af = create(:application_form)
 
-    not_requested_yet = create(:reference, :unsubmitted, application_form: af)
-    feedback_refused = create(:reference, :refused, application_form: af)
+    not_requested_yet = create(:reference, :not_requested_yet, application_form: af)
+    feedback_refused = create(:reference, :feedback_refused, application_form: af)
     email_bounced = create(:reference, :email_bounced, application_form: af)
     cancelled_at_end_of_cycle = create(:reference, :cancelled_at_end_of_cycle, application_form: af)
     cancelled = create(:reference, :cancelled, application_form: af)
     feedback_overdue = create(:reference, :feedback_overdue, application_form: af)
-    sent_less_than_5_days_ago = create(:reference, :sent_less_than_5_days_ago, application_form: af)
-    sent_more_than_5_days_ago = create(:reference, :sent_more_than_5_days_ago, application_form: af)
-    feedback_provided = create(:reference, :complete, application_form: af)
+    sent_less_than_5_days_ago = create(:reference, :feedback_requested_less_than_5_days_ago, application_form: af)
+    sent_more_than_5_days_ago = create(:reference, :feedback_requested_more_than_5_days_ago, application_form: af)
+    feedback_provided = create(:reference, :feedback_provided, application_form: af)
 
     status_struct = Struct.new(:reference, :colour, :status_identifier, :info_identifier, :info_args)
     stub_const('Status', status_struct)

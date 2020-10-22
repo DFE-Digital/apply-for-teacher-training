@@ -326,13 +326,13 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     it 'returns only references with feedback' do
       with_feedback = create(
         :reference,
-        :complete,
+        :feedback_provided,
         application_form: application_choice.application_form,
       )
 
       refused = create(
         :reference,
-        :refused,
+        :feedback_refused,
         application_form: application_choice.application_form,
       )
 
@@ -344,7 +344,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     it 'returns application references with their respective ids' do
       reference = create(
         :reference,
-        :complete,
+        :feedback_provided,
         application_form: application_choice.application_form,
       )
       presenter = VendorAPI::SingleApplicationPresenter.new(application_choice)

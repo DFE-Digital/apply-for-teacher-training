@@ -8,8 +8,8 @@ RSpec.describe SubmitReference do
       it 'updates the reference state to "feedback_provided"' do
         application_choice = create(:application_choice, status: :unsubmitted)
         application_form = application_choice.application_form
-        reference_one = create(:reference, :requested)
-        reference_two = create(:reference, :requested, application_form: reference_one.application_form)
+        reference_one = create(:reference, :feedback_requested)
+        reference_two = create(:reference, :feedback_requested, application_form: reference_one.application_form)
 
         SubmitReference.new(reference: reference_one).save!
         SubmitReference.new(reference: reference_two).save!
@@ -22,10 +22,10 @@ RSpec.describe SubmitReference do
       context 'when the second reference is received' do
         it 'cancels reference requests for all remaining "awaiting_feedback" references' do
           application_form = create(:application_form)
-          reference1 = create(:reference, :requested, application_form: application_form)
-          reference2 = create(:reference, :requested, application_form: application_form)
-          reference3 = create(:reference, :refused, application_form: application_form)
-          reference4 = create(:reference, :requested, application_form: application_form)
+          reference1 = create(:reference, :feedback_requested, application_form: application_form)
+          reference2 = create(:reference, :feedback_requested, application_form: application_form)
+          reference3 = create(:reference, :feedback_refused, application_form: application_form)
+          reference4 = create(:reference, :feedback_requested, application_form: application_form)
 
           SubmitReference.new(reference: reference1).save!
           SubmitReference.new(reference: reference2).save!
@@ -49,8 +49,8 @@ RSpec.describe SubmitReference do
           active_application_choice = create(:application_choice, application_form: application_form, status: 'awaiting_references')
           cancelled_application_choice = create(:application_choice, application_form: application_form, status: 'cancelled')
 
-          create(:reference, :complete, application_form: application_form)
-          reference = create(:reference, :unsubmitted, application_form: application_form)
+          create(:reference, :feedback_provided, application_form: application_form)
+          reference = create(:reference, :not_requested_yet, application_form: application_form)
 
           reference.update!(feedback: 'Trustworthy', relationship_correction: '', safeguarding_concerns: '')
 
@@ -65,8 +65,8 @@ RSpec.describe SubmitReference do
         it 'progresses the application choices to the "awaiting_provider_decision" if edit_by has elapsed' do
           application_form = create(:completed_application_form, edit_by: 1.day.ago)
           create(:application_choice, application_form: application_form, status: 'awaiting_references')
-          create(:reference, :complete, application_form: application_form)
-          reference = create(:reference, :unsubmitted, application_form: application_form)
+          create(:reference, :feedback_provided, application_form: application_form)
+          reference = create(:reference, :not_requested_yet, application_form: application_form)
 
           reference.update!(feedback: 'Trustworthy', relationship_correction: '', safeguarding_concerns: '')
 
@@ -80,8 +80,8 @@ RSpec.describe SubmitReference do
         it 'sets edit_by to current time if the candidate is applying again' do
           application_form = create(:completed_application_form, previous_application_form: create(:application_form), edit_by: 2.days.from_now)
           create(:application_choice, application_form: application_form, status: 'awaiting_references')
-          create(:reference, :complete, application_form: application_form)
-          reference = create(:reference, :unsubmitted, application_form: application_form)
+          create(:reference, :feedback_provided, application_form: application_form)
+          reference = create(:reference, :not_requested_yet, application_form: application_form)
 
           reference.update!(feedback: 'Trustworthy', relationship_correction: '', safeguarding_concerns: '')
 
@@ -98,8 +98,8 @@ RSpec.describe SubmitReference do
           application_form = create(:completed_application_form, edit_by: 1.day.ago)
 
           create(:application_choice, application_form: application_form, status: 'awaiting_references')
-          create(:reference, :complete, application_form: application_form)
-          reference = create(:reference, :unsubmitted, application_form: application_form)
+          create(:reference, :feedback_provided, application_form: application_form)
+          reference = create(:reference, :not_requested_yet, application_form: application_form)
 
           reference.update!(feedback: 'Trustworthy', relationship_correction: '', safeguarding_concerns: '')
 
@@ -107,7 +107,7 @@ RSpec.describe SubmitReference do
             reference: reference,
           ).save!
 
-          another_reference = create(:reference, :unsubmitted, application_form: application_form)
+          another_reference = create(:reference, :not_requested_yet, application_form: application_form)
 
           another_reference.update!(feedback: 'Trustworthy', relationship_correction: '', safeguarding_concerns: '')
 
