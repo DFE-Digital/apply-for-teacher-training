@@ -14,9 +14,7 @@ class TestApplications
     end
   end
 
-  def create_application(recruitment_cycle_year:, states:, courses_to_apply_to:, apply_again: false, course_full: false)
-    candidate = nil
-
+  def create_application(recruitment_cycle_year:, states:, courses_to_apply_to:, apply_again: false, course_full: false, candidate: nil)
     min_days_in_the_past = recruitment_cycle_year == 2020 ? 375 : 10
     travel_to rand(min_days_in_the_past..(min_days_in_the_past + 20)).days.ago
 
@@ -25,7 +23,7 @@ class TestApplications
 
       create_application(recruitment_cycle_year: recruitment_cycle_year, states: [:rejected], courses_to_apply_to: courses_to_apply_to)
 
-      candidate = Candidate.last
+      candidate = candidate.presence || Candidate.last
       first_name = candidate.current_application.first_name
       last_name = candidate.current_application.last_name
     else
@@ -33,7 +31,7 @@ class TestApplications
 
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name
-      candidate = FactoryBot.create(
+      candidate = candidate.presence || FactoryBot.create(
         :candidate,
         email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
         created_at: time,
