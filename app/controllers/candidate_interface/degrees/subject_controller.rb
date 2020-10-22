@@ -1,7 +1,6 @@
 module CandidateInterface
   module Degrees
     class SubjectController < DegreesBaseController
-      before_action :redirect_to_dashboard_if_submitted
       before_action :set_subject_names
 
       def new

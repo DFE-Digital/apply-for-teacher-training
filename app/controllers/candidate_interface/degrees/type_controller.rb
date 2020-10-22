@@ -1,7 +1,6 @@
 module CandidateInterface
   module Degrees
     class TypeController < DegreesBaseController
-      before_action :redirect_to_dashboard_if_submitted
       before_action :set_degree_type_names, only: %i[edit update]
 
       def new

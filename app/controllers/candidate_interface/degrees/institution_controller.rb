@@ -1,7 +1,6 @@
 module CandidateInterface
   module Degrees
     class InstitutionController < DegreesBaseController
-      before_action :redirect_to_dashboard_if_submitted
       before_action :set_institution_names, :set_countries
 
       def new

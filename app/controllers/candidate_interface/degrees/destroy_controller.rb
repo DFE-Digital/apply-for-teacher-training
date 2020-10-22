@@ -1,8 +1,6 @@
 module CandidateInterface
   module Degrees
     class DestroyController < DegreesBaseController
-      before_action :redirect_to_dashboard_if_submitted
-
       def confirm_destroy
         @degree = current_degree
       end

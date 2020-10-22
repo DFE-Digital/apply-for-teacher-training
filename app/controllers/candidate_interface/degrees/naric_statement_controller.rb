@@ -1,8 +1,6 @@
 module CandidateInterface
   module Degrees
     class NaricStatementController < DegreesBaseController
-      before_action :redirect_to_dashboard_if_submitted
-
       def new
         render_404 unless FeatureFlag.active?(:international_degrees)
 

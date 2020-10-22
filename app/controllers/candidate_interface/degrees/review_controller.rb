@@ -1,8 +1,6 @@
 module CandidateInterface
   module Degrees
     class ReviewController < DegreesBaseController
-      before_action :redirect_to_dashboard_if_submitted
-
       def show
         @application_form = current_application
       end

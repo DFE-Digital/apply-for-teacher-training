@@ -1,7 +1,6 @@
 module CandidateInterface
   module Degrees
     class GradeController < DegreesBaseController
-      before_action :redirect_to_dashboard_if_submitted
       before_action :set_main_grades
       before_action :set_other_grades
       before_action :set_international_main_grades

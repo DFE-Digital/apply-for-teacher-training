@@ -1,8 +1,6 @@
 module CandidateInterface
   module Degrees
     class YearController < DegreesBaseController
-      before_action :redirect_to_dashboard_if_submitted
-
       def new
         @degree_year_form = DegreeYearForm.new(degree: current_degree)
       end
