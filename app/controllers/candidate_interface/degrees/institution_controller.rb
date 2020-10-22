@@ -1,6 +1,6 @@
 module CandidateInterface
   module Degrees
-    class InstitutionController < DegreesBaseController
+    class InstitutionController < BaseController
       before_action :set_institution_names, :set_countries
 
       def new

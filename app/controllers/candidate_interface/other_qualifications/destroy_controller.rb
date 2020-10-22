@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OtherQualifications::DestroyController < OtherQualifications::OtherQualificationsBaseController
+  class OtherQualifications::DestroyController < OtherQualifications::BaseController
     def confirm_destroy
       @qualification = OtherQualificationForm.build_from_qualification(current_qualification)
     end

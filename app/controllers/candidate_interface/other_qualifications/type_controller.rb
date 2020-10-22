@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OtherQualifications::TypeController < OtherQualifications::OtherQualificationsBaseController
+  class OtherQualifications::TypeController < OtherQualifications::BaseController
     def new
       @qualification_type = OtherQualificationTypeForm.new
     end
@@ -44,7 +44,7 @@ module CandidateInterface
     end
 
     def qualification_type_has_changed
-      @qualification_type.qualification_type != @qualification.qualification_type
+      @qualification_type.qualification_type != current_qualification.qualification_type
     end
   end
 end

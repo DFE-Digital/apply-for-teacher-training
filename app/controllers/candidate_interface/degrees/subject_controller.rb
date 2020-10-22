@@ -1,6 +1,6 @@
 module CandidateInterface
   module Degrees
-    class SubjectController < DegreesBaseController
+    class SubjectController < BaseController
       before_action :set_subject_names
 
       def new

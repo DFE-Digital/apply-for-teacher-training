@@ -1,6 +1,6 @@
 module CandidateInterface
   module Degrees
-    class DestroyController < DegreesBaseController
+    class DestroyController < BaseController
       def confirm_destroy
         @degree = current_degree
       end

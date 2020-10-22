@@ -1,6 +1,6 @@
 module CandidateInterface
   module Degrees
-    class ReviewController < DegreesBaseController
+    class ReviewController < BaseController
       def show
         @application_form = current_application
       end

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OtherQualifications::DetailsController < OtherQualifications::OtherQualificationsBaseController
+  class OtherQualifications::DetailsController < OtherQualifications::BaseController
     def new
       qualifications = OtherQualificationForm.build_all_from_application(current_application)
       @qualification = OtherQualificationForm.pre_fill_new_qualification(qualifications)

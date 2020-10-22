@@ -1,6 +1,6 @@
 module CandidateInterface
   module Degrees
-    class NaricStatementController < DegreesBaseController
+    class NaricStatementController < BaseController
       def new
         render_404 unless FeatureFlag.active?(:international_degrees)
 

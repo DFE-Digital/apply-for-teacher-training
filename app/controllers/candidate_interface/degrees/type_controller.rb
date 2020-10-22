@@ -1,6 +1,6 @@
 module CandidateInterface
   module Degrees
-    class TypeController < DegreesBaseController
+    class TypeController < BaseController
       before_action :set_degree_type_names, only: %i[edit update]
 
       def new
