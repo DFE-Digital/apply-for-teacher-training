@@ -5,21 +5,19 @@ class ReferenceHistoryComponent < ViewComponent::Base
     @reference = reference
   end
 
-  def requested_at
-    return if reference.requested_at.blank?
-
-    date_format(reference.requested_at)
+  def history
+    ReferenceHistory.new(reference).all_events
   end
 
-  def reminder_sent_at
-    return if reference.reminder_sent_at.blank?
-
-    date_format(reference.reminder_sent_at)
+  def formatted_date(event)
+    event.time.to_s(:govuk_date_and_time)
   end
 
-private
-
-  def date_format(datetime)
-    datetime.to_s(:govuk_date_and_time)
+  def formatted_title(event)
+    if event.name == 'request_bounced'
+      "The request did not reach #{event.extra_info.bounced_email}"
+    else
+      event.name.humanize
+    end
   end
 end
