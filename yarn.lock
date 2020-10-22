@@ -1248,12 +1248,12 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@ministryofjustice/frontend@^0.0.19-alpha":
-  version "0.0.19-alpha"
-  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.0.19-alpha.tgz#4f00cb02cafef3f8cbfa9d4665885fa766309cdf"
-  integrity sha512-iNNJSIr+poRiBWxyoi4pxs2qcYRfFzVO9yh6ALPUeKDj9pCm1lWYReWhr02/jLgLEJ3nKdJDxIbGv0c/RxSR/w==
+"@ministryofjustice/frontend@^0.0.21":
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/@ministryofjustice/frontend/-/frontend-0.0.21.tgz#32639fee99b7dcae385c61e33ebaf2ddf791a050"
+  integrity sha512-yxqPJbRuDJWykeXp9L7+YcngIcdOj+Lav+V7RQY5UUhj8QxP2zPCrN7M+tRbTqXjztyQ5744kv6BU0jNlEAFWQ==
   dependencies:
-    moment "^2.26.0"
+    moment "^2.27.0"
 
 "@npmcli/move-file@^1.0.1":
   version "1.0.1"
@@ -5419,10 +5419,10 @@ mkdirp@^1.0.3, mkdirp@^1.0.4:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
 
-moment@^2.26.0:
-  version "2.26.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.26.0.tgz#5e1f82c6bafca6e83e808b30c8705eed0dcbd39a"
-  integrity sha512-oIixUO+OamkUkwjhAVE18rAMfRJNsNe/Stid/gwHSOfHrOtw9EhAY2AHvdKZ/k/MggcYELFCJz/Sn2pL8b8JMw==
+moment@^2.27.0:
+  version "2.29.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+  integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
