@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OtherQualifications::ReviewController < CandidateInterfaceController
+  class OtherQualifications::ReviewController < OtherQualificationsBaseController
     before_action :redirect_to_dashboard_if_submitted
 
     def show

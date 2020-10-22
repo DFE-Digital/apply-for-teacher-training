@@ -1,5 +1,5 @@
 module CandidateInterface
-  class OtherQualifications::DestroyController < CandidateInterfaceController
+  class OtherQualifications::DestroyController < OtherQualificationsBaseController
     before_action :redirect_to_dashboard_if_submitted
 
     def confirm_destroy
