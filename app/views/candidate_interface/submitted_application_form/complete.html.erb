@@ -22,14 +22,6 @@
     <%= render(CandidateInterface::ApplicationCompleteContentComponent.new(application_form: @application_form)) %>
 
     <%= render(CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form, editable: false, show_status: true)) %>
-
-    <% unless FeatureFlag.active?(:decoupled_references) %>
-      <hr class="govuk-section-break govuk-section-break--m">
-
-      <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">References</h2>
-
-      <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: @application_form, editable: false)) %>
-    <% end %>
   </div>
 
   <div class="govuk-grid-column-one-third">

@@ -368,28 +368,6 @@ Rails.application.routes.draw do
         patch '/review' => 'english_foreign_language/review#complete', as: :english_foreign_language_complete
       end
 
-      scope '/referees' do
-        get '/' => 'referees#index', as: :referees
-
-        get '/type/(:id)' => 'referees#type', as: :referees_type
-        post '/update-type/(:id)' => 'referees#update_type', as: :update_referees_type
-
-        get '/new/(:type)' => 'referees#new', as: :new_referee, constraints: { type: Regexp.new(ApplicationReference.referee_types.values.join('|')) }
-        post '/(:type)' => 'referees#create'
-
-        get '/review' => 'referees#review', as: :review_referees
-        patch '/complete' => 'referees#complete', as: :complete_referees
-
-        get '/edit/:id' => 'referees#edit', as: :edit_referee
-        patch '/update/:id' => 'referees#update', as: :update_referee
-
-        get '/delete/:id' => 'referees#confirm_destroy', as: :confirm_destroy_referee
-        delete '/delete/:id' => 'referees#destroy', as: :destroy_referee
-
-        get '/cancel/:id' => 'referees#confirm_cancel', as: :confirm_cancel_referee
-        patch '/cancel/:id' => 'referees#cancel', as: :cancel_referee
-      end
-
       scope '/references' do
         get '/start' => 'decoupled_references/base#start', as: :decoupled_references_start
 

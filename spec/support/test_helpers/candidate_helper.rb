@@ -312,50 +312,28 @@ module CandidateHelper
   end
 
   def candidate_provides_two_referees
-    if FeatureFlag.active?(:decoupled_references)
-      visit candidate_interface_decoupled_references_start_path
-      click_link 'Continue'
-      choose 'Academic'
-      click_button 'Save and continue'
+    visit candidate_interface_decoupled_references_start_path
+    click_link 'Continue'
+    choose 'Academic'
+    click_button 'Save and continue'
 
-      candidate_fills_in_referee
-      choose 'Yes, send a reference request now'
-      click_button 'Save and continue'
+    candidate_fills_in_referee
+    choose 'Yes, send a reference request now'
+    click_button 'Save and continue'
 
-      click_link 'Add another referee'
-      click_link 'Continue'
-      choose 'Professional'
-      click_button 'Save and continue'
+    click_link 'Add another referee'
+    click_link 'Continue'
+    choose 'Professional'
+    click_button 'Save and continue'
 
-      candidate_fills_in_referee(
-        name: 'Anne Other',
-        email_address: 'anne@other.com',
-        relationship: 'First boss',
-      )
-      choose 'Yes, send a reference request now'
-      click_button 'Save and continue'
-      visit candidate_interface_application_form_path
-    else
-      visit candidate_interface_referees_type_path
-      choose 'Academic'
-      click_button 'Continue'
-
-      candidate_fills_in_referee
-      click_button 'Save and continue'
-      click_link 'Add another referee'
-
-      choose 'Professional'
-      click_button 'Continue'
-
-      candidate_fills_in_referee(
-        name: 'Anne Other',
-        email_address: 'anne@other.com',
-        relationship: 'First boss',
-      )
-      click_button 'Save and continue'
-      check t('application_form.completed_checkbox')
-      click_button t('application_form.continue')
-    end
+    candidate_fills_in_referee(
+      name: 'Anne Other',
+      email_address: 'anne@other.com',
+      relationship: 'First boss',
+    )
+    choose 'Yes, send a reference request now'
+    click_button 'Save and continue'
+    visit candidate_interface_application_form_path
   end
 
   def candidate_fills_in_a_gcse

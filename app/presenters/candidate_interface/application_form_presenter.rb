@@ -35,7 +35,6 @@ module CandidateInterface
         [:interview_preferences, interview_preferences_completed?],
 
         # "References" section
-        [:references, all_referees_provided_by_candidate?],
         [:references_provided, enough_references_provided?],
       ].compact
     end
@@ -265,15 +264,7 @@ module CandidateInterface
     end
 
     def enough_references_provided?
-      return true unless FeatureFlag.active?(:decoupled_references)
-
       @application_form.enough_references_have_been_provided?
-    end
-
-    def all_referees_provided_by_candidate?
-      return true if FeatureFlag.active?(:decoupled_references)
-
-      @application_form.references_completed
     end
 
     def references_in_progress?

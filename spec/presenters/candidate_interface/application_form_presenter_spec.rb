@@ -327,35 +327,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
       expect(presenter).not_to be_enough_references_provided
     end
-
-    context 'when the `decoupled_references` feature flag is NOT active (REMOVE CONTEXT WHEN DROPPING FEATURE FLAG)' do
-      before { FeatureFlag.deactivate(:decoupled_references) }
-
-      it 'returns true even if the referees section is incomplete' do
-        application_form = build(:application_form, references_completed: false)
-        presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
-        expect(presenter).to be_enough_references_provided
-      end
-    end
-  end
-
-  describe '#all_referees_provided_by_candidate?' do
-    before { FeatureFlag.deactivate(:decoupled_references) }
-
-    it 'returns true if the referees section has been completed' do
-      application_form = build(:application_form, references_completed: true)
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
-      expect(presenter).to be_all_referees_provided_by_candidate
-    end
-
-    it 'returns false if the referees section is incomplete' do
-      application_form = build(:application_form, references_completed: false)
-      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
-
-      expect(presenter).not_to be_all_referees_provided_by_candidate
-    end
   end
 
   describe '#safeguarding_completed?' do

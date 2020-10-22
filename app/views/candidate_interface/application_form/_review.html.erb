@@ -91,8 +91,3 @@
 <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
 <%= render(CandidateInterface::SubjectKnowledgeReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
 <%= render(CandidateInterface::InterviewPreferencesReviewComponent.new(application_form: application_form, editable: editable, missing_error: missing_error, submitting_application: true)) %>
-
-<% unless FeatureFlag.active?(:decoupled_references) %>
-  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('page_titles.referees') %></h2>
-  <%= render(CandidateInterface::RefereesReviewComponent.new(application_form: application_form, editable: editable, heading_level: 3, show_incomplete: true, missing_error: missing_error, submitting_application: true)) %>
-<% end %>
