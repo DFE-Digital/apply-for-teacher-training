@@ -20,8 +20,6 @@ en:
       subject: "%{referee_name} has not responded yet"
     chase_reference_again:
       subject: "%{referee_name} has not responded yet"
-    find_another_course:
-      subject: "Find another course - %{course_name_and_code} at %{provider_name} is not available"
     offer_accepted:
       subject: "You’ve accepted %{provider_name}’s offer to study %{course_name_and_code}"
     new_referee_request:
