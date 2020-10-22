@@ -19,13 +19,13 @@ class ReferenceHistory
 
   def request_sent
     audits
-      .select { |a| a.audited_changes['feedback_status']&.second == 'feedback_requested' }
+      .select { |a| status_change(a, to: 'feedback_requested') }
       .map { |a| Event.new('request_sent', a.created_at) }
   end
 
   def request_cancelled
     audits
-      .select { |a| a.audited_changes['feedback_status']&.second == 'cancelled' }
+      .select { |a| status_change(a, to: 'cancelled') }
       .map { |a| Event.new('request_cancelled', a.created_at) }
   end
 
@@ -37,7 +37,7 @@ class ReferenceHistory
 
   def request_bounced
     audits
-      .select { |a| a.audited_changes['feedback_status']&.second == 'email_bounced' }
+      .select { |a| status_change(a, to: 'email_bounced') }
       .map do |audit|
         bounced_email = reference.revision(audit.version).email_address
         Event.new('request_bounced', audit.created_at, OpenStruct.new(bounced_email: bounced_email))
@@ -46,13 +46,13 @@ class ReferenceHistory
 
   def request_declined
     audits
-      .select { |a| a.audited_changes['feedback_status']&.second == 'feedback_refused' }
+      .select { |a| status_change(a, to: 'feedback_refused') }
       .map { |a| Event.new('request_declined', a.created_at) }
   end
 
   def reference_given
     audits
-      .select { |a| a.audited_changes['feedback_status']&.second == 'feedback_provided' }
+      .select { |a| status_change(a, to: 'feedback_provided') }
       .map { |a| Event.new('reference_given', a.created_at) }
   end
 
@@ -60,5 +60,9 @@ private
 
   def audits
     reference.audits.updates
+  end
+
+  def status_change(audit, to:)
+    audit.audited_changes['feedback_status']&.second == to
   end
 end
