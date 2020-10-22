@@ -19,6 +19,13 @@
                 <span class="govuk-visually-hidden"> <%= reference.name %></span>
               <% end %>
             </li>
+          <% elsif reference.request_can_be_deleted? %>
+            <li class="app-summary-card__actions-list-item">
+              <%= link_to candidate_interface_delete_decoupled_reference_request_path(reference), class: 'govuk-link' do %>
+                <%= t('application_form.referees.delete_request') %>
+                <span class="govuk-visually-hidden"> <%= reference.name %></span>
+              <% end %>
+            </li>
           <% end %>
 
           <% if can_send?(reference) %>

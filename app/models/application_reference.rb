@@ -114,6 +114,10 @@ class ApplicationReference < ApplicationRecord
     (not_requested_yet? || feedback_provided?) && !application_form.submitted?
   end
 
+  def request_can_be_deleted?
+    (cancelled? || feedback_refused? || email_bounced?) && !application_form.submitted?
+  end
+
   def can_send_reminder?
     feedback_requested? && reminder_sent_at.nil?
   end
