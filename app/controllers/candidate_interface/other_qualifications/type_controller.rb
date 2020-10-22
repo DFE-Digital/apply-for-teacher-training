@@ -1,7 +1,5 @@
 module CandidateInterface
-  class OtherQualifications::TypeController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
-
+  class OtherQualifications::TypeController < OtherQualifications::BaseController
     def new
       @qualification_type = OtherQualificationTypeForm.new
     end
@@ -22,12 +20,12 @@ module CandidateInterface
 
     def update
       @qualification_type = OtherQualificationTypeForm.new(other_qualification_type_params)
-      @qualification = ApplicationQualification.find(params[:id])
-      if qualification_type_has_changed && @qualification_type.update(@qualification)
+
+      if qualification_type_has_changed && @qualification_type.update(current_qualification)
         current_application.update!(other_qualifications_completed: false)
 
-        redirect_to candidate_interface_edit_other_qualification_details_path(@qualification.id)
-      elsif @qualification_type.update(@qualification)
+        redirect_to candidate_interface_edit_other_qualification_details_path(current_qualification)
+      elsif @qualification_type.update(current_qualification)
         current_application.update!(other_qualifications_completed: false)
 
         redirect_to candidate_interface_review_other_qualifications_path
@@ -46,7 +44,7 @@ module CandidateInterface
     end
 
     def qualification_type_has_changed
-      @qualification_type.qualification_type != @qualification.qualification_type
+      @qualification_type.qualification_type != current_qualification.qualification_type
     end
   end
 end

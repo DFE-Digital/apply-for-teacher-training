@@ -1,7 +1,5 @@
 module CandidateInterface
-  class OtherQualifications::DetailsController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
-
+  class OtherQualifications::DetailsController < OtherQualifications::BaseController
     def new
       qualifications = OtherQualificationForm.build_all_from_application(current_application)
       @qualification = OtherQualificationForm.pre_fill_new_qualification(qualifications)
@@ -11,7 +9,7 @@ module CandidateInterface
     def create
       @qualification = OtherQualificationForm.new(other_qualification_params)
 
-      if @qualification.save(get_qualification)
+      if @qualification.save(current_qualification)
 
         if @qualification.choice == 'same_type'
           @qualification_type = OtherQualificationTypeForm.new(
@@ -30,27 +28,27 @@ module CandidateInterface
         end
       else
         track_validation_error(@qualification)
-        @type = @qualification.set_type(get_qualification)
+        @type = @qualification.set_type(current_qualification)
 
         render :new
       end
     end
 
     def edit
-      @qualification = OtherQualificationForm.build_from_qualification(get_qualification)
-      @type = @qualification.set_type(get_qualification)
+      @qualification = OtherQualificationForm.build_from_qualification(current_qualification)
+      @type = @qualification.set_type(current_qualification)
     end
 
     def update
       @qualification = OtherQualificationForm.new(other_qualification_params)
 
-      if @qualification.update(get_qualification)
+      if @qualification.update(current_qualification)
         current_application.update!(other_qualifications_completed: false)
 
         redirect_to candidate_interface_review_other_qualifications_path
       else
         track_validation_error(@qualification)
-        @type = @qualification.set_type(get_qualification)
+        @type = @qualification.set_type(current_qualification)
 
         render :edit
       end
@@ -63,22 +61,18 @@ module CandidateInterface
         params.require(:candidate_interface_other_qualification_form).permit(
           :subject, :grade, :award_year, :choice, :institution_country
         ).merge!(id: params[:id],
-                 qualification_type: get_qualification.qualification_type,
-                 non_uk_qualification_type: get_qualification.non_uk_qualification_type,
-                 other_uk_qualification_type: get_qualification.other_uk_qualification_type)
+                 qualification_type: current_qualification.qualification_type,
+                 non_uk_qualification_type: current_qualification.non_uk_qualification_type,
+                 other_uk_qualification_type: current_qualification.other_uk_qualification_type)
       else
         params.require(:candidate_interface_other_qualification_form).permit(
           :subject, :grade, :award_year, :choice, :institution_country,
           :other_uk_qualification_type, :non_uk_qualification_type
         ).merge!(
           id: params[:id],
-          qualification_type: params.dig('candidate_interface_other_qualification_form', 'qualification_type') || get_qualification.qualification_type,
+          qualification_type: params.dig('candidate_interface_other_qualification_form', 'qualification_type') || current_qualification.qualification_type,
         )
       end
-    end
-
-    def get_qualification
-      @get_qualification ||= ApplicationQualification.find(params[:id])
     end
   end
 end

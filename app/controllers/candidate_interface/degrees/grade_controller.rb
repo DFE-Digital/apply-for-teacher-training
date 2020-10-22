@@ -1,27 +1,26 @@
 module CandidateInterface
   module Degrees
-    class GradeController < CandidateInterfaceController
-      before_action :redirect_to_dashboard_if_submitted
+    class GradeController < BaseController
       before_action :set_main_grades
       before_action :set_other_grades
       before_action :set_international_main_grades
 
       def new
-        @degree_grade_form = DegreeGradeForm.new(degree: degree)
+        @degree_grade_form = DegreeGradeForm.new(degree: current_degree)
       end
 
       def create
         @degree_grade_form = DegreeGradeForm.new(grade_params)
 
         if @degree_grade_form.save
-          redirect_to candidate_interface_degree_year_path(degree)
+          redirect_to candidate_interface_degree_year_path(current_degree)
         else
           render :new
         end
       end
 
       def edit
-        @degree_grade_form = DegreeGradeForm.new(degree: degree).fill_form_values
+        @degree_grade_form = DegreeGradeForm.new(degree: current_degree).fill_form_values
       end
 
       def update
@@ -38,13 +37,9 @@ module CandidateInterface
 
     private
 
-      def degree
-        @degree = ApplicationQualification.find(params[:id])
-      end
-
       def set_main_grades
         @main_grades = Hesa::Grade.grouping_for(
-          degree_type_code: degree.qualification_type_hesa_code,
+          degree_type_code: current_degree.qualification_type_hesa_code,
         ).map(&:description)
       end
 
@@ -61,7 +56,7 @@ module CandidateInterface
           .require(:candidate_interface_degree_grade_form)
           .permit(:grade, :other_grade, :predicted_grade)
           .transform_values(&:strip)
-          .merge(degree: degree)
+          .merge(degree: current_degree)
       end
     end
   end
