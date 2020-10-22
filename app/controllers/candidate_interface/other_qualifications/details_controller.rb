@@ -1,7 +1,5 @@
 module CandidateInterface
   class OtherQualifications::DetailsController < OtherQualificationsBaseController
-    before_action :redirect_to_dashboard_if_submitted
-
     def new
       qualifications = OtherQualificationForm.build_all_from_application(current_application)
       @qualification = OtherQualificationForm.pre_fill_new_qualification(qualifications)

@@ -1,7 +1,5 @@
 module CandidateInterface
   class OtherQualifications::TypeController < OtherQualificationsBaseController
-    before_action :redirect_to_dashboard_if_submitted
-
     def new
       @qualification_type = OtherQualificationTypeForm.new
     end
