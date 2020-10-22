@@ -116,7 +116,7 @@ class TestApplications
 
       without_slack_message_sending do
         fast_forward(1..2)
-        SubmitApplicationWithDecoupledReferences.new(@application_form).call
+        SubmitApplication.new(@application_form).call
 
         @application_form.application_choices.each do |choice|
           choice.update_columns(
