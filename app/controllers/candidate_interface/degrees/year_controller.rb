@@ -1,10 +1,10 @@
 module CandidateInterface
   module Degrees
-    class YearController < CandidateInterfaceController
+    class YearController < DegreesBaseController
       before_action :redirect_to_dashboard_if_submitted
 
       def new
-        @degree_year_form = DegreeYearForm.new(degree: degree)
+        @degree_year_form = DegreeYearForm.new(degree: current_degree)
       end
 
       def create
@@ -18,7 +18,7 @@ module CandidateInterface
       end
 
       def edit
-        @degree_year_form = DegreeYearForm.new(degree: degree).fill_form_values
+        @degree_year_form = DegreeYearForm.new(degree: current_degree).fill_form_values
       end
 
       def update
@@ -35,16 +35,12 @@ module CandidateInterface
 
     private
 
-      def degree
-        @degree = ApplicationQualification.find(params[:id])
-      end
-
       def degree_year_params
         params
           .require(:candidate_interface_degree_year_form)
           .permit(:start_year, :award_year)
           .transform_values(&:strip)
-          .merge(degree: degree)
+          .merge(degree: current_degree)
       end
     end
   end

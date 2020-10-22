@@ -1,6 +1,6 @@
 module CandidateInterface
   module Degrees
-    class TypeController < CandidateInterfaceController
+    class TypeController < DegreesBaseController
       before_action :redirect_to_dashboard_if_submitted
       before_action :set_degree_type_names, only: %i[edit update]
 
@@ -21,7 +21,7 @@ module CandidateInterface
       end
 
       def edit
-        @degree_type_form = DegreeTypeForm.new(degree: degree).fill_form_values
+        @degree_type_form = DegreeTypeForm.new(degree: current_degree).fill_form_values
       end
 
       def update
@@ -62,15 +62,11 @@ module CandidateInterface
       end
 
       def update_params
-        degree_type_params.merge(degree: degree)
+        degree_type_params.merge(degree: current_degree)
       end
 
       def degree_already_added?
         current_application.application_qualifications.degree.present?
-      end
-
-      def degree
-        @degree ||= ApplicationQualification.find(params[:id])
       end
     end
   end

@@ -1,24 +1,24 @@
 module CandidateInterface
   module Degrees
-    class SubjectController < CandidateInterfaceController
+    class SubjectController < DegreesBaseController
       before_action :redirect_to_dashboard_if_submitted
       before_action :set_subject_names
 
       def new
-        @degree_subject_form = DegreeSubjectForm.new(degree: degree)
+        @degree_subject_form = DegreeSubjectForm.new(degree: current_degree)
       end
 
       def create
         @degree_subject_form = DegreeSubjectForm.new(subject_params)
         if @degree_subject_form.save
-          redirect_to candidate_interface_degree_institution_path(degree)
+          redirect_to candidate_interface_degree_institution_path(current_degree)
         else
           render :new
         end
       end
 
       def edit
-        @degree_subject_form = DegreeSubjectForm.new(degree: degree).fill_form_values
+        @degree_subject_form = DegreeSubjectForm.new(degree: current_degree).fill_form_values
       end
 
       def update
@@ -34,10 +34,6 @@ module CandidateInterface
 
     private
 
-      def degree
-        @degree ||= ApplicationQualification.find(params[:id])
-      end
-
       def set_subject_names
         @subjects = Hesa::Subject.names
       end
@@ -46,7 +42,7 @@ module CandidateInterface
         params
           .require(:candidate_interface_degree_subject_form)
           .permit(:subject)
-          .merge(degree: degree)
+          .merge(degree: current_degree)
       end
     end
   end

@@ -1,11 +1,11 @@
 module CandidateInterface
   module Degrees
-    class InstitutionController < CandidateInterfaceController
+    class InstitutionController < DegreesBaseController
       before_action :redirect_to_dashboard_if_submitted
       before_action :set_institution_names, :set_countries
 
       def new
-        @degree_institution_form = DegreeInstitutionForm.new(degree: degree)
+        @degree_institution_form = DegreeInstitutionForm.new(degree: current_degree)
       end
 
       def create
@@ -23,7 +23,7 @@ module CandidateInterface
       end
 
       def edit
-        @degree_institution_form = DegreeInstitutionForm.new(degree: degree).fill_form_values
+        @degree_institution_form = DegreeInstitutionForm.new(degree: current_degree).fill_form_values
       end
 
       def update
@@ -39,10 +39,6 @@ module CandidateInterface
 
     private
 
-      def degree
-        @degree ||= ApplicationQualification.find(params[:id])
-      end
-
       def set_countries
         @countries = COUNTRIES
       end
@@ -55,7 +51,7 @@ module CandidateInterface
         params
           .require(:candidate_interface_degree_institution_form)
           .permit(:institution_name, :institution_country)
-          .merge(degree: degree)
+          .merge(degree: current_degree)
       end
     end
   end

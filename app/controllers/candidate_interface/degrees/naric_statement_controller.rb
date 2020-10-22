@@ -1,12 +1,12 @@
 module CandidateInterface
   module Degrees
-    class NaricStatementController < CandidateInterfaceController
+    class NaricStatementController < DegreesBaseController
       before_action :redirect_to_dashboard_if_submitted
 
       def new
         render_404 unless FeatureFlag.active?(:international_degrees)
 
-        @degree_naric_statement_form = DegreeNaricStatementForm.new(degree: degree)
+        @degree_naric_statement_form = DegreeNaricStatementForm.new(degree: current_degree)
       end
 
       def create
@@ -24,7 +24,7 @@ module CandidateInterface
       def edit
         render_404 unless FeatureFlag.active?(:international_degrees)
 
-        @degree_naric_statement_form = DegreeNaricStatementForm.new(degree: degree).fill_form_values
+        @degree_naric_statement_form = DegreeNaricStatementForm.new(degree: current_degree).fill_form_values
       end
 
       def update
@@ -42,15 +42,11 @@ module CandidateInterface
 
     private
 
-      def degree
-        @degree ||= ApplicationQualification.find(params[:id])
-      end
-
       def naric_statement_params
         params
           .require(:candidate_interface_degree_naric_statement_form)
           .permit(:have_naric_reference, :naric_reference, :comparable_uk_degree)
-          .merge(degree: degree)
+          .merge(degree: current_degree)
       end
     end
   end

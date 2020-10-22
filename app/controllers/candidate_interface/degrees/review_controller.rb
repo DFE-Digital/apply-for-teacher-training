@@ -1,6 +1,6 @@
 module CandidateInterface
   module Degrees
-    class ReviewController < CandidateInterfaceController
+    class ReviewController < DegreesBaseController
       before_action :redirect_to_dashboard_if_submitted
 
       def show
