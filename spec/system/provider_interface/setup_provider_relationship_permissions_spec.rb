@@ -83,14 +83,6 @@ RSpec.feature 'Setting up provider relationship permissions' do
 
   alias_method :and_i_click_continue, :when_i_click_continue
 
-  def then_i_can_see_general_information_about_permissions
-    expect(page).to have_content('Understanding access and permissions')
-    expect(page).to have_content('Access to applications')
-    expect(page).to have_content('Permission to make decisions')
-    expect(page).to have_content('Permission to view safeguarding information')
-    expect(page).to have_content('Permission to view diversity information')
-  end
-
   def then_i_can_see_the_permissions_setup_page
     expect(page).to have_content("#{@training_provider.name} and #{@ratifying_provider.name}")
   end
@@ -116,14 +108,21 @@ RSpec.feature 'Setting up provider relationship permissions' do
   def then_i_can_see_the_permissions_summary_page
     expect(page).to have_content(
       [
-        "For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
-        'Which organisations can make decisions?',
+        "#{@training_provider.name} and #{@ratifying_provider.name}",
+        'Who can view applications?',
+        "#{@training_provider.name} #{@ratifying_provider.name}",
+      ].join("\n"),
+    )
+
+    expect(page).to have_content(
+      [
+        'Who can make decisions?',
         @training_provider.name,
         "Change which organisations can make decisions for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
-        'Which organisations can view safeguarding information?',
+        'Who can view safeguarding information?',
         @training_provider.name,
         "Change which organisations can view safeguarding information for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
-        'Which organisations can view diversity information?',
+        'Who can view diversity information?',
         @training_provider.name,
         "Change which organisations can view diversity information for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
       ].join("\n"),
@@ -131,14 +130,21 @@ RSpec.feature 'Setting up provider relationship permissions' do
 
     expect(page).to have_content(
       [
-        "For courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
-        'Which organisations can make decisions?',
+        "#{@another_training_provider.name} and #{@another_ratifying_provider.name}",
+        'Who can view applications?',
+        "#{@another_training_provider.name} #{@another_ratifying_provider.name}",
+      ].join("\n"),
+    )
+
+    expect(page).to have_content(
+      [
+        'Who can make decisions?',
         @another_ratifying_provider.name,
         "Change which organisations can make decisions for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
-        'Which organisations can view safeguarding information?',
+        'Who can view safeguarding information?',
         @another_ratifying_provider.name,
         "Change which organisations can view safeguarding information for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
-        'Which organisations can view diversity information?',
+        'Who can view diversity information?',
         @another_ratifying_provider.name,
         "Change which organisations can view diversity information for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
       ].join("\n"),
@@ -148,14 +154,21 @@ RSpec.feature 'Setting up provider relationship permissions' do
   def when_i_confirm_the_updated_permissions
     expect(page).to have_content(
       [
-        "For courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
-        'Which organisations can make decisions?',
+        "#{@training_provider.name} and #{@ratifying_provider.name}",
+        'Who can view applications?',
+        "#{@training_provider.name} #{@ratifying_provider.name}",
+      ].join("\n"),
+    )
+
+    expect(page).to have_content(
+      [
+        'Who can make decisions?',
         "#{@training_provider.name} #{@ratifying_provider.name}",
         "Change which organisations can make decisions for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
-        'Which organisations can view safeguarding information?',
+        'Who can view safeguarding information?',
         @training_provider.name,
         "Change which organisations can view safeguarding information for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
-        'Which organisations can view diversity information?',
+        'Who can view diversity information?',
         @training_provider.name,
         "Change which organisations can view diversity information for courses run by #{@training_provider.name} and ratified by #{@ratifying_provider.name}",
       ].join("\n"),
@@ -163,14 +176,21 @@ RSpec.feature 'Setting up provider relationship permissions' do
 
     expect(page).to have_content(
       [
-        "For courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
-        'Which organisations can make decisions?',
+        "#{@another_training_provider.name} and #{@another_ratifying_provider.name}",
+        'Who can view applications?',
+        "#{@another_training_provider.name} #{@another_ratifying_provider.name}",
+      ].join("\n"),
+    )
+
+    expect(page).to have_content(
+      [
+        'Who can make decisions?',
         @another_ratifying_provider.name,
         "Change which organisations can make decisions for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
-        'Which organisations can view safeguarding information?',
+        'Who can view safeguarding information?',
         @another_ratifying_provider.name,
         "Change which organisations can view safeguarding information for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
-        'Which organisations can view diversity information?',
+        'Who can view diversity information?',
         @another_ratifying_provider.name,
         "Change which organisations can view diversity information for courses run by #{@another_training_provider.name} and ratified by #{@another_ratifying_provider.name}",
       ].join("\n"),
@@ -187,7 +207,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
   end
 
   def then_i_return_to_the_permissions_summary_page
-    expect(page).to have_content("Which organisations can make decisions?\n#{@training_provider.name} #{@ratifying_provider.name}\n")
+    expect(page).to have_content("Who can make decisions?\n#{@training_provider.name} #{@ratifying_provider.name}\n")
   end
 
   def then_i_see_permissions_setup_has_finished

@@ -8,8 +8,13 @@ module ProviderInterface
       @editable = editable
     end
 
+    def title
+      "#{permissions_model.training_provider.name} and #{permissions_model.ratifying_provider.name}"
+    end
+
     def rows
       [
+        view_applications_permissions_row,
         permissions_row('make decisions'),
         permissions_row('view safeguarding information'),
         permissions_row('view diversity information'),
@@ -23,7 +28,7 @@ module ProviderInterface
 
     def permissions_row(permission_name)
       {
-        key: "Which organisations can #{permission_name}?",
+        key: "Who can #{permission_name}?",
         permission_slug: permission_name.parameterize.dasherize,
         change_path: change_path(permission_name.parameterize),
         permissions_list: permissions_list(permission_name.parameterize.underscore),
@@ -40,6 +45,14 @@ module ProviderInterface
         (permissions_model.send("training_provider_can_#{permission_name}") && training_provider.name) || nil,
         (permissions_model.send("ratifying_provider_can_#{permission_name}") && ratifying_provider.name) || nil,
       ].compact
+    end
+
+    def view_applications_permissions_row
+      {
+        key: 'Who can view applications?',
+        permission_slug: 'view-applications',
+        permissions_list: [training_provider.name, ratifying_provider.name],
+      }
     end
   end
 end

@@ -1,23 +1,44 @@
-<dl class="govuk-summary-list">
-<% rows.each do |row| %>
-  <div class="govuk-summary-list__row">
-    <dt class="govuk-summary-list__key">
-      <%= row[:key] %>
-    </dt>
-    <dd class="govuk-summary-list__value">
-      <ul class="govuk-list <%= row[:permission_slug] %>">
-        <% row[:permissions_list].each do |provider_name| %>
-          <li><%= render CheckIcon.new %> <%= provider_name %></li>
+<section class="app-summary-card govuk-!-margin-bottom-6">
+  <header class="app-summary-card__header">
+    <h2 class="app-summary-card__title">
+      <%= title %>
+    </h2>
+  </header>
+  <div class="app-summary-card__body">
+    <dl class="govuk-summary-list">
+    <% rows.each do |row| %>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          <%= row[:key] %>
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <ul class="govuk-list <%= row[:permission_slug] %>">
+            <% row[:permissions_list].each do |provider_name| %>
+              <li><%= render CheckIcon.new %> <%= provider_name %></li>
+            <% end %>
+          </ul>
+          <% if row[:permission_slug] == 'view-applications' %>
+            <details class="govuk-details" data-module="govuk-details">
+							<summary class="govuk-details__summary">
+								<span class="govuk-details__summary-text">
+									Why can’t this be changed?
+								</span>
+							</summary>
+							<div class="govuk-details__text">
+								All users at both organisations can view applications – you do not need to set permissions for this.
+							</div>
+						</details>
+          <% end %>
+        </dd>
+        <% if editable %>
+          <dd class="govuk-summary-list__actions">
+            <%= govuk_link_to(nil, row[:change_path]) do %>
+              Change<span class="govuk-visually-hidden"><%= row[:action] %></span>
+            <% end if row[:change_path] %>
+          </dd>
         <% end %>
-      </ul>
-    </dd>
-    <% if editable %>
-      <dd class="govuk-summary-list__actions">
-        <%= govuk_link_to(nil, row[:change_path]) do %>
-          Change<span class="govuk-visually-hidden"><%= row[:action] %></span>
-        <% end %>
-      </dd>
+      </div>
     <% end %>
+    </dl>
   </div>
-<% end %>
-</dl>
+</section>
