@@ -59,7 +59,7 @@ class ReferenceHistory
 private
 
   def audits
-    reference.audits.updates
+    @audits ||= reference.audits.updates
   end
 
   def status_change(audit, to:)
