@@ -52,8 +52,19 @@ RSpec.describe ReferenceHistory do
       events = described_class.new(reference).all_events
 
       all_event_names.each do |event_name|
-        expect(events.select { |e| e.name == event_name }.count).to eq 2
+        expect(events.select { |e| e.name == event_name }.size).to eq 2
       end
+    end
+
+    it 'detects two types of cancel', with_audited: true do
+      reference = create(:reference, :not_requested_yet, email_address: 'ericandre@email.com')
+      reference.cancelled!
+      reference.cancelled_at_end_of_cycle!
+
+      events = described_class.new(reference).all_events
+
+      expect(events.size).to eq 2
+      events.each { |e| expect(e.name).to eq 'request_cancelled' }
     end
 
   private

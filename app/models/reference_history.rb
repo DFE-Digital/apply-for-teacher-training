@@ -25,7 +25,7 @@ class ReferenceHistory
 
   def request_cancelled
     audits
-      .select { |a| status_change(a, to: 'cancelled') }
+      .select { |a| status_change(a, to: 'cancelled') || status_change(a, to: 'cancelled_at_end_of_cycle') }
       .map { |a| Event.new('request_cancelled', a.created_at) }
   end
 
