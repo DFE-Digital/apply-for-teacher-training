@@ -1,19 +1,32 @@
 module CandidateInterface
   module DecoupledReferences
     class CancelReference
-      def call(reference:)
+      include SlackNotifications
+
+      def self.call(reference)
+        new(reference).call
+      end
+
+      attr_reader :reference
+
+      def initialize(reference)
+        @reference = reference
+      end
+
+      def call
         reference.update!(feedback_status: 'cancelled')
         RefereeMailer.reference_cancelled_email(reference).deliver_later
-        send_slack_message(reference, reference.application_form)
+        send_slack_message(application_form, message)
       end
 
     private
 
-      def send_slack_message(reference, application_form)
-        message = "Candidate #{reference.application_form.first_name} has cancelled one of their references"
-        url = Rails.application.routes.url_helpers.support_interface_application_form_url(application_form)
+      def message
+        "Candidate #{application_form.first_name} has cancelled one of their references"
+      end
 
-        SlackNotificationWorker.perform_async(message, url)
+      def application_form
+        reference.application_form
       end
     end
   end

@@ -51,7 +51,7 @@ module CandidateInterface
 
       def cancel
         if @reference.feedback_requested?
-          CancelReference.new.call(reference: @reference)
+          CancelReference.call(@reference)
 
           redirect_to candidate_interface_decoupled_references_review_path
           flash[:success] = "Reference request cancelled for #{@reference.name}"
