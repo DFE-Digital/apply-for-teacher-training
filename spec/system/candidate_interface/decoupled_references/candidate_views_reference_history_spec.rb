@@ -57,7 +57,7 @@ RSpec.feature 'Reference history on review page' do
       { event_name: 'Reminder sent', timestamp: '2 January 2020 at 2:00pm' },
       { event_name: 'Request cancelled', timestamp: '3 January 2020 at 2:00pm' },
     ]
-    within '.qa-reference-history' do
+    within '[data-qa="reference-history"]' do
       all('li').zip(expected_history).each do |rendered, expected|
         expect(rendered.text).to include expected[:event_name]
         expect(rendered.text).to include expected[:timestamp]
