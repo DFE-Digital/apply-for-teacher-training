@@ -1,10 +1,5 @@
 <% content_for :title, t('page_titles.application_dashboard') %>
 
-<% new_application_choice_needed_component = CandidateInterface::NewCourseChoiceNeededBannerComponent.new(application_form: @application_form) %>
-<% if CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(current_application) && new_application_choice_needed_component.render? %>
-  <%= render new_application_choice_needed_component %>
-<% end %>
-
 <% if @application_form.ended_without_success? %>
   <%= render CandidateInterface::ApplyAgainBannerComponent.new(application_form: @application_form) %>
   <%= render CandidateInterface::CarryOverBannerComponent.new(application_form: @application_form) %>
