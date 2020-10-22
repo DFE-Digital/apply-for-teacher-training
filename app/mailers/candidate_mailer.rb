@@ -144,7 +144,9 @@ class CandidateMailer < ApplicationMailer
     @application_choices = application_form.application_choices.select(&:offer?)
     @dbd_date = @application_choices.first.decline_by_default_at.to_s(:govuk_date).strip
     @days_until_chaser = TimeLimitCalculator.new(rule: :chase_candidate_before_dbd, effective_date: @application_choices.first.sent_to_provider_at).call.fetch(:days)
-
+    @offers = @application_choices.map do |offer|
+      "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
+    end
     subject_pluralisation = @application_choices.count > 1 ? 'plural' : 'singular'
 
     email_for_candidate(
@@ -200,6 +202,11 @@ class CandidateMailer < ApplicationMailer
   def changed_offer(application_choice)
     @application_choice = application_choice
     @course_option = @application_choice.course_option
+    @offered_course_option = @application_choice.offered_course_option
+    @is_awaiting_decision = application_choice.application_form.application_choices.any?(&:awaiting_provider_decision?)
+    @offers = @application_choice.application_form.application_choices.select(&:offer?).map do |offer|
+      "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
+    end
 
     email_for_candidate(
       @application_choice.application_form,
