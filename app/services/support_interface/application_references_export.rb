@@ -3,7 +3,7 @@ module SupportInterface
     def data_for_export
       application_forms = ApplicationForm.includes(:application_references)
 
-      application_forms.map do |af|
+      data_for_export = application_forms.map do |af|
         output = {
           'Recruitment cycle year' => af.recruitment_cycle_year,
           'Support ref number' => af.support_reference,
@@ -18,6 +18,10 @@ module SupportInterface
 
         output
       end
+
+      # The DataExport class creates the header row for us so we need to ensure
+      # we sort by longest hash length to ensure all headers appear
+      data_for_export.sort_by(&:length).reverse
     end
   end
 end

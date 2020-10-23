@@ -11,7 +11,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
         sex: 'female',
         ethnic_background: 'Kiwi',
         ethnic_group: 'Cantabrian',
-        disabilities: ['unexplained', 'amnesia'],
+        disabilities: %w[unexplained amnesia],
       }
 
       application_form_one = create(:completed_application_form, equality_and_diversity: two_disabilities)
