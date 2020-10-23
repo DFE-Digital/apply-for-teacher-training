@@ -7,7 +7,7 @@
       <%= f.govuk_error_summary %>
       <h1 class="govuk-heading-xl">
         <%= t('page_titles.your_feedback') %>
-      </h2>
+      </h1>
       <%= f.govuk_radio_buttons_fieldset :satisfaction_level, legend: { text: 'How satisfied are you with this service?' } do %>
         <% ApplicationForm.feedback_satisfaction_levels.values.each do |value| %>
           <%= f.govuk_radio_button :satisfaction_level, value, label: { text: t("satisfaction_levels.#{value}") }  %>
