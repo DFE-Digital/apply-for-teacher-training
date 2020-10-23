@@ -1,9 +1,10 @@
 <% content_for :title, title_with_error_prefix(t('page_titles.your_feedback'), @feedback_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_submit_success_path) %>
 
-<%= form_with model: @feedback_form, url: candidate_interface_create_feedback_form_path, method: :post do |f| %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @feedback_form, url: candidate_interface_create_feedback_form_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
       <h2 class="govuk-heading-xl">
         <%= t('page_titles.your_feedback') %>
       </h2>
@@ -14,6 +15,6 @@
       <% end %>
       <%= f.govuk_text_area :suggestions, label: { text: 'How could we improve this service?' }, rows: 8, max_words: 400 %>
       <%= f.govuk_submit 'Send feedback' %>
-    </div>
+    <% end %>
   </div>
-<% end %>
+</div>

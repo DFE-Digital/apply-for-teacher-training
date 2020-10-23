@@ -15,6 +15,9 @@ RSpec.describe 'Candidate feedback form' do
     when_they_click_give_feedback
     then_they_should_see_the_feedback_form
 
+    when_i_click_send_feedback
+    then_i_should_see_a_validation_error
+
     when_i_choose_very_satisfied
     and_i_make_a_suggestion
     and_click_send_feedback
@@ -39,6 +42,16 @@ RSpec.describe 'Candidate feedback form' do
     expect(page).to have_content(t('page_titles.your_feedback'))
   end
 
+  def when_i_click_send_feedback
+    click_button 'Send feedback'
+  end
+  alias_method :and_click_send_feedback, :when_i_click_send_feedback
+
+  def then_i_should_see_a_validation_error
+    expect(page).to have_current_path(candidate_interface_feedback_form_path)
+    expect(page).to have_content('Choose how satisfied are you with this service')
+  end
+
   def when_i_choose_very_satisfied
     choose 'Very satisfied'
   end
@@ -46,11 +59,7 @@ RSpec.describe 'Candidate feedback form' do
   def and_i_make_a_suggestion
     fill_in 'How could we improve this service?', with: 'More rainbows and unicorns'
   end
-
-  def and_click_send_feedback
-    click_button 'Send feedback'
-  end
-
+    
   def then_i_see_the_thank_you_page
     expect(page).to have_content(t('page_titles.thank_you'))
   end
