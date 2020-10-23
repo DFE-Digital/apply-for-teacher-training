@@ -1,4 +1,4 @@
-<% content_for :title, 'Equality and diversity questionnaire' %>
+<% content_for :title, t('equality_and_diversity.title') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_review_path) %>
 
 <div class="govuk-grid-row">
@@ -6,15 +6,15 @@
     <%= form_with model: @choice_form, url: candidate_interface_start_equality_and_diversity_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">Equality and diversity questionnaire</h1>
+      <h1 class="govuk-heading-xl"><%= t('equality_and_diversity.title') %></h1>
       <p class="govuk-body">The Department for Education (DfE) uses equality and diversity data to improve the teacher training application process and make government policy better.</p>
       <p class="govuk-body">We use the information you give in this questionnaire to help prevent discrimination in teacher recruitment. We also share it with your teacher training provider if you accept a place on their course.</p>
       <p class="govuk-body"><%= govuk_link_to 'Find out how we use and look after your data', candidate_interface_privacy_policy_path %></p>
       <p class="govuk-body">Completing the questionnaire is optional and will not affect the progress of your application.</p>
 
-      <%= f.govuk_radio_buttons_fieldset :choice, legend: { text: 'Can you complete a 3-minute questionnaire?' } do %>
-        <%= f.govuk_radio_button :choice, :yes, label: { text: 'Yes, continue to the questionnaire' }, link_errors: true %>
-        <%= f.govuk_radio_button :choice, :no, label: { text: 'No, continue without completing questionnaire' } %>
+      <%= f.govuk_radio_buttons_fieldset :choice, legend: { text: t('equality_and_diversity.choice.title') } do %>
+        <%= f.govuk_radio_button :choice, :yes, label: { text: t('equality_and_diversity.choice.yes.label') }, link_errors: true %>
+        <%= f.govuk_radio_button :choice, :no, label: { text: t('equality_and_diversity.choice.no.label') } %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>

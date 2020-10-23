@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix('Please select all that apply to you', @disabilities.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('equality_and_diversity.disabilities.title'), @disabilities.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_edit_equality_and_diversity_disability_status_path) %>
 
 <div class="govuk-grid-row">
@@ -6,17 +6,14 @@
     <%= form_with model: @disabilities, url: candidate_interface_update_equality_and_diversity_disabilities_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :disabilities, multiple: false, legend: { size: 'xl', text: equality_and_diversity_caption + 'Please select all that apply to you' } do %>
-        <div class="govuk-!-margin-top-6">
-          <% disabilities_checkboxes.each do |checkbox| %>
-            <%= f.govuk_check_box :disabilities, checkbox.name, label: { text: checkbox.name, size: 's' }, hint: { text: checkbox.hint_text } %>
-          <% end %>
+      <%= f.govuk_check_boxes_fieldset :disabilities, multiple: false, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.disabilities.title'), size: 'xl' } do %>
+        <% disabilities_checkboxes.each do |checkbox| %>
+          <%= f.govuk_check_box :disabilities, checkbox.name, label: { text: checkbox.name, size: 's' }, hint: { text: checkbox.hint_text } %>
+        <% end %>
 
-          <%= f.govuk_check_box :disabilities, 'Other', label: { text: 'Other', size: 's' } do %>
-            <%= f.govuk_text_field :other_disability, label: { text: 'Describe your disability (optional)' } %>
-          <% end %>
-
-        </div>
+        <%= f.govuk_check_box :disabilities, t('equality_and_diversity.disabilities.other.label'), label: { text: t('equality_and_diversity.disabilities.other.label'), size: 's' } do %>
+          <%= f.govuk_text_field :other_disability, label: { text: t('equality_and_diversity.disabilities.other_disability.label') } %>
+        <% end %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>

@@ -40,13 +40,9 @@ module EthnicBackgroundHelper
   end
 
   def ethnic_background_title(group)
-    return 'Which of the following best describes your ethnicity?' if group == 'Another ethnic group'
+    return t('equality_and_diversity.ethnic_background.title_other') if group == 'Another ethnic group'
 
-    "Which of the following best describes your #{group} background?"
-  end
-
-  def equality_and_diversity_caption
-    '<span class="govuk-caption-xl">Equality and diversity</span>'.html_safe
+    t('equality_and_diversity.ethnic_background.title', group: group)
   end
 
   # return every possible combination of group + background
