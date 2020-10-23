@@ -350,38 +350,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.apply_again_call_to_action(application_form)
   end
 
-  def course_unavailable_notification_course_full
-    application_form = application_form_with_course_choices([application_choice_awaiting_references])
-    CandidateMailer.course_unavailable_notification(
-      application_form.application_choices.first,
-      :course_full,
-    )
-  end
-
-  def course_unavailable_notification_course_withdrawn
-    application_form = application_form_with_course_choices([application_choice_awaiting_references])
-    CandidateMailer.course_unavailable_notification(
-      application_form.application_choices.first,
-      :course_withdrawn,
-    )
-  end
-
-  def course_unavailable_notification_location_full
-    application_form = application_form_with_course_choices([application_choice_awaiting_references])
-    CandidateMailer.course_unavailable_notification(
-      application_form.application_choices.first,
-      :location_full,
-    )
-  end
-
-  def course_unavailable_notification_study_mode_full
-    application_form = application_form_with_course_choices([application_choice_awaiting_references])
-    CandidateMailer.course_unavailable_notification(
-      application_form.application_choices.first,
-      :study_mode_full,
-    )
-  end
-
   def eoc_choice_unavailable_and_still_waiting_on_other_choices
     application_form = application_form_with_course_choices(
       [
@@ -393,20 +361,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.eoc_choice_unavailable_and_still_waiting_on_other_choices(
       application_form.application_choices.first,
     )
-  end
-
-  def eoc_choice_unavailable_and_no_other_choices
-    application_form = application_form_with_course_choices(
-      [FactoryBot.build_stubbed(:application_choice, course_option: course_option)],
-    )
-
-    CandidateMailer.eoc_choice_unavailable_and_no_other_choices(
-      application_form.application_choices.first,
-    )
-  end
-
-  def find_another_course
-    CandidateMailer.find_another_course(application_choice_awaiting_references)
   end
 
   def deferred_offer
