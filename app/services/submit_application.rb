@@ -1,4 +1,4 @@
-class SubmitApplicationWithDecoupledReferences
+class SubmitApplication
   attr_reader :application_form, :application_choices
 
   def initialize(application_form)

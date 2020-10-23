@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SubmitApplicationWithDecoupledReferences do
+RSpec.describe SubmitApplication do
   describe '#call' do
     it 'updates timestamps relevant to submitting an application' do
       Timecop.freeze(Time.zone.local(0)) do
