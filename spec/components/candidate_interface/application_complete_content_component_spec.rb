@@ -13,7 +13,6 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
   before do
     view_helper = instance_double(ViewHelper)
     allow(view_helper).to receive(:respond_by_date).and_return('1 January 2020')
-    FeatureFlag.activate('decoupled_references')
   end
 
   context 'when the application is waiting for a decision from providers' do

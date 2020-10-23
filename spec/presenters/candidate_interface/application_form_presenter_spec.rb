@@ -302,8 +302,6 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
   end
 
   describe '#enough_references_provided?' do
-    before { FeatureFlag.activate(:decoupled_references) }
-
     it 'returns true if the referees section has been created and two references have been provided' do
       application_form = create(:application_form)
       create_list(:reference, 2, :feedback_provided, application_form: application_form)

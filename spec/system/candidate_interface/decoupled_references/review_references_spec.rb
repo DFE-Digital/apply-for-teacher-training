@@ -5,7 +5,6 @@ RSpec.feature 'Review references' do
 
   scenario 'the candidate has several references in different states' do
     given_i_am_signed_in
-    and_the_decoupled_references_flag_is_on
     when_i_view_my_application
     then_the_references_section_is_incomplete
 
@@ -25,10 +24,6 @@ RSpec.feature 'Review references' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_decoupled_references_flag_is_on
-    FeatureFlag.activate('decoupled_references')
   end
 
   def when_i_view_my_application

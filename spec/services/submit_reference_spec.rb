@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe SubmitReference do
   describe '#save!' do
-    before { FeatureFlag.activate(:decoupled_references) }
-
     it 'updates the reference state to "feedback_provided"' do
       application_choice = create(:application_choice, status: :unsubmitted)
       application_form = application_choice.application_form

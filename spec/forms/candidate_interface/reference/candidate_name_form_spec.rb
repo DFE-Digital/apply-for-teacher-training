@@ -27,10 +27,6 @@ RSpec.describe CandidateInterface::Reference::CandidateNameForm, type: :model do
       )
     end
 
-    before do
-      FeatureFlag.activate('decoupled_references')
-    end
-
     context 'when first_name is blank' do
       it 'returns false' do
         form = described_class.new(last_name: 'White')

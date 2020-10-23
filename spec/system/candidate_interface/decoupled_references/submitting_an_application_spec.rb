@@ -5,7 +5,6 @@ RSpec.feature 'Submitting an application' do
 
   scenario 'Candidate submits complete application' do
     given_i_am_signed_in
-    and_the_decoupled_references_flag_is_on
     and_i_have_completed_my_application
     then_i_can_see_references_are_incomplete
 
@@ -27,10 +26,6 @@ RSpec.feature 'Submitting an application' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_decoupled_references_flag_is_on
-    FeatureFlag.activate('decoupled_references')
   end
 
   def and_i_have_completed_my_application

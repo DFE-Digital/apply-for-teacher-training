@@ -5,7 +5,6 @@ RSpec.describe 'Candidate satisfaction survey' do
 
   before do
     FeatureFlag.deactivate(:feedback_form)
-    FeatureFlag.activate(:decoupled_references)
   end
 
   scenario 'Candidate completes the survey' do

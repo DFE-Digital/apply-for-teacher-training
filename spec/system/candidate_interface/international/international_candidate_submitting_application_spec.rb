@@ -4,8 +4,6 @@ RSpec.feature 'International candidate submits the application' do
   include CandidateHelper
   include EFLHelper
 
-  before { FeatureFlag.activate(:decoupled_references) }
-
   scenario 'International candidate completes and submits an application' do
     FeatureFlag.deactivate(:international_addresses)
     FeatureFlag.deactivate(:international_degrees)

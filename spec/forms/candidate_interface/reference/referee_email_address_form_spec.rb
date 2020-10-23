@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :model do
-  before do
-    FeatureFlag.activate('decoupled_references')
-  end
-
   describe 'validations' do
     let(:form) { subject }
 
