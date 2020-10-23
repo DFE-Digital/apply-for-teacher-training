@@ -157,6 +157,11 @@ FactoryBot.define do
         end
       end
 
+      trait :with_feedback_completed do
+        feedback_satisfaction_level { ApplicationForm.feedback_satisfaction_levels.values.sample }
+        feedback_suggestions { Faker::Lorem.paragraph_by_chars(number: 200) }
+      end
+
       trait :with_equality_and_diversity_data do
         equality_and_diversity do
           ethnicity = Class.new.extend(EthnicBackgroundHelper).all_combinations.sample
