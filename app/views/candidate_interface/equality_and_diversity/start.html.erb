@@ -1,22 +1,23 @@
-<% content_for :title, 'Equality and diversity' %>
+<% content_for :title, 'Equality and diversity questionnaire' %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_review_path) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      Can you complete a 3-minute equality and diversity questionnaire?
-    </h1>
+    <%= form_with model: @choice_form, url: candidate_interface_start_equality_and_diversity_path do |f| %>
+      <%= f.govuk_error_summary %>
 
-    <p class="govuk-body">Completing the questionnaire is optional and will not affect the progress of your application.</p>
-    <p class="govuk-body">The Department for Education (DfE) uses equality and diversity data to improve the teacher training application process and make government policy better.</p>
-    <p class="govuk-body">For example, DfE will use the information you give in this questionnaire to help prevent discrimination in teacher recruitment.</p>
-    <p class="govuk-body">The information you give in this questionnaire will also be shared with your teacher training provider if you accept a place on their course.</p>
-    <p class="govuk-body"><% govuk_link_to 'Find out how we use and look after your data', candidate_interface_privacy_policy_path %></p>
+      <h1 class="govuk-heading-xl">Equality and diversity questionnaire</h1>
+      <p class="govuk-body">The Department for Education (DfE) uses equality and diversity data to improve the teacher training application process and make government policy better.</p>
+      <p class="govuk-body">We use the information you give in this questionnaire to help prevent discrimination in teacher recruitment. We also share it with your teacher training provider if you accept a place on their course.</p>
+      <p class="govuk-body"><%= govuk_link_to 'Find out how we use and look after your data', candidate_interface_privacy_policy_path %></p>
+      <p class="govuk-body">Completing the questionnaire is optional and will not affect the progress of your application.</p>
 
-    <%= govuk_button_link_to 'Yes, continue to the questionnaire', entrypoint_path %>
+      <%= f.govuk_radio_buttons_fieldset :choice, legend: { text: 'Can you complete a 3-minute questionnaire?' } do %>
+        <%= f.govuk_radio_button :choice, :yes, label: { text: 'Yes, continue to the questionnaire' }, link_errors: true %>
+        <%= f.govuk_radio_button :choice, :no, label: { text: 'No, continue without completing questionnaire' } %>
+      <% end %>
 
-    <p class="govuk-body">
-      <%= govuk_link_to 'Continue without completing questionnaire', candidate_interface_application_submit_show_path %>
-    </p>
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
   </div>
 </div>

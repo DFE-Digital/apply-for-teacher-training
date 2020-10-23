@@ -100,11 +100,13 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_see_the_equality_and_diversity_page
-    expect(page).to have_content 'Can you complete a 3-minute equality and diversity questionnaire?'
+    expect(page).to have_title 'Equality and diversity questionnaire'
+    expect(page).to have_content 'Can you complete a 3-minute questionnaire?'
   end
 
   def when_i_choose_not_to_complete_equality_and_diversity
-    click_link 'Continue without completing questionnaire'
+    choose 'No'
+    click_button 'Continue'
   end
 
   def then_i_can_submit_my_application
@@ -116,7 +118,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def and_i_choose_to_complete_equality_and_diversity
-    click_link 'Yes, continue to the questionnaire'
+    click_button 'Continue'
   end
 
   def then_i_am_asked_to_choose_my_sex
@@ -283,7 +285,7 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_manually_restart_the_questionnaire
     visit candidate_interface_start_equality_and_diversity_path
-    click_link 'Yes, continue to the questionnaire'
+    click_button 'Continue'
   end
 
   def then_i_go_straight_to_the_review_page
