@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Candidate feedback form' do
   include CandidateHelper
 
-  before do 
+  before do
     FeatureFlag.activate(:feedback_form)
     FeatureFlag.activate(:decoupled_references)
   end
@@ -59,7 +59,7 @@ RSpec.describe 'Candidate feedback form' do
   def and_i_make_a_suggestion
     fill_in 'How could we improve this service?', with: 'More rainbows and unicorns'
   end
-    
+
   def then_i_see_the_thank_you_page
     expect(page).to have_content(t('page_titles.thank_you'))
   end
