@@ -13,6 +13,7 @@ RSpec.feature 'Entering their equality and diversity information' do
     then_i_can_submit_my_application
 
     when_i_am_on_the_equality_and_diversity_page
+    and_i_can_see_a_link_to_the_privacy_policy
     and_i_choose_to_complete_equality_and_diversity
     then_i_am_asked_to_choose_my_sex
 
@@ -115,6 +116,10 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_am_on_the_equality_and_diversity_page
     visit candidate_interface_start_equality_and_diversity_path
+  end
+
+  def and_i_can_see_a_link_to_the_privacy_policy
+    expect(page).to have_link('Find out how we use and look after your data', href: candidate_interface_privacy_policy_path)
   end
 
   def and_i_choose_to_complete_equality_and_diversity
