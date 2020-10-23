@@ -10,7 +10,7 @@ RSpec.feature 'Reference history on review page' do
     and_i_add_a_reference
     and_i_send_it
     and_i_send_a_reminder
-    and_i_cancel_the_reference
+    and_the_system_sends_an_automated_reminder
     then_i_see_a_history_of_these_events_on_the_review_page
     and_i_do_not_see_these_when_reviewing_the_entire_application
   end
@@ -27,38 +27,43 @@ RSpec.feature 'Reference history on review page' do
     click_button 'Save and continue'
 
     candidate_fills_in_referee
+    @reference = current_candidate.current_application.application_references.first
   end
 
   def and_i_send_it
-    Timecop.travel(Time.zone.local(2020, 1, 1, 14)) do
+    Timecop.travel(Time.zone.parse('2020/01/01 14:00')) do
       choose 'Yes, send a reference request now'
       click_button 'Save and continue'
     end
+    @reference.reload
   end
 
   def and_i_send_a_reminder
-    Timecop.travel(Time.zone.local(2020, 1, 2, 14)) do
+    Timecop.travel(@reference.requested_at + 1.day) do
       click_link 'Send a reminder to this referee'
       click_button 'Yes I’m sure - send a reminder'
     end
   end
 
-  def and_i_cancel_the_reference
-    Timecop.travel(Time.zone.local(2020, 1, 3, 14)) do
-      click_link 'Cancel request'
-      click_button 'Yes I’m sure - cancel this reference request'
+  def and_the_system_sends_an_automated_reminder
+    Timecop.travel(@reference.requested_at + TimeLimitConfig.chase_referee_by.days) do
+      ChaseReferences.new.perform
     end
   end
 
   def then_i_see_a_history_of_these_events_on_the_review_page
+    visit candidate_interface_decoupled_references_review_path
     expect(page).to have_content 'History'
     expected_history = [
       { event_name: 'Request sent', timestamp: '1 January 2020 at 2:00pm' },
       { event_name: 'Reminder sent', timestamp: '2 January 2020 at 2:00pm' },
-      { event_name: 'Request cancelled', timestamp: '3 January 2020 at 2:00pm' },
+      { event_name: 'Automated reminder sent', timestamp: '8 January 2020 at 2:00pm' },
     ]
+
     within '[data-qa="reference-history"]' do
-      all('li').zip(expected_history).each do |rendered, expected|
+      rendered_entries = all('li')
+      expect(rendered_entries.size).to eq 3
+      expected_history.zip(rendered_entries).each do |expected, rendered|
         expect(rendered.text).to include expected[:event_name]
         expect(rendered.text).to include expected[:timestamp]
       end
