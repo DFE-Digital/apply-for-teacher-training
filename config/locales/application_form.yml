@@ -893,3 +893,7 @@ en:
           attributes:
             service:
               blank: Choose if you want to use the new GOV.UK service
+        candidate_interface/feedback_form:
+          attributes:
+            satisfaction_level:
+              blank: Choose how satisfied are you with this service

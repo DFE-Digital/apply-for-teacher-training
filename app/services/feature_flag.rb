@@ -33,6 +33,7 @@ class FeatureFlag
     [:international_other_qualifications, 'Candidates can provide details of Other international qualifications .', 'David Gisbey'],
     [:decoupled_references, 'Candidates now complete and request their references prior to submitting their application.', 'David Gisbey'],
     [:export_hesa_data, 'Providers can export applications including HESA data.', 'Steve Laing'],
+    [:feedback_form, 'New simplified feedback form to replace old multi-page satisfaction survey.', 'Steve Hook'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|

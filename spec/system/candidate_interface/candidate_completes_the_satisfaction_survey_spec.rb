@@ -3,7 +3,10 @@ require 'rails_helper'
 RSpec.describe 'Candidate satisfaction survey' do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:decoupled_references) }
+  before do
+    FeatureFlag.deactivate(:feedback_form)
+    FeatureFlag.activate(:decoupled_references)
+  end
 
   scenario 'Candidate completes the survey' do
     given_the_candidate_completes_and_submits_their_application

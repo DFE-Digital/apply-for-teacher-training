@@ -153,6 +153,7 @@ en:
     withdraw_application: Are you sure you want to withdraw your application?
     guidance: User guidance
     applications_closed: Create an Apply for teacher training account
+    your_feedback: Your feedback
   layout:
     support:
       title: Get support
