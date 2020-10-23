@@ -7,33 +7,8 @@ class SubmitReference
   end
 
   def save!
-    if enough_references_have_been_submitted?
-      # With the decoupled_references feature active, we should be preventing
-      # submission of the application unless the MINIMUM_COMPLETE_REFERENCES
-      # have been provided. We also no longer allow the candidate to manually
-      # mark the section complete - it is considered complete when the minimum
-      # references are given. We check the references directly when attempting
-      # to submit the form, rather than inspecting the
-      # ApplicationForm#references_completed flag.
-      #
-      # As such, this method only needs to update the state of the reference,
-      # not the application form.
-      #
-      # TODO: drop the ApplicationForm#references_completed column when
-      # removing the decoupled_references feature flag.
-      if FeatureFlag.active?(:decoupled_references)
-        reference_feedback_provided!
-
-        application_form.application_references.select(&:feedback_requested?).each do |reference|
-          CancelReferee.new.call(reference: reference, cancelled_by_default: true)
-        end
-      else
-        progress_applications
-      end
-    else
-      reference_feedback_provided!
-    end
-
+    reference_feedback_provided!
+    cancel_feedback_requested_references if enough_references_have_been_provided?
     CandidateMailer.reference_received(@reference).deliver_later
     RefereeMailer.reference_confirmation_email(application_form, reference).deliver_later
   end
@@ -44,7 +19,7 @@ private
   # the 2nd referee, since there might be more than 2 references per form. We
   # do not want to send the references to the provider *again* when the 3rd or
   # 4th reference is submitted.
-  def enough_references_have_been_submitted?
+  def enough_references_have_been_provided?
     (
       application_form.application_references.feedback_provided + [@reference]
     ).uniq.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES
@@ -54,21 +29,9 @@ private
     @reference.update!(feedback_status: 'feedback_provided')
   end
 
-  def progress_applications
-    ActiveRecord::Base.transaction do
-      reference_feedback_provided!
-      application_form.application_choices.awaiting_references.each do |application_choice|
-        ApplicationStateChange.new(application_choice).references_complete!
-
-        next unless application_form.candidate_has_previously_applied?
-
-        # If the candidate has previously applied, they have less of a need to
-        # edit the application. Hence, we clear out the usual 7-day edit window
-        # by resetting the `edit_by` time.
-        application_form.update!(edit_by: Time.zone.now)
-      end
+  def cancel_feedback_requested_references
+    application_form.application_references.select(&:feedback_requested?).each do |reference|
+      CancelReferee.new.call(reference: reference, cancelled_by_default: true)
     end
-
-    SendApplicationsToProvider.new.call
   end
 end
