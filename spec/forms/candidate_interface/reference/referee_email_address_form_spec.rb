@@ -8,17 +8,19 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
   describe 'validations' do
     let(:form) { subject }
 
+    # Only applies to the `it {}` short form validation tests
     before do
-      allow(form).to receive(:email_address_unique?).and_return true
+      allow(form).to receive(:email_address_unique).and_return true
+      allow(form).to receive(:email_address_not_own).and_return true
     end
 
     it { is_expected.to validate_presence_of(:email_address) }
 
     one_hundred_character_email = "#{SecureRandom.hex(44)}@example.com"
-    one_hundred_and_two_character_email = "#{SecureRandom.hex(45)}@example.com"
+    one_hundred_and_one_character_email = "#{SecureRandom.hex(45)}@example.com"
 
     it { is_expected.to allow_value(one_hundred_character_email).for(:email_address) }
-    it { is_expected.not_to allow_value(one_hundred_and_two_character_email).for(:email_address) }
+    it { is_expected.not_to allow_value(one_hundred_and_one_character_email).for(:email_address) }
 
     context 'when a duplicate email is given' do
       it 'is not valid' do
@@ -35,6 +37,17 @@ RSpec.describe CandidateInterface::Reference::RefereeEmailAddressForm, type: :mo
       it 'is not valid' do
         application_reference = create(:reference, email_address: nil)
         form = described_class.build_from_reference(application_reference)
+
+        expect(form.valid?).to be(false)
+      end
+    end
+
+    context "when the candidate's email is given" do
+      it 'is not valid' do
+        application_form = create(:application_form)
+        candidate_email_address = application_form.candidate.email_address
+        application_reference = create(:reference, email_address: nil, application_form: application_form)
+        form = described_class.new(email_address: candidate_email_address, reference_id: application_reference.id)
 
         expect(form.valid?).to be(false)
       end

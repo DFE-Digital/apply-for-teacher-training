@@ -10,7 +10,8 @@ module CandidateInterface
 
     validates :reference_id, presence: true
 
-    validate :email_address_unique?
+    validate :email_address_unique
+    validate :email_address_not_own
 
     def self.build_from_reference(reference)
       new(
@@ -27,12 +28,21 @@ module CandidateInterface
 
   private
 
-    def email_address_unique?
+    def email_address_unique
       reference = ApplicationReference.find(reference_id)
       current_email_addresses = (reference.application_form.application_references.map(&:email_address) - [reference.email_address]).compact
       return true if current_email_addresses.blank? || email_address.blank?
 
       errors.add(:email_address, :duplicate) if current_email_addresses.map(&:downcase).include?(email_address.downcase)
+    end
+
+    def email_address_not_own
+      reference = ApplicationReference.find(reference_id)
+      return if reference.application_form.nil?
+
+      candidate_email_address = reference.application_form.candidate.email_address
+
+      errors.add(:email_address, :own) if email_address == candidate_email_address
     end
   end
 end
