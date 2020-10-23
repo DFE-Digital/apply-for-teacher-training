@@ -1,6 +1,5 @@
 module CandidateInterface
   class PrefillApplicationFormController < CandidateInterfaceController
-
     def new
       @prefill_application_or_not_form = PrefillApplicationOrNotForm.new
     end
@@ -20,10 +19,10 @@ module CandidateInterface
 
     def prefill_candidate_application_form
       example_application_choices = TestApplications.new.create_application(
-          recruitment_cycle_year: RecruitmentCycle.current_year,
-          states: [:unsubmitted_with_completed_references],
-          courses_to_apply_to: Course.includes(:course_options).joins(:course_options).distinct.open_on_apply,
-          candidate: current_candidate
+        recruitment_cycle_year: RecruitmentCycle.current_year,
+        states: [:unsubmitted_with_completed_references],
+        courses_to_apply_to: Course.includes(:course_options).joins(:course_options).distinct.open_on_apply,
+        candidate: current_candidate,
       )
       example_application_form = example_application_choices.first.application_form
       current_candidate.application_forms << example_application_form

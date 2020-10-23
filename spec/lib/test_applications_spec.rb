@@ -67,10 +67,10 @@ RSpec.describe TestApplications do
     courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
 
     application_choice = TestApplications.new.create_application(
-        recruitment_cycle_year: 2021,
-        states: %i[unsubmitted_with_completed_references],
-        courses_to_apply_to: courses_we_want,
-        candidate: expected_candidate
+      recruitment_cycle_year: 2021,
+      states: %i[unsubmitted_with_completed_references],
+      courses_to_apply_to: courses_we_want,
+      candidate: expected_candidate,
     ).first
 
     candidate = application_choice.application_form.candidate
