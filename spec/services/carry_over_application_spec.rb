@@ -52,7 +52,7 @@ RSpec.describe CarryOverApplication do
 
     let(:application_form) { create(:completed_application_form) }
 
-    it 'sets the reference to the not_requested state and sets the application forms references_completed value to false' do
+    it 'sets the reference to the not_requested state' do
       create(:reference, feedback_status: :feedback_provided, application_form: application_form)
       create(:reference, feedback_status: :cancelled_at_end_of_cycle, application_form: application_form)
       create(:reference, feedback_status: :feedback_refused, application_form: application_form)
@@ -60,7 +60,6 @@ RSpec.describe CarryOverApplication do
       described_class.new(application_form).call
 
       expect(ApplicationForm.count).to eq 2
-      expect(ApplicationForm.last.references_completed).to eq false
       expect(ApplicationForm.last.application_references.count).to eq 2
       expect(ApplicationForm.last.application_references.map(&:feedback_status)).to eq %w[feedback_provided not_requested_yet]
     end

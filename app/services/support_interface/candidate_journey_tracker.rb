@@ -13,7 +13,6 @@ module SupportInterface
       reference_reminder_email_sent
       new_reference_request_email_sent
       new_reference_added
-      references_completed
       waiting_to_be_sent_to_provider
       rbd_date
       rbd_reminder_sent
@@ -66,10 +65,6 @@ module SupportInterface
     def new_reference_added
       references_created_at = all_references.map(&:created_at).sort
       references_created_at.size >= 2 ? references_created_at[2] : nil
-    end
-
-    def references_completed
-      earliest_update_audit_for(@application_choice.application_form, references_completed: true)
     end
 
     def waiting_to_be_sent_to_provider

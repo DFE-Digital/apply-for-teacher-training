@@ -22,14 +22,6 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase, expected
     expect(duplicate_application_form.application_choices).to be_empty
   end
 
-  it 'sets references_completed correctly' do
-    if duplicate_application_form.can_add_reference?
-      expect(duplicate_application_form.references_completed).to be_falsey
-    else
-      expect(duplicate_application_form.references_completed).to be_truthy
-    end
-  end
-
   it 'resets the state to unsubmitted' do
     expect(duplicate_application_form.submitted_at).to be_nil
     expect(duplicate_application_form.course_choices_completed).to be false

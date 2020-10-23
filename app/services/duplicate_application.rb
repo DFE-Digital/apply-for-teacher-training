@@ -48,12 +48,7 @@ class DuplicateApplication
 
       if references_cancelled_at_eoc.present?
         references_cancelled_at_eoc.each(&:not_requested_yet!)
-        new_application_form.update!(references_completed: false)
       end
-    end
-
-    if new_application_form.can_add_reference?
-      new_application_form.update! references_completed: false
     end
 
     original_application_form.application_work_history_breaks.each do |w|
