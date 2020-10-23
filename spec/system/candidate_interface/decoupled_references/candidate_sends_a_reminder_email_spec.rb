@@ -14,7 +14,6 @@ RSpec.feature 'Candidate sends a reference reminder' do
     then_i_see_the_date_of_the_next_automated_reminder
     and_i_can_send_a_single_reminder_manually
     and_submitting_a_stale_confirmation_form_does_nothing
-    and_the_reference_history_shows_the_reminder_i_just_sent
   end
 
   def given_i_am_signed_in
@@ -61,13 +60,5 @@ RSpec.feature 'Candidate sends a reference reminder' do
     click_button 'Yes I’m sure - send a reminder'
     expect(page).to have_current_path candidate_interface_decoupled_references_review_path
     expect(all_emails.size).to eq 1
-  end
-
-  def and_the_reference_history_shows_the_reminder_i_just_sent
-    within '#references_sent' do
-      within '.qa-reference-history' do
-        expect(page).to have_content @reference.reload.reminder_sent_at.to_s(:govuk_date_and_time).squish
-      end
-    end
   end
 end
