@@ -16,41 +16,6 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     FeatureFlag.activate('decoupled_references')
   end
 
-  context 'when the application is editable' do
-    it 'renders with edit content' do
-      FeatureFlag.deactivate('decoupled_references')
-      stub_application_dates_with_form_editable
-      application_form = create_application_form_with_course_choices(statuses: %w[awaiting_references])
-
-      render_result = render_inline(described_class.new(application_form: application_form))
-
-      expect(render_result.text).to include(t('application_complete.dashboard.edit_link'))
-    end
-  end
-
-  context 'when the application is editable and the decoupled_references feature flag is on' do
-    it 'renders with edit content' do
-      stub_application_dates_with_form_editable
-      application_form = create_application_form_with_course_choices(statuses: %w[awaiting_references])
-
-      render_result = render_inline(described_class.new(application_form: application_form))
-
-      expect(render_result.text).not_to include(t('application_complete.dashboard.edit_link'))
-    end
-  end
-
-  context 'when the application is not editable' do
-    it 'renders without edit content' do
-      FeatureFlag.deactivate('decoupled_references')
-      stub_application_dates_with_form_uneditable
-      application_form = create_application_form_with_course_choices(statuses: %w[awaiting_references])
-
-      render_result = render_inline(described_class.new(application_form: application_form))
-
-      expect(render_result.text).not_to include(t('application_complete.dashboard.edit_link'))
-    end
-  end
-
   context 'when the application is waiting for a decision from providers' do
     it 'renders the respond date for providers' do
       stub_application_dates_with_form_uneditable

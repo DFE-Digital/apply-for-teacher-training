@@ -3,41 +3,6 @@ require 'rails_helper'
 RSpec.describe ApplicationReference, type: :model do
   subject { build(:reference) }
 
-  describe 'a valid reference' do
-    before do
-      FeatureFlag.deactivate('decoupled_references')
-    end
-
-    let(:candidate) { build(:candidate) }
-    let(:application_form) { build(:application_form, candidate: candidate) }
-
-    subject { build(:reference, application_form: application_form) }
-
-    it { is_expected.to validate_presence_of :email_address }
-    it { is_expected.to validate_length_of(:email_address).is_at_most(100) }
-    it { is_expected.to validate_uniqueness_of(:email_address).scoped_to(:application_form_id).ignoring_case_sensitivity }
-
-    context 'when a candidate uses their own email address' do
-      it 'adds an error' do
-        reference = build(:reference, application_form: application_form, email_address: candidate.email_address)
-
-        expect(reference.valid?).to eq(false)
-        expect(reference.errors.full_messages_for(:email_address)).to eq(
-          ["Email address #{t('activerecord.errors.models.application_reference.attributes.email_address.own')}"],
-        )
-      end
-    end
-
-    it { is_expected.to validate_presence_of :name }
-    it { is_expected.to validate_length_of(:name).is_at_most(200) }
-
-    valid_text = Faker::Lorem.sentence(word_count: 50)
-    invalid_text = Faker::Lorem.sentence(word_count: 51)
-
-    it { is_expected.to allow_value(valid_text).for(:relationship) }
-    it { is_expected.not_to allow_value(invalid_text).for(:relationship) }
-  end
-
   describe 'saving a new reference' do
     context 'when there is no existing reference on the same application_form' do
       let!(:application_form) { create(:application_form) }
