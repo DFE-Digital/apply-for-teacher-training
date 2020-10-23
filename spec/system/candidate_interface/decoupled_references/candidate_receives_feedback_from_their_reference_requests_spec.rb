@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Decoupled references' do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:decoupled_references) }
-
   scenario 'The candidate receives feedback from two of their four referees' do
     given_i_am_signed_in
     and_i_have_provided_my_name

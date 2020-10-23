@@ -13,10 +13,6 @@ RSpec.describe CandidateInterface::Reference::RefereeTypeForm, type: :model do
   describe '#save' do
     let(:application_form) { create(:application_form) }
 
-    before do
-      FeatureFlag.activate('decoupled_references')
-    end
-
     context 'when referee_type is blank' do
       it 'returns false' do
         form = described_class.new

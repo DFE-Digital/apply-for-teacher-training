@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:decoupled_references) }
-
   scenario 'Candidate adds two auto-references' do
     given_i_am_signed_in
     and_i_have_provided_my_personal_details

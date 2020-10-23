@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Stop submission of incomplete references', with_audited: true do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:decoupled_references) }
-
   scenario 'Referee tries to submit incomplete reference' do
     given_i_am_a_referee_of_an_application
     and_i_received_the_initial_reference_request_email

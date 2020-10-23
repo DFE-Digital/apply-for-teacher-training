@@ -77,7 +77,6 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     let(:not_requested_yet) { create(:reference, :not_requested_yet) }
 
     it 'a send request link is available' do
-      FeatureFlag.activate(:decoupled_references)
       result = render_inline(described_class.new(references: [feedback_requested, not_requested_yet]))
 
       feedback_requested_summary = result.css('.app-summary-card')[0]
@@ -91,7 +90,6 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     let(:not_requested_yet) { create(:reference, :not_requested_yet, name: nil) }
 
     it 'a send request link is NOT available' do
-      FeatureFlag.activate(:decoupled_references)
       result = render_inline(described_class.new(references: [not_requested_yet]))
 
       feedback_not_requested_summary = result.css('.app-summary-card')[0]
@@ -104,7 +102,6 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     let(:cancelled) { create(:reference, :cancelled) }
 
     it 'a re-send request link is available' do
-      FeatureFlag.activate(:decoupled_references)
       result = render_inline(described_class.new(references: [feedback_requested, cancelled]))
 
       feedback_requested_summary = result.css('.app-summary-card')[0]
@@ -118,7 +115,6 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     let(:cancelled) { create(:reference, :cancelled, name: nil) }
 
     it 'a send request link is NOT available' do
-      FeatureFlag.activate(:decoupled_references)
       result = render_inline(described_class.new(references: [cancelled]))
 
       feedback_not_requested_summary = result.css('.app-summary-card')[0]
@@ -131,7 +127,6 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     let(:provided_references) { create_list(:reference, 2, :feedback_provided, application_form: cancelled.application_form) }
 
     it 'a send request link is NOT available' do
-      FeatureFlag.activate(:decoupled_references)
       result = render_inline(described_class.new(references: [cancelled, *provided_references]))
 
       feedback_not_requested_summary = result.css('.app-summary-card')[0]

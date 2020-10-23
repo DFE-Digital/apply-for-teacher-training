@@ -23,10 +23,6 @@ RSpec.describe CandidateInterface::Reference::RefereeRelationshipForm, type: :mo
   describe '#save' do
     let(:application_reference) { create(:reference) }
 
-    before do
-      FeatureFlag.activate('decoupled_references')
-    end
-
     context 'when relationship is blank' do
       it 'returns false' do
         form = described_class.new

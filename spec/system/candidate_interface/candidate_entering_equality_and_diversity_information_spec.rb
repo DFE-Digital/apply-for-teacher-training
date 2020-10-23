@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Entering their equality and diversity information' do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:decoupled_references) }
-
   scenario 'Candidate submits equality and diversity information' do
     given_i_am_signed_in
     and_i_have_completed_my_application_form
@@ -110,7 +108,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def then_i_can_submit_my_application
-    expect(page).to have_content(FeatureFlag.active?(:decoupled_references) ? 'Send application' : 'Submit application')
+    expect(page).to have_content 'Send application'
   end
 
   def when_i_am_on_the_equality_and_diversity_page

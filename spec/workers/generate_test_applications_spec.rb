@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe GenerateTestApplications do
-  before { FeatureFlag.activate(:decoupled_references) }
-
   it 'generates test candidates with applications in various states', sidekiq: true do
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: 2020))
     create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: 2020))

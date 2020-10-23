@@ -41,34 +41,31 @@
       ) %>
     <% end %>
 
+    <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
 
-    <% if FeatureFlag.active?('decoupled_references') %>
-      <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
+    <% unless @application_form_presenter.enough_references_provided? %>
+      <p class="govuk-body">You have to get 2 references back before you can send your application to training providers.</p>
 
-      <% unless @application_form_presenter.enough_references_provided? %>
-        <p class="govuk-body">You have to get 2 references back before you can send your application to training providers.</p>
-
-        <p class="govuk-body">It takes 8 days to get a reference on average.</p>
-      <% end %>
-
-      <ul class="app-task-list govuk-!-margin-bottom-8">
-        <li class="app-task-list__item">
-          <%= render(
-            TaskListItemComponent.new(
-              text: @application_form_presenter.references_link_text,
-              completed: @application_form_presenter.enough_references_provided?,
-              path: @application_form_presenter.references_path,
-              custom_status: @application_form_presenter.references_in_progress? ? 'In progress' : nil
-            )
-          ) %>
-          <%= render(
-            TaskListItemReferencesComponent.new(
-              references: @application_form_presenter.references,
-            )
-          ) if @application_form_presenter.references.present? %>
-        </li>
-      </ul>
+      <p class="govuk-body">It takes 8 days to get a reference on average.</p>
     <% end %>
+
+    <ul class="app-task-list govuk-!-margin-bottom-8">
+      <li class="app-task-list__item">
+        <%= render(
+          TaskListItemComponent.new(
+            text: @application_form_presenter.references_link_text,
+            completed: @application_form_presenter.enough_references_provided?,
+            path: @application_form_presenter.references_path,
+            custom_status: @application_form_presenter.references_in_progress? ? 'In progress' : nil
+          )
+        ) %>
+        <%= render(
+          TaskListItemReferencesComponent.new(
+            references: @application_form_presenter.references,
+          )
+        ) if @application_form_presenter.references.present? %>
+      </li>
+    </ul>
 
     <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-4">
       About you

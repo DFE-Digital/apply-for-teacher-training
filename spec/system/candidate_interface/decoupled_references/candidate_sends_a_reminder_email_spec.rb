@@ -5,7 +5,6 @@ RSpec.feature 'Candidate sends a reference reminder' do
 
   scenario 'the candidate has sent a reference request and decides to send a reminder' do
     given_i_am_signed_in
-    and_the_decoupled_references_flag_is_on
     and_i_have_added_and_sent_a_reference
 
     when_i_review_my_references
@@ -18,10 +17,6 @@ RSpec.feature 'Candidate sends a reference reminder' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_decoupled_references_flag_is_on
-    FeatureFlag.activate('decoupled_references')
   end
 
   def and_i_have_added_and_sent_a_reference

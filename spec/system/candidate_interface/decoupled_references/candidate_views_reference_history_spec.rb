@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Reference history on review page' do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:decoupled_references) }
-
   scenario 'candidate views reference history', with_audited: true do
     given_i_am_signed_in
     and_i_add_a_reference

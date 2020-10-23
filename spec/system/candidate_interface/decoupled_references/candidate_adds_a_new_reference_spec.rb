@@ -5,7 +5,6 @@ RSpec.feature 'Decoupled references' do
 
   scenario 'candidate adds a new reference' do
     given_i_am_signed_in
-    and_the_decoupled_references_flag_is_on
 
     when_i_visit_the_site
     then_i_should_see_the_decoupled_references_section
@@ -87,10 +86,6 @@ RSpec.feature 'Decoupled references' do
     @candidate = create(:candidate)
     login_as(@candidate)
     @application = @candidate.current_application
-  end
-
-  def and_the_decoupled_references_flag_is_on
-    FeatureFlag.activate('decoupled_references')
   end
 
   def when_i_visit_the_site

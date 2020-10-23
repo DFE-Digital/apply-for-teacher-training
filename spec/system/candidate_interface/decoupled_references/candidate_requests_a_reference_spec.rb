@@ -5,7 +5,6 @@ RSpec.feature 'Candidate requests a reference' do
 
   scenario 'the candidate has created a reference and chooses to send the request' do
     given_i_am_signed_in
-    and_the_decoupled_references_flag_is_on
     and_i_have_added_a_reference
     and_i_visit_the_reference_review_page
     and_i_choose_to_request_reference_immediately
@@ -59,10 +58,6 @@ RSpec.feature 'Candidate requests a reference' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_decoupled_references_flag_is_on
-    FeatureFlag.activate('decoupled_references')
   end
 
   def and_i_have_added_a_reference

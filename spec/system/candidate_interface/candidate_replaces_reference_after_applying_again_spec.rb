@@ -4,8 +4,6 @@ RSpec.feature 'Candidate applying again' do
   include CandidateHelper
 
   scenario 'Can replace a completed reference' do
-    FeatureFlag.activate(:decoupled_references)
-
     given_the_pilot_is_open
     and_i_am_signed_in_as_a_candidate
 

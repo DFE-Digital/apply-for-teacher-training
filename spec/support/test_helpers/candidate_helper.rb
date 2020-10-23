@@ -84,14 +84,12 @@ module CandidateHelper
   end
 
   def candidate_submits_application
-    receive_references if FeatureFlag.active?(:decoupled_references)
-
+    receive_references
     click_link 'Check and submit your application'
     click_link 'Continue'
     click_link 'Continue without completing questionnaire'
     choose 'No' # "Is there anything else you would like to tell us?"
-
-    click_button(FeatureFlag.active?(:decoupled_references) ? 'Send application' : 'Submit application')
+    click_button 'Send application'
     @application = ApplicationForm.last
   end
 
@@ -297,18 +295,12 @@ module CandidateHelper
   end
 
   def candidate_fills_in_referee(params = {})
-    if FeatureFlag.active?(:decoupled_references)
-      fill_in t('application_form.references.name.label'), with: params[:name] || 'Terri Tudor'
-      click_button 'Save and continue'
-      fill_in t('application_form.references.email_address.label'), with: params[:email_address] || 'terri@example.com'
-      click_button 'Save and continue'
-      fill_in t('application_form.references.relationship.label'), with: params[:relationship] || 'Tutor'
-      click_button 'Save and continue'
-    else
-      fill_in t('application_form.referees.name.label'), with: params[:name] || 'Terri Tudor'
-      fill_in t('application_form.referees.email_address.label'), with: params[:email_address] || 'terri@example.com'
-      fill_in t('application_form.referees.relationship.label'), with: params[:relationship] || 'Tutor'
-    end
+    fill_in t('application_form.references.name.label'), with: params[:name] || 'Terri Tudor'
+    click_button 'Save and continue'
+    fill_in t('application_form.references.email_address.label'), with: params[:email_address] || 'terri@example.com'
+    click_button 'Save and continue'
+    fill_in t('application_form.references.relationship.label'), with: params[:relationship] || 'Tutor'
+    click_button 'Save and continue'
   end
 
   def candidate_provides_two_referees

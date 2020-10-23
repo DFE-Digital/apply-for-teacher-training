@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Candidate reviewing an incomplete application' do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:decoupled_references) }
-
   scenario 'sees everything missing from the current state' do
     given_i_am_signed_in
 

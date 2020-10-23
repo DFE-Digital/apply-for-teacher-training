@@ -5,7 +5,6 @@ RSpec.describe 'Candidate feedback form' do
 
   before do
     FeatureFlag.activate(:feedback_form)
-    FeatureFlag.activate(:decoupled_references)
   end
 
   scenario 'Candidate completes the feedback form' do
