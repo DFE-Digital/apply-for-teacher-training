@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @feedback_form, url: candidate_interface_create_feedback_form_path, method: :post do |f| %>
+    <%= form_with model: @feedback_form, url: candidate_interface_feedback_form_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
       <h1 class="govuk-heading-xl">
         <%= t('page_titles.your_feedback') %>

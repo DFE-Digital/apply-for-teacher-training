@@ -402,7 +402,7 @@ Rails.application.routes.draw do
 
       scope '/feedback-form' do
         get '/' => 'feedback_form#new', as: :feedback_form
-        post '/' => 'feedback_form#create', as: :create_feedback_form
+        post '/' => 'feedback_form#create'
         get '/thank-you' => 'feedback_form#thank_you', as: :feedback_form_thank_you
       end
 
