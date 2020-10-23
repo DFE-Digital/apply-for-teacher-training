@@ -1,15 +1,9 @@
 module CandidateInterface
   module DecoupledReferences
     class BaseController < CandidateInterfaceController
-      before_action :redirect_to_application_form_if_flag_is_not_active
-
       def start; end
 
     private
-
-      def redirect_to_application_form_if_flag_is_not_active
-        redirect_to candidate_interface_application_form_path unless FeatureFlag.active?('decoupled_references')
-      end
 
       def set_reference
         @reference = current_candidate.current_application

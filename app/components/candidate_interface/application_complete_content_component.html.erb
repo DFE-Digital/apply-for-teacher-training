@@ -61,22 +61,6 @@
   <p class="govuk-body">
     <%= t('application_complete.dashboard.providers_respond_by', date: respond_by_date) %>
   </p>
-
-<% elsif editable? && !FeatureFlag.active?('decoupled_references') %>
-  <h2 class="govuk-heading-m govuk-!-font-size-27">
-    <%= "#{'Course'.pluralize(choice_count)} you’ve applied to" %>
-  </h2>
-
-  <div class="govuk-inset-text">
-    <p class="govuk-body">
-      You have <%= formatted_days_remaining %>
-      (until <%= edit_by_date %>)
-      to edit your application or change your choice of provider, course or
-      training location.
-    </p>
-
-    <%= govuk_link_to t('application_complete.dashboard.edit_link'), candidate_interface_application_edit_path %>
-  </div>
 <% else %>
   <h2 class="govuk-heading-m govuk-!-font-size-27">
     <%= "#{'Course'.pluralize(choice_count)} you’ve applied to" %>
