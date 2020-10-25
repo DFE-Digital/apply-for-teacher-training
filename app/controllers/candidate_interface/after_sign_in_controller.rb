@@ -6,6 +6,7 @@ module CandidateInterface
       service = InterstitialRouteSelector.new(candidate: current_candidate)
       service.execute
 
+      current_candidate.update!(course_from_find_id: nil) if course.present?
 
       if service.candidate_has_already_selected_the_course
         flash[:warning] = "You have already selected #{course.name_and_code}."

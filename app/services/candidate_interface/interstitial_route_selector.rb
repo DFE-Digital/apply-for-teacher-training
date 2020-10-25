@@ -16,15 +16,9 @@ module CandidateInterface
       elsif candidate_has_already_selected_the_course?
         @candidate_has_already_selected_the_course = true
       end
-
-      set_course_from_find_id_to_nil
     end
 
   private
-
-    def set_course_from_find_id_to_nil
-      @candidate.update!(course_from_find_id: nil)
-    end
 
     def candidate_already_has_3_courses?
       @candidate.current_application.application_choices.count >= 3
