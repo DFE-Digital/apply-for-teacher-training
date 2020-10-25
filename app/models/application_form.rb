@@ -243,6 +243,13 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
+  def contains_course?(course)
+    potential_course_option_ids = CourseOption.where(course_id: course.id).map(&:id)
+    current_course_option_ids = application_choices.map(&:course_option_id)
+
+    (potential_course_option_ids & current_course_option_ids).present?
+  end
+
   # The `english_main_language` and `english_language_details` database fields
   # are deprecated. This arose from the 'Personal Details > Languages' page
   # being replaced by an 'English as a Foreign Language' section. The fields

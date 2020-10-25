@@ -3,12 +3,9 @@ module CandidateInterface
     def interstitial
       course = current_candidate.course_from_find
 
-      service = InterstitialRouteSelector.new(candidate: current_candidate)
-      service.execute
-
       current_candidate.update!(course_from_find_id: nil) if course.present?
 
-      if service.candidate_has_already_selected_the_course
+      if current_application.contains_course?(course)
         flash[:warning] = "You have already selected #{course.name_and_code}."
         redirect_to candidate_interface_course_choices_review_path
       elsif current_application.has_the_maximum_number_of_course_choices?
