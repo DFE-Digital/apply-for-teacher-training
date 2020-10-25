@@ -11,7 +11,7 @@ module CandidateInterface
       if service.candidate_has_already_selected_the_course
         flash[:warning] = "You have already selected #{course.name_and_code}."
         redirect_to candidate_interface_course_choices_review_path
-      elsif service.candidate_already_has_3_courses
+      elsif current_application.has_the_maximum_number_of_course_choices?
         flash[:warning] = I18n.t('errors.messages.too_many_course_choices', course_name_and_code: course.name_and_code)
         redirect_to candidate_interface_course_choices_review_path
       elsif course.present?
