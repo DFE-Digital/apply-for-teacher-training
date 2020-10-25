@@ -2,8 +2,6 @@ module SupportInterface
   class CandidateFeedbackExport
     def data_for_export
       application_forms.find_each.map do |application_form|
-        survey = application_form.satisfaction_survey
-
         {
           'Name' => application_form.full_name,
           'Recruitment cycle year' => application_form.recruitment_cycle_year,
