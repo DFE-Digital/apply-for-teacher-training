@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_21_172017) do
+ActiveRecord::Schema.define(version: 2020_10_22_125243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -116,7 +116,6 @@ ActiveRecord::Schema.define(version: 2020_10_21_172017) do
     t.boolean "becoming_a_teacher_completed", default: false
     t.boolean "subject_knowledge_completed", default: false
     t.boolean "interview_preferences_completed", default: false
-    t.boolean "references_completed", default: false
     t.boolean "science_gcse_completed", default: false
     t.datetime "edit_by"
     t.string "address_type", default: "uk", null: false
