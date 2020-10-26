@@ -75,7 +75,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
     )
     @application_choice = create(
       :application_choice,
-      status: :application_complete,
+      status: :unsubmitted,
       course_option: create(
         :course_option,
         course: create(:course, accredited_provider_id: @ratifying_provider.id, provider_id: @training_provider.id),

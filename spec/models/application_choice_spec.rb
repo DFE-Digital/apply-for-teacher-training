@@ -1,29 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationChoice, type: :model do
-  describe '#create' do
-    it 'starts in the "unsubmitted" status' do
-      course_option = create(:course_option)
-      application_choice = ApplicationChoice.create!(
-        application_form: create(:application_form),
-        course_option: course_option,
-      )
-
-      expect(application_choice).to be_unsubmitted
-    end
-
-    it 'allows a different status to be set' do
-      course_option = create(:course_option)
-      application_choice = ApplicationChoice.create!(
-        status: 'application_complete',
-        application_form: create(:application_form),
-        course_option: course_option,
-      )
-
-      expect(application_choice).to be_application_complete
-    end
-  end
-
   describe 'auditing', with_audited: true do
     it 'creates audit entries' do
       application_choice = create :application_choice, status: 'unsubmitted'
