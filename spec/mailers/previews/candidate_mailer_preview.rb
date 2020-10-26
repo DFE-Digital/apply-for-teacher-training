@@ -350,19 +350,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.apply_again_call_to_action(application_form)
   end
 
-  def eoc_choice_unavailable_and_still_waiting_on_other_choices
-    application_form = application_form_with_course_choices(
-      [
-        FactoryBot.build_stubbed(:application_choice, course_option: course_option),
-        FactoryBot.build_stubbed(:application_choice, course_option: course_option),
-        FactoryBot.build_stubbed(:application_choice, course_option: course_option),
-      ],
-    )
-    CandidateMailer.eoc_choice_unavailable_and_still_waiting_on_other_choices(
-      application_form.application_choices.first,
-    )
-  end
-
   def deferred_offer
     application_form = FactoryBot.build_stubbed(
       :application_form,

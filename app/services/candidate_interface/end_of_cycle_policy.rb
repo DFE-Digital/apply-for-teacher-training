@@ -8,14 +8,6 @@ module CandidateInterface
       false
     end
 
-    def self.cancel_application_because_option_unavailable?(application_choice)
-      EndOfCycleTimetable.stop_applications_to_unavailable_course_options? &&
-        (
-          application_choice.course_option_full? ||
-          application_choice.course_withdrawn?
-        )
-    end
-
     def self.can_submit?(application_form)
       RecruitmentCycle.current_year == application_form.recruitment_cycle_year
     end
