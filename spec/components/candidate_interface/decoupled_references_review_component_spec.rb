@@ -100,8 +100,8 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
   context 'when reference state is "cancelled" and the reference is complete' do
     let(:application_form) { create(:application_form) }
     let(:feedback_requested) { create(:reference, :feedback_requested, application_form: application_form) }
-    let(:feedback_provided) { create(:reference, :complete, application_form: application_form) }
-    let(:second_feedback_provided) { create(:reference, :complete, application_form: application_form) }
+    let(:feedback_provided) { create(:reference, :feedback_provided, application_form: application_form) }
+    let(:second_feedback_provided) { create(:reference, :feedback_provided, application_form: application_form) }
     let(:cancelled) { create(:reference, :cancelled, application_form: application_form) }
 
     it 'a re-send request link is available' do
@@ -114,7 +114,6 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     end
 
     it 'an edit email address link is available' do
-      FeatureFlag.activate(:decoupled_references)
       result = render_inline(described_class.new(references: [feedback_provided, cancelled]))
 
       feedback_provided_summary = result.css('.app-summary-card')[0]
@@ -124,7 +123,6 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     end
 
     it 'an edit email address link is not available if there are sufficient references provided' do
-      FeatureFlag.activate(:decoupled_references)
       result = render_inline(described_class.new(references: [feedback_provided, second_feedback_provided, cancelled]))
 
       feedback_cancelled_summary = result.css('.app-summary-card')[2]
