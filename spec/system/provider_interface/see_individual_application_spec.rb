@@ -153,7 +153,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
            name: 'BB-8')
 
     @application_choice = create(:application_choice,
-                                 status: :application_complete,
+                                 status: :unsubmitted,
                                  course_option: course_option,
                                  reject_by_default_at: 20.days.from_now,
                                  application_form: application_form)

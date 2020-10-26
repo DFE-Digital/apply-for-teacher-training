@@ -112,13 +112,6 @@ RSpec.describe GetApplicationChoicesForProviders do
       :application_choice,
       2,
       course_option: course_option_for_provider(provider: current_provider),
-      status: 'awaiting_references',
-    )
-
-    create_list(
-      :application_choice,
-      2,
-      course_option: course_option_for_provider(provider: current_provider),
       status: 'offer_deferred',
     )
 

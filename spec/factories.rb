@@ -127,10 +127,6 @@ FactoryBot.define do
         address_line3 { nil }
       end
 
-      trait :ready_to_send_to_provider do
-        edit_by { 1.day.ago }
-      end
-
       trait :with_completed_references do
         transient do
           references_state { :feedback_provided }
@@ -203,7 +199,7 @@ FactoryBot.define do
           create(:degree_qualification, application_form: application_form)
         end
 
-        create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'awaiting_references')
+        create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'unsubmitted')
         create_list(:reference, evaluator.references_count, evaluator.references_state, application_form: application_form)
         # The application_form validates the length of this collection when
         # it is created, which is BEFORE we create the references here.
@@ -501,13 +497,6 @@ FactoryBot.define do
       association :application_form, factory: %i[completed_application_form with_completed_references]
     end
 
-    factory :awaiting_references_application_choice do
-      status { 'awaiting_references' }
-      reject_by_default_at { 40.business_days.from_now }
-      reject_by_default_days { 40 }
-      association :application_form, factory: %i[completed_application_form]
-    end
-
     trait :awaiting_provider_decision do
       association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :awaiting_provider_decision }
@@ -516,17 +505,12 @@ FactoryBot.define do
       reject_by_default_at { 40.business_days.from_now }
     end
 
-    trait :ready_to_send_to_provider do
-      association :application_form, factory: %i[completed_application_form with_completed_references ready_to_send_to_provider]
-      status { :application_complete }
-    end
-
     trait :withdrawn do
       status { :withdrawn }
     end
 
     trait :withdrawn_with_survey_completed do
-      association :application_form, factory: %i[completed_application_form with_completed_references ready_to_send_to_provider]
+      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :withdrawn }
       withdrawal_feedback do
         {

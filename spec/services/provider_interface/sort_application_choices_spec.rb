@@ -114,7 +114,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
     end
 
     it 'includes all applications passed to it' do
-      create(:application_choice, :ready_to_send_to_provider)
+      create(:application_choice)
       total_number_of_choices_passed = application_choices.count + 1
       result = described_class.call(application_choices: ApplicationChoice.all)
       expect(result.count).to eq(total_number_of_choices_passed)
