@@ -7,9 +7,9 @@
     <p class="govuk-body-s govuk-!-margin-bottom-2"><strong><%= overall_status %></strong></p>
   </header>
 
-  <% if application_form.application_choices.any? %>
+  <% if application_choices.any? %>
   <ul class="app-application-card__list govuk-list govuk-list--bullet">
-    <% application_form.application_choices.each do |application_choice| %>
+    <% application_choices.each do |application_choice| %>
       <li class="govuk-list__item govuk-body-s">
         <%= render SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status) %>
         <%= application_choice.course.name_and_code %> at <%= application_choice.provider.name %>

@@ -14,6 +14,10 @@ module SupportInterface
       application_form.full_name.presence || application_form.candidate.email_address
     end
 
+    def application_choices
+      application_form.application_choices.includes(%i[course provider])
+    end
+
     def overall_status
       process_state = ProcessState.new(application_form).state
       I18n.t!("candidate_flow_application_states.#{process_state}.name")
