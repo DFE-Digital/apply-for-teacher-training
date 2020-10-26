@@ -48,10 +48,7 @@
 
     <%= render VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
 
-    <% language_skills_component = LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
-    <% if language_skills_component.render? %>
-      <%= render language_skills_component %>
-    <% end %>
+    <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
 
     <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 
