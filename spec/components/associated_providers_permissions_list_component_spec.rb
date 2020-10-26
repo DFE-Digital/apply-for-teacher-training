@@ -33,6 +33,29 @@ RSpec.describe AssociatedProvidersPermissionsListComponent do
     expect(result.css('li').text).to include(training_provider.name.to_s)
   end
 
+  it 'renders ratifying providers the permission does not apply to' do
+    create(:provider_permissions,
+           provider: training_provider,
+           make_decisions: true)
+    provider_relationship_permissions.update(training_provider_can_make_decisions: true, ratifying_provider_can_make_decisions: false)
+    result = render_inline(described_class.new(provider: training_provider, permission_name: 'make_decisions'))
+
+    expect(result.text).to include('Does not apply to courses ratified by:')
+    expect(result.css('li').text).to include(ratifying_provider.name.to_s)
+  end
+
+  it 'renders training providers the permission does not apply to' do
+    create(:provider_permissions,
+           provider: ratifying_provider,
+           make_decisions: true)
+    provider_relationship_permissions.update(training_provider_can_make_decisions: false, ratifying_provider_can_make_decisions: true)
+
+    result = render_inline(described_class.new(provider: ratifying_provider, permission_name: 'make_decisions'))
+
+    expect(result.text).to include('Does not apply to courses run by:')
+    expect(result.css('li').text).to include(training_provider.name.to_s)
+  end
+
   it 'does not render associated training providers permissions if there are not any' do
     create(:provider_permissions,
            provider: training_provider,
