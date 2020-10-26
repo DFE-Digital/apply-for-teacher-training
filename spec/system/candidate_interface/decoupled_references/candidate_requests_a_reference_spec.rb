@@ -57,15 +57,13 @@ RSpec.feature 'Candidate requests a reference' do
 
     when_i_have_a_failed_reference
     and_i_visit_the_all_references_review_page
-    and_i_click_the_change_email_address_link
-    then_i_see_the_email_address_edit_form
-    when_i_update_the_email_address
     then_i_see_the_references_review_page
-    and_i_see_the_updated_email_address
-    when_i_click_the_resend_reference_link
-    and_i_confirm_that_i_am_ready_to_send_a_reference_request
+    when_i_click_the_retry_request_link
+    and_i_change_the_email_address
+    and_i_confirm_that_i_am_ready_to_retry_a_reference_request
     then_i_see_a_confirmation_message
     and_the_reference_is_moved_to_the_requested_state
+    and_the_reference_email_address_has_been_updated
     and_an_email_is_sent_to_the_referee
   end
 
@@ -196,34 +194,24 @@ RSpec.feature 'Candidate requests a reference' do
   def and_i_click_the_resend_reference_link
     click_link 'Send request again'
   end
-  alias_method :when_i_click_the_resend_reference_link, :and_i_click_the_resend_reference_link
-
-  def and_i_click_the_change_email_address_link
-    within '#references_sent' do
-      click_link 'Change email address'
-    end
-  end
-
-  def then_i_see_the_email_address_edit_form
-    expect(page).to have_current_path candidate_interface_decoupled_references_edit_email_address_path(id: @reference.id, return_to: :review)
-  end
-    
-  def when_i_update_the_email_address
-    save_and_open_page
-    fill_in(
-      'candidate-interface-reference-referee-email-address-form-email-address-field',
-      with: 'john@example.com',
-    )
-    click_button 'Save and continue'
-  end
 
   def then_i_see_the_references_review_page
     expect(page).to have_current_path candidate_interface_decoupled_references_review_path
   end
 
-  def and_i_see_the_updated_email_address
-    within '#references_sent' do
-      expect(page).to have_content 'john@example.com'
-    end
+  def when_i_click_the_retry_request_link
+    click_link 'Retry request'
+  end
+
+  def and_i_change_the_email_address
+    fill_in 'Referee’s email address', with: 'john@example.com'
+  end
+  
+  def and_i_confirm_that_i_am_ready_to_retry_a_reference_request
+    click_button 'Send reference request'
+  end
+
+  def and_the_reference_email_address_has_been_updated
+    expect(@reference.reload.email_address).to eq('john@example.com')
   end
 end
