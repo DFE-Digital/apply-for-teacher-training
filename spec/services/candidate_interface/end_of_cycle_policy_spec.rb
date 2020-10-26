@@ -61,69 +61,6 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
     end
   end
 
-  describe 'cancel_application_because_option_unavailable?(application_choice)' do
-    context 'the EOC timetable says we should be stopping applications' do
-      before do
-        allow(EndOfCycleTimetable)
-          .to receive(:stop_applications_to_unavailable_course_options?)
-          .and_return(true)
-      end
-
-      it 'is true if the course option is full ' do
-        application_choice = create(
-          :application_choice,
-          course_option: create(:course_option, :no_vacancies),
-        )
-
-        expect(described_class.cancel_application_because_option_unavailable?(application_choice)).to eq true
-      end
-
-      it 'is true if the course is withdrawn' do
-        application_choice = create(
-          :application_choice,
-          course_option: create(:course_option, course: create(:course, withdrawn: true)),
-        )
-
-        expect(described_class.cancel_application_because_option_unavailable?(application_choice)).to eq true
-      end
-
-      it 'is false if the course option is still available' do
-        application_choice = create(
-          :application_choice,
-          course_option: create(:course_option),
-        )
-
-        expect(described_class.cancel_application_because_option_unavailable?(application_choice)).to eq false
-      end
-    end
-
-    context 'the EOC timetable says we should not be stopping applications' do
-      before do
-        allow(EndOfCycleTimetable)
-          .to receive(:stop_applications_to_unavailable_course_options?)
-          .and_return(false)
-      end
-
-      it 'is false if the course option is full ' do
-        application_choice = create(
-          :application_choice,
-          course_option: create(:course_option, :no_vacancies),
-        )
-
-        expect(described_class.cancel_application_because_option_unavailable?(application_choice)).to eq false
-      end
-
-      it 'is false if the course is withdrawn' do
-        application_choice = create(
-          :application_choice,
-          course_option: create(:course_option, course: create(:course, withdrawn: true)),
-        )
-
-        expect(described_class.cancel_application_because_option_unavailable?(application_choice)).to eq false
-      end
-    end
-  end
-
   describe '.can_submit?' do
     before { allow(RecruitmentCycle).to receive(:current_year).and_return(2021) }
 

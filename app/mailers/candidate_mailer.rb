@@ -268,21 +268,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def eoc_choice_unavailable_and_still_waiting_on_other_choices(application_choice)
-    @application_choice = application_choice
-    @application_form = application_choice.application_form
-    @other_choices = @application_form.application_choices - [application_choice]
-
-    email_for_candidate(
-      @application_form,
-      subject: I18n.t!(
-        'candidate_mailer.eoc_choice_unavailable_has_other_choices.subject',
-        course_name: application_choice.course_option.course.name_and_code,
-        provider_name: application_choice.course_option.course.provider.name,
-      ),
-    )
-  end
-
   def offer_accepted(application_choice)
     @application_form = application_choice.application_form
     @course_name_and_code = application_choice.course_option.course.name_and_code

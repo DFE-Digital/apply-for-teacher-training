@@ -123,8 +123,6 @@ en:
       name: Cancelled
       description: |
         The application was cancelled before it was sent to the provider.
-      emails:
-        - candidate_mailer-eoc_choice_unavailable_and_still_waiting_on_other_choices
 
     offer:
       name: Offer made

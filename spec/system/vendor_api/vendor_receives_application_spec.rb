@@ -6,11 +6,8 @@ RSpec.feature 'Vendor receives the application' do
   include CandidateHelper
 
   scenario 'A completed application is submitted with references' do
-    Timecop.freeze do # simplify date assertions in the response
+    Timecop.freeze do
       given_a_candidate_has_submitted_their_application
-      and_the_edit_by_date_has_passed
-      and_the_daily_application_cron_job_has_run
-
       when_i_retrieve_the_application_over_the_api
       then_it_should_include_the_data_from_the_application_form
     end
@@ -19,15 +16,6 @@ RSpec.feature 'Vendor receives the application' do
   def given_a_candidate_has_submitted_their_application
     candidate_completes_application_form
     candidate_submits_application
-  end
-
-  def and_the_edit_by_date_has_passed
-    @application.update!(edit_by: 1.minute.ago)
-  end
-
-  def and_the_daily_application_cron_job_has_run
-    # TODO: Replace with a call to the outermost cron job, once it exists
-    SendApplicationsToProvider.new.call
   end
 
   def when_i_retrieve_the_application_over_the_api
