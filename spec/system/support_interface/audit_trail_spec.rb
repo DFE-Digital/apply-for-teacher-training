@@ -39,7 +39,7 @@ RSpec.feature 'See application history', with_audited: true do
         @application_choice = create(
           :application_choice,
           application_form: application_form,
-          status: 'application_complete',
+          status: 'awaiting_provider_decision',
         )
       end
     end
@@ -90,14 +90,14 @@ RSpec.feature 'See application history', with_audited: true do
       expect(page).to have_content '12:00'
       expect(page).to have_content 'Update Application Choice'
       expect(page).to have_content 'bob@example.com (Vendor API)'
-      expect(page).to have_content 'status application_complete → rejected'
+      expect(page).to have_content 'status awaiting_provider_decision → rejected'
     end
     within('tbody tr:eq(3)') do
       expect(page).to have_content '1 October 2019'
       expect(page).to have_content '12:00'
       expect(page).to have_content 'Create Application Choice'
       expect(page).to have_content 'alice@example.com (Candidate)'
-      expect(page).to have_content 'status application_complete'
+      expect(page).to have_content 'status awaiting_provider_decision'
     end
     within('tbody tr:eq(4)') do
       expect(page).to have_content '1 October 2019'
