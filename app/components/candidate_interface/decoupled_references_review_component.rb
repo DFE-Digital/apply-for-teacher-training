@@ -50,7 +50,7 @@ module CandidateInterface
     end
 
     def ignore_editable_for(reference)
-      can_resend?(reference) ? ['History', 'Email address'] : ['History']
+      ['History']
     end
 
   private
