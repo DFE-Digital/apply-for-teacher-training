@@ -5,12 +5,3 @@ en:
       confirm_restore: Are you sure you want to restore support user %{email}?
       remove: Remove support user
       restore: Restore support user
-
-    change_course:
-      page_title: What do you want to do?
-      add_course: Add another course choice
-      remove_course: Withdraw a course choice
-      cancel_application: Cancel the application and withdraw all choices
-      course_option_id:
-        label: Course option ID
-        hint: You can find this in the Vacancies tab on the provider page

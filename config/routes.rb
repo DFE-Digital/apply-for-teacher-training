@@ -648,17 +648,6 @@ Rails.application.routes.draw do
 
     get '/application_choices/:application_choice_id' => 'application_choices#show', as: :application_choice
 
-    scope path: '/applications/:application_form_id' do
-      get '/change-course' => 'change_course#options', as: :change_course
-      post '/change-course' => 'change_course#pick_option'
-      get '/change-course/add-choice' => 'change_course#select_course_to_add', as: :add_course_to_application
-      post '/change-course/add-choice' => 'change_course#add_choice'
-      get '/change-course/withdraw-choice' => 'change_course#select_choice_to_withdraw', as: :withdraw_choice
-      post '/change-course/withdraw-choice' => 'change_course#withdraw_choice'
-      get '/change-course/cancel-application' => 'change_course#confirm_cancel_application', as: :cancel_application
-      post '/change-course/cancel-application' => 'change_course#cancel_application'
-    end
-
     get '/candidates' => 'candidates#index'
 
     scope path: '/candidates/:candidate_id' do
