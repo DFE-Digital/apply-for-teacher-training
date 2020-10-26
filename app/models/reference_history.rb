@@ -14,6 +14,7 @@ class ReferenceHistory
       .concat(request_bounced)
       .concat(request_declined)
       .concat(reference_given)
+      .concat(automated_reminder_sent)
       .sort_by(&:time)
   end
 
@@ -56,10 +57,20 @@ class ReferenceHistory
       .map { |a| Event.new('reference_given', a.created_at) }
   end
 
+  def automated_reminder_sent
+    chasers
+      .reference_request.or(chasers.follow_up_missing_references)
+      .map { |c| Event.new('automated_reminder_sent', c.created_at) }
+  end
+
 private
 
   def audits
     @audits ||= reference.audits.updates
+  end
+
+  def chasers
+    @chasers ||= reference.chasers_sent
   end
 
   def status_change(audit, to:)

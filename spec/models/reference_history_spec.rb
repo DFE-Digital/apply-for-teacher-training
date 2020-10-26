@@ -48,6 +48,8 @@ RSpec.describe ReferenceHistory do
         reference.feedback_provided!
         reference.feedback_refused!
       end
+      create(:chaser_sent, chaser_type: :reference_request, chased: reference)
+      create(:chaser_sent, chaser_type: :follow_up_missing_references, chased: reference)
 
       events = described_class.new(reference).all_events
 
@@ -87,6 +89,7 @@ RSpec.describe ReferenceHistory do
         request_bounced
         request_declined
         reference_given
+        automated_reminder_sent
       ]
     end
   end
