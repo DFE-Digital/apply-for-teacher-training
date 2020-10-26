@@ -14,6 +14,12 @@ RSpec.feature 'Candidate account' do
 
     when_i_visit_the_signup_page
     and_i_accept_the_ts_and_cs
+    and_i_submit_without_entering_an_email
+    then_i_see_form_errors_on_the_page
+    and_the_ts_and_cs_are_still_checked
+
+    when_i_visit_the_signup_page
+    and_i_accept_the_ts_and_cs
     and_i_submit_my_email_address
     then_i_receive_an_email_with_a_signup_link
     when_i_click_on_the_link_in_my_email
@@ -75,6 +81,14 @@ RSpec.feature 'Candidate account' do
   def and_i_submit_my_email_address(email = @email)
     fill_in t('authentication.sign_up.email_address.label'), with: email
     click_on t('authentication.sign_up.button_continue')
+  end
+
+  def and_i_submit_without_entering_an_email
+    click_on t('authentication.sign_up.button_continue')
+  end
+
+  def and_the_ts_and_cs_are_still_checked
+    expect(page).to have_checked_field t('authentication.sign_up.accept_terms_checkbox')
   end
 
   def and_i_submit_my_email_address_in_uppercase
