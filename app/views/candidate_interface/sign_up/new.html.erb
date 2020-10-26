@@ -29,7 +29,7 @@
           <li>checking you’re safe to work with children</li>
         </ul>
 
-        <%= f.govuk_check_box :accept_ts_and_cs, true, multiple: false, link_errors: true, label: { text: t('authentication.sign_up.accept_terms_checkbox') } %>
+        <%= f.govuk_check_box :accept_ts_and_cs, 'true', multiple: false, link_errors: true, label: { text: t('authentication.sign_up.accept_terms_checkbox') } %>
       <% end %>
       <%= f.govuk_submit t('authentication.sign_up.button_continue') %>
     <% end %>
