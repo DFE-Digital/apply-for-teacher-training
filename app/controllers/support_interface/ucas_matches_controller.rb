@@ -8,6 +8,10 @@ module SupportInterface
       @match = UCASMatch.find(params[:id])
     end
 
+    def audit
+      @match = UCASMatch.find(params[:id])
+    end
+
     def process_match
       match = UCASMatch.find(params[:id])
       match.update!(matching_state: :processed)
