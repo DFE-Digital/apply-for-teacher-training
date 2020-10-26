@@ -24,7 +24,9 @@ private
       'Recruitment cycle year' => application_form.recruitment_cycle_year,
       'Email_address' => application_form.candidate.email_address,
       'Phone number' => application_form.phone_number,
+      'Submitted at' => application_form.submitted_at,
       'Satisfaction level' => application_form.feedback_satisfaction_level,
+      'CSAT score' => described_class::CSAT_SCORES[application_form.feedback_satisfaction_level],
       'Suggestions' => application_form.feedback_suggestions,
     }
   end
