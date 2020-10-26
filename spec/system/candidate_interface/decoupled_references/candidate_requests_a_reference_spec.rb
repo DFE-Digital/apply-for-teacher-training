@@ -104,7 +104,7 @@ RSpec.feature 'Candidate requests a reference' do
   def and_an_email_is_sent_to_the_referee
     open_email(@reference.email_address)
     expect(current_email).to have_content "Dear #{@reference.name},"
-    expect(current_email).to have_content "Give a reference for #{@application_form.reload.full_name} as soon as possible"
+    expect(current_email).to have_content "Please give a reference for #{@application_form.reload.full_name}"
   end
 
   def when_i_have_added_a_second_reference
