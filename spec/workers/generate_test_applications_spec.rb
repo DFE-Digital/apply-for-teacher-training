@@ -27,9 +27,8 @@ RSpec.describe GenerateTestApplications do
       'withdrawn',
       'recruited',
     )
+
     # there is at least one unsubmitted application to a full course
-    expect(ApplicationChoice.where(status: 'unsubmitted').map(&:course_option).select(&:no_vacancies?)).not_to be_empty
-    # there is at least one awaiting_references application to a full course
     expect(ApplicationChoice.where(status: 'unsubmitted').map(&:course_option).select(&:no_vacancies?)).not_to be_empty
   end
 end
