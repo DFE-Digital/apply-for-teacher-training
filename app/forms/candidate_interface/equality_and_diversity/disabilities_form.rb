@@ -2,15 +2,9 @@ module CandidateInterface
   class EqualityAndDiversity::DisabilitiesForm
     include ActiveModel::Model
 
-    DISABILITIES = [
-      %w[blind Blind],
-      %w[deaf Deaf],
-      ['learning', 'Learning difficulty'],
-      ['long_standing', 'Long-standing illness'],
-      ['mental', 'Mental health condition'],
-      ['physical', 'Physical disability or mobility issue'],
-      ['social', 'Social or communication impairment'],
-    ].freeze
+    DISABILITIES = %w[blind deaf learning long_standing mental physical social].map { |disability|
+      [disability, I18n.t("equality_and_diversity.disabilities.#{disability}.label")]
+    }.freeze
 
     attr_accessor :disabilities, :other_disability
 

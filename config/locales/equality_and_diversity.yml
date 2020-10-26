@@ -1,18 +1,78 @@
 en:
   equality_and_diversity:
+    title: Equality and diversity questionnaire
+    choice:
+      title: Can you complete a 3-minute questionnaire?
+      'yes':
+        label: Yes, continue to the questionnaire
+      'no':
+        label: No, continue without completing questionnaire
+    sex:
+      title: What is your sex?
+      female:
+        label: Female
+      male:
+        label: Male
+      intersex:
+        label: Intersex
+      opt_out:
+        label: Prefer not to say
+    disability_status:
+      title: Are you disabled?
+      'yes':
+        label: 'Yes'
+      'no':
+        label: 'No'
+      opt_out:
+        label: Prefer not to say
     disabilities:
+      title: Please select all that apply to you
       blind:
+        label: Blind
         hint_text: (or a serious visual impairment which is not corrected by glasses)
       deaf:
+        label: Deaf
         hint_text: (or a serious hearing impairment)
       learning:
+        label: Learning difficulty
         hint_text: (for example, dyslexia, dyspraxia or ADHD)
       long_standing:
+        label: Long-standing illness
         hint_text: (for example, cancer, HIV, diabetes, chronic heart disease or epilepsy)
       mental:
+        label: Mental health condition
         hint_text: (for example, depression, schizophrenia or anxiety disorder)
       physical:
+        label: Physical disability or mobility issue
         hint_text: (for example, impaired use of arms or legs, use of a wheelchair or crutches)
-      social: 
+      social:
+        label: Social or communication impairment
         hint_text: (for example Asperger’s, or another autistic spectrum disorder)
-    
+      other:
+        label: Other
+      other_disability:
+        label: Describe your disability (optional)
+    ethnic_group:
+      title: What is your ethnic group?
+      asian:
+        label: Asian or Asian British
+        hint_text: (includes any Asian background, for example, Bangladeshi, Chinese, Indian, Pakistani)
+      black:
+        label: Black, African, Black British or Caribbean
+        hint_text: (includes any Black background)
+      mixed:
+        label: Mixed or multiple ethnic groups
+        hint_text: (includes any Mixed background)
+      white:
+        label: White
+        hint_text: (includes any White background)
+      other:
+        label: Another ethnic group
+        hint_text: (includes any other ethnic group, for example, Arab)
+      opt_out:
+        label: Prefer not to say
+    ethnic_background:
+      title: Which of the following best describes your %{group} background?
+      title_other: Which of the following best describes your ethnicity?
+      opt_out:
+        label: Prefer not to say

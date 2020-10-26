@@ -87,7 +87,8 @@ module CandidateHelper
     receive_references
     click_link 'Check and submit your application'
     click_link 'Continue'
-    click_link 'Continue without completing questionnaire'
+    choose 'No'
+    click_button 'Continue'
     choose 'No' # "Is there anything else you would like to tell us?"
     click_button 'Send application'
     @application = ApplicationForm.last

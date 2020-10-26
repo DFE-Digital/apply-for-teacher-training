@@ -3,6 +3,13 @@ module CandidateInterface
     before_action :redirect_to_review_unless_ready_to_submit
 
     def start
+      @choice_form = EqualityAndDiversity::ChoiceForm.new
+    end
+
+    def choice
+      @choice_form = EqualityAndDiversity::ChoiceForm.new(choice: choice_param)
+      render :start and return unless @choice_form.valid?
+
       entrypoint_path =
         if current_application.equality_and_diversity_answers_provided?
           candidate_interface_review_equality_and_diversity_path
@@ -10,7 +17,11 @@ module CandidateInterface
           candidate_interface_edit_equality_and_diversity_sex_path
         end
 
-      render :start, locals: { entrypoint_path: entrypoint_path }
+      if @choice_form.choice == 'yes'
+        redirect_to entrypoint_path
+      else
+        redirect_to candidate_interface_application_submit_show_path
+      end
     end
 
     def edit_sex
@@ -108,6 +119,10 @@ module CandidateInterface
     def review; end
 
   private
+
+    def choice_param
+      params.dig(:candidate_interface_equality_and_diversity_choice_form, :choice)
+    end
 
     def sex_param
       params.dig(:candidate_interface_equality_and_diversity_sex_form, :sex)

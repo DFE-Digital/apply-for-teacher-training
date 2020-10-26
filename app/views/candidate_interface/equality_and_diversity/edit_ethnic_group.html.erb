@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix('What is your ethnic group?', @ethnic_group.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('equality_and_diversity.ethnic_group.title'), @ethnic_group.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_edit_equality_and_diversity_disability_status_path) %>
 
 <div class="govuk-grid-row">
@@ -6,16 +6,14 @@
     <%= form_with model: @ethnic_group, url: candidate_interface_update_equality_and_diversity_ethnic_group_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :ethnic_group, legend: { size: 'xl', text: equality_and_diversity_caption + 'What is your ethnic group?' } do %>
-        <div class="govuk-!-margin-top-6">
-          <%= f.govuk_radio_button :ethnic_group, 'Asian or Asian British', label: { text: 'Asian or Asian British', size: 's' }, hint: { text: '(includes any Asian background, for example, Bangladeshi, Chinese, Indian, Pakistani)' }, link_errors: true %>
-          <%= f.govuk_radio_button :ethnic_group, 'Black, African, Black British or Caribbean', label: { text: 'Black, African, Black British or Caribbean', size: 's' }, hint: { text: '(includes any Black background)' } %>
-          <%= f.govuk_radio_button :ethnic_group, 'Mixed or multiple ethnic groups', label: { text: 'Mixed or multiple ethnic groups', size: 's' }, hint: { text: '(includes any Mixed background)' } %>
-          <%= f.govuk_radio_button :ethnic_group, 'White', label: { text: 'White', size: 's' }, hint: { text: '(includes any White background)' } %>
-          <%= f.govuk_radio_button :ethnic_group, 'Another ethnic group', label: { text: 'Another ethnic group', size: 's' }, hint: { text: '(includes any other ethnic group, for example, Arab)' } %>
-          <%= f.govuk_radio_divider %>
-          <%= f.govuk_radio_button :ethnic_group, 'Prefer not to say', label: { text: 'Prefer not to say' } %>
-        </div>
+      <%= f.govuk_radio_buttons_fieldset :ethnic_group, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.ethnic_group.title'), size: 'xl' } do %>
+        <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.asian.label'), label: { text: t('equality_and_diversity.ethnic_group.asian.label'), size: 's' }, hint: { text: t('equality_and_diversity.ethnic_group.asian.hint_text') }, link_errors: true %>
+        <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.black.label'), label: { text: t('equality_and_diversity.ethnic_group.black.label'), size: 's' }, hint: { text: t('equality_and_diversity.ethnic_group.black.hint_text') } %>
+        <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.mixed.label'), label: { text: t('equality_and_diversity.ethnic_group.mixed.label'), size: 's' }, hint: { text: t('equality_and_diversity.ethnic_group.mixed.hint_text') } %>
+        <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.white.label'), label: { text: t('equality_and_diversity.ethnic_group.white.label'), size: 's' }, hint: { text: t('equality_and_diversity.ethnic_group.white.hint_text') } %>
+        <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.other.label'), label: { text: t('equality_and_diversity.ethnic_group.other.label'), size: 's' }, hint: { text: t('equality_and_diversity.ethnic_group.other.hint_text') } %>
+        <%= f.govuk_radio_divider %>
+        <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.opt_out.label'), label: { text: t('equality_and_diversity.ethnic_group.opt_out.label') } %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>

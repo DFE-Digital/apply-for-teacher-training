@@ -172,7 +172,8 @@ RSpec.feature 'International candidate submits the application' do
   end
 
   def when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
-    click_link 'Continue without completing questionnaire'
+    choose 'No'
+    click_button 'Continue'
   end
 
   def when_i_choose_not_to_provide_further_information

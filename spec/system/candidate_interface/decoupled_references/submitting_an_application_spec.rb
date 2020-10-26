@@ -86,7 +86,8 @@ RSpec.feature 'Submitting an application' do
   end
 
   def then_i_can_see_my_application_has_been_successfully_submitted
-    click_link 'Continue without completing questionnaire'
+    choose 'No'
+    click_button 'Continue'
     choose 'No'
     click_button 'Send application'
   end
