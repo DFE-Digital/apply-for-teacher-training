@@ -1,3 +1,4 @@
+# NOTE: This component is used by both provider and support UIs
 class WorkHistoryItemComponent < ViewComponent::Base
   include ViewHelper
 

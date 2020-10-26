@@ -1,3 +1,4 @@
+# NOTE: This component is used by both provider and support UIs
 class PersonalDetailsComponent < ViewComponent::Base
   MISSING = '<em>Not provided</em>'.html_safe
   RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES = {

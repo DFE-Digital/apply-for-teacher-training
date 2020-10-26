@@ -1,3 +1,4 @@
+# NOTE: This component is used by both provider and support UIs
 class WorkHistoryComponent < ViewComponent::Base
   validates :application_form, presence: true
 

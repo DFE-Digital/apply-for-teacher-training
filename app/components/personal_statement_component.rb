@@ -1,3 +1,4 @@
+# NOTE: This component is used by both provider and support UIs
 class PersonalStatementComponent < ViewComponent::Base
   validates :application_form, presence: true
 
