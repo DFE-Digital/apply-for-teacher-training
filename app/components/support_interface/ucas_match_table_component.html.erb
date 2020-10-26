@@ -1,16 +1,20 @@
 <table class="govuk-table" data-qa="ucas-matched-courses">
+  <caption class="govuk-table__caption govuk-!-font-weight-regular"><%= @summary %></caption>
+
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Course choice</th>
-      <th scope="col" class="govuk-table__header">Status on UCAS</th>
-      <th scope="col" class="govuk-table__header">Status on Apply</th>
+      <th scope="col" class="govuk-table__header">Course code</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-half">Course choice</th>
+      <th scope="col" class="govuk-table__header">Status on&nbsp;UCAS</th>
+      <th scope="col" class="govuk-table__header">Status on&nbsp;Apply</th>
     </tr>
   </thead>
 
   <tbody class="govuk-table__body">
     <% table_rows.each do |table_row| %>
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell"><%= table_row[:course_choice_details] %></td>
+        <td class="govuk-table__cell"><%= table_row[:course_code] %></td>
+        <td class="govuk-table__cell"><%= table_row[:course_details] %></td>
         <td class="govuk-table__cell">
           <% if table_row[:status_on_ucas] == 'N/A' %>
             N/A
@@ -29,8 +33,3 @@
     <% end %>
   </tbody>
 </table>
-
-<h2 class='govuk-heading-l'>Summary</h2>
-<p class="govuk-body">
-  <%= @summary %>
-</p>

@@ -9,7 +9,10 @@ module SupportInterface
 
     def table_rows
       candidates_course_choices.map do |course|
-        row_data = { course_choice_details: course_choice_details(course) }
+        row_data = {
+          course_code: course_code(course),
+          course_details: course_details(course),
+        }
 
         matched_applications_for_course(course).each do |application|
           status = application.status
@@ -49,8 +52,12 @@ module SupportInterface
       ucas_matched_applications.map(&:both_scheme?).any?
     end
 
-    def course_choice_details(course)
-      "#{course.code} — #{course.name} — #{course.provider&.name || 'Provider not on Apply'}"
+    def course_code(course)
+      course.code
+    end
+
+    def course_details(course)
+      "#{course.name} – #{course.provider&.name || 'Provider not on Apply'}"
     end
   end
 end
