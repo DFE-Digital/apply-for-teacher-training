@@ -86,8 +86,6 @@ module ProviderInterface
     def previous_step
       if checking_answers.present?
         [:check]
-      elsif current_step == 'organisations'
-        [:start]
       elsif current_step == 'permissions'
         previous_provider_relationship_id.present? ? [:permissions, previous_provider_relationship_id] : [:organisations]
       elsif current_step == 'check'

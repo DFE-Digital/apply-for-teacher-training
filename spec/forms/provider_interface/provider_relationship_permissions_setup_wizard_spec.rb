@@ -34,12 +34,6 @@ RSpec.describe ProviderInterface::ProviderRelationshipPermissionsSetupWizard do
   end
 
   describe 'previous_step' do
-    it 'returns the start page from the provider relationships page' do
-      state_store = state_store_for({})
-      wizard = described_class.new(state_store, current_step: 'organisations')
-      expect(wizard.previous_step).to eq([:start])
-    end
-
     it 'returns the organisations page from the first provider permissions page' do
       state_store = state_store_for({ provider_relationships: [123, 456], provider_relationship_permissions: { 123 => {} } })
       wizard = described_class.new(state_store, current_step: 'permissions', current_provider_relationship_id: '123')

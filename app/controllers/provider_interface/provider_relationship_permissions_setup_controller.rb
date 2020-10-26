@@ -71,7 +71,6 @@ module ProviderInterface
       path_info = {
         organisations: { action: :organisations },
         permissions: { action: :setup_permissions, id: id },
-        info: { action: :info },
         check: { action: :check },
       }.fetch(step)
 
