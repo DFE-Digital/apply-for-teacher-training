@@ -7,7 +7,8 @@ module ProviderInterface
                   :manage_users,
                   :make_decisions,
                   :view_safeguarding_information,
-                  :view_diversity_information
+                  :view_diversity_information,
+                  :view_applications_only
 
     delegate :provider, to: :model
     delegate :provider_user, to: :model
@@ -19,15 +20,25 @@ module ProviderInterface
       return unless permissions_model
 
       new_form = new(model: permissions_model)
-      ProviderPermissions::VALID_PERMISSIONS.each do |permission_name|
-        new_form.send("#{permission_name}=", permissions_model.send(permission_name))
+
+      if permissions_model.view_applications_only?
+        new_form.view_applications_only = true
+      else
+        new_form.view_applications_only = false
+        ProviderPermissions::VALID_PERMISSIONS.each do |permission_name|
+          new_form.send("#{permission_name}=", permissions_model.send(permission_name))
+        end
       end
+
       new_form
     end
 
     def update_from_params(hash)
+      view_applications_only = ActiveModel::Type::Boolean.new.cast(hash[:view_applications_only])
+
       ProviderPermissions::VALID_PERMISSIONS.each do |permission_name|
-        send("#{permission_name}=", hash[permission_name] || false)
+        permission_value = view_applications_only ? false : hash.fetch(permission_name, false)
+        send("#{permission_name}=", permission_value)
       end
     end
 

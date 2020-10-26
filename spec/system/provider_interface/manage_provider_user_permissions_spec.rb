@@ -67,6 +67,8 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def then_i_see_user_permissions_for_this_provider
+    expect(page).to have_checked_field 'View applications only'
+    expect(page).to have_unchecked_field 'Extra permissions'
     expect(page).to have_unchecked_field 'Manage users'
   end
 
@@ -79,6 +81,7 @@ RSpec.feature 'Managing provider user permissions' do
 
   def and_i_add_permission_to_manage_users_for_a_provider_user
     expect(page).not_to have_checked_field 'Manage users'
+    choose 'Extra permissions'
     check 'Manage users'
     click_on 'Save'
   end
@@ -103,6 +106,7 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def when_i_add_permission_to_view_safeguarding_for_a_provider_user
+    choose 'Extra permissions'
     expect(page).not_to have_checked_field 'Access safeguarding information'
     check 'Access safeguarding information'
     click_on 'Save'
@@ -115,6 +119,7 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def and_i_add_permission_to_make_decisions_for_a_provider_user
+    choose 'Extra permissions'
     expect(page).not_to have_checked_field 'Make decisions'
     check 'Make decisions'
     click_on 'Save'
@@ -127,6 +132,7 @@ RSpec.feature 'Managing provider user permissions' do
   end
 
   def when_i_add_permission_to_view_diversity_for_a_provider_user
+    choose 'Extra permissions'
     expect(page).not_to have_checked_field 'Access diversity information'
     check 'Access diversity information'
     click_on 'Save'
