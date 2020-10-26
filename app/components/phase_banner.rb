@@ -1,5 +1,5 @@
 class PhaseBanner < ViewComponent::Base
-  DEFAULT_FEEDBACK_LINK = 'mailto:becomingateacher@digital.education.gov.uk?subject=Apply+feedback'.freeze
+  DEFAULT_FEEDBACK_LINK = 'mailto:becomingateacher@digital.education.gov.uk?subject=Feedback%20about%20Apply%20for%20teacher%20training'.freeze
 
   def initialize(no_border: false, feedback_link: nil)
     @no_border = no_border
@@ -13,7 +13,7 @@ class PhaseBanner < ViewComponent::Base
 
     case HostingEnvironment.environment_name
     when 'production'
-      "This is a new service - <a href='#{@feedback_link || DEFAULT_FEEDBACK_LINK}' class='govuk-link govuk-link--no-visited-state'>give feedback or report a problem</a>".html_safe
+      "This is a new service – <a href='#{@feedback_link || DEFAULT_FEEDBACK_LINK}' class='govuk-link govuk-link--no-visited-state'>give feedback or report a problem</a>".html_safe
     when 'qa'
       'This is the QA version of the Apply service'
     when 'staging'
