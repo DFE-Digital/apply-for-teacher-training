@@ -9,7 +9,7 @@ RSpec.describe PhaseBanner do
     it 'renders a feedback link' do
       result = render_inline(PhaseBanner.new)
 
-      expect(result.css('.govuk-link').attribute('href').value).to eq('mailto:becomingateacher@digital.education.gov.uk?subject=Apply+feedback')
+      expect(result.css('.govuk-link').attribute('href').value).to eq('mailto:becomingateacher@digital.education.gov.uk?subject=Feedback%20about%20Apply%20for%20teacher%20training')
     end
 
     specify 'the feedback link can be overridden' do
