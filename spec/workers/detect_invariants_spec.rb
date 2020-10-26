@@ -5,22 +5,19 @@ RSpec.describe DetectInvariants do
 
   describe '#perform' do
     it 'detects weird references state' do
-      application_choice = create(:application_choice, status: 'application_complete')
-      create(:reference, :feedback_provided, application_form: application_choice.application_form)
-      create(:reference, :feedback_provided, application_form: application_choice.application_form)
-
-      application_choice = create(:application_choice, status: 'awaiting_references')
-      create(:reference, :feedback_provided, application_form: application_choice.application_form)
-      create(:reference, :feedback_provided, application_form: application_choice.application_form)
+      application_choice_bad = create(:application_choice, status: 'application_complete')
+      application_choice_bad_too = create(:application_choice, status: 'awaiting_references')
 
       DetectInvariants.new.perform
 
       expect(Raven).to have_received(:capture_exception).with(
         DetectInvariants::WeirdSituationDetected.new(
           <<~MSG,
-            One or more application choices in `awaiting_references` state, but all feedback is collected:
+            One or more application choices are still in `awaiting_references` or
+            `application_complete` state, but all these states have been removed:
 
-            #{application_choice.id}
+            #{application_choice_bad.id}
+            #{application_choice_bad_too.id}
           MSG
         ),
       )

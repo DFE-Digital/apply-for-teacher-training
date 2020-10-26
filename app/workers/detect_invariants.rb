@@ -3,22 +3,18 @@ class DetectInvariants
   include Sidekiq::Worker
 
   def perform
-    detect_application_choices_stuck_in_awaiting_references_state
+    detect_application_choices_in_old_states
   end
 
-  def detect_application_choices_stuck_in_awaiting_references_state
-    # Application choices with completed feedback, but still awaiting references
-    forms_with_completed_references = ApplicationForm.includes(:application_references).select do |form|
-      form.application_references.feedback_provided.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
-    end
-
+  def detect_application_choices_in_old_states
     choices_in_wrong_state = begin
-      ApplicationChoice.where(status: 'awaiting_references', application_form: forms_with_completed_references)
+      ApplicationChoice.where(status: %w[awaiting_references application_complete])
     end
 
     if choices_in_wrong_state.any?
       message = <<~MSG
-        One or more application choices in `awaiting_references` state, but all feedback is collected:
+        One or more application choices are still in `awaiting_references` or
+        `application_complete` state, but all these states have been removed:
 
         #{choices_in_wrong_state.map(&:id).join("\n")}
       MSG
