@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Processing matching data from UCAS', sidekiq: true, skip: true do
+RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
   include DfESignInHelpers
 
   scenario 'A download from UCAS is processed' do
