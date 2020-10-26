@@ -32,7 +32,16 @@ module CandidateInterface
     end
 
     def can_resend?(reference)
-      (reference.cancelled? || reference.cancelled_at_end_of_cycle? || reference.email_bounced?) &&
+      (reference.cancelled? || reference.cancelled_at_end_of_cycle?) &&
+        !reference.application_form.enough_references_have_been_provided? &&
+        CandidateInterface::Reference::SubmitRefereeForm.new(
+          submit: 'yes',
+          reference_id: reference.id,
+        ).valid?
+    end
+
+    def can_retry?(reference)
+      reference.email_bounced? &&
         !reference.application_form.enough_references_have_been_provided? &&
         CandidateInterface::Reference::SubmitRefereeForm.new(
           submit: 'yes',

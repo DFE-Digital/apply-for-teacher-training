@@ -97,36 +97,28 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     end
   end
 
-  context 'when reference state is "cancelled" and the reference is complete' do
+  context 'when reference state is "cancelled" or "email_bounced" and the reference is complete' do
     let(:application_form) { create(:application_form) }
     let(:feedback_requested) { create(:reference, :feedback_requested, application_form: application_form) }
     let(:feedback_provided) { create(:reference, :feedback_provided, application_form: application_form) }
     let(:second_feedback_provided) { create(:reference, :feedback_provided, application_form: application_form) }
     let(:cancelled) { create(:reference, :cancelled, application_form: application_form) }
+    let(:email_bounced) { create(:reference, :email_bounced, application_form: application_form) }
 
-    it 'a re-send request link is available' do
-      result = render_inline(described_class.new(references: [feedback_requested, cancelled]))
+    it 'a retry request link is available' do
+      result = render_inline(described_class.new(references: [feedback_requested, email_bounced]))
 
       feedback_requested_summary = result.css('.app-summary-card')[0]
       feedback_cancelled_summary = result.css('.app-summary-card')[1]
-      expect(feedback_requested_summary.text).not_to include 'Send request again'
-      expect(feedback_cancelled_summary.text).to include 'Send request again'
+      expect(feedback_requested_summary.text).not_to include 'Retry request'
+      expect(feedback_cancelled_summary.text).to include 'Retry request'
     end
 
-    it 'an edit email address link is available' do
-      result = render_inline(described_class.new(references: [feedback_provided, cancelled]))
-
-      feedback_provided_summary = result.css('.app-summary-card')[0]
-      feedback_cancelled_summary = result.css('.app-summary-card')[1]
-      expect(feedback_provided_summary.text).not_to include 'Change email address'
-      expect(feedback_cancelled_summary.text).to include 'Change email address'
-    end
-
-    it 'an edit email address link is not available if there are sufficient references provided' do
-      result = render_inline(described_class.new(references: [feedback_provided, second_feedback_provided, cancelled]))
+    it 'a retry request link is not available if there are sufficient references provided' do
+      result = render_inline(described_class.new(references: [feedback_provided, second_feedback_provided, email_bounced]))
 
       feedback_cancelled_summary = result.css('.app-summary-card')[2]
-      expect(feedback_cancelled_summary.text).not_to include 'Change email address'
+      expect(feedback_cancelled_summary.text).not_to include 'Retry request'
     end
   end
 

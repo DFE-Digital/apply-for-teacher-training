@@ -401,6 +401,7 @@ en:
       cancel_request: Cancel request
       send_request: Send request
       resend_request: Send request again
+      retry_request: Retry request
       email_address:
         label: Email address
         hint_text:
