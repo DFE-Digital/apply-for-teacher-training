@@ -636,15 +636,19 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_forms#index'
 
-    get '/ucas-matches' => 'ucas_matches#index', as: :ucas_matches
-    get '/ucas-matches/:id' => 'ucas_matches#show', as: :ucas_match
-    post '/ucas-matches/:id/process-match' => 'ucas_matches#process_match', as: :process_match
-
     scope path: '/applications/:application_form_id' do
       get '/' => 'application_forms#show', as: :application_form
       get '/audit' => 'application_forms#audit', as: :application_form_audit
       get '/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
       post '/comments' => 'application_forms/comments#create', as: :application_form_comments
+    end
+
+    get '/ucas-matches' => 'ucas_matches#index'
+
+    scope path: '/ucas-matches/:id' do
+      get '/' => 'ucas_matches#show', as: :ucas_match
+      get '/audit' => 'ucas_matches#audit', as: :ucas_match_audit
+      post '/process-match' => 'ucas_matches#process_match', as: :process_match
     end
 
     get '/application_choices/:application_choice_id' => 'application_choices#show', as: :application_choice

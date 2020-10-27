@@ -74,12 +74,14 @@ RSpec.feature 'See UCAS matches' do
   def then_i_should_see_ucas_match_summary
     expect(page).to have_content 'Matched courses'
     within('tbody tr:eq(1)') do
-      expect(page).to have_content("#{@course1.code} — #{@course1.name} — #{@course1.provider.name}")
+      expect(page).to have_content(@course1.code)
+      expect(page).to have_content("#{@course1.name} – #{@course1.provider.name}")
       expect(page).to have_content('Withdrawn')
       expect(page).to have_content('Offer made')
     end
     within('tbody tr:eq(2)') do
-      expect(page).to have_content("#{@course2.code} — #{@course2.name} — #{@course2.provider.name}")
+      expect(page).to have_content(@course2.code)
+      expect(page).to have_content("#{@course2.name} – #{@course2.provider.name}")
       expect(page).to have_content('N/A')
       expect(page).to have_content('Awaiting provider decision')
     end

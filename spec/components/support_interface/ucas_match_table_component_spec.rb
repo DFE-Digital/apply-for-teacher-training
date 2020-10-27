@@ -34,27 +34,30 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
   it 'renders course choice details for a course on Apply' do
     result = render_inline(described_class.new(ucas_match))
 
-    expect(result.css('td').first.text).to include("#{course.code} — #{course.name} — #{course.provider.name}")
+    expect(result.css('td')[0].text).to include(course.code)
+    expect(result.css('td')[1].text).to include("#{course.name} – #{course.provider.name}")
   end
 
   it 'renders course choice details for a course not on Apply' do
     result = render_inline(described_class.new(ucas_match_course_only_on_ucas))
 
-    expect(result.css('td').first.text).to include("123 — Not on Apply — #{course.provider.name}")
+    expect(result.css('td')[0].text).to include('123')
+    expect(result.css('td')[1].text).to include("Not on Apply – #{course.provider.name}")
   end
 
   it 'renders course choice details for a course with missing data and provider' do
     result = render_inline(described_class.new(ucas_match_for_welsh_provider))
 
-    expect(result.css('td').first.text).to include('Missing course code — Missing course name — Provider not on Apply')
+    expect(result.css('td')[0].text).to include('Missing course code')
+    expect(result.css('td')[1].text).to include('Missing course name – Provider not on Apply')
   end
 
   context 'when application is in both Apply and UCAS' do
     it 'renders correct statuses for both' do
       result = render_inline(described_class.new(ucas_match))
 
-      expect(result.css('td')[1].text).to include('Rejected')
-      expect(result.css('td')[2].text).to include('Offer made')
+      expect(result.css('td')[2].text).to include('Rejected')
+      expect(result.css('td')[3].text).to include('Offer made')
     end
 
     it 'renders correct summary' do
@@ -68,8 +71,8 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
     it 'renders correct statuses' do
       result = render_inline(described_class.new(ucas_match_for_apply_application))
 
-      expect(result.css('td')[1].text).to include('N/A')
-      expect(result.css('td')[2].text).to include('Offer made')
+      expect(result.css('td')[2].text).to include('N/A')
+      expect(result.css('td')[3].text).to include('Offer made')
     end
 
     it 'renders correct summary' do
@@ -83,15 +86,15 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
     it 'renders correct statuses for a course on Apply' do
       result = render_inline(described_class.new(ucas_match_for_ucas_application))
 
-      expect(result.css('td')[1].text).to include('Rejected')
-      expect(result.css('td')[2].text).to include('N/A')
+      expect(result.css('td')[2].text).to include('Rejected')
+      expect(result.css('td')[3].text).to include('N/A')
     end
 
     it 'renders correct statuses for a course which is not on Apply' do
       result = render_inline(described_class.new(ucas_match_course_only_on_ucas))
 
-      expect(result.css('td')[1].text).to include('Withdrawn')
-      expect(result.css('td')[2].text).to include('N/A')
+      expect(result.css('td')[2].text).to include('Withdrawn')
+      expect(result.css('td')[3].text).to include('N/A')
     end
 
     it 'renders correct summary' do
