@@ -17,6 +17,12 @@ steps:
         then
           seedvalue=$(grep -Pio 'name="seed" value="\d+"' $testResultFile)
           echo "##[command]$seedvalue"
+          if [ $(grep "^<testsuite name=\"rspec\"" $testResultFile | cut -d' ' -f3 | cut -d'"' -f2) -eq 0 ]
+          then
+            ## tests="0" in the rspec results file; Rspec has errored and tests haven't run
+            echo "##vso[task.logissue type=error]Rspec exited abnormally"
+            exit 1
+          fi
           if [ $(grep "^<testsuite name=\"rspec\"" $testResultFile | cut -d' ' -f5 | cut -d'"' -f2) -gt 0 ]
           then
             echo "##vso[task.logissue type=error]One or more rspec tests failed"
