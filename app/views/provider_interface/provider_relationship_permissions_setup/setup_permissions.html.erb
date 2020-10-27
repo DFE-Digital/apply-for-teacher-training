@@ -10,38 +10,22 @@
 
       <%= hidden_field_tag :checking_answers, params[:checking_answers] %>
 
-      <span class="govuk-caption-xl">Set up permissions</span>
-      <h1 class="govuk-heading-xl">For courses run by <%= @permissions_model.training_provider.name %> and ratified by <%= @permissions_model.ratifying_provider.name %></h1>
+      <span class="govuk-caption-l">Set up permissions</span>
+      <h1 class="govuk-heading-l"><%= @permissions_model.training_provider.name %> and <%= @permissions_model.ratifying_provider.name %></h1>
 
-      <div class="app-banner">
-        <div class="app-banner__message">
-          <p>All users at your organisation and ratifying organisation(s) will be able to view applications to these courses. You do not need to set permissions for this.</p>
-          <details class="govuk-details" data-module="govuk-details">
-            <summary class="govuk-details__summary">
-              <span class="govuk-details__summary-text">
-                More about permissions
-              </span>
-            </summary>
-            <div class="govuk-details__text">
-              <h2 class="govuk-heading-m">Permission to make decisions</h2>
-              <p>You can allow an organisation to make offers, amend offers and reject applications.</p>
-              <h2 class="govuk-heading-m">Permission to view safeguarding information</h2>
-              <p>You can give an organisation access to information disclosed in the ‘criminal convictions and professional misconduct’ section of the application.</p>
-              <p>This may include highly sensitive material about the candidate.</p>
-
-              <h2 class="govuk-heading-m">Permission to view diversity information</h2>
-              <p>You can give an organisation access to information disclosed by the candidate in the ‘equality and diversity’ section of the application.</p>
-
-              <p>To avoid any unconscious bias in the selection process, this information only becomes available to training providers after an offer has been made and accepted.</p>
-            </div>
-          </details>
-        </div>
+      <div class="govuk-body">
+        <h1 class="govuk-heading-m">Who can view applications?</h1>
+        <ul class="govuk-list govuk-list--spaced govuk-!-margin-bottom-6">
+          <li><%= render CheckIcon.new %><%= @permissions_model.training_provider.name %></li>
+          <li><%= render CheckIcon.new %><%= @permissions_model.ratifying_provider.name %> – can only see courses they ratify</li>
+        </ul>
       </div>
 
       <%= f.fields_for "provider_relationship_permissions[]", @permissions_form do |pf| %>
         <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
           <div class="govuk-form-group <%= permission_name.to_s.dasherize %>" id="<%= permission_name %>">
-            <%= pf.govuk_check_boxes_fieldset permission_name, legend: { text: "Which organisations can #{permission_name.to_s.humanize.downcase}?" } do %>
+            <%= pf.govuk_check_boxes_fieldset permission_name, legend: { text: "Who can #{permission_name.to_s.humanize.downcase}?" } do %>
+              <div id="makedecisions-hint" class="govuk-hint"><%= t("provider_relationship_permissions.#{permission_name}") %></div>
               <%= hidden_field_tag "#{pf.object_name}[#{permission_name}][]", '' %>
               <%= pf.govuk_check_box permission_name, 'training', link_errors: true,
                                      label: { text: @permissions_model.training_provider.name } %>

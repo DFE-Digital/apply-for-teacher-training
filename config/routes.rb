@@ -588,8 +588,6 @@ Rails.application.routes.draw do
     scope path: '/provider-relationship-permissions' do
       get '/organisations-to-setup' => 'provider_relationship_permissions_setup#organisations',
           as: :provider_relationship_permissions_organisations
-      get '/information' => 'provider_relationship_permissions_setup#info',
-          as: :provider_relationship_permissions_info
       get '/:id/setup' => 'provider_relationship_permissions_setup#setup_permissions',
           as: :setup_provider_relationship_permissions
       post '/:id/create' => 'provider_relationship_permissions_setup#save_permissions',

@@ -25,14 +25,6 @@ RSpec.describe 'Set up ProviderRelationshipPermissions', type: :request do
       end
     end
 
-    context 'GET info' do
-      it 'responds with 404' do
-        get provider_interface_provider_relationship_permissions_info_path
-
-        expect(response.status).to eq(404)
-      end
-    end
-
     context 'GET set_permissions' do
       it 'responds with 404' do
         get provider_interface_setup_provider_relationship_permissions_path(id: 1)

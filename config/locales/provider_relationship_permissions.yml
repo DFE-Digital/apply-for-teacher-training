@@ -1,0 +1,5 @@
+en:
+  provider_relationship_permissions:
+    make_decisions: This allows an organisation to make offers, amend offers and rejection applications
+    view_safeguarding_information: "This allows an organisation to see information disclosed in the ‘criminal convictions and professional misconduct’ section of the application"
+    view_diversity_information: "This allows an organisation to see information disclosed in the ‘equality and diversity’ section of the application"

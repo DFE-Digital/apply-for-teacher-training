@@ -7,9 +7,12 @@
     <span class="govuk-caption-xl">Set up permissions</span>
     <h1 class="govuk-heading-xl">Check permissions</h1>
     <% @permissions_models.each do |permissions_model| %>
+			<% if permissions_model.training_provider.name != @current_training_provider_name %>
       <h2 class="govuk-heading-m">
-        For courses run by <%= permissions_model.training_provider.name %> and ratified by <%= permissions_model.ratifying_provider.name %>
+        <%= permissions_model.training_provider.name %>
       </h2>
+			<% end %>
+			<% @current_training_provider_name = permissions_model.training_provider.name -%>
       <%= render ProviderInterface::ProviderRelationshipPermissionsListComponent.new(
         permissions_model: permissions_model,
         change_link_builder: ProviderInterface::ProviderRelationshipWizardChangeLinkBuilder,
