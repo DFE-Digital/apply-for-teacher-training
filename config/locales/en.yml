@@ -322,18 +322,6 @@ en:
               invalid: Enter an email address in the correct format, like name@example.com
         application_reference:
           attributes:
-            email_address:
-              blank: Enter the referee’s email address
-              too_long: Email address must be %{count} characters or fewer
-              invalid: Enter an email address in the correct format, like name@example.com
-              taken: Please give a different email address for each referee
-              own: Enter an email address that’s not your own
-            name:
-              blank: Enter the referee’s full name
-              too_long: Full name must be %{count} characters or fewer
-            relationship:
-              blank: Tell us about the referee’s relationship to you and how long they’ve known you
-              too_many_words: Relationship to referee must be %{count} words or fewer
             feedback_status:
               cancelled: Cancelled
               not_requested_yet: Not requested yet
