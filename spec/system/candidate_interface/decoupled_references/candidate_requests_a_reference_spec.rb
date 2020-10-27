@@ -219,7 +219,7 @@ RSpec.feature 'Candidate requests a reference' do
   def when_i_change_the_email_address
     fill_in 'Referee’s email address', with: 'john@example.com'
   end
-  
+
   def and_i_confirm_that_i_am_ready_to_retry_a_reference_request
     click_button 'Send reference request'
   end

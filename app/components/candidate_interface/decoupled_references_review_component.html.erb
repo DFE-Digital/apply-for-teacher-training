@@ -2,7 +2,7 @@
   <%= render(SummaryCardComponent.new(
     rows: reference_rows(reference),
     editable: editable && reference.editable?,
-    ignore_editable: ignore_editable_for(reference),
+    ignore_editable: ignore_editable_for,
   )) do %>
     <%= render(SummaryCardHeaderComponent.new(title: card_title(reference))) do %>
       <div class="app-summary-card__actions">
