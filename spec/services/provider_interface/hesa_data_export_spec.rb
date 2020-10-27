@@ -76,5 +76,14 @@ RSpec.describe ProviderInterface::HesaDataExport do
       expect(row['disabilities']).to eq('53 55 54')
       expect(row['ethnicity']).to eq('15')
     end
+
+    context 'when hesa disabilities is stored as string' do
+      let(:hesa_disabilities) { '55' }
+
+      it 'exports this value' do
+        exported_data = CSV.parse(export_data, headers: true)
+        expect(exported_data.first['disabilities']).to eq('55')
+      end
+    end
   end
 end
