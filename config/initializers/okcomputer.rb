@@ -15,7 +15,7 @@ class SidekiqRetriesCheck < OkComputer::Check
   def check
     retries_queue_length = Sidekiq::RetrySet.new.size
     queue_length_text = " (#{retries_queue_length})"
-    if retries_queue_length > 10
+    if retries_queue_length > 50
       mark_failure
       mark_message "Sidekiq pending retries depth is high #{queue_length_text}. Suggests high error rate"
     else
