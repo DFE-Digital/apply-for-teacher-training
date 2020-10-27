@@ -91,11 +91,11 @@ class Course < ApplicationRecord
   end
 
   def supports_study_mode?(mode)
-    both_study_modes_available? || study_mode == mode
+    available_study_modes_from_options.include?(mode)
   end
 
   def available_study_modes_from_options
-    course_options.pluck(:study_mode).uniq
+    course_options.select(&:site_still_valid).pluck(:study_mode).uniq
   end
 
   def full?

@@ -22,6 +22,25 @@ RSpec.describe Course, type: :model do
     end
   end
 
+  describe '#available_study_modes_from_options' do
+    it 'returns an array of unique study modes for a courses course options' do
+      course_option1 = build_stubbed(:course_option, :full_time)
+      course_option2 = build_stubbed(:course_option, :full_time)
+      course_option3 = build_stubbed(:course_option, :part_time)
+      course = build_stubbed(:course, course_options: [course_option1, course_option2, course_option3])
+
+      expect(course.available_study_modes_from_options).to eq [course_option1.study_mode, course_option3.study_mode]
+    end
+
+    it 'does not return course_options which have been invalidated by the SyncCoursesFromFind job' do
+      valid_course_option = build_stubbed(:course_option, :full_time)
+      invalid_course_option = build_stubbed(:course_option, :part_time, site_still_valid: false)
+      course = build_stubbed(:course, course_options: [valid_course_option, invalid_course_option])
+
+      expect(course.available_study_modes_from_options).to eq [valid_course_option.study_mode]
+    end
+  end
+
   describe '#full?' do
     subject(:course) { create(:course) }
 
