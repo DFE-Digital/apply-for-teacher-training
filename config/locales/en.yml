@@ -129,6 +129,7 @@ en:
     references_unsubmitted_review: Check your answers before sending your request
     references_candidate_name: Tell the referee your name
     references_reminder: Would you like to send a reminder to this referee?
+    retry_reference_request: Retry reference request
     providers: Courses on this service
     view_and_respond_to_offer: Details of offer
     api_docs:

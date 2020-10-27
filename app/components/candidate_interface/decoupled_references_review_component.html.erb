@@ -14,6 +14,13 @@
                 <span class="govuk-visually-hidden"> <%= reference.name %></span>
               <% end %>
             </div>
+          <% elsif can_retry?(reference) %>
+            <li class="app-summary-card__actions-list-item">
+              <%= link_to candidate_interface_decoupled_references_retry_request_path(reference.id), class: 'govuk-link' do %>
+                <%= t('application_form.referees.retry_request') %>
+                <span class="govuk-visually-hidden"> to <%= reference.name %></span>
+              <% end %>
+            </li>
           <% end %>
 
           <% if reference.not_requested_yet? %>
@@ -50,13 +57,6 @@
             <li class="app-summary-card__actions-list-item">
               <%= link_to candidate_interface_decoupled_references_new_request_path(reference.id), class: 'govuk-link' do %>
                 <%= t('application_form.references.resend_request.action') %>
-                <span class="govuk-visually-hidden"> to <%= reference.name %></span>
-              <% end %>
-            </li>
-          <% elsif can_retry?(reference) %>
-            <li class="app-summary-card__actions-list-item">
-              <%= link_to candidate_interface_decoupled_references_retry_request_path(reference.id), class: 'govuk-link' do %>
-                <%= t('application_form.referees.retry_request') %>
                 <span class="govuk-visually-hidden"> to <%= reference.name %></span>
               <% end %>
             </li>
