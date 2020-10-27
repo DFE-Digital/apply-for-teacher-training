@@ -2,7 +2,7 @@
   <%= render(SummaryCardComponent.new(
     rows: reference_rows(reference),
     editable: editable && reference.editable?,
-    ignore_editable: ignore_editable_for(reference),
+    ignore_editable: ignore_editable_for,
   )) do %>
     <%= render(SummaryCardHeaderComponent.new(title: card_title(reference))) do %>
       <div class="app-summary-card__actions">
@@ -17,7 +17,7 @@
           <% elsif can_retry?(reference) %>
             <li class="app-summary-card__actions-list-item">
               <%= link_to candidate_interface_decoupled_references_retry_request_path(reference.id), class: 'govuk-link' do %>
-                <%= t('application_form.referees.retry_request') %>
+                <%= t('application_form.references.retry_request.action') %>
                 <span class="govuk-visually-hidden"> to <%= reference.name %></span>
               <% end %>
             </li>

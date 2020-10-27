@@ -49,8 +49,8 @@ module CandidateInterface
         ).valid?
     end
 
-    def ignore_editable_for(reference)
-      ['History']
+    def ignore_editable_for
+      %w[History]
     end
 
   private

@@ -17,6 +17,8 @@ module CandidateInterface
     def formatted_title(event)
       if event.name == 'request_bounced'
         "The request did not reach #{event.extra_info.bounced_email}"
+      elsif event.name == 'request_sent'
+        "Request sent to #{event.extra_info.email_address}"
       else
         event.name.humanize
       end

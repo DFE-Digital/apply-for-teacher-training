@@ -224,7 +224,7 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   def when_i_have_a_failed_reference
-    @reference = create(:reference, :email_bounced, application_form: @application_form)
+    @reference = create(:reference, :email_bounced, application_form: @application_form, email_address: 'kevin@example.com')
   end
 
   def and_i_click_the_resend_reference_link
@@ -251,7 +251,7 @@ RSpec.feature 'Candidate requests a reference' do
   def when_i_change_the_email_address
     fill_in 'Referee’s email address', with: 'john@example.com'
   end
-  
+
   def and_i_confirm_that_i_am_ready_to_retry_a_reference_request
     click_button 'Send reference request'
   end
