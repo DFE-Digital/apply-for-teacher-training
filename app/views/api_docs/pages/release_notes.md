@@ -1,11 +1,11 @@
-### 23rd Ocotber 2020
+### 23rd October 2020
 
 New attributes:
 
 - `ApplicationAttributes` now has a `recruited_at` attribute which will contain
   an ISO8601 date for candidates in the `recruited` state.
-- `Offer` now has three new date fields: `offer_made_at`, `accepted_at` and
-  `declined_at`.
+- `Offer` now has three new date fields: `offer_made_at`, `offer_accepted_at` and
+  `offer_declined_at`.
 - `Reference` now has two new fields: an enum `referee_type` and a boolean
   `safeguarding_concerns`
 - `Qualification` now has a free text field `non_uk_qualification_type` which

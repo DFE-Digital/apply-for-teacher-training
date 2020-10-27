@@ -354,14 +354,14 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     it 'includes safeguarding concerns' do
       create(
         :reference,
-        :complete,
+        :feedback_provided,
         safeguarding_concerns_status: 'has_safeguarding_concerns_to_declare',
         application_form: application_choice.application_form,
       )
 
       create(
         :reference,
-        :complete,
+        :feedback_provided,
         safeguarding_concerns_status: 'no_safeguarding_concerns_to_declare',
         application_form: application_choice.application_form,
       )

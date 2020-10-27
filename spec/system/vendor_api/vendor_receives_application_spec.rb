@@ -72,6 +72,7 @@ RSpec.feature 'Vendor receives the application' do
             {
               id: @application.english_gcse.id,
               qualification_type: 'gcse',
+              non_uk_qualification_type: nil,
               subject: 'english',
               grade: 'B',
               start_year: nil,
@@ -90,6 +91,7 @@ RSpec.feature 'Vendor receives the application' do
             {
               id: @application.maths_gcse.id,
               qualification_type: 'gcse',
+              non_uk_qualification_type: nil,
               subject: 'maths',
               grade: 'B',
               start_year: nil,
@@ -110,6 +112,7 @@ RSpec.feature 'Vendor receives the application' do
             {
               id: @application.qualification_in_subject(:degree, 'Doge').id,
               qualification_type: 'BA',
+              non_uk_qualification_type: nil,
               subject: 'Doge',
               grade: 'First class honours',
               start_year: '2006',
@@ -130,6 +133,7 @@ RSpec.feature 'Vendor receives the application' do
             {
               id: @application.qualification_in_subject(:other, 'Believing in the Heart of the Cards').id,
               qualification_type: 'A level',
+              non_uk_qualification_type: nil,
               subject: 'Believing in the Heart of the Cards',
               grade: 'A',
               start_year: nil,
