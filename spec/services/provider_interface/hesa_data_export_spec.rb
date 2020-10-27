@@ -2,12 +2,14 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::HesaDataExport do
   describe '#call' do
+    let(:accredited_provider) { create(:provider) }
     let(:provider_ids) { @course.provider.id }
+    let(:hesa_disabilities) { [53, 55, 54] }
 
     subject(:export_data) { described_class.new(provider_ids: provider_ids).call }
 
     before do
-      @course = create(:course, study_mode: 'full_time', subject_codes: %w[F3 X9])
+      @course = create(:course, study_mode: 'full_time', subject_codes: %w[F3 X9], accredited_provider: accredited_provider)
       application_qualification = create(
         :application_qualification,
         level: 'degree',
@@ -27,7 +29,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
       )
       @application_with_offer.application_form.application_qualifications << application_qualification
       @application_with_offer.application_form.update(equality_and_diversity: {
-        hesa_sex: 1, hesa_disabilities: [53, 55, 54], hesa_ethnicity: 15
+        hesa_sex: 1, hesa_disabilities: hesa_disabilities, hesa_ethnicity: 15
       })
     end
 
@@ -43,35 +45,36 @@ RSpec.describe ProviderInterface::HesaDataExport do
     end
 
     it 'includes candidate and HESA data' do
-      exported_data = CSV.parse(export_data)
-      cells = exported_data[1]
+      exported_data = CSV.parse(export_data, headers: true)
+      row = exported_data.first
 
-      expect(cells[0]).to eq(@application_with_offer.application_form.support_reference)
-      expect(cells[1]).to eq(@application_with_offer.status)
-      expect(cells[2]).to eq(@application_with_offer.application_form.first_name)
-      expect(cells[3]).to eq(@application_with_offer.application_form.last_name)
-      expect(cells[4]).to eq(@application_with_offer.application_form.date_of_birth.to_s)
-      expect(cells[5]).to eq(@application_with_offer.application_form.first_nationality)
-      expect(cells[6]).to eq(@application_with_offer.application_form.country)
-      expect(cells[7]).to eq(@application_with_offer.application_form.candidate.email_address)
-      expect(cells[8]).to eq(@application_with_offer.application_form.recruitment_cycle_year.to_s)
-      expect(cells[9]).to eq(@application_with_offer.provider.code)
-      expect(cells[11]).to eq(@course.code)
-      expect(cells[12]).to eq(@application_with_offer.site.code)
-      expect(cells[13]).to eq('01')
-      expect(cells[14]).to eq('100425 101277')
-      expect(cells[15]).to eq('021')
-      expect(cells[16]).to eq('1')
-      expect(cells[17]).to eq('007')
-      expect(cells[18]).to eq('100100')
-      expect(cells[19]).to eq('02')
-      expect(cells[20]).to eq('GB')
-      expect(cells[21]).to eq('2010')
-      expect(cells[22]).to eq('2013')
-      expect(cells[23]).to eq('0001')
-      expect(cells[24]).to eq('1')
-      expect(cells[25]).to eq('53 55 54')
-      expect(cells[26]).to eq('15')
+      expect(row['id']).to eq(@application_with_offer.application_form.support_reference)
+      expect(row['status']).to eq(@application_with_offer.status)
+      expect(row['first name']).to eq(@application_with_offer.application_form.first_name)
+      expect(row['last name']).to eq(@application_with_offer.application_form.last_name)
+      expect(row['date of birth']).to eq(@application_with_offer.application_form.date_of_birth.to_s)
+      expect(row['nationality']).to eq(@application_with_offer.application_form.first_nationality)
+      expect(row['domicile']).to eq(@application_with_offer.application_form.country)
+      expect(row['email address']).to eq(@application_with_offer.application_form.candidate.email_address)
+      expect(row['recruitment cycle']).to eq(@application_with_offer.application_form.recruitment_cycle_year.to_s)
+      expect(row['provider code']).to eq(@application_with_offer.provider.code)
+      expect(row['accredited body']).to eq(@application_with_offer.course.accredited_provider.name)
+      expect(row['course code']).to eq(@course.code)
+      expect(row['site code']).to eq(@application_with_offer.site.code)
+      expect(row['study mode']).to eq('01')
+      expect(row['SBJCA']).to eq('100425 101277')
+      expect(row['QLAIM']).to eq('021')
+      expect(row['FIRSTDEG']).to eq('1')
+      expect(row['DEGTYPE']).to eq('007')
+      expect(row['DEGSBJ']).to eq('100100')
+      expect(row['DEGCLSS']).to eq('02')
+      expect(row['institution country']).to eq('GB')
+      expect(row['DEGSTDT']).to eq('2010')
+      expect(row['DEGENDDT']).to eq('2013')
+      expect(row['institution details']).to eq('0001')
+      expect(row['sex']).to eq('1')
+      expect(row['disabilities']).to eq('53 55 54')
+      expect(row['ethnicity']).to eq('15')
     end
   end
 end
