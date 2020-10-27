@@ -24,4 +24,14 @@ RSpec.describe CandidateInterface::ReferenceHistoryComponent, type: :component d
     list_item = result.css('li').first
     expect(list_item.text).to include 'The request did not reach example@email.com'
   end
+
+  it 'uses a special title format for request_sent events', with_audited: true do
+    reference = create(:reference, :not_requested_yet, email_address: 'example@email.com')
+    reference.feedback_requested!
+
+    result = render_inline(described_class.new(reference))
+
+    list_item = result.css('li').first
+    expect(list_item.text).to include 'Request sent to example@email.com'
+  end
 end
