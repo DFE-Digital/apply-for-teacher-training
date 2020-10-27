@@ -1,3 +1,4 @@
+# NOTE: This component is used by both provider and support UIs
 class PersonalDetailsComponent < ViewComponent::Base
   MISSING = '<em>Not provided</em>'.html_safe
   RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES = {
@@ -12,8 +13,6 @@ class PersonalDetailsComponent < ViewComponent::Base
            :last_name,
            :phone_number,
            :candidate,
-           :support_reference,
-           :submitted_at,
            to: :application_form
 
   delegate :email_address, to: :candidate
@@ -24,8 +23,6 @@ class PersonalDetailsComponent < ViewComponent::Base
 
   def rows
     [
-      application_submitted_row,
-      support_reference_row,
       name_row,
       date_of_birth_row,
       nationality_row,
@@ -38,15 +35,6 @@ class PersonalDetailsComponent < ViewComponent::Base
   end
 
 private
-
-  def application_submitted_row
-    return unless submitted_at
-
-    {
-      key: 'Application submitted',
-      value: submitted_at.to_s(:govuk_date),
-    }
-  end
 
   def name_row
     {
@@ -137,13 +125,6 @@ private
       ]
         .reject(&:blank?)
     end
-  end
-
-  def support_reference_row
-    {
-      key: 'Reference',
-      value: support_reference,
-    }
   end
 
   attr_reader :application_form

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe VolunteeringReviewComponent do
+RSpec.describe CandidateInterface::VolunteeringReviewComponent do
   context 'when they have no experience in volunteering' do
     it 'shows how to get school experience' do
       application_form = build_stubbed(:application_form)

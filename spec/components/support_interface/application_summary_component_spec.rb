@@ -9,8 +9,8 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('UCAS matching data for this candidate')
-      expect(result.css('.govuk-summary-list__value').text).to include('View matching data')
+      expect(result.css('.govuk-summary-list__key').text).to include('UCAS matching data')
+      expect(result.css('.govuk-summary-list__value').text).to include('View matching data for this candidate')
     end
 
     it 'reports no UCAS matches if there are none' do
@@ -19,8 +19,8 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include('UCAS matching data for this candidate')
-      expect(result.css('.govuk-summary-list__value').text).to include('No matching data')
+      expect(result.css('.govuk-summary-list__key').text).to include('UCAS matching data')
+      expect(result.css('.govuk-summary-list__value').text).to include('No matching data for this candidate')
     end
   end
 end

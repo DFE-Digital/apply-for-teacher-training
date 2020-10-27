@@ -1,3 +1,4 @@
+# NOTE: This component is used by both provider and support UIs
 class InterviewPreferencesComponent < ViewComponent::Base
   attr_reader :application_form
 

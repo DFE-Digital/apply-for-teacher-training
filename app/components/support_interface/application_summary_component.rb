@@ -21,9 +21,9 @@ module SupportInterface
         edit_by_row,
         last_updated_row,
         state_row,
-        ucas_match_row,
         previous_application_row,
         subsequent_application_row,
+        ucas_match_row,
       ].compact
     end
 
@@ -32,8 +32,18 @@ module SupportInterface
     def recruitment_cycle_year
       {
         key: 'Recruitment cycle year',
-        value: application_form.recruitment_cycle_year,
+        value: recruitment_cycle_year_with_context,
       }
+    end
+
+    def recruitment_cycle_year_with_context
+      if application_form.apply_2?
+        "#{application_form.recruitment_cycle_year}, apply again"
+      elsif application_form.candidate_has_previously_applied?
+        "#{application_form.recruitment_cycle_year}, carried over"
+      else
+        application_form.recruitment_cycle_year
+      end
     end
 
     def last_updated_row
@@ -79,13 +89,13 @@ module SupportInterface
 
     def ucas_match_row
       value = if ucas_match
-                govuk_link_to('View matching data', support_interface_ucas_match_path(ucas_match))
+                govuk_link_to('View matching data for this candidate', support_interface_ucas_match_path(ucas_match))
               else
-                'No matching data'
+                'No matching data for this candidate'
               end
 
       {
-        key: 'UCAS matching data for this candidate',
+        key: 'UCAS matching data',
         value: value,
       }
     end

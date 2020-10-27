@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
     let(:feedback) { 'A valuable unit of work' }
     let(:reference) { build(:reference, feedback: feedback) }
 
-    subject(:component) { described_class.new(reference: reference) }
+    subject(:component) { described_class.new(reference: reference, index: 0) }
 
     it 'contains a name row' do
       row = component.rows.first
