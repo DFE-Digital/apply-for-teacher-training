@@ -65,6 +65,11 @@ class DataExport < ApplicationRecord
       description: 'A list of all applications for TAD.',
       class: SupportInterface::TADExport,
     },
+    equality_and_diversity: {
+      name: 'Equality and diversity data',
+      description: 'Anonymised candidate equality and diversity data',
+      class: SupportInterface::EqualityAndDiversityExport,
+    },
   }.freeze
 
   belongs_to :initiator, polymorphic: true, optional: true
