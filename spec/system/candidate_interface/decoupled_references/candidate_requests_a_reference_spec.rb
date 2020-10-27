@@ -58,8 +58,12 @@ RSpec.feature 'Candidate requests a reference' do
     when_i_have_a_failed_reference
     and_i_visit_the_all_references_review_page
     then_i_see_the_references_review_page
+
     when_i_click_the_retry_request_link
-    and_i_change_the_email_address
+    and_i_continue_with_a_blank_email_address
+    then_i_see_email_address_validation_errors
+
+    when_i_change_the_email_address
     and_i_confirm_that_i_am_ready_to_retry_a_reference_request
     then_i_see_a_confirmation_message
     and_the_reference_is_moved_to_the_requested_state
@@ -203,7 +207,16 @@ RSpec.feature 'Candidate requests a reference' do
     click_link 'Retry request'
   end
 
-  def and_i_change_the_email_address
+  def and_i_continue_with_a_blank_email_address
+    fill_in 'Referee’s email address', with: ''
+    click_button 'Send reference request'
+  end
+
+  def then_i_see_email_address_validation_errors
+    expect(page).to have_content('Enter your referee’s email address')
+  end
+
+  def when_i_change_the_email_address
     fill_in 'Referee’s email address', with: 'john@example.com'
   end
   
