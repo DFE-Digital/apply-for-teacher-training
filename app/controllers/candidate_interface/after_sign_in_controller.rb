@@ -7,7 +7,9 @@ module CandidateInterface
 
       current_candidate.update!(course_from_find_id: nil)
 
-      if current_application.contains_course?(course)
+      if current_application.submitted?
+        redirect_to candidate_interface_application_complete_path
+      elsif current_application.contains_course?(course)
         flash[:warning] = "You have already selected #{course.name_and_code}."
         redirect_to candidate_interface_course_choices_review_path
       elsif current_application.has_the_maximum_number_of_course_choices?
@@ -25,6 +27,8 @@ module CandidateInterface
 
       if current_application.blank_application?
         redirect_to candidate_interface_before_you_start_path
+      elsif current_application.submitted?
+        redirect_to candidate_interface_application_complete_path
       else
         redirect_to candidate_interface_application_form_path
       end
