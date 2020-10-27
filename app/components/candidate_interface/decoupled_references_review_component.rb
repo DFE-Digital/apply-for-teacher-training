@@ -137,17 +137,17 @@ module CandidateInterface
     def feedback_status_content(reference)
       text =
         if reference.feedback_refused?
-          t('application_form.referees.info.declined', referee_name: reference.name)
+          t('application_form.references.info.declined', referee_name: reference.name)
         elsif reference.cancelled_at_end_of_cycle?
-          t('application_form.referees.info.cancelled_at_end_of_cycle')
+          t('application_form.references.info.cancelled_at_end_of_cycle')
         elsif reference.cancelled?
-          t('application_form.referees.info.cancelled')
+          t('application_form.references.info.cancelled')
         elsif reference.feedback_overdue?
-          t('application_form.referees.info.feedback_overdue')
+          t('application_form.references.info.feedback_overdue')
         elsif reference.feedback_requested?
-          t('application_form.referees.info.feedback_requested')
+          t('application_form.references.info.feedback_requested')
         elsif reference.email_bounced?
-          t('application_form.referees.info.email_bounced')
+          t('application_form.references.info.email_bounced')
         end
 
       return '' if text.blank?
