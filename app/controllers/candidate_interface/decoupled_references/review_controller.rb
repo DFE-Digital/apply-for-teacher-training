@@ -16,17 +16,21 @@ module CandidateInterface
 
       def submit
         @submit_reference_form = Reference::SubmitRefereeForm.new(submit: submit_param, reference_id: @reference.id)
-        return render :unsubmitted unless @submit_reference_form.valid?
 
-        @candidate_name_form = Reference::CandidateNameForm.build_from_reference(@reference)
+        if @submit_reference_form.valid?
+          @candidate_name_form = Reference::CandidateNameForm.build_from_reference(@reference)
 
-        if @submit_reference_form.send_request? && !@candidate_name_form.valid?
-          redirect_to candidate_interface_decoupled_references_new_candidate_name_path(@reference.id)
-        elsif @submit_reference_form.send_request?
-          CandidateInterface::DecoupledReferences::RequestReference.new.call(@reference, flash)
-          redirect_to candidate_interface_decoupled_references_review_path
+          if @submit_reference_form.send_request? && !@candidate_name_form.valid?
+            redirect_to candidate_interface_decoupled_references_new_candidate_name_path(@reference.id)
+          elsif @submit_reference_form.send_request?
+            CandidateInterface::DecoupledReferences::RequestReference.new.call(@reference, flash)
+            redirect_to candidate_interface_decoupled_references_review_path
+          else
+            redirect_to candidate_interface_decoupled_references_review_path
+          end
         else
-          redirect_to candidate_interface_decoupled_references_review_path
+          track_validation_error(@submit_reference_form)
+          render :unsubmitted
         end
       end
 
