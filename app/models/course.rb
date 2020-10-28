@@ -86,8 +86,8 @@ class Course < ApplicationRecord
     "#{provider.name} - #{name_and_code}"
   end
 
-  def both_study_modes_available?
-    study_mode == 'full_time_or_part_time'
+  def currently_has_both_study_modes_available?
+    available_study_modes_from_options.count == 2
   end
 
   def supports_study_mode?(mode)
