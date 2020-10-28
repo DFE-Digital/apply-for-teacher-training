@@ -92,6 +92,33 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
       expect(wizard.last_name).to be_nil
       expect(wizard.email_address).to eq 'bob@example.com'
     end
+
+    it 'ignores permissions attributes if view applications attr is true' do
+      state_store = state_store_for(first_name: 'Bob', email_address: 'bob@example.com')
+
+      wizard = described_class.new(
+        state_store,
+        current_step: 'details',
+        view_applications_only: 'true',
+        provider_permissions: { 123 => { permissions: %w[make_decisions], provider_id: 111 } },
+      )
+
+      expect(wizard.provider_permissions[123]).to have_key(:provider_id)
+      expect(wizard.provider_permissions[123]).not_to have_key(:permissions)
+    end
+
+    it 'assigns permissions attributes if view applications attr is not true' do
+      state_store = state_store_for(first_name: 'Bob', email_address: 'bob@example.com')
+
+      wizard = described_class.new(
+        state_store,
+        current_step: 'details',
+        view_applications_only: 'false',
+        provider_permissions: { 123 => { permissions: %w[make_decisions] } },
+      )
+
+      expect(wizard.provider_permissions[123][:permissions]).to eq(%w[make_decisions])
+    end
   end
 
   describe '#save_state!' do
@@ -146,6 +173,26 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
         wizard.validate
 
         expect(wizard.errors[:email_address]).to be_empty
+      end
+    end
+
+    context 'permissions step' do
+      it 'is invalid if permissions not selected' do
+        state_store = state_store_for({})
+        wizard = described_class.new(state_store, current_step: 'permissions')
+
+        wizard.valid?(:permissions)
+
+        expect(wizard.errors[:view_applications_only]).not_to be_empty
+      end
+
+      it 'is valid if permissions are selected' do
+        state_store = state_store_for({})
+        wizard = described_class.new(state_store, current_step: 'permissions', view_applications_only: 'false')
+
+        wizard.valid?(:permissions)
+
+        expect(wizard.errors[:view_applications_only]).to be_empty
       end
     end
   end

@@ -14,7 +14,7 @@ class SaveAndInviteProviderUser
     begin
       ActiveRecord::Base.transaction do
         save_service.call!
-#        invite_service.call! if new_user
+        invite_service.call! if new_user
       end
     rescue DfeSignInAPIError => e
       form.errors.add(

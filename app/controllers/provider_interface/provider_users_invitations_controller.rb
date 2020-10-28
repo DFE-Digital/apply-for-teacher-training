@@ -39,6 +39,7 @@ module ProviderInterface
 
     def edit_permissions
       @wizard = wizard_for(current_step: 'permissions', current_provider_id: params[:provider_id])
+      @provider = current_provider_user.providers.find(params[:provider_id])
       @wizard.save_state!
 
       setup_permission_form
@@ -141,7 +142,7 @@ module ProviderInterface
 
     def permissions_params
       params.require(:provider_interface_provider_user_invitation_wizard)
-        .permit(provider_permissions: {})
+        .permit(:view_applications_only, provider_permissions: {})
     end
 
     def require_manage_user_permission!
