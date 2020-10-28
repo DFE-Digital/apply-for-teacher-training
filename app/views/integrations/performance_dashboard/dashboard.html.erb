@@ -35,7 +35,7 @@
   </div>
 </div>
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-margin-bottom-4">
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
@@ -49,6 +49,7 @@
       </div>
     </div>
   </div>
+
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
@@ -59,6 +60,29 @@
       </div>
       <div class="govuk-grid-column-one-third">
         <%= render SupportInterface::TileComponent.new(count: @statistics.accepted_offer_count, label: 'accepted an offer', size: :reduced, colour: :green) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <%= render SupportInterface::TileComponent.new(count: @statistics.apply_again_submitted_count, label: 'apply again submitted', size: :reduced) %>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <%= render SupportInterface::TileComponent.new(count: @statistics.apply_again_accepted_offer_count, label: 'accepted an offer (apply again)', size: :reduced, colour: :green) %>
+      </div>
+      <div class="govuk-grid-column-one-third">
+        <%= render SupportInterface::TileComponent.new(count: @statistics.percentage_of_providers_onboarded, label: 'providers onboarded', size: :reduced) %>
+      </div>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-half">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third">
+        <%= render SupportInterface::TileComponent.new(count: @statistics.rejected_by_default_count, label: 'rejected by default', size: :reduced) %>
       </div>
     </div>
   </div>

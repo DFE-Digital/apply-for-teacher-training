@@ -30,6 +30,9 @@ en:
     offer_deferred:
       name: Offer deferred
       description: The provider deferred an offer to the next recruitment cycle. The offer will have to be reinstated by the provider at the start of the next cycle.
+    rejected_by_default:
+      name: Rejected by default
+      description: This application was rejected by default because the provider took too long to respond.
     ended_without_success:
       name: Ended without success
       description: All of the candidate’s applications have been withdrawn, rejected or declined.
