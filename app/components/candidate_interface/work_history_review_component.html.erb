@@ -16,7 +16,7 @@
       <%= render(BreakPlaceholderInWorkHistoryComponent.new(work_break: entry)) %>
     <% end %>
   <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
-    <%= render(BreakInWorkHistoryComponent.new(work_break: entry, editable: @editable)) %>
+    <%= render(CandidateInterface::BreakInWorkHistoryComponent.new(work_break: entry, editable: @editable)) %>
   <% end %>
 <% end %>
 
