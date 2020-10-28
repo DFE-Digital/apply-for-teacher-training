@@ -25,7 +25,7 @@
 <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('page_titles.referees') %></h2>
 <% if !application_form.enough_references_have_been_provided? && editable %>
   <%= render(
-    SectionMissingBannerComponent.new(
+    CandidateInterface::SectionMissingBannerComponent.new(
       section: :references_provided,
       section_path: candidate_interface_decoupled_references_review_path,
       text: t('review_application.references_provided.incomplete', minimum_references: ApplicationForm::MINIMUM_COMPLETE_REFERENCES),
@@ -81,7 +81,7 @@
   <% if @application_form.english_proficiency.present? %>
     <%= render(CandidateInterface::ChooseEflReviewComponent.call(@application_form.english_proficiency)) %>
   <% else %>
-    <%= render(SectionMissingBannerComponent.new(section: 'efl', section_path: candidate_interface_english_foreign_language_start_path, error: missing_error)) %>
+    <%= render(CandidateInterface::SectionMissingBannerComponent.new(section: 'efl', section_path: candidate_interface_english_foreign_language_start_path, error: missing_error)) %>
   <% end %>
 <% end %>
 

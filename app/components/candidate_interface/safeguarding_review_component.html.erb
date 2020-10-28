@@ -1,5 +1,5 @@
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent.new(section: :safeguarding, section_path: candidate_interface_edit_safeguarding_path, error: @missing_error)) %>
+  <%= render(CandidateInterface::SectionMissingBannerComponent.new(section: :safeguarding, section_path: candidate_interface_edit_safeguarding_path, error: @missing_error)) %>
 <% else %>
   <%= render(SummaryCardComponent.new(rows: safeguarding_rows, editable: @editable)) %>
 <% end %>
