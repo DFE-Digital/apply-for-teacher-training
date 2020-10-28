@@ -5,9 +5,11 @@
 <% application = @match.candidate.application_forms.first %>
 
 <%= render SummaryListComponent.new(rows: {
+  'Recruitment cycle year' => @match.recruitment_cycle_year.to_s,
   'Candidate name' => "#{application.first_name} #{application.last_name}",
   'Candidate email' => @match.candidate.email_address.to_s,
   'Last updated' => @match.updated_at.to_s(:govuk_date_and_time),
+  'First added' => @match.created_at.to_s(:govuk_date_and_time),
   'Status' => render(TagComponent.new(text: @match.matching_state.humanize, type: @match.processed? ? :green : :purple)),
   'Application on Apply' => govuk_link_to('View application', support_interface_application_form_path(application)),
 }) %>
