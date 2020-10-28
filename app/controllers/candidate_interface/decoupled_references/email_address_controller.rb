@@ -9,11 +9,13 @@ module CandidateInterface
 
       def create
         @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
-        return render :new unless @reference_email_address_form.valid?
 
-        @reference_email_address_form.save(@reference)
-
-        redirect_to candidate_interface_decoupled_references_relationship_path(@reference.id)
+        if @reference_email_address_form.save(@reference)
+          redirect_to candidate_interface_decoupled_references_relationship_path(@reference.id)
+        else
+          track_validation_error(@reference_email_address_form)
+          render :new
+        end
       end
 
       def edit
@@ -22,14 +24,16 @@ module CandidateInterface
 
       def update
         @reference_email_address_form = Reference::RefereeEmailAddressForm.new(referee_email_address_param)
-        return render :edit unless @reference_email_address_form.valid?
 
-        @reference_email_address_form.save(@reference)
-
-        if return_to_path.present?
-          redirect_to return_to_path
+        if @reference_email_address_form.save(@reference)
+          if return_to_path.present?
+            redirect_to return_to_path
+          else
+            redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+          end
         else
-          redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+          track_validation_error(@reference_email_address_form)
+          render :edit
         end
       end
 
