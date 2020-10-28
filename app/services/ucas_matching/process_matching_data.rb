@@ -86,9 +86,10 @@ module UCASMatching
       existing_matches = 0
 
       candidates.each do |candidate_id, matching_data|
-        match = UCASMatch.find_or_initialize_by(candidate_id: candidate_id) do |ucas_match|
-          ucas_match.recruitment_cycle_year = RecruitmentCycle.current_year
-        end
+        match = UCASMatch.find_or_initialize_by(
+          candidate_id: candidate_id,
+          recruitment_cycle_year: RecruitmentCycle.current_year,
+        )
         match.matching_data = matching_data
 
         if match.matching_data_changed?
