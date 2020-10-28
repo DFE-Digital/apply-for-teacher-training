@@ -5,7 +5,7 @@
     </p>
     <ul class="govuk-list">
       <% training_providers_that_can(permission_name).each do |provider| %>
-        <li><%= render CheckIcon.new %> <%= provider.name %></li>
+        <li><%= render CheckIconComponent.new %> <%= provider.name %></li>
       <% end %>
     </ul>
   </div>
@@ -17,7 +17,7 @@
     </p>
     <ul class="govuk-list">
       <% ratifying_providers_that_can(permission_name).each do |provider| %>
-        <li><%= render CheckIcon.new %> <%= provider.name %></li>
+        <li><%= render CheckIconComponent.new %> <%= provider.name %></li>
       <% end %>
     </ul>
   </div>
