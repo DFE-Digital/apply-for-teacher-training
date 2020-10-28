@@ -5,8 +5,10 @@ RSpec.describe DetectInvariants do
 
   describe '#perform' do
     it 'detects weird references state' do
-      application_choice_bad = create(:application_choice, status: 'application_complete')
-      application_choice_bad_too = create(:application_choice, status: 'awaiting_references')
+      application_choice_bad = create(:application_choice)
+      application_choice_bad.update_columns(status: 'application_complete')
+      application_choice_bad_too = create(:application_choice)
+      application_choice_bad_too.update_columns(status: 'awaiting_references')
 
       DetectInvariants.new.perform
 

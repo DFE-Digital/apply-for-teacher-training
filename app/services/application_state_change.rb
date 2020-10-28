@@ -1,14 +1,14 @@
 class ApplicationStateChange
   include Workflow
 
-  STATES_THAT_MAY_BE_SENT_TO_PROVIDER = %i[application_complete unsubmitted].freeze
-  STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted awaiting_references application_complete cancelled application_not_sent].freeze
+  STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted cancelled application_not_sent].freeze
   STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn offer_deferred].freeze
+
   ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited offer_deferred].freeze
   OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
   POST_OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer_withdrawn]).freeze
   UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent].freeze
-  DECISION_PENDING_STATUSES = %w[awaiting_references application_complete awaiting_provider_decision].freeze
+  DECISION_PENDING_STATUSES = %w[awaiting_provider_decision].freeze
   TERMINAL_STATES = UNSUCCESSFUL_END_STATES + %i[recruited].freeze
 
   attr_reader :application_choice
@@ -25,20 +25,8 @@ class ApplicationStateChange
     state :withdrawn
 
     state :unsubmitted do
-      event :submit, transitions_to: :awaiting_references
       event :send_to_provider, transitions_to: :awaiting_provider_decision
       event :reject_at_end_of_cycle, transitions_to: :application_not_sent
-    end
-
-    state :awaiting_references do
-      event :references_complete, transitions_to: :application_complete
-      event :cancel, transitions_to: :cancelled
-      event :reject_at_end_of_cycle, transitions_to: :application_not_sent
-    end
-
-    state :application_complete do
-      event :send_to_provider, transitions_to: :awaiting_provider_decision
-      event :cancel, transitions_to: :cancelled
     end
 
     state :awaiting_provider_decision do
@@ -82,6 +70,9 @@ class ApplicationStateChange
       event :defer_offer, transitions_to: :offer_deferred
     end
 
+    # This state is no longer used. Before the "uncoupled references" feature,
+    # candidates could cancel their application if they had submitted it and
+    # it hadn't been sent to the provider yet.
     state :cancelled
 
     state :offer_deferred do

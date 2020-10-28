@@ -15,12 +15,6 @@ en:
     unsubmitted_in_progress:
       name: Form started but unsubmitted
       description: The candidate has started editing but has not submitted the form yet
-    awaiting_references:
-      name: Awaiting references
-      description: The candidate has submitted the form. We’ve asked their references for feedback, and are still waiting on one or more of those.
-    waiting_to_be_sent:
-      name: Waiting to be sent
-      description: All of the references have come in, but we have not sent the applications to the provider yet
     awaiting_provider_decisions:
       name: Awaiting decisions from providers
       description: We’ve sent the applications to the providers, but we have not heard back from all of them
@@ -43,9 +37,7 @@ en:
       name: "Unknown!"
       description: This application is in a state that we do not recognise. Please report this to a developer.
   candidate_application_states:
-    application_complete: Submitted
     awaiting_provider_decision: Awaiting decision
-    awaiting_references: Submitted
     cancelled: Application cancelled
     declined: Offer declined
     offer: Offer received
@@ -59,9 +51,7 @@ en:
     conditions_not_met: Conditions not met
     offer_deferred: Offer deferred
   provider_application_states:
-    application_complete: Submitted
     awaiting_provider_decision: Submitted
-    awaiting_references: Awaiting references
     application_not_sent: Application not sent
     cancelled: Application cancelled
     declined: Declined
@@ -83,46 +73,34 @@ en:
         an application. Until they submit their application, it is in the
         unsubmitted state. The providers do not see the application at this
         stage.
-
-    awaiting_references:
-      name: Awaiting references
-      description: |
-        The candidate submits their application choices with a list of referees. Until 2 references have been received all applications remain in the Awaiting references state.
-        The providers do not see the application at this stage.
       emails:
         - candidate_mailer-chase_reference
         - candidate_mailer-new_referee_request
+        - candidate_mailer-reference_received
+        - referee_mailer-reference_confirmation_email
         - candidate_mailer-chase_reference_again
         - referee_mailer-reference_request_chaser_email
         - referee_mailer-reference_request_chase_again_email
+        - referee_mailer-reference_cancelled_email
 
     application_not_sent:
       name: Reject at the end of the cycle
       description: Application choices that are awaiting references are automatically rejected at the end of the cycle
 
-    application_complete:
-      name: Waiting to be sent
-      description: |
-        The references have come back and have been added to the application.
-        Candidates are allowed a cooling-off period of 5 days to modify their application before it’s sent to providers.
-        They cannot modify the references.
-
     awaiting_provider_decision:
       name: Awaiting provider decision
       description: |
-        Providers only see the application after the references have come back
-        and have been added to the application and 5 days have elapsed for
-        the candidate to review and modify the application.
-
-        When both of these prerequisites are met the application moves to the
-        Awaiting provider decision state.
+        Providers only see the application after the the candidate submits their
+        application.
       emails:
         - provider_mailer-chase_provider_decision
 
     cancelled:
-      name: Cancelled
+      name: Cancelled (no longer used)
       description: |
-        The application was cancelled before it was sent to the provider.
+        The application was cancelled by the user before it was sent to the provider.
+
+        This status is no longer used for new applications.
 
     offer:
       name: Offer made
@@ -180,7 +158,7 @@ en:
       description: The provider has deferred the candidate’s offer to the next recruitment cycle. The offer will have to be reinstated by the provider at the start of the next cycle.
 
   events:
-    unsubmitted-submit:
+    unsubmitted-send_to_provider:
       name: Candidate submits
       by: candidate
       description: The candidate can submit the form once all required fields are completed.
@@ -188,56 +166,13 @@ en:
         - candidate_mailer-application_submitted
         - candidate_mailer-application_submitted_apply_again
         - referee_mailer-reference_request_email
-
-    unsubmitted-send_to_provider:
-      name: Candidate submits repeat application
-      by: candidate
-      description: |
-        When candidates apply again after an initial unsuccesful application,
-        they may have all the references they need already. They also do not have to
-        wait 7 days, as we do not have the edit window because the chance is lower
-        that they wish to edit their application the 2nd time around.
-
-        This means we’ll send the application immediately to the provider.
-      emails:
         - provider_mailer-application_submitted
+        - provider_mailer-application_submitted_with_safeguarding_issues
 
     unsubmitted-reject_at_end_of_cycle:
       name: Unsubmitted applications rejected at end of cycle
       by: system
       description: Application choices that are unsubmitted are automatically rejected at the end of the cycle but can be carried over in the next cycle
-
-    awaiting_references-references_complete:
-      name: References are completed
-      by: referee
-      description: Occurs when 2 referees have provided feedback about the candidate.
-      emails:
-        - candidate_mailer-reference_received
-        - referee_mailer-reference_confirmation_email
-
-    awaiting_references-cancel:
-      name: Candidate cancels
-      by: candidate
-      description: If the application has not been sent to the provider, the candidate can still cancel the application.
-
-    awaiting_references-reject_at_end_of_cycle:
-      name: Applications awaiting references are rejected at the end of the cycle
-      by: system
-      description: Application choices that are awaiting references are automatically rejected at the end of the cycle
-      emails:
-        - candidate_mailer-referees_did_not_respond_before_end_of_cycle
-
-    application_complete-cancel:
-      name: Candidate cancels
-      by: candidate
-      description: If the application has not been sent to the provider, the candidate can still cancel the application.
-
-    application_complete-send_to_provider:
-      name: Application is sent to provider
-      by: system
-      description: 5 days after submission the application is sent to providers. This is to give candidates the opportunity to edit their application.
-      emails:
-        - provider_mailer-application_submitted
 
     awaiting_provider_decision-make_offer:
       name: Provider makes offer
@@ -427,29 +362,9 @@ en:
       by: candidate
       description: ""
 
-    awaiting_references-all_withdrawn:
-      name: Withdraw
-      by: candidate
-      description: ""
-
-    waiting_to_be_sent-send_to_provider:
-      name: Send to provider
-      by: candidate
-      description: ""
-
-    waiting_to_be_sent-all_withdrawn:
-      name: Withdraw
-      by: candidate
-      description: ""
-
     awaiting_provider_decisions-at_least_one_offer:
       name: At least one offer
       by: provider
-      description: ""
-
-    awaiting_references-references_complete:
-      name: All references completed
-      by: system
       description: ""
 
     awaiting_provider_decisions-no_offers:

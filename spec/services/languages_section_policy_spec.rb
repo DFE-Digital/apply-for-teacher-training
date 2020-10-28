@@ -34,7 +34,7 @@ RSpec.describe LanguagesSectionPolicy do
     end
 
     def application_form_where_english_main_language_is_nil
-      application_choice = build(:application_choice, :awaiting_references)
+      application_choice = build(:application_choice, :unsubmitted)
       build(
         :completed_application_form,
         english_main_language: nil,

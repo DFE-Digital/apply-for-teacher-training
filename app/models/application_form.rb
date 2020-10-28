@@ -207,10 +207,6 @@ class ApplicationForm < ApplicationRecord
     !can_edit_after_submission? && enough_references_have_been_provided?
   end
 
-  def course_choices_that_need_replacing
-    (withdrawn_course_choices + full_course_choices + courses_not_on_apply).flatten.uniq.select(&:awaiting_references?)
-  end
-
   def incomplete_degree_information?
     application_qualifications.degree.any?(&:incomplete_degree_information?)
   end

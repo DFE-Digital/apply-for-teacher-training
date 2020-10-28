@@ -13,7 +13,7 @@ module CandidateInterface
 
     def type
       case application_choice.status
-      when 'unsubmitted', 'awaiting_references', 'application_complete'
+      when 'unsubmitted'
         :grey
       when 'awaiting_provider_decision'
         :purple

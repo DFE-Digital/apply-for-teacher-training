@@ -417,31 +417,4 @@ private
                              decline_by_default_at: Time.zone.now,
                              sent_to_provider_at: 1.day.ago)
   end
-
-  def application_choice_awaiting_references
-    FactoryBot.build_stubbed(
-      :application_choice,
-      application_form: application_form,
-      status: 'awaiting_references',
-      course_option: FactoryBot.build_stubbed(
-        :course_option,
-        vacancy_status: :no_vacancies,
-        site: FactoryBot.build_stubbed(
-          :site,
-          name: 'West Wilford School',
-          code: 'W',
-        ),
-        course: FactoryBot.build_stubbed(
-          :course,
-          name: 'Mathematics',
-          code: 'M101',
-          provider: FactoryBot.build_stubbed(
-            :provider,
-            name: 'Bilberry College',
-            code: 'B',
-          ),
-        ),
-      ),
-    )
-  end
 end

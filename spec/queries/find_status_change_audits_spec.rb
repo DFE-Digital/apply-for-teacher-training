@@ -26,12 +26,12 @@ RSpec.describe FindStatusChangeAudits, with_audited: true do
       candidate = create :candidate, email_address: 'alice@example.com'
       Audited.audit_class.as_user(candidate) do
         application_choice = create :application_choice, status: :unsubmitted
-        ApplicationStateChange.new(application_choice).submit!
+        ApplicationStateChange.new(application_choice).send_to_provider!
         result = described_class.new(
           application_choice: application_choice,
         ).call
         expect(result).to eq [
-          described_class::StatusChange.new('awaiting_references', @now, candidate),
+          described_class::StatusChange.new('awaiting_provider_decision', @now, candidate),
         ]
       end
     end
@@ -42,18 +42,14 @@ RSpec.describe FindStatusChangeAudits, with_audited: true do
       candidate = create :candidate, email_address: 'alice@example.com'
       Audited.audit_class.as_user(candidate) do
         application_choice = create :application_choice, status: :unsubmitted
-        ApplicationStateChange.new(application_choice).submit!
-        ApplicationStateChange.new(application_choice).references_complete!
         ApplicationStateChange.new(application_choice).send_to_provider!
         ApplicationStateChange.new(application_choice).make_offer!
         ApplicationStateChange.new(application_choice).accept!
         result = described_class.new(
           application_choice: application_choice,
         ).call
-        expect(result.count).to be 5
+        expect(result.count).to be 3
         expect(result).to eq [
-          described_class::StatusChange.new('awaiting_references', @now, candidate),
-          described_class::StatusChange.new('application_complete', @now, candidate),
           described_class::StatusChange.new('awaiting_provider_decision', @now, candidate),
           described_class::StatusChange.new('offer', @now, candidate),
           described_class::StatusChange.new('pending_conditions', @now, candidate),

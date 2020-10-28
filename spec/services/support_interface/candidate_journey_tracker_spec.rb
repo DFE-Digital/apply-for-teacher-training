@@ -41,20 +41,20 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     end
   end
 
-  describe '#submitted_and_awaiting_references' do
+  describe '#submitted' do
     it 'returns the time when the application form was submitted' do
       submitted_at = Time.zone.local(2020, 6, 2, 12, 10, 0)
       application_form = create(:application_form, submitted_at: submitted_at)
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
 
-      expect(described_class.new(application_choice).submitted_and_awaiting_references).to eq submitted_at
+      expect(described_class.new(application_choice).submitted).to eq submitted_at
     end
 
     it 'returns nil if the application form has not been submitted' do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
 
-      expect(described_class.new(application_choice).submitted_and_awaiting_references).to be_nil
+      expect(described_class.new(application_choice).submitted).to be_nil
     end
   end
 
@@ -114,7 +114,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
     it 'returns time of the earliest chaser sent' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
       application_reference1 = create(:reference, :feedback_requested, application_form: application_form)
       application_reference2 = create(:reference, :feedback_requested, application_form: application_form)
       Timecop.freeze(now + 1.day) do
@@ -138,7 +138,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
     it 'returns time of the earliest chaser sent' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
       create(:reference, :feedback_requested, application_form: application_form)
       application_reference2 = create(:reference, :feedback_refused, application_form: application_form)
       Timecop.freeze(now + 1.day) do
@@ -152,7 +152,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
   describe '#new_reference_added' do
     it 'returns nil when there are only two references' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
       create(:reference, :feedback_requested, application_form: application_form)
       create(:reference, :feedback_requested, application_form: application_form)
 
@@ -161,7 +161,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
     it 'returns time of the earliest chaser sent' do
       application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
       create(:reference, :feedback_requested, application_form: application_form)
       create(:reference, :feedback_refused, application_form: application_form)
 
@@ -170,16 +170,6 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       end
 
       expect(described_class.new(application_choice).new_reference_added).to eq(now + 1.day)
-    end
-  end
-
-  describe '#waiting_to_be_sent_to_provider' do
-    it 'returns the first time when the status changed to `application_complete` in the audit trail', audited: true do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_references, application_form: application_form)
-      Timecop.freeze(now + 1.day) { application_choice.update(status: 'application_complete') }
-
-      expect(described_class.new(application_choice).waiting_to_be_sent_to_provider).to eq(now + 1.day)
     end
   end
 

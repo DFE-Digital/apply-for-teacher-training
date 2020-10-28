@@ -21,17 +21,7 @@ class ProcessState
     end
 
     state :unsubmitted_in_progress do
-      event :submit, transitions_to: :awaiting_references
-    end
-
-    state :awaiting_references do
-      event :references_complete, transitions_to: :waiting_to_be_sent
-      event :all_withdrawn, transitions_to: :ended_without_success
-    end
-
-    state :waiting_to_be_sent do
-      event :send_to_provider, transitions_to: :awaiting_provider_decisions
-      event :all_withdrawn, transitions_to: :ended_without_success
+      event :submit, transitions_to: :awaiting_provider_decisions
     end
 
     state :awaiting_provider_decisions do
@@ -72,10 +62,6 @@ class ProcessState
       :never_signed_in
     elsif application_choices.empty? || all_states_are?('unsubmitted')
       unchanged?(application_form) ? :unsubmitted_not_started_form : :unsubmitted_in_progress
-    elsif any_state_is?('awaiting_references')
-      :awaiting_references
-    elsif any_state_is?('application_complete')
-      :waiting_to_be_sent
     elsif any_state_is?('awaiting_provider_decision')
       :awaiting_provider_decisions
     elsif any_state_is?('offer')

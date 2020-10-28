@@ -1,7 +1,5 @@
 en:
   candidate_mailer:
-    referees_did_not_respond_before_end_of_cycle:
-      subject: "Your references did not come back in time"
     survey_email:
       subject: Was applying for teacher training easy?
     survey_chaser_email:

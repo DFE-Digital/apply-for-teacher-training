@@ -15,10 +15,10 @@ class ApplicationChoice < ApplicationRecord
 
   audited associated_with: :application_form
 
+  # Note that prior to October 2020, we used to have awaiting_references and
+  # application_complete statuses. These will still show up in older audit logs.
   enum status: {
     unsubmitted: 'unsubmitted',
-    awaiting_references: 'awaiting_references',
-    application_complete: 'application_complete',
     cancelled: 'cancelled',
     awaiting_provider_decision: 'awaiting_provider_decision',
     offer: 'offer',

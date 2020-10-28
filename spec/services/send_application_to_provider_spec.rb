@@ -7,7 +7,7 @@ RSpec.describe SendApplicationToProvider do
     end
   end
 
-  def application_choice(status: 'application_complete')
+  def application_choice(status: 'unsubmitted')
     @application_choice ||= create(
       :submitted_application_choice,
       status: status,
@@ -56,23 +56,9 @@ RSpec.describe SendApplicationToProvider do
     expect(ActionMailer::Base.deliveries.first.to.first).to eq(user.email_address)
   end
 
-  describe 'dependency on application status' do
-    it 'works if the status is application_complete' do
-      SendApplicationToProvider.new(application_choice: application_choice(status: 'application_complete')).call
-
-      expect(application_choice.reload.status).to eq 'awaiting_provider_decision'
-    end
-
-    it 'works if the status is unsubmitted' do
-      SendApplicationToProvider.new(application_choice: application_choice(status: 'unsubmitted')).call
-
-      expect(application_choice.reload.status).to eq 'awaiting_provider_decision'
-    end
-
-    it 'does not work for another status' do
-      expect {
-        SendApplicationToProvider.new(application_choice: application_choice(status: 'awaiting_references')).call
-      }.to raise_error(SendApplicationToProvider::ApplicationNotReadyToSendError)
-    end
+  it 'does not work for applications that are not sendable' do
+    expect {
+      SendApplicationToProvider.new(application_choice: application_choice(status: 'awaiting_provider_decision')).call
+    }.to raise_error(SendApplicationToProvider::ApplicationNotReadyToSendError)
   end
 end
