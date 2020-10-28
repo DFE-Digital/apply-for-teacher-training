@@ -37,22 +37,6 @@ RSpec.describe PerformanceStatistics, type: :model do
       expect(count_for_process_state(:unsubmitted_in_progress)).to be(1)
     end
 
-    it 'counts awaiting references applications' do
-      application_choice = create(:application_choice, status: 'awaiting_references')
-
-      expect(ProcessState.new(application_choice.application_form).state).to be :awaiting_references
-
-      expect(count_for_process_state(:awaiting_references)).to be(1)
-    end
-
-    it 'counts applications that are waiting to be sent to the provider' do
-      application_choice = create(:application_choice, status: 'application_complete')
-
-      expect(ProcessState.new(application_choice.application_form).state).to be :waiting_to_be_sent
-
-      expect(count_for_process_state(:waiting_to_be_sent)).to be(1)
-    end
-
     it 'counts applications awaiting a provider decision' do
       application_choice = create(:application_choice, status: 'awaiting_provider_decision')
       create(:application_choice, application_form: application_choice.application_form, status: 'offer')
