@@ -72,6 +72,7 @@ RSpec.feature 'Vendor receives the application' do
             {
               id: @application.english_gcse.id,
               qualification_type: 'gcse',
+              non_uk_qualification_type: nil,
               subject: 'english',
               grade: 'B',
               start_year: nil,
@@ -90,6 +91,7 @@ RSpec.feature 'Vendor receives the application' do
             {
               id: @application.maths_gcse.id,
               qualification_type: 'gcse',
+              non_uk_qualification_type: nil,
               subject: 'maths',
               grade: 'B',
               start_year: nil,
@@ -110,6 +112,7 @@ RSpec.feature 'Vendor receives the application' do
             {
               id: @application.qualification_in_subject(:degree, 'Doge').id,
               qualification_type: 'BA',
+              non_uk_qualification_type: nil,
               subject: 'Doge',
               grade: 'First class honours',
               start_year: '2006',
@@ -130,6 +133,7 @@ RSpec.feature 'Vendor receives the application' do
             {
               id: @application.qualification_in_subject(:other, 'Believing in the Heart of the Cards').id,
               qualification_type: 'A level',
+              non_uk_qualification_type: nil,
               subject: 'Believing in the Heart of the Cards',
               grade: 'A',
               start_year: nil,
@@ -148,20 +152,25 @@ RSpec.feature 'Vendor receives the application' do
           ],
           missing_gcses_explanation: 'Science GCSE or equivalent: I will sit the exam at my local college this summer.',
         },
+        recruited_at: nil,
         references: [
           {
             id: @application.application_references.first.id,
             name: 'Terri Tudor',
             email: 'terri@example.com',
+            referee_type: 'academic',
             relationship: 'Tutor',
             reference: 'My ideal person',
+            safeguarding_concerns: false,
           },
           {
             id: @application.application_references.last.id,
             name: 'Anne Other',
             email: 'anne@other.com',
+            referee_type: 'professional',
             relationship: 'First boss',
             reference: 'Lovable',
+            safeguarding_concerns: false,
           },
         ],
         rejection: nil,

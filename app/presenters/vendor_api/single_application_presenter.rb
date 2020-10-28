@@ -20,6 +20,7 @@ module VendorAPI
           personal_statement: personal_statement,
           interview_preferences: application_form.interview_preferences,
           reject_by_default_at: application_choice.reject_by_default_at&.iso8601,
+          recruited_at: application_choice.recruited_at,
           candidate: {
             id: "C#{application_form.candidate.id}",
             first_name: application_form.first_name,
@@ -170,6 +171,8 @@ module VendorAPI
         email: reference.email_address,
         relationship: reference.relationship,
         reference: reference.feedback,
+        referee_type: reference.referee_type,
+        safeguarding_concerns: reference.has_safeguarding_concerns_to_declare?,
       }
     end
 
@@ -201,6 +204,7 @@ module VendorAPI
       {
         id: qualification.id,
         qualification_type: qualification.qualification_type,
+        non_uk_qualification_type: qualification.non_uk_qualification_type,
         subject: qualification.subject,
         grade: "#{qualification.grade}#{' (Predicted)' if qualification.predicted_grade}",
         start_year: qualification.start_year,
@@ -264,7 +268,13 @@ module VendorAPI
     def offer
       return nil if application_choice.offer.nil?
 
-      application_choice.offer.merge(offered_course)
+      application_choice.offer
+        .merge(offered_course)
+        .merge({
+          offer_made_at: application_choice.offered_at,
+          offer_accepted_at: application_choice.accepted_at,
+          offer_declined_at: application_choice.declined_at,
+        })
     end
 
     def hesa_itt_data
