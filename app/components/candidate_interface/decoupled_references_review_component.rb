@@ -104,7 +104,7 @@ module CandidateInterface
 
       row_attributes = {
         key: 'History',
-        value: render(ReferenceHistoryComponent.new(reference)),
+        value: render(CandidateInterface::ReferenceHistoryComponent.new(reference)),
       }
 
       if reference.can_send_reminder?
