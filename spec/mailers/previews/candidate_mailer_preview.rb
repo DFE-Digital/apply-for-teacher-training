@@ -363,6 +363,29 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.deferred_offer(application_form.application_choices.first)
   end
 
+  def reinstated_offer_with_conditions
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      :with_accepted_offer,
+      application_form: application_form,
+      course_option: course_option,
+      offer_deferred_at: Time.zone.local(2019, 10, 14),
+    )
+    CandidateMailer.reinstated_offer(application_choice)
+  end
+
+  def reinstated_offer_without_condidtions
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      :with_recruited,
+      application_form: application_form,
+      course_option: course_option,
+      offer: { 'conditions' => [] },
+      offer_deferred_at: Time.zone.local(2019, 10, 14),
+    )
+    CandidateMailer.reinstated_offer(application_choice)
+  end
+
 private
 
   def candidate

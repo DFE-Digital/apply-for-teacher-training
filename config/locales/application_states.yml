@@ -395,11 +395,15 @@ en:
       name: Provider reinstates deferred offer and conditions are still valid
       by: provider
       description: ""
+      emails:
+        - candidate_mailer-reinstated_offer
 
     offer_deferred-reinstate_pending_conditions:
       name: Provider reinstates deferred offer but conditions changed or are no longer valid
       by: provider
       description: ""
+      emails:
+        - candidate_mailer-reinstated_offer
 
     offer_deferred-withdraw:
       name: Withdraw

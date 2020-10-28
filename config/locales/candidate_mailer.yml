@@ -64,6 +64,8 @@ en:
       subject: "Offer changed by %{provider_name}"
     deferred_offer:
       subject: "%{provider_name} has deferred your offer"
+    reinstated_offer:
+      subject: "You’re due to take up your deferred offer"
     apply_again_call_to_action:
       subject: You can still apply for teacher training
     course_unavailable_notification:
