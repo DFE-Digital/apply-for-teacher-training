@@ -242,17 +242,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
   end
 
-  context 'when a course choice is awaiting references' do
-    it 'renders component with the status as submitted when awaiting references' do
-      application_form = create_application_form_with_course_choices(statuses: %w[awaiting_references])
-
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
-
-      expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Submitted')
-    end
-  end
-
   context 'when a course choice is rejected' do
     it 'renders component with the status as rejected and displays the reason' do
       application_form = create(:application_form)

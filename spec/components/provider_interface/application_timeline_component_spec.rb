@@ -38,22 +38,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
-  context 'for a submitted application not sent to provider' do
-    it 'does not renders any events event' do
-      application_choice = setup_application([
-        FindStatusChangeAudits::StatusChange.new('awaiting_references', 20.days.ago, candidate),
-      ])
-      rendered = render_inline(described_class.new(application_choice: application_choice))
-      expect(rendered.text).to include 'Timeline'
-      expect(rendered.text).not_to include 'Application submitted'
-    end
-  end
-
   context 'for a submitted application sent to provider' do
     it 'renders submit event' do
       application_choice = setup_application([
-        FindStatusChangeAudits::StatusChange.new('awaiting_references', 20.days.ago, candidate),
-        FindStatusChangeAudits::StatusChange.new('application_complete', 10.days.ago, candidate),
         FindStatusChangeAudits::StatusChange.new('awaiting_provider_decision', 5.days.ago, candidate),
       ])
       rendered = render_inline(described_class.new(application_choice: application_choice))
