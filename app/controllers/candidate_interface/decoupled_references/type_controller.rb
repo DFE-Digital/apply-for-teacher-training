@@ -9,11 +9,13 @@ module CandidateInterface
 
       def create
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
-        return render :new unless @reference_type_form.valid?
 
-        @reference_type_form.save(current_application)
-
-        redirect_to candidate_interface_decoupled_references_name_path(current_application.application_references.last.id)
+        if @reference_type_form.save(current_application)
+          redirect_to candidate_interface_decoupled_references_name_path(current_application.application_references.last.id)
+        else
+          track_validation_error(@reference_type_form)
+          render :new
+        end
       end
 
       def edit
@@ -22,14 +24,16 @@ module CandidateInterface
 
       def update
         @reference_type_form = Reference::RefereeTypeForm.new(referee_type: referee_type_param)
-        return render :edit unless @reference_type_form.valid?
 
-        @reference_type_form.update(@reference)
-
-        if return_to_path.present?
-          redirect_to return_to_path
+        if @reference_type_form.update(@reference)
+          if return_to_path.present?
+            redirect_to return_to_path
+          else
+            redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+          end
         else
-          redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+          track_validation_error(@reference_type_form)
+          render :edit
         end
       end
 
