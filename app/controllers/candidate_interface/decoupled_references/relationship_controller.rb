@@ -9,11 +9,13 @@ module CandidateInterface
 
       def create
         @references_relationship_form = Reference::RefereeRelationshipForm.new(references_relationship_params)
-        return render :new unless @references_relationship_form.valid?
 
-        @references_relationship_form.save(@reference)
-
-        redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+        if @references_relationship_form.save(@reference)
+          redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+        else
+          track_validation_error(@references_relationship_form)
+          render :new
+        end
       end
 
       def edit
@@ -22,14 +24,16 @@ module CandidateInterface
 
       def update
         @references_relationship_form = Reference::RefereeRelationshipForm.new(references_relationship_params)
-        return render :edit unless @references_relationship_form.valid?
 
-        @references_relationship_form.save(@reference)
-
-        if return_to_path.present?
-          redirect_to return_to_path
+        if @references_relationship_form.save(@reference)
+          if return_to_path.present?
+            redirect_to return_to_path
+          else
+            redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+          end
         else
-          redirect_to candidate_interface_decoupled_references_review_unsubmitted_path(@reference.id)
+          track_validation_error(@references_relationship_formsss)
+          render :edit
         end
       end
 
