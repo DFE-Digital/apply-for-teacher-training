@@ -1,10 +1,5 @@
 module ProviderInterface
   class ApplicationTimelineComponentPreview < ViewComponent::Preview
-    def awaiting_references
-      application_choice = ApplicationChoice.where(status: 'awaiting_references').sample
-      render_component_for application_choice: application_choice
-    end
-
     def rejected
       application_choice = ApplicationChoice.where(status: 'rejected').sample
       render_component_for application_choice: application_choice
