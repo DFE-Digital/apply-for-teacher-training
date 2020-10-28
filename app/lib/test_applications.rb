@@ -78,7 +78,6 @@ class TestApplications
         last_name: last_name,
         created_at: time,
         updated_at: time,
-        edit_by: time,
         recruitment_cycle_year: recruitment_cycle_year,
         phase: apply_again ? 'apply_2' : 'apply_1',
       )
@@ -131,7 +130,7 @@ class TestApplications
           choice.audits.last&.update_columns(created_at: time)
         end
 
-        @application_form.update_columns(submitted_at: time, edit_by: time + 7.days, updated_at: time)
+        @application_form.update_columns(submitted_at: time, updated_at: time)
 
         @application_form.application_references.each { |reference| submit_reference!(reference) }
 
@@ -163,7 +162,6 @@ class TestApplications
   end
 
   def put_application_choice_in_state(choice, state)
-    travel_to(choice.application_form.edit_by) if choice.application_form.edit_by > time
     choice.update_columns(updated_at: time)
     choice.audits.last&.update_columns(created_at: time)
 

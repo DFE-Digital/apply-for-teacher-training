@@ -21,10 +21,6 @@ class TimeLimitConfig
 
   Rule = Struct.new(:from_date, :to_date, :limit)
 
-  def self.edit_by
-    Days.new(count: 5, type: :working)
-  end
-
   def self.chase_referee_by
     7
   end

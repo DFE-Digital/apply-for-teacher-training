@@ -18,10 +18,6 @@ module CandidateInterface
              :any_offers?,
              :all_applications_not_sent?, to: :application_form
 
-    def editable?
-      @dates.form_open_to_editing?
-    end
-
     def decline_by_default_remaining_days
       distance_in_days = (@dates.decline_by_default_at.to_date - Date.current).to_i
 
