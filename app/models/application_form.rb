@@ -25,6 +25,8 @@ class ApplicationForm < ApplicationRecord
   MAXIMUM_REFERENCES = 10
   EQUALITY_AND_DIVERSITY_MINIMAL_ATTR = %w[sex disabilities ethnic_group].freeze
   ENGLISH_SPEAKING_NATIONALITIES = %w[GB IE].freeze
+  MAXIMUM_PHASE_ONE_COURSE_CHOICES = 3
+  MAXIMUM_PHASE_TWO_COURSE_CHOICES = 1
 
   def equality_and_diversity_answers_provided?
     answered_questions = Hash(equality_and_diversity).keys
@@ -231,6 +233,21 @@ class ApplicationForm < ApplicationRecord
 
   def nationalities
     [first_nationality, second_nationality, third_nationality, fourth_nationality, fifth_nationality].reject(&:nil?)
+  end
+
+  def has_the_maximum_number_of_course_choices?
+    if apply_1?
+      application_choices.count >= MAXIMUM_PHASE_ONE_COURSE_CHOICES
+    else
+      application_choices.count >= MAXIMUM_PHASE_TWO_COURSE_CHOICES
+    end
+  end
+
+  def contains_course?(course)
+    potential_course_option_ids = CourseOption.where(course_id: course.id).map(&:id)
+    current_course_option_ids = application_choices.map(&:course_option_id)
+
+    (potential_course_option_ids & current_course_option_ids).present?
   end
 
   # The `english_main_language` and `english_language_details` database fields
