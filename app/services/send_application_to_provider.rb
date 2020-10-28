@@ -12,7 +12,7 @@ class SendApplicationToProvider
   end
 
   def call
-    unless ApplicationStateChange::STATES_THAT_MAY_BE_SENT_TO_PROVIDER.include?(application_choice.status.to_sym)
+    unless application_choice.unsubmitted?
       raise ApplicationNotReadyToSendError, "Tried to send an application in the #{application_choice.status} state to a provider"
     end
 
