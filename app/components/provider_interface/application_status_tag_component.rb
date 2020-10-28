@@ -13,7 +13,7 @@ module ProviderInterface
 
     def type
       case status
-      when 'unsubmitted', 'application_complete', 'cancelled', 'awaiting_references', 'application_not_sent'
+      when 'unsubmitted', 'cancelled', 'application_not_sent'
         # will never be visible to the provider
       when 'awaiting_provider_decision'
         :purple

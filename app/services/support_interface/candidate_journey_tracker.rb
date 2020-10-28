@@ -7,13 +7,12 @@ module SupportInterface
     DATA_POINTS = %i[
       form_not_started
       form_started_and_not_submitted
-      submitted_and_awaiting_references
+      submitted
       reference_1_received
       reference_2_received
       reference_reminder_email_sent
       new_reference_request_email_sent
       new_reference_added
-      waiting_to_be_sent_to_provider
       rbd_date
       rbd_reminder_sent
       application_rbd
@@ -42,7 +41,7 @@ module SupportInterface
       ].compact.min
     end
 
-    def submitted_and_awaiting_references
+    def submitted
       @application_choice.application_form.submitted_at
     end
 
@@ -65,10 +64,6 @@ module SupportInterface
     def new_reference_added
       references_created_at = all_references.map(&:created_at).sort
       references_created_at.size >= 2 ? references_created_at[2] : nil
-    end
-
-    def waiting_to_be_sent_to_provider
-      earliest_update_audit_for(@application_choice, status: 'application_complete')
     end
 
     def rbd_date

@@ -5,7 +5,7 @@ RSpec.describe ApplicationChoice, type: :model do
     it 'creates audit entries' do
       application_choice = create :application_choice, status: 'unsubmitted'
       expect(application_choice.audits.count).to eq 1
-      application_choice.update!(status: 'awaiting_references')
+      application_choice.update!(status: 'awaiting_provider_decision')
       expect(application_choice.audits.count).to eq 2
     end
 

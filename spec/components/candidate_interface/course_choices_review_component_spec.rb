@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
   context 'when course choices are editable' do
     let(:application_form) do
-      create_application_form_with_course_choices(statuses: %w[application_complete])
+      create_application_form_with_course_choices(statuses: %w[unsubmitted])
     end
 
     it 'renders component with correct values for a course' do
@@ -170,7 +170,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
   context 'when course choices are not editable' do
     it 'renders component without a delete link and with a withdraw link' do
-      application_form = create_application_form_with_course_choices(statuses: %w[application_complete])
+      application_form = create_application_form_with_course_choices(statuses: %w[unsubmitted])
 
       result = render_inline(described_class.new(application_form: application_form, editable: false))
 
@@ -178,7 +178,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
 
     context 'When multiple courses available at a provider' do
-      let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
+      let(:application_form) { create_application_form_with_course_choices(statuses: %w[unsubmitted]) }
       let(:application_choice) { application_form.application_choices.first }
 
       before do
@@ -194,7 +194,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
 
     context 'when there are multiple site options for course' do
-      let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
+      let(:application_form) { create_application_form_with_course_choices(statuses: %w[unsubmitted]) }
 
       before do
         create(:course_option, course: application_form.application_choices.first.course)
@@ -208,7 +208,7 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
 
     context 'When a course has both study modes available' do
-      let(:application_form) { create_application_form_with_course_choices(statuses: %w[application_complete]) }
+      let(:application_form) { create_application_form_with_course_choices(statuses: %w[unsubmitted]) }
       let(:application_choice) { application_form.application_choices.first }
       let(:result) { render_inline(described_class.new(application_form: application_form, editable: false)) }
 
@@ -278,17 +278,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include('Offer withdrawn')
       expect(result.css('.govuk-summary-list__key').text).to include('Reason for offer withdrawal')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Course full')
-    end
-  end
-
-  context 'when a course choice is application complete' do
-    it 'renders component with the status as submitted when application is complete' do
-      application_form = create_application_form_with_course_choices(statuses: %w[application_complete])
-
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
-
-      expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Submitted')
     end
   end
 

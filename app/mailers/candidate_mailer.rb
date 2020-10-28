@@ -1,14 +1,4 @@
 class CandidateMailer < ApplicationMailer
-  def referees_did_not_respond_before_end_of_cycle(application_form)
-    @candidate_magic_link = candidate_magic_link(application_form.candidate)
-    @current_cycle_name = RecruitmentCycle.current_cycle_name
-    @next_cycle_name = RecruitmentCycle.next_cycle_name
-
-    email_for_candidate(
-      application_form,
-    )
-  end
-
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
 

@@ -12,7 +12,7 @@ module SupportInterface
       case @status.to_s
       when 'unsubmitted'
         :grey
-      when 'application_complete', 'awaiting_references', 'awaiting_provider_decision', 'offer_deferred'
+      when 'awaiting_provider_decision', 'offer_deferred'
         :yellow
       when 'offer'
         :turquoise

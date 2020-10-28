@@ -17,8 +17,6 @@ class ApplicationChoice < ApplicationRecord
 
   enum status: {
     unsubmitted: 'unsubmitted',
-    awaiting_references: 'awaiting_references',
-    application_complete: 'application_complete',
     cancelled: 'cancelled',
     awaiting_provider_decision: 'awaiting_provider_decision',
     offer: 'offer',
