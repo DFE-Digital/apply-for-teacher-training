@@ -15,6 +15,10 @@ class GenerateTestApplications
     create recruitment_cycle_year: 2020, states: %i[withdrawn]
     create recruitment_cycle_year: 2020, states: %i[application_not_sent]
 
+    # The cancelled state doesn't exist anymore, but we'll still have
+    # applications from 2020 in that state.
+    create recruitment_cycle_year: 2020, states: %i[cancelled]
+
     create recruitment_cycle_year: 2021, states: %i[unsubmitted]
     create recruitment_cycle_year: 2021, states: %i[unsubmitted], course_full: true
     create recruitment_cycle_year: 2021, states: %i[unsubmitted_with_completed_references]

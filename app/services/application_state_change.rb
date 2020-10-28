@@ -32,13 +32,11 @@ class ApplicationStateChange
 
     state :awaiting_references do
       event :references_complete, transitions_to: :application_complete
-      event :cancel, transitions_to: :cancelled
       event :reject_at_end_of_cycle, transitions_to: :application_not_sent
     end
 
     state :application_complete do
       event :send_to_provider, transitions_to: :awaiting_provider_decision
-      event :cancel, transitions_to: :cancelled
     end
 
     state :awaiting_provider_decision do
@@ -82,6 +80,9 @@ class ApplicationStateChange
       event :defer_offer, transitions_to: :offer_deferred
     end
 
+    # This state is no longer used. Before the "uncoupled references" feature,
+    # candidates could cancel their application if they had submitted it and
+    # it hadn't been sent to the provider yet.
     state :cancelled
 
     state :offer_deferred do

@@ -108,7 +108,13 @@ class TestApplications
       end
 
       if states.include? :cancelled
-        SupportInterface::CancelApplicationForm.new(application_form: @application_form).save!
+        # The cancelled state doesn't exist anymore in the current system,
+        # so we have to set this manually.
+        @application_form.application_choices.each do |application_choice|
+          application_choice.update!(
+            status: 'cancelled',
+          )
+        end
         return
       end
 
