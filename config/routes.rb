@@ -54,6 +54,8 @@ Rails.application.routes.draw do
       get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
 
       get '/' => 'unsubmitted_application_form#show', as: :application_form
+      get '/prefill', to: 'prefill_application_form#new'
+      post '/prefill', to: 'prefill_application_form#create'
       get '/review' => 'unsubmitted_application_form#review', as: :application_review
       get '/before-you-start', to: 'unsubmitted_application_form#before_you_start'
       get '/submit' => 'unsubmitted_application_form#submit_show', as: :application_submit_show
