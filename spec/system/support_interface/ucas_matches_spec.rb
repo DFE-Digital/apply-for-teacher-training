@@ -50,7 +50,15 @@ RSpec.feature 'See UCAS matches' do
         'Course code' => @course2.code.to_s,
         'Provider code' => @course2.provider.code.to_s,
       }
-    create(:ucas_match, matching_state: 'new_match', application_form: @application_form, matching_data: [ucas_matching_data, dfe_matching_data])
+    invalid_dfe_matching_data =
+      {
+        'Scheme' => 'D',
+        'Apply candidate ID' => @candidate.id.to_s,
+        'Course code' => 'DOES_NOT_EXIST',
+        'Provider code' => @course2.provider.code.to_s,
+      }
+
+    create(:ucas_match, matching_state: 'new_match', application_form: @application_form, matching_data: [ucas_matching_data, dfe_matching_data, invalid_dfe_matching_data])
     create(:ucas_match, matching_state: 'matching_data_updated', scheme: 'B', ucas_status: :offer, application_form: @application_form2)
   end
 
@@ -65,6 +73,7 @@ RSpec.feature 'See UCAS matches' do
 
   def and_i_should_which_ucas_matches_need_action
     expect(page).to have_content 'Matching data updated Action needed'
+    expect(page).to have_content 'Invalid data'
   end
 
   def when_i_follow_the_link_to_ucas_match_for_a_candidate
@@ -85,6 +94,13 @@ RSpec.feature 'See UCAS matches' do
       expect(page).to have_content('N/A')
       expect(page).to have_content('Awaiting provider decision')
     end
+    within('tbody tr:eq(3)') do
+      expect(page).to have_content('DOES_NOT_EXIST')
+      expect(page).to have_content("Missing course name – #{@course2.provider.name}")
+      expect(page).to have_content('N/A')
+      expect(page).to have_content('Invalid data')
+    end
+
     expect(page).to have_content('This applicant has applied to the same course on both services.')
   end
 end
