@@ -14,9 +14,6 @@
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
           <%= render TagComponent.new(text: match.matching_state.humanize, type: match.processed? ? :green : :purple) %>
-          <% if match.action_needed?  %>
-            <%= render TagComponent.new(text: "Action needed", type: :yellow) %>
-          <% end %>
         </td>
 
         <td class="govuk-table__cell">

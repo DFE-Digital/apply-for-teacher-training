@@ -10,7 +10,7 @@ RSpec.feature 'See UCAS matches' do
 
     when_i_go_to_ucas_matches_page
     then_i_should_see_list_of_ucas_matches
-    and_i_should_which_ucas_matches_need_action
+    # and_i_should_see_which_ucas_matches_need_action
 
     when_i_follow_the_link_to_ucas_match_for_a_candidate
     then_i_should_see_ucas_match_summary
@@ -63,7 +63,7 @@ RSpec.feature 'See UCAS matches' do
     expect(page).to have_content @candidate.email_address
   end
 
-  def and_i_should_which_ucas_matches_need_action
+  def and_i_should_see_which_ucas_matches_need_action
     expect(page).to have_content 'Matching data updated Action needed'
   end
 
