@@ -27,12 +27,16 @@ module SupportInterface
         next if unexplained_breaks.nil?
 
         total_unexplained_time = unexplained_breaks.sum(&:length)
+        unexplained_breaks_in_last_five_years = unexplained_breaks.select {
+            |unexplained_break| unexplained_break.start_date > (submitted_at(application_form) - 5.years).to_date }
+
         output = {
             'Candidate id' => application_form.candidate_id,
             'Application id' => application_form.id,
             'Start of working life' => get_start_of_working_life(application_form),
+            'Total unexplained time (months)' => total_unexplained_time,
             'Number of unexplained breaks' => unexplained_breaks.length,
-            'Total unexplained time (months)' => total_unexplained_time
+            'Number of unexplained breaks in last 5 years' => unexplained_breaks_in_last_five_years.count,
         }
         output
       end
