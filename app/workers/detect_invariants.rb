@@ -18,7 +18,7 @@ class DetectInvariants
         One or more application choices are still in `awaiting_references` or
         `application_complete` state, but all these states have been removed:
 
-        #{choices_in_wrong_state.map(&:id).join("\n")}
+        #{choices_in_wrong_state.map(&:id).sort.join("\n")}
       MSG
 
       Raven.capture_exception(WeirdSituationDetected.new(message))
