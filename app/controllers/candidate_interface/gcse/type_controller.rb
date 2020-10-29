@@ -1,5 +1,7 @@
 module CandidateInterface
   class Gcse::TypeController < Gcse::DetailsController
+    include Gcse::ResolveGcseEditPathConcern
+
     before_action :redirect_to_dashboard_if_submitted
     before_action :set_subject
 
@@ -54,7 +56,7 @@ module CandidateInterface
       if new_non_uk_qualification?
         candidate_interface_gcse_details_edit_institution_country_path
       elsif !@application_qualification.missing_qualification? && @details_form.grade.nil?
-        candidate_interface_gcse_details_edit_grade_path
+        resolve_gcse_edit_path(@subject)
       else
         candidate_interface_gcse_review_path
       end

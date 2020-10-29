@@ -1,5 +1,7 @@
 module CandidateInterface
   class Gcse::NaricReferenceController < Gcse::DetailsController
+    include Gcse::ResolveGcseEditPathConcern
+
     before_action :redirect_to_dashboard_if_submitted, :set_subject, :render_404_if_flag_is_inactive
 
     def edit
@@ -37,7 +39,7 @@ module CandidateInterface
         current_application.qualification_in_subject(:gcse, subject_param),
       )
       if @details_form.qualification.grade.nil?
-        candidate_interface_gcse_details_edit_grade_path
+        resolve_gcse_edit_path(subject_param)
       else
         candidate_interface_gcse_review_path
       end
