@@ -120,7 +120,7 @@ class PerformanceStatistics
   def percentage_of_providers_onboarded
     @percentage_of_providers_onboarded ||= begin
       counts = Provider.group(:sync_courses).count
-      "#{(counts[true] * 100) / (counts[true] + counts[false])}%"
+      "#{((counts[true] * 100).to_f / (counts[true] + counts[false])).round}%"
     end
   end
 end
