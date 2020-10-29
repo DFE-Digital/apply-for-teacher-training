@@ -124,9 +124,11 @@ class PerformanceStatistics
   end
 
   def percentage_of_providers_onboarded
-    @percentage_of_providers_onboarded ||= begin
-      counts = Provider.group(:sync_courses).count
-      "#{((counts[true] * 100).to_f / (counts[true] + counts[false])).round}%"
-    end
+    @percentage_of_providers_onboarded ||=
+      begin
+        total_count = Provider.count
+        onboarded_count = Provider.joins(:courses).where('courses.open_on_apply': true).distinct.count
+        "#{((onboarded_count * 100).to_f / total_count).round}%"
+      end
   end
 end

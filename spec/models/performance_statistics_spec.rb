@@ -143,11 +143,12 @@ RSpec.describe PerformanceStatistics, type: :model do
   describe '#percentage_of_providers_onboarded' do
     it 'returns the percentage of providers onboarded to the nearest whole number' do
       create(:provider)
-      create_list(:provider, 2, sync_courses: true)
+      synced_providers = create_list(:provider, 2, sync_courses: true)
+      create_list(:course, 3, provider: synced_providers.first, open_on_apply: true)
 
       stats = PerformanceStatistics.new(2021)
 
-      expect(stats.percentage_of_providers_onboarded).to eq('67%')
+      expect(stats.percentage_of_providers_onboarded).to eq('33%')
     end
   end
 
