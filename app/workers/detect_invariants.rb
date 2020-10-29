@@ -5,6 +5,7 @@ class DetectInvariants
   def perform
     detect_application_choices_in_old_states
     detect_outstanding_references_on_submitted_applications
+    detect_unauthorised_application_form_edits
   end
 
   def detect_application_choices_in_old_states
@@ -36,6 +37,24 @@ class DetectInvariants
         One or more references are still pending on these applications,
         even though they've already been submitted:
         #{applications_with_reference_weirdness.join("\n")}
+      MSG
+
+      Raven.capture_exception(WeirdSituationDetected.new(message))
+    end
+  end
+
+  def detect_unauthorised_application_form_edits
+    unauthorised_changes = Audited::Audit
+      .joins("INNER JOIN application_forms ON application_forms.id = audits.associated_id AND audits.associated_type = 'ApplicationForm'")
+      .joins('INNER JOIN candidates ON candidates.id = application_forms.candidate_id')
+      .where(audits: { user_type: 'Candidate' })
+      .where('candidates.id != audits.user_id')
+
+    if unauthorised_changes.any?
+      message = <<~MSG
+        The following application forms have had unauthorised edits:
+
+        #{unauthorised_changes.pluck('application_forms.id').uniq.join("\n")}
       MSG
 
       Raven.capture_exception(WeirdSituationDetected.new(message))
