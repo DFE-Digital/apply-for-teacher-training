@@ -387,6 +387,10 @@ en:
         action: Delete referee
         confirm: Yes I’m sure - delete this referee
         cancel: No, I’ve changed my mind
+      delete_reference:
+        action: Delete reference
+        confirm: Yes I’m sure - delete this reference
+        cancel: No, I’ve changed my mind
       delete_request:
         action: Delete request
         confirm: Yes I’m sure - delete this reference request

@@ -81,8 +81,8 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def when_i_delete_a_referee
-    click_on "Delete referee #{@completed_references[0].name}"
-    click_on I18n.t('application_form.references.delete_referee.confirm')
+    click_on "Delete reference #{@completed_references[0].name}"
+    click_on I18n.t('application_form.references.delete_reference.confirm')
   end
 
   def then_i_can_see_i_only_have_one_referee

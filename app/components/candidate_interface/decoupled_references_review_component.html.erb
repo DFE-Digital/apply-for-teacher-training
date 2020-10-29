@@ -12,10 +12,17 @@
             </div>
           <% end %>
 
-          <% if reference.can_be_destroyed? %>
+          <% if reference.not_requested_yet? %>
+            <li class="app-summary-card__actions-list-item">
+              <%= link_to candidate_interface_destroy_decoupled_referee_path(reference), class: 'govuk-link' do %>
+                <%= t('application_form.references.delete_referee.action') %>
+                <span class="govuk-visually-hidden"> <%= reference.name %></span>
+              <% end %>
+            </li>
+          <% elsif reference.feedback_provided? %>
             <li class="app-summary-card__actions-list-item">
               <%= link_to candidate_interface_destroy_decoupled_reference_path(reference), class: 'govuk-link' do %>
-                <%= t('application_form.references.delete_referee.action') %>
+                <%= t('application_form.references.delete_reference.action') %>
                 <span class="govuk-visually-hidden"> <%= reference.name %></span>
               <% end %>
             </li>
