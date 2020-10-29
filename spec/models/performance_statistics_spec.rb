@@ -26,7 +26,7 @@ RSpec.describe PerformanceStatistics, type: :model do
       form.update_column(:updated_at, form.created_at)
 
       apply_again_form = create(:application_form, phase: 'apply_2')
-      apply_again_application_choice = create(:application_choice, status: 'unsubmitted', application_form: apply_again_form)
+      create(:application_choice, status: 'unsubmitted', application_form: apply_again_form)
       apply_again_form.update_column(:updated_at, form.created_at)
 
       expect(ProcessState.new(form).state).to be :unsubmitted_not_started_form
@@ -157,7 +157,7 @@ RSpec.describe PerformanceStatistics, type: :model do
       create(:application_choice, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2020))
       create_list(:application_choice, 2, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2021))
       create(:application_choice, status: 'rejected', rejected_by_default: false, application_form: create(:application_form, recruitment_cycle_year: 2021))
-      
+
       stats = PerformanceStatistics.new(nil)
 
       expect(stats.rejected_by_default_count).to eq(2)
