@@ -9,6 +9,7 @@ services:
     environment:
       - RAILS_ENV=development
       - AUTHORISED_HOSTS=localhost
+      - SHA=development
 # disable clock and worker when running locally
   clock:
     entrypoint: ["/bin/true"]
