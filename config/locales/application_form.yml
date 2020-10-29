@@ -383,16 +383,25 @@ en:
           professional: 'For example, ‘He was my line manager in my last job. I’ve known him for 2 years’.'
           school_based: 'For example, ‘She’s the deputy head at the school where I currently volunteer. I’ve known her for 3 years’.'
           character: 'For example, ‘She’s the head coach for my athletics club. I’ve known her for 5 years’.'
-      delete: Delete referee
-      confirm_delete: Yes I’m sure - delete this referee
+      delete_referee:
+        action: Delete referee
+        confirm: Yes I’m sure - delete this referee
+        cancel: No, I’ve changed my mind
       delete_request:
-        delete: Delete request
-        confirm_delete: Yes I’m sure - delete this reference request
-        do_not_delete: No, I’ve changed my mind
-      send_request: Send request
-      resend_request: Send request again
+        action: Delete request
+        confirm: Yes I’m sure - delete this reference request
+        cancel: No, I’ve changed my mind
+      send_request:
+        action: Send request
+        confirm: Yes I’m sure - send my reference request
+        cancel: No, I’ve changed my mind
+      resend_request:
+        action: Send request again
+      cancel_request:
+        action: Cancel request
+        confirm: Yes I’m sure - cancel this reference request
+        cancel: No, I’ve changed my mind
       confirm_cancel: Yes I’m sure - cancel this reference request
-      cancel: Cancel request
       info:
         before_submission: You need to add 2 referees.
         declined: "%{referee_name} said they will not give a reference."
