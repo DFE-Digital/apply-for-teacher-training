@@ -29,6 +29,8 @@ class Provider < ApplicationRecord
   audited
   has_associated_audits
 
+  NOT_ACCEPTING_APPLICATIONS_ON_UCAS = %w[8N5].freeze
+
   def self.with_users_manageable_by(provider_user)
     joins(:provider_permissions)
       .where(ProviderPermissions.table_name => { provider_user_id: provider_user.id, manage_users: true })
@@ -62,5 +64,9 @@ class Provider < ApplicationRecord
   def no_admin_users?
     !(provider_permissions.exists?(manage_users: true) &&
       provider_permissions.exists?(manage_organisations: true))
+  end
+
+  def not_accepting_appplications_on_ucas?
+    NOT_ACCEPTING_APPLICATIONS_ON_UCAS.include?(code)
   end
 end
