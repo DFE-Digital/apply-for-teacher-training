@@ -12,6 +12,10 @@ RSpec.feature 'See UCAS matches' do
     then_i_should_see_list_of_ucas_matches
     and_i_should_which_ucas_matches_need_action
 
+    when_i_filter_by_recruitment_cycle
+    then_i_only_see_applications_for_that_recruitment_cycle
+    and_i_expect_the_relevant_recruitment_cycle_tags_to_be_visible
+
     when_i_follow_the_link_to_ucas_match_for_a_candidate
     then_i_should_see_ucas_match_summary
   end
@@ -30,8 +34,10 @@ RSpec.feature 'See UCAS matches' do
     application_choice2 = create(:submitted_application_choice, course_option: course_option2)
     @application_form = create(:application_form, candidate: @candidate, application_choices: [application_choice1, application_choice2])
     @candidate2 = create(:candidate)
-    application_choice3 = create(:application_choice, :with_offer, course_option: course_option2)
-    @application_form2 = create(:application_form, candidate: @candidate2, application_choices: [application_choice3])
+    @course3 = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year)
+    course_option3 = create(:course_option, course: @course3)
+    application_choice3 = create(:application_choice, :with_offer, course_option: course_option3)
+    @application_form2 = create(:application_form, candidate: @candidate2, application_choices: [application_choice3], recruitment_cycle_year: RecruitmentCycle.previous_year)
   end
 
   def and_there_are_ucas_matches_in_the_system
@@ -74,6 +80,20 @@ RSpec.feature 'See UCAS matches' do
   def and_i_should_which_ucas_matches_need_action
     expect(page).to have_content 'Updated Action needed'
     expect(page).to have_content 'Invalid data'
+  end
+
+  def when_i_filter_by_recruitment_cycle
+    find(:css, "#years-#{RecruitmentCycle.current_year}").set(true)
+    click_button('Apply filters')
+  end
+
+  def then_i_only_see_applications_for_that_recruitment_cycle
+    expect(page).not_to have_content(@candidate2.email_address)
+  end
+
+  def and_i_expect_the_relevant_recruitment_cycle_tags_to_be_visible
+    tag_text = "#{RecruitmentCycle.current_year - 1} to #{RecruitmentCycle.current_year}"
+    expect(page).to have_css('.moj-filter-tags', text: tag_text)
   end
 
   def when_i_follow_the_link_to_ucas_match_for_a_candidate

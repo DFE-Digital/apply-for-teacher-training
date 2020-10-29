@@ -1,7 +1,10 @@
 module SupportInterface
   class UCASMatchesController < SupportInterfaceController
     def index
-      @matches = UCASMatch.includes(:candidate)
+      @filter = SupportInterface::UCASMatchesFilter.new(params: params)
+      @matches = @filter.filter_records(UCASMatch.includes(:candidate))
+        .order(updated_at: :desc)
+        .page(params[:page] || 1).per(15)
     end
 
     def show
