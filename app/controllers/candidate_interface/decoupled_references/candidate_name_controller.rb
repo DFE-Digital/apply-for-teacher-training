@@ -13,12 +13,15 @@ module CandidateInterface
           first_name: first_name_param,
           last_name: last_name_param,
         )
-        return render :new unless @reference_candidate_name_form.valid?
 
-        @reference_candidate_name_form.save(@reference)
+        if @reference_candidate_name_form.save(@reference)
+          CandidateInterface::DecoupledReferences::RequestReference.new.call(@reference, flash)
 
-        CandidateInterface::DecoupledReferences::RequestReference.new.call(@reference, flash)
-        redirect_to candidate_interface_decoupled_references_review_path
+          redirect_to candidate_interface_decoupled_references_review_path
+        else
+          track_validation_error(@reference_candidate_name_form)
+          render :new
+        end
       end
 
     private

@@ -15,31 +15,39 @@ RSpec.feature 'Decoupled references' do
     when_i_click_continue
     then_i_see_the_type_page
 
+    when_i_click_save_and_continue_without_providing_a_type
+    then_i_should_be_told_to_provide_a_type
+    and_a_validation_error_is_logged_for_type
+
     when_i_select_academic
     and_i_click_save_and_continue
     then_i_should_see_the_referee_name_page
 
     when_i_click_save_and_continue_without_providing_a_name
     then_i_should_be_told_to_provide_a_name
+    and_a_validation_error_is_logged_for_name
 
     when_i_fill_in_my_references_name
     and_i_click_save_and_continue
 
     when_i_click_save_and_continue_without_providing_an_emailing
     then_i_should_be_told_to_provide_an_email_address
+    and_a_validation_error_is_logged_for_blank_email_address
 
     when_i_provide_an_email_address_with_an_invalid_format
     and_i_click_save_and_continue
     then_i_am_told_my_email_address_needs_a_valid_format
+    and_a_validation_error_is_logged_for_invalid_email_address
 
     when_i_provide_a_valid_email_address
     and_i_click_save_and_continue
-    then_i_see_the_description_page
+    then_i_see_the_relationship_page
 
-    when_i_click_save_and_continue_without_providing_a_description
-    then_i_should_be_told_to_provide_a_description
+    when_i_click_save_and_continue_without_providing_a_relationship
+    then_i_should_be_told_to_provide_a_relationship
+    and_a_validation_error_is_logged_for_relationship
 
-    when_i_fill_in_my_references_description
+    when_i_fill_in_my_references_relationship
     and_i_click_save_and_continue
     then_i_should_see_the_review_unsubmitted_page
     and_i_should_see_my_references_details
@@ -112,6 +120,18 @@ RSpec.feature 'Decoupled references' do
     expect(page).to have_current_path candidate_interface_decoupled_references_type_path
   end
 
+  def when_i_click_save_and_continue_without_providing_a_type
+    and_i_click_save_and_continue
+  end
+
+  def then_i_should_be_told_to_provide_a_type
+    expect(page).to have_content 'Choose a type of referee'
+  end
+
+  def and_a_validation_error_is_logged_for_type
+    expect(ValidationError.count).to be 1
+  end
+
   def when_i_select_academic
     choose 'Academic'
   end
@@ -132,6 +152,10 @@ RSpec.feature 'Decoupled references' do
     expect(page).to have_content 'Enter your referee’s name'
   end
 
+  def and_a_validation_error_is_logged_for_name
+    expect(ValidationError.count).to be 2
+  end
+
   def when_i_fill_in_my_references_name
     fill_in 'candidate-interface-reference-referee-name-form-name-field-error', with: 'Walter White'
   end
@@ -148,6 +172,10 @@ RSpec.feature 'Decoupled references' do
     expect(page).to have_content 'Enter your referee’s email address'
   end
 
+  def and_a_validation_error_is_logged_for_blank_email_address
+    expect(ValidationError.count).to be 3
+  end
+
   def when_i_provide_an_email_address_with_an_invalid_format
     fill_in 'candidate-interface-reference-referee-email-address-form-email-address-field-error', with: 'invalid.email.address'
   end
@@ -156,23 +184,31 @@ RSpec.feature 'Decoupled references' do
     expect(page).to have_content 'Enter an email address in the correct format, like name@example.com'
   end
 
+  def and_a_validation_error_is_logged_for_invalid_email_address
+    expect(ValidationError.count).to be 4
+  end
+
   def when_i_provide_a_valid_email_address
     fill_in 'candidate-interface-reference-referee-email-address-form-email-address-field-error', with: 'iamtheone@whoknocks.com'
   end
 
-  def then_i_see_the_description_page
+  def then_i_see_the_relationship_page
     expect(page).to have_current_path candidate_interface_decoupled_references_relationship_path(@application.application_references.last.id)
   end
 
-  def when_i_click_save_and_continue_without_providing_a_description
+  def when_i_click_save_and_continue_without_providing_a_relationship
     and_i_click_save_and_continue
   end
 
-  def then_i_should_be_told_to_provide_a_description
+  def then_i_should_be_told_to_provide_a_relationship
     expect(page).to have_content 'Enter how you know this referee and for how long'
   end
 
-  def when_i_fill_in_my_references_description
+  def and_a_validation_error_is_logged_for_relationship
+    expect(ValidationError.count).to be 5
+  end
+
+  def when_i_fill_in_my_references_relationship
     fill_in 'candidate-interface-reference-referee-relationship-form-relationship-field-error', with: 'Through nefarious behaviour.'
   end
 
