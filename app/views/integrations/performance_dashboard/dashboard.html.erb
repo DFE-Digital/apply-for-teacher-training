@@ -65,29 +65,6 @@
   </div>
 </div>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-half">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::TileComponent.new(count: @statistics.apply_again_submitted_count, label: 'apply again submitted', size: :reduced) %>
-      </div>
-      <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::TileComponent.new(count: @statistics.apply_again_accepted_offer_count, label: 'accepted an offer (apply again)', size: :reduced, colour: :green) %>
-      </div>
-      <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::TileComponent.new(count: @statistics.percentage_of_providers_onboarded, label: 'providers onboarded', size: :reduced) %>
-      </div>
-    </div>
-  </div>
-  <div class="govuk-grid-column-one-half">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::TileComponent.new(count: @statistics.rejected_by_default_count, label: 'rejected by default', size: :reduced) %>
-      </div>
-    </div>
-  </div>
-</div>
-
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <table class="govuk-table">
@@ -108,6 +85,32 @@
         <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{row['status']}.description") %></td>
       </tr>
     <% end %>
+  </tbody>
+</table>
+
+<table class="govuk-table">
+  <caption class="govuk-table__caption govuk-heading-m">Other metrics</caption>
+  <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Apply again submitted</th>
+      <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.apply_again_submitted_count %></td>
+      <td class="govuk-table__cell"><%= t("performance_dashboard_other_metrics.apply_again_submitted.description") %></td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Apply again accepted offer</th>
+      <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.apply_again_accepted_offer_count %></td>
+      <td class="govuk-table__cell"><%= t("performance_dashboard_other_metrics.apply_again_accepted_offer.description") %></td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Providers onboarded</th>
+      <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.percentage_of_providers_onboarded %></td>
+      <td class="govuk-table__cell"><%= t("performance_dashboard_other_metrics.percentage_of_providers_onboarded.description") %></td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th scope="row" class="govuk-table__header">Rejected by default</th>
+      <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.rejected_by_default_count %></td>
+      <td class="govuk-table__cell"><%= t("performance_dashboard_other_metrics.rejected_by_default.description") %></td>
+    </tr>
   </tbody>
 </table>
 

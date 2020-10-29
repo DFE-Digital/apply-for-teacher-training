@@ -25,7 +25,6 @@ class PerformanceStatistics
                 WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['8', 'recruited']
                 WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['7', 'pending_conditions']
                 WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['10', 'offer_deferred']
-                WHEN 'rejected' = ANY(ARRAY_AGG(ch.status)) AND true = ANY(ARRAY_AGG(ch.rejected_by_default)) THEN ARRAY['11', 'rejected_by_default']
                 WHEN #{ended_without_success_sql} = '{}' THEN ARRAY['5', 'ended_without_success']
                 ELSE ARRAY['10', 'unknown_state']
               END status
@@ -102,7 +101,7 @@ class PerformanceStatistics
   end
 
   def ended_without_success_count
-    total_candidate_count(only: %i[rejected_by_default ended_without_success])
+    total_candidate_count(only: %i[ended_without_success])
   end
 
   def accepted_offer_count
@@ -114,7 +113,14 @@ class PerformanceStatistics
   end
 
   def rejected_by_default_count
-    total_candidate_count(only: %i[rejected_by_default])
+    @rejected_by_default_count ||= begin
+      scope = ApplicationForm
+        .joins(:application_choices)
+        .where('application_choices.status': 'rejected', 'application_choices.rejected_by_default': true)
+        .distinct
+      scope = scope.where('application_forms.recruitment_cycle_year': year) if year.present?
+      scope.count    
+    end
   end
 
   def percentage_of_providers_onboarded

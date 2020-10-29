@@ -151,6 +151,28 @@ RSpec.describe PerformanceStatistics, type: :model do
     end
   end
 
+  describe '#rejected_by_default_count' do
+    it 'returns the count of all rejected by default applications' do
+      create(:application_choice, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2020))
+      create_list(:application_choice, 2, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:application_choice, status: 'rejected', rejected_by_default: false, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      
+      stats = PerformanceStatistics.new(nil)
+
+      expect(stats.rejected_by_default_count).to eq(2)
+    end
+
+    it 'returns the count of all rejected by default applications filtered by recruitment cycle year' do
+      create(:application_choice, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2020))
+      create_list(:application_choice, 2, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:application_choice, status: 'rejected', rejected_by_default: false, application_form: create(:application_form, recruitment_cycle_year: 2021))
+
+      stats = PerformanceStatistics.new(2021)
+
+      expect(stats.rejected_by_default_count).to eq(1)
+    end
+  end
+
   def count_for_process_state(process_state)
     PerformanceStatistics.new(nil)[process_state]
   end
