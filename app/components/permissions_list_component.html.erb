@@ -1,6 +1,6 @@
 <ul class="govuk-list" id="provider-<%= permission_model.provider.id %>-enabled-permissions">
   <% if permission_model.manage_organisations? %>
-    <li><%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Manage organisations</span></li>
+    <li><%= render CheckIcon.new %> <span class="govuk-!-font-weight-bold">Manage organisational permissions</span></li>
   <% end %>
 
   <% if permission_model.manage_users? %>

@@ -20,7 +20,7 @@
       <%= f.govuk_check_boxes_fieldset :permissions, legend: { size: 'm', text: 'Select permissions' } do %>
 
         <%= f.govuk_check_box :manage_organisations, true, multiple: false,
-                              label: { text: 'Manage organisations' },
+                              label: { text: 'Manage organisational permissions' },
                               hint: { text: 'Change permissions between organisations' } %>
 
         <%= f.govuk_check_box :manage_users, true, multiple: false,

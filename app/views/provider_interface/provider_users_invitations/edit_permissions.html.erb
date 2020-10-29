@@ -20,7 +20,7 @@
               hint: { text: 'For example, being able to make offers and access sensitive content' } do %>
             <%= pf.govuk_check_boxes_fieldset(:permissions, legend: { text: 'Select permissions', size: "m" }) do %>
               <%= pf.govuk_check_box :permissions, 'manage_organisations',
-                                    label: { text: 'Manage organisations' },
+                                    label: { text: 'Manage organisational permissions' },
                                     hint: { text: 'Change permissions between organisations' } %>
 
               <%= pf.govuk_check_box :permissions, 'manage_users',

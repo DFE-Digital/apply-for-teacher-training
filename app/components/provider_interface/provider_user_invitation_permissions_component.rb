@@ -4,7 +4,7 @@ module ProviderInterface
 
     HUMAN_READABLE_PERMISSIONS = {
       'view_safeguarding_information' => 'Access safeguarding information',
-      'manage_organisations' => 'Manage organisations',
+      'manage_organisations' => 'Manage organisational permissions',
       'manage_users' => 'Manage users',
       'make_decisions' => 'Make decisions',
       'view_diversity_information' => 'Access diversity information',
