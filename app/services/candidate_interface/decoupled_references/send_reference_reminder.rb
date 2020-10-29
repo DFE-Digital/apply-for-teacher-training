@@ -21,18 +21,22 @@ module CandidateInterface
 
           send_slack_message(application_form, message)
 
-          flash[:success] = "Reminder sent to #{reference_name}"
+          flash[:success] = "Reminder sent to #{referee_name}"
         end
       end
 
     private
 
       def message
-        "Candidate #{application_form.first_name} has sent a reminder to #{reference_name}"
+        "Candidate #{application_form.first_name} has sent a reminder to #{referee_first_name}"
       end
 
-      def reference_name
+      def referee_name
         reference.name
+      end
+
+      def referee_first_name
+        reference.name.split.first
       end
 
       def application_form

@@ -8,11 +8,11 @@ RSpec.describe CandidateInterface::DecoupledReferences::SendReferenceReminder do
   end
 
   describe '.call' do
-    let(:reference) { create(:reference, feedback_status: 'feedback_requested') }
+    let(:reference) { create(:reference, feedback_status: 'feedback_requested', name: 'Evo Morales') }
     let(:flash) { {} }
     let(:execute_service) { described_class.call(reference, flash) }
     let(:mail) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
-    let(:message) { "Candidate #{reference.application_form.first_name} has sent a reminder to #{reference.name}" }
+    let(:message) { "Candidate #{reference.application_form.first_name} has sent a reminder to Evo" }
     let(:url) { Rails.application.routes.url_helpers.support_interface_application_form_url(reference.application_form) }
 
     before do
