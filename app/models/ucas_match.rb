@@ -17,13 +17,17 @@ class UCASMatch < ApplicationRecord
       application_accepted_on_apply_and_in_progress_on_ucas?
   end
 
-private
+  def invalid_matching_data?
+    !ucas_matched_applications.all?(&:valid_matching_data?)
+  end
 
   def ucas_matched_applications
     matching_data.map do |data|
       UCASMatchedApplication.new(data, recruitment_cycle_year)
     end
   end
+
+private
 
   def application_for_the_same_course_in_progress_on_both_services?
     application_for_the_same_course_on_both_services = ucas_matched_applications.select(&:both_scheme?)

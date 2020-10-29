@@ -12,6 +12,12 @@
   'Application on Apply' => govuk_link_to('View application', support_interface_application_form_path(application)),
 }) %>
 
+<% if @match.invalid_matching_data? %>
+  <%= render TagComponent.new(text: "Invalid data", type: :red) %>
+<% elsif @match.action_needed? %>
+  <%= render TagComponent.new(text: "Action needed", type: :yellow) %>
+<% end %>
+
 <% unless @match.processed? %>
   <%= form_with url: support_interface_process_match_path(@match), method: :post do |f| %>
     <%= f.submit 'Mark as processed', class: 'govuk-button govuk-!-margin-bottom-0' %>
