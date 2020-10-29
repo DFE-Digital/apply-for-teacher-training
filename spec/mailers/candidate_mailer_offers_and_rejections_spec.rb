@@ -167,6 +167,39 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
+  describe '.deferred_offer' do
+    before do
+      application_form = build_stubbed(:application_form, first_name: 'Harold')
+      provider = build_stubbed(:provider, name: 'Jerome Horwitz Elementary School')
+      course_option = build_stubbed(
+        :course_option,
+        course: build_stubbed(:course, name: 'Sport', code: 'SP0', provider: provider, recruitment_cycle_year: 2021),
+        site: build_stubbed(:site, provider: provider),
+      )
+
+      @application_choice = build_stubbed(
+        :application_choice,
+        :with_deferred_offer,
+        course_option: course_option,
+        offered_course_option: course_option,
+        application_form: application_form,
+        decline_by_default_at: 10.business_days.from_now,
+      )
+
+      magic_link_stubbing(application_form.candidate)
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      :deferred_offer,
+      'Your offer has been deferred',
+      'heading' => 'Dear Harold',
+      'name and code for course' => 'Sport (SP0)',
+      'name of provider' => 'Jerome Horwitz Elementary School',
+      'year of new course' => 'until 2022',
+    )
+  end
+
   describe '.reinstated_offer' do
     before do
       @application_form = build_stubbed(:application_form, first_name: 'Ron')

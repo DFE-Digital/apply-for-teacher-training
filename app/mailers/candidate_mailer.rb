@@ -206,11 +206,12 @@ class CandidateMailer < ApplicationMailer
 
   def deferred_offer(application_choice)
     @application_choice = application_choice
-    @course_option = @application_choice.offered_option
+    @course = @application_choice.offered_option.course
+    @deferred_to_year = @course.recruitment_cycle_year + 1
 
     email_for_candidate(
       @application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.deferred_offer.subject', provider_name: @course_option.course.provider.name),
+      subject: I18n.t!('candidate_mailer.deferred_offer.subject', provider_name: @course.provider.name),
     )
   end
 
