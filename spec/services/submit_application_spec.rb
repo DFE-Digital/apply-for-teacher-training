@@ -9,7 +9,6 @@ RSpec.describe SubmitApplication do
         described_class.new(application_form).call
 
         expect(application_form.submitted_at).to eq Time.zone.local(0)
-        expect(application_form.edit_by).to eq Time.zone.local(0)
       end
     end
 

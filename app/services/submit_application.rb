@@ -7,13 +7,7 @@ class SubmitApplication
   end
 
   def call
-    # TODO: the decoupled_references feature makes the edit window redundant.
-    # Drop the ApplicationForm#edit_by column when removing the
-    # decoupled_references feature flag.
-    application_form.update!(
-      submitted_at: Time.zone.now,
-      edit_by: Time.zone.now,
-    )
+    application_form.update!(submitted_at: Time.zone.now)
 
     application_choices.each do |application_choice|
       SendApplicationToProvider.call(application_choice)

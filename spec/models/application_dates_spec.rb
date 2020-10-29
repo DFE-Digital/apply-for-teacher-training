@@ -4,7 +4,7 @@ RSpec.describe ApplicationDates, type: :model do
   let(:submitted_at) { Time.zone.local(2019, 5, 1, 12, 0, 0).end_of_day }
 
   let(:application_form) do
-    create(:application_form, submitted_at: submitted_at, edit_by: submitted_at + 5.days, application_choices: [application_choice])
+    create(:application_form, submitted_at: submitted_at, application_choices: [application_choice])
   end
 
   let(:application_choice) { build(:application_choice) }
@@ -33,24 +33,6 @@ RSpec.describe ApplicationDates, type: :model do
     end
   end
 
-  describe '#edit_by' do
-    it 'returns date that the candidate can edit by' do
-      expect(application_dates.edit_by).to be_within(1.second).of(application_form.edit_by)
-    end
-  end
-
-  describe '#days_remaining_to_edit' do
-    it 'returns number of days remaining that a candidate can edit by' do
-      Timecop.travel(submitted_at) do
-        expect(application_dates.days_remaining_to_edit).to eq(4)
-      end
-
-      Timecop.travel(submitted_at + 3.days) do
-        expect(application_dates.days_remaining_to_edit).to eq(1)
-      end
-    end
-  end
-
   describe '#declined_by_default_at' do
     let(:choices) { application_form.application_choices }
 
@@ -58,20 +40,6 @@ RSpec.describe ApplicationDates, type: :model do
       choices.update_all(status: :offer, decline_by_default_at: 10.business_days.after(submitted_at))
 
       expect(application_dates.decline_by_default_at).to eq(10.business_days.after(submitted_at))
-    end
-  end
-
-  describe '#form_open_to_editing?' do
-    it 'returns true if the form is still open to editing' do
-      Timecop.travel(submitted_at) do
-        expect(application_dates).to be_form_open_to_editing
-      end
-    end
-
-    it 'returns false if the form is closed to editing' do
-      Timecop.travel(submitted_at + 11.days) do
-        expect(application_dates).not_to be_form_open_to_editing
-      end
     end
   end
 end
