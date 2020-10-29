@@ -82,7 +82,7 @@ module ProviderInterface
 
       {
         'sex' => application.application_form.equality_and_diversity['hesa_sex'] || 'not specified',
-        'disabilities' => (application.application_form.equality_and_diversity['hesa_disabilities'] || ['not specified']).join(' '),
+        'disabilities' => Array(application.application_form.equality_and_diversity.fetch('hesa_disabilities', 'not specified')).join(' '),
         'ethnicity' => application.application_form.equality_and_diversity['hesa_ethnicity'] || 'not specified',
       }
     end
