@@ -26,7 +26,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
   end
 
   def and_a_course_is_available
-    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: 2021))
+    create(:course_option, course: create(:course, :open_on_apply, recruitment_cycle_year: RecruitmentCycle.current_year))
   end
 
   def and_i_am_a_candidate_with_a_blank_application

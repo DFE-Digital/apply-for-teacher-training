@@ -21,7 +21,7 @@ module CandidateInterface
       example_application_choices = TestApplications.new.create_application(
         recruitment_cycle_year: RecruitmentCycle.current_year,
         states: [:unsubmitted_with_completed_references],
-        courses_to_apply_to: Course.includes(:course_options).joins(:course_options).distinct.open_on_apply,
+        courses_to_apply_to: Course.current_cycle.open_on_apply.joins(:course_options).merge(CourseOption.available),
         candidate: current_candidate,
       )
       example_application_form = example_application_choices.first.application_form
