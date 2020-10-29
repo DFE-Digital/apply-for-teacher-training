@@ -62,6 +62,8 @@ en:
       subject: "Offer changed by %{provider_name}"
     deferred_offer:
       subject: "%{provider_name} has deferred your offer"
+    deferred_offer_reminder:
+      subject: "Reminder of your deferred offer"
     reinstated_offer:
       subject: "You’re due to take up your deferred offer"
     apply_again_call_to_action:

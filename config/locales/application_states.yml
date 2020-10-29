@@ -156,6 +156,8 @@ en:
     offer_deferred:
       name: Offer deferred
       description: The provider has deferred the candidate’s offer to the next recruitment cycle. The offer will have to be reinstated by the provider at the start of the next cycle.
+      emails:
+        - candidate_mailer-deferred_offer_reminder
 
   events:
     unsubmitted-send_to_provider:

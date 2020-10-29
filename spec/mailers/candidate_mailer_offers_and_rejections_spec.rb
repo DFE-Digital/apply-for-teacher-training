@@ -15,6 +15,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     content.each do |key, expectation|
       it "sends an email containing the #{key} in the body" do
+        expectation = expectation.call if expectation.respond_to?(:call)
         expect(email.body).to include(expectation)
       end
     end
@@ -267,6 +268,46 @@ RSpec.describe CandidateMailer, type: :mailer do
       'name of new provider' => 'Provider: Neverland University',
       'location of new offer' => 'Location: Pan School',
       'study mode of new offer' => 'Full time',
+    )
+  end
+
+  describe 'Deferred offer reminder email' do
+    before do
+      application_form = build_stubbed(:application_form, first_name: 'Jeff')
+      provider = build_stubbed(:provider, name: 'Amazon University')
+      course_option = build_stubbed(
+        :course_option,
+        course: build_stubbed(
+          :course,
+          name: 'Business',
+          code: 'BIZ',
+          provider: provider,
+          recruitment_cycle_year: RecruitmentCycle.previous_year,
+        ),
+        site: build_stubbed(:site, provider: provider),
+      )
+
+      @application_choice = build_stubbed(
+        :application_choice,
+        :with_deferred_offer,
+        course_option: course_option,
+        offered_course_option: course_option,
+        application_form: application_form,
+        decline_by_default_at: 10.business_days.from_now,
+        offer_deferred_at: Time.zone.local(2020, 4, 15, 14),
+      )
+
+      magic_link_stubbing(application_form.candidate)
+    end
+
+    it_behaves_like(
+      'a mail with subject and content', :deferred_offer_reminder,
+      I18n.t!('candidate_mailer.deferred_offer_reminder.subject'),
+      'heading' => 'Dear Jeff',
+      'when offer deferred' => 'On 15 April 2020',
+      'provider name' => 'Amazon University',
+      'course name and code' => 'Business (BIZ)',
+      'when new course starts' => -> { "new academic year (#{RecruitmentCycle.current_year})" }
     )
   end
 end
