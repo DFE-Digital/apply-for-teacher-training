@@ -6,6 +6,7 @@ services:
       args:
         bundleWithout: 'development'
         BASE_RUBY_IMAGE_WITH_GEMS_AND_NODE_MODULES: ${gemsNodeModulesImageName:-apply-for-teacher-training-gems-node-modules}
+        VERSION: ${dockerHubImageTag}
     image: ${dockerHubUsername}/${dockerHubImageName}:${dockerHubImageTag}
     environment:
       - RAILS_ENV

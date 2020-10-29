@@ -795,6 +795,7 @@ Rails.application.routes.draw do
   end
 
   get '/check', to: 'healthcheck#show'
+  get '/check/version', to: 'healthcheck#version'
 
   scope via: :all do
     match '/404', to: 'errors#not_found'
