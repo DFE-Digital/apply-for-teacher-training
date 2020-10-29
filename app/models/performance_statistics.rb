@@ -65,7 +65,10 @@ class PerformanceStatistics
   end
 
   def [](key)
-    candidate_status_counts.find { |x| x['status'] == key.to_s }&.[]('count')
+    candidate_status_counts
+      .select { |x| x['status'] == key.to_s }
+      .map { |row| row['count'] }
+      .sum
   end
 
   def total_candidate_count(only: nil, except: [], phase: nil)
@@ -82,6 +85,12 @@ class PerformanceStatistics
       .connection
       .execute(candidate_query)
       .to_a
+  end
+
+  def candidate_status_total_counts
+    candidate_status_counts.group_by { |row| row['status'] }.map do |status, rows|
+      { 'status' => status, 'count' => rows.map { |r| r['count'] }.sum }
+    end
   end
 
   def total_submitted_count

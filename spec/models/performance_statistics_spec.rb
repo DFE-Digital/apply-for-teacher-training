@@ -20,6 +20,20 @@ RSpec.describe PerformanceStatistics, type: :model do
       expect(count_for_process_state(:unsubmitted_not_started_form)).to be(1)
     end
 
+    it 'counts unsubmitted, unstarted applications from both phases' do
+      application_choice = create(:application_choice, status: 'unsubmitted')
+      form = application_choice.application_form
+      form.update_column(:updated_at, form.created_at)
+
+      apply_again_form = create(:application_form, phase: 'apply_2')
+      apply_again_application_choice = create(:application_choice, status: 'unsubmitted', application_form: apply_again_form)
+      apply_again_form.update_column(:updated_at, form.created_at)
+
+      expect(ProcessState.new(form).state).to be :unsubmitted_not_started_form
+
+      expect(count_for_process_state(:unsubmitted_not_started_form)).to be(2)
+    end
+
     it 'counts unsubmitted, unstarted applications without choices' do
       form = create(:application_form)
 
@@ -96,6 +110,21 @@ RSpec.describe PerformanceStatistics, type: :model do
       stats = PerformanceStatistics.new(nil)
 
       expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
+      expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(2)
+    end
+
+    it 'optionally filters by phase' do
+      apply_1_form = create(:application_form, phase: 'apply_1')
+      apply_2_form = create(:application_form, phase: 'apply_2')
+      create(:application_choice, status: 'recruited', application_form: apply_1_form)
+      create(:application_choice, status: 'recruited', application_form: apply_2_form)
+      create(:application_choice, status: 'pending_conditions')
+
+      stats = PerformanceStatistics.new(nil)
+
+      expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
+      expect(stats.total_candidate_count(only: %i[recruited], phase: :apply_1)).to eq(1)
+      expect(stats.total_candidate_count(only: %i[recruited], phase: :apply_2)).to eq(1)
       expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(2)
     end
   end
