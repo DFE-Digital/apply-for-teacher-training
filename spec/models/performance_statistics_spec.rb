@@ -150,6 +150,12 @@ RSpec.describe PerformanceStatistics, type: :model do
 
       expect(stats.percentage_of_providers_onboarded).to eq('33%')
     end
+
+    it 'returns "-" when there are no providers' do
+      stats = PerformanceStatistics.new(2021)
+
+      expect(stats.percentage_of_providers_onboarded).to eq('-')
+    end
   end
 
   describe '#rejected_by_default_count' do
