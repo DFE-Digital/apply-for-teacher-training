@@ -71,9 +71,9 @@ class DataExport < ApplicationRecord
       class: SupportInterface::EqualityAndDiversityExport,
     },
     unexplained_breaks_in_work_history: {
-        name: 'Unexplained breaks in work history',
-        description: 'A list of candidates with unexplained breaks in their work history',
-        class: SupportInterface::UnexplainedBreaksInWorkHistoryExport,
+      name: 'Unexplained breaks in work history',
+      description: 'A list of candidates with unexplained breaks in their work history',
+      class: SupportInterface::UnexplainedBreaksInWorkHistoryExport,
     },
   }.freeze
 

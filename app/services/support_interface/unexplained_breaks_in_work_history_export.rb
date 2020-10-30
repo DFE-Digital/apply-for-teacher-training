@@ -28,21 +28,23 @@ module SupportInterface
 
         total_unexplained_time = unexplained_breaks.sum(&:length)
 
-        unexplained_breaks_in_last_five_years = unexplained_breaks.count {
-            |unexplained_break| unexplained_break.start_date > (submitted_at(application_form) - 5.years).to_date }
+        unexplained_breaks_in_last_five_years = unexplained_breaks.count do |unexplained_break|
+          unexplained_break.start_date > (submitted_at(application_form) - 5.years).to_date
+        end
 
         degrees = application_form.application_qualifications.degrees
-        unexplained_breaks_that_coincide_with_degrees =  unexplained_breaks.count {
-            |unexplained_break| unexplained_break_coincides_with_a_degree(unexplained_break, degrees)}
-        
+        unexplained_breaks_that_coincide_with_degrees = unexplained_breaks.count do |unexplained_break|
+          unexplained_break_coincides_with_a_degree(unexplained_break, degrees)
+        end
+
         output = {
-            'Candidate id' => application_form.candidate_id,
-            'Application id' => application_form.id,
-            'Start of working life' => get_start_of_working_life(application_form),
-            'Total unexplained time (months)' => total_unexplained_time,
-            'Number of unexplained breaks' => unexplained_breaks.length,
-            'Number of unexplained breaks in last 5 years' => unexplained_breaks_in_last_five_years,
-            'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees,
+          'Candidate id' => application_form.candidate_id,
+          'Application id' => application_form.id,
+          'Start of working life' => get_start_of_working_life(application_form),
+          'Total unexplained time (months)' => total_unexplained_time,
+          'Number of unexplained breaks' => unexplained_breaks.length,
+          'Number of unexplained breaks in last 5 years' => unexplained_breaks_in_last_five_years,
+          'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees,
         }
         output
       end
@@ -50,11 +52,13 @@ module SupportInterface
       data_for_export.compact
     end
 
-    private
+  private
 
     def unexplained_break_coincides_with_a_degree(unexplained_break, degrees)
-      degrees.select { |degree| Date.new(degree.start_year.to_i,1,1) < unexplained_break.end_date &&
-          unexplained_break.start_date < Date.new(degree.award_year.to_i,12,31)}
+      degrees.select { |degree|
+        Date.new(degree.start_year.to_i, 1, 1) < unexplained_break.end_date &&
+          unexplained_break.start_date < Date.new(degree.award_year.to_i, 12, 31)
+      }
           .any?
     end
 
@@ -68,8 +72,8 @@ module SupportInterface
 
       if work_history.any?
         timeline_in_months = month_range(
-            start_date: get_start_of_working_life(application_form),
-            end_date: submitted_at(application_form) - 1.month,
+          start_date: get_start_of_working_life(application_form),
+          end_date: submitted_at(application_form) - 1.month,
         )
         break_months_in_timeline = remove_months(timeline: timeline_in_months, entries: work_history, application_form: application_form)
         remaining_months = remove_months(timeline: break_months_in_timeline, entries: existing_breaks, application_form: application_form)
