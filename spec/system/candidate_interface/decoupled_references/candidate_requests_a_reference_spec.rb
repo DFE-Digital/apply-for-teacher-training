@@ -41,6 +41,18 @@ RSpec.feature 'Candidate requests a reference' do
     and_i_confirm_that_i_am_ready_to_send_a_reference_request
     then_i_am_told_a_reference_has_already_been_sent
 
+    when_i_manually_try_and_edit_my_references_type
+    then_i_am_redirected_to_the_review_page
+
+    when_i_manually_try_and_edit_my_references_name
+    then_i_am_redirected_to_the_review_page
+
+    when_i_manually_try_and_edit_my_references_email_address
+    then_i_am_redirected_to_the_review_page
+
+    when_i_manually_try_and_edit_my_references_relationship
+    then_i_am_redirected_to_the_review_page
+
     when_i_have_added_an_incomplete_reference
     and_i_visit_the_all_references_review_page
     then_i_should_not_see_a_send_reference_link
@@ -150,6 +162,26 @@ RSpec.feature 'Candidate requests a reference' do
     expect(page).to have_content "Reference request already sent to #{@reference.name}"
     reference_requests = all_emails.select { |e| e.to.shift == @reference.email_address }
     expect(reference_requests.count).to eq 1
+  end
+
+  def when_i_manually_try_and_edit_my_references_type
+    visit candidate_interface_decoupled_references_edit_type_path(@reference.id)
+  end
+
+  def then_i_am_redirected_to_the_review_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_review_path
+  end
+
+  def when_i_manually_try_and_edit_my_references_name
+    visit candidate_interface_decoupled_references_edit_name_path(@reference.id)
+  end
+
+  def when_i_manually_try_and_edit_my_references_email_address
+    visit candidate_interface_decoupled_references_edit_email_address_path(@reference.id)
+  end
+
+  def when_i_manually_try_and_edit_my_references_relationship
+    visit candidate_interface_decoupled_references_edit_relationship_path(@reference.id)
   end
 
   def when_i_have_added_an_incomplete_reference
