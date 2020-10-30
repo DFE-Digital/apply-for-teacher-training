@@ -54,6 +54,7 @@ module UCASMatching
 
     def relevant_applications
       ApplicationForm
+        .current_cycle
         .includes(
           :candidate,
         )

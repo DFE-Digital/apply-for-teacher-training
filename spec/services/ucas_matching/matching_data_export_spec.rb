@@ -2,13 +2,14 @@ require 'rails_helper'
 
 RSpec.describe UCASMatching::MatchingDataExport do
   let(:unsubmitted_form) { create(:application_form) }
-  let(:submitted_form) { create(:completed_application_form, application_choices_count: 3) }
+  let(:previous_recruitment_cycle_form) { create(:completed_application_form, application_choices_count: 3, recruitment_cycle_year: RecruitmentCycle.previous_year) }
+  let(:submitted_current_recruitment_cycle_form) { create(:completed_application_form, application_choices_count: 3) }
 
   describe '#relevant_applications' do
     let(:result) { described_class.new.send(:relevant_applications) }
 
     it 'includes ApplicationForms which are submitted' do
-      expect(result).to include(submitted_form)
+      expect(result).to include(submitted_current_recruitment_cycle_form)
     end
 
     it 'does not include ApplicationForms which are unsubmitted' do
@@ -16,8 +17,12 @@ RSpec.describe UCASMatching::MatchingDataExport do
     end
 
     it 'does not include submitted ApplicationForms where the candidate has hide_in_reporting set' do
-      submitted_form.candidate.update(hide_in_reporting: true)
-      expect(result).not_to include(submitted_form)
+      submitted_current_recruitment_cycle_form.candidate.update(hide_in_reporting: true)
+      expect(result).not_to include(submitted_current_recruitment_cycle_form)
+    end
+
+    it 'does not include ApplicationForms from the previous recruitment cycle' do
+      expect(result).not_to include(previous_recruitment_cycle_form)
     end
   end
 
