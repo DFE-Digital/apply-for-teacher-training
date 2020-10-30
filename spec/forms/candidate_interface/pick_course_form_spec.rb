@@ -152,33 +152,4 @@ RSpec.describe CandidateInterface::PickCourseForm do
       expect(pick_course_form).not_to be_single_site
     end
   end
-
-  describe '#both_study_modes_available?' do
-    let(:provider) { create(:provider) }
-    let(:full_time_course) { create(:course, provider: provider) }
-    let(:part_time_course) do
-      create(:course, provider: provider, study_mode: :part_time)
-    end
-    let(:full_time_or_part_time_course) do
-      create(:course, provider: provider, study_mode: :full_time_or_part_time)
-    end
-
-    let(:form) { described_class.new(provider_id: provider.id) }
-
-    it 'returns false for a full time course' do
-      form.course_id = full_time_course.id
-      expect(form.both_study_modes_available?).to be false
-    end
-
-    it 'returns false for a part time course' do
-      form.course_id = part_time_course.id
-      expect(form.both_study_modes_available?).to be false
-    end
-
-    it 'returns true if both study modes are available' do
-      form.course_id = full_time_or_part_time_course.id
-
-      expect(form.both_study_modes_available?).to be true
-    end
-  end
 end

@@ -53,7 +53,7 @@ module CandidateInterface
       provider.courses.current_cycle
     end
 
-    delegate :both_study_modes_available?, to: :course
+    delegate :currently_has_both_study_modes_available?, to: :course
 
     delegate :study_mode, to: :course
 

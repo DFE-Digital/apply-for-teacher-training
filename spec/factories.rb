@@ -363,6 +363,7 @@ FactoryBot.define do
     site { association(:site, provider: course.provider) }
 
     vacancy_status { 'vacancies' }
+    site_still_valid { true }
 
     trait :full_time do
       study_mode { :full_time }

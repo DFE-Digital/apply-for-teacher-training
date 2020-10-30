@@ -8,17 +8,42 @@ RSpec.describe Course, type: :model do
     it { is_expected.to validate_uniqueness_of(:code).scoped_to(%i[recruitment_cycle_year provider_id]) }
   end
 
-  describe '#both_study_modes_available?' do
-    it 'is true when the study_mode value indicates both modes are available' do
-      course = build_stubbed(:course, study_mode: 'full_time_or_part_time')
-      expect(course.both_study_modes_available?).to be true
+  describe '#currently_has_both_study_modes_available?' do
+    it 'is true when a course has full time and part time course options' do
+      course_option1 = build_stubbed(:course_option, :full_time)
+      course_option2 = build_stubbed(:course_option, :part_time)
+      course = build_stubbed(:course, course_options: [course_option1, course_option2])
+
+      expect(course.currently_has_both_study_modes_available?).to be true
     end
 
-    it 'is false when the study_mode value is a specific mode' do
-      course = build_stubbed(:course, study_mode: 'full_time')
-      expect(course.both_study_modes_available?).to be false
-      course.study_mode = 'part_time'
-      expect(course.both_study_modes_available?).to be false
+    it 'is false when a course only has full time or part time course options' do
+      course_option1 = build_stubbed(:course_option, :full_time)
+      course_option2 = build_stubbed(:course_option, :part_time)
+      course1 = build_stubbed(:course, course_options: [course_option1])
+      course2 = build_stubbed(:course, course_options: [course_option2])
+
+      expect(course1.currently_has_both_study_modes_available?).to be false
+      expect(course2.currently_has_both_study_modes_available?).to be false
+    end
+  end
+
+  describe '#available_study_modes_from_options' do
+    it 'returns an array of unique study modes for a courses course options' do
+      course_option1 = build_stubbed(:course_option, :full_time)
+      course_option2 = build_stubbed(:course_option, :full_time)
+      course_option3 = build_stubbed(:course_option, :part_time)
+      course = build_stubbed(:course, course_options: [course_option1, course_option2, course_option3])
+
+      expect(course.available_study_modes_from_options).to eq [course_option1.study_mode, course_option3.study_mode]
+    end
+
+    it 'does not return course_options which have been invalidated by the SyncCoursesFromFind job' do
+      valid_course_option = build_stubbed(:course_option, :full_time)
+      invalid_course_option = build_stubbed(:course_option, :part_time, site_still_valid: false)
+      course = build_stubbed(:course, course_options: [valid_course_option, invalid_course_option])
+
+      expect(course.available_study_modes_from_options).to eq [valid_course_option.study_mode]
     end
   end
 

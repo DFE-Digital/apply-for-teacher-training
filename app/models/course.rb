@@ -86,16 +86,16 @@ class Course < ApplicationRecord
     "#{provider.name} - #{name_and_code}"
   end
 
-  def both_study_modes_available?
-    study_mode == 'full_time_or_part_time'
+  def currently_has_both_study_modes_available?
+    available_study_modes_from_options.count == 2
   end
 
   def supports_study_mode?(mode)
-    both_study_modes_available? || study_mode == mode
+    available_study_modes_from_options.include?(mode)
   end
 
   def available_study_modes_from_options
-    course_options.pluck(:study_mode).uniq
+    course_options.select(&:site_still_valid).pluck(:study_mode).uniq
   end
 
   def full?
