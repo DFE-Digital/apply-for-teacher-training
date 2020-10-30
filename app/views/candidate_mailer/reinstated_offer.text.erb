@@ -1,0 +1,19 @@
+Dear <%= @application_form.first_name %>,
+
+# You’re due to take up your deferred offer
+
+You have an offer from <%= @course_option.course.provider.name %> to study <%= @course_option.course.name_and_code %> in <%= @course_option.course.start_date.to_s(:month_and_year) %>. This was deferred from last year (<%= @application_choice.offer_deferred_at.to_s(:month_and_year) %>).
+
+<% if @conditions.any? %>
+  <%= render "candidate_mailer/offer_conditions" %>
+<% else %>
+  There are no conditions for this offer.
+<% end %>
+
+# Next steps
+
+You can see further details of the offer by signing in to your account:
+
+<%= candidate_magic_link(@application_choice.application_form.candidate) %>
+
+If you have any questions about the offer, contact us at becomingateacher@digital.education.gov.uk. You can contact us at the same address with any other questions or feedback.

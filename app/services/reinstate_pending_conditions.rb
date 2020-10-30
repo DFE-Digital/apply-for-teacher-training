@@ -24,6 +24,7 @@ class ReinstatePendingConditions
           recruited_at: nil,
         )
         StateChangeNotifier.call(:reinstate_offer_pending_conditions, application_choice: application_choice)
+        CandidateMailer.reinstated_offer(application_choice).deliver_later
       end
     end
   rescue Workflow::NoTransitionAllowed
