@@ -40,12 +40,6 @@
                 "description": "The hosting environment (qa, production, sandbox, etc)"
             }
         },
-        "dockerHubUsername": {
-            "type": "string",
-            "metadata": {
-                "description": "the username associated with the dockerhub account"
-            }
-        },
         "containerImageReference": {
             "type": "string",
             "metadata": {
@@ -403,6 +397,27 @@
             "metadata": {
                 "description": "Set this to 'true' to switch on Sandox-specific business logic"
             }
+        },
+        "dockerRegistryUrl": {
+            "type": "string",
+            "defaultValue": "https://index.docker.io",
+            "metadata": {
+                "description": "URL of the docker registry, eg: https://index.docker.io"
+            }
+        },
+        "dockerRegistryUsername": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Username to login to the docker registry"
+            }
+        },
+        "dockerRegistryPassword": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Password to login to the docker registry"
+            }
         }
     },
     "variables": {
@@ -574,6 +589,15 @@
                     },
                     "appServicePlanName": {
                         "value": "[variables('appServicePlanName')]"
+                    },
+                    "dockerRegistryUrl": {
+                        "value": "[parameters('dockerRegistryUrl')]"
+                    },
+                    "dockerRegistryUsername": {
+                        "value": "[parameters('dockerRegistryUsername')]"
+                    },
+                    "dockerRegistryPassword": {
+                        "value": "[parameters('dockerRegistryPassword')]"
                     },
                     "appEnvironmentVariables": {
                         "value": [
