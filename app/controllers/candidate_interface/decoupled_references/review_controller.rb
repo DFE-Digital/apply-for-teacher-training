@@ -35,19 +35,23 @@ module CandidateInterface
       end
 
       def confirm_destroy_referee
-        redirect_to candidate_interface_decoupled_references_review_path unless @reference.not_requested_yet?
+        redirect_to candidate_interface_decoupled_references_review_path and return if @reference.blank?
+        redirect_to candidate_interface_decoupled_references_review_path and return unless @reference.not_requested_yet?
       end
 
       def confirm_destroy_reference
-        redirect_to candidate_interface_decoupled_references_review_path unless @reference.feedback_provided?
+        redirect_to candidate_interface_decoupled_references_review_path and return if @reference.blank?
+        redirect_to candidate_interface_decoupled_references_review_path and return unless @reference.feedback_provided?
       end
 
       def confirm_destroy_reference_request
-        redirect_to candidate_interface_decoupled_references_review_path unless @reference.request_can_be_deleted?
+        redirect_to candidate_interface_decoupled_references_review_path and return if @reference.blank?
+        redirect_to candidate_interface_decoupled_references_review_path and return unless @reference.request_can_be_deleted?
       end
 
       def destroy
-        redirect_to candidate_interface_decoupled_references_review_path unless @reference.can_be_destroyed? || @reference.request_can_be_deleted?
+        redirect_to candidate_interface_decoupled_references_review_path and return if @reference.blank?
+        redirect_to candidate_interface_decoupled_references_review_path and return unless @reference.can_be_destroyed? || @reference.request_can_be_deleted?
 
         @reference.destroy!
         redirect_to candidate_interface_decoupled_references_review_path
