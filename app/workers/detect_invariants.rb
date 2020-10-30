@@ -10,7 +10,7 @@ class DetectInvariants
 
   def detect_application_choices_in_old_states
     choices_in_wrong_state = begin
-      ApplicationChoice.where(status: %w[awaiting_references application_complete])
+      ApplicationChoice.where(status: %w[awaiting_references application_complete]).map(&:id).sort
     end
 
     if choices_in_wrong_state.any?
@@ -18,7 +18,7 @@ class DetectInvariants
         One or more application choices are still in `awaiting_references` or
         `application_complete` state, but all these states have been removed:
 
-        #{choices_in_wrong_state.map(&:id).sort.join("\n")}
+        #{choices_in_wrong_state.join("\n")}
       MSG
 
       Raven.capture_exception(WeirdSituationDetected.new(message))
@@ -31,6 +31,7 @@ class DetectInvariants
       .where.not(application_choices: { status: 'unsubmitted' })
       .where(references: { feedback_status: :feedback_requested })
       .pluck(:application_form_id).uniq
+      .sort
 
     if applications_with_reference_weirdness.any?
       message = <<~MSG
@@ -49,12 +50,14 @@ class DetectInvariants
       .joins('INNER JOIN candidates ON candidates.id = application_forms.candidate_id')
       .where(audits: { user_type: 'Candidate' })
       .where('candidates.id != audits.user_id')
+      .pluck('application_forms.id').uniq
+      .sort
 
     if unauthorised_changes.any?
       message = <<~MSG
         The following application forms have had unauthorised edits:
 
-        #{unauthorised_changes.pluck('application_forms.id').uniq.join("\n")}
+        #{unauthorised_changes.join("\n")}
       MSG
 
       Raven.capture_exception(WeirdSituationDetected.new(message))
