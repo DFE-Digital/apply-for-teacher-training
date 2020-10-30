@@ -72,7 +72,7 @@ RSpec.feature 'Review references' do
     within '#references_given' do
       expect(page).to have_content @complete_reference.email_address
       expect(page).not_to have_link 'Change'
-      expect(page).to have_link 'Delete referee'
+      expect(page).to have_link 'Delete reference'
     end
 
     within '#references_waiting_to_be_sent' do

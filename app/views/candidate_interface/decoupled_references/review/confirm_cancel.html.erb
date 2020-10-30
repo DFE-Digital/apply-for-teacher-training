@@ -11,10 +11,10 @@
 
       <p class='govuk-body'>We’ll tell <%= @reference.name %> that they do not need to give a reference.</p>
 
-      <%= f.submit t('application_form.decoupled_references.sure_cancel_entry'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.submit t('application_form.references.cancel_request.confirm'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
 
       <p class="govuk-body">
-        <%= govuk_link_to 'No - I’ve changed my mind', candidate_interface_decoupled_references_review_path %>
+        <%= govuk_link_to t('application_form.references.cancel_request.cancel'), candidate_interface_decoupled_references_review_path %>
       </p>
     <% end %>
   </div>

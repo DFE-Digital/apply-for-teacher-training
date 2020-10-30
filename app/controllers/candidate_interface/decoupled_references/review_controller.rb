@@ -34,11 +34,15 @@ module CandidateInterface
         end
       end
 
-      def confirm_destroy
-        redirect_to candidate_interface_decoupled_references_review_path unless @reference.can_be_destroyed?
+      def confirm_destroy_referee
+        redirect_to candidate_interface_decoupled_references_review_path unless @reference.not_requested_yet?
       end
 
-      def confirm_delete_request
+      def confirm_destroy_reference
+        redirect_to candidate_interface_decoupled_references_review_path unless @reference.feedback_provided?
+      end
+
+      def confirm_destroy_reference_request
         redirect_to candidate_interface_decoupled_references_review_path unless @reference.request_can_be_deleted?
       end
 
