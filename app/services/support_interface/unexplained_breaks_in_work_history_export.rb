@@ -19,8 +19,13 @@ module SupportInterface
     end
 
     def data_for_export
-      data_for_export = Candidate.all.map do |candidate|
-        application_form = candidate.application_forms.order(:submitted_at).last
+      data_for_export = Candidate
+          .includes(:application_forms)
+          .all.map do |candidate|
+        application_form = candidate.application_forms
+          .select(:submitted_at, :date_of_birth, :candidate_id, :id)
+          .includes(:application_qualifications, :application_work_experiences, :application_work_history_breaks)
+          .order(:submitted_at).last
         next if application_form.nil?
 
         unexplained_breaks = get_unexplained_breaks(application_form)
