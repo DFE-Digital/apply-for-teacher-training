@@ -65,6 +65,20 @@ en:
     conditions_not_met: Conditions not met
     offer_deferred: Deferred
 
+  performance_dashboard_other_metrics:
+    apply_again_submitted:
+      name: Apply again submitted
+      description: The candidate has applied again and submitted an application.
+    apply_again_accepted_offer:
+      name: Apply again offers accepted
+      description: The candidate has applied again and accepted an offer.
+    percentage_of_providers_onboarded:
+      name: Providers onboarded
+      description: The percentage of providers that have one or more courses available on Apply.
+    rejected_by_default:
+      name: Rejected by default
+      description: The candidate had one or more application choices rejected by default because the provider took too long to respond.
+
   application_states:
     unsubmitted:
       name: Not submitted yet

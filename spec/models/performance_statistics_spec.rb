@@ -20,6 +20,20 @@ RSpec.describe PerformanceStatistics, type: :model do
       expect(count_for_process_state(:unsubmitted_not_started_form)).to be(1)
     end
 
+    it 'counts unsubmitted, unstarted applications from both phases' do
+      application_choice = create(:application_choice, status: 'unsubmitted')
+      form = application_choice.application_form
+      form.update_column(:updated_at, form.created_at)
+
+      apply_again_form = create(:application_form, phase: 'apply_2')
+      create(:application_choice, status: 'unsubmitted', application_form: apply_again_form)
+      apply_again_form.update_column(:updated_at, form.created_at)
+
+      expect(ProcessState.new(form).state).to be :unsubmitted_not_started_form
+
+      expect(count_for_process_state(:unsubmitted_not_started_form)).to be(2)
+    end
+
     it 'counts unsubmitted, unstarted applications without choices' do
       form = create(:application_form)
 
@@ -98,6 +112,23 @@ RSpec.describe PerformanceStatistics, type: :model do
       expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
       expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(2)
     end
+
+    it 'optionally filters by phase' do
+      apply_1_form = create(:application_form, phase: 'apply_1')
+      apply_2_form = create(:application_form, phase: 'apply_2')
+      create(:application_choice, status: 'recruited', application_form: apply_1_form)
+      create(:application_choice, status: 'recruited', application_form: apply_2_form)
+      create(:application_choice, status: 'pending_conditions')
+      create(:candidate)
+
+      stats = PerformanceStatistics.new(nil)
+
+      expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
+      expect(stats.total_candidate_count(only: %i[recruited], phase: :apply_1)).to eq(1)
+      expect(stats.total_candidate_count(only: %i[recruited], phase: :apply_2)).to eq(1)
+      expect(stats.total_candidate_count(phase: :apply_2)).to eq(1)
+      expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(3)
+    end
   end
 
   describe '#initialize' do
@@ -108,6 +139,46 @@ RSpec.describe PerformanceStatistics, type: :model do
       stats = PerformanceStatistics.new(2021)
 
       expect(stats.total_candidate_count).to eq(1)
+    end
+  end
+
+  describe '#percentage_of_providers_onboarded' do
+    it 'returns the percentage of providers onboarded to the nearest whole number' do
+      create(:provider)
+      synced_providers = create_list(:provider, 2, sync_courses: true)
+      create_list(:course, 3, provider: synced_providers.first, open_on_apply: true)
+
+      stats = PerformanceStatistics.new(2021)
+
+      expect(stats.percentage_of_providers_onboarded).to eq('33%')
+    end
+
+    it 'returns "-" when there are no providers' do
+      stats = PerformanceStatistics.new(2021)
+
+      expect(stats.percentage_of_providers_onboarded).to eq('-')
+    end
+  end
+
+  describe '#rejected_by_default_count' do
+    it 'returns the count of all rejected by default applications' do
+      create(:application_choice, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2020))
+      create_list(:application_choice, 2, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:application_choice, status: 'rejected', rejected_by_default: false, application_form: create(:application_form, recruitment_cycle_year: 2021))
+
+      stats = PerformanceStatistics.new(nil)
+
+      expect(stats.rejected_by_default_count).to eq(2)
+    end
+
+    it 'returns the count of all rejected by default applications filtered by recruitment cycle year' do
+      create(:application_choice, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2020))
+      create_list(:application_choice, 2, status: 'rejected', rejected_by_default: true, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:application_choice, status: 'rejected', rejected_by_default: false, application_form: create(:application_form, recruitment_cycle_year: 2021))
+
+      stats = PerformanceStatistics.new(2021)
+
+      expect(stats.rejected_by_default_count).to eq(1)
     end
   end
 

@@ -13,6 +13,7 @@ class PerformanceStatistics
           SELECT
               c.id,
               f.id,
+              f.phase,
               COUNT(f.id) FILTER (WHERE f.id IS NOT NULL) application_forms,
               COUNT(ch.id) FILTER (WHERE f.id IS NOT NULL) application_choices,
               CASE
@@ -37,15 +38,16 @@ class PerformanceStatistics
               NOT c.hide_in_reporting
               #{year_clause}
           GROUP BY
-              c.id, f.id
+              c.id, f.id, f.phase
       )
       SELECT
           raw_data.status[2],
+          raw_data.phase,
           COUNT(*)
       FROM
           raw_data
       GROUP BY
-          raw_data.status
+          raw_data.status, raw_data.phase
       ORDER BY
           raw_data.status[1]
     SQL
@@ -62,15 +64,19 @@ class PerformanceStatistics
   end
 
   def [](key)
-    candidate_status_counts.find { |x| x['status'] == key.to_s }&.[]('count')
+    candidate_status_counts
+      .select { |x| x['status'] == key.to_s }
+      .map { |row| row['count'] }
+      .sum
   end
 
-  def total_candidate_count(only: nil, except: [])
+  def total_candidate_count(only: nil, except: [], phase: nil)
     candidate_status_counts
-     .select { |row| only.nil? || row['status'].to_sym.in?(only) }
-     .reject { |row| row['status'].to_sym.in?(except) }
-     .map { |row| row['count'] }
-     .sum
+      .select { |row| only.nil? || row['status'].to_sym.in?(only) }
+      .select { |row| phase.nil? || row['phase']&.to_sym == phase.to_sym }
+      .reject { |row| row['status'].to_sym.in?(except) }
+      .map { |row| row['count'] }
+      .sum
   end
 
   def candidate_status_counts
@@ -80,8 +86,18 @@ class PerformanceStatistics
       .to_a
   end
 
+  def candidate_status_total_counts
+    candidate_status_counts.group_by { |row| row['status'] }.map do |status, rows|
+      { 'status' => status, 'count' => rows.map { |r| r['count'] }.sum }
+    end
+  end
+
   def total_submitted_count
     total_candidate_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress])
+  end
+
+  def apply_again_submitted_count
+    total_candidate_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress], phase: :apply_2)
   end
 
   def ended_without_success_count
@@ -90,5 +106,33 @@ class PerformanceStatistics
 
   def accepted_offer_count
     total_candidate_count(only: %i[pending_conditions recruited offer_deferred])
+  end
+
+  def apply_again_accepted_offer_count
+    total_candidate_count(only: %i[pending_conditions recruited offer_deferred], phase: :apply_2)
+  end
+
+  def rejected_by_default_count
+    @rejected_by_default_count ||= begin
+      scope = ApplicationForm
+        .joins(:application_choices)
+        .where('application_choices.status': 'rejected', 'application_choices.rejected_by_default': true)
+        .distinct
+      scope = scope.where('application_forms.recruitment_cycle_year': year) if year.present?
+      scope.count
+    end
+  end
+
+  def percentage_of_providers_onboarded
+    @percentage_of_providers_onboarded ||=
+      begin
+        total_count = Provider.count
+        if total_count.positive?
+          onboarded_count = Provider.joins(:courses).where('courses.open_on_apply': true).distinct.count
+          "#{((onboarded_count * 100).to_f / total_count).round}%"
+        else
+          '-'
+        end
+      end
   end
 end
