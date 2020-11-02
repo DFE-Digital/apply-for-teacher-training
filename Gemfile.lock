@@ -150,7 +150,7 @@ GEM
     formatador (0.2.5)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    govuk_design_system_formbuilder (2.0.0)
+    govuk_design_system_formbuilder (2.1.2)
       actionview (>= 5.2)
       activemodel (>= 5.2)
       activesupport (>= 5.2)
@@ -531,7 +531,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
-  govuk_design_system_formbuilder (~> 2.0.0)
+  govuk_design_system_formbuilder (~> 2.1.2)
   guard-rspec
   holidays
   http
