@@ -340,56 +340,56 @@ Rails.application.routes.draw do
       end
 
       scope '/references' do
-        get '/start' => 'decoupled_references/base#start', as: :decoupled_references_start
+        get '/start' => 'references/base#start', as: :references_start
 
-        get '/type' => 'decoupled_references/type#new', as: :decoupled_references_type
-        post '/type' => 'decoupled_references/type#create'
+        get '/type' => 'references/type#new', as: :references_type
+        post '/type' => 'references/type#create'
 
-        get '/type/edit/:id' => 'decoupled_references/type#edit', as: :decoupled_references_edit_type
-        patch '/type/edit/:id' => 'decoupled_references/type#update'
+        get '/type/edit/:id' => 'references/type#edit', as: :references_edit_type
+        patch '/type/edit/:id' => 'references/type#update'
 
-        get '/name/:id' => 'decoupled_references/name#new', as: :decoupled_references_name
-        patch '/name/:id' => 'decoupled_references/name#create'
+        get '/name/:id' => 'references/name#new', as: :references_name
+        patch '/name/:id' => 'references/name#create'
 
-        get '/name/edit/:id' => 'decoupled_references/name#edit', as: :decoupled_references_edit_name
-        patch '/name/edit/:id' => 'decoupled_references/name#update'
+        get '/name/edit/:id' => 'references/name#edit', as: :references_edit_name
+        patch '/name/edit/:id' => 'references/name#update'
 
-        get '/email/:id' => 'decoupled_references/email_address#new', as: :decoupled_references_email_address
-        patch '/email/:id' => 'decoupled_references/email_address#create'
+        get '/email/:id' => 'references/email_address#new', as: :references_email_address
+        patch '/email/:id' => 'references/email_address#create'
 
-        get '/email/edit/:id' => 'decoupled_references/email_address#edit', as: :decoupled_references_edit_email_address
-        patch '/email/edit/:id' => 'decoupled_references/email_address#update'
+        get '/email/edit/:id' => 'references/email_address#edit', as: :references_edit_email_address
+        patch '/email/edit/:id' => 'references/email_address#update'
 
-        get '/relationship/:id' => 'decoupled_references/relationship#new', as: :decoupled_references_relationship
-        patch '/relationship/:id' => 'decoupled_references/relationship#create'
+        get '/relationship/:id' => 'references/relationship#new', as: :references_relationship
+        patch '/relationship/:id' => 'references/relationship#create'
 
-        get '/relationship/edit/:id' => 'decoupled_references/relationship#edit', as: :decoupled_references_edit_relationship
-        patch '/relationship/edit/:id' => 'decoupled_references/relationship#update'
+        get '/relationship/edit/:id' => 'references/relationship#edit', as: :references_edit_relationship
+        patch '/relationship/edit/:id' => 'references/relationship#update'
 
-        get '/review-unsubmitted/:id' => 'decoupled_references/review#unsubmitted', as: :decoupled_references_review_unsubmitted
-        post '/review-unsubmitted/:id' => 'decoupled_references/review#submit', as: :decoupled_references_submit
+        get '/review-unsubmitted/:id' => 'references/review#unsubmitted', as: :references_review_unsubmitted
+        post '/review-unsubmitted/:id' => 'references/review#submit', as: :references_submit
 
-        get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
-        get '/review/destroy-referee/:id' => 'decoupled_references/review#confirm_destroy_referee', as: :destroy_decoupled_referee
-        get '/review/destroy-reference/:id' => 'decoupled_references/review#confirm_destroy_reference', as: :destroy_decoupled_reference
-        get '/review/destroy-reference-request/:id' => 'decoupled_references/review#confirm_destroy_reference_request', as: :delete_decoupled_reference_request
-        delete '/review/destroy-reference/:id' => 'decoupled_references/review#destroy'
+        get '/review' => 'references/review#show', as: :references_review
+        get '/review/destroy-referee/:id' => 'references/review#confirm_destroy_referee', as: :destroy_referee
+        get '/review/destroy-reference/:id' => 'references/review#confirm_destroy_reference', as: :destroy_reference
+        get '/review/destroy-reference-request/:id' => 'references/review#confirm_destroy_reference_request', as: :delete_reference_request
+        delete '/review/destroy-reference/:id' => 'references/review#destroy'
 
-        get 'review/cancel/:id' => 'decoupled_references/review#confirm_cancel', as: :confirm_cancel_decoupled_reference
-        patch 'review/cancel/:id' => 'decoupled_references/review#cancel', as: :cancel_decoupled_reference
+        get 'review/cancel/:id' => 'references/review#confirm_cancel', as: :confirm_cancel_reference
+        patch 'review/cancel/:id' => 'references/review#cancel', as: :cancel_reference
 
-        get '/request/:id/start' => 'decoupled_references/request#start', as: :decoupled_references_start_request
-        get '/request/:id' => 'decoupled_references/request#new', as: :decoupled_references_new_request
-        post '/request/:id' => 'decoupled_references/request#create', as: :decoupled_references_create_request
+        get '/request/:id/start' => 'references/request#start', as: :references_start_request
+        get '/request/:id' => 'references/request#new', as: :references_new_request
+        post '/request/:id' => 'references/request#create', as: :references_create_request
 
-        get '/retry_request/:id' => 'decoupled_references/retry_request#new', as: :decoupled_references_retry_request
-        post '/retry_request/:id' => 'decoupled_references/retry_request#create'
+        get '/retry_request/:id' => 'references/retry_request#new', as: :references_retry_request
+        post '/retry_request/:id' => 'references/retry_request#create'
 
-        get '/reminder/:id' => 'decoupled_references/reminder#new', as: :decoupled_references_new_reminder
-        post '/reminder/:id' => 'decoupled_references/reminder#create'
+        get '/reminder/:id' => 'references/reminder#new', as: :references_new_reminder
+        post '/reminder/:id' => 'references/reminder#create'
 
-        get '/candidate_name/:id' => 'decoupled_references/candidate_name#new', as: :decoupled_references_new_candidate_name
-        post '/candidate_name/:id' => 'decoupled_references/candidate_name#create', as: :decoupled_references_create_candidate_name
+        get '/candidate_name/:id' => 'references/candidate_name#new', as: :references_new_candidate_name
+        post '/candidate_name/:id' => 'references/candidate_name#create', as: :references_create_candidate_name
       end
 
       scope '/equality-and-diversity' do

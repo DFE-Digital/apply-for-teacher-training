@@ -1,5 +1,4 @@
 require 'rails_helper'
-# TODO: Remove file with Decoupled references FeatureFlag as part of deprecation
 
 RSpec.describe CancelReferee do
   describe '#call' do

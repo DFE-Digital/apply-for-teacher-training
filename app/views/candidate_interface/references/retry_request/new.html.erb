@@ -1,0 +1,21 @@
+<% content_for :title, t('page_titles.retry_reference_request') %>
+<% content_for :before_content, govuk_back_link_to %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">
+      <%= @reference.name %>
+    </span>
+    <h1 class="govuk-heading-xl"><%= t('page_titles.retry_reference_request') %></h1>
+
+    <%= form_with model: @reference_email_address_form, url: candidate_interface_references_retry_request_path(@reference.id) do |f| %>
+      <%= f.govuk_error_summary %>
+      <%= f.govuk_text_field(
+        :email_address,
+        label: { text: 'Referee’s email address', size: 'm' },
+        hint: { text: 'In most cases, this should be a work address.' },
+      ) %>
+      <%= f.govuk_submit 'Send reference request' %>
+    <% end %>
+  </div>
+</div>

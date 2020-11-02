@@ -127,11 +127,11 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def and_i_try_to_manually_destroy_the_reference
-    visit candidate_interface_destroy_decoupled_reference_path(@new_reference.id)
+    visit candidate_interface_destroy_reference_path(@new_reference.id)
   end
 
   def then_i_see_the_review_page
-    visit candidate_interface_decoupled_references_review_path
+    visit candidate_interface_references_review_path
   end
 
   def and_my_reference_has_not_been_destroyed

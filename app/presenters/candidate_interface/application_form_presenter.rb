@@ -129,9 +129,9 @@ module CandidateInterface
 
     def references_path
       if @application_form.application_references.present?
-        Rails.application.routes.url_helpers.candidate_interface_decoupled_references_review_path
+        Rails.application.routes.url_helpers.candidate_interface_references_review_path
       else
-        Rails.application.routes.url_helpers.candidate_interface_decoupled_references_start_path
+        Rails.application.routes.url_helpers.candidate_interface_references_start_path
       end
     end
 

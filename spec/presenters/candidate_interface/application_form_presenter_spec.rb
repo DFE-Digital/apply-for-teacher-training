@@ -684,7 +684,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
       it 'is the references start page' do
         presenter = described_class.new(application_form)
-        expect(presenter.references_path).to eq Rails.application.routes.url_helpers.candidate_interface_decoupled_references_start_path
+        expect(presenter.references_path).to eq Rails.application.routes.url_helpers.candidate_interface_references_start_path
       end
     end
 
@@ -695,7 +695,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
       it 'is the references review page' do
         presenter = described_class.new(application_form)
-        expect(presenter.references_path).to eq Rails.application.routes.url_helpers.candidate_interface_decoupled_references_review_path
+        expect(presenter.references_path).to eq Rails.application.routes.url_helpers.candidate_interface_references_review_path
       end
     end
   end

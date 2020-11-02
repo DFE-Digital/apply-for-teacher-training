@@ -1,0 +1,27 @@
+<% content_for :title, t('page_titles.references_reminder') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_references_review_path, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @reference, url: candidate_interface_references_new_reminder_path(@reference), method: :post do |f| %>
+      <span class="govuk-caption-xl"> <%= @reference.name %> </span>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.references_reminder') %>
+      </h1>
+
+      <div class="govuk-inset-text govuk-!-margin-top-0">
+        You can only send one reminder to this referee.
+      </div>
+
+      <p class="govuk-body">
+        The referee will also get an automatic reminder on <%= @reference.next_automated_chase_at.strftime('%-d %B %Y') %>.
+      </p>
+
+      <%= f.govuk_submit 'Yes I’m sure - send a reminder'  %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'No - I’ve changed my mind', candidate_interface_references_review_path %>
+      </p>
+    <% end %>
+  </div>
+</div>
