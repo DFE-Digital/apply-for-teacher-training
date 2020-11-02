@@ -1,0 +1,18 @@
+<% content_for :title, t('page_titles.references_delete') %>
+<% content_for :before_content, govuk_back_link_to %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @reference, url: candidate_interface_destroy_reference_path(@reference), method: :delete do |f| %>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.references_delete') %>
+      </h1>
+
+      <%= f.submit t('application_form.references.delete_reference.confirm') , class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to t('application_form.references.delete_reference.cancel'), candidate_interface_references_review_path %>
+      </p>
+    <% end %>
+  </div>
+</div>

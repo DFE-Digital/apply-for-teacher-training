@@ -306,7 +306,7 @@ module CandidateHelper
   end
 
   def candidate_provides_two_referees
-    visit candidate_interface_decoupled_references_start_path
+    visit candidate_interface_references_start_path
     click_link 'Continue'
     choose 'Academic'
     click_button 'Save and continue'

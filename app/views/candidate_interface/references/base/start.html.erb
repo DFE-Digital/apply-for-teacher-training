@@ -1,0 +1,22 @@
+<% content_for :title, t('page_titles.references_start') %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.references_start') %>
+    </h1>
+
+    <p class="govuk-body">Referees should not be family members, partners or friends.</p>
+
+    <p class="govuk-body">Choose at least one academic referee if you graduated in the last 5 years or you do not have a grade for your degree yet.</p>
+
+    <p class="govuk-body">Training providers will only accept a character reference if there’s also an academic or professional reference.</p>
+
+    <p class="govuk-body">Contact your referees in advance to check they can submit a reference quickly online.</p>
+
+    <p class="govuk-body">You can add as many referees as you like to increase the chances of getting 2 references quickly.</p>
+
+    <%= govuk_link_to 'Continue', candidate_interface_references_type_path, class: 'govuk-button' %>
+  </div>
+</div>

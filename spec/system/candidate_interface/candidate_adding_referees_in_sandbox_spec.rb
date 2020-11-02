@@ -21,7 +21,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
   end
 
   def when_i_provide_two_references
-    visit candidate_interface_decoupled_references_start_path
+    visit candidate_interface_references_start_path
     click_link 'Continue'
     choose 'Academic'
     click_button 'Save and continue'

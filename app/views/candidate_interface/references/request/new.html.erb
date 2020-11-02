@@ -1,0 +1,17 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-xl">
+      <%= @reference.name %>
+    </span>
+    <h1 class="govuk-heading-xl">Are you ready to send a reference request?</h1>
+
+    <p class="govuk-body">We’ll send <%= @reference.name %> an email asking them to give you a reference.</p>
+    <%= form_with model: @request_form, url: candidate_interface_references_create_request_path(@reference.id) do |f| %>
+      <%= f.govuk_text_field :request_now, label: { hidden: true }, hidden: true %>
+      <%= f.govuk_submit t('application_form.references.send_request.confirm') %>
+      <p class="govuk-body">
+        <%= govuk_link_to t('application_form.references.send_request.cancel'), candidate_interface_references_review_path, class: 'govuk-body' %>
+      </p>
+    <% end %>
+  </div>
+</div>
