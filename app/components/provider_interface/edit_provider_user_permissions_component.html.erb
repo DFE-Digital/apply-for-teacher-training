@@ -6,42 +6,49 @@
               ) do |f| %>
   <%= f.govuk_error_summary %>
   <%= f.hidden_field :provider_id %>
-  <%= f.govuk_check_boxes_fieldset(:permissions,
-          legend: { text: "Change permissions: #{permissions_form.provider.name}", size: "xl" },
-          caption: { text: permissions_form.provider_user.full_name, size: "xl" }) do %>
+  <%= f.govuk_radio_buttons_fieldset :view_applications_only,
+          legend: { text: "Change permissions: #{permissions_form.provider.name}", size: "l" },
+          caption: { text: permissions_form.provider_user.full_name, size: "l" } do %>
+    <%= f.govuk_radio_button :view_applications_only, 'true',
+            label: { text: 'View applications only' },
+            hint: { text: 'The user will be able to view all sections of the application, except sensitive candidate content' },
+            link_errors: true %>
+    <%= f.govuk_radio_button :view_applications_only, 'false',
+            label: { text: 'Extra permissions' },
+            hint: { text: 'For example, being able to make offers and access sensitive content' } do %>
 
-    <span class="govuk-hint">
-      The user will still be able to view all applications made to courses at this organisation.
-    </span>
+      <%= f.govuk_check_boxes_fieldset :permissions, legend: { size: 'm', text: 'Select permissions' } do %>
 
-    <%= f.govuk_check_box :manage_organisations, true, multiple: false,
-                          label: { text: 'Manage organisations' },
-                          hint: { text: 'Change permissions between organisations' } %>
+        <%= f.govuk_check_box :manage_organisations, true, multiple: false,
+                              label: { text: 'Manage organisational permissions' },
+                              hint: { text: 'Change permissions between organisations' } %>
 
-    <%= f.govuk_check_box :manage_users, true, multiple: false,
-                          label: { text: 'Manage users' },
-                          hint: { text: 'Invite or delete users and set their permissions' } %>
+        <%= f.govuk_check_box :manage_users, true, multiple: false,
+                              label: { text: 'Manage users' },
+                              hint: { text: 'Invite or delete users and set their permissions' } %>
 
-    <%= f.govuk_check_box :make_decisions, true, multiple: false,
-                          label: { text: 'Make decisions' },
-                          hint: { text: 'Make offers, amend offers and reject applications' } %>
-    <div class="govuk-body govuk-!-margin-left-6">
-      <%= render AssociatedProvidersPermissionsListComponent.new(provider: permissions_form.provider, permission_name: 'make_decisions') %>
-    </div>
+        <%= f.govuk_check_box :make_decisions, true, multiple: false,
+                              label: { text: 'Make decisions' },
+                              hint: { text: 'Make offers, amend offers and reject applications' } %>
+        <div class="govuk-body govuk-!-margin-left-6">
+          <%= render AssociatedProvidersPermissionsListComponent.new(provider: permissions_form.provider, permission_name: 'make_decisions') %>
+        </div>
 
-    <%= f.govuk_check_box :view_safeguarding_information, true, multiple: false,
-                          label: { text: 'Access safeguarding information' },
-                          hint: { text: 'View sensitive material about the candidate' } %>
-    <div class="govuk-body govuk-!-margin-left-6">
-      <%= render AssociatedProvidersPermissionsListComponent.new(provider: permissions_form.provider, permission_name: 'view_safeguarding_information') %>
-    </div>
+        <%= f.govuk_check_box :view_safeguarding_information, true, multiple: false,
+                              label: { text: 'Access safeguarding information' },
+                              hint: { text: 'View sensitive material about the candidate' } %>
+        <div class="govuk-body govuk-!-margin-left-6">
+          <%= render AssociatedProvidersPermissionsListComponent.new(provider: permissions_form.provider, permission_name: 'view_safeguarding_information') %>
+        </div>
 
-    <%= f.govuk_check_box :view_diversity_information, true, multiple: false,
-                          label: { text: 'Access diversity information' },
-                          hint: { text: 'View diversity information about the candidate' } %>
-    <div class="govuk-body govuk-!-margin-left-6">
-      <%= render AssociatedProvidersPermissionsListComponent.new(provider: permissions_form.provider, permission_name: 'view_diversity_information') %>
-    </div>
+        <%= f.govuk_check_box :view_diversity_information, true, multiple: false,
+                              label: { text: 'Access diversity information' },
+                              hint: { text: 'View diversity information about the candidate' } %>
+        <div class="govuk-body govuk-!-margin-left-6">
+          <%= render AssociatedProvidersPermissionsListComponent.new(provider: permissions_form.provider, permission_name: 'view_diversity_information') %>
+        </div>
+      <% end %>
+    <% end %>
   <% end %>
 
   <%= f.govuk_submit 'Save' %>

@@ -84,6 +84,7 @@ RSpec.describe 'Removing a provider user' do
     check @provider.name
     click_on 'Continue'
 
+    choose 'Extra permissions'
     check 'Make decisions'
     click_on 'Continue'
 

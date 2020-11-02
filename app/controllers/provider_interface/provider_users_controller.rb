@@ -80,7 +80,7 @@ module ProviderInterface
 
     def provider_update_permissions_params
       params.require(:provider_interface_provider_user_permissions_form)
-            .permit(*ProviderPermissions::VALID_PERMISSIONS)
+            .permit(*ProviderPermissions::VALID_PERMISSIONS, :view_applications_only)
     end
 
     def require_manage_users_permission!

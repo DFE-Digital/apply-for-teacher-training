@@ -11,7 +11,13 @@
 
       <%= render ProviderInterface::ProviderUserInvitationDetailsComponent.new(wizard: @wizard) %>
 
-      <p class="govuk-body">We’ll send the user an email guiding them through DfE Sign-In and giving them access to their account.</p>
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive"></span>
+          We'll email the user to help them set up their account.
+        </strong>
+      </div>
 
       <%= f.govuk_submit 'Invite user' %>
     <% end %>

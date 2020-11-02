@@ -3,7 +3,7 @@ module ProviderInterface
     include ActiveModel::Model
     STATE_STORE_KEY = :provider_user_invitation_wizard
 
-    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :checking_answers, :single_provider
+    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :checking_answers, :single_provider, :view_applications_only
     attr_reader :email_address
     attr_writer :providers, :provider_permissions, :state_store
 
@@ -14,9 +14,8 @@ module ProviderInterface
       validates :last_name, presence: true
     end
 
-    with_options(on: :providers) do
-      validates :providers, presence: true
-    end
+    validates :providers, presence: true, on: :providers
+    validates :view_applications_only, presence: { message: 'Choose whether this user has extra permissions' }, on: :permissions
 
     class PermissionsForm
       include ActiveModel::Model
@@ -28,6 +27,8 @@ module ProviderInterface
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
+
+      delete_permissions_if_view_applications_only(attrs)
 
       super(last_saved_state.deep_merge(attrs))
 
@@ -122,6 +123,12 @@ module ProviderInterface
     end
 
   private
+
+    def delete_permissions_if_view_applications_only(attrs)
+      attrs.fetch(:provider_permissions, {}).each_key do |k|
+        attrs[:provider_permissions][k].delete(:permissions) if attrs[:view_applications_only] == 'true'
+      end
+    end
 
     def state
       as_json(except: %w[state_store errors validation_context current_step current_provider_id]).to_json

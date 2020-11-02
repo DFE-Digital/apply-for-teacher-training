@@ -41,6 +41,22 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsForm do
       expect(form.view_safeguarding_information).to be_truthy
       expect(form.make_decisions).to be_falsy
     end
+
+    it 'disables form object permissions when form is passed view_applications_only param' do
+      form = described_class.new(
+        manage_organisations: true,
+        manage_users: true,
+        view_safeguarding_information: false,
+        make_decisions: true,
+      )
+
+      form.update_from_params view_safeguarding_information: true, manage_users: false, view_applications_only: true
+
+      expect(form.manage_organisations).to be_falsy
+      expect(form.manage_users).to be_falsy
+      expect(form.view_safeguarding_information).to be_falsy
+      expect(form.make_decisions).to be_falsy
+    end
   end
 
   describe '#save' do

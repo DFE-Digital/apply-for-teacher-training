@@ -102,7 +102,7 @@ RSpec.feature 'Managing provider users' do
 
   def and_i_check_permission_to_manage_organisations
     within(permissions_checkboxes_for_provider(@provider)) do
-      check 'Manage organisations'
+      check 'Manage organisational permissions'
     end
   end
 
@@ -197,7 +197,7 @@ RSpec.feature 'Managing provider users' do
 
   def and_they_should_be_able_to_manage_organisations
     within(permissions_summary_for_provider(@provider)) do
-      expect(page).to have_content('Manage organisations')
+      expect(page).to have_content('Manage organisational permissions')
     end
   end
 
@@ -231,7 +231,7 @@ RSpec.feature 'Managing provider users' do
 
   def and_i_remove_manage_organisations_permissions
     within(permissions_checkboxes_for_provider(@provider)) do
-      uncheck 'Manage organisations'
+      uncheck 'Manage organisational permissions'
     end
   end
 
@@ -251,7 +251,7 @@ RSpec.feature 'Managing provider users' do
 
   def and_they_should_not_be_able_to_manage_organisations
     within(permissions_summary_for_provider(@provider)) do
-      expect(page).not_to have_content('Manage organisations')
+      expect(page).not_to have_content('Manage organisational permissions')
     end
   end
 

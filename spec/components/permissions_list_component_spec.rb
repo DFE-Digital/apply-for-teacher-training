@@ -15,7 +15,7 @@ RSpec.describe PermissionsListComponent do
     permission_model = create(:provider_permissions, manage_organisations: true)
     result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: false))
 
-    expect(result.css('li').text).to include('Manage organisations')
+    expect(result.css('li').text).to include('Manage organisational permissions')
     expect(result.css('li').text).not_to include('The user can only view applications')
   end
 
@@ -25,7 +25,7 @@ RSpec.describe PermissionsListComponent do
       result = render_inline(described_class.new(permission_model, user_is_viewing_their_own_permissions: false))
 
       expect(result.css('li').text).to include('The user can only view applications')
-      expect(result.css('li').text).not_to include('Manage organisations')
+      expect(result.css('li').text).not_to include('Manage organisational permissions')
       expect(result.css('li').text).not_to include('Make manage users')
       expect(result.css('li').text).not_to include('Make decistions')
       expect(result.css('li').text).not_to include('View safeguarding information')
