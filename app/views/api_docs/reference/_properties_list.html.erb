@@ -29,9 +29,7 @@
         <% end %>
 
         <% if property.attributes.description %>
-          <div class="app-styled-content govuk-!-margin-top-4">
-            <%= markdown_to_html property.attributes.description %>
-          </div>
+          <%= markdown_to_html property.attributes.description %>
         <% end %>
 
         <% if property.example %>

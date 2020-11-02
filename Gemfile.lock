@@ -154,6 +154,9 @@ GEM
       actionview (>= 5.2)
       activemodel (>= 5.2)
       activesupport (>= 5.2)
+    govuk_markdown (0.3.0)
+      activesupport
+      redcarpet
     guard (2.16.2)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -531,6 +534,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
+  govuk_markdown
   govuk_design_system_formbuilder (~> 2.1.2)
   guard-rspec
   holidays
@@ -558,7 +562,6 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 6.0)
   rails-erd
-  redcarpet
   request_store-sidekiq
   request_store_rails
   rouge
