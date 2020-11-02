@@ -68,10 +68,10 @@ en:
   performance_dashboard_other_metrics:
     apply_again_submitted:
       name: Apply again submitted
-      description: The candidate has submitted an Apply Again application.
+      description: The candidate has applied again and submitted an application.
     apply_again_accepted_offer:
       name: Apply again offers accepted
-      description: The candidate has accepted an offer for an Apply Again application.
+      description: The candidate has applied again and accepted an offer.
     percentage_of_providers_onboarded:
       name: Providers onboarded
       description: The percentage of providers that have one or more courses available on Apply.
