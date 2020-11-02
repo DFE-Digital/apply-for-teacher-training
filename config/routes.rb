@@ -129,6 +129,16 @@ Rails.application.routes.draw do
         post '/complete' => 'contact_details/review#complete', as: :contact_details_complete
       end
 
+      scope '/gcse' do
+        get '/maths/grade' => 'gcse/maths/grade#edit', as: :gcse_maths_edit_grade
+        get '/science/grade' => 'gcse/science/grade#edit', as: :gcse_science_edit_grade
+        get '/english/grade' => 'gcse/english/grade#edit', as: :gcse_english_edit_grade
+
+        patch '/maths/grade' => 'gcse/maths/grade#update'
+        patch '/english/grade' => 'gcse/english/grade#update'
+        patch '/science/grade' => 'gcse/science/grade#update'
+      end
+
       scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do
         get '/' => 'gcse/type#edit', as: :gcse_details_edit_type
         post '/' => 'gcse/type#update', as: :gcse_details_update_type
@@ -138,9 +148,6 @@ Rails.application.routes.draw do
 
         get '/naric-reference' => 'gcse/naric_reference#edit', as: :gcse_details_edit_naric_reference
         post '/naric-reference' => 'gcse/naric_reference#update', as: :gcse_details_update_naric_reference
-
-        get '/grade' => 'gcse/grade#edit', as: :gcse_details_edit_grade
-        patch '/grade' => 'gcse/grade#update', as: :gcse_details_update_grade
 
         get '/year' => 'gcse/year#edit', as: :gcse_details_edit_year
         patch '/year' => 'gcse/year#update', as: :gcse_details_update_year

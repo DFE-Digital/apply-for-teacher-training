@@ -60,7 +60,7 @@ module CandidateInterface
         key: 'Grade',
         value: application_qualification.grade || t('gcse_summary.not_specified'),
         action: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
-        change_path: candidate_interface_gcse_details_edit_grade_path(subject: subject),
+        change_path: grade_edit_path,
       }
     end
 
@@ -126,6 +126,17 @@ module CandidateInterface
         action: t('application_form.gcse.comparable_uk_qualification.change_action'),
         change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
       }
+    end
+
+    def grade_edit_path
+      case subject
+      when 'maths'
+        candidate_interface_gcse_maths_edit_grade_path
+      when 'science'
+        candidate_interface_gcse_science_edit_grade_path
+      when 'english'
+        candidate_interface_gcse_english_edit_grade_path
+      end
     end
   end
 end
