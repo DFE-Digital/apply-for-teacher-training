@@ -77,6 +77,12 @@ RSpec.feature 'References' do
     then_i_see_the_review_references_page
     and_i_should_see_my_reference
 
+    when_i_try_to_edit_someone_elses_reference
+    then_i_see_the_review_references_page
+
+    when_i_try_and_edit_a_reference_that_does_not_exist
+    then_i_see_the_review_references_page
+
     when_i_visit_the_unsubmitted_reference_page
     and_i_choose_to_submit_my_reference_now
     and_i_click_save_and_continue
@@ -281,6 +287,15 @@ RSpec.feature 'References' do
 
   def and_i_should_see_my_reference
     expect(page).to have_content 'Character reference from Jessie Pinkman'
+  end
+
+  def when_i_try_to_edit_someone_elses_reference
+    non_associated_reference = create(:reference, :not_requested_yet)
+    visit candidate_interface_references_edit_name_path(non_associated_reference.id)
+  end
+
+  def when_i_try_and_edit_a_reference_that_does_not_exist
+    visit candidate_interface_references_edit_name_path('INVALID')
   end
 
   def when_i_visit_the_unsubmitted_reference_page

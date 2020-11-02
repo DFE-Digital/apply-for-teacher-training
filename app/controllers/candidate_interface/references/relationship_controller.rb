@@ -1,7 +1,7 @@
 module CandidateInterface
   module References
     class RelationshipController < BaseController
-      before_action :set_reference, :redirect_to_review_page_unless_reference_is_not_requested_yet
+      before_action :set_reference, :redirect_to_review_page_unless_reference_is_editable
 
       def new
         @references_relationship_form = Reference::RefereeRelationshipForm.new

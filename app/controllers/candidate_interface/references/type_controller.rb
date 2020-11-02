@@ -2,7 +2,7 @@ module CandidateInterface
   module References
     class TypeController < BaseController
       before_action :set_reference, only: %i[edit update]
-      before_action :redirect_to_review_page_unless_reference_is_not_requested_yet, only: %i[edit update]
+      before_action :redirect_to_review_page_unless_reference_is_editable, only: %i[edit update]
 
       def new
         @reference_type_form = Reference::RefereeTypeForm.new
