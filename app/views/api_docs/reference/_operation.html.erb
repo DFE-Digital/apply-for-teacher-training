@@ -4,9 +4,7 @@
   <%= operation.summary %>
 </div>
 
-<div class="app-styled-content">
-  <%= markdown_to_html operation.description %>
-</div>
+<%= markdown_to_html operation.description %>
 
 <% if operation.parameters.any? %>
   <h4 class="govuk-heading-s">Parameters</h4>
@@ -51,9 +49,7 @@
 <% unless operation.request_body.nil? %>
   <h4 class="govuk-heading-s">Request body</h4>
 
-  <div class="app-styled-content">
-    <%= markdown_to_html operation.request_body.description %>
-  </div>
+  <%= markdown_to_html operation.request_body.description %>
 
   <%= render 'properties_list', properties: operation.request_body.schema.properties %>
 
