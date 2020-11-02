@@ -785,6 +785,12 @@ FactoryBot.define do
         user.provider_permissions.update_all(view_safeguarding_information: true)
       end
     end
+
+    trait :with_view_diversity_information do
+      after(:create) do |user, _evaluator|
+        user.provider_permissions.update_all(view_diversity_information: true)
+      end
+    end
   end
 
   factory :provider_permissions do

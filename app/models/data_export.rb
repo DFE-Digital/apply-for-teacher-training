@@ -40,6 +40,11 @@ class DataExport < ApplicationRecord
       description: 'The list of provider users that have signed in to apply at least once.',
       class: SupportInterface::ActiveProviderUsersExport,
     },
+    active_provider_user_permissions: {
+      name: 'Active provider user permissions',
+      description: 'The list of provider users with the permissions they have for each of their organisations.',
+      class: SupportInterface::ActiveProviderUserPermissionsExport,
+    },
     course_choice_withdrawal: {
       name: 'Candidate course choice withdrawal survey',
       description: 'A list of candidates explanations for withdrawing a course choice. Also includes contact details for candidates who have agreed to be contacted.',
