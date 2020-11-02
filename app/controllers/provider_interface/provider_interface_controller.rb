@@ -19,9 +19,7 @@ module ProviderInterface
 
     layout 'application'
 
-    rescue_from MissingProvider, with: lambda { |e|
-      Raven.capture_exception(e)
-
+    rescue_from MissingProvider, with: lambda {
       render template: 'provider_interface/email_address_not_recognised', status: :forbidden
     }
 
