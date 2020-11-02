@@ -15,7 +15,7 @@ module CandidateInterface
     end
 
     def edit
-      @qualification_type = OtherQualificationTypeForm.build_from_qualification(ApplicationQualification.find(params[:id]))
+      @qualification_type = OtherQualificationTypeForm.build_from_qualification(current_qualification)
     end
 
     def update
