@@ -383,44 +383,31 @@ en:
           professional: 'For example, ‘He was my line manager in my last job. I’ve known him for 2 years’.'
           school_based: 'For example, ‘She’s the deputy head at the school where I currently volunteer. I’ve known her for 3 years’.'
           character: 'For example, ‘She’s the head coach for my athletics club. I’ve known her for 5 years’.'
+      delete_referee:
+        action: Delete referee
+        confirm: Yes I’m sure - delete this referee
+        cancel: No, I’ve changed my mind
+      delete_reference:
+        action: Delete reference
+        confirm: Yes I’m sure - delete this reference
+        cancel: No, I’ve changed my mind
       delete_request:
-        confirm_delete: Yes I’m sure - delete this reference request
-        do_not_delete: No, I’ve changed my mind
-    decoupled_references:
-      sure_cancel_entry: Yes I’m sure - cancel this reference request
-      cancel: Cancel request
-    referees:
-      add_referee: Add referee
-      add_second_referee: Add another referee
-      add_another_later: I’ll add another referee later
-      add_referees_later: I’ll add referees later
-      complete_form_button: Save and continue
-      delete: Delete referee
-      delete_request: Delete request
-      cancel: Cancel referee
-      cancel_request: Cancel request
-      send_request: Send request
-      resend_request: Send request again
-      email_address:
-        label: Email address
-        hint_text:
-          - In most cases, this should be a work address. We will not contact your referees until you submit your application.
-          - In most cases, this should be a work address.
-      name:
-        label: Full name
-      relationship:
-        label: What is your relationship to this referee and how long have you known them?
-        hint_text:
-          academic: For example, ‘He was my course supervisor at university. I’ve known him for a year’. Your referee will get a copy of the information you give and confirm whether it’s accurate.
-          professional: For example, ‘He was my line manager in my last job. I’ve known him for 2 years’. Your referee will get a copy of the information you give and confirm whether it’s accurate.
-          school_based: For example, ‘She’s the deputy head at the school where I currently volunteer. I’ve known her for 3 years’. Your referee will get a copy of the information you give and confirm whether it’s accurate.
-          character: For example, ‘She’s the head coach for my athletics club. I’ve known her for 5 years’. Your referee will get a copy of the information you give and confirm whether its accurate.
-      review:
-        button: Continue
-      sure_delete_entry: Yes I’m sure - delete this referee
-      sure_cancel_entry: Yes I’m sure - cancel this reference request
-      chase: Chase this referee and notify the candidate
-      confirm_chase: Are you sure you want to send emails to chase the referee?
+        action: Delete request
+        confirm: Yes I’m sure - delete this reference request
+        cancel: No, I’ve changed my mind
+      send_request:
+        action: Send request
+        confirm: Yes I’m sure - send my reference request
+        cancel: No, I’ve changed my mind
+      resend_request:
+        action: Send request again
+      retry_request:
+        action: Retry request
+      cancel_request:
+        action: Cancel request
+        confirm: Yes I’m sure - cancel this reference request
+        cancel: No, I’ve changed my mind
+      confirm_cancel: Yes I’m sure - cancel this reference request
       info:
         before_submission: You need to add 2 referees.
         declined: "%{referee_name} said they will not give a reference."
@@ -434,15 +421,6 @@ en:
         not_requested_yet: We’ll contact your referees after you submit your application.
         awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
         awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
-      info_without_decoupled_references:
-        before_submission: You need to add 2 referees.
-        not_requested_yet:  We’ll contact your referees after you submit your application.
-        declined: Your referee chose not to give a reference.
-        awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
-        awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
-        cancelled: You cancelled your reference request.
-        cancelled_at_end_of_cycle: The referee did not respond before courses closed.
-        feedback_overdue: Your referee has not responded yet. Keep chasing the referee or cancel the request in favour of another referee.
   activemodel:
     errors:
       models:

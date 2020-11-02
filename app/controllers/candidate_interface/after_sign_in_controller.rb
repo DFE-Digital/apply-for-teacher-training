@@ -26,7 +26,11 @@ module CandidateInterface
       return false unless course_from_find.nil?
 
       if current_application.blank_application?
-        redirect_to candidate_interface_before_you_start_path
+        if HostingEnvironment.sandbox_mode?
+          redirect_to candidate_interface_prefill_path
+        else
+          redirect_to candidate_interface_before_you_start_path
+        end
       elsif current_application.submitted?
         redirect_to candidate_interface_application_complete_path
       else

@@ -33,3 +33,6 @@ OkComputer::Registry.register 'sidekiq_mailers_queue', OkComputer::SidekiqLatenc
 OkComputer::Registry.register 'sidekiq_retries_count', SidekiqRetriesCheck.new
 OkComputer::Registry.register 'simulated_failure', SimulatedFailureCheck.new
 OkComputer::Registry.register 'find_sync', FindSyncCheck.new
+OkComputer::Registry.register 'version', OkComputer::AppVersionCheck.new
+
+OkComputer.make_optional %w[version]

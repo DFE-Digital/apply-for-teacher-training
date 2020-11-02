@@ -95,9 +95,6 @@ RSpec.describe ViewHelper, type: :helper do
         ApplicationDates,
         submitted_at: Time.zone.local(2019, 10, 22, 12, 0, 0),
         reject_by_default_at: Time.zone.local(2019, 12, 17, 12, 0, 0),
-        edit_by: Time.zone.local(2019, 10, 29, 12, 0, 0),
-        days_remaining_to_edit: 7,
-        form_open_to_editing?: true,
       )
       allow(ApplicationDates).to receive(:new).and_return(@application_dates)
     end
@@ -111,19 +108,6 @@ RSpec.describe ViewHelper, type: :helper do
     describe '#respond_by_date' do
       it 'renders with correct respond by date' do
         expect(helper.respond_by_date).to include('17 December 2019')
-      end
-    end
-
-    describe '#edit_by_date' do
-      it 'renders with correct edit by date' do
-        expect(helper.edit_by_date).to include('29 October 2019')
-      end
-    end
-
-    describe '#formatted_days_remaining' do
-      it 'renders with correct days remaining 2 days after submission' do
-        allow(@application_dates).to receive(:days_remaining_to_edit).and_return(5)
-        expect(helper.formatted_days_remaining).to include('5 days')
       end
     end
   end

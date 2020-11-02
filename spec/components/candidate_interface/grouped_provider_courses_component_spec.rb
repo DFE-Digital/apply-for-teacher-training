@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GroupedProviderCoursesComponent do
+RSpec.describe CandidateInterface::GroupedProviderCoursesComponent do
   let(:course) { create(:course) }
 
   before do

@@ -166,6 +166,71 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
+  describe '.reinstated_offer' do
+    before do
+      @application_form = build_stubbed(:application_form, first_name: 'Ron')
+      provider = build_stubbed(:provider, name: 'Hogwarts')
+      @offered_course_option = build_stubbed(
+        :course_option,
+        course: build_stubbed(:course, name: 'Potions', code: 'PT5', provider: provider, start_date: Date.new(2020, 9, 15)),
+        site: build_stubbed(:site, name: 'The Dungeons', provider: provider),
+      )
+    end
+
+    describe 'without pending conditions' do
+      before do
+        @application_choice = build_stubbed(
+          :application_choice,
+          :with_recruited,
+          offered_course_option: @offered_course_option,
+          application_form: @application_form,
+          decline_by_default_at: 10.business_days.from_now,
+          offer_deferred_at: Time.zone.local(2019, 10, 14),
+        )
+
+        magic_link_stubbing(@application_form.candidate)
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        :reinstated_offer,
+        'You’re due to take up your deferred offer',
+        'heading' => 'Dear Ron',
+        'provider name' => 'You have an offer from Hogwarts',
+        'name and code for course' => 'Potions (PT5)',
+        'start date of new course' => 'September 2020',
+        'date offer was deferred' => 'This was deferred from last year (October 2019)',
+      )
+    end
+
+    describe 'with pending conditions' do
+      before do
+        @application_choice = build_stubbed(
+          :application_choice,
+          :with_accepted_offer,
+          offered_course_option: @offered_course_option,
+          application_form: @application_form,
+          decline_by_default_at: 10.business_days.from_now,
+          offer_deferred_at: Time.zone.local(2019, 10, 14),
+        )
+
+        magic_link_stubbing(@application_form.candidate)
+      end
+
+      it_behaves_like(
+        'a mail with subject and content',
+        :reinstated_offer,
+        'You’re due to take up your deferred offer',
+        'heading' => 'Dear Ron',
+        'provider name' => 'You have an offer from Hogwarts',
+        'name and code for course' => 'Potions (PT5)',
+        'start date of new course' => 'September 2020',
+        'date offer was deferred' => 'This was deferred from last year (October 2019)',
+        'conditions of offer' => 'Be cool',
+      )
+    end
+  end
+
   describe '.changed_offer' do
     before do
       application_form = build_stubbed(:application_form, first_name: 'Tingker Bell')

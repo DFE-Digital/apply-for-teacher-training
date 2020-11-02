@@ -1,7 +1,7 @@
 module CandidateInterface
   module DecoupledReferences
     class NameController < BaseController
-      before_action :set_reference
+      before_action :set_reference, :redirect_to_review_page_unless_reference_is_not_requested_yet
 
       def new
         @reference_name_form = Reference::RefereeNameForm.new

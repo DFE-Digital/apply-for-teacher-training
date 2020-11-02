@@ -13,7 +13,7 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent.new(section: :volunteering, section_path: candidate_interface_volunteering_experience_path, error: @missing_error)) %>
+  <%= render(CandidateInterface::SectionMissingBannerComponent.new(section: :volunteering, section_path: candidate_interface_volunteering_experience_path, error: @missing_error)) %>
 <% elsif @application_form.application_volunteering_experiences.empty? %>
   <section class="app-summary-card govuk-!-margin-bottom-6">
     <%= render(SummaryCardHeaderComponent.new(title: t('application_form.volunteering.no_experience.summary_card_title'))) %>

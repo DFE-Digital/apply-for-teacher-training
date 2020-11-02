@@ -32,12 +32,25 @@ module CandidateInterface
     end
 
     def can_resend?(reference)
-      (reference.cancelled? || reference.cancelled_at_end_of_cycle? || reference.email_bounced?) &&
+      (reference.cancelled? || reference.cancelled_at_end_of_cycle?) &&
         !reference.application_form.enough_references_have_been_provided? &&
         CandidateInterface::Reference::SubmitRefereeForm.new(
           submit: 'yes',
           reference_id: reference.id,
         ).valid?
+    end
+
+    def can_retry?(reference)
+      reference.email_bounced? &&
+        !reference.application_form.enough_references_have_been_provided? &&
+        CandidateInterface::Reference::SubmitRefereeForm.new(
+          submit: 'yes',
+          reference_id: reference.id,
+        ).valid?
+    end
+
+    def ignore_editable_for
+      %w[History]
     end
 
   private
@@ -104,7 +117,7 @@ module CandidateInterface
 
       row_attributes = {
         key: 'History',
-        value: render(ReferenceHistoryComponent.new(reference)),
+        value: render(CandidateInterface::ReferenceHistoryComponent.new(reference)),
       }
 
       if reference.can_send_reminder?
@@ -137,17 +150,17 @@ module CandidateInterface
     def feedback_status_content(reference)
       text =
         if reference.feedback_refused?
-          t('application_form.referees.info.declined', referee_name: reference.name)
+          t('application_form.references.info.declined', referee_name: reference.name)
         elsif reference.cancelled_at_end_of_cycle?
-          t('application_form.referees.info.cancelled_at_end_of_cycle')
+          t('application_form.references.info.cancelled_at_end_of_cycle')
         elsif reference.cancelled?
-          t('application_form.referees.info.cancelled')
+          t('application_form.references.info.cancelled')
         elsif reference.feedback_overdue?
-          t('application_form.referees.info.feedback_overdue')
+          t('application_form.references.info.feedback_overdue')
         elsif reference.feedback_requested?
-          t('application_form.referees.info.feedback_requested')
+          t('application_form.references.info.feedback_requested')
         elsif reference.email_bounced?
-          t('application_form.referees.info.email_bounced')
+          t('application_form.references.info.email_bounced')
         end
 
       return '' if text.blank?

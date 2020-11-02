@@ -22,6 +22,13 @@ class UCASMatchedApplication
     end
   end
 
+  def valid_matching_data?
+    # UCAS matches can't be invalid
+    return true if ucas_scheme?
+
+    application_choice.present?
+  end
+
   def scheme
     @matching_data['Scheme']
   end
@@ -39,13 +46,12 @@ class UCASMatchedApplication
   end
 
   def status
-    if ucas_scheme?
+    if !valid_matching_data?
+      'invalid_data'
+    elsif ucas_scheme?
       mapped_ucas_status
     else
-      ApplicationChoice.includes(:application_form)
-        .where('application_forms.candidate_id = ?', @matching_data['Apply candidate ID']).references(:application_forms)
-        .find_by(course_option: course.course_options)
-        .status
+      application_choice.status
     end
   end
 
@@ -92,6 +98,14 @@ class UCASMatchedApplication
   end
 
 private
+
+  def application_choice
+    @application_choice ||= begin
+      ApplicationChoice.includes(:application_form)
+        .where('application_forms.candidate_id = ?', @matching_data['Apply candidate ID']).references(:application_forms)
+        .find_by(course_option: course.course_options)
+    end
+  end
 
   def provider_not_on_apply?
     Provider.find_by(code: @matching_data['Provider code']).nil?

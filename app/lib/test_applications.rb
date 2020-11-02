@@ -14,9 +14,7 @@ class TestApplications
     end
   end
 
-  def create_application(recruitment_cycle_year:, states:, courses_to_apply_to:, apply_again: false, course_full: false)
-    candidate = nil
-
+  def create_application(recruitment_cycle_year:, states:, courses_to_apply_to:, apply_again: false, course_full: false, candidate: nil)
     min_days_in_the_past = recruitment_cycle_year == 2020 ? 375 : 10
     travel_to rand(min_days_in_the_past..(min_days_in_the_past + 20)).days.ago
 
@@ -25,7 +23,7 @@ class TestApplications
 
       create_application(recruitment_cycle_year: recruitment_cycle_year, states: [:rejected], courses_to_apply_to: courses_to_apply_to)
 
-      candidate = Candidate.last
+      candidate = candidate.presence || Candidate.last
       first_name = candidate.current_application.first_name
       last_name = candidate.current_application.last_name
     else
@@ -33,7 +31,7 @@ class TestApplications
 
       first_name = Faker::Name.first_name
       last_name = Faker::Name.last_name
-      candidate = FactoryBot.create(
+      candidate = candidate.presence || FactoryBot.create(
         :candidate,
         email_address: "#{first_name.downcase}.#{last_name.downcase}@example.com",
         created_at: time,
@@ -78,7 +76,6 @@ class TestApplications
         last_name: last_name,
         created_at: time,
         updated_at: time,
-        edit_by: time,
         recruitment_cycle_year: recruitment_cycle_year,
         phase: apply_again ? 'apply_2' : 'apply_1',
       )
@@ -131,7 +128,7 @@ class TestApplications
           choice.audits.last&.update_columns(created_at: time)
         end
 
-        @application_form.update_columns(submitted_at: time, edit_by: time + 7.days, updated_at: time)
+        @application_form.update_columns(submitted_at: time, updated_at: time)
 
         @application_form.application_references.each { |reference| submit_reference!(reference) }
 
@@ -163,7 +160,6 @@ class TestApplications
   end
 
   def put_application_choice_in_state(choice, state)
-    travel_to(choice.application_form.edit_by) if choice.application_form.edit_by > time
     choice.update_columns(updated_at: time)
     choice.audits.last&.update_columns(created_at: time)
 

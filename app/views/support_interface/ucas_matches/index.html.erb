@@ -14,7 +14,10 @@
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
           <%= render TagComponent.new(text: match.matching_state.humanize, type: match.processed? ? :green : :purple) %>
-          <% if match.action_needed?  %>
+
+          <% if match.invalid_matching_data? %>
+            <%= render TagComponent.new(text: "Invalid data", type: :red) %>
+          <% elsif match.action_needed? %>
             <%= render TagComponent.new(text: "Action needed", type: :yellow) %>
           <% end %>
         </td>

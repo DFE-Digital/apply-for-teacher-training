@@ -10,6 +10,6 @@
     <p class="govuk-body">Otherwise, apply through <%= govuk_link_to 'UCAS Teacher Training', UCAS.apply_url %>.</p>
     <p class="govuk-body">Do not apply for the same courses on both services.<p>
     <p class="govuk-body">You can apply for up to 3 courses in total.<p>
-    <%= render GroupedProviderCoursesComponent.new(courses_by_provider_and_region: @courses_by_provider_and_region) %>
+    <%= render CandidateInterface::GroupedProviderCoursesComponent.new(courses_by_provider_and_region: @courses_by_provider_and_region) %>
   </div>
 </div>

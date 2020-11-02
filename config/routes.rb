@@ -54,6 +54,8 @@ Rails.application.routes.draw do
       get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
 
       get '/' => 'unsubmitted_application_form#show', as: :application_form
+      get '/prefill', to: 'prefill_application_form#new'
+      post '/prefill', to: 'prefill_application_form#create'
       get '/review' => 'unsubmitted_application_form#review', as: :application_review
       get '/before-you-start', to: 'unsubmitted_application_form#before_you_start'
       get '/submit' => 'unsubmitted_application_form#submit_show', as: :application_submit_show
@@ -361,9 +363,10 @@ Rails.application.routes.draw do
         post '/review-unsubmitted/:id' => 'decoupled_references/review#submit', as: :decoupled_references_submit
 
         get '/review' => 'decoupled_references/review#show', as: :decoupled_references_review
-        get '/review/destroy/:id' => 'decoupled_references/review#confirm_destroy', as: :destroy_decoupled_reference
-        get '/review/delete/:id' => 'decoupled_references/review#confirm_delete_request', as: :delete_decoupled_reference_request
-        delete '/review/destroy/:id' => 'decoupled_references/review#destroy'
+        get '/review/destroy-referee/:id' => 'decoupled_references/review#confirm_destroy_referee', as: :destroy_decoupled_referee
+        get '/review/destroy-reference/:id' => 'decoupled_references/review#confirm_destroy_reference', as: :destroy_decoupled_reference
+        get '/review/destroy-reference-request/:id' => 'decoupled_references/review#confirm_destroy_reference_request', as: :delete_decoupled_reference_request
+        delete '/review/destroy-reference/:id' => 'decoupled_references/review#destroy'
 
         get 'review/cancel/:id' => 'decoupled_references/review#confirm_cancel', as: :confirm_cancel_decoupled_reference
         patch 'review/cancel/:id' => 'decoupled_references/review#cancel', as: :cancel_decoupled_reference
@@ -371,6 +374,9 @@ Rails.application.routes.draw do
         get '/request/:id/start' => 'decoupled_references/request#start', as: :decoupled_references_start_request
         get '/request/:id' => 'decoupled_references/request#new', as: :decoupled_references_new_request
         post '/request/:id' => 'decoupled_references/request#create', as: :decoupled_references_create_request
+
+        get '/retry_request/:id' => 'decoupled_references/retry_request#new', as: :decoupled_references_retry_request
+        post '/retry_request/:id' => 'decoupled_references/retry_request#create'
 
         get '/reminder/:id' => 'decoupled_references/reminder#new', as: :decoupled_references_new_reminder
         post '/reminder/:id' => 'decoupled_references/reminder#create'
@@ -793,6 +799,7 @@ Rails.application.routes.draw do
   end
 
   get '/check', to: 'healthcheck#show'
+  get '/check/version', to: 'healthcheck#version'
 
   scope via: :all do
     match '/404', to: 'errors#not_found'

@@ -95,13 +95,51 @@
             "metadata": {
                  "description": "Array of name/value objects for each environment variable required by the application"
             }
+        },
+        "dockerRegistryUrl": {
+            "type": "string",
+            "defaultValue": "https://index.docker.io",
+            "metadata": {
+                "description": "URL of the docker registry, eg: https://index.docker.io"
+            }
+        },
+        "dockerRegistryUsername": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Username to login to the docker registry"
+            }
+        },
+        "dockerRegistryPassword": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Password to login to the docker registry"
+            }
         }
     },
     "variables": {
+        "usePrivateDockerRegistry": "[not(and(empty(parameters('dockerRegistryUsername')), empty(parameters('dockerRegistryPassword'))))]",
+        "dockerRegistrySettings":[
+            {
+                "name": "DOCKER_REGISTRY_SERVER_URL",
+                "value": "[parameters('dockerRegistryUrl')]"
+            },
+            {
+                "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+                "value": "[parameters('dockerRegistryUsername')]"
+            },
+            {
+                "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+                "value": "[parameters('dockerRegistryPassword')]"
+            }
+        ],
         "appServiceRuntimeStack": "[concat('DOCKER|', parameters('containerImageReference'))]",
         "environmentVariablesWeb": "[concat(parameters('appEnvironmentVariables'), array(json('{\"name\": \"SERVICE_TYPE\", \"value\": \"web\"}')))]",
         "environmentVariablesClk": "[concat(parameters('appEnvironmentVariables'), array(json('{\"name\": \"SERVICE_TYPE\", \"value\": \"clock\"}')))]",
-        "environmentVariablesWkr": "[concat(parameters('appEnvironmentVariables'), array(json('{\"name\": \"SERVICE_TYPE\", \"value\": \"worker\"}')))]"
+        "environmentVariablesWkr": "[concat(parameters('appEnvironmentVariables'), array(json('{\"name\": \"SERVICE_TYPE\", \"value\": \"worker\"}')))]",
+        "appServiceAppSettings": "[if(variables('usePrivateDockerRegistry'), concat(variables('environmentVariablesWeb'), variables('dockerRegistrySettings')), variables('environmentVariablesWeb'))]",
+        "dockerRegistryUrlForContainerInstance": "[if(equals(parameters('dockerRegistryUrl'), 'https://index.docker.io'), 'docker.io', parameters('dockerRegistryUrl'))]"
     },
     "resources": [
         {
@@ -134,7 +172,7 @@
                         "value": "[variables('appServiceRuntimeStack')]"
                     },
                     "appServiceAppSettings": {
-                        "value": "[json(replace(string(variables('environmentVariablesWeb')), 'secureValue', 'value'))]"
+                        "value": "[json(replace(string(variables('appServiceAppSettings')), 'secureValue', 'value'))]"
                     }
                 }
             }
@@ -173,6 +211,15 @@
                     },
                     "environmentVariables": {
                         "value": "[variables('environmentVariablesWkr')]"
+                    },
+                    "dockerRegistryUrl": {
+                        "value": "[variables('dockerRegistryUrlForContainerInstance')]"
+                    },
+                    "dockerRegistryUsername": {
+                        "value": "[parameters('dockerRegistryUsername')]"
+                    },
+                    "dockerRegistryPassword": {
+                        "value": "[parameters('dockerRegistryPassword')]"
                     }
                 }
             }
@@ -211,6 +258,15 @@
                     },
                     "environmentVariables": {
                         "value": "[variables('environmentVariablesClk')]"
+                    },
+                    "dockerRegistryUrl": {
+                        "value": "[variables('dockerRegistryUrlForContainerInstance')]"
+                    },
+                    "dockerRegistryUsername": {
+                        "value": "[parameters('dockerRegistryUsername')]"
+                    },
+                    "dockerRegistryPassword": {
+                        "value": "[parameters('dockerRegistryPassword')]"
                     }
                 }
             }

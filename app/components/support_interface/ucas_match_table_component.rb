@@ -14,15 +14,16 @@ module SupportInterface
           course_details: course_details(course),
         }
 
-        matched_applications_for_course(course).each do |application|
-          status = application.status
-          if application.ucas_scheme?
+        matched_applications_for_course(course).each do |ucas_matched_application|
+          status = ucas_matched_application.status
+
+          if ucas_matched_application.ucas_scheme?
             row_data.merge!(status_on_ucas: status, status_on_apply: 'N/A')
-          elsif application.dfe_scheme?
+          elsif ucas_matched_application.dfe_scheme?
             row_data.merge!(status_on_ucas: 'N/A', status_on_apply: status)
           else
             row_data.merge!(
-              status_on_ucas: application.mapped_ucas_status,
+              status_on_ucas: ucas_matched_application.mapped_ucas_status,
               status_on_apply: status,
             )
           end
@@ -39,9 +40,7 @@ module SupportInterface
     end
 
     def ucas_matched_applications
-      @match.matching_data.map do |data|
-        UCASMatchedApplication.new(data, @match.recruitment_cycle_year)
-      end
+      @match.ucas_matched_applications
     end
 
     def matched_applications_for_course(course)

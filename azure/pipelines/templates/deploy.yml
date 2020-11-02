@@ -196,7 +196,8 @@ jobs:
                 -subscriptionPrefix ${{parameters.subscriptionPrefix}}
                 -resourceEnvironmentName "${{parameters.resourceEnvironmentName}}"
                 -serviceName "${{parameters.serviceName}}"
-                -dockerHubUsername "${{parameters.dockerHubUsername}}"
+                -dockerRegistryUsername "$(dockerRegistryUsername)"
+                -dockerRegistryPassword "$(dockerRegistryPassword)"
                 -containerImageReference "${{parameters.containerImageReference}}"
                 -railsEnv "${{parameters.railsEnv}}"
                 -customDomains $(customDomains)

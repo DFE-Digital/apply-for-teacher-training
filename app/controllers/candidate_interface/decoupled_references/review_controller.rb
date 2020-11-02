@@ -24,9 +24,9 @@ module CandidateInterface
             redirect_to candidate_interface_decoupled_references_new_candidate_name_path(@reference.id)
           elsif @submit_reference_form.send_request?
             CandidateInterface::DecoupledReferences::RequestReference.new.call(@reference, flash)
-            redirect_to candidate_interface_decoupled_references_review_path
+            redirect_to_review_page
           else
-            redirect_to candidate_interface_decoupled_references_review_path
+            redirect_to_review_page
           end
         else
           track_validation_error(@submit_reference_form)
@@ -34,26 +34,38 @@ module CandidateInterface
         end
       end
 
-      def confirm_destroy
-        redirect_to candidate_interface_decoupled_references_review_path unless @reference.can_be_destroyed?
+      def confirm_destroy_referee
+        unless @reference.present? && @reference.not_requested_yet?
+          redirect_to_review_page
+        end
       end
 
-      def confirm_delete_request
-        redirect_to candidate_interface_decoupled_references_review_path unless @reference.request_can_be_deleted?
+      def confirm_destroy_reference
+        unless @reference.present? && @reference.feedback_provided?
+          redirect_to_review_page
+        end
+      end
+
+      def confirm_destroy_reference_request
+        unless @reference.present? && @reference.request_can_be_deleted?
+          redirect_to_review_page
+        end
       end
 
       def destroy
-        redirect_to candidate_interface_decoupled_references_review_path unless @reference.can_be_destroyed? || @reference.request_can_be_deleted?
+        unless @reference.present? && (@reference.can_be_destroyed? || @reference.request_can_be_deleted?)
+          redirect_to_review_page
+        end
 
         @reference.destroy!
-        redirect_to candidate_interface_decoupled_references_review_path
+        redirect_to_review_page
       end
 
       def confirm_cancel
         if @reference.feedback_requested?
           @application_form = current_application
         else
-          redirect_to candidate_interface_decoupled_references_review_path
+          redirect_to_review_page
         end
       end
 
@@ -61,10 +73,10 @@ module CandidateInterface
         if @reference.feedback_requested?
           CancelReference.call(@reference)
 
-          redirect_to candidate_interface_decoupled_references_review_path
+          redirect_to_review_page
           flash[:success] = "Reference request cancelled for #{@reference.name}"
         else
-          redirect_to candidate_interface_decoupled_references_review_path
+          redirect_to_review_page
         end
       end
 
@@ -72,6 +84,10 @@ module CandidateInterface
 
       def submit_param
         params.dig(:candidate_interface_reference_submit_referee_form, :submit)
+      end
+
+      def redirect_to_review_page
+        redirect_to candidate_interface_decoupled_references_review_path
       end
     end
   end

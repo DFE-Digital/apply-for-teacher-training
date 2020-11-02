@@ -1,4 +1,4 @@
-class PhaseBanner < ViewComponent::Base
+class PhaseBannerComponent < ViewComponent::Base
   DEFAULT_FEEDBACK_LINK = 'mailto:becomingateacher@digital.education.gov.uk?subject=Feedback%20about%20Apply%20for%20teacher%20training'.freeze
 
   def initialize(no_border: false, feedback_link: nil)

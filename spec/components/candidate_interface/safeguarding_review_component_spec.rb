@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SafeguardingReviewComponent do
+RSpec.describe CandidateInterface::SafeguardingReviewComponent do
   context 'when safeguarding issues has a value of "Yes"' do
     it 'displays "Yes" for sharing safeguarding issues and "Not entered" for relevant information' do
       application_form = build_stubbed(
@@ -9,7 +9,7 @@ RSpec.describe SafeguardingReviewComponent do
         safeguarding_issues_status: :has_safeguarding_issues_to_declare,
       )
 
-      result = render_inline(SafeguardingReviewComponent.new(application_form: application_form))
+      result = render_inline(CandidateInterface::SafeguardingReviewComponent.new(application_form: application_form))
 
       expect(result.text).to include('Do you want to share any safeguarding issues?')
       expect(result.text).to include('Yes')
@@ -26,7 +26,7 @@ RSpec.describe SafeguardingReviewComponent do
         safeguarding_issues_status: :no_safeguarding_issues_to_declare,
       )
 
-      result = render_inline(SafeguardingReviewComponent.new(application_form: application_form))
+      result = render_inline(CandidateInterface::SafeguardingReviewComponent.new(application_form: application_form))
 
       expect(result.text).to include('Do you want to share any safeguarding issues?')
       expect(result.text).to include('No')
@@ -42,7 +42,7 @@ RSpec.describe SafeguardingReviewComponent do
         safeguarding_issues_status: :has_safeguarding_issues_to_declare,
       )
 
-      result = render_inline(SafeguardingReviewComponent.new(application_form: application_form))
+      result = render_inline(CandidateInterface::SafeguardingReviewComponent.new(application_form: application_form))
 
       expect(result.text).to include('Do you want to share any safeguarding issues?')
       expect(result.text).to include('Yes')
@@ -59,7 +59,7 @@ RSpec.describe SafeguardingReviewComponent do
         safeguarding_issues_status: :has_safeguarding_issues_to_declare,
       )
 
-      result = render_inline(SafeguardingReviewComponent.new(application_form: application_form, editable: true))
+      result = render_inline(CandidateInterface::SafeguardingReviewComponent.new(application_form: application_form, editable: true))
 
       expect(result.text).to include('Change if you want to share any safeguarding issues')
       expect(result.text).to include('Change relevant information for safeguarding issues')
@@ -74,7 +74,7 @@ RSpec.describe SafeguardingReviewComponent do
         safeguarding_issues_status: :has_safeguarding_issues_to_declare,
       )
 
-      result = render_inline(SafeguardingReviewComponent.new(application_form: application_form, editable: false))
+      result = render_inline(CandidateInterface::SafeguardingReviewComponent.new(application_form: application_form, editable: false))
 
       expect(result.text).not_to include('Change if you want to share any safeguarding issues')
       expect(result.text).not_to include('Change relevant information for safeguarding issues')

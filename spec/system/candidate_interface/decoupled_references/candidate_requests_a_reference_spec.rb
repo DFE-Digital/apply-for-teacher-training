@@ -41,6 +41,18 @@ RSpec.feature 'Candidate requests a reference' do
     and_i_confirm_that_i_am_ready_to_send_a_reference_request
     then_i_am_told_a_reference_has_already_been_sent
 
+    when_i_manually_try_and_edit_my_references_type
+    then_i_am_redirected_to_the_review_page
+
+    when_i_manually_try_and_edit_my_references_name
+    then_i_am_redirected_to_the_review_page
+
+    when_i_manually_try_and_edit_my_references_email_address
+    then_i_am_redirected_to_the_review_page
+
+    when_i_manually_try_and_edit_my_references_relationship
+    then_i_am_redirected_to_the_review_page
+
     when_i_have_added_an_incomplete_reference
     and_i_visit_the_all_references_review_page
     then_i_should_not_see_a_send_reference_link
@@ -53,6 +65,21 @@ RSpec.feature 'Candidate requests a reference' do
     and_i_confirm_that_i_am_ready_to_send_a_reference_request
     then_i_see_a_confirmation_message
     and_the_reference_is_moved_to_the_requested_state
+    and_an_email_is_sent_to_the_referee
+
+    when_i_have_a_failed_reference
+    and_i_visit_the_all_references_review_page
+    then_i_see_the_references_review_page
+
+    when_i_click_the_retry_request_link
+    and_i_continue_with_a_blank_email_address
+    then_i_see_email_address_validation_errors
+
+    when_i_change_the_email_address
+    and_i_confirm_that_i_am_ready_to_retry_a_reference_request
+    then_i_see_a_confirmation_message
+    and_the_reference_is_moved_to_the_requested_state
+    and_the_reference_email_address_has_been_updated
     and_an_email_is_sent_to_the_referee
   end
 
@@ -152,6 +179,26 @@ RSpec.feature 'Candidate requests a reference' do
     expect(reference_requests.count).to eq 1
   end
 
+  def when_i_manually_try_and_edit_my_references_type
+    visit candidate_interface_decoupled_references_edit_type_path(@reference.id)
+  end
+
+  def then_i_am_redirected_to_the_review_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_review_path
+  end
+
+  def when_i_manually_try_and_edit_my_references_name
+    visit candidate_interface_decoupled_references_edit_name_path(@reference.id)
+  end
+
+  def when_i_manually_try_and_edit_my_references_email_address
+    visit candidate_interface_decoupled_references_edit_email_address_path(@reference.id)
+  end
+
+  def when_i_manually_try_and_edit_my_references_relationship
+    visit candidate_interface_decoupled_references_edit_relationship_path(@reference.id)
+  end
+
   def when_i_have_added_an_incomplete_reference
     @reference = create(:reference, :not_requested_yet, name: nil, application_form: @application_form)
   end
@@ -176,7 +223,40 @@ RSpec.feature 'Candidate requests a reference' do
     @reference = create(:reference, :cancelled, application_form: @application_form)
   end
 
+  def when_i_have_a_failed_reference
+    @reference = create(:reference, :email_bounced, application_form: @application_form, email_address: 'kevin@example.com')
+  end
+
   def and_i_click_the_resend_reference_link
     click_link 'Send request again'
+  end
+
+  def then_i_see_the_references_review_page
+    expect(page).to have_current_path candidate_interface_decoupled_references_review_path
+  end
+
+  def when_i_click_the_retry_request_link
+    click_link 'Retry request'
+  end
+
+  def and_i_continue_with_a_blank_email_address
+    fill_in 'Referee’s email address', with: ''
+    click_button 'Send reference request'
+  end
+
+  def then_i_see_email_address_validation_errors
+    expect(page).to have_content('Enter your referee’s email address')
+  end
+
+  def when_i_change_the_email_address
+    fill_in 'Referee’s email address', with: 'john@example.com'
+  end
+
+  def and_i_confirm_that_i_am_ready_to_retry_a_reference_request
+    click_button 'Send reference request'
+  end
+
+  def and_the_reference_email_address_has_been_updated
+    expect(@reference.reload.email_address).to eq('john@example.com')
   end
 end

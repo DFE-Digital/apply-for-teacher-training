@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
       )
       next if row.info_identifier.blank?
 
-      info = t("application_form.referees.info.#{row.info_identifier}", row.info_args || {})
+      info = t("application_form.references.info.#{row.info_identifier}", row.info_args || {})
       if info.is_a?(Array)
         info.each { |line| expect(result.css('.govuk-summary-list__value')[4].text).to(include(line)) }
       else
@@ -97,17 +97,40 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     end
   end
 
+  context 'when reference state is "email_bounced"' do
+    let(:email_bounced) { create(:reference, :email_bounced) }
+    let(:feedback_provided) { create(:reference, :feedback_provided, application_form: email_bounced.application_form) }
+
+    it 'a retry request link is available' do
+      result = render_inline(described_class.new(references: [feedback_provided, email_bounced]))
+
+      feedback_provided_summary = result.css('.app-summary-card')[0]
+      email_bounced_summary = result.css('.app-summary-card')[1]
+      expect(feedback_provided_summary.text).not_to include 'Retry request'
+      expect(email_bounced_summary.text).to include 'Retry request'
+    end
+  end
+
+  context 'when reference state is "email_bounced" but there are already 2 references provided' do
+    let(:email_bounced) { create(:reference, :email_bounced) }
+    let(:provided_references) { create_list(:reference, 2, :feedback_provided, application_form: email_bounced.application_form) }
+
+    it 'a retry request link is not available' do
+      result = render_inline(described_class.new(references: [*provided_references, email_bounced]))
+
+      email_bounced_summary = result.css('.app-summary-card')[2]
+      expect(email_bounced_summary.text).not_to include 'Retry request'
+    end
+  end
+
   context 'when reference state is "cancelled" and the reference is complete' do
-    let(:feedback_requested) { create(:reference, :feedback_requested) }
     let(:cancelled) { create(:reference, :cancelled) }
 
-    it 'a re-send request link is available' do
-      result = render_inline(described_class.new(references: [feedback_requested, cancelled]))
+    it 'a send request link is available' do
+      result = render_inline(described_class.new(references: [cancelled]))
 
-      feedback_requested_summary = result.css('.app-summary-card')[0]
-      feedback_cancelled_summary = result.css('.app-summary-card')[1]
-      expect(feedback_requested_summary.text).not_to include 'Send request again'
-      expect(feedback_cancelled_summary.text).to include 'Send request again'
+      cancelled_summary = result.css('.app-summary-card')[0]
+      expect(cancelled_summary.text).to include 'Send request again'
     end
   end
 
@@ -117,8 +140,8 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     it 'a send request link is NOT available' do
       result = render_inline(described_class.new(references: [cancelled]))
 
-      feedback_not_requested_summary = result.css('.app-summary-card')[0]
-      expect(feedback_not_requested_summary.text).not_to include 'Send request again'
+      cancelled_summary = result.css('.app-summary-card')[0]
+      expect(cancelled_summary.text).not_to include 'Send request again'
     end
   end
 
@@ -129,8 +152,8 @@ RSpec.describe CandidateInterface::DecoupledReferencesReviewComponent, type: :co
     it 'a send request link is NOT available' do
       result = render_inline(described_class.new(references: [cancelled, *provided_references]))
 
-      feedback_not_requested_summary = result.css('.app-summary-card')[0]
-      expect(feedback_not_requested_summary.text).not_to include 'Send request again'
+      cancelled_summary = result.css('.app-summary-card')[0]
+      expect(cancelled_summary.text).not_to include 'Send request again'
     end
   end
 

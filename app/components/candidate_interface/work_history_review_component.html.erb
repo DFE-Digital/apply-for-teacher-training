@@ -13,10 +13,10 @@
     <% end %>
   <% elsif entry.is_a?(WorkHistoryWithBreaks::BreakPlaceholder) %>
     <% if show_break_placeholders? %>
-      <%= render(BreakPlaceholderInWorkHistoryComponent.new(work_break: entry)) %>
+      <%= render(CandidateInterface::BreakPlaceholderInWorkHistoryComponent.new(work_break: entry)) %>
     <% end %>
   <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
-    <%= render(BreakInWorkHistoryComponent.new(work_break: entry, editable: @editable)) %>
+    <%= render(CandidateInterface::BreakInWorkHistoryComponent.new(work_break: entry, editable: @editable)) %>
   <% end %>
 <% end %>
 
@@ -29,5 +29,5 @@
 <% end %>
 
 <% if show_missing_banner? %>
-  <%= render(SectionMissingBannerComponent.new(section: :work_experience, section_path: CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path, error: @missing_error)) %>
+  <%= render(CandidateInterface::SectionMissingBannerComponent.new(section: :work_experience, section_path: CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path, error: @missing_error)) %>
 <% end %>

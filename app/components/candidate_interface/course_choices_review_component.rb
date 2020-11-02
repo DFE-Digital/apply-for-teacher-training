@@ -112,7 +112,7 @@ module CandidateInterface
     end
 
     def study_mode_row(application_choice)
-      return unless application_choice.course.both_study_modes_available?
+      return unless application_choice.course.full_time_or_part_time?
 
       change_path = candidate_interface_course_choices_study_mode_path(
         application_choice.provider.id,

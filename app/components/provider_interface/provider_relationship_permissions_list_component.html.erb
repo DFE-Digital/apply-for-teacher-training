@@ -14,20 +14,20 @@
         <dd class="govuk-summary-list__value">
           <ul class="govuk-list <%= row[:permission_slug] %>">
             <% row[:permissions_list].each do |provider_name| %>
-              <li><%= render CheckIcon.new %> <%= provider_name %></li>
+              <li><%= render CheckIconComponent.new %> <%= provider_name %></li>
             <% end %>
           </ul>
           <% if row[:permission_slug] == 'view-applications' %>
             <details class="govuk-details" data-module="govuk-details">
-							<summary class="govuk-details__summary">
-								<span class="govuk-details__summary-text">
-									Why can’t this be changed?
-								</span>
-							</summary>
-							<div class="govuk-details__text">
-								All users at both organisations can view applications – you do not need to set permissions for this.
-							</div>
-						</details>
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  Why can’t this be changed?
+                </span>
+              </summary>
+              <div class="govuk-details__text">
+                All users at both organisations can view applications – you do not need to set permissions for this.
+              </div>
+            </details>
           <% end %>
         </dd>
         <% if editable %>

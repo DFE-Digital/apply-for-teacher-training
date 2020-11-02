@@ -21,7 +21,10 @@ class ReferenceHistory
   def request_sent
     audits
       .select { |a| status_change(a, to: 'feedback_requested') }
-      .map { |a| Event.new('request_sent', a.created_at) }
+      .map do |audit|
+        email_address = reference.revision(audit.version).email_address
+        Event.new('request_sent', audit.created_at, OpenStruct.new(email_address: email_address))
+      end
   end
 
   def request_cancelled

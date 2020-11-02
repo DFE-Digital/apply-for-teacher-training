@@ -13,6 +13,11 @@ module CandidateInterface
         current_candidate.update!(course_from_find_id: @course.id)
 
         redirect_to candidate_interface_interstitial_path
+      elsif @provider&.not_accepting_appplications_on_ucas?
+        redirect_to candidate_interface_create_account_or_sign_in_path(
+          providerCode: @provider.code,
+          courseCode: @course.code,
+        )
       elsif @service.can_apply_on_apply?
         @apply_on_ucas_or_apply = CandidateInterface::ApplyOnUCASOrApplyForm.new(
           provider_code: params[:providerCode], course_code: params[:courseCode],
@@ -51,6 +56,7 @@ module CandidateInterface
       @service = ApplyFromFindPage.new(provider_code: provider_code, course_code: course_code)
       @service.determine_whether_course_is_on_find_or_apply
       @course = @service.course
+      @provider = @service.provider
     end
 
     def render_not_found

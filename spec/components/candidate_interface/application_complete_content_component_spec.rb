@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
   context 'when the application is waiting for a decision from providers' do
     it 'renders the respond date for providers' do
-      stub_application_dates_with_form_uneditable
+      stub_application_dates_with_form
       application_form = create_application_form_with_course_choices(statuses: %w[awaiting_provider_decision])
 
       render_result = render_inline(described_class.new(application_form: application_form))
@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
   context 'when the application has an offer from a provider' do
     it 'renders with some providers have made a decision content' do
-      stub_application_dates_with_form_uneditable
+      stub_application_dates_with_form
       application_form = create_application_form_with_course_choices(statuses: %w[offer awaiting_provider_decision])
 
       render_result = render_inline(described_class.new(application_form: application_form))
@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
   context 'when the application has all decisions from providers' do
     it 'renders with all providers have made a decision content if all offers' do
-      stub_application_dates_with_form_uneditable
+      stub_application_dates_with_form
       application_form = create_application_form_with_course_choices(statuses: %w[offer offer])
 
       render_result = render_inline(described_class.new(application_form: application_form))
@@ -51,7 +51,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
 
     it 'renders with all providers have made a decision content if an offer and rejected' do
-      stub_application_dates_with_form_uneditable
+      stub_application_dates_with_form
       application_form = create_application_form_with_course_choices(statuses: %w[offer rejected])
 
       render_result = render_inline(described_class.new(application_form: application_form))
@@ -98,7 +98,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
   context 'when the application has accepted an offer' do
     it 'renders with accepted offer content' do
-      stub_application_dates_with_form_uneditable
+      stub_application_dates_with_form
       application_form = create_application_form_with_course_choices(statuses: %w[pending_conditions declined])
 
       render_result = render_inline(described_class.new(application_form: application_form))
@@ -109,7 +109,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
   context 'when the application is recruited' do
     it 'renders with recruited content' do
-      stub_application_dates_with_form_uneditable
+      stub_application_dates_with_form
       application_form = create_application_form_with_course_choices(statuses: %w[recruited declined])
 
       render_result = render_inline(described_class.new(application_form: application_form))
@@ -120,7 +120,7 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
 
   context 'when the application is deferred' do
     it 'renders with deferred content' do
-      stub_application_dates_with_form_uneditable
+      stub_application_dates_with_form
       application_form = create_application_form_with_course_choices(statuses: %w[offer_deferred declined])
 
       render_result = render_inline(described_class.new(application_form: application_form))
@@ -129,24 +129,11 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
   end
 
-  def stub_application_dates_with_form_uneditable
+  def stub_application_dates_with_form
     application_dates = instance_double(
       ApplicationDates,
-      form_open_to_editing?: false,
       reject_by_default_at: first_january_2020,
       decline_by_default_at: 10.business_days.after(submitted_at),
-    )
-    allow(ApplicationDates).to receive(:new).and_return(application_dates)
-  end
-
-  def stub_application_dates_with_form_editable
-    application_dates = instance_double(
-      ApplicationDates,
-      form_open_to_editing?: true,
-      days_remaining_to_edit: 5,
-      edit_by: Time.zone.local(2019, 10, 29, 12, 0, 0),
-      submitted_at: Time.zone.local(2019, 10, 22, 12, 0, 0),
-      reject_by_default_at: first_january_2020,
     )
     allow(ApplicationDates).to receive(:new).and_return(application_dates)
   end

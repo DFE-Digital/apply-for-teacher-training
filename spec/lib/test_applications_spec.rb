@@ -62,6 +62,22 @@ RSpec.describe TestApplications do
     expect(offer_audit.user).to eq provider_user
   end
 
+  it 'generates an application for the specified candidate' do
+    expected_candidate = create(:candidate)
+    courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+
+    application_choice = TestApplications.new.create_application(
+      recruitment_cycle_year: 2021,
+      states: %i[unsubmitted_with_completed_references],
+      courses_to_apply_to: courses_we_want,
+      candidate: expected_candidate,
+    ).first
+
+    candidate = application_choice.application_form.candidate
+
+    expect(candidate).to eq expected_candidate
+  end
+
   it 'throws an exception if there are not enough courses to apply to' do
     expect {
       TestApplications.new.create_application(recruitment_cycle_year: 2020, states: %i[offer], courses_to_apply_to: [])

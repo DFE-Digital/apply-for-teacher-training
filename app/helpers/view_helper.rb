@@ -49,19 +49,16 @@ module ViewHelper
     link_to(body, url, html_options)
   end
 
+  # TODO: move this into component
   def submitted_at_date
     dates = ApplicationDates.new(@application_form)
     dates.submitted_at.to_s(:govuk_date).strip
   end
 
+  # TODO: move this into component
   def respond_by_date
     dates = ApplicationDates.new(@application_form)
     dates.reject_by_default_at.to_s(:govuk_date).strip if dates.reject_by_default_at
-  end
-
-  def formatted_days_remaining
-    dates = ApplicationDates.new(@application_form)
-    pluralize(dates.days_remaining_to_edit, 'day')
   end
 
   def title_with_error_prefix(title, error)
@@ -70,11 +67,6 @@ module ViewHelper
 
   def title_with_success_prefix(title, success)
     "#{t('page_titles.success_prefix') if success}#{title}"
-  end
-
-  def edit_by_date
-    dates = ApplicationDates.new(@application_form)
-    dates.edit_by.to_s(:govuk_date).strip
   end
 
   def format_months_to_years_and_months(number_of_months)
@@ -124,6 +116,7 @@ module ViewHelper
     (EndOfCycleTimetable.find_reopens - Time.zone.today).to_i
   end
 
+  # TODO: move this to ProviderUser#display_name
   def provider_user_name(provider_user)
     first_name = provider_user.first_name
     last_name = provider_user.last_name
