@@ -50,5 +50,36 @@ RSpec.describe DetectInvariants do
         ),
       )
     end
+
+    it 'detects unauthorised edits on data associated with an application form', with_audited: true do
+      honest_bob = create(:candidate)
+      nefarious_jim = create(:candidate)
+      suspect_form = build(:application_form, candidate: honest_bob)
+      ok_form = build(:application_form, candidate: nefarious_jim)
+
+      Audited.audit_class.as_user(honest_bob) do
+        suspect_form.save!
+        create(:gcse_qualification, application_form: suspect_form, grade: 'A')
+        suspect_form.application_qualifications.first.update(grade: 'A*')
+      end
+      Audited.audit_class.as_user(nefarious_jim) do
+        ok_form.save!
+        create(:gcse_qualification, application_form: ok_form, grade: 'B')
+        ok_form.application_qualifications.first.update(grade: 'C')
+        suspect_form.application_qualifications.first.update(grade: 'F')
+      end
+
+      DetectInvariants.new.perform
+
+      expect(Raven).to have_received(:capture_exception).with(
+        DetectInvariants::WeirdSituationDetected.new(
+          <<~MSG,
+            The following application forms have had unauthorised edits:
+
+            #{suspect_form.id}
+          MSG
+        ),
+      )
+    end
   end
 end
