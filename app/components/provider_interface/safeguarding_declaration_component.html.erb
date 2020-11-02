@@ -1,3 +1,8 @@
+<!-- Current user: <%= provider_user_associated_with_training_provider? ? 'Training' : 'Ratifying' %> provider (manage_users: <%= provider_user_can_manage_users? %>, manage_organisations: <%= provider_user_can_manage_organisations? %>) -->
+<!-- Org permissions setup: <%= provider_relationship_has_been_set_up? ? 'completed' : 'incomplete' %> -->
+<!-- Training provider: <%= @training_provider&.name %> (org access: <%= @relationship&.training_provider_can_view_safeguarding_information %>) -->
+<!-- Ratifying provider: <%= @ratifying_provider&.name %> (org access: <%= @relationship&.ratifying_provider_can_view_safeguarding_information %>) -->
+
 <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8" id="criminal-convictions-and-professional-misconduct">Criminal convictions and professional misconduct</h2>
 <details class="govuk-details" data-module="govuk-details">
   <summary class="govuk-details__summary">
@@ -38,8 +43,7 @@
         <% if provider_user_can_manage_users? %>
           <%= govuk_link_to 'Manage user permissions', fix_user_permissions_path %>
         <% elsif other_provider_users_who_can_manage_users.present? %>
-          Please contact
-
+          Contact
           <% if other_provider_users_who_can_manage_users.one? %>
             <% user = other_provider_users_who_can_manage_users.first %>
             <%= user.full_name %> at
@@ -48,7 +52,7 @@
             </a>.
           <% else %>
             one of the following people:
-            <ul>
+            <ul class="govuk-list govuk-list--bullet">
             <% other_provider_users_who_can_manage_users.each do |user| %>
               <li>
                 <%= user.full_name %> at
@@ -60,14 +64,13 @@
             </ul>
           <% end %>
         <% else %>
-          Email support at becomingateacher@digital.education.gov.uk
+          Contact support at becomingateacher@digital.education.gov.uk
         <% end %>
       <% elsif !provider_relationship_has_been_set_up? %>
         <% if provider_user_can_manage_organisations? %>
           <%= govuk_link_to 'Manage_organisational_permissions', fix_org_permissions_path %>
         <% elsif other_provider_users_who_can_manage_organisations.present? %>
-          Please contact
-
+          Contact
           <% if other_provider_users_who_can_manage_organisations.one? %>
             <% user = other_provider_users_who_can_manage_organisations.first %>
             <%= user.full_name %> at
@@ -76,7 +79,7 @@
             </a>.
           <% else %>
             one of the following people:
-            <ul>
+            <ul class="govuk-list govuk-list--bullet">
             <% other_provider_users_who_can_manage_organisations.each do |user| %>
               <li>
                 <%= user.full_name %> at
@@ -88,7 +91,7 @@
             </ul>
           <% end %>
         <% else %>
-          Email support at becomingateacher@digital.education.gov.uk
+          Contact support at becomingateacher@digital.education.gov.uk
         <% end %>
       <% else %>
         <% if provider_user_has_user_level_access? %>
@@ -100,8 +103,7 @@
         <% if provider_user_can_manage_users? %>
           <%= govuk_link_to 'Manage user permissions', fix_user_permissions_path %>
         <% elsif other_provider_users_who_can_manage_users.present? %>
-          If you think you should have access to this information, please contact
-
+          Contact
           <% if other_provider_users_who_can_manage_users.one? %>
             <% user = other_provider_users_who_can_manage_users.first %>
             <%= user.full_name %> at
@@ -110,7 +112,7 @@
             </a>.
           <% else %>
             one of the following people:
-            <ul>
+            <ul class="govuk-list govuk-list--bullet">
             <% other_provider_users_who_can_manage_users.each do |user| %>
               <li>
                 <%= user.full_name %> at
@@ -122,15 +124,39 @@
             </ul>
           <% end %>
         <% else %>
-          Email support at becomingateacher@digital.education.gov.uk
+          Contact support at becomingateacher@digital.education.gov.uk
         <% end %>
-      <% elsif !provider_relationship_has_been_set_up? %>
-        <%= @ratifying_provider.name %> does not have permission to see safeguarding information for applications to courses run by <%= @training_provider.name %>.
-
-        Please contact <%= @training_provider.name %> and ask them to adjust these permissions.
       <% else %>
         <% if provider_user_has_user_level_access? %>
           You have permission to see safeguarding information for <%= @ratifying_provider.name %>. However, <%= @ratifying_provider.name %> does not have permission to see safeguarding information for applications to courses run by <%= @training_provider.name %>.
+        <% end %>
+        <% if !provider_relationship_has_been_set_up? %>
+          <p class="govuk-body">
+          <% if training_provider_users_who_can_manage_organisations.present? %>
+            Contact
+            <% if training_provider_users_who_can_manage_organisations.one? %>
+              <% user = training_provider_users_who_can_manage_organisations.first %>
+              <%= user.full_name %> at
+              <a class="govuk-link" href="mailto:<%= user.email_address %>">
+                <%= user.email_address %>
+              </a>.
+            <% else %>
+              one of the following people:
+              <ul class="govuk-list govuk-list--bullet">
+              <% training_provider_users_who_can_manage_organisations.each do |user| %>
+                <li>
+                  <%= user.full_name %> at
+                  <a class="govuk-link" href="mailto:<%= user.email_address %>">
+                    <%= user.email_address %>
+                  </a>
+                </li>
+              <% end %>
+              </ul>
+            <% end %>
+          <% else %>
+            Contact support at becomingateacher@digital.education.gov.uk
+          <% end %>
+          </p>
         <% end %>
       <% end %>
     <% end %>

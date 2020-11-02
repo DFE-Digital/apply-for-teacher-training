@@ -93,6 +93,11 @@ module ProviderInterface
                             end
     end
 
+    def training_provider_users_who_can_manage_organisations
+      @_training_provider_users_manage_orgs ||=
+        @training_provider.provider_permissions.manage_organisations.map(&:provider_user)
+    end
+
     def fix_user_permissions_path
       if provider_user_associated_with_training_provider?
         url_helpers.provider_interface_provider_user_edit_permissions_path(

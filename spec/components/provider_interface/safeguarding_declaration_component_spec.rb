@@ -135,7 +135,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         safeguarding_issues: 'I have a criminal conviction.',
         safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
       )
-      expect(result.text).to include('Email support at becomingateacher@digital.education.gov.uk')
+      expect(result.text).to include('Contact support at becomingateacher@digital.education.gov.uk')
 
       admin1 = create(:provider_user, providers: [training_provider])
       admin1.provider_permissions.update_all(manage_users: true)
@@ -223,7 +223,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
       )
       expect_user_cannot_see_safeguarding_information(result)
-      expect(result.text).to include('Email support at becomingateacher@digital.education.gov.uk')
+      expect(result.text).to include('Contact support at becomingateacher@digital.education.gov.uk')
 
       admin1 = create(:provider_user, providers: [ratifying_provider])
       admin1.provider_permissions.update_all(manage_users: true)
@@ -275,7 +275,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
           safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
         )
         expect_user_cannot_see_safeguarding_information(result)
-        expect(result.text).to include('Email support at becomingateacher@digital.education.gov.uk')
+        expect(result.text).to include('Contact support at becomingateacher@digital.education.gov.uk')
 
         admin1 = create(:provider_user, providers: [training_provider])
         admin1.provider_permissions.update_all(manage_organisations: true)
@@ -336,7 +336,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       user_has_view_safeguarding_information(true)
     end
 
-    it 'prompts ratifying provider user to contact training provider' do
+    it 'prompts ratifying provider user to contact support' do
       result = render_component(
         user: provider_user,
         safeguarding_issues: 'I have a criminal conviction.',
@@ -344,7 +344,22 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       )
       expect_user_cannot_see_safeguarding_information(result)
       expect(result.text).to include("#{ratifying_provider.name} does not have permission to see safeguarding information for applications to courses run by #{training_provider.name}.")
-      expect(result.text).to include("Please contact #{training_provider.name}")
+      expect(result.text).to include('Contact support at becomingateacher@digital.education.gov.uk')
+    end
+
+    it 'prompts ratifying provider user to contact training provider admin' do
+      training_provider_admin = create(:provider_user, providers: [training_provider])
+      training_provider_admin.provider_permissions.update_all(manage_organisations: true)
+
+      result = render_component(
+        user: provider_user,
+        safeguarding_issues: 'I have a criminal conviction.',
+        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
+      )
+      expect_user_cannot_see_safeguarding_information(result)
+      expect(result.text).to include("#{ratifying_provider.name} does not have permission to see safeguarding information for applications to courses run by #{training_provider.name}.")
+      expect(result.text).to include(training_provider_admin.full_name)
+      expect(result.text).to include(training_provider_admin.email_address)
     end
   end
 end
