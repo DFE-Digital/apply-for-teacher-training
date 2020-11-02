@@ -38,10 +38,6 @@ class ApplicationReference < ApplicationRecord
     where.not(feedback_status: %i[not_requested_yet feedback_provided])
   end
 
-  def ordinal
-    application_form.application_references.find_index(self).to_i + 1
-  end
-
   def email_address_not_own
     return if application_form.nil?
 
