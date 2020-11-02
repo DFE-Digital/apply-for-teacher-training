@@ -12,9 +12,7 @@ class NavigationItems
           NavigationItem.new('Sign out', candidate_interface_sign_out_path, false),
         ]
       else
-        [
-          NavigationItem.new('Sign in', candidate_interface_sign_in_path, false),
-        ]
+        []
       end
     end
 

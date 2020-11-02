@@ -28,11 +28,11 @@ RSpec.feature 'Candidate account' do
     when_i_click_the_sign_out_button
     then_i_should_be_signed_out
 
-    when_i_click_the_signin_link
+    when_i_visit_the_signin_page
     and_i_submit_an_invalid_email_address
     then_i_see_form_errors_on_the_page
 
-    when_i_click_the_signin_link
+    when_i_visit_the_signin_page
     and_i_submit_my_email_address
     then_i_receive_an_email_with_a_signin_link
     when_i_click_on_the_link_in_my_email
@@ -49,7 +49,7 @@ RSpec.feature 'Candidate account' do
     when_i_signed_in_more_than_a_week_ago
     then_i_should_be_signed_out
 
-    when_i_click_the_signin_link
+    when_i_visit_the_signin_page
     and_i_submit_my_email_address_in_uppercase
     then_i_receive_an_email_with_a_signin_link
 
@@ -125,12 +125,8 @@ RSpec.feature 'Candidate account' do
     expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end
 
-  def when_i_click_the_signin_link
-    visit '/'
-
-    within('#navigation') do
-      click_on 'Sign in'
-    end
+  def when_i_visit_the_signin_page
+    visit candidate_interface_sign_in_path
   end
 
   def when_i_signed_in_more_than_a_week_ago
