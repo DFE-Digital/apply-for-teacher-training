@@ -33,7 +33,7 @@ module CandidateInterface
 
     # Required by the GradeControllerConcern
     def set_subject
-      @subject = 'english'
+      @subject = 'science'
     end
   end
 end
