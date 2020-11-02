@@ -127,7 +127,7 @@ class PerformanceStatistics
     @percentage_of_providers_onboarded ||=
       begin
         total_count = Provider.count
-        if total_count > 0
+        if total_count.positive?
           onboarded_count = Provider.joins(:courses).where('courses.open_on_apply': true).distinct.count
           "#{((onboarded_count * 100).to_f / total_count).round}%"
         else
