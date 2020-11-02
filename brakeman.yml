@@ -1,6 +1,8 @@
 ---
 pager: false
 quiet: true
+enable_checks:
+  - CheckUnscopedFind
 skip_checks:
   # This Check issues a lot of false positives because it thinks that
   # our component calls `Render` use user input.
