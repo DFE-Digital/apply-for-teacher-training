@@ -4,7 +4,7 @@ class RejectApplication
   attr_accessor :rejection_reason
 
   validates_presence_of :rejection_reason
-  validates_length_of :rejection_reason, maximum: 255
+  validates_length_of :rejection_reason, maximum: 10240
 
   def initialize(actor:, application_choice:, rejection_reason: nil)
     @auth = ProviderAuthorisation.new(actor: actor)
