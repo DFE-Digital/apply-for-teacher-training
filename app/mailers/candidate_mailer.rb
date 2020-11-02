@@ -207,7 +207,7 @@ class CandidateMailer < ApplicationMailer
   def deferred_offer(application_choice)
     @application_choice = application_choice
     @course = @application_choice.offered_option.course
-    @deferred_to_year = @course.recruitment_cycle_year + 1
+    @new_course_academic_year = "#{@course.recruitment_cycle_year + 1} to #{@course.recruitment_cycle_year + 2}"
 
     email_for_candidate(
       @application_choice.application_form,

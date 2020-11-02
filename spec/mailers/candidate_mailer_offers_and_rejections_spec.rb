@@ -196,7 +196,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'heading' => 'Dear Harold',
       'name and code for course' => 'Sport (SP0)',
       'name of provider' => 'Jerome Horwitz Elementary School',
-      'year of new course' => 'until 2022',
+      'year of new course' => 'until the next academic year (2022 to 2023)',
     )
   end
 
