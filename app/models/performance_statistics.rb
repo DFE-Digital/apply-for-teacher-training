@@ -73,7 +73,7 @@ class PerformanceStatistics
   def total_candidate_count(only: nil, except: [], phase: nil)
     candidate_status_counts
       .select { |row| only.nil? || row['status'].to_sym.in?(only) }
-      .select { |row| phase.nil? || row['phase'].to_sym == phase.to_sym }
+      .select { |row| phase.nil? || row['phase']&.to_sym == phase.to_sym }
       .reject { |row| row['status'].to_sym.in?(except) }
       .map { |row| row['count'] }
       .sum

@@ -119,13 +119,15 @@ RSpec.describe PerformanceStatistics, type: :model do
       create(:application_choice, status: 'recruited', application_form: apply_1_form)
       create(:application_choice, status: 'recruited', application_form: apply_2_form)
       create(:application_choice, status: 'pending_conditions')
+      create(:candidate)
 
       stats = PerformanceStatistics.new(nil)
 
       expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
       expect(stats.total_candidate_count(only: %i[recruited], phase: :apply_1)).to eq(1)
       expect(stats.total_candidate_count(only: %i[recruited], phase: :apply_2)).to eq(1)
-      expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(2)
+      expect(stats.total_candidate_count(phase: :apply_2)).to eq(1)
+      expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(3)
     end
   end
 
