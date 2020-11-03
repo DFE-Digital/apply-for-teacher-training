@@ -1,5 +1,5 @@
 class ProviderAuthorisation
-  attr_reader :errors
+  attr_reader :errors, :actor
 
   def initialize(actor:)
     @actor = actor
