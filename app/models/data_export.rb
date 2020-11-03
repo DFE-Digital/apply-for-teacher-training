@@ -22,17 +22,17 @@ class DataExport < ApplicationRecord
     },
     referee_survey: {
       name: 'Referee survey',
-      description: 'This provides the compiled results of all the referee surveys',
+      description: 'This provides the compiled results of all the referee surveys.',
       class: SupportInterface::RefereeSurveyExport,
     },
     candidate_survey: {
       name: 'Candidate survey',
-      description: 'This provides the compiled results of all the candidate satisfaction surveys',
+      description: 'This provides the compiled results of all the multi-page candidate satisfaction surveys.',
       class: SupportInterface::CandidateSurveyExport,
     },
     candidate_feedback: {
       name: 'Candidate feedback',
-      description: 'This provides the compiled results of all the candidate feedback forms',
+      description: 'This provides the compiled results of all the new single-page candidate feedback forms.',
       class: SupportInterface::CandidateFeedbackExport,
     },
     active_provider_users: {
@@ -67,12 +67,12 @@ class DataExport < ApplicationRecord
     },
     equality_and_diversity: {
       name: 'Equality and diversity data',
-      description: 'Anonymised candidate equality and diversity data',
+      description: 'Anonymised candidate equality and diversity data.',
       class: SupportInterface::EqualityAndDiversityExport,
     },
     unexplained_breaks_in_work_history: {
       name: 'Unexplained breaks in work history',
-      description: 'A list of candidates with unexplained breaks in their work history',
+      description: 'A list of candidates with unexplained breaks in their work history.',
       class: SupportInterface::UnexplainedBreaksInWorkHistoryExport,
     },
   }.freeze
