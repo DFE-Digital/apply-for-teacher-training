@@ -27,12 +27,12 @@ class DataExport < ApplicationRecord
     },
     candidate_survey: {
       name: 'Candidate survey',
-      description: 'This provides the compiled results of all the candidate satisfaction surveys',
+      description: 'This provides the compiled results of all the multi-page candidate satisfaction surveys',
       class: SupportInterface::CandidateSurveyExport,
     },
     candidate_feedback: {
       name: 'Candidate feedback',
-      description: 'This provides the compiled results of all the candidate feedback forms',
+      description: 'This provides the compiled results of all the new single-page candidate feedback forms',
       class: SupportInterface::CandidateFeedbackExport,
     },
     active_provider_users: {
