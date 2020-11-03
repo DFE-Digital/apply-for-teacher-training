@@ -2,7 +2,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with url: candidate_interface_authenticate_path, method: :post do |f| %>
+    <%= form_with url: candidate_interface_authenticate_path(path: params[:path]), method: :post do |f| %>
       <h1 class="govuk-heading-xl">
         <%= t('authentication.confirm_authentication.heading') %>
       </h1>

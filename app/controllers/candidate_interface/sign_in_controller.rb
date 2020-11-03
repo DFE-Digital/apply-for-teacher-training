@@ -20,7 +20,7 @@ module CandidateInterface
       if FindCandidateByToken.token_not_expired?(candidate)
         render 'confirm_authentication'
       else
-        redirect_to candidate_interface_expired_sign_in_path(u: params[:u])
+        redirect_to candidate_interface_expired_sign_in_path(u: params[:u], path: params[:path])
       end
     end
 
@@ -39,10 +39,11 @@ module CandidateInterface
         sign_in(candidate, scope: :candidate)
         add_identity_to_log candidate.id
         candidate.update_sign_in_fields!
-        redirect_to candidate_interface_interstitial_path
+
+        redirect_to candidate_interface_interstitial_path(path: params[:path])
       else
         encrypted_candidate_id = Encryptor.encrypt(candidate.id)
-        redirect_to candidate_interface_expired_sign_in_path(u: encrypted_candidate_id)
+        redirect_to candidate_interface_expired_sign_in_path(u: encrypted_candidate_id, path: params[:path])
       end
     end
 
