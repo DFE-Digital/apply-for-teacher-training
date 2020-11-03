@@ -66,7 +66,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
   end
 
   def expect_user_cannot_see_safeguarding_information(result)
-    expect(result.text).to include(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare_no_permissions'))
     expect(result.text).not_to include('View information disclosed by the candidate')
   end
 
@@ -112,49 +111,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       )
       expect_user_cannot_see_safeguarding_information(result)
     end
-
-    it 'when the user cannot see safeguarding information but has manage_users' do
-      user_has_manage_users(true)
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: 'I have a criminal conviction.',
-        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-      )
-      expect_user_cannot_see_safeguarding_information(result)
-      fix_it_link = Rails.application.routes.url_helpers.provider_interface_provider_user_edit_permissions_path(
-        provider_id: training_provider.id,
-        provider_user_id: provider_user.id,
-      )
-      expect(result.to_html).to include(fix_it_link)
-    end
-
-    it 'when the user does not have manage_users they are prompted to contact someone' do
-      user_has_manage_users(false)
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: 'I have a criminal conviction.',
-        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-      )
-      expect(result.text).to include('Contact support at becomingateacher@digital.education.gov.uk')
-
-      admin1 = create(:provider_user, providers: [training_provider])
-      admin1.provider_permissions.update_all(manage_users: true)
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: 'I have a criminal conviction.',
-        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-      )
-      expect(result.text).to include(admin1.email_address)
-
-      admin2 = create(:provider_user, providers: [training_provider])
-      admin2.provider_permissions.update_all(manage_users: true)
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: 'I have a criminal conviction.',
-        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-      )
-      expect(result.text).to include(admin2.email_address)
-    end
   end
 
   context 'provider relationship allows ratifying_provider access to safeguarding information' do
@@ -198,50 +154,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
       )
       expect_user_cannot_see_safeguarding_information(result)
-    end
-
-    it 'when the user cannot see safeguarding information but has manage_users' do
-      user_has_manage_users(true)
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: 'I have a criminal conviction.',
-        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-      )
-      expect_user_cannot_see_safeguarding_information(result)
-      fix_it_link = Rails.application.routes.url_helpers.provider_interface_provider_user_edit_permissions_path(
-        provider_id: ratifying_provider.id,
-        provider_user_id: provider_user.id,
-      )
-      expect(result.to_html).to include(fix_it_link)
-    end
-
-    it 'when the user does not have manage_users they are prompted to contact someone' do
-      user_has_manage_users(false)
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: 'I have a criminal conviction.',
-        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-      )
-      expect_user_cannot_see_safeguarding_information(result)
-      expect(result.text).to include('Contact support at becomingateacher@digital.education.gov.uk')
-
-      admin1 = create(:provider_user, providers: [ratifying_provider])
-      admin1.provider_permissions.update_all(manage_users: true)
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: 'I have a criminal conviction.',
-        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-      )
-      expect(result.text).to include(admin1.email_address)
-
-      admin2 = create(:provider_user, providers: [ratifying_provider])
-      admin2.provider_permissions.update_all(manage_users: true)
-      result = render_component(
-        user: provider_user,
-        safeguarding_issues: 'I have a criminal conviction.',
-        safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
-      )
-      expect(result.text).to include(admin2.email_address)
     end
   end
 
@@ -334,6 +246,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
       one_sided_permissions(side_with_access: :training_provider, setup_at: nil)
 
       user_has_view_safeguarding_information(true)
+      user_has_manage_organisations(true)
     end
 
     it 'prompts ratifying provider user to contact support' do
@@ -343,7 +256,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
       )
       expect_user_cannot_see_safeguarding_information(result)
-      expect(result.text).to include("#{ratifying_provider.name} does not have permission to see safeguarding information for applications to courses run by #{training_provider.name}.")
       expect(result.text).to include('Contact support at becomingateacher@digital.education.gov.uk')
     end
 
@@ -357,7 +269,6 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
       )
       expect_user_cannot_see_safeguarding_information(result)
-      expect(result.text).to include("#{ratifying_provider.name} does not have permission to see safeguarding information for applications to courses run by #{training_provider.name}.")
       expect(result.text).to include(training_provider_admin.full_name)
       expect(result.text).to include(training_provider_admin.email_address)
     end

@@ -21,7 +21,8 @@
   </div>
 </details>
 
-<p class="govuk-body"><%= message %></p>
+<% if message %><p class="govuk-body"><%= message %></p><% end %>
+
 <% if display_safeguarding_issues_details? %>
   <details class="govuk-details govuk-!-margin-bottom-2" data-module="govuk-details">
     <summary class="govuk-details__summary">
@@ -34,128 +35,69 @@
     </div>
   </details>
 <% elsif safeguarding_issues_declared? %>
-  <p class="govuk-body">
-    <% if @analysis.provider_user_associated_with_training_provider? %>
-      <% if @analysis.provider_relationship_allows_access? %>
-        <% if @analysis.provider_user_can_manage_users? %>
-          <%= govuk_link_to 'Manage user permissions', @analysis.fix_user_permissions_path %>
-        <% elsif @analysis.other_provider_users_who_can_manage_users.present? %>
-          Contact
-          <% if @analysis.other_provider_users_who_can_manage_users.one? %>
-            <% user = @analysis.other_provider_users_who_can_manage_users.first %>
-            <%= user.full_name %> at
-            <a class="govuk-link" href="mailto:<%= user.email_address %>">
-              <%= user.email_address %>
-            </a>.
-          <% else %>
-            one of the following people:
-            <ul class="govuk-list govuk-list--bullet">
-            <% @analysis.other_provider_users_who_can_manage_users.each do |user| %>
-              <li>
-                <%= user.full_name %> at
-                <a class="govuk-link" href="mailto:<%= user.email_address %>">
-                  <%= user.email_address %>
-                </a>
-              </li>
-            <% end %>
-            </ul>
-          <% end %>
-        <% else %>
-          Contact support at becomingateacher@digital.education.gov.uk
-        <% end %>
-      <% elsif !@analysis.provider_relationship_has_been_set_up? %>
-        <% if @analysis.provider_user_can_manage_organisations? %>
-          <%= govuk_link_to 'Manage_organisational_permissions', @analysis.fix_org_permissions_path %>
-        <% elsif @analysis.other_provider_users_who_can_manage_organisations.present? %>
-          Contact
-          <% if @analysis.other_provider_users_who_can_manage_organisations.one? %>
-            <% user = @analysis.other_provider_users_who_can_manage_organisations.first %>
-            <%= user.full_name %> at
-            <a class="govuk-link" href="mailto:<%= user.email_address %>">
-              <%= user.email_address %>
-            </a>.
-          <% else %>
-            one of the following people:
-            <ul class="govuk-list govuk-list--bullet">
-            <% @analysis.other_provider_users_who_can_manage_organisations.each do |user| %>
-              <li>
-                <%= user.full_name %> at
-                <a class="govuk-link" href="mailto:<%= user.email_address %>">
-                  <%= user.email_address %>
-                </a>
-              </li>
-            <% end %>
-            </ul>
-          <% end %>
-        <% else %>
-          Contact support at becomingateacher@digital.education.gov.uk
-        <% end %>
-      <% else %>
-        <% if @analysis.provider_user_has_user_level_access? %>
+  <% if @analysis.provider_relationship_allows_access? %>
+    <p class="govuk-body">
+      The candidate has disclosed information to related to safeguarding but you do not have permission to view sensitive material.
+    </p>
+  <% elsif @analysis.provider_relationship_has_been_set_up? %>
+    <% if @analysis.provider_user_has_user_level_access? %>
+      <p class="govuk-body">
+        This candidate has disclosed information to related to safeguarding.
+      </p>
+
+      <% if @analysis.provider_user_associated_with_training_provider? %>
+        <p class="govuk-body">
           You have permission to see safeguarding information for <%= @analysis.training_provider.name %>. However, <%= @analysis.training_provider.name %> does not have permission to see safeguarding information for applications to courses ratified by <%= @analysis.ratifying_provider.name %>.
-        <% end %>
+        </p>
+      <% else %>
+        <p class="govuk-body">
+          You have permission to see safeguarding information for <%= @analysis.ratifying_provider.name %>. However, <%= @analysis.ratifying_provider.name %> does not have permission to see safeguarding information for applications to courses run by <%= @analysis.training_provider.name %>.
+        </p>
       <% end %>
     <% else %>
-      <% if @analysis.provider_relationship_allows_access? %>
-        <% if @analysis.provider_user_can_manage_users? %>
-          <%= govuk_link_to 'Manage user permissions', @analysis.fix_user_permissions_path %>
-        <% elsif @analysis.other_provider_users_who_can_manage_users.present? %>
-          Contact
-          <% if @analysis.other_provider_users_who_can_manage_users.one? %>
-            <% user = @analysis.other_provider_users_who_can_manage_users.first %>
-            <%= user.full_name %> at
-            <a class="govuk-link" href="mailto:<%= user.email_address %>">
-              <%= user.email_address %>
-            </a>.
-          <% else %>
-            one of the following people:
-            <ul class="govuk-list govuk-list--bullet">
-            <% @analysis.other_provider_users_who_can_manage_users.each do |user| %>
-              <li>
-                <%= user.full_name %> at
-                <a class="govuk-link" href="mailto:<%= user.email_address %>">
-                  <%= user.email_address %>
-                </a>
-              </li>
-            <% end %>
-            </ul>
-          <% end %>
+      <p class="govuk-body">
+        The candidate has disclosed information to related to safeguarding but you do not have permission to view sensitive material.
+      </p>
+    <% end %>
+  <% else %>
+    <p class="govuk-body">
+      The candidate has disclosed information to related to safeguarding but you cannot see it.
+    </p>
+
+    <% if @analysis.provider_user_can_manage_organisations? && @analysis.provider_user_associated_with_training_provider? %>
+      <p class="govuk-body">
+        This is because you have not set up organisational permissions.
+        <%= govuk_link_to 'Set organisational permissions', @analysis.fix_org_permissions_path %>
+      </p>
+    <% elsif @analysis.training_provider_users_who_can_manage_organisations.present? %>
+      <% others = @analysis.training_provider_users_who_can_manage_organisations %>
+      <p class="govuk-body">
+        This is because organisational permissions have not been set up. Contact
+        <% if others.one? %>
+          <% user = others.first %>
+          <%= user.full_name %> at
+          <a class="govuk-link" href="mailto:<%= user.email_address %>">
+            <%= user.email_address %>
+          </a>.
         <% else %>
-          Contact support at becomingateacher@digital.education.gov.uk
-        <% end %>
-      <% else %>
-        <% if @analysis.provider_user_has_user_level_access? %>
-          You have permission to see safeguarding information for <%= @analysis.ratifying_provider.name %>. However, <%= @analysis.ratifying_provider.name %> does not have permission to see safeguarding information for applications to courses run by <%= @analysis.training_provider.name %>.
-        <% end %>
-        <% if !@analysis.provider_relationship_has_been_set_up? %>
-          <p class="govuk-body">
-          <% if @analysis.training_provider_users_who_can_manage_organisations.present? %>
-            Contact
-            <% if @analysis.training_provider_users_who_can_manage_organisations.one? %>
-              <% user = @analysis.training_provider_users_who_can_manage_organisations.first %>
+          one of the following people:
+          <ul class="govuk-list govuk-list--bullet">
+          <% others.each do |user| %>
+            <li>
               <%= user.full_name %> at
               <a class="govuk-link" href="mailto:<%= user.email_address %>">
                 <%= user.email_address %>
-              </a>.
-            <% else %>
-              one of the following people:
-              <ul class="govuk-list govuk-list--bullet">
-              <% @analysis.training_provider_users_who_can_manage_organisations.each do |user| %>
-                <li>
-                  <%= user.full_name %> at
-                  <a class="govuk-link" href="mailto:<%= user.email_address %>">
-                    <%= user.email_address %>
-                  </a>
-                </li>
-              <% end %>
-              </ul>
-            <% end %>
-          <% else %>
-            Contact support at becomingateacher@digital.education.gov.uk
+              </a>
+            </li>
           <% end %>
-          </p>
+          </ul>
         <% end %>
-      <% end %>
+      </p>
+    <% else %>
+      <p class="govuk-body">
+        This is because organisational permissions have not been set up.
+        Contact support at becomingateacher@digital.education.gov.uk
+      </p>
     <% end %>
-  </p>
+  <% end %>
 <% end %>

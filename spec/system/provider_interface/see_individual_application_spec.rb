@@ -39,7 +39,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def and_i_should_not_see_the_safeguarding_declaration_details
     expect(page).to have_content('Criminal convictions and professional misconduct')
-    expect(page).to have_content(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare_no_permissions'))
+    expect(page).not_to have_content('View information disclosed by the candidate')
   end
 
   def then_i_should_see_the_safeguarding_declaration_section

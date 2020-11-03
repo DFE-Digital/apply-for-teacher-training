@@ -2,7 +2,7 @@ module ProviderInterface
   class SafeguardingDeclarationComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_reader :application_choice, :current_provider_user, :relationship
+    attr_reader :application_choice, :current_provider_user
 
     def initialize(application_choice:, current_provider_user:)
       @application_choice = application_choice
@@ -18,6 +18,8 @@ module ProviderInterface
     end
 
     def message
+      return if status == 'has_safeguarding_issues_to_declare_no_permissions'
+
       SafeguardingStatus.new(
         status: status,
         i18n_key: 'provider_interface.safeguarding_declaration_component',
