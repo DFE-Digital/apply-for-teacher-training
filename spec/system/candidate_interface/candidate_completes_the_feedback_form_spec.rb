@@ -9,9 +9,11 @@ RSpec.describe 'Candidate feedback form' do
 
   scenario 'Candidate completes the feedback form' do
     given_the_candidate_completes_and_submits_their_application
-    then_they_should_be_asked_to_give_feedback
+    then_i_should_receive_the_application_submitted_email
+    and_i_should_not_be_asked_to_give_feedback_on_the_submit_success_page
 
-    when_they_click_give_feedback
+    when_i_click_give_feedback
+    and_i_confirm_my_sign_in
     then_they_should_see_the_feedback_form
 
     when_i_click_send_feedback
@@ -29,12 +31,21 @@ RSpec.describe 'Candidate feedback form' do
     candidate_submits_application
   end
 
-  def then_they_should_be_asked_to_give_feedback
-    expect(page).to have_content('Your feedback will help us improve.')
+  def then_i_should_receive_the_application_submitted_email
+    open_email(current_candidate.email_address)
+    expect(current_email.subject).to have_content t('candidate_mailer.application_submitted.subject')
   end
 
-  def when_they_click_give_feedback
-    click_link 'Give feedback'
+  def and_i_should_not_be_asked_to_give_feedback_on_the_submit_success_page
+    expect(page).not_to have_content('Your feedback will help us improve.')
+  end
+
+  def when_i_click_give_feedback
+    current_email.find_css('a')[1].click
+  end
+
+  def and_i_confirm_my_sign_in
+    click_button 'Continue'
   end
 
   def then_they_should_see_the_feedback_form
