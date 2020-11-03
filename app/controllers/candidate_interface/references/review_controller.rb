@@ -54,7 +54,7 @@ module CandidateInterface
 
       def destroy
         unless @reference.present? && (@reference.can_be_destroyed? || @reference.request_can_be_deleted?)
-          redirect_to_review_page
+          redirect_to_review_page and return
         end
 
         @reference.destroy!
