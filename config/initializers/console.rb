@@ -18,13 +18,13 @@ module ApplyConsole
 
   def show_warning_message_about_environments
     if HostingEnvironment.production?
-      puts ("*" * 50).red
-      puts "** You are in the Rails console for PRODUCTION! **".red
-      puts ("*" * 50).red
+      puts ('*' * 50).red
+      puts '** You are in the Rails console for PRODUCTION! **'.red
+      puts ('*' * 50).red
     else
-      puts ("-" * 65).blue
+      puts ('-' * 65).blue
       puts "-- This is the Rails console for the #{HostingEnvironment.environment_name} environment. --".blue
-      puts ("-" * 65).blue
+      puts ('-' * 65).blue
     end
   end
 end
