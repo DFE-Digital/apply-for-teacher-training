@@ -1,7 +1,19 @@
 module ApplyConsole
   def start
     show_warning_message_about_environments
-    super
+
+    if HostingEnvironment.development?
+      super
+    else
+      puts 'Hello! Who are you? This name will be used in the audit log for any changes you make.'
+      who_are_you = $stdin.gets
+      audited_user = "#{who_are_you.chomp} via the Rails console"
+      puts "Any updates to models will be attributed in the audit logs to #{audited_user.inspect}"
+
+      Audited.audit_class.as_user(audited_user) do
+        super
+      end
+    end
   end
 
   def show_warning_message_about_environments
@@ -17,8 +29,4 @@ module ApplyConsole
   end
 end
 
-module Rails
-  class Console
-    prepend ApplyConsole
-  end
-end
+Rails::Console.prepend(ApplyConsole)
