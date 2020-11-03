@@ -24,9 +24,7 @@ module CandidateInterface
   private
 
     def redirect_to_path_if_path_params_are_present_and_valid
-      return false if params[:path].blank? || valid_paths.exclude?(params[:path])
-
-      redirect_to path_params
+      redirect_to path_params if params[:path].present? || valid_paths.include?(params[:path])
     end
 
     def redirect_to_application_form_unless_course_from_find_is_present
