@@ -42,12 +42,6 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include('School Experience Intern')
     end
 
-    it 'renders component with working with children in the summary card title' do
-      result = render_inline(described_class.new(application_form: application_form))
-
-      expect(result.css('.app-summary-card__title')[0].text).to include(t('application_form.review.role_involved_working_with_children'))
-    end
-
     it 'renders component with correct values for role' do
       result = render_inline(described_class.new(application_form: application_form))
 
@@ -71,6 +65,19 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent do
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
         "Change #{t('application_form.volunteering.organisation.change_action')} for School Experience Intern, A Noice School",
+      )
+    end
+
+    it 'renders component with correct values for working with children' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.review_working_with_children.review_label'))
+      expect(result.css('.govuk-summary-list__value').to_html).to include('Yes')
+      expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
+        Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
+      )
+      expect(result.css('.govuk-summary-list__actions').text).to include(
+        "Change #{t('application_form.volunteering.review_working_with_children.change_action')} for School Experience Intern, A Noice School",
       )
     end
 
@@ -131,8 +138,8 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent do
 
       result = render_inline(described_class.new(application_form: application_form))
 
-      change_role_for_unique = result.css('.govuk-summary-list__actions')[8].text.strip
-      change_role_for_same1 = result.css('.govuk-summary-list__actions')[4].text.strip
+      change_role_for_unique = result.css('.govuk-summary-list__actions')[10].text.strip
+      change_role_for_same1 = result.css('.govuk-summary-list__actions')[5].text.strip
       change_role_for_same2 = result.css('.govuk-summary-list__actions')[0].text.strip
 
       expect(change_role_for_unique).to eq(

@@ -4,8 +4,6 @@ en:
     completed_checkbox: I have completed this section
     continue: Continue
     complete_form_button: Save and continue
-    review:
-      role_involved_working_with_children: This role involved working with children
     courses:
       intro: You can apply for up to 3 courses.
       delete: Delete choice
@@ -337,7 +335,7 @@ en:
         review_label: Organisation
         change_action: organisation
       working_with_children:
-        label: Did this job involve working in a school or with children?
+        label: Did this role involve working in a school or with children?
       length:
         label: How long have you been in this role and what does it involve?
       start_date:
@@ -351,6 +349,9 @@ en:
         hint_text: For example, ‘I volunteer in the classroom every Friday morning’
           or ‘I spent 1 day observing in this school’ or ‘I am a Scout Leader involved
           in activities throughout the year’
+      review_working_with_children:
+        review_label: Did this role involve working in a school or with children?
+        change_action: if this role involve working in a school or with children
       review_length:
         review_label: Tell us how long you’ve been in this role
         change_action: dates

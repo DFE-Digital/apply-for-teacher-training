@@ -15,8 +15,9 @@ module CandidateInterface
       [
         job_row(work),
         working_pattern_row(work),
-        description_row(work),
         dates_row(work),
+        description_row(work),
+        working_with_children_row(work),
       ]
         .compact
     end
@@ -79,6 +80,15 @@ module CandidateInterface
       }
     end
 
+    def dates_row(work)
+      {
+        key: 'Dates',
+        value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
+        action: generate_action(work: work, attribute: 'dates'),
+        change_path: candidate_interface_work_history_edit_path(work.id),
+      }
+    end
+
     def description_row(work)
       {
         key: 'Description',
@@ -88,11 +98,11 @@ module CandidateInterface
       }
     end
 
-    def dates_row(work)
+    def working_with_children_row(work)
       {
-        key: 'Dates',
-        value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
-        action: generate_action(work: work, attribute: 'dates'),
+        key: 'Did this job involve working in a school or with children?',
+        value: work.working_with_children ? 'Yes' : 'No',
+        action: generate_action(work: work, attribute: 'if this job involved working in a school or with children'),
         change_path: candidate_interface_work_history_edit_path(work.id),
       }
     end
