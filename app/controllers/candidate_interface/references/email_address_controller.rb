@@ -46,7 +46,9 @@ module CandidateInterface
       end
 
       def redirect_to_review_page_unless_not_requested_or_email_bounced
-        redirect_to candidate_interface_references_review_path unless @reference.not_requested_yet? || @reference.email_bounced?
+        unless @reference.present? && (@reference.not_requested_yet? || @reference.email_bounced?)
+          redirect_to candidate_interface_references_review_path
+        end
       end
     end
   end
