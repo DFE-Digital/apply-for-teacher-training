@@ -18,6 +18,16 @@ Sign in to your account anytime to check the progress of your application:
 
 If your training provider decides to progress your application, they’ll contact you to organise an interview.
 
+<% if FeatureFlag.active?(:feedback_form) %>
+
+# Tell us what you think
+
+Your feedback will help us improve the Apply for teacher training service:
+
+<%= @candidate_survey_magic_link_with_token %>
+
+<% end %>
+
 # Get support
 
 Email [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
