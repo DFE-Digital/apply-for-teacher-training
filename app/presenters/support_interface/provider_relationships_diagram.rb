@@ -78,11 +78,19 @@ module SupportInterface
     end
 
     def translate_training_permissions(permission)
-      "#{permission.training_provider_can_view_safeguarding_information ? '✅ view safeguarding' : '❌ view safeguarding'} #{permission.training_provider_can_make_decisions ? '✅ make decisions' : '❌ make decisions'}"
+      "#{value_indicator(permission.training_provider_can_view_safeguarding_information)} view safeguarding "\
+      "#{value_indicator(permission.training_provider_can_view_diversity_information)} view diversity "\
+      "#{value_indicator(permission.training_provider_can_make_decisions)} make decisions"
     end
 
     def translate_ratifying_permissions(permission)
-      "#{permission.ratifying_provider_can_view_safeguarding_information ? '✅ view safeguarding' : '❌ view safeguarding'} #{permission.ratifying_provider_can_make_decisions ? '✅ make decisions' : '❌ make decisions'}"
+      "#{value_indicator(permission.ratifying_provider_can_view_safeguarding_information)} view safeguarding "\
+      "#{value_indicator(permission.ratifying_provider_can_view_diversity_information)} view diversity "\
+      "#{value_indicator(permission.ratifying_provider_can_make_decisions)} make decisions"
+    end
+
+    def value_indicator(permission_value)
+      permission_value ? '✅' : '❌'
     end
   end
 end
