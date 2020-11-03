@@ -29,4 +29,6 @@ module ApplyConsole
   end
 end
 
-Rails::Console.prepend(ApplyConsole)
+if defined?(Rails::Console)
+  Rails::Console.prepend(ApplyConsole)
+end
