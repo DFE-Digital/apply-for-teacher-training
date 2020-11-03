@@ -7,6 +7,9 @@ gem 'rails', '~> 6.0'
 gem 'puma', '~> 5.0'
 gem 'pg', '~> 1.2.3'
 
+# do not rely on host’s timezone data, which can be inconsistent
+gem 'tzinfo-data'
+
 gem 'webpacker'
 gem 'govuk_design_system_formbuilder', '~> 2.1.2'
 

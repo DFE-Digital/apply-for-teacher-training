@@ -470,6 +470,8 @@ GEM
     trollop (1.16.2)
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2020.4)
+      tzinfo (>= 1.0.0)
     uk_postcode (2.1.6)
     unf (0.1.4)
       unf_ext
@@ -534,8 +536,8 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
-  govuk_markdown
   govuk_design_system_formbuilder (~> 2.1.2)
+  govuk_markdown
   guard-rspec
   holidays
   http
@@ -579,6 +581,7 @@ DEPENDENCIES
   skylight
   super_diff
   timecop
+  tzinfo-data
   uk_postcode
   view_component
   web-console (>= 3.3.0)
