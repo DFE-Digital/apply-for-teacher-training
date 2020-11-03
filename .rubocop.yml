@@ -165,3 +165,7 @@ Style/AsciiComments:
 
 Style/ConditionalAssignment:
   Enabled: false
+
+Rails/Output:
+  Exclude:
+    - config/initializers/console.rb

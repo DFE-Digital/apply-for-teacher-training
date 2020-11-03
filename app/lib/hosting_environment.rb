@@ -60,6 +60,10 @@ module HostingEnvironment
     environment_name == 'production'
   end
 
+  def self.development?
+    environment_name == 'development'
+  end
+
   def self.sandbox_mode?
     ENV.fetch('SANDBOX', 'false') == 'true'
   end
