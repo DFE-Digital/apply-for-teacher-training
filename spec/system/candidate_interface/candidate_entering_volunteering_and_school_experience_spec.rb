@@ -144,11 +144,11 @@ RSpec.feature 'Entering volunteering and school experience' do
   end
 
   def when_i_delete_my_volunteering_role
-    click_link t('application_form.volunteering.delete')
+    click_link t('application_form.volunteering.delete.action')
   end
 
   def and_i_confirm
-    click_button t('application_form.volunteering.confirm_delete')
+    click_button t('application_form.volunteering.delete.confirm')
   end
 
   def then_i_no_longer_see_my_volunteering_role

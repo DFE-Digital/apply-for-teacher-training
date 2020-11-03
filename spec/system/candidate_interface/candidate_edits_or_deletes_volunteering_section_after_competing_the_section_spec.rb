@@ -81,10 +81,10 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def and_i_click_delete_role
-    click_link t('application_form.volunteering.delete')
+    click_link t('application_form.volunteering.delete.action')
   end
 
   def and_i_confirm_i_want_to_delete_the_role
-    click_button t('application_form.volunteering.confirm_delete')
+    click_button t('application_form.volunteering.delete.confirm')
   end
 end

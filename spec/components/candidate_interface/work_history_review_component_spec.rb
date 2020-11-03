@@ -40,9 +40,7 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         application_form.application_work_experiences.each do |work|
           expect(result.text).to include(work.role)
           expect(result.text).to include(work.start_date.to_s(:month_and_year))
-          if work.working_with_children
-            expect(result.text).to include(t('application_form.review.role_involved_working_with_children'))
-          end
+          expect(result.text).to include(work.working_with_children ? 'Yes' : 'No')
         end
       end
 
@@ -50,21 +48,29 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         result = render_inline(described_class.new(application_form: application_form))
 
         change_job_title = result.css('.govuk-summary-list__actions')[0].text.strip
-        change_type = result.css('.govuk-summary-list__actions')[1].text.strip
-        change_description = result.css('.govuk-summary-list__actions')[2].text.strip
+        change_employer = result.css('.govuk-summary-list__actions')[1].text.strip
+        change_type = result.css('.govuk-summary-list__actions')[2].text.strip
         change_dates = result.css('.govuk-summary-list__actions')[3].text.strip
+        change_description = result.css('.govuk-summary-list__actions')[4].text.strip
+        change_work_with_children = result.css('.govuk-summary-list__actions')[5].text.strip
 
         expect(change_job_title).to eq(
           'Change job title for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
-        expect(change_type).to eq(
-          'Change type for Teaching Assistant, Vararu School, January 2019 to June 2019',
+        expect(change_employer).to eq(
+          'Change employer for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
-        expect(change_description).to eq(
-          'Change description for Teaching Assistant, Vararu School, January 2019 to June 2019',
+        expect(change_type).to eq(
+          'Change working pattern for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
         expect(change_dates).to eq(
           'Change dates for Teaching Assistant, Vararu School, January 2019 to June 2019',
+        )
+        expect(change_description).to eq(
+          'Change skills and experience for Teaching Assistant, Vararu School, January 2019 to June 2019',
+        )
+        expect(change_work_with_children).to eq(
+          'Change if this job involved working in a school or with children for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
       end
 
@@ -72,8 +78,8 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         result = render_inline(described_class.new(application_form: application_form))
 
         change_job_title_for_same1 = result.css('.govuk-summary-list__actions')[0].text.strip
-        change_job_title_for_unique = result.css('.govuk-summary-list__actions')[4].text.strip
-        change_job_title_for_same2 = result.css('.govuk-summary-list__actions')[8].text.strip
+        change_job_title_for_unique = result.css('.govuk-summary-list__actions')[6].text.strip
+        change_job_title_for_same2 = result.css('.govuk-summary-list__actions')[12].text.strip
 
         expect(change_job_title_for_same1).to eq(
           'Change job title for Teaching Assistant, Vararu School, January 2019 to June 2019',
@@ -92,7 +98,7 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         result = render_inline(described_class.new(application_form: application_form, editable: false))
 
         expect(result.css('.app-summary-list__actions').text).not_to include('Change')
-        expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.volunteering.delete'))
+        expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.work_history.delete_entry.action'))
       end
     end
   end
@@ -145,8 +151,8 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         result = render(explanation: 'I was sleeping.')
 
         expect(result.css('.app-summary-card__title').text).not_to include('You have a break in your work history in the last 5 years')
-        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.break.label'))
-        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.break.change_label'))
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.breaks.review_label'))
+        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.breaks.change_action'))
       end
     end
 

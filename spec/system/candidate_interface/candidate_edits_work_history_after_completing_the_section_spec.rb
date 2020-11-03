@@ -92,11 +92,11 @@ RSpec.feature 'Candidate deletes their work history' do
   end
 
   def and_i_click_on_delete_entry
-    click_link t('application_form.work_history.delete_entry'), match: :first
+    click_link t('application_form.work_history.delete_entry.action'), match: :first
   end
 
   def and_i_click_on_confirm
-    click_button t('application_form.work_history.sure_delete_entry')
+    click_button t('application_form.work_history.delete_entry.confirm')
   end
 
   def when_i_mark_this_section_as_completed
@@ -108,7 +108,7 @@ RSpec.feature 'Candidate deletes their work history' do
   end
 
   def and_i_click_on_add_another_job
-    click_link t('application_form.work_history.add_another_job')
+    click_link t('application_form.work_history.another.button')
   end
 
   def when_i_click_on_work_history
@@ -116,7 +116,7 @@ RSpec.feature 'Candidate deletes their work history' do
   end
 
   def when_i_click_on_add_job
-    click_link t('application_form.work_history.add_job')
+    click_link t('application_form.work_history.add.button')
   end
 
   def and_i_mark_this_section_as_completed

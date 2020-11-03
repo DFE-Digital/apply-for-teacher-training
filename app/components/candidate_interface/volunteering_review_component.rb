@@ -17,6 +17,7 @@ module CandidateInterface
       [
         role_row(volunteering_role),
         organisation_row(volunteering_role),
+        working_with_children_row(volunteering_role),
         length_row(volunteering_role),
         details_row(volunteering_role),
       ]
@@ -48,20 +49,29 @@ module CandidateInterface
       }
     end
 
+    def working_with_children_row(volunteering_role)
+      {
+        key: t('application_form.volunteering.working_with_children.review_label'),
+        value: volunteering_role.working_with_children ? 'Yes' : 'No',
+        action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.working_with_children.change_action')),
+        change_path: edit_path(volunteering_role),
+      }
+    end
+
     def length_row(volunteering_role)
       {
-        key: t('application_form.volunteering.review_length.review_label'),
+        key: t('application_form.volunteering.length.review_label'),
         value: formatted_length(volunteering_role),
-        action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.review_length.change_action')),
+        action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.length.change_action')),
         change_path: edit_path(volunteering_role),
       }
     end
 
     def details_row(volunteering_role)
       {
-        key: t('application_form.volunteering.review_details.review_label'),
+        key: t('application_form.volunteering.details.review_label'),
         value: formatted_details(volunteering_role),
-        action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.review_details.change_action')),
+        action: generate_action(volunteering_role: volunteering_role, attribute: t('application_form.volunteering.details.change_action')),
         change_path: edit_path(volunteering_role),
       }
     end

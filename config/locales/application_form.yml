@@ -4,8 +4,6 @@ en:
     completed_checkbox: I have completed this section
     continue: Continue
     complete_form_button: Save and continue
-    review:
-      role_involved_working_with_children: This role involved working with children
     courses:
       intro: You can apply for up to 3 courses.
       delete: Delete choice
@@ -94,37 +92,78 @@ en:
     work_history:
       less_than_5:
         label: Less than 5 years
-        hint: Give us as much of your work history as you can. For example, if you are a recent graduate, tell us about your employment before, during and since leaving university.
+        hint_text: Give us as much of your work history as you can. For example, if you are a recent graduate, tell us about your employment before, during and since leaving university.
       more_than_5:
         label: More than 5 years
-        hint: You can list your complete work history – or just the roles you think are relevant – going back further than 5 years if you wish.
+        hint_text: You can list your complete work history – or just the roles you think are relevant – going back further than 5 years if you wish.
       more_than_5_with_breaks:
         label: More than 5 years, but with breaks
-        hint: You’ll be able to give details once you’ve entered your employment history. Please explain any break longer than a month.
+        hint_text: You’ll be able to give details once you’ve entered your employment history. Please explain any break longer than a month.
       missing:
         label: I have not worked in the last 5 years
-        hint: You’ll be able to explain why you’ve been out of the workplace.
+        hint_text: You’ll be able to explain why you’ve been out of the workplace.
       role:
         label: Job title
+        review_label: Job title
+        change_action: job title
       organisation:
         label: Name of employer
+        hint_text: If you worked for yourself, enter ‘self-employed’. Include the name of your company if you had one.
+        review_label: Employer
+        change_action: employer
+      commitment:
+        label: Was this job full time or part time?
+        full_time:
+          label: Full-time
+        part_time:
+          label: Part-time
+      working_pattern:
+        label: Give details about your working pattern
+        hint_text: 'For example: ‘20 hours per week’'
+        review_label: Working pattern
+        change_action: working pattern
+      dates:
+        review_label: Dates
+        change_action: dates
+      start_date:
+        label: Start date
+        hint_text: For example, 5 2018
+      end_date:
+        label: End date (leave blank if this is your current role)
+        hint_text: For example, 5 2019
       details:
         label: Skills and experience relevant to teaching you gained in this role
+        hint_text: Give a brief overview of your role and explain how you developed transferable skills like communication, creativity and organisation
+        review_label: Skills and experience
+        change_action: skills and experience
+      working_with_children:
+        label: Did this job involve working in a school or with children?
+        'yes':
+          label: 'Yes'
+        'no':
+          label: 'No'
+        review_label: Did this job involve working in a school or with children?
+        change_action: if this job involved working in a school or with children
+      explanation:
+        label: Tell us why you’ve been out of the workplace
+        review_label: Explanation of why you’ve been out of the workplace
+        change_action: explanation of why you’ve been out of the workplace
+      breaks:
+        review_label: Tell us about any breaks in your work history
+        enter_action: Enter explanation
+        change_action: Change explanation
       complete_form_button: Save and continue
-      delete_entry: Delete entry
-      add_job: Add job
-      add_another_job: Add another job
-      sure_delete_entry: Yes I’m sure - delete this entry
-      break:
-        label: Tell us about any breaks in your work history
-        enter_label: Enter explanation
-        change_label: Change explanation
-        button: Continue
+      delete_entry:
+        action: Delete entry
+        confirm: Yes I’m sure - delete this entry
+        cancel: Cancel
+      add:
+        button: Add job
+      another:
+        button: Add another job
       review:
         completed_checkbox: I have completed this section
         button: Continue
-      explanation:
-        label: Tell us why you’ve been out of the workplace
     degree:
       base:
         button: Save and continue
@@ -327,7 +366,7 @@ en:
         label: Do you have any experience to add?
         button: Save and continue
       no_experience:
-        summary_card_title: "Children and young people: no volunteering or experience in school roles entered"
+        summary_card_title: 'Children and young people: no volunteering or experience in school roles entered'
       role:
         label: Your role
         review_label: Role
@@ -337,9 +376,13 @@ en:
         review_label: Organisation
         change_action: organisation
       working_with_children:
-        label: Did this job involve working in a school or with children?
+        label: Did this role involve working in a school or with children?
+        review_label: Did this role involve working in a school or with children?
+        change_action: if this role involved working in a school or with children
       length:
         label: How long have you been in this role and what does it involve?
+        review_label: Dates
+        change_action: dates
       start_date:
         label: Start date
         hint_text: For example, 5 2018
@@ -351,15 +394,13 @@ en:
         hint_text: For example, ‘I volunteer in the classroom every Friday morning’
           or ‘I spent 1 day observing in this school’ or ‘I am a Scout Leader involved
           in activities throughout the year’
-      review_length:
-        review_label: Tell us how long you’ve been in this role
-        change_action: dates
-      review_details:
-        review_label: Tell us what it involves
-        change_action: details
+        review_label: Time commitment and responsibilities
+        change_action: time commitment and responsibilities
       complete_form_button: Save and continue
-      delete: Delete role
-      confirm_delete: Yes I’m sure - delete this role
+      delete:
+        action: Delete role
+        confirm: Yes I’m sure - delete this role
+        cancel: Cancel
       another:
         button: Add another role
       review:
