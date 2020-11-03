@@ -13,10 +13,10 @@ module CandidateInterface
 
     def work_experience_rows(work)
       [
-        job_row(work),
+        role_row(work),
         working_pattern_row(work),
         dates_row(work),
-        description_row(work),
+        details_row(work),
         working_with_children_row(work),
       ]
         .compact
@@ -25,20 +25,20 @@ module CandidateInterface
     def no_work_experience_rows
       [
         {
-          key: 'Explanation of why you’ve been out of the workplace',
+          key: t('application_form.work_history.explanation.review_label'),
           value: @application_form.work_history_explanation,
-          action: 'explanation of why you’ve been out of the workplace',
+          action: t('application_form.work_history.explanation.change_action'),
           change_path: candidate_interface_work_history_explanation_path,
         },
       ]
     end
 
     def break_in_work_history_rows
-      action_label = t("application_form.work_history.break.#{@application_form.work_history_breaks ? 'change' : 'enter'}_label")
+      action_label = t("application_form.work_history.breaks.#{@application_form.work_history_breaks ? 'change' : 'enter'}_action")
 
       [
         {
-          key: t('application_form.work_history.break.label'),
+          key: t('application_form.work_history.breaks.review_label'),
           value: @application_form.work_history_breaks,
           action: action_label,
           action_path: Rails.application.routes.url_helpers.candidate_interface_work_history_breaks_path,
@@ -62,47 +62,47 @@ module CandidateInterface
 
     attr_reader :application_form
 
-    def job_row(work)
+    def role_row(work)
       {
-        key: 'Job',
+        key: t('application_form.work_history.role.review_label'),
         value: [work.role, work.organisation],
-        action: generate_action(work: work, attribute: 'job title'),
+        action: generate_action(work: work, attribute: t('application_form.work_history.role.change_action')),
         change_path: candidate_interface_work_history_edit_path(work.id),
       }
     end
 
     def working_pattern_row(work)
       {
-        key: 'Working pattern',
+        key: t('application_form.work_history.working_pattern.review_label'),
         value: working_pattern(work),
-        action: generate_action(work: work, attribute: 'type'),
+        action: generate_action(work: work, attribute: t('application_form.work_history.working_pattern.change_action')),
         change_path: candidate_interface_work_history_edit_path(work.id),
       }
     end
 
     def dates_row(work)
       {
-        key: 'Dates',
+        key: t('application_form.work_history.dates.review_label'),
         value: "#{formatted_start_date(work)} - #{formatted_end_date(work)}",
-        action: generate_action(work: work, attribute: 'dates'),
+        action: generate_action(work: work, attribute: t('application_form.work_history.dates.change_action')),
         change_path: candidate_interface_work_history_edit_path(work.id),
       }
     end
 
-    def description_row(work)
+    def details_row(work)
       {
-        key: 'Description',
+        key: t('application_form.work_history.details.review_label'),
         value: work.details,
-        action: generate_action(work: work, attribute: 'description'),
+        action: generate_action(work: work, attribute: t('application_form.work_history.details.change_action')),
         change_path: candidate_interface_work_history_edit_path(work.id),
       }
     end
 
     def working_with_children_row(work)
       {
-        key: 'Did this job involve working in a school or with children?',
-        value: work.working_with_children ? 'Yes' : 'No',
-        action: generate_action(work: work, attribute: 'if this job involved working in a school or with children'),
+        key: t('application_form.work_history.working_with_children.review_label'),
+        value: work.working_with_children ? t('application_form.work_history.working_with_children.yes.label') : t('application_form.work_history.working_with_children.no.label'),
+        action: generate_action(work: work, attribute: t('application_form.work_history.working_with_children.change_action')),
         change_path: candidate_interface_work_history_edit_path(work.id),
       }
     end

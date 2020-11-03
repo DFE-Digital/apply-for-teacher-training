@@ -25,15 +25,15 @@
 
       <div class="govuk-!-margin-top-6">
         <%= f.govuk_radio_buttons_fieldset :work_history, legend: { size: 'm', text: 'How long have you been working?', tag: 'h2' } do %>
-          <%= f.govuk_radio_button :work_history, :less_than_5, label: { text: t('application_form.work_history.less_than_5.label'), size: 's' }, hint: { text: t('application_form.work_history.less_than_5.hint') }, link_errors: true %>
+          <%= f.govuk_radio_button :work_history, :less_than_5, label: { text: t('application_form.work_history.less_than_5.label'), size: 's' }, hint: { text: t('application_form.work_history.less_than_5.hint_text') }, link_errors: true %>
 
-          <%= f.govuk_radio_button :work_history, :more_than_5, label: { text: t('application_form.work_history.more_than_5.label'), size: 's' }, hint: { text: t('application_form.work_history.more_than_5.hint') } %>
+          <%= f.govuk_radio_button :work_history, :more_than_5, label: { text: t('application_form.work_history.more_than_5.label'), size: 's' }, hint: { text: t('application_form.work_history.more_than_5.hint_text') } %>
 
-          <%= f.govuk_radio_button :work_history, :more_than_5_with_breaks, label: { text: t('application_form.work_history.more_than_5_with_breaks.label'), size: 's' }, hint: { text: t('application_form.work_history.more_than_5_with_breaks.hint') } %>
+          <%= f.govuk_radio_button :work_history, :more_than_5_with_breaks, label: { text: t('application_form.work_history.more_than_5_with_breaks.label'), size: 's' }, hint: { text: t('application_form.work_history.more_than_5_with_breaks.hint_text') } %>
 
           <%= f.govuk_radio_divider %>
 
-          <%= f.govuk_radio_button :work_history, :missing, label: { text: t('application_form.work_history.missing.label'), size: 's' }, hint: { text: t('application_form.work_history.missing.hint') } %>
+          <%= f.govuk_radio_button :work_history, :missing, label: { text: t('application_form.work_history.missing.label'), size: 's' }, hint: { text: t('application_form.work_history.missing.hint_text') } %>
         <% end %>
 
         <%= f.govuk_submit 'Continue' %>

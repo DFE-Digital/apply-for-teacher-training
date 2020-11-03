@@ -6,7 +6,7 @@
     <%= form_with model: @work_breaks_form, url: candidate_interface_work_history_breaks_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_area :work_history_breaks, label: { text: t('application_form.work_history.break.label'), tag: 'h1', size: 'xl' }, max_words: 400, rows: 10 do %>
+      <%= f.govuk_text_area :work_history_breaks, label: { text: t('application_form.work_history.breaks.label'), tag: 'h1', size: 'xl' }, max_words: 400, rows: 10 do %>
         <p class="govuk-body">
           For example, reasons for a break in employment might include parenting
           or caring responsibilities, study, travel, unemployment, a career

@@ -92,37 +92,72 @@ en:
     work_history:
       less_than_5:
         label: Less than 5 years
-        hint: Give us as much of your work history as you can. For example, if you are a recent graduate, tell us about your employment before, during and since leaving university.
+        hint_text: Give us as much of your work history as you can. For example, if you are a recent graduate, tell us about your employment before, during and since leaving university.
       more_than_5:
         label: More than 5 years
-        hint: You can list your complete work history – or just the roles you think are relevant – going back further than 5 years if you wish.
+        hint_text: You can list your complete work history – or just the roles you think are relevant – going back further than 5 years if you wish.
       more_than_5_with_breaks:
         label: More than 5 years, but with breaks
-        hint: You’ll be able to give details once you’ve entered your employment history. Please explain any break longer than a month.
+        hint_text: You’ll be able to give details once you’ve entered your employment history. Please explain any break longer than a month.
       missing:
         label: I have not worked in the last 5 years
-        hint: You’ll be able to explain why you’ve been out of the workplace.
+        hint_text: You’ll be able to explain why you’ve been out of the workplace.
       role:
         label: Job title
+        review_label: Job
+        change_action: job
       organisation:
         label: Name of employer
+        hint_text: If you worked for yourself, enter ‘self-employed’. Include the name of your company if you had one.
+      commitment:
+        label: Was this job full time or part time?
+        full_time:
+          label: Full-time
+        part_time:
+          label: Part-time
+      working_pattern:
+        label: Give details about your working pattern
+        hint_text: 'For example: ‘20 hours per week’'
+        review_label: Working pattern
+        change_action: type
+      dates:
+        review_label: Dates
+        change_action: dates
+      start_date:
+        label: Start date
+        hint_text: For example, 5 2018
+      end_date:
+        label: End date (leave blank if this is your current role)
+        hint_text: For example, 5 2019
       details:
         label: Skills and experience relevant to teaching you gained in this role
+        hint_text: Give a brief overview of your role and explain how you developed transferable skills like communication, creativity and organisation
+        review_label: Description
+        change_action: description
+      working_with_children:
+        label: Did this job involve working in a school or with children?
+        'yes':
+          label: 'Yes'
+        'no':
+          label: 'No'
+        review_label: Did this job involve working in a school or with children?
+        change_action: if this job involved working in a school or with children
+      explanation:
+        label: Tell us why you’ve been out of the workplace
+        review_label: Explanation of why you’ve been out of the workplace
+        change_action: explanation of why you’ve been out of the workplace
+      breaks:
+        review_label: Tell us about any breaks in your work history
+        enter_action: Enter explanation
+        change_action: Change explanation
       complete_form_button: Save and continue
-      delete_entry: Delete entry
       add_job: Add job
       add_another_job: Add another job
+      delete_entry: Delete entry
       sure_delete_entry: Yes I’m sure - delete this entry
-      break:
-        label: Tell us about any breaks in your work history
-        enter_label: Enter explanation
-        change_label: Change explanation
-        button: Continue
       review:
         completed_checkbox: I have completed this section
         button: Continue
-      explanation:
-        label: Tell us why you’ve been out of the workplace
     degree:
       base:
         button: Save and continue

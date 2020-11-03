@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         application_form.application_work_experiences.each do |work|
           expect(result.text).to include(work.role)
           expect(result.text).to include(work.start_date.to_s(:month_and_year))
-          expect(result.text).to include('Yes') # Answer for working with children
+          expect(result.text).to include(work.working_with_children ? 'Yes' : 'No')
         end
       end
 
@@ -54,7 +54,7 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         change_work_with_children = result.css('.govuk-summary-list__actions')[4].text.strip
 
         expect(change_job_title).to eq(
-          'Change job title for Teaching Assistant, Vararu School, January 2019 to June 2019',
+          'Change job for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
         expect(change_type).to eq(
           'Change type for Teaching Assistant, Vararu School, January 2019 to June 2019',
@@ -78,13 +78,13 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         change_job_title_for_same2 = result.css('.govuk-summary-list__actions')[10].text.strip
 
         expect(change_job_title_for_same1).to eq(
-          'Change job title for Teaching Assistant, Vararu School, January 2019 to June 2019',
+          'Change job for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
         expect(change_job_title_for_unique).to eq(
-          'Change job title for Teaching Assistant, Theo School',
+          'Change job for Teaching Assistant, Theo School',
         )
         expect(change_job_title_for_same2).to eq(
-          'Change job title for Teaching Assistant, Vararu School, August 2019 to October 2019',
+          'Change job for Teaching Assistant, Vararu School, August 2019 to October 2019',
         )
       end
     end
@@ -147,8 +147,8 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         result = render(explanation: 'I was sleeping.')
 
         expect(result.css('.app-summary-card__title').text).not_to include('You have a break in your work history in the last 5 years')
-        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.break.label'))
-        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.break.change_label'))
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.breaks.review_label'))
+        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.breaks.change_action'))
       end
     end
 
