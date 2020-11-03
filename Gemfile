@@ -52,6 +52,7 @@ gem 'logstash-logger'
 gem 'logstash-event'
 gem 'request_store_rails'
 gem 'request_store-sidekiq'
+gem 'colorize'
 
 # Background processing
 gem 'sidekiq'
