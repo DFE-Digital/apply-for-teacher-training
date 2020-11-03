@@ -19,8 +19,8 @@ module CandidateInterface
         end
       end
 
-      def redirect_to_review_page_unless_reference_is_not_requested_yet
-        redirect_to candidate_interface_references_review_path unless @reference.not_requested_yet?
+      def redirect_to_review_page_unless_reference_is_editable
+        redirect_to candidate_interface_references_review_path unless @reference.present? && @reference.not_requested_yet?
       end
     end
   end

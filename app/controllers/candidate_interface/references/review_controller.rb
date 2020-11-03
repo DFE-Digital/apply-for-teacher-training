@@ -11,6 +11,8 @@ module CandidateInterface
       end
 
       def unsubmitted
+        redirect_to_review_page_unless_reference_is_editable
+
         @submit_reference_form = Reference::SubmitRefereeForm.new
       end
 
