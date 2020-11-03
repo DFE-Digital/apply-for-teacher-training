@@ -6,7 +6,7 @@ RSpec.feature 'Candidate tries to sign in without an account' do
 
     given_i_am_a_candidate_without_an_account
 
-    when_i_go_to_sign_in
+    when_i_visit_the_signin_page
     and_i_submit_my_email_address
     then_i_receive_an_email_inviting_me_to_sign_up
 
@@ -22,12 +22,8 @@ RSpec.feature 'Candidate tries to sign in without an account' do
     @email = "#{SecureRandom.hex}@example.com"
   end
 
-  def when_i_go_to_sign_in
-    visit '/'
-
-    within('#navigation') do
-      click_on 'Sign in'
-    end
+  def when_i_visit_the_signin_page
+    visit candidate_interface_sign_in_path
   end
 
   def and_i_submit_my_email_address

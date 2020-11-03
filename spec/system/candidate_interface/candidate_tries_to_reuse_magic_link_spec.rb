@@ -39,7 +39,7 @@ RSpec.feature 'Candidate account' do
     end
 
     click_link 'Sign out'
-    expect(page).to have_link 'Sign in'
+    expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end
 
   def and_i_try_to_resuse_the_same_magic_link
