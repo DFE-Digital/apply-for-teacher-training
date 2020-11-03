@@ -306,8 +306,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       'heading' => 'Dear Jeff',
       'when offer deferred' => 'On 15 April 2020',
       'provider name' => 'Amazon University',
-      'course name and code' => 'Business (BIZ)',
-      'when new course starts' => -> { "new academic year (#{RecruitmentCycle.current_year})" }
+      'course name and code' => 'Business (BIZ)'
     )
   end
 end

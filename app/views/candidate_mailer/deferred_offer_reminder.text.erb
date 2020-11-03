@@ -4,7 +4,7 @@ Dear <%= @application_form.first_name %>,
 
 On <%= @application_choice.offer_deferred_at.to_s(:govuk_date) %>, <%= @course_option.course.provider.name %> deferred your offer to study <%= @course_option.course.name_and_code %>.
 
-You'll shortly receive another email from us, confirming that you’ll start training in the new academic year (<%= RecruitmentCycle.current_year %>). If you don’t receive this message, you should contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
+You’ll shortly receive an email to confirm the offer. If you do not receive this, you should contact <%= @course_option.course.provider.name %>.
 
 Sign in to your account to view the details of your deferred offer:
 
