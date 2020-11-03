@@ -360,7 +360,7 @@ en:
         label: Do you have any experience to add?
         button: Save and continue
       no_experience:
-        summary_card_title: "Children and young people: no volunteering or experience in school roles entered"
+        summary_card_title: 'Children and young people: no volunteering or experience in school roles entered'
       role:
         label: Your role
         review_label: Role
@@ -371,8 +371,12 @@ en:
         change_action: organisation
       working_with_children:
         label: Did this role involve working in a school or with children?
+        review_label: Did this role involve working in a school or with children?
+        change_action: if this role involved working in a school or with children
       length:
         label: How long have you been in this role and what does it involve?
+        review_label: Tell us how long you’ve been in this role
+        change_action: dates
       start_date:
         label: Start date
         hint_text: For example, 5 2018
@@ -384,13 +388,6 @@ en:
         hint_text: For example, ‘I volunteer in the classroom every Friday morning’
           or ‘I spent 1 day observing in this school’ or ‘I am a Scout Leader involved
           in activities throughout the year’
-      review_working_with_children:
-        review_label: Did this role involve working in a school or with children?
-        change_action: if this role involve working in a school or with children
-      review_length:
-        review_label: Tell us how long you’ve been in this role
-        change_action: dates
-      review_details:
         review_label: Tell us what it involves
         change_action: details
       complete_form_button: Save and continue

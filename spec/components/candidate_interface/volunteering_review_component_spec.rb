@@ -71,39 +71,39 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent do
     it 'renders component with correct values for working with children' do
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.review_working_with_children.review_label'))
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.working_with_children.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('Yes')
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.volunteering.review_working_with_children.change_action')} for School Experience Intern, A Noice School",
+        "Change #{t('application_form.volunteering.working_with_children.change_action')} for School Experience Intern, A Noice School",
       )
     end
 
     it 'renders component with correct values for length' do
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.review_length.review_label'))
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.length.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('August 2019 - Present')
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.volunteering.review_length.change_action')} for School Experience Intern, A Noice School",
+        "Change #{t('application_form.volunteering.length.change_action')} for School Experience Intern, A Noice School",
       )
     end
 
     it 'renders component with correct values for details of experience' do
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.review_details.review_label'))
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.volunteering.details.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('<p class="govuk-body">I interned.</p>')
       expect(result.css('.govuk-summary-list__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.volunteering.review_details.change_action')} for School Experience Intern, A Noice School",
+        "Change #{t('application_form.volunteering.details.change_action')} for School Experience Intern, A Noice School",
       )
     end
 
