@@ -111,7 +111,7 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.app-summary-card__actions').text.strip).to include(
-        "#{t('application_form.volunteering.delete')} for School Experience Intern, A Noice School",
+        "#{t('application_form.volunteering.delete.action')} for School Experience Intern, A Noice School",
       )
       expect(result.css('.app-summary-card__actions a').attr('href').value).to include(
         Rails.application.routes.url_helpers.candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role),
@@ -158,7 +158,7 @@ RSpec.describe CandidateInterface::VolunteeringReviewComponent do
         result = render_inline(described_class.new(application_form: application_form, editable: false))
 
         expect(result.css('.app-summary-list__actions').text).not_to include('Change')
-        expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.volunteering.delete'))
+        expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.volunteering.delete.action'))
       end
     end
   end

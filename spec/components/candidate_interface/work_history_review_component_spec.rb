@@ -94,7 +94,7 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         result = render_inline(described_class.new(application_form: application_form, editable: false))
 
         expect(result.css('.app-summary-list__actions').text).not_to include('Change')
-        expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.volunteering.delete'))
+        expect(result.css('.app-summary-card__actions').text).not_to include(t('application_form.work_history.delete_entry.action'))
       end
     end
   end

@@ -139,15 +139,15 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_click_on_delete_entry
-    click_link t('application_form.work_history.delete_entry')
+    click_link t('application_form.work_history.delete_entry.action')
   end
 
   def and_i_confirm
-    click_button t('application_form.work_history.sure_delete_entry')
+    click_button t('application_form.work_history.delete_entry.confirm')
   end
 
   def when_i_click_on_add_job
-    click_link t('application_form.work_history.add_job')
+    click_link t('application_form.work_history.add.button')
   end
 
   def and_i_fill_in_the_job_form
