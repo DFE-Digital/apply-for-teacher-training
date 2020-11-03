@@ -1,4 +1,4 @@
-<!-- Current user: <%= provider_user_associated_with_training_provider? ? 'Training' : 'Ratifying' %> provider (manage_users: <%= provider_user_can_manage_users? %>, manage_organisations: <%= provider_user_can_manage_organisations? %>) -->
+<!-- Current user: <%= provider_user_associated_with_training_provider? ? 'Training' : 'Ratifying' %> provider (view_safeguarding_information: <%= provider_user_has_user_level_access? %>, manage_users: <%= provider_user_can_manage_users? %>, manage_organisations: <%= provider_user_can_manage_organisations? %>) -->
 <!-- Org permissions setup: <%= provider_relationship_has_been_set_up? ? 'completed' : 'incomplete' %> -->
 <!-- Training provider: <%= @training_provider&.name %> (org access: <%= @relationship&.training_provider_can_view_safeguarding_information %>) -->
 <!-- Ratifying provider: <%= @ratifying_provider&.name %> (org access: <%= @relationship&.ratifying_provider_can_view_safeguarding_information %>) -->
