@@ -104,11 +104,13 @@ en:
         hint_text: You’ll be able to explain why you’ve been out of the workplace.
       role:
         label: Job title
-        review_label: Job
-        change_action: job
+        review_label: Job title
+        change_action: job title
       organisation:
         label: Name of employer
         hint_text: If you worked for yourself, enter ‘self-employed’. Include the name of your company if you had one.
+        review_label: Employer
+        change_action: employer
       commitment:
         label: Was this job full time or part time?
         full_time:
@@ -119,7 +121,7 @@ en:
         label: Give details about your working pattern
         hint_text: 'For example: ‘20 hours per week’'
         review_label: Working pattern
-        change_action: type
+        change_action: working pattern
       dates:
         review_label: Dates
         change_action: dates
@@ -132,8 +134,8 @@ en:
       details:
         label: Skills and experience relevant to teaching you gained in this role
         hint_text: Give a brief overview of your role and explain how you developed transferable skills like communication, creativity and organisation
-        review_label: Description
-        change_action: description
+        review_label: Skills and experience
+        change_action: skills and experience
       working_with_children:
         label: Did this job involve working in a school or with children?
         'yes':
@@ -379,7 +381,7 @@ en:
         change_action: if this role involved working in a school or with children
       length:
         label: How long have you been in this role and what does it involve?
-        review_label: Tell us how long you’ve been in this role
+        review_label: Dates
         change_action: dates
       start_date:
         label: Start date
@@ -392,8 +394,8 @@ en:
         hint_text: For example, ‘I volunteer in the classroom every Friday morning’
           or ‘I spent 1 day observing in this school’ or ‘I am a Scout Leader involved
           in activities throughout the year’
-        review_label: Tell us what it involves
-        change_action: details
+        review_label: Time commitment and responsibilities
+        change_action: time commitment and responsibilities
       complete_form_button: Save and continue
       delete:
         action: Delete role

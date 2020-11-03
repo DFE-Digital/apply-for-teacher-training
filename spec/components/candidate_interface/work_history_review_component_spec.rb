@@ -48,22 +48,26 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         result = render_inline(described_class.new(application_form: application_form))
 
         change_job_title = result.css('.govuk-summary-list__actions')[0].text.strip
-        change_type = result.css('.govuk-summary-list__actions')[1].text.strip
-        change_dates = result.css('.govuk-summary-list__actions')[2].text.strip
-        change_description = result.css('.govuk-summary-list__actions')[3].text.strip
-        change_work_with_children = result.css('.govuk-summary-list__actions')[4].text.strip
+        change_employer = result.css('.govuk-summary-list__actions')[1].text.strip
+        change_type = result.css('.govuk-summary-list__actions')[2].text.strip
+        change_dates = result.css('.govuk-summary-list__actions')[3].text.strip
+        change_description = result.css('.govuk-summary-list__actions')[4].text.strip
+        change_work_with_children = result.css('.govuk-summary-list__actions')[5].text.strip
 
         expect(change_job_title).to eq(
-          'Change job for Teaching Assistant, Vararu School, January 2019 to June 2019',
+          'Change job title for Teaching Assistant, Vararu School, January 2019 to June 2019',
+        )
+        expect(change_employer).to eq(
+          'Change employer for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
         expect(change_type).to eq(
-          'Change type for Teaching Assistant, Vararu School, January 2019 to June 2019',
+          'Change working pattern for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
         expect(change_dates).to eq(
           'Change dates for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
         expect(change_description).to eq(
-          'Change description for Teaching Assistant, Vararu School, January 2019 to June 2019',
+          'Change skills and experience for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
         expect(change_work_with_children).to eq(
           'Change if this job involved working in a school or with children for Teaching Assistant, Vararu School, January 2019 to June 2019',
@@ -74,17 +78,17 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         result = render_inline(described_class.new(application_form: application_form))
 
         change_job_title_for_same1 = result.css('.govuk-summary-list__actions')[0].text.strip
-        change_job_title_for_unique = result.css('.govuk-summary-list__actions')[5].text.strip
-        change_job_title_for_same2 = result.css('.govuk-summary-list__actions')[10].text.strip
+        change_job_title_for_unique = result.css('.govuk-summary-list__actions')[6].text.strip
+        change_job_title_for_same2 = result.css('.govuk-summary-list__actions')[12].text.strip
 
         expect(change_job_title_for_same1).to eq(
-          'Change job for Teaching Assistant, Vararu School, January 2019 to June 2019',
+          'Change job title for Teaching Assistant, Vararu School, January 2019 to June 2019',
         )
         expect(change_job_title_for_unique).to eq(
-          'Change job for Teaching Assistant, Theo School',
+          'Change job title for Teaching Assistant, Theo School',
         )
         expect(change_job_title_for_same2).to eq(
-          'Change job for Teaching Assistant, Vararu School, August 2019 to October 2019',
+          'Change job title for Teaching Assistant, Vararu School, August 2019 to October 2019',
         )
       end
     end

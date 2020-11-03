@@ -14,6 +14,7 @@ module CandidateInterface
     def work_experience_rows(work)
       [
         role_row(work),
+        organisation_row(work),
         working_pattern_row(work),
         dates_row(work),
         details_row(work),
@@ -65,8 +66,17 @@ module CandidateInterface
     def role_row(work)
       {
         key: t('application_form.work_history.role.review_label'),
-        value: [work.role, work.organisation],
+        value: work.role,
         action: generate_action(work: work, attribute: t('application_form.work_history.role.change_action')),
+        change_path: candidate_interface_work_history_edit_path(work.id),
+      }
+    end
+
+    def organisation_row(work)
+      {
+        key: t('application_form.work_history.organisation.review_label'),
+        value: work.organisation,
+        action: generate_action(work: work, attribute: t('application_form.work_history.organisation.change_action')),
         change_path: candidate_interface_work_history_edit_path(work.id),
       }
     end
