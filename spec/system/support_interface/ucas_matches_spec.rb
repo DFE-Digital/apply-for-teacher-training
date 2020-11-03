@@ -72,7 +72,7 @@ RSpec.feature 'See UCAS matches' do
   end
 
   def and_i_should_which_ucas_matches_need_action
-    expect(page).to have_content 'Matching data updated Action needed'
+    expect(page).to have_content 'Updated Action needed'
     expect(page).to have_content 'Invalid data'
   end
 

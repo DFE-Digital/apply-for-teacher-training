@@ -126,7 +126,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   def and_the_existing_match_is_updated
     expect(page).to have_content @previously_matched_changed.email_address
-    expect(page).to have_content 'Matching data updated'
+    expect(page).to have_content 'Updated'
   end
 
   def and_the_unchanged_existing_match_is_left_alone
