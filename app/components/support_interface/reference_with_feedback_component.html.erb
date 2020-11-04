@@ -1,7 +1,7 @@
 <div data-qa="reference">
   <%= render SummaryCardComponent.new(rows: rows) do %>
     <%= render(SummaryCardHeaderComponent.new(title: title)) do %>
-      <% if reference.cancelled? %>
+      <% if reference.cancelled? || reference.feedback_refused? %>
         <div class='app-summary-card__actions'>
           <%= link_to support_interface_reinstate_reference_path(reference), class: 'govuk-link' do %>
           Reinstate reference<span class="govuk-visually-hidden"> for <%= reference.name %></span>
