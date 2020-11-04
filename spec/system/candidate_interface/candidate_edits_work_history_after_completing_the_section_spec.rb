@@ -69,7 +69,7 @@ RSpec.feature 'Candidate deletes their work history' do
     fill_in t('role.label', scope: scope), with: 'Chief Terraforming Officer'
     fill_in t('organisation.label', scope: scope), with: 'Weyland-Yutani'
 
-    choose 'Part-time'
+    choose 'Part time'
 
     fill_in 'Give details about your working pattern', with: 'I had a working pattern'
 

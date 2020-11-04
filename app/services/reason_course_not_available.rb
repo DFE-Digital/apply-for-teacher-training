@@ -14,7 +14,7 @@ class ReasonCourseNotAvailable
     # all course options for the given course are full at the selected location
     return :location_full if application_choice.site_full?
 
-    # all part/full-time course options are full for the given course
+    # all part/full time course options are full for the given course
     return :study_mode_full if application_choice.study_mode_full?
 
     raise ArgumentError, 'Course is available'
