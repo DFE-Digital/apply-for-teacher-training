@@ -1,7 +1,7 @@
 module CandidateInterface
   module References
     class ReviewController < BaseController
-      before_action :set_reference
+      before_action :set_reference, :redirect_to_start_path_if_candidate_has_no_references
 
       def show
         @application_form = current_application
@@ -90,6 +90,10 @@ module CandidateInterface
 
       def redirect_to_review_page
         redirect_to candidate_interface_references_review_path
+      end
+
+      def redirect_to_start_path_if_candidate_has_no_references
+        redirect_to candidate_interface_references_start_path if current_application.application_references.blank?
       end
     end
   end

@@ -5,6 +5,10 @@ RSpec.feature 'Review references' do
 
   scenario 'the candidate has several references in different states' do
     given_i_am_signed_in
+
+    when_i_have_no_references_and_try_to_visit_the_review_page
+    then_i_am_redirected_to_the_start_page
+
     when_i_view_my_application
     then_the_references_section_is_incomplete
 
@@ -24,6 +28,14 @@ RSpec.feature 'Review references' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def when_i_have_no_references_and_try_to_visit_the_review_page
+    visit candidate_interface_references_review_path
+  end
+
+  def then_i_am_redirected_to_the_start_page
+    expect(page).to have_current_path candidate_interface_references_start_path
   end
 
   def when_i_view_my_application
