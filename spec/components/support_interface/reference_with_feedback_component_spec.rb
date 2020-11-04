@@ -19,6 +19,15 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
       expect(rendered_component).to include('Reinstate reference')
       expect(rendered_component).not_to include('Cancel reference')
     end
+
+    it 'Reinstate link is present when the reference is refused' do
+      reference = build_stubbed(:reference, feedback_status: 'feedback_refused')
+
+      render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
+
+      expect(rendered_component).to include('Reinstate reference')
+      expect(rendered_component).not_to include('Cancel reference')
+    end
   end
 
   describe 'title' do
