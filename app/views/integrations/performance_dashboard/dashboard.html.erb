@@ -95,7 +95,7 @@
   <caption class="govuk-table__caption govuk-heading-m">Apply again</caption>
   <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-width-one-quarter">Awaiting decision from provider</th>
+      <th scope="row" class="govuk-table__header govuk-!-width-one-quarter">Submitted</th>
       <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.apply_again_submitted_count %></td>
       <td class="govuk-table__cell govuk-!-width-two-thirds"><%= t("performance_dashboard_other_metrics.apply_again_submitted.description") %></td>
     </tr>
@@ -112,7 +112,7 @@
 <table class="govuk-table">
   <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
-      <th scope="row" class="govuk-table__header govuk-!-width-one-quarter">Providers onboarded</th>
+      <th scope="row" class="govuk-table__header govuk-!-width-one-quarter">Providers with open courses on Apply</th>
       <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.percentage_of_providers_onboarded %></td>
       <td class="govuk-table__cell govuk-!-width-two-thirds"><%= t("performance_dashboard_other_metrics.percentage_of_providers_onboarded.description") %></td>
     </tr>
