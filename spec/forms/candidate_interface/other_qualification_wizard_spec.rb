@@ -18,9 +18,9 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
         other_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'Other', subject: nil)
         gcse = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'GCSE', subject: nil)
 
-        non_uk_qualification.valid?(on: :details)
-        other_uk_qualification.valid?(on: :details)
-        gcse.valid?(on: :details)
+        non_uk_qualification.valid?(:details)
+        other_uk_qualification.valid?(:details)
+        gcse.valid?(:details)
 
         expect(non_uk_qualification.errors.full_messages_for(:subject)).to be_empty
         expect(other_uk_qualification.errors.full_messages_for(:subject)).to be_empty
@@ -44,8 +44,8 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
       end
     end
 
-    it { is_expected.to validate_presence_of(:subject) }
-    it { is_expected.to validate_presence_of(:grade) }
+    it { is_expected.to validate_presence_of(:subject).on(:details) }
+    it { is_expected.to validate_presence_of(:grade).on(:details) }
 
     describe 'institution country' do
       context 'when it is a non-uk qualification' do

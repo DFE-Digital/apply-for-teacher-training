@@ -1,7 +1,6 @@
 module CandidateInterface
   class OtherQualifications::DestroyController < OtherQualifications::BaseController
     def confirm_destroy
-      current_qualification = current_application.application_qualifications.other.find(current_other_qualification_id)
       @qualification = OtherQualificationWizard.build_from_qualification(current_qualification)
     end
 
