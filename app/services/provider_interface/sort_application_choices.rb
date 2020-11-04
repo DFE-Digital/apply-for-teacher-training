@@ -11,6 +11,7 @@ module ProviderInterface
             CASE
               WHEN #{deferred_offers_pending_reconfirmation} THEN 1
               WHEN #{about_to_be_rejected_automatically} THEN 2
+              WHEN #{give_feedback_for_rbd} THEN 3
               WHEN #{awaiting_provider_decision_non_urgent} THEN 4
               WHEN #{pending_conditions_previous_cycle} THEN 5
               WHEN #{waiting_on_candidate} THEN 6
@@ -62,6 +63,16 @@ module ProviderInterface
             )
         )
       AWAITING_PROVIDER_DECISION
+    end
+
+    def self.give_feedback_for_rbd
+      <<~GIVE_FEEDBACK_FOR_RBD.squish
+        (
+          status = 'rejected'
+            AND rejected_by_default
+            AND rejection_reason IS NULL
+        )
+      GIVE_FEEDBACK_FOR_RBD
     end
 
     def self.awaiting_provider_decision_non_urgent

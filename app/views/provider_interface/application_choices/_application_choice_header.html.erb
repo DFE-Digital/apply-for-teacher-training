@@ -44,6 +44,22 @@
       </div>
     </div>
   </div>
+<% elsif @rejection_reason_required && flash.empty? && @provider_can_respond -%>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <div class="govuk-inset-text govuk-!-margin-top-0">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-3">
+          Give feedback
+        </h2>
+
+        <p class="govuk-body">
+          You did not respond to the application within 40 days. Tell the candidate why their application was unsuccessful.
+        </p>
+
+        <%= govuk_button_link_to 'Give feedback', provider_interface_reconfirm_deferred_offer_path(@application_choice) %>
+      </div>
+    </div>
+  </div>
 <% end -%>
 
 <% if @sub_navigation_items.count > 1 %>
