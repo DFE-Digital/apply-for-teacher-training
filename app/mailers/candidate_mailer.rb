@@ -214,6 +214,16 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def deferred_offer_reminder(application_choice)
+    @application_choice = application_choice
+    @course_option = @application_choice.offered_option
+
+    email_for_candidate(
+      @application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.deferred_offer_reminder.subject', provider_name: @course_option.course.provider.name),
+    )
+  end
+
   def reinstated_offer(application_choice)
     @application_choice = application_choice
     @course_option = @application_choice.offered_option
