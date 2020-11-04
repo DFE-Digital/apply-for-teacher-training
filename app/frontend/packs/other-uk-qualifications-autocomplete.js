@@ -19,7 +19,7 @@ const initOtherUKQualificationsAutocomplete = () => {
     });
 
   } catch (err) {
-    console.error("Could not enhance degree type input:", err);
+    console.error("Could not enhance qualification type input:", err);
   }
 };
 
