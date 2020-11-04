@@ -91,6 +91,14 @@ RSpec.describe SupportInterface::AuditTrailItemComponent do
     expect(render_result.text).to include('Harry - harry@hogwarts.edu (Referee)')
   end
 
+  it 'renders an update on application form audit record with a deleted referee' do
+    audit.user_type = 'ApplicationReference'
+    audit.user_id = 412563789101
+    audit.action = 'update'
+
+    expect(render_result.text).to include('Deleted referee')
+  end
+
   it 'renders an update application form audit record with the username (rather than a persistent model)' do
     audit.user = nil
     audit.username = 'SYSTEM'
