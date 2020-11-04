@@ -27,7 +27,7 @@ const initCountryAutocomplete = () => {
       });
     });
   } catch (err) {
-    console.error("Could not enhance degree institution country select:", err);
+    console.error("Could not enhance country select:", err);
   }
 };
 
