@@ -1,6 +1,10 @@
 {
   "name": "apply-for-teacher-training",
   "private": true,
+  "engines": {
+    "node": "^14.15.0",
+    "yarn": "^1.12.10"
+  },
   "dependencies": {
     "@ministryofjustice/frontend": "^0.0.21",
     "@rails/webpacker": "^5.2.1",
