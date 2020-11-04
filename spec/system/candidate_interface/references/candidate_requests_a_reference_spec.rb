@@ -102,7 +102,7 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   def then_i_am_prompted_for_my_name
-    expect(page).to have_content('Tell the referee your name')
+    expect(page).to have_content('What is your name?')
   end
 
   def when_i_continue_without_entering_my_name

@@ -7,15 +7,19 @@
       model: @reference_candidate_name_form,
       url: candidate_interface_references_create_candidate_name_path(@reference.id),
     ) do |f| %>
+      <%= f.govuk_error_summary %>
+
       <h1 class="govuk-heading-xl">
         <%= t('page_titles.references_candidate_name') %>
       </h1>
 
-      <%= f.govuk_error_summary %>
+      <p class="govuk-body">
+        Tell the referee who the reference is for.
+      </p>
 
-      <%= f.govuk_text_field :first_name, label: { text: 'First name', size: 'm' }, hint_text: 'Or given names' %>
+      <%= f.govuk_text_field :first_name, label: { text: t('application_form.references.candidate_name.first_name.label'), size: 'm' }, hint: { text: t('application_form.references.candidate_name.first_name.hint_text') } %>
 
-      <%= f.govuk_text_field :last_name, label: { text: 'Last name', size: 'm' }, hint_text: 'Or family name' %>
+      <%= f.govuk_text_field :last_name, label: { text: t('application_form.references.candidate_name.last_name.label'), size: 'm' }, hint: { text: t('application_form.references.candidate_name.last_name.hint_text') } %>
 
       <%= f.govuk_submit 'Save and continue' %>
     <% end %>
