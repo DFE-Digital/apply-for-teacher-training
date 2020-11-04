@@ -5,6 +5,12 @@ class ApplicationForm < ApplicationRecord
 
   include Chased
 
+  include PgSearch::Model
+
+  pg_search_scope :full_text_search,
+                  against: %i[first_name last_name support_reference],
+                  associated_against: { candidate: [:email_address] }
+
   belongs_to :candidate, touch: true
   has_many :application_choices
   has_many :application_work_experiences

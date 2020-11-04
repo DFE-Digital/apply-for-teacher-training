@@ -14,7 +14,7 @@ module SupportInterface
         .page(applied_filters[:page] || 1).per(15)
 
       if applied_filters[:q]
-        application_forms = application_forms.where("CONCAT(application_forms.first_name, ' ', application_forms.last_name, ' ', candidates.email_address, ' ', application_forms.support_reference) ILIKE ?", "%#{applied_filters[:q]}%")
+        application_forms = application_forms.full_text_search(applied_filters[:q])
       end
 
       if applied_filters[:phase]
