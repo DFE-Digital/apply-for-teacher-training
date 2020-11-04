@@ -20,6 +20,7 @@ module SupportInterface
 
     def data_for_export
       applications = ApplicationForm
+                         .where.not(date_of_birth: nil)
                          .select(:id, :candidate_id, :submitted_at, :date_of_birth)
                          .includes(:application_qualifications, :application_work_experiences, :application_work_history_breaks)
                          .order(submitted_at: :desc).uniq(&:candidate_id)
