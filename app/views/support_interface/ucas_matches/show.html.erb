@@ -5,24 +5,28 @@
 <% application = @match.candidate.application_forms.first %>
 
 <%= render SummaryListComponent.new(rows: {
+  'Recruitment cycle year' => @match.recruitment_cycle_year.to_s,
   'Candidate name' => "#{application.first_name} #{application.last_name}",
   'Candidate email' => @match.candidate.email_address.to_s,
   'Last updated' => @match.updated_at.to_s(:govuk_date_and_time),
+  'First added' => @match.created_at.to_s(:govuk_date_and_time),
   'Status' => render(TagComponent.new(text: @match.matching_state.humanize, type: @match.processed? ? :green : :purple)),
   'Application on Apply' => govuk_link_to('View application', support_interface_application_form_path(application)),
 }) %>
 
-<% if @match.invalid_matching_data? %>
-  <%= render TagComponent.new(text: "Invalid data", type: :red) %>
-<% elsif @match.action_needed? %>
-  <%= render TagComponent.new(text: "Action needed", type: :yellow) %>
-<% end %>
-
-<% unless @match.processed? %>
-  <%= form_with url: support_interface_process_match_path(@match), method: :post do |f| %>
-    <%= f.submit 'Mark as processed', class: 'govuk-button govuk-!-margin-bottom-0' %>
+<p class="govuk-body">
+  <% if @match.invalid_matching_data? %>
+    <%= render TagComponent.new(text: "Invalid data", type: :red) %>
+  <% elsif @match.action_needed? %>
+    <%= render TagComponent.new(text: "Action needed", type: :yellow) %>
   <% end %>
-<% end %>
+
+  <% unless @match.processed? %>
+    <%= form_with url: support_interface_process_match_path(@match), method: :post do |f| %>
+      <%= f.submit 'Mark as processed', class: 'govuk-button govuk-!-margin-bottom-0' %>
+    <% end %>
+  <% end %>
+</p>
 
 <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Course choices</h2>
 <%= render SupportInterface::UCASMatchTableComponent.new(@match) %>
