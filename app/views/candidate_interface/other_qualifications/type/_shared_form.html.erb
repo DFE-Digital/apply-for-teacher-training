@@ -14,6 +14,7 @@
   <% if FeatureFlag.active?('international_other_qualifications') %>
     <%= f.govuk_radio_button :qualification_type, 'Other', label: { text: 'Other UK qualification' } do %>
       <%= f.govuk_text_field :other_uk_qualification_type, label: { text: 'Qualification name' } %>
+      <%= tag.div(id: 'other-uk-qualifications-autocomplete', data: { source: OTHER_UK_QUALIFICATIONS }) %>
     <% end %>
     <%= f.govuk_radio_button :qualification_type, 'non_uk', label: { text: 'Non-UK qualification' } do %>
       <%= f.govuk_text_field :non_uk_qualification_type, label: { text: 'Qualification name' }, hint: { text: t('application_form.other_qualification.qualification_type.non_uk.hint_text') } %>
