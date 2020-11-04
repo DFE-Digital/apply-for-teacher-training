@@ -4,24 +4,7 @@ module FindAPIHelper
   end
 
   def stubbed_recruitment_cycle_year
-    @stubbed_recruitment_cycle_year || 2020
-  end
-
-  # Stub out the 2021 sync. Once we've transitioned to the new recruitment cycle year,
-  # we'll set 2021 as the default and this method won't be necessary anymore.
-  def stub_new_recruitment_year_sync
-    stub_request(
-      :get,
-      "#{ENV.fetch('FIND_BASE_URL')}recruitment_cycles/2021/providers",
-    )
-    .to_return(
-      status: 200,
-      headers: { 'Content-Type': 'application/vnd.api+json' },
-      body: {
-        data: [],
-        jsonapi: { version: '1.0' },
-      }.to_json,
-    )
+    @stubbed_recruitment_cycle_year || 2021
   end
 
   def stub_find_api_provider_200(
