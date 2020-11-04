@@ -4,7 +4,7 @@ RSpec.feature 'Providers and courses' do
   include DfESignInHelpers
   include FindAPIHelper
 
-  scenario 'User syncs provider and browses providers', recruitment_cycle: 2021 do
+  scenario 'User syncs provider and browses providers' do
     given_i_am_a_support_user
     and_providers_are_configured_to_be_synced
     when_i_visit_the_tasks_page

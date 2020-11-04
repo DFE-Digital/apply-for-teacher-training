@@ -9,9 +9,8 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                   ethnic_background: 'Caribbean',
                                   disabilities: %w[Blind Deaf],
                                 })
-      cycle_year = 2020
 
-      described_class.call(cycle_year)
+      described_class.call(RecruitmentCycle.current_year)
 
       application_form.reload
 
@@ -32,9 +31,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                     disabilities: ['Prefer not to say'],
                                   })
 
-        cycle_year = 2020
-
-        described_class.call(cycle_year)
+        described_class.call(RecruitmentCycle.current_year)
 
         application_form.reload
 
@@ -52,9 +49,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                     disabilities: nil,
                                   })
 
-        cycle_year = 2020
-
-        described_class.call(cycle_year)
+        described_class.call(RecruitmentCycle.current_year)
 
         application_form.reload
 
@@ -72,10 +67,9 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                     disabilities: ['Acquired brain injury', 'Many unexplained illnesses'],
                                   })
 
-        cycle_year = 2020
         hesa_disability_code_other = '96'
 
-        described_class.call(cycle_year)
+        described_class.call(RecruitmentCycle.current_year)
 
         application_form.reload
 
@@ -94,11 +88,12 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                   equality_and_diversity: {
                                     ethnic_background: 'Maori',
                                     disabilities: [],
-                                  })
-        cycle_year = 2020
+                                  },
+                                  recruitment_cycle_year: 2020)
+
         hesa_ethnicity_code_unknown = 90
 
-        described_class.call(cycle_year)
+        described_class.call(2020)
 
         application_form.reload
 
@@ -117,12 +112,12 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                     equality_and_diversity: {
                                       ethnic_group: 'Prefer not to say',
                                       disabilities: [],
-                                    })
+                                    },
+                                    recruitment_cycle_year: 2020)
+
           hesa_ethnicity_code_refused = 98
 
-          cycle_year = 2020
-
-          described_class.call(cycle_year)
+          described_class.call(2020)
 
           application_form.reload
 
@@ -145,9 +140,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                     },
                                     recruitment_cycle_year: 2021)
 
-          cycle_year = 2021
-
-          described_class.call(cycle_year)
+          described_class.call(2021)
 
           application_form.reload
 
@@ -167,13 +160,11 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
         application_form = create(:application_form,
                                   equality_and_diversity: {
                                     sex: 'intersex',
-                                  },
-                                  recruitment_cycle_year: 2021)
+                                  })
 
-        cycle_year = 2021
         hesa_sex_code_intersex = 3
 
-        described_class.call(cycle_year)
+        described_class.call(RecruitmentCycle.current_year)
 
         application_form.reload
 

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Cycle switching' do
   include DfESignInHelpers
 
-  scenario 'Support user switches cycle schedule' do
+  scenario 'Support user switches cycle schedule', recruitment_cycle: 2020 do
     given_i_am_a_support_user
     when_i_click_on_the_recruitment_cycle_link
     then_i_see_the_cycle_information
