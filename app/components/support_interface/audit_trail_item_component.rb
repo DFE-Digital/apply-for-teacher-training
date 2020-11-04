@@ -24,7 +24,11 @@ module SupportInterface
       if audit.user_type == 'Candidate'
         "#{audit.user.email_address} (Candidate)"
       elsif audit.user_type == 'ApplicationReference'
-        "#{audit.user.name} - #{audit.user.email_address} (Referee)"
+        if audit.user
+          "#{audit.user.name} - #{audit.user.email_address} (Referee)"
+        else
+          'Deleted referee'
+        end
       elsif audit.user_type == 'VendorApiUser'
         "#{audit.user.email_address} (Vendor API)"
       elsif audit.user_type == 'SupportUser'
