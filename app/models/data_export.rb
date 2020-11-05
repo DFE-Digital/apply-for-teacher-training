@@ -80,6 +80,11 @@ class DataExport < ApplicationRecord
       description: 'A list of candidates with unexplained breaks in their work history.',
       class: SupportInterface::UnexplainedBreaksInWorkHistoryExport,
     },
+    provider_access_controls: {
+      name: 'Provider Access Controls',
+      description: 'A list of providers and information about their permissions',
+      class: SupportInterface::ProviderAccessControlsExport,
+    },
   }.freeze
 
   belongs_to :initiator, polymorphic: true, optional: true
