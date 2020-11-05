@@ -95,6 +95,7 @@ module ProviderInterface
     attr_accessor :course_full_y_n
 
     attr_accessor :offered_on_another_course_y_n
+    attr_accessor :offered_on_another_course_details
 
     attr_accessor :honesty_and_professionalism_y_n
     attr_writer :honesty_and_professionalism_concerns
@@ -138,7 +139,6 @@ module ProviderInterface
     end
 
     with_options(on: :initial_questions) do
-      validates :offered_on_another_course_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :candidate_behaviour_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :candidate_behaviour_what_did_the_candidate_do,
                 presence: true,
@@ -182,6 +182,11 @@ module ProviderInterface
 
       validates :course_full_y_n, presence: true, inclusion: { in: %w[Yes No] }
 
+      validates :offered_on_another_course_y_n, presence: true, inclusion: { in: %w[Yes No] }
+      validates :offered_on_another_course_details,
+                presence: true,
+                if: -> { offered_on_another_course_y_n == 'Yes' }
+
       validates :honesty_and_professionalism_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :honesty_and_professionalism_concerns,
                 presence: true,
@@ -211,6 +216,14 @@ module ProviderInterface
       validates :safeguarding_concerns_other_details,
                 presence: true,
                 if: -> { safeguarding_concerns.include?('other') }
+    end
+
+    def feedback_heading
+      if interested_in_future_applications_y_n == 'Yes'
+        'The provider would be interested in future applications from you'
+      else
+        'Training provider feedback'
+      end
     end
 
   private

@@ -36,6 +36,7 @@ module ProviderInterface
     attr_accessor :course_full_y_n
 
     attr_accessor :offered_on_another_course_y_n
+    attr_accessor :offered_on_another_course_details
 
     attr_accessor :honesty_and_professionalism_y_n
     attr_writer :honesty_and_professionalism_concerns

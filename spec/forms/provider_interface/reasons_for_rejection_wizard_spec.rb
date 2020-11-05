@@ -47,6 +47,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
           %i[
             candidate_behaviour_what_did_the_candidate_do
             honesty_and_professionalism_concerns
+            offered_on_another_course_details
             performance_at_interview_what_to_improve
             qualifications_which_qualifications
             quality_of_application_which_parts_needed_improvement
@@ -85,6 +86,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
             candidate_behaviour_other
             candidate_behaviour_what_to_improve
             honesty_and_professionalism_concerns_other_details
+            offered_on_another_course_details
             qualifications_other_details
             quality_of_application_other_details
             quality_of_application_other_what_to_improve
@@ -121,7 +123,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
     end
   end
 
-  describe 'needs_other_reasons?' do
+  describe '#needs_other_reasons?' do
     it 'is true when honesty & professionalism and safeguarding answers are No' do
       expect(
         described_class.new(
@@ -142,6 +144,15 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
           safeguarding_y_n: 'No',
         ).needs_other_reasons?,
       ).to be false
+    end
+  end
+
+  describe '#feedback_heading' do
+    it 'indicates whether the provider would be interested in further applications' do
+      expect(described_class.new({}, {}).feedback_heading).to eq('Training provider feedback')
+
+      expect(described_class.new({}, { interested_in_future_applications_y_n: 'Yes' }).feedback_heading)
+        .to eq('The provider would be interested in future applications from you')
     end
   end
 end
