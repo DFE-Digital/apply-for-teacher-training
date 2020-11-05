@@ -4,8 +4,6 @@ RSpec.describe 'Syncing providers', sidekiq: true do
   include FindAPIHelper
 
   scenario 'Creates and updates providers' do
-    stub_new_recruitment_year_sync
-
     given_there_are_2_providers_in_find
     and_one_of_the_providers_exists_already
 

@@ -4,10 +4,6 @@ RSpec.feature 'Providers and courses' do
   include DfESignInHelpers
   include FindAPIHelper
 
-  before do
-    stub_new_recruitment_year_sync
-  end
-
   scenario 'User syncs provider and browses providers' do
     given_i_am_a_support_user
     and_providers_are_configured_to_be_synced
@@ -272,7 +268,7 @@ RSpec.feature 'Providers and courses' do
   end
 
   def and_i_choose_to_open_all_courses
-    click_button 'Open all courses for the 2020 cycle'
+    click_button 'Open all courses for the 2021 cycle'
   end
 
   def then_all_courses_should_be_open_on_apply
