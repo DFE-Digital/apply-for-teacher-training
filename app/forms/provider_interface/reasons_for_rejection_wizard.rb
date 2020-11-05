@@ -6,8 +6,6 @@ module ProviderInterface
 
     attr_accessor :current_step, :checking_answers
 
-    delegate :to_prose, to: :to_model
-
     def initialize(state_store, attrs = {})
       @state_store = state_store
 
@@ -51,14 +49,6 @@ module ProviderInterface
 
     def save!
       clear_state!
-    end
-
-    def to_model
-      ReasonsForRejection.new(state.except('current_step', 'checking_answers'))
-    end
-
-    def save_state!
-      @state_store[STATE_STORE_KEY] = state.to_json
     end
 
     attr_accessor :candidate_behaviour_y_n
@@ -226,6 +216,14 @@ module ProviderInterface
       end
     end
 
+    def save_state!
+      @state_store.write(state)
+    end
+
+    def clear_state!
+      @state_store.delete
+    end
+
   private
 
     def remove_empty_strings_from_array_attributes!(attrs)
@@ -237,15 +235,17 @@ module ProviderInterface
     # The current state of the object, minus some ActiveModel cruft and
     # state_store, which is received fresh on each .new
     def state
-      as_json(except: %w[state_store errors validation_context])
+      as_json(except: %w[state_store errors validation_context]).to_json
     end
 
     def last_saved_state
-      JSON.parse(@state_store[STATE_STORE_KEY].presence || '{}')
-    end
+      saved_state = @state_store.read
 
-    def clear_state!
-      @state_store.delete(STATE_STORE_KEY)
+      if saved_state
+        JSON.parse(saved_state)
+      else
+        {}
+      end
     end
   end
 end

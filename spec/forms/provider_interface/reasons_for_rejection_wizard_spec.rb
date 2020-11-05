@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
+  let(:store) { instance_double(WizardStateStores::RedisStore) }
+
+  before { allow(store).to receive(:read) }
+
   describe '#valid_for_current_step?' do
-    let(:store) { {} }
     let(:current_step) { 'initial_questions' }
     let(:wizard_params) { { current_step: current_step } }
 
@@ -127,7 +130,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
     it 'is true when honesty & professionalism and safeguarding answers are No' do
       expect(
         described_class.new(
-          {},
+          store,
           current_step: 'initial_questions',
           honesty_and_professionalism_y_n: 'No',
           safeguarding_y_n: 'No',
@@ -138,7 +141,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
     it 'is false when either honesty & professionalism and safeguarding answers are Yes' do
       expect(
         described_class.new(
-          {},
+          store,
           current_step: 'initial_questions',
           honesty_and_professionalism_y_n: 'Yes',
           safeguarding_y_n: 'No',
@@ -149,9 +152,9 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
 
   describe '#feedback_heading' do
     it 'indicates whether the provider would be interested in further applications' do
-      expect(described_class.new({}, {}).feedback_heading).to eq('Training provider feedback')
+      expect(described_class.new(store, {}).feedback_heading).to eq('Training provider feedback')
 
-      expect(described_class.new({}, { interested_in_future_applications_y_n: 'Yes' }).feedback_heading)
+      expect(described_class.new(store, { interested_in_future_applications_y_n: 'Yes' }).feedback_heading)
         .to eq('The provider would be interested in future applications from you')
     end
   end
