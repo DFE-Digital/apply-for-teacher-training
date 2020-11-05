@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.references_email_address') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.references_email_address'), @reference_email_address_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
@@ -7,7 +7,7 @@
       model: @reference_email_address_form,
       url: candidate_interface_references_edit_email_address_path(@reference.id, return_to: params[:return_to]),
       method: :patch,
-      html: { novalidate: true }
+      html: { novalidate: true },
     ) do |f| %>
       <% render 'shared_form', f: f %>
     <% end %>
