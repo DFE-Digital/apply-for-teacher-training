@@ -51,9 +51,9 @@ class ProviderAuthorisationAnalysis
 
   def provider_user_can_manage_users?
     if provider_user_associated_with_training_provider?
-      auth.can_manage_users_for? training_provider
+      auth.can_manage_users_for? provider: training_provider
     else
-      auth.can_manage_users_for? ratifying_provider
+      auth.can_manage_users_for? provider: ratifying_provider
     end
   end
 
