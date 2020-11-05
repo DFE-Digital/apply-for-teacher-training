@@ -417,6 +417,7 @@ en:
         label: What is the referee’s name?
       email_address:
         label: What is the referee’s email address?
+        hint_text: In most cases, this should be a work address.
       relationship:
         label: How do you know this referee and how long have you known them?
         hint_text:

@@ -13,6 +13,6 @@
   </div>
 <% end %>
 
-<%= f.govuk_email_field :email_address, label: { text: t('page_titles.references_email_address'), size: 'xl', tag: 'h1' }, caption: { text: @reference.name, size: 'xl' }, hint: { text: 'In most cases, this should be a work address.' } %>
+<%= f.govuk_email_field :email_address, label: { text: t('application_form.references.email_address.label'), size: 'xl', tag: 'h1' }, caption: { text: @reference.name, size: 'xl' }, hint: { text: t('application_form.references.email_address.hint_text') } %>
 
 <%= f.govuk_submit 'Save and continue' %>

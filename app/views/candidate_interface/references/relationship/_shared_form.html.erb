@@ -2,7 +2,7 @@
 
 <%= f.govuk_text_area :relationship,
                       caption: { text: @reference.name, size: 'xl' },
-                      label: { text: t('page_titles.references_relationship'), size: 'xl', tag: 'h1' },
+                      label: { text: t('application_form.references.relationship.label'), size: 'xl', tag: 'h1' },
                       hint: { text: t("application_form.references.relationship.hint_text.#{@reference.referee_type.downcase}"), max_words: 50 } %>
 
 <%= f.govuk_submit 'Save and continue' %>
