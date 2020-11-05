@@ -50,9 +50,9 @@ RSpec.describe WorkHistoryComponent do
 
       rendered = render_inline(described_class.new(application_form: application_form))
       expect(rendered.text).to include 'October 2014 - December 2019'
-      expect(rendered.text).to include 'Sheep herder - Full-time'
+      expect(rendered.text).to include 'Sheep herder - Full time'
       expect(rendered.text).to include 'January 2020 - Present'
-      expect(rendered.text).to include 'Pig herder - Part-time'
+      expect(rendered.text).to include 'Pig herder - Part time'
       expect(rendered.text).not_to include 'Worked with children'
 
       expect(rendered.text).not_to include 'Unexplained'
@@ -80,7 +80,7 @@ RSpec.describe WorkHistoryComponent do
 
       rendered = render_inline(described_class.new(application_form: application_form))
       expect(rendered.text).to include 'October 2014 - Present'
-      expect(rendered.text).to include 'Nursery manager - Part-time'
+      expect(rendered.text).to include 'Nursery manager - Part time'
       expect(rendered.text).to include 'Worked with children'
     end
   end
@@ -115,10 +115,10 @@ RSpec.describe WorkHistoryComponent do
 
       rendered = render_inline(described_class.new(application_form: application_form))
       expect(rendered.text).to include 'October 2014 - March 2018'
-      expect(rendered.text).to include 'Sheep herder - Full-time'
+      expect(rendered.text).to include 'Sheep herder - Full time'
       expect(rendered.text).to include 'Unexplained break (1 year and 10 months)'
       expect(rendered.text).to include 'January 2020 - Present'
-      expect(rendered.text).to include 'Pig herder - Part-time'
+      expect(rendered.text).to include 'Pig herder - Part time'
     end
   end
 
@@ -160,11 +160,11 @@ RSpec.describe WorkHistoryComponent do
 
       rendered = render_inline(described_class.new(application_form: application_form))
       expect(rendered.text).to include 'October 2014 - February 2018'
-      expect(rendered.text).to include 'Sheep herder - Full-time'
+      expect(rendered.text).to include 'Sheep herder - Full time'
       expect(rendered.text).to include 'Break (1 year and 10 months)'
       expect(rendered.text).to include 'I found pig farming very stressful and needed to take time off work'
       expect(rendered.text).to include 'January 2020 - Present'
-      expect(rendered.text).to include 'Pig herder - Part-time'
+      expect(rendered.text).to include 'Pig herder - Part time'
     end
   end
 end

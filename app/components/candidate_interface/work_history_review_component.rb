@@ -141,9 +141,9 @@ module CandidateInterface
     end
 
     def working_pattern(work)
-      return work.commitment.dasherize.humanize if work.working_pattern.blank?
+      return work.commitment.humanize if work.working_pattern.blank?
 
-      "#{work.commitment.dasherize.humanize}\n #{work.working_pattern}"
+      "#{work.commitment.humanize}\n #{work.working_pattern}"
     end
 
     def breaks_in_work_history?

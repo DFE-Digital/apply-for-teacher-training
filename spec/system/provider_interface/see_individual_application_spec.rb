@@ -190,7 +190,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
       end
 
       within 'section:eq(2)' do
-        expect(page).to have_content 'Smuggler - Part-time'
+        expect(page).to have_content 'Smuggler - Part time'
         expect(page).to have_content 'March 2017 - September 2017'
         expect(page).to have_content 'The Empire'
         expect(page).to have_content 'I used to work for'
@@ -203,7 +203,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
       end
 
       within 'section:eq(4)' do
-        expect(page).to have_content 'Bounty Hunter - Full-time'
+        expect(page).to have_content 'Bounty Hunter - Full time'
         expect(page).to have_content 'March 2018 - September 2018'
       end
 

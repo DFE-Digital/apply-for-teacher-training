@@ -66,7 +66,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     fill_in t('role.label', scope: scope), with: 'Microsoft Painter'
     fill_in t('organisation.label', scope: scope), with: 'Department for Education'
 
-    choose 'Full-time'
+    choose 'Full time'
 
     within('[data-qa="start-date"]') do
       fill_in 'Month', with: '2'
@@ -92,7 +92,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     fill_in t('role.label', scope: scope), with: 'Junior Developer'
     fill_in t('organisation.label', scope: scope), with: 'Department for Education'
 
-    choose 'Full-time'
+    choose 'Full time'
 
     within('[data-qa="start-date"]') do
       fill_in 'Month', with: '11'

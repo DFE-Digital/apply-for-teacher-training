@@ -47,7 +47,7 @@ RSpec.feature 'Provider changes an offer' do
   end
 
   def and_an_offered_application_choice_exists_for_one_of_my_providers
-    # Course @course_option_one belongs to is exclusively full-time
+    # Course @course_option_one belongs to is exclusively full time
     @course_option_one = course_option_for_provider(provider: @provider, study_mode: 'full_time')
     @application_offered = create(:application_choice, :with_offer, course_option: @course_option_one)
   end
@@ -57,7 +57,7 @@ RSpec.feature 'Provider changes an offer' do
     @both_modes_course = create(:course, :open_on_apply, :with_both_study_modes, provider: @provider)
     @course_option_two = create(:course_option, :full_time, course: @both_modes_course)
     @course_option_three = create(:course_option, :part_time, course: @both_modes_course)
-    # Exclusively part-time course with associated course option
+    # Exclusively part time course with associated course option
     @part_time_course = create(:course, :open_on_apply, :part_time, provider: @provider)
     @course_option_four = create(:course_option, :part_time, course: @part_time_course)
   end
