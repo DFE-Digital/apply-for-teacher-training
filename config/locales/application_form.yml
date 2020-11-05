@@ -417,6 +417,7 @@ en:
         label: What is the referee’s name?
       email_address:
         label: What is the referee’s email address?
+        hint_text: In most cases, this should be a work address.
       relationship:
         label: How do you know this referee and how long have you known them?
         hint_text:
@@ -451,6 +452,10 @@ en:
         action: Send request again
       retry_request:
         action: Retry request
+      send_reminder:
+        action: Send a reminder to this referee
+        confirm: Yes I’m sure - send a reminder
+        cancel: No - I’ve changed my mind
       cancel_request:
         action: Cancel request
         confirm: Yes I’m sure - cancel this reference request

@@ -1,11 +1,8 @@
 <%= f.govuk_error_summary %>
 
-<span class="govuk-caption-xl">
-  <%= @reference.name %>
-</span>
-
 <%= f.govuk_text_area :relationship,
-                        label: { text: tag.h1(t('page_titles.references_relationship'), class: 'govuk-heading-xl govuk-!-margin-top-0'), size: 'm' },
-                        hint_text: t("application_form.references.relationship.hint_text.#{@reference.referee_type.downcase}"), max_words: 50  %>
+                      caption: { text: @reference.name, size: 'xl' },
+                      label: { text: t('application_form.references.relationship.label'), size: 'xl', tag: 'h1' },
+                      hint: { text: t("application_form.references.relationship.hint_text.#{@reference.referee_type.downcase}"), max_words: 50 } %>
 
 <%= f.govuk_submit 'Save and continue' %>

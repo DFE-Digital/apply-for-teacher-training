@@ -1,10 +1,15 @@
-<% content_for :title, t('page_titles.references_email_address') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.references_email_address'), @reference_email_address_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @reference_email_address_form, url: candidate_interface_references_email_address_path(@reference.id), method: :patch do |f| %>
-      <% render 'shared_form', f: f  %>
+    <%= form_with(
+      model: @reference_email_address_form,
+      url: candidate_interface_references_email_address_path(@reference.id),
+      method: :patch,
+      html: { novalidate: true },
+    ) do |f| %>
+      <% render 'shared_form', f: f %>
     <% end %>
   </div>
 </div>

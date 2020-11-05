@@ -1,23 +1,20 @@
-<% content_for :title, t('page_titles.references_unsubmitted_review') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.references_unsubmitted_review'), @submit_reference_form.errors.any?) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @submit_reference_form, url: candidate_interface_references_submit_path, class: 'govuk-!-margin-top-8' do |f| %>
+    <%= form_with model: @submit_reference_form, url: candidate_interface_references_submit_path do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
-        <span class="govuk-caption-xl">
-          <%= @reference.name %>
-        </span>
+        <span class="govuk-caption-xl"><%= @reference.name %></span>
         <%= t('page_titles.references_unsubmitted_review') %>
       </h1>
 
       <%= render CandidateInterface::UnsubmittedReferenceReviewComponent.new(reference: @reference) %>
 
-
       <%= f.govuk_radio_buttons_fieldset :submit_reference, legend: { text: "Are you ready to send a reference request to #{@reference.name}?", size: 'm' } do %>
-          <%= f.govuk_radio_button :submit, 'yes', link_errors: true,  label: { text: 'Yes, send a reference request now' } %>
-          <%= f.govuk_radio_button :submit, 'no', link_errors: true, label: { text: 'No, not at the moment' } %>
+        <%= f.govuk_radio_button :submit, 'yes', link_errors: true,  label: { text: 'Yes, send a reference request now' } %>
+        <%= f.govuk_radio_button :submit, 'no', link_errors: true, label: { text: 'No, not at the moment' } %>
       <% end %>
 
       <%= f.govuk_submit 'Save and continue' %>

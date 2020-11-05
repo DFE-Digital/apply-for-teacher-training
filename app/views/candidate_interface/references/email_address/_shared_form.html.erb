@@ -13,10 +13,6 @@
   </div>
 <% end %>
 
-<span class="govuk-caption-xl">
-  <%= @reference.name %>
-</span>
-
-<%= f.govuk_text_field :email_address, label: { text: tag.h1(t('page_titles.references_email_address'), class: 'govuk-heading-xl govuk-!-margin-top-0'), size: 'm' }, hint_text: 'In most cases, this should be a work address.' %>
+<%= f.govuk_email_field :email_address, label: { text: t('application_form.references.email_address.label'), size: 'xl', tag: 'h1' }, caption: { text: @reference.name, size: 'xl' }, hint: { text: t('application_form.references.email_address.hint_text') } %>
 
 <%= f.govuk_submit 'Save and continue' %>

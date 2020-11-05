@@ -109,27 +109,24 @@ en:
     add_volunteering_role: Add role
     edit_volunteering_role: Edit role
     destroy_volunteering_role: Are you sure you want to delete this role?
-    referees: References
-    referees_choosing: Choosing your referees
-    referee_type: What kind of referee do you want to add?
-    referee_destroy: Are you sure you want to delete this referee?
-    referee_cancel: Are you sure you want to cancel this request for a reference?
-    references_cancel_request: Are you sure you want to cancel this reference request?
-    references_delete_request: Are you sure you want to delete this reference request?
-    references_delete: Are you sure you want to delete this reference?
-    add_referee: Details of referee
-    maximum_referees: You cannot add any more referees
-    give_a_reference:
-      confirmation: Your reference has been submitted
-      finish: Thank you
+    references: References
     references_start: Choose your referees
     references_name: What is the referee’s name?
     references_email_address: What is the referee’s email address?
+    references_type: What kind of referee do you want to add?
     references_relationship: How do you know this referee and how long have you known them?
     references_unsubmitted_review: Check your answers before sending your request
     references_candidate_name: What is your name?
-    references_reminder: Would you like to send a reminder to this referee?
-    retry_reference_request: Retry reference request
+    references_send_request: Are you ready to send a reference request?
+    references_retry_request: Retry reference request
+    references_cancel_request: Are you sure you want to cancel this reference request?
+    references_delete_request: Are you sure you want to delete this reference request?
+    references_delete_referee: Are you sure you want to delete this referee?
+    references_delete_reference: Are you sure you want to delete this reference?
+    references_send_reminder: Would you like to send a reminder to this referee?
+    give_a_reference:
+      confirmation: Your reference has been submitted
+      finish: Thank you
     providers: Courses on this service
     view_and_respond_to_offer: Details of offer
     api_docs:

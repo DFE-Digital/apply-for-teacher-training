@@ -1,14 +1,17 @@
-<% content_for :title, t('page_titles.referee_destroy') %>
+<% content_for :title, t('page_titles.references_delete_referee') %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @reference, url: candidate_interface_destroy_reference_path(@reference), method: :delete do |f| %>
       <h1 class="govuk-heading-xl">
-        <%= t('page_titles.referee_destroy') %>
+        <% if @reference.name %>
+          <span class="govuk-caption-xl"><%= @reference.name %></span>
+        <% end %>
+        <%= t('page_titles.references_delete_referee') %>
       </h1>
 
-      <%= f.submit 'Yes I’m sure - delete this referee' , class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.submit t('application_form.references.delete_referee.confirm') , class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
 
       <p class="govuk-body">
         <%= govuk_link_to t('application_form.references.delete_referee.cancel'), candidate_interface_references_review_path %>
