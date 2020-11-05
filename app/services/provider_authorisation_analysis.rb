@@ -1,5 +1,5 @@
 class ProviderAuthorisationAnalysis
-  attr_reader :permission, :auth, :application_choice, :course_option_id,
+  attr_reader :permission, :auth, :application_choice,
               :training_provider, :ratifying_provider, :relationship
 
   # This class is meant to be used after an auth call has already been performed
@@ -17,6 +17,10 @@ class ProviderAuthorisationAnalysis
       training_provider: @training_provider,
       ratifying_provider: @ratifying_provider,
     )
+  end
+
+  def course
+    @_course ||= CourseOption.find(@course_option_id).course
   end
 
   def provider_user

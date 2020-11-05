@@ -48,14 +48,16 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
   end
 
   def render_component(user:, safeguarding_issues:, safeguarding_issues_status:)
-    application_form = build_stubbed(
+    application_form = create(
       :application_form,
       safeguarding_issues: safeguarding_issues,
       safeguarding_issues_status: safeguarding_issues_status,
     )
-    application_choice = build(:application_choice,
-                               application_form: application_form,
-                               course: course)
+    application_choice = create(
+      :application_choice,
+      application_form: application_form,
+      course: course,
+    )
     render_inline(described_class.new(application_choice: application_choice, current_provider_user: user))
   end
 

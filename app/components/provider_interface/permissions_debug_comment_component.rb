@@ -23,7 +23,7 @@ module ProviderInterface
     end
 
     def ids_block
-      "[provider user #{@analysis.provider_user.id} vs. course #{@analysis.application_choice.offered_course.id}]".rjust(45, ' ')
+      "[provider user #{@analysis.provider_user.id} vs. course #{@analysis.course.id}]".rjust(45, ' ')
     end
   end
 end

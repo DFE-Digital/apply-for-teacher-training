@@ -37,12 +37,12 @@
 <% elsif safeguarding_issues_declared? %>
   <% if @analysis.provider_relationship_allows_access? %>
     <p class="govuk-body">
-      The candidate has disclosed information to related to safeguarding but you do not have permission to view sensitive material.
+      The candidate has disclosed information related to safeguarding but you do not have permission to view sensitive material.
     </p>
   <% elsif @analysis.provider_relationship_has_been_set_up? %>
     <% if @analysis.provider_user_has_user_level_access? %>
       <p class="govuk-body">
-        This candidate has disclosed information to related to safeguarding.
+        This candidate has disclosed information related to safeguarding.
       </p>
 
       <% if @analysis.provider_user_associated_with_training_provider? %>
@@ -56,12 +56,12 @@
       <% end %>
     <% else %>
       <p class="govuk-body">
-        The candidate has disclosed information to related to safeguarding but you do not have permission to view sensitive material.
+        The candidate has disclosed information related to safeguarding but you do not have permission to view sensitive material.
       </p>
     <% end %>
   <% else %>
     <p class="govuk-body">
-      The candidate has disclosed information to related to safeguarding but you cannot see it.
+      The candidate has disclosed information related to safeguarding but you cannot see it.
     </p>
 
     <% if @analysis.provider_user_can_manage_organisations? && @analysis.provider_user_associated_with_training_provider? %>
