@@ -14,7 +14,6 @@
 
       <%= render CandidateInterface::UnsubmittedReferenceReviewComponent.new(reference: @reference) %>
 
-
       <%= f.govuk_radio_buttons_fieldset :submit_reference, legend: { text: "Are you ready to send a reference request to #{@reference.name}?", size: 'm' } do %>
           <%= f.govuk_radio_button :submit, 'yes', link_errors: true,  label: { text: 'Yes, send a reference request now' } %>
           <%= f.govuk_radio_button :submit, 'no', link_errors: true, label: { text: 'No, not at the moment' } %>

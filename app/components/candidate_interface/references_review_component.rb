@@ -122,7 +122,7 @@ module CandidateInterface
 
       if reference.can_send_reminder?
         row_attributes.merge!(
-          action: 'Send a reminder to this referee',
+          action: t('application_form.references.send_reminder.action'),
           action_path: candidate_interface_references_new_reminder_path(reference),
         )
       end

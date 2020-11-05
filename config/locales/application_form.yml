@@ -451,6 +451,10 @@ en:
         action: Send request again
       retry_request:
         action: Retry request
+      send_reminder:
+        action: Send a reminder to this referee
+        confirm: Yes I’m sure - send a reminder
+        cancel: No - I’ve changed my mind
       cancel_request:
         action: Cancel request
         confirm: Yes I’m sure - cancel this reference request
