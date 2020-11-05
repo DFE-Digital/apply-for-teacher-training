@@ -294,9 +294,7 @@ module CandidateInterface
   private
 
     def show_review_volunteering?
-      volunteering_experience_is_set = [true, false].include?(@application_form.volunteering_experience)
-
-      volunteering_completed? || volunteering_added? || volunteering_experience_is_set
+      volunteering_completed? || volunteering_added?
     end
 
     def gcse_completed?(gcse)
