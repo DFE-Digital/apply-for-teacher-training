@@ -15,7 +15,7 @@
     <%= form_with model: SupportUser.new, url: support_interface_sign_in_by_email_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_field :email_address, label: { text: 'Email address', size: 'm' }, type: :email, width: 'two-thirds', autocomplete: 'email' %>
+      <%= f.govuk_email_field :email_address, label: { text: 'Email address', size: 'm' }, width: 'two-thirds', autocomplete: 'email' %>
 
       <%= f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
     <% end %>
