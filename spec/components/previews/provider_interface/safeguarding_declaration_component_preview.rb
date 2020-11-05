@@ -38,10 +38,15 @@ module ProviderInterface
           ratifying_provider_can_view_safeguarding_information: safeguarding_access,
         ).map(&:ratifying_provider_id)
 
-        perm = ProviderPermissions.where(provider_id: org_ids).order('RANDOM()').first
+        perms = ProviderPermissions.where(provider_id: org_ids).order('RANDOM()')
 
-        @provider_user = perm.provider_user if perm
-        @course = Course.joins(:course_options).find_by(accredited_provider_id: perm.provider.id) if perm
+        # We always give precedence to the training_provider relationship
+        # so exclude users who belong to both training and ratifying providers
+        perms.all.find do |p|
+          @provider_user = p.provider_user
+          @course = Course.joins(:course_options).find_by(accredited_provider_id: p.provider.id)
+          !@provider_user.providers.include? @course.provider
+        end
       elsif org_affiliation == :training_provider
         org_ids = ProviderRelationshipPermissions.where(
           training_provider_can_view_safeguarding_information: safeguarding_access,
