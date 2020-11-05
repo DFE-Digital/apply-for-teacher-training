@@ -5,6 +5,9 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @reference, url: candidate_interface_destroy_reference_path(@reference), method: :delete do |f| %>
       <h1 class="govuk-heading-xl">
+        <% if @reference.name %>
+          <span class="govuk-caption-xl"><%= @reference.name %></span>
+        <% end %>
         <%= t('page_titles.references_delete_referee') %>
       </h1>
 

@@ -4,8 +4,8 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @reference, url: candidate_interface_references_new_reminder_path(@reference), method: :post do |f| %>
-      <span class="govuk-caption-xl"> <%= @reference.name %> </span>
       <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= @reference.name %></span>
         <%= t('page_titles.references_send_reminder') %>
       </h1>
 

@@ -3,10 +3,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <span class="govuk-caption-xl">
-      <%= @reference.name %>
-    </span>
-    <h1 class="govuk-heading-xl"><%= t('page_titles.references_retry_request') %></h1>
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl"><%= @reference.name %></span>
+      <%= t('page_titles.references_retry_request') %>
+    </h1>
 
     <%= form_with model: @reference_email_address_form, url: candidate_interface_references_retry_request_path(@reference.id) do |f| %>
       <%= f.govuk_error_summary %>

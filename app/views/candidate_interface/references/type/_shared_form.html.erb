@@ -1,13 +1,11 @@
 <%= f.govuk_error_summary %>
 
-<%= f.govuk_radio_buttons_fieldset :referee_type, legend: { text: t('page_titles.references_type'), size: 'xl' } do %>
-  <div class="govuk-!-margin-top-7">
-    <%= f.govuk_radio_button :referee_type, 'academic', link_errors: true, label: { text: 'Academic' }, hint: { text: t("application_form.references.referee_type.hint_text.academic") } %>
-    <%= f.govuk_radio_button :referee_type, 'professional', label: { text: 'Professional' }, hint: { text: t("application_form.references.referee_type.hint_text.professional") } %>
-    <%= f.govuk_radio_button :referee_type, 'school-based', label: { text: 'School-based' }, hint: { text: t("application_form.references.referee_type.hint_text.school_based") } %>
-    <%= f.govuk_radio_divider %>
-    <%= f.govuk_radio_button :referee_type, 'character', label: { text: 'Character' }, hint: { text: t("application_form.references.referee_type.hint_text.character") } %>
-  </div>
+<%= f.govuk_radio_buttons_fieldset :referee_type, legend: { text: t('page_titles.references_type'), size: 'xl', tag: 'h1' } do %>
+  <%= f.govuk_radio_button :referee_type, 'academic', link_errors: true, label: { text: 'Academic' }, hint: { text: t("application_form.references.referee_type.hint_text.academic") } %>
+  <%= f.govuk_radio_button :referee_type, 'professional', label: { text: 'Professional' }, hint: { text: t("application_form.references.referee_type.hint_text.professional") } %>
+  <%= f.govuk_radio_button :referee_type, 'school-based', label: { text: 'School-based' }, hint: { text: t("application_form.references.referee_type.hint_text.school_based") } %>
+  <%= f.govuk_radio_divider %>
+  <%= f.govuk_radio_button :referee_type, 'character', label: { text: 'Character' }, hint: { text: t("application_form.references.referee_type.hint_text.character") } %>
 <% end %>
 
 <%= f.govuk_submit 'Save and continue' %>
