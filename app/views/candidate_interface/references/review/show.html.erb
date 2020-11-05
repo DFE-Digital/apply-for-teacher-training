@@ -6,15 +6,15 @@
 </h1>
 
 <% unless @application_form.enough_references_have_been_provided? %>
-  <div class='govuk-inset-text govuk-!-margin-top-0'>
-    <p class='govuk-body'>You need 2 references before you can submit your application.</p>
-    <p class='govuk-body'>You can add as many referees as you like to increase the chances of getting 2 references quickly.</p>
+  <div class="govuk-inset-text govuk-!-margin-top-0">
+    <p class="govuk-body">You need 2 references before you can submit your application.</p>
+    <p class="govuk-body">You can add as many referees as you like to increase the chances of getting 2 references quickly.</p>
     <%= link_to 'Add another referee', candidate_interface_references_start_path, class: 'govuk-button' %>
   </div>
 <% end %>
 
 <% if @references_given.present? %>
-  <div id='references_given'>
+  <div id="references_given">
     <h2 class="govuk-heading-m">References that have been given</h2>
     <%= render(
       CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true)
@@ -23,14 +23,14 @@
 <% end %>
 
 <% if @references_waiting_to_be_sent.present? %>
-  <div id='references_waiting_to_be_sent'>
+  <div id="references_waiting_to_be_sent">
     <h2 class="govuk-heading-m">Requests that have not been sent</h2>
     <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_waiting_to_be_sent, show_history: true)) %>
   </div>
 <% end %>
 
 <% if @references_sent.present? %>
-  <div id='references_sent'>
+  <div id="references_sent">
     <h2 class="govuk-heading-m">Reference requests</h2>
     <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_sent, editable: false, show_history: true)) %>
   </div>
