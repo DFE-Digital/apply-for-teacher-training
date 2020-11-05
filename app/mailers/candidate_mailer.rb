@@ -1,6 +1,7 @@
 class CandidateMailer < ApplicationMailer
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
+    @candidate_survey_magic_link_with_token = candidate_survey_magic_link_with_token(application_form.candidate)
 
     email_for_candidate(
       application_form,
@@ -338,5 +339,11 @@ private
     raw_token = candidate.refresh_magic_link_token!
     candidate_interface_authenticate_url(u: candidate.encrypted_id, token: raw_token)
   end
-  helper_method :candidate_magic_link
+
+  def candidate_survey_magic_link_with_token(candidate)
+    raw_token = candidate.refresh_magic_link_token!
+    candidate_interface_authenticate_url(u: candidate.encrypted_id, token: raw_token, path: 'candidate_interface_feedback_form_path')
+  end
+
+  helper_method :candidate_magic_link, :candidate_survey_magic_link_with_token
 end

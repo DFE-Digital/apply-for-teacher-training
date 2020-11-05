@@ -121,6 +121,26 @@
       "note": ""
     },
     {
+      "warning_type": "Dangerous Send",
+      "warning_code": 23,
+      "fingerprint": "cb6f23f5b570c8aed112a88283fabb07b15412263e43126b941534f3e99074d1",
+      "check_name": "Send",
+      "message": "User controlled method execution",
+      "file": "app/controllers/candidate_interface/after_sign_in_controller.rb",
+      "line": 53,
+      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_send/",
+      "code": "Rails.application.routes.url_helpers.send(params[:path])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CandidateInterface::AfterSignInController",
+        "method": "path_params"
+      },
+      "user_input": "params[:path]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
       "fingerprint": "d910924006fc5ba7182ea2b067b9113b5ea86616fc332f0f15291fd9f34cec66",
@@ -141,6 +161,6 @@
       "note": ""
     }
   ],
-  "updated": "2020-11-03 09:57:34 +0000",
+  "updated": "2020-11-03 19:37:48 +0000",
   "brakeman_version": "4.10.0"
 }
