@@ -1,0 +1,21 @@
+en:
+  reasons_for_rejection:
+    candidate_behaviour_what_did_the_candidate_do:
+      question: 'What did the candidate do?'
+      summary_heading: 'Something you did'
+      didnt_reply_to_interview_offer: 'Didn’t reply to our interview offer'
+      didnt_attend_interview: 'Didn’t attend interview'
+    quality_of_application_which_parts_needed_improvement:
+      question: 'Which parts of the application needed improvement?'
+      summary_heading: 'Quality of application'
+      personal_statement: 'Personal statement'
+      subject_knowledge: 'Subject knowledge'
+    qualifications_which_qualifications:
+      question: 'Was it related to qualifications?'
+      summary_heading: 'Qualifications'
+      no_maths_gcse: 'No Maths GCSE grade 4 (C) or above, or valid equivalent'
+      no_english_gcse: 'No English GCSE grade 4 (C) or above, or valid equivalent'
+      no_science_gcse: 'No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)'
+      no_degree: 'No degree'
+
+
