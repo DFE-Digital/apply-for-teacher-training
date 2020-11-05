@@ -378,7 +378,6 @@ Rails.application.routes.draw do
         get 'review/cancel/:id' => 'references/review#confirm_cancel', as: :confirm_cancel_reference
         patch 'review/cancel/:id' => 'references/review#cancel', as: :cancel_reference
 
-        get '/request/:id/start' => 'references/request#start', as: :references_start_request
         get '/request/:id' => 'references/request#new', as: :references_new_request
         post '/request/:id' => 'references/request#create', as: :references_create_request
 
