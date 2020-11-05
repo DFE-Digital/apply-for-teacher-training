@@ -129,6 +129,30 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
       expect(error_response['message']).to match 'The requested course could not be found'
     end
+
+    it 'does not require the course start date to be specified' do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      other_course_option = course_option_for_provider(provider: currently_authenticated_provider)
+
+      post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+        'data' => {
+          'conditions' => [],
+          'course' => course_option_to_course_payload(other_course_option).except(:start_date),
+        },
+      }
+
+      expect(parsed_response).to be_valid_against_openapi_schema('SingleApplicationResponse')
+      expect(parsed_response['data']['attributes']['offer']).to eq(
+        'conditions' => [],
+        'course' => course_option_to_course_payload(other_course_option),
+        'offer_made_at' => Time.zone.now.iso8601(3),
+        'offer_accepted_at' => nil,
+        'offer_declined_at' => nil,
+      )
+    end
   end
 
   describe 'offering for application with a decision' do
@@ -307,6 +331,7 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       'course_code' => course_option.course.code,
       'site_code' => course_option.site.code,
       'study_mode' => course_option.study_mode,
+      'start_date' => course_option.course.start_date.strftime('%Y-%m'),
     }
   end
 end

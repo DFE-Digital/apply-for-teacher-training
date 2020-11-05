@@ -667,6 +667,11 @@ components:
           enum:
           - full_time
           - part_time
+        start_date:
+          type: string
+          description: |
+            ISO8601 month and year indicating when this course starts. Including this field in a POST has no effect because courses are unambiguously identified by the rest of the properties in this object.
+          example: '2021-01'
     Offer:
       type: object
       additionalProperties: false
