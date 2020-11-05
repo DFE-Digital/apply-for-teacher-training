@@ -1,3 +1,5 @@
+<% content_for :title, "Are you ready to send a reference request to #{@request_form.referee_name}?" %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @request_form, url: candidate_interface_references_create_request_path, method: :post do |f| %>
