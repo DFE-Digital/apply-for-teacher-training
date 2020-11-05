@@ -20,7 +20,7 @@ module ProviderInterface
 
     def assert_permissions_for_providers!
       authorisation = ProviderAuthorisation.new(actor: @actor)
-      return if @wizard.provider_permissions.keys.all? { |provider_id| authorisation.can_manage_users_for?(Provider.find(provider_id)) }
+      return if @wizard.provider_permissions.keys.all? { |provider_id| authorisation.can_manage_users_for?(provider: Provider.find(provider_id)) }
 
       raise ProviderAuthorisation::NotAuthorisedError, 'You are not allowed to add users to these providers'
     end
