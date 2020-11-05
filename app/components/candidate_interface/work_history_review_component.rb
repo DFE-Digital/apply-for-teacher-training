@@ -141,6 +141,7 @@ module CandidateInterface
     end
 
     def working_pattern(work)
+      return if work.commitment.blank? && work.working_pattern.blank?
       return work.commitment.humanize if work.working_pattern.blank?
 
       "#{work.commitment.humanize}\n #{work.working_pattern}"

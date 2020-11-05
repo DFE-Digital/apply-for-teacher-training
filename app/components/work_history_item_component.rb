@@ -59,7 +59,7 @@ private
   def working_pattern
     return item.working_pattern if item.is_a?(ApplicationVolunteeringExperience)
 
-    item.commitment.humanize
+    item.commitment&.humanize
   end
 
   def explained_absence_title
