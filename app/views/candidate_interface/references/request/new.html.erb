@@ -13,7 +13,9 @@
       url: candidate_interface_references_create_request_path(@reference.id),
     ) do |f| %>
       <%= f.govuk_text_field :request_now, label: { hidden: true }, hidden: true %>
+
       <%= f.govuk_submit t('application_form.references.send_request.confirm') %>
+
       <p class="govuk-body">
         <%= govuk_link_to t('application_form.references.send_request.cancel'), candidate_interface_references_review_path, class: 'govuk-body' %>
       </p>

@@ -13,11 +13,13 @@
       url: candidate_interface_references_retry_request_path(@reference.id),
     ) do |f| %>
       <%= f.govuk_error_summary %>
+
       <%= f.govuk_text_field(
         :email_address,
         label: { text: 'Referee’s email address', size: 'm' },
         hint: { text: 'In most cases, this should be a work address.' },
       ) %>
+
       <%= f.govuk_submit 'Send reference request' %>
     <% end %>
   </div>
