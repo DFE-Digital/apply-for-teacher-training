@@ -1,16 +1,9 @@
 <%= f.govuk_error_summary %>
 
 <% if HostingEnvironment.sandbox_mode? %>
-  <div class="app-status-box app-status-box--sandbox govuk-!-margin-bottom-4">
-    <p class="govuk-body">
-      <strong class="govuk-tag govuk-phase-banner__content__tag app-environment-tag govuk-tag--purple">
-        Sandbox feature
-      </strong>
-    </p>
-    <p class="govuk-body govuk-!-margin-bottom-0">
-      Enter <code>refbot1@example.com</code> and <code>refbot2@example.com</code> as your referee email addresses to have the references automatically completed
-    </p>
-  </div>
+  <%= render SandboxStatusBoxComponent.new(
+    description: 'Enter <code>refbot1@example.com</code> and <code>refbot2@example.com</code> as your referee email addresses to have the references automatically completed.'
+  ) %>
 <% end %>
 
 <%= f.govuk_email_field :email_address, label: { text: t('application_form.references.email_address.label'), size: 'xl', tag: 'h1' }, caption: { text: @reference.name, size: 'xl' }, hint: { text: t('application_form.references.email_address.hint_text') }, spellcheck: false %>

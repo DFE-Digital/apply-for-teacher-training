@@ -4,39 +4,32 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
-          model: @pick_provider,
-          url: candidate_interface_course_choices_provider_path,
-          id: 'pick-provider-form',
-        ) do |f| %>
+      model: @pick_provider,
+      url: candidate_interface_course_choices_provider_path,
+      id: 'pick-provider-form',
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
 
-        <%= f.govuk_error_summary %>
+      <% if FeatureFlag.active?(:hold_courses_open) %>
+        <%= render SandboxStatusBoxComponent.new(
+          description: 'All courses are open for applications, even those which are full in real life.'
+        ) %>
+      <% end %>
 
-        <%= f.govuk_collection_select(
-              :provider_id,
-              select_provider_options(@pick_provider.available_providers),
-              :id,
-              :name,
-              label: { text: t('page_titles.which_provider'), size: 'xl' },
-            ) do %>
-          <p class="govuk-body">You can
-            <%= link_to candidate_interface_providers_path, class: 'govuk-link' do %>
-              preview a list of training providers and courses
-            <% end %>
-          currently available on Apply for teacher training.</p>
-        <% end %>
+      <%= f.govuk_collection_select(
+        :provider_id,
+        select_provider_options(@pick_provider.available_providers),
+        :id,
+        :name,
+        label: { text: t('page_titles.which_provider'), size: 'xl' },
+      ) do %>
+        <p class="govuk-body">
+          You can <%= govuk_link_to 'preview a list of training providers and courses', candidate_interface_providers_path %>
+          currently available on Apply for teacher training.
+        </p>
+      <% end %>
 
       <%= f.govuk_submit 'Continue' %>
-    <% end %>
-
-    <% if FeatureFlag.active?(:hold_courses_open) %>
-      <div class="app-status-box app-status-box--sandbox govuk-!-display-none-print">
-        <p class="govuk-body">
-          <strong class="govuk-tag govuk-phase-banner__content__tag app-environment-tag govuk-tag--purple">Sandbox feature</strong>
-        </p>
-        <p class="govuk-body">
-          All courses are open for applications, even those which are full in real life.
-        </p>
-      </div>
     <% end %>
   </div>
 </div>
