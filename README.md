@@ -80,8 +80,8 @@ Regenerate this diagram with `bundle exec rake generate_state_diagram`.
 ### Production dependencies
 
 - [Ruby](.ruby-version)
-- NodeJS 8.11.x
-- Yarn 1.12.x
+- Node.js – see [package.json](package.json) for version
+- Yarn – see [package.json](package.json) for version
 - PostgreSQL 9.6
 - Redis 5.0.x
 

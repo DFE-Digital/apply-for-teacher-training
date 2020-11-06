@@ -26,6 +26,9 @@
   "addons": ["heroku-postgresql:hobby-basic", "heroku-redis:hobby-dev"],
   "buildpacks": [
     {
+      "url": "heroku/nodejs"
+    },
+    {
       "url": "heroku/ruby"
     },
     {
