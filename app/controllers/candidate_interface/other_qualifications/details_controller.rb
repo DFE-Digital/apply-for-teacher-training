@@ -2,7 +2,7 @@ module CandidateInterface
   class OtherQualifications::DetailsController < OtherQualifications::BaseController
     def new
       @wizard = wizard_for(current_step: :details)
-      @wizard.qualification_type ||= get_qualification&.qualification_type
+      @wizard.qualification_type ||= params[:qualification_type]
       @wizard.initialize_new_qualification(
         current_application.application_qualifications.other.order(:created_at),
       )
@@ -14,12 +14,12 @@ module CandidateInterface
       @wizard.save_state!
 
       if @wizard.valid?(:details)
-        @wizard.clear_state!
         commit
+        @wizard.clear_state!
 
         # TODO: use @wizard.next_step for this?
         if @wizard.choice == 'same_type'
-          redirect_to candidate_interface_new_other_qualification_details_path(id: current_application.application_qualifications.last.id)
+          redirect_to candidate_interface_new_other_qualification_details_path(qualification_type: current_application.application_qualifications.last.qualification_type)
         elsif @wizard.choice == 'different_type'
           redirect_to candidate_interface_new_other_qualification_type_path
         else
@@ -32,10 +32,11 @@ module CandidateInterface
     end
 
     def edit
-      # @qualification = OtherQualificationForm.build_from_qualification(current_qualification)
-      # @type = @qualification.set_type(current_qualification)
-      @wizard = wizard_for(current_step: :details)
-      @wizard.copy_attributes(get_qualification)
+      @wizard = wizard_for(
+        current_step: :details,
+        initialize_from_db: true,
+        checking_answers: true,
+      )
       @wizard.save_state!
     end
 
@@ -46,9 +47,9 @@ module CandidateInterface
       @wizard.save_state!
 
       if @wizard.valid?(:details)
-        @wizard.clear_state!
         commit(qualification_id: params[:id])
         current_application.update!(other_qualifications_completed: false)
+        @wizard.clear_state!
         redirect_to candidate_interface_review_other_qualifications_path
       else
         # @type = @qualification.set_type(current_qualification)
@@ -77,6 +78,7 @@ module CandidateInterface
       options[:checking_answers] = true if params[:checking_answers] == 'true'
       OtherQualificationWizard.new(
         WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
+        options.delete(:initialize_from_db) ? current_qualification : nil,
         options,
       )
     end
@@ -116,12 +118,6 @@ module CandidateInterface
       other_qualification_params.merge(
         params.require(:candidate_interface_other_qualification_wizard).permit(:qualification_type),
       )
-    end
-
-    def get_qualification
-      return nil unless params[:id]
-
-      @get_qualification ||= current_application.application_qualifications.other.find(params[:id])
     end
   end
 end

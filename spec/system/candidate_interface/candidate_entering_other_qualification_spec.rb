@@ -4,7 +4,7 @@ RSpec.feature 'Entering their other qualifications' do
   include CandidateHelper
 
   scenario 'Candidate submits their other qualifications with the prompt_for_additional_qualifications on' do
-    FeatureFlag.deactivate(:international_other_qualifications)
+    FeatureFlag.activate(:international_other_qualifications)
 
     given_i_am_signed_in
     and_i_visit_the_site
@@ -57,7 +57,18 @@ RSpec.feature 'Entering their other qualifications' do
     then_i_can_only_see_two_qualifications
 
     when_i_click_to_change_my_first_qualification
-    then_i_see_my_qualification_filled_in
+    then_i_see_the_qualification_type_form
+
+    when_i_click_continue
+    then_i_see_the_other_qualification_review_page
+    and_no_changes_have_occured
+
+    when_i_click_to_change_my_first_qualification
+    then_i_see_the_qualification_type_form
+
+    when_i_change_the_qualification_type
+    and_i_click_continue
+    then_i_see_my_qualification_details_filled_in
 
     when_i_change_my_qualification
     and_click_save_and_continue
@@ -116,6 +127,7 @@ RSpec.feature 'Entering their other qualifications' do
   def and_i_click_continue
     click_button 'Continue'
   end
+  alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_see_the_other_qualifications_form
     expect(page).to have_content('Add A level qualification')
@@ -162,6 +174,9 @@ RSpec.feature 'Entering their other qualifications' do
 
   def when_i_choose_other
     choose 'Other'
+    within('#candidate-interface-other-qualification-wizard-qualification-type-other-conditional') do
+      fill_in 'Qualification name', with: 'Access Course'
+    end
   end
 
   def then_the_year_field_is_not_pre_populated_with_my_previous_details
@@ -169,7 +184,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_fill_in_my_other_qualifications_details
-    fill_in t('application_form.other_qualification.qualification_type.label'), with: 'Access Course'
+    # fill_in t('application_form.other_qualification.qualification_type.label'), with: 'Access Course'
     fill_in t('application_form.other_qualification.subject.label'), with: 'History, English and Psychology'
     fill_in t('application_form.other_qualification.grade.label'), with: 'Distinction'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2012'
@@ -234,8 +249,24 @@ RSpec.feature 'Entering their other qualifications' do
     first('.govuk-summary-list__actions').click_link 'Change'
   end
 
-  def then_i_see_my_qualification_filled_in
-    expect(page).to have_selector("input[value='A level']")
+  def then_i_see_the_qualification_type_form
+    expect(page).to have_current_path(
+      candidate_interface_edit_other_qualification_type_path(
+        @application.application_qualifications.first.id,
+      ),
+    )
+  end
+
+  def when_i_change_the_qualification_type
+    choose 'GCSE'
+  end
+
+  def and_no_changes_have_occured
+    expect(page).to have_content('A level Oh')
+    expect(page).to have_content('Access Course History, English and Psychology')
+  end
+
+  def then_i_see_my_qualification_details_filled_in
     expect(page).to have_selector("input[value='Oh']")
     expect(page).to have_selector("input[value='B']")
     expect(page).to have_selector("input[value='2015']")
@@ -246,7 +277,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def then_i_can_check_my_revised_qualification
-    expect(page).to have_content 'A level How to Win Against Kaiba'
+    expect(page).to have_content 'GCSE How to Win Against Kaiba'
   end
 
   def when_i_click_on_continue
@@ -289,7 +320,7 @@ RSpec.feature 'Entering their other qualifications' do
   def then_i_can_only_see_two_updated_qualifications
     expect(page).not_to have_content 'A level Losing to Yugi'
     expect(page).not_to have_content('AS level')
-    expect(page).to have_content('A level How to Win Against Kaiba')
+    expect(page).to have_content('GCSE How to Win Against Kaiba')
     expect(page).to have_content('Access Course History, English and Psychology')
   end
 

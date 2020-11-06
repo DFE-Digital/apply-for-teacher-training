@@ -24,11 +24,16 @@ module CandidateInterface
     validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == 'non_uk' }, on: :details
     validate :award_year_is_date_and_before_current_year, if: :award_year, on: :details
 
-    def initialize(state_store = nil, attrs = {})
-      @attrs = attrs
+    def initialize(state_store = nil, model = nil, attrs = {})
       @state_store = state_store
 
-      super(last_saved_state.deep_merge(attrs))
+      persistent_attributes = model.present? ? persistent_attributes(model) : {}
+
+      super(
+        persistent_attributes.merge(
+          last_saved_state.select { |_, value| value.present? }.deep_merge(attrs),
+        ),
+      )
     end
 
     def self.build_all_from_application(application_form)
@@ -105,7 +110,11 @@ module CandidateInterface
     end
 
     def copy_attributes(application_qualification)
-      assign_attributes(application_qualification.attributes.select { |key, _| PERSISTENT_ATTRIBUTES.include?(key) })
+      assign_attributes(persistent_attributes(application_qualification))
+    end
+
+    def persistent_attributes(application_qualification)
+      application_qualification.attributes.select { |key, _| PERSISTENT_ATTRIBUTES.include?(key) }
     end
 
     def previous_qualification_is_of_same_type?(qualifications)
