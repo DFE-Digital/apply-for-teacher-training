@@ -15,7 +15,7 @@
         <%= t('page_titles.references_delete_referee') %>
       </h1>
 
-      <%= f.submit t('application_form.references.delete_referee.confirm') , class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.govuk_submit t('application_form.references.delete_referee.confirm'), warning: true %>
 
       <p class="govuk-body">
         <%= govuk_link_to t('application_form.references.delete_referee.cancel'), candidate_interface_references_review_path %>
