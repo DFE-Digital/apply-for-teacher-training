@@ -90,7 +90,9 @@ RSpec.feature 'See organisation permissions' do
   end
 
   def when_i_visit_the_provider_organisations_page
-    click_on 'Organisations'
+    visit provider_interface_path
+    click_on(t('page_titles.provider.account'))
+    click_on(t('page_titles.provider.org_permissions'))
   end
 
   def then_i_can_see_provider_organisations_i_belong_to

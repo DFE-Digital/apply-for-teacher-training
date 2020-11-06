@@ -1,7 +1,12 @@
+<% content_for :browser_title, @provider_user.full_name %>
 <% content_for :before_content do %>
   <%= render BreadcrumbComponent.new(items: [
     {
-      text: 'Users',
+      text: t('page_titles.provider.account'),
+      path: provider_interface_account_path
+    },
+    {
+      text: t('page_titles.provider.users'),
       path: provider_interface_provider_users_path
     },
     {

@@ -561,7 +561,6 @@ Rails.application.routes.draw do
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
 
-    get '/account' => 'account#show'
     get '/sign-in' => 'sessions#new'
     get '/sign-out' => 'sessions#destroy'
 
@@ -569,33 +568,39 @@ Rails.application.routes.draw do
     get '/sign-in/check-email', to: 'sessions#check_your_email', as: :check_your_email
     get '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token
 
-    scope path: '/users' do
-      get '/' => 'provider_users#index', as: :provider_users
+    get '/account' => 'account#show'
 
-      get '/new' => 'provider_users_invitations#edit_details', as: :edit_invitation_basic_details
-      post '/new' => 'provider_users_invitations#update_details', as: :update_invitation_basic_details
-      get '/new/providers' => 'provider_users_invitations#edit_providers', as: :edit_invitation_providers
-      post '/new/providers' => 'provider_users_invitations#update_providers', as: :update_invitation_providers
-      get '/new/providers/:provider_id/permissions' => 'provider_users_invitations#edit_permissions', as: :edit_invitation_provider_permissions
-      post '/new/providers/:provider_id/permissions' => 'provider_users_invitations#update_permissions', as: :update_invitation_provider_permissions
-      get '/new/check' => 'provider_users_invitations#check', as: :check_invitation
-      post '/new/commit' => 'provider_users_invitations#commit', as: :commit_invitation
+    scope path: '/account' do
+      get '/profile' => 'profile#show'
 
-      scope '/:provider_user_id', as: :provider_user do
-        get '/' => 'provider_users#show'
+      scope path: '/users' do
+        get '/' => 'provider_users#index', as: :provider_users
 
-        get '/edit-providers' => 'provider_users#edit_providers', as: :edit_providers
-        patch '/edit-providers' => 'provider_users#update_providers'
+        get '/new' => 'provider_users_invitations#edit_details', as: :edit_invitation_basic_details
+        post '/new' => 'provider_users_invitations#update_details', as: :update_invitation_basic_details
+        get '/new/providers' => 'provider_users_invitations#edit_providers', as: :edit_invitation_providers
+        post '/new/providers' => 'provider_users_invitations#update_providers', as: :update_invitation_providers
+        get '/new/providers/:provider_id/permissions' => 'provider_users_invitations#edit_permissions', as: :edit_invitation_provider_permissions
+        post '/new/providers/:provider_id/permissions' => 'provider_users_invitations#update_permissions', as: :update_invitation_provider_permissions
+        get '/new/check' => 'provider_users_invitations#check', as: :check_invitation
+        post '/new/commit' => 'provider_users_invitations#commit', as: :commit_invitation
 
-        get '/remove' => 'provider_users#confirm_remove', as: :remove_provider_user
-        delete '/remove' => 'provider_users#remove'
+        scope '/:provider_user_id', as: :provider_user do
+          get '/' => 'provider_users#show'
 
-        get '/providers/:provider_id/permissions' => 'provider_users#edit_permissions', as: :edit_permissions
-        patch '/providers/:provider_id/permissions' => 'provider_users#update_permissions'
+          get '/edit-providers' => 'provider_users#edit_providers', as: :edit_providers
+          patch '/edit-providers' => 'provider_users#update_providers'
+
+          get '/remove' => 'provider_users#confirm_remove', as: :remove_provider_user
+          delete '/remove' => 'provider_users#remove'
+
+          get '/providers/:provider_id/permissions' => 'provider_users#edit_permissions', as: :edit_permissions
+          patch '/providers/:provider_id/permissions' => 'provider_users#update_permissions'
+        end
       end
-    end
 
-    resources :organisations, only: %i[index show], path: 'organisations'
+      resources :organisations, only: %i[index show], path: 'organisational-permissions'
+    end
 
     scope path: '/provider-relationship-permissions' do
       get '/organisations-to-setup' => 'provider_relationship_permissions_setup#organisations',

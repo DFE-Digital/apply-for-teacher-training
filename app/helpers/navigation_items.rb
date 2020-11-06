@@ -61,15 +61,7 @@ class NavigationItems
       items = []
 
       unless performing_setup
-        if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_provider?
-          items << NavigationItem.new('Organisations', provider_interface_organisations_path, is_active(current_controller, %w[organisations provider_relationship_permissions]))
-        end
-
-        if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider?
-          items << NavigationItem.new('Users', provider_interface_provider_users_path, is_active(current_controller, 'provider_users'))
-        end
-
-        items << NavigationItem.new('Account', provider_interface_account_path, is_active(current_controller, 'account'))
+        items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, is_active(current_controller, %w[account profile provider_users organisations provider_relationship_permissions]))
       end
 
       items << NavigationItem.new('Sign out', provider_interface_sign_out_path, false)

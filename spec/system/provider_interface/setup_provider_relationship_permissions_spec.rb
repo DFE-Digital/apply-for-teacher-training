@@ -24,7 +24,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
     when_i_confirm_the_updated_permissions
     then_i_see_permissions_setup_has_finished
 
-    when_i_click_continue
+    when_i_click_view_applications
     then_i_can_see_candidate_applications
   end
 
@@ -211,7 +211,11 @@ RSpec.feature 'Setting up provider relationship permissions' do
   end
 
   def then_i_see_permissions_setup_has_finished
-    expect(page).to have_content('Permissions successfully set up')
+    expect(page).to have_content('Organisational permissions set')
+  end
+
+  def when_i_click_view_applications
+    click_on 'view applications'
   end
 
   def then_i_can_see_candidate_applications

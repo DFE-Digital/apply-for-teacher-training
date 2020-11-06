@@ -1,6 +1,17 @@
-<% content_for :browser_title, 'Users' %>
+<% content_for :browser_title, t('page_titles.provider.users') %>
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: t('page_titles.provider.account'),
+      path: provider_interface_account_path
+    },
+    {
+      text: t('page_titles.provider.users')
+    }
+  ]) %>
+<% end %>
 
-<h1 class="govuk-heading-xl">Users</h1>
+<h1 class="govuk-heading-xl"><%= t('page_titles.provider.users') %></h1>
 
 <%= govuk_button_link_to(
   'Invite user',
