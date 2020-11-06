@@ -41,14 +41,6 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.chase_reference_again(reference)
   end
 
-  def survey_email
-    CandidateMailer.survey_email(application_form)
-  end
-
-  def survey_chaser_email
-    CandidateMailer.survey_chaser_email(application_form)
-  end
-
   def new_referee_request
     CandidateMailer.new_referee_request(reference, reason: :not_responded)
   end

@@ -672,9 +672,6 @@ Rails.application.routes.draw do
       post '/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
     end
 
-    get '/send-survey-email/:application_form_id' => 'survey_emails#show', as: :survey_emails
-    post '/send-survey-email/:application_form_id' => 'survey_emails#deliver'
-
     scope path: '/references/:reference_id' do
       get '/cancel' => 'references#cancel', as: :cancel_reference
       post '/cancel' => 'references#confirm_cancel'
