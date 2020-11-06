@@ -26,7 +26,7 @@
     <% end %>
 
     <%= form_with model: @respond_to_offer, url: candidate_interface_decline_offer_path(@application_choice) do |f| %>
-      <%= f.submit 'Yes I’m sure - decline this offer', class: 'govuk-button govuk-button--warning' %>
+      <%= f.govuk_submit 'Yes I’m sure - decline this offer', warning: true %>
     <% end %>
   </div>
 </div>

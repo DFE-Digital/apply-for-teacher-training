@@ -10,10 +10,7 @@
         <p>This task deletes all candidates with emails that end in <code>@example.com</code>, their applications and associated data.</p>
       </div>
 
-      <%= f.submit 'Yes, I’m sure – delete all test applications',
-        class: 'govuk-button govuk-button--warning',
-        data: { module: 'govuk-button' }
-      %>
+      <%= f.govuk_submit 'Yes, I’m sure – delete all test applications', warning: true %>
 
       <p class="govuk-body">
         <%= govuk_link_to 'Cancel', support_interface_tasks_path %>

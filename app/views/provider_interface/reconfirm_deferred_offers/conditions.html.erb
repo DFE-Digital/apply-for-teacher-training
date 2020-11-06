@@ -24,7 +24,7 @@
         <%= f.govuk_radio_button :conditions_status, 'not met', label: { text: 'No, one or more conditions are pending' }, link_errors: true %>
       <% end %>
 
-      <%= f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button' %>
+      <%= f.govuk_submit 'Continue' %>
 
       <p class="govuk-body">
         <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>

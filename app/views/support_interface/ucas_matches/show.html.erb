@@ -23,7 +23,7 @@
 
   <% unless @match.processed? %>
     <%= form_with url: support_interface_process_match_path(@match), method: :post do |f| %>
-      <%= f.submit 'Mark as processed', class: 'govuk-button govuk-!-margin-bottom-0' %>
+      <%= f.govuk_submit 'Mark as processed' %>
     <% end %>
   <% end %>
 </p>

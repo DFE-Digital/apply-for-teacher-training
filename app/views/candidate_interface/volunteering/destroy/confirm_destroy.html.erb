@@ -9,7 +9,7 @@
         <%= t('page_titles.destroy_volunteering_role') %>
       </h1>
 
-      <%= f.submit t('application_form.volunteering.delete.confirm'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.govuk_submit t('application_form.volunteering.delete.confirm'), warning: true %>
 
       <p class="govuk-body">
         <%= govuk_link_to t('application_form.volunteering.delete.cancel'), candidate_interface_review_volunteering_path %>
