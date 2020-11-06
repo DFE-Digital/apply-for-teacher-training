@@ -32,7 +32,7 @@ module CandidateInterface
             redirect_to candidate_interface_references_review_unsubmitted_path(@reference.id)
           end
         else
-          track_validation_error(@references_relationship_formsss)
+          track_validation_error(@references_relationship_form)
           render :edit
         end
       end
