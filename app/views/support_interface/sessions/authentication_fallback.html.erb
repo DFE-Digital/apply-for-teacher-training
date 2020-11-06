@@ -17,7 +17,7 @@
 
       <%= f.govuk_email_field :email_address, label: { text: 'Email address', size: 'm' }, width: 'two-thirds', autocomplete: 'email', spellcheck: false %>
 
-      <%= f.submit 'Continue', class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
+      <%= f.govuk_submit 'Continue' %>
     <% end %>
   </div>
 </div>
