@@ -1,0 +1,75 @@
+<%= content_for :page_title, "Cookies" %>
+
+<div class="govuk-width-container">
+  <h1 class="govuk-heading-xl">Cookies</h1>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= render partial: 'cookie-preferences-form' %>
+
+      <h2 class="govuk-heading-l">How we use cookies</h2>
+
+      <h3 class="govuk-heading-m">Essential cookies</h3>
+
+      <p class="govuk-body">Essential ‘Find postgraduate teacher training’ cookies include:</p>
+
+      <table class="govuk-table">
+        <thead class="govuk-table__header">
+        <tr>
+          <th class="govuk-table__header">Name</th>
+          <th class="govuk-table__header">Purpose</th>
+          <th class="govuk-table__header">Expires</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        <tr>
+          <td class="govuk-table__cell">_find_teacher_training_session</td>
+          <td class="govuk-table__cell">Stores encrypted session data</td>
+          <td class="govuk-table__cell">When you close your browser</td>
+        </tr>
+        <tr>
+          <td class="govuk-table__cell">consented-to-cookies</td>
+          <td class="govuk-table__cell">Saves your cookie consent settings</td>
+          <td class="govuk-table__cell">6 months</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <h3 class="govuk-heading-m">Measuring website usage (Google Analytics)</h3>
+
+      <p class="govuk-body">Google Analytics sets the following cookies:</p>
+
+      <table class="govuk-table">
+        <thead class="govuk-table__header">
+          <tr>
+            <th class="govuk-table__header">Name</th>
+            <th class="govuk-table__header">Purpose</th>
+            <th class="govuk-table__header">Expires</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">_ga</td>
+            <td class="govuk-table__cell">Used to distinguish anonymous users</td>
+            <td class="govuk-table__cell">2 years</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">_gid</td>
+            <td class="govuk-table__cell">Used to distinguish anonymous users</td>
+            <td class="govuk-table__cell">24 hours</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">_gat</td>
+            <td class="govuk-table__cell">Throttle requests</td>
+            <td class="govuk-table__cell">10 minutes</td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">_gat_gtag_UA_112932657_1</td>
+            <td class="govuk-table__cell">Throttle requests</td>
+            <td class="govuk-table__cell">10 minutes</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

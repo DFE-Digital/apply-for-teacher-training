@@ -1,0 +1,79 @@
+<%= content_for :page_title, "Accessibility statement for Find postgraduate teacher training" %>
+
+
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Accessibility statement for Find postgraduate teacher training</h1>
+
+      <p class="govuk-body">
+        This service is run by the Becoming a Teacher team at the Department for Education (DfE).
+        We want as many people as possible to be able to use the service. For example, that
+        means users should be able to:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>change colours, contrast levels and fonts</li>
+        <li>zoom in up to 300% without the text spilling off the screen</li>
+        <li>navigate most of the service using just a keyboard</li>
+        <li>navigate most of the service using speech recognition software</li>
+        <li>
+          listen to most of the content on the service using a screen reader
+          (including the most recent versions of JAWS, NVDA and VoiceOver)
+        </li>
+      </ul>
+
+      <p class="govuk-body">
+        We’ve also made the text on the service as simple as possible to understand.
+      </p>
+
+      <p class="govuk-body">
+        <%= link_to "AbilityNet", "https://mcmw.abilitynet.org.uk/", class: "govuk-link" %> has
+        advice on making your device easier to use if you have a disability.
+      </p>
+
+      <h2 class="govuk-heading-l">Technical information about this service’s accessibility</h2>
+
+      <p class="govuk-body">
+        The Becoming a Teacher team is committed to making this service accessible, in accordance
+        with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.
+      </p>
+
+      <p class="govuk-body">
+        Find postgraduate teacher training is fully compliant with the
+        <%= link_to "Web Content Accessibility Guidelines (WCAG) version 2.1", "https://www.w3.org/TR/WCAG21/", class: "govuk-link" %>
+        AA standard.
+      </p>
+
+      <h3 class="govuk-heading-m">
+        How we tested this service
+      </h3>
+
+      <p class="govuk-body">
+        This service was last tested on 16 December 2019. The test was carried out by the
+        <%= link_to "Digital Accessibility Centre (DAC)", "https://digitalaccessibilitycentre.org", class: "govuk-link" %>,
+        using both automated testing tools and a manual user testing team. An accessibility
+        report was issued on 14 January 2020. All issues raised in the report have been resolved.
+      </p>
+
+      <h3 class="govuk-heading-m">Reporting accessibility problems with this service</h3>
+
+      <p class="govuk-body">
+        If you think we’re not meeting accessibility requirements, or you’d like to access
+        any information in a different format (such as accessible PDF, large print, easy read,
+        audio recording or braille), contact <%=  bat_contact_mail_to(subject: "Accessibility issues") %>.
+      </p>
+
+      <h3 class="govuk-heading-m">Enforcement procedure</h3>
+
+      <p class="govuk-body">
+        The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector
+        Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.. If you’re not
+        happy with how we respond to your complaint,
+        <%= link_to "contact the Equality Advisory and Support Service (EASS)", "https://www.equalityadvisoryservice.com/", class: "govuk-link" %>.
+      </p>
+
+      <p class="govuk-body">This statement was prepared on 19 September 2019. It was last updated on 16 March 2020.</p>
+    </div>
+  </div>
+</div>

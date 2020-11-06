@@ -1,0 +1,23 @@
+<div class="filter-form" data-qa="filters__location">
+  <h2 class="govuk-heading-s filter-form__title">
+    Location<span class="govuk-visually-hidden">:</span>
+  </h2>
+  <ul class="filter-form__value--list">
+    <li data-qa="location_name">
+      <%= @results_view.location %>
+      <% if @results_view.show_map? %>
+        <span class="govuk-caption-m" data-qa="distance">Within
+          <%= @results_view.radius %>
+         miles of the pin</span>
+        <img src="<%= @results_view.map_image_url %>"
+             alt="Map showing <%= @results_view.radius %> miles
+             of <%= @results_view.location %>"class="filter-form__map"
+             data-qa="map" />
+      <% end %>
+    </li>
+  </ul>
+  <%= link_to "Change location or choose a provider",
+             @results_view.filter_path_with_unescaped_commas(find_interface_location_path),
+             class: "govuk-link",
+             data: { qa: "link" } %>
+</div>

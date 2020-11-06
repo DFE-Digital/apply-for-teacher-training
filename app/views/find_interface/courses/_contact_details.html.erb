@@ -1,0 +1,35 @@
+<div id="contact_section" class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-l" id="section-contact">Contact details</h2>
+
+  <div class="course-basicinfo">
+    <dl class="govuk-list--description">
+      <% if course.provider.email.present? %>
+        <dt class="govuk-list--description__label">Email</dt>
+        <dd data-qa="provider__email">
+          <%= mail_to course.provider.email, course.provider.email, title: "Send email to course contact", aria: { label: "Send email to course contact" }, class: "govuk-link" %>
+        </dd>
+      <% end %>
+
+      <% if course.provider.telephone.present? %>
+        <dt class="govuk-list--description__label">Telephone</dt>
+        <dd data-qa="provider__telephone">
+          <%= course.provider.telephone %>
+        </dd>
+      <% end %>
+
+      <% if course.provider.decorate.website.present? %>
+        <dt class="govuk-list--description__label">Website</dt>
+        <dd data-qa="provider__website">
+          <%= link_to course.provider.decorate.website, course.provider.decorate.website, class: "govuk-link" %>
+        </dd>
+      <% end %>
+
+      <% if course.provider.decorate.full_address.present? %>
+        <dt class="govuk-list--description__label">Address</dt>
+        <dd data-qa="provider__address">
+          <%= course.provider.decorate.full_address %>
+        </dd>
+      <% end %>
+    </dl>
+  </div>
+</div>

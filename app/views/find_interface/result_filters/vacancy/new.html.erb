@@ -1,0 +1,52 @@
+<%= content_for :page_title, "Find courses by vacancies" %>
+
+<% content_for :before_content do %>
+  <%= govuk_back_link_to(find_interface_results_path(@results_filter_query_parameters), "Back to search results") %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with url: vacancy_path, method: :post, data: { "ga-event-form" => "Vacancy" } do |form| %>
+      <%= render "find_interface/shared/hidden_fields", exclude_keys: ["hasvacancies"], form: form %>
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+          <h1 class="govuk-heading-xl" data-qa="heading">Find courses by vacancies</h1>
+        </legend>
+
+        <div class="govuk-form-group">
+          <div class="govuk-radios">
+            <div class="govuk-radios__item">
+              <%=
+                form.radio_button(
+                  :hasvacancies,
+                  "True",
+                  class: "govuk-radios__input",
+                  data: { qa: "with_vacancies" },
+                  checked: params[:hasvacancies] == "true" || params[:hasvacancies].blank?
+                )
+              %>
+              <%= form.label :hasvacancies_true, "Only courses with vacancies", class: "govuk-label govuk-radios__label" %>
+            </div>
+
+            <div class="govuk-radios__item">
+              <%=
+                form.radio_button(
+                  :hasvacancies,
+                  "False",
+                  class: "govuk-radios__input",
+                  data: { qa: "with_and_without_vacancies" },
+                  checked: params[:hasvacancies] == "false"
+                )
+              %>
+              <%= form.label :hasvacancies_false, "Courses with and without vacancies", class: "govuk-label govuk-radios__label" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="govuk-form-group">
+          <%= form.submit "Find courses", name: nil, class: "govuk-button", data: { qa: "find-courses" } %>
+        </div>
+      </fieldset>
+    <% end %>
+  </div>
+</div>

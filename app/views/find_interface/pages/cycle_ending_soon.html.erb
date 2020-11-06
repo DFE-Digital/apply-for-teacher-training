@@ -1,0 +1,28 @@
+<%= content_for :page_title, "Cycle ending soon" %>
+
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Find postgraduate teacher training</h1>
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive">Warning</span>
+          It’s no longer possible to apply for courses for the 2020 to 2021 academic year
+        </strong>
+      </div>
+      <h2 class="govuk-heading-m">Find courses starting in the 2021 to 2022 academic year</h2>
+      <p class="govuk-body">
+        Come back from 6 October 2020 to find courses.
+      </p>
+      <p class="govuk-body">
+        You’ll be able to submit an application from 13 October 2020.
+      </p>
+      <h2 class="govuk-heading-m">If you’ve already applied</h2>
+      <p class="govuk-body">
+        To help candidates who've already applied get placed on an available course,
+        <%= link_to "this website is still showing some courses (these may not be available for the 2021 to 2022 academic year)", find_interface_start_location_path, class: "govuk-link" %>
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+application_name: find-teacher-training
+base_url: http://localhost:3002
+teacher_training_api:
+  # URL of the API app (teacher-training-api)
+  base_url: http://localhost:3001
+current_cycle: 2021
+expand_university: false # When true HEI institutions have search radii increased. See https://bat-design-history.netlify.app/find-teacher-training/search-results-locations/
+google:
+  maps_api_key: replace_me
+  maps_api_url: https://maps.googleapis.com/maps/api/staticmap
+  gcp_api_key: replace_me
+  places_api_host: "https://maps.googleapis.com"
+  places_api_path: "/maps/api/place/autocomplete/json"
+service_support:
+  contact_email_address: becomingateacher@digital.education.gov.uk
+logstash:
+  type: tcp
+  host: # Our hostname here
+  port: # Our port here
+  ssl_enable: true
+log_level: info
+commit_sha_file: COMMIT_SHA
+cycle_has_ended:
+cycle_ending_soon:
+display_apply_button: true
+skylight_auth_token: replace_me
+skylight_enable: true

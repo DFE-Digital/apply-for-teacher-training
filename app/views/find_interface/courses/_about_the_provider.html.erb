@@ -1,0 +1,15 @@
+<div class="govuk-!-margin-bottom-8">
+  <% if course.provider.train_with_us.present? %>
+    <h2 class="govuk-heading-l" id="section-about-provider">About the training provider</h2>
+    <div data-qa="course__about_provider">
+      <%= markdown(course.provider.train_with_us) %>
+    </div>
+  <% end %>
+
+  <% if course.about_accrediting_body.present? %>
+    <div data-qa="course__about_accrediting_body">
+      <h3 class="govuk-heading-m">About the accredited body</h3>
+      <%= markdown(course.about_accrediting_body) %>
+    </div>
+  <% end %>
+</div>

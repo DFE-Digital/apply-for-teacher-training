@@ -1,0 +1,5 @@
+<% content_for :before_content do %>
+  <%= govuk_back_link_to(root_path(@results_filter_query_parameters), "Back to location") %>
+<% end %>
+
+<%= render "result_filters/subject/form", submit_button_text: "Continue" %>

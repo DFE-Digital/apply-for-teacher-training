@@ -1,0 +1,44 @@
+<%= content_for :page_title, "Pick a provider" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl" data-qa="heading">Pick a provider</h1>
+    <p class="govuk-body">You searched for ‘<%= params["query"] %>’</p>
+    <p class="govuk-body">We found these providers which matched your search:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <% @provider_suggestions.each do |provider| %>
+        <li data-qa="provider_suggestion">
+          <%= govuk_link_to "#{provider.provider_name} (#{provider.provider_code})",
+            find_interface_results_path(filter_params_without_previous_parameters.merge(query: provider.provider_name)),
+            { class: "govuk-link", data: { qa: "provider_suggestion__link" } }
+          %>
+        </li>
+      <% end %>
+    </ul>
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <div>
+      <details class="govuk-details" role="group">
+        <summary class="govuk-details__summary" role="button">
+          <span class="govuk-details__summary-text">Try another provider</span>
+        </summary>
+        <div class="govuk-details__text">
+          <%= form_with url: find_interface_provider_path, method: :get, data: { "ga-event-form" => "Provider" } do |form| %>
+            <fieldset class="govuk-fieldset">
+              <div class="govuk-form-group">
+                <%= form.label :query, class: "govuk-label" do %>
+                  <strong>School, university or other training provider</strong>
+                  <span class="govuk-hint govuk-!-margin-bottom-0">Enter the name or provider code</span>
+                <% end %>
+                <%= form.text_field :query, class: "govuk-input" %>
+              </div>
+
+              <%= form.submit "Search again", name: nil, class: "govuk-button" %>
+            </fieldset>
+          <% end %>
+        </div>
+      </details>
+    </div>
+  </div>
+</div>

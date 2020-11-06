@@ -1,0 +1,3 @@
+base_url: https://s121d03-research-find-as.azurewebsites.net
+teacher_training_api:
+  base_url: https://s121d03-research-ttapi-as.azurewebsites.net

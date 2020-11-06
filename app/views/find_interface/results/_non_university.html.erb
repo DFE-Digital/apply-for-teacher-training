@@ -1,0 +1,23 @@
+<% number_of_sites = @results_view.sites_count(course) %>
+<% nearest_address = @results_view.nearest_address(course) %>
+<% nearest_location_name = @results_view.nearest_location_name(course) %>
+
+<dt class="govuk-list--description__label">
+  <%= (number_of_sites > 1) ? "Nearest location" :  "Location"%>
+</dt>
+<dd>
+  <%= "#{pluralize(@results_view.site_distance(course), 'mile')} from you" %>
+  <% if number_of_sites > 1 %>
+    <div class="govuk-!-margin-top-0">
+      (Nearest of <%= number_of_sites %> locations to choose from)
+    </div>
+  <% end %>
+
+  <span class="govuk-list--description__hint govuk-!-padding-top-2">Location</span>
+  <% if nearest_location_name != "Main Site" %>
+    <%= nearest_location_name %><br />
+  <% end %>
+  <div class="app-text-ellipsis">
+    <%= nearest_address %>
+  </div>
+</dd>

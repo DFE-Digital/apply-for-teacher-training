@@ -1,0 +1,14 @@
+<div class="filter-form" data-qa="filters__provider">
+  <h2 class="govuk-heading-s filter-form__title">
+    Provider name<span class="govuk-visually-hidden">:</span>
+  </h2>
+  <ul class="filter-form__value--list">
+    <li data-qa="provider_name">
+      <%= smart_quotes(@results_view.provider) %>
+    </li>
+  </ul>
+  <%= link_to "Change provider or choose a location",
+             @results_view.filter_path_with_unescaped_commas(find_interface_location_path),
+             class: "govuk-link",
+             data: { qa: "link" } %>
+</div>

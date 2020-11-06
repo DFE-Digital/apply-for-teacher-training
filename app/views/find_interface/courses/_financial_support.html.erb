@@ -1,0 +1,20 @@
+<div class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-l" id="section-financial-support">Financial support</h2>
+
+  <% if course.salaried? %>
+    <%= render partial: 'courses/financial_support/salaried' %>
+  <% elsif course.excluded_from_bursary? %>
+    <%= render partial: 'courses/financial_support/loan', locals: { course: course } %>
+  <% elsif course.bursary_only? %>
+    <%= render partial: 'courses/financial_support/bursary', locals: { course: course } %>
+  <% elsif course.has_scholarship_and_bursary? %>
+    <%= render partial: 'courses/financial_support/scholarship_and_bursary', locals: { course: course } %>
+  <% else %>
+    <%= render partial: 'courses/financial_support/loan', locals: { course: course } %>
+  <% end %>
+
+  <% if course.financial_support.present? %>
+    <h3 data-qa="course__financial_support_details" class="govuk-heading-m">Financial support from the training provider</h3>
+    <%= markdown(course.financial_support) %>
+  <% end %>
+</div>

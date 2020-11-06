@@ -1,0 +1,11 @@
+<h3 class="govuk-heading-l" id="section-advice">Support and advice</h3>
+<p class="govuk-body">For questions about this course you should contact the training provider using <%= link_to "the contact details above", "#contact_section", class: "govuk-link" %>.</p>
+
+<h4 class="govuk-heading-m">Get support and advice about teaching</h4>
+<p class="govuk-body">Register with <%= link_to 'Get Into Teaching', 'https://getintoteaching.education.gov.uk/user/register', class: "govuk-link" %>, the Department for Education’s free support and advice service, for personalised guidance from teaching experts. They can help you to prepare your application, book school experience, and access exclusive teaching events. You can also call them free of charge on 0800 389 2500, or speak to an adviser using their <%= link_to "online chat service", "https://getintoteaching.education.gov.uk/lp/live-chat", class: 'govuk-link' %>, from 8am to 8pm, Monday to Friday.</p>
+
+<h4 class="govuk-heading-m">Website support</h4>
+<p class="govuk-body">If you have feedback or have had a problem using Find postgraduate teacher training you can <%= bat_contact_mail_to "contact us by email" %>.</p>
+
+<h4 class="govuk-heading-m">Is there something wrong with this page?</h4>
+<p class="govuk-body">If there is something wrong with this course listing, <%= bat_contact_mail_to "contact us by email", subject: "Edit #{course.name} (#{course.provider_code}/#{course.course_code})" %>.</p>

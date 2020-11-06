@@ -1,0 +1,3 @@
+base_url: https://s121d04-rollover-find-as.azurewebsites.net
+teacher_training_api:
+  base_url: https://s121d04-rollover-ttapi-as.azurewebsites.net

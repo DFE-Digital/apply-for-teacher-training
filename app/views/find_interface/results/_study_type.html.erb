@@ -1,0 +1,15 @@
+<div class="filter-form" data-qa="filters__studytype">
+  <h2 class="govuk-heading-s filter-form__title">
+    Study type<span class="govuk-visually-hidden">:</span>
+  </h2>
+  <ul class="filter-form__value--list">
+    <% default_to_true = (!@results_view.fulltime? && !@results_view.parttime?) %>
+    <% if @results_view.fulltime? || default_to_true %>
+      <li data-qa="fulltime">Full time (12 months)</li>
+    <% end %>
+    <% if @results_view.parttime? || default_to_true %>
+      <li data-qa="parttime">Part time (18 - 24 months)</li>
+    <% end %>
+    </ul>
+  <%= link_to "Change study type", @results_view.filter_path_with_unescaped_commas(find_interface_studytype_path), class: "govuk-link", data: { qa: "link" } %>
+</div>

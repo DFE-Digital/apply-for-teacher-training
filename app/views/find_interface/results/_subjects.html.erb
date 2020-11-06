@@ -1,0 +1,19 @@
+<div class="filter-form" data-qa="filters__subjects">
+  <h2 class="govuk-heading-s filter-form__title">
+    Subjects<span class="govuk-visually-hidden">:</span>
+  </h2>
+  <ul class="filter-form__value--list">
+    <% if @results_view.send_courses? %>
+      <li data-qa="send_courses">Only SEND courses</li>
+    <% end %>
+
+    <% @results_view.subjects.each do |subject| %>
+      <li data-qa="subjects"><%= subject.subject_name %></li>
+    <% end %>
+
+    <% if @results_view.number_of_extra_subjects.positive? %>
+      <li data-qa="extra_subjects">and <%= @results_view.number_of_extra_subjects %> more...</li>
+    <% end %>
+  </ul>
+  <%= link_to "Change subjects", @results_view.filter_path_with_unescaped_commas(find_interface_subject_path), class: "govuk-link", data: { qa: "link" } %>
+</div>

@@ -1,0 +1,5 @@
+base_url: https://www.staging.find-postgraduate-teacher-training.service.gov.uk
+teacher_training_api:
+  base_url: https://api.staging.publish-teacher-training-courses.service.gov.uk
+valid_referers:
+  - https://www.staging.find-postgraduate-teacher-training.education.gov.uk

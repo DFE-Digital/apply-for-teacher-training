@@ -1,0 +1,4 @@
+teacher_training_api:
+  base_url: http://localhost:3001
+valid_referers:
+  - http://localhost:9000

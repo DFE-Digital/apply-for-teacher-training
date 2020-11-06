@@ -1,0 +1,20 @@
+<%= content_for :page_title, "We do not understand the data you entered" %>
+
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">We do not understand the data you entered.</h1>
+      <p class="govuk-body">
+        If you entered a web address, check it is correct.
+      </p>
+      <p class="govuk-body">
+        If you pasted the web address, check you copied the entire address.
+      </p>
+      <p class="govuk-body">
+        If the web address is correct or you selected a link or button and you
+        need to speak to someone about this problem
+        <%= govuk_mail_to(Settings.service_support.contact_email_address, "contact the Becoming a Teacher team")%>.
+      </p>
+    </div>
+  </div>
+</div>

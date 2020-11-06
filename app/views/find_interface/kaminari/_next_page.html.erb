@@ -1,0 +1,12 @@
+<li class="pub-c-pagination__item pub-c-pagination__item--next">
+  <%= link_to url, rel: 'next', remote: remote, class: "pub-c-pagination__link govuk-link" do %>
+    <span class="pub-c-pagination__link-title">
+      Next page
+      <svg class="pub-c-pagination__link-icon" xmlns="http://www.w3.org/2000/svg" height="13" width="17" viewBox="0 0 17 13">
+        <path fill="currentColor" d="m10.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"></path>
+      </svg>
+    </span>
+    <span class="govuk-visually-hidden">:</span>
+    <span class="pub-c-pagination__link-label"><%= current_page + 1 %> of <%= total_pages %></span>
+  <% end %>
+</li>

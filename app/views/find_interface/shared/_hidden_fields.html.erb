@@ -1,0 +1,9 @@
+<% request.query_parameters.reject { |key, _value| key.in?(exclude_keys) }.each do |field_name, field_value| %>
+  <% if field_value.is_a?(Array) %>
+    <% field_value.each do |array_value| %>
+      <%= form.hidden_field(field_name, multiple: true, value: array_value) %>
+    <% end %>
+  <% else %>
+    <%= form.hidden_field(field_name, value: field_value) %>
+  <% end %>
+<% end %>

@@ -1,0 +1,15 @@
+<div class="filter-form" data-qa="filters__vacancies">
+  <h2 class="govuk-heading-s filter-form__title">
+    Vacancies<span class="govuk-visually-hidden">:</span>
+  </h2>
+  <ul class="filter-form__value--list">
+    <li data-qa="vacancies">
+      <% if @results_view.hasvacancies? %>
+        Only courses with vacancies
+      <% else %>
+        Courses with and without vacancies
+      <% end %>
+    </li>
+  </ul>
+  <%= link_to "Change vacancies", @results_view.filter_path_with_unescaped_commas(find_interface_vacancy_path), class: "govuk-link", data: { qa: "link" } %>
+</div>

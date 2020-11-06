@@ -1,0 +1,21 @@
+<div class="filter-form" data-qa="filters__qualifications">
+  <h2 class="govuk-heading-s filter-form__title">
+    Qualifications<span class="govuk-visually-hidden">:</span>
+  </h2>
+  <ul class="filter-form__value--list">
+    <% if @results_view.all_qualifications? %>
+      <li data-qa="qualifications">All qualifications</li>
+    <% else %>
+      <% if @results_view.qts_only? %>
+        <li data-qa="qts_only">QTS only</li>
+      <% end %>
+      <% if @results_view.pgce_or_pgde_with_qts?%>
+        <li data-qa="pgde_pgce_with_qts">PGCE (or PGDE) with QTS</li>
+      <% end %>
+      <% if @results_view.other_qualifications? %>
+        <li data-qa="other_qualifications">Further Education (PGCE or PGDE without QTS)</li>
+      <% end %>
+    <% end %>
+  </ul>
+  <%= link_to "Change qualifications", @results_view.filter_path_with_unescaped_commas(find_interface_qualification_path), class: "govuk-link", data: { qa: "link" } %>
+</div>

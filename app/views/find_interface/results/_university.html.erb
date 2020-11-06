@@ -1,0 +1,35 @@
+<dt class="govuk-list--description__label">Location</dt>
+
+<dd>
+  <ul class="govuk-list govuk-!-margin-top-0 govuk-!-margin-bottom-0">
+    <li>
+      <% if course.further_education? %>
+        <span class="govuk-list--description__hint govuk-!-margin-top-0">University</span>
+      <% else %>
+        <span class="govuk-list--description__hint govuk-!-margin-top-0">Placement schools</span>
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              <%= @results_view.placement_schools_summary(course) %>
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <p>You can’t pick which schools you want to be in, but your university will try to place you in schools you can commute to.</p>
+            <p>Universities usually work with over 100 potential placement schools. Most will be within 10 miles of the university, but sometimes they can cover a wider area, especially outside of cities.</p>
+            <%= link_to "More about placements on this course", course_path(provider_code: course.provider_code, course_code: course.course_code, anchor: 'section-schools'), class: "govuk-link" %>
+          </div>
+        </details>
+        You’ll be placed in schools for most of your course
+        <span class="govuk-list--description__hint govuk-!-padding-top-2">University</span>
+      <% end %>
+
+      <%= "#{pluralize(@results_view.site_distance(course), 'mile')} from you" %>
+      <br />
+      <% if @results_view.sites_count(course) > 1 %>
+        (Nearest of <%= @results_view.sites_count(course) %> locations to choose from)
+        <br />
+      <% end  %>
+      You’ll be at university only some of the time
+    </li>
+  </ul>
+</dd>

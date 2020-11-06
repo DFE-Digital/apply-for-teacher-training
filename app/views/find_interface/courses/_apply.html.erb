@@ -1,0 +1,82 @@
+<%= content_for :body_end do %>
+  <script src="https://maps.googleapis.com/maps/api/js?key=<%= Settings.google.maps_api_key %>&callback=initLocationsMap" async defer></script>
+<% end %>
+
+<div class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-l" id="section-apply">Apply</h2>
+
+  <% if @course.has_vacancies? %>
+    <% if Settings.display_apply_button %>
+      <p class="govuk-body">
+        <%= link_to "Apply for this course", apply_path(provider_code: course.provider.provider_code, course_code: course.course_code),
+                    class: "govuk-button govuk-button--start",
+                    data: { qa: 'course__apply_link' },
+                    rel: "nofollow" %>
+      </p>
+    <% else %>
+      <div data-qa="course__end_of_cycle_notice">
+        <p class="govuk-body">
+          You can apply to this course from 13 October.
+        </p>
+      </div>
+    <% end %>
+
+    <% if Settings.display_apply_button %>
+      <h3 class="govuk-heading-m">Choose a training location</h3>
+      <p class="govuk-body" data-qa="course__training_location_guidance">You’ll also need to choose a training location – select the relevant location name on the application form.</p>
+    <% else %>
+      <h3 class="govuk-heading-m">Training locations</h3>
+    <% end %>
+
+    <div id="locations-map" class="app-google-map" data-qa="course__locations_map"></div>
+
+    <table class="govuk-table app-table--vertical-align-middle" data-qa="course__choose_a_training_location">
+      <caption class="govuk-visually-hidden">Choose a training location - List of locations, vacancies and codes</caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="col">Location</th>
+          <th class="govuk-table__header" scope="col">Vacancies</th>
+          <th class="govuk-table__header" scope="col">Code</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% course.preview_site_statuses.each do |site_status| %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <strong><%= smart_quotes(site_status.site.location_name) %></strong>
+              <br>
+              <%= smart_quotes(site_status.site.decorate.full_address) %>
+            </td>
+            <td class="govuk-table__cell">
+              <%= site_status.has_vacancies? ? 'Yes' : 'No' %>
+            </td>
+            <td class="govuk-table__cell"><%= site_status.site.code %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+        You cannot apply for this course because it currently has no vacancies. To find courses with vacancies, change your search settings to ‘Only courses with vacancies’.
+      </strong>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  window.trainingLocations = [
+    <% course.preview_site_statuses.each do |site_status| %>
+      {
+        "code": "<%= site_status.site.code %>",
+        "name": "<%= smart_quotes(site_status.site.location_name) %>",
+        "lat": "<%= site_status.site.latitude.present? ? site_status.site.latitude : course.provider.latitude %>",
+        "lng": "<%= site_status.site.longitude.present? ? site_status.site.longitude : course.provider.longitude %>",
+        "address": "<%= smart_quotes(site_status.site.decorate.full_address) %>",
+        "vacancies": "<%= site_status.has_vacancies? ? "" : "No vacancies" %>"
+      },
+    <% end %>
+  ]
+</script>

@@ -1,0 +1,66 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  number:
+    currency:
+      format:
+        unit: "£"
+        delimiter: ","
+        separator: "."
+        precision: 0
+  date:
+    formats:
+      default: "%-d %B %Y"
+      short: "%B %Y"
+  qualifications:
+    qts: "QTS"
+    pgce: "PGCE"
+    pgce_with_qts: "PGCE with QTS"
+    pgde: "PGDE"
+    pgde_with_qts: "PGDE with QTS"
+  location_filter:
+    errors:
+      no_option: "Please choose an option"
+      unknown_location: "We couldn’t find this location, please check your input and try again"
+      missing_location: "Please enter a postcode, city or town in England"
+      missing_provider: "We couldn’t find this provider, please check your information and try again"
+      blank_provider: "You need to add some information"
+      invalid_provider: "Please enter a minimum of two characters"
+    fields:
+      location: "Postcode, town or city"
+      provider: "Training provider"
+  subject_filter:
+    errors:
+      no_option: "Please choose at least one subject"
+  cookie_preferences:
+    no_option_error: "Please choose an option"
+    success: "Your cookie preferences have been saved"

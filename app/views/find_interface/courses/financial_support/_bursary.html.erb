@@ -1,0 +1,25 @@
+<div data-qa="course__bursary_details">
+  <p class="govuk-body">
+    You’ll get a bursary of <%= number_to_currency(course.bursary_amount) %> if you have <%= course.bursary_first_line_ending %>
+  </p>
+
+  <ul class="govuk-list govuk-list--bullet">
+    <%  if course.bursary_requirements.length > 1 %>
+      <% course.bursary_requirements.each do |requirement| %>
+        <li><%= requirement %></li>
+      <% end %>
+    <% end %>
+  </ul>
+
+  <p class="govuk-body">
+    You don’t have to apply for a bursary - if you’re eligible, you’ll automatically start receiving it once you begin your course. Find out about <%= link_to "eligibility", "https://getintoteaching.education.gov.uk/funding-my-teacher-training/bursaries-and-scholarships-for-teacher-training", class: "govuk-link"%> and <%= link_to "how you’ll be paid", "https://getintoteaching.education.gov.uk/funding-and-salary/overview/how-you-will-be-paid", class: "govuk-link"%>.
+  </p>
+
+  <p class="govuk-body">
+    You may be eligible for a <%= link_to "loan while you study", "https://getintoteaching.education.gov.uk/funding-my-teacher-training/tuition-fee-and-maintenance-loans", class: "govuk-link" %> – note that you’ll have to apply for <%= link_to "undergraduate student finance" , "https://www.gov.uk/student-finance", class: "govuk-link" %>.
+  </p>
+
+  <p class="govuk-body">
+    Find out about financial support if you’re from <%= link_to "outside the UK", "https://getintoteaching.education.gov.uk/explore-my-options/overseas-graduates", class: "govuk-link" %>.
+  </p>
+</div>

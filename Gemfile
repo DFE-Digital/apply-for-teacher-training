@@ -10,6 +10,9 @@ gem 'pg', '~> 1.2.3'
 # do not rely on host’s timezone data, which can be inconsistent
 gem 'tzinfo-data'
 
+gem 'draper'
+gem "rubypants"
+
 gem 'webpacker'
 gem 'govuk_design_system_formbuilder', '~> 2.1.3'
 
@@ -78,6 +81,12 @@ gem ENV['WKHTMLTOPDF_GEM'] || 'wkhtmltopdf-binary'
 gem 'pdfkit'
 
 gem 'archive-zip'
+
+
+gem 'geokit'
+gem "geocoder"
+gem "config"
+
 
 group :development do
   gem 'web-console', '>= 3.3.0'

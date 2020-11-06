@@ -1,0 +1,67 @@
+<%= content_for :page_title, "Filter by study type" %>
+
+<% content_for :before_content do %>
+  <%= govuk_back_link_to(find_interface_results_path(@results_filter_query_parameters), "Back to search results") %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render partial: "find_interface/shared/error_message", locals: { error_anchor_id: "fulltime" } %>
+    <%= form_with url: studytype_path, method: :post do |form| %>
+      <%= render "find_interface/shared/hidden_fields", exclude_keys: ["fulltime", "parttime"], form: form %>
+      <fieldset role="radiogroup" aria-required="true" class="govuk-fieldset">
+        <legend>
+          <h1 class="govuk-heading-xl" data-qa="heading">Study type</h1>
+        </legend>
+
+        <div class="govuk-form-group <%= flash[:error] ? "govuk-form-group--error" : "" %>">
+          <% if flash[:error] %>
+            <span id="study-type-error" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> You must make at least one selection
+            </span>
+          <% end %>
+          <div class="govuk-checkboxes">
+          <% default_to_true = (params[:fulltime] != "true" && params[:parttime] != "true") && flash[:error].nil? %>
+            <div class="govuk-checkboxes__item">
+              <%=
+                form.check_box(
+                  :fulltime,
+                  { class: "govuk-checkboxes__input", data: { qa: 'full_time'}, checked: params[:fulltime] == "true" || default_to_true },
+                  "true",
+                  "false"
+                )
+              %>
+              <%= form.label :fulltime, class: "govuk-label govuk-checkboxes__label" do %>
+                <span class="govuk-!-font-weight-bold govuk-!-margin-bottom-2 govuk-!-display-block">Full time (12 months)</span>
+                <span>
+                  You’ll usually spend 5 days a week on a full-time course.
+                </span>
+              <% end %>
+            </div>
+
+            <div class="govuk-checkboxes__item">
+              <%=
+                form.check_box(
+                  :parttime,
+                  { class: "govuk-checkboxes__input", data: { qa: 'part_time'}, checked: params[:parttime] == "true" || default_to_true },
+                  "true",
+                  "false"
+                )
+              %>
+              <%= form.label :parttime, class: "govuk-label govuk-checkboxes__label" do %>
+                <span class="govuk-!-font-weight-bold govuk-!-margin-bottom-2 govuk-!-display-block">Part time (18 – 24 months)</span>
+                <span>
+                  You’ll usually spend 3 days a week on a part-time course.
+                </span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="govuk-form-group">
+        <%= form.submit "Find courses", name: nil, class: "govuk-button", data: { qa: "find-courses" } %>
+      </div>
+    <% end %>
+  </div>
+</div>

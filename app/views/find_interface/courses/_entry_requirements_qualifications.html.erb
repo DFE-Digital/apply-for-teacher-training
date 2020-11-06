@@ -1,0 +1,23 @@
+<div class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-l" id="section-entry">Requirements</h2>
+  <% if course.required_qualifications.present? %>
+    <h3 class="govuk-heading-m">Qualifications</h3>
+    <div data-qa="course__required_qualifications">
+      <%= markdown(course.required_qualifications) %>
+    </div>
+  <% end %>
+
+  <% if course.personal_qualities.present? %>
+    <h3 class="govuk-heading-m">Personal qualities</h3>
+    <div data-qa="course__personal_qualities">
+      <%= markdown(course.personal_qualities) %>
+    </div>
+  <% end %>
+
+  <% if course.other_requirements.present? %>
+    <h3 class="govuk-heading-m">Other requirements</h3>
+    <div data-qa="course__other_requirements">
+      <%= markdown(course.other_requirements) %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,5 @@
+<% content_for :before_content do %>
+  <%= govuk_back_link_to(find_interface_results_path(@results_filter_query_parameters), "Back to search results") %>
+<% end %>
+
+<%= render "find_interface/result_filters/location/form", submit_button_text: "Find courses" %>

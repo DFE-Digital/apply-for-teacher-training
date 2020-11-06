@@ -1,0 +1,41 @@
+<div class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-l" id="section-fees">Fees</h2>
+
+  <% if course.fee_uk_eu.present? %>
+    <div class="body-text">
+      <% if course.fee_uk_eu.present? && course.fee_international.present? %>
+        <table class="govuk-table app-table--vertical-align-middle">
+          <caption class="govuk-table__caption govuk-!-font-weight-regular govuk-!-margin-bottom-4">The course fees
+            for <%= course.year_range %> are as follows:
+          </caption>
+          <thead class="govuk-table__head">
+          <tr class="govuk-visually-hidden govuk-table__row">
+            <th class="govuk-table__header">Student type</th>
+            <th class="govuk-table__header">Fees to pay</th>
+          </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">UK students</td>
+            <td class="govuk-table__cell" data-qa="course__uk_fees"><%= number_to_currency(course.fee_uk_eu) %></td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">International students</td>
+            <td class="govuk-table__cell" data-qa="course__international_fees"><%= number_to_currency(course.fee_international) %></td>
+          </tr>
+          </tbody>
+        </table>
+      <% else %>
+        <p class="govuk-body">
+          The course fees for UK students in <%= course.year_range %> are <%= number_to_currency(course.fee_uk_eu) %>
+        </p>
+      <% end %>
+    </div>
+
+    <% if course.fee_details.present? %>
+      <div data-qa="course__fee_details">
+        <%= markdown(course.fee_details) %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
