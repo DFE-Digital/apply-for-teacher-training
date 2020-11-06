@@ -9,7 +9,7 @@
         <%= t('page_titles.work_history_destroy') %>
       </h1>
 
-      <%= f.submit t('application_form.work_history.delete_entry.confirm'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.govuk_submit t('application_form.work_history.delete_entry.confirm'), warning: true %>
 
       <p class="govuk-body">
         <%= govuk_link_to t('application_form.work_history.delete_entry.cancel'), candidate_interface_work_history_show_path %>

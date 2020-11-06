@@ -35,7 +35,7 @@
       <% if @conditions_form.conditions_met? %>
         <%= f.submit 'Confirm they have met your conditions', class: 'govuk-button', data: { module: 'govuk-button' } %>
       <% else %>
-        <%= f.submit 'Confirm they have not met your conditions', class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+        <%= f.govuk_submit 'Confirm they have not met your conditions', warning: true %>
       <% end %>
 
       <p class="govuk-body">

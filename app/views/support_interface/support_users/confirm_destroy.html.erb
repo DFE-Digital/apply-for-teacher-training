@@ -11,7 +11,7 @@
               email: @support_user.email_address) %>
       </h1>
 
-      <%= f.submit t('support_interface.support_user.remove'), class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.govuk_submit t('support_interface.support_user.remove'), warning: true %>
 
       <p class="govuk-body">
         <%= govuk_link_to 'Cancel', support_interface_support_users_path %>
