@@ -1,6 +1,7 @@
 module CandidateInterface
   class OtherQualifications::TypeController < OtherQualifications::BaseController
     def new
+      reset_wizard_state!
       @wizard = wizard_for(current_step: :type)
     end
 
@@ -47,7 +48,7 @@ module CandidateInterface
         if next_step.first == :details
           redirect_to candidate_interface_edit_other_qualification_details_path(@qualification.id)
         elsif next_step.first == :check
-          # TODO: ?? current_application.update!(other_qualifications_completed: false)
+          current_application.update!(other_qualifications_completed: false)
           commit
           @wizard.clear_state!
           redirect_to candidate_interface_review_other_qualifications_path
@@ -72,6 +73,12 @@ module CandidateInterface
         WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
         nil,
         options,
+      )
+    end
+
+    def reset_wizard_state!
+      OtherQualificationWizard.clear_state!(
+        WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
       )
     end
 

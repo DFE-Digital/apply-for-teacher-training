@@ -36,6 +36,10 @@ module CandidateInterface
       )
     end
 
+    def self.clear_state!(state_store)
+      state_store.delete
+    end
+
     def self.build_all_from_application(application_form)
       application_form.application_qualifications.other.order(:created_at).map do |qualification|
         build_from_qualification(qualification)

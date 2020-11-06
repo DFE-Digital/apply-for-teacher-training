@@ -389,8 +389,8 @@ ActiveRecord::Schema.define(version: 2020_11_04_151036) do
   create_table "provider_users_providers", force: :cascade do |t|
     t.bigint "provider_id", null: false
     t.bigint "provider_user_id", null: false
-    t.datetime "created_at", default: -> { "now()" }, null: false
-    t.datetime "updated_at", default: -> { "now()" }, null: false
+    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "manage_users", default: false, null: false
     t.boolean "view_safeguarding_information", default: false, null: false
     t.boolean "make_decisions", default: false, null: false

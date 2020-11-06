@@ -14,9 +14,9 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
 
     describe 'subject' do
       it 'validates presence except for non-uk and other qualifications' do
-        non_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'non_uk', subject: nil)
-        other_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'Other', subject: nil)
-        gcse = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'GCSE', subject: nil)
+        non_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'non_uk', subject: nil)
+        other_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'Other', subject: nil)
+        gcse = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'GCSE', subject: nil)
 
         non_uk_qualification.valid?(:details)
         other_uk_qualification.valid?(:details)
@@ -30,9 +30,9 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
 
     describe 'grade' do
       it 'validates presence except for non-uk and other qualifications' do
-        non_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'non_uk', grade: nil)
-        other_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'Other', grade: nil)
-        gcse = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'GCSE', grade: nil)
+        non_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'non_uk', grade: nil)
+        other_uk_qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'Other', grade: nil)
+        gcse = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'GCSE', grade: nil)
 
         non_uk_qualification.valid?(:details)
         other_uk_qualification.valid?(:details)
@@ -50,9 +50,9 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
     describe 'institution country' do
       context 'when it is a non-uk qualification' do
         it 'validates for presence and inclusion in the COUNTY_NAMES constant' do
-          valid_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'non_uk', institution_country: 'GB')
-          blank_country_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'non_uk')
-          inavlid_country_qualification = CandidateInterface::OtherQualificationWizard.new(nil, qualification_type: 'non_uk', institution_country: 'QQ')
+          valid_qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'non_uk', institution_country: 'GB')
+          blank_country_qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'non_uk')
+          inavlid_country_qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'non_uk', institution_country: 'QQ')
 
           valid_qualification.valid?(:details)
           blank_country_qualification.valid?(:details)
@@ -67,7 +67,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
 
     describe 'award year' do
       it 'is valid if the award year is 4 digits' do
-        qualification = CandidateInterface::OtherQualificationWizard.new(nil, award_year: '2009')
+        qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, award_year: '2009')
 
         qualification.valid?(:details)
 
@@ -76,7 +76,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
 
       ['a year', '200'].each do |invalid_date|
         it "is invalid if the award year is '#{invalid_date}'" do
-          qualification = CandidateInterface::OtherQualificationWizard.new(nil, award_year: invalid_date)
+          qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, award_year: invalid_date)
           error_message = t('award_year.invalid', scope: error_message_scope)
 
           qualification.valid?(:details)
@@ -89,7 +89,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
 
       it 'is invalid if the award year is in the future' do
         Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
-          qualification = CandidateInterface::OtherQualificationWizard.new(nil, award_year: '2029')
+          qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, award_year: '2029')
 
           qualification.valid?(:details)
 
@@ -174,6 +174,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
       it 'concatenates the non_uk_qualification_type and subject' do
         qualification = CandidateInterface::OtherQualificationWizard.new(
           nil,
+          nil,
           qualification_type: 'non_uk',
           non_uk_qualification_type: 'Master Craftsman',
           subject: 'Igloo Building 101',
@@ -188,6 +189,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
         FeatureFlag.activate('international_other_qualifications')
         qualification = CandidateInterface::OtherQualificationWizard.new(
           nil,
+          nil,
           qualification_type: 'Other',
           other_uk_qualification_type: 'Master Craftsman',
           subject: 'Chopping Trees 1-0-done',
@@ -200,6 +202,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
     context 'for other uk qualificaitons and GCSEs and A-levels' do
       it 'concatenates the qualification type and subject' do
         qualification = CandidateInterface::OtherQualificationWizard.new(
+          nil,
           nil,
           qualification_type: 'BTEC',
           subject: 'Being a Supervillain',
@@ -215,6 +218,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
       it 'returns the non_uk_qualification_type' do
         qualification = CandidateInterface::OtherQualificationWizard.new(
           nil,
+          nil,
           qualification_type: 'non_uk',
           non_uk_qualification_type: 'Master Craftsman',
         )
@@ -228,6 +232,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
         FeatureFlag.activate('international_other_qualifications')
         qualification = CandidateInterface::OtherQualificationWizard.new(
           nil,
+          nil,
           qualification_type: 'Other',
           other_uk_qualification_type: 'Master Craftsman',
         )
@@ -239,6 +244,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
     context 'for other uk qualificaitons and GCSEs and A-levels' do
       it 'returns the qualification type' do
         qualification = CandidateInterface::OtherQualificationWizard.new(
+          nil,
           nil,
           qualification_type: 'BTEC',
         )
@@ -252,6 +258,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
     it 'returns `check` if `checking_answers` option is given and current step is `type`' do
       qualification = CandidateInterface::OtherQualificationWizard.new(
         nil,
+        nil,
         current_step: :type,
         checking_answers: true,
       )
@@ -261,6 +268,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
 
     it 'returns `details` if `checking_answers` option is not given and current step is `type`' do
       qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
         nil,
         current_step: :type,
       )
@@ -272,6 +280,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
       application_qualification = create :other_qualification, qualification_type: 'Other'
 
       qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
         nil,
         id: application_qualification.id,
         current_step: :type,
@@ -287,6 +296,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
 
       qualification = CandidateInterface::OtherQualificationWizard.new(
         nil,
+        nil,
         id: application_qualification.id,
         current_step: :type,
         checking_answers: true,
@@ -299,6 +309,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
     it 'returns `check` if current_step is `details`' do
       qualification = CandidateInterface::OtherQualificationWizard.new(
         nil,
+        nil,
         current_step: :details,
       )
 
@@ -310,6 +321,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
     it 'returns `type` if current_step is `details`' do
       qualification = CandidateInterface::OtherQualificationWizard.new(
         nil,
+        nil,
         current_step: :details,
       )
 
@@ -319,6 +331,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
     it 'returns `details` if current_step is `check`' do
       qualification = CandidateInterface::OtherQualificationWizard.new(
         nil,
+        nil,
         current_step: :check,
       )
 
@@ -327,6 +340,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
 
     it 'returns `check` if current_step is `details` and checking_answers option is given' do
       qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
         nil,
         current_step: :details,
         checking_answers: true,
