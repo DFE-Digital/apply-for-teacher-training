@@ -408,16 +408,23 @@ en:
         completed_checkbox: I have completed this section
     references:
       referee_type:
-        hint_text:
-          academic: 'For example: a university tutor.'
-          professional: 'For example: a manager.'
-          school_based: 'For example: a colleague from a school where you did experience.'
-          character: 'For example: a mentor, or someone you know from volunteering.'
+        academic:
+          label: Academic
+          hint_text: 'For example: a university tutor.'
+        professional:
+          label: Professional
+          hint_text: 'For example: a manager.'
+        school_based:
+          label: School-based
+          hint_text: 'For example: a colleague from a school where you did experience.'
+        character:
+          label: Character
+          hint_text: 'For example: a mentor, or someone you know from volunteering.'
       name:
         label: What is the referee’s name?
       email_address:
         label: What is the referee’s email address?
-        hint_text: In most cases, this should be a work address.
+        hint_text: In most cases, this should be a work address
       relationship:
         label: How do you know this referee and how long have you known them?
         hint_text:
@@ -432,6 +439,12 @@ en:
         last_name:
           label: Last name
           hint_text: Or family name
+      unsubmitted:
+        label: Are you ready to send a reference request to %{reference_name}?
+        'yes':
+          label: 'Yes, send a reference request now'
+        'no':
+          label: No, not at the moment
       delete_referee:
         action: Delete referee
         confirm: Yes I’m sure - delete this referee
@@ -452,6 +465,10 @@ en:
         action: Send request again
       retry_request:
         action: Retry request
+        confirm: Send reference request
+        email_address:
+          label: Referee’s email address
+          hint_text: In most cases, this should be a work address
       send_reminder:
         action: Send a reminder to this referee
         confirm: Yes I’m sure - send a reminder

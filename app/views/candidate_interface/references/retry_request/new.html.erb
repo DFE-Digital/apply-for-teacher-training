@@ -3,19 +3,24 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <span class="govuk-caption-xl"><%= @reference.name %></span>
-      <%= t('page_titles.references_retry_request') %>
-    </h1>
-
-    <%= form_with model: @reference_email_address_form, url: candidate_interface_references_retry_request_path(@reference.id) do |f| %>
+    <%= form_with(
+      model: @reference_email_address_form,
+      url: candidate_interface_references_retry_request_path(@reference.id),
+    ) do |f| %>
       <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <span class="govuk-caption-xl"><%= @reference.name %></span>
+        <%= t('page_titles.references_retry_request') %>
+      </h1>
+
       <%= f.govuk_text_field(
         :email_address,
-        label: { text: 'Referee’s email address', size: 'm' },
-        hint: { text: 'In most cases, this should be a work address.' },
+        label: { text: t('application_form.references.retry_request.email_address.label'), size: 'm' },
+        hint: { text: t('application_form.references.retry_request.email_address.hint_text') },
       ) %>
-      <%= f.govuk_submit 'Send reference request' %>
+
+      <%= f.govuk_submit t('application_form.references.retry_request.confirm') %>
     <% end %>
   </div>
 </div>

@@ -3,7 +3,11 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @reference_type_form, url: candidate_interface_references_type_path, method: :post do |f| %>
+    <%= form_with(
+      model: @reference_type_form,
+      url: candidate_interface_references_type_path,
+      method: :post,
+    ) do |f| %>
       <%= render 'shared_form', f: f %>
     <% end %>
   </div>

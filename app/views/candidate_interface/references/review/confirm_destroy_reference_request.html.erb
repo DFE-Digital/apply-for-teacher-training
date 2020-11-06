@@ -3,13 +3,17 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @reference, url: candidate_interface_destroy_reference_path(@reference), method: :delete do |f| %>
+    <%= form_with(
+      model: @reference,
+      url: candidate_interface_destroy_reference_path(@reference),
+      method: :delete,
+    ) do |f| %>
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl"><%= @reference.name %></span>
         <%= t('page_titles.references_delete_request') %>
       </h1>
 
-      <%= f.submit t('application_form.references.delete_request.confirm') , class: 'govuk-button govuk-button--warning', data: { module: 'govuk-button' } %>
+      <%= f.govuk_submit t('application_form.references.delete_request.confirm'), warning: true %>
 
       <p class="govuk-body">
         <%= govuk_link_to t('application_form.references.delete_request.cancel'), candidate_interface_references_review_path %>
