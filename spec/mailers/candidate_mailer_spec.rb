@@ -42,22 +42,6 @@ RSpec.describe CandidateMailer, type: :mailer do
     )
   end
 
-  describe 'Send survey email' do
-    context 'when initial email' do
-      it_behaves_like('a mail with subject and content', :survey_email,
-                      'Was applying for teacher training easy?',
-                      'heading' => 'Dear Bob',
-                      'link to the survey' => I18n.t!('survey_emails.survey_link'))
-    end
-
-    context 'when chaser email' do
-      it_behaves_like('a mail with subject and content', :survey_chaser_email,
-                      'We’d love to hear from you about your teacher training application',
-                      'heading' => 'Dear Bob',
-                      'link to the survey' => I18n.t!('survey_emails.survey_link'))
-    end
-  end
-
   describe 'Candidate decision chaser email' do
     context 'when a candidate has one appication choice with offer' do
       it_behaves_like(

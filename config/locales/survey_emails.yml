@@ -1,8 +1,0 @@
-en:
-  survey_emails:
-    survey_link: https://forms.gle/QQqurrCs9YSpTfbc8
-    send:
-      link: Request feedback
-      confirm: Are you sure you want to send a survey email to %{candidate_name}?
-      button: Yes - send the email
-      success: Survey request sent to candidate

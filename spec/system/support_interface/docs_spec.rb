@@ -27,8 +27,6 @@ RSpec.feature 'Docs' do
 
   def and_it_contains_documentation_for_all_emails
     emails_outside_of_states = %w[
-      candidate_mailer-survey_chaser_email
-      candidate_mailer-survey_email
       provider_mailer-account_created
       provider_mailer-fallback_sign_in_email
       candidate_mailer-apply_again_call_to_action

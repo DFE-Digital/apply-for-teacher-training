@@ -34,18 +34,6 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def survey_email(application_form)
-    email_for_candidate(
-      application_form,
-    )
-  end
-
-  def survey_chaser_email(application_form)
-    email_for_candidate(
-      application_form,
-    )
-  end
-
   def new_referee_request(reference, reason:)
     @reference = reference
     @reason = reason
