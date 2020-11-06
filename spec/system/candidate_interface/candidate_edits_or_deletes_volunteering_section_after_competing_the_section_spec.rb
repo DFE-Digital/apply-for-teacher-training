@@ -10,23 +10,26 @@ RSpec.feature 'Candidate edits their volunteering section' do
     when_i_visit_the_application_page
     then_the_volunteering_section_should_be_marked_as_complete
 
-    when_i_visit_the_review_volunteering_page
+    when_i_click_the_volunteering_section_link
     and_i_click_to_change_my_role
     and_i_change_my_role
     and_i_click_on_save_and_continue
     and_visit_my_application_page
     then_the_volunteering_section_should_be_marked_as_incomplete
 
-    when_i_visit_the_review_volunteering_page
+    when_i_click_the_volunteering_section_link
     and_i_mark_this_section_as_completed
     and_i_click_on_continue
     then_the_volunteering_section_should_be_marked_as_complete
 
-    when_i_visit_the_review_volunteering_page
+    when_i_click_the_volunteering_section_link
     and_i_click_delete_role
     and_i_confirm_i_want_to_delete_the_role
     and_visit_my_application_page
     then_the_volunteering_section_should_be_marked_as_incomplete
+
+    when_i_click_the_volunteering_section_link
+    then_i_should_be_prompted_to_add_new_experience
   end
 
   def given_i_am_signed_in
@@ -48,7 +51,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
     expect(page.text).to include 'Unpaid experience and volunteering Completed'
   end
 
-  def when_i_visit_the_review_volunteering_page
+  def when_i_click_the_volunteering_section_link
     click_link 'Unpaid experience and volunteering'
   end
 
@@ -86,5 +89,9 @@ RSpec.feature 'Candidate edits their volunteering section' do
 
   def and_i_confirm_i_want_to_delete_the_role
     click_button t('application_form.volunteering.delete.confirm')
+  end
+
+  def then_i_should_be_prompted_to_add_new_experience
+    expect(page).to have_current_path(candidate_interface_volunteering_experience_path)
   end
 end

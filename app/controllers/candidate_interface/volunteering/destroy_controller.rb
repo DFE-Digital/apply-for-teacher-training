@@ -13,10 +13,11 @@ module CandidateInterface
         .find(current_volunteering_role_id)
         .destroy!
 
-      current_application.update!(volunteering_completed: false)
       if current_application.application_volunteering_experiences.blank?
+        current_application.update!(volunteering_completed: false, volunteering_experience: false)
         redirect_to candidate_interface_volunteering_experience_path
       else
+        current_application.update!(volunteering_completed: false)
         redirect_to candidate_interface_review_volunteering_path
       end
     end
