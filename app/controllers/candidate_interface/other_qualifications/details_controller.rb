@@ -17,7 +17,6 @@ module CandidateInterface
         commit
         @wizard.clear_state!
 
-        # TODO: use @wizard.next_step for this?
         if @wizard.choice == 'same_type'
           redirect_to candidate_interface_new_other_qualification_details_path(qualification_type: current_application.application_qualifications.last.qualification_type)
         elsif @wizard.choice == 'different_type'
@@ -52,7 +51,6 @@ module CandidateInterface
         @wizard.clear_state!
         redirect_to candidate_interface_review_other_qualifications_path
       else
-        # @type = @qualification.set_type(current_qualification)
         track_validation_error(@wizard)
         render :edit
       end

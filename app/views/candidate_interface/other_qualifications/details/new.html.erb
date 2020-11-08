@@ -31,12 +31,12 @@
 
       <%= f.govuk_radio_buttons_fieldset :add_another_qualification, legend: { text: 'Do you want to add another qualification?', tag: 'span' } do %>
         <% if FeatureFlag.active?('international_other_qualifications') %>
-            <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@wizard.qualification_type}" } %>
-            <%= f.govuk_radio_button :choice, 'different_type', label: { text: 'Yes, add a different qualification' } %>
+          <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@wizard.qualification_type_name}" } %>
+          <%= f.govuk_radio_button :choice, 'different_type', label: { text: 'Yes, add a different qualification' } %>
           <%= f.govuk_radio_button :choice, 'no', label: { text: 'No, not at the moment' } %>
         <% else %>
           <% if @wizard.qualification_type != 'Other' %>
-            <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@wizard.qualification_type}" } %>
+            <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@wizard.qualification_type_name}" } %>
           <% else %>
             <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another qualification" } %>
           <% end %>

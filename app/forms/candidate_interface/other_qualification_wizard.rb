@@ -109,8 +109,11 @@ module CandidateInterface
         self.institution_country ||= qualifications[-1].institution_country
         self.award_year ||= qualifications[-1].award_year
       end
-      self.non_uk_qualification_type ||= qualifications[-1].non_uk_qualification_type
-      self.other_uk_qualification_type ||= qualifications[-1].other_uk_qualification_type
+      if qualification_type == 'non_uk'
+        self.non_uk_qualification_type ||= qualifications[-1].non_uk_qualification_type
+      elsif qualification_type == 'Other'
+        self.other_uk_qualification_type ||= qualifications[-1].other_uk_qualification_type
+      end
     end
 
     def copy_attributes(application_qualification)
