@@ -28,9 +28,6 @@ class StateChangeNotifier
     end
 
     case event
-    when :submit_application
-      text = "#{application_form.first_name} has just submitted their application"
-      url = helpers.support_interface_application_form_url(application_form)
     when :make_an_offer
       text = ":love_letter: #{provider_name} has just made an offer to #{applicant}’s application"
       url = helpers.support_interface_application_form_url(application_form_id)
