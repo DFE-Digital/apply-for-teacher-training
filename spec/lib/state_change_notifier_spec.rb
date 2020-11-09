@@ -60,7 +60,7 @@ RSpec.describe StateChangeNotifier do
       before { StateChangeNotifier.call(:reject_application_by_default, application_choice: application_choice) }
 
       it 'mentions applicant\'s first name' do
-        arg1 = ":broken_heart: #{applicant}’s application has just been rejected by default"
+        arg1 = ":broken_heart: #{applicant}’s application to #{provider_name} has just been rejected by default"
         expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
       end
 
