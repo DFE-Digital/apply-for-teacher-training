@@ -32,12 +32,11 @@ module CandidateInterface
     end
 
     def update
-      @qualification = ApplicationQualification.find(params[:id])
       @wizard = wizard_for(
         other_qualification_type_params.merge(
           current_step: :type,
           checking_answers: true,
-          id: @qualification.id,
+          id: current_qualification.id,
         ),
       )
       if @wizard.valid?(:type)
@@ -46,7 +45,7 @@ module CandidateInterface
         next_step = @wizard.next_step
 
         if next_step.first == :details
-          redirect_to candidate_interface_edit_other_qualification_details_path(@qualification.id)
+          redirect_to candidate_interface_edit_other_qualification_details_path(current_qualification.id)
         elsif next_step.first == :check
           current_application.update!(other_qualifications_completed: false)
           commit

@@ -46,7 +46,7 @@ module CandidateInterface
       @wizard.save_state!
 
       if @wizard.valid?(:details)
-        commit(qualification_id: params[:id])
+        commit
         current_application.update!(other_qualifications_completed: false)
         @wizard.clear_state!
         redirect_to candidate_interface_review_other_qualifications_path
@@ -58,10 +58,10 @@ module CandidateInterface
 
   private
 
-    def commit(qualification_id: nil)
+    def commit
       application_qualification =
-        if qualification_id
-          ApplicationQualification.find(qualification_id)
+        if params[:id].present?
+          current_qualification
         else
           current_application.application_qualifications.build(
             level: ApplicationQualification.levels[:other],
