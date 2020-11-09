@@ -181,7 +181,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
     let(:degree1) do
       build_stubbed(
         :degree_qualification,
-        qualification_type: 'BA',
+        qualification_type: 'Bachelor of Arts',
         subject: 'Woof',
         institution_name: 'University of Doge',
         institution_country: 'DE',
@@ -206,8 +206,14 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         Rails.application.routes.url_helpers.candidate_interface_edit_degree_institution_path(degree1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
-        "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+        "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",
       )
+    end
+
+    it 'renders the unabbreviated value on the summary card title' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.app-summary-card__title').text).to include('Bachelor of Arts Woof')
     end
 
     context 'when a UK NARIC reference number has been provided' do
@@ -228,7 +234,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
           Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree1),
         )
         expect(result.css('.govuk-summary-list__actions').text).to include(
-          "Change #{t('application_form.degree.qualification.change_action')} for BA, Woof, University of Doge, 2008",
+          "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",
         )
       end
     end

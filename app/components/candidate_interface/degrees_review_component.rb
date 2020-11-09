@@ -38,7 +38,9 @@ module CandidateInterface
     attr_reader :application_form
 
     def degree_type_with_honours(degree)
-      if degree.grade&.include? 'honours'
+      if international?(degree)
+        degree.qualification_type
+      elsif degree.grade&.include? 'honours'
         "#{abbreviate_degree(degree.qualification_type)} (Hons)"
       else
         abbreviate_degree(degree.qualification_type)
