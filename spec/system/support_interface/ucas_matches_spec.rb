@@ -18,6 +18,12 @@ RSpec.feature 'See UCAS matches' do
 
     when_i_follow_the_link_to_ucas_match_for_a_candidate
     then_i_should_see_ucas_match_summary
+
+    when_i_go_to_ucas_matches_page
+    when_i_follow_the_link_to_ucas_match_for_a_candidate_which_needs_an_action
+    then_i_see_what_action_is_needed
+    and_when_i_confirm_i_took_the_action
+    then_i_see_last_performed_action
   end
 
   def given_i_am_a_support_user
@@ -122,5 +128,23 @@ RSpec.feature 'See UCAS matches' do
     end
 
     expect(page).to have_content('This applicant has applied to the same course on both services.')
+  end
+
+  def when_i_follow_the_link_to_ucas_match_for_a_candidate_which_needs_an_action
+    click_link @candidate2.email_address
+  end
+
+  def then_i_see_what_action_is_needed
+    expect(page).to have_text 'Action needed: send initial email'
+    expect(page).to have_text 'We need to contact the candidate and the provider'
+  end
+
+  def and_when_i_confirm_i_took_the_action
+    click_button 'Confirm initial emails were sent'
+  end
+
+  def then_i_see_last_performed_action
+    expect(page).to have_content 'No action required'
+    expect(page).to have_content 'We sent the initial emails to the candidate and the providers'
   end
 end

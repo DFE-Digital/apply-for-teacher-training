@@ -13,6 +13,24 @@ RSpec.describe UCASMatch do
       expect(ucas_match.action_needed?).to eq(false)
     end
 
+    it 'returns false if initial emails were sent and we don not need to send the reminders yet' do
+      initial_emails_sent_at = Time.zone.now
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: initial_emails_sent_at)
+
+      Timecop.travel(1.business_days.after(initial_emails_sent_at)) do
+        expect(ucas_match.action_needed?).to eq(false)
+      end
+    end
+
+    it 'returns true if initial emails were sent and it is time to send reminder emails' do
+      initial_emails_sent_at = Time.zone.now
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: initial_emails_sent_at)
+
+      Timecop.travel(5.business_days.after(initial_emails_sent_at)) do
+        expect(ucas_match.action_needed?).to eq(true)
+      end
+    end
+
     it 'returns true if a candidate applied for the same course on both services and both applications are still in progress' do
       ucas_matching_data = { 'Scheme' => 'B',
                              'Course code' => course1.code.to_s,
