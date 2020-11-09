@@ -6,6 +6,7 @@ module CandidateInterface
     validates :email_address, :accept_ts_and_cs, presence: true
     validates :email_address, length: { maximum: 100 }
 
+    validates :candidate_email_address_has_access
     validate :candidate_email_address_is_valid
 
     def initialize(params = {})
@@ -27,6 +28,13 @@ module CandidateInterface
     end
 
   private
+
+    def candidate_email_address_has_access
+      if HostingEnvironment.dfe_signup_only? &&
+          !email_address.match(/education\.gov\.uk$/)
+        errors.add(:email_address, :dfe_signup_only)
+      end
+    end
 
     def candidate_email_address_is_valid
       if candidate && candidate.invalid?
