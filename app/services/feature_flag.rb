@@ -30,6 +30,7 @@ class FeatureFlag
     [:export_hesa_data, 'Providers can export applications including HESA data.', 'Steve Laing'],
     [:feedback_form, 'New simplified feedback form to replace old multi-page satisfaction survey.', 'Steve Hook'],
     [:feedback_prompts, 'Candidates can give feedback while completing their application form', 'David Gisbey'],
+    [:science_gcse_awards, 'New UI layout for science GCSE', 'Toby Retallick'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
