@@ -1,16 +1,14 @@
-<tr class="govuk-table__row gov uk-accordion__section">
-  <td class="govuk-table__cell" title="<%= l(audit.created_at, format: :long_with_seconds) %>">
-    <%= l(audit.created_at.to_date, format: :long) %> <br><%= l(audit.created_at, format: :time) %>
-  </td>
-  <td class="govuk-table__cell">
-    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">
-      <%= audit_entry_event_label %>
-      <span class="govuk-caption-m"><%= audit_entry_user_label %></span>
-    </h3>
-    <dl class="govuk-summary-list govuk-!-margin-bottom-2 govuk-!-font-size-16">
-      <% changes.each_with_index do |(attr, values), index| %>
-        <%= render SupportInterface::AuditTrailChangeComponent.new(attribute: attr, values: values, last_change: index + 1 == changes.size) %>
-      <% end %>
-    </dl>
-  </td>
-</tr>
+<h3 class="govuk-heading-s govuk-!-margin-bottom-2">
+  <%= l(audit.created_at.to_date, format: :long) %> <br><%= l(audit.created_at, format: :time) %>
+</h3>
+
+<h3 class="govuk-heading-s govuk-!-margin-bottom-2">
+  <%= audit_entry_event_label %>
+  <span class="govuk-caption-m"><%= audit_entry_user_label %></span>
+</h3>
+
+<dl class="govuk-summary-list govuk-!-margin-bottom-2 govuk-!-font-size-16">
+  <% changes.each_with_index do |(attr, values), index| %>
+    <%= render SupportInterface::AuditTrailChangeComponent.new(attribute: attr, values: values, last_change: index + 1 == changes.size) %>
+  <% end %>
+</dl>

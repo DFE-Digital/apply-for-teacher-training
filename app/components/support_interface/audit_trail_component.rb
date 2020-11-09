@@ -9,18 +9,27 @@ module SupportInterface
     end
 
     def audits
-      audits = if audited_thing.is_a? Provider
-                 audits_for_provider
-               else
-                 standard_audits
-               end
+      unscoped_audits.includes(:user).order(id: :desc).page(params[:page] || 1).per(60)
+    end
 
-      audits.includes(:user).order('id desc').page(params[:page] || 1).per(30)
+    def filter
+      @filter ||= AuditTrailFilter.new(
+        params: request.params,
+        unscoped_audits: unscoped_audits,
+      )
     end
 
     attr_reader :audited_thing
 
   private
+
+    def unscoped_audits
+      if audited_thing.is_a? Provider
+        audits_for_provider
+      else
+        standard_audits
+      end
+    end
 
     def audits_for_provider
       standard_audits.or(Audited::Audit.where(
@@ -31,6 +40,38 @@ module SupportInterface
 
     def standard_audits
       audited_thing.own_and_associated_audits.unscope(:order)
+    end
+
+    class AuditTrailFilter
+      attr_reader :applied_filters
+
+      def initialize(params:, unscoped_audits:)
+        @applied_filters = params
+        @unscoped_audits = unscoped_audits
+      end
+
+      def filters
+        @filters ||= [auditable_type]
+      end
+
+    private
+
+      def auditable_type
+        options = @unscoped_audits.distinct(:auditable_type).pluck(:auditable_type).sort.map do |auditable_type|
+          {
+            value: auditable_type,
+            label: auditable_type,
+            checked: applied_filters[:auditable_type]&.include?(auditable_type),
+          }
+        end
+
+        {
+          type: :checkboxes,
+          heading: 'Change type',
+          name: 'auditable_type',
+          options: options,
+        }
+      end
     end
   end
 end
