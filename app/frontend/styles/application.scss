@@ -6,7 +6,6 @@
   @return url("~assets/images/" + $filename);
 }
 
-$moj-images-path: "~@ministryofjustice/frontend/moj/assets/images/";
 $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
@@ -18,10 +17,18 @@ $govuk-breakpoints: (
   wide: 1300px,
 );
 
-// Shared (govuk-frontend components and overrides)
+$moj-images-path: "~@ministryofjustice/frontend/moj/assets/images/";
+
+// Shared (govuk-frontend)
 @import "~govuk-frontend/govuk/all";
+
+// Shared (base HTML elements)
+@import "_code";
+
+// Shared (govuk-frontend component overrides)
 @import "_header";
 @import "_input";
+@import "_list";
 @import "_phase-banner";
 @import "_tab-navigation";
 @import "_tag";
@@ -37,6 +44,5 @@ $govuk-breakpoints: (
 @import "_qualification";
 @import "_section";
 @import "_status-box";
-@import "_styled-content";
 @import "_summary-card";
 @import "_feedback";

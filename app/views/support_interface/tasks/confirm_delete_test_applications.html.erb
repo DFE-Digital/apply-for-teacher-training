@@ -6,9 +6,7 @@
     <%= form_with model: nil, url: support_interface_run_task_path('delete_test_applications') do |f| %>
       <h1 class="govuk-heading-l">Are you sure you want to delete all test applications?</h1>
 
-      <div class="app-styled-content">
-        <p>This task deletes all candidates with emails that end in <code>@example.com</code>, their applications and associated data.</p>
-      </div>
+      <p class="govuk-body">This task deletes all candidates with emails that end in <code>@example.com</code>, their applications and associated data.</p>
 
       <%= f.govuk_submit 'Yes, I’m sure – delete all test applications', warning: true %>
 

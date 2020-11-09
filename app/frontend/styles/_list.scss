@@ -1,0 +1,17 @@
+.app-list--definition {
+  dt {
+    @include govuk-typography-weight-bold;
+  }
+
+  dd + dt {
+    margin-top: govuk-spacing(4);
+  }
+
+  dd {
+    margin-left: 0;
+  }
+
+  dd + dd {
+    margin-top: govuk-spacing(2);
+  }
+}
