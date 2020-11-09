@@ -31,7 +31,7 @@ private
 
   def cancel_feedback_requested_references
     application_form.application_references.select(&:feedback_requested?).each do |reference|
-      CancelReferee.new.call(reference: reference, cancelled_by_default: true)
+      CancelReferee.new.call(reference: reference)
     end
   end
 end
