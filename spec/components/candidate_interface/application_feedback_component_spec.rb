@@ -6,7 +6,7 @@ RSpec.describe CandidateInterface::ApplicationFeedbackComponent do
   it 'renders successfully' do
     result = render_inline(
       described_class.new(
-        section: 'references',
+        section: 'application_references',
         path: 'candidate_interface_references_start_path',
         page_title: 'This is the references start page',
         id_in_path: '1',

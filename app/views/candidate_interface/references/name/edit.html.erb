@@ -12,3 +12,12 @@
     <% end %>
   </div>
 </div>
+
+<%= render(
+  CandidateInterface::ApplicationFeedbackComponent.new(
+    section: 'application_references',
+    path: 'candidate_interface_references_edit_name_path',
+    id_in_path: @reference.id,
+    page_title: t('page_titles.references_name')
+  )
+) %>
