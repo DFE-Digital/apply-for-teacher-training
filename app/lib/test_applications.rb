@@ -132,14 +132,12 @@ class TestApplications
         @application_form.application_references.each { |reference| submit_reference!(reference) }
 
         states.zip(application_choices).each do |state, application_choice|
+          maybe_add_note(application_choice.reload)
           put_application_choice_in_state(application_choice.reload, state)
+          maybe_add_note(application_choice.reload)
         end
 
         FactoryBot.create(:ucas_match, application_form: @application_form) if rand < 0.5
-      end
-
-      application_choices.each do |application_choice|
-        rand(0..3).times { add_note(application_choice.reload) }
       end
 
       application_choices
@@ -296,13 +294,14 @@ class TestApplications
     choice.audits.last&.update_columns(created_at: time)
   end
 
-  def add_note(choice)
+  def maybe_add_note(choice)
+    return unless rand > 0.3
     previous_updated_at = choice.updated_at
 
     provider_user = choice.provider.provider_users.first
     provider_user ||= add_provider_user_to_provider(choice.provider)
     as_provider_user(choice) do
-      travel_to time + rand(-5..5).days
+      fast_forward
       FactoryBot.create(
         :note,
         application_choice: choice,
