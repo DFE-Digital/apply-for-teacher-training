@@ -22,7 +22,7 @@ class StateChangeNotifier
 
     provider_name = application_choice.course.provider.name
     course_name = application_choice.course.name_and_code
-    applicant = application_choice.application_form.first_name
+    candidate_name = application_choice.application_form.first_name
     application_form = application_choice.application_form
 
     case event
@@ -39,25 +39,25 @@ class StateChangeNotifier
       text = ":broken_heart: #{applicant}’s application has just been rejected by default"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :offer_accepted
-      text = ":handshake: #{applicant} has accepted #{provider_name}’s offer"
+      text = ":handshake: #{candidate_name} has accepted #{provider_name}’s offer"
       url = helpers.support_interface_application_form_url(application_form)
     when :offer_declined
-      text = ":no_good: #{applicant} has declined #{provider_name}’s offer"
+      text = ":no_good: #{candidate_name} has declined #{provider_name}’s offer"
       url = helpers.support_interface_application_form_url(application_form)
     when :withdraw
-      text = ":runner: #{applicant} has withdrawn their application for #{course_name} at #{provider_name}"
+      text = ":runner: #{candidate_name} has withdrawn their application for #{course_name} at #{provider_name}"
       url = helpers.support_interface_application_form_url(application_form)
     when :withdraw_offer
-      text = ":no_good: #{provider_name} has just withdrawn #{applicant}’s offer"
+      text = ":no_good: #{provider_name} has just withdrawn #{candidate_name}’s offer"
       url = helpers.support_interface_application_form_url(application_form)
     when :defer_offer
-      text = ":double_vertical_bar: #{provider_name} has just deferred #{applicant}’s offer"
+      text = ":double_vertical_bar: #{provider_name} has just deferred #{candidate_name}’s offer"
       url = helpers.support_interface_application_form_url(application_form)
     when :reinstate_offer_conditions_met
-      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{applicant} (conditions met)"
+      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{candidate_name} (conditions met)"
       url = helpers.support_interface_application_form_url(application_form)
     when :reinstate_offer_pending_conditions
-      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{applicant} (pending conditions)"
+      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{candidate_name} (pending conditions)"
       url = helpers.support_interface_application_form_url(application_form)
     else
       raise 'StateChangeNotifier: unsupported state transition event'
