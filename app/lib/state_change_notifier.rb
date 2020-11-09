@@ -17,6 +17,13 @@ class StateChangeNotifier
     send(text, url)
   end
 
+  def self.submit_application(application_form)
+    message = ":rocket: #{application_form.first_name}’s application has been sent to #{application_form.application_choices.map(&:provider).map(&:name).to_sentence}"
+    url = Rails.application.routes.url_helpers.support_interface_application_form_url(application_form)
+
+    send(message, url)
+  end
+
   def self.call(event, application_choice: nil)
     helpers = Rails.application.routes.url_helpers
 
