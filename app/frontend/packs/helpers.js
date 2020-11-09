@@ -21,7 +21,7 @@ export const accessibleAutocompleteFromSource = (input, autocompleteContainer, a
     id: input.id,
     name: input.name,
     source,
-    showNoOptionsFound: true,
+    showNoOptionsFound: false,
     defaultValue: input.value,
     ...autocompleteOptions
   });
