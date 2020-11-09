@@ -18,18 +18,27 @@ RSpec.describe CandidateInterface::SignUpForm, type: :model do
       expect(form.existing_candidate?).to eq(true)
     end
 
-    it 'returns false if it :accept_ts_and_cs is not true' do
+    it 'returns false if :accept_ts_and_cs is not true' do
       form = new_form(email: new_email, accept_ts_and_cs: false)
       expect(form.existing_candidate?).to eq(false)
       expect(form.save).to eq(false)
       expect(form.existing_candidate?).to eq(false)
     end
 
-    it 'returns false if it candidate email_address validations fail' do
-      form = new_form(email: 'foo', accept_ts_and_cs: false)
+    it 'returns false if candidate email_address validations fail' do
+      form = new_form(email: 'foo', accept_ts_and_cs: true)
       expect(form.existing_candidate?).to eq(false)
       expect(form.save).to eq(false)
       expect(form.errors[:email_address]).not_to be_empty
+    end
+
+    it 'returns false if candidate attempts to use a non-DfE email address on a test environment' do
+      ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'qa' do
+        form = new_form(email: 'alice@example.com', accept_ts_and_cs: true)
+        expect(form.existing_candidate?).to eq(false)
+        expect(form.save).to eq(false)
+        expect(form.errors[:email_address]).not_to be_empty
+      end
     end
 
     it 'returns false if email_address belongs to existing candidate' do

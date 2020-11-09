@@ -8,6 +8,7 @@ en:
               blank: Enter your email address
               invalid: Enter an email address in the correct format, like name@example.com
               too_long: Email address must be %{count} characters or fewer
+              dfe_signup_only: Only DfE users can sign up in this test environment
             accept_ts_and_cs:
               blank: You must agree to the terms of use
   authentication:
