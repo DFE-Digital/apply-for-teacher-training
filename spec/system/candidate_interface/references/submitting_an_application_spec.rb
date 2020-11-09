@@ -17,11 +17,6 @@ RSpec.feature 'Submitting an application' do
     and_i_submit_the_application
 
     then_i_can_see_my_application_has_been_successfully_submitted
-    and_its_in_the_right_state
-    and_i_receive_an_email_about_my_submitted_application
-    and_a_slack_notification_is_sent
-    and_i_can_review_my_application
-    and_i_do_not_see_references
   end
 
   def given_i_am_signed_in
@@ -90,33 +85,6 @@ RSpec.feature 'Submitting an application' do
     click_button 'Continue'
     choose 'No'
     click_button 'Send application'
-  end
-
-  def and_its_in_the_right_state
-    expect(application.application_choices).to all(be_awaiting_provider_decision)
-  end
-
-  def and_i_receive_an_email_about_my_submitted_application
-    open_email(current_candidate.email_address)
-
-    expect(current_email.subject).to include 'You’ve submitted your teacher training application'
-    expect(current_email.text).to include application.support_reference
-  end
-
-  def and_a_slack_notification_is_sent
-    expect_slack_message_with_text "#{application.first_name}’s application has been sent to #{provider.name}"
-  end
-
-  def and_i_can_review_my_application
-    visit candidate_interface_application_form_path
-    expect(page).to have_content 'Application dashboard'
-    expect(page).to have_content 'Application submitted'
-    expect(page).to have_link 'View application'
-  end
-
-  def and_i_do_not_see_references
-    expect(page).not_to have_content 'First referee'
-    expect(page).not_to have_content application.application_references.first.name
   end
 
 private
