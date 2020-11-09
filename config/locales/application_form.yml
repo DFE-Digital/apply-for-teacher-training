@@ -201,6 +201,7 @@ en:
         change_action: institution
       grade:
         review_label: Grade
+        review_label_predicted: Predicted grade
         change_action: grade
         other:
           label: Other
@@ -212,6 +213,9 @@ en:
           conditional:
             label: Please give details of your predicted grade.
             hint_text: Predicted grades must be validated by an academic referee in the ‘References’ section.
+      completion_status:
+        change_action: completion status
+        review_label: Have you completed this degree?
       start_year:
         label: Year started course
         hint_text: "For example, %{example_year}"

@@ -19,9 +19,10 @@ module CandidateInterface
         naric_statment_row(degree),
         naric_reference_row(degree),
         comparable_uk_degree_row(degree),
+        completion_status_row(degree),
+        grade_row(degree),
         start_year_row(degree),
         award_year_row(degree),
-        grade_row(degree),
       ].compact
     end
 
@@ -143,22 +144,24 @@ module CandidateInterface
 
     def grade_row(degree)
       {
-        key: t('application_form.degree.grade.review_label'),
-        value: formatted_grade(degree),
+        key: degree.completed? ? t('application_form.degree.grade.review_label') : t('application_form.degree.grade.review_label_predicted'),
+        value: degree.grade,
         action: generate_action(degree: degree, attribute: t('application_form.degree.grade.change_action')),
         change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_grade_path(degree.id),
       }
     end
 
-    def formatted_grade(degree)
-      grade_form = DegreeGradeForm.new(degree: degree).fill_form_values
-      if grade_form.predicted_grade.present?
-        "#{grade_form.predicted_grade} (Predicted)"
-      elsif grade_form.other_grade.present?
-        grade_form.other_grade
-      else
-        grade_form.grade
-      end
+    def completion_status_row(degree)
+      {
+        key: t('application_form.degree.completion_status.review_label'),
+        value: formatted_completion_status(degree),
+        action: generate_action(degree: degree, attribute: t('application_form.degree.completion_status.change_action')),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_completion_status_path(degree.id),
+      }
+    end
+
+    def formatted_completion_status(degree)
+      degree.completed? ? 'Yes' : 'No'
     end
 
     def generate_action(degree:, attribute: '')
