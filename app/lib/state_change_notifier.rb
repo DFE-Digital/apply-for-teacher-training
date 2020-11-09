@@ -17,15 +17,13 @@ class StateChangeNotifier
     send(text, url)
   end
 
-  def self.call(event, application_choice: nil, application_form: nil)
+  def self.call(event, application_choice: nil)
     helpers = Rails.application.routes.url_helpers
 
-    if application_choice
-      provider_name = application_choice.course.provider.name
-      course_name = application_choice.course.name_and_code
-      applicant = application_choice.application_form.first_name
-      application_form_id = application_choice.application_form.id
-    end
+    provider_name = application_choice.course.provider.name
+    course_name = application_choice.course.name_and_code
+    applicant = application_choice.application_form.first_name
+    application_form_id = application_choice.application_form.id
 
     case event
     when :make_an_offer
