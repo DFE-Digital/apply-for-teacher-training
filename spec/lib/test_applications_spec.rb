@@ -12,7 +12,7 @@ RSpec.describe TestApplications do
     expect(choices.count).to eq(2)
   end
 
-  it 'creates a realistic timeline for an recruited application' do
+  it 'creates a realistic timeline for a recruited application' do
     courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
 
     application_choice = TestApplications.new.create_application(recruitment_cycle_year: 2020, states: %i[recruited], courses_to_apply_to: courses_we_want).first
