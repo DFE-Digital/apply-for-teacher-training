@@ -11,7 +11,7 @@ gem 'pg', '~> 1.2.3'
 gem 'tzinfo-data'
 
 gem 'webpacker'
-gem 'govuk_design_system_formbuilder', '~> 2.1.3'
+gem 'govuk_design_system_formbuilder', '~> 2.1.4'
 
 # GOV.UK Notify
 gem 'mail-notify'
