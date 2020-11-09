@@ -31,9 +31,6 @@ class StateChangeNotifier
     when :submit_application
       text = "#{application_form.first_name} has just submitted their application"
       url = helpers.support_interface_application_form_url(application_form)
-    when :send_application_to_provider
-      text = ":rocket: #{applicant}’s application has been sent to #{provider_name}"
-      url = helpers.support_interface_application_form_url(application_form_id)
     when :make_an_offer
       text = ":love_letter: #{provider_name} has just made an offer to #{applicant}’s application"
       url = helpers.support_interface_application_form_url(application_form_id)

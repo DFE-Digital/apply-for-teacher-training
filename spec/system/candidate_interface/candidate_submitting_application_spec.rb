@@ -197,7 +197,7 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def and_a_slack_notification_is_sent
-    expect_slack_message_with_text 'Lando’s application has been sent to'
+    expect_slack_message_with_text 'Lando’s application has been sent to Gorse SCITT'
   end
 
   def when_i_click_on_track_your_application

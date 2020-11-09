@@ -18,5 +18,9 @@ class SubmitApplication
     else
       CandidateMailer.application_submitted(application_form).deliver_later
     end
+
+    message = ":rocket: #{application_form.first_name}’s application has been sent to #{application_choices.map(&:provider).map(&:name).to_sentence}"
+    url = Rails.application.routes.url_helpers.support_interface_application_form_url(application_form)
+    SlackNotificationWorker.perform_async(message, url)
   end
 end
