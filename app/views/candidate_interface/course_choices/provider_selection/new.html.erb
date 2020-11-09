@@ -11,7 +11,7 @@
       <%= f.govuk_error_summary %>
 
       <% if FeatureFlag.active?(:hold_courses_open) %>
-        <%= render SandboxStatusBoxComponent.new(
+        <%= render SandboxFeatureComponent.new(
           description: 'All courses are open for applications, even those which are full in real life.'
         ) %>
       <% end %>

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SandboxStatusBoxComponent, type: :component do
+RSpec.describe SandboxFeatureComponent, type: :component do
   it 'renders with status tag and a description' do
     result = render_inline(described_class.new(description: 'Secret sandbox feature'))
 
