@@ -54,7 +54,7 @@ module CandidateInterface
       def grade_params
         params
           .require(:candidate_interface_degree_grade_form)
-          .permit(:grade, :other_grade, :predicted_grade)
+          .permit(:grade, :other_grade)
           .transform_values(&:strip)
           .merge(degree: current_degree)
       end

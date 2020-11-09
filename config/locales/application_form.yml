@@ -667,6 +667,10 @@ en:
               blank: Enter the UK NARIC reference number
             comparable_uk_degree:
               blank: Select the comparable UK degree
+        candidate_interface/degree_completion_status_form:
+          attributes:
+            degree_completed:
+              blank: Select if you have completed your degree or not
         candidate_interface/degree_grade_form:
           attributes:
             grade_name:

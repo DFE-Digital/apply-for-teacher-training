@@ -6,6 +6,7 @@ module CandidateInterface
       def current_degree
         current_application.application_qualifications.degrees.find(params[:id])
       end
+      helper_method :current_degree
     end
   end
 end

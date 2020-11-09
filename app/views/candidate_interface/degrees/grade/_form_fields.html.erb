@@ -39,17 +39,6 @@
       <%= f.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') }, width: 10 %>
       <%= tag.div(id: 'degree-grade-autocomplete', data: { source: @other_grades }) %>
     <% end %>
-
-    <%= f.govuk_radio_divider %>
-
-    <%= f.govuk_radio_button :grade, 'predicted', label: { text: t('application_form.degree.grade.predicted.label') } do %>
-      <%= f.govuk_text_field(
-        :predicted_grade,
-        label: { text: t('application_form.degree.grade.predicted.conditional.label') },
-        hint: { text: t('application_form.degree.grade.predicted.conditional.hint_text') },
-        width: 10
-      ) %>
-    <% end %>
   <% end %>
 
 <% end %>
