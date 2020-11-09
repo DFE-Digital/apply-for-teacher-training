@@ -92,7 +92,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def then_i_should_not_see_the_safeguarding_declaration_details
-    expect(page).to have_content(t('provider_interface.safeguarding_declaration_component.has_safeguarding_issues_to_declare_no_permissions'))
+    expect(page).not_to have_content('View information disclosed by the candidate')
   end
 
   def when_i_visit_the_edit_provider_relationship_permissions_page

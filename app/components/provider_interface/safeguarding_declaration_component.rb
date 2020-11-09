@@ -7,9 +7,19 @@ module ProviderInterface
     def initialize(application_choice:, current_provider_user:)
       @application_choice = application_choice
       @current_provider_user = current_provider_user
+
+      @auth = current_provider_user.authorisation
+      @auth_result = @auth.can_view_safeguarding_information?(course: application_choice.course)
+      @analysis = ProviderAuthorisationAnalysis.new(
+        permission: :view_safeguarding_information,
+        auth: @auth,
+        application_choice: @application_choice,
+      )
     end
 
     def message
+      return if status == 'has_safeguarding_issues_to_declare_no_permissions'
+
       SafeguardingStatus.new(
         status: status,
         i18n_key: 'provider_interface.safeguarding_declaration_component',
@@ -35,8 +45,7 @@ module ProviderInterface
     end
 
     def current_user_has_permission_to_view_safeguarding_information?
-      current_provider_user.authorisation
-        .can_view_safeguarding_information?(course: application_choice.course)
+      @auth_result
     end
 
     def safeguarding_issues_declared?
