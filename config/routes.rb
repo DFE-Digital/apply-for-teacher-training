@@ -462,6 +462,10 @@ Rails.application.routes.draw do
 
         get '/thank-you' => 'satisfaction_survey#thank_you', as: :satisfaction_survey_thank_you
       end
+
+      scope '/application-feedback' do
+        post '/' => 'application_feedback#create', as: :application_feedback
+      end
     end
 
     get '*path', to: 'errors#not_found'
