@@ -31,6 +31,9 @@ RSpec.feature 'Entering their degrees' do
     when_i_fill_in_the_degree_institution
     and_i_click_on_save_and_continue
 
+    # Add completion status
+    and_i_confirm_i_have_completed_my_degree
+
     # Add grade
     then_i_can_see_the_degree_grade_page
     when_i_click_on_save_and_continue
@@ -86,6 +89,9 @@ RSpec.feature 'Entering their degrees' do
     when_i_change_my_undergraduate_degree_subject
     and_i_click_on_save_and_continue
     then_i_can_check_my_revised_undergraduate_degree_subject
+
+    when_i_click_to_change_my_completion_status
+    then_i_can_change_my_completion_status
 
     when_i_click_to_change_my_undergraduate_degree_institution
     then_i_see_my_undergraduate_degree_institution_filled_in
@@ -228,6 +234,8 @@ RSpec.feature 'Entering their degrees' do
     when_i_fill_in_the_degree_institution
     and_i_click_on_save_and_continue
 
+    and_i_confirm_i_have_completed_my_degree
+
     when_i_select_the_degree_grade
     and_i_click_on_save_and_continue
 
@@ -242,6 +250,7 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_save_and_continue
     fill_in 'Which institution did you study at?', with: 'Thames Valley University'
     and_i_click_on_save_and_continue
+    and_i_confirm_i_have_completed_my_degree
     when_i_select_the_degree_grade
     and_i_click_on_save_and_continue
     when_i_fill_in_the_start_and_graduation_year
@@ -378,6 +387,23 @@ RSpec.feature 'Entering their degrees' do
 
   def then_i_am_told_i_need_to_add_a_degree_to_complete_the_section
     expect(page).to have_content 'You cannot mark this section complete without adding a degree.'
+  end
+
+  def and_i_confirm_i_have_completed_my_degree
+    choose 'Yes'
+    and_i_click_on_save_and_continue
+  end
+
+  def when_i_click_to_change_my_completion_status
+    click_change_link('completion status')
+  end
+
+  def then_i_can_change_my_completion_status
+    expect(page).to have_content 'Have you completed your degree?'
+    choose 'No'
+    and_i_click_on_save_and_continue
+    completion_status_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change completion status' }
+    expect(completion_status_row).to have_content 'No'
   end
 
 private
