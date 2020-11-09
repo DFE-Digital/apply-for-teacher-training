@@ -58,10 +58,23 @@ module CandidateInterface
     def grade_row
       {
         key: 'Grade',
-        value: application_qualification.grade || t('gcse_summary.not_specified'),
+        value: present_grades || t('gcse_summary.not_specified'),
         action: "grade for #{gcse_qualification_types[application_qualification.qualification_type.to_sym]}, #{subject}",
         change_path: grade_edit_path,
       }
+    end
+
+    def present_grades
+      if application_qualification.subject == ApplicationQualification::SCIENCE_TRIPLE_AWARD
+        grades = application_qualification.grades
+        [
+          "#{grades['biology']} (Biology)",
+          "#{grades['chemistry']} (Chemistry)",
+          "#{grades['physics']} (Physics)",
+        ]
+      else
+        application_qualification.grade
+      end
     end
 
     def missing_qualification_row

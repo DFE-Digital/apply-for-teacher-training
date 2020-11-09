@@ -22,8 +22,12 @@ en:
     hint:
       science:
         gcse: For example, ‘A*A*A*’, ‘AA’, ‘B’, ‘999’, ‘88’, ‘7’
+        gcse_double_award: For example, ‘CD’ or ‘4-3’
         gce_o_level: For example, ‘ABC’, ‘AA’, ‘B’
         scottish_national_5: For example, ‘A*A*A*’, ‘ABC’, ‘A’, ‘777’, ‘654’, ‘6’
+        one_grade: You have one science grade
+        combined_grade: You have a combined science grade
+        subject_per_grade: You have a grade for each subject
       other:
         gcse: For example, ‘C’ or ‘4’
         gce_o_level: For example, ‘C’

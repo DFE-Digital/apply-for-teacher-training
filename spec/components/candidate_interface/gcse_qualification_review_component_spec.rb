@@ -85,4 +85,34 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.text).not_to match(/Country\s+#{@qualification.institution_country}/)
     end
   end
+
+  context 'with the science_gcse_awards flag on' do
+    context 'when the candidate has entered a triple science GCSE award' do
+      it 'displays each science subject and associated grade' do
+        FeatureFlag.activate(:science_gcse_awards)
+
+        application_form = build :application_form
+        @qualification = application_qualification = build(
+          :application_qualification,
+          application_form: application_form,
+          qualification_type: 'gcse',
+          level: 'gcse',
+          grade: nil,
+          grades: { physics: 'A', chemistry: 'B', biology: 'C' },
+          subject: ApplicationQualification::SCIENCE_TRIPLE_AWARD,
+        )
+
+        result = render_inline(
+          described_class.new(
+            application_form: application_form,
+            application_qualification: application_qualification,
+            subject: 'science',
+          ),
+        )
+
+        expect(result.css('.govuk-summary-list__key')[1].text).to include('Grade')
+        expect(result.css('.govuk-summary-list__value')[1].text).to include('C (Biology)B (Chemistry)A (Physics)')
+      end
+    end
+  end
 end

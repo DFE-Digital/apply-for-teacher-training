@@ -22,6 +22,12 @@ class ApplicationQualification < ApplicationRecord
     award_year
   ].freeze
 
+  # Science GCSE may have any of the following subject variants
+  SCIENCE = 'science'.freeze
+  SCIENCE_SINGLE_AWARD = 'science single award'.freeze
+  SCIENCE_DOUBLE_AWARD = 'science double award'.freeze
+  SCIENCE_TRIPLE_AWARD = 'science triple award'.freeze
+
   belongs_to :application_form, touch: true
 
   scope :degrees, -> { where level: 'degree' }
