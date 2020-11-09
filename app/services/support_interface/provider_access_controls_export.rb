@@ -4,7 +4,7 @@ module SupportInterface
       providers = Provider.all
 
       providers.map do |provider|
-        access_controls = ProviderAccessControls.new(provider)
+        access_controls = ProviderAccessControlsStats.new(provider)
         {
           name: provider.name,
           dsa_signer: access_controls.dsa_signer_email,

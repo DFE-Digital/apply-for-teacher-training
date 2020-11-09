@@ -1,5 +1,5 @@
 module SupportInterface
-  class ProviderAccessControls
+  class ProviderAccessControlsStats
     def initialize(provider)
       @provider = provider
     end
@@ -16,7 +16,7 @@ module SupportInterface
     end
 
     def user_permissions_audits
-      Audited::Audit.where(action: 'update', auditable: @provider.provider_permissions)
+      @_user_permissions_audits ||= Audited::Audit.where(action: 'update', auditable: @provider.provider_permissions)
     end
 
     def user_permissions_last_changed_at
@@ -44,7 +44,7 @@ module SupportInterface
     end
 
     def org_training_provider_permission_audits
-      Audited::Audit.where(action: 'update', auditable: @provider.training_provider_permissions)
+      @_org_permissions_audits ||= Audited::Audit.where(action: 'update', auditable: @provider.training_provider_permissions)
     end
 
     def org_permissions_last_changed_at

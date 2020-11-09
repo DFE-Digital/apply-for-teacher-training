@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::ProviderAccessControls, with_audited: true do
+RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true do
   describe '#dsa_signer_email' do
     it 'returns the email of the user who most recently accepted the dsa' do
       provider = create(:provider)
