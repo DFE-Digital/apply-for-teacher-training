@@ -11,7 +11,7 @@
           <%= f.govuk_radio_button :any_safeguarding_concerns, :yes, label: { text: 'Yes' } do %>
             <%= f.govuk_text_area :safeguarding_concerns, label: { text: "Tell us why you think #{@application.full_name} should not work with children"}, max_words: 150, rows: 5 %>
           <% end %>
-        <div>
+        </div>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>
