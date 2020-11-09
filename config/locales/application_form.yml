@@ -897,6 +897,7 @@ en:
           attributes:
             name:
               blank: Enter your referee’s name
+              too_short: Your referee’s name must be %{count} characters or more
         candidate_interface/reference/referee_email_address_form:
           attributes:
             email_address:
