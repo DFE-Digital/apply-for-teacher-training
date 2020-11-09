@@ -377,20 +377,25 @@ jobs:
               containerName: ${{ format('{0}-{1}', variables.containerInstanceNamePrefix,'clk') }}
 
           - powershell: |
-              $uri = "https://api.github.com/repos/DFE-Digital/apply-for-teacher-training-tests/dispatches"
-
-              $body = @{
-               "event_type" = "Deploy ${{ parameters.environment }}"
+              $requestBody = @{
+                ref = "refs/heads/master"
+                inputs = @{
+                  environment = "${{ parameters.environment }}"
+                }
               } | ConvertTo-Json
 
-              $header = @{
-               "Accept" = "application/vnd.github.everest-preview+json"
+              $authHeaders = @{
+               "Accept" = "application/vnd.github.v3+json"
                "Authorization" = "token $($env:GITHUB_TOKEN)"
               }
 
-              Invoke-WebRequest -Method POST -Header $header -Body $body -Uri $uri
+              Invoke-RestMethod `
+              -Method Post `
+              -Headers $authHeaders `
+              -Body $requestBody `
+              -Uri "https://api.github.com/repos/DFE-Digital/apply-for-teacher-training-tests/actions/workflows/smoke-tests.yml/dispatches"
             displayName: 'Trigger smoke tests on GitHub'
             continueOnError: true
-            condition: and(succeeded(), eq(variables['buildCancelled'], false))
+            condition: and(succeeded(), eq(variables['buildCancelled'], false), not(eq('${{ parameters.environment }}', 'devops')))
             env:
               GITHUB_TOKEN: $(smokeTestsGitHubToken)
