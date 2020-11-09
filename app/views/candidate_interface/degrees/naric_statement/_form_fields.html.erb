@@ -4,7 +4,8 @@
     <%= f.govuk_text_field(
       :naric_reference,
       label: { text: t('application_form.degree.naric_reference.label'), size: 's' },
-      hint: { text: t('application_form.degree.naric_reference.hint_text') }
+      hint: { text: t('application_form.degree.naric_reference.hint_text') },
+      spellcheck: false
     ) %>
     <%= f.govuk_radio_buttons_fieldset(
       :comparable_uk_degree,

@@ -1,7 +1,8 @@
 <%= f.govuk_text_field(
   :registration_number,
   label: { text: 'TOEFL registration number', size: 'm' },
-  hint: { text: 'For example, 0000 0000 2500 2147' }) %>
+  hint: { text: 'For example, 0000 0000 2500 2147' },
+  spellcheck: false) %>
 
 <%= f.govuk_text_field(
   :total_score,

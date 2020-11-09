@@ -1,7 +1,8 @@
 <%= f.govuk_text_field(
   :trf_number,
   label: { text: 'Test report form (TRF) number', size: 'm' },
-  hint: { text: 'For example, 02GB0674SOOM599A' }) %>
+  hint: { text: 'For example, 02GB0674SOOM599A' },
+  spellcheck: false) %>
 
 <%= f.govuk_collection_select(
   :band_score,
