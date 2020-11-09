@@ -37,14 +37,6 @@ RSpec.describe SendApplicationToProvider do
     expect(application_choice.reject_by_default_days).to eq 20
   end
 
-  it 'sends a Slack notification' do
-    allow(SlackNotificationWorker).to receive(:perform_async)
-
-    SendApplicationToProvider.new(application_choice: application_choice).call
-
-    expect(SlackNotificationWorker).to have_received(:perform_async)
-  end
-
   it 'emails the provider’s provider users', sidekiq: true do
     user = create(:provider_user)
     application_choice.provider.provider_users = [user]

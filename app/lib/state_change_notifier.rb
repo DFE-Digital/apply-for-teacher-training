@@ -1,6 +1,5 @@
 class StateChangeNotifier
   def self.sign_up(candidate)
-    helpers = Rails.application.routes.url_helpers
     candidate_number = Candidate.where(hide_in_reporting: false).count
 
     return unless (candidate_number % 25).zero?
@@ -17,59 +16,47 @@ class StateChangeNotifier
     send(text, url)
   end
 
-  def self.call(event, application_choice: nil, application_form: nil)
-    helpers = Rails.application.routes.url_helpers
+  def self.submit_application(application_form)
+    message = ":rocket: #{application_form.first_name}’s application has been sent to #{application_form.application_choices.map(&:provider).map(&:name).to_sentence}"
+    url = helpers.support_interface_application_form_url(application_form)
 
-    if application_choice
-      provider_name = application_choice.course.provider.name
-      course_name = application_choice.course.name_and_code
-      applicant = application_choice.application_form.first_name
-      application_form_id = application_choice.application_form.id
-    end
+    send(message, url)
+  end
+
+  def self.call(event, application_choice: nil)
+    provider_name = application_choice.course.provider.name
+    course_name = application_choice.course.name_and_code
+    candidate_name = application_choice.application_form.first_name
+    application_form = application_choice.application_form
 
     case event
-    when :submit_application
-      text = "#{application_form.first_name} has just submitted their application"
-      url = helpers.support_interface_application_form_url(application_form)
-    when :send_application_to_provider
-      text = ":rocket: #{applicant}’s application has been sent to #{provider_name}"
-      url = helpers.support_interface_application_form_url(application_form_id)
     when :make_an_offer
-      text = ":love_letter: #{provider_name} has just made an offer to #{applicant}’s application"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":love_letter: #{provider_name} has just made an offer to #{candidate_name}’s application"
     when :change_an_offer
-      text = ":love_letter: #{provider_name} has just changed an offer for #{applicant}’s application"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":love_letter: #{provider_name} has just changed an offer for #{candidate_name}’s application"
     when :reject_application
-      text = ":broken_heart: #{provider_name} has just rejected #{applicant}’s application"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":broken_heart: #{provider_name} has just rejected #{candidate_name}’s application"
     when :reject_application_by_default
-      text = ":broken_heart: #{applicant}’s application has just been rejected by default"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":broken_heart: #{candidate_name}’s application to #{provider_name} has just been rejected by default"
     when :offer_accepted
-      text = ":handshake: #{applicant} has accepted #{provider_name}’s offer"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":handshake: #{candidate_name} has accepted #{provider_name}’s offer"
     when :offer_declined
-      text = ":no_good: #{applicant} has declined #{provider_name}’s offer"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":no_good: #{candidate_name} has declined #{provider_name}’s offer"
     when :withdraw
-      text = ":runner: #{applicant} has withdrawn their application for #{course_name} at #{provider_name}"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":runner: #{candidate_name} has withdrawn their application for #{course_name} at #{provider_name}"
     when :withdraw_offer
-      text = ":no_good: #{provider_name} has just withdrawn #{applicant}’s offer"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":no_good: #{provider_name} has just withdrawn #{candidate_name}’s offer"
     when :defer_offer
-      text = ":double_vertical_bar: #{provider_name} has just deferred #{applicant}’s offer"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":double_vertical_bar: #{provider_name} has just deferred #{candidate_name}’s offer"
     when :reinstate_offer_conditions_met
-      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{applicant} (conditions met)"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{candidate_name} (conditions met)"
     when :reinstate_offer_pending_conditions
-      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{applicant} (pending conditions)"
-      url = helpers.support_interface_application_form_url(application_form_id)
+      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{candidate_name} (pending conditions)"
     else
       raise 'StateChangeNotifier: unsupported state transition event'
     end
+
+    url = helpers.support_interface_application_form_url(application_form)
 
     send(text, url)
   end
@@ -81,5 +68,9 @@ class StateChangeNotifier
     end
 
     SlackNotificationWorker.perform_async(text, url)
+  end
+
+  def self.helpers
+    Rails.application.routes.url_helpers
   end
 end

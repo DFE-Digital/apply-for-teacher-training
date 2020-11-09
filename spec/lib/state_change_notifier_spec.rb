@@ -14,34 +14,6 @@ RSpec.describe StateChangeNotifier do
 
     before { allow(SlackNotificationWorker).to receive(:perform_async) }
 
-    describe ':submit_application' do
-      before { StateChangeNotifier.call(:submit_application, application_form: application_form) }
-
-      it 'mentions applicant\'s first name' do
-        arg1 = "#{applicant} has just submitted their application"
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
-      end
-
-      it 'links the notification to the relevant support_interface application_form' do
-        arg2 = helpers.support_interface_application_form_url(application_form_id)
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(anything, arg2)
-      end
-    end
-
-    describe ':send_application_to_provider' do
-      before { StateChangeNotifier.call(:send_application_to_provider, application_choice: application_choice) }
-
-      it 'mentions applicant\'s first name and provider name' do
-        arg1 = ":rocket: #{applicant}’s application has been sent to #{provider_name}"
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
-      end
-
-      it 'links the notification to the relevant support_interface application_form' do
-        arg2 = helpers.support_interface_application_form_url(application_form_id)
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(anything, arg2)
-      end
-    end
-
     describe ':make_an_offer' do
       before { StateChangeNotifier.call(:make_an_offer, application_choice: application_choice) }
 
@@ -88,7 +60,7 @@ RSpec.describe StateChangeNotifier do
       before { StateChangeNotifier.call(:reject_application_by_default, application_choice: application_choice) }
 
       it 'mentions applicant\'s first name' do
-        arg1 = ":broken_heart: #{applicant}’s application has just been rejected by default"
+        arg1 = ":broken_heart: #{applicant}’s application to #{provider_name} has just been rejected by default"
         expect(SlackNotificationWorker).to have_received(:perform_async).with(arg1, anything)
       end
 

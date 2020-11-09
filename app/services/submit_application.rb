@@ -18,5 +18,7 @@ class SubmitApplication
     else
       CandidateMailer.application_submitted(application_form).deliver_later
     end
+
+    StateChangeNotifier.submit_application(application_form)
   end
 end
