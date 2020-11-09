@@ -35,16 +35,16 @@ class StateChangeNotifier
       text = ":rocket: #{applicant}’s application has been sent to #{provider_name}"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :make_an_offer
-      text = "#{provider_name} has just made an offer to #{applicant}’s application"
+      text = ":love_letter: #{provider_name} has just made an offer to #{applicant}’s application"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :change_an_offer
-      text = "#{provider_name} has just changed an offer for #{applicant}’s application"
+      text = ":love_letter: #{provider_name} has just changed an offer for #{applicant}’s application"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :reject_application
-      text = "#{provider_name} has just rejected #{applicant}’s application"
+      text = ":broken_heart: #{provider_name} has just rejected #{applicant}’s application"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :reject_application_by_default
-      text = "#{applicant}’s application has just been rejected by default"
+      text = ":broken_heart: #{applicant}’s application has just been rejected by default"
       url = helpers.support_interface_application_form_url(application_form_id)
     when :offer_accepted
       text = ":handshake: #{applicant} has accepted #{provider_name}’s offer"
