@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidate provides feeback throughout the application process' do
+RSpec.feature 'Candidate provides feedback throughout the application process' do
   include CandidateHelper
 
   scenario 'Candidate without JS gives feedback while completing their applications' do
@@ -52,16 +52,16 @@ RSpec.feature 'Candidate provides feeback throughout the application process' do
   end
 
   def when_i_fill_in_my_feedback
-    check 'I do not understand this section'
-    check 'My answers do not fit the format'
-    fill_in :other_feedback, with: 'Me no understand.'
+    check t('application_form.application_feedback.issues.does_not_understand_section')
+    check t('application_form.application_feedback.issues.answer_does_not_fit_format')
+    fill_in t('application_form.application_feedback.other_feedback.label'), with: 'Me no understand.'
     choose 'Yes'
 
     click_button 'Submit feedback'
   end
 
   def then_i_see_the_thank_you_page
-    expect(page).to have_current_path candidate_interface_application_feedback_thanks_path
+    expect(page).to have_current_path candidate_interface_application_feedback_thank_you_path
   end
 
   def when_i_click_go_back_to_previous_page
