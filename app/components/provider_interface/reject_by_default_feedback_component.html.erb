@@ -1,0 +1,18 @@
+<% if introduction.present? %>
+  <p class="govuk-body"><%= introduction %></p>
+<% end %>
+
+<div class="app-feedback">
+  <h2 class="govuk-heading-m">Training provider feedback</h2>
+
+  <section>
+    <div class="app-feedback__panel">
+      <h3 class="govuk-heading-s">Reasons why your application was unsuccessful</h3>
+      <p class="govuk-body"><%= rejection_reason %></p>
+    </div>
+
+    <p class="govuk-body">
+      <%= govuk_link_to 'Change', provider_interface_application_choice_new_feedback_path(@application_choice.id, provider_interface_rejected_by_default_feedback_form: {rejection_reason: rejection_reason}), class: 'govuk-link--no-visited-state' %>
+    </p>
+  </section>
+</div>

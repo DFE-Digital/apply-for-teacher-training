@@ -69,7 +69,8 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def and_i_can_see_the_feedback_provided
-    expect(page).to have_content 'You sent the following feedback to the candidate'
+    expect(application_rejected_by_default.reload.reject_by_default_feedback_sent_at).not_to be_nil
+    expect(page).to have_content "You sent the following feedback to the candidate on #{Time.zone.today.strftime('%d %b %Y')}."
     expect(page).to have_content 'The course became full.'
   end
 end

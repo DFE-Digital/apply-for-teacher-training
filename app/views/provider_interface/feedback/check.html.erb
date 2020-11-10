@@ -12,24 +12,9 @@
 
       <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
       <h1 class="govuk-heading-l">Check and send your feedback</h1>
-      <p class="govuk-body">
-        The candidate will see your feedback in the format below.
-      </p>
 
-      <div class="app-feedback">
-        <h2 class="govuk-heading-m">Training provider feedback</h2>
-
-        <section>
-          <div class="app-feedback__panel">
-            <h3 class="govuk-heading-s">Reasons why your application was unsuccessful</h3>
-            <p class="govuk-body"><%= @application_feedback.rejection_reason %></p>
-          </div>
-
-          <p class="govuk-body">
-          <%= govuk_link_to 'Change', provider_interface_application_choice_new_feedback_path(@application_choice.id, provider_interface_rejected_by_default_feedback_form: {rejection_reason: @application_feedback.rejection_reason}), class: 'govuk-link--no-visited-state' %>
-          </p>
-        </section>
-      </div>
+      <% intro = "The candidate will see your feedback in the format below." %>
+      <%= render ProviderInterface::RejectByDefaultFeedbackComponent.new(application_choice: @application_choice, introduction: intro, rejection_reason: @application_feedback.rejection_reason) %>
 
       <%= f.govuk_submit 'Send feedback' %>
 
