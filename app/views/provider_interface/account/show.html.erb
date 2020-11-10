@@ -2,7 +2,7 @@
 
 <h1 class="govuk-heading-l"><%= t('page_titles.provider.account') %></h1>
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-half">
+  <div class="govuk-grid-column-two-thirds">
 
     <h2 class="govuk-heading-m">
       <%= govuk_link_to 'Profile', provider_interface_profile_path %>
@@ -15,8 +15,6 @@
       <li>change your password</li>
       <li>check your permissions</li>
     </ul>
-  </div>
-  <div class="govuk-grid-column-one-half">
 
     <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
       <h2 class="govuk-heading-m">
