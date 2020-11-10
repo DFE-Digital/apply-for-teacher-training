@@ -271,9 +271,9 @@ class CandidateMailer < ApplicationMailer
 
   def offer_accepted(application_choice)
     @application_form = application_choice.application_form
-    @course_name_and_code = application_choice.course_option.course.name_and_code
-    @provider_name = application_choice.course_option.provider.name
-    @start_date = application_choice.course_option.course.start_date.to_s(:month_and_year)
+    @course_name_and_code = application_choice.offered_option.course.name_and_code
+    @provider_name = application_choice.offered_option.provider.name
+    @start_date = application_choice.offered_option.course.start_date.to_s(:month_and_year)
 
     email_for_candidate(
       @application_form,
