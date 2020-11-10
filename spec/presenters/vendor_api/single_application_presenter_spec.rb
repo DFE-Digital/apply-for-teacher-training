@@ -267,7 +267,6 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         application_form: application_form,
       )
 
-      FeatureFlag.activate(:international_addresses)
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
