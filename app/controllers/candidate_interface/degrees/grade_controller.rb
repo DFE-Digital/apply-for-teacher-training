@@ -45,7 +45,7 @@ module CandidateInterface
       end
 
       def set_international_main_grades
-        @international_main_grades = DegreeGradeForm::INTERNATIONAL_OPTIONS
+        @international_main_grades = DegreeGradeForm::NEGATIVE_INTERNATIONAL_OPTIONS.map { |o| o[:ui_value] }
       end
 
       def set_other_grades
@@ -61,7 +61,14 @@ module CandidateInterface
       end
 
       def set_page_title
-        @page_title = current_degree.completed? ? t('page_titles.degree_grade') : t('page_titles.degree_grade_predicted')
+        @page_title =
+          begin
+            if current_degree.international?
+              current_degree.completed? ? t('page_titles.degree_grade_international') : t('page_titles.degree_grade_international_predicted')
+            else
+              current_degree.completed? ? t('page_titles.degree_grade') : t('page_titles.degree_grade_predicted')
+            end
+          end
       end
     end
   end

@@ -152,7 +152,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_subject
-    expect(page).to have_content 'Enter your degree subject'
+    expect_validation_error 'Enter your degree subject'
   end
 
   def when_i_fill_in_the_degree_subject
@@ -164,7 +164,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_institution
-    expect(page).to have_content 'Enter the institution where you studied'
+    expect_validation_error 'Enter the institution where you studied'
   end
 
   def when_i_fill_in_the_degree_institution
@@ -176,7 +176,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_grade
-    expect(page).to have_content 'Enter your degree grade'
+    expect_validation_error 'Enter your degree grade'
   end
 
   def when_i_select_the_degree_grade
@@ -413,5 +413,10 @@ private
     page.all('.govuk-summary-list__actions')
       .find { |row| row.has_link?(link_text) }
       .click_link(link_text)
+  end
+
+  def expect_validation_error(message)
+    errors = all('.govuk-error-message')
+    expect(errors.map(&:text).one? { |e| e.include? message }).to eq true
   end
 end

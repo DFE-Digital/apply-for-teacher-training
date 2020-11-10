@@ -8,7 +8,6 @@ module CandidateInterface
 
     validates :grade, presence: true
     validates :other_grade, presence: true, if: :other_grade?
-
     validates :grade, :other_grade, length: { maximum: 255 }
 
     def save
@@ -24,19 +23,23 @@ module CandidateInterface
     end
 
     def fill_form_values
-      fill_hesa_form
+      if international?
+        fill_form_values_for_international
+      else
+        fill_form_values_with_hesa_data_if_available
+      end
 
       self
     end
 
-    INTERNATIONAL_OPTIONS = [
-      'Not applicable',
-      'Unknown',
+    NEGATIVE_INTERNATIONAL_OPTIONS = [
+      { ui_value: 'No', db_value: 'Not applicable' },
+      { ui_value: 'I do not know', db_value: 'Unknown' },
     ].freeze
 
   private
 
-    def fill_hesa_form
+    def fill_form_values_with_hesa_data_if_available
       if degree.grade_hesa_code.present?
         hesa_grade = Hesa::Grade.find_by_hesa_code(degree.grade_hesa_code)
         if hesa_grade.visual_grouping == :other
@@ -51,15 +54,34 @@ module CandidateInterface
       end
     end
 
+    def fill_form_values_for_international
+      negative_international_option = NEGATIVE_INTERNATIONAL_OPTIONS.find { |o| degree.grade == o.fetch(:db_value) }
+      if negative_international_option
+        self.grade = negative_international_option.fetch(:ui_value)
+      else
+        self.grade = 'other'
+        self.other_grade = degree.grade
+      end
+    end
+
     def other_grade?
       grade == 'other'
     end
 
     def determine_submitted_grade
-      if grade == 'other'
+      if other_grade?
         other_grade
       else
-        grade
+        map_submitted_grade_to_negative_international_options_if_applicable(grade)
+      end
+    end
+
+    def map_submitted_grade_to_negative_international_options_if_applicable(submitted_grade)
+      negative_international_option = NEGATIVE_INTERNATIONAL_OPTIONS.find { |o| submitted_grade == o.fetch(:ui_value) }
+      if negative_international_option
+        negative_international_option[:db_value]
+      else
+        submitted_grade
       end
     end
   end

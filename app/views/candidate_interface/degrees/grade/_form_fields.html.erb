@@ -1,33 +1,23 @@
 <% if FeatureFlag.active?(:international_degrees) && @degree_grade_form.international? %>
 
-  <%= f.govuk_radio_buttons_fieldset :grade, legend: { tag: 'span' } do %>
-
+  <p class='govuk-hint'><%= t('application_form.degree.grade.international.grade_examples') %></p>
+  <%= f.govuk_radio_buttons_fieldset :grade, legend: nil do %>
+    <%= f.govuk_radio_button :grade, 'other', label: { text: 'Yes' } do %>
+      <% if degree.predicted_grade? %>
+        <% text_field_options = { label: nil, hint: { text: t('application_form.degree.grade.international.hint_text') } } %>
+      <% else %>
+        <% text_field_options =  { label: { text: t('application_form.degree.grade.international.label') } } %>
+      <% end %>
+      <% text_field_options.merge(width: 20) %>
+      <%= f.govuk_text_field(:other_grade, text_field_options) %>
+    <% end %>
     <% @international_main_grades.each do |grade| %>
       <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>
-    <% end %>
-
-    <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
-      <%= f.govuk_text_field(
-        :other_grade,
-        label: { text: t('application_form.degree.grade.other.conditional.label') },
-        hint: { text: t('application_form.degree.grade.other.conditional.international_hint_text') },
-        width: 10,
-      ) %>
-    <% end %>
-
-    <%= f.govuk_radio_divider %>
-
-    <%= f.govuk_radio_button :grade, 'predicted', label: { text: t('application_form.degree.grade.predicted.label') } do %>
-      <%= f.govuk_text_field(
-        :predicted_grade,
-        label: { text: t('application_form.degree.grade.predicted.conditional.label') },
-        hint: { text: t('application_form.degree.grade.predicted.conditional.hint_text') },
-        width: 10
-      ) %>
     <% end %>
   <% end %>
 
 <% else %>
+
   <% if degree.predicted_grade? %>
     <div class='govuk-inset-text'>
       You must give an academic referee who can agree that you’re aiming for this grade.
@@ -35,17 +25,14 @@
   <% end %>
 
   <%= f.govuk_radio_buttons_fieldset :grade, legend: { tag: 'span' } do %>
-
     <% @main_grades.each do |grade| %>
       <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>
     <% end %>
-
     <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
       <%= f.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') }, width: 10 %>
       <%= tag.div(id: 'degree-grade-autocomplete', data: { source: @other_grades }) %>
     <% end %>
   <% end %>
-
 <% end %>
 
 <%= f.govuk_submit t('application_form.degree.base.button') %>

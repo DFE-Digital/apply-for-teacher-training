@@ -13,7 +13,7 @@ module CandidateInterface
         @degree_naric_statement_form = DegreeNaricStatementForm.new(naric_statement_params)
 
         if @degree_naric_statement_form.save
-          redirect_to candidate_interface_degree_grade_path
+          redirect_to candidate_interface_degree_completion_status_path
         else
           render :new
         end
