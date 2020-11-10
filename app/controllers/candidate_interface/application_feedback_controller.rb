@@ -36,7 +36,14 @@ module CandidateInterface
       end
     end
 
-    def thank_you; end
+    def thank_you
+      @application_feedback = current_application.application_feedback.last
+      @previous_path = if @application_feedback.id_in_path
+                         Rails.application.routes.url_helpers.send(@application_feedback.path, @application_feedback.id_in_path)
+                       else
+                         Rails.application.routes.url_helpers.send(@application_feedback.path)
+                       end
+    end
 
   private
 
@@ -46,6 +53,7 @@ module CandidateInterface
         path: params[:path],
         page_title: params[:page_title],
         issues: params[:issues],
+        id_in_path: params[:id_in_path],
       }
     end
 
