@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_10_114210) do
+ActiveRecord::Schema.define(version: 2020_11_10_185731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2020_11_10_114210) do
     t.bigint "application_form_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "id_in_path"
     t.index ["application_form_id"], name: "index_application_feedback_on_application_form_id"
   end
 
