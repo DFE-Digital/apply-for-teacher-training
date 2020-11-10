@@ -919,6 +919,17 @@ en:
               blank: Enter your first name
             last_name:
               blank: Enter your last name
+        candidate_interface/application_feedback_form:
+          attributes:
+            section:
+              blank: Section cannot be blank
+            path:
+              blank: Path cannot be blank
+              invalid: Path must be a valid endpoint
+            page_title:
+              blank: Page title cannot be blank
+            issues:
+              blank: Issues cannot blank
         referee_interface/reference_relationship_form:
           attributes:
             relationship_confirmation:
