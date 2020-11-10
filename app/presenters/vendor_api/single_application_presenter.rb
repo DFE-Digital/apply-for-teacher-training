@@ -124,6 +124,7 @@ module VendorAPI
         site_code: course_option.site.code,
         course_code: course_option.course.code,
         study_mode: course_option.study_mode,
+        start_date: course_option.course.start_date.strftime('%Y-%m'),
       }
     end
 

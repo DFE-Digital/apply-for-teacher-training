@@ -53,6 +53,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
           site_code: '-',
           course_code: '2XT2',
           study_mode: 'full_time',
+          start_date: '2020-09',
         },
         candidate: {
           id: "C#{@current_candidate.id}",

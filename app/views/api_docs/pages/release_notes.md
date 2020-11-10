@@ -1,3 +1,10 @@
+### 9th November 2020
+
+New attributes:
+
+- `Course` now has a `start_date` attribute giving the month and year the
+  course begins
+
 ### 23rd October 2020
 
 New attributes:
