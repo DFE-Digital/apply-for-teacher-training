@@ -349,9 +349,15 @@ class TestApplications
   end
 
   def initialize_time(recruitment_cycle_year)
-    earliest_date = EndOfCycleTimetable::CYCLE_DATES[recruitment_cycle_year][:apply_reopens]
-    current_cycle_end = recruitment_cycle_year == RecruitmentCycle.current_year ? nil : EndOfCycleTimetable::CYCLE_DATES[recruitment_cycle_year + 1][:apply_1_deadline]
-    latest_date = current_cycle_end.presence || Time.zone.now.to_date
+    in_current_cycle = recruitment_cycle_year == RecruitmentCycle.current_year
+    if in_current_cycle
+      earliest_date = 20.days.ago.to_date
+      latest_date = Time.zone.now.to_date
+    else
+      earliest_date = EndOfCycleTimetable::CYCLE_DATES[recruitment_cycle_year][:apply_reopens]
+      latest_date = EndOfCycleTimetable::CYCLE_DATES[recruitment_cycle_year + 1][:apply_1_deadline]
+    end
+
     @time = rand(earliest_date..latest_date)
     @time_budget = [30, (latest_date.to_date - @time.to_date).to_i].min
   end
