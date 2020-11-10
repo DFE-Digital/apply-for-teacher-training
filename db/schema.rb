@@ -66,6 +66,22 @@ ActiveRecord::Schema.define(version: 2020_11_10_114210) do
     t.index ["application_form_id"], name: "index_application_experiences_on_application_form_id"
   end
 
+  create_table "application_feedback", force: :cascade do |t|
+    t.string "section", null: false
+    t.string "path", null: false
+    t.string "page_title", null: false
+    t.boolean "issues", default: false, null: false
+    t.boolean "does_not_understand_section", default: false, null: false
+    t.boolean "need_more_information", default: false, null: false
+    t.boolean "answer_does_not_fit_format", default: false, null: false
+    t.string "other_feedback"
+    t.boolean "consent_to_be_contacted", default: false, null: false
+    t.bigint "application_form_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["application_form_id"], name: "index_application_feedback_on_application_form_id"
+  end
+
   create_table "application_forms", force: :cascade do |t|
     t.bigint "candidate_id", null: false
     t.string "first_name"
@@ -548,6 +564,7 @@ ActiveRecord::Schema.define(version: 2020_11_10_114210) do
   add_foreign_key "application_choices", "course_options"
   add_foreign_key "application_choices", "course_options", column: "offered_course_option_id"
   add_foreign_key "application_experiences", "application_forms", on_delete: :cascade
+  add_foreign_key "application_feedback", "application_forms", on_delete: :cascade
   add_foreign_key "application_forms", "application_forms", column: "previous_application_form_id"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
