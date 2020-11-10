@@ -469,7 +469,9 @@ FactoryBot.define do
     accept_agreement { true }
 
     after(:build) do |_agreement, evaluator|
-      evaluator.provider.provider_users << evaluator.provider_user
+      unless evaluator.provider.provider_users.exists?(evaluator.provider_user.id)
+        evaluator.provider.provider_users << evaluator.provider_user
+      end
     end
   end
 
