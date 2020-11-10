@@ -109,6 +109,19 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
 
       expect(access_controls.user_permissions_changed_by).to eq []
     end
+
+    it 'ignores changes that were not made by provider users' do
+      provider = create(:provider)
+      provider_user1 = create(:provider_user, providers: [provider])
+
+      Audited.audit_class.as_user('Not a provider user') do
+        provider_user1.provider_permissions.last.update!(view_diversity_information: true)
+      end
+
+      access_controls = described_class.new(provider)
+
+      expect(access_controls.user_permissions_changed_by).to eq []
+    end
   end
 
   describe '#total_manage_users_users' do
@@ -281,6 +294,23 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
       end
 
       access_controls = described_class.new(ratifying_provider)
+
+      expect(access_controls.org_permissions_changed_by).to eq []
+    end
+
+    it 'ignores changes that were not made by provider users' do
+      training_provider = create(:provider)
+      ratifying_provider = create(:provider)
+
+      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+
+      create(:provider_user, providers: [training_provider])
+
+      Audited.audit_class.as_user('Not a provider user') do
+        training_provider.training_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
+      end
+
+      access_controls = described_class.new(training_provider)
 
       expect(access_controls.org_permissions_changed_by).to eq []
     end
