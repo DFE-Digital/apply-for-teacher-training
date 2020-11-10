@@ -864,4 +864,18 @@ FactoryBot.define do
     grade { 10 }
     award_year { 2001 }
   end
+
+  factory :application_feedback do
+    application_form
+
+    section { 'application_reference' }
+    path { 'candidate_interface_references_edit_type_path' }
+    page_title { Faker::Lorem.paragraph(sentence_count: 1) }
+    issues { true }
+    does_not_understand_section { [true, false].sample }
+    need_more_information { [true, false].sample }
+    answer_does_not_fit_format { [true, false].sample }
+    other_feedback { Faker::Lorem.paragraph(sentence_count: 3) }
+    consent_to_be_contacted { true }
+  end
 end
