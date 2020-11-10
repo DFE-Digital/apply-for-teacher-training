@@ -349,4 +349,27 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
       expect(qualification.previous_step).to eq [:check]
     end
   end
+
+  describe '#missing_type_validation_error?' do
+    it 'returns true if `qualification_type` is missing' do
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        nil,
+        current_step: :details,
+      )
+      expect(qualification.valid?(:type)).to be false
+      expect(qualification.missing_type_validation_error?).to be true
+    end
+
+    it 'returns false if `qualification_type` is missing' do
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        nil,
+        current_step: :details,
+        qualification_type: 'A level',
+      )
+      expect(qualification.valid?(:type)).to be true
+      expect(qualification.missing_type_validation_error?).to be false
+    end
+  end
 end

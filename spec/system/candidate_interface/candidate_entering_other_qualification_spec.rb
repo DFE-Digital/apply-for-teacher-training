@@ -46,6 +46,11 @@ RSpec.feature 'Entering their other qualifications' do
     and_i_should_see_my_qualifications
     and_my_other_uk_qualification_has_the_correct_format
 
+    when_i_click_the_back_button
+    and_update_the_subject
+    and_click_save_and_continue
+    then_i_should_see_the_review_page_with_a_flash_warning
+
     when_i_select_add_another_qualification
     and_choose_as_level
     and_i_click_continue
@@ -209,6 +214,19 @@ RSpec.feature 'Entering their other qualifications' do
     expect(@application.application_qualifications.last.qualification_type).to eq 'Other'
     expect(@application.application_qualifications.last.other_uk_qualification_type).to eq 'Access Course'
     expect(@application.application_qualifications.last.subject).to eq 'History, English and Psychology'
+  end
+
+  def when_i_click_the_back_button
+    visit candidate_interface_new_other_qualification_details_path
+  end
+
+  def and_update_the_subject
+    fill_in t('application_form.other_qualification.subject.label'), with: 'Winning at life'
+  end
+
+  def then_i_should_see_the_review_page_with_a_flash_warning
+    expect(page).to have_content "To update one of your qualifications use the 'Change' links below"
+    expect(page).to have_content 'Access Course, History, English and Psychology'
   end
 
   def when_i_select_add_another_qualification

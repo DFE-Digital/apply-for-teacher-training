@@ -143,6 +143,10 @@ module CandidateInterface
       end
     end
 
+    def missing_type_validation_error?
+      errors.details[:qualification_type].any? { |e| e[:error] == :blank }
+    end
+
   private
 
     def qualification_type_changed?

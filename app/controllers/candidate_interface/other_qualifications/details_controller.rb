@@ -24,6 +24,9 @@ module CandidateInterface
         else
           redirect_to candidate_interface_review_other_qualifications_path
         end
+      elsif @wizard.missing_type_validation_error?
+        flash[:warning] = "To update one of your qualifications use the 'Change' links below."
+        redirect_to candidate_interface_review_other_qualifications_path
       else
         track_validation_error(@wizard)
         render :new
@@ -49,6 +52,9 @@ module CandidateInterface
         commit
         current_application.update!(other_qualifications_completed: false)
         @wizard.clear_state!
+        redirect_to candidate_interface_review_other_qualifications_path
+      elsif @wizard.missing_type_validation_error?
+        flash[:warning] = "To update one of your qualifications use the 'Change' links below."
         redirect_to candidate_interface_review_other_qualifications_path
       else
         track_validation_error(@wizard)
