@@ -1,0 +1,75 @@
+require 'rails_helper'
+
+RSpec.feature 'Provider rejects application' do
+  include CourseOptionHelpers
+  include DfESignInHelpers
+  include ProviderUserPermissionsHelper
+
+  let(:course_option) { course_option_for_provider_code(provider_code: 'ABC') }
+  let(:application_rejected_by_default) do
+    create(:application_choice, :with_rejection_by_default, course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
+  end
+
+  scenario 'Provider rejects application' do
+    given_i_am_a_provider_user_with_dfe_sign_in
+    and_i_am_permitted_to_see_applications_for_my_provider
+    and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
+    and_i_sign_in_to_the_provider_interface
+
+    when_i_visit_an_application_that_was_rejected_by_default
+    and_i_choose_to_give_feedback
+    and_i_add_a_rejection_reason
+    and_i_click_to_continue
+    and_i_check_and_send_my_feedback
+
+    then_i_am_back_to_the_application_page
+    and_i_can_see_the_feedback_provided
+  end
+
+  def given_i_am_a_provider_user_with_dfe_sign_in
+    provider_exists_in_dfe_sign_in
+  end
+
+  def and_i_am_permitted_to_see_applications_for_my_provider
+    provider_user_exists_in_apply_database
+  end
+
+  def and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
+    permit_make_decisions!
+  end
+
+  def when_i_visit_an_application_that_was_rejected_by_default
+    visit provider_interface_application_choice_path(
+      application_rejected_by_default.id,
+    )
+  end
+
+  def and_i_choose_to_give_feedback
+    click_on 'Give feedback'
+  end
+
+  def and_i_add_a_rejection_reason
+    fill_in('Tell the candidate why their application was unsuccessful', with: 'The course became full.')
+  end
+
+  def and_i_click_to_continue
+    click_on 'Continue'
+  end
+
+  def and_i_check_and_send_my_feedback
+    expect(page).to have_content 'The candidate will see your feedback in the format below.'
+    expect(page).to have_content 'The course became full.'
+    click_on 'Send feedback'
+  end
+
+  def then_i_am_back_to_the_application_page
+    expect(page).to have_current_path(
+      provider_interface_application_choice_path(application_rejected_by_default.id),
+    )
+  end
+
+  def and_i_can_see_the_feedback_provided
+    expect(page).to have_content 'You sent the following feedback to the candidate'
+    expect(page).to have_content 'The course became full.'
+  end
+end
