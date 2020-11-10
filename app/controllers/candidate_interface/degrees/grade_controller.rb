@@ -4,6 +4,7 @@ module CandidateInterface
       before_action :set_main_grades
       before_action :set_other_grades
       before_action :set_international_main_grades
+      before_action :set_page_title
 
       def new
         @degree_grade_form = DegreeGradeForm.new(degree: current_degree)
@@ -57,6 +58,10 @@ module CandidateInterface
           .permit(:grade, :other_grade)
           .transform_values(&:strip)
           .merge(degree: current_degree)
+      end
+
+      def set_page_title
+        @page_title = current_degree.completed? ? t('page_titles.degree_grade') : t('page_titles.degree_grade_predicted')
       end
     end
   end

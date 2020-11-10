@@ -54,6 +54,7 @@ en:
     degree: Degree
     degree_completion_status: Have you completed your degree?
     degree_grade: What grade is your degree?
+    degree_grade_predicted: What grade do you think you’ll get?
     degree_institution: Which institution did you study at?
     degree_subject: What subject is your degree?
     degree_naric_statement: How your degree compares to a UK degree

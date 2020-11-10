@@ -677,7 +677,7 @@ en:
               blank: Select if you have completed your degree or not
         candidate_interface/degree_grade_form:
           attributes:
-            grade_name:
+            grade:
               blank: Enter your degree grade
               too_long: grade of degree must be %{count} characters or fewer
             other_grade:

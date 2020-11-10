@@ -140,7 +140,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_type
-    expect(page).to have_content 'Enter your degree type'
+    expect_validation_error 'Enter your degree type'
   end
 
   def when_i_fill_in_the_degree_type

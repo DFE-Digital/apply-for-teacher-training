@@ -34,7 +34,8 @@ RSpec.feature 'Entering their degrees' do
     choose 'No'
     click_on_save_and_continue
 
-    expect(page).to have_content('What grade is your degree?')
+    expect(page).to have_content('What grade do you think you’ll get?')
+    expect(page).to have_content('You must give an academic referee who can agree that you’re aiming for this grade.')
     choose 'Third-class honours'
     click_on_save_and_continue
 

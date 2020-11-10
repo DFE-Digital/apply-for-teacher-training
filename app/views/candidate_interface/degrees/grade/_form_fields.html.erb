@@ -28,6 +28,11 @@
   <% end %>
 
 <% else %>
+  <% if degree.predicted_grade? %>
+    <div class='govuk-inset-text'>
+      You must give an academic referee who can agree that you’re aiming for this grade.
+    </div>
+  <% end %>
 
   <%= f.govuk_radio_buttons_fieldset :grade, legend: { tag: 'span' } do %>
 
