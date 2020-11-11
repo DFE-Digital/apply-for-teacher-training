@@ -36,7 +36,7 @@ RSpec.describe AssociatedProvidersPermissionsListComponent do
   it 'renders ratifying providers the permission does not apply to' do
     create(:provider_permissions,
            provider: training_provider,
-           make_decisions: true)
+           make_decisions: false)
     provider_relationship_permissions.update(training_provider_can_make_decisions: true, ratifying_provider_can_make_decisions: false)
     result = render_inline(described_class.new(provider: training_provider, permission_name: 'make_decisions'))
 
@@ -48,7 +48,7 @@ RSpec.describe AssociatedProvidersPermissionsListComponent do
     create(:provider_permissions,
            provider: ratifying_provider,
            make_decisions: true)
-    provider_relationship_permissions.update(training_provider_can_make_decisions: false, ratifying_provider_can_make_decisions: true)
+    provider_relationship_permissions.update!(training_provider_can_make_decisions: false, ratifying_provider_can_make_decisions: true)
 
     result = render_inline(described_class.new(provider: ratifying_provider, permission_name: 'make_decisions'))
 
@@ -59,7 +59,7 @@ RSpec.describe AssociatedProvidersPermissionsListComponent do
   it 'does not render associated training providers permissions if there are not any' do
     create(:provider_permissions,
            provider: training_provider,
-           make_decisions: false)
+           make_decisions: true)
     provider_relationship_permissions
     result = render_inline(described_class.new(provider: training_provider, permission_name: 'make_decisions'))
 
