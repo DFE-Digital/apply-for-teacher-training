@@ -45,6 +45,26 @@ RSpec.describe UCASMatch do
       expect(ucas_match.action_needed?).to eq(true)
     end
 
+    it 'returns false if we requested withdrawal from UCAS and we don not need to confirm yet' do
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: Time.zone.now)
+      allow(ucas_match).to receive(:need_to_confirm_withdrawal_from_ucas?).and_return(false)
+
+      expect(ucas_match.action_needed?).to eq(false)
+    end
+
+    it 'returns true if we requested withdrawal from UCAS and it is time to confirm withdrawal from UCAS' do
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: Time.zone.now)
+      allow(ucas_match).to receive(:need_to_confirm_withdrawal_from_ucas?).and_return(true)
+
+      expect(ucas_match.action_needed?).to eq(true)
+    end
+
+    it 'returns true if we requested withdrawal from UCAS' do
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: Time.zone.now)
+
+      expect(ucas_match.action_needed?).to eq(true)
+    end
+
     it 'returns true if there is a dual application or dual acceptance' do
       ucas_match = create(:ucas_match, matching_state: 'new_match')
       allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
@@ -196,6 +216,35 @@ RSpec.describe UCASMatch do
 
       Timecop.travel(10.business_days.after(emails_sent_at)) do
         expect(ucas_match.need_to_request_withdrawal_from_ucas?).to eq(true)
+      end
+    end
+  end
+
+  describe '#need_to_confirm_withdrawal_from_ucas?' do
+    it 'returns false if last action taken in not ucas withdrawal requested' do
+      emails_sent_at = Time.zone.now
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: emails_sent_at)
+
+      Timecop.travel(1.business_days.after(emails_sent_at)) do
+        expect(ucas_match.need_to_confirm_withdrawal_from_ucas?).to eq(false)
+      end
+    end
+
+    it 'returns false if ucas withdrawal was requested and we don not need to confirm withdrawal from ucas yet' do
+      emails_sent_at = Time.zone.now
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: emails_sent_at)
+
+      Timecop.travel(1.business_days.after(emails_sent_at)) do
+        expect(ucas_match.need_to_confirm_withdrawal_from_ucas?).to eq(false)
+      end
+    end
+
+    it 'returns true if ucas withdrawal was requested and it is time to confirm withdrawal from ucas' do
+      emails_sent_at = Time.zone.now
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: emails_sent_at)
+
+      Timecop.travel(5.business_days.after(emails_sent_at)) do
+        expect(ucas_match.need_to_confirm_withdrawal_from_ucas?).to eq(true)
       end
     end
   end

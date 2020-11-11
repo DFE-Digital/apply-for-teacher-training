@@ -12,6 +12,7 @@ class UCASMatch < ApplicationRecord
   enum action_taken: {
     initial_emails_sent: 'initial_emails_sent',
     reminder_emails_sent: 'reminder_emails_sent',
+    ucas_withdrawal_requested: 'ucas_withdrawal_requested',
   }
 
   def action_needed?
@@ -20,6 +21,8 @@ class UCASMatch < ApplicationRecord
     return need_to_send_reminder_emails? if initial_emails_sent?
 
     return need_to_request_withdrawal_from_ucas? if reminder_emails_sent?
+
+    return need_to_confirm_withdrawal_from_ucas? if ucas_withdrawal_requested?
 
     dual_application_or_dual_acceptance?
   end
@@ -52,6 +55,13 @@ class UCASMatch < ApplicationRecord
 
     request_withdrawal_from_ucas_date = 10.business_days.after(candidate_last_contacted_at).to_date
     Time.zone.today >= request_withdrawal_from_ucas_date
+  end
+
+  def need_to_confirm_withdrawal_from_ucas?
+    return false unless ucas_withdrawal_requested?
+
+    confirm_withdrawal_from_ucas_date = 5.business_days.after(candidate_last_contacted_at).to_date
+    Time.zone.today >= confirm_withdrawal_from_ucas_date
   end
 
 private
