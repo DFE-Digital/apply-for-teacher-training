@@ -19,8 +19,7 @@ module CandidateInterface
         @languages_form = LanguagesForm.build_from_application(current_application)
         @right_to_work_or_study_form = RightToWorkOrStudyForm.build_from_application(current_application)
 
-        if FeatureFlag.active?('international_personal_details') &&
-            @personal_details_form.valid? &&
+        if @personal_details_form.valid? &&
             @nationalities_form.valid? &&
             @right_to_work_or_study_form.valid? &&
             @languages_form.valid?

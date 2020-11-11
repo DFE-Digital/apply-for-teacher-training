@@ -23,7 +23,6 @@ module CandidateHelper
   end
 
   def candidate_completes_application_form(with_referees: true)
-    FeatureFlag.deactivate(:international_personal_details)
     FeatureFlag.deactivate(:efl_section)
     FeatureFlag.deactivate(:international_degrees)
     FeatureFlag.deactivate(:international_other_qualifications)

@@ -7,7 +7,6 @@ RSpec.feature 'Entering their personal details' do
     FeatureFlag.deactivate(:efl_section)
 
     given_i_am_signed_in
-    and_the_international_candidates_flag_is_active
     and_i_visit_the_site
 
     # Entering details
@@ -81,10 +80,6 @@ RSpec.feature 'Entering their personal details' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_international_candidates_flag_is_active
-    FeatureFlag.activate('international_personal_details')
   end
 
   def and_i_visit_the_site

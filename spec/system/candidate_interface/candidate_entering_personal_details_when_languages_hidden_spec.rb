@@ -6,7 +6,6 @@ RSpec.describe 'Entering personal details' do
   scenario 'The languages page is hidden' do
     given_i_am_signed_in
     and_my_application_is_in_a_state_where_languages_should_not_be_visible
-    and_international_personal_details_is_active
     then_i_can_complete_personal_details_without_seeing_the_languages_page
     and_i_can_mark_the_section_complete
   end
@@ -24,12 +23,6 @@ RSpec.describe 'Entering personal details' do
     expect(
       current_candidate.current_application.english_main_language(fetch_database_value: true),
     ).to eq nil
-  end
-
-  def and_international_personal_details_is_active
-    # This feature and efl_section will be enabled concurrently, so make sure
-    # we're testing under that scenario.
-    FeatureFlag.activate('international_personal_details')
   end
 
   def then_i_can_complete_personal_details_without_seeing_the_languages_page

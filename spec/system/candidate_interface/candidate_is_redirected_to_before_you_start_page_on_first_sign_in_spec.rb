@@ -5,7 +5,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   scenario 'Candidate is redirected to the before you start page on their first sign in' do
     given_the_pilot_is_open
-    and_the_international_personal_details_feature_is_active
 
     when_i_visit_apply
     and_i_confirm_i_am_not_already_signed_up
@@ -41,10 +40,6 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_international_personal_details_feature_is_active
-    FeatureFlag.activate('international_personal_details')
   end
 
   def when_i_visit_apply

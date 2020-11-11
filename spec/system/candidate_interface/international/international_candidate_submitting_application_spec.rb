@@ -9,7 +9,6 @@ RSpec.feature 'International candidate submits the application' do
 
     given_i_am_signed_in
     and_the_efl_feature_flag_is_active
-    and_the_international_personal_details_feature_flag_is_active
 
     when_i_have_completed_everything_except_the_efl_section
     when_i_review_my_application
@@ -37,14 +36,9 @@ RSpec.feature 'International candidate submits the application' do
     create_and_sign_in_candidate
   end
 
-  def and_the_international_personal_details_feature_flag_is_active
-    FeatureFlag.activate('international_personal_details')
-  end
-
   def when_i_have_completed_everything_except_the_efl_section
     # Consider moving some of this into CandidateHelper once International
-    # feature flags have been removed, especially the efl_section and
-    # international_personal_details flags.
+    # feature flags have been removed, especially the efl_section.
     given_courses_exist
     visit candidate_interface_application_form_path
 

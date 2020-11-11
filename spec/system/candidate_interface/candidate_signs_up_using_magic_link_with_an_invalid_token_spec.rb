@@ -5,7 +5,6 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
 
   scenario 'Candidate signs in and receives an email inviting them to sign up' do
     given_the_pilot_is_open
-    and_the_international_personal_details_feature_is_active
     given_i_am_a_candidate_without_an_account
 
     when_i_go_to_sign_up
@@ -30,10 +29,6 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_international_personal_details_feature_is_active
-    FeatureFlag.activate('international_personal_details')
   end
 
   def given_i_am_a_candidate_without_an_account
