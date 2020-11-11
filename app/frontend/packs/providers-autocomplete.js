@@ -3,14 +3,14 @@ import accessibleAutocomplete from "accessible-autocomplete";
 const initProvidersAutocomplete = () => {
   try {
     const id = "#pick-provider-form .govuk-select";
-    const providersSelect = document.querySelector(id);
-    if (!providersSelect) return;
+    const selectElement = document.querySelector(id);
+    if (!selectElement) return;
 
     // Replace "Select a provider" with empty string
-    providersSelect.querySelector("[value='']").innerHTML = "";
+    selectElement.querySelector("[value='']").innerHTML = "";
 
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: providersSelect,
+      selectElement,
       autoselect: false,
       confirmOnBlur: false,
       showAllValues: true

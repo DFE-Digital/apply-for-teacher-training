@@ -8,14 +8,14 @@ const initIeltsBandScoreAutocomplete = () => {
     ]
 
     ids.forEach(id => {
-      const bandScoreSelect = document.querySelector(id);
-      if (!bandScoreSelect) return;
+      const selectElement = document.querySelector(id);
+      if (!selectElement) return;
 
       accessibleAutocomplete.enhanceSelectElement({
-        selectElement: bandScoreSelect,
+        selectElement,
         autoselect: false,
         confirmOnBlur: false,
-        defaultValue: '',
+        defaultValue: "",
         showAllValues: true,
         showNoOptionsFound: true
       });

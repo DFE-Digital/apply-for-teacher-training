@@ -3,12 +3,11 @@ import accessibleAutocomplete from "accessible-autocomplete";
 const initApiTokenProviderAutocomplete = () => {
   try {
     const id = "#vendor-api-token-provider-id-field.govuk-select";
-    const apiTokenProviderSelect = document.querySelector(id);
-
-    if (!apiTokenProviderSelect) return;
+    const selectElement = document.querySelector(id);
+    if (!selectElement) return;
 
     accessibleAutocomplete.enhanceSelectElement({
-      selectElement: apiTokenProviderSelect,
+      selectElement,
       autoselect: false,
       confirmOnBlur: false,
       showAllValues: true

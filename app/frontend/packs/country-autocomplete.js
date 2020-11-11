@@ -13,15 +13,15 @@ const initCountryAutocomplete = () => {
       "#candidate-interface-other-qualification-form-institution-country-field-error",
     ];
 
-    inputIds.forEach(inputId => {
-      const select = document.querySelector(inputId);
-      if (!select) { return; }
+    inputIds.forEach(id => {
+      const selectElement = document.querySelector(id);
+      if (!selectElement) return;
 
       // Replace "Select a country" with empty string
-      select.querySelector("[value='']").innerHTML = "";
+      selectElement.querySelector("[value='']").innerHTML = "";
 
       accessibleAutocomplete.enhanceSelectElement({
-        selectElement: select,
+        selectElement,
         autoselect: false,
         confirmOnBlur: false,
         showAllValues: true

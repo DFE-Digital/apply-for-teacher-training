@@ -8,14 +8,14 @@ const initGcseGradeAutocomplete = () => {
     ];
 
     ids.forEach(id => {
-      const gradeSelect = document.getElementById(id);
-      if (!gradeSelect) return;
+      const selectElement = document.getElementById(id);
+      if (!selectElement) return;
 
       accessibleAutocomplete.enhanceSelectElement({
-        selectElement: gradeSelect,
+        selectElement,
         autoselect: false,
         confirmOnBlur: false,
-        defaultValue: '',
+        defaultValue: "",
         showAllValues: true,
         showNoOptionsFound: true
       });

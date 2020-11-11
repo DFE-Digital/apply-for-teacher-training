@@ -2,7 +2,7 @@ import accessibleAutocomplete from "accessible-autocomplete";
 
 const initNationalityAutocomplete = () => {
   try {
-    const nationalitySelects = [
+    const inputIds = [
       "#candidate-interface-nationalities-form-first-nationality-field",
       "#candidate-interface-nationalities-form-first-nationality-field-error",
       "#candidate-interface-nationalities-form-second-nationality-field",
@@ -13,25 +13,27 @@ const initNationalityAutocomplete = () => {
       "#candidate-interface-nationalities-form-other-nationality2-field-error",
       "#candidate-interface-nationalities-form-other-nationality3-field",
       "#candidate-interface-nationalities-form-other-nationality3-field-error",
-    ].forEach(id => {
-      const nationalitySelect = document.querySelector(id);
-      if (!nationalitySelect) return;
+    ];
 
-      const nationalitySelectValue = nationalitySelect.querySelector("[value='']");
+    inputIds.forEach(id => {
+      const selectElement = document.querySelector(id);
+      if (!selectElement) return;
 
-      if(!nationalitySelectValue) return;
+      const selectValue = selectElement.querySelector("[value='']");
+      if(!selectValue) return;
 
       // Replace "Select a nationality" with empty string
-      nationalitySelect.querySelector("[value='']").innerHTML = "";
+      selectElement.querySelector("[value='']").innerHTML = "";
 
       accessibleAutocomplete.enhanceSelectElement({
-        selectElement: nationalitySelect,
-        name: nationalitySelect.name,
+        selectElement,
+        name: selectElement.name,
         autoselect: false,
         confirmOnBlur: false,
         showAllValues: true
       });
-      nationalitySelect.name = "";
+
+      selectElement.name = "";
     });
   } catch (err) {
     console.error("Could not enhance nationality select:", err);
