@@ -940,6 +940,7 @@ en:
           attributes:
             section:
               blank: Section cannot be blank
+              invalid: Section must be valid
             path:
               blank: Path cannot be blank
               invalid: Path must be a valid endpoint
