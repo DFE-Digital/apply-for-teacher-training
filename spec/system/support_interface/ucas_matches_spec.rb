@@ -42,6 +42,13 @@ RSpec.feature 'See UCAS matches' do
     then_i_see_that_i_need_to 'Request withdrawal from UCAS'
     and_when_i_click 'Confirm withdrawal from UCAS was requested'
     then_i_see_last_performed_action_is 'requested for the candidate to be removed from UCAS'
+
+    given_five_more_working_days_passed
+    when_i_visit_the_page_again
+    then_i_see_that_i_need_to 'Confirm withdrawal from UCAS'
+    and_when_i_click 'Confirm the application was withdrawn from UCAS'
+    then_i_see_last_performed_action_is 'confirmed that the candidate was withdrawn from UCAS'
+    and_then_the_match_is_processed
   end
 
   def given_i_am_a_support_user
@@ -179,8 +186,20 @@ RSpec.feature 'See UCAS matches' do
     Timecop.safe_mode = true
   end
 
+  def given_five_more_working_days_passed
+    Timecop.safe_mode = false
+    Timecop.travel(Time.zone.local(2020, 11, 30, 12, 0, 0))
+  ensure
+    Timecop.safe_mode = true
+  end
+
   def when_i_visit_the_page_again
     visit current_path
     given_i_am_a_support_user
+  end
+
+  def and_then_the_match_is_processed
+    expect(page).to have_content 'Match marked as processed'
+    expect(page).to have_content 'Processed'
   end
 end

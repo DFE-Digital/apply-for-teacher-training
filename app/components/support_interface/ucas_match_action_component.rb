@@ -19,6 +19,12 @@ module SupportInterface
         form_path: :support_interface_record_ucas_withdrawal_requested_path,
         instructions: "We need to contact UCAS. Please send an encrypted file with the candidate's duplicate application details to Harry Haines (h.haines@ucas.ac.uk) and Lizzy Carter (l.carter@ucas.ac.uk) from UCAS to ask them to remove the candidate from UTT.",
       },
+      confirm_withdrawal_from_ucas: {
+        description: 'Confirm withdrawal from UCAS',
+        button_text: 'Confirm the application was withdrawn from UCAS',
+        form_path: :support_interface_process_match_path,
+        instructions: "We need to ensure that UCAS have removed the candidate's duplicate application from UTT.",
+      },
     }.freeze
 
     def initialize(match)
@@ -53,6 +59,8 @@ module SupportInterface
         :send_reminder_emails
       elsif @match.reminder_emails_sent? && @match.need_to_request_withdrawal_from_ucas?
         :request_withdrawal_from_ucas
+      elsif @match.ucas_withdrawal_requested? && @match.need_to_confirm_withdrawal_from_ucas?
+        :confirm_withdrawal_from_ucas
       end
     end
 
@@ -73,6 +81,8 @@ module SupportInterface
                       'sent the initial emails'
                     elsif @match.reminder_emails_sent?
                       'sent the reminder emails'
+                    elsif @match.processed? && @match.ucas_withdrawal_requested?
+                      'confirmed that the candidate was withdrawn from UCAS. We contacted UCAS to request removal from UTT'
                     elsif @match.ucas_withdrawal_requested?
                       'requested for the candidate to be removed from UCAS'
                     end
