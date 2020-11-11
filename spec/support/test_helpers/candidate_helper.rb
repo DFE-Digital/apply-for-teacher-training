@@ -211,6 +211,10 @@ module CandidateHelper
     fill_in 'Which institution did you study at?', with: 'University of Much Wow'
     click_button t('application_form.degree.base.button')
 
+    expect(page).to have_content('Have you completed your degree?')
+    choose 'Yes'
+    click_button t('application_form.degree.base.button')
+
     choose 'First class honours'
     click_button t('application_form.degree.base.button')
 

@@ -1,0 +1,6 @@
+<%= f.govuk_radio_buttons_fieldset :degree_completed, legend: { tag: 'h1', size: 'xl', text: t('page_titles.degree_completion_status') } do %>
+  <%= f.govuk_radio_button :degree_completed, 'yes', label: { text: 'Yes' } %>
+  <%= f.govuk_radio_button :degree_completed, 'no', label: { text: 'No' } %>
+<% end %>
+
+<%= f.govuk_submit t('application_form.degree.base.button') %>

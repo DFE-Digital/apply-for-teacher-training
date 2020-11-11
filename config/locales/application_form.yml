@@ -201,17 +201,19 @@ en:
         change_action: institution
       grade:
         review_label: Grade
+        review_label_predicted: Predicted grade
         change_action: grade
+        international:
+          grade_examples: For example, ‘A’, ‘4.5’, ‘94%’, ‘Distinction’
+          hint_text: Enter the grade that you think you’ll get. You must give an academic referee who can agree that you’re aiming for this grade.
+          label: Enter your degree grade
         other:
           label: Other
           conditional:
             label: Enter your degree grade
-            international_hint_text: For example, ‘A’, ‘4.5’, ‘94%’, ‘Distinction’
-        predicted:
-          label: I am still studying for my degree
-          conditional:
-            label: Please give details of your predicted grade.
-            hint_text: Predicted grades must be validated by an academic referee in the ‘References’ section.
+      completion_status:
+        change_action: completion status
+        review_label: Have you completed this degree?
       start_year:
         label: Year started course
         hint_text: "For example, %{example_year}"
@@ -682,9 +684,13 @@ en:
               blank: Enter the UK NARIC reference number
             comparable_uk_degree:
               blank: Select the comparable UK degree
+        candidate_interface/degree_completion_status_form:
+          attributes:
+            degree_completed:
+              blank: Select if you have completed your degree or not
         candidate_interface/degree_grade_form:
           attributes:
-            grade_name:
+            grade:
               blank: Enter your degree grade
               too_long: grade of degree must be %{count} characters or fewer
             other_grade:

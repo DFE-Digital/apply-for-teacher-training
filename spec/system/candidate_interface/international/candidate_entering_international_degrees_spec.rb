@@ -45,11 +45,14 @@ RSpec.feature 'Entering their degrees' do
     and_i_fill_in_comparable_uk_degree_type
     and_i_click_on_save_and_continue
 
+    # Add completion status
+    and_i_confirm_i_have_completed_my_degree
+
     # Add grade
     then_i_can_see_the_degree_grade_page
     when_i_click_on_save_and_continue
     then_i_see_validation_errors_for_degree_grade
-    when_i_check_other
+    when_i_choose_yes
     and_i_enter_my_grade
     and_i_click_on_save_and_continue
 
@@ -122,11 +125,11 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_type
-    expect(page).to have_content 'Select if this is a UK degree or not'
+    expect_validation_error 'Select if this is a UK degree or not'
   end
 
   def then_i_see_validation_errors_for_qualification_type
-    expect(page).to have_content 'Enter your qualification type'
+    expect_validation_error 'Enter your qualification type'
   end
 
   def and_i_fill_in_the_qualification_type
@@ -138,7 +141,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_subject
-    expect(page).to have_content 'Enter your degree subject'
+    expect_validation_error 'Enter your degree subject'
   end
 
   def when_i_fill_in_the_degree_subject
@@ -150,8 +153,8 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_institution_and_country
-    expect(page).to have_content 'Enter the institution where you studied'
-    expect(page).to have_content 'Enter the country where the institution is based'
+    expect_validation_error 'Enter the institution where you studied'
+    expect_validation_error 'Enter the country where the institution is based'
   end
 
   def when_i_fill_in_the_degree_institution
@@ -167,7 +170,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_naric_question
-    expect(page).to have_content 'Select whether you have a UK NARIC reference number or not'
+    expect_validation_error 'Select whether you have a UK NARIC reference number or not'
   end
 
   def when_i_check_yes_for_naric_statement
@@ -175,8 +178,8 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_naric_reference_and_comparable_uk_degree
-    expect(page).to have_content 'Enter the UK NARIC reference number'
-    expect(page).to have_content 'Select the comparable UK degree'
+    expect_validation_error 'Enter the UK NARIC reference number'
+    expect_validation_error 'Select the comparable UK degree'
   end
 
   def and_i_fill_in_naric_reference
@@ -188,19 +191,20 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_can_see_the_degree_grade_page
-    expect(page).to have_content('What grade is your degree?')
+    expect(page).to have_content('Did your degree give a grade?')
   end
 
   def then_i_see_validation_errors_for_degree_grade
-    expect(page).to have_content 'Enter your degree grade'
+    expect_validation_error 'Enter your degree grade'
   end
 
-  def when_i_check_other
-    choose 'Other'
+  def when_i_choose_yes
+    choose 'Yes'
   end
 
   def and_i_enter_my_grade
-    fill_in 'Enter your degree grade', with: '100'
+    grade_input = first('#candidate-interface-degree-grade-form-other-grade-field')
+    grade_input.fill_in with: '100'
   end
 
   def then_i_can_see_the_start_and_graduation_year_page
@@ -208,7 +212,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_graduation_year
-    expect(page).to have_content 'Enter your graduation year'
+    expect_validation_error 'Enter your graduation year'
   end
 
   def when_i_fill_in_the_start_and_graduation_year
@@ -265,6 +269,11 @@ RSpec.feature 'Entering their degrees' do
     expect(page).to have_selector("input[value='0123456789']")
   end
 
+  def and_i_confirm_i_have_completed_my_degree
+    choose 'Yes'
+    and_i_click_on_save_and_continue
+  end
+
   def when_i_change_my_reference_number_and_comparable_uk_degree_type
     fill_in 'UK NARIC reference number', with: '9876543210'
     choose 'Post Doctoral award'
@@ -289,5 +298,12 @@ RSpec.feature 'Entering their degrees' do
 
   def and_that_the_section_is_completed
     expect(page).to have_css('#degree-badge-id', text: 'Completed')
+  end
+
+private
+
+  def expect_validation_error(message)
+    errors = all('.govuk-error-message')
+    expect(errors.map(&:text).one? { |e| e.include? message }).to eq true
   end
 end
