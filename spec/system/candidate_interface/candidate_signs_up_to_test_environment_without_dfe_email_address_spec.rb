@@ -19,7 +19,7 @@ RSpec.feature 'Candidate cannot sign up to a test environment (e.g. qa) without 
     then_i_see_an_access_forbidden_page
 
     given_i_have_a_dfe_email_address
-    when_i_go_to_sign_up
+    when_i_go_back_to_sign_up_again
     and_i_submit_my_email_address
     then_i_receive_an_email_inviting_me_to_sign_up
   end
@@ -45,6 +45,10 @@ RSpec.feature 'Candidate cannot sign up to a test environment (e.g. qa) without 
 
     choose 'No, I need to create an account'
     click_button 'Continue'
+  end
+
+  def when_i_go_back_to_sign_up_again
+    click_link 'Back'
   end
 
   def then_i_see_an_access_forbidden_page

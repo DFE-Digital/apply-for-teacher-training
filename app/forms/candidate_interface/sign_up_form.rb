@@ -31,6 +31,7 @@ module CandidateInterface
 
     def candidate_email_address_has_access
       if HostingEnvironment.dfe_signup_only? &&
+          email_address.present? &&
           !email_address.match(/education\.gov\.uk$/)
         errors.add(:email_address, :dfe_signup_only)
       end
