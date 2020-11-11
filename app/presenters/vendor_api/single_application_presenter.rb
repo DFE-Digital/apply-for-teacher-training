@@ -237,7 +237,7 @@ module VendorAPI
     end
 
     def contact_details
-      if application_form.international? && FeatureFlag.active?(:international_addresses)
+      if application_form.international?
         {
           phone_number: application_form.phone_number,
           address_line1: application_form.international_address,

@@ -20,10 +20,8 @@ module CandidateInterface
           current_application.update!(contact_details_completed: false)
 
           redirect_to candidate_interface_contact_details_review_path
-        elsif FeatureFlag.active?(:international_addresses)
-          redirect_to candidate_interface_contact_details_edit_address_type_path
         else
-          redirect_to candidate_interface_contact_details_edit_address_path
+          redirect_to candidate_interface_contact_details_edit_address_type_path
         end
       else
         track_validation_error(@contact_details_form)
