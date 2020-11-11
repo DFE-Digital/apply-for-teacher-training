@@ -19,8 +19,6 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
     when_i_click_on_a_match
     then_i_see_the_matching_info
-    when_i_mark_the_match_as_processed
-    then_the_match_is_processed
 
     when_the_daily_download_runs_again
     then_nothing_has_happened
@@ -142,15 +140,6 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     expect(page).to have_content '999213'
     expect(page).to have_content 'XX'
     expect(page).to have_content 'XYZ'
-  end
-
-  def when_i_mark_the_match_as_processed
-    click_on 'Mark as processed'
-  end
-
-  def then_the_match_is_processed
-    expect(page).to have_content 'Match marked as processed'
-    expect(page).to have_content 'Processed'
   end
 
   def when_the_daily_download_runs_again

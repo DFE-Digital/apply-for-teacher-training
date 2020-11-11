@@ -25,14 +25,6 @@
   'Application on Apply' => govuk_link_to('View application', support_interface_application_form_path(application)),
 }) %>
 
-<p class="govuk-body">
-  <% unless @match.processed? %>
-    <%= form_with url: support_interface_process_match_path(@match), method: :post do |f| %>
-      <%= f.govuk_submit 'Mark as processed' %>
-    <% end %>
-  <% end %>
-</p>
-
 <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Course choices</h2>
 <%= render SupportInterface::UCASMatchTableComponent.new(@match) %>
 
