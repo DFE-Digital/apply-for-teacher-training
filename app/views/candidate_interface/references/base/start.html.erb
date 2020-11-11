@@ -20,3 +20,11 @@
     <%= govuk_link_to 'Continue', candidate_interface_references_type_path, class: 'govuk-button' %>
   </div>
 </div>
+
+<%= render(
+  CandidateInterface::ApplicationFeedbackComponent.new(
+    section: 'application_references',
+    path: 'candidate_interface_references_start_path',
+    page_title: t('page_titles.references_start')
+  )
+) %>
