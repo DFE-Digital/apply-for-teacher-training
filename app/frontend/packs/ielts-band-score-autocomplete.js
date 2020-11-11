@@ -12,11 +12,12 @@ const initIeltsBandScoreAutocomplete = () => {
       if (!bandScoreSelect) return;
 
       accessibleAutocomplete.enhanceSelectElement({
-        defaultValue: '',
         selectElement: bandScoreSelect,
+        autoselect: false,
+        confirmOnBlur: false,
+        defaultValue: '',
         showAllValues: true,
-        showNoOptionsFound: true,
-        confirmOnBlur: false
+        showNoOptionsFound: true
       });
 
       const accessibleAutocompleteWrapper = document.querySelector(".govuk-form-group--ielts-band-score .autocomplete__wrapper");

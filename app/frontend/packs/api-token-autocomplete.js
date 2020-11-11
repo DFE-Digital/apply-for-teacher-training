@@ -9,8 +9,9 @@ const initApiTokenProviderAutocomplete = () => {
 
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: apiTokenProviderSelect,
-      showAllValues: true,
-      confirmOnBlur: false
+      autoselect: false,
+      confirmOnBlur: false,
+      showAllValues: true
     });
   } catch (err) {
     console.error("Could not enhance API token select:", err);

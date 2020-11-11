@@ -12,12 +12,12 @@ const initGcseGradeAutocomplete = () => {
       if (!gradeSelect) return;
 
       accessibleAutocomplete.enhanceSelectElement({
-        autoselect: false,
-        defaultValue: '',
         selectElement: gradeSelect,
-        showAllValues: true,
-        showNoOptionsFound: true,
+        autoselect: false,
         confirmOnBlur: false,
+        defaultValue: '',
+        showAllValues: true,
+        showNoOptionsFound: true
       });
     });
   } catch (err) {

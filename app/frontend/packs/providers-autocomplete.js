@@ -11,8 +11,9 @@ const initProvidersAutocomplete = () => {
 
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: providersSelect,
-      showAllValues: true,
-      confirmOnBlur: false
+      autoselect: false,
+      confirmOnBlur: false,
+      showAllValues: true
     });
   } catch (err) {
     console.error("Could not enhance providers select:", err);

@@ -22,8 +22,9 @@ const initCountryAutocomplete = () => {
 
       accessibleAutocomplete.enhanceSelectElement({
         selectElement: select,
-        showAllValues: true,
-        confirmOnBlur: false
+        autoselect: false,
+        confirmOnBlur: false,
+        showAllValues: true
       });
     });
   } catch (err) {

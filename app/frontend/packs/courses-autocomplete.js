@@ -11,8 +11,9 @@ const initCoursesAutocomplete = () => {
 
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: coursesSelect,
-      showAllValues: true,
-      confirmOnBlur: false
+      autoselect: false,
+      confirmOnBlur: false,
+      showAllValues: true
     });
   } catch (err) {
     console.error("Could not enhance courses select:", err);
