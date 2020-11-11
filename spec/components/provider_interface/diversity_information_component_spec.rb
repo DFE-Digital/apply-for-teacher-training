@@ -64,7 +64,8 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
         it 'displays the correct diversity information' do
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
-          expect(result.text).not_to include('The candidate disclosed information in the equality and diversity questionare.')
+          expect(result.text).not_to include('The candidate disclosed information in the optional equality and diversity questionnaire.')
+          expect(result.text).not_to include('This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs)')
           expect(result.text).to include('Sex')
           expect(result.text).to include('Male')
           expect(result.text).to include('Ethnic group')
@@ -128,7 +129,8 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
             .update!(view_diversity_information: false)
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
-          expect(result.text).to include('The candidate disclosed information in the equality and diversity questionnaire.')
+          expect(result.text).to include('The candidate disclosed information in the optional equality and diversity questionnaire.')
+          expect(result.text).to include('This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs)')
           expect(result.text).to include('This section is only available to users with permissions to `view diversity information`.')
         end
       end
@@ -141,7 +143,8 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
           )
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
-          expect(result.text).to include('The candidate disclosed information in the equality and diversity questionnaire.')
+          expect(result.text).to include('The candidate disclosed information in the optional equality and diversity questionnaire.')
+          expect(result.text).to include('This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs)')
           expect(result.text).to include('This section is only available to users with permissions to `view diversity information`.')
         end
       end
@@ -162,8 +165,9 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
             .update!(view_diversity_information: true)
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
-          expect(result.text).to include('The candidate disclosed information in the equality and diversity questionnaire.')
-          expect(result.text).to include('You will be able to view this when an offer has been accepted.')
+          expect(result.text).to include('The candidate disclosed information in the optional equality and diversity questionnaire.')
+          expect(result.text).to include('This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs)')
+          expect(result.text).to include('You’ll only be able to see this information after an offer has been accepted by the candidate.')
         end
       end
 
@@ -173,8 +177,9 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
             .update!(view_diversity_information: false)
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
-          expect(result.text).to include('The candidate disclosed information in the equality and diversity questionnaire.')
-          expect(result.text).to include('This will become available to users with permissions to `view diversity information` when an offer has been accepted')
+          expect(result.text).to include('The candidate disclosed information in the optional equality and diversity questionnaire.')
+          expect(result.text).to include('This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs)')
+          expect(result.text).to include(' Users with permission to see this information will only be able to do so after an offer has been accepted by the candidate')
         end
       end
 
@@ -187,8 +192,9 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
 
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
-          expect(result.text).to include('The candidate disclosed information in the equality and diversity questionnaire.')
-          expect(result.text).to include('This will become available to users with permissions to `view diversity information` when an offer has been accepted')
+          expect(result.text).to include('The candidate disclosed information in the optional equality and diversity questionnaire.')
+          expect(result.text).to include('This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs)')
+          expect(result.text).to include('Users with permission to see this information will only be able to do so after an offer has been accepted by the candidate')
         end
       end
     end
@@ -208,7 +214,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
             .update!(view_diversity_information: true)
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
-          expect(result.text).to include('You will be able to view this when your offer has been accepted.')
+          expect(result.text).to include('You’ll only be able to see this information after your offer has been accepted by the candidate')
         end
       end
 
@@ -218,7 +224,7 @@ RSpec.describe ProviderInterface::DiversityInformationComponent do
             .update!(view_diversity_information: false)
           result = render_inline(described_class.new(application_choice: application_choice, current_provider_user: provider_user))
 
-          expect(result.text).to include('This will become available to users with permissions to `view diversity information` when your offer has been accepted')
+          expect(result.text).to include('Users with permission to see this information will only be able to do so after your offer has been accepted by the candidate')
         end
       end
     end

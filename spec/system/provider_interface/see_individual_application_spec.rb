@@ -263,7 +263,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   def and_i_should_see_diversity_information_section
-    expect(page).to have_content 'The candidate disclosed information in the equality and diversity questionnaire.'
+    expect(page).to have_content 'The candidate disclosed information in the optional equality and diversity questionnaire.'
+    expect(page).to have_content 'This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs)'
   end
 
   def and_i_should_see_a_link_to_download_as_pdf

@@ -10,7 +10,7 @@ module ProviderInterface
     end
 
     def message
-      return 'The candidate disclosed information in the equality and diversity questionnaire.' if diversity_information_declared?
+      return declared_diversity_information_message if diversity_information_declared?
 
       'No information shared'
     end
@@ -21,10 +21,10 @@ module ProviderInterface
 
     def details
       if [current_user_has_permission_to_view_diversity_information?, application_in_correct_state?].all?(false)
-        return "This will become available to users with permissions to `view diversity information` when #{offer_context} offer has been accepted"
+        return "Users with permission to see this information will only be able to do so after #{offer_context} offer has been accepted by the candidate."
       end
 
-      return "You will be able to view this when #{offer_context} offer has been accepted." if current_user_has_permission_to_view_diversity_information?
+      return "You’ll only be able to see this information after #{offer_context} offer has been accepted by the candidate." if current_user_has_permission_to_view_diversity_information?
 
       'This section is only available to users with permissions to `view diversity information`.' if application_in_correct_state?
     end
@@ -76,6 +76,10 @@ module ProviderInterface
 
     def equality_and_diversity
       @equality_and_diversity ||= application_choice.application_form.equality_and_diversity
+    end
+
+    def declared_diversity_information_message
+      'The candidate disclosed information in the optional equality and diversity questionnaire. This relates to their sex, ethnicity and disability status. We collect this data to help reduce discrimination on these grounds. (This is not the same as the information we request relating to the candidate’s disability, access and other needs).'
     end
   end
 end
