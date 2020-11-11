@@ -1,5 +1,6 @@
 module HostingEnvironment
   TEST_ENVIRONMENTS = %w[development test qa review].freeze
+  PRODUCTION_URL = 'https://apply-for-teacher-training.service.gov.uk'.freeze
 
   def self.application_url
     if Rails.env.production?

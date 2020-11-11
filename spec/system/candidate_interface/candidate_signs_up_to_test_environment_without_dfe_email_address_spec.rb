@@ -16,7 +16,7 @@ RSpec.feature 'Candidate cannot sign up to a test environment (e.g. qa) without 
 
     when_i_go_to_sign_up
     and_i_submit_my_email_address
-    then_i_see_an_error_message
+    then_i_see_an_access_forbidden_page
 
     given_i_have_a_dfe_email_address
     when_i_go_to_sign_up
@@ -47,9 +47,9 @@ RSpec.feature 'Candidate cannot sign up to a test environment (e.g. qa) without 
     click_button 'Continue'
   end
 
-  def then_i_see_an_error_message
-    expect(page).to have_current_path(candidate_interface_sign_up_path)
-    expect(page).to have_content('Only DfE users can sign up in this test environment')
+  def then_i_see_an_access_forbidden_page
+    expect(page).to have_current_path(candidate_interface_external_sign_up_forbidden_path)
+    expect(page).to have_content('Only DfE users can sign into this website')
   end
 
   def and_i_submit_my_email_address
