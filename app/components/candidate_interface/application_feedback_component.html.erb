@@ -2,7 +2,7 @@
   <div class="govuk-width-container govuk-!-margin-top-6">
     <div class="app-feedback__container">
       <h2 class="app-feedback__container-title">
-        Are there any issues with this section?
+        <%= t('application_feedback_component.title') %>
       </h2>
 
       <ul class="app-feedback__list">
@@ -16,7 +16,7 @@
             ),
             class: 'app-feedback__list-item app-feedback__button',
             method: :post do |f| %>
-              <%= f.govuk_submit 'Yes' %>
+              <%= f.govuk_submit t('application_feedback_component.issues.submit') %>
           <% end %>
 
           <%= form_with url: candidate_interface_application_feedback_path(
@@ -28,7 +28,7 @@
             ),
             class: 'app-feedback__list-item app-feedback__button govuk-!-margin-left-1',
             method: :post,  remote: true do |f| %>
-              <%= f.govuk_submit 'No' %>
+              <%= f.govuk_submit t('application_feedback_component.no_issues.submit') %>
           <% end %>
         </li>
       </ul>

@@ -501,6 +501,11 @@ en:
         label: Do you have any other feedback about this section?
       consent_to_be_contacted:
         label: Can we contact you about your feedback?
+        'yes': 'Yes'
+        'no': 'No'
+      thank_you:
+        backlink: Go back to page you were previously on
+      submit: Submit feedback
   activemodel:
     errors:
       models:

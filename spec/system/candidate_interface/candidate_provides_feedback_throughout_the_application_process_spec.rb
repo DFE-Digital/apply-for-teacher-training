@@ -47,7 +47,7 @@ RSpec.feature 'Candidate provides feedback throughout the application process' d
   end
 
   def and_i_click_there_is_an_issue_with_the_section
-    click_button 'Yes'
+    click_button t('application_feedback_component.issues.submit')
   end
 
   def then_i_see_the_references_section_feedback_page
@@ -58,9 +58,9 @@ RSpec.feature 'Candidate provides feedback throughout the application process' d
     check t('application_form.application_feedback.issues.does_not_understand_section')
     check t('application_form.application_feedback.issues.answer_does_not_fit_format')
     fill_in t('application_form.application_feedback.other_feedback.label'), with: 'Me no understand.'
-    choose 'Yes'
+    choose t('application_form.application_feedback.consent_to_be_contacted.yes')
 
-    click_button 'Submit feedback'
+    click_button t('application_form.application_feedback.submit')
   end
 
   def then_i_see_the_thank_you_page
@@ -68,7 +68,7 @@ RSpec.feature 'Candidate provides feedback throughout the application process' d
   end
 
   def when_i_click_go_back_to_previous_page
-    click_link 'Go back to page you were previously on'
+    click_link t('application_form.application_feedback.thank_you.backlink')
   end
 
   def then_i_see_the_references_start_page
@@ -95,7 +95,7 @@ RSpec.feature 'Candidate provides feedback throughout the application process' d
   end
 
   def and_i_click_there_is_not_an_issue_with_the_name_section
-    click_button 'No'
+    click_button t('application_feedback_component.no_issues.submit')
   end
 
   def and_my_second_set_of_feedback_has_been_collected

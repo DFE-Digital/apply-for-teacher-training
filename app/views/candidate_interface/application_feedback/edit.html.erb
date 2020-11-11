@@ -17,12 +17,12 @@
 
       <%= f.govuk_text_area :other_feedback, label: { text: t('application_form.application_feedback.other_feedback.label'), size: 'm' }, rows: 5, max_words: 300 %>
 
-      <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, inline: true, legend: { text:  t('application_form.application_feedback.consent_to_be_contacted.label'), size: 'm' } do %>
-        <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: 'Yes' }  %>
-        <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text: 'No' } %>
+      <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, inline: true, legend: { text: t('application_form.application_feedback.consent_to_be_contacted.label'), size: 'm' } do %>
+        <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('application_form.application_feedback.consent_to_be_contacted.yes') }  %>
+        <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text:t('application_form.application_feedback.consent_to_be_contacted.no') } %>
       <% end %>
 
-      <%= f.govuk_submit 'Submit feedback' %>
+      <%= f.govuk_submit t('application_form.application_feedback.submit') %>
     <% end %>
   </div>
 </div>
