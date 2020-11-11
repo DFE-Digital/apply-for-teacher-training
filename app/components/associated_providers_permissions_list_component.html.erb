@@ -18,7 +18,7 @@
     </p>
     <ul class="govuk-list">
       <% training_providers_that_cannot(permission_name).each do |provider| %>
-        <li><%= render CrossIcon.new %> <%= provider.name %></li>
+        <li><%= render CrossIconComponent.new %> <%= provider.name %></li>
       <% end %>
     </ul>
   </div>
@@ -44,7 +44,7 @@
     </p>
     <ul class="govuk-list">
       <% ratifying_providers_that_cannot(permission_name).each do |provider| %>
-        <li><%= render CrossIcon.new %> <%= provider.name %></li>
+        <li><%= render CrossIconComponent.new %> <%= provider.name %></li>
       <% end %>
     </ul>
   </div>
