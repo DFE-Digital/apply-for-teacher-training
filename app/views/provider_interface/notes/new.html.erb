@@ -4,7 +4,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @new_note_form,
-          url: provider_interface_application_choice_create_note_path(@application_choice.id),
+          url: provider_interface_notes_path(@application_choice.id),
           method: :post do |f| %>
 
       <%= f.govuk_error_summary %>

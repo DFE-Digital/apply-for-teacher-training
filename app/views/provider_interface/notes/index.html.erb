@@ -1,8 +1,8 @@
 <% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Notes" %>
 
-<%= render 'application_choice_header' %>
+<%= render 'provider_interface/application_choices/application_choice_header' %>
 
-<%= govuk_button_link_to 'Add note', provider_interface_application_choice_new_note_path(@application_choice) %>
+<%= govuk_button_link_to 'Add note', new_provider_interface_note_path(@application_choice) %>
 
 <% unless @notes.empty? %>
   <div class="govuk-grid-row">
@@ -11,9 +11,7 @@
         <% @notes.each do |note| %>
           <div class="app-notes__note">
             <h2 class="govuk-heading-m govuk-!-margin-bottom-1">
-              <a id="<%= note.id %>">
-                <%= note.subject %>
-              </a>
+              <%= govuk_link_to note.subject, provider_interface_note_path(@application_choice, note), id: note.id %>
             </h2>
             <p class="govuk-body govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= note.message %></p>
             <p class="meta">

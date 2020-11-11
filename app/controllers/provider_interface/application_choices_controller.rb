@@ -60,25 +60,6 @@ module ProviderInterface
       end
     end
 
-    def notes
-      @notes = @application_choice.notes.order('created_at DESC')
-    end
-
-    def new_note
-      @new_note_form = ProviderInterface::NewNoteForm.new
-    end
-
-    def create_note
-      @new_note_form = ProviderInterface::NewNoteForm.new new_note_params
-
-      if @new_note_form.save
-        flash[:success] = 'Note successfully added'
-        redirect_to provider_interface_application_choice_notes_path(@application_choice)
-      else
-        render(action: :new_note)
-      end
-    end
-
     def timeline; end
 
     def emails
@@ -114,7 +95,7 @@ module ProviderInterface
       end
 
       sub_navigation_items.push(
-        { name: 'Notes', url: provider_interface_application_choice_notes_path(@application_choice) },
+        { name: 'Notes', url: provider_interface_notes_path(@application_choice) },
       )
 
       sub_navigation_items.push(
@@ -135,12 +116,6 @@ module ProviderInterface
         application_choice: application_choice,
         available_providers: available_providers,
       ).call
-    end
-
-    def new_note_params
-      params.require(:provider_interface_new_note_form).permit(:subject, :message).merge \
-        application_choice: @application_choice,
-        provider_user: current_provider_user
     end
 
     def get_provider_can_respond

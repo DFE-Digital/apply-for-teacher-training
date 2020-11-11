@@ -58,7 +58,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   def then_i_am_still_on_the_notes_tab
-    expect(page).to have_current_path(provider_interface_application_choice_notes_path(@application_choice))
+    expect(page).to have_current_path(provider_interface_notes_path(@application_choice))
   end
 
   def and_the_notes_tab_includes_the_new_note
