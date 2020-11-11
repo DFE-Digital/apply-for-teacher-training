@@ -1,7 +1,3 @@
 en:
   application_feedback_component:
-    title: Are there any issues with this section?
-    issues:
-      submit: 'Yes'
-    no_issues:
-      submit: 'No'
+    feedback_link: How can we improve this section? (Opens in a new tab)

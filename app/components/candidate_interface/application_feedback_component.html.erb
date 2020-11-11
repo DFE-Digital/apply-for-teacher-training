@@ -1,37 +1,18 @@
 <% if FeatureFlag.active?(:feedback_prompts) %>
   <div class="govuk-width-container govuk-!-margin-top-6">
     <div class="app-feedback__container">
-      <h2 class="app-feedback__container-title">
-        <%= t('application_feedback_component.title') %>
-      </h2>
-
-      <ul class="app-feedback__list">
-        <li class="app-feedback__list-item">
-          <%= form_with url: candidate_interface_application_feedback_path(
-              issues: true,
-              section: section,
-              path: path,
-              page_title: page_title,
-              id_in_path: id_in_path
-            ),
-            class: 'app-feedback__list-item app-feedback__button',
-            method: :post do |f| %>
-              <%= f.govuk_submit t('application_feedback_component.issues.submit') %>
-          <% end %>
-
-          <%= form_with url: candidate_interface_application_feedback_path(
-              issues: false,
-              section: section,
-              path: path,
-              page_title: page_title,
-              id_in_path: id_in_path
-            ),
-            class: 'app-feedback__list-item app-feedback__button govuk-!-margin-left-1',
-            method: :post,  remote: true do |f| %>
-              <%= f.govuk_submit t('application_feedback_component.no_issues.submit') %>
-          <% end %>
-        </li>
-      </ul>
+      <p class="govuk-body-m govuk-!-margin-bottom-0 govuk-!-margin-top-4">
+        <%= govuk_link_to(
+          t('application_feedback_component.feedback_link'),
+          candidate_interface_application_feedback_path(
+            section: section,
+            path: path,
+            page_title: page_title,
+          ),
+          class: 'govuk-!-margin-top-4',
+          target: '_blank',
+          rel: 'noopener' )%>
+      </p>
     </div>
   </div>
 <% end %>
