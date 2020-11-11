@@ -36,6 +36,12 @@ RSpec.feature 'See UCAS matches' do
     then_i_see_that_i_need_to 'Send reminder emails'
     and_when_i_click 'Confirm reminder emails were sent'
     then_i_see_last_performed_action_is 'sent the reminder emails'
+
+    given_ten_more_working_days_passed
+    when_i_visit_the_page_again
+    then_i_see_that_i_need_to 'Request withdrawal from UCAS'
+    and_when_i_click 'Confirm withdrawal from UCAS was requested'
+    then_i_see_last_performed_action_is 'requested for the candidate to be removed from UCAS'
   end
 
   def given_i_am_a_support_user
@@ -162,6 +168,13 @@ RSpec.feature 'See UCAS matches' do
   def given_five_working_days_passed
     Timecop.safe_mode = false
     Timecop.travel(Time.zone.local(2020, 11, 9, 12, 0, 0))
+  ensure
+    Timecop.safe_mode = true
+  end
+
+  def given_ten_more_working_days_passed
+    Timecop.safe_mode = false
+    Timecop.travel(Time.zone.local(2020, 11, 23, 12, 0, 0))
   ensure
     Timecop.safe_mode = true
   end

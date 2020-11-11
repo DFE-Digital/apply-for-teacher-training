@@ -73,5 +73,39 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
         expect(result.text).to include('We sent the reminder emails on the 18 October 2020')
       end
     end
+
+    it 'renders correct information when withdrawal from UCAS needs to be requested' do
+      Timecop.freeze(Time.zone.local(2020, 10, 19, 12, 0, 0)) do
+        ucas_match = create(:ucas_match,
+                            matching_state: 'new_match',
+                            scheme: 'U',
+                            action_taken: 'reminder_emails_sent',
+                            candidate_last_contacted_at: Time.zone.now - 16.days)
+        allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
+
+        result = render_inline(described_class.new(ucas_match))
+
+        expect(result.text).to include('Action needed Request withdrawal from UCAS')
+        expect(result.css('input').attr('value').value).to include('Confirm withdrawal from UCAS was requested')
+        expect(result.css('form').attr('action').value).to include('/record-ucas-withdrawal-requested')
+        expect(result.text).to include('We need to contact UCAS')
+      end
+    end
+
+    it 'renders correct information after requesting withdrawal from UCAS' do
+      Timecop.freeze(Time.zone.local(2020, 10, 19, 12, 0, 0)) do
+        ucas_match = create(:ucas_match,
+                            matching_state: 'new_match',
+                            scheme: 'U',
+                            action_taken: 'ucas_withdrawal_requested',
+                            candidate_last_contacted_at: Time.zone.now - 1.day)
+        allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
+
+        result = render_inline(described_class.new(ucas_match))
+
+        expect(result.text).to include('No action required')
+        expect(result.text).to include('We requested for the candidate to be removed from UCAS on the 18 October 2020')
+      end
+    end
   end
 end

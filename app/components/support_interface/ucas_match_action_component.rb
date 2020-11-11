@@ -13,6 +13,12 @@ module SupportInterface
         button_text: 'Confirm reminder emails were sent',
         form_path: :support_interface_record_reminder_emails_sent_path,
       },
+      request_withdrawal_from_ucas: {
+        description: 'Request withdrawal from UCAS',
+        button_text: 'Confirm withdrawal from UCAS was requested',
+        form_path: :support_interface_record_ucas_withdrawal_requested_path,
+        instructions: "We need to contact UCAS. Please send an encrypted file with the candidate's duplicate application details to Harry Haines (h.haines@ucas.ac.uk) and Lizzy Carter (l.carter@ucas.ac.uk) from UCAS to ask them to remove the candidate from UTT.",
+      },
     }.freeze
 
     def initialize(match)
@@ -45,6 +51,8 @@ module SupportInterface
         :send_initial_emails
       elsif @match.initial_emails_sent? && @match.need_to_send_reminder_emails?
         :send_reminder_emails
+      elsif @match.reminder_emails_sent? && @match.need_to_request_withdrawal_from_ucas?
+        :request_withdrawal_from_ucas
       end
     end
 
@@ -53,7 +61,11 @@ module SupportInterface
     end
 
     def required_action_details
-      "We need to contact the candidate and the provider. Use the appropriate Zendesk macro. Alternatively, you can use the appropriate template from <a class='govuk-link' href='https://docs.google.com/document/d/1s5ql4jNUUr3QDPUQYWImkZR6o8upvutrjOEuoZ0qqTE'>this document</a>.".html_safe
+      contact_info = ACTIONS[next_action][:instructions] ||
+        "We need to contact the candidate and the provider. Use the appropriate Zendesk macro. Alternatively, you can use the appropriate template from <a class='govuk-link' href='https://docs.google.com/document/d/1s5ql4jNUUr3QDPUQYWImkZR6o8upvutrjOEuoZ0qqTE'>this document</a>."
+      support_manual_info = "<br><br>Please refer to <a class='govuk-link' href='https://docs.google.com/document/d/1XvZiD8_ng_aG_7nvDGuJ9JIdPu6pFdCO2ujfKeFDOk4'>Dual-running user support manual</a> for more information about the current process."
+
+      contact_info.concat(support_manual_info).html_safe
     end
 
     def last_action_details
@@ -61,6 +73,8 @@ module SupportInterface
                       'sent the initial emails'
                     elsif @match.reminder_emails_sent?
                       'sent the reminder emails'
+                    elsif @match.ucas_withdrawal_requested?
+                      'requested for the candidate to be removed from UCAS'
                     end
 
       "We #{last_action} on the #{@match.candidate_last_contacted_at.to_s(:govuk_date_and_time)}"
