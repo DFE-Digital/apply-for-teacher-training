@@ -31,6 +31,20 @@ RSpec.describe UCASMatch do
       end
     end
 
+    it 'returns false if reminder emails were sent and we don not need to request withdrawal from UCAS yet' do
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: Time.zone.now)
+      allow(ucas_match).to receive(:need_to_request_withdrawal_from_ucas?).and_return(false)
+
+      expect(ucas_match.action_needed?).to eq(false)
+    end
+
+    it 'returns true if reminder emails were sent and it is time to request withdrawal from UCAS' do
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: Time.zone.now)
+      allow(ucas_match).to receive(:need_to_request_withdrawal_from_ucas?).and_return(true)
+
+      expect(ucas_match.action_needed?).to eq(true)
+    end
+
     it 'returns true if there is a dual application or dual acceptance' do
       ucas_match = create(:ucas_match, matching_state: 'new_match')
       allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
@@ -153,6 +167,35 @@ RSpec.describe UCASMatch do
 
       Timecop.travel(5.business_days.after(emails_sent_at)) do
         expect(ucas_match.need_to_send_reminder_emails?).to eq(true)
+      end
+    end
+  end
+
+  describe '#need_to_request_withdrawal_from_ucas?' do
+    it 'returns false if last action taken in not reminder emails sent' do
+      emails_sent_at = Time.zone.now
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: emails_sent_at)
+
+      Timecop.travel(1.business_days.after(emails_sent_at)) do
+        expect(ucas_match.need_to_request_withdrawal_from_ucas?).to eq(false)
+      end
+    end
+
+    it 'returns false if reminder emails were sent and we don not need to request withdrawal from ucas yet' do
+      emails_sent_at = Time.zone.now
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: emails_sent_at)
+
+      Timecop.travel(1.business_days.after(emails_sent_at)) do
+        expect(ucas_match.need_to_request_withdrawal_from_ucas?).to eq(false)
+      end
+    end
+
+    it 'returns true if reminder emails were sent and it is time to request withdrawal from ucas' do
+      emails_sent_at = Time.zone.now
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: emails_sent_at)
+
+      Timecop.travel(10.business_days.after(emails_sent_at)) do
+        expect(ucas_match.need_to_request_withdrawal_from_ucas?).to eq(true)
       end
     end
   end
