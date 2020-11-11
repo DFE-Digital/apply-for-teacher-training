@@ -2,25 +2,25 @@ en:
   candidate_flow_application_states:
     not_signed_up:
       name: Not signed up
-      description: The candidate has not signed up yet
+      description: The candidate has not signed up yet.
     sign_up_email_bounced:
       name: Sign up email bounced
-      description: The candidate was sent a sign up email but it bounced
+      description: The candidate was sent a sign up email but it bounced.
     never_signed_in:
       name: Never signed in
-      description: The candidate has signed up but never signed into the service
+      description: The candidate has signed up but never signed into the service.
     unsubmitted_not_started_form:
       name: Have not started form
-      description: The candidate has signed in but has not edited the form yet
+      description: The candidate has signed in but has not edited the form yet.
     unsubmitted_in_progress:
       name: Form started but unsubmitted
-      description: The candidate has started editing but has not submitted the form yet
+      description: The candidate has started editing but has not submitted the form yet.
     awaiting_provider_decisions:
       name: Awaiting decisions from providers
-      description: We’ve sent the applications to the providers, but we have not heard back from all of them
+      description: We’ve sent the applications to the providers, but we have not heard back from all of them.
     awaiting_candidate_response:
       name: Awaiting decision from candidate
-      description: All providers have responded and it’s now up to the candidate to make a decision
+      description: All providers have responded and it’s now up to the candidate to make a decision.
     pending_conditions:
       name: Accepted offer, pending conditions
       description: The candidate has accepted an offer. The provider now has to confirm to us that the candidate has met the conditions in the offer.
@@ -34,7 +34,7 @@ en:
       name: Ended without success
       description: All of the candidate’s applications have been withdrawn, rejected or declined.
     unknown_state:
-      name: "Unknown!"
+      name: Unknown!
       description: This application is in a state that we do not recognise. Please report this to a developer.
   candidate_application_states:
     awaiting_provider_decision: Awaiting decision
@@ -82,11 +82,7 @@ en:
   application_states:
     unsubmitted:
       name: Not submitted yet
-      description: |
-        When a candidate has filled in their email address, they’ve started
-        an application. Until they submit their application, it is in the
-        unsubmitted state. The providers do not see the application at this
-        stage.
+      description: When a candidate has filled in their email address, they’ve started an application. Until they submit their application, it is in the unsubmitted state. The providers do not see the application at this stage.
       emails:
         - candidate_mailer-chase_reference
         - candidate_mailer-new_referee_request
@@ -99,13 +95,11 @@ en:
 
     application_not_sent:
       name: Reject at the end of the cycle
-      description: Application choices that are awaiting references are automatically rejected at the end of the cycle
+      description: Application choices that are awaiting references are automatically rejected at the end of the cycle.
 
     awaiting_provider_decision:
       name: Awaiting provider decision
-      description: |
-        Providers only see the application after the the candidate submits their
-        application.
+      description: Providers only see the application after the the candidate submits their application.
       emails:
         - provider_mailer-chase_provider_decision
 
@@ -119,12 +113,9 @@ en:
     offer:
       name: Offer made
       description: |
-        The provider has made an offer to the candidate. The candidate has to accept
-        or reject the offer, which sets the application status to ‘Pending
-        conditions’.
+        The provider has made an offer to the candidate. The candidate has to accept or reject the offer, which sets the application status to ‘Pending conditions’.
 
-        We assume that all offers have some conditions, even if there
-        are no academic conditions.
+        We assume that all offers have some conditions, even if there are no academic conditions.
       emails:
         - candidate_mailer-chase_candidate_decision
         - candidate_mailer-changed_offer
@@ -188,7 +179,7 @@ en:
     unsubmitted-reject_at_end_of_cycle:
       name: Unsubmitted applications rejected at end of cycle
       by: system
-      description: Application choices that are unsubmitted are automatically rejected at the end of the cycle but can be carried over in the next cycle
+      description: Application choices that are unsubmitted are automatically rejected at the end of the cycle but can be carried over in the next cycle.
 
     awaiting_provider_decision-make_offer:
       name: Provider makes offer
@@ -200,10 +191,7 @@ en:
         candidates must pass a DBS & childen’s barred list check, and
         candidates must pass a fitness to work health check.
 
-        An email is sent to the candidate, the content of which depends
-        on the state of the other application choices, whether there are
-        other offers and whether there are pending decisions from
-        providers.
+        An email is sent to the candidate, the content of which depends on the state of the other application choices, whether there are other offers and whether there are pending decisions from providers.
       emails:
         - candidate_mailer-new_offer_single_offer
         - candidate_mailer-new_offer_multiple_offers
@@ -215,10 +203,7 @@ en:
       description: |
         The provider rejects the candidate.
 
-        An email is sent to the candidate, the content of which depends
-        on the state of the other application choices, whether all choices
-        have been rejected, whether there are other offers and whether there
-        are pending decisions from providers.
+        An email is sent to the candidate, the content of which depends on the state of the other application choices, whether all choices have been rejected, whether there are other offers and whether there are pending decisions from providers.
       emails:
         - candidate_mailer-application_rejected_all_rejected
         - candidate_mailer-application_rejected_awaiting_decisions
@@ -331,14 +316,14 @@ en:
     pending_conditions-defer_offer:
       name: Provider defers offer
       by: provider
-      description: "A provider defers an offer with pending conditions until the next recruitment cycle"
+      description: A provider defers an offer with pending conditions until the next recruitment cycle.
       emails:
         - candidate_mailer-deferred_offer
 
     recruited-defer_offer:
       name: Provider defers offer
       by: provider
-      description: "A provider defers an offer until the next recruitment cycle"
+      description: A provider defers an offer until the next recruitment cycle.
       emails:
         - candidate_mailer-deferred_offer
 
