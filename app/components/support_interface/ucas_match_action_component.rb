@@ -8,6 +8,11 @@ module SupportInterface
         button_text: 'Confirm initial emails were sent',
         form_path: :support_interface_record_initial_emails_sent_path,
       },
+      send_reminder_emails: {
+        description: 'Send reminder emails',
+        button_text: 'Confirm reminder emails were sent',
+        form_path: :support_interface_record_reminder_emails_sent_path,
+      },
     }.freeze
 
     def initialize(match)
@@ -38,6 +43,8 @@ module SupportInterface
     def next_action
       if @match.candidate_last_contacted_at.nil?
         :send_initial_emails
+      elsif @match.initial_emails_sent? && @match.need_to_send_reminder_emails?
+        :send_reminder_emails
       end
     end
 
@@ -52,6 +59,8 @@ module SupportInterface
     def last_action_details
       last_action = if @match.initial_emails_sent?
                       'sent the initial emails'
+                    elsif @match.reminder_emails_sent?
+                      'sent the reminder emails'
                     end
 
       "We #{last_action} on the #{@match.candidate_last_contacted_at.to_s(:govuk_date_and_time)}"

@@ -39,5 +39,39 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
         expect(result.text).to include('We sent the initial emails on the 18 October 2020')
       end
     end
+
+    it 'renders correct information when reminder emails need to be send' do
+      Timecop.freeze(Time.zone.local(2020, 10, 19, 12, 0, 0)) do
+        ucas_match = create(:ucas_match,
+                            matching_state: 'new_match',
+                            scheme: 'U',
+                            action_taken: 'initial_emails_sent',
+                            candidate_last_contacted_at: Time.zone.now - 7.days)
+        allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
+
+        result = render_inline(described_class.new(ucas_match))
+
+        expect(result.text).to include('Action needed Send reminder emails')
+        expect(result.css('input').attr('value').value).to include('Confirm reminder emails were sent')
+        expect(result.css('form').attr('action').value).to include('/record-reminder-emails-sent')
+        expect(result.text).to include('We need to contact the candidate and the provider.')
+      end
+    end
+
+    it 'renders correct information after sending the reminder emails' do
+      Timecop.freeze(Time.zone.local(2020, 10, 19, 12, 0, 0)) do
+        ucas_match = create(:ucas_match,
+                            matching_state: 'new_match',
+                            scheme: 'U',
+                            action_taken: 'reminder_emails_sent',
+                            candidate_last_contacted_at: Time.zone.now - 1.day)
+        allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
+
+        result = render_inline(described_class.new(ucas_match))
+
+        expect(result.text).to include('No action required')
+        expect(result.text).to include('We sent the reminder emails on the 18 October 2020')
+      end
+    end
   end
 end
