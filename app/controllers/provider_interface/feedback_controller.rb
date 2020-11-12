@@ -15,12 +15,10 @@ module ProviderInterface
     end
 
     def create
-      service = SaveAndSendRejectByDefaultFeedback.new(
+      SaveAndSendRejectByDefaultFeedback.new(
         application_choice: @application_choice,
         rejection_reason: feedback_params[:rejection_reason],
-      )
-
-      service.call || raise('Unable to SaveAndSendRejectByDefaultFeedback')
+      ).call!
 
       flash[:success] = 'Feedback successfully sent'
 

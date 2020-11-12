@@ -6,7 +6,7 @@ class SaveAndSendRejectByDefaultFeedback
     @rejection_reason = rejection_reason
   end
 
-  def call
+  def call!
     ActiveRecord::Base.transaction do
       application_choice.rejection_reason = rejection_reason
       application_choice.reject_by_default_feedback_sent_at = Time.zone.now
