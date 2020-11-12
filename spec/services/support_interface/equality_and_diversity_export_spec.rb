@@ -27,6 +27,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
           'Ethnic group' => application_form_one.equality_and_diversity['ethnic_group'],
           'Disability 1' => application_form_one.equality_and_diversity['disabilities'].first,
           'Disability 2' => application_form_one.equality_and_diversity['disabilities'].last,
+          'Application status' => 'Have not started form',
         },
         {
           'Month' => application_form_two.submitted_at&.strftime('%B'),
@@ -35,6 +36,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
           'Ethnic background' => application_form_two.equality_and_diversity['ethnic_background'],
           'Ethnic group' => application_form_two.equality_and_diversity['ethnic_group'],
           'Disability 1' => application_form_two.equality_and_diversity['disabilities'].first,
+          'Application status' => 'Have not started form',
         },
       )
     end

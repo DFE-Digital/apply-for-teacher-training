@@ -8,6 +8,7 @@ module SupportInterface
           'Sex' => application_form.equality_and_diversity['sex'],
           'Ethnic group' => application_form.equality_and_diversity['ethnic_group'],
           'Ethnic background' => application_form.equality_and_diversity['ethnic_background'],
+          'Application status' => I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
         }
 
         disabilities = application_form.equality_and_diversity['disabilities']
@@ -28,7 +29,8 @@ module SupportInterface
 
     def application_forms
       ApplicationForm
-        .select(:submitted_at, :recruitment_cycle_year, :equality_and_diversity)
+        .select(:submitted_at, :recruitment_cycle_year, :equality_and_diversity, :created_at, :updated_at)
+        .includes(:application_choices)
         .where.not(equality_and_diversity: nil)
     end
   end
