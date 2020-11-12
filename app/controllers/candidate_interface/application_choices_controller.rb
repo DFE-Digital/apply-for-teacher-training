@@ -35,7 +35,7 @@ module CandidateInterface
     def complete
       @application_form = current_application
 
-      render :index if @application_form.application_choices.count.zero?
+      render :index and return if @application_form.application_choices.count.zero?
 
       if @application_form.update(application_form_params)
         redirect_to candidate_interface_application_form_path
