@@ -17,8 +17,8 @@
 
         <%# TODO: Handle simple text rejection reason (from API or legacy data) %>
 
-        <div class="app-feedback__panel">
-          <% if @wizard.candidate_behaviour_y_n == 'Yes' %>
+        <% if @wizard.candidate_behaviour_y_n == 'Yes' %>
+          <div class="app-feedback__panel">
             <h3 class="govuk-heading-s">Something you did</h3>
             <ul class="govuk-list app-list--spaced">
               <% @wizard.candidate_behaviour_what_did_the_candidate_do.each do |reason| %>
@@ -35,11 +35,11 @@
             <p class="app-rejection-change-link">
               <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
             </p>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
 
-        <div class="app-feedback__panel">
-          <% if @wizard.quality_of_application_y_n == 'Yes' %>
+        <% if @wizard.quality_of_application_y_n == 'Yes' %>
+          <div class="app-feedback__panel">
             <h3 class="govuk-heading-s">Quality of application</h3>
             <ul class="govuk-list app-list--spaced">
               <% @wizard.quality_of_application_which_parts_needed_improvement.each do |reason| %>
@@ -56,11 +56,11 @@
             <p class="app-rejection-change-link">
               <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
             </p>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
 
-        <div class="app-feedback__panel">
-          <% if @wizard.qualifications_y_n == 'Yes' %>
+        <% if @wizard.qualifications_y_n == 'Yes' %>
+          <div class="app-feedback__panel">
             <h3 class="govuk-heading-s">Qualifications</h3>
             <ul class="govuk-list app-list--spaced">
               <% @wizard.qualifications_which_qualifications.each do |reason| %>
@@ -76,45 +76,45 @@
             <p class="app-rejection-change-link">
               <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
             </p>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
 
-        <div class="app-feedback__panel">
-          <% if @wizard.performance_at_interview_y_n == 'Yes' %>
+        <% if @wizard.performance_at_interview_y_n == 'Yes' %>
+          <div class="app-feedback__panel">
             <h3 class="govuk-heading-s">Performance at interview</h3>
             <p class="govuk-body"><%= @wizard.performance_at_interview_what_to_improve %></p>
 
             <p class="app-rejection-change-link">
               <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
             </p>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
 
-        <div class="app-feedback__panel">
-          <% if @wizard.course_full_y_n == 'Yes' %>
+        <% if @wizard.course_full_y_n == 'Yes' %>
+          <div class="app-feedback__panel">
             <h3 class="govuk-heading-s">Course full</h3>
             <p>We're sorry to tell you the course you applied to was full</p>
 
             <p class="app-rejection-change-link">
               <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
             </p>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
 
-        <div class="app-feedback__panel">
-          <% if @wizard.offered_on_another_course_y_n == 'Yes' %>
+        <% if @wizard.offered_on_another_course_y_n == 'Yes' %>
+          <div class="app-feedback__panel">
             <h3 class="govuk-heading-s">They offered you a place on another course</h3>
             <p class="govuk-body"><%= @wizard.offered_on_another_course_details %></p>
 
             <p class="app-rejection-change-link">
               <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
             </p>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
 
-        <div class="app-feedback__panel">
-          <% if @wizard.honesty_and_professionalism_y_n == 'Yes' %>
-            <h3 class="govuk-heading-s"></h3>
+        <% if @wizard.honesty_and_professionalism_y_n == 'Yes' %>
+          <div class="app-feedback__panel">
+            <h3 class="govuk-heading-s">Honesty and professionalism</h3>
             <ul class="govuk-list app-list--spaced">
               <% if @wizard.honesty_and_professionalism_concerns_plagiarism_details.present? %>
                 <li>
@@ -136,12 +136,12 @@
             <p class="app-rejection-change-link">
               <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
             </p>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
 
-        <div class="app-feedback__panel">
-          <% if @wizard.safeguarding_y_n == 'Yes' %>
-            <h3 class="govuk-heading-s"></h3>
+        <% if @wizard.safeguarding_y_n == 'Yes' %>
+          <div class="app-feedback__panel">
+            <h3 class="govuk-heading-s">Safeguarding issues</h3>
             <ul class="govuk-list app-list--spaced">
               <% if @wizard.safeguarding_concerns_candidate_disclosed_information_details.present? %>
                 <li>
@@ -163,11 +163,33 @@
             <p class="app-rejection-change-link">
               <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
             </p>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
       </div>
 
-      <%= f.govuk_submit 'Continue' %>
+      <% if @wizard.why_are_you_rejecting_this_application.present? %>
+        <div class="app-feedback__panel">
+          <h3 class="govuk-heading-s">Reasons why your application was unsuccessful</h3>
+          <p class="govuk-body"><%= @wizard.why_are_you_rejecting_this_application %></p>
+
+          <p class="app-rejection-change-link">
+            <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
+          </p>
+        </div>
+      <% end %>
+
+      <% if @wizard.other_advice_or_feedback_y_n == 'Yes' %>
+        <div class="app-feedback__panel">
+          <h3 class="govuk-heading-s">Additional advice</h3>
+          <p class="govuk-body"><%= @wizard.other_advice_or_feedback_details %></p>
+
+          <p class="app-rejection-change-link">
+            <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_initial_questions_path, class: 'app-rejection-change-link' %>
+          </p>
+        </div>
+      <% end %>
+
+      <%= f.govuk_submit 'Reject application' %>
     <% end %>
   </div>
 </div>

@@ -1,5 +1,8 @@
 module ProviderInterface
   class ReasonsForRejectionController < ProviderInterfaceController
+    before_action :ensure_structured_reasons_for_rejection_feature_is_active
+    before_action :set_application_choice
+
     def edit_initial_questions
       @wizard = ReasonsForRejectionWizard.new(store, current_step: 'initial_questions')
       @wizard.save_state!
@@ -39,10 +42,16 @@ module ProviderInterface
 
     def commit
       @wizard = ReasonsForRejectionWizard.new(store)
-      @wizard.save!
+      service = RejectApplication.new(actor: current_provider_user, application_choice: @application_choice, structured_rejection_reasons: @wizard.to_model)
 
-      flash[:success] = 'Done!'
-      redirect_to provider_interface_applications_path
+      if service.save
+        @wizard.clear_state!
+
+        flash[:success] = 'Application rejected'
+        redirect_to provider_interface_applications_path
+      else
+        render :check
+      end
     end
 
     def next_redirect(wizard)
@@ -53,7 +62,7 @@ module ProviderInterface
     end
 
     def reasons_for_rejection_params
-      params.require(:provider_interface_reasons_for_rejection_wizard)
+      params.require(:provider_interface_reasons_for_rejection)
         .permit(:candidate_behaviour_y_n, :candidate_behaviour_other,
                 :candidate_behaviour_what_to_improve,
                 :quality_of_application_y_n, :quality_of_application_personal_statement_what_to_improve,
@@ -85,8 +94,12 @@ module ProviderInterface
     end
 
     def store
-      # FIXME: Unique key?
-      WizardStateStores::RedisStore.new(key: 'reasons_for_rejection_wizard_store')
+      key = "reasons_for_rejection_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+      WizardStateStores::RedisStore.new(key: key)
+    end
+
+    def ensure_structured_reasons_for_rejection_feature_is_active
+      render_404 unless FeatureFlag.active?(:structured_reasons_for_rejection)
     end
   end
 end

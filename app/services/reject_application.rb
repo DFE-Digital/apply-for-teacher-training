@@ -1,19 +1,21 @@
 class RejectApplication
   include ActiveModel::Validations
 
-  attr_accessor :rejection_reason
+  attr_accessor :rejection_reason, :structured_rejection_reasons
 
-  validates_presence_of :rejection_reason
+  validates_presence_of :rejection_reason, if: -> { structured_rejection_reasons.blank? }
+  validates_presence_of :structured_rejection_reasons, if: -> { rejection_reason.blank? }
   validates_length_of :rejection_reason, maximum: 10240
 
-  def initialize(actor:, application_choice:, rejection_reason: nil)
+  def initialize(actor:, application_choice:, rejection_reason: nil, structured_rejection_reasons: nil)
     @auth = ProviderAuthorisation.new(actor: actor)
     @application_choice = application_choice
     @rejection_reason = rejection_reason
+    @structured_rejection_reasons = structured_rejection_reasons
   end
 
   def save
-    return unless valid?
+    return false unless valid?
 
     @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
 
@@ -21,6 +23,7 @@ class RejectApplication
       ApplicationStateChange.new(@application_choice).reject!
       @application_choice.update!(
         rejection_reason: @rejection_reason,
+        structured_rejection_reasons: @structured_rejection_reasons,
         rejected_at: Time.zone.now,
       )
       SetDeclineByDefault.new(application_form: @application_choice.application_form).call
