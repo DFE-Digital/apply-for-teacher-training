@@ -24,11 +24,3 @@
     <% end %>
   </div>
 </div>
-
-<%= render(
-  CandidateInterface::ApplicationFeedbackComponent.new(
-    section: 'application_references',
-    path: 'candidate_interface_references_review_unsubmitted_path',
-    page_title: t('page_titles.references_unsubmitted_review')
-  )
-) %>
