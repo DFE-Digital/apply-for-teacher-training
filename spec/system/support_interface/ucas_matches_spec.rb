@@ -20,6 +20,10 @@ RSpec.feature 'See UCAS matches' do
     then_i_should_see_ucas_match_summary
 
     when_i_go_to_ucas_matches_page
+    when_i_filter_by_action_needed
+    then_i_only_see_matches_that_need_action
+    and_i_expect_the_relevant_action_needed_tags_to_be_visible
+
     when_i_follow_the_link_to_ucas_match_for_a_candidate_which_needs_an_action
     then_i_see_what_action_is_needed
     and_when_i_confirm_i_took_the_action
@@ -128,6 +132,20 @@ RSpec.feature 'See UCAS matches' do
     end
 
     expect(page).to have_content('This applicant has applied to the same course on both services.')
+  end
+
+  def when_i_filter_by_action_needed
+    find(:css, '#action_needed-yes').set(true)
+    click_button('Apply filters')
+  end
+
+  def then_i_only_see_matches_that_need_action
+    expect(page).to have_content(@candidate2.email_address)
+    expect(page).not_to have_content(@candidate.email_address)
+  end
+
+  def and_i_expect_the_relevant_action_needed_tags_to_be_visible
+    expect(page).to have_css('.moj-filter-tags', text: 'Yes')
   end
 
   def when_i_follow_the_link_to_ucas_match_for_a_candidate_which_needs_an_action
