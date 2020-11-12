@@ -150,169 +150,52 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
     end
   end
 
-  describe '#org_permissions_last_changed_at' do
-    it 'returns the date that org permissions were last edited at' do
-      Timecop.freeze(2020, 9, 25, 12, 0, 0) do
+  context 'org_permissions' do
+    describe 'date_of_last' do
+      it 'returns nil if org permissions have never been updated' do
+        provider = create(:provider)
+        create(:provider_user, providers: [provider])
+
+        access_controls = described_class.new(provider)
+
+        expect(access_controls.date_of_last_org_permissions_change_made_by_this_provider_affecting_this_provider).to be_nil
+        expect(access_controls.date_of_last_org_permissions_change_made_by_this_provider_affecting_another_provider).to be_nil
+        expect(access_controls.date_of_last_org_permissions_change_affecting_this_provider).to be_nil
+      end
+    end
+
+    describe 'total' do
+      it 'returns 0 if there have been no changes' do
+        provider = create(:provider)
+        create(:provider_user, providers: [provider])
+
+        access_controls = described_class.new(provider)
+
+        expect(access_controls.total_org_permissions_changes_made_by_this_provider_affecting_this_provider).to eq 0
+        expect(access_controls.total_org_permissions_changes_made_by_this_provider_affecting_another_provider).to eq 0
+        expect(access_controls.total_org_permissions_changes_affecting_this_provider).to eq 0
+      end
+    end
+
+    describe '#org_permissions_changed_by' do
+      it 'ignores changes that were not made by provider users' do
         training_provider = create(:provider)
         ratifying_provider = create(:provider)
 
         create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
 
-        provider_user = create(:provider_user, providers: [training_provider])
+        create(:provider_user, providers: [training_provider])
 
-        first_edit_time = 3.days.ago
-        second_edit_time = 1.day.ago
-
-        Audited.audit_class.as_user(provider_user) do
-          Timecop.freeze(first_edit_time) do
-            training_provider.training_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
-          end
-          Timecop.freeze(second_edit_time) do
-            training_provider.training_provider_permissions.last.update!(
-              ratifying_provider_can_view_diversity_information: true,
-              training_provider_can_view_diversity_information: false,
-            )
-          end
+        Audited.audit_class.as_user('Not a provider user') do
+          training_provider.training_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
         end
 
         access_controls = described_class.new(training_provider)
 
-        expect(access_controls.org_permissions_last_changed_at).to eq second_edit_time
+        expect(access_controls.org_permissions_changes_made_by_this_provider_affecting_this_provider_made_by).to eq []
+        expect(access_controls.org_permissions_changes_made_by_this_provider_affecting_another_provider_made_by).to eq []
+        expect(access_controls.org_permissions_changes_affecting_this_provider_made_by).to eq []
       end
-    end
-
-    it 'returns nil if org permissions have never been updated' do
-      provider = create(:provider)
-      create(:provider_user, providers: [provider])
-
-      access_controls = described_class.new(provider)
-
-      expect(access_controls.org_permissions_last_changed_at).to be_nil
-    end
-
-    it 'ignores changes to the relationships for which the provider is a ratifier' do
-      training_provider = create(:provider)
-      ratifying_provider = create(:provider)
-
-      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
-
-      provider_user = create(:provider_user, providers: [training_provider])
-
-      Audited.audit_class.as_user(provider_user) do
-        Timecop.freeze(3.days.ago) do
-          ratifying_provider.ratifying_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
-        end
-      end
-
-      access_controls = described_class.new(ratifying_provider)
-
-      expect(access_controls.org_permissions_last_changed_at).to eq nil
-    end
-  end
-
-  describe '#total_org_permissions_changes' do
-    it 'returns the number of times the org permissions have been updated for the provider' do
-      training_provider = create(:provider)
-      ratifying_provider = create(:provider)
-
-      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
-
-      provider_user = create(:provider_user, providers: [training_provider])
-
-      first_edit_time = 3.days.ago
-      second_edit_time = 1.day.ago
-
-      Audited.audit_class.as_user(provider_user) do
-        Timecop.freeze(first_edit_time) do
-          training_provider.training_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
-        end
-        Timecop.freeze(second_edit_time) do
-          training_provider.training_provider_permissions.last.update!(
-            ratifying_provider_can_view_diversity_information: true,
-            training_provider_can_view_diversity_information: false,
-          )
-        end
-      end
-
-      access_controls = described_class.new(training_provider)
-
-      expect(access_controls.total_org_permissions_changes).to eq 2
-    end
-
-    it 'returns 0 if there have been no changes' do
-      provider = create(:provider)
-      create(:provider_user, providers: [provider])
-
-      access_controls = described_class.new(provider)
-
-      expect(access_controls.total_org_permissions_changes).to eq 0
-    end
-  end
-
-  describe '#org_permissions_changed_by' do
-    it 'returns a list of emails for users that have updated org permissions for the provider' do
-      training_provider = create(:provider)
-      ratifying_provider = create(:provider)
-
-      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
-
-      provider_user1 = create(:provider_user, providers: [training_provider])
-      provider_user2 = create(:provider_user, providers: [training_provider])
-
-      Audited.audit_class.as_user(provider_user1) do
-        training_provider.training_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
-      end
-      Audited.audit_class.as_user(provider_user2) do
-        training_provider.training_provider_permissions.last.update!(
-          ratifying_provider_can_view_diversity_information: true,
-          training_provider_can_view_diversity_information: false,
-        )
-      end
-
-      access_controls = described_class.new(training_provider)
-
-      expect(access_controls.org_permissions_changed_by).to eq [provider_user1.email_address, provider_user2.email_address]
-    end
-
-    it 'excludes changes to permissions for which the organisation is a ratifier' do
-      training_provider = create(:provider)
-      ratifying_provider = create(:provider)
-
-      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
-
-      provider_user1 = create(:provider_user, providers: [training_provider])
-      provider_user2 = create(:provider_user, providers: [training_provider])
-
-      Audited.audit_class.as_user(provider_user1) do
-        ratifying_provider.ratifying_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
-      end
-      Audited.audit_class.as_user(provider_user2) do
-        ratifying_provider.ratifying_provider_permissions.last.update!(
-          ratifying_provider_can_view_diversity_information: true,
-          training_provider_can_view_diversity_information: false,
-        )
-      end
-
-      access_controls = described_class.new(ratifying_provider)
-
-      expect(access_controls.org_permissions_changed_by).to eq []
-    end
-
-    it 'ignores changes that were not made by provider users' do
-      training_provider = create(:provider)
-      ratifying_provider = create(:provider)
-
-      create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
-
-      create(:provider_user, providers: [training_provider])
-
-      Audited.audit_class.as_user('Not a provider user') do
-        training_provider.training_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
-      end
-
-      access_controls = described_class.new(training_provider)
-
-      expect(access_controls.org_permissions_changed_by).to eq []
     end
   end
 
