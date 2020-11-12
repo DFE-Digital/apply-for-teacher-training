@@ -1,5 +1,9 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">Reasons for rejection</h1>
+    <p class="govuk-body">When giving details or advice, bear in mind the candidate will see this feedback.</p>
+  </div>
+  <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard, url: provider_interface_reasons_for_rejection_update_initial_questions_path do |f| %>
 
       <%= f.govuk_error_summary %>
