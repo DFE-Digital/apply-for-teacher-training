@@ -11,7 +11,6 @@ RSpec.feature 'Candidate cannot sign up to a test environment (e.g. qa) without 
 
   scenario 'Candidate tries to sign up' do
     given_the_pilot_is_open
-    and_the_international_personal_details_feature_is_active
     and_i_am_a_candidate_without_an_account
 
     when_i_go_to_sign_up
@@ -26,10 +25,6 @@ RSpec.feature 'Candidate cannot sign up to a test environment (e.g. qa) without 
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_international_personal_details_feature_is_active
-    FeatureFlag.activate('international_personal_details')
   end
 
   def and_i_am_a_candidate_without_an_account
