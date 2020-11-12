@@ -20,6 +20,7 @@ module SupportInterface
             offer_response: offer_response_interpretation(choice: choice),
             offer_response_at: choice.accepted_at || choice.declined_at,
             rejection_reason: choice.rejection_reason,
+            candidate_id: application_form.candidate_id,
           }
         end
       end

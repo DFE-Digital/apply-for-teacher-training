@@ -28,6 +28,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           offer_response: nil,
           offer_response_at: nil,
           rejection_reason: nil,
+          candidate_id: submitted_form.candidate_id,
         },
         {
           recruitment_cycle_year: submitted_form.recruitment_cycle_year,
@@ -46,6 +47,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           offer_response: nil,
           offer_response_at: nil,
           rejection_reason: nil,
+          candidate_id: submitted_form.candidate_id,
         },
       )
     end
