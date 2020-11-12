@@ -167,6 +167,36 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
+  describe 'feedback_received_for_application_rejected_by_default' do
+    before do
+      @application_form = build_stubbed(:application_form, first_name: 'Kurt')
+      provider = build_stubbed(:provider, name: 'Geffen Records')
+      @offered_course_option = build_stubbed(
+        :course_option,
+        course: build_stubbed(:course, name: 'Nevermind', code: 'NV4', provider: provider, start_date: Date.new(2020, 9, 15)),
+        site: build_stubbed(:site, name: 'Lithium', provider: provider),
+      )
+      @application_choice = build_stubbed(
+        :application_choice,
+        :with_rejection_by_default,
+        offered_course_option: @offered_course_option,
+        application_form: @application_form,
+        rejection_reason: 'I\'m so happy',
+        rejected_at: Time.zone.today,
+      )
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      :feedback_received_for_application_rejected_by_default,
+      'Feedback on your application for Nevermind',
+      'heading' => 'Dear Kurt',
+      'provider name' => 'Geffen Records did not respond in time',
+      'name and code for course' => 'Nevermind (NV4)',
+      'feedback' => 'I\'m so happy',
+    )
+  end
+
   describe '.deferred_offer' do
     before do
       application_form = build_stubbed(:application_form, first_name: 'Harold')

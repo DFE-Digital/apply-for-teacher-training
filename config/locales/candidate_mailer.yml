@@ -36,6 +36,8 @@ en:
         subject: "%{provider_name} has responded: make a decision within %{dbd_days} working days"
     application_rejected_by_default:
       subject: Your application was unsuccessful but you can apply again
+    feedback_received_for_application_rejected_by_default:
+      subject: "Feedback on your application for %{course_name}"
     declined_by_default:
       subject:
         one: Application withdrawn automatically
