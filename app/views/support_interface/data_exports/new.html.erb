@@ -19,10 +19,10 @@
 <% @export_types.each do |id, export| %>
   <section class="app-section app-section--with-top-border">
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds app-styled-content">
-        <h3><%= export.fetch(:name) %></h3>
-        <p><%= export.fetch(:description) %></p>
-        <p><%= button_to "Generate #{export.fetch(:name)} export", support_interface_data_exports_path(export_type_id: id), class: 'govuk-button govuk-button--secondary' %></p>
+      <div class="govuk-grid-column-two-thirds">
+        <h3 class="govuk-heading-m"><%= export.fetch(:name) %></h3>
+        <p class="govuk-body"><%= export.fetch(:description) %></p>
+        <%= button_to "Generate #{export.fetch(:name)} export", support_interface_data_exports_path(export_type_id: id), class: 'govuk-button govuk-button--secondary' %>
       </div>
     </div>
   </section>

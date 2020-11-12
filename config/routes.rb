@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     get '/sign-up', to: 'sign_up#new', as: :sign_up
     post '/sign-up', to: 'sign_up#create'
     get '/sign-up/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_up
+    get '/sign-up/external-sign-up-forbidden', to: 'sign_up#external_sign_up_forbidden', as: :external_sign_up_forbidden
 
     get '/sign-in', to: 'sign_in#new', as: :sign_in
     post '/sign-in', to: 'sign_in#create'
@@ -219,6 +220,11 @@ Rails.application.routes.draw do
         get '/:id/institution/edit' => 'degrees/institution#edit', as: :edit_degree_institution
         patch '/:id/institution/edit' => 'degrees/institution#update'
 
+        get '/:id/completion_status' => 'degrees/completion_status#new', as: :degree_completion_status
+        post '/:id/completion_status' => 'degrees/completion_status#create'
+        get '/:id/completion_status/edit' => 'degrees/completion_status#edit', as: :edit_degree_completion_status
+        patch '/:id/completion_status/edit' => 'degrees/completion_status#update'
+
         get '/:id/naric-statement' => 'degrees/naric_statement#new', as: :degree_naric_statement
         post '/:id/naric-statement' => 'degrees/naric_statement#create'
         get '/:id/naric-statement/edit' => 'degrees/naric_statement#edit', as: :edit_degree_naric_statement
@@ -298,8 +304,8 @@ Rails.application.routes.draw do
         get '/edit-type/:id' => 'other_qualifications/type#edit', as: :edit_other_qualification_type
         post '/edit-type/:id' => 'other_qualifications/type#update'
 
-        get '/new/:id' => 'other_qualifications/details#new', as: :new_other_qualification_details
-        post '/new/:id' => 'other_qualifications/details#create', as: :create_other_qualification_details
+        get '/new' => 'other_qualifications/details#new', as: :new_other_qualification_details
+        post '/new' => 'other_qualifications/details#create', as: :create_other_qualification_details
 
         get '/edit-details/:id' => 'other_qualifications/details#edit', as: :edit_other_qualification_details
         post '/edit-details/:id' => 'other_qualifications/details#update'
@@ -461,6 +467,13 @@ Rails.application.routes.draw do
         post '/contact' => 'satisfaction_survey#submit_contact', as: :satisfaction_survey_submit_contact
 
         get '/thank-you' => 'satisfaction_survey#thank_you', as: :satisfaction_survey_thank_you
+      end
+
+      scope '/application-feedback' do
+        post '/' => 'application_feedback#create', as: :application_feedback
+        get '/edit/:id' => 'application_feedback#edit', as: :edit_application_feedback
+        patch '/edit/:id' => 'application_feedback#update'
+        get '/thank-you' => 'application_feedback#thank_you', as: :application_feedback_thank_you
       end
     end
 

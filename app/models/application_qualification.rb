@@ -98,4 +98,8 @@ class ApplicationQualification < ApplicationRecord
   def set_other_grade
     grade if grade != 'n/a' && grade != 'unknown'
   end
+
+  def completed?
+    !predicted_grade?
+  end
 end

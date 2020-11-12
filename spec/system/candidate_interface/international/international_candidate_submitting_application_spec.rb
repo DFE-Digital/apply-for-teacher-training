@@ -5,7 +5,6 @@ RSpec.feature 'International candidate submits the application' do
   include EFLHelper
 
   scenario 'International candidate completes and submits an application' do
-    FeatureFlag.deactivate(:international_addresses)
     FeatureFlag.deactivate(:international_degrees)
 
     given_i_am_signed_in
@@ -79,7 +78,7 @@ RSpec.feature 'International candidate submits the application' do
 
     click_link t('page_titles.contact_details')
     visit candidate_interface_contact_details_edit_base_path
-    candidate_fills_in_contact_details
+    candidate_fills_in_international_contact_details
 
     click_link t('page_titles.work_history')
     candidate_fills_in_work_experience

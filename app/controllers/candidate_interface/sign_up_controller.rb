@@ -1,7 +1,7 @@
 module CandidateInterface
   class SignUpController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
-    before_action :redirect_to_application_if_signed_in
+    before_action :redirect_to_application_if_signed_in, except: :external_sign_up_forbidden
     before_action :show_pilot_holding_page_if_not_open
 
     def new
@@ -27,13 +27,21 @@ module CandidateInterface
         redirect_to candidate_interface_check_email_sign_up_path
       else
         track_validation_error(@sign_up_form)
+        redirect_to candidate_interface_external_sign_up_forbidden_path and return if external_sign_up_forbidden?
+
         render :new
       end
     end
 
     def show; end
 
+    def external_sign_up_forbidden; end
+
   private
+
+    def external_sign_up_forbidden?
+      @sign_up_form.errors.details[:email_address].include?(error: :dfe_signup_only)
+    end
 
     def candidate_sign_up_form_params
       params.require(:candidate_interface_sign_up_form).permit(:email_address, :accept_ts_and_cs).merge(course_from_find_id: course_id)

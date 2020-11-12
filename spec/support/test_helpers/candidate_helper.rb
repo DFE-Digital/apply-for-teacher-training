@@ -23,7 +23,6 @@ module CandidateHelper
   end
 
   def candidate_completes_application_form(with_referees: true)
-    FeatureFlag.deactivate(:international_addresses)
     FeatureFlag.deactivate(:international_personal_details)
     FeatureFlag.deactivate(:efl_section)
     FeatureFlag.deactivate(:international_degrees)
@@ -175,9 +174,25 @@ module CandidateHelper
     fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
     click_button t('application_form.contact_details.base.button')
 
+    choose 'In the UK'
+    click_button t('application_form.contact_details.base.button')
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
     fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
     fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
+    click_button t('application_form.contact_details.address.button')
+
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
+  end
+
+  def candidate_fills_in_international_contact_details
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
+    click_button t('application_form.contact_details.base.button')
+
+    choose 'Outside the UK'
+    select('India', from: t('application_form.contact_details.country.label'))
+    click_button t('application_form.contact_details.base.button')
+    find(:css, "[autocomplete='address']").fill_in with: 'Vishnu Garden\nNew Delhi\nDelhi\n110018'
     click_button t('application_form.contact_details.address.button')
 
     check t('application_form.completed_checkbox')
@@ -194,6 +209,10 @@ module CandidateHelper
     click_button t('application_form.degree.base.button')
 
     fill_in 'Which institution did you study at?', with: 'University of Much Wow'
+    click_button t('application_form.degree.base.button')
+
+    expect(page).to have_content('Have you completed your degree?')
+    choose 'Yes'
     click_button t('application_form.degree.base.button')
 
     choose 'First class honours'

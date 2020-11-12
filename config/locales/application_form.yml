@@ -201,17 +201,19 @@ en:
         change_action: institution
       grade:
         review_label: Grade
+        review_label_predicted: Predicted grade
         change_action: grade
+        international:
+          grade_examples: For example, ‘A’, ‘4.5’, ‘94%’, ‘Distinction’
+          hint_text: Enter the grade that you think you’ll get. You must give an academic referee who can agree that you’re aiming for this grade.
+          label: Enter your degree grade
         other:
           label: Other
           conditional:
             label: Enter your degree grade
-            international_hint_text: For example, ‘A’, ‘4.5’, ‘94%’, ‘Distinction’
-        predicted:
-          label: I am still studying for my degree
-          conditional:
-            label: Please give details of your predicted grade.
-            hint_text: Predicted grades must be validated by an academic referee in the ‘References’ section.
+      completion_status:
+        change_action: completion status
+        review_label: Have you completed this degree?
       start_year:
         label: Year started course
         hint_text: "For example, %{example_year}"
@@ -491,6 +493,21 @@ en:
         not_requested_yet: We’ll contact your referees after you submit your application.
         awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
         awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
+    application_feedback:
+      issues:
+        label: What issues are there in this section?
+        does_not_understand_section: I do not understand this section
+        need_more_information: I do not have the information needed at the moment
+        answer_does_not_fit_format: My answers do not fit the format
+      other_feedback:
+        label: Do you have any other feedback about this section?
+      consent_to_be_contacted:
+        label: Can we contact you about your feedback?
+        'yes': 'Yes'
+        'no': 'No'
+      thank_you:
+        backlink: Go back to page you were previously on
+      submit: Submit feedback
   activemodel:
     errors:
       models:
@@ -667,9 +684,13 @@ en:
               blank: Enter the UK NARIC reference number
             comparable_uk_degree:
               blank: Select the comparable UK degree
+        candidate_interface/degree_completion_status_form:
+          attributes:
+            degree_completed:
+              blank: Select if you have completed your degree or not
         candidate_interface/degree_grade_form:
           attributes:
-            grade_name:
+            grade:
               blank: Enter your degree grade
               too_long: grade of degree must be %{count} characters or fewer
             other_grade:
@@ -724,16 +745,12 @@ en:
             award_year:
               blank: Enter year the assessment was done
               invalid: Enter a real year
-        candidate_interface/other_qualification_type_form:
+        candidate_interface/other_qualification_wizard:
           attributes:
-            qualification_type:
-              blank: Enter the type of qualification
             non_uk_qualification_type:
               blank: Enter the type of qualification
             other_uk_qualification_type:
               blank: Enter the type of qualification
-        candidate_interface/other_qualification_form:
-          attributes:
             qualification_type:
               blank: Enter the type of qualification
               too_long: Type of qualification must be %{count} characters or fewer
@@ -919,6 +936,19 @@ en:
               blank: Enter your first name
             last_name:
               blank: Enter your last name
+        candidate_interface/application_feedback_form:
+          attributes:
+            section:
+              blank: Section cannot be blank
+            path:
+              blank: Path cannot be blank
+              invalid: Path must be a valid endpoint
+            page_title:
+              blank: Page title cannot be blank
+            issues:
+              blank: Issues cannot blank
+            consent_to_be_contacted:
+              blank: Can we contact you about your feedback?
         referee_interface/reference_relationship_form:
           attributes:
             relationship_confirmation:

@@ -31,6 +31,9 @@ RSpec.feature 'Entering their degrees' do
     when_i_fill_in_the_degree_institution
     and_i_click_on_save_and_continue
 
+    # Add completion status
+    and_i_confirm_i_have_completed_my_degree
+
     # Add grade
     then_i_can_see_the_degree_grade_page
     when_i_click_on_save_and_continue
@@ -87,6 +90,9 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_save_and_continue
     then_i_can_check_my_revised_undergraduate_degree_subject
 
+    when_i_click_to_change_my_completion_status
+    then_i_can_change_my_completion_status
+
     when_i_click_to_change_my_undergraduate_degree_institution
     then_i_see_my_undergraduate_degree_institution_filled_in
     when_i_change_my_undergraduate_degree_institution
@@ -134,7 +140,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_type
-    expect(page).to have_content 'Enter your degree type'
+    expect_validation_error 'Enter your degree type'
   end
 
   def when_i_fill_in_the_degree_type
@@ -146,7 +152,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_subject
-    expect(page).to have_content 'Enter your degree subject'
+    expect_validation_error 'Enter your degree subject'
   end
 
   def when_i_fill_in_the_degree_subject
@@ -158,7 +164,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_institution
-    expect(page).to have_content 'Enter the institution where you studied'
+    expect_validation_error 'Enter the institution where you studied'
   end
 
   def when_i_fill_in_the_degree_institution
@@ -170,7 +176,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def then_i_see_validation_errors_for_degree_grade
-    expect(page).to have_content 'Enter your degree grade'
+    expect_validation_error 'Enter your degree grade'
   end
 
   def when_i_select_the_degree_grade
@@ -228,6 +234,8 @@ RSpec.feature 'Entering their degrees' do
     when_i_fill_in_the_degree_institution
     and_i_click_on_save_and_continue
 
+    and_i_confirm_i_have_completed_my_degree
+
     when_i_select_the_degree_grade
     and_i_click_on_save_and_continue
 
@@ -242,6 +250,7 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_save_and_continue
     fill_in 'Which institution did you study at?', with: 'Thames Valley University'
     and_i_click_on_save_and_continue
+    and_i_confirm_i_have_completed_my_degree
     when_i_select_the_degree_grade
     and_i_click_on_save_and_continue
     when_i_fill_in_the_start_and_graduation_year
@@ -274,23 +283,23 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_click_to_change_my_undergraduate_degree_type
-    page.all('.govuk-summary-list__actions').to_a.first.click_link 'Change qualification'
+    click_change_link('qualification')
   end
 
   def when_i_click_to_change_my_undergraduate_degree_year
-    page.all('.govuk-summary-list__actions').to_a.fourth.click_link 'Change year'
+    click_change_link('year')
   end
 
   def when_i_click_to_change_my_undergraduate_degree_grade
-    page.all('.govuk-summary-list__actions').to_a[5].click_link 'Change grade'
+    click_change_link('grade')
   end
 
   def when_i_click_to_change_my_undergraduate_degree_subject
-    page.all('.govuk-summary-list__actions').to_a.second.click_link 'Change subject'
+    click_change_link('subject')
   end
 
   def when_i_click_to_change_my_undergraduate_degree_institution
-    page.all('.govuk-summary-list__actions').to_a.third.click_link 'Change institution'
+    click_change_link('institution')
   end
 
   def then_i_see_my_undergraduate_degree_type_filled_in
@@ -378,5 +387,36 @@ RSpec.feature 'Entering their degrees' do
 
   def then_i_am_told_i_need_to_add_a_degree_to_complete_the_section
     expect(page).to have_content 'You cannot mark this section complete without adding a degree.'
+  end
+
+  def and_i_confirm_i_have_completed_my_degree
+    choose 'Yes'
+    and_i_click_on_save_and_continue
+  end
+
+  def when_i_click_to_change_my_completion_status
+    click_change_link('completion status')
+  end
+
+  def then_i_can_change_my_completion_status
+    expect(page).to have_content 'Have you completed your degree?'
+    choose 'No'
+    and_i_click_on_save_and_continue
+    completion_status_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change completion status' }
+    expect(completion_status_row).to have_content 'No'
+  end
+
+private
+
+  def click_change_link(row_description)
+    link_text = "Change #{row_description}"
+    page.all('.govuk-summary-list__actions')
+      .find { |row| row.has_link?(link_text) }
+      .click_link(link_text)
+  end
+
+  def expect_validation_error(message)
+    errors = all('.govuk-error-message')
+    expect(errors.map(&:text).one? { |e| e.include? message }).to eq true
   end
 end

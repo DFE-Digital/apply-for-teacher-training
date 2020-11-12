@@ -2,9 +2,9 @@
 
 <section class="app-section govuk-!-padding-top-0">
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds app-styled-content">
-      <h3>Sync providers from Find</h3>
-      <p>This task downloads providers from Find.</p>
+    <div class="govuk-grid-column-two-thirds">
+      <h3 class="govuk-heading-m">Sync providers from Find</h3>
+      <p class="govuk-body">This task downloads providers from Find.</p>
     </div>
     <div class="govuk-grid-column-one-third">
       <%= button_to 'Sync providers', support_interface_run_task_path('sync_providers'), class: 'govuk-button govuk-button--secondary' %>
@@ -14,9 +14,9 @@
 
 <section class="app-section app-section--with-top-border">
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds app-styled-content">
-      <h3>Recalculate dates</h3>
-      <p>This task runs the <code>RecalculateDates</code> worker when we add or remove business time holidays in response to things like COVID-19.</p>
+    <div class="govuk-grid-column-two-thirds">
+      <h3 class="govuk-heading-m">Recalculate dates</h3>
+      <p class="govuk-body">This task runs the <code>RecalculateDates</code> worker when we add or remove business time holidays in response to things like COVID-19.</p>
     </div>
     <div class="govuk-grid-column-one-third">
       <%= button_to 'Recalculate dates', support_interface_run_task_path('recalculate_dates'), class: 'govuk-button govuk-button--secondary' %>
@@ -26,10 +26,10 @@
 
 <section class="app-section app-section--with-top-border">
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds app-styled-content">
-      <h3>Start-of-cycle: Send reminder of deferred offers</h3>
-      <p>This task finds any deferred offers from the previous recruitment cycle and emails the candidates to remind them of the offer.</p>
-      <p>It should be run shortly after the cycle begins.</p>
+    <div class="govuk-grid-column-two-thirds">
+      <h3 class="govuk-heading-m">Start-of-cycle: Send reminder of deferred offers</h3>
+      <p class="govuk-body">This task finds any deferred offers from the previous recruitment cycle and emails the candidates to remind them of the offer.</p>
+      <p class="govuk-body">It should be run shortly after the cycle begins.</p>
     </div>
     <div class="govuk-grid-column-one-third">
       <%= button_to 'Send reminder emails', support_interface_run_task_path('send_deferred_offer_reminder_emails'), class: 'govuk-button govuk-button--secondary' %>
@@ -39,10 +39,10 @@
 
 <section class="app-section app-section--with-top-border">
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds app-styled-content">
-      <h3>End-of-cycle: Cancel unsubmitted applications</h3>
-      <p>This task finds any unsubmitted applications from the most recently closed recruitment cycle and moves them to the <code>application_not_sent</code> status.</p>
-      <p>It should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>.</p>
+    <div class="govuk-grid-column-two-thirds">
+      <h3 class="govuk-heading-m">End-of-cycle: Cancel unsubmitted applications</h3>
+      <p class="govuk-body">This task finds any unsubmitted applications from the most recently closed recruitment cycle and moves them to the <code>application_not_sent</code> status.</p>
+      <p class="govuk-body">It should be run shortly after the Apply 2 deadline closes at midnight on <%= EndOfCycleTimetable.date(:apply_2_deadline).to_s(:govuk_date) %>.</p>
     </div>
     <div class="govuk-grid-column-one-third">
       <%= govuk_button_link_to 'Cancel applications', support_interface_confirm_cancel_applications_at_end_of_cycle_path, class: 'govuk-button--warning' %>
@@ -53,9 +53,9 @@
 <% if DeleteTestApplications.can_run_in_this_environment? %>
   <section class="app-section app-section--with-top-border">
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds app-styled-content">
-        <h3>Delete test applications</h3>
-        <p>This task deletes all candidates with emails that end in <code>@example.com</code>, their applications and associated data.</p>
+      <div class="govuk-grid-column-two-thirds">
+        <h3 class="govuk-heading-m">Delete test applications</h3>
+        <p class="govuk-body">This task deletes all candidates with emails that end in <code>@example.com</code>, their applications and associated data.</p>
       </div>
       <div class="govuk-grid-column-one-third">
         <%= govuk_button_link_to 'Delete test applications', support_interface_confirm_delete_test_applications_path, class: 'govuk-button--warning' %>
@@ -67,9 +67,9 @@
 <% unless HostingEnvironment.production? %>
   <section class="app-section app-section--with-top-border">
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds app-styled-content">
-        <h3>Generate test applications</h3>
-        <p>This task generates ~10 mostly-random test applications in all of the states.</p>
+      <div class="govuk-grid-column-two-thirds">
+        <h3 class="govuk-heading-m">Generate test applications</h3>
+        <p class="govuk-body">This task generates ~10 mostly-random test applications in all of the states.</p>
       </div>
       <div class="govuk-grid-column-one-third">
         <%= button_to 'Generate test applications', support_interface_run_task_path('generate_test_applications'), class: 'govuk-button govuk-button--secondary' %>
@@ -79,9 +79,9 @@
 
   <section class="app-section app-section--with-top-border">
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds app-styled-content">
-        <h3>Create a fake provider for vendors</h3>
-        <p>This task creates a fake provider with 10 courses and 3 ratified courses. You will be shown their name, code and vendor API token.</p>
+      <div class="govuk-grid-column-two-thirds">
+        <h3 class="govuk-heading-m">Create a fake provider for vendors</h3>
+        <p class="govuk-body">This task creates a fake provider with 10 courses and 3 ratified courses. You will be shown their name, code and vendor API token.</p>
       </div>
       <div class="govuk-grid-column-one-third">
         <%= button_to 'Create a fake provider', support_interface_tasks_create_fake_provider_path, class: 'govuk-button govuk-button--secondary' %>

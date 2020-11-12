@@ -25,7 +25,6 @@ class FeatureFlag
 
   TEMPORARY_FEATURE_FLAGS = [
     [:providers_can_filter_by_recruitment_cycle, 'Allows provider users to filter applications by recruitment cycle', 'Michael Nacos'],
-    [:international_addresses, 'Candidates who live outside the UK can enter their local address in free-text format', 'Steve Hook'],
     [:international_personal_details, 'Changes to the candidate personal details section to account for international applicants.', 'David Gisbey'],
     [:efl_section, 'Allow candidates with nationalities other then British or Irish to specify their English as a Foreign Language experience', 'Malcolm Baig'],
     [:international_degrees, 'Changes to the model and forms for degree qualifications to cater for non-UK degrees.', 'Steve Hook'],
@@ -33,6 +32,7 @@ class FeatureFlag
     [:international_other_qualifications, 'Candidates can provide details of Other international qualifications .', 'David Gisbey'],
     [:export_hesa_data, 'Providers can export applications including HESA data.', 'Steve Laing'],
     [:feedback_form, 'New simplified feedback form to replace old multi-page satisfaction survey.', 'Steve Hook'],
+    [:feedback_prompts, 'Candidates can give feedback while completing their application form', 'David Gisbey'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|

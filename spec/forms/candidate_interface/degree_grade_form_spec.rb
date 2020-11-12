@@ -12,38 +12,12 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
     )
   end
 
-  it "validates presence of `predicted_grade` if chosen grade is 'predicted'" do
-    degree_form = described_class.new(grade: 'predicted')
-    error_message = t('activemodel.errors.models.candidate_interface/degree_grade_form.attributes.predicted_grade.blank')
-
-    degree_form.validate
-
-    expect(degree_form.errors.full_messages_for(:predicted_grade)).to eq(
-      ["Predicted grade #{error_message}"],
-    )
-  end
-
   describe '#fill_form_values' do
-    context 'when the database degree is marked as predicted' do
-      let(:degree) { build_stubbed(:degree_qualification, grade: 'first', predicted_grade: true) }
-
-      it 'sets the predicted grade form attributes' do
-        degree_form = described_class.new(degree: degree)
-
-        degree_form.fill_form_values
-
-        expect(degree_form.grade).to eq 'predicted'
-        expect(degree_form.predicted_grade).to eq 'first'
-        expect(degree_form.other_grade).to be_blank
-      end
-    end
-
     context 'when the database degree has a grade_hesa_code, for a HESA grade with visual_grouping "main"' do
       let(:degree) do
         build_stubbed(
           :degree_qualification,
           grade_hesa_code: 2,
-          predicted_grade: false,
         )
       end
 
@@ -53,7 +27,6 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
         degree_form.fill_form_values
 
         expect(degree_form.grade).to eq 'Upper second-class honours (2:1)'
-        expect(degree_form.predicted_grade).to be_blank
         expect(degree_form.other_grade).to be_blank
       end
     end
@@ -63,7 +36,6 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
         build_stubbed(
           :degree_qualification,
           grade_hesa_code: 4,
-          predicted_grade: false,
         )
       end
 
@@ -73,21 +45,19 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
         degree_form.fill_form_values
 
         expect(degree_form.grade).to eq 'other'
-        expect(degree_form.predicted_grade).to be_blank
         expect(degree_form.other_grade).to eq 'Undivided second class honours'
       end
     end
 
-    context 'when the database degree is neither predicted nor a HESA value' do
+    context 'when the database degree is not a HESA value' do
       it 'sets the other grade attributes' do
-        degree = build_stubbed(:degree_qualification, grade: 'gold medal', predicted_grade: false)
+        degree = build_stubbed(:degree_qualification, grade: 'gold medal')
         degree_form = described_class.new(degree: degree)
 
         degree_form.fill_form_values
 
         expect(degree_form.grade).to eq 'other'
         expect(degree_form.other_grade).to eq 'gold medal'
-        expect(degree_form.predicted_grade).to be_blank
       end
     end
   end

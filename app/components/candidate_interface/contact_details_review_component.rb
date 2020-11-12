@@ -34,12 +34,7 @@ module CandidateInterface
     end
 
     def address_row
-      change_path =
-        if FeatureFlag.active?(:international_addresses)
-          Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path
-        else
-          Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_path
-        end
+      change_path = Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path
 
       {
         key: t('application_form.contact_details.full_address.label'),
