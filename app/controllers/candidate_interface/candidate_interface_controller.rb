@@ -56,6 +56,10 @@ module CandidateInterface
       @current_application ||= current_candidate.current_application
     end
 
+    def render_application_feedback_component
+      @render_application_feedback_component = true
+    end
+
     helper_method :current_application
 
     def render_404

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::Maths::GradeController < CandidateInterfaceController
+  class Gcse::Maths::GradeController < Gcse::DetailsController
     include Gcse::GradeControllerConcern
 
     before_action :redirect_to_dashboard_if_submitted

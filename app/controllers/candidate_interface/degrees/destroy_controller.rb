@@ -1,6 +1,8 @@
 module CandidateInterface
   module Degrees
     class DestroyController < BaseController
+      before_action :render_application_feedback_component, except: %i[confirm_destroy destroy]
+
       def confirm_destroy
         @degree = current_degree
       end

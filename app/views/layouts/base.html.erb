@@ -46,6 +46,16 @@
 
     <%= content_for?(:body) ? yield(:body) : yield %>
 
+  <% if @render_application_feedback_component %>
+    <%= render(
+      CandidateInterface::ApplicationFeedbackComponent.new(
+        section: params.permit(:controller, :action).to_h,
+        path: request.env['PATH_INFO'],
+        page_title: try(:browser_title),
+      )
+    ) %>
+  <% end %>
+
     <%= render 'layouts/footer' %>
 
     <% case try(:current_namespace) %>

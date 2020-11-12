@@ -1,6 +1,6 @@
 module CandidateInterface
   class PersonalStatement::SubjectKnowledgeController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
+    before_action :redirect_to_dashboard_if_submitted, :render_application_feedback_component
 
     def edit
       @subject_knowledge_form = SubjectKnowledgeForm.build_from_application(

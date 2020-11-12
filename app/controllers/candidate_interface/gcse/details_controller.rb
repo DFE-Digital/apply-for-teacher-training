@@ -2,6 +2,7 @@ module CandidateInterface
   class Gcse::DetailsController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
     before_action :set_subject
+    before_action :render_application_feedback_component
 
     def edit
       @application_qualification = details_form
