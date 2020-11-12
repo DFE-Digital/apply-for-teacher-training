@@ -88,7 +88,7 @@ module CandidateInterface
     end
 
     def international?(degree)
-      degree.international? && FeatureFlag.active?(:international_degrees)
+      degree.international?
     end
 
     def naric_statment_row(degree)

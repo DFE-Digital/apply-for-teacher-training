@@ -4,7 +4,6 @@ RSpec.feature 'Entering their degrees' do
   include CandidateHelper
 
   scenario 'Candidate submits their international degree' do
-    given_the_international_degrees_feature_flag_is_active
     given_i_am_signed_in
     and_i_visit_the_site
     when_i_click_on_degree
@@ -90,10 +89,6 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_continue
     then_i_should_see_the_form
     and_that_the_section_is_completed
-  end
-
-  def given_the_international_degrees_feature_flag_is_active
-    FeatureFlag.activate :international_degrees
   end
 
   def given_i_am_signed_in

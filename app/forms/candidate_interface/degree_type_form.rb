@@ -7,7 +7,7 @@ module CandidateInterface
     attr_accessor :uk_degree
     attr_accessor :application_form, :degree
 
-    validates :uk_degree, presence: true, if: -> { FeatureFlag.active?(:international_degrees) }
+    validates :uk_degree, presence: true
     validates :type_description, presence: true, unless: -> { international? }
     validates :type_description, length: { maximum: 255 }
     validates :international_type_description, presence: true, if: -> { international? }
@@ -67,7 +67,7 @@ module CandidateInterface
     end
 
     def international?
-      FeatureFlag.active?(:international_degrees) && uk_degree == 'no'
+      uk_degree == 'no'
     end
   end
 end

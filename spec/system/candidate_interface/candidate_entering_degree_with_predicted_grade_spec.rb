@@ -4,10 +4,6 @@ RSpec.feature 'Entering their degrees' do
   include CandidateHelper
 
   scenario 'Candidate enters a degree with a predicted grade' do
-    # International not required, but optimise this spec for a version of the
-    # system where this feature is enabled. This flag will be removed soon.
-    FeatureFlag.activate(:international_degrees)
-
     given_i_am_signed_in
     when_i_add_a_degree_that_is_not_finished_yet
     then_i_can_review_the_details_of_this_degree

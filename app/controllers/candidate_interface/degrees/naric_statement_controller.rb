@@ -2,14 +2,10 @@ module CandidateInterface
   module Degrees
     class NaricStatementController < BaseController
       def new
-        render_404 unless FeatureFlag.active?(:international_degrees)
-
         @degree_naric_statement_form = DegreeNaricStatementForm.new(degree: current_degree)
       end
 
       def create
-        render_404 unless FeatureFlag.active?(:international_degrees)
-
         @degree_naric_statement_form = DegreeNaricStatementForm.new(naric_statement_params)
 
         if @degree_naric_statement_form.save
@@ -20,14 +16,10 @@ module CandidateInterface
       end
 
       def edit
-        render_404 unless FeatureFlag.active?(:international_degrees)
-
         @degree_naric_statement_form = DegreeNaricStatementForm.new(degree: current_degree).fill_form_values
       end
 
       def update
-        render_404 unless FeatureFlag.active?(:international_degrees)
-
         @degree_naric_statement_form = DegreeNaricStatementForm.new(naric_statement_params)
         if @degree_naric_statement_form.save
           current_application.update!(degrees_completed: false)

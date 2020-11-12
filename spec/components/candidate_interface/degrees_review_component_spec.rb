@@ -207,8 +207,6 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       )
     end
 
-    before { FeatureFlag.activate(:international_degrees) }
-
     it 'renders component with correct values for an internationl institution' do
       result = render_inline(described_class.new(application_form: application_form))
 

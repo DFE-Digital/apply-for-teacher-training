@@ -16,7 +16,7 @@ module CandidateInterface
 
       degree.update!(
         institution_name: institution_name,
-        institution_country: FeatureFlag.active?(:international_degrees) ? institution_country : nil,
+        institution_country: institution_country,
         institution_hesa_code: hesa_code,
       )
     end
