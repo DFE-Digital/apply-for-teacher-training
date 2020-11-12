@@ -41,8 +41,7 @@ RSpec.feature 'Candidate provides feedback during the application process' do
 
   def then_i_see_the_application_feedback_page
     expect(page).to have_current_path candidate_interface_application_feedback_path(
-      section: 'application_references',
-      path: 'candidate_interface_references_start_path',
+      path: '/candidate/application/references/start',
       page_title: t('page_titles.references_start'),
     )
   end
@@ -62,8 +61,7 @@ RSpec.feature 'Candidate provides feedback during the application process' do
 
   def and_my_first_set_of_feedback_has_been_collected
     expect(@application.application_feedback.count).to eq 1
-    expect(@application.application_feedback.last.section).to eq 'application_references'
-    expect(@application.application_feedback.last.path).to eq 'candidate_interface_references_start_path'
+    expect(@application.application_feedback.last.path).to eq '/candidate/application/references/start'
     expect(@application.application_feedback.last.page_title).to eq t('page_titles.references_start')
     expect(@application.application_feedback.last.does_not_understand_section).to eq true
     expect(@application.application_feedback.last.need_more_information).to eq false

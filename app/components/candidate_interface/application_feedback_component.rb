@@ -2,10 +2,9 @@ module CandidateInterface
   class ApplicationFeedbackComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_reader :section, :path, :page_title
+    attr_reader :path, :page_title
 
-    def initialize(section:, path:, page_title:)
-      @section = section
+    def initialize(path:, page_title:)
       @path = path
       @page_title = page_title
     end

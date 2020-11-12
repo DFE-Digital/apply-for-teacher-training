@@ -49,9 +49,8 @@
   <% if @render_application_feedback_component %>
     <%= render(
       CandidateInterface::ApplicationFeedbackComponent.new(
-        section: params.permit(:controller, :action).to_h,
         path: request.env['PATH_INFO'],
-        page_title: try(:browser_title),
+        page_title: try(:browser_title).split(' - Apply for teacher training - GOV.UK').first,
       )
     ) %>
   <% end %>
