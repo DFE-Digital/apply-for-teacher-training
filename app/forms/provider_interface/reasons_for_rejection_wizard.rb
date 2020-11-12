@@ -117,10 +117,10 @@ module ProviderInterface
       validates :candidate_behaviour_what_did_the_candidate_do, presence: true, if: -> { candidate_behaviour_y_n == 'Yes' }
       validates :candidate_behaviour_other,
                 presence: true,
-                if: -> { candidate_behaviour_what_did_the_candidate_do.include?('other') }
+                if: -> { candidate_behaviour_y_n == 'Yes' && candidate_behaviour_what_did_the_candidate_do.include?('other') }
       validates :candidate_behaviour_what_to_improve,
                 presence: true,
-                if: -> { candidate_behaviour_what_did_the_candidate_do.include?('other') }
+                if: -> { candidate_behaviour_y_n == 'Yes' && candidate_behaviour_what_did_the_candidate_do.include?('other') }
 
       validates :quality_of_application_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :quality_of_application_which_parts_needed_improvement,
@@ -128,16 +128,16 @@ module ProviderInterface
                 if: -> { quality_of_application_y_n == 'Yes' }
       validates :quality_of_application_personal_statement_what_to_improve,
                 presence: true,
-                if: -> { quality_of_application_which_parts_needed_improvement.include?('personal_statement') }
+                if: -> { quality_of_application_y_n == 'Yes' && quality_of_application_which_parts_needed_improvement.include?('personal_statement') }
       validates :quality_of_application_subject_knowledge_what_to_improve,
                 presence: true,
-                if: -> { quality_of_application_which_parts_needed_improvement.include?('subject_knowledge') }
+                if: -> { quality_of_application_y_n == 'Yes' && quality_of_application_which_parts_needed_improvement.include?('subject_knowledge') }
       validates :quality_of_application_other_details,
                 presence: true,
-                if: -> { quality_of_application_which_parts_needed_improvement.include?('other') }
+                if: -> { quality_of_application_y_n == 'Yes' && quality_of_application_which_parts_needed_improvement.include?('other') }
       validates :quality_of_application_other_what_to_improve,
                 presence: true,
-                if: -> { quality_of_application_which_parts_needed_improvement.include?('other') }
+                if: -> { quality_of_application_y_n == 'Yes' && quality_of_application_which_parts_needed_improvement.include?('other') }
 
       validates :qualifications_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :qualifications_which_qualifications,
@@ -145,7 +145,7 @@ module ProviderInterface
                 if: -> { qualifications_y_n == 'Yes' }
       validates :qualifications_other_details,
                 presence: true,
-                if: -> { qualifications_which_qualifications.include?('other') }
+                if: -> { qualifications_y_n == 'Yes' && qualifications_which_qualifications.include?('other') }
 
       validates :performance_at_interview_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :performance_at_interview_what_to_improve,
@@ -165,28 +165,28 @@ module ProviderInterface
                 if: -> { honesty_and_professionalism_y_n == 'Yes' }
       validates :honesty_and_professionalism_concerns_information_false_or_inaccurate_details,
                 presence: true,
-                if: -> { honesty_and_professionalism_concerns.include?('information_false_or_inaccurate') }
+                if: -> { honesty_and_professionalism_y_n == 'Yes' && honesty_and_professionalism_concerns.include?('information_false_or_inaccurate') }
       validates :honesty_and_professionalism_concerns_plagiarism_details,
                 presence: true,
-                if: -> { honesty_and_professionalism_concerns.include?('plagiarism') }
+                if: -> { honesty_and_professionalism_y_n == 'Yes' && honesty_and_professionalism_concerns.include?('plagiarism') }
       validates :honesty_and_professionalism_concerns_references_details,
                 presence: true,
-                if: -> { honesty_and_professionalism_concerns.include?('references') }
+                if: -> { honesty_and_professionalism_y_n == 'Yes' && honesty_and_professionalism_concerns.include?('references') }
       validates :honesty_and_professionalism_concerns_other_details,
                 presence: true,
-                if: -> { honesty_and_professionalism_concerns.include?('other') }
+                if: -> { honesty_and_professionalism_y_n == 'Yes' && honesty_and_professionalism_concerns.include?('other') }
 
       validates :safeguarding_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :safeguarding_concerns, presence: true, if: -> { safeguarding_y_n == 'Yes' }
       validates :safeguarding_concerns_candidate_disclosed_information_details,
                 presence: true,
-                if: -> { safeguarding_concerns.include?('candidate_disclosed_information') }
+                if: -> { safeguarding_y_n == 'Yes' && safeguarding_concerns.include?('candidate_disclosed_information') }
       validates :safeguarding_concerns_vetting_disclosed_information_details,
                 presence: true,
-                if: -> { safeguarding_concerns.include?('vetting_disclosed_information') }
+                if: -> { safeguarding_y_n == 'Yes' && safeguarding_concerns.include?('vetting_disclosed_information') }
       validates :safeguarding_concerns_other_details,
                 presence: true,
-                if: -> { safeguarding_concerns.include?('other') }
+                if: -> { safeguarding_y_n == 'Yes' && safeguarding_concerns.include?('other') }
 
       validates_each(
         :candidate_behaviour_other, :candidate_behaviour_what_to_improve, :quality_of_application_personal_statement_what_to_improve,
