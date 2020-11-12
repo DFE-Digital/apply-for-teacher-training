@@ -31,6 +31,7 @@ class FeatureFlag
     [:feedback_prompts, 'Candidates can give feedback while completing their application form', 'David Gisbey'],
     [:multiple_science_gcses, 'Candidates can enter structured data for multiple science GCSEs', 'Toby Retallick'],
     [:multiple_english_gcses, 'Candidates can enter structured data for multiple English GCSEs.', 'Raam Chauhan'],
+    [:structured_reasons_for_rejection, 'Allows providers to give specific reasons for rejecting an application', 'Steve Laing'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
