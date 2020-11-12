@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_10_185731) do
-
+ActiveRecord::Schema.define(version: 2020_11_11_112518) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -41,7 +40,7 @@ ActiveRecord::Schema.define(version: 2020_11_10_185731) do
     t.string "offer_withdrawal_reason"
     t.datetime "offer_withdrawn_at"
     t.datetime "sent_to_provider_at"
-    t.text "structured_rejection_reasons"
+    t.jsonb "structured_rejection_reasons"
     t.jsonb "withdrawal_feedback"
     t.datetime "offer_deferred_at"
     t.string "status_before_deferral"
