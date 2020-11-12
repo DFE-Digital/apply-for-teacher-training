@@ -73,15 +73,45 @@ RSpec.describe SupportInterface::OfferConditionsExport do
 
       offers = described_class.new.offers
       expect(offers.first[:provider_code]).to eq(choice.provider.code)
-      expect(offers.first[:provider]).to eq(choice.provider.name)
+      expect(offers.first[:provider_name]).to eq(choice.provider.name)
+    end
+
+    it 'returns original course information for each offer' do
+      choice = create(:application_choice, :with_modified_offer)
+
+      offers = described_class.new.offers
+      expect(offers.first[:course_code]).to eq(choice.course.code)
+      expect(offers.first[:course_name]).to eq(choice.course.name)
+      expect(offers.first[:course_location]).to eq(choice.site.name)
+      expect(offers.first[:course_study_mode]).to eq(choice.course_option.study_mode)
+    end
+
+    describe 'offer_changed' do
+      it 'returns true if the course has been changed' do
+        create(:application_choice, :with_modified_offer)
+
+        offers = described_class.new.offers
+        expect(offers.first[:offer_changed]).to be true
+      end
+
+      it 'returns false if the course has not been changed' do
+        create(:application_choice, :with_offer)
+
+        offers = described_class.new.offers
+        expect(offers.first[:offer_changed]).to be false
+      end
     end
 
     it 'returns offered course information' do
       choice = create(:application_choice, :with_modified_offer)
 
       offers = described_class.new.offers
-      expect(offers.first[:course_offered_provider_name]).to eq(choice.offered_course.provider.name)
-      expect(offers.first[:course_offered_course_name]).to eq(choice.offered_course.name)
+      expect(offers.first[:offered_provider_code]).to eq(choice.offered_course.provider.code)
+      expect(offers.first[:offered_provider_name]).to eq(choice.offered_course.provider.name)
+      expect(offers.first[:offered_course_name]).to eq(choice.offered_course.name)
+      expect(offers.first[:offered_course_code]).to eq(choice.offered_course.code)
+      expect(offers.first[:offered_course_location]).to eq(choice.offered_site.name)
+      expect(offers.first[:offered_course_study_mode]).to eq(choice.offered_option.study_mode)
     end
 
     it 'returns most recent offered_at' do
