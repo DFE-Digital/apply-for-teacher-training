@@ -15,7 +15,7 @@ module CandidateInterface
       end
 
       def edit
-        @completion_status_form = DegreeCompletionStatusForm.new(completion_status_params).fill(current_degree)
+        @completion_status_form = DegreeCompletionStatusForm.new(completion_status_params).assign_form_values(current_degree)
       end
 
       def update

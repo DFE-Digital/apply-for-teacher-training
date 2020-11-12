@@ -22,11 +22,11 @@ module CandidateInterface
       )
     end
 
-    def fill_form_values
+    def assign_form_values
       if international?
-        fill_form_values_for_international
+        assign_form_values_for_international
       else
-        fill_form_values_with_hesa_data_if_available
+        assign_form_values_with_hesa_data_if_available
       end
 
       self
@@ -39,7 +39,7 @@ module CandidateInterface
 
   private
 
-    def fill_form_values_with_hesa_data_if_available
+    def assign_form_values_with_hesa_data_if_available
       if degree.grade_hesa_code.present?
         hesa_grade = Hesa::Grade.find_by_hesa_code(degree.grade_hesa_code)
         if hesa_grade.visual_grouping == :other
@@ -54,7 +54,7 @@ module CandidateInterface
       end
     end
 
-    def fill_form_values_for_international
+    def assign_form_values_for_international
       negative_international_option = NEGATIVE_INTERNATIONAL_OPTIONS.find { |o| degree.grade == o.fetch(:db_value) }
       if negative_international_option
         self.grade = negative_international_option.fetch(:ui_value)

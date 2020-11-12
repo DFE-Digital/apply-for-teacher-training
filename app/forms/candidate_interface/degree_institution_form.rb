@@ -21,7 +21,7 @@ module CandidateInterface
       )
     end
 
-    def fill_form_values
+    def assign_form_values
       self.institution_name = degree.institution_name
       self.institution_country = degree.institution_country
       self
