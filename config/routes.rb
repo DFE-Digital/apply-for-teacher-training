@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     get '/sign-up', to: 'sign_up#new', as: :sign_up
     post '/sign-up', to: 'sign_up#create'
     get '/sign-up/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_up
+    get '/sign-up/external-sign-up-forbidden', to: 'sign_up#external_sign_up_forbidden', as: :external_sign_up_forbidden
 
     get '/sign-in', to: 'sign_in#new', as: :sign_in
     post '/sign-in', to: 'sign_in#create'

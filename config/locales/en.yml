@@ -24,6 +24,7 @@ en:
     submitted_application: Your submitted application
     sign_up: Create an account
     sign_in: Sign in
+    external_sign_up_forbidden: Only DfE users can sign into this website
     sandbox: Use our sandbox to test Apply for teacher training
     check_your_email: Check your email
     not_found: Page not found

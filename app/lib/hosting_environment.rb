@@ -1,5 +1,6 @@
 module HostingEnvironment
   TEST_ENVIRONMENTS = %w[development test qa review].freeze
+  PRODUCTION_URL = 'https://apply-for-teacher-training.service.gov.uk'.freeze
 
   def self.application_url
     if Rails.env.production?
@@ -56,6 +57,10 @@ module HostingEnvironment
     environment_name == 'qa'
   end
 
+  def self.staging?
+    environment_name == 'staging'
+  end
+
   def self.production?
     environment_name == 'production'
   end
@@ -70,5 +75,9 @@ module HostingEnvironment
 
   def self.test_environment?
     TEST_ENVIRONMENTS.include?(HostingEnvironment.environment_name)
+  end
+
+  def self.dfe_signup_only?
+    review? || qa? || staging?
   end
 end
