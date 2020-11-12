@@ -5,12 +5,12 @@
   <section class="app-section app-section--with-top-border">
     <h2 class="govuk-heading-m" id="<%= state_name %>"><%= human_state_name %></h2>
     <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-half app-styled-content">
+      <div class="govuk-grid-column-one-half">
         <% chaser_emails = I18n.exists?("application_states.#{state_name}.emails") ? I18n.t!("application_states.#{state_name}.emails") : [] %>
 
         <% if chaser_emails.any? %>
-          <p>In this state we send these chasers:</p>
-          <ul>
+          <p class="govuk-body">In this state we send these chasers:</p>
+          <ul class="govuk-list govuk-list--bullet">
           <% chaser_emails.each do |email_id| %>
             <li>
               <% email_name = email_id.gsub('-', ' ').gsub('candidate_mailer', 'To candidate: ').gsub('referee_mailer', 'To referee: ').gsub('provider_mailer', 'To provider: ') %>
@@ -25,10 +25,10 @@
         <% end %>
 
         <% state.events.each do |_, events| %>
-          <p>When <strong><%= I18n.t!("events.#{state_name}-#{events.first}.name").downcase %></strong> we send these notifications:</p>
+          <p class="govuk-body">When <strong><%= I18n.t!("events.#{state_name}-#{events.first}.name").downcase %></strong> we send these notifications:</p>
           <% emails_sent_from_event = I18n.exists?("events.#{state_name}-#{events.first.name}.emails") ? I18n.t!("events.#{state_name}-#{events.first.name}.emails") : [] %>
 
-          <ul>
+          <ul class="govuk-list govuk-list--bullet">
           <% if emails_sent_from_event.any? %>
             <% emails_sent_from_event.each do |email_id| %>
               <% email_name = email_id.gsub('-', ' ').gsub('candidate_mailer', 'To candidate: ').gsub('referee_mailer', 'To referee: ').gsub('provider_mailer', 'To provider: ') %>
