@@ -4,22 +4,21 @@ module CandidateInterface
     include ValidationUtils
 
     attr_accessor :current_step, :current_other_qualification_id, :checking_answers
-    attr_accessor :qualification_type, :other_uk_qualification_type, :non_uk_qualification_type
+
+    attr_accessor :type_form
+    delegate :qualification_type, :qualification_type=, :other_uk_qualification_type, :other_uk_qualification_type=, :non_uk_qualification_type, :non_uk_qualification_type=, to: :type_form
+
     attr_accessor :id, :subject, :predicted_grade, :grade, :award_year, :choice, :institution_country
     attr_reader :attrs
 
     PERSISTENT_ATTRIBUTES = %w[qualification_type other_uk_qualification_type non_uk_qualification_type subject predicted_grade grade award_year institution_country].freeze
     OTHER_QUALIFICATION_ATTRIBUTES = %i[id qualification_type other_uk_qualification_type non_uk_qualification_type].freeze
 
-    validates :qualification_type, presence: true
-    validates :qualification_type, inclusion: { in: ['A level', 'AS level', 'GCSE', 'Other', 'non_uk'], allow_blank: false }
-    validates :qualification_type, :subject, :grade, length: { maximum: 255 }
-
-    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == 'Other' }, on: :type
-    validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == 'non_uk' }, on: :type
+    validate :validate_type_form, on: :type
 
     validates :award_year, presence: true, on: :details
     validates :subject, :grade, presence: true, on: :details, if: -> { qualification_type != 'non_uk' && qualification_type != 'Other' }
+    validates :subject, :grade, length: { maximum: 255 }, on: :details
     validates :institution_country, presence: true, if: -> { qualification_type == 'non_uk' }, on: :details
     validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == 'non_uk' }, on: :details
     validate :award_year_is_date_and_before_current_year, if: :award_year, on: :details
@@ -28,12 +27,16 @@ module CandidateInterface
       @state_store = state_store
 
       persistent_attributes = model.present? ? persistent_attributes(model) : {}
-
-      super(
-        persistent_attributes.merge(
-          last_saved_state.select { |_, value| value.present? }.deep_merge(attrs),
+      all_attributes = persistent_attributes.merge(
+        last_saved_state.select { |_, value| value.present? }.deep_merge(attrs),
+      )
+      self.type_form = OtherQualificationTypeForm.new(
+        all_attributes.extract!(
+          *OtherQualificationTypeForm.attribute_names.map(&:to_sym),
         ),
       )
+
+      super(all_attributes)
     end
 
     def self.clear_state!(state_store)
@@ -159,7 +162,10 @@ module CandidateInterface
     end
 
     def state
-      as_json(only: %w[current_step current_other_qualification_id checking_answers qualification_type other_uk_qualification_type non_uk_qualification_type]).to_json
+      as_json(
+        only: %w[current_step current_other_qualification_id checking_answers qualification_type other_uk_qualification_type non_uk_qualification_type],
+        methods: %w[qualification_type other_uk_qualification_type non_uk_qualification_type],
+      ).to_json
     end
 
     def last_saved_state
@@ -187,6 +193,12 @@ module CandidateInterface
       elsif award_year.to_i >= year_limit
         errors.add(:award_year, :in_the_future, date: year_limit)
       end
+    end
+
+    def validate_type_form
+      return if type_form.valid?
+
+      errors.merge!(type_form.errors)
     end
   end
 end

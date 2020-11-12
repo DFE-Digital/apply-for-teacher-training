@@ -6,11 +6,11 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
   end
 
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:qualification_type) }
+    # it { is_expected.to validate_presence_of(:qualification_type) }
     it { is_expected.to validate_presence_of(:award_year).on(:details) }
-    it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
-    it { is_expected.to validate_length_of(:subject).is_at_most(255) }
-    it { is_expected.to validate_length_of(:grade).is_at_most(255) }
+    # it { is_expected.to validate_length_of(:qualification_type).is_at_most(255) }
+    it { is_expected.to validate_length_of(:subject).is_at_most(255).on(:details) }
+    it { is_expected.to validate_length_of(:grade).is_at_most(255).on(:details) }
 
     describe 'subject' do
       it 'validates presence except for non-uk and other qualifications' do
