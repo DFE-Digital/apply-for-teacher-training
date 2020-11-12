@@ -1,7 +1,7 @@
 module CandidateInterface
   class OtherQualifications::DestroyController < OtherQualifications::BaseController
     def confirm_destroy
-      @qualification = OtherQualificationForm.build_from_qualification(current_qualification)
+      @qualification = OtherQualificationWizard.build_from_qualification(current_qualification)
     end
 
     def destroy

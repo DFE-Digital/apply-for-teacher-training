@@ -4,7 +4,7 @@ RSpec.feature 'Entering their other qualifications' do
   include CandidateHelper
 
   scenario 'Candidate submits their other qualifications with the prompt_for_additional_qualifications on' do
-    FeatureFlag.deactivate(:international_other_qualifications)
+    FeatureFlag.activate(:international_other_qualifications)
 
     given_i_am_signed_in
     and_i_visit_the_site
@@ -46,18 +46,34 @@ RSpec.feature 'Entering their other qualifications' do
     and_i_should_see_my_qualifications
     and_my_other_uk_qualification_has_the_correct_format
 
+    when_i_click_the_back_button
+    and_update_the_subject
+    and_click_save_and_continue
+    then_i_should_see_the_review_page_with_a_flash_warning
+
     when_i_select_add_another_qualification
     and_choose_as_level
     and_i_click_continue
     and_i_visit_the_other_qualification_review_page
-    then_i_should_see_an_incomplete_as_level_qualification
+    then_i_should_not_see_an_incomplete_as_level_qualification
 
     when_i_click_on_delete_my_first_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
-    then_i_can_only_see_three_qualifacitions
+    then_i_can_only_see_two_qualifications
 
     when_i_click_to_change_my_first_qualification
-    then_i_see_my_qualification_filled_in
+    then_i_see_the_qualification_type_form
+
+    when_i_click_continue
+    then_i_see_the_other_qualification_review_page
+    and_no_changes_have_occured
+
+    when_i_click_to_change_my_first_qualification
+    then_i_see_the_qualification_type_form
+
+    when_i_change_the_qualification_type
+    and_i_click_continue
+    then_i_see_my_qualification_details_filled_in
 
     when_i_change_my_qualification
     and_click_save_and_continue
@@ -71,12 +87,13 @@ RSpec.feature 'Entering their other qualifications' do
     then_i_can_check_my_answers
 
     when_i_mark_this_section_as_completed
+    and_i_have_an_incomplete_qualification
     and_i_click_on_continue
     then_i_should_be_told_i_cannot_submit_incomplete_qualifications
 
     when_i_delete_my_incomplete_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
-    then_i_can_only_see_two_qualifications
+    then_i_can_only_see_two_updated_qualifications
 
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
@@ -115,6 +132,7 @@ RSpec.feature 'Entering their other qualifications' do
   def and_i_click_continue
     click_button 'Continue'
   end
+  alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_see_the_other_qualifications_form
     expect(page).to have_content('Add A level qualification')
@@ -129,7 +147,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def then_i_see_validation_errors_for_my_qualification
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_form.attributes.award_year.blank')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_wizard.attributes.award_year.blank')
   end
 
   def when_i_fill_in_my_qualification
@@ -147,7 +165,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_the_year_field_is_pre_populated_with_my_previous_details
-    expect(page.find('#candidate-interface-other-qualification-form-award-year-field').value).to eq('2015')
+    expect(page.find('#candidate-interface-other-qualification-wizard-award-year-field').value).to eq('2015')
   end
 
   def when_i_fill_out_the_remainder_of_the_form
@@ -161,14 +179,17 @@ RSpec.feature 'Entering their other qualifications' do
 
   def when_i_choose_other
     choose 'Other'
+    within('#candidate-interface-other-qualification-wizard-qualification-type-other-conditional') do
+      fill_in 'Qualification name', with: 'Access Course'
+    end
   end
 
   def then_the_year_field_is_not_pre_populated_with_my_previous_details
-    expect(page.find('#candidate-interface-other-qualification-form-award-year-field').value).to eq(nil)
+    expect(page.find('#candidate-interface-other-qualification-wizard-award-year-field').value).to eq(nil)
   end
 
   def when_i_fill_in_my_other_qualifications_details
-    fill_in t('application_form.other_qualification.qualification_type.label'), with: 'Access Course'
+    # fill_in t('application_form.other_qualification.qualification_type.label'), with: 'Access Course'
     fill_in t('application_form.other_qualification.subject.label'), with: 'History, English and Psychology'
     fill_in t('application_form.other_qualification.grade.label'), with: 'Distinction'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2012'
@@ -195,6 +216,19 @@ RSpec.feature 'Entering their other qualifications' do
     expect(@application.application_qualifications.last.subject).to eq 'History, English and Psychology'
   end
 
+  def when_i_click_the_back_button
+    visit candidate_interface_new_other_qualification_details_path
+  end
+
+  def and_update_the_subject
+    fill_in t('application_form.other_qualification.subject.label'), with: 'Winning at life'
+  end
+
+  def then_i_should_see_the_review_page_with_a_flash_warning
+    expect(page).to have_content "To update one of your qualifications use the 'Change' links below"
+    expect(page).to have_content 'Access Course, History, English and Psychology'
+  end
+
   def when_i_select_add_another_qualification
     click_link 'Add another qualification'
   end
@@ -207,9 +241,9 @@ RSpec.feature 'Entering their other qualifications' do
     visit candidate_interface_review_other_qualifications_path
   end
 
-  def then_i_should_see_an_incomplete_as_level_qualification
-    expect(page).to have_content('AS level')
-    expect(all('.govuk-summary-list__value').last.text).to eq 'Not entered'
+  def then_i_should_not_see_an_incomplete_as_level_qualification
+    expect(page).not_to have_content('AS level')
+    expect(all('.govuk-summary-list__value').last.text).not_to eq 'Not entered'
   end
 
   def when_i_click_on_delete_my_first_qualification
@@ -222,19 +256,35 @@ RSpec.feature 'Entering their other qualifications' do
     click_button t('application_form.other_qualification.confirm_delete')
   end
 
-  def then_i_can_only_see_three_qualifacitions
+  def then_i_can_only_see_two_qualifications
     expect(page).not_to have_content 'A level Losing to Yugi'
     expect(page).to have_content('A level Oh')
     expect(page).to have_content('Access Course History, English and Psychology')
-    expect(page).to have_content('AS level')
+    expect(page).not_to have_content('AS level')
   end
 
   def when_i_click_to_change_my_first_qualification
     first('.govuk-summary-list__actions').click_link 'Change'
   end
 
-  def then_i_see_my_qualification_filled_in
-    expect(page).to have_selector("input[value='A level']")
+  def then_i_see_the_qualification_type_form
+    expect(page).to have_current_path(
+      candidate_interface_edit_other_qualification_type_path(
+        @application.application_qualifications.first.id,
+      ),
+    )
+  end
+
+  def when_i_change_the_qualification_type
+    choose 'GCSE'
+  end
+
+  def and_no_changes_have_occured
+    expect(page).to have_content('A level Oh')
+    expect(page).to have_content('Access Course History, English and Psychology')
+  end
+
+  def then_i_see_my_qualification_details_filled_in
     expect(page).to have_selector("input[value='Oh']")
     expect(page).to have_selector("input[value='B']")
     expect(page).to have_selector("input[value='2015']")
@@ -245,7 +295,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def then_i_can_check_my_revised_qualification
-    expect(page).to have_content 'A level How to Win Against Kaiba'
+    expect(page).to have_content 'GCSE How to Win Against Kaiba'
   end
 
   def when_i_click_on_continue
@@ -264,6 +314,13 @@ RSpec.feature 'Entering their other qualifications' do
     check t('application_form.other_qualification.review.completed_checkbox')
   end
 
+  def and_i_have_an_incomplete_qualification
+    current_candidate.current_application.application_qualifications.create!(
+      level: 'other',
+      qualification_type: 'AS level',
+    )
+  end
+
   def and_i_click_on_continue
     when_i_click_on_continue
   end
@@ -278,10 +335,10 @@ RSpec.feature 'Entering their other qualifications' do
     end
   end
 
-  def then_i_can_only_see_two_qualifications
+  def then_i_can_only_see_two_updated_qualifications
     expect(page).not_to have_content 'A level Losing to Yugi'
     expect(page).not_to have_content('AS level')
-    expect(page).to have_content('A level How to Win Against Kaiba')
+    expect(page).to have_content('GCSE How to Win Against Kaiba')
     expect(page).to have_content('Access Course History, English and Psychology')
   end
 

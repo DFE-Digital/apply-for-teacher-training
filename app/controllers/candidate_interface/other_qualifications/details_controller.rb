@@ -1,78 +1,127 @@
 module CandidateInterface
   class OtherQualifications::DetailsController < OtherQualifications::BaseController
     def new
-      qualifications = OtherQualificationForm.build_all_from_application(current_application)
-      @qualification = OtherQualificationForm.pre_fill_new_qualification(qualifications)
-      @type = @qualification.set_type(current_application.application_qualifications.last)
+      @wizard = wizard_for(current_step: :details)
+      @wizard.qualification_type ||= params[:qualification_type]
+      @wizard.initialize_new_qualification(
+        current_application.application_qualifications.other.order(:created_at),
+      )
+      @wizard.save_state!
     end
 
     def create
-      @qualification = OtherQualificationForm.new(other_qualification_params)
+      @wizard = wizard_for(other_qualification_params.merge(current_step: :details))
+      @wizard.save_state!
 
-      if @qualification.save(current_qualification)
+      if @wizard.valid?(:details)
+        commit
+        @wizard.clear_state!
 
-        if @qualification.choice == 'same_type'
-          @qualification_type = OtherQualificationTypeForm.new(
-            qualification_type: @qualification.qualification_type,
-            non_uk_qualification_type: @qualification.non_uk_qualification_type,
-            other_uk_qualification_type: @qualification.other_uk_qualification_type,
-          )
-
-          @qualification_type.save(current_application)
-
-          redirect_to candidate_interface_new_other_qualification_details_path(current_application.application_qualifications.last.id)
-        elsif @qualification.choice == 'different_type'
+        if @wizard.choice == 'same_type'
+          redirect_to candidate_interface_new_other_qualification_details_path(qualification_type: current_application.application_qualifications.last.qualification_type)
+        elsif @wizard.choice == 'different_type'
           redirect_to candidate_interface_new_other_qualification_type_path
-        elsif @qualification.choice == 'no'
+        else
           redirect_to candidate_interface_review_other_qualifications_path
         end
+      elsif @wizard.missing_type_validation_error?
+        flash[:warning] = "To update one of your qualifications use the 'Change' links below."
+        redirect_to candidate_interface_review_other_qualifications_path
       else
-        track_validation_error(@qualification)
-        @type = @qualification.set_type(current_qualification)
-
+        track_validation_error(@wizard)
         render :new
       end
     end
 
     def edit
-      @qualification = OtherQualificationForm.build_from_qualification(current_qualification)
-      @type = @qualification.set_type(current_qualification)
+      @wizard = wizard_for(
+        current_step: :details,
+        initialize_from_db: true,
+        checking_answers: true,
+      )
+      @wizard.save_state!
     end
 
     def update
-      @qualification = OtherQualificationForm.new(other_qualification_params)
+      @wizard = wizard_for(
+        other_qualification_update_params.merge(current_step: :details, checking_answers: true),
+      )
+      @wizard.save_state!
 
-      if @qualification.update(current_qualification)
+      if @wizard.valid?(:details)
+        commit
         current_application.update!(other_qualifications_completed: false)
-
+        @wizard.clear_state!
+        redirect_to candidate_interface_review_other_qualifications_path
+      elsif @wizard.missing_type_validation_error?
+        flash[:warning] = "To update one of your qualifications use the 'Change' links below."
         redirect_to candidate_interface_review_other_qualifications_path
       else
-        track_validation_error(@qualification)
-        @type = @qualification.set_type(current_qualification)
-
+        track_validation_error(@wizard)
         render :edit
       end
     end
 
   private
 
+    def commit
+      application_qualification =
+        if params[:id].present?
+          current_qualification
+        else
+          current_application.application_qualifications.build(
+            level: ApplicationQualification.levels[:other],
+          )
+        end
+
+      application_qualification.assign_attributes(@wizard.attributes_for_persistence)
+      application_qualification.save!
+    end
+
+    def wizard_for(options)
+      options[:checking_answers] = true if params[:checking_answers] == 'true'
+      OtherQualificationWizard.new(
+        WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
+        options.delete(:initialize_from_db) ? current_qualification : nil,
+        options,
+      )
+    end
+
+    def persistence_key_for_current_user
+      "candidate_user_other_qualification_wizard-#{current_candidate.id}"
+    end
+
     def other_qualification_params
       if FeatureFlag.active?('international_other_qualifications')
-        params.require(:candidate_interface_other_qualification_form).permit(
-          :subject, :grade, :award_year, :choice, :institution_country
-        ).merge!(id: params[:id],
-                 qualification_type: current_qualification.qualification_type,
-                 non_uk_qualification_type: current_qualification.non_uk_qualification_type,
-                 other_uk_qualification_type: current_qualification.other_uk_qualification_type)
-      else
-        params.require(:candidate_interface_other_qualification_form).permit(
-          :subject, :grade, :award_year, :choice, :institution_country,
-          :other_uk_qualification_type, :non_uk_qualification_type
+        params.require(:candidate_interface_other_qualification_wizard).permit(
+          :subject,
+          :grade,
+          :award_year,
+          :choice,
+          :institution_country,
+          :other_uk_qualification_type,
+          :non_uk_qualification_type,
         ).merge!(
           id: params[:id],
-          qualification_type: params.dig('candidate_interface_other_qualification_form', 'qualification_type') || current_qualification.qualification_type,
+        )
+      else
+        params.require(:candidate_interface_other_qualification_wizard).permit(
+          :subject,
+          :grade,
+          :award_year,
+          :choice,
+          :institution_country,
+          :other_uk_qualification_type,
+        ).merge!(
+          id: params[:id],
         )
       end
+    end
+
+    def other_qualification_update_params
+      other_qualification_params.merge(
+        params.require(:candidate_interface_other_qualification_wizard).permit(:qualification_type),
+      )
     end
   end
 end

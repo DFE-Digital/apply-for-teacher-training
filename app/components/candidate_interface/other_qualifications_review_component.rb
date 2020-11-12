@@ -4,7 +4,7 @@ module CandidateInterface
 
     def initialize(application_form:, editable: true, heading_level: 2, missing_error: false, submitting_application: false)
       @application_form = application_form
-      @qualifications = CandidateInterface::OtherQualificationForm.build_all_from_application(
+      @qualifications = CandidateInterface::OtherQualificationWizard.build_all_from_application(
         @application_form,
       )
       @editable = editable
@@ -154,7 +154,7 @@ module CandidateInterface
     end
 
     def generate_action(qualification:, attribute: '')
-      "#{attribute.presence} for #{qualification.get_qualification_name}, #{qualification.subject}, "\
+      "#{attribute.presence} for #{qualification.qualification_type_name}, #{qualification.subject}, "\
         "#{qualification.award_year}"
     end
   end
