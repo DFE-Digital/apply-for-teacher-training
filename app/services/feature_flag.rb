@@ -27,7 +27,6 @@ class FeatureFlag
     [:providers_can_filter_by_recruitment_cycle, 'Allows provider users to filter applications by recruitment cycle', 'Michael Nacos'],
     [:efl_section, 'Allow candidates with nationalities other then British or Irish to specify their English as a Foreign Language experience', 'Malcolm Baig'],
     [:international_gcses, 'Candidates can provide details of international GCSE equivalents.', 'George Holborn'],
-    [:international_other_qualifications, 'Candidates can provide details of Other international qualifications .', 'David Gisbey'],
     [:export_hesa_data, 'Providers can export applications including HESA data.', 'Steve Laing'],
     [:feedback_form, 'New simplified feedback form to replace old multi-page satisfaction survey.', 'Steve Hook'],
     [:feedback_prompts, 'Candidates can give feedback while completing their application form', 'David Gisbey'],

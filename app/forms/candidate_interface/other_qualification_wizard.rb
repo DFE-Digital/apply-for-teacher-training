@@ -15,7 +15,7 @@ module CandidateInterface
     validates :qualification_type, inclusion: { in: ['A level', 'AS level', 'GCSE', 'Other', 'non_uk'], allow_blank: false }
     validates :qualification_type, :subject, :grade, length: { maximum: 255 }
 
-    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications') }, on: :type
+    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == 'Other' }, on: :type
     validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == 'non_uk' }, on: :type
 
     validates :award_year, presence: true, on: :details

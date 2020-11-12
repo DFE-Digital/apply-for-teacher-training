@@ -4,8 +4,6 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   include CandidateHelper
 
   scenario 'Candidate updates and deletes qualificaitons in a completed academic and other relevant qualifications section' do
-    FeatureFlag.deactivate(:international_other_qualifications)
-
     given_i_am_signed_in
     and_i_have_completed_the_other_qualifications_section
 
@@ -14,7 +12,8 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
 
     when_i_click_the_other_qualifications_link
     and_i_click_to_change_my_qualification
-    and_i_change_my_qualification
+    and_i_change_my_qualification_type
+    and_i_change_my_qualification_details
     and_i_click_on_save_and_continue
 
     when_i_visit_the_application_page
@@ -59,8 +58,12 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
     page.all('.govuk-summary-list__actions').to_a.first.click_link 'Change'
   end
 
-  def and_i_change_my_qualification
-    fill_in t('application_form.other_qualification.qualification_type.label'), with: 'A-Level'
+  def and_i_change_my_qualification_type
+    choose 'A level'
+    click_button 'Continue'
+  end
+
+  def and_i_change_my_qualification_details
     fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards'
     fill_in t('application_form.other_qualification.grade.label'), with: 'A'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'

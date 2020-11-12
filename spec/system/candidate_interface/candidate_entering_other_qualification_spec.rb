@@ -4,8 +4,6 @@ RSpec.feature 'Entering their other qualifications' do
   include CandidateHelper
 
   scenario 'Candidate submits their other qualifications with the prompt_for_additional_qualifications on' do
-    FeatureFlag.activate(:international_other_qualifications)
-
     given_i_am_signed_in
     and_i_visit_the_site
 

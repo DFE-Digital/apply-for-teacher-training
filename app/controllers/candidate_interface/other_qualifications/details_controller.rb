@@ -92,30 +92,17 @@ module CandidateInterface
     end
 
     def other_qualification_params
-      if FeatureFlag.active?('international_other_qualifications')
-        params.require(:candidate_interface_other_qualification_wizard).permit(
-          :subject,
-          :grade,
-          :award_year,
-          :choice,
-          :institution_country,
-          :other_uk_qualification_type,
-          :non_uk_qualification_type,
-        ).merge!(
-          id: params[:id],
-        )
-      else
-        params.require(:candidate_interface_other_qualification_wizard).permit(
-          :subject,
-          :grade,
-          :award_year,
-          :choice,
-          :institution_country,
-          :other_uk_qualification_type,
-        ).merge!(
-          id: params[:id],
-        )
-      end
+      params.require(:candidate_interface_other_qualification_wizard).permit(
+        :subject,
+        :grade,
+        :award_year,
+        :choice,
+        :institution_country,
+        :other_uk_qualification_type,
+        :non_uk_qualification_type,
+      ).merge!(
+        id: params[:id],
+      )
     end
 
     def other_qualification_update_params

@@ -14,23 +14,14 @@ module CandidateInterface
     end
 
     def other_qualifications_rows(qualification)
-      if FeatureFlag.active?('international_other_qualifications')
-        if qualification.institution_country.present?
-          [
-            qualification_row(qualification),
-            subject_row(qualification),
-            country_row(qualification),
-            award_year_row(qualification),
-            grade_row(qualification),
-          ]
-        else
-          [
-            qualification_row(qualification),
-            subject_row(qualification),
-            award_year_row(qualification),
-            grade_row(qualification),
-          ]
-        end
+      if qualification.institution_country.present?
+        [
+          qualification_row(qualification),
+          subject_row(qualification),
+          country_row(qualification),
+          award_year_row(qualification),
+          grade_row(qualification),
+        ]
       else
         [
           qualification_row(qualification),
@@ -50,21 +41,12 @@ module CandidateInterface
     attr_reader :application_form
 
     def qualification_row(qualification)
-      if FeatureFlag.active?('international_other_qualifications')
-        {
-          key: t('application_form.other_qualification.qualification.label'),
-          value: qualification_value(qualification),
-          action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
-          change_path: edit_other_qualification_type_path(qualification),
-        }
-      else
-        {
-          key: t('application_form.other_qualification.qualification.label'),
-          value: qualification_value(qualification),
-          action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
-          change_path: edit_other_qualification_details_path(qualification),
-        }
-      end
+      {
+        key: t('application_form.other_qualification.qualification.label'),
+        value: qualification_value(qualification),
+        action: generate_action(qualification: qualification, attribute: t('application_form.other_qualification.qualification.change_action')),
+        change_path: edit_other_qualification_type_path(qualification),
+      }
     end
 
     def qualification_value(qualification)
