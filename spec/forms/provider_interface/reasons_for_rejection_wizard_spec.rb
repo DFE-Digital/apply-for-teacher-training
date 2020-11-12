@@ -68,34 +68,81 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
           candidate_behaviour_what_did_the_candidate_do: %w[other],
           course_full_y_n: 'Yes',
           honesty_and_professionalism_y_n: 'Yes',
-          honesty_and_professionalism_concerns: %w[other],
+          honesty_and_professionalism_concerns: %w[information_false_or_inaccurate plagiarism references other],
           offered_on_another_course_y_n: 'Yes',
           performance_at_interview_y_n: 'Yes',
-          performance_at_interview_what_to_improve: %w[other],
           qualifications_y_n: 'Yes',
           qualifications_which_qualifications: %w[other],
           quality_of_application_y_n: 'Yes',
           quality_of_application_which_parts_needed_improvement: %w[other],
           safeguarding_y_n: 'Yes',
-          safeguarding_concerns: %w[other],
+          safeguarding_concerns: %w[candidate_disclosed_information vetting_disclosed_information other],
         }
       end
 
-      it 'validates second level options' do
+      let(:long_text) { Faker::Lorem.sentence(word_count: 101) }
+
+      it 'validates details and advice fields' do
         wizard.valid_for_current_step?
 
         expect(wizard.errors.keys.sort).to eq(
           %i[
             candidate_behaviour_other
             candidate_behaviour_what_to_improve
+            honesty_and_professionalism_concerns_information_false_or_inaccurate_details
             honesty_and_professionalism_concerns_other_details
+            honesty_and_professionalism_concerns_plagiarism_details
+            honesty_and_professionalism_concerns_references_details
             offered_on_another_course_details
+            performance_at_interview_what_to_improve
             qualifications_other_details
             quality_of_application_other_details
             quality_of_application_other_what_to_improve
+            safeguarding_concerns_candidate_disclosed_information_details
             safeguarding_concerns_other_details
+            safeguarding_concerns_vetting_disclosed_information_details
           ],
         )
+      end
+
+      it 'validates length of text in details and advice fields' do
+        wizard_params[:candidate_behaviour_other] = long_text
+        wizard_params[:candidate_behaviour_what_to_improve] = long_text
+        wizard_params[:honesty_and_professionalism_concerns_information_false_or_inaccurate_details] = long_text
+        wizard_params[:honesty_and_professionalism_concerns_plagiarism_details] = long_text
+        wizard_params[:honesty_and_professionalism_concerns_references_details] = long_text
+        wizard_params[:honesty_and_professionalism_concerns_other_details] = long_text
+        wizard_params[:offered_on_another_course_details] = long_text
+        wizard_params[:performance_at_interview_what_to_improve] = long_text
+        wizard_params[:qualifications_other_details] = long_text
+        wizard_params[:quality_of_application_other_details] = long_text
+        wizard_params[:quality_of_application_other_what_to_improve] = long_text
+        wizard_params[:safeguarding_concerns_candidate_disclosed_information_details] = long_text
+        wizard_params[:safeguarding_concerns_vetting_disclosed_information_details] = long_text
+        wizard_params[:safeguarding_concerns_other_details] = long_text
+
+        wizard.valid_for_current_step?
+
+        expect(wizard.errors.keys.sort).to eq(
+          %i[
+            candidate_behaviour_other
+            candidate_behaviour_what_to_improve
+            honesty_and_professionalism_concerns_information_false_or_inaccurate_details
+            honesty_and_professionalism_concerns_other_details
+            honesty_and_professionalism_concerns_plagiarism_details
+            honesty_and_professionalism_concerns_references_details
+            offered_on_another_course_details
+            performance_at_interview_what_to_improve
+            qualifications_other_details
+            quality_of_application_other_details
+            quality_of_application_other_what_to_improve
+            safeguarding_concerns_candidate_disclosed_information_details
+            safeguarding_concerns_other_details
+            safeguarding_concerns_vetting_disclosed_information_details
+          ],
+        )
+
+        expect(wizard.errors.details.values.flatten.map { |v| v[:error] }.uniq).to eq(%i[too_long])
       end
     end
 

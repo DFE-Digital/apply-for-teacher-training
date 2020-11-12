@@ -2,14 +2,11 @@ module ProviderInterface
   class ReasonsForRejectionWizard
     include ActiveModel::Model
 
-    STATE_STORE_KEY = :reasons_for_rejection
-
     attr_accessor :current_step, :checking_answers
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
 
-      # Remove empty strings from array attributes, they pass presence validation
       remove_empty_strings_from_array_attributes!(attrs)
 
       super(last_saved_state.deep_merge(attrs))
@@ -115,24 +112,9 @@ module ProviderInterface
 
     attr_accessor :why_are_you_rejecting_this_application
 
-    with_options(on: :other_reasons) do
-      validates :other_advice_or_feedback_y_n, presence: true, inclusion: { in: %w[Yes No] }
-      validates :other_advice_or_feedback_details,
-                presence: true,
-                if: -> { other_advice_or_feedback_y_n == 'Yes' }
-
-      validates :interested_in_future_applications_y_n, presence: true, inclusion: { in: %w[Yes No] }
-
-      validates :why_are_you_rejecting_this_application,
-                presence: true,
-                if: :reason_not_captured_by_initial_questions?
-    end
-
     with_options(on: :initial_questions) do
       validates :candidate_behaviour_y_n, presence: true, inclusion: { in: %w[Yes No] }
-      validates :candidate_behaviour_what_did_the_candidate_do,
-                presence: true,
-                if: -> { candidate_behaviour_y_n == 'Yes' }
+      validates :candidate_behaviour_what_did_the_candidate_do, presence: true, if: -> { candidate_behaviour_y_n == 'Yes' }
       validates :candidate_behaviour_other,
                 presence: true,
                 if: -> { candidate_behaviour_what_did_the_candidate_do.include?('other') }
@@ -159,7 +141,7 @@ module ProviderInterface
 
       validates :qualifications_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :qualifications_which_qualifications,
-                presence: true,
+                presence: { message: 'Select at least one reason related to their qualifications' },
                 if: -> { qualifications_y_n == 'Yes' }
       validates :qualifications_other_details,
                 presence: true,
@@ -193,10 +175,9 @@ module ProviderInterface
       validates :honesty_and_professionalism_concerns_other_details,
                 presence: true,
                 if: -> { honesty_and_professionalism_concerns.include?('other') }
+
       validates :safeguarding_y_n, presence: true, inclusion: { in: %w[Yes No] }
-      validates :safeguarding_concerns,
-                presence: true,
-                if: -> { safeguarding_y_n == 'Yes' }
+      validates :safeguarding_concerns, presence: true, if: -> { safeguarding_y_n == 'Yes' }
       validates :safeguarding_concerns_candidate_disclosed_information_details,
                 presence: true,
                 if: -> { safeguarding_concerns.include?('candidate_disclosed_information') }
@@ -206,6 +187,39 @@ module ProviderInterface
       validates :safeguarding_concerns_other_details,
                 presence: true,
                 if: -> { safeguarding_concerns.include?('other') }
+
+      validates_each(
+        :candidate_behaviour_other, :candidate_behaviour_what_to_improve, :quality_of_application_personal_statement_what_to_improve,
+        :quality_of_application_subject_knowledge_what_to_improve, :quality_of_application_other_details, :quality_of_application_other_what_to_improve,
+        :qualifications_other_details, :performance_at_interview_what_to_improve, :offered_on_another_course_details,
+        :honesty_and_professionalism_concerns_information_false_or_inaccurate_details, :honesty_and_professionalism_concerns_plagiarism_details,
+        :honesty_and_professionalism_concerns_references_details, :honesty_and_professionalism_concerns_other_details,
+        :safeguarding_concerns_candidate_disclosed_information_details, :safeguarding_concerns_vetting_disclosed_information_details,
+        :safeguarding_concerns_other_details
+      ) do |record, attr, value|
+        record.errors.add(attr, :too_long) if value.present? && value.scan(/\w+/).size > 100
+      end
+    end
+
+    with_options(on: :other_reasons) do
+      validates :other_advice_or_feedback_y_n,
+                presence: true,
+                inclusion: { in: %w[Yes No] }
+      validates :other_advice_or_feedback_details,
+                presence: true,
+                if: -> { other_advice_or_feedback_y_n == 'Yes' }
+
+      validates :interested_in_future_applications_y_n,
+                presence: true,
+                inclusion: { in: %w[Yes No] }
+
+      validates :why_are_you_rejecting_this_application,
+                presence: true,
+                if: :reason_not_captured_by_initial_questions?
+
+      validates_each(:other_advice_or_feedback_details, :why_are_you_rejecting_this_application) do |record, attr, value|
+        record.errors.add(attr, :too_long) if value.present? && value.scan(/\w+/).size > 200
+      end
     end
 
     def feedback_heading
@@ -224,8 +238,13 @@ module ProviderInterface
       @state_store.delete
     end
 
+    def to_model
+      ReasonsForRejection.new(last_saved_state.except('current_step', 'checking_answers'))
+    end
+
   private
 
+    # Removes empty strings from array attributes, as they incorrectly pass presence validation
     def remove_empty_strings_from_array_attributes!(attrs)
       attrs.each do |k, v|
         attrs[k] = attrs[k].reject(&:blank?) if v.is_a?(Array)
