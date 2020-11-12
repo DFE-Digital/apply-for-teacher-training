@@ -294,11 +294,4 @@ RSpec.feature 'Entering their degrees' do
   def and_that_the_section_is_completed
     expect(page).to have_css('#degree-badge-id', text: 'Completed')
   end
-
-private
-
-  def expect_validation_error(message)
-    errors = all('.govuk-error-message')
-    expect(errors.map(&:text).one? { |e| e.include? message }).to eq true
-  end
 end
