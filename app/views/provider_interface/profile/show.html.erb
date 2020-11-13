@@ -1,4 +1,4 @@
-<%= content_for :browser_title, 'Profile' %>
+<%= content_for :browser_title, t('page_titles.provider.profile') %>
 <% content_for :before_content do %>
   <%= render BreadcrumbComponent.new(items: [
     {
@@ -6,14 +6,14 @@
       path: provider_interface_account_path
     },
     {
-      text: 'Profile'
+      text: t('page_titles.provider.profile')
     }
   ]) %>
 <% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Profile</h1>
+    <h1 class="govuk-heading-xl"><%= t('page_titles.provider.profile') %></h1>
     <%= render ProviderInterface::ProviderAccountComponent.new(current_provider_user: current_provider_user) %>
   </div>
 </div>

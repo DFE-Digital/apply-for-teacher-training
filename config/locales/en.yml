@@ -141,6 +141,7 @@ en:
       respond: Respond to application
       confirm: Confirm offer
       account: Your account
+      profile: Profile
       org_permissions: Organisational permissions
       users: Users
     start_apply_again: Do you want to apply again?
