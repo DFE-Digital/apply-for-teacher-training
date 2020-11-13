@@ -1,6 +1,8 @@
 module CandidateInterface
   module References
     class BaseController < CandidateInterfaceController
+      before_action :render_application_feedback_component
+
       def start; end
 
     private

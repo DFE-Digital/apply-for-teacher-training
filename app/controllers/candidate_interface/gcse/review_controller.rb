@@ -3,6 +3,7 @@ module CandidateInterface
     before_action :redirect_to_dashboard_if_submitted
     before_action :set_subject
     before_action :set_field_name
+    before_action :render_application_feedback_component, except: :complete
 
     def show
       @application_form = current_application
