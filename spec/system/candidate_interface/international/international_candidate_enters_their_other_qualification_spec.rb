@@ -5,7 +5,6 @@ RSpec.feature 'Non-uk Other qualifications' do
 
   scenario 'International candidate enters their other non-uk qualification' do
     given_i_am_signed_in
-    and_the_international_other_qualifications_flag_is_active
     and_i_visit_the_site
 
     when_i_click_on_other_qualifications
@@ -71,10 +70,6 @@ RSpec.feature 'Non-uk Other qualifications' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_international_other_qualifications_flag_is_active
-    FeatureFlag.activate('international_other_qualifications')
   end
 
   def and_i_visit_the_site

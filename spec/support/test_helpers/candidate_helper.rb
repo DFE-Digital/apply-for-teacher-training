@@ -24,7 +24,6 @@ module CandidateHelper
 
   def candidate_completes_application_form(with_referees: true)
     FeatureFlag.deactivate(:efl_section)
-    FeatureFlag.deactivate(:international_other_qualifications)
 
     given_courses_exist
     create_and_sign_in_candidate

@@ -184,9 +184,8 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
       end
     end
 
-    context 'for an other uk qualification with the international feature flag on' do
+    context 'for an other uk qualification' do
       it 'concatenates the other_uk_qualification_type and subject' do
-        FeatureFlag.activate('international_other_qualifications')
         qualification = CandidateInterface::OtherQualificationWizard.new(
           nil,
           nil,
@@ -229,7 +228,6 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
 
     context 'for an other uk qualification with the qualification type Other' do
       it 'returns the other_uk_qualification_type' do
-        FeatureFlag.activate('international_other_qualifications')
         qualification = CandidateInterface::OtherQualificationWizard.new(
           nil,
           nil,

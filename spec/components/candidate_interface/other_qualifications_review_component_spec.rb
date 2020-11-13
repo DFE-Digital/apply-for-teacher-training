@@ -24,8 +24,6 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
 
   context 'when other qualifications are editable' do
     before do
-      FeatureFlag.deactivate(:international_other_qualifications)
-
       allow(application_form).to receive(:application_qualifications).and_return(
         ActiveRecordRelationStub.new(ApplicationQualification, [qualification1, qualification2], scopes: [:other]),
       )
@@ -39,7 +37,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include('A-Level')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Making Doggo Sounds')
       expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(
-        Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_details_path(qualification1),
+        Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_type_path(qualification1),
       )
       expect(result.css('.govuk-summary-list__actions').text).to include(
         "Change #{t('application_form.other_qualification.qualification.change_action')} for A-Level, Making Doggo Sounds, 2012",
@@ -112,7 +110,6 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       end
 
       it 'renders the correct values for institution_country' do
-        FeatureFlag.activate('international_other_qualifications')
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.app-summary-card__title').text).to include('Woof Making Doggo Sounds')
@@ -128,6 +125,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
         build_stubbed(
           :application_qualification,
           level: 'other',
+          institution_country: nil,
           qualification_type: 'GCSE',
           subject: nil,
           grade: nil,
