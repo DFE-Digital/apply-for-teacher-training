@@ -93,18 +93,18 @@ Rails.application.routes.draw do
       end
 
       scope '/personal-statement' do
-        get '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#edit', as: :becoming_a_teacher_edit
-        post '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#update', as: :becoming_a_teacher_update
+        get '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#edit', as: :edit_becoming_a_teacher
+        post '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#update'
         get '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#show', as: :becoming_a_teacher_show
         post '/becoming-a-teacher/complete' => 'personal_statement/becoming_a_teacher#complete', as: :becoming_a_teacher_complete
 
-        get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :subject_knowledge_edit
-        post '/subject-knowledge/review' => 'personal_statement/subject_knowledge#update', as: :subject_knowledge_update
+        get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :edit_subject_knowledge
+        post '/subject-knowledge' => 'personal_statement/subject_knowledge#update'
         get '/subject-knowledge/review' => 'personal_statement/subject_knowledge#show', as: :subject_knowledge_show
         post '/subject-knowledge/complete' => 'personal_statement/subject_knowledge#complete', as: :subject_knowledge_complete
 
-        get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :interview_preferences_edit
-        post '/interview-preferences/review' => 'personal_statement/interview_preferences#update', as: :interview_preferences_update
+        get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :edit_interview_preferences
+        post '/interview-preferences' => 'personal_statement/interview_preferences#update'
         get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
         post '/interview-preferences/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
       end

@@ -31,7 +31,7 @@ module CandidateInterface
         key: t('application_form.personal_statement.interview_preferences.key'),
         value: preferences,
         action: t('application_form.personal_statement.interview_preferences.change_action'),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_interview_preferences_edit_path,
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_interview_preferences_path,
       }
     end
   end
