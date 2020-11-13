@@ -120,7 +120,7 @@ Once those dependencies are installed, run `bundle install` to install required 
 To run the application locally:
 
 1. Run `yarn` to install dependencies for the web app to run
-2. Run `bundle exec rails s` to launch the app on http://localhost:3000
+2. Run `foreman start` to launch the app on http://localhost:3000
 
 ### Running the application in Docker
 
