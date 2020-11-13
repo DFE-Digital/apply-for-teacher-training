@@ -4,6 +4,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @application_feedback_form, url: candidate_interface_application_feedback_path, method: :post do |f| %>
+     <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
         <%= t('page_titles.application_feedback') %>
