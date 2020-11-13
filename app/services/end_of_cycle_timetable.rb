@@ -1,4 +1,7 @@
 class EndOfCycleTimetable
+  CURRENT_YEAR_FOR_SCHEDULE = 2021
+
+  # These dates are configuration for when the previous cycle ends and the next cycle starts
   # The 2020 dates are made up so we can generate sensible test data
   CYCLE_DATES = {
     2020 => {
@@ -92,7 +95,7 @@ class EndOfCycleTimetable
 
   def self.schedules
     {
-      real: CYCLE_DATES[2021],
+      real: CYCLE_DATES[CURRENT_YEAR_FOR_SCHEDULE],
 
       today_is_mid_cycle: {
         apply_1_deadline: 1.day.from_now.to_date,
