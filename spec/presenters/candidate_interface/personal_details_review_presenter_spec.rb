@@ -120,6 +120,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   end
 
   context 'when presenting English as the main language' do
+    before { FeatureFlag.deactivate(:efl_section) }
+
     it 'includes a hash with "Yes"' do
       languages_form = build(
         :languages_form,
@@ -174,6 +176,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   end
 
   context 'when presenting English not as the main language' do
+    before { FeatureFlag.deactivate(:efl_section) }
+
     it 'includes a hash with "No"' do
       languages_form = build(
         :languages_form,
