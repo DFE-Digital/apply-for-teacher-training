@@ -112,6 +112,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   def then_we_have_received_a_slack_message
     expect_slack_message_with_text('It contained 1 new match, 1 updated match, and 1 match we’ve already seen.')
+    expect_slack_message_with_text('We have 1 match requiring action.')
   end
 
   def when_i_visit_the_ucas_matches_page_in_support
