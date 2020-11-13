@@ -47,7 +47,8 @@ RSpec.feature 'Providers can view managed users' do
   end
 
   def when_i_click_on_the_users_link
-    click_on('Users')
+    click_on(t('page_titles.provider.account'))
+    click_on(t('page_titles.provider.users'))
   end
 
   def and_i_click_on_a_users_name

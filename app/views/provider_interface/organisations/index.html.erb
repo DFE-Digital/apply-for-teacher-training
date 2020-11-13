@@ -1,6 +1,19 @@
+<%= content_for :browser_title, t('page_titles.provider.org_permissions') %>
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: t('page_titles.provider.account'),
+      path: provider_interface_account_path
+    },
+    {
+      text: t('page_titles.provider.org_permissions')
+    }
+  ]) %>
+<% end %>
+
 <div class="govuk-grid">
   <div class="govuk-grid-column-two-third">
-    <h1 class="govuk-heading-l">Organisational permissions</h1>
+    <h1 class="govuk-heading-l"><%= t('page_titles.provider.org_permissions') %></h1>
     <p class="govuk-body">Use this section to change permissions between your own organisations and your partner organisations.</p>
     <% @manageable_providers.each do |provider| %>
       <div class="app-application-card">

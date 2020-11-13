@@ -71,7 +71,8 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def when_i_click_on_the_users_link
-    click_on('Users')
+    click_on(t('page_titles.provider.account'))
+    click_on(t('page_titles.provider.users'))
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in

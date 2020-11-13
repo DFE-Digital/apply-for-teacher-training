@@ -2,37 +2,16 @@
   <div class="govuk-grid-column-two-thirds">
     <div class="govuk-panel govuk-panel--confirmation">
       <h1 class="govuk-panel__title">
-        Permissions successfully set up
+        Organisational permissions set
       </h1>
     </div>
 
-    <h2 class="govuk-heading-m">
-      Changing permissions
-    </h2>
+    <p class="govuk-body govuk-!-margin-bottom-4">
+      You can now <%= govuk_link_to 'view applications', provider_interface_applications_path %><% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %> or <%= govuk_link_to 'invite users', provider_interface_provider_users_path %><% end %>.
+    </p>
 
     <p class="govuk-body govuk-!-margin-bottom-4">
-      Select <%= govuk_link_to 'Organisations', provider_interface_organisations_path %> (at the top of every page) to update your permissions.
-    </p>
-
-    <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
-      <h2 class="govuk-heading-m">
-        Inviting users
-      </h2>
-
-      <p class="govuk-body govuk-!-margin-bottom-4">
-        Select <%= govuk_link_to 'Users', provider_interface_provider_users_path %> (at the top of every page) to add users and manage their permissions.
-      </p>
-    <% end %>
-
-    <h2 class="govuk-heading-m">
-      Manage your applications
-    </h2>
-
-    <p class="govuk-body">
-      Continue to your applications.
-    </p>
-    <p>
-      <%= govuk_link_to 'Continue', provider_interface_applications_path, class: 'govuk-button' %>
+      You can change organisational permissions in <%= govuk_link_to t('page_titles.provider.account').downcase, provider_interface_account_path %>.
     </p>
   </div>
 </div>

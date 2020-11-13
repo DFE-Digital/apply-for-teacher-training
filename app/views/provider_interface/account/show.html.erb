@@ -1,8 +1,44 @@
-<%= content_for :browser_title, "Account" %>
+<%= content_for :browser_title, t('page_titles.provider.account') %>
 
+<h1 class="govuk-heading-l"><%= t('page_titles.provider.account') %></h1>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Account</h1>
-    <%= render ProviderInterface::ProviderAccountComponent.new(current_provider_user: current_provider_user) %>
+
+    <h2 class="govuk-heading-m">
+      <%= govuk_link_to t('page_titles.provider.profile'), provider_interface_profile_path %>
+    </h2>
+
+    <p class="govuk-body">Use this section to:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>change your name</li>
+      <li>change your email address</li>
+      <li>change your password</li>
+      <li>check your permissions</li>
+    </ul>
+
+    <% if current_provider_user.authorisation.can_manage_users_for_at_least_one_provider? %>
+      <h2 class="govuk-heading-m">
+        <%= govuk_link_to t('page_titles.provider.users'), provider_interface_provider_users_path %>
+      </h2>
+
+      <p class="govuk-body">Use this section to:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>manage users and their permissions</li>
+        <li>invite users</li>
+      </ul>
+    <% end %>
+
+    <% if current_provider_user.authorisation.can_manage_organisations_for_at_least_one_provider? %>
+      <h2 class="govuk-heading-m">
+        <%= govuk_link_to t('page_titles.provider.org_permissions'), provider_interface_organisations_path %>
+      </h2>
+
+      <p class="govuk-body">Use this section to:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>set permissions between your organisation and partner organisations</li>
+        <li>check permissions between organisations</li>
+      </ul>
+    <% end %>
+
   </div>
 </div>
