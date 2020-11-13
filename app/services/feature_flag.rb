@@ -30,6 +30,7 @@ class FeatureFlag
     [:feedback_form, 'New simplified feedback form to replace old multi-page satisfaction survey.', 'Steve Hook'],
     [:feedback_prompts, 'Candidates can give feedback while completing their application form', 'David Gisbey'],
     [:science_gcse_awards, 'New UI layout for science GCSE', 'Toby Retallick'],
+    [:multiple_english_gcses, 'Candidates can enter structured data for multiple English GCSEs.', 'Raam Chauhan'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
