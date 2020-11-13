@@ -4,6 +4,7 @@ module SupportInterface
       relevant_applications.flat_map do |application_form|
         application_form.application_choices.map do |choice|
           {
+            candidate_id: application_form.candidate_id,
             recruitment_cycle_year: application_form.recruitment_cycle_year,
             support_reference: application_form.support_reference,
             phase: application_form.phase,
@@ -20,7 +21,6 @@ module SupportInterface
             offer_response: offer_response_interpretation(choice: choice),
             offer_response_at: choice.accepted_at || choice.declined_at,
             rejection_reason: choice.rejection_reason,
-            candidate_id: application_form.candidate_id,
           }
         end
       end
