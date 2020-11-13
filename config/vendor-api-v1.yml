@@ -1068,10 +1068,14 @@ components:
           - "2"
           - "3"
         disability:
-          type: string
           nullable: true
-          description: The candidate’s disability as [a 2-digit HESA code for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
-          example: "00"
+          type: array
+          items:
+            type: string
+          description: The candidate's disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
+          example:
+            - "00"
+            - "51"
           enum:
           - "00"
           - "08"

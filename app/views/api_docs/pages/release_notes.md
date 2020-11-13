@@ -1,3 +1,7 @@
+### 13th November 2020
+
+Documentation has been amended to indicate that `disability` is an array and not a string
+
 ### 9th November 2020
 
 New attributes:
