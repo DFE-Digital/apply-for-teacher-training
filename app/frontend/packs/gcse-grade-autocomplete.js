@@ -8,16 +8,16 @@ const initGcseGradeAutocomplete = () => {
     ];
 
     ids.forEach(id => {
-      const gradeSelect = document.getElementById(id);
-      if (!gradeSelect) return;
+      const selectElement = document.getElementById(id);
+      if (!selectElement) return;
 
       accessibleAutocomplete.enhanceSelectElement({
+        selectElement,
         autoselect: false,
-        defaultValue: '',
-        selectElement: gradeSelect,
-        showAllValues: true,
-        showNoOptionsFound: true,
         confirmOnBlur: false,
+        defaultValue: "",
+        showAllValues: true,
+        showNoOptionsFound: true
       });
     });
   } catch (err) {

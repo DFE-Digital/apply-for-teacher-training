@@ -8,15 +8,16 @@ const initIeltsBandScoreAutocomplete = () => {
     ]
 
     ids.forEach(id => {
-      const bandScoreSelect = document.querySelector(id);
-      if (!bandScoreSelect) return;
+      const selectElement = document.querySelector(id);
+      if (!selectElement) return;
 
       accessibleAutocomplete.enhanceSelectElement({
-        defaultValue: '',
-        selectElement: bandScoreSelect,
+        selectElement,
+        autoselect: false,
+        confirmOnBlur: false,
+        defaultValue: "",
         showAllValues: true,
-        showNoOptionsFound: true,
-        confirmOnBlur: false
+        showNoOptionsFound: true
       });
 
       const accessibleAutocompleteWrapper = document.querySelector(".govuk-form-group--ielts-band-score .autocomplete__wrapper");
