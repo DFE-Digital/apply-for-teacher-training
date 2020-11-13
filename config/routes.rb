@@ -72,22 +72,22 @@ Rails.application.routes.draw do
       post '/carry-over' => 'carry_over#create', as: :carry_over
 
       scope '/personal-details' do
-        get '/' => 'personal_details/base#new', as: :personal_details_new
-        post '/' => 'personal_details/base#create', as: :personal_details_create
-        get '/edit' => 'personal_details/base#edit', as: :personal_details_edit
-        post '/edit' => 'personal_details/base#update', as: :personal_details_update
+        get '/' => 'personal_details/base#new', as: :personal_details
+        post '/' => 'personal_details/base#create'
+        get '/edit' => 'personal_details/base#edit', as: :edit_personal_details
+        patch '/edit' => 'personal_details/base#update'
         get '/nationalities' => 'personal_details/nationalities#new', as: :nationalities
         post '/nationalities' => 'personal_details/nationalities#create'
         get '/nationalities/edit' => 'personal_details/nationalities#edit', as: :edit_nationalities
-        post '/nationalities/edit' => 'personal_details/nationalities#update'
+        patch '/nationalities/edit' => 'personal_details/nationalities#update'
         get '/languages' => 'personal_details/languages#edit', as: :languages
         post '/languages' => 'personal_details/languages#update'
         get '/languages/edit' => 'personal_details/languages#edit', as: :edit_languages
-        post '/languages/edit' => 'personal_details/languages#update'
+        patch '/languages/edit' => 'personal_details/languages#update'
         get '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#new', as: :right_to_work_or_study
         post '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#create'
         get '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#edit', as: :edit_right_to_work_or_study
-        post '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#update'
+        patch '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#update'
         get '/review' => 'personal_details/review#show', as: :personal_details_show
         post '/review' => 'personal_details/review#complete', as: :personal_details_complete
       end
