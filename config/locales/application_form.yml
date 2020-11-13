@@ -845,6 +845,35 @@ en:
               in_future: Enter a year before %{date}
             other_grade:
               blank: Enter your grade
+        candidate_interface/english_gcse_grade_form:
+          attributes:
+            grade:
+              blank: Enter your grade
+            english_gcses:
+              blank: Select at least one GCSE
+            grade_english_single:
+              blank: Enter your grade
+              invalid: Enter a real grade
+            grade_english_double:
+              blank: Enter your grade
+              invalid: Enter a real grade
+            grade_english_language:
+              blank: Enter your grade
+              invalid: Enter a real grade
+            grade_english_literature:
+              blank: Enter your grade
+              invalid: Enter a real grade
+            grade_english_studies_single:
+              blank: Enter your grade
+              invalid: Enter a real grade
+            grade_english_studies_double:
+              blank: Enter your grade
+              invalid: Enter a real grade
+            grade_other_english_gcse:
+              blank: Enter your grade
+              invalid: Enter a real grade
+            other_english_gcse_name:
+              blank: Enter an English GCSE
         candidate_interface/gcse_qualification_type_form:
           attributes:
             qualification_type:
