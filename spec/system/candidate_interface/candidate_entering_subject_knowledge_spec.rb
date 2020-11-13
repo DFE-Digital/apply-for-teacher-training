@@ -59,7 +59,7 @@ RSpec.feature 'Entering subject knowledge' do
   end
 
   def when_i_click_to_change_my_answer
-    first('.govuk-summary-list__actions').click_link 'Change'
+    click_change_link('evidence of subject knowledge')
   end
 
   def when_i_fill_in_an_answer

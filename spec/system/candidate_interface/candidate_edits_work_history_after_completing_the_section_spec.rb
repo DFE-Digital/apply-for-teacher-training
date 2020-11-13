@@ -132,7 +132,7 @@ RSpec.feature 'Candidate deletes their work history' do
   end
 
   def and_i_click_on_change
-    first('.govuk-summary-list__actions').click_link 'Change'
+    within(first('.app-summary-card')) { click_change_link('job title') }
   end
 
   def and_i_change_the_job_title

@@ -178,7 +178,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_to_change_my_reason_for_my_break_between_august_2019_and_november_2019
-    click_link 'Change description for break between August 2019 and November 2019'
+    click_change_link 'description for break between August 2019 and November 2019'
   end
 
   def and_i_change_my_reason_for_my_break_between_august_2019_and_november_2019

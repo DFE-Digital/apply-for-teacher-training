@@ -140,7 +140,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def when_i_click_to_change_my_first_qualification_type
-    first('.govuk-summary-list__actions').click_link 'Change'
+    click_change_link('qualification')
   end
 
   def then_i_see_my_qualification_type_filled_in
@@ -156,7 +156,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def when_i_click_to_change_my_first_qualification
-    all('.govuk-summary-list__actions')[1].click_link 'Change'
+    click_change_link('subject')
   end
 
   def then_i_see_my_qualification_filled_in
@@ -183,7 +183,7 @@ RSpec.feature 'Non-uk Other qualifications' do
 
   def when_i_click_to_change_my_second_qualification
     within all('.app-summary-card__body')[1] do
-      all('.govuk-summary-list__actions')[1].click_link 'Change'
+      click_change_link('subject')
     end
   end
 

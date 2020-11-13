@@ -155,7 +155,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_click_on_change
-    first('.govuk-summary-list__actions').click_link 'Change'
+    click_change_link('job title')
   end
 
   def then_i_should_not_be_asked_if_i_want_to_add_another_job

@@ -167,11 +167,11 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_click_to_change_year
-    page.all('.govuk-summary-list__actions').to_a.third.click_link 'Change'
+    click_change_link('year')
   end
 
   def when_i_click_to_change_grade
-    page.all('.govuk-summary-list__actions').to_a.second.click_link 'Change'
+    click_change_link('grade')
   end
 
   def when_i_enter_a_different_qualification_grade

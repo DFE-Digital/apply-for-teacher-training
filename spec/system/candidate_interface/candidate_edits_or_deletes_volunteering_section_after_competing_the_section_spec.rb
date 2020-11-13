@@ -56,7 +56,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def and_i_click_to_change_my_role
-    first('.govuk-summary-list__actions').click_link 'Change'
+    click_change_link('role')
   end
 
   def and_i_change_my_role

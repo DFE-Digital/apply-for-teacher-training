@@ -43,9 +43,7 @@ RSpec.feature 'Your IELTS result' do
   end
 
   def and_i_can_edit_my_qualification
-    within(all('.govuk-summary-list__row')[2]) do
-      click_link 'Change TRF number'
-    end
+    click_change_link 'TRF number'
 
     expect(page).to have_field('Test report form (TRF) number', with: '123456')
     fill_in 'Test report form (TRF) number', with: '888'

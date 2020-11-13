@@ -66,7 +66,7 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def when_i_click_to_change_sharing_safeguarding_issues
-    click_link 'Change if you want to share any safeguarding issues'
+    click_change_link 'if you want to share any safeguarding issues'
   end
 
   def when_i_choose_no

@@ -55,7 +55,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def and_i_click_to_change_my_qualification
-    page.all('.govuk-summary-list__actions').to_a.first.click_link 'Change'
+    click_change_link('qualification')
   end
 
   def and_i_change_my_qualification_type

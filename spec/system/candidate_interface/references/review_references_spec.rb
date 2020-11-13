@@ -111,7 +111,7 @@ RSpec.feature 'Review references' do
 
   def and_i_can_edit_a_reference
     within '#references_waiting_to_be_sent' do
-      click_link 'Change name'
+      click_change_link 'name'
     end
 
     fill_in 'candidate-interface-reference-referee-name-form-name-field', with: 'John Major'
