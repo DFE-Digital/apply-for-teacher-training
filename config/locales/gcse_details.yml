@@ -12,6 +12,9 @@ en:
         to train. If you do not have this, contact your provider to discuss your
         options. You might be able to retake an exam or do an equivalence test.
       o_level_triple_gcse_science: If you have a combined or triple O Level in science, enter your total grade.
+      multiple_english_gcses:
+        main: You need a grade C or 4 (or the equivalent). Contact your provider if you do not have this. You might be able to retake an exam or do an equivalence test.
+        secondary: An English Language GCSE is preferred.
       triple_scottish_national_science: If you studied three science subjects separately or took a general science qualification, enter your total grade.
       english_literature_only:
         summary: If you have %{type} in English Literature only
@@ -44,3 +47,19 @@ en:
       english: English GCSE or equivalent
       science: Science GCSE or equivalent
     not_specified: Not entered
+  multiple_gcse_edit_grade:
+    page_title: What English GCSE did you do?
+    question: Select the GCSE(s) you did and include your grade
+    answers:
+      english_single_award: English (Single award)
+      english_double_award: English (Double award)
+      english_language: English Language
+      english_literature: English Literature
+      english_studies_single_award: English Studies (Single award)
+      english_studies_double_award: English Studies (Double award)
+      other_english_gcse: Other English subject
+      other_english_gcse_name: What English GCSE do you have?
+    hints:
+      single_award: For example, ‘C’ or ‘4’
+      double_award: For example, ‘CD’, ‘4-3’
+      other: For example, ‘A’, ‘4.5’, ‘94%’
