@@ -23,8 +23,8 @@ module CandidateInterface
   private
 
     def set_hidden_field_values
-      @path = params[:path]
-      @page_title = params[:page_title]
+      @path = params[:path] || params.dig('candidate_interface_application_feedback_form', 'path')
+      @page_title = params[:page_title]  || params.dig('candidate_interface_application_feedback_form', 'page_title')
     end
 
     def feedback_params
