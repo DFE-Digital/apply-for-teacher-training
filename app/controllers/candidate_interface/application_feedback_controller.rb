@@ -12,6 +12,7 @@ module CandidateInterface
       if @application_feedback_form.save(current_application)
         redirect_to candidate_interface_application_feedback_thank_you_path
       else
+        @application_feedback_form.set_booleans
         track_validation_error(@references_relationship_form)
 
         render :new
@@ -24,7 +25,7 @@ module CandidateInterface
 
     def set_hidden_field_values
       @path = params[:path] || params.dig('candidate_interface_application_feedback_form', 'path')
-      @page_title = params[:page_title]  || params.dig('candidate_interface_application_feedback_form', 'page_title')
+      @page_title = params[:page_title] || params.dig('candidate_interface_application_feedback_form', 'page_title')
     end
 
     def feedback_params

@@ -11,17 +11,25 @@ module CandidateInterface
     validate :path_is_valid, if: -> { path.present? }
 
     def save(application_form)
+      set_booleans
+
       return false unless valid?
 
       application_form.application_feedback.create!(
         path: path,
         page_title: page_title,
-        does_not_understand_section: does_not_understand_section ? true : false,
-        need_more_information: need_more_information ? true : false,
-        answer_does_not_fit_format: answer_does_not_fit_format ? true : false,
+        does_not_understand_section: does_not_understand_section,
+        need_more_information: need_more_information,
+        answer_does_not_fit_format: answer_does_not_fit_format,
         other_feedback: other_feedback,
         consent_to_be_contacted: consent_to_be_contacted == 'true',
       )
+    end
+
+    def set_booleans
+      @does_not_understand_section = @does_not_understand_section.present?
+      @need_more_information = @need_more_information.present?
+      @answer_does_not_fit_format = @answer_does_not_fit_format.present?
     end
 
   private

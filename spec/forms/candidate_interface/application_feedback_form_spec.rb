@@ -54,5 +54,3 @@ RSpec.describe CandidateInterface::ApplicationFeedbackForm, type: :model do
     end
   end
 end
-
-ed
