@@ -15,8 +15,7 @@ class TestApplications
   end
 
   def create_application(recruitment_cycle_year:, states:, courses_to_apply_to:, apply_again: false, course_full: false, candidate: nil)
-    min_days_in_the_past = recruitment_cycle_year == 2020 ? 375 : 10
-    travel_to rand(min_days_in_the_past..(min_days_in_the_past + 20)).days.ago
+    initialize_time(recruitment_cycle_year)
 
     if apply_again
       raise OnlyOneCourseWhenApplyingAgainError, 'You can only apply to one course when applying again' unless states.one?
@@ -85,7 +84,7 @@ class TestApplications
         reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
       end
 
-      fast_forward(1..2)
+      fast_forward
       application_choices = courses_to_apply_to.map do |course|
         FactoryBot.create(
           :application_choice,
@@ -116,7 +115,7 @@ class TestApplications
       end
 
       without_slack_message_sending do
-        fast_forward(1..2)
+        fast_forward
         SubmitApplication.new(@application_form).call
 
         @application_form.application_choices.each do |choice|
@@ -133,14 +132,12 @@ class TestApplications
         @application_form.application_references.each { |reference| submit_reference!(reference) }
 
         states.zip(application_choices).each do |state, application_choice|
+          maybe_add_note(application_choice.reload)
           put_application_choice_in_state(application_choice.reload, state)
+          maybe_add_note(application_choice.reload)
         end
 
         FactoryBot.create(:ucas_match, application_form: @application_form) if rand < 0.5
-      end
-
-      application_choices.each do |application_choice|
-        rand(0..3).times { add_note(application_choice.reload) }
       end
 
       application_choices
@@ -202,7 +199,7 @@ class TestApplications
   end
 
   def accept_offer(choice)
-    fast_forward(1..3)
+    fast_forward
     AcceptOffer.new(application_choice: choice).save!
     choice.update_columns(accepted_at: time, updated_at: time)
     # accept generates two audit writes (minimum), one for status, one for timestamp
@@ -211,7 +208,7 @@ class TestApplications
   end
 
   def withdraw_application(choice)
-    fast_forward(1..3)
+    fast_forward
     WithdrawApplication.new(application_choice: choice).save!
     choice.update_columns(withdrawn_at: time, updated_at: time)
     # service generates two audit writes, one for status, one for timestamp
@@ -220,7 +217,7 @@ class TestApplications
   end
 
   def decline_offer(choice)
-    fast_forward(1..3)
+    fast_forward
     DeclineOffer.new(application_choice: choice).save!
     choice.update_columns(declined_at: time, updated_at: time)
     choice.audits.last&.update_columns(created_at: time)
@@ -231,7 +228,7 @@ class TestApplications
 
   def make_offer(choice, conditions: ['Complete DBS'])
     as_provider_user(choice) do
-      fast_forward(1..3)
+      fast_forward
       MakeAnOffer.new(
         actor: actor,
         course_option: choice.course_option,
@@ -245,7 +242,7 @@ class TestApplications
 
   def reject_application(choice)
     as_provider_user(choice) do
-      fast_forward(1..3)
+      fast_forward
       RejectApplication.new(actor: actor, application_choice: choice, rejection_reason: 'Some').save
       choice.update_columns(rejected_at: time, updated_at: time)
     end
@@ -256,7 +253,7 @@ class TestApplications
 
   def withdraw_offer(choice)
     as_provider_user(choice) do
-      fast_forward(1..3)
+      fast_forward
       WithdrawOffer.new(actor: actor, application_choice: choice, offer_withdrawal_reason: 'Offer withdrawal reason is...').save
       choice.update_columns(offer_withdrawn_at: time, updated_at: time)
     end
@@ -265,7 +262,7 @@ class TestApplications
 
   def defer_offer(choice)
     as_provider_user(choice) do
-      fast_forward(1..3)
+      fast_forward
       confirm_offer_conditions(choice) if rand > 0.5 # 'recruited' can also be deferred
       DeferOffer.new(actor: actor, application_choice: choice).save!
       choice.update_columns(offer_deferred_at: time, updated_at: time)
@@ -277,7 +274,7 @@ class TestApplications
 
   def conditions_not_met(choice)
     as_provider_user(choice) do
-      fast_forward(1..3)
+      fast_forward
       ConditionsNotMet.new(actor: actor, application_choice: choice).save
       choice.update_columns(conditions_not_met_at: time, updated_at: time)
     end
@@ -288,7 +285,7 @@ class TestApplications
 
   def confirm_offer_conditions(choice)
     as_provider_user(choice) do
-      fast_forward(1..3)
+      fast_forward
       ConfirmOfferConditions.new(actor: actor, application_choice: choice).save
       choice.update_columns(recruited_at: time, updated_at: time)
     end
@@ -297,13 +294,15 @@ class TestApplications
     choice.audits.last&.update_columns(created_at: time)
   end
 
-  def add_note(choice)
+  def maybe_add_note(choice)
+    return unless rand > 0.3
+
     previous_updated_at = choice.updated_at
 
     provider_user = choice.provider.provider_users.first
     provider_user ||= add_provider_user_to_provider(choice.provider)
     as_provider_user(choice) do
-      travel_to time + rand(-5..5).days
+      fast_forward
       FactoryBot.create(
         :note,
         application_choice: choice,
@@ -349,12 +348,29 @@ class TestApplications
     RequestStore.store[:disable_slack_messages] = false
   end
 
-  def travel_to(time)
-    @time = time
+  def initialize_time(recruitment_cycle_year)
+    in_current_cycle = recruitment_cycle_year == RecruitmentCycle.current_year
+    if in_current_cycle
+      earliest_date = 20.days.ago.to_date
+      latest_date = Time.zone.now.to_date
+    else
+      earliest_date = EndOfCycleTimetable::CYCLE_DATES[recruitment_cycle_year][:apply_reopens]
+      latest_date = EndOfCycleTimetable::CYCLE_DATES[recruitment_cycle_year + 1][:apply_1_deadline]
+    end
+
+    @time = rand(earliest_date..latest_date)
+    @time_budget = [30, (latest_date.to_date - @time.to_date).to_i].min
   end
 
-  def fast_forward(range)
-    @time = time + rand(range).days
+  def fast_forward
+    return unless @time_budget.positive?
+
+    # We want to spread out actions that happen on an application over time. This ensures we don't use up
+    # the entire time budget in one go, and that we have a good chance of jumping forward a bit
+    time_to_jump = [rand(0..2), rand(1..@time_budget)].min
+
+    @time_budget -= time_to_jump
+    @time = time + time_to_jump.days
     update_new_audits
   end
 

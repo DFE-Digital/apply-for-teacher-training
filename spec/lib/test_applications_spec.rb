@@ -12,7 +12,7 @@ RSpec.describe TestApplications do
     expect(choices.count).to eq(2)
   end
 
-  it 'creates a realistic timeline for an recruited application' do
+  it 'creates a realistic timeline for a recruited application' do
     courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
 
     application_choice = TestApplications.new.create_application(recruitment_cycle_year: 2020, states: %i[recruited], courses_to_apply_to: courses_we_want).first
@@ -21,10 +21,10 @@ RSpec.describe TestApplications do
     candidate = application_form.candidate
 
     expect(candidate.created_at).to eq candidate.last_signed_in_at
-    expect(days_between_ignoring_time_of_day(application_choice.created_at, candidate.created_at)).to be >= 1
-    expect(days_between_ignoring_time_of_day(application_form.submitted_at, application_choice.created_at)).to be >= 1
-    expect(days_between_ignoring_time_of_day(application_choice.offered_at, application_choice.sent_to_provider_at)).to be >= 1
-    expect(days_between_ignoring_time_of_day(application_choice.accepted_at, application_choice.offered_at)).to be >= 1
+    expect(candidate.created_at <= application_choice.created_at).to be true
+    expect(application_choice.created_at <= application_form.submitted_at).to be true
+    expect(application_choice.sent_to_provider_at <= application_choice.offered_at).to be true
+    expect(application_choice.offered_at <= application_choice.accepted_at).to be true
   end
 
   it 'creates a realistic timeline for an offered application' do
@@ -34,9 +34,9 @@ RSpec.describe TestApplications do
 
     application_form = application_choice.application_form
     candidate = application_form.candidate
-    expect(days_between_ignoring_time_of_day(application_choice.created_at, candidate.created_at)).to be >= 1
-    expect(days_between_ignoring_time_of_day(application_form.submitted_at, application_choice.created_at)).to be >= 1
-    expect(days_between_ignoring_time_of_day(application_choice.offered_at, application_choice.sent_to_provider_at)).to be >= 1
+    expect(candidate.created_at <= application_choice.created_at).to be true
+    expect(application_choice.created_at <= application_form.submitted_at).to be true
+    expect(application_choice.sent_to_provider_at <= application_choice.offered_at).to be true
   end
 
   it 'attributes actions to candidates', with_audited: true do
