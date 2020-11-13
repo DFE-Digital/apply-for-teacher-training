@@ -1,4 +1,4 @@
-<% if FeatureFlag.active?(:international_degrees) && @degree_grade_form.international? %>
+<% if @degree_grade_form.international? %>
 
   <p class='govuk-hint'><%= t('application_form.degree.grade.international.grade_examples') %></p>
   <%= f.govuk_radio_buttons_fieldset :grade, legend: nil do %>

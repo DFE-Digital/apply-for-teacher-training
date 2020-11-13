@@ -24,7 +24,6 @@ module CandidateHelper
 
   def candidate_completes_application_form(with_referees: true)
     FeatureFlag.deactivate(:efl_section)
-    FeatureFlag.deactivate(:international_degrees)
     FeatureFlag.deactivate(:international_other_qualifications)
 
     given_courses_exist
@@ -201,6 +200,7 @@ module CandidateHelper
   def candidate_fills_in_their_degree
     visit candidate_interface_new_degree_path
 
+    choose 'UK degree'
     fill_in 'Type of degree', with: 'BA'
     click_button t('application_form.degree.base.button')
 

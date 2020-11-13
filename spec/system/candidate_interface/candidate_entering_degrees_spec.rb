@@ -4,15 +4,14 @@ RSpec.feature 'Entering their degrees' do
   include CandidateHelper
 
   scenario 'Candidate submits their degrees' do
-    FeatureFlag.deactivate(:international_degrees)
-
     given_i_am_signed_in
     and_i_visit_the_site
     when_i_click_on_degree
     then_i_see_the_undergraduate_degree_form
 
     # Add degree type
-    when_i_click_on_save_and_continue
+    when_i_choose_uk_degree
+    and_i_click_on_save_and_continue
     then_i_see_validation_errors_for_degree_type
     when_i_fill_in_the_degree_type
     and_i_click_on_save_and_continue
@@ -131,6 +130,10 @@ RSpec.feature 'Entering their degrees' do
     expect(page).to have_content 'Add undergraduate degree'
   end
 
+  def when_i_choose_uk_degree
+    choose 'UK degree'
+  end
+
   def and_i_click_on_save_and_continue
     click_button t('application_form.degree.base.button')
   end
@@ -144,6 +147,10 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_fill_in_the_degree_type
+    fill_in 'Type of degree', with: 'BSc'
+  end
+
+  def and_i_fill_in_the_degree_type
     fill_in 'Type of degree', with: 'BSc'
   end
 
@@ -225,7 +232,8 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_add_my_degree_back_in
-    when_i_fill_in_the_degree_type
+    when_i_choose_uk_degree
+    and_i_fill_in_the_degree_type
     and_i_click_on_save_and_continue
 
     when_i_fill_in_the_degree_subject
@@ -244,6 +252,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_fill_in_my_additional_degree
+    choose 'UK degree'
     fill_in 'Type of degree', with: 'Masters'
     and_i_click_on_save_and_continue
     fill_in 'What subject is your degree?', with: 'Maths'

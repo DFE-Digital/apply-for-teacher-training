@@ -37,9 +37,7 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
       end
     end
 
-    context 'when non-UK degree is selected and international_degrees feature flag is active' do
-      before { FeatureFlag.activate(:international_degrees) }
-
+    context 'when non-UK degree is selected' do
       it 'updates the instituation_name and country' do
         degree = create(
           :degree_qualification,

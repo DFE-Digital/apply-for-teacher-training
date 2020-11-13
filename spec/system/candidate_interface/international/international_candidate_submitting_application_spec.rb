@@ -5,8 +5,6 @@ RSpec.feature 'International candidate submits the application' do
   include EFLHelper
 
   scenario 'International candidate completes and submits an application' do
-    FeatureFlag.deactivate(:international_degrees)
-
     given_i_am_signed_in
     and_the_efl_feature_flag_is_active
 

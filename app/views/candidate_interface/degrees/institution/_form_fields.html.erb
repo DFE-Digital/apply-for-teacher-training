@@ -1,4 +1,4 @@
-<% if FeatureFlag.active?(:international_degrees) && @degree_institution_form.international? %>
+<% if @degree_institution_form.international? %>
 
   <h1 class="govuk-heading-xl">
     <%= t('page_titles.degree_institution') %>

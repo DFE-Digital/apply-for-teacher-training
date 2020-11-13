@@ -1,14 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreeTypeForm do
-  before { FeatureFlag.deactivate(:international_degrees) }
-
   describe '#save' do
     context 'when the description matches an entry in the HESA data' do
       let(:form) do
         described_class.new(
           type_description: 'Doctor of Divinity',
           application_form: create(:application_form),
+          uk_degree: 'yes',
         )
       end
 
@@ -27,6 +26,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         described_class.new(
           type_description: 'Doctor of Rap Battles',
           application_form: create(:application_form),
+          uk_degree: 'yes',
         )
       end
 
@@ -40,7 +40,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
     end
 
     context 'when missing type_description' do
-      let(:form) { described_class.new(application_form: build(:application_form)) }
+      let(:form) { described_class.new(application_form: build(:application_form), uk_degree: 'yes') }
 
       it 'returns false and has errors' do
         expect(form.save).to eq false
@@ -49,7 +49,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
     end
 
     context 'when missing application_form' do
-      let(:form) { described_class.new(type_description: 'BSc') }
+      let(:form) { described_class.new(type_description: 'BSc', uk_degree: 'yes') }
 
       it 'returns false and has errors' do
         expect(form.save).to eq false
@@ -68,7 +68,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         )
       end
       let(:form) do
-        described_class.new(degree: degree, type_description: 'Doctor of Divinity')
+        described_class.new(degree: degree, type_description: 'Doctor of Divinity', uk_degree: 'yes')
       end
 
       it 'updates the qualification_type and HESA code' do
@@ -88,7 +88,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         )
       end
       let(:form) do
-        described_class.new(degree: degree, type_description: 'Doctor of Rap Battles')
+        described_class.new(degree: degree, type_description: 'Doctor of Rap Battles', uk_degree: 'yes')
       end
 
       it 'updates the qualification_type' do
@@ -100,7 +100,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
     end
 
     context 'when missing type_description' do
-      let(:form) { described_class.new(degree: build(:degree_qualification)) }
+      let(:form) { described_class.new(degree: build(:degree_qualification), uk_degree: 'yes') }
 
       it 'returns false and has errors' do
         expect(form.update).to eq false
@@ -109,7 +109,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
     end
 
     context 'when missing application_form' do
-      let(:form) { described_class.new(type_description: 'BSc') }
+      let(:form) { described_class.new(type_description: 'Doctor of Rap Battles', uk_degree: 'yes') }
 
       it 'returns false and has errors' do
         expect(form.update).to eq false
@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
       end
     end
 
-    context 'when UK degree is selected and international_degrees feature flag is active' do
+    context 'when UK degree is selected' do
       let(:degree) do
         create(
           :degree_qualification,
@@ -130,8 +130,6 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         described_class.new(degree: degree, type_description: 'Doctor of Rap Battles', uk_degree: 'yes')
       end
 
-      before { FeatureFlag.activate(:international_degrees) }
-
       it 'updates the qualification_type and sets international to false' do
         form.update
 
@@ -141,7 +139,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
       end
     end
 
-    context 'when non-UK degree is selected and international_degrees feature flag is active' do
+    context 'when non-UK degree is selected' do
       let(:degree) do
         create(
           :degree_qualification,
@@ -154,9 +152,7 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
         described_class.new(degree: degree, international_type_description: 'Doctor of Rap Battles', uk_degree: 'no')
       end
 
-      before { FeatureFlag.activate(:international_degrees) }
-
-      it 'updates the qualification_type and sets international to false' do
+      it 'updates the qualification_type and sets international to true' do
         form.update
 
         expect(degree.qualification_type).to eq 'Doctor of Rap Battles'
