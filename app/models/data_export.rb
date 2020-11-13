@@ -25,6 +25,11 @@ class DataExport < ApplicationRecord
       description: 'This provides the compiled results of all the referee surveys.',
       class: SupportInterface::RefereeSurveyExport,
     },
+    candidate_application_feedback: {
+      name: 'Candidate application feedback',
+      description: 'This provides the compiled results of all feedback received from prompts throughout the application form.',
+      class: SupportInterface::CandidateApplicationFeedbackExport,
+    },
     candidate_survey: {
       name: 'Candidate survey',
       description: 'This provides the compiled results of all the multi-page candidate satisfaction surveys.',
