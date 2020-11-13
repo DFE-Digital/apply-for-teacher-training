@@ -37,8 +37,6 @@ end
 RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
   include Rails.application.routes.url_helpers
 
-  before { FeatureFlag.deactivate(:international_personal_details) }
-
   let(:default_personal_details_form) { build(:personal_details_form) }
   let(:default_nationalities_form) { build(:nationalities_form) }
   let(:default_languages_form) { build(:languages_form) }
@@ -83,8 +81,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
     it 'includes a hash for a single nationality' do
       nationalities_form = build(
         :nationalities_form,
-        first_nationality: 'British',
-        second_nationality: nil,
+        british: 'British',
+        irish: nil,
       )
 
       expect(rows(nationalities_form: nationalities_form)).to include(
@@ -95,8 +93,9 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
     it 'includes a hash for dual nationalities' do
       nationalities_form = build(
         :nationalities_form,
-        first_nationality: 'British',
-        second_nationality: 'Spanish',
+        british: 'British',
+        irish: nil,
+        other_nationality1: 'Spanish',
       )
 
       expect(rows(nationalities_form: nationalities_form)).to include(
@@ -104,9 +103,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
     end
 
-    it 'includes a hash with up to 5 nationalities when international_personal_details is on' do
-      FeatureFlag.activate(:international_personal_details)
-
+    it 'includes a hash with up to 5 nationalities' do
       nationalities_form = build(
         :nationalities_form,
         british: 'British',
@@ -247,13 +244,11 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
 
       row_data = rows(languages_form: languages_form)
       keys = row_data.map { |row| row[:key] }
-      expect(keys).to match_array ['Name', 'Date of birth', 'Nationality']
+      expect(keys).to match_array ['Name', 'Date of birth', 'Nationality', 'Residency status']
     end
   end
 
-  context 'when the international personal details flag is on and the candidate has selected they have the right to work' do
-    before { FeatureFlag.activate(:international_personal_details) }
-
+  context 'when the candidate has selected they have the right to work' do
     it 'renders the right to work row' do
       nationalities_form = build(
         :nationalities_form,
@@ -271,9 +266,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
     end
   end
 
-  context 'when the international personal details flag is on and the candidate is British or Irish' do
-    before { FeatureFlag.activate(:international_personal_details) }
-
+  context 'when the candidate is British or Irish' do
     it 'does not render the right to work row' do
       nationalities_form = build(
         :nationalities_form,

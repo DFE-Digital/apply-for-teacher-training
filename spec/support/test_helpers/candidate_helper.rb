@@ -23,7 +23,6 @@ module CandidateHelper
   end
 
   def candidate_completes_application_form(with_referees: true)
-    FeatureFlag.deactivate(:international_personal_details)
     FeatureFlag.deactivate(:efl_section)
     FeatureFlag.deactivate(:international_degrees)
     FeatureFlag.deactivate(:international_other_qualifications)
@@ -156,10 +155,10 @@ module CandidateHelper
     fill_in 'Year', with: '1937'
     click_button t('complete_form_button', scope: scope)
 
-    select('British', from: t('nationality.label', scope: scope))
-    find('details').click
-    within('details') do
-      select('American', from: t('second_nationality.label', scope: scope))
+    check 'British'
+    check 'Citizen of a different country'
+    within('#candidate-interface-nationalities-form-other-nationality1-field') do
+      select 'American'
     end
     click_button t('complete_form_button', scope: scope)
 

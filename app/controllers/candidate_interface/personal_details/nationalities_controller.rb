@@ -4,11 +4,7 @@ module CandidateInterface
       before_action :redirect_to_dashboard_if_submitted
 
       def new
-        @nationalities_form = if FeatureFlag.active?('international_personal_details')
-                                NationalitiesForm.new
-                              else
-                                NationalitiesForm.build_from_application(current_application)
-                              end
+        @nationalities_form = NationalitiesForm.new
       end
 
       def create
@@ -17,7 +13,7 @@ module CandidateInterface
 
         if @nationalities_form.save(current_application)
           current_application.update!(personal_details_completed: false)
-          if FeatureFlag.active?('international_personal_details') && !british_or_irish?
+          if !british_or_irish?
             redirect_to candidate_interface_right_to_work_or_study_path
           elsif LanguagesSectionPolicy.hide?(current_application)
             redirect_to candidate_interface_personal_details_show_path
@@ -40,7 +36,7 @@ module CandidateInterface
 
         if @nationalities_form.save(current_application)
           current_application.update!(personal_details_completed: false)
-          if FeatureFlag.active?('international_personal_details') && !british_or_irish?
+          if !british_or_irish?
             redirect_to candidate_interface_edit_right_to_work_or_study_path
           else
             redirect_to candidate_interface_personal_details_show_path

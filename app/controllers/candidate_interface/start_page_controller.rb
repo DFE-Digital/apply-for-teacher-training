@@ -14,10 +14,8 @@ module CandidateInterface
 
       if @create_account_or_sign_in_form.existing_account?
         SignInCandidate.new(@create_account_or_sign_in_form.email, self).call
-      elsif FeatureFlag.active?(:international_personal_details)
-        redirect_to candidate_interface_sign_up_path(providerCode: params[:providerCode], courseCode: params[:courseCode])
       else
-        redirect_to candidate_interface_eligibility_path(
+        redirect_to candidate_interface_sign_up_path(
           providerCode: params[:providerCode],
           courseCode: params[:courseCode],
         )

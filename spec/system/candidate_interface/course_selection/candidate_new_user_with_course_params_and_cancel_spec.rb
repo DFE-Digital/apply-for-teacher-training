@@ -5,7 +5,6 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   scenario 'Candidate signs in and recieves an email inviting them to sign up and is prompted to select the course' do
     given_the_pilot_is_open
-    and_the_international_personal_details_feature_is_active
 
     given_i_am_a_candidate_without_an_account
     and_there_is_a_course_with_multiple_sites
@@ -25,10 +24,6 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   def given_the_pilot_is_open
     FeatureFlag.activate('pilot_open')
-  end
-
-  def and_the_international_personal_details_feature_is_active
-    FeatureFlag.activate('international_personal_details')
   end
 
   def given_i_am_a_candidate_without_an_account

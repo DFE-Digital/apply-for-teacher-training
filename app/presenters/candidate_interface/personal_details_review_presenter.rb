@@ -19,9 +19,7 @@ module CandidateInterface
         nationality_row,
       ]
 
-      if FeatureFlag.active?('international_personal_details')
-        assembled_rows << right_to_work_row
-      end
+      assembled_rows << right_to_work_row
 
       unless LanguagesSectionPolicy.hide?(@application_form)
         assembled_rows << english_main_language_row
@@ -111,24 +109,15 @@ module CandidateInterface
     end
 
     def formatted_nationalities
-      if FeatureFlag.active?('international_personal_details')
-        [
-          @nationalities_form.british,
-          @nationalities_form.irish,
-          @nationalities_form.other_nationality1,
-          @nationalities_form.other_nationality2,
-          @nationalities_form.other_nationality3,
-        ]
-        .reject(&:blank?)
-        .to_sentence
-      else
-        [
-          @nationalities_form.first_nationality,
-          @nationalities_form.second_nationality,
-        ]
-        .reject(&:blank?)
-        .to_sentence
-      end
+      [
+        @nationalities_form.british,
+        @nationalities_form.irish,
+        @nationalities_form.other_nationality1,
+        @nationalities_form.other_nationality2,
+        @nationalities_form.other_nationality3,
+      ]
+      .reject(&:blank?)
+      .to_sentence
     end
 
     def formatted_right_to_work_or_study

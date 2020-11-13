@@ -4,7 +4,6 @@ RSpec.feature 'Entering their personal details' do
   include CandidateHelper
 
   scenario 'Candidate submits their personal details' do
-    FeatureFlag.deactivate(:international_personal_details)
     FeatureFlag.deactivate(:efl_section)
 
     given_i_am_signed_in
@@ -86,10 +85,10 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def when_i_input_my_nationalities
-    select('British', from: t('nationality.label', scope: @scope))
-    find('details').click
-    within('details') do
-      select('American', from: t('second_nationality.label', scope: @scope))
+    check 'British'
+    check 'Citizen of a different country'
+    within('#candidate-interface-nationalities-form-other-nationality1-field') do
+      select 'American'
     end
   end
 
