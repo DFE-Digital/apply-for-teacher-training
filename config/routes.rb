@@ -110,8 +110,8 @@ Rails.application.routes.draw do
       end
 
       scope '/training-with-a-disability' do
-        get '/' => 'training_with_a_disability#edit', as: :training_with_a_disability_edit
-        post '/review' => 'training_with_a_disability#update', as: :training_with_a_disability_update
+        get '/' => 'training_with_a_disability#edit', as: :edit_training_with_a_disability
+        post '/' => 'training_with_a_disability#update'
         get '/review' => 'training_with_a_disability#show', as: :training_with_a_disability_show
         post '/complete' => 'training_with_a_disability#complete', as: :training_with_a_disability_complete
       end
