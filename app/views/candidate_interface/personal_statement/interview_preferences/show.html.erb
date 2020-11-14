@@ -9,5 +9,5 @@
 
 <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
                                         path: candidate_interface_interview_preferences_complete_path,
-                                        request_method: :post,
+                                        request_method: :patch,
                                         field_name: :interview_preferences_completed)) %>
