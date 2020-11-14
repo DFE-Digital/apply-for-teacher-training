@@ -7,5 +7,5 @@
 
 <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
                                        path: candidate_interface_gcse_complete_path,
-                                       request_method: :post,
+                                       request_method: :patch,
                                        field_name: @field_name)) %>

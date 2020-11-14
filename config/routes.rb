@@ -131,30 +131,31 @@ Rails.application.routes.draw do
       end
 
       scope '/gcse' do
-        get '/maths/grade' => 'gcse/maths/grade#edit', as: :gcse_maths_edit_grade
-        get '/science/grade' => 'gcse/science/grade#edit', as: :gcse_science_edit_grade
-        get '/english/grade' => 'gcse/english/grade#edit', as: :gcse_english_edit_grade
-
+        get '/maths/grade' => 'gcse/maths/grade#edit', as: :edit_gcse_maths_grade
         patch '/maths/grade' => 'gcse/maths/grade#update'
+
+        get '/science/grade' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
         patch '/english/grade' => 'gcse/english/grade#update'
+
+        get '/english/grade' => 'gcse/english/grade#edit', as: :edit_gcse_english_grade
         patch '/science/grade' => 'gcse/science/grade#update'
       end
 
       scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do
         get '/' => 'gcse/type#edit', as: :gcse_details_edit_type
-        post '/' => 'gcse/type#update', as: :gcse_details_update_type
+        post '/' => 'gcse/type#update'
 
         get '/country' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
-        post '/country' => 'gcse/institution_country#update', as: :gcse_details_update_institution_country
+        post '/country' => 'gcse/institution_country#update'
 
         get '/naric-reference' => 'gcse/naric_reference#edit', as: :gcse_details_edit_naric_reference
-        post '/naric-reference' => 'gcse/naric_reference#update', as: :gcse_details_update_naric_reference
+        post '/naric-reference' => 'gcse/naric_reference#update'
 
         get '/year' => 'gcse/year#edit', as: :gcse_details_edit_year
-        patch '/year' => 'gcse/year#update', as: :gcse_details_update_year
+        post '/year' => 'gcse/year#update'
 
         get '/review' => 'gcse/review#show', as: :gcse_review
-        post '/complete' => 'gcse/review#complete', as: :gcse_complete
+        patch '/complete' => 'gcse/review#complete', as: :gcse_complete
       end
 
       scope '/work-history' do
