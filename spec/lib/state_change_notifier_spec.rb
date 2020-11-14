@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe StateChangeNotifier do
   let(:helpers) { Rails.application.routes.url_helpers }
 
+  before { allow(SlackNotificationWorker).to receive(:perform_async) }
+
   describe '#call' do
     let(:candidate)           { create(:candidate) }
     let(:application_choice)  { create(:application_choice) }
@@ -11,8 +13,6 @@ RSpec.describe StateChangeNotifier do
     let(:application_form)    { application_choice.application_form }
     let(:application_form_id) { application_choice.application_form.id }
     let(:course_name)         { application_choice.course.name_and_code }
-
-    before { allow(SlackNotificationWorker).to receive(:perform_async) }
 
     describe ':make_an_offer' do
       before { StateChangeNotifier.call(:make_an_offer, application_choice: application_choice) }
@@ -95,6 +95,109 @@ RSpec.describe StateChangeNotifier do
       it 'links the notification to the relevant support_interface application_form' do
         arg2 = helpers.support_interface_application_form_url(application_form_id)
         expect(SlackNotificationWorker).to have_received(:perform_async).with(anything, arg2)
+      end
+    end
+  end
+
+  describe '.accept_offer' do
+    let(:application_form) { create(:application_form, first_name: 'Leah') }
+    let(:provider) { create(:provider, name: 'UCL') }
+
+    let(:english) { create(:course, provider: provider, name: 'English', code: 'EEE') }
+    let(:french) { create(:course, provider: provider, name: 'French', code: 'FFF') }
+    let(:maths) { create(:course, provider: provider, name: 'Maths', code: 'MMM') }
+
+    let(:accepted) do
+      create(:application_choice,
+             application_form: application_form,
+             course_option: create(:course_option, course: english))
+    end
+    let(:declined) { [] }
+    let(:withdrawn) { [] }
+
+    before { StateChangeNotifier.accept_offer(accepted: accepted, declined: declined, withdrawn: withdrawn) }
+
+    context 'when this is the only application choice' do
+      it 'shows the correct message' do
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE).'
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
+      end
+    end
+
+    context 'when there is another offer that’s been declined' do
+      let(:declined) do
+        [create(:application_choice,
+                application_form: application_form,
+                course_option: create(:course_option, course: french))]
+      end
+
+      it 'shows the correct message' do
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and declined UCL’s offer for French (FFF).'
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
+      end
+    end
+
+    context 'when there is another offer that’s been withdrawn' do
+      let(:withdrawn) do
+        [create(:application_choice,
+                application_form: application_form,
+                course_option: create(:course_option, course: french))]
+      end
+
+      it 'shows the correct message' do
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and withdrawn their application for French (FFF) at UCL.'
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
+      end
+    end
+
+    context 'when there’s another offer withdrawn and another declined' do
+      let(:withdrawn) do
+        [create(:application_choice,
+                application_form: application_form,
+                course_option: create(:course_option, course: french))]
+      end
+
+      let(:declined) do
+        [create(:application_choice,
+                application_form: application_form,
+                course_option: create(:course_option, course: maths))]
+      end
+
+      it 'shows the correct message' do
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE), withdrawn their application for French (FFF) at UCL, and declined UCL’s offer for Maths (MMM).'
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
+      end
+    end
+
+    context 'when there are two offers withdrawn' do
+      let(:withdrawn) do
+        [create(:application_choice,
+                application_form: application_form,
+                course_option: create(:course_option, course: french)),
+         create(:application_choice,
+                application_form: application_form,
+                course_option: create(:course_option, course: maths))]
+      end
+
+      it 'shows the correct message' do
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and withdrawn their applications for French (FFF) at UCL and Maths (MMM) at UCL.'
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
+      end
+    end
+
+    context 'when there are two offers declined' do
+      let(:declined) do
+        [create(:application_choice,
+                application_form: application_form,
+                course_option: create(:course_option, course: french)),
+         create(:application_choice,
+                application_form: application_form,
+                course_option: create(:course_option, course: maths))]
+      end
+
+      it 'shows the correct message' do
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and declined UCL’s offer for French (FFF) and UCL’s offer for Maths (MMM).'
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
       end
     end
   end
