@@ -118,13 +118,13 @@ Rails.application.routes.draw do
 
       scope '/contact-details' do
         get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
-        post '/' => 'contact_details/base#update', as: :contact_details_update_base
+        post '/' => 'contact_details/base#update'
 
         get '/address_type' => 'contact_details/address_type#edit', as: :contact_details_edit_address_type
-        post '/address_type' => 'contact_details/address_type#update', as: :contact_details_update_address_type
+        post '/address_type' => 'contact_details/address_type#update'
 
         get '/address' => 'contact_details/address#edit', as: :contact_details_edit_address
-        post '/address' => 'contact_details/address#update', as: :contact_details_update_address
+        post '/address' => 'contact_details/address#update'
 
         get '/review' => 'contact_details/review#show', as: :contact_details_review
         post '/complete' => 'contact_details/review#complete', as: :contact_details_complete
