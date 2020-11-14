@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @work_break, url: candidate_interface_destroy_work_history_break_path(@work_break), method: :post do |f| %>
+    <%= form_with model: @work_break, url: candidate_interface_destroy_work_history_break_path(@work_break), method: :delete do |f| %>
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl">Work history</span>
         <%= t('page_titles.destroy_work_history_break') %>

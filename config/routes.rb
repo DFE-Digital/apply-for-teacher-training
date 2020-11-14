@@ -168,15 +168,15 @@ Rails.application.routes.draw do
         get '/explain-breaks' => 'work_history/breaks#edit', as: :work_history_breaks
         post '/explain-breaks' => 'work_history/breaks#update'
 
-        get '/explain-break/new' => 'work_history/break#new', as: :new_work_history_break
+        get '/explain-break/new' => 'work_history/break#new', as: :work_history_break
         post '/explain-break/new' => 'work_history/break#create'
         get '/explain-break/edit/:id' => 'work_history/break#edit', as: :edit_work_history_break
-        post '/explain-break/edit/:id' => 'work_history/break#update'
+        patch '/explain-break/edit/:id' => 'work_history/break#update'
         get '/explain-break/delete/:id' => 'work_history/break#confirm_destroy', as: :destroy_work_history_break
-        post '/explain-break/delete/:id' => 'work_history/break#destroy'
+        delete '/explain-break/delete/:id' => 'work_history/break#destroy'
 
-        get '/new' => 'work_history/edit#new', as: :work_history_new
-        post '/create' => 'work_history/edit#create', as: :work_history_create
+        get '/new' => 'work_history/edit#new', as: :new_work_history
+        post '/new' => 'work_history/edit#create'
 
         get '/edit/:id' => 'work_history/edit#edit', as: :work_history_edit
         post '/edit/:id' => 'work_history/edit#update'
