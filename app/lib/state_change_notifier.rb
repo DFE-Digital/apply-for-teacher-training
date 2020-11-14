@@ -62,7 +62,7 @@ class StateChangeNotifier
   end
 
   def self.send(text, url)
-    if RequestStore.store[:disable_slack_messages]
+    if RequestStore.store[:disable_state_change_notifications]
       Rails.logger.info "Sending Slack messages disabled (message: `#{text}`)"
       return
     end
@@ -72,5 +72,11 @@ class StateChangeNotifier
 
   def self.helpers
     Rails.application.routes.url_helpers
+  end
+
+  def self.disable_notifications
+    RequestStore.store[:disable_state_change_notifications] = true
+    yield
+    RequestStore.store[:disable_state_change_notifications] = false
   end
 end
