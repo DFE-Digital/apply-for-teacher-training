@@ -5,10 +5,13 @@ class StateChangeNotifier
     return unless (candidate_number % 25).zero?
 
     candidate_number_is_significant = (candidate_number % 100).zero?
+
+    human_readable_number = "#{ActiveSupport::NumberHelper.number_to_delimited(candidate_number)}#{candidate_number.ordinal}"
+
     text = if candidate_number_is_significant
-             ":ultrafastparrot: The #{candidate_number.ordinalize} candidate just signed up"
+             ":ultrafastparrot: The #{human_readable_number} candidate just signed up"
            else
-             ":sparkles: The #{candidate_number.ordinalize} candidate just signed up"
+             ":sparkles: The #{human_readable_number} candidate just signed up"
            end
 
     url = helpers.support_interface_candidate_url(candidate)

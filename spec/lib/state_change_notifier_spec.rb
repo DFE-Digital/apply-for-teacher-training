@@ -99,6 +99,40 @@ RSpec.describe StateChangeNotifier do
     end
   end
 
+  describe '.sign_up' do
+    let(:candidate_count) { 0 }
+
+    before do
+      fake_relation = instance_double('ActiveRecord::Relation', count: candidate_count)
+      allow(Candidate).to receive(:where).and_return fake_relation
+      StateChangeNotifier.sign_up(create(:candidate))
+    end
+
+    context 'every 25th candidate' do
+      let(:candidate_count) { 25 }
+
+      it 'reports the sign up' do
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(/sparkles.+25th candidate/, anything)
+      end
+    end
+
+    context 'every 100th candidate' do
+      let(:candidate_count) { 100 }
+
+      it 'reports the sign up' do
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(/ultrafastparrot.+100th candidate/, anything)
+      end
+    end
+
+    context 'counts over 1000' do
+      let(:candidate_count) { 1500 }
+
+      it 'reports the sign up' do
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(/1,500th candidate/, anything)
+      end
+    end
+  end
+
   describe '.accept_offer' do
     let(:application_form) { create(:application_form, first_name: 'Leah') }
     let(:provider) { create(:provider, name: 'UCL') }
