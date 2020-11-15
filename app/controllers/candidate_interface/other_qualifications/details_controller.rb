@@ -7,11 +7,13 @@ module CandidateInterface
         current_application.application_qualifications.other.order(:created_at),
       )
       @wizard.save_state!
+      set_subject_data_for_autocomplete
     end
 
     def create
       @wizard = wizard_for(other_qualification_params.merge(current_step: :details))
       @wizard.save_state!
+      set_subject_data_for_autocomplete
 
       if @wizard.valid?(:details)
         commit
@@ -40,6 +42,7 @@ module CandidateInterface
         checking_answers: true,
       )
       @wizard.save_state!
+      set_subject_data_for_autocomplete
     end
 
     def update
@@ -47,6 +50,7 @@ module CandidateInterface
         other_qualification_update_params.merge(current_step: :details, checking_answers: true),
       )
       @wizard.save_state!
+      set_subject_data_for_autocomplete
 
       if @wizard.valid?(:details)
         commit
@@ -109,6 +113,13 @@ module CandidateInterface
       other_qualification_params.merge(
         params.require(:candidate_interface_other_qualification_wizard).permit(:qualification_type),
       )
+    end
+
+    def set_subject_data_for_autocomplete
+      qualification_type = @wizard.qualification_type_name
+      if qualification_type.in? ['A level', 'AS level']
+        @subjects_for_autocomplete = A_AND_AS_LEVEL_SUBJECTS
+      end
     end
   end
 end
