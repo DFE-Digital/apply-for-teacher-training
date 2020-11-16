@@ -61,25 +61,25 @@ class StateChangeNotifier
 
     case event
     when :make_an_offer
-      text = ":love_letter: #{provider_name} has just made an offer to #{candidate_name}’s application"
+      text = ":love_letter: #{provider_name} has made an offer to #{candidate_name}’s application"
     when :change_an_offer
-      text = ":love_letter: #{provider_name} has just changed an offer for #{candidate_name}’s application"
+      text = ":love_letter: #{provider_name} has changed an offer for #{candidate_name}’s application"
     when :reject_application
-      text = ":broken_heart: #{provider_name} has just rejected #{candidate_name}’s application"
+      text = ":broken_heart: #{provider_name} has rejected #{candidate_name}’s application"
     when :reject_application_by_default
-      text = ":broken_heart: #{candidate_name}’s application to #{provider_name} has just been rejected by default"
+      text = ":broken_heart: #{candidate_name}’s application to #{provider_name} has been rejected by default"
     when :offer_declined
       text = ":no_good: #{candidate_name} has declined #{provider_name}’s offer"
     when :withdraw
       text = ":runner: #{candidate_name} has withdrawn their application for #{course_name} at #{provider_name}"
     when :withdraw_offer
-      text = ":no_good: #{provider_name} has just withdrawn #{candidate_name}’s offer"
+      text = ":no_good: #{provider_name} has withdrawn #{candidate_name}’s offer"
     when :defer_offer
-      text = ":double_vertical_bar: #{provider_name} has just deferred #{candidate_name}’s offer"
+      text = ":double_vertical_bar: #{provider_name} has deferred #{candidate_name}’s offer"
     when :reinstate_offer_conditions_met
-      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{candidate_name} (conditions met)"
+      text = ":arrow_forward: #{provider_name} has reinstated their offer to #{candidate_name} (conditions met)"
     when :reinstate_offer_pending_conditions
-      text = ":arrow_forward: #{provider_name} has just reinstated their offer to #{candidate_name} (pending conditions)"
+      text = ":arrow_forward: #{provider_name} has reinstated their offer to #{candidate_name} (pending conditions)"
     else
       raise 'StateChangeNotifier: unsupported state transition event'
     end
