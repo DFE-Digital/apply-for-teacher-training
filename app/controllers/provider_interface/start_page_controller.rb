@@ -6,7 +6,7 @@ module ProviderInterface
     layout 'base'
 
     def show
-      courses = Course.includes(:provider).open_on_apply
+      courses = Course.current_cycle.includes(:provider).open_on_apply
       @course_count = courses.count
       @provider_count = courses.map(&:provider).uniq.count
 
