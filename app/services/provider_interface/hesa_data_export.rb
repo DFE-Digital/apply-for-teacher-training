@@ -1,7 +1,8 @@
 module ProviderInterface
   class HesaDataExport
-    def initialize(provider_ids:)
+    def initialize(provider_ids:, actor:)
       @provider_ids = provider_ids
+      @auth = ProviderAuthorisation.new(actor: actor)
     end
 
     def call
@@ -79,6 +80,8 @@ module ProviderInterface
 
     def diversity_information(application)
       return { 'sex' => 'no data', 'disabilities' => 'no data', 'ethnicity' => 'no data' } if application.application_form.equality_and_diversity.blank?
+
+      return { 'sex' => 'confidential', 'disabilities' => 'confidential', 'ethnicity' => 'confidential' } unless @auth.can_view_diversity_information?(course: application.course)
 
       {
         'sex' => application.application_form.equality_and_diversity['hesa_sex'] || 'not specified',
