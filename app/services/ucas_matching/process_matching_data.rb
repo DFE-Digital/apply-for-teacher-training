@@ -117,8 +117,18 @@ module UCASMatching
       existing_matches_string = "#{existing_matches} #{'match'.pluralize(existing_matches)}"
 
       message = ":dfe: :ucas: Hello, this is the Apply/UCAS matching robot. I’ve just received a new file from UCAS. It contained #{new_matches_string}, #{updated_matches_string}, and #{existing_matches_string} we’ve already seen."
-      url = Rails.application.routes.url_helpers.support_interface_ucas_matches_url
+      url = Rails.application.routes.url_helpers.support_interface_ucas_matches_url(years: RecruitmentCycle.current_year)
       SlackNotificationWorker.perform_async(message, url)
+
+      send_action_needed_slack_notification
+    end
+
+    def send_action_needed_slack_notification
+      action_needed_matches = UCASMatch.select(&:action_needed?).count
+      action_needed_matches_string = ":dfe: :ucas: We have #{action_needed_matches} #{'match'.pluralize(action_needed_matches)} requiring action."
+      action_needed_message = action_needed_matches.zero? ? ':relaxed: No matches require an action' : action_needed_matches_string
+      action_needed_url = Rails.application.routes.url_helpers.support_interface_ucas_matches_url(action_needed: 'yes')
+      SlackNotificationWorker.perform_async(action_needed_message, action_needed_url)
     end
   end
 end
