@@ -49,7 +49,7 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def and_i_add_a_rejection_reason
-    fill_in('Tell the candidate why their application was unsuccessful', with: 'The course became full.')
+    fill_in('Feedback for candidate', with: 'The course became full.')
   end
 
   def and_i_click_to_continue
@@ -57,8 +57,10 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def and_i_check_and_send_my_feedback
-    expect(page).to have_content 'The candidate will see your feedback in the format below.'
+    expect(page).to have_content 'Check and send feedback'
     expect(page).to have_content 'The course became full.'
+    expect(page).to have_link 'Change'
+
     click_on 'Send feedback'
   end
 
@@ -70,7 +72,11 @@ RSpec.feature 'Provider rejects application' do
 
   def and_i_can_see_the_feedback_provided
     expect(application_rejected_by_default.reload.reject_by_default_feedback_sent_at).not_to be_nil
-    expect(page).to have_content "You sent the following feedback to the candidate on #{Time.zone.today.strftime('%d %b %Y')}."
+    expect(page).to have_content 'Rejection details'
+    expect(page).to have_content 'Automatically rejected'
+    expect(page).to have_content application_rejected_by_default.rejected_at.to_s(:govuk_date)
+    expect(page).to have_content 'Feedback sent'
+    expect(page).to have_content application_rejected_by_default.reject_by_default_feedback_sent_at.to_s(:govuk_date)
     expect(page).to have_content 'The course became full.'
   end
 end

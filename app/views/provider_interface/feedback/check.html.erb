@@ -13,8 +13,7 @@
       <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
       <h1 class="govuk-heading-l">Check and send feedback</h1>
 
-      <% intro = "The candidate will see your feedback in the format below." %>
-      <%= render ProviderInterface::RejectByDefaultFeedbackComponent.new(application_choice: @application_choice, introduction: intro, rejection_reason: @application_feedback.rejection_reason) %>
+      <%= render ProviderInterface::FeedbackPreviewComponent.new(application_choice: @application_choice, rejection_reason: @application_feedback.rejection_reason) %>
 
       <%= f.govuk_submit 'Send feedback' %>
 
