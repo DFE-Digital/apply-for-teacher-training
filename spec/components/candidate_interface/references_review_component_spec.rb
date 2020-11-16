@@ -86,6 +86,20 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
     end
   end
 
+  context 'when reference state is "not_requested_yet" and enough references are available' do
+    it 'no send request link is available' do
+      application_form = create(:application_form)
+
+      result = render_inline(described_class.new(references: [
+        create(:reference, :not_requested_yet, application_form: application_form),
+        create(:reference, :feedback_provided, application_form: application_form),
+        create(:reference, :feedback_provided, application_form: application_form),
+      ]))
+
+      expect(result.text).not_to include 'Send request'
+    end
+  end
+
   context 'when reference state is "not_requested_yet" and the reference is incomplete' do
     let(:not_requested_yet) { create(:reference, :not_requested_yet, name: nil) }
 
