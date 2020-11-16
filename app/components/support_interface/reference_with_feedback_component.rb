@@ -115,7 +115,7 @@ module SupportInterface
 
       [
         {
-          key: 'Editable by candidate',
+          key: 'Can be edited?',
           value: reference.editable? ? 'Yes' : 'No',
         },
         {
@@ -123,7 +123,7 @@ module SupportInterface
           value: reference.can_be_destroyed? ? 'Yes' : 'No',
         },
         {
-          key: 'Request can be deleted?',
+          key: 'Can be deleted?',
           value: reference.request_can_be_deleted? ? 'Yes' : 'No',
         },
         {
