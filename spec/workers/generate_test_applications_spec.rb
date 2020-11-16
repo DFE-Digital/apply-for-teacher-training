@@ -30,5 +30,7 @@ RSpec.describe GenerateTestApplications do
 
     # there is at least one unsubmitted application to a full course
     expect(ApplicationChoice.where(status: 'unsubmitted').map(&:course_option).select(&:no_vacancies?)).not_to be_empty
+
+    expect(ApplicationChoice.cancelled.first.application_form.application_references.feedback_requested).to be_empty
   end
 end
