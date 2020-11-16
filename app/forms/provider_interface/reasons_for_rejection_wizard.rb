@@ -115,42 +115,21 @@ module ProviderInterface
     with_options(on: :initial_questions) do
       validates :candidate_behaviour_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :candidate_behaviour_what_did_the_candidate_do, presence: true, if: -> { candidate_behaviour_y_n == 'Yes' }
-      validates :candidate_behaviour_other,
-                presence: true,
-                if: -> { candidate_behaviour_y_n == 'Yes' && candidate_behaviour_what_did_the_candidate_do.include?('other') }
-      validates :candidate_behaviour_what_to_improve,
-                presence: true,
-                if: -> { candidate_behaviour_y_n == 'Yes' && candidate_behaviour_what_did_the_candidate_do.include?('other') }
 
       validates :quality_of_application_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :quality_of_application_which_parts_needed_improvement,
                 presence: true,
                 if: -> { quality_of_application_y_n == 'Yes' }
-      validates :quality_of_application_personal_statement_what_to_improve,
-                presence: true,
-                if: -> { quality_of_application_y_n == 'Yes' && quality_of_application_which_parts_needed_improvement.include?('personal_statement') }
-      validates :quality_of_application_subject_knowledge_what_to_improve,
-                presence: true,
-                if: -> { quality_of_application_y_n == 'Yes' && quality_of_application_which_parts_needed_improvement.include?('subject_knowledge') }
-      validates :quality_of_application_other_details,
-                presence: true,
-                if: -> { quality_of_application_y_n == 'Yes' && quality_of_application_which_parts_needed_improvement.include?('other') }
-      validates :quality_of_application_other_what_to_improve,
-                presence: true,
-                if: -> { quality_of_application_y_n == 'Yes' && quality_of_application_which_parts_needed_improvement.include?('other') }
 
       validates :qualifications_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :qualifications_which_qualifications,
                 presence: { message: 'Select at least one reason related to their qualifications' },
                 if: -> { qualifications_y_n == 'Yes' }
-      validates :qualifications_other_details,
-                presence: true,
-                if: -> { qualifications_y_n == 'Yes' && qualifications_which_qualifications.include?('other') }
 
       validates :performance_at_interview_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :performance_at_interview_what_to_improve,
                 presence: true,
-                if: -> { qualifications_y_n == 'Yes' }
+                if: -> { performance_at_interview_y_n == 'Yes' }
 
       validates :course_full_y_n, presence: true, inclusion: { in: %w[Yes No] }
 
@@ -163,41 +142,59 @@ module ProviderInterface
       validates :honesty_and_professionalism_concerns,
                 presence: true,
                 if: -> { honesty_and_professionalism_y_n == 'Yes' }
-      validates :honesty_and_professionalism_concerns_information_false_or_inaccurate_details,
-                presence: true,
-                if: -> { honesty_and_professionalism_y_n == 'Yes' && honesty_and_professionalism_concerns.include?('information_false_or_inaccurate') }
-      validates :honesty_and_professionalism_concerns_plagiarism_details,
-                presence: true,
-                if: -> { honesty_and_professionalism_y_n == 'Yes' && honesty_and_professionalism_concerns.include?('plagiarism') }
-      validates :honesty_and_professionalism_concerns_references_details,
-                presence: true,
-                if: -> { honesty_and_professionalism_y_n == 'Yes' && honesty_and_professionalism_concerns.include?('references') }
-      validates :honesty_and_professionalism_concerns_other_details,
-                presence: true,
-                if: -> { honesty_and_professionalism_y_n == 'Yes' && honesty_and_professionalism_concerns.include?('other') }
 
       validates :safeguarding_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :safeguarding_concerns, presence: true, if: -> { safeguarding_y_n == 'Yes' }
-      validates :safeguarding_concerns_candidate_disclosed_information_details,
-                presence: true,
-                if: -> { safeguarding_y_n == 'Yes' && safeguarding_concerns.include?('candidate_disclosed_information') }
-      validates :safeguarding_concerns_vetting_disclosed_information_details,
-                presence: true,
-                if: -> { safeguarding_y_n == 'Yes' && safeguarding_concerns.include?('vetting_disclosed_information') }
-      validates :safeguarding_concerns_other_details,
-                presence: true,
-                if: -> { safeguarding_y_n == 'Yes' && safeguarding_concerns.include?('other') }
 
-      validates_each(
-        :candidate_behaviour_other, :candidate_behaviour_what_to_improve, :quality_of_application_personal_statement_what_to_improve,
-        :quality_of_application_subject_knowledge_what_to_improve, :quality_of_application_other_details, :quality_of_application_other_what_to_improve,
-        :qualifications_other_details, :performance_at_interview_what_to_improve, :offered_on_another_course_details,
-        :honesty_and_professionalism_concerns_information_false_or_inaccurate_details, :honesty_and_professionalism_concerns_plagiarism_details,
-        :honesty_and_professionalism_concerns_references_details, :honesty_and_professionalism_concerns_other_details,
-        :safeguarding_concerns_candidate_disclosed_information_details, :safeguarding_concerns_vetting_disclosed_information_details,
-        :safeguarding_concerns_other_details
-      ) do |record, attr, value|
-        record.errors.add(attr, :too_long) if value.present? && value.scan(/\w+/).size > 100
+      validates_each(:candidate_behaviour_other, :candidate_behaviour_what_to_improve) do |record, attr, value|
+        if record.candidate_behaviour_y_n == 'Yes' && record.candidate_behaviour_what_did_the_candidate_do.include?('other')
+          record.errors.add(attr, :blank) if value.blank?
+          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
+        end
+      end
+
+      validates_each(:quality_of_application_personal_statement_what_to_improve, :quality_of_application_subject_knowledge_what_to_improve,
+                     :quality_of_application_other_details, :quality_of_application_other_what_to_improve) do |record, attr, value|
+        if record.quality_of_application_reasons_required?(attr)
+          record.errors.add(attr, :blank) if value.blank?
+          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
+        end
+      end
+
+      validates_each(:honesty_and_professionalism_concerns_information_false_or_inaccurate_details, :honesty_and_professionalism_concerns_plagiarism_details,
+                     :honesty_and_professionalism_concerns_references_details, :honesty_and_professionalism_concerns_other_details) do |record, attr, value|
+        if record.honesty_and_professionalism_concerns_reasons_required?(attr)
+          record.errors.add(attr, :blank) if value.blank?
+          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
+        end
+      end
+
+      validates_each(:safeguarding_concerns_candidate_disclosed_information_details, :safeguarding_concerns_vetting_disclosed_information_details,
+                     :safeguarding_concerns_other_details) do |record, attr, value|
+        if record.safeguarding_concerns_reasons_required?(attr)
+          record.errors.add(attr, :blank) if value.blank?
+          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
+        end
+      end
+
+      validates_each(:performance_at_interview_what_to_improve, :offered_on_another_course_details) do |record, attr, value|
+        method = if attr == :performance_at_interview_what_to_improve
+                   :performance_at_interview_y_n
+                 else
+                   :offered_on_another_course_y_n
+                 end
+
+        if record.send(method) == 'Yes'
+          record.errors.add(attr, :blank) if value.blank?
+          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
+        end
+      end
+
+      validates_each(:qualifications_other_details) do |record, attr, value|
+        if record.qualifications_y_n == 'Yes' && record.qualifications_which_qualifications.include?('other')
+          record.errors.add(attr, :blank) if value.blank?
+          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
+        end
       end
     end
 
@@ -218,8 +215,53 @@ module ProviderInterface
                 if: :reason_not_captured_by_initial_questions?
 
       validates_each(:other_advice_or_feedback_details, :why_are_you_rejecting_this_application) do |record, attr, value|
-        record.errors.add(attr, :too_long) if value.present? && value.scan(/\w+/).size > 200
+        record.errors.add(attr, :too_long) if record.excessive_word_count?(value, 200)
       end
+    end
+
+    def excessive_word_count?(value, count = 100)
+      value.present? && value.scan(/\w+/).size > count
+    end
+
+    def quality_of_application_reasons_required?(attr)
+      option = case attr
+               when :quality_of_application_personal_statement_what_to_improve
+                 'personal_statement'
+               when :quality_of_application_subject_knowledge_what_to_improve
+                 'subject_knowledge'
+               else
+                 'other'
+               end
+
+      quality_of_application_y_n == 'Yes' && quality_of_application_which_parts_needed_improvement.include?(option)
+    end
+
+    def honesty_and_professionalism_concerns_reasons_required?(attr)
+      option = case attr
+               when :honesty_and_professionalism_concerns_information_false_or_inaccurate_details
+                 'information_false_or_inaccurate'
+               when :honesty_and_professionalism_concerns_plagiarism_details
+                 'plagiarism'
+               when :honesty_and_professionalism_concerns_references_details
+                 'references'
+               else
+                 'other'
+               end
+
+      honesty_and_professionalism_y_n == 'Yes' && honesty_and_professionalism_concerns.include?(option)
+    end
+
+    def safeguarding_concerns_reasons_required?(attr)
+      option = case attr
+               when :safeguarding_concerns_candidate_disclosed_information_details
+                 'candidate_disclosed_information'
+               when :safeguarding_concerns_vetting_disclosed_information_details
+                 'vetting_disclosed_information'
+               else
+                 'other'
+               end
+
+      safeguarding_y_n == 'Yes' && safeguarding_concerns.include?(option)
     end
 
     def feedback_heading

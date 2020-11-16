@@ -146,6 +146,51 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       end
     end
 
+    context "when top level question is answered 'No'" do
+      let(:wizard_params) do
+        {
+          current_step: 'initial_questions',
+          candidate_behaviour_y_n: 'No',
+          course_full_y_n: 'No',
+          honesty_and_professionalism_y_n: 'No',
+          offered_on_another_course_y_n: 'No',
+          performance_at_interview_y_n: 'No',
+          qualifications_y_n: 'No',
+          quality_of_application_y_n: 'No',
+          safeguarding_y_n: 'No',
+        }
+      end
+
+      it 'skips validation on other fields' do
+        wizard.valid_for_current_step?
+
+        expect(wizard.errors.keys.sort).to be_empty
+      end
+    end
+
+    context "when top level question is answered 'Yes' and some other reasons are selected" do
+      let(:wizard_params) do
+        {
+          current_step: 'initial_questions',
+          candidate_behaviour_y_n: 'No',
+          course_full_y_n: 'No',
+          honesty_and_professionalism_y_n: 'Yes',
+          honesty_and_professionalism_concerns: %w[information_false_or_inaccurate],
+          offered_on_another_course_y_n: 'No',
+          performance_at_interview_y_n: 'No',
+          qualifications_y_n: 'No',
+          quality_of_application_y_n: 'No',
+          safeguarding_y_n: 'No',
+        }
+      end
+
+      it 'validates the selected reasons' do
+        wizard.valid_for_current_step?
+
+        expect(wizard.errors.keys).to eq(%i[honesty_and_professionalism_concerns_information_false_or_inaccurate_details])
+      end
+    end
+
     context 'other_reasons step' do
       let(:current_step) { 'other_reasons' }
 
