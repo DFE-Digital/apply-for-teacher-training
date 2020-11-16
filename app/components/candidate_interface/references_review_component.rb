@@ -25,6 +25,7 @@ module CandidateInterface
 
     def can_send?(reference)
       reference.not_requested_yet? &&
+        !reference.application_form.enough_references_have_been_provided? &&
         CandidateInterface::Reference::SubmitRefereeForm.new(
           submit: 'yes',
           reference_id: reference.id,
