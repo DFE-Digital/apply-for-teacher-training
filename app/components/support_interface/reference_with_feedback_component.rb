@@ -111,6 +111,8 @@ module SupportInterface
     end
 
     def possible_actions_row
+      policy = ReferenceActionsPolicy.new(reference)
+
       [
         {
           key: 'Editable by candidate',
@@ -127,6 +129,18 @@ module SupportInterface
         {
           key: 'Can send reminder?',
           value: reference.can_send_reminder? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can send?',
+          value: policy.can_send? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can resend?',
+          value: policy.can_resend? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can retry?',
+          value: policy.can_retry? ? 'Yes' : 'No',
         },
       ]
     end
