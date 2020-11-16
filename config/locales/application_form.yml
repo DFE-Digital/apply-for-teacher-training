@@ -849,6 +849,7 @@ en:
           attributes:
             grade:
               blank: Enter your grade
+              invalid: Enter a real grade
             english_gcses:
               blank: Select at least one GCSE
             grade_english_single:

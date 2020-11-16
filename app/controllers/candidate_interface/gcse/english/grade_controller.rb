@@ -13,7 +13,8 @@ module CandidateInterface
     end
 
     def update
-      if multiple_gsces_are_active?
+      @qualification_type = gcse_english_qualification.qualification_type
+      if multiple_gsces_are_active? && @qualification_type == 'gcse'
         @gcse_grade_form = english_gcse_grade_form.assign_values(english_details_params)
       else
         @qualification_type = gcse_english_qualification.qualification_type
@@ -22,7 +23,7 @@ module CandidateInterface
         @gcse_grade_form.other_grade = english_details_params[:other_grade]
       end
 
-      save_successful = multiple_gsces_are_active? ? @gcse_grade_form.save_grades : @gcse_grade_form.save_grade
+      save_successful = multiple_gsces_are_active? && @qualification_type == 'gcse' ? @gcse_grade_form.save_grades : @gcse_grade_form.save_grade
 
       if save_successful
         update_gcse_completed(false)

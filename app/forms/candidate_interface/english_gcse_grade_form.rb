@@ -27,9 +27,9 @@ module CandidateInterface
 
     validates :grade, presence: true, on: :grade
     validates :other_grade, presence: true, if: :grade_is_other?
-    validate :validate_grade_format, on: :grade, unless: :multiple_gsces_are_active? || :new_record?
-    validate :validate_grades, unless: :new_record?, on: :grades, if: :multiple_gsces_are_active?
-    validate :gcse_selected, on: :grades, if: :multiple_gsces_are_active?
+    validate :validate_grade_format, on: :grade, unless: :is_multiple_gcse? || :new_record?
+    validate :validate_grades, unless: :new_record?, on: :grades, if: :is_multiple_gcse?
+    validate :gcse_selected, on: :grades, if: :is_multiple_gcse?
 
     class << self
       def build_from_qualification(qualification)
@@ -269,6 +269,10 @@ module CandidateInterface
 
     def multiple_gsces_are_active?
       FeatureFlag.active?('multiple_english_gcses')
+    end
+
+    def is_multiple_gcse?
+      qualification.qualification_type == 'gcse' && multiple_gsces_are_active?
     end
   end
 end
