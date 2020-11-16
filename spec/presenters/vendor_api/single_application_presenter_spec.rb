@@ -445,6 +445,30 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
       expect(qualification[:non_uk_qualification_type]).to eq 'High School Diploma'
     end
+
+    it 'adds GCSE science triple award information' do
+      science_triple_awards = {
+        biology: 'A',
+        chemistry: 'B',
+        physics: 'C',
+      }
+
+      create(
+        :gcse_qualification,
+        grade: nil,
+        subject: 'science triple award',
+        grades: science_triple_awards,
+        application_form: application_choice.application_form,
+      )
+
+      qualification = presenter.as_json.dig(
+        :attributes,
+        :qualifications,
+        :gcses,
+      ).find { |q| q[:subject] == 'science triple award' }
+
+      expect(qualification[:grade]).to eq 'ABC'
+    end
   end
 
   describe 'attributes.offer' do

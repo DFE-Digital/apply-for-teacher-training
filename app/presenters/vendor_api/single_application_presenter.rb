@@ -207,13 +207,35 @@ module VendorAPI
         qualification_type: qualification.qualification_type,
         non_uk_qualification_type: qualification.non_uk_qualification_type,
         subject: qualification.subject,
-        grade: "#{qualification.grade}#{' (Predicted)' if qualification.predicted_grade}",
+        grade: grade_details(qualification),
         start_year: qualification.start_year,
         award_year: qualification.award_year,
         institution_details: institution_details(qualification),
         awarding_body: qualification.awarding_body,
         equivalency_details: composite_equivalency_details(qualification),
       }.merge HesaQualificationFieldsPresenter.new(qualification).to_hash
+    end
+
+    def grade_details(qualification)
+      grade = nil
+
+      if qualification.grade
+        if qualification.predicted_grade
+          grade = "#{qualification.grade} (Predicted)"
+        else
+          grade = qualification.grade
+        end
+      end
+
+      grades = qualification.grades
+
+      # We need to serialize 'grades' to the 'grade' field
+      # in the specified order
+      if qualification.subject == 'science triple award' && grades
+        grade = "#{grades['biology']}#{grades['chemistry']}#{grades['physics']}"
+      end
+
+      grade
     end
 
     def composite_equivalency_details(qualification)

@@ -777,7 +777,10 @@ components:
           type: string
           maxLength: 256
           description: The grade awarded
-          example: "2:1"
+          example:
+          - 2:1 (University degree)
+          - A* (GSCE grade in a single subject)
+          - A*A*A (GCSE Science triple award, where grades are for Biology, Chemistry and Physics, respectively)
         start_year:
           type: string
           nullable: true
