@@ -37,16 +37,14 @@ private
 
   def other_application_choices_with_offers
     @application_choice
-      .application_form
-      .application_choices
+      .self_and_siblings
       .offer
       .where.not(id: @application_choice.id)
   end
 
   def application_choices_awaiting_provider_decision
     @application_choice
-      .application_form
-      .application_choices
+      .self_and_siblings
       .awaiting_provider_decision
   end
 end

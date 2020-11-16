@@ -6,7 +6,7 @@ class SendCandidateRejectionEmail
   end
 
   def call
-    candidate_application_choices = application_choice.application_form.application_choices
+    candidate_application_choices = application_choice.self_and_siblings
     number_of_pending_decisions = candidate_application_choices.awaiting_provider_decision.count
     number_of_offers = candidate_application_choices.offer.count
 

@@ -59,7 +59,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_awaiting_decisions(application_choice)
-    @decisions = application_choice.application_form.application_choices.select(&:awaiting_provider_decision?)
+    @decisions = application_choice.self_and_siblings.select(&:awaiting_provider_decision?)
     @application_choice = application_choice
 
     # We cannot use `through:` associations with FactoryBot's `build_stubbed`. Using
@@ -78,7 +78,7 @@ class CandidateMailer < ApplicationMailer
   end
 
   def application_rejected_offers_made(application_choice)
-    @offers = application_choice.application_form.application_choices.select(&:offer?)
+    @offers = application_choice.self_and_siblings.select(&:offer?)
     @decline_by_default_at = @offers.first.decline_by_default_at.to_s(:govuk_date)
     @dbd_days = @offers.first.decline_by_default_days
     @application_choice = application_choice
@@ -182,8 +182,8 @@ class CandidateMailer < ApplicationMailer
     @application_choice = application_choice
     @course_option = @application_choice.course_option
     @offered_course_option = @application_choice.offered_course_option
-    @is_awaiting_decision = application_choice.application_form.application_choices.any?(&:awaiting_provider_decision?)
-    @offers = @application_choice.application_form.application_choices.select(&:offer?).map do |offer|
+    @is_awaiting_decision = application_choice.self_and_siblings.any?(&:awaiting_provider_decision?)
+    @offers = @application_choice.self_and_siblings.select(&:offer?).map do |offer|
       "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
     end
 
@@ -239,7 +239,7 @@ class CandidateMailer < ApplicationMailer
   def decline_last_application_choice(application_choice)
     @declined_course = application_choice
     @declined_course_name = "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}"
-    @rejected_course_choices_count = application_choice.application_form.application_choices.select(&:rejected?).count
+    @rejected_course_choices_count = application_choice.self_and_siblings.select(&:rejected?).count
 
     email_for_candidate(
       application_choice.application_form,
@@ -293,7 +293,7 @@ private
     @provider_name = course_option.course.provider.name
     @course_name = course_option.course.name_and_code
     @conditions = @application_choice.offer&.dig('conditions') || []
-    @offers = @application_choice.application_form.application_choices.select(&:offer?).map do |offer|
+    @offers = @application_choice.self_and_siblings.select(&:offer?).map do |offer|
       "#{offer.course_option.course.name_and_code} at #{offer.course_option.course.provider.name}"
     end
     @start_date = course_option.course.start_date.to_s(:month_and_year)
