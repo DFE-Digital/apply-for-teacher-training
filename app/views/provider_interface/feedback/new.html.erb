@@ -12,7 +12,7 @@
       <div class="govuk-form-group">
         <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
         <%= f.govuk_text_area :rejection_reason,
-          label: { text: 'Tell the candidate why their application was unsuccessful', size: 'l' },
+          label: { text: 'Feedback for candidate', size: 'l' },
           max_words: 200,
           rows: 5 %>
       </div>

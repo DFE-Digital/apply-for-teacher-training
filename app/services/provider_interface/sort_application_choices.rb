@@ -71,6 +71,7 @@ module ProviderInterface
           status = 'rejected'
             AND rejected_by_default
             AND rejection_reason IS NULL
+            AND rejected_at >= '2020-11-11T00:00:00+00:00'::TIMESTAMPTZ
         )
       GIVE_FEEDBACK_FOR_RBD
     end

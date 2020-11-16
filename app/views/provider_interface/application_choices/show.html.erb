@@ -6,13 +6,6 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) unless @offer_present %>
 
-    <% if @application_choice.status == 'rejected' && @application_choice.reject_by_default_feedback_sent_at %>
-      <% feedback_at = @application_choice.reject_by_default_feedback_sent_at %>
-      <% intro = "You sent the following feedback to the candidate on #{feedback_at.strftime('%d %b %Y')}." %>
-
-      <%= render ProviderInterface::RejectByDefaultFeedbackComponent.new(application_choice: @application_choice, introduction: intro) %>
-    <% end %>
-
     <h2 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-font-size-27">Application details</h2>
 
     <%= render ProviderInterface::ApplicationSummaryComponent.new(application_form: @application_choice.application_form) %>

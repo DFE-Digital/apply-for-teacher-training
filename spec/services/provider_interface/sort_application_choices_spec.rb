@@ -46,11 +46,19 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
       described_class.call(application_choices: ApplicationChoice.all).first
     end
 
-    # TODO: groups 1, 3, 9 require the relevant EoC implementation first
+    it '#deferred_offers_pending_reconfirmation' do
+      create(:application_choice, :with_deferred_offer, :previous_year)
+      expect(application_choice.task_view_group).to eq(1)
+    end
 
     it '#about_to_be_rejected_automatically' do
       create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.after(Time.zone.now))
       expect(application_choice.task_view_group).to eq(2)
+    end
+
+    it '#give_feedback_for_rbd' do
+      create(:application_choice, :with_rejection_by_default, rejection_reason: nil, rejected_at: Time.zone.parse('2020-11-12'))
+      expect(application_choice.task_view_group).to eq(3)
     end
 
     it '#awaiting_provider_decision_non_urgent' do
@@ -76,6 +84,11 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
     it '#successful_candidates' do
       create(:application_choice, :recruited)
       expect(application_choice.task_view_group).to eq(8)
+    end
+
+    it '#deferred_offers_current_cycle' do
+      create(:application_choice, :with_deferred_offer)
+      expect(application_choice.task_view_group).to eq(9)
     end
 
     it 'all other applications' do

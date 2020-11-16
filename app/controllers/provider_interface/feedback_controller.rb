@@ -2,7 +2,7 @@ module ProviderInterface
   class FeedbackController < ProviderInterfaceController
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
-    before_action :requires_rejected_application
+    before_action :requires_rbd_application_with_no_feedback
 
     def new
       # feedback_params used in case you arrive here via the Change link
@@ -20,7 +20,7 @@ module ProviderInterface
         rejection_reason: feedback_params[:rejection_reason],
       ).call!
 
-      flash[:success] = 'Feedback successfully sent'
+      flash[:success] = 'Feedback sent'
 
       redirect_to provider_interface_application_choice_path(
         application_choice_id: @application_choice.id,
@@ -29,8 +29,10 @@ module ProviderInterface
 
   private
 
-    def requires_rejected_application
-      return if @application_choice.status == 'rejected'
+    def requires_rbd_application_with_no_feedback
+      return if @application_choice.status == 'rejected' &&
+        @application_choice.rejected_by_default &&
+        @application_choice.rejection_reason.blank?
 
       redirect_to provider_interface_application_choice_path(
         application_choice_id: @application_choice.id,

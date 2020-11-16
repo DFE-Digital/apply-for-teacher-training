@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix('Check and send your feedback', @application_feedback.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix('Check and send feedback', @application_feedback.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_feedback_path(@application_choice.id)) %>
 
 <div class="govuk-grid-row">
@@ -11,7 +11,7 @@
       <%= f.hidden_field :rejection_reason %>
 
       <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-      <h1 class="govuk-heading-l">Check and send your feedback</h1>
+      <h1 class="govuk-heading-l">Check and send feedback</h1>
 
       <% intro = "The candidate will see your feedback in the format below." %>
       <%= render ProviderInterface::RejectByDefaultFeedbackComponent.new(application_choice: @application_choice, introduction: intro, rejection_reason: @application_feedback.rejection_reason) %>
