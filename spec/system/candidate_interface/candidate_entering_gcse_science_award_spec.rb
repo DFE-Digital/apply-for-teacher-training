@@ -77,7 +77,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_the_grade_blank_error
-    expect(page).to have_content 'Enter your science single award grade'
+    expect(page).to have_content 'Enter your single award grade'
   end
 
   def and_i_enter_an_invalid_grade
@@ -87,7 +87,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_the_grade_invalid_error
-    expect(page).to have_content('Enter a real science single award grade')
+    expect(page).to have_content('Enter a real single award grade')
   end
 
   def then_i_enter_a_valid_grade

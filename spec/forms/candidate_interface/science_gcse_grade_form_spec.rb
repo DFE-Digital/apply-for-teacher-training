@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         it 'returns validation error if grade is blank' do
           form.validate
 
-          expect(form.errors[:single_award_grade]).to include('Enter your science single award grade')
+          expect(form.errors[:single_award_grade]).to include('Enter your single award grade')
         end
 
         it 'return validation error if grade is invalid' do
@@ -51,7 +51,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
             form.grade = grade
             form.validate
 
-            expect(form.errors[:single_award_grade]).to include('Enter a real science single award grade')
+            expect(form.errors[:single_award_grade]).to include('Enter a real single award grade')
           end
         end
 
@@ -62,7 +62,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           form.save
 
           expect(Rails.logger).to have_received(:info).with(
-            'Validation error: {:field=>"single_award_grade", :error_messages=>"Enter a real science single award grade", :value=>"XYZ"}',
+            'Validation error: {:field=>"single_award_grade", :error_messages=>"Enter a real single award grade", :value=>"XYZ"}',
           )
         end
       end
@@ -93,7 +93,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         it 'returns validation error if grade is blank' do
           form.validate
 
-          expect(form.errors[:double_award_grade]).to include('Enter your science double award grade')
+          expect(form.errors[:double_award_grade]).to include('Enter your double award grade')
         end
 
         it 'return validation error if grade is invalid' do
@@ -103,7 +103,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
             form.grade = grade
             form.validate
 
-            expect(form.errors[:double_award_grade]).to include('Enter a real science double award grade')
+            expect(form.errors[:double_award_grade]).to include('Enter a real double award grade')
           end
         end
 
@@ -114,7 +114,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           form.save
 
           expect(Rails.logger).to have_received(:info).with(
-            'Validation error: {:field=>"double_award_grade", :error_messages=>"Enter a real science double award grade", :value=>"XYZ"}',
+            'Validation error: {:field=>"double_award_grade", :error_messages=>"Enter a real double award grade", :value=>"XYZ"}',
           )
         end
       end
@@ -151,9 +151,9 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           form.subject = ApplicationQualification::SCIENCE_TRIPLE_AWARD
           form.validate
 
-          expect(form.errors[:biology_grade]).to include('Enter your Biology grade')
-          expect(form.errors[:chemistry_grade]).to include('Enter your Chemistry grade')
-          expect(form.errors[:physics_grade]).to include('Enter your Physics grade')
+          expect(form.errors[:biology_grade]).to include('Enter your biology grade')
+          expect(form.errors[:chemistry_grade]).to include('Enter your chemistry grade')
+          expect(form.errors[:physics_grade]).to include('Enter your physics grade')
         end
 
         it 'return validation error if one or more grades are invalid' do
@@ -168,7 +168,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
             form.validate
 
-            expect(form.errors[:biology_grade]).to include('Enter a real Biology grade')
+            expect(form.errors[:biology_grade]).to include('Enter a real biology grade')
           end
         end
       end
@@ -270,7 +270,49 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         expect(qualification.grade).to eq('D')
       end
 
-      context 'updating a GCSE  qualification from single to triple award' do
+      it 'stores a sanitized grade when it is a single or double award' do
+        application_form = create(:application_form)
+        qualification = ApplicationQualification.create(
+          level: 'gcse',
+          application_form: application_form,
+        )
+
+        details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+
+        details_form.subject = ApplicationQualification::SCIENCE_DOUBLE_AWARD
+        details_form.grade = 'a* a*'
+
+        details_form.save
+        qualification.reload
+
+        expect(qualification.grade).to eq('A*A*')
+      end
+
+      it 'stores sanitized grades when it is a triple award' do
+        application_form = create(:application_form)
+        qualification = ApplicationQualification.create(
+          level: 'gcse',
+          application_form: application_form,
+        )
+
+        details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
+
+        details_form.subject = ApplicationQualification::SCIENCE_TRIPLE_AWARD
+        details_form.biology_grade = ' a* '
+        details_form.chemistry_grade = ' a* '
+        details_form.physics_grade = ' a* '
+
+        details_form.save
+        qualification.reload
+
+        expect(qualification.grades).to eq({
+          'biology' => 'A*',
+          'chemistry' => 'A*',
+          'physics' => 'A*',
+        })
+      end
+
+      context 'updating a GCSE qualification from single to triple award' do
         it "clears 'grade' and populates 'grades'" do
           application_form = create(:application_form)
           qualification = ApplicationQualification.create(
@@ -307,12 +349,12 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
 
           details_form.subject = ApplicationQualification::SCIENCE_SINGLE_AWARD
-          details_form.grade = 'AA'
+          details_form.grade = 'A'
 
           details_form.save
           qualification.reload
 
-          expect(qualification.grade).to eq('AA')
+          expect(qualification.grade).to eq('A')
           expect(qualification.grades).to eq(nil)
         end
       end

@@ -115,12 +115,12 @@ module CandidateInterface
 
       if gsce_qualification_type? && single_award?
         self.single_award_grade = grade
-        errors.add(:single_award_grade, :invalid) unless SINGLE_GCSE_GRADES.include?(grade.strip.upcase)
+        errors.add(:single_award_grade, :invalid) unless SINGLE_GCSE_GRADES.include?(sanitize(grade))
       end
 
       if gsce_qualification_type? && double_award?
         self.double_award_grade = grade
-        errors.add(:double_award_grade, :invalid) unless DOUBLE_GCSE_GRADES.include?(grade.delete(' ').upcase)
+        errors.add(:double_award_grade, :invalid) unless DOUBLE_GCSE_GRADES.include?(sanitize(grade))
       end
     end
 
@@ -137,7 +137,7 @@ module CandidateInterface
         next if grade.blank?
 
         public_send("#{key}=", grade)
-        errors.add(key, :invalid) unless SINGLE_GCSE_GRADES.include?(grade.strip.upcase)
+        errors.add(key, :invalid) unless SINGLE_GCSE_GRADES.include?(sanitize(grade))
       end
     end
 
@@ -181,18 +181,22 @@ module CandidateInterface
       when 'unknown'
         'Unknown'
       else
-        grade
+        sanitize(grade)
       end
     end
 
     def set_triple_award_grades
       if triple_award?
         {
-          biology: biology_grade,
-          physics: physics_grade,
-          chemistry: chemistry_grade,
+          biology: sanitize(biology_grade),
+          physics: sanitize(physics_grade),
+          chemistry: sanitize(chemistry_grade),
         }
       end
+    end
+
+    def sanitize(grade)
+      grade.delete(' ').upcase if grade
     end
 
     def international_gcses_flag_active?

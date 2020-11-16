@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
         result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
 
-        expect(result.text).to include(t('gcse_edit_grade.guidance.triple_gcse_science'))
+        expect(result.text).to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
       end
     end
@@ -65,7 +65,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
         result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
 
-        expect(result.text).to include(t('gcse_edit_grade.guidance.triple_gcse_science'))
+        expect(result.text).to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
       end
     end

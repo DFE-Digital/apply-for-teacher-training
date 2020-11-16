@@ -821,24 +821,24 @@ en:
         candidate_interface/science_gcse_grade_form:
           attributes:
             single_award_grade:
-              blank: Enter your science single award grade
-              invalid: Enter a real science single award grade
+              blank: Enter your single award grade
+              invalid: Enter a real single award grade
             double_award_grade:
-              blank: Enter your science double award grade
-              invalid: Enter a real science double award grade
+              blank: Enter your double award grade
+              invalid: Enter a real double award grade
             grade:
               blank: Enter your science grade
               invalid: Enter a real science grade
               too_long: Grade must be %{count} characters or fewer
             biology_grade:
-              invalid: Enter a real Biology grade
-              blank: Enter your Biology grade
+              blank: Enter your biology grade
+              invalid: Enter a real biology grade
             chemistry_grade:
-              invalid: Enter a real Chemistry grade
-              blank: Enter your Chemistry grade
+              blank: Enter your chemistry grade
+              invalid: Enter a real chemistry grade
             physics_grade:
-              invalid: Enter a real Physics grade
-              blank: Enter your Physics grade
+              blank: Enter your physics grade
+              invalid: Enter a real physics grade
             award_year:
               blank: Enter the year you gained your qualification
               invalid: Enter a real year
