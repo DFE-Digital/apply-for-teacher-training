@@ -57,6 +57,26 @@ class UCASMatch < ApplicationRecord
     Time.zone.today >= request_withdrawal_from_ucas_date
   end
 
+  def next_action
+    if candidate_last_contacted_at.nil?
+      :initial_emails_sent
+    elsif initial_emails_sent? && need_to_send_reminder_emails?
+      :reminder_emails_sent
+    elsif reminder_emails_sent? && need_to_request_withdrawal_from_ucas?
+      :ucas_withdrawal_requested
+    elsif ucas_withdrawal_requested?
+      :confirmed_withdrawal_from_ucas
+    end
+  end
+
+  def last_action
+    return nil if action_taken.nil?
+
+    return :confirmed_withdrawal_from_ucas if processed? && ucas_withdrawal_requested?
+
+    action_taken.to_sym
+  end
+
 private
 
   def application_for_the_same_course_in_progress_on_both_services?
