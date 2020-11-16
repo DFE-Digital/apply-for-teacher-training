@@ -5,8 +5,8 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
-    <h1 class="govuk-heading-xl">Check and confirm rejection</h1>
+    <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+    <h1 class="govuk-heading-l">Check feedback and reject application</h1>
       <%= form_with model: @reject_application, url: provider_interface_application_choice_create_reject_path(@application_choice.id), method: :post do |f| %>
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-two-thirds">
@@ -14,13 +14,9 @@
           </div>
         </div>
 
-        <%= render SummaryListComponent.new(rows: [
-          { key: 'Reasons for rejection', value: @reject_application.rejection_reason },
-        ]) %>
+        <%= render ProviderInterface::FeedbackPreviewComponent.new(application_choice: @application_choice, rejection_reason: @reject_application.rejection_reason) %>
 
       <%= f.hidden_field :rejection_reason %>
-
-      <%= render WarningTextComponent.new(text: 'We’ll tell the candidate you rejected their application, and share your reasons.') %>
 
       <%= f.govuk_submit 'Reject application' %>
 
