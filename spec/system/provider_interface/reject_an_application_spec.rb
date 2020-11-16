@@ -97,10 +97,11 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_content('Telling people you are a stable genius might be a bit loaded')
 
     expect(page).to have_content('Qualifications')
-    expect(page).to have_content("No Maths GCSE grade 4 (C) or above, or valid equivalent\nNo degree")
+    expect(page).to have_content('No Maths GCSE grade 4 (C) or above, or valid equivalent')
+    expect(page).to have_content('No degree')
 
     expect(page).to have_content('Performance at interview')
-    expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview\n")
+    expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
 
     expect(page).to have_content('Honesty and professionalism')
     expect(page).to have_content('We cannot accept references from your mum')

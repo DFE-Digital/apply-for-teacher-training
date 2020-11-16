@@ -88,7 +88,7 @@ en:
               blank: Enter details about safeguarding
               too_long: The details you give about safeguarding must be 100 words or fewer
             why_are_you_rejecting_this_application:
-              blank: Enter details about why you're rejecting their application 
+              blank: Enter details about why you're rejecting their application
               too_long: The details you give for rejecting this application must be 200 words or fewer
             other_advice_or_feedback_y_n:
               blank: Select yes if there is any other advice or feedback you‘d like to give

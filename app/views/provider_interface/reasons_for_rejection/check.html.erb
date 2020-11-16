@@ -1,24 +1,23 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard, url: provider_interface_reasons_for_rejection_commit_path do |f| %>
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
       <h1 class="govuk-heading-l">Check your feedback and reject application</h1>
 
       <p class="govuk-body">
-      Your feedback will be given to the candidate in the format below.
+        Your feedback will be given to the candidate in the format below.
       </p>
 
-      <div class="app-feedback">
-        <div class="app-feedback__panel">
+      <div class="govuk-inset-text app-inset-text">
+        <div class="app-feedback">
           <h2 class="govuk-heading-m">
             <%= @wizard.feedback_heading %>
           </h2>
         </div>
         <p class="govuk-body">Here’s why your application was unsuccessful.</p>
 
-        <%# TODO: Handle simple text rejection reason (from API or legacy data) %>
-
         <% if @wizard.candidate_behaviour_y_n == 'Yes' %>
-          <div class="app-feedback__panel">
+          <div class="app-feedback">
             <h3 class="govuk-heading-s">Something you did</h3>
             <ul class="govuk-list app-list--spaced">
               <% @wizard.candidate_behaviour_what_did_the_candidate_do.each do |reason| %>
@@ -39,7 +38,7 @@
         <% end %>
 
         <% if @wizard.quality_of_application_y_n == 'Yes' %>
-          <div class="app-feedback__panel">
+          <div class="app-feedback">
             <h3 class="govuk-heading-s">Quality of application</h3>
             <ul class="govuk-list app-list--spaced">
               <% @wizard.quality_of_application_which_parts_needed_improvement.each do |reason| %>
@@ -48,7 +47,7 @@
                     <%= @wizard.quality_of_application_other_details %>
                     <p>Advice: <%= @wizard.quality_of_application_other_what_to_improve %></p>
                   <% else %>
-                    <p><%= @wizard.send(:"quality_of_application_#{reason}_what_to_improve") %></p>
+                    <%= @wizard.send(:"quality_of_application_#{reason}_what_to_improve") %>
                   <% end %>
                 </li>
               <% end %>
@@ -60,7 +59,7 @@
         <% end %>
 
         <% if @wizard.qualifications_y_n == 'Yes' %>
-          <div class="app-feedback__panel">
+          <div class="app-feedback">
             <h3 class="govuk-heading-s">Qualifications</h3>
             <ul class="govuk-list app-list--spaced">
               <% @wizard.qualifications_which_qualifications.each do |reason| %>
@@ -68,7 +67,7 @@
                   <% if reason == 'other' %>
                     <%= @wizard.qualifications_other_details %>
                   <% else %>
-                    <p><%= t("reasons_for_rejection.qualifications_which_qualifications.#{reason}") %></p>
+                    <%= t("reasons_for_rejection.qualifications_which_qualifications.#{reason}") %>
                   <% end %>
                 </li>
               <% end %>
@@ -80,7 +79,7 @@
         <% end %>
 
         <% if @wizard.performance_at_interview_y_n == 'Yes' %>
-          <div class="app-feedback__panel">
+          <div class="app-feedback">
             <h3 class="govuk-heading-s">Performance at interview</h3>
             <p class="govuk-body"><%= @wizard.performance_at_interview_what_to_improve %></p>
 
@@ -91,7 +90,7 @@
         <% end %>
 
         <% if @wizard.course_full_y_n == 'Yes' %>
-          <div class="app-feedback__panel">
+          <div class="app-feedback">
             <h3 class="govuk-heading-s">Course full</h3>
             <p>We're sorry to tell you the course you applied to was full</p>
 
@@ -102,7 +101,7 @@
         <% end %>
 
         <% if @wizard.offered_on_another_course_y_n == 'Yes' %>
-          <div class="app-feedback__panel">
+          <div class="app-feedback">
             <h3 class="govuk-heading-s">They offered you a place on another course</h3>
             <p class="govuk-body"><%= @wizard.offered_on_another_course_details %></p>
 
@@ -113,7 +112,7 @@
         <% end %>
 
         <% if @wizard.honesty_and_professionalism_y_n == 'Yes' %>
-          <div class="app-feedback__panel">
+          <div class="app-feedback">
             <h3 class="govuk-heading-s">Honesty and professionalism</h3>
             <ul class="govuk-list app-list--spaced">
               <% if @wizard.honesty_and_professionalism_concerns_plagiarism_details.present? %>
@@ -140,7 +139,7 @@
         <% end %>
 
         <% if @wizard.safeguarding_y_n == 'Yes' %>
-          <div class="app-feedback__panel">
+          <div class="app-feedback">
             <h3 class="govuk-heading-s">Safeguarding issues</h3>
             <ul class="govuk-list app-list--spaced">
               <% if @wizard.safeguarding_concerns_candidate_disclosed_information_details.present? %>
@@ -168,7 +167,7 @@
       </div>
 
       <% if @wizard.why_are_you_rejecting_this_application.present? %>
-        <div class="app-feedback__panel">
+        <div class="app-feedback">
           <h3 class="govuk-heading-s">Reasons why your application was unsuccessful</h3>
           <p class="govuk-body"><%= @wizard.why_are_you_rejecting_this_application %></p>
 
@@ -179,7 +178,7 @@
       <% end %>
 
       <% if @wizard.other_advice_or_feedback_y_n == 'Yes' %>
-        <div class="app-feedback__panel">
+        <div class="app-feedback">
           <h3 class="govuk-heading-s">Additional advice</h3>
           <p class="govuk-body"><%= @wizard.other_advice_or_feedback_details %></p>
 
@@ -191,5 +190,7 @@
 
       <%= f.govuk_submit 'Reject application' %>
     <% end %>
+
+    <p class="govuk-body"><%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice) %></p>
   </div>
 </div>
