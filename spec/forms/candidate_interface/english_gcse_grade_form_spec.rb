@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
   describe 'validations' do
-
     context 'when grade is "other"' do
       let(:form) { subject }
 
@@ -16,11 +15,11 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
         FeatureFlag.deactivate('multiple_english_gcses')
         let(:qualification) do
           FactoryBot.build_stubbed(
-              :application_qualification,
-              subject: 'english',
-              qualification_type: 'gcse',
-              level: 'gcse',
-              )
+            :application_qualification,
+            subject: 'english',
+            qualification_type: 'gcse',
+            level: 'gcse',
+          )
         end
         let(:form) { CandidateInterface::EnglishGcseGradeForm.build_from_qualification(qualification) }
 
@@ -60,8 +59,8 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
           form.save_grade
 
           expect(Rails.logger).to have_received(:info).with(
-              'Validation error: {:field=>"grade", :error_messages=>"Enter a real grade", :value=>"XYZ"}',
-              )
+            'Validation error: {:field=>"grade", :error_messages=>"Enter a real grade", :value=>"XYZ"}',
+          )
         end
       end
     end
@@ -69,6 +68,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
     context 'when qualification type is GCE O LEVEL' do
       let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'gce_o_level', level: 'gcse', subject: 'english') }
       let(:form) { CandidateInterface::EnglishGcseGradeForm.build_from_qualification(qualification) }
+
       FeatureFlag.deactivate('multiple_english_gcses')
 
       it 'returns no errors if grade is valid' do
