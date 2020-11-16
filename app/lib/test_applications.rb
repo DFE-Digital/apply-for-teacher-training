@@ -79,12 +79,17 @@ class TestApplications
         phase: apply_again ? 'apply_2' : 'apply_1',
       )
 
-      2.times { FactoryBot.create(:reference, :not_requested_yet, application_form: @application_form) }
-      @application_form.application_references.each do |reference|
-        reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
+      # One reference that will never be requested
+      FactoryBot.create(:reference, :not_requested_yet, application_form: @application_form)
+
+      # 4 will be requested
+      4.times do
+        reference = FactoryBot.create(:reference, :not_requested_yet, application_form: @application_form)
+        CandidateInterface::RequestReference.new.call(reference, {})
       end
 
       fast_forward
+
       application_choices = courses_to_apply_to.map do |course|
         FactoryBot.create(
           :application_choice,
@@ -96,13 +101,6 @@ class TestApplications
         )
       end
 
-      if states.include? :unsubmitted_with_completed_references
-        @application_form.application_references.each { |reference| submit_reference!(reference) }
-        return application_choices
-      elsif states.include? :unsubmitted
-        return application_choices
-      end
-
       if states == [:cancelled]
         # The cancelled state doesn't exist anymore in the current system,
         # so we have to set this manually.
@@ -112,15 +110,34 @@ class TestApplications
           )
         end
 
-        @application_form.application_references.each do |reference|
+        @application_form.application_references.feedback_requested.each do |reference|
           CancelReferee.new.call(reference: reference)
         end
 
-        return
+        return application_choices
+      end
+
+      if states.include?(:unsubmitted)
+        return application_choices
+      end
+
+      # The first reference is declined by the referee
+      @application_form.application_references.feedback_requested.first.update!(feedback_status: 'feedback_refused')
+
+      # The 2 other of the outstanding references come in. However, only the
+      # first two are actually submitted, the last one is automatically cancelled.
+      @application_form.application_references.feedback_requested.each do |reference|
+        submit_reference!(reference.reload)
+        fast_forward
+      end
+
+      if states.include?(:unsubmitted_with_completed_references)
+        return application_choices
       end
 
       StateChangeNotifier.disable_notifications do
         fast_forward
+
         SubmitApplication.new(@application_form).call
 
         @application_form.application_choices.each do |choice|
@@ -133,8 +150,6 @@ class TestApplications
         end
 
         @application_form.update_columns(submitted_at: time, updated_at: time)
-
-        @application_form.application_references.each { |reference| submit_reference!(reference) }
 
         states.zip(application_choices).each do |state, application_choice|
           maybe_add_note(application_choice.reload)
@@ -150,11 +165,14 @@ class TestApplications
   end
 
   def submit_reference!(reference)
-    reference.relationship_correction = ['', Faker::Lorem.sentence].sample
-    reference.safeguarding_concerns = ['', Faker::Lorem.sentence].sample
-    reference.safeguarding_concerns_status = reference.safeguarding_concerns.blank? ? :no_safeguarding_concerns_to_declare : :has_safeguarding_concerns_to_declare
+    return unless reference.feedback_requested?
 
-    reference.update!(feedback: 'You are awesome')
+    reference.update!(
+      relationship_correction: ['', Faker::Lorem.sentence].sample,
+      safeguarding_concerns: ['', Faker::Lorem.sentence].sample,
+      safeguarding_concerns_status: reference.safeguarding_concerns.blank? ? :no_safeguarding_concerns_to_declare : :has_safeguarding_concerns_to_declare,
+      feedback: 'You are awesome',
+    )
 
     SubmitReference.new(
       reference: reference,
