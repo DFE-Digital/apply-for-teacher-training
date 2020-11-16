@@ -92,7 +92,15 @@ RSpec.feature 'Candidate accepts an offer' do
   end
 
   def then_a_slack_notification_is_sent
-    expect_slack_message_with_text "Harry has accepted #{@course_option.course.provider.name}’s offer"
+    accepted_course = @course_option.course
+    declined_course = @other_application_choice.course_option.course
+    withdrawn_course = @third_application_choice.course_option.course
+
+    expected_message = "Harry has accepted #{accepted_course.provider.name}’s offer for #{accepted_course.name_and_code}, " \
+      "withdrawn their application for #{withdrawn_course.name_and_code} at #{withdrawn_course.provider.name}, and " \
+      "declined #{declined_course.provider.name}’s offer for #{declined_course.name_and_code}"
+
+    expect_slack_message_with_text expected_message
   end
 
   def and_i_see_that_i_accepted_the_offer

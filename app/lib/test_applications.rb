@@ -114,7 +114,7 @@ class TestApplications
         return
       end
 
-      without_slack_message_sending do
+      StateChangeNotifier.disable_notifications do
         fast_forward
         SubmitApplication.new(@application_form).call
 
@@ -340,12 +340,6 @@ class TestApplications
     Audited.audit_class.as_user(provider_user(choice)) do
       yield
     end
-  end
-
-  def without_slack_message_sending
-    RequestStore.store[:disable_slack_messages] = true
-    yield
-    RequestStore.store[:disable_slack_messages] = false
   end
 
   def initialize_time(recruitment_cycle_year)

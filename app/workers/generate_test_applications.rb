@@ -39,7 +39,7 @@ class GenerateTestApplications
     create recruitment_cycle_year: 2021, states: %i[conditions_not_met]
     create recruitment_cycle_year: 2021, states: %i[withdrawn]
 
-    without_slack_message_sending do
+    StateChangeNotifier.disable_notifications do
       RejectApplicationsByDefault.new.call
     end
   end
@@ -68,11 +68,5 @@ private
 
   def dev_support_user
     @dev_support_user ||= ProviderUser.find_by_dfe_sign_in_uid('dev-support')
-  end
-
-  def without_slack_message_sending
-    RequestStore.store[:disable_slack_messages] = true
-    yield
-    RequestStore.store[:disable_slack_messages] = false
   end
 end
