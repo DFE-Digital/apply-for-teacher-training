@@ -26,6 +26,7 @@ module SupportInterface
         consent_row,
         feedback_row,
         history_row,
+        possible_actions_row,
       ].flatten.compact
     end
 
@@ -107,6 +108,27 @@ module SupportInterface
                                                to: reference.email_address,
                                              )),
       }
+    end
+
+    def possible_actions_row
+      [
+        {
+          key: 'Editable by candidate',
+          value: reference.editable? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can be destroyed?',
+          value: reference.can_be_destroyed? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Request can be deleted?',
+          value: reference.request_can_be_deleted? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can send reminder?',
+          value: reference.can_send_reminder? ? 'Yes' : 'No',
+        },
+      ]
     end
 
     def consent_to_be_contacted_present
