@@ -2,21 +2,17 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::HesaDataExport do
   describe '#call' do
-    let(:accredited_provider) do
-      provider_permissions = create(
-        :provider_relationship_permissions,
-        ratifying_provider_can_view_diversity_information: true,
-      )
-      provider_permissions.ratifying_provider
-    end
-    let(:provider_ids) { @course.provider.id }
-    let(:hesa_disabilities) { [53, 55, 54] }
-    let(:provider_user) { create(:provider_user, :with_view_diversity_information, providers: [accredited_provider]) }
+    let(:provider_relationship) { create(:provider_relationship_permissions) }
+    let(:training_provider) { provider_relationship.training_provider }
+    let(:accredited_provider) { provider_relationship.ratifying_provider }
+    let(:provider_user) { create(:provider_user, :with_view_diversity_information, providers: [training_provider]) }
 
-    subject(:export_data) { described_class.new(provider_ids: provider_ids, actor: provider_user).call }
+    let(:hesa_disabilities) { [53, 55, 54] }
+
+    subject(:export_data) { described_class.new(actor: provider_user).call }
 
     before do
-      @course = create(:course, study_mode: 'full_time', subject_codes: %w[F3 X9], accredited_provider: accredited_provider)
+      @course = create(:course, study_mode: 'full_time', subject_codes: %w[F3 X9], provider: training_provider, accredited_provider: accredited_provider)
       application_qualification = create(
         :application_qualification,
         level: 'degree',
@@ -94,7 +90,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
     end
 
     context 'when user does not have permission to view diversity information' do
-      let(:provider_user) { create(:provider_user, providers: [accredited_provider]) }
+      let(:provider_user) { create(:provider_user, providers: [training_provider]) }
 
       it 'shows diversity information as confidential' do
         exported_data = CSV.parse(export_data, headers: true)

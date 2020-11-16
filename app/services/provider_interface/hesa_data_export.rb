@@ -1,7 +1,7 @@
 module ProviderInterface
   class HesaDataExport
-    def initialize(provider_ids:, actor:)
-      @provider_ids = provider_ids
+    def initialize(actor:)
+      @provider_ids = actor.providers.map(&:id)
       @auth = ProviderAuthorisation.new(actor: actor)
     end
 
