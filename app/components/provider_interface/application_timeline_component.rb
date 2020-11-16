@@ -50,8 +50,24 @@ module ProviderInterface
       end
     end
 
+    def feedback_events
+      if application_choice.rejected_by_default
+        application_choice.audits.where(action: 'update').where(
+          'audited_changes ? \'reject_by_default_feedback_sent_at\'',
+        ).order('created_at').map do |feedback_audit|
+          Event.new(
+            'Feedback provided',
+            actor_for(feedback_audit),
+            feedback_audit.created_at,
+          )
+        end
+      else
+        []
+      end
+    end
+
     def events
-      (status_change_events + note_events).sort_by(&:date).reverse
+      (status_change_events + note_events + feedback_events).sort_by(&:date).reverse
     end
 
     def title_for(change)
