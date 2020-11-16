@@ -15,7 +15,7 @@
         Add <%= @wizard.qualification_type_name %> qualification
       </h1>
 
-      <%= render partial: 'form', locals: { f: f, wizard: @wizard, subjects_for_autocomplete: @subjects_for_autocomplete } %>
+      <%= render partial: 'form', locals: { f: f, wizard: @wizard, subjects_for_autocomplete: @subjects_for_autocomplete, grade_autocomplete_data: @grade_autocomplete_data } %>
 
       <%= f.govuk_radio_buttons_fieldset :add_another_qualification, legend: { text: 'Do you want to add another qualification?', tag: 'span' } do %>
         <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@wizard.qualification_type_name}" } %>

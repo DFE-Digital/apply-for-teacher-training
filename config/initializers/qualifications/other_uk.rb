@@ -8,3 +8,11 @@ OTHER_UK_QUALIFICATIONS = [
   'Scottish National 5',
   'VRQ',
 ].freeze
+
+OTHER_UK_QUALIFICATION_GRADES = [
+  'Distinction',
+  'Merit',
+  'Pass',
+  'Unclassified',
+  'Not applicable',
+].freeze
