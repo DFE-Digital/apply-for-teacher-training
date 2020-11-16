@@ -3,6 +3,22 @@ class ReferenceActionsPolicy
     @reference = reference
   end
 
+  def editable?
+    reference.not_requested_yet?
+  end
+
+  def can_be_destroyed?
+    (reference.not_requested_yet? || reference.feedback_provided?) && !reference.application_form.submitted?
+  end
+
+  def request_can_be_deleted?
+    (reference.cancelled? || reference.feedback_refused? || reference.email_bounced?) && !reference.application_form.submitted?
+  end
+
+  def can_send_reminder?
+    reference.feedback_requested? && reference.reminder_sent_at.nil?
+  end
+
   def can_send?
     reference.not_requested_yet? &&
       needs_more_references? &&

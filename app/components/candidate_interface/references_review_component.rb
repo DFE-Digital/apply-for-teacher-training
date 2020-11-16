@@ -35,6 +35,18 @@ module CandidateInterface
       ReferenceActionsPolicy.new(reference).can_retry?
     end
 
+    def editable?(reference)
+      ReferenceActionsPolicy.new(reference).editable?
+    end
+
+    def request_can_be_deleted?(reference)
+      ReferenceActionsPolicy.new(reference).request_can_be_deleted?
+    end
+
+    def can_send_reminder?(reference)
+      ReferenceActionsPolicy.new(reference).can_send_reminder?
+    end
+
     def ignore_editable_for
       %w[History]
     end
@@ -106,7 +118,7 @@ module CandidateInterface
         value: render(CandidateInterface::ReferenceHistoryComponent.new(reference)),
       }
 
-      if reference.can_send_reminder?
+      if can_send_reminder?(reference)
         row_attributes.merge!(
           action: t('application_form.references.send_reminder.action'),
           action_path: candidate_interface_references_new_reminder_path(reference),

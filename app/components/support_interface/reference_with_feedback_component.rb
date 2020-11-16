@@ -116,19 +116,19 @@ module SupportInterface
       [
         {
           key: 'Can be edited?',
-          value: reference.editable? ? 'Yes' : 'No',
+          value: policy.editable? ? 'Yes' : 'No',
         },
         {
           key: 'Can be destroyed?',
-          value: reference.can_be_destroyed? ? 'Yes' : 'No',
+          value: policy.can_be_destroyed? ? 'Yes' : 'No',
         },
         {
           key: 'Can be deleted?',
-          value: reference.request_can_be_deleted? ? 'Yes' : 'No',
+          value: policy.request_can_be_deleted? ? 'Yes' : 'No',
         },
         {
           key: 'Can send reminder?',
-          value: reference.can_send_reminder? ? 'Yes' : 'No',
+          value: policy.can_send_reminder? ? 'Yes' : 'No',
         },
         {
           key: 'Can send?',

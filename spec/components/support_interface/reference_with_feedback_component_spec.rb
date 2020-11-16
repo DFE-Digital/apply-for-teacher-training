@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
   describe 'Cancel and reinstate links' do
     it 'Cancel link is present when the reference is feedback_requested' do
-      reference = build_stubbed(:reference, feedback_status: 'feedback_requested')
+      reference = create(:reference, feedback_status: 'feedback_requested')
 
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
@@ -12,7 +12,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
     end
 
     it 'Reinstate link is present when the reference is cancelled' do
-      reference = build_stubbed(:reference, feedback_status: 'cancelled')
+      reference = create(:reference, feedback_status: 'cancelled')
 
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
@@ -21,7 +21,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
     end
 
     it 'Reinstate link is present when the reference is refused' do
-      reference = build_stubbed(:reference, feedback_status: 'feedback_refused')
+      reference = create(:reference, feedback_status: 'feedback_refused')
 
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
@@ -32,7 +32,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
 
   describe 'title' do
     it 'includes the supplied reference number' do
-      reference = build_stubbed(:reference)
+      reference = create(:reference)
 
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
@@ -40,7 +40,7 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
     end
 
     it 'says if the reference is a replacement' do
-      reference = build_stubbed(:reference, replacement: true)
+      reference = create(:reference, replacement: true)
 
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
