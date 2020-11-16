@@ -295,6 +295,18 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def ucas_match_initial_email_duplicate_applications(application_choice)
+    @application_form = application_choice.application_form
+    @course_name_and_code = application_choice.course_option.course.name_and_code
+    @provider_name = application_choice.course_option.course.provider.name
+    @date_to_withdraw_application_by = 10.business_days.after(Time.zone.today).to_s(:govuk_date)
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.ucas_match_initial_email.duplicate_applications.subject'),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)

@@ -410,6 +410,16 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.reinstated_offer(application_choice)
   end
 
+  def ucas_match_initial_email_duplicate_applications
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form: application_form,
+      course_option: course_option,
+    )
+
+    CandidateMailer.ucas_match_initial_email_duplicate_applications(application_choice)
+  end
+
 private
 
   def candidate
