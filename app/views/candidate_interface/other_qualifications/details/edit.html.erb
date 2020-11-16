@@ -11,7 +11,7 @@
         Edit <%= @wizard.qualification_type_name %> qualification
       </h1>
 
-      <%= render partial: 'form', locals: { f: f } %>
+      <%= render partial: 'form', locals: { f: f, wizard: @wizard, subjects_for_autocomplete: @subjects_for_autocomplete  } %>
 
       <%= f.govuk_submit t('application_form.other_qualification.base.button') %>
     <% end %>
