@@ -1,6 +1,6 @@
 <section class="app-section app-section--with-top-border">
   <h3 class="govuk-heading-m govuk-!-margin-bottom-1" id="<%= state_name %>"><%= human_state_name %></h3>
-  <% if development_details %>
+  <% if development_details && machine == ApplicationStateChange %>
     <p class="govuk-body-l"><%= govuk_link_to pluralize(machine.state_count(state_name), 'application'), support_interface_applications_path, class: 'govuk-link--no-visited-state' %> currently in this state</p>
   <% end %>
   <div class="govuk-grid-row">
