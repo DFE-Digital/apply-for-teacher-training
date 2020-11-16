@@ -24,30 +24,15 @@ module CandidateInterface
     end
 
     def can_send?(reference)
-      reference.not_requested_yet? &&
-        !reference.application_form.enough_references_have_been_provided? &&
-        CandidateInterface::Reference::SubmitRefereeForm.new(
-          submit: 'yes',
-          reference_id: reference.id,
-        ).valid?
+      ReferenceActionsPolicy.new(reference).can_send?
     end
 
     def can_resend?(reference)
-      (reference.cancelled? || reference.cancelled_at_end_of_cycle?) &&
-        !reference.application_form.enough_references_have_been_provided? &&
-        CandidateInterface::Reference::SubmitRefereeForm.new(
-          submit: 'yes',
-          reference_id: reference.id,
-        ).valid?
+      ReferenceActionsPolicy.new(reference).can_resend?
     end
 
     def can_retry?(reference)
-      reference.email_bounced? &&
-        !reference.application_form.enough_references_have_been_provided? &&
-        CandidateInterface::Reference::SubmitRefereeForm.new(
-          submit: 'yes',
-          reference_id: reference.id,
-        ).valid?
+      ReferenceActionsPolicy.new(reference).can_retry?
     end
 
     def ignore_editable_for
