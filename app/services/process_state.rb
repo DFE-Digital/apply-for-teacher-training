@@ -84,10 +84,6 @@ class ProcessState
     'candidate_flow_'
   end
 
-  def self.state_count(_)
-    '?'
-  end
-
 private
 
   attr_reader :application_form
