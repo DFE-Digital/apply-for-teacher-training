@@ -49,13 +49,17 @@ module CandidateInterface
       end
 
       def confirm_destroy_reference_request
-        unless @reference.present? && @reference.request_can_be_deleted?
+        policy = ReferenceActionsPolicy.new(@reference)
+
+        unless @reference.present? && policy.request_can_be_deleted?
           redirect_to_review_page
         end
       end
 
       def destroy
-        unless @reference.present? && (@reference.can_be_destroyed? || @reference.request_can_be_deleted?)
+        policy = ReferenceActionsPolicy.new(@reference)
+
+        unless @reference.present? && (policy.can_be_destroyed? || policy.request_can_be_deleted?)
           redirect_to_review_page and return
         end
 

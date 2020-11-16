@@ -26,6 +26,7 @@ module SupportInterface
         consent_row,
         feedback_row,
         history_row,
+        possible_actions_row,
       ].flatten.compact
     end
 
@@ -107,6 +108,41 @@ module SupportInterface
                                                to: reference.email_address,
                                              )),
       }
+    end
+
+    def possible_actions_row
+      policy = ReferenceActionsPolicy.new(reference)
+
+      [
+        {
+          key: 'Can be edited?',
+          value: policy.editable? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can be destroyed?',
+          value: policy.can_be_destroyed? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can be deleted?',
+          value: policy.request_can_be_deleted? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can send reminder?',
+          value: policy.can_send_reminder? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can send?',
+          value: policy.can_send? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can resend?',
+          value: policy.can_resend? ? 'Yes' : 'No',
+        },
+        {
+          key: 'Can retry?',
+          value: policy.can_retry? ? 'Yes' : 'No',
+        },
+      ]
     end
 
     def consent_to_be_contacted_present

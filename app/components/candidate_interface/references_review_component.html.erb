@@ -1,7 +1,7 @@
 <% references.each do |reference| %>
   <%= render(SummaryCardComponent.new(
     rows: reference_rows(reference),
-    editable: editable && reference.editable?,
+    editable: editable && editable?(reference),
     ignore_editable: ignore_editable_for,
   )) do %>
     <%= render(SummaryCardHeaderComponent.new(title: card_title(reference))) do %>
@@ -37,7 +37,7 @@
                 <span class="govuk-visually-hidden"> <%= reference.name %></span>
               <% end %>
             </li>
-          <% elsif reference.request_can_be_deleted? %>
+          <% elsif request_can_be_deleted?(reference) %>
             <li class="app-summary-card__actions-list-item">
               <%= link_to candidate_interface_delete_reference_request_path(reference), class: 'govuk-link' do %>
                 <%= t('application_form.references.delete_request.action') %>
