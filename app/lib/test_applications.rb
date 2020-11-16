@@ -103,7 +103,7 @@ class TestApplications
         return application_choices
       end
 
-      if states.include? :cancelled
+      if states == [:cancelled]
         # The cancelled state doesn't exist anymore in the current system,
         # so we have to set this manually.
         @application_form.application_choices.each do |application_choice|
@@ -111,6 +111,11 @@ class TestApplications
             status: 'cancelled',
           )
         end
+
+        @application_form.application_references.each do |reference|
+          CancelReferee.new.call(reference: reference)
+        end
+
         return
       end
 
