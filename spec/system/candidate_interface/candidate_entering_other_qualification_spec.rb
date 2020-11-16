@@ -262,7 +262,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_to_change_my_first_qualification
-    first('.govuk-summary-list__actions').click_link 'Change'
+    within(first('.app-summary-card')) { click_change_link('qualification') }
   end
 
   def then_i_see_the_qualification_type_form

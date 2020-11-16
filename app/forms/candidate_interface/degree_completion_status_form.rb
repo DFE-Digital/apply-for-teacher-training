@@ -12,7 +12,7 @@ module CandidateInterface
       degree.update!(predicted_grade: grade_is_predicted?)
     end
 
-    def fill(degree)
+    def assign_form_values(degree)
       self.degree_completed = degree.predicted_grade? ? 'no' : 'yes'
       self
     end

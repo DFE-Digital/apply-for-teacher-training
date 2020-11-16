@@ -93,7 +93,7 @@ RSpec.feature 'Entering their disability information' do
   end
 
   def when_i_click_to_change_my_answer
-    first('.govuk-summary-list__actions').click_link 'Change'
+    click_change_link('whether you want to ask for help')
   end
 
   def and_i_select_no

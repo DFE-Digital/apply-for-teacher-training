@@ -21,7 +21,7 @@ module CandidateInterface
       )
     end
 
-    def fill_form_values
+    def assign_form_values
       self.have_naric_reference = (degree.naric_reference.present? ? 'yes' : 'no')
       self.naric_reference = degree.naric_reference
       self.comparable_uk_degree = degree.comparable_uk_degree

@@ -27,11 +27,11 @@ RSpec.describe CandidateInterface::DegreeCompletionStatusForm, type: :model do
     end
   end
 
-  describe '#fill(degree)' do
+  describe '#assign_form_values(degree)' do
     it 'sets degree_completed to "no" if degree.predicted_grade? is true' do
       degree = instance_double(ApplicationQualification, predicted_grade?: true)
       form = described_class.new
-      form.fill(degree)
+      form.assign_form_values(degree)
 
       expect(form.degree_completed).to eq 'no'
     end
@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::DegreeCompletionStatusForm, type: :model do
     it 'sets degree_completed to "yes" if degree.predicted_grade? is false' do
       degree = instance_double(ApplicationQualification, predicted_grade?: false)
       form = described_class.new
-      form.fill(degree)
+      form.assign_form_values(degree)
 
       expect(form.degree_completed).to eq 'yes'
     end

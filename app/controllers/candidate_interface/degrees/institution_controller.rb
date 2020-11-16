@@ -22,7 +22,7 @@ module CandidateInterface
       end
 
       def edit
-        @degree_institution_form = DegreeInstitutionForm.new(degree: current_degree).fill_form_values
+        @degree_institution_form = DegreeInstitutionForm.new(degree: current_degree).assign_form_values
       end
 
       def update

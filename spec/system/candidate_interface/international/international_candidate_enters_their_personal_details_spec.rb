@@ -149,7 +149,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def when_i_click_change_on_my_nationality
-    all('.govuk-summary-list__actions')[2].click_link 'Change'
+    click_change_link('nationality')
   end
 
   def and_i_uncheck_that_i_am_british
@@ -231,7 +231,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def when_i_click_change_on_my_right_to_work
-    all('.govuk-summary-list__actions')[3].click_link 'Change'
+    click_change_link('Right to work or study')
   end
 
   def and_i_can_see_my_updated_right_to_work

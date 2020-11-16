@@ -296,7 +296,10 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_click_to_change_my_undergraduate_degree_year
-    click_change_link('year')
+    start_year_row = find('.govuk-summary-list__row', text: 'Start year')
+    within start_year_row do
+      click_change_link('year')
+    end
   end
 
   def when_i_click_to_change_my_undergraduate_degree_grade
@@ -413,19 +416,5 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_save_and_continue
     completion_status_row = page.all('.govuk-summary-list__row').find { |r| r.has_link? 'Change completion status' }
     expect(completion_status_row).to have_content 'No'
-  end
-
-private
-
-  def click_change_link(row_description)
-    link_text = "Change #{row_description}"
-    page.all('.govuk-summary-list__actions')
-      .find { |row| row.has_link?(link_text) }
-      .click_link(link_text)
-  end
-
-  def expect_validation_error(message)
-    errors = all('.govuk-error-message')
-    expect(errors.map(&:text).one? { |e| e.include? message }).to eq true
   end
 end

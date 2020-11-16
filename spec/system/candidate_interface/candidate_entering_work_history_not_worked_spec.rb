@@ -58,7 +58,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_click_on_change
-    first('.govuk-summary-list__actions').click_link 'Change'
+    click_change_link('explanation')
   end
 
   def and_i_change_the_explanation

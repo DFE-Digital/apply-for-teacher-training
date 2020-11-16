@@ -43,9 +43,7 @@ RSpec.feature 'Add Other qualification' do
   end
 
   def and_i_can_edit_my_qualification
-    within(all('.govuk-summary-list__row')[3]) do
-      click_link 'Change year'
-    end
+    click_change_link 'year'
 
     expect(page).to have_field('When did you complete the assessment?', with: '1999')
     fill_in 'When did you complete the assessment?', with: '2001'

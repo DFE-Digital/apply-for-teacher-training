@@ -15,7 +15,7 @@ module CandidateInterface
       degree.update!(subject: subject, subject_hesa_code: hesa_code)
     end
 
-    def fill_form_values
+    def assign_form_values
       self.subject = degree.subject
       self
     end

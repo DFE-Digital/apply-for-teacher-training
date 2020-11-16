@@ -154,7 +154,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def when_i_click_change_sex
-    click_link 'Change sex'
+    click_change_link('sex')
   end
 
   def when_i_choose_a_different_sex
@@ -199,7 +199,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def when_i_click_change_my_disability
-    click_link 'Change disability'
+    click_change_link('disability')
   end
 
   def when_i_choose_yes_for_having_a_disability
@@ -256,7 +256,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def when_i_click_change_ethnic_group
-    click_link 'Change ethnicity'
+    click_change_link('ethnicity')
   end
 
   def and_i_choose_another_ethnic_group

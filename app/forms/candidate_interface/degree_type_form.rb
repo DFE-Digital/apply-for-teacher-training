@@ -35,7 +35,7 @@ module CandidateInterface
       )
     end
 
-    def fill_form_values
+    def assign_form_values
       self.uk_degree = degree.international? ? 'no' : 'yes'
       self.type_description = degree.international? ? nil : degree.qualification_type
       self.international_type_description = degree.international? ? degree.qualification_type : nil

@@ -109,7 +109,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def when_i_click_to_change_my_answer
-    click_link 'Change', match: :first
+    click_change_link('name')
   end
 
   def and_i_fill_in_a_different_answer

@@ -164,7 +164,7 @@ RSpec.feature 'Entering volunteering and school experience' do
   end
 
   def when_i_click_to_change_my_volunteering_role
-    first('.govuk-summary-list__actions').click_link 'Change'
+    click_change_link('role')
   end
 
   def then_i_see_my_volunteering_role_filled_in

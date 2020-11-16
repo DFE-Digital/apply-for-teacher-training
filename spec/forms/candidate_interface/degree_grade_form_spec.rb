@@ -12,7 +12,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
     )
   end
 
-  describe '#fill_form_values' do
+  describe '#assign_form_values' do
     context 'when the database degree has a grade_hesa_code, for a HESA grade with visual_grouping "main"' do
       let(:degree) do
         build_stubbed(
@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
       it 'sets the grade form attribute to the HESA grade description' do
         degree_form = described_class.new(degree: degree)
 
-        degree_form.fill_form_values
+        degree_form.assign_form_values
 
         expect(degree_form.grade).to eq 'Upper second-class honours (2:1)'
         expect(degree_form.other_grade).to be_blank
@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
       it 'sets the other grade attributes' do
         degree_form = described_class.new(degree: degree)
 
-        degree_form.fill_form_values
+        degree_form.assign_form_values
 
         expect(degree_form.grade).to eq 'other'
         expect(degree_form.other_grade).to eq 'Undivided second class honours'
@@ -54,7 +54,7 @@ RSpec.describe CandidateInterface::DegreeGradeForm, type: :model do
         degree = build_stubbed(:degree_qualification, grade: 'gold medal')
         degree_form = described_class.new(degree: degree)
 
-        degree_form.fill_form_values
+        degree_form.assign_form_values
 
         expect(degree_form.grade).to eq 'other'
         expect(degree_form.other_grade).to eq 'gold medal'

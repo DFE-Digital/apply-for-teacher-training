@@ -46,7 +46,7 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def when_i_click_to_change_my_answer
-    first('.govuk-summary-list__actions').click_link 'Change'
+    click_change_link('interview needs')
   end
 
   def when_i_choose_yes_and_enter_my_preferences

@@ -43,10 +43,7 @@ RSpec.feature 'Your TOEFL result' do
   end
 
   def and_i_can_edit_my_qualification
-    within(all('.govuk-summary-list__row')[2]) do
-      click_link 'Change registration number'
-    end
-
+    click_change_link 'registration number'
     expect(page).to have_field('TOEFL registration number', with: '123456')
     fill_in 'TOEFL registration number', with: '888'
     click_button 'Save and continue'

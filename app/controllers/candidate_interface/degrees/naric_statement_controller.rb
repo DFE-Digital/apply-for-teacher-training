@@ -16,7 +16,7 @@ module CandidateInterface
       end
 
       def edit
-        @degree_naric_statement_form = DegreeNaricStatementForm.new(degree: current_degree).fill_form_values
+        @degree_naric_statement_form = DegreeNaricStatementForm.new(degree: current_degree).assign_form_values
       end
 
       def update

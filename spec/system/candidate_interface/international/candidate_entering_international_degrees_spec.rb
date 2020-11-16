@@ -223,7 +223,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_click_to_change_my_undergraduate_degree_type
-    page.all('.govuk-summary-list__actions').to_a.first.click_link 'Change qualification'
+    click_change_link('qualification')
   end
 
   def then_i_see_my_undergraduate_degree_type_filled_in
@@ -239,7 +239,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_click_to_change_my_undergraduate_degree_institution
-    page.all('.govuk-summary-list__actions').to_a.third.click_link 'Change institution'
+    click_change_link('institution')
   end
 
   def then_i_see_my_undergraduate_degree_institution_filled_in
@@ -257,7 +257,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_click_to_change_my_naric_details
-    page.all('.govuk-summary-list__actions').to_a.fourth.click_link 'Change UK NARIC statement'
+    click_change_link('UK NARIC statement')
   end
 
   def then_i_see_my_original_naric_details_filled_in
@@ -293,12 +293,5 @@ RSpec.feature 'Entering their degrees' do
 
   def and_that_the_section_is_completed
     expect(page).to have_css('#degree-badge-id', text: 'Completed')
-  end
-
-private
-
-  def expect_validation_error(message)
-    errors = all('.govuk-error-message')
-    expect(errors.map(&:text).one? { |e| e.include? message }).to eq true
   end
 end

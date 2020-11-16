@@ -132,7 +132,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def when_i_click_to_change_the_course_for_the_first_course_choice
-    click_link "Change course choice for #{@provider.courses.third.name}"
+    click_change_link "course choice for #{@provider.courses.third.name}"
   end
 
   def and_i_choose_the_single_site_course_as_my_first_course_choice
@@ -209,7 +209,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def when_i_click_to_change_the_location_of_the_second_course_choice
-    click_link "Change location for #{@provider.courses.second.name}"
+    click_change_link "location for #{@provider.courses.second.name}"
   end
 
   def and_i_choose_the_second_site
@@ -222,7 +222,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def when_i_click_to_change_the_study_mode_of_the_second_course_choice
-    click_link "Change study mode for #{@provider.courses.second.name_and_code}"
+    click_change_link "study mode for #{@provider.courses.second.name_and_code}"
   end
 
   def and_i_choose_part_time_study_mode
@@ -254,7 +254,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def when_i_click_to_change_the_study_mode_of_the_third_course_choice
-    click_link "Change study mode for #{@provider.courses.third.name_and_code}"
+    click_change_link "study mode for #{@provider.courses.third.name_and_code}"
   end
 
   def and_i_should_see_the_updated_study_mode_for_the_third_choice
