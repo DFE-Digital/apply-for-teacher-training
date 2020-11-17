@@ -38,7 +38,7 @@ module SupportInterface
     end
 
     def inset_text_header
-      return 'No action required' if !@match.dual_application_or_dual_acceptance? || !@match.action_needed?
+      return 'No action required' unless @match.action_needed?
 
       type_of_action
     end

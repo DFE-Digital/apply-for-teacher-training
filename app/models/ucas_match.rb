@@ -18,13 +18,15 @@ class UCASMatch < ApplicationRecord
   def action_needed?
     return false if processed?
 
+    return false unless dual_application_or_dual_acceptance?
+
     return true if ucas_withdrawal_requested?
 
     return need_to_send_reminder_emails? if initial_emails_sent?
 
     return need_to_request_withdrawal_from_ucas? if reminder_emails_sent?
 
-    dual_application_or_dual_acceptance?
+    true
   end
 
   def dual_application_or_dual_acceptance?

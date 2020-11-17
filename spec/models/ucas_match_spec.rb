@@ -16,6 +16,7 @@ RSpec.describe UCASMatch do
     it 'returns false if initial emails were sent and we don not need to send the reminders yet' do
       initial_emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: initial_emails_sent_at)
+      allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
 
       Timecop.travel(1.business_days.after(initial_emails_sent_at)) do
         expect(ucas_match.action_needed?).to eq(false)
@@ -25,6 +26,7 @@ RSpec.describe UCASMatch do
     it 'returns true if initial emails were sent and it is time to send reminder emails' do
       initial_emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: initial_emails_sent_at)
+      allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
 
       Timecop.travel(5.business_days.after(initial_emails_sent_at)) do
         expect(ucas_match.action_needed?).to eq(true)
@@ -33,6 +35,7 @@ RSpec.describe UCASMatch do
 
     it 'returns false if reminder emails were sent and we don not need to request withdrawal from UCAS yet' do
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: Time.zone.now)
+      allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
       allow(ucas_match).to receive(:need_to_request_withdrawal_from_ucas?).and_return(false)
 
       expect(ucas_match.action_needed?).to eq(false)
@@ -40,6 +43,7 @@ RSpec.describe UCASMatch do
 
     it 'returns true if reminder emails were sent and it is time to request withdrawal from UCAS' do
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: Time.zone.now)
+      allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
       allow(ucas_match).to receive(:need_to_request_withdrawal_from_ucas?).and_return(true)
 
       expect(ucas_match.action_needed?).to eq(true)
@@ -47,6 +51,7 @@ RSpec.describe UCASMatch do
 
     it 'returns true if we requested withdrawal from UCAS' do
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: Time.zone.now)
+      allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
 
       expect(ucas_match.action_needed?).to eq(true)
     end
