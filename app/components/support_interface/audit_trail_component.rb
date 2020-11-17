@@ -19,7 +19,7 @@ module SupportInterface
         audits = audits.where(auditable_type: params[:auditable_type])
       end
 
-      audits.includes(:user).order('id desc').page(params[:page] || 1).per(30)
+      audits.includes(:user).order('id desc').page(params[:page] || 1).per(60)
     end
 
     attr_reader :audited_thing
