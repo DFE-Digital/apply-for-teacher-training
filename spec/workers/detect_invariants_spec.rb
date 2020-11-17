@@ -13,13 +13,13 @@ RSpec.describe DetectInvariants do
       DetectInvariants.new.perform
 
       expect(Raven).to have_received(:capture_exception).with(
-        DetectInvariants::WeirdSituationDetected.new(
+        DetectInvariants::ApplicationInRemovedState.new(
           <<~MSG,
             One or more application choices are still in `awaiting_references` or
             `application_complete` state, but all these states have been removed:
 
-            #{application_choice_bad.id}
-            #{application_choice_bad_too.id}
+            http://localhost:3000/support/application_choices/#{application_choice_bad.id}
+            http://localhost:3000/support/application_choices/#{application_choice_bad_too.id}
           MSG
         ),
       )
@@ -41,11 +41,12 @@ RSpec.describe DetectInvariants do
       DetectInvariants.new.perform
 
       expect(Raven).to have_received(:capture_exception).with(
-        DetectInvariants::WeirdSituationDetected.new(
+        DetectInvariants::OutstandingReferencesOnSubmittedApplication.new(
           <<~MSG,
             One or more references are still pending on these applications,
             even though they've already been submitted:
-            #{weird_application_form.id}
+
+            http://localhost:3000/support/applications/#{weird_application_form.id}
           MSG
         ),
       )
@@ -72,11 +73,11 @@ RSpec.describe DetectInvariants do
       DetectInvariants.new.perform
 
       expect(Raven).to have_received(:capture_exception).with(
-        DetectInvariants::WeirdSituationDetected.new(
+        DetectInvariants::ApplicationEditedByWrongCandidate.new(
           <<~MSG,
-            The following application forms have had unauthorised edits:
+            The following application forms have had edits by a candidate who is not the owner of the application:
 
-            #{suspect_form.id}
+            http://localhost:3000/support/applications/#{suspect_form.id}
           MSG
         ),
       )

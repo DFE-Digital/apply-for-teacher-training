@@ -14,14 +14,16 @@ class DetectInvariants
     end
 
     if choices_in_wrong_state.any?
+      urls = choices_in_wrong_state.map { |application_choice_id| helpers.support_interface_application_choice_url(application_choice_id) }
+
       message = <<~MSG
         One or more application choices are still in `awaiting_references` or
         `application_complete` state, but all these states have been removed:
 
-        #{choices_in_wrong_state.join("\n")}
+        #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(WeirdSituationDetected.new(message))
+      Raven.capture_exception(ApplicationInRemovedState.new(message))
     end
   end
 
@@ -34,13 +36,16 @@ class DetectInvariants
       .sort
 
     if applications_with_reference_weirdness.any?
+      urls = applications_with_reference_weirdness.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
+
       message = <<~MSG
         One or more references are still pending on these applications,
         even though they've already been submitted:
-        #{applications_with_reference_weirdness.join("\n")}
+
+        #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(WeirdSituationDetected.new(message))
+      Raven.capture_exception(OutstandingReferencesOnSubmittedApplication.new(message))
     end
   end
 
@@ -54,15 +59,25 @@ class DetectInvariants
       .sort
 
     if unauthorised_changes.any?
-      message = <<~MSG
-        The following application forms have had unauthorised edits:
+      urls = unauthorised_changes.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
 
-        #{unauthorised_changes.join("\n")}
+      message = <<~MSG
+        The following application forms have had edits by a candidate who is not the owner of the application:
+
+        #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(WeirdSituationDetected.new(message))
+      Raven.capture_exception(ApplicationEditedByWrongCandidate.new(message))
     end
   end
 
-  class WeirdSituationDetected < StandardError; end
+  class ApplicationInRemovedState < StandardError; end
+  class OutstandingReferencesOnSubmittedApplication < StandardError; end
+  class ApplicationEditedByWrongCandidate < StandardError; end
+
+private
+
+  def helpers
+    Rails.application.routes.url_helpers
+  end
 end
