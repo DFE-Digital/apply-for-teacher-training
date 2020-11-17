@@ -37,7 +37,7 @@ RSpec.feature 'Export applications' do
   end
 
   def and_i_click_export_data
-    expect(page).to have_content("Click 'Download' to download application data for the current cycle")
+    expect(page).to have_content('Click ‘Download’ to download application data for the current cycle')
 
     click_on 'Download'
   end

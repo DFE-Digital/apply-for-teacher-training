@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::NoEflQualificationRev
     english_proficiency = build(
       :english_proficiency,
       :no_qualification,
-      no_qualification_details: "I'm working on it.",
+      no_qualification_details: 'I’m working on it.',
     )
 
     result = render_inline described_class.new(english_proficiency)
@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::NoEflQualificationRev
       position: 0,
       title: 'Have you done an English as a foreign language assessment?',
       answer: 'No, I have not done an English as a foreign language assessment',
-      detail: "I'm working on it.",
+      detail: 'I’m working on it.',
     }
     expect(result.css('.govuk-summary-list__key')[row[:position]].text).to include(row[:title])
     expect(result.css('.govuk-summary-list__value')[row[:position]].text).to include(row[:answer])
