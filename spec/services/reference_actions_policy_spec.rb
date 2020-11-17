@@ -2,13 +2,21 @@ require 'rails_helper'
 
 RSpec.describe ReferenceActionsPolicy do
   describe '#editable?' do
-    it 'returns true for `not_requested_yet`' do
+    it 'is editable when the reference has not been requested yet' do
       reference = build(:reference, :not_requested_yet)
 
       expect(policy(reference).editable?).to eq true
     end
 
-    it 'returns false for all other statuses' do
+    it 'is not editable when the application form has enough references' do
+      reference = create(:reference, :not_requested_yet)
+      create(:reference, :feedback_provided, application_form: reference.application_form)
+      create(:reference, :feedback_provided, application_form: reference.application_form)
+
+      expect(policy(reference).editable?).to eq false
+    end
+
+    it 'is not editable in any other other state' do
       reference = build(:reference, :feedback_provided)
 
       expect(policy(reference).editable?).to eq false

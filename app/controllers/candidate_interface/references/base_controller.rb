@@ -22,7 +22,8 @@ module CandidateInterface
       end
 
       def redirect_to_review_page_unless_reference_is_editable
-        redirect_to candidate_interface_references_review_path unless @reference.present? && @reference.not_requested_yet?
+        policy = ReferenceActionsPolicy.new(@reference)
+        redirect_to candidate_interface_references_review_path unless @reference.present? && policy.editable?
       end
     end
   end

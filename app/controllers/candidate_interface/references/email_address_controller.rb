@@ -1,7 +1,8 @@
 module CandidateInterface
   module References
     class EmailAddressController < BaseController
-      before_action :set_reference, :redirect_to_review_page_unless_reference_is_not_requested_or_email_bounced
+      before_action :set_reference
+      before_action :verify_email_is_editable
 
       def new
         @reference_email_address_form = Reference::RefereeEmailAddressForm.new
@@ -45,10 +46,11 @@ module CandidateInterface
           .merge!(reference_id: @reference.id)
       end
 
-      def redirect_to_review_page_unless_reference_is_not_requested_or_email_bounced
-        unless @reference.present? && (@reference.not_requested_yet? || @reference.email_bounced?)
-          redirect_to candidate_interface_references_review_path
-        end
+      def verify_email_is_editable
+        policy = ReferenceActionsPolicy.new(@reference)
+        return if policy.editable? || @reference.email_bounced?
+
+        redirect_to candidate_interface_references_review_path
       end
     end
   end
