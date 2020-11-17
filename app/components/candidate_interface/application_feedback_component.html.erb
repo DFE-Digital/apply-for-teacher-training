@@ -1,16 +1,18 @@
 <% if FeatureFlag.active?(:feedback_prompts) %>
   <div class="govuk-width-container">
     <div class="app-feedback__container">
-      <p class="govuk-body-m govuk-!-margin-bottom-0 govuk-!-margin-top-4">
+      <p class="govuk-body govuk-!-margin-bottom-0 govuk-!-margin-top-4">
         <%= govuk_link_to(
-          t('application_feedback_component.feedback_link'),
+          t('application_feedback.feedback_link'),
           candidate_interface_application_feedback_path(
             path: path,
             page_title: page_title,
+            section: section
           ),
           class: 'govuk-!-margin-top-4',
           target: '_blank',
-          rel: 'noopener' )%>
+          rel: 'noopener'
+        ) %>
       </p>
     </div>
   </div>

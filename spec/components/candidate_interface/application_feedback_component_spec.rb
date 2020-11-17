@@ -12,7 +12,7 @@ RSpec.describe CandidateInterface::ApplicationFeedbackComponent do
     )
 
     expected_base_url = '/candidate/application/application-feedback'
-    expected_query_string = '?page_title=Add+a+degreeeeee&path=%2Fcandidate%2Fapplication%2Fdegrees'
+    expected_query_string = '?page_title=Add+a+degreeeeee&path=%2Fcandidate%2Fapplication%2Fdegrees&section=qualifications'
 
     expected_url = result.css('a').first.attributes['href'].value
 

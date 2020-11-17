@@ -4,6 +4,7 @@ module CandidateInterface
 
     def new
       @application_feedback_form = CandidateInterface::ApplicationFeedbackForm.new
+      @section = params[:section] || params.dig('candidate_interface_application_feedback_form', 'section')
     end
 
     def create
