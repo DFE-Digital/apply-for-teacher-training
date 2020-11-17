@@ -1,5 +1,7 @@
 module ProviderInterface
   class SortApplicationChoices
+    RBD_FEEDBACK_LAUNCH_TIMESTAMP = '\'2020-11-17T00:00:00+00:00\'::TIMESTAMPTZ'.freeze
+
     def self.call(application_choices:)
       for_task_view(application_choices).order(sort_order)
     end
@@ -71,7 +73,7 @@ module ProviderInterface
           status = 'rejected'
             AND rejected_by_default
             AND rejection_reason IS NULL
-            AND rejected_at >= '2020-11-11T00:00:00+00:00'::TIMESTAMPTZ
+            AND rejected_at >= #{RBD_FEEDBACK_LAUNCH_TIMESTAMP}
         )
       GIVE_FEEDBACK_FOR_RBD
     end
