@@ -133,7 +133,7 @@ RSpec.feature 'Entering their personal details' do
     choose 'Yes'
     fill_in(
       t('english_main_language.yes_label', scope: @scope),
-      with: "I'm great at Galactic Basic so English is a piece of cake",
+      with: 'I’m great at Galactic Basic so English is a piece of cake',
       match: :prefer_exact,
     )
   end

@@ -484,7 +484,7 @@ components:
           example: I am expecting to be called for jury service in the next 12 months
         safeguarding_issues_status:
           type: string
-          description: Status of candidate's response to the safeguarding issues declaration
+          description: Status of candidate’s response to the safeguarding issues declaration
           enum:
           - no_safeguarding_issues_to_declare
           - has_safeguarding_issues_to_declare
@@ -1072,7 +1072,7 @@ components:
           type: array
           items:
             type: string
-          description: The candidate's disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
+          description: The candidate’s disabilities as an array of [2-digit HESA codes for Disability](https://www.hesa.ac.uk/collection/c19053/e/disable)
           example:
             - "00"
             - "51"

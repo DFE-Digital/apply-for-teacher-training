@@ -163,6 +163,6 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
   end
 
   def then_nothing_has_happened
-    expect(Rails.logger).to have_received(:info).with("Skipping file with ID 321 - we've already processed it")
+    expect(Rails.logger).to have_received(:info).with('Skipping file with ID 321 - we’ve already processed it')
   end
 end

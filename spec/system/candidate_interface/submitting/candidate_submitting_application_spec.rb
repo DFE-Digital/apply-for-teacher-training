@@ -82,7 +82,7 @@ RSpec.feature 'Candidate submits the application' do
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content '6 April 1937'
     expect(page).to have_content 'British and American'
-    expect(page).to have_content "I'm great at Galactic Basic so English is a piece of cake"
+    expect(page).to have_content 'I’m great at Galactic Basic so English is a piece of cake'
   end
 
   def and_i_can_see_my_contact_details

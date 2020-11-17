@@ -98,14 +98,14 @@ RSpec.feature 'Entering their personal details' do
 
   def when_i_choose_that_english_is_my_primary_language
     choose 'Yes'
-    fill_in t('english_main_language.yes_label', scope: @scope), with: "I'm great at Galactic Basic so English is a piece of cake", match: :prefer_exact
+    fill_in t('english_main_language.yes_label', scope: @scope), with: 'I’m great at Galactic Basic so English is a piece of cake', match: :prefer_exact
   end
 
   def then_i_can_check_my_answers
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content 'British and American'
-    expect(page).to have_content "I'm great at Galactic Basic so English is a piece of cake"
+    expect(page).to have_content 'I’m great at Galactic Basic so English is a piece of cake'
   end
 
   def when_i_click_to_change_my_answer
