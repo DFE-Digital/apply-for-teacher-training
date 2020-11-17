@@ -52,9 +52,8 @@ module ProviderInterface
 
     def feedback_events
       if application_choice.rejected_by_default
-        # jsonb ? text → boolean -- Does the text exist as a top-level key?
         application_choice.audits.where(action: 'update').where(
-          'audited_changes ? :key',
+          'jsonb_exists(audited_changes, :key)',
           key: :reject_by_default_feedback_sent_at,
         ).order('created_at').map do |feedback_audit|
           Event.new(
