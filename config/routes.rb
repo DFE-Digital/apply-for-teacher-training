@@ -402,15 +402,15 @@ Rails.application.routes.draw do
         get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
         post '/' => 'equality_and_diversity#choice'
         get '/sex' => 'equality_and_diversity#edit_sex', as: :edit_equality_and_diversity_sex
-        post '/sex' => 'equality_and_diversity#update_sex', as: :update_equality_and_diversity_sex
+        post '/sex' => 'equality_and_diversity#update_sex'
         get '/disability-status' => 'equality_and_diversity#edit_disability_status', as: :edit_equality_and_diversity_disability_status
-        post '/disability-status' => 'equality_and_diversity#update_disability_status', as: :update_equality_and_diversity_disability_status
+        patch '/disability-status' => 'equality_and_diversity#update_disability_status'
         get '/disabilities' => 'equality_and_diversity#edit_disabilities', as: :edit_equality_and_diversity_disabilities
-        post '/disabilities' => 'equality_and_diversity#update_disabilities', as: :update_equality_and_diversity_disabilities
+        patch '/disabilities' => 'equality_and_diversity#update_disabilities'
         get '/ethnic-group' => 'equality_and_diversity#edit_ethnic_group', as: :edit_equality_and_diversity_ethnic_group
-        post '/ethnic-group' => 'equality_and_diversity#update_ethnic_group', as: :update_equality_and_diversity_ethnic_group
+        patch '/ethnic-group' => 'equality_and_diversity#update_ethnic_group'
         get '/ethnic-background' => 'equality_and_diversity#edit_ethnic_background', as: :edit_equality_and_diversity_ethnic_background
-        post '/ethnic-background' => 'equality_and_diversity#update_ethnic_background', as: :update_equality_and_diversity_ethnic_background
+        patch '/ethnic-background' => 'equality_and_diversity#update_ethnic_background'
         get '/review' => 'equality_and_diversity#review', as: :review_equality_and_diversity
       end
 
