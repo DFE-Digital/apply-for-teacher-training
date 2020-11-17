@@ -30,7 +30,7 @@ module ProviderInterface
         application_choices: with_includes.where(id: application_choices),
       )
 
-      @application_choices = application_choices.page(params[:page] || 1).per(15)
+      @application_choices = application_choices.page(params[:page] || 1).per(30)
     end
 
     def show

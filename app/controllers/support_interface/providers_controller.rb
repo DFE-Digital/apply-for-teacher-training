@@ -6,7 +6,7 @@ module SupportInterface
       @providers = Provider.where(sync_courses: true)
         .includes(:sites, :courses, :provider_agreements, :provider_users)
         .order(:name)
-        .page(params[:page] || 1).per(15)
+        .page(params[:page] || 1).per(30)
 
       if params[:q]
         @providers = @providers.where("CONCAT(name, ' ', code) ILIKE ?", "%#{params[:q]}%")
@@ -19,7 +19,7 @@ module SupportInterface
       @providers = Provider
         .where(sync_courses: false)
         .order(:name)
-        .page(params[:page] || 1).per(15)
+        .page(params[:page] || 1).per(30)
 
       if params[:q]
         @providers = @providers.where("CONCAT(name, ' ', code) ILIKE ?", "%#{params[:q]}%")

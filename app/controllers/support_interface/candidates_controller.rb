@@ -6,7 +6,7 @@ module SupportInterface
       @candidates = Candidate
         .includes(application_forms: :application_choices)
         .order(updated_at: :desc)
-        .page(params[:page] || 1).per(15)
+        .page(params[:page] || 1).per(30)
 
       if params[:q]
         @candidates = @candidates.where('CONCAT(email_address) ILIKE ?', "%#{params[:q]}%")

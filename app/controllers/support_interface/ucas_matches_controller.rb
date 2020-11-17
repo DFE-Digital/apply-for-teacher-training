@@ -4,7 +4,7 @@ module SupportInterface
       @filter = SupportInterface::UCASMatchesFilter.new(params: params)
       @matches = @filter.filter_records(UCASMatch.includes(:candidate))
         .order(updated_at: :desc)
-        .page(params[:page] || 1).per(15)
+        .page(params[:page] || 1).per(30)
     end
 
     def show
