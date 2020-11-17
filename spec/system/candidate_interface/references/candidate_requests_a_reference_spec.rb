@@ -173,7 +173,7 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   def then_i_see_a_page_not_found_page
-    expect(page).to have_content "Page not found"
+    expect(page).to have_content 'Page not found'
   end
 
   def when_i_manually_try_and_edit_my_references_type

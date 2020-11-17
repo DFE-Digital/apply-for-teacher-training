@@ -131,6 +131,10 @@ module SupportInterface
           value: policy.can_send_reminder? ? 'Yes' : 'No',
         },
         {
+          key: 'Can request?',
+          value: policy.can_request? ? 'Yes' : 'No',
+        },
+        {
           key: 'Can send?',
           value: policy.can_send? ? 'Yes' : 'No',
         },
