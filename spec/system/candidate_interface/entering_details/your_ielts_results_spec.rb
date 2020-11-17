@@ -30,7 +30,7 @@ RSpec.feature 'Your IELTS result' do
 
   def when_i_provide_my_ielts_details
     fill_in 'Test report form (TRF) number', with: '123456'
-    select '7.5', from: 'Overall band score'
+    fill_in 'Overall band score', with: '7.5'
     fill_in 'When did you complete the assessment?', with: '1999'
     click_button 'Save and continue'
   end

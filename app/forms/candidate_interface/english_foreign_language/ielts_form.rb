@@ -14,12 +14,6 @@ module CandidateInterface
       validate :award_year_is_a_valid_year
       validate :band_score_is_a_valid_score
 
-      def self.band_score_drop_down_options
-        empty_option = [BandScore.new('', '')]
-        scores = IeltsQualification::VALID_SCORES.map { |s| BandScore.new(s, s) }
-        empty_option + scores
-      end
-
       def save
         return false unless valid?
 

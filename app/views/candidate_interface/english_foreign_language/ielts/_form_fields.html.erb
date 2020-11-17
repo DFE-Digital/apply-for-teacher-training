@@ -4,14 +4,10 @@
   hint: { text: 'For example, 02GB0674SOOM599A' },
   spellcheck: false) %>
 
-<%= f.govuk_collection_select(
+<%= f.govuk_text_field(
   :band_score,
-  CandidateInterface::EnglishForeignLanguage::IeltsForm.band_score_drop_down_options,
-  :value,
-  :option,
   label: { text: 'Overall band score', size: 'm' },
-  hint: { text: 'For example, 7.5' },
-  form_group: { classes: 'govuk-form-group--ielts-band-score' }) %>
+  hint: { text: 'For example, 7.5' }) %>
 
 <%= f.govuk_text_field(
   :award_year,
