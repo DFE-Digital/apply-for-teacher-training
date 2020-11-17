@@ -2,16 +2,13 @@ module CandidateInterface
   class RequestReference
     REFEREE_BOT_EMAIL_ADDRESSES = ['refbot1@example.com', 'refbot2@example.com'].freeze
 
-    def call(reference, flash)
-      if reference.not_requested_yet? || reference.cancelled? || reference.cancelled_at_end_of_cycle? || reference.email_bounced?
-        RefereeMailer.reference_request_email(reference).deliver_later
-        reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
-        auto_approve_reference_in_sandbox(reference)
+    def call(reference)
+      policy = ReferenceActionsPolicy.new(reference)
+      raise "ApplicationReference##{reference.id} can't be requested" unless policy.can_request?
 
-        flash[:success] = "Reference request sent to #{reference.name}"
-      else
-        flash[:warning] = "Reference request already sent to #{reference.name}"
-      end
+      RefereeMailer.reference_request_email(reference).deliver_later
+      reference.update!(feedback_status: 'feedback_requested', requested_at: Time.zone.now)
+      auto_approve_reference_in_sandbox(reference)
     end
 
   private

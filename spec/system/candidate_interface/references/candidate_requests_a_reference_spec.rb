@@ -38,8 +38,7 @@ RSpec.feature 'Candidate requests a reference' do
     and_the_reference_is_moved_to_the_requested_state
     and_an_email_is_sent_to_the_referee
     when_i_navigate_back_to_a_stale_confirmation_page
-    and_i_confirm_that_i_am_ready_to_send_a_reference_request
-    then_i_am_told_a_reference_has_already_been_sent
+    then_i_see_a_page_not_found_page
 
     when_i_manually_try_and_edit_my_references_type
     then_i_am_redirected_to_the_review_page
@@ -173,10 +172,8 @@ RSpec.feature 'Candidate requests a reference' do
     visit candidate_interface_references_new_request_path(@reference)
   end
 
-  def then_i_am_told_a_reference_has_already_been_sent
-    expect(page).to have_content "Reference request already sent to #{@reference.name}"
-    reference_requests = all_emails.select { |e| e.to.shift == @reference.email_address }
-    expect(reference_requests.count).to eq 1
+  def then_i_see_a_page_not_found_page
+    expect(page).to have_content 'Page not found'
   end
 
   def when_i_manually_try_and_edit_my_references_type

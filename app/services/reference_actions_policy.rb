@@ -19,6 +19,10 @@ class ReferenceActionsPolicy
     reference.feedback_requested? && reference.reminder_sent_at.nil?
   end
 
+  def can_request?
+    can_send? || can_resend? || can_retry?
+  end
+
   def can_send?
     reference.not_requested_yet? &&
       needs_more_references? &&

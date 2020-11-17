@@ -3,28 +3,28 @@ module CandidateInterface
     class RequestController < BaseController
       before_action :set_reference
       before_action :prompt_for_candidate_name_if_not_already_given, only: :create
+      before_action :verify_reference_can_be_requested
 
       def new
-        render_404 and return unless can_send?
-
         @request_form = Reference::RequestForm.build_from_reference(@reference)
         @request_form.request_now = 'yes'
       end
 
       def create
         if request_now?
-          RequestReference.new.call(@reference, flash)
+          RequestReference.new.call(@reference)
+          flash[:success] = "Reference request sent to #{@reference.name}"
         end
+
         redirect_to candidate_interface_references_review_path
       end
 
     private
 
-      def can_send?
-        CandidateInterface::Reference::SubmitRefereeForm.new(
-          submit: 'yes',
-          reference_id: @reference.id,
-        ).valid?
+      def verify_reference_can_be_requested
+        policy = ReferenceActionsPolicy.new(@reference)
+
+        render_404 and return unless policy.can_request?
       end
 
       def prompt_for_candidate_name_if_not_already_given
