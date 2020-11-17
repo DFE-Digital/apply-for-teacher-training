@@ -4,7 +4,6 @@ module CandidateInterface
     include ValidationUtils
 
     attr_accessor :grade,
-                  :award_year,
                   :qualification,
                   :other_grade,
                   :grades,
@@ -47,7 +46,6 @@ module CandidateInterface
       def build_params_from(qualification)
         params = {
           grade: qualification.grade,
-          award_year: qualification.award_year,
           qualification: qualification,
         }
 
@@ -154,7 +152,7 @@ module CandidateInterface
         log_validation_errors(:grade)
         return false
       end
-      qualification.update(grade: set_grade, award_year: award_year)
+      qualification.update(grade: set_grade)
     end
 
   private
