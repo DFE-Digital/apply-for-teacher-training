@@ -69,8 +69,7 @@ module CandidateInterface
     end
 
     def new_non_uk_qualification?
-      FeatureFlag.active?('international_gcses') &&
-        @application_qualification.qualification_type == 'non_uk' &&
+      @application_qualification.qualification_type == 'non_uk' &&
         @details_form.qualification.institution_country.nil?
     end
   end

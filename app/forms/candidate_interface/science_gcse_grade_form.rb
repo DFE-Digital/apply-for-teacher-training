@@ -16,14 +16,13 @@ module CandidateInterface
                   :physics_grade,
                   :chemistry_grade
     validates :other_grade, presence: true, if: :grade_is_other?
-    validates :grade, length: { maximum: 6 }, unless: :international_gcses_flag_active?
     validate :grade_length
     validate :grade_format, unless: :new_record?
     validate :triple_award_grade_format
 
     class << self
       def build_from_qualification(qualification)
-        if FeatureFlag.active?('international_gcses') && qualification.qualification_type == 'non_uk'
+        if qualification.qualification_type == 'non_uk'
           new(
             grade: qualification.set_grade,
             other_grade: qualification.set_other_grade,
@@ -197,10 +196,6 @@ module CandidateInterface
 
     def sanitize(grade)
       grade.delete(' ').upcase if grade
-    end
-
-    def international_gcses_flag_active?
-      FeatureFlag.active?('international_gcses')
     end
 
     def new_record?

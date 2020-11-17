@@ -4,8 +4,6 @@ RSpec.feature 'Candidate entering GCSE details' do
   include CandidateHelper
 
   scenario 'Candidate specifies GCSE maths with "Other UK qualification" type' do
-    FeatureFlag.deactivate(:international_gcses)
-
     given_i_am_signed_in
     and_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
@@ -34,7 +32,8 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def and_i_fill_in_the_type_of_qualification
-    fill_in t('application_form.gcse.other_uk.label'), with: 'Scottish Baccalaureate'
+    find('#candidate-interface-gcse-qualification-type-form-other-uk-qualification-type-field')
+      .set('Scottish Baccalaureate')
   end
 
   def and_i_click_save_and_continue

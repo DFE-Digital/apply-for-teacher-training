@@ -5,7 +5,6 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
 
   scenario 'Candidate submits their maths Non UK GCSE equivalency details and then updates them' do
     given_i_am_signed_in
-    and_the_international_gcses_flag_is_active
 
     when_i_visit_the_candidate_application_page
     and_i_click_on_the_maths_gcse_link
@@ -57,10 +56,6 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
-  end
-
-  def and_the_international_gcses_flag_is_active
-    FeatureFlag.activate('international_gcses')
   end
 
   def given_i_am_not_signed_in; end

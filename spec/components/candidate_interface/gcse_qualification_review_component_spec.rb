@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
-  context 'with the international_gcses flag on' do
-    before do
-      FeatureFlag.activate('international_gcses')
-    end
-
+  context 'a non uk qualification' do
     it 'renders a non-uk GCSE equivalent qualification' do
       application_form = build :application_form
       @qualification = application_qualification = build(
@@ -64,7 +60,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
     end
   end
 
-  context 'with the international_gcses flag off' do
+  context 'a uk qualification' do
     it 'displays award year, qualification type and grade' do
       application_form = build :application_form
       @qualification = application_qualification = build(
