@@ -104,27 +104,8 @@ private
   def address_row
     {
       key: 'Address',
-      value: full_address,
+      value: application_form.full_address,
     }
-  end
-
-  def full_address
-    if @application_form.international?
-      [
-        @application_form.international_address,
-        COUNTRIES[@application_form.country],
-      ]
-        .reject(&:blank?)
-    else
-      [
-        @application_form.address_line1,
-        @application_form.address_line2,
-        @application_form.address_line3,
-        @application_form.address_line4,
-        @application_form.postcode,
-      ]
-        .reject(&:blank?)
-    end
   end
 
   attr_reader :application_form
