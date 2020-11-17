@@ -84,7 +84,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     it 'renders feedback event' do
       application_choice = create(:application_choice, :with_rejection_by_default_and_feedback)
       rendered = render_inline(described_class.new(application_choice: application_choice))
-      expect(rendered.text).to include 'Feedback provided'
+      expect(rendered.text).to include 'Feedback sent'
       expect(rendered.text).to include '11 Feb 2020'
     end
   end
