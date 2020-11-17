@@ -18,8 +18,8 @@ RSpec.describe DetectInvariants do
             One or more application choices are still in `awaiting_references` or
             `application_complete` state, but all these states have been removed:
 
-            #{application_choice_bad.id}
-            #{application_choice_bad_too.id}
+            http://localhost:3000/support/application_choices/#{application_choice_bad.id}
+            http://localhost:3000/support/application_choices/#{application_choice_bad_too.id}
           MSG
         ),
       )
@@ -45,7 +45,8 @@ RSpec.describe DetectInvariants do
           <<~MSG,
             One or more references are still pending on these applications,
             even though they've already been submitted:
-            #{weird_application_form.id}
+
+            http://localhost:3000/support/applications/#{weird_application_form.id}
           MSG
         ),
       )
@@ -76,7 +77,7 @@ RSpec.describe DetectInvariants do
           <<~MSG,
             The following application forms have had unauthorised edits:
 
-            #{suspect_form.id}
+            http://localhost:3000/support/applications/#{suspect_form.id}
           MSG
         ),
       )

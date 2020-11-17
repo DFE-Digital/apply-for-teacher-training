@@ -14,11 +14,13 @@ class DetectInvariants
     end
 
     if choices_in_wrong_state.any?
+      urls = choices_in_wrong_state.map { |application_choice_id| helpers.support_interface_application_choice_url(application_choice_id) }
+
       message = <<~MSG
         One or more application choices are still in `awaiting_references` or
         `application_complete` state, but all these states have been removed:
 
-        #{choices_in_wrong_state.join("\n")}
+        #{urls.join("\n")}
       MSG
 
       Raven.capture_exception(WeirdSituationDetected.new(message))
@@ -34,10 +36,13 @@ class DetectInvariants
       .sort
 
     if applications_with_reference_weirdness.any?
+      urls = applications_with_reference_weirdness.map { |applicatio_form_id| helpers.support_interface_application_form_url(applicatio_form_id) }
+
       message = <<~MSG
         One or more references are still pending on these applications,
         even though they've already been submitted:
-        #{applications_with_reference_weirdness.join("\n")}
+
+        #{urls.join("\n")}
       MSG
 
       Raven.capture_exception(WeirdSituationDetected.new(message))
@@ -54,10 +59,12 @@ class DetectInvariants
       .sort
 
     if unauthorised_changes.any?
+      urls = unauthorised_changes.map { |applicatio_form_id| helpers.support_interface_application_form_url(applicatio_form_id) }
+
       message = <<~MSG
         The following application forms have had unauthorised edits:
 
-        #{unauthorised_changes.join("\n")}
+        #{urls.join("\n")}
       MSG
 
       Raven.capture_exception(WeirdSituationDetected.new(message))
@@ -65,4 +72,10 @@ class DetectInvariants
   end
 
   class WeirdSituationDetected < StandardError; end
+
+private
+
+  def helpers
+    Rails.application.routes.url_helpers
+  end
 end
