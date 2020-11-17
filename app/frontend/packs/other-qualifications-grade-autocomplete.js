@@ -16,6 +16,10 @@ const initOtherQualificationsGradeAutocomplete = () => {
       if (!container) return;
 
       accessibleAutocompleteFromSource(input, container);
+
+      const accessibleAutocompleteWrapper = document.querySelector(`#${containerId} .autocomplete__wrapper`);
+      accessibleAutocompleteWrapper.classList.add("govuk-input--width-10");
+
     });
 
   } catch (err) {
