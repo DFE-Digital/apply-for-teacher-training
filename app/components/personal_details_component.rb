@@ -65,20 +65,20 @@ private
   end
 
   def right_to_work_or_study_row
-    return if @application_form.right_to_work_or_study.blank?
+    return if application_form.right_to_work_or_study.blank?
 
     {
       key: 'Has the right to work or study in the UK?',
-      value: RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.fetch(@application_form.right_to_work_or_study),
+      value: RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.fetch(application_form.right_to_work_or_study),
     }
   end
 
   def residency_details_row
-    return unless @application_form.right_to_work_or_study == 'yes'
+    return unless application_form.right_to_work_or_study == 'yes'
 
     {
       key: 'Residency details',
-      value: @application_form.right_to_work_or_study_details,
+      value: application_form.right_to_work_or_study_details,
     }
   end
 
