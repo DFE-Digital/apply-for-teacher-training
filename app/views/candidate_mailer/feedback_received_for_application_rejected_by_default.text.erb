@@ -6,7 +6,7 @@ Your application for <%= @course_option.course.name_and_code %> was automaticall
 
 This was because <%= @course_option.course.provider.name %> did not respond in time. They’ve now given you the following feedback:
 
-<%= @application_choice.rejection_reason %>
+^<%= @application_choice.rejection_reason&.gsub(/\n/,"\n^") %>
 
 # Get help or report a problem
 
