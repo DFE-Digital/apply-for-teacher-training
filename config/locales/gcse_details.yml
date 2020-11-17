@@ -11,7 +11,7 @@ en:
         Providers expect you to have a grade C or 4 (or the equivalent) in order
         to train. If you do not have this, contact your provider to discuss your
         options. You might be able to retake an exam or do an equivalence test.
-      triple_gcse_science: If you have a combined or triple GCSE in science, enter your total grade.
+      o_level_triple_gcse_science: If you have a combined or triple O Level in science, enter your total grade.
       triple_scottish_national_science: If you studied three science subjects separately or took a general science qualification, enter your total grade.
       english_literature_only:
         summary: If you have %{type} in English Literature only
@@ -22,8 +22,12 @@ en:
     hint:
       science:
         gcse: For example, ‘A*A*A*’, ‘AA’, ‘B’, ‘999’, ‘88’, ‘7’
+        gcse_double_award: For example, ‘CD’ or ‘4-3’
         gce_o_level: For example, ‘ABC’, ‘AA’, ‘B’
         scottish_national_5: For example, ‘A*A*A*’, ‘ABC’, ‘A’, ‘777’, ‘654’, ‘6’
+        one_grade: You have one science grade
+        combined_grade: You have a combined science grade
+        subject_per_grade: You have a grade for each subject
       other:
         gcse: For example, ‘C’ or ‘4’
         gce_o_level: For example, ‘C’

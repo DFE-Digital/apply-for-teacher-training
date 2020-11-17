@@ -1,0 +1,28 @@
+<% content_for :title, title_with_error_prefix(t('gcse_edit_grade.page_title', subject: @subject), @gcse_grade_form.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @gcse_grade_form, url: candidate_interface_gcse_science_edit_grade_path, method: :patch do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl"><%= t('gcse_edit_grade.page_title', subject: @subject) %></h1>
+
+      <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
+      <%= f.govuk_radio_buttons_fieldset :gcse_science, legend: {text: "Select the GCSEs you did and include your grade"} do %>
+        <%= f.govuk_radio_button(:gcse_science, ApplicationQualification::SCIENCE_SINGLE_AWARD, label: {text: "Single award"}, hint: {text: t('gcse_edit_grade.hint.science.one_grade')}, link_errors: true) do %>
+          <%= f.govuk_text_field :single_award_grade, label: {text: "Grade"}, hint: {text: t('gcse_edit_grade.hint.other.gcse')}, width: 2 %>
+        <% end %>
+        <%= f.govuk_radio_button(:gcse_science, ApplicationQualification::SCIENCE_DOUBLE_AWARD, label: {text: "Double award"}, hint: {text: t('gcse_edit_grade.hint.science.combined_grade')}) do %>
+          <%= f.govuk_text_field :double_award_grade, label: {text: "Grade"}, hint: {text: t('gcse_edit_grade.hint.science.gcse_double_award')}, width: 4 %>
+        <% end %>
+        <%= f.govuk_radio_button(:gcse_science, ApplicationQualification::SCIENCE_TRIPLE_AWARD, label: {text: "Triple award"}, hint: {text: t('gcse_edit_grade.hint.science.subject_per_grade')}) do %>
+          <%= f.govuk_text_field :biology_grade, label: {text: "Biology grade"}, hint: {text: t('gcse_edit_grade.hint.other.gcse')}, width: 2 %>
+          <%= f.govuk_text_field :chemistry_grade, label: {text: "Chemistry grade"}, hint: {text: t('gcse_edit_grade.hint.other.gcse')}, width: 2 %>
+          <%= f.govuk_text_field :physics_grade, label: {text: "Physics grade"}, hint: {text: t('gcse_edit_grade.hint.other.gcse')}, width: 2 %>
+        <% end %>
+      <% end %>
+      <%= f.govuk_submit t('application_form.gcse.complete_form_button') %>
+    <% end %>
+  </div>
+</div>

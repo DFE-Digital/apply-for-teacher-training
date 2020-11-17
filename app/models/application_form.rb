@@ -86,6 +86,16 @@ class ApplicationForm < ApplicationRecord
   end
 
   def qualification_in_subject(level, subject)
+    if subject.to_s == ApplicationQualification::SCIENCE
+      # A Science GCSE may have any one of the following subject variants
+      subject = [
+        ApplicationQualification::SCIENCE,
+        ApplicationQualification::SCIENCE_SINGLE_AWARD,
+        ApplicationQualification::SCIENCE_DOUBLE_AWARD,
+        ApplicationQualification::SCIENCE_TRIPLE_AWARD,
+      ]
+    end
+
     application_qualifications
       .where(level: level, subject: subject)
       .order(created_at: 'asc')
