@@ -98,6 +98,16 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def feedback_received_for_application_rejected_by_default(application_choice)
+    @application_choice = application_choice
+    @course_option = @application_choice.offered_option
+
+    email_for_candidate(
+      @application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.feedback_received_for_application_rejected_by_default.subject', course_name: @course_option.course.name_and_code),
+    )
+  end
+
   def new_offer_single_offer(application_choice)
     new_offer(application_choice, :single_offer)
   end

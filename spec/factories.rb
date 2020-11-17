@@ -543,6 +543,27 @@ FactoryBot.define do
       rejected_by_default { true }
     end
 
+    trait :with_rejection_by_default_and_feedback do
+      with_rejection_by_default
+      rejection_reason { Faker::Lorem.paragraph_by_chars(number: 200) }
+      reject_by_default_feedback_sent_at { Time.zone.now }
+
+      after(:create) do |choice, evaluator|
+        choice.audits << Audited::Audit.create(
+          auditable_id: evaluator.id,
+          auditable_type: 'ApplicationChoice',
+          associated_id: evaluator.application_form.id,
+          associated_type: 'ApplicationForm',
+          user_id: 1,
+          user_type: 'ProviderUser',
+          action: 'update',
+          audited_changes: { 'reject_by_default_feedback_sent_at' => Time.zone.now.iso8601 },
+          version: 1,
+          created_at: Time.zone.now,
+        )
+      end
+    end
+
     trait :application_not_sent do
       status { 'application_not_sent' }
       rejected_at { Time.zone.now }

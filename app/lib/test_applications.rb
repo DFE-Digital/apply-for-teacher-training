@@ -266,7 +266,7 @@ class TestApplications
   def reject_application(choice)
     as_provider_user(choice) do
       fast_forward
-      RejectApplication.new(actor: actor, application_choice: choice, rejection_reason: 'Some').save
+      RejectApplication.new(actor: actor, application_choice: choice, rejection_reason: Faker::Lorem.paragraph_by_chars(number: 200)).save
       choice.update_columns(rejected_at: time, updated_at: time)
     end
     # service generates two audit writes, one for status, one for timestamp

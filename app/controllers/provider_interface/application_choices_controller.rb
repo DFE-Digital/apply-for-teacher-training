@@ -40,6 +40,10 @@ module ProviderInterface
         @deferred_offer_equivalent_course_option_available =
           @application_choice.offered_option.in_next_cycle &&
           @application_choice.offered_option.in_next_cycle.course.open_on_apply
+      elsif @application_choice.status == 'rejected'
+        @rejection_reason_required =
+          @application_choice.rejected_by_default &&
+          @application_choice.rejection_reason.blank?
       end
 
       @show_language_details = @application_choice

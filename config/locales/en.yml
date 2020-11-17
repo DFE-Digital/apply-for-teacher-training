@@ -309,6 +309,12 @@ en:
           attributes:
             email_address:
               own: Enter an email address that’s not your own
+        provider_interface/rejected_by_default_feedback_form:
+          attributes:
+            rejection_reason:
+              blank: Enter feedback for candidate
+              too_long: |
+                Feedback for candidate must be 200 words or fewer
   activerecord:
     attributes:
       application_qualification/qualification_type:

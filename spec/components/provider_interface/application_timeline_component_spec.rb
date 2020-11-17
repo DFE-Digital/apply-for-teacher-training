@@ -15,6 +15,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       application_choice: application_choice,
     ).and_return(finder_service)
     allow(application_choice).to receive(:notes).and_return([])
+    allow(application_choice).to receive(:rejected_by_default)
     application_choice
   end
 
@@ -75,6 +76,15 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Note added'
       expect(rendered.text).to include 'by Bob Roberts'
+      expect(rendered.text).to include '11 Feb 2020'
+    end
+  end
+
+  context 'for an application with reject by default feedback' do
+    it 'renders feedback event' do
+      application_choice = create(:application_choice, :with_rejection_by_default_and_feedback)
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Feedback sent'
       expect(rendered.text).to include '11 Feb 2020'
     end
   end

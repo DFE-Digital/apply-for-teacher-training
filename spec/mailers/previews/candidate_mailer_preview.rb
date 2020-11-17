@@ -235,6 +235,16 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected_offers_made(application_form.application_choices.last)
   end
 
+  def feedback_received_for_application_rejected_by_default
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      :with_rejection_by_default_and_feedback,
+      application_form: application_form,
+      course_option: course_option,
+    )
+    CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice)
+  end
+
   def reference_received
     CandidateMailer.reference_received(reference)
   end

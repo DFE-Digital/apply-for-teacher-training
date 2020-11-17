@@ -1,10 +1,10 @@
-<% content_for :browser_title, title_with_error_prefix('Reject application', @reject_application.errors.any?) %>
-<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
+<% content_for :browser_title, title_with_error_prefix('Give feedback', @application_feedback.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @reject_application,
-      url: provider_interface_application_choice_confirm_reject_path(@application_choice.id),
+    <%= form_with model: @application_feedback,
+      url: provider_interface_application_choice_check_feedback_path(@application_choice.id),
       method: :post do |f| %>
 
       <%= f.govuk_error_summary %>
@@ -13,6 +13,7 @@
         <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
         <%= f.govuk_text_area :rejection_reason,
           label: { text: 'Feedback for candidate', size: 'l' },
+          max_words: 200,
           rows: 5 %>
       </div>
 
