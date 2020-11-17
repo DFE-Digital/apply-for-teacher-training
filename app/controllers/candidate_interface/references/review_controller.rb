@@ -25,7 +25,8 @@ module CandidateInterface
           if @submit_reference_form.send_request? && !@candidate_name_form.valid?
             redirect_to candidate_interface_references_new_candidate_name_path(@reference.id)
           elsif @submit_reference_form.send_request?
-            RequestReference.new.call(@reference, flash)
+            RequestReference.new.call(@reference)
+            flash[:success] = "Reference request sent to #{@reference.name}"
             redirect_to_review_page
           else
             redirect_to_review_page

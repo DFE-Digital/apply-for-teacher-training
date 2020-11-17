@@ -16,8 +16,8 @@ module CandidateInterface
         )
 
         if @reference_candidate_name_form.save(@reference)
-          RequestReference.new.call(@reference, flash)
-
+          RequestReference.new.call(@reference)
+          flash[:success] = "Reference request sent to #{@reference.name}"
           redirect_to candidate_interface_references_review_path
         else
           track_validation_error(@reference_candidate_name_form)

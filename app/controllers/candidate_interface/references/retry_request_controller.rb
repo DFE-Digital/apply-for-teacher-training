@@ -14,10 +14,8 @@ module CandidateInterface
         if @reference_email_address_form.valid?
           ActiveRecord::Base.transaction do
             @reference_email_address_form.save(@reference)
-            RequestReference.new.call(
-              @reference,
-              flash,
-            )
+            RequestReference.new.call(@reference)
+            flash[:success] = "Reference request sent to #{@reference.name}"
           end
           redirect_to candidate_interface_references_review_path
         else
