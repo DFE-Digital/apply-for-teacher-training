@@ -23,7 +23,7 @@ class DetectInvariants
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(WeirdSituationDetected.new(message))
+      Raven.capture_exception(ApplicationInRemovedState.new(message))
     end
   end
 
@@ -45,7 +45,7 @@ class DetectInvariants
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(WeirdSituationDetected.new(message))
+      Raven.capture_exception(OutstandingReferencesOnSubmittedApplication.new(message))
     end
   end
 
@@ -67,11 +67,13 @@ class DetectInvariants
         #{urls.join("\n")}
       MSG
 
-      Raven.capture_exception(WeirdSituationDetected.new(message))
+      Raven.capture_exception(ApplicationEditedByWrongCandidate.new(message))
     end
   end
 
-  class WeirdSituationDetected < StandardError; end
+  class ApplicationInRemovedState < StandardError; end
+  class OutstandingReferencesOnSubmittedApplication < StandardError; end
+  class ApplicationEditedByWrongCandidate < StandardError; end
 
 private
 

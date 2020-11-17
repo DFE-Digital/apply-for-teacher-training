@@ -13,7 +13,7 @@ RSpec.describe DetectInvariants do
       DetectInvariants.new.perform
 
       expect(Raven).to have_received(:capture_exception).with(
-        DetectInvariants::WeirdSituationDetected.new(
+        DetectInvariants::ApplicationInRemovedState.new(
           <<~MSG,
             One or more application choices are still in `awaiting_references` or
             `application_complete` state, but all these states have been removed:
@@ -41,7 +41,7 @@ RSpec.describe DetectInvariants do
       DetectInvariants.new.perform
 
       expect(Raven).to have_received(:capture_exception).with(
-        DetectInvariants::WeirdSituationDetected.new(
+        DetectInvariants::OutstandingReferencesOnSubmittedApplication.new(
           <<~MSG,
             One or more references are still pending on these applications,
             even though they've already been submitted:
@@ -73,7 +73,7 @@ RSpec.describe DetectInvariants do
       DetectInvariants.new.perform
 
       expect(Raven).to have_received(:capture_exception).with(
-        DetectInvariants::WeirdSituationDetected.new(
+        DetectInvariants::ApplicationEditedByWrongCandidate.new(
           <<~MSG,
             The following application forms have had unauthorised edits:
 
