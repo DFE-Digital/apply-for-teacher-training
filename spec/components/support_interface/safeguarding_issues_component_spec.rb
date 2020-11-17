@@ -27,7 +27,7 @@ RSpec.describe SupportInterface::SafeguardingIssuesComponent do
     end
   end
 
-  context 'when the candidate has not shared information related to safeguarding' do
+  context 'when the candidate has no safeguarding issues to declare' do
     it 'displays the correct text' do
       application_form = build_stubbed(
         :application_form,
@@ -36,7 +36,7 @@ RSpec.describe SupportInterface::SafeguardingIssuesComponent do
       )
       result = render_inline(described_class.new(application_form: application_form))
 
-      expect(result.text).to include('No information shared.')
+      expect(result.text).to include('The candidate has declared no criminal convictions or other safeguarding issues.')
     end
   end
 

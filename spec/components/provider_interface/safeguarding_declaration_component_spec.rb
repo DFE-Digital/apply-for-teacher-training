@@ -93,7 +93,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         safeguarding_issues: nil,
         safeguarding_issues_status: 'no_safeguarding_issues_to_declare',
       )
-      expect(result.text).to include('No information shared.')
+      expect(result.text).to include('The candidate has declared no criminal convictions or other safeguarding issues.')
     end
 
     it 'when the candidate has shared information related to safeguarding' do
@@ -137,7 +137,7 @@ RSpec.describe ProviderInterface::SafeguardingDeclarationComponent do
         safeguarding_issues: nil,
         safeguarding_issues_status: 'no_safeguarding_issues_to_declare',
       )
-      expect(result.text).to include('No information shared.')
+      expect(result.text).to include('The candidate has declared no criminal convictions or other safeguarding issues.')
     end
 
     it 'when the candidate has shared information related to safeguarding' do
