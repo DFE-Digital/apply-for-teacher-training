@@ -94,7 +94,7 @@ module CandidateInterface
     end
 
     def country_row
-      return nil unless FeatureFlag.active?('international_gcses') && application_qualification.qualification_type == 'non_uk'
+      return nil unless application_qualification.qualification_type == 'non_uk'
 
       {
         key: 'Country',
@@ -105,7 +105,7 @@ module CandidateInterface
     end
 
     def naric_statment_row
-      return nil unless FeatureFlag.active?('international_gcses') && application_qualification.qualification_type == 'non_uk'
+      return nil unless application_qualification.qualification_type == 'non_uk'
 
       {
         key: t('application_form.gcse.naric_statement.review_label'),
@@ -116,8 +116,7 @@ module CandidateInterface
     end
 
     def naric_reference_row
-      return nil unless FeatureFlag.active?('international_gcses') &&
-        application_qualification.qualification_type == 'non_uk' &&
+      return nil unless application_qualification.qualification_type == 'non_uk' &&
         application_qualification.naric_reference
 
       {
@@ -129,8 +128,7 @@ module CandidateInterface
     end
 
     def comparable_uk_qualification_row
-      return nil unless FeatureFlag.active?('international_gcses') &&
-        application_qualification.qualification_type == 'non_uk' &&
+      return nil unless application_qualification.qualification_type == 'non_uk' &&
         application_qualification.naric_reference
 
       {

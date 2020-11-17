@@ -7,7 +7,6 @@ module CandidateInterface
     validates :grade, presence: true, on: :grade
     validates :other_grade, presence: true, if: :grade_is_other?
     validates :award_year, presence: true, on: :award_year
-    validates :grade, length: { maximum: 6 }, on: :grade, unless: :international_gcses_flag_active?
     validate :award_year_is_a_valid_date, if: :award_year, on: :award_year
     validate :validate_grade_format, unless: :new_record?, on: :grade
 
@@ -18,7 +17,7 @@ module CandidateInterface
     end
 
     def self.build_from_qualification(qualification)
-      if FeatureFlag.active?('international_gcses') && qualification.qualification_type == 'non_uk'
+      if qualification.qualification_type == 'non_uk'
         new(
           grade: qualification.set_grade,
           other_grade: qualification.set_other_grade,
@@ -119,10 +118,6 @@ module CandidateInterface
       else
         grade
       end
-    end
-
-    def international_gcses_flag_active?
-      FeatureFlag.active?('international_gcses')
     end
   end
 end

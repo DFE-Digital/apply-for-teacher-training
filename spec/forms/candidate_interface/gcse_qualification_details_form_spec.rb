@@ -2,11 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
   describe 'validations' do
-    before { FeatureFlag.deactivate(:international_gcses) }
-
     it { is_expected.to validate_presence_of(:grade).on(:grade) }
     it { is_expected.to validate_presence_of(:award_year).on(:award_year) }
-    it { is_expected.to validate_length_of(:grade).is_at_most(6).on(:grade) }
 
     context 'when grade is "other"' do
       let(:form) { subject }
@@ -175,25 +172,8 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
     end
 
     describe '.build_from_qualification' do
-      context 'with the international_gcses feature flag off' do
-        let(:data) do
-          {
-            grade: 'D',
-            award_year: '2012',
-          }
-        end
-
-        it 'creates an object based on the provided ApplicationForm' do
-          qualification = ApplicationQualification.new(data)
-          gcse_details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
-
-          expect(gcse_details_form).to have_attributes(data)
-        end
-      end
-
-      context 'with the international_gcses feature flag on, the qualification_type is non_uk and grade is not_applicable' do
+      context 'when the qualification_type is non_uk and grade is not_applicable' do
         it 'sets grade to not_applicable and other grade to nil' do
-          FeatureFlag.activate('international_gcses')
           qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'n/a')
           gcse_details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
 
@@ -202,9 +182,8 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
         end
       end
 
-      context 'with the international_gcses feature flag on and grade is unknown' do
+      context 'when the grade is unknown' do
         it 'sets grade to not_applicable and other grade to nil' do
-          FeatureFlag.activate('international_gcses')
           qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'unknown')
           gcse_details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
 
@@ -213,9 +192,8 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
         end
       end
 
-      context 'with the international_gcses feature flag on and grade is another value' do
+      context 'when grade is another value' do
         it 'sets grade to other and other grade to grades value' do
-          FeatureFlag.activate('international_gcses')
           qualification = build_stubbed(:gcse_qualification, qualification_type: 'non_uk', grade: 'D')
           gcse_details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
 

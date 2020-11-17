@@ -4,7 +4,6 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   include CandidateHelper
 
   scenario 'Candidate submits their Science GCSE award' do
-    FeatureFlag.deactivate(:international_gcses)
     # Activating the :science_gcse_awards feature flag enables the new awards UI
     FeatureFlag.deactivate(:science_gcse_awards)
 
@@ -26,10 +25,6 @@ RSpec.feature 'Candidate entering GCSE Science details' do
     and_i_enter_an_invalid_grade
     and_i_click_save_and_continue
     then_i_see_the_grade_invalid_error
-
-    and_i_enter_a_grade_that_is_too_long
-    and_i_click_save_and_continue
-    then_i_see_grade_too_long_error
 
     then_i_enter_a_valid_grade
     and_i_click_save_and_continue
@@ -87,14 +82,6 @@ RSpec.feature 'Candidate entering GCSE Science details' do
 
   def then_i_see_the_grade_invalid_error
     expect(page).to have_content('Enter a real science grade')
-  end
-
-  def and_i_enter_a_grade_that_is_too_long
-    fill_in('candidate-interface-science-gcse-grade-form-grade-field-error', with: 'SHIZZLE')
-  end
-
-  def then_i_see_grade_too_long_error
-    expect(page).to have_content('Grade must be 6 characters or fewer')
   end
 
   def then_i_enter_a_valid_grade
