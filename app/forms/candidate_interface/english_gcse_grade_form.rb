@@ -111,40 +111,44 @@ module CandidateInterface
     end
 
     def assign_values(params)
-      english_gcses = params[:english_gcses]
-      self.english_gcses = english_gcses
+      if is_multiple_gcse?
+        english_gcses = params[:english_gcses]
+        self.english_gcses = english_gcses
 
-      self.english_single_award = english_gcses.include? 'english_single_award'
-      self.grade_english_single = params[:grade_english_single]
+        self.english_single_award = english_gcses.include? 'english_single_award'
+        self.grade_english_single = params[:grade_english_single]
 
-      self.english_double_award = english_gcses.include? 'english_double_award'
-      self.grade_english_double = params[:grade_english_double]
+        self.english_double_award = english_gcses.include? 'english_double_award'
+        self.grade_english_double = params[:grade_english_double]
 
-      self.english_language = english_gcses.include? 'english_language'
-      self.grade_english_language = params[:grade_english_language]
+        self.english_language = english_gcses.include? 'english_language'
+        self.grade_english_language = params[:grade_english_language]
 
-      self.english_literature = english_gcses.include? 'english_literature'
-      self.grade_english_literature = params[:grade_english_literature]
+        self.english_literature = english_gcses.include? 'english_literature'
+        self.grade_english_literature = params[:grade_english_literature]
 
-      self.english_studies_single_award = english_gcses.include? 'english_studies_single_award'
-      self.grade_english_studies_single = params[:grade_english_studies_single]
+        self.english_studies_single_award = english_gcses.include? 'english_studies_single_award'
+        self.grade_english_studies_single = params[:grade_english_studies_single]
 
-      self.english_studies_double_award = english_gcses.include? 'english_studies_double_award'
-      self.grade_english_studies_double = params[:grade_english_studies_double]
+        self.english_studies_double_award = english_gcses.include? 'english_studies_double_award'
+        self.grade_english_studies_double = params[:grade_english_studies_double]
 
-      self.other_english_gcse = english_gcses.include? 'other_english_gcse'
-      self.other_english_gcse_name = params[:other_english_gcse_name]
-      self.grade_other_english_gcse = params[:grade_other_english_gcse]
+        self.other_english_gcse = english_gcses.include? 'other_english_gcse'
+        self.other_english_gcse_name = params[:other_english_gcse_name]
+        self.grade_other_english_gcse = params[:grade_other_english_gcse]
+      else
+        self.grade = params[:grade]
+        self.other_grade = params [:other_grade]
+      end
       self
     end
 
     def save_grades
-      grades = build_grades_json
       if !valid?(:grades)
         log_validation_errors(:grades)
         return false
       end
-      qualification.update(grades: grades, grade: nil)
+      qualification.update(grades: build_grades_json, grade: nil)
     end
 
     def save_grade
@@ -152,7 +156,7 @@ module CandidateInterface
         log_validation_errors(:grade)
         return false
       end
-      qualification.update(grade: set_grade)
+      qualification.update(grade: set_grade, grades: nil)
     end
 
   private
@@ -204,7 +208,7 @@ module CandidateInterface
 
       if english_studies_double_award
         errors.add(:grade_english_studies_double, :blank) if grade_english_studies_double.blank?
-        errors.add(:grade_english_double, :invalid) unless DOUBLE_GCSE_GRADES.include?(grade_english_studies_double.delete(' ').upcase)
+        errors.add(:grade_english_studies_double, :invalid) unless DOUBLE_GCSE_GRADES.include?(grade_english_studies_double.delete(' ').upcase)
       end
 
       if other_english_gcse
