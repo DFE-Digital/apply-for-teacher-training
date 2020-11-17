@@ -1,10 +1,10 @@
 import { accessibleAutocompleteFromSource } from "./helpers.js";
 
-const initOtherUKQualificationsAutocomplete = () => {
+const initOtherUKQualificationsTypeAutocomplete = () => {
   try {
     const inputIds = [
-      "candidate-interface-other-qualification-type-form-other-uk-qualification-type-field",
-      "candidate-interface-other-qualification-type-form-other-uk-qualification-type-field-error"
+      "candidate-interface-other-qualification-wizard-other-uk-qualification-type-field",
+      "candidate-interface-other-qualification-wizard-other-uk-qualification-type-field-error",
     ];
 
     inputIds.forEach(inputId => {
@@ -23,4 +23,4 @@ const initOtherUKQualificationsAutocomplete = () => {
   }
 };
 
-export default initOtherUKQualificationsAutocomplete;
+export default initOtherUKQualificationsTypeAutocomplete;
