@@ -6,18 +6,21 @@ module ProviderInterface
     end
 
     def call
-      applications = ApplicationChoice
+      applications_join = ApplicationChoice
         .includes(
           :course,
           :provider,
           :site,
           course_option: { course: %i[provider accredited_provider] },
           application_form: %i[candidate application_qualifications],
-        ).where(
+        )
+
+      applications =
+        applications_join.where('providers.id': @provider_ids)
+        .or(applications_join.where('courses_course_options.accredited_provider_id': @provider_ids))
+        .where(
           'candidates.hide_in_reporting' => false,
           'status' => ApplicationStateChange::ACCEPTED_STATES,
-          'providers.id' => @provider_ids,
-          'application_forms.recruitment_cycle_year' => RecruitmentCycle.current_year,
         )
 
       rows = []

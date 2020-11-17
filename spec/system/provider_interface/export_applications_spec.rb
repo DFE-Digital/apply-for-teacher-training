@@ -37,9 +37,10 @@ RSpec.feature 'Export applications' do
   end
 
   def and_i_click_export_data
-    expect(page).to have_content('Click ‘Download’ to download application data for the current cycle')
+    expect(page).to have_content('The export will include all candidates who have accepted an offer.')
+    expect(page).to have_content('Diversity information will only be included if you have permission to view it.')
 
-    click_on 'Download'
+    click_button 'Export data'
   end
 
   def then_i_can_download_application_data_as_csv
