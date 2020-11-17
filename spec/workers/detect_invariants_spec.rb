@@ -75,7 +75,7 @@ RSpec.describe DetectInvariants do
       expect(Raven).to have_received(:capture_exception).with(
         DetectInvariants::ApplicationEditedByWrongCandidate.new(
           <<~MSG,
-            The following application forms have had unauthorised edits:
+            The following application forms have had edits by a candidate who is not the owner of the application:
 
             http://localhost:3000/support/applications/#{suspect_form.id}
           MSG

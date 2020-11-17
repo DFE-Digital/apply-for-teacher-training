@@ -36,7 +36,7 @@ class DetectInvariants
       .sort
 
     if applications_with_reference_weirdness.any?
-      urls = applications_with_reference_weirdness.map { |applicatio_form_id| helpers.support_interface_application_form_url(applicatio_form_id) }
+      urls = applications_with_reference_weirdness.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
 
       message = <<~MSG
         One or more references are still pending on these applications,
@@ -59,10 +59,10 @@ class DetectInvariants
       .sort
 
     if unauthorised_changes.any?
-      urls = unauthorised_changes.map { |applicatio_form_id| helpers.support_interface_application_form_url(applicatio_form_id) }
+      urls = unauthorised_changes.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
 
       message = <<~MSG
-        The following application forms have had unauthorised edits:
+        The following application forms have had edits by a candidate who is not the owner of the application:
 
         #{urls.join("\n")}
       MSG
