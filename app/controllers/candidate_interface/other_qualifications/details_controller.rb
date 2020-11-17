@@ -123,6 +123,8 @@ module CandidateInterface
       qualification_type = @wizard.qualification_type_name
       if qualification_type.in? ['A level', 'AS level']
         @subject_autocomplete_data = A_AND_AS_LEVEL_SUBJECTS
+      elsif qualification_type == 'GCSE'
+        @subject_autocomplete_data = GCSE_SUBJECTS
       end
     end
 
