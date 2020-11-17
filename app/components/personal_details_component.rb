@@ -60,20 +60,8 @@ private
   def nationality_row
     {
       key: 'Nationality',
-      value: formatted_nationalities,
+      value: application_form.nationalities.to_sentence(last_word_connector: ' and '),
     }
-  end
-
-  def formatted_nationalities
-    [
-      @application_form.first_nationality,
-      @application_form.second_nationality,
-      @application_form.third_nationality,
-      @application_form.fourth_nationality,
-      @application_form.fifth_nationality,
-    ]
-    .reject(&:blank?)
-    .to_sentence(last_word_connector: ' and ')
   end
 
   def right_to_work_or_study_row
