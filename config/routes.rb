@@ -193,10 +193,10 @@ Rails.application.routes.draw do
         post '/' => 'volunteering/experience#submit'
 
         get '/new' => 'volunteering/base#new', as: :new_volunteering_role
-        post '/new' => 'volunteering/base#create', as: :create_volunteering_role
+        post '/new' => 'volunteering/base#create'
 
         get '/edit/:id' => 'volunteering/base#edit', as: :edit_volunteering_role
-        post '/edit/:id' => 'volunteering/base#update'
+        patch '/edit/:id' => 'volunteering/base#update'
 
         get '/review' => 'volunteering/review#show', as: :review_volunteering
         patch '/review' => 'volunteering/review#complete', as: :complete_volunteering
