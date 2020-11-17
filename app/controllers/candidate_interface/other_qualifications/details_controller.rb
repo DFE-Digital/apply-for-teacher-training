@@ -7,13 +7,15 @@ module CandidateInterface
         current_application.application_qualifications.other.order(:created_at),
       )
       @wizard.save_state!
-      set_subject_data_for_autocomplete
+      set_subject_autocomplete_data
+      set_grade_autocomplete_data
     end
 
     def create
       @wizard = wizard_for(other_qualification_params.merge(current_step: :details))
       @wizard.save_state!
-      set_subject_data_for_autocomplete
+      set_subject_autocomplete_data
+      set_grade_autocomplete_data
 
       if @wizard.valid?(:details)
         commit
@@ -42,7 +44,8 @@ module CandidateInterface
         checking_answers: true,
       )
       @wizard.save_state!
-      set_subject_data_for_autocomplete
+      set_subject_autocomplete_data
+      set_grade_autocomplete_data
     end
 
     def update
@@ -50,7 +53,8 @@ module CandidateInterface
         other_qualification_update_params.merge(current_step: :details, checking_answers: true),
       )
       @wizard.save_state!
-      set_subject_data_for_autocomplete
+      set_subject_autocomplete_data
+      set_grade_autocomplete_data
 
       if @wizard.valid?(:details)
         commit
@@ -115,10 +119,17 @@ module CandidateInterface
       )
     end
 
-    def set_subject_data_for_autocomplete
+    def set_subject_autocomplete_data
       qualification_type = @wizard.qualification_type_name
       if qualification_type.in? ['A level', 'AS level']
-        @subjects_for_autocomplete = A_AND_AS_LEVEL_SUBJECTS
+        @subject_autocomplete_data = A_AND_AS_LEVEL_SUBJECTS
+      end
+    end
+
+    def set_grade_autocomplete_data
+      qualification_type = @wizard.qualification_type_name
+      if qualification_type.in? OTHER_UK_QUALIFICATIONS
+        @grade_autocomplete_data = OTHER_UK_QUALIFICATION_GRADES
       end
     end
   end
