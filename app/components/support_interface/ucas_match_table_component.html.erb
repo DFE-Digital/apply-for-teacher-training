@@ -14,7 +14,28 @@
     <% table_rows.each do |table_row| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell"><%= table_row[:course_code] %></td>
-        <td class="govuk-table__cell"><%= table_row[:course_details] %></td>
+        <td class="govuk-table__cell">
+          <%= table_row[:course_details] %>
+          <% if table_row[:course_provider_contacts].any? %>
+            <details class="govuk-details" data-module="govuk-details">
+              <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                  Contact details
+                </span>
+              </summary>
+              <div class="govuk-details__text govuk-!-padding-bottom-0">
+                <% table_row[:course_provider_contacts].each do |provider_contact| %>
+                  <dl class="app-provider_contacts_list govuk-!-margin-0 govuk-!-padding-bottom-2">
+                    <dt class="govuk-visually-hidden">Full name</dt>
+                    <dd class="govuk-heading-s govuk-!-margin-0"><%= provider_contact.full_name %></dd>
+                    <dt class="govuk-visually-hidden">email address</dt>
+                    <dd class="govuk-body govuk-!-margin-0"><%= provider_contact.email_address %></dd>
+                  </dl>
+                <% end %>
+              </div>
+            </details>
+          <% end %>
+        </td>
         <td class="govuk-table__cell">
           <% if table_row[:status_on_ucas] == 'N/A' %>
             N/A

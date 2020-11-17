@@ -38,6 +38,15 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
     expect(result.css('td')[1].text).to include("#{course.name} – #{course.provider.name}")
   end
 
+  it 'renders course provider contact details for a course on Apply' do
+    provider_user = create(:provider_user, :with_manage_users, providers: [course.provider])
+    result = render_inline(described_class.new(ucas_match))
+
+    expect(result.css('td')[1].text).to include('Contact details')
+    expect(result.css('td')[1].text).to include(provider_user.full_name)
+    expect(result.css('td')[1].text).to include(provider_user.email_address)
+  end
+
   it 'renders course choice details for a course not on Apply' do
     result = render_inline(described_class.new(ucas_match_course_only_on_ucas))
 

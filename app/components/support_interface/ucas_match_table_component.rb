@@ -12,6 +12,7 @@ module SupportInterface
         row_data = {
           course_code: course_code(course),
           course_details: course_details(course),
+          course_provider_contacts: course_provider_contacts(course),
         }
 
         matched_applications_for_course(course).each do |ucas_matched_application|
@@ -57,6 +58,12 @@ module SupportInterface
 
     def course_details(course)
       "#{course.name} – #{course.provider&.name || 'Provider not on Apply'}"
+    end
+
+    def course_provider_contacts(course)
+      return [] if course.provider.blank?
+
+      course.provider.provider_users.select { |u| u.provider_permissions.map(&:manage_users).any? }
     end
   end
 end
