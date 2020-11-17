@@ -8,6 +8,7 @@
 
       <%= f.govuk_fieldset legend: { text: 'Edit applicant details', size: 'l' } do %>
         <%= f.govuk_text_field :phone_number, label: { text: 'Phone number' } %>
+        <%= f.govuk_text_field :audit_comment, label: { text: 'Audit log comment' }, hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' } %>
       <% end %>
 
       <%= f.govuk_submit 'Update details' %>
