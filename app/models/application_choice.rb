@@ -118,6 +118,10 @@ class ApplicationChoice < ApplicationRecord
     ].any?
   end
 
+  def self_and_siblings
+    application_form.application_choices
+  end
+
 private
 
   def generate_alphanumeric_id
