@@ -1,27 +1,15 @@
 module ProviderInterface
   class HesaDataExport
     def initialize(actor:)
-      @provider_ids = actor.providers.map(&:id)
-      @auth = ProviderAuthorisation.new(actor: actor)
+      @actor = actor
     end
 
     def call
-      applications_join = ApplicationChoice
-        .includes(
-          :course,
-          :provider,
-          :site,
-          course_option: { course: %i[provider accredited_provider] },
-          application_form: %i[candidate application_qualifications],
-        )
-
-      applications =
-        applications_join.where('providers.id': @provider_ids)
-        .or(applications_join.where('courses_course_options.accredited_provider_id': @provider_ids))
-        .where(
-          'candidates.hide_in_reporting' => false,
-          'status' => ApplicationStateChange::ACCEPTED_STATES,
-        )
+      applications = GetApplicationChoicesForProviders.call(providers: @actor.providers)
+                       .where(
+                         'candidates.hide_in_reporting' => false,
+                         'status' => ApplicationStateChange::ACCEPTED_STATES,
+                       )
 
       rows = []
 
@@ -41,7 +29,7 @@ module ProviderInterface
           'email address' => application.application_form.candidate.email_address,
           'recruitment cycle' => application.application_form.recruitment_cycle_year,
           'provider code' => application.provider.code,
-          'accredited body' => application.course.accredited_provider&.name,
+          'accredited body' => application.accredited_provider&.name,
           'course code' => application.course.code,
           'site code' => application.site.code,
           'study mode' => study_mode(application),
@@ -84,7 +72,7 @@ module ProviderInterface
     def diversity_information(application)
       return { 'sex' => 'no data', 'disabilities' => 'no data', 'ethnicity' => 'no data' } if application.application_form.equality_and_diversity.blank?
 
-      return { 'sex' => 'confidential', 'disabilities' => 'confidential', 'ethnicity' => 'confidential' } unless @auth.can_view_diversity_information?(course: application.course)
+      return { 'sex' => 'confidential', 'disabilities' => 'confidential', 'ethnicity' => 'confidential' } unless @actor.authorisation.can_view_diversity_information?(course: application.course)
 
       {
         'sex' => application.application_form.equality_and_diversity['hesa_sex'] || 'not specified',
