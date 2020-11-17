@@ -17,6 +17,7 @@ RSpec.feature 'Entering their other qualifications' do
     when_i_select_add_a_level_qualification
     and_i_click_continue
     then_i_see_the_other_qualifications_form
+    and_the_suggested_subject_data_matches_the_as_and_a_level_subjects_data
 
     when_i_fill_in_some_of_my_qualification_but_omit_some_required_details
     and_i_submit_the_other_qualification_form
@@ -69,9 +70,10 @@ RSpec.feature 'Entering their other qualifications' do
     when_i_click_to_change_my_first_qualification
     then_i_see_the_qualification_type_form
 
-    when_i_change_the_qualification_type
+    when_i_change_the_qualification_type_to_gcse
     and_i_click_continue
     then_i_see_my_qualification_details_filled_in
+    and_the_suggested_subject_data_matches_the_gcse_subjects_data
 
     when_i_change_my_qualification
     and_click_save_and_continue
@@ -134,6 +136,12 @@ RSpec.feature 'Entering their other qualifications' do
 
   def then_i_see_the_other_qualifications_form
     expect(page).to have_content('Add A level qualification')
+  end
+
+  def and_the_suggested_subject_data_matches_the_as_and_a_level_subjects_data
+    suggested_subjects = find('#subject-autocomplete-data')['data-source']
+
+    expect(JSON[suggested_subjects]).to eq A_AND_AS_LEVEL_SUBJECTS
   end
 
   def when_i_fill_in_some_of_my_qualification_but_omit_some_required_details
@@ -273,7 +281,7 @@ RSpec.feature 'Entering their other qualifications' do
     )
   end
 
-  def when_i_change_the_qualification_type
+  def when_i_change_the_qualification_type_to_gcse
     choose 'GCSE'
   end
 
@@ -286,6 +294,12 @@ RSpec.feature 'Entering their other qualifications' do
     expect(page).to have_selector("input[value='Oh']")
     expect(page).to have_selector("input[value='B']")
     expect(page).to have_selector("input[value='2015']")
+  end
+
+  def and_the_suggested_subject_data_matches_the_gcse_subjects_data
+    suggested_subjects = find('#subject-autocomplete-data')['data-source']
+
+    expect(JSON[suggested_subjects]).to eq GCSE_SUBJECTS
   end
 
   def when_i_change_my_qualification
