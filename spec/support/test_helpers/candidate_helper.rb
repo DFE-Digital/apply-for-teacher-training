@@ -24,6 +24,7 @@ module CandidateHelper
 
   def candidate_completes_application_form(with_referees: true)
     FeatureFlag.deactivate(:efl_section)
+    FeatureFlag.deactivate(:multiple_english_gcses)
 
     given_courses_exist
     create_and_sign_in_candidate

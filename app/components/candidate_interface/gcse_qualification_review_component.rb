@@ -72,6 +72,9 @@ module CandidateInterface
           "#{grades['chemistry']} (Chemistry)",
           "#{grades['physics']} (Physics)",
         ]
+      elsif application_qualification.subject == 'english' && application_qualification.grades
+        grades = JSON.parse(application_qualification.grades)
+        grades.map { |k, v,| "#{v} (#{k.humanize.titleize})" }
       else
         application_qualification.grade
       end

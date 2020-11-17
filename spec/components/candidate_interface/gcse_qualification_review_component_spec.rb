@@ -111,4 +111,34 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       end
     end
   end
+
+  context 'with the multiple_english_gcses flag on' do
+    context 'when the candidate has entered their English GCSE grades' do
+      it 'displays each English GCSE and associated grade' do
+        FeatureFlag.activate(:multiple_english_gcses)
+
+        application_form = build :application_form
+        @qualification = application_qualification = build(
+          :application_qualification,
+          application_form: application_form,
+          qualification_type: 'gcse',
+          level: 'gcse',
+          grade: nil,
+          grades: '{"english":"E","english_literature":"D","Cockney Rhyming Slang":"A*"}',
+          subject: 'english',
+        )
+
+        result = render_inline(
+          described_class.new(
+            application_form: application_form,
+            application_qualification: application_qualification,
+            subject: 'english',
+          ),
+        )
+
+        expect(result.css('.govuk-summary-list__key')[1].text).to include('Grade')
+        expect(result.css('.govuk-summary-list__value')[1].text).to include('E (English)D (English Literature)A* (Cockney Rhyming Slang)')
+      end
+    end
+  end
 end

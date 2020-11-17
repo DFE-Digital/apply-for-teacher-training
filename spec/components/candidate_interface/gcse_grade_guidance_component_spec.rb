@@ -97,11 +97,22 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
   context 'when the subject is english' do
     it 'displays the guidance around the expectation of providers' do
+      FeatureFlag.deactivate(:multiple_english_gcses)
       subject = 'english'
 
       result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
 
       expect(result.text).to include(t('gcse_edit_grade.guidance.main'))
+    end
+
+    it 'displays the guidance around the expectation of providers for multiple English GCSEs' do
+      FeatureFlag.activate(:multiple_english_gcses)
+      subject = 'english'
+
+      result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, 'gcse'))
+
+      expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
+      expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
     end
 
     it 'does not display the guidance around triple science' do
@@ -114,6 +125,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
     context 'and a GCSE' do
       it 'displays the guidance around only having english literature and more than one english qualification' do
+        FeatureFlag.deactivate(:multiple_english_gcses)
         subject = 'english'
         qualification_type = 'gcse'
 
@@ -128,6 +140,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
     context 'and an O Level' do
       it 'displays the guidance around only having english literature and more than one english qualification' do
+        FeatureFlag.deactivate(:multiple_english_gcses)
         subject = 'english'
         qualification_type = 'gce_o_level'
 
