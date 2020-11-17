@@ -2,7 +2,7 @@
   <%= f.govuk_radio_button :uk_degree, 'yes', label: { text: t('application_form.degree.uk_degree.label') } do %>
     <%= f.govuk_text_field(
       :type_description,
-      label: { text: t('application_form.degree.qualification_type.label'), size: 'm' },
+      label: { text: t('application_form.degree.qualification_type.label'), size: 's' },
       hint: { text: t('application_form.degree.qualification_type.hint_text.undergraduate') }
     ) %>
     <%= tag.div(id: 'degree-type-autocomplete', data: { source: @degree_types }) %>
