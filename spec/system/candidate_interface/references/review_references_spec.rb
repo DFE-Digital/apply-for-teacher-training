@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Review references' do
   include CandidateHelper
 
-  scenario 'the candidate has several references in different states' do
+  scenario 'Candidate submits and reviews references' do
     given_i_am_signed_in
 
     when_i_have_no_references_and_try_to_visit_the_review_page
@@ -18,7 +18,6 @@ RSpec.feature 'Review references' do
     when_enough_references_have_been_given
     then_the_references_section_is_complete
     and_i_can_review_my_references_before_submission
-    and_i_can_edit_a_reference
     and_i_can_delete_a_reference
     and_i_can_delete_a_reference_request
     and_i_can_cancel_a_sent_reference
@@ -89,7 +88,7 @@ RSpec.feature 'Review references' do
 
     within '#references_waiting_to_be_sent' do
       expect(page).to have_content @not_sent_reference.email_address
-      expect(page).to have_link 'Change'
+      expect(page).not_to have_link 'Change'
       expect(page).to have_link 'Delete referee'
     end
 
@@ -107,21 +106,6 @@ RSpec.feature 'Review references' do
       expect(all('.app-summary-card')[3]).not_to have_link 'Change'
       expect(all('.app-summary-card')[3]).to have_link 'Delete request'
     end
-  end
-
-  def and_i_can_edit_a_reference
-    within '#references_waiting_to_be_sent' do
-      click_change_link 'name'
-    end
-
-    fill_in 'candidate-interface-reference-referee-name-form-name-field', with: 'John Major'
-    click_button 'Save and continue'
-
-    within '#references_waiting_to_be_sent' do
-      expect(page).to have_content 'John Major'
-    end
-
-    expect(page).to have_current_path candidate_interface_references_review_path
   end
 
   def and_i_can_delete_a_reference
