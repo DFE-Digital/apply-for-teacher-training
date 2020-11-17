@@ -22,9 +22,9 @@ module CandidateInterface
         @wizard.clear_state!
 
         if @wizard.choice == 'same_type'
-          redirect_to candidate_interface_new_other_qualification_details_path(qualification_type: current_application.application_qualifications.last.qualification_type)
+          redirect_to candidate_interface_other_qualification_details_path(qualification_type: current_application.application_qualifications.last.qualification_type)
         elsif @wizard.choice == 'different_type'
-          redirect_to candidate_interface_new_other_qualification_type_path
+          redirect_to candidate_interface_other_qualification_type_path
         else
           redirect_to candidate_interface_review_other_qualifications_path
         end

@@ -81,7 +81,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def then_i_see_the_select_qualification_type_page
-    expect(page).to have_current_path(candidate_interface_new_other_qualification_type_path)
+    expect(page).to have_current_path(candidate_interface_other_qualification_type_path)
   end
 
   def when_i_do_not_select_any_type_option; end

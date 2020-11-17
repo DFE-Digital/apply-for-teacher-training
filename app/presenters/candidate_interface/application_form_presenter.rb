@@ -155,7 +155,7 @@ module CandidateInterface
       if other_qualifications_completed? || other_qualifications_added?
         Rails.application.routes.url_helpers.candidate_interface_review_other_qualifications_path
       else
-        Rails.application.routes.url_helpers.candidate_interface_new_other_qualification_type_path
+        Rails.application.routes.url_helpers.candidate_interface_other_qualification_type_path
       end
     end
 

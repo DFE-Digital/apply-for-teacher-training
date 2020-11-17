@@ -11,7 +11,7 @@
 
 <%= render(CandidateInterface::OtherQualificationsReviewComponent.new(application_form: @application_form)) %>
 
-<%= govuk_button_link_to t('application_form.other_qualification.another.button'), candidate_interface_new_other_qualification_type_path, class: 'govuk-button--secondary' %>
+<%= govuk_button_link_to t('application_form.other_qualification.another.button'), candidate_interface_other_qualification_type_path, class: 'govuk-button--secondary' %>
 
 <%= form_with model: @application_form, url: candidate_interface_complete_other_qualifications_path do |f| %>
   <div class='govuk-form-group'>
