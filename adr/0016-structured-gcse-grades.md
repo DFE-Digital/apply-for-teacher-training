@@ -8,7 +8,7 @@ Accepted
 
 ## Context
 
-Since the service launched in November, candidates have been able to enter details about their academic and other 
+Since the service launched, candidates have been able to enter details about their academic and other 
 relevant qualifications using free text answers for most questions.
 
 We’ve seen that free-text answers can often lead to candidates submitting applications with spelling errors, which may 
