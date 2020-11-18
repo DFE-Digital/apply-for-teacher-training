@@ -168,7 +168,7 @@ Rails.application.routes.draw do
         get '/explain-breaks' => 'work_history/breaks#edit', as: :work_history_breaks
         post '/explain-breaks' => 'work_history/breaks#update'
 
-        get '/explain-break/new' => 'work_history/break#new', as: :work_history_break
+        get '/explain-break/new' => 'work_history/break#new', as: :new_work_history_break
         post '/explain-break/new' => 'work_history/break#create'
         get '/explain-break/edit/:id' => 'work_history/break#edit', as: :edit_work_history_break
         patch '/explain-break/edit/:id' => 'work_history/break#update'
