@@ -1,3 +1,8 @@
+### 16th November 2020
+- The `Qualification` `grade` field will now be populated with GCSE Science triple award information
+  in the following format, where present:
+  `[biology_grade][chemistry_grade][physics_grade]` e.g 'ABC'
+
 ### 13th November 2020
 
 Documentation has been amended to indicate that `disability` is an array and not a string
