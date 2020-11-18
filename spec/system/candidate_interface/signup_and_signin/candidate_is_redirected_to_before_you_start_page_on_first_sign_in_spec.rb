@@ -100,7 +100,7 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     click_on 'Maths GCSE or equivalent'
     choose('GCSE')
     click_button 'Save and continue'
-    select 'AA', from: 'Grade'
+    fill_in 'Please specify your grade', with: 'A'
     click_button 'Save and continue'
     fill_in 'Enter year', with: '1990'
     click_button 'Save and continue'

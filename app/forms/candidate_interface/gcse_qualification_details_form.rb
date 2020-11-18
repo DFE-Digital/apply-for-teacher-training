@@ -72,11 +72,17 @@ module CandidateInterface
     def validate_grade_format
       return if qualification.qualification_type.nil? || qualification.qualification_type == 'other_uk' || qualification.qualification_type == 'non_uk'
 
-      qualification_rexp = invalid_grades[qualification.qualification_type.to_sym]
+      if qualification.qualification_type == 'gcse' && qualification.subject == 'maths'
+        errors.add(:grade, :invalid) unless SINGLE_GCSE_GRADES.include?(sanitize(grade))
+      else
+        qualification_rexp = invalid_grades[qualification.qualification_type.to_sym]
 
-      if qualification_rexp && grade.match(qualification_rexp)
-        errors.add(:grade, :invalid)
+        errors.add(:grade, :invalid) if qualification_rexp && grade.match(qualification_rexp)
       end
+    end
+
+    def sanitize(grade)
+      grade.delete(' ').upcase if grade
     end
 
     def invalid_grades
@@ -116,7 +122,7 @@ module CandidateInterface
       when 'unknown'
         'Unknown'
       else
-        grade
+        sanitize(grade)
       end
     end
   end

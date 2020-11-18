@@ -108,7 +108,7 @@ RSpec.feature 'Candidate entering GCSE details' do
     expect(page).to have_content 'Maths GCSE or equivalent'
 
     expect(page).to have_content 'GCSE'
-    expect(page).to have_content 'AA'
+    expect(page).to have_content 'A'
     expect(page).to have_content '1990'
   end
 
@@ -133,7 +133,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def when_i_fill_in_the_grade
-    select 'AA', from: 'Grade'
+    fill_in 'Please specify your grade', with: 'A'
   end
 
   def when_i_fill_in_the_year
@@ -149,7 +149,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_the_gcse_grade_entered
-    expect(page).to have_selector("input[value='AA']")
+    expect(page).to have_selector("input[value='A']")
   end
 
   def then_i_see_the_gcse_year_entered

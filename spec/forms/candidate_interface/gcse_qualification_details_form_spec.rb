@@ -50,6 +50,49 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
       end
     end
 
+    context 'when qualification type is GCSE and subject is maths' do
+      let(:form) { CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification) }
+      let(:qualification) do
+        FactoryBot.build_stubbed(:application_qualification,
+                                 qualification_type: 'gcse',
+                                 level: 'gcse',
+                                 subject: 'maths')
+      end
+
+      it 'returns no errors if grade is valid' do
+        mistyped_grades = [' A ', 'a']
+        valid_grades = SINGLE_GCSE_GRADES + mistyped_grades
+
+        valid_grades.each do |grade|
+          form.grade = grade
+          form.validate
+
+          expect(form.errors[:grade]).to be_empty
+        end
+      end
+
+      it 'return validation error if grade is invalid' do
+        invalid_grades = %w[AA AAA X]
+
+        invalid_grades.each do |grade|
+          form.grade = grade
+          form.validate(:grade)
+          expect(form.errors[:grade]).to include('Enter a real grade')
+        end
+      end
+
+      it 'logs validation errors if grade is invalid' do
+        allow(Rails.logger).to receive(:info)
+        form.grade = 'XYZ'
+
+        form.save_grade
+
+        expect(Rails.logger).to have_received(:info).with(
+          'Validation error: {:field=>"grade", :error_messages=>"Enter a real grade", :value=>"XYZ"}',
+        )
+      end
+    end
+
     context 'when qualification type is GCE O LEVEL' do
       let(:form) { CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification) }
       let(:qualification) { FactoryBot.build_stubbed(:application_qualification, qualification_type: 'gce_o_level', level: 'gcse') }
@@ -139,6 +182,19 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
         qualification.reload
 
         expect(qualification.grade).to eq('D')
+      end
+
+      it 'saves a sanitized grade' do
+        application_form = create(:application_form)
+        qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
+        details_form = CandidateInterface::GcseQualificationDetailsForm.build_from_qualification(qualification)
+
+        details_form.grade = ' a '
+
+        details_form.save_grade
+        qualification.reload
+
+        expect(qualification.grade).to eq('A')
       end
     end
 
