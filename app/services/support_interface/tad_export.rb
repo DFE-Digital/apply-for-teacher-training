@@ -17,7 +17,7 @@ module SupportInterface
         .includes(
           :candidate,
           :application_qualifications,
-          application_choices: %i[course provider audits],
+          application_choices: %i[course provider accredited_provider audits],
         )
         .where('candidates.hide_in_reporting' => false)
         .where.not(submitted_at: nil)
