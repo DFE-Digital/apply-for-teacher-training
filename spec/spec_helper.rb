@@ -13,13 +13,15 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-require 'simplecov'
-require 'simplecov-cobertura'
-SimpleCov.formatters = [
-  SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::CoberturaFormatter,
-]
-SimpleCov.start 'rails'
+if ENV['ENABLE_COVERAGE']
+  require 'simplecov'
+  require 'simplecov-cobertura'
+  SimpleCov.formatters = [
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::CoberturaFormatter,
+  ]
+  SimpleCov.start 'rails'
+end
 
 require 'sidekiq/testing'
 require 'clockwork/test'
