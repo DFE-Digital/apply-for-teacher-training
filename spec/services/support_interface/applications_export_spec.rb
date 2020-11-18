@@ -22,7 +22,9 @@ RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
         create(:application_choice, :awaiting_provider_decision, application_form: application_form)
       end
 
-      row = described_class.new.applications.first
+      data = Bullet.profile { described_class.new.applications }
+
+      row = data.first
 
       expect(row[:signed_up_at].to_s).to start_with('2020-01-01')
       expect(row[:first_signed_in_at].to_s).to start_with('2020-01-02')

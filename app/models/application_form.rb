@@ -2,6 +2,7 @@
 # can initially apply to 3 different courses, represented by an Application Choice.
 class ApplicationForm < ApplicationRecord
   audited
+  has_associated_audits
 
   include Chased
 
