@@ -255,7 +255,7 @@ module CandidateHelper
   end
 
   def candidate_fills_in_work_experience
-    choose t('application_form.work_history.more_than_5.label')
+    choose t('application_form.work_history.complete.label')
     click_button 'Continue'
 
     with_options scope: 'application_form.work_history' do |locale|

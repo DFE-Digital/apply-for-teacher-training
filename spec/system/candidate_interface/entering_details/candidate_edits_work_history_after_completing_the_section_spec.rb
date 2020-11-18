@@ -8,7 +8,7 @@ RSpec.feature 'Candidate deletes their work history' do
 
     when_i_visit_the_application_page
     and_i_click_on_work_history
-    and_i_choose_more_than_5_years
+    and_i_choose_complete
     and_i_fill_in_the_job_form
     and_i_mark_this_section_as_completed
     and_i_click_on_continue
@@ -59,8 +59,8 @@ RSpec.feature 'Candidate deletes their work history' do
     click_link t('page_titles.work_history')
   end
 
-  def and_i_choose_more_than_5_years
-    choose t('application_form.work_history.more_than_5.label')
+  def and_i_choose_complete
+    choose t('application_form.work_history.complete.label')
     click_button 'Continue'
   end
 

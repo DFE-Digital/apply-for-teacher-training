@@ -6,16 +6,10 @@
     <%= form_with model: @work_explanation_form, url: candidate_interface_work_history_explanation_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_area :work_history_explanation, label: { text: t('application_form.work_history.explanation.label'), tag: 'h1', size: 'xl' }, max_words: 600, rows: 20 do %>
+      <%= f.govuk_text_area :work_history_explanation, label: { text: t('application_form.work_history.explanation.label'), tag: 'h1', size: 'xl' }, max_words: 400, rows: 5 do %>
         <p class="govuk-body">
-          If you are returning to work for the first time in 5 or more years,
-          please give details. For example, explain your parental or caring
-          responsibilities (or any other reason why you have not been employed).
-        </p>
-        <p class="govuk-body">
-          You can also include relevant work history from more than 5 years ago.
-          Providers will be interested in skills and experience you could
-          transfer to a school setting.
+          For example, parenting or caring responsibilities, unemployment,
+          travel, health, study or other personal reasons.
         </p>
       <% end %>
 

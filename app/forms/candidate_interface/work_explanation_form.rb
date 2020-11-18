@@ -5,7 +5,7 @@ module CandidateInterface
     attr_accessor :work_history_explanation
 
     validates :work_history_explanation, presence: true
-    validates :work_history_explanation, word_count: { maximum: 600 }
+    validates :work_history_explanation, word_count: { maximum: 400 }
 
     def self.build_from_application(application_form)
       new(

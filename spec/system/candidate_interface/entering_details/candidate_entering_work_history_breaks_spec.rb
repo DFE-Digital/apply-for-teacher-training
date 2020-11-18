@@ -14,7 +14,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     and_i_visit_the_site
 
     when_i_click_on_work_history
-    and_i_choose_i_have_work_for_more_than_5_years
+    and_i_choose_i_have_complete_work_history
     and_i_add_a_job_between_february_2015_to_august_2019
     and_i_add_another_job_between_november_2019_and_december_2019
     then_i_see_a_two_months_break_between_my_first_job_and_my_second_job
@@ -55,8 +55,8 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     click_link t('page_titles.work_history')
   end
 
-  def and_i_choose_i_have_work_for_more_than_5_years
-    choose t('application_form.work_history.more_than_5.label')
+  def and_i_choose_i_have_complete_work_history
+    choose t('application_form.work_history.complete.label')
 
     click_button 'Continue'
   end

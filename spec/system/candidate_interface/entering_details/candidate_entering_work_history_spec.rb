@@ -13,7 +13,7 @@ RSpec.feature 'Entering their work history' do
     when_i_omit_choosing_from_the_list_of_work_lengths
     then_i_should_see_work_history_length_validation_errors
 
-    when_i_choose_more_than_5_years
+    when_i_choose_complete
     then_i_should_see_the_job_form
 
     when_i_fill_in_the_job_form_with_incorrect_date_fields
@@ -27,7 +27,7 @@ RSpec.feature 'Entering their work history' do
     and_i_confirm
     then_i_should_see_a_list_of_work_lengths
 
-    when_i_choose_more_than_5_years
+    when_i_choose_complete
     and_i_fill_in_the_job_form # 5/2014 - 1/2019
     then_i_should_see_my_completed_job
 
@@ -59,7 +59,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def then_i_should_see_a_list_of_work_lengths
-    expect(page).to have_content(t('application_form.work_history.more_than_5.label'))
+    expect(page).to have_content(t('application_form.work_history.complete.label'))
   end
 
   def when_i_omit_choosing_from_the_list_of_work_lengths
@@ -70,8 +70,8 @@ RSpec.feature 'Entering their work history' do
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/work_history_form.attributes.work_history.blank')
   end
 
-  def when_i_choose_more_than_5_years
-    choose t('application_form.work_history.more_than_5.label')
+  def when_i_choose_complete
+    choose t('application_form.work_history.complete.label')
     click_button 'Continue'
   end
 

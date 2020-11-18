@@ -90,18 +90,11 @@ en:
       review:
         button: Continue
     work_history:
-      less_than_5:
-        label: Less than 5 years
-        hint_text: Give us as much of your work history as you can. For example, if you are a recent graduate, tell us about your employment before, during and since leaving university.
-      more_than_5:
-        label: More than 5 years
-        hint_text: You can list your complete work history – or just the roles you think are relevant – going back further than 5 years if you wish.
-      more_than_5_with_breaks:
-        label: More than 5 years, but with breaks
+      complete:
+        label: Yes, I have a complete work history
         hint_text: You’ll be able to give details once you’ve entered your employment history. Please explain any break longer than a month.
       missing:
-        label: I have not worked in the last 5 years
-        hint_text: You’ll be able to explain why you’ve been out of the workplace.
+        label: No, I do not have any work history
       role:
         label: Job title
         review_label: Job title
