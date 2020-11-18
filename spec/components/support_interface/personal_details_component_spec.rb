@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PersonalDetailsComponent do
+RSpec.describe SupportInterface::PersonalDetailsComponent do
   let(:application_form) do
     build_stubbed(
       :completed_application_form,
@@ -12,7 +12,7 @@ RSpec.describe PersonalDetailsComponent do
     )
   end
 
-  subject(:result) { render_inline(PersonalDetailsComponent.new(application_form: application_form)) }
+  subject(:result) { render_inline(SupportInterface::PersonalDetailsComponent.new(application_form: application_form)) }
 
   it 'renders component with correct labels' do
     ['Full name', 'Date of birth', 'Nationality', 'Phone number', 'Email address', 'Address'].each do |key|
@@ -56,9 +56,9 @@ RSpec.describe PersonalDetailsComponent do
     end
 
     it 'renders their right to work or study status' do
-      PersonalDetailsComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
+      SupportInterface::PersonalDetailsComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
         application_form.right_to_work_or_study = key
-        result = render_inline(PersonalDetailsComponent.new(application_form: application_form))
+        result = render_inline(SupportInterface::PersonalDetailsComponent.new(application_form: application_form))
         row_title = result.css('.govuk-summary-list__row')[3].css('dt').text
         row_value = result.css('.govuk-summary-list__row')[3].css('dd').text
         expect(row_title).to include 'Has the right to work or study in the UK?'
