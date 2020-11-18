@@ -6,7 +6,7 @@ module SupportInterface
       @emails = Email
         .order(id: :desc)
         .includes(:application_form)
-        .page(params[:page] || 1).per(15)
+        .page(params[:page] || 1).per(30)
 
       if params[:q]
         @emails = @emails.where("CONCAT('to', ' ', subject, ' ', notify_reference, ' ', body) ILIKE ?", "%#{params[:q]}%")
