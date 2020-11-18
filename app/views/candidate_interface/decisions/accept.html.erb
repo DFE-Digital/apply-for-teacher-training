@@ -1,18 +1,16 @@
 <% content_for :title, 'Are you sure you want to accept this offer?' %>
 <% content_for :before_content, govuk_back_link_to %>
 
-<h1 class="govuk-heading-xl govuk-heading-xl">
-  Are you sure you want to accept this offer?
-</h1>
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl govuk-heading-xl">
+      Are you sure you want to accept this offer?
+    </h1>
+
     <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
 
     <% if single_application_choice? %>
-      <p class="govuk-body">
-        By accepting this offer you confirm that you have not accepted any other offers of teacher training places (for example through UCAS Teacher Training).
-      </p>
+      <p class="govuk-body">By accepting this offer you confirm that you have not accepted any other offers of teacher training places (for example through UCAS Teacher Training).</p>
     <% else %>
       <p class="govuk-body">By accepting this offer, you confirm that:</p>
       <ul class="govuk-list govuk-list--bullet">
