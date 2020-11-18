@@ -671,6 +671,9 @@ Rails.application.routes.draw do
       get '/audit' => 'application_forms#audit', as: :application_form_audit
       get '/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
       post '/comments' => 'application_forms/comments#create', as: :application_form_comments
+
+      get '/applicant_details' => 'application_forms/applicant_details#edit', as: :application_form_edit_applicant_details
+      post '/applicant_details' => 'application_forms/applicant_details#update', as: :application_form_update_applicant_details
     end
 
     get '/ucas-matches' => 'ucas_matches#index'

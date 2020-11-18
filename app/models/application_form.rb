@@ -243,6 +243,23 @@ class ApplicationForm < ApplicationRecord
     [first_nationality, second_nationality, third_nationality, fourth_nationality, fifth_nationality].reject(&:nil?)
   end
 
+  def full_address
+    if international?
+      [
+        international_address,
+        COUNTRIES[country],
+      ].reject(&:blank?)
+    else
+      [
+        address_line1,
+        address_line2,
+        address_line3,
+        address_line4,
+        postcode,
+      ].reject(&:blank?)
+    end
+  end
+
   def has_the_maximum_number_of_course_choices?
     if apply_1?
       application_choices.count >= MAXIMUM_PHASE_ONE_COURSE_CHOICES

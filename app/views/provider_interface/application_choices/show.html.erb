@@ -18,7 +18,7 @@
       ) %>
     </p>
 
-    <%= render PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
+    <%= render ProviderInterface::PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
 
     <% unless HostingEnvironment.production? %>
       <%= render SandboxFeatureComponent.new(

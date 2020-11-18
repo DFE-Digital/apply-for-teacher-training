@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PersonalDetailsComponent do
+RSpec.describe SupportInterface::PersonalDetailsComponent do
   let(:application_form) do
     build_stubbed(
       :completed_application_form,
@@ -12,7 +12,7 @@ RSpec.describe PersonalDetailsComponent do
     )
   end
 
-  subject(:result) { render_inline(PersonalDetailsComponent.new(application_form: application_form)) }
+  subject(:result) { render_inline(SupportInterface::PersonalDetailsComponent.new(application_form: application_form)) }
 
   it 'renders component with correct labels' do
     ['Full name', 'Date of birth', 'Nationality', 'Phone number', 'Email address', 'Address'].each do |key|
@@ -40,31 +40,6 @@ RSpec.describe PersonalDetailsComponent do
     expect(result.css('.govuk-summary-list__value').text).to include(application_form.candidate.email_address)
   end
 
-  it 'renders the candidate address and postcode for uk addresses' do
-    full_address = [
-      application_form.address_line1,
-      application_form.address_line2,
-      application_form.address_line3,
-      application_form.address_line4,
-      application_form.postcode,
-    ].reject(&:blank?).join
-
-    expect(result.css('.govuk-summary-list__value').text).to include(full_address)
-  end
-
-  it 'renders the candidate address and postcode for international addresses' do
-    application_form = build_stubbed(:completed_application_form, :international_address)
-
-    international_address = [
-      application_form.international_address,
-      COUNTRIES[application_form.country],
-    ].reject(&:blank?).join
-
-    result = render_inline(PersonalDetailsComponent.new(application_form: application_form))
-
-    expect(result.css('.govuk-summary-list__value').text).to include(international_address)
-  end
-
   it 'does not render right to work fields if nationality is British or Irish' do
     expect(result.text).not_to include('Has the right to work or study in the UK?')
     expect(result.text).not_to include('Residency details')
@@ -81,9 +56,9 @@ RSpec.describe PersonalDetailsComponent do
     end
 
     it 'renders their right to work or study status' do
-      PersonalDetailsComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
+      SupportInterface::PersonalDetailsComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
         application_form.right_to_work_or_study = key
-        result = render_inline(PersonalDetailsComponent.new(application_form: application_form))
+        result = render_inline(SupportInterface::PersonalDetailsComponent.new(application_form: application_form))
         row_title = result.css('.govuk-summary-list__row')[3].css('dt').text
         row_value = result.css('.govuk-summary-list__row')[3].css('dd').text
         expect(row_title).to include 'Has the right to work or study in the UK?'

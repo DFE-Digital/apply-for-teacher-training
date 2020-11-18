@@ -399,4 +399,34 @@ RSpec.describe ApplicationForm do
       expect(application_form.references_did_not_come_back_in_time?).to eq true
     end
   end
+
+  describe '#full_address' do
+    it 'returns the candidate address and postcode for UK addresses' do
+      application_form = create(
+        :completed_application_form,
+        address_line1: 'Flat 4 Prospect House',
+        address_line2: 'Technique Street',
+        address_line3: 'West Glamorgan',
+        postcode: 'NW1 8TQ',
+      )
+
+      expect(application_form.full_address).to eq [
+        'Flat 4 Prospect House',
+        'Technique Street',
+        'West Glamorgan',
+        'NW1 8TQ',
+      ]
+    end
+
+    it 'renders the candidate address and postcode for international addresses' do
+      application_form = build_stubbed(
+        :completed_application_form,
+        :international_address,
+        international_address: 'Beverley Hills 90210',
+        country: 'US',
+      )
+
+      expect(application_form.full_address).to eq ['Beverley Hills 90210', 'United States']
+    end
+  end
 end
