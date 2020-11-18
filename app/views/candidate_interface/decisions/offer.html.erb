@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.view_and_respond_to_offer'), @respond_to_offer.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.decisions.offer'), @respond_to_offer.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path, 'Back to application dashboard') %>
 
 <div class="govuk-grid-row">
@@ -12,7 +12,7 @@
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl govuk-heading-xl">
-        <%= t('page_titles.view_and_respond_to_offer') %>
+        <%= t('page_titles.decisions.offer') %>
       </h1>
 
       <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>

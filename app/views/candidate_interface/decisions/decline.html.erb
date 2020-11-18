@@ -1,4 +1,4 @@
-<% content_for :title, 'Are you sure you want to decline this offer?' %>
+<% content_for :title, t('page_titles.decisions.decline_offer') %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
@@ -6,7 +6,7 @@
     <%= render CandidateInterface::UCASDowntimeComponent.new  %>
 
     <h1 class="govuk-heading-xl govuk-heading-xl">
-      Are you sure you want to decline this offer?
+      <%= t('page_titles.decisions.decline_offer') %>
     </h1>
 
     <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>

@@ -79,7 +79,7 @@ RSpec.feature 'Candidate accepts an offer' do
   def then_i_see_the_offer
     provider = @course_option.course.provider.name
     expect(page).to have_content(provider)
-    expect(page).to have_content(t('page_titles.view_and_respond_to_offer'))
+    expect(page).to have_content(t('page_titles.decisions.offer'))
   end
 
   def when_i_accept_one_offer

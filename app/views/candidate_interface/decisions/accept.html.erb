@@ -1,10 +1,10 @@
-<% content_for :title, 'Are you sure you want to accept this offer?' %>
+<% content_for :title, t('page_titles.decisions.accept_offer') %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl govuk-heading-xl">
-      Are you sure you want to accept this offer?
+      <%= t('page_titles.decisions.accept_offer') %>
     </h1>
 
     <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
