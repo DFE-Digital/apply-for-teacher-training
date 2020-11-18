@@ -10,7 +10,7 @@ module SupportInterface
     end
 
     def as_json
-      accrediting_provider = course.accredited_provider || application_choice.provider
+      accrediting_provider = application_choice.accredited_provider || application_choice.provider
       degree = application_form.application_qualifications.find { |q| q.level == 'degree' }
       equality_and_diversity = application_form.equality_and_diversity.to_h
 

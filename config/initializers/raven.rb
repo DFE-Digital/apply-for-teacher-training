@@ -25,7 +25,6 @@ Raven.configure do |config|
     # database issues.
     'PG::ConnectionBad',
     'PG::UnableToSend',
-    'PG::QueryCanceled',
 
     # Similarly, errors in Redis don't provide us with actionable information
     # in Sentry.

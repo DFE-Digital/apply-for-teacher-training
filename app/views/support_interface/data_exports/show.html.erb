@@ -32,3 +32,5 @@
     This export is being generated. Refresh the page to see if it completed.
   </p>
 <% end %>
+
+<%= render SupportInterface::AuditTrailComponent.new(audited_thing: @data_export) %>
