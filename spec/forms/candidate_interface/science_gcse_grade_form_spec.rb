@@ -301,7 +301,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
         details_form.save
         qualification.reload
 
-        expect(qualification.grades).to eq({
+        expect(qualification.structured_grades).to eq({
           'biology' => 'A*',
           'chemistry' => 'A*',
           'physics' => 'A*',
@@ -328,7 +328,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           qualification.reload
 
           expect(qualification.grade).to eq(nil)
-          expect(qualification.grades).to eq({ 'biology' => 'B', 'physics' => 'B', 'chemistry' => 'B' })
+          expect(qualification.structured_grades).to eq({ 'biology' => 'B', 'physics' => 'B', 'chemistry' => 'B' })
         end
       end
 
@@ -338,7 +338,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           qualification = ApplicationQualification.create(
             level: 'gcse',
             grade: nil,
-            grades: { 'biology' => 'B', 'physics' => 'B', 'chemistry' => 'B' },
+            structured_grades: { 'biology' => 'B', 'physics' => 'B', 'chemistry' => 'B' },
             subject: ApplicationQualification::SCIENCE_TRIPLE_AWARD,
             application_form: application_form,
           )
@@ -351,7 +351,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
           qualification.reload
 
           expect(qualification.grade).to eq('A')
-          expect(qualification.grades).to eq(nil)
+          expect(qualification.structured_grades).to eq(nil)
         end
       end
     end

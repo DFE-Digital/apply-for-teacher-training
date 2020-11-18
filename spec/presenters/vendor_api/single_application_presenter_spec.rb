@@ -457,7 +457,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         :gcse_qualification,
         grade: nil,
         subject: 'science triple award',
-        grades: science_triple_awards,
+        structured_grades: science_triple_awards,
         application_form: application_choice.application_form,
       )
 
