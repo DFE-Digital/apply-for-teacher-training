@@ -73,19 +73,19 @@ Rails.application.routes.draw do
 
       scope '/personal-details' do
         get '/' => 'personal_details/base#new', as: :personal_details
-        post '/' => 'personal_details/base#create'
+        patch '/' => 'personal_details/base#create'
         get '/edit' => 'personal_details/base#edit', as: :edit_personal_details
         patch '/edit' => 'personal_details/base#update'
         get '/nationalities' => 'personal_details/nationalities#new', as: :nationalities
-        post '/nationalities' => 'personal_details/nationalities#create'
+        patch '/nationalities' => 'personal_details/nationalities#create'
         get '/nationalities/edit' => 'personal_details/nationalities#edit', as: :edit_nationalities
         patch '/nationalities/edit' => 'personal_details/nationalities#update'
-        get '/languages' => 'personal_details/languages#edit', as: :languages
-        post '/languages' => 'personal_details/languages#update'
+        get '/languages' => 'personal_details/languages#new', as: :languages
+        patch '/languages' => 'personal_details/languages#create'
         get '/languages/edit' => 'personal_details/languages#edit', as: :edit_languages
         patch '/languages/edit' => 'personal_details/languages#update'
         get '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#new', as: :right_to_work_or_study
-        post '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#create'
+        patch '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#create'
         get '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#edit', as: :edit_right_to_work_or_study
         patch '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#update'
         get '/review' => 'personal_details/review#show', as: :personal_details_show
@@ -94,37 +94,37 @@ Rails.application.routes.draw do
 
       scope '/personal-statement' do
         get '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#edit', as: :edit_becoming_a_teacher
-        post '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#update'
+        patch '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#update'
         get '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#show', as: :becoming_a_teacher_show
         patch '/becoming-a-teacher/complete' => 'personal_statement/becoming_a_teacher#complete', as: :becoming_a_teacher_complete
 
         get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :edit_subject_knowledge
-        post '/subject-knowledge' => 'personal_statement/subject_knowledge#update'
+        patch '/subject-knowledge' => 'personal_statement/subject_knowledge#update'
         get '/subject-knowledge/review' => 'personal_statement/subject_knowledge#show', as: :subject_knowledge_show
         patch '/subject-knowledge/complete' => 'personal_statement/subject_knowledge#complete', as: :subject_knowledge_complete
 
         get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :edit_interview_preferences
-        post '/interview-preferences' => 'personal_statement/interview_preferences#update'
+        patch '/interview-preferences' => 'personal_statement/interview_preferences#update'
         get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
         patch '/interview-preferences/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
       end
 
       scope '/training-with-a-disability' do
         get '/' => 'training_with_a_disability#edit', as: :edit_training_with_a_disability
-        post '/' => 'training_with_a_disability#update'
+        patch '/' => 'training_with_a_disability#update'
         get '/review' => 'training_with_a_disability#show', as: :training_with_a_disability_show
         patch '/complete' => 'training_with_a_disability#complete', as: :training_with_a_disability_complete
       end
 
       scope '/contact-details' do
         get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
-        post '/' => 'contact_details/base#update'
+        patch '/' => 'contact_details/base#update'
 
         get '/address_type' => 'contact_details/address_type#edit', as: :contact_details_edit_address_type
-        post '/address_type' => 'contact_details/address_type#update'
+        patch '/address_type' => 'contact_details/address_type#update'
 
         get '/address' => 'contact_details/address#edit', as: :contact_details_edit_address
-        post '/address' => 'contact_details/address#update'
+        patch '/address' => 'contact_details/address#update'
 
         get '/review' => 'contact_details/review#show', as: :contact_details_review
         patch '/complete' => 'contact_details/review#complete', as: :contact_details_complete
@@ -402,7 +402,7 @@ Rails.application.routes.draw do
         get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
         post '/' => 'equality_and_diversity#choice'
         get '/sex' => 'equality_and_diversity#edit_sex', as: :edit_equality_and_diversity_sex
-        post '/sex' => 'equality_and_diversity#update_sex'
+        patch '/sex' => 'equality_and_diversity#update_sex'
         get '/disability-status' => 'equality_and_diversity#edit_disability_status', as: :edit_equality_and_diversity_disability_status
         patch '/disability-status' => 'equality_and_diversity#update_disability_status'
         get '/disabilities' => 'equality_and_diversity#edit_disabilities', as: :edit_equality_and_diversity_disabilities
