@@ -13,7 +13,7 @@ class DataExporter
       csv_data = generate_csv(
         importer_class.constantize.new.data_for_export,
       )
-    rescue => e
+    rescue StandardError => e
       data_export.update!(audit_comment: "Export generation failed: `#{e.message}`")
       raise
     end
