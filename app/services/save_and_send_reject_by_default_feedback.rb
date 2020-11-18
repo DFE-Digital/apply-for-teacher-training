@@ -14,5 +14,16 @@ class SaveAndSendRejectByDefaultFeedback
 
       CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice).deliver_later
     end
+
+    notify_slack
+  end
+
+  def notify_slack
+    provider_name = application_choice.offered_course.provider.name
+    candidate_name = application_choice.application_form.first_name
+    message = ":telephone_receiver: #{provider_name} has sent feedback for #{candidate_name}’s RBD application"
+    url = Rails.application.routes.url_helpers.support_interface_application_form_url(application_choice.application_form)
+
+    SlackNotificationWorker.perform_async(message, url)
   end
 end
