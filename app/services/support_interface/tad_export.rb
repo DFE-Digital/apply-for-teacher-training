@@ -16,6 +16,7 @@ module SupportInterface
         .current_cycle
         .includes(
           :candidate,
+        ).preload(
           :application_qualifications,
           application_choices: %i[course provider accredited_provider audits],
         )
