@@ -50,4 +50,12 @@ Rails.application.configure do
 
     Bullet.raise = true # raise an error if n+1 query occurs
   end
+
+  if ENV['ENABLE_LOGGING']
+    puts 'Logging is enabled'
+  else
+    puts 'Logging is disabled. Run the tests with ENABLE_LOGGING=true to enable logging to log/test.log'
+    config.logger = Logger.new(nil)
+    config.log_level = :fatal
+  end
 end
