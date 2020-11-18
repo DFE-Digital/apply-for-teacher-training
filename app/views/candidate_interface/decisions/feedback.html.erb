@@ -17,19 +17,17 @@
       url: candidate_interface_confirm_feedback_path
     ) do |f| %>
       <%= f.govuk_radio_buttons_fieldset :withdrawal_reason, legend: { text: CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION } do %>
-        <%= f.govuk_radio_button :feedback, 'yes', label: { text: 'Yes, I’d like to share my reason with the Department for Education' } do %>
-          <%= f.govuk_text_area :explanation, label: { text: 'Please explain your reason for withdrawing from this course.' }, hint: { text: 'Your provider will not see this feedback.' } %>
+        <%= f.govuk_radio_button :feedback, 'yes', label: { text: t('decisions.withdrawal_feedback.feedback.yes.label') } do %>
+          <%= f.govuk_text_area :explanation, label: { text: t('decisions.withdrawal_feedback.explanation.label') }, hint: { text: t('decisions.withdrawal_feedback.explanation.hint') } %>
         <% end %>
-        <%= f.govuk_radio_button :feedback, 'no', label: { text: 'I’d prefer not to say' } %>
+        <%= f.govuk_radio_button :feedback, 'no', label: { text: t('decisions.withdrawal_feedback.feedback.no.label') } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset :can_be_contacted,
-                                          legend: { text: CandidateInterface::WithdrawalQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION },
-                                          hint: { text: 'We’d ideally like to speak on the phone for half an hour.' } do %>
-        <%= f.govuk_radio_button :consent_to_be_contacted, 'yes', label: { text: 'Yes, you can contact me' } do %>
-          <%= f.govuk_text_area :contact_details, label: { text: 'Please let us know when you’re available and give a phone number.' } %>
+      <%= f.govuk_radio_buttons_fieldset :can_be_contacted, legend: { text: CandidateInterface::WithdrawalQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION }, hint: { text: t('decisions.withdrawal_feedback.can_be_contacted.hint') } do %>
+        <%= f.govuk_radio_button :consent_to_be_contacted, 'yes', label: { text: t('decisions.withdrawal_feedback.consent_to_be_contacted.yes.label') } do %>
+          <%= f.govuk_text_area :contact_details, label: { text: t('decisions.withdrawal_feedback.contact_details.label') } %>
         <% end %>
-        <%= f.govuk_radio_button :consent_to_be_contacted, 'no', label: { text: 'I’d prefer not to say' } %>
+        <%= f.govuk_radio_button :consent_to_be_contacted, 'no', label: { text: t('decisions.withdrawal_feedback.consent_to_be_contacted.no.label') } %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>

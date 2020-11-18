@@ -25,9 +25,9 @@
         <li>you can register with <%= govuk_link_to 'Get Into Teaching', 'https://getintoteaching.education.gov.uk' %> to get help from a teacher training advisor</li>
       </ul>
 
-      <%= f.govuk_radio_buttons_fieldset :response, legend: { size: 'm', text: 'How do you want to respond to this offer?' } do %>
-        <%= f.govuk_radio_button :response, 'accept', label: { text: 'Accept offer and conditions' }, link_errors: true %>
-        <%= f.govuk_radio_button :response, 'decline', label: { text: 'Decline offer' } %>
+      <%= f.govuk_radio_buttons_fieldset :response, legend: { text: t('decisions.response.legend'), size: 'm' } do %>
+        <%= f.govuk_radio_button :response, 'accept', label: { text: t('decisions.response.accept.label') }, link_errors: true %>
+        <%= f.govuk_radio_button :response, 'decline', label: { text: t('decisions.response.decline.label') } %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>

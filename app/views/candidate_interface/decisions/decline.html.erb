@@ -18,7 +18,7 @@
     <% end %>
 
     <%= form_with model: @respond_to_offer, url: candidate_interface_decline_offer_path(@application_choice) do |f| %>
-      <%= f.govuk_submit 'Yes I’m sure - decline this offer', warning: true %>
+      <%= f.govuk_submit t('decisions.decline_offer.confirm'), warning: true %>
     <% end %>
   </div>
 </div>

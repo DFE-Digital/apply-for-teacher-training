@@ -20,7 +20,7 @@
     <% end %>
 
     <%= form_with model: @respond_to_offer, url: candidate_interface_accept_offer_path(@application_choice) do |f| %>
-      <%= f.govuk_submit 'Accept offer' %>
+      <%= f.govuk_submit t('decisions.accept_offer.confirm') %>
     <% end %>
   </div>
 </div>
