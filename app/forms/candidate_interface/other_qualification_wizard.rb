@@ -1,5 +1,12 @@
 module CandidateInterface
   class OtherQualificationWizard
+    A_LEVEL_TYPE = 'A level'.freeze
+    AS_LEVEL_TYPE = 'AS level'.freeze
+    GCSE_TYPE = 'GCSE'.freeze
+    OTHER_TYPE = 'Other'.freeze
+    NON_UK_TYPE = 'non_uk'.freeze
+    ALL_VALID_TYPES = [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE, OTHER_TYPE, NON_UK_TYPE].freeze
+
     include ActiveModel::Model
     include ValidationUtils
 
@@ -12,16 +19,16 @@ module CandidateInterface
     OTHER_QUALIFICATION_ATTRIBUTES = %i[id qualification_type other_uk_qualification_type non_uk_qualification_type].freeze
 
     validates :qualification_type, presence: true
-    validates :qualification_type, inclusion: { in: ['A level', 'AS level', 'GCSE', 'Other', 'non_uk'], allow_blank: false }
+    validates :qualification_type, inclusion: { in: ALL_VALID_TYPES, allow_blank: false }
     validates :qualification_type, :subject, :grade, length: { maximum: 255 }
 
-    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == 'Other' }, on: :type
-    validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == 'non_uk' }, on: :type
+    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == OTHER_TYPE }, on: :type
+    validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == NON_UK_TYPE }, on: :type
 
     validates :award_year, presence: true, on: :details
-    validates :subject, :grade, presence: true, on: :details, if: -> { qualification_type != 'non_uk' && qualification_type != 'Other' }
-    validates :institution_country, presence: true, if: -> { qualification_type == 'non_uk' }, on: :details
-    validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == 'non_uk' }, on: :details
+    validates :subject, :grade, presence: true, on: :details, if: -> { qualification_type != NON_UK_TYPE && qualification_type != OTHER_TYPE }
+    validates :institution_country, presence: true, if: -> { qualification_type == NON_UK_TYPE }, on: :details
+    validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == NON_UK_TYPE }, on: :details
     validate :award_year_is_date_and_before_current_year, if: :award_year, on: :details
 
     def initialize(state_store = nil, model = nil, attrs = {})
@@ -109,9 +116,9 @@ module CandidateInterface
         self.institution_country ||= qualifications[-1].institution_country
         self.award_year ||= qualifications[-1].award_year
       end
-      if qualification_type == 'non_uk'
+      if qualification_type == NON_UK_TYPE
         self.non_uk_qualification_type ||= qualifications[-1].non_uk_qualification_type
-      elsif qualification_type == 'Other'
+      elsif qualification_type == OTHER_TYPE
         self.other_uk_qualification_type ||= qualifications[-1].other_uk_qualification_type
       end
     end
@@ -134,9 +141,9 @@ module CandidateInterface
     end
 
     def qualification_type_name
-      if qualification_type == 'non_uk'
+      if qualification_type == NON_UK_TYPE
         non_uk_qualification_type
-      elsif qualification_type == 'Other' && other_uk_qualification_type.present?
+      elsif qualification_type == OTHER_TYPE && other_uk_qualification_type.present?
         other_uk_qualification_type
       else
         qualification_type
