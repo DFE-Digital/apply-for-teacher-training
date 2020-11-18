@@ -16,6 +16,8 @@ module SupportInterface
 
       # https://docs.google.com/spreadsheets/d/1TBQiWpx7Nks4lD2JyXCYp6M69VIGpf-Oi0s_nGK8arA
       {
+        extract_date: Time.zone.now.iso8601,
+
         # Internal identifiers
         candidate_id: application_form.candidate.id,
         application_choice_id: application_choice.id,
