@@ -30,4 +30,10 @@ RSpec.describe SaveAndSendRejectByDefaultFeedback, sidekiq: true do
 
     expect(CandidateMailer.deliveries.count).to be 1
   end
+
+  it 'sends a Slack notification' do
+    allow(SlackNotificationWorker).to receive(:perform_async)
+    service.call!
+    expect(SlackNotificationWorker).to have_received(:perform_async)
+  end
 end
