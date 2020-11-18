@@ -14,7 +14,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @withdrawal_feedback_form,
-      url: candidate_interface_confirm_feedback_path
+      url: candidate_interface_confirm_withdrawal_feedback_path
     ) do |f| %>
       <%= f.govuk_radio_buttons_fieldset :withdrawal_reason, legend: { text: CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION } do %>
         <%= f.govuk_radio_button :feedback, 'yes', label: { text: t('decisions.withdrawal_feedback.feedback.yes.label') } do %>

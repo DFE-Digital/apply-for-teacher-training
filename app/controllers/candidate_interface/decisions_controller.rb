@@ -46,16 +46,16 @@ module CandidateInterface
       withdrawal = WithdrawApplication.new(application_choice: @application_choice)
       withdrawal.save!
 
-      redirect_to candidate_interface_withdraw_feedback_path
+      redirect_to candidate_interface_withdrawal_feedback_path
     end
 
-    def feedback
+    def withdrawal_feedback
       @withdrawal_feedback_form = WithdrawalFeedbackForm.new
       @provider = @application_choice.provider
       @course = @application_choice.course
     end
 
-    def confirm_feedback
+    def confirm_withdrawal_feedback
       @withdrawal_feedback_form = WithdrawalFeedbackForm.new(withdrawl_feedback_params)
 
       if @withdrawal_feedback_form.save(@application_choice)
