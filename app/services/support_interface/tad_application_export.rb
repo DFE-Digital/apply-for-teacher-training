@@ -16,13 +16,15 @@ module SupportInterface
 
       # https://docs.google.com/spreadsheets/d/1TBQiWpx7Nks4lD2JyXCYp6M69VIGpf-Oi0s_nGK8arA
       {
+        extract_date: Time.zone.now.iso8601,
+
         # Internal identifiers
         candidate_id: application_form.candidate.id,
         application_choice_id: application_choice.id,
         application_form_id: application_form.id,
 
         # State
-        status: application_choice.status,
+        status: status,
         phase: application_form.phase,
 
         # Personal information
@@ -61,6 +63,16 @@ module SupportInterface
     end
 
   private
+
+    def status
+      if application_choice.rejected_by_default?
+        'rejected_by_default'
+      elsif application_choice.declined_by_default?
+        'declined_by_default'
+      else
+        application_choice.status
+      end
+    end
 
     def nationalities
       [
