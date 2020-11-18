@@ -22,6 +22,7 @@ module SupportInterface
 
     def download
       data_export = DataExport.find(params[:id])
+      data_export.update!(audit_comment: 'File downloaded')
       send_data data_export.data, filename: data_export.filename, disposition: :attachment
     end
   end
