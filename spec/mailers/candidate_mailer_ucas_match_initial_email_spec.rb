@@ -43,4 +43,30 @@ RSpec.describe CandidateMailer, type: :mailer do
       expect(email.body).to include(withdraw_application_date)
     end
   end
+
+  describe '.ucas_match_initial_email_multiple_acceptances' do
+    let(:ucas_match) { create(:ucas_match) }
+    let(:application_form) { ucas_match.candidate.application_forms.first }
+    let(:email) { mailer.ucas_match_initial_email_multiple_acceptances(ucas_match.candidate) }
+
+    it 'sends an email with the correct subject' do
+      expect(email.subject).to include(I18n.t!('candidate_mailer.ucas_match_initial_email.multiple_acceptances.subject'))
+    end
+
+    it 'sends an email with the correct heading' do
+      expect(email.body.encoded).to include("Dear #{application_form.first_name}")
+    end
+
+    it 'sends an email containing the candidate name in the body' do
+      candidate_name = application_form.first_name
+
+      expect(email.body).to include(candidate_name)
+    end
+
+    it 'sends an email containing the date that the application needs to be withdrawn by' do
+      withdraw_application_date = 10.business_days.after(Time.zone.today).to_s(:govuk_date)
+
+      expect(email.body).to include(withdraw_application_date)
+    end
+  end
 end

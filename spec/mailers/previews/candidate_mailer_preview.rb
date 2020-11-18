@@ -420,6 +420,12 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.ucas_match_initial_email_duplicate_applications(application_choice)
   end
 
+  def ucas_match_initial_email_multiple_acceptances
+    candidate = FactoryBot.build_stubbed(:candidate, application_forms: [application_form])
+
+    CandidateMailer.ucas_match_initial_email_multiple_acceptances(candidate)
+  end
+
 private
 
   def candidate
