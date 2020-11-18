@@ -8,6 +8,7 @@ module CandidateInterface
     ALL_VALID_TYPES = [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE, OTHER_TYPE, NON_UK_TYPE].freeze
 
     include ActiveModel::Model
+    include ActiveModel::Validations::Callbacks
     include ValidationUtils
 
     attr_accessor :current_step, :current_other_qualification_id, :checking_answers
@@ -17,6 +18,8 @@ module CandidateInterface
 
     PERSISTENT_ATTRIBUTES = %w[qualification_type other_uk_qualification_type non_uk_qualification_type subject predicted_grade grade award_year institution_country].freeze
     OTHER_QUALIFICATION_ATTRIBUTES = %i[id qualification_type other_uk_qualification_type non_uk_qualification_type].freeze
+
+    before_validation :sanitize_grade_where_required
 
     validates :qualification_type, presence: true
     validates :qualification_type, inclusion: { in: ALL_VALID_TYPES, allow_blank: false }
@@ -30,6 +33,7 @@ module CandidateInterface
     validates :institution_country, presence: true, if: -> { qualification_type == NON_UK_TYPE }, on: :details
     validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == NON_UK_TYPE }, on: :details
     validate :award_year_is_date_and_before_current_year, if: :award_year, on: :details
+    validate :grade_format_is_valid, if: :grade, on: :details
 
     def initialize(state_store = nil, model = nil, attrs = {})
       @state_store = state_store
@@ -193,6 +197,25 @@ module CandidateInterface
         errors.add(:award_year, :invalid)
       elsif award_year.to_i >= year_limit
         errors.add(:award_year, :in_the_future, date: year_limit)
+      end
+    end
+
+    def grade_format_is_valid
+      case qualification_type
+      when A_LEVEL_TYPE
+        unless grade.in?(A_LEVEL_GRADES)
+          errors.add(:grade, :invalid)
+        end
+      when AS_LEVEL_TYPE
+        unless grade.in?(AS_LEVEL_GRADES)
+          errors.add(:grade, :invalid)
+        end
+      end
+    end
+
+    def sanitize_grade_where_required
+      if qualification_type.in? [A_LEVEL_TYPE, AS_LEVEL_TYPE]
+        self.grade = grade.delete(' ').upcase if grade
       end
     end
   end

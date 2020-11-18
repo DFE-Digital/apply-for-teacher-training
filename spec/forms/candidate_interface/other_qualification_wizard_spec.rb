@@ -42,6 +42,26 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
         expect(other_uk_qualification.errors.full_messages_for(:grade)).to be_empty
         expect(gcse.errors.full_messages_for(:grade)).not_to be_empty
       end
+
+      it 'validates grade format for A/AS levels' do
+        valid_a_level = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'A level', grade: 'a* a*')
+        valid_as_level = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'AS level', grade: 'b  b')
+        valid_other_qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'Other', grade: 'Gold star')
+        invalid_a_level = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'A level', grade: 'a* a* b')
+        invalid_as_level = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'AS level', grade: '85%')
+
+        [valid_a_level, valid_as_level, invalid_a_level, invalid_as_level, valid_other_qualification].each { |q| q.valid?(:details) }
+
+        expect(valid_a_level.errors.messages[:grade]).to be_blank
+        expect(valid_a_level.grade).to eq 'A*A*'
+        expect(valid_as_level.errors.messages[:grade]).to be_blank
+        expect(valid_as_level.grade).to eq 'BB'
+        expect(valid_other_qualification.errors.messages[:grade]).to be_blank
+        expect(valid_other_qualification.grade).to eq 'Gold star'
+
+        expect(invalid_a_level.errors.messages[:grade].pop).to eq 'Enter a real grade'
+        expect(invalid_as_level.errors.messages[:grade].pop).to eq 'Enter a real grade'
+      end
     end
 
     it { is_expected.to validate_presence_of(:subject).on(:details) }
