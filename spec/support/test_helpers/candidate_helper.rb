@@ -56,10 +56,10 @@ module CandidateHelper
     candidate_fills_in_their_degree
 
     click_link 'Maths GCSE or equivalent'
-    candidate_fills_in_a_gcse
+    candidate_fills_in_a_gcse('maths')
 
     click_link 'English GCSE or equivalent'
-    candidate_fills_in_a_gcse
+    candidate_fills_in_a_gcse('english')
 
     click_link 'Science GCSE or equivalent'
     candidate_explains_a_missing_gcse
@@ -348,10 +348,10 @@ module CandidateHelper
     visit candidate_interface_application_form_path
   end
 
-  def candidate_fills_in_a_gcse
+  def candidate_fills_in_a_gcse(subject)
     choose('GCSE')
     click_button 'Save and continue'
-    select 'B', from: 'Grade'
+    subject == 'maths' ? fill_in('Please specify your grade', with: 'B') : select('B', from: 'Grade')
     click_button 'Save and continue'
     fill_in 'Enter year', with: '1990'
     click_button 'Save and continue'
