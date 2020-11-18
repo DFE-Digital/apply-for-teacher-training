@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @institution_country, url: candidate_interface_gcse_details_edit_institution_country_path, method: :post do |f| %>
+    <%= form_with model: @institution_country, url: candidate_interface_gcse_details_edit_institution_country_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t("gcse_edit_institution_country.page_title", subject: @subject.capitalize), size: 'xl' } %>

@@ -146,13 +146,13 @@ Rails.application.routes.draw do
         post '/' => 'gcse/type#update'
 
         get '/country' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
-        post '/country' => 'gcse/institution_country#update'
+        patch '/country' => 'gcse/institution_country#update'
 
         get '/naric-reference' => 'gcse/naric_reference#edit', as: :gcse_details_edit_naric_reference
-        post '/naric-reference' => 'gcse/naric_reference#update'
+        patch '/naric-reference' => 'gcse/naric_reference#update'
 
         get '/year' => 'gcse/year#edit', as: :gcse_details_edit_year
-        post '/year' => 'gcse/year#update'
+        patch '/year' => 'gcse/year#update'
 
         get '/review' => 'gcse/review#show', as: :gcse_review
         patch '/complete' => 'gcse/review#complete', as: :gcse_complete
