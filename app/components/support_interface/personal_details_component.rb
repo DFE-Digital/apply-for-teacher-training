@@ -54,6 +54,8 @@ module SupportInterface
       {
         key: 'Phone number',
         value: phone_number || MISSING,
+        action: 'Change',
+        action_path: support_interface_application_form_edit_applicant_details_path(application_form),
       }
     end
 
