@@ -1,7 +1,7 @@
 module SupportInterface
   class ApplicationReferencesExport
     def data_for_export
-      application_forms = ApplicationForm.includes(:application_references)
+      application_forms = ApplicationForm.includes(:application_references, :application_choices)
 
       data_for_export = application_forms.map do |af|
         output = {
