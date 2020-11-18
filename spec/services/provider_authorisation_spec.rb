@@ -281,6 +281,47 @@ RSpec.describe ProviderAuthorisation do
       end
     end
 
+    context 'when a user belongs to both providers' do
+      let(:provider_user) { create(:provider_user, providers: [training_provider, ratifying_provider]) }
+
+      before do
+        provider_user.provider_permissions.update_all(view_safeguarding_information: true)
+      end
+
+      context 'the course training provider is not permitted, the course accredited provider is permitted' do
+        before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: false, ratifying_provider_can_view_safeguarding_information: true) }
+
+        it 'the user can view safeguarding information' do
+          expect(service.can_view_safeguarding_information?(course: course)).to be true
+        end
+      end
+
+      context 'the course accredited provider is not permitted, the course training provider is permitted' do
+        before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: true, ratifying_provider_can_view_safeguarding_information: false) }
+
+        it 'the user can view safeguarding information' do
+          expect(service.can_view_safeguarding_information?(course: course)).to be true
+        end
+      end
+
+      context 'neither provider is permitted' do
+        before { provider_relationship_permissions.update_columns(training_provider_can_view_safeguarding_information: false, ratifying_provider_can_view_safeguarding_information: false) }
+
+        it 'the user cannot view safeguarding information' do
+          expect(service.can_view_safeguarding_information?(course: course)).to be false
+          expect(service.errors).to eq(%i[requires_training_provider_permission requires_ratifying_provider_permission])
+        end
+      end
+
+      context 'both providers are permitted' do
+        before { provider_relationship_permissions.update!(training_provider_can_view_safeguarding_information: true, ratifying_provider_can_view_safeguarding_information: true) }
+
+        it 'the user can view safeguarding information' do
+          expect(service.can_view_safeguarding_information?(course: course)).to be true
+        end
+      end
+    end
+
     context 'when a user is not permitted to view safeguarding info' do
       let(:provider_user) { create(:provider_user, providers: [training_provider]) }
 

@@ -104,6 +104,10 @@ private
     )
   end
 
+  def user_level_can?(permission:, provider:)
+    @actor.provider_permissions.send(permission).exists?(provider: provider)
+  end
+
   def permission_as_training_provider_user?(permission:, course:)
     permission_name = "training_provider_can_#{permission}"
     relationship = relationship_for course: course
@@ -129,23 +133,34 @@ private
     # enforce user-level permissions
     errors << :requires_provider_user_permission unless
       @actor.is_a?(VendorApiUser) ||
-        @actor.provider_permissions.send(permission)
-          .exists?(provider: [training_provider, ratifying_provider].compact)
+        user_level_can?(permission: permission, provider: training_provider) ||
+        user_level_can?(permission: permission, provider: ratifying_provider)
 
     # enforce org-level permissions
     if ratifying_provider.present?
-      if @actor.providers.include?(training_provider)
-        errors << :requires_training_provider_permission unless
-          permission_as_training_provider_user?(
-            permission: permission,
-            course: course,
-          )
+      ratifying_provider_can = permission_as_ratifying_provider_user?(permission: permission, course: course)
+      training_provider_can = permission_as_training_provider_user?(permission: permission, course: course)
+
+      # If user belongs to both providers, usually one of the two has org-level perm.
+      if @actor.providers.include?(ratifying_provider) && @actor.providers.include?(training_provider)
+        # If not, there is something wrong with the setup
+        if [training_provider_can, ratifying_provider_can].none?
+          errors << :requires_training_provider_permission
+          errors << :requires_ratifying_provider_permission
+        # Check org-level and user-level permissions match for ratifying provider
+        elsif !training_provider_can
+          errors << :requires_provider_user_permission unless
+            user_level_can?(permission: permission, provider: ratifying_provider)
+        # Same for training provider
+        elsif !ratifying_provider_can
+          errors << :requires_provider_user_permission unless
+            user_level_can?(permission: permission, provider: training_provider)
+        end
+        # No additional checks if both providers have org-level access
+      elsif @actor.providers.include?(ratifying_provider)
+        errors << :requires_ratifying_provider_permission unless ratifying_provider_can
       else
-        errors << :requires_ratifying_provider_permission unless
-          permission_as_ratifying_provider_user?(
-            permission: permission,
-            course: course,
-          )
+        errors << :requires_training_provider_permission unless training_provider_can
       end
     end
 
