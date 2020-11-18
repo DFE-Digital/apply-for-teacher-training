@@ -1,23 +1,15 @@
 module ProviderInterface
   class HesaDataExport
-    def initialize(provider_ids:)
-      @provider_ids = provider_ids
+    def initialize(actor:)
+      @actor = actor
     end
 
     def call
-      applications = ApplicationChoice
-        .includes(
-          :course,
-          :provider,
-          :site,
-          course_option: { course: %i[provider accredited_provider] },
-          application_form: %i[candidate application_qualifications],
-        ).where(
-          'candidates.hide_in_reporting' => false,
-          'status' => ApplicationStateChange::ACCEPTED_STATES,
-          'providers.id' => @provider_ids,
-          'application_forms.recruitment_cycle_year' => RecruitmentCycle.current_year,
-        )
+      applications = GetApplicationChoicesForProviders.call(providers: @actor.providers)
+                       .where(
+                         'candidates.hide_in_reporting' => false,
+                         'status' => ApplicationStateChange::ACCEPTED_STATES,
+                       )
 
       rows = []
 
@@ -37,7 +29,7 @@ module ProviderInterface
           'email address' => application.application_form.candidate.email_address,
           'recruitment cycle' => application.application_form.recruitment_cycle_year,
           'provider code' => application.provider.code,
-          'accredited body' => application.course.accredited_provider&.name,
+          'accredited body' => application.accredited_provider&.name,
           'course code' => application.course.code,
           'site code' => application.site.code,
           'study mode' => study_mode(application),
@@ -79,6 +71,8 @@ module ProviderInterface
 
     def diversity_information(application)
       return { 'sex' => 'no data', 'disabilities' => 'no data', 'ethnicity' => 'no data' } if application.application_form.equality_and_diversity.blank?
+
+      return { 'sex' => 'confidential', 'disabilities' => 'confidential', 'ethnicity' => 'confidential' } unless @actor.authorisation.can_view_diversity_information?(course: application.course)
 
       {
         'sex' => application.application_form.equality_and_diversity['hesa_sex'] || 'not specified',

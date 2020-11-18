@@ -3,17 +3,20 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body">
-      Click ‘Download’ to download application data for the current cycle (<%= RecruitmentCycle.current_cycle_name %>). This only relates to accepted applications - ones that you’ve made an offer on, and the candidate has accepted.
+      The export will include all candidates who have accepted an offer.
     </p>
     <p class="govuk-body">
-      The file includes the data sets that higher education institutions (HEIs) are required to send to the Higher Education Statistics Agency (HESA) as part of their statutory reporting obligations.
+      Higher education institutions will need the data when reporting to the Higher Education Statistics Agency (HESA).
+    </p>
+    <p class="govuk-body">
+      Diversity information will only be included if you have permission to view it.
     </p>
   </div>
 
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with url: provider_interface_applications_export_path(format: :csv), method: :get do |f| %>
+    <%= form_with url: provider_interface_applications_export_path(format: :csv), method: :get do %>
       <button class="govuk-button" data-module="govuk-button">
-        Download
+        Export data
       </button>
     <% end %>
   </div>

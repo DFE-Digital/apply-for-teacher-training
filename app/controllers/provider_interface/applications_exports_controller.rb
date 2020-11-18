@@ -5,7 +5,7 @@ module ProviderInterface
     def export
       respond_to do |format|
         format.csv do
-          csv_data = HesaDataExport.new(provider_ids: current_provider_user.providers.map(&:id)).call
+          csv_data = HesaDataExport.new(actor: current_provider_user).call
           send_data csv_data, disposition: 'attachment', filename: csv_filename
         end
       end
