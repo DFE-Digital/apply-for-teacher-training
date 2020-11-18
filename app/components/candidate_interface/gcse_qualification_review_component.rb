@@ -66,14 +66,14 @@ module CandidateInterface
 
     def present_grades
       if application_qualification.subject == ApplicationQualification::SCIENCE_TRIPLE_AWARD
-        grades = application_qualification.grades
+        grades = application_qualification.structured_grades
         [
           "#{grades['biology']} (Biology)",
           "#{grades['chemistry']} (Chemistry)",
           "#{grades['physics']} (Physics)",
         ]
-      elsif application_qualification.subject == 'english' && application_qualification.grades
-        grades = JSON.parse(application_qualification.grades)
+      elsif application_qualification.subject == 'english' && application_qualification.structured_grades
+        grades = JSON.parse(application_qualification.structured_grades)
         grades.map { |k, v,| "#{v} (#{k.humanize.titleize})" }
       else
         application_qualification.grade

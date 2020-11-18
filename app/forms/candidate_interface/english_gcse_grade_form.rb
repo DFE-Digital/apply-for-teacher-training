@@ -6,7 +6,7 @@ module CandidateInterface
     attr_accessor :grade,
                   :qualification,
                   :other_grade,
-                  :grades,
+                  :structured_grades,
                   :english_gcses,
                   :english_single_award,
                   :grade_english_single,
@@ -27,8 +27,8 @@ module CandidateInterface
     validates :grade, presence: true, on: :grade
     validates :other_grade, presence: true, if: :grade_is_other?
     validate :validate_grade_format, on: :grade, unless: :is_multiple_gcse? || :new_record?
-    validate :validate_grades, unless: :new_record?, on: :grades, if: :is_multiple_gcse?
-    validate :gcse_selected, on: :grades, if: :is_multiple_gcse?
+    validate :validate_grades, unless: :new_record?, on: :structured_grades, if: :is_multiple_gcse?
+    validate :gcse_selected, on: :structured_grades, if: :is_multiple_gcse?
 
     class << self
       def build_from_qualification(qualification)
@@ -49,8 +49,8 @@ module CandidateInterface
           qualification: qualification,
         }
 
-        if qualification.grades
-          grades = JSON.parse(qualification.grades)
+        if qualification.structured_grades
+          grades = JSON.parse(qualification.structured_grades)
           english_gcses = []
 
           if grades.keys.include? 'english_single_award'
@@ -144,11 +144,11 @@ module CandidateInterface
     end
 
     def save_grades
-      if !valid?(:grades)
-        log_validation_errors(:grades)
+      if !valid?(:structured_grades)
+        log_validation_errors(:structured_grades)
         return false
       end
-      qualification.update(grades: build_grades_json, grade: nil)
+      qualification.update(structured_grades: build_grades_json, grade: nil)
     end
 
     def save_grade
@@ -156,7 +156,7 @@ module CandidateInterface
         log_validation_errors(:grade)
         return false
       end
-      qualification.update(grade: set_grade, grades: nil)
+      qualification.update(grade: set_grade, structured_grades: nil)
     end
 
   private

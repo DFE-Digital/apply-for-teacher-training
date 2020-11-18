@@ -4,7 +4,7 @@ module CandidateInterface
     include ValidationUtils
 
     attr_accessor :grade,
-                  :grades,
+                  :structured_grades,
                   :award_year,
                   :qualification,
                   :subject,
@@ -48,7 +48,7 @@ module CandidateInterface
         when ApplicationQualification::SCIENCE_DOUBLE_AWARD
           params[:double_award_grade] = qualification.grade
         when ApplicationQualification::SCIENCE_TRIPLE_AWARD
-          grades = qualification.grades
+          grades = qualification.structured_grades
           return unless grades
 
           params[:biology_grade] = grades['biology']
@@ -70,7 +70,7 @@ module CandidateInterface
 
       qualification.update(
         grade: set_grade,
-        grades: set_triple_award_grades,
+        structured_grades: set_triple_award_grades,
         subject: subject,
       )
     end
@@ -163,7 +163,7 @@ module CandidateInterface
       error_message = {
         field: field.to_s,
         error_messages: errors[field].join(' - '),
-        value: grade || grades,
+        value: grade || structured_grades,
       }
 
       Rails.logger.info("Validation error: #{error_message.inspect}")

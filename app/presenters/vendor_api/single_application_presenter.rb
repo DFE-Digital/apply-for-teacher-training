@@ -227,7 +227,7 @@ module VendorAPI
         end
       end
 
-      grades = qualification.grades
+      grades = qualification.structured_grades
 
       # We need to serialize 'grades' to the 'grade' field
       # in the specified order
