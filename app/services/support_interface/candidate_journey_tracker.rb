@@ -36,7 +36,7 @@ module SupportInterface
 
     def form_started_and_not_submitted
       [
-        @application_choice.application_form.audits.where(action: :update).minimum(:created_at),
+        @application_choice.application_form.audits.select { |audit| audit.action == 'update' }.sort_by(&:created_at).last&.created_at,
         @application_choice.created_at,
       ].compact.min
     end
