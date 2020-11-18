@@ -3,6 +3,8 @@ module SupportInterface
     skip_before_action :authenticate_support_user!, except: :destroy
 
     def new
+      redirect_to support_interface_path and return if current_support_user
+
       session['post_dfe_sign_in_path'] ||= support_interface_path
       if FeatureFlag.active?('dfe_sign_in_fallback')
         render :authentication_fallback
