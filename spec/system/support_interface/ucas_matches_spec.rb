@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.feature 'See UCAS matches' do
   include DfESignInHelpers
 
+  around do |example|
+    Timecop.freeze(Date.new(2020, 11, 2)) do
+      example.run
+    end
+  end
+
   scenario 'Support agent visits UCAS matches pages' do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
@@ -25,9 +31,25 @@ RSpec.feature 'See UCAS matches' do
     and_i_expect_the_relevant_action_needed_tags_to_be_visible
 
     when_i_follow_the_link_to_ucas_match_for_a_candidate_which_needs_an_action
-    then_i_see_what_action_is_needed
-    and_when_i_confirm_i_took_the_action
-    then_i_see_last_performed_action
+    then_i_see_that_i_need_to 'Send initial emails'
+    and_when_i_click 'Confirm initial emails were sent'
+    then_i_see_last_performed_action_is 'sent the initial emails'
+
+    given_five_working_days_passed
+    when_i_visit_the_page_again
+    then_i_see_that_i_need_to 'Send reminder emails'
+    and_when_i_click 'Confirm reminder emails were sent'
+    then_i_see_last_performed_action_is 'sent the reminder emails'
+
+    given_ten_more_working_days_passed
+    when_i_visit_the_page_again
+    then_i_see_that_i_need_to 'Request withdrawal from UCAS'
+    and_when_i_click 'Confirm withdrawal from UCAS was requested'
+
+    then_i_see_that_i_need_to 'Confirm withdrawal from UCAS'
+    and_when_i_click 'Confirm the application was withdrawn from UCAS'
+    then_i_see_last_performed_action_is 'confirmed that the candidate was withdrawn from UCAS'
+    and_then_the_match_is_processed
   end
 
   def given_i_am_a_support_user
@@ -152,17 +174,40 @@ RSpec.feature 'See UCAS matches' do
     click_link @candidate2.email_address
   end
 
-  def then_i_see_what_action_is_needed
-    expect(page).to have_text 'Action needed: send initial email'
-    expect(page).to have_text 'We need to contact the candidate and the provider'
+  def then_i_see_that_i_need_to(action_to_take)
+    expect(page).to have_text "Action needed #{action_to_take}"
   end
 
-  def and_when_i_confirm_i_took_the_action
-    click_button 'Confirm initial emails were sent'
+  def and_when_i_click(button_text)
+    click_button button_text
   end
 
-  def then_i_see_last_performed_action
+  def then_i_see_last_performed_action_is(action)
     expect(page).to have_content 'No action required'
-    expect(page).to have_content 'We sent the initial emails to the candidate and the providers'
+    expect(page).to have_content "We #{action}"
+  end
+
+  def given_five_working_days_passed
+    Timecop.safe_mode = false
+    Timecop.travel(Time.zone.local(2020, 11, 9, 12, 0, 0))
+  ensure
+    Timecop.safe_mode = true
+  end
+
+  def given_ten_more_working_days_passed
+    Timecop.safe_mode = false
+    Timecop.travel(Time.zone.local(2020, 11, 23, 12, 0, 0))
+  ensure
+    Timecop.safe_mode = true
+  end
+
+  def when_i_visit_the_page_again
+    visit current_path
+    given_i_am_a_support_user
+  end
+
+  def and_then_the_match_is_processed
+    expect(page).to have_content 'Match marked as processed'
+    expect(page).to have_content 'Processed'
   end
 end
