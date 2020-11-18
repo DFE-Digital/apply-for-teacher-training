@@ -8,9 +8,16 @@ class DataExporter
     data_export = DataExport.find(data_export_id)
 
     Rails.logger.info 'Started CSV generation'
-    csv_data = generate_csv(
-      importer_class.constantize.new.data_for_export,
-    )
+
+    begin
+      csv_data = generate_csv(
+        importer_class.constantize.new.data_for_export,
+      )
+    rescue => e
+      data_export.update!(audit_comment: "Export generation failed: `#{e.message}`")
+      raise
+    end
+
     Rails.logger.info 'Finished CSV generation'
 
     Rails.logger.info 'Started writing CSV'
