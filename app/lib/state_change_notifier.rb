@@ -47,7 +47,7 @@ class StateChangeNotifier
       declined_msg += declines.to_sentence
     end
 
-    message = ":handshake: #{[accepted_msg, withdrawn_msg, declined_msg].compact.to_sentence}."
+    message = ":handshake: #{[accepted_msg, withdrawn_msg, declined_msg].compact.to_sentence}"
     url = helpers.support_interface_application_form_url(accepted.application_form)
 
     send(message, url)
