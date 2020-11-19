@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::Maths::GradeController < Gcse::DetailsController
+  class Gcse::Maths::GradeController < CandidateInterfaceController
     include Gcse::GradeControllerConcern
 
     before_action :redirect_to_dashboard_if_submitted
@@ -13,8 +13,8 @@ module CandidateInterface
     def update
       @qualification_type = maths_gsce_grade_form.qualification.qualification_type
 
-      maths_gsce_grade_form.grade = details_params[:grade]
-      maths_gsce_grade_form.other_grade = details_params[:other_grade]
+      maths_gsce_grade_form.grade = maths_params[:grade]
+      maths_gsce_grade_form.other_grade = maths_params[:other_grade]
 
       @application_qualification = maths_gsce_grade_form.save_grade
 
@@ -43,7 +43,7 @@ module CandidateInterface
       end
     end
 
-    def maths_details_params
+    def maths_params
       params.require(:candidate_interface_gcse_qualification_details_form).permit(%i[grade award_year other_grade])
     end
 

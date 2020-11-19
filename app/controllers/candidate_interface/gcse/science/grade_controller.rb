@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::Science::GradeController < Gcse::DetailsController
+  class Gcse::Science::GradeController < CandidateInterfaceController
     include Gcse::GradeControllerConcern
     before_action :redirect_to_dashboard_if_submitted
     before_action :set_subject
