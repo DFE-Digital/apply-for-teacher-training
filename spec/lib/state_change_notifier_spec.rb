@@ -153,7 +153,7 @@ RSpec.describe StateChangeNotifier do
 
     context 'when this is the only application choice' do
       it 'shows the correct message' do
-        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE).'
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE)'
         expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
       end
     end
@@ -166,7 +166,7 @@ RSpec.describe StateChangeNotifier do
       end
 
       it 'shows the correct message' do
-        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and declined UCL’s offer for French (FFF).'
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and declined UCL’s offer for French (FFF)'
         expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
       end
     end
@@ -179,7 +179,7 @@ RSpec.describe StateChangeNotifier do
       end
 
       it 'shows the correct message' do
-        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and withdrawn their application for French (FFF) at UCL.'
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and withdrawn their application for French (FFF) at UCL'
         expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
       end
     end
@@ -198,7 +198,7 @@ RSpec.describe StateChangeNotifier do
       end
 
       it 'shows the correct message' do
-        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE), withdrawn their application for French (FFF) at UCL, and declined UCL’s offer for Maths (MMM).'
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE), withdrawn their application for French (FFF) at UCL, and declined UCL’s offer for Maths (MMM)'
         expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
       end
     end
@@ -214,7 +214,7 @@ RSpec.describe StateChangeNotifier do
       end
 
       it 'shows the correct message' do
-        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and withdrawn their applications for French (FFF) at UCL and Maths (MMM) at UCL.'
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and withdrawn their applications for French (FFF) at UCL and Maths (MMM) at UCL'
         expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
       end
     end
@@ -230,7 +230,7 @@ RSpec.describe StateChangeNotifier do
       end
 
       it 'shows the correct message' do
-        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and declined UCL’s offer for French (FFF) and UCL’s offer for Maths (MMM).'
+        expected_message = ':handshake: Leah has accepted UCL’s offer for English (EEE) and declined UCL’s offer for French (FFF) and UCL’s offer for Maths (MMM)'
         expect(SlackNotificationWorker).to have_received(:perform_async).with(expected_message, anything)
       end
     end
