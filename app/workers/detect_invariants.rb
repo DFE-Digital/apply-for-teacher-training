@@ -6,6 +6,7 @@ class DetectInvariants
     detect_application_choices_in_old_states
     detect_outstanding_references_on_submitted_applications
     detect_unauthorised_application_form_edits
+    detect_applications_with_course_choices_in_previous_cycle
   end
 
   def detect_application_choices_in_old_states
@@ -71,9 +72,31 @@ class DetectInvariants
     end
   end
 
+  def detect_applications_with_course_choices_in_previous_cycle
+    forms_with_last_years_courses = ApplicationChoice
+      .joins(:application_form, course_option: [:course])
+      .where('extract(year from application_forms.submitted_at) = ?', RecruitmentCycle.current_year)
+      .where(courses: { recruitment_cycle_year: RecruitmentCycle.previous_year })
+      .pluck(:application_form_id).uniq
+      .sort
+
+    if forms_with_last_years_courses.any?
+      urls = forms_with_last_years_courses.map { |application_form_id| helpers.support_interface_application_form_url(application_form_id) }
+
+      message = <<~MSG
+        The following application forms have course choices from the previous recruitment cycle
+
+        #{urls.join("\n")}
+      MSG
+
+      Raven.capture_exception(ApplicationHasCourseChoiceInPreviousCycle.new(message))
+    end
+  end
+
   class ApplicationInRemovedState < StandardError; end
   class OutstandingReferencesOnSubmittedApplication < StandardError; end
   class ApplicationEditedByWrongCandidate < StandardError; end
+  class ApplicationHasCourseChoiceInPreviousCycle < StandardError; end
 
 private
 

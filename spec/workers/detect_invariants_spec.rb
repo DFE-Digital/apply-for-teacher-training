@@ -82,5 +82,30 @@ RSpec.describe DetectInvariants do
         ),
       )
     end
+
+    it 'detects application choices for courses in the last cycle' do
+      this_year_course = create(:course_option)
+      last_year_course = create(:course_option, :previous_year)
+
+      bad_form_this_year = create(:completed_application_form, submitted_at: Time.zone.now)
+      good_form_this_year = create(:completed_application_form, submitted_at: Time.zone.now)
+      good_form_last_year = create(:application_form, submitted_at: 1.year.ago)
+
+      create(:application_choice, application_form: bad_form_this_year, course_option: last_year_course)
+      create(:application_choice, application_form: good_form_this_year, course_option: this_year_course)
+      create(:application_choice, application_form: good_form_last_year, course_option: last_year_course)
+
+      DetectInvariants.new.perform
+
+      expect(Raven).to have_received(:capture_exception).with(
+        DetectInvariants::ApplicationHasCourseChoiceInPreviousCycle.new(
+          <<~MSG,
+            The following application forms have course choices from the previous recruitment cycle
+
+            http://localhost:3000/support/applications/#{bad_form_this_year.id}
+          MSG
+        ),
+      )
+    end
   end
 end
