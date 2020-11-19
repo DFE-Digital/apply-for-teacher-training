@@ -23,7 +23,7 @@ RSpec.describe 'Reject an application' do
     and_i_answer_additional_reasons
     and_i_check_the_amended_reasons_for_rejection
     and_i_submit_the_reasons_for_rejection
-    then_i_can_see_the_reasons_were_saved
+    then_i_can_see_the_reasons_why_the_application_was_rejected
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -145,7 +145,26 @@ RSpec.describe 'Reject an application' do
     click_on 'Reject application'
   end
 
-  def then_i_can_see_the_reasons_were_saved
+  def then_i_can_see_the_reasons_why_the_application_was_rejected
     expect(page).to have_content('Application rejected')
+
+    click_on @application_choice.application_form.full_name
+
+    expect(page).to have_content('Rejection details')
+
+    expect(page).to have_content('The following feedback was sent to the candidate.')
+    expect(page).to have_content('The provider would be interested in future applications from you')
+    expect(page).to have_content('Here’s why your application was unsuccessful.')
+    expect(page).to have_content('Something you did')
+    expect(page).to have_content("There was no need to sing 'Run to the Hills' for us")
+    expect(page).to have_content('Advice: Leave the singing out next time')
+    expect(page).to have_content('Quality of application')
+    expect(page).to have_content('Telling people you are a stable genius might be a bit loaded')
+    expect(page).to have_content('Qualifications')
+    expect(page).to have_content('No Maths GCSE grade 4 (C) or above, or valid equivalent No degree')
+    expect(page).to have_content('Performance at interview')
+    expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
+    expect(page).to have_content('Additional advice')
+    expect(page).to have_content('While impressive, your parkour skills are not relevant')
   end
 end
