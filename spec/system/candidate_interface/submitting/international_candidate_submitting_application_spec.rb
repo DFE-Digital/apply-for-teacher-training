@@ -90,10 +90,10 @@ RSpec.feature 'International candidate submits the application' do
     candidate_fills_in_their_degree
 
     click_link 'Maths GCSE or equivalent'
-    candidate_fills_in_a_gcse
+    candidate_fills_in_a_gcse('maths')
 
     click_link 'English GCSE or equivalent'
-    candidate_fills_in_a_gcse
+    candidate_fills_in_a_gcse('english')
 
     click_link 'Science GCSE or equivalent'
     candidate_explains_a_missing_gcse
