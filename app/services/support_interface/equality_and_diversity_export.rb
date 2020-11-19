@@ -10,6 +10,7 @@ module SupportInterface
           'Ethnic background' => application_form.equality_and_diversity['ethnic_background'],
           'Application status' => I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
         }
+        binding.pry
 
         disabilities = application_form.equality_and_diversity['disabilities']
 

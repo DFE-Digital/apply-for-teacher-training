@@ -6,18 +6,18 @@ module CandidateInterface
     attr_reader :next_step
     attr_accessor :checking_answers, :id, :current_step
 
-    attribute :qualification_type
-    attribute :other_uk_qualification_type
-    attribute :non_uk_qualification_type
+    attr_accessor :qualification_type
+    attr_accessor :other_uk_qualification_type
+    attr_accessor :non_uk_qualification_type
 
     validates :qualification_type, presence: true
     validates :qualification_type, inclusion: { in: ['A level', 'AS level', 'GCSE', 'Other', 'non_uk'], allow_blank: false }
     validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications') }
     validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == 'non_uk' }
 
-    def initialize(intermediate_data_service, options)
+    def initialize(intermediate_data_service = nil, options = nil)
       @intermediate_data_service = intermediate_data_service
-      # TODO: read from data service?
+      options.merge!(@intermediate_data_service.read) if @intermediate_data_service
       super(options)
     end
 

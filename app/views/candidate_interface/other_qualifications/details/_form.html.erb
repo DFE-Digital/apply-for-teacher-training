@@ -1,4 +1,4 @@
-  <% if wizard.non_uk_qualification_type.present? %>
+  <% if @form.non_uk_qualification_type.present? %>
     <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.optional_label'), size: 'm' } %>
     <%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t('application_form.other_qualification.institution_country.label'), size: 'm' } %>
     <%= f.govuk_text_field :grade, label: { text: t('application_form.other_qualification.grade.optional_label'), size: 'm' }, width: 10 %>

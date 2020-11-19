@@ -727,7 +727,16 @@ en:
               blank: Enter year the assessment was done
               invalid: Enter a real year
               in_the_future: Assessment year must be this year or a previous year
-        candidate_interface/other_qualification_wizard:
+        candidate_interface/other_qualification_type_form:
+          attributes:
+            non_uk_qualification_type:
+              blank: Enter the type of qualification
+            other_uk_qualification_type:
+              blank: Enter the type of qualification
+            qualification_type:
+              blank: Enter the type of qualification
+              too_long: Type of qualification must be %{count} characters or fewer
+        candidate_interface/other_qualification_detail_form:
           attributes:
             non_uk_qualification_type:
               blank: Enter the type of qualification
