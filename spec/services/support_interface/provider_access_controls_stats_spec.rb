@@ -98,7 +98,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
 
       access_controls = described_class.new(provider)
 
-      expect(access_controls.user_permissions_changed_by).to eq [provider_user1.email_address, provider_user2.email_address]
+      expect(access_controls.user_permissions_changed_by).to match_array [provider_user1.email_address, provider_user2.email_address]
     end
 
     it 'returns an empty array if there have been no changes' do
