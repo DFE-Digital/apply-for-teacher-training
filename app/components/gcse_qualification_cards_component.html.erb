@@ -45,7 +45,9 @@
                 <%= qualification.award_year %>
                 </dd>
                 <dt class="app-qualification__key">Grade</dt>
-                <dd class="app-qualification__value"><%= qualification.grade %></dd>
+                <% grade_details(qualification).each do |grade| %>
+                  <dd class="app-qualification__value govuk-!-margin-bottom-0"><%= grade %></dd>
+                <% end %>
               </dl>
             <% end %>
           </div>

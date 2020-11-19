@@ -45,4 +45,20 @@ class GcseQualificationCardsComponent < ViewComponent::Base
       "UK NARIC statement #{qualification.naric_reference} says this is comparable to a #{qualification.comparable_uk_qualification}."
     end
   end
+
+  def grade_details(qualification)
+    if qualification.subject == ApplicationQualification::SCIENCE_TRIPLE_AWARD
+      grades = qualification.structured_grades
+      [
+        "#{grades['biology']} (Biology)",
+        "#{grades['chemistry']} (Chemistry)",
+        "#{grades['physics']} (Physics)",
+      ]
+    elsif qualification.subject == 'english' && qualification.structured_grades
+      grades = JSON.parse(qualification.structured_grades)
+      grades.map { |k, v,| "#{v} (#{k.humanize.titleize})" }
+    else
+      [qualification.grade]
+    end
+  end
 end

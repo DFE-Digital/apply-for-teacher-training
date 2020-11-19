@@ -160,4 +160,52 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
       expect(cards.next.text).to include 'Science'
     end
   end
+
+  describe 'rendering multiple English GCSEs' do
+    let(:application_form) do
+      create(
+        :application_form,
+        application_qualifications: [
+          create(:gcse_qualification, subject: 'english', structured_grades: '{"english_language":"E","english_literature":"E","Cockney Rhyming Slang":"A*"}', award_year: 2006),
+        ],
+      )
+    end
+
+    it 'renders grades for multiple English GCSEs' do
+      result = render_inline(described_class.new(application_form))
+
+      card = result.css('.app-card--outline')
+
+      expect(card.text).to include 'E (English Language)'
+      expect(card.text).to include 'E (English Literature)'
+      expect(card.text).to include 'A* (Cockney Rhyming Slang)'
+    end
+  end
+
+  describe 'rendering multiple Science GCSEs' do
+    science_triple_awards = {
+      biology: 'A',
+      chemistry: 'B',
+      physics: 'C',
+    }
+
+    let(:application_form) do
+      create(
+        :application_form,
+        application_qualifications: [
+          create(:gcse_qualification, subject: 'science triple award', structured_grades: science_triple_awards, award_year: 2006),
+        ],
+      )
+    end
+
+    it 'renders grades for multiple English GCSEs' do
+      result = render_inline(described_class.new(application_form))
+
+      card = result.css('.app-card--outline')
+
+      expect(card.text).to include 'A (Biology)'
+      expect(card.text).to include 'B (Chemistry)'
+      expect(card.text).to include 'C (Physics)'
+    end
+  end
 end
