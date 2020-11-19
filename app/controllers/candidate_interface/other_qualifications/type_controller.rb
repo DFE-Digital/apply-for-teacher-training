@@ -63,19 +63,9 @@ module CandidateInterface
     def form_for(options)
       options[:checking_answers] = true if params[:checking_answers] == 'true'
       OtherQualificationTypeForm.new(
-        persistence_key_for_current_user,
+        intermediate_data_service,
         options,
       )
-    end
-
-    def reset_intermediate_state!
-      IntermediateDataService.new(
-        WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
-      ).clear_state!
-    end
-
-    def persistence_key_for_current_user
-      "candidate_user_other_qualification_flow-#{current_candidate.id}"
     end
 
     def other_qualification_type_params
