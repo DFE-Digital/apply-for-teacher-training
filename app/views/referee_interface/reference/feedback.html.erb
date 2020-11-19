@@ -1,10 +1,15 @@
 <% content_for :title, title_with_error_prefix("Your reference for #{@reference_form.application_form.full_name}", @reference_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(referee_interface_safeguarding_path(token: @token_param)) %>
 
-<%= form_with model: @reference_form, url: referee_interface_submit_feedback_path(token: @token_param), method: :patch do |f| %>
-  <%= f.govuk_error_summary %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @reference_form,
+      url: referee_interface_submit_feedback_path(token: @token_param),
+      method: :patch
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
       <h1 class="govuk-heading-xl">Your reference for <%= @reference_form.application_form.full_name %></h1>
 
       <%= render(RefereeInterface::FeedbackHintsComponent.new(reference: @reference_form.reference)) %>
@@ -12,6 +17,6 @@
       <%= f.govuk_text_area :feedback, label: { text: 'Your reference', size: 'm' }, max_words: 500, rows: 15 %>
 
       <%= f.govuk_submit 'Continue' %>
-    </div>
+    <% end %>
   </div>
-<% end %>
+</div>

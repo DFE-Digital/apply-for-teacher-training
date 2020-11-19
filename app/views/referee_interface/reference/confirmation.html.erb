@@ -1,9 +1,9 @@
 <% if @reference.feedback_refused? %>
   <% content_for :title, t('page_titles.give_a_reference.finish') %>
-  <h1 class="govuk-heading-xl">Thank you</h1>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-xl">Thank you</h1>
       <p class="govuk-body">We’ll ask the candidate to suggest another referee.</p>
       <p class="govuk-body">If you have any questions about the Apply for teacher training service, please contact <%= bat_contact_mail_to %>.</p>
     </div>
@@ -12,18 +12,21 @@
   <% content_for :title, t('page_titles.give_a_reference.confirmation') %>
 
   <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
-    <h1 class="govuk-panel__title">
-      Your reference for <%= @reference.application_form.full_name %> has been submitted
-    </h1>
+    <h1 class="govuk-panel__title">Your reference for <%= @reference.application_form.full_name %> has been submitted</h1>
   </div>
 
-  <%= form_with model: @questionnaire_form, url: referee_interface_submit_questionnaire_path(token: @token_param), method: :patch do |f| %>
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= form_with(
+        model: @questionnaire_form,
+        url: referee_interface_submit_questionnaire_path(token: @token_param),
+        method: :patch,
+      ) do |f| %>
         <h2 class="govuk-heading-l">Tell us about your experience of giving a reference</h2>
+
         <p class="govuk-body">Your feedback will help us to improve our service.</p>
 
-        <%= f.govuk_radio_buttons_fieldset :experience, legend: { text: RefereeQuestionnaire::EXPERIENCE_QUESTION, tag: 'span' } do %>
+        <%= f.govuk_radio_buttons_fieldset :experience, legend: { text: RefereeQuestionnaire::EXPERIENCE_QUESTION } do %>
           <%= f.govuk_radio_button :experience_rating, 'very_poor', label: { text: t('questionnaire_form.very_poor') } do %>
             <%= f.govuk_text_area :experience_explanation_very_poor, label: { text: t('questionnaire_form.why_that_rating') } %>
           <% end %>
@@ -45,7 +48,7 @@
           <% end %>
         <% end %>
 
-        <%= f.govuk_radio_buttons_fieldset :guidance, legend: { text: RefereeQuestionnaire::GUIDANCE_QUESTION, tag: 'span' } do %>
+        <%= f.govuk_radio_buttons_fieldset :guidance, legend: { text: RefereeQuestionnaire::GUIDANCE_QUESTION } do %>
           <%= f.govuk_radio_button :guidance_rating, 'very_poor', label: { text: t('questionnaire_form.very_poor') } do %>
             <%= f.govuk_text_area :guidance_explanation_very_poor, label: { text: t('questionnaire_form.why_that_rating') } %>
           <% end %>
@@ -67,7 +70,7 @@
           <% end %>
         <% end %>
 
-        <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { text: RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION, tag: 'span' }, hint: { text: t('questionnaire_form.hint_text') } do %>
+        <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, legend: { text: RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION }, hint: { text: t('questionnaire_form.hint_text') } do %>
           <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('questionnaire_form.consent_to_be_contacted') } do %>
             <%= f.govuk_text_area :consent_to_be_contacted_details, label: { text: t('questionnaire_form.availibility') } %>
           <% end %>
@@ -76,7 +79,7 @@
         <% end %>
 
         <%= f.govuk_submit t('questionnaire_form.confirm') %>
-      </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
 <% end %>
