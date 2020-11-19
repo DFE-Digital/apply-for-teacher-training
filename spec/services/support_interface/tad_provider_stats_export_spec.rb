@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SupportInterface::TADProviderStatsExport do
   include CourseOptionHelpers
 
-  subject(:exported_rows) { SupportInterface::TADProviderStatsExport.new.call }
+  subject(:exported_rows) { Bullet.profile { SupportInterface::TADProviderStatsExport.new.call } }
 
   describe 'calculating offers and acceptances' do
     states_excluded_from_tad_export = [:offer_deferred]

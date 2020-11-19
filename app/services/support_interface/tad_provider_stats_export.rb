@@ -1,7 +1,8 @@
 module SupportInterface
   class TADProviderStatsExport
     def call
-      Course.all
+      Course
+        .includes(:provider)
         .map { |c| course_to_row(c) }
         .sort_by { |r| r[:provider_code] }
     end

@@ -13,7 +13,9 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
       application_form_two = create(:application_form)
       create(:reference, feedback_status: 'feedback_refused', referee_type: 'academic', application_form: application_form_two)
 
-      expect(described_class.new.data_for_export).to contain_exactly(
+      data = Bullet.profile { described_class.new.data_for_export }
+
+      expect(data).to contain_exactly(
         {
           'Recruitment cycle year' => application_form_one.recruitment_cycle_year,
           'Support ref number' => application_form_one.support_reference,

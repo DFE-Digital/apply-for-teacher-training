@@ -32,7 +32,7 @@ module SupportInterface
             :candidate,
             :audits,
             :chasers_sent,
-            { application_references: %i[audits] },
+            { application_references: %i[audits chasers_sent] },
           ],
         )
         .joins(:application_form)
