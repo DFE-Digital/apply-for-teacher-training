@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.application_feedback', section: @section), @application_feedback_form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.application_feedback', section: @application_feedback_form.section_name), @application_feedback_form.errors.any?) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -7,11 +7,12 @@
 
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl"><%= t('application_feedback.caption') %></span>
-        <%= t('page_titles.application_feedback', section: @section) %>
+        <%= t('page_titles.application_feedback', section: @application_feedback_form.section_name) %>
       </h1>
 
-      <%= f.hidden_field :path, value: @path %>
-      <%= f.hidden_field :page_title, value: @page_title %>
+      <%= f.hidden_field :path %>
+      <%= f.hidden_field :page_title %>
+      <%= f.hidden_field :original_controller %>
 
       <%= f.govuk_check_boxes_fieldset :issues, multiple: false, legend: { text: t('application_feedback.issues.label'), size: 'm' } do %>
         <%= f.govuk_check_box :does_not_understand_section, true, multiple: false, label: { text: t('application_feedback.issues.does_not_understand_section') } %>

@@ -40,11 +40,7 @@ RSpec.feature 'Candidate provides feedback during the application process' do
   end
 
   def then_i_see_the_application_feedback_page
-    expect(page).to have_current_path candidate_interface_application_feedback_path(
-      path: '/candidate/application/references/start',
-      page_title: t('page_titles.references_start'),
-      section: 'references',
-    )
+    expect(page).to have_title 'How can we improve the references section?'
   end
 
   def when_i_fill_in_my_feedback

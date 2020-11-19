@@ -122,11 +122,6 @@ Naming/MemoizedInstanceVariableName:
 Style/EachWithObject:
   Enabled: false
 
-# Using case with empty condition is less verbose that multiple if statements
-Style/EmptyCaseCondition:
-  Exclude:
-    - 'app/components/candidate_interface/application_feedback_component.rb'
-
 # Pending cops
 # These will be enabled by default at Rubocop 1.0
 Style/HashEachMethods:
