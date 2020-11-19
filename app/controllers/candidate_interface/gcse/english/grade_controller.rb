@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::English::GradeController < Gcse::DetailsController
+  class Gcse::English::GradeController < CandidateInterfaceController
     include Gcse::GradeControllerConcern
 
     before_action :redirect_to_dashboard_if_submitted
@@ -50,6 +50,14 @@ module CandidateInterface
         :other_grade,
         english_gcses: [],
       ])
+    end
+
+    def next_gcse_path
+      if english_gcse_grade_form.award_year.nil?
+        candidate_interface_gcse_details_edit_year_path(subject: @subject)
+      else
+        candidate_interface_gcse_review_path(subject: @subject)
+      end
     end
 
     def view_path

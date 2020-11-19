@@ -1,5 +1,5 @@
 module CandidateInterface
-  class Gcse::Science::GradeController < Gcse::DetailsController
+  class Gcse::Science::GradeController < CandidateInterfaceController
     include Gcse::GradeControllerConcern
     before_action :redirect_to_dashboard_if_submitted
     before_action :set_subject
@@ -26,7 +26,7 @@ module CandidateInterface
   private
 
     def view_path
-      if gcse_qualification? && FeatureFlag.active?(:science_gcse_awards)
+      if gcse_qualification? && FeatureFlag.active?(:multiple_science_gcses)
         'candidate_interface/gcse/science/grade/awards_edit'
       else
         'candidate_interface/gcse/science/grade/edit'

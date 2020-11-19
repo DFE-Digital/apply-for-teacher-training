@@ -22,7 +22,8 @@ module CandidateInterface
                   :grade_english_studies_double,
                   :other_english_gcse,
                   :other_english_gcse_name,
-                  :grade_other_english_gcse
+                  :grade_other_english_gcse,
+                  :award_year
 
     validates :grade, presence: true, on: :grade
     validates :other_grade, presence: true, if: :grade_is_other?
