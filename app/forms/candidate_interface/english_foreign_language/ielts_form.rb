@@ -21,7 +21,7 @@ module CandidateInterface
 
         ielts = IeltsQualification.new(
           trf_number: trf_number,
-          band_score: band_score,
+          band_score: sanitize(band_score),
           award_year: award_year,
         )
         UpdateEnglishProficiency.new(
@@ -47,8 +47,18 @@ module CandidateInterface
       end
 
       def band_score_is_a_valid_score
-        unless band_score.in? IeltsQualification::VALID_SCORES
+        unless sanitize(band_score).in? IeltsQualification::VALID_SCORES
           errors.add(:band_score, :invalid)
+        end
+      end
+
+      def sanitize(band_score)
+        if band_score.nil?
+          nil
+        elsif band_score.length == 1
+          "#{band_score}.0"
+        else
+          band_score
         end
       end
 
