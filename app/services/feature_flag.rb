@@ -29,7 +29,7 @@ class FeatureFlag
     [:export_hesa_data, 'Providers can export applications including HESA data.', 'Steve Laing'],
     [:feedback_form, 'New simplified feedback form to replace old multi-page satisfaction survey.', 'Steve Hook'],
     [:feedback_prompts, 'Candidates can give feedback while completing their application form', 'David Gisbey'],
-    [:science_gcse_awards, 'New UI layout for science GCSE', 'Toby Retallick'],
+    [:multiple_science_gcses, 'Candidates can enter structured data for multiple science GCSEs', 'Toby Retallick'],
     [:multiple_english_gcses, 'Candidates can enter structured data for multiple English GCSEs.', 'Raam Chauhan'],
   ].freeze
 

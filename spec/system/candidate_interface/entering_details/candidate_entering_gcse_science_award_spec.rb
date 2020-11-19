@@ -4,8 +4,8 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   include CandidateHelper
 
   scenario 'Candidate submits their Science GCSE award' do
-    # Activating the :science_gcse_awards FeatureFlag enables the new awards UI
-    FeatureFlag.activate(:science_gcse_awards)
+    # Activating the :multiple_science_gcses FeatureFlag enables the new awards UI
+    FeatureFlag.activate(:multiple_science_gcses)
 
     given_i_am_signed_in
     and_i_wish_to_apply_to_a_course_that_requires_gcse_science
@@ -16,7 +16,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
 
     when_i_select_gcse_option
     and_i_click_save_and_continue
-    then_i_see_the_science_gcse_awards_grade_page
+    then_i_see_the_multiple_science_gcses_grade_page
 
     # enter single award
     then_i_select_single_award
@@ -62,7 +62,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
     visit candidate_interface_application_form_path
   end
 
-  def then_i_see_the_science_gcse_awards_grade_page
+  def then_i_see_the_multiple_science_gcses_grade_page
     expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'science')
     expect(page).to have_content 'Select the GCSEs you did and include your grade'
   end

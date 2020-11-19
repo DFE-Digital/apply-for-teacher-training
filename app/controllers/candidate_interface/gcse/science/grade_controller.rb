@@ -26,7 +26,7 @@ module CandidateInterface
   private
 
     def view_path
-      if gcse_qualification? && FeatureFlag.active?(:science_gcse_awards)
+      if gcse_qualification? && FeatureFlag.active?(:multiple_science_gcses)
         'candidate_interface/gcse/science/grade/awards_edit'
       else
         'candidate_interface/gcse/science/grade/edit'

@@ -82,10 +82,10 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
     end
   end
 
-  context 'with the science_gcse_awards flag on' do
+  context 'with the multiple_science_gcses flag on' do
     context 'when the candidate has entered a triple science GCSE award' do
       it 'displays each science subject and associated grade' do
-        FeatureFlag.activate(:science_gcse_awards)
+        FeatureFlag.activate(:multiple_science_gcses)
 
         application_form = build :application_form
         @qualification = application_qualification = build(

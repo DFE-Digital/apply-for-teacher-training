@@ -4,8 +4,8 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   include CandidateHelper
 
   scenario 'Candidate submits their Science GCSE award' do
-    # Activating the :science_gcse_awards feature flag enables the new awards UI
-    FeatureFlag.deactivate(:science_gcse_awards)
+    # Activating the :multiple_science_gcses feature flag enables the new awards UI
+    FeatureFlag.deactivate(:multiple_science_gcses)
 
     given_i_am_signed_in
     and_i_wish_to_apply_to_a_course_that_requires_gcse_science
