@@ -8,12 +8,12 @@ module CandidateInterface
       @application_form = application_form
     end
 
-    def enough_references_have_been_added?
-      viable_references.count >= ApplicationForm::MINIMUM_COMPLETE_REFERENCES
-    end
-
     def no_viable_references?
       viable_references.count.zero?
+    end
+
+    def one_viable_reference?
+      viable_references.one?
     end
 
   private
