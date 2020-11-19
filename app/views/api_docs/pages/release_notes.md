@@ -1,3 +1,9 @@
+### 19th November 2020
+
+- The `Qualification` object now supports multiple types of English GCSEs (eg. English Language, English Studies Double 
+Award). Candidates may have multiple English GCSEs. Each GCSE is provided as a separate `Qualification`. The title of 
+the GCSE is given in the `subject` field. 
+
 ### 16th November 2020
 - The `Qualification` `grade` field will now be populated with GCSE Science triple award information
   in the following format, where present:
