@@ -13,7 +13,7 @@ RSpec.describe UCASMatch do
       expect(ucas_match.action_needed?).to eq(false)
     end
 
-    it 'returns false if initial emails were sent and we don not need to send the reminders yet' do
+    it 'returns false if initial emails were sent and we do not need to send the reminders yet' do
       initial_emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: initial_emails_sent_at)
       allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
@@ -137,6 +137,25 @@ RSpec.describe UCASMatch do
       ucas_match = create(:ucas_match, matching_state: 'new_match', candidate: candidate, matching_data: [ucas_matching_data, apply_matching_data])
 
       expect(ucas_match.dual_application_or_dual_acceptance?).to eq(false)
+    end
+  end
+
+  describe '#application_accepted_on_ucas_and_accepted_on_apply?' do
+    it 'returns true if application is accepted on both UCAS and Apply' do
+      application_choice = create(:application_choice, :with_accepted_offer)
+      create(:completed_application_form, candidate_id: candidate.id, application_choices: [application_choice])
+      course1 = application_choice.course_option.course
+      ucas_matching_data = { 'Scheme' => 'U',
+                             'Offers' => '1',
+                             'Conditional firm' => '1',
+                             'Provider code' => course.provider.code.to_s }
+      apply_matching_data = { 'Scheme' => 'D',
+                              'Course code' => course1.code.to_s,
+                              'Provider code' => course1.provider.code.to_s,
+                              'Apply candidate ID' => candidate.id.to_s }
+      ucas_match = create(:ucas_match, matching_state: 'new_match', candidate: candidate, matching_data: [ucas_matching_data, apply_matching_data])
+
+      expect(ucas_match.application_accepted_on_ucas_and_accepted_on_apply?).to eq(true)
     end
   end
 

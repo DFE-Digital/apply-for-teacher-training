@@ -38,6 +38,11 @@ class UCASMatch < ApplicationRecord
       application_accepted_on_ucas_and_accepted_on_apply?
   end
 
+  def application_accepted_on_ucas_and_accepted_on_apply?
+    ucas_matched_applications.map(&:application_accepted_on_ucas?).any? &&
+      ucas_matched_applications.map(&:application_accepted_on_apply?).any?
+  end
+
   def invalid_matching_data?
     !ucas_matched_applications.all?(&:valid_matching_data?)
   end
@@ -93,10 +98,5 @@ private
 
     application_for_the_same_course_on_both_services.map(&:application_in_progress_on_ucas?).any? &&
       application_for_the_same_course_on_both_services.map(&:application_in_progress_on_apply?).any?
-  end
-
-  def application_accepted_on_ucas_and_accepted_on_apply?
-    ucas_matched_applications.map(&:application_accepted_on_ucas?).any? &&
-      ucas_matched_applications.map(&:application_accepted_on_apply?).any?
   end
 end
