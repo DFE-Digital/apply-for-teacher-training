@@ -1,22 +1,20 @@
-<% content_for :title, t('page_titles.view_and_respond_to_offer') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.decisions.offer'), @respond_to_offer.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_complete_path, 'Back to application dashboard') %>
 
-<%= form_with model: @respond_to_offer, url: candidate_interface_respond_to_offer_path(@application_choice) do |f| %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @respond_to_offer,
+      url: candidate_interface_respond_to_offer_path(@application_choice)
+    ) do |f| %>
       <%= render CandidateInterface::UCASDowntimeComponent.new  %>
-    </div>
-  </div>
 
-  <%= f.govuk_error_summary %>
+      <%= f.govuk_error_summary %>
 
-  <h1 class="govuk-heading-xl govuk-heading-xl">
-    <span class="govuk-caption-xl"><%= @application_choice.offered_course.provider.name %> - <%= @application_choice.offered_course.name %> (<%= @application_choice.offered_course.code %>)</span>
-    <%= t('page_titles.view_and_respond_to_offer') %>
-  </h1>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.decisions.offer') %>
+      </h1>
 
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
       <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
 
       <p class="govuk-body">Remember:</p>
@@ -27,12 +25,12 @@
         <li>you can register with <%= govuk_link_to 'Get Into Teaching', 'https://getintoteaching.education.gov.uk' %> to get help from a teacher training advisor</li>
       </ul>
 
-      <%= f.govuk_radio_buttons_fieldset :response, legend: { size: 'm', text: 'How do you want to respond to this offer?', tag: 'span' } do %>
-        <%= f.govuk_radio_button :response, 'accept', label: { text: 'Accept offer and conditions' }, link_errors: true %>
-        <%= f.govuk_radio_button :response, 'decline', label: { text: 'Decline offer' } %>
+      <%= f.govuk_radio_buttons_fieldset :response, legend: { text: t('decisions.response.legend'), size: 'm' } do %>
+        <%= f.govuk_radio_button :response, 'accept', label: { text: t('decisions.response.accept.label') }, link_errors: true %>
+        <%= f.govuk_radio_button :response, 'decline', label: { text: t('decisions.response.decline.label') } %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>
-    </div>
+    <% end %>
   </div>
-<% end %>
+</div>

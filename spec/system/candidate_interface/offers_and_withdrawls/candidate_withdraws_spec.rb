@@ -75,11 +75,11 @@ RSpec.feature 'A candidate withdraws her application' do
   end
 
   def when_i_click_to_confirm_withdrawal
-    click_button 'Yes I’m sure - withdraw this course choice'
+    click_button 'Yes I’m sure – withdraw this course choice'
   end
 
   def then_i_see_the_withdraw_choice_feedback_page
-    expect(page).to have_current_path candidate_interface_withdraw_feedback_path(@application_choice.id)
+    expect(page).to have_current_path candidate_interface_withdrawal_feedback_path(@application_choice.id)
   end
 
   def and_my_application_should_be_withdrawn

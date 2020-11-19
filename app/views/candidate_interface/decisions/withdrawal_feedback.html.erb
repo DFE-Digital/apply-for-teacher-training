@@ -1,0 +1,36 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.decisions.withdrawal_feedback'),  @withdrawal_feedback_form.errors.any?) %>
+
+<div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
+  <h1 class="govuk-panel__title">
+    <%= t('page_titles.decisions.withdrawal_feedback') %>
+  </h1>
+
+  <div class="govuk-panel__body">
+    We will let <%= @provider.name %> know that you have withdrawn your application for <%= @course.name_and_code %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @withdrawal_feedback_form,
+      url: candidate_interface_confirm_withdrawal_feedback_path
+    ) do |f| %>
+      <%= f.govuk_radio_buttons_fieldset :withdrawal_reason, legend: { text: CandidateInterface::WithdrawalQuestionnaire::EXPLANATION_QUESTION } do %>
+        <%= f.govuk_radio_button :feedback, 'yes', label: { text: t('decisions.withdrawal_feedback.feedback.yes.label') } do %>
+          <%= f.govuk_text_area :explanation, label: { text: t('decisions.withdrawal_feedback.explanation.label') }, hint: { text: t('decisions.withdrawal_feedback.explanation.hint') } %>
+        <% end %>
+        <%= f.govuk_radio_button :feedback, 'no', label: { text: t('decisions.withdrawal_feedback.feedback.no.label') } %>
+      <% end %>
+
+      <%= f.govuk_radio_buttons_fieldset :can_be_contacted, legend: { text: CandidateInterface::WithdrawalQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION }, hint: { text: t('decisions.withdrawal_feedback.can_be_contacted.hint') } do %>
+        <%= f.govuk_radio_button :consent_to_be_contacted, 'yes', label: { text: t('decisions.withdrawal_feedback.consent_to_be_contacted.yes.label') } do %>
+          <%= f.govuk_text_area :contact_details, label: { text: t('decisions.withdrawal_feedback.contact_details.label') } %>
+        <% end %>
+        <%= f.govuk_radio_button :consent_to_be_contacted, 'no', label: { text: t('decisions.withdrawal_feedback.consent_to_be_contacted.no.label') } %>
+      <% end %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

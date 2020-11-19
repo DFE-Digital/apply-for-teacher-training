@@ -1,0 +1,24 @@
+<% content_for :title, t('page_titles.decisions.decline_offer') %>
+<% content_for :before_content, govuk_back_link_to %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render CandidateInterface::UCASDowntimeComponent.new  %>
+
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.decisions.decline_offer') %>
+    </h1>
+
+    <%= render(CandidateInterface::OfferReviewComponent.new(course_choice: @application_choice)) %>
+
+    <% if single_application_choice? %>
+      <p class="govuk-body">If you decline this offer you can still apply for more courses this year.</p>
+    <% else %>
+      <p class="govuk-body">If you decline this offer (and all other other offers on current applications) you can still apply for more courses this year.</p>
+    <% end %>
+
+    <%= form_with model: @respond_to_offer, url: candidate_interface_decline_offer_path(@application_choice) do |f| %>
+      <%= f.govuk_submit t('decisions.decline_offer.confirm'), warning: true %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+en:
+  decisions:
+    response:
+      legend: How do you want to respond to this offer?
+      accept:
+        label: Accept offer and conditions
+      decline:
+        label: Decline offer
+    accept_offer:
+      confirm: Accept offer
+    decline_offer:
+      confirm: Yes I’m sure – decline this offer
+    withdraw:
+      confirm: Yes I’m sure – withdraw this course choice
+    withdrawal_feedback:
+      feedback:
+        'yes':
+          label: Yes, I’d like to share my reason with the Department for Education
+        'no':
+          label: I’d prefer not to say
+      explanation:
+        label: Please explain your reason for withdrawing from this course.
+        hint: Your provider will not see this feedback.
+      can_be_contacted:
+        hint: We’d ideally like to speak on the phone for half an hour.
+      consent_to_be_contacted:
+        'yes':
+          label: Yes, you can contact me
+        'no':
+          label: I’d prefer not to say
+      contact_details:
+        label: Please let us know when you’re available and give a phone number.
+      success:
+        flash: Thank you for your feedback.
+

@@ -1,8 +1,8 @@
 module CandidateInterface
   class DecisionsController < CandidateInterfaceController
     before_action :set_application_choice
-    before_action :check_that_candidate_can_decline, only: %i[decline confirm_decline]
-    before_action :check_that_candidate_can_accept, only: %i[accept confirm_accept]
+    before_action :check_that_candidate_can_decline, only: %i[decline_offer confirm_decline]
+    before_action :check_that_candidate_can_accept, only: %i[accept_offer confirm_accept]
     before_action :check_that_candidate_can_withdraw, only: %i[withdraw confirm_withdraw]
     before_action :check_that_candidate_has_an_offer, only: %i[offer respond_to_offer]
 
@@ -24,7 +24,7 @@ module CandidateInterface
       end
     end
 
-    def decline; end
+    def decline_offer; end
 
     def confirm_decline
       decline = DeclineOffer.new(application_choice: @application_choice.reload)
@@ -32,7 +32,7 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path
     end
 
-    def accept; end
+    def accept_offer; end
 
     def confirm_accept
       accept = AcceptOffer.new(application_choice: @application_choice.reload)
@@ -46,20 +46,20 @@ module CandidateInterface
       withdrawal = WithdrawApplication.new(application_choice: @application_choice)
       withdrawal.save!
 
-      redirect_to candidate_interface_withdraw_feedback_path
+      redirect_to candidate_interface_withdrawal_feedback_path
     end
 
-    def feedback
+    def withdrawal_feedback
       @withdrawal_feedback_form = WithdrawalFeedbackForm.new
       @provider = @application_choice.provider
       @course = @application_choice.course
     end
 
-    def confirm_feedback
+    def confirm_withdrawal_feedback
       @withdrawal_feedback_form = WithdrawalFeedbackForm.new(withdrawl_feedback_params)
 
       if @withdrawal_feedback_form.save(@application_choice)
-        flash[:success] = 'Thank you for your feedback.'
+        flash[:success] = I18n.t('decisions.withdrawal_feedback.success.flash')
 
         redirect_to candidate_interface_application_complete_path
       else
