@@ -1,6 +1,6 @@
 <% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Notes" %>
 
-<%= render 'provider_interface/application_choices/application_choice_header' %>
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>
 
 <%= govuk_button_link_to 'Add note', new_provider_interface_note_path(@application_choice) %>
 

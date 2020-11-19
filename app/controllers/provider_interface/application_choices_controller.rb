@@ -1,7 +1,7 @@
 module ProviderInterface
   class ApplicationChoicesController < ProviderInterfaceController
     before_action :set_application_choice, except: %i[index]
-    before_action :set_sub_navigation_items, except: %i[index]
+    before_action :set_workflow_flags, except: %i[index]
 
     def index
       @filter = ProviderApplicationsFilter.new(
@@ -34,18 +34,6 @@ module ProviderInterface
     end
 
     def show
-      if @application_choice.status == 'offer_deferred'
-        @deferred_offer_wizard_applicable =
-          @application_choice.recruitment_cycle == RecruitmentCycle.previous_year
-        @deferred_offer_equivalent_course_option_available =
-          @application_choice.offered_option.in_next_cycle &&
-          @application_choice.offered_option.in_next_cycle.course.open_on_apply
-      elsif @application_choice.status == 'rejected'
-        @rejection_reason_required =
-          @application_choice.rejected_by_default &&
-          @application_choice.rejection_reason.blank?
-      end
-
       @show_language_details = @application_choice
         .application_form
         .english_main_language(fetch_database_value: true)
@@ -77,38 +65,9 @@ module ProviderInterface
       current_provider_user.providers
     end
 
-    def set_sub_navigation_items
+    def set_workflow_flags
       @provider_can_respond = get_provider_can_respond
       @offer_present = ApplicationStateChange::OFFERED_STATES.include?(@application_choice.status.to_sym)
-      @sub_navigation_items = get_sub_navigation_items
-    end
-
-    def get_sub_navigation_items
-      sub_navigation_items = [
-        { name: 'Application', url: provider_interface_application_choice_path(@application_choice) },
-      ]
-
-      if @offer_present
-        sub_navigation_items.push(
-          { name: 'Offer', url: provider_interface_application_choice_offer_path(@application_choice) },
-        )
-      end
-
-      sub_navigation_items.push(
-        { name: 'Notes', url: provider_interface_notes_path(@application_choice) },
-      )
-
-      sub_navigation_items.push(
-        { name: 'Timeline', url: provider_interface_application_choice_timeline_path(@application_choice) },
-      )
-
-      if HostingEnvironment.sandbox_mode?
-        sub_navigation_items.push(
-          { name: 'Emails (Sandbox only)', url: provider_interface_application_choice_emails_path(@application_choice) },
-        )
-      end
-
-      sub_navigation_items
     end
 
     def get_all_change_options(application_choice)

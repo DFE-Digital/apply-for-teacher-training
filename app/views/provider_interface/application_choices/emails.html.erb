@@ -16,7 +16,7 @@
   ]) %>
 <% end %>
 
-<%= render 'application_choice_header' %>
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>
 
 <table class="govuk-table">
   <thead class="govuk-table__head">

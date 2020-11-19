@@ -3,6 +3,11 @@ module ProviderInterface
     before_action :set_application_choice
 
     def index
+      @provider_can_respond = current_provider_user.authorisation.can_make_decisions?(
+        application_choice: @application_choice,
+        course_option_id: @application_choice.offered_option.id,
+      )
+
       @notes = @application_choice.notes.order('created_at DESC')
     end
 

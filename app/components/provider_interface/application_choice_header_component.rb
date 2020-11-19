@@ -47,6 +47,12 @@ module ProviderInterface
       sub_navigation_items
     end
 
+    def rejection_reason_required
+      application_choice.status == 'rejected' &&
+        application_choice.rejected_by_default &&
+        application_choice.rejection_reason.blank?
+    end
+
     def offer_present?
       ApplicationStateChange::OFFERED_STATES.include?(application_choice.status.to_sym)
     end

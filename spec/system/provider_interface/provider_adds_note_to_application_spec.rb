@@ -22,6 +22,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
     then_i_am_still_on_the_notes_tab
     and_the_notes_tab_includes_the_new_note
+    and_i_can_navigate_to_the_new_note
     and_the_new_note_also_appears_on_the_timeline
   end
 
@@ -55,6 +56,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     fill_in 'Subject', with: @note_subject
     fill_in 'Note', with: @note_text
     click_on 'Save note'
+    @note = Note.find_by_subject(@note_subject)
   end
 
   def then_i_am_still_on_the_notes_tab
@@ -62,8 +64,17 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   def and_the_notes_tab_includes_the_new_note
+    expect(page).to have_link(@note_subject, href: provider_interface_note_path(@application_choice, @note))
+    expect(page).to have_content(@note_text)
+  end
+
+  def and_i_can_navigate_to_the_new_note
+    click_on @note_subject
+
     expect(page).to have_content(@note_subject)
     expect(page).to have_content(@note_text)
+
+    click_on 'Back'
   end
 
   def and_the_new_note_also_appears_on_the_timeline

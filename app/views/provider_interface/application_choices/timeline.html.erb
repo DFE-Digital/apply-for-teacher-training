@@ -1,5 +1,5 @@
 <% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Timeline" %>
 
-<%= render 'application_choice_header' %>
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>
 
 <%= render ProviderInterface::ApplicationTimelineComponent.new(application_choice: @application_choice) %>
