@@ -9,7 +9,8 @@
 
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">Add note</h1>
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <h1 class="govuk-heading-l">Add note</h1>
 
       <%= f.govuk_text_area :subject, label: { text: 'Subject', size: 'm' }, rows: 1, max_chars: 40, hint: { text: 'This appears on your application list by the relevant candidate' } %>
 
