@@ -5,13 +5,7 @@
   <%= t('page_titles.references') %>
 </h1>
 
-<% unless @application_form.enough_references_have_been_provided? %>
-  <div class="govuk-inset-text govuk-!-margin-top-0">
-    <p class="govuk-body">You need 2 references before you can submit your application.</p>
-    <p class="govuk-body">You can add as many referees as you like to increase the chances of getting 2 references quickly.</p>
-    <%= link_to 'Add another referee', candidate_interface_references_start_path, class: 'govuk-button' %>
-  </div>
-<% end %>
+<%= render CandidateInterface::AddReferenceComponent.new(@application_form) %>
 
 <% if @references_given.present? %>
   <div id="references_given">
