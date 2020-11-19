@@ -1,5 +1,7 @@
 module ProviderInterface
   class HesaDataExport
+    NO_INFORMATION_GIVEN_STRING = 'no information shared'.freeze
+
     def initialize(actor:)
       @actor = actor
     end
@@ -70,14 +72,14 @@ module ProviderInterface
     end
 
     def diversity_information(application)
-      return { 'sex' => 'no data', 'disabilities' => 'no data', 'ethnicity' => 'no data' } if application.application_form.equality_and_diversity.blank?
+      return { 'sex' => NO_INFORMATION_GIVEN_STRING, 'disabilities' => NO_INFORMATION_GIVEN_STRING, 'ethnicity' => NO_INFORMATION_GIVEN_STRING } if application.application_form.equality_and_diversity.blank?
 
       return { 'sex' => 'confidential', 'disabilities' => 'confidential', 'ethnicity' => 'confidential' } unless @actor.authorisation.can_view_diversity_information?(course: application.course)
 
       {
-        'sex' => application.application_form.equality_and_diversity['hesa_sex'] || 'not specified',
-        'disabilities' => Array(application.application_form.equality_and_diversity.fetch('hesa_disabilities', 'not specified')).join(' '),
-        'ethnicity' => application.application_form.equality_and_diversity['hesa_ethnicity'] || 'not specified',
+        'sex' => application.application_form.equality_and_diversity['hesa_sex'] || NO_INFORMATION_GIVEN_STRING,
+        'disabilities' => Array(application.application_form.equality_and_diversity.fetch('hesa_disabilities', NO_INFORMATION_GIVEN_STRING)).join(' '),
+        'ethnicity' => application.application_form.equality_and_diversity['hesa_ethnicity'] || NO_INFORMATION_GIVEN_STRING,
       }
     end
 
