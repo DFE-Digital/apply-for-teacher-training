@@ -14,7 +14,7 @@ module CandidateInterface
         next_step = @wizard.next_step
 
         if next_step.first == :details
-          redirect_to candidate_interface_new_other_qualification_details_path
+          redirect_to candidate_interface_other_qualification_details_path
         else
           track_validation_error(@wizard)
           render :new

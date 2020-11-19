@@ -4,7 +4,7 @@ module CandidateInterface
       before_action :redirect_to_dashboard_if_submitted
 
       def new
-        @languages_form = LanguagesForm.build_from_application(current_application)
+        @languages_form = LanguagesForm.new
       end
 
       def create

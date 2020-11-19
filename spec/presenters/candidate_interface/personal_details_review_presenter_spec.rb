@@ -71,8 +71,8 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(personal_details_form: personal_details_form)).to include(
-        row_for(:name, 'Max Caulfield', candidate_interface_personal_details_edit_path),
-        row_for(:date_of_birth, '21 September 1995', candidate_interface_personal_details_edit_path),
+        row_for(:name, 'Max Caulfield', candidate_interface_edit_personal_details_path),
+        row_for(:date_of_birth, '21 September 1995', candidate_interface_edit_personal_details_path),
       )
     end
   end

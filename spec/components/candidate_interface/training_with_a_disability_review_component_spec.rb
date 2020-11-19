@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.training_with_a_disability.disclose_disability.label'))
       expect(result.css('.govuk-summary-list__value').text).to include('Yes')
-      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_training_with_a_disability_edit_path)
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_edit_training_with_a_disability_path)
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.training_with_a_disability.disclose_disability.change_action')}")
     end
 
@@ -24,7 +24,7 @@ RSpec.describe CandidateInterface::TrainingWithADisabilityReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.training_with_a_disability.disability_disclosure.review_label'))
       expect(result.css('.govuk-summary-list__value').to_html).to include('I have difficulty climbing stairs')
-      expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_training_with_a_disability_edit_path)
+      expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_edit_training_with_a_disability_path)
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.training_with_a_disability.disability_disclosure.change_action')}")
     end
   end

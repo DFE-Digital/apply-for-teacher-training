@@ -26,7 +26,7 @@ module CandidateInterface
 
       if @work_experience_form.save(current_application)
         if @work_experience_form.add_another_job == 'true'
-          redirect_to candidate_interface_work_history_new_path
+          redirect_to candidate_interface_new_work_history_path
         else
           redirect_to candidate_interface_work_history_show_path
         end

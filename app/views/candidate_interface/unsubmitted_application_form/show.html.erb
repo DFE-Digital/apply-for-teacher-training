@@ -80,7 +80,7 @@
           TaskListItemComponent.new(
             text: t('page_titles.personal_details'),
             completed: @application_form_presenter.personal_details_completed?,
-            path: all_sections_completed ? candidate_interface_personal_details_show_path : candidate_interface_personal_details_new_path
+            path: all_sections_completed ? candidate_interface_personal_details_show_path : candidate_interface_personal_details_path
           )
         ) %>
       </li>
@@ -116,7 +116,7 @@
           TaskListItemComponent.new(
             text: t('page_titles.training_with_a_disability'),
             completed: @application_form_presenter.training_with_a_disability_completed?,
-            path: @application_form_presenter.training_with_a_disability_valid? ? candidate_interface_training_with_a_disability_show_path : candidate_interface_training_with_a_disability_edit_path
+            path: @application_form_presenter.training_with_a_disability_valid? ? candidate_interface_training_with_a_disability_show_path : candidate_interface_edit_training_with_a_disability_path
           )
         ) %>
       </li>
@@ -206,7 +206,7 @@
           TaskListItemComponent.new(
             text: t('page_titles.becoming_a_teacher'),
             completed: @application_form_presenter.becoming_a_teacher_completed?,
-            path: @application_form_presenter.becoming_a_teacher_valid? ? candidate_interface_becoming_a_teacher_show_path : candidate_interface_becoming_a_teacher_edit_path
+            path: @application_form_presenter.becoming_a_teacher_valid? ? candidate_interface_becoming_a_teacher_show_path : candidate_interface_edit_becoming_a_teacher_path
           )
         ) %>
       </li>
@@ -215,7 +215,7 @@
           TaskListItemComponent.new(
             text: t('page_titles.subject_knowledge'),
             completed: @application_form_presenter.subject_knowledge_completed?,
-            path: @application_form_presenter.subject_knowledge_valid? ? candidate_interface_subject_knowledge_show_path : candidate_interface_subject_knowledge_edit_path
+            path: @application_form_presenter.subject_knowledge_valid? ? candidate_interface_subject_knowledge_show_path : candidate_interface_edit_subject_knowledge_path
           )
         ) %>
       </li>
@@ -224,7 +224,7 @@
           TaskListItemComponent.new(
             text: t('page_titles.interview_preferences'),
             completed: @application_form_presenter.interview_preferences_completed?,
-            path: @application_form_presenter.interview_preferences_valid? ? candidate_interface_interview_preferences_show_path : candidate_interface_interview_preferences_edit_path
+            path: @application_form_presenter.interview_preferences_valid? ? candidate_interface_interview_preferences_show_path : candidate_interface_edit_interview_preferences_path
           )
         ) %>
       </li>

@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @disabilities, url: candidate_interface_update_equality_and_diversity_disabilities_path, method: :post do |f| %>
+    <%= form_with model: @disabilities, url: candidate_interface_edit_equality_and_diversity_disabilities_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_check_boxes_fieldset :disabilities, multiple: false, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.disabilities.title'), size: 'xl' } do %>

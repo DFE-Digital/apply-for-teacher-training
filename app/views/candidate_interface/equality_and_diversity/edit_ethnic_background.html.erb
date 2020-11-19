@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @ethnic_background, url: candidate_interface_update_equality_and_diversity_ethnic_background_path, method: :post do |f| %>
+    <%= form_with model: @ethnic_background, url: candidate_interface_edit_equality_and_diversity_ethnic_background_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :ethnic_background, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: ethnic_background_title(@ethnic_group), size: 'xl' } do %>

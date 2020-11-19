@@ -13,7 +13,7 @@ module CandidateInterface
         if @work_details_form.work_history == 'missing'
           redirect_to candidate_interface_work_history_explanation_path
         else
-          redirect_to candidate_interface_work_history_new_path
+          redirect_to candidate_interface_new_work_history_path
         end
       else
         track_validation_error(@work_details_form)

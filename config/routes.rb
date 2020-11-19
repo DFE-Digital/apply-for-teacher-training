@@ -72,89 +72,90 @@ Rails.application.routes.draw do
       post '/carry-over' => 'carry_over#create', as: :carry_over
 
       scope '/personal-details' do
-        get '/' => 'personal_details/base#new', as: :personal_details_new
-        post '/' => 'personal_details/base#create', as: :personal_details_create
-        get '/edit' => 'personal_details/base#edit', as: :personal_details_edit
-        post '/edit' => 'personal_details/base#update', as: :personal_details_update
+        get '/' => 'personal_details/base#new', as: :personal_details
+        patch '/' => 'personal_details/base#create'
+        get '/edit' => 'personal_details/base#edit', as: :edit_personal_details
+        patch '/edit' => 'personal_details/base#update'
         get '/nationalities' => 'personal_details/nationalities#new', as: :nationalities
-        post '/nationalities' => 'personal_details/nationalities#create'
+        patch '/nationalities' => 'personal_details/nationalities#create'
         get '/nationalities/edit' => 'personal_details/nationalities#edit', as: :edit_nationalities
-        post '/nationalities/edit' => 'personal_details/nationalities#update'
-        get '/languages' => 'personal_details/languages#edit', as: :languages
-        post '/languages' => 'personal_details/languages#update'
+        patch '/nationalities/edit' => 'personal_details/nationalities#update'
+        get '/languages' => 'personal_details/languages#new', as: :languages
+        patch '/languages' => 'personal_details/languages#create'
         get '/languages/edit' => 'personal_details/languages#edit', as: :edit_languages
-        post '/languages/edit' => 'personal_details/languages#update'
+        patch '/languages/edit' => 'personal_details/languages#update'
         get '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#new', as: :right_to_work_or_study
-        post '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#create'
+        patch '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#create'
         get '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#edit', as: :edit_right_to_work_or_study
-        post '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#update'
+        patch '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#update'
         get '/review' => 'personal_details/review#show', as: :personal_details_show
-        post '/review' => 'personal_details/review#complete', as: :personal_details_complete
+        patch '/review' => 'personal_details/review#complete', as: :personal_details_complete
       end
 
       scope '/personal-statement' do
-        get '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#edit', as: :becoming_a_teacher_edit
-        post '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#update', as: :becoming_a_teacher_update
+        get '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#edit', as: :edit_becoming_a_teacher
+        patch '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#update'
         get '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#show', as: :becoming_a_teacher_show
-        post '/becoming-a-teacher/complete' => 'personal_statement/becoming_a_teacher#complete', as: :becoming_a_teacher_complete
+        patch '/becoming-a-teacher/complete' => 'personal_statement/becoming_a_teacher#complete', as: :becoming_a_teacher_complete
 
-        get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :subject_knowledge_edit
-        post '/subject-knowledge/review' => 'personal_statement/subject_knowledge#update', as: :subject_knowledge_update
+        get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :edit_subject_knowledge
+        patch '/subject-knowledge' => 'personal_statement/subject_knowledge#update'
         get '/subject-knowledge/review' => 'personal_statement/subject_knowledge#show', as: :subject_knowledge_show
-        post '/subject-knowledge/complete' => 'personal_statement/subject_knowledge#complete', as: :subject_knowledge_complete
+        patch '/subject-knowledge/complete' => 'personal_statement/subject_knowledge#complete', as: :subject_knowledge_complete
 
-        get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :interview_preferences_edit
-        post '/interview-preferences/review' => 'personal_statement/interview_preferences#update', as: :interview_preferences_update
+        get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :edit_interview_preferences
+        patch '/interview-preferences' => 'personal_statement/interview_preferences#update'
         get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
-        post '/interview-preferences/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
+        patch '/interview-preferences/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
       end
 
       scope '/training-with-a-disability' do
-        get '/' => 'training_with_a_disability#edit', as: :training_with_a_disability_edit
-        post '/review' => 'training_with_a_disability#update', as: :training_with_a_disability_update
+        get '/' => 'training_with_a_disability#edit', as: :edit_training_with_a_disability
+        patch '/' => 'training_with_a_disability#update'
         get '/review' => 'training_with_a_disability#show', as: :training_with_a_disability_show
-        post '/complete' => 'training_with_a_disability#complete', as: :training_with_a_disability_complete
+        patch '/complete' => 'training_with_a_disability#complete', as: :training_with_a_disability_complete
       end
 
       scope '/contact-details' do
         get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
-        post '/' => 'contact_details/base#update', as: :contact_details_update_base
+        patch '/' => 'contact_details/base#update'
 
         get '/address_type' => 'contact_details/address_type#edit', as: :contact_details_edit_address_type
-        post '/address_type' => 'contact_details/address_type#update', as: :contact_details_update_address_type
+        patch '/address_type' => 'contact_details/address_type#update'
 
         get '/address' => 'contact_details/address#edit', as: :contact_details_edit_address
-        post '/address' => 'contact_details/address#update', as: :contact_details_update_address
+        patch '/address' => 'contact_details/address#update'
 
         get '/review' => 'contact_details/review#show', as: :contact_details_review
-        post '/complete' => 'contact_details/review#complete', as: :contact_details_complete
+        patch '/complete' => 'contact_details/review#complete', as: :contact_details_complete
       end
 
       scope '/gcse' do
-        get '/maths/grade' => 'gcse/maths/grade#edit', as: :gcse_maths_edit_grade
-        get '/science/grade' => 'gcse/science/grade#edit', as: :gcse_science_edit_grade
-        get '/english/grade' => 'gcse/english/grade#edit', as: :gcse_english_edit_grade
-
+        get '/maths/grade' => 'gcse/maths/grade#edit', as: :edit_gcse_maths_grade
         patch '/maths/grade' => 'gcse/maths/grade#update'
+
+        get '/science/grade' => 'gcse/science/grade#edit', as: :edit_gcse_science_grade
         patch '/english/grade' => 'gcse/english/grade#update'
+
+        get '/english/grade' => 'gcse/english/grade#edit', as: :edit_gcse_english_grade
         patch '/science/grade' => 'gcse/science/grade#update'
       end
 
       scope '/gcse/:subject', constraints: { subject: /(maths|english|science)/ } do
         get '/' => 'gcse/type#edit', as: :gcse_details_edit_type
-        post '/' => 'gcse/type#update', as: :gcse_details_update_type
+        post '/' => 'gcse/type#update'
 
         get '/country' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
-        post '/country' => 'gcse/institution_country#update', as: :gcse_details_update_institution_country
+        patch '/country' => 'gcse/institution_country#update'
 
         get '/naric-reference' => 'gcse/naric_reference#edit', as: :gcse_details_edit_naric_reference
-        post '/naric-reference' => 'gcse/naric_reference#update', as: :gcse_details_update_naric_reference
+        patch '/naric-reference' => 'gcse/naric_reference#update'
 
         get '/year' => 'gcse/year#edit', as: :gcse_details_edit_year
-        patch '/year' => 'gcse/year#update', as: :gcse_details_update_year
+        patch '/year' => 'gcse/year#update'
 
         get '/review' => 'gcse/review#show', as: :gcse_review
-        post '/complete' => 'gcse/review#complete', as: :gcse_complete
+        patch '/complete' => 'gcse/review#complete', as: :gcse_complete
       end
 
       scope '/work-history' do
@@ -170,12 +171,12 @@ Rails.application.routes.draw do
         get '/explain-break/new' => 'work_history/break#new', as: :new_work_history_break
         post '/explain-break/new' => 'work_history/break#create'
         get '/explain-break/edit/:id' => 'work_history/break#edit', as: :edit_work_history_break
-        post '/explain-break/edit/:id' => 'work_history/break#update'
+        patch '/explain-break/edit/:id' => 'work_history/break#update'
         get '/explain-break/delete/:id' => 'work_history/break#confirm_destroy', as: :destroy_work_history_break
-        post '/explain-break/delete/:id' => 'work_history/break#destroy'
+        delete '/explain-break/delete/:id' => 'work_history/break#destroy'
 
-        get '/new' => 'work_history/edit#new', as: :work_history_new
-        post '/create' => 'work_history/edit#create', as: :work_history_create
+        get '/new' => 'work_history/edit#new', as: :new_work_history
+        post '/new' => 'work_history/edit#create'
 
         get '/edit/:id' => 'work_history/edit#edit', as: :work_history_edit
         post '/edit/:id' => 'work_history/edit#update'
@@ -192,10 +193,10 @@ Rails.application.routes.draw do
         post '/' => 'volunteering/experience#submit'
 
         get '/new' => 'volunteering/base#new', as: :new_volunteering_role
-        post '/new' => 'volunteering/base#create', as: :create_volunteering_role
+        post '/new' => 'volunteering/base#create'
 
         get '/edit/:id' => 'volunteering/base#edit', as: :edit_volunteering_role
-        post '/edit/:id' => 'volunteering/base#update'
+        patch '/edit/:id' => 'volunteering/base#update'
 
         get '/review' => 'volunteering/review#show', as: :review_volunteering
         patch '/review' => 'volunteering/review#complete', as: :complete_volunteering
@@ -298,17 +299,17 @@ Rails.application.routes.draw do
       end
 
       scope '/other-qualifications' do
-        get '/' => 'other_qualifications/type#new', as: :new_other_qualification_type
-        post '/' => 'other_qualifications/type#create', as: :create_other_qualification_type
+        get '/' => 'other_qualifications/type#new', as: :other_qualification_type
+        post '/' => 'other_qualifications/type#create'
 
         get '/edit-type/:id' => 'other_qualifications/type#edit', as: :edit_other_qualification_type
-        post '/edit-type/:id' => 'other_qualifications/type#update'
+        patch '/edit-type/:id' => 'other_qualifications/type#update'
 
-        get '/new' => 'other_qualifications/details#new', as: :new_other_qualification_details
-        post '/new' => 'other_qualifications/details#create', as: :create_other_qualification_details
+        get '/new' => 'other_qualifications/details#new', as: :other_qualification_details
+        patch '/new' => 'other_qualifications/details#create'
 
         get '/edit-details/:id' => 'other_qualifications/details#edit', as: :edit_other_qualification_details
-        post '/edit-details/:id' => 'other_qualifications/details#update'
+        patch '/edit-details/:id' => 'other_qualifications/details#update'
 
         get '/review' => 'other_qualifications/review#show', as: :review_other_qualifications
         patch '/review' => 'other_qualifications/review#complete', as: :complete_other_qualifications
@@ -401,15 +402,15 @@ Rails.application.routes.draw do
         get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
         post '/' => 'equality_and_diversity#choice'
         get '/sex' => 'equality_and_diversity#edit_sex', as: :edit_equality_and_diversity_sex
-        post '/sex' => 'equality_and_diversity#update_sex', as: :update_equality_and_diversity_sex
+        patch '/sex' => 'equality_and_diversity#update_sex'
         get '/disability-status' => 'equality_and_diversity#edit_disability_status', as: :edit_equality_and_diversity_disability_status
-        post '/disability-status' => 'equality_and_diversity#update_disability_status', as: :update_equality_and_diversity_disability_status
+        patch '/disability-status' => 'equality_and_diversity#update_disability_status'
         get '/disabilities' => 'equality_and_diversity#edit_disabilities', as: :edit_equality_and_diversity_disabilities
-        post '/disabilities' => 'equality_and_diversity#update_disabilities', as: :update_equality_and_diversity_disabilities
+        patch '/disabilities' => 'equality_and_diversity#update_disabilities'
         get '/ethnic-group' => 'equality_and_diversity#edit_ethnic_group', as: :edit_equality_and_diversity_ethnic_group
-        post '/ethnic-group' => 'equality_and_diversity#update_ethnic_group', as: :update_equality_and_diversity_ethnic_group
+        patch '/ethnic-group' => 'equality_and_diversity#update_ethnic_group'
         get '/ethnic-background' => 'equality_and_diversity#edit_ethnic_background', as: :edit_equality_and_diversity_ethnic_background
-        post '/ethnic-background' => 'equality_and_diversity#update_ethnic_background', as: :update_equality_and_diversity_ethnic_background
+        patch '/ethnic-background' => 'equality_and_diversity#update_ethnic_background'
         get '/review' => 'equality_and_diversity#review', as: :review_equality_and_diversity
       end
 

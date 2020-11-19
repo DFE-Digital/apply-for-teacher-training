@@ -122,7 +122,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def then_i_see_the_select_qualification_type_page
-    expect(page).to have_current_path(candidate_interface_new_other_qualification_type_path)
+    expect(page).to have_current_path(candidate_interface_other_qualification_type_path)
   end
 
   def when_i_select_add_a_level_qualification
@@ -223,7 +223,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_the_back_button
-    visit candidate_interface_new_other_qualification_details_path
+    visit candidate_interface_other_qualification_details_path
   end
 
   def and_update_the_subject
