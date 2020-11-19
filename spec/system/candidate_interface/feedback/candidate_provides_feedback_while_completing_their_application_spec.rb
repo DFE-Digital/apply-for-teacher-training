@@ -36,23 +36,20 @@ RSpec.feature 'Candidate provides feedback during the application process' do
   end
 
   def and_i_click_there_is_an_issue_with_the_section
-    click_link t('application_feedback_component.feedback_link')
+    click_link t('application_feedback.feedback_link')
   end
 
   def then_i_see_the_application_feedback_page
-    expect(page).to have_current_path candidate_interface_application_feedback_path(
-      path: '/candidate/application/references/start',
-      page_title: t('page_titles.references_start'),
-    )
+    expect(page).to have_title 'How can we improve the references section?'
   end
 
   def when_i_fill_in_my_feedback
-    check t('application_form.application_feedback.issues.does_not_understand_section')
-    check t('application_form.application_feedback.issues.answer_does_not_fit_format')
-    fill_in t('application_form.application_feedback.other_feedback.label'), with: 'Me no understand.'
-    choose t('application_form.application_feedback.consent_to_be_contacted.yes')
+    check t('application_feedback.issues.does_not_understand_section')
+    check t('application_feedback.issues.answer_does_not_fit_format')
+    fill_in t('application_feedback.other_feedback.label'), with: 'Me no understand.'
+    choose t('application_feedback.consent_to_be_contacted.yes')
 
-    click_button t('application_form.application_feedback.submit')
+    click_button t('application_feedback.submit')
   end
 
   def then_i_see_the_thank_you_page

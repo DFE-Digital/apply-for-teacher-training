@@ -2,7 +2,7 @@ module CandidateInterface
   class ApplicationFeedbackForm
     include ActiveModel::Model
 
-    attr_accessor :path, :page_title, :does_not_understand_section,
+    attr_accessor :path, :page_title, :original_controller, :does_not_understand_section,
                   :need_more_information, :answer_does_not_fit_format, :other_feedback,
                   :consent_to_be_contacted
 
@@ -30,6 +30,21 @@ module CandidateInterface
       @does_not_understand_section = @does_not_understand_section.present?
       @need_more_information = @need_more_information.present?
       @answer_does_not_fit_format = @answer_does_not_fit_format.present?
+    end
+
+    def section_name
+      top_controller = original_controller.split('/')[1]
+
+      case top_controller
+      when 'references'
+        'the references'
+      when 'degrees', 'gcse', 'other_qualifications'
+        'the qualifications'
+      when 'personal_statement'
+        'the personal statement and interview'
+      else
+        'this'
+      end
     end
 
   private

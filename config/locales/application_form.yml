@@ -486,19 +486,6 @@ en:
         not_requested_yet: We’ll contact your referees after you submit your application.
         awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
         awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
-    application_feedback:
-      issues:
-        label: What issues are there in this section?
-        does_not_understand_section: I do not understand this section
-        need_more_information: I do not have the information needed at the moment
-        answer_does_not_fit_format: My answers do not fit the format
-      other_feedback:
-        label: Do you have any other feedback about this section?
-      consent_to_be_contacted:
-        label: Can we contact you about your feedback?
-        'yes': 'Yes'
-        'no': 'No'
-      submit: Submit feedback
   activemodel:
     errors:
       models:
