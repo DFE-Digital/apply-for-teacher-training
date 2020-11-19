@@ -1,5 +1,12 @@
 module CandidateInterface
   class OtherQualificationTypeForm
+    A_LEVEL_TYPE = 'A level'.freeze
+    AS_LEVEL_TYPE = 'AS level'.freeze
+    GCSE_TYPE = 'GCSE'.freeze
+    OTHER_TYPE = 'Other'.freeze
+    NON_UK_TYPE = 'non_uk'.freeze
+    ALL_VALID_TYPES = [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE, OTHER_TYPE, NON_UK_TYPE].freeze
+
     include ActiveModel::Model
     include ActiveModel::Attributes
 
@@ -11,25 +18,28 @@ module CandidateInterface
     attr_accessor :non_uk_qualification_type
 
     validates :qualification_type, presence: true
-    validates :qualification_type, inclusion: { in: ['A level', 'AS level', 'GCSE', 'Other', 'non_uk'], allow_blank: false }
-    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == 'Other' && FeatureFlag.active?('international_other_qualifications') }
-    validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == 'non_uk' }
+    validates :qualification_type, inclusion: { in: ALL_VALID_TYPES, allow_blank: false }
+    validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == OTHER_TYPE }
+    validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == NON_UK_TYPE }
 
-    def initialize(intermediate_data_service = nil, options = nil)
+    def initialize(current_application = nil, intermediate_data_service = nil, options = nil)
+      @current_application = current_application
       @intermediate_data_service = intermediate_data_service
-      options.merge!(@intermediate_data_service.read) if @intermediate_data_service
+      options = @intermediate_data_service.read.merge(options.select { |_, value| value.present? }) if @intermediate_data_service
       super(options)
     end
 
-    def save!
-      if checking_answers && !qualification_type_changed?
-        current_qualification.update!(attributes_for_persistence)
-        @next_step = :check
-      else
-        @intermediate_data_service.write(intermediate_state)
-        @next_step = :details
-      end
+    def save_intermediate!
+      @intermediate_data_service.write(intermediate_state)
+      @next_step = (checking_answers && !qualification_type_changed?) ? :check : :details
     end
+
+    def save!
+      application_qualification = @current_application.application_qualifications.other.find(id)
+      application_qualification.update!(attributes_for_persistence)
+    end
+
+    PERSISTENT_ATTRIBUTES = %w[id current_step checking_answers qualification_type other_uk_qualification_type non_uk_qualification_type].freeze
 
   private
 
@@ -42,9 +52,7 @@ module CandidateInterface
     end
 
     def intermediate_state
-      as_json(
-        only: %w[id current_step checking_answers qualification_type other_uk_qualification_type non_uk_qualification_type],
-      )
+      as_json(only: PERSISTENT_ATTRIBUTES)
     end
 
     def qualification_type_changed?

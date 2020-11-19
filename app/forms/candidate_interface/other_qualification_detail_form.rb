@@ -1,6 +1,7 @@
 module CandidateInterface
   class OtherQualificationDetailForm
     include ActiveModel::Model
+    include ActiveModel::Validations::Callbacks
     include ActiveModel::Attributes
     include ValidationUtils
 
@@ -17,13 +18,17 @@ module CandidateInterface
     attr_accessor :institution_country
     attr_accessor :choice
 
+    before_validation :sanitize_grade_where_required
+
     validates :qualification_type, presence: true
+
     validates :award_year, presence: true
-    validates :subject, :grade, presence: true, if: -> { qualification_type != 'non_uk' && qualification_type != 'Other' }
+    validates :subject, :grade, presence: true, if: -> { qualification_type != OtherQualificationTypeForm::NON_UK_TYPE && qualification_type != OtherQualificationTypeForm::OTHER_TYPE }
     validates :subject, :grade, length: { maximum: 255 }
-    validates :institution_country, presence: true, if: -> { qualification_type == 'non_uk' }
-    validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == 'non_uk' }
+    validates :institution_country, presence: true, if: -> { qualification_type == OtherQualificationTypeForm::NON_UK_TYPE }
+    validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == OtherQualificationTypeForm::NON_UK_TYPE }
     validate :award_year_is_date_and_before_current_year, if: :award_year
+    validate :grade_format_is_valid, if: :grade, on: :details
 
     def self.build_all(application_form)
       application_form.application_qualifications.other.order(:created_at).map do |qualification|
@@ -41,7 +46,11 @@ module CandidateInterface
     def initialize(current_application = nil, intermediate_data_service = nil, options = {})
       @current_application = current_application
       @intermediate_data_service = intermediate_data_service
-      options.merge!(@intermediate_data_service.read) if @intermediate_data_service
+      options = @intermediate_data_service.read.merge(options) if @intermediate_data_service
+
+      self.id ||= options[:id]
+      options = persistent_attributes(current_qualification).merge(options) if current_qualification
+
       super(options)
     end
 
@@ -52,37 +61,33 @@ module CandidateInterface
     def save!
       @next_step = :check
 
-      application_qualification =
-        if id.present?
-          current_qualification = @current_application.application_qualifications.other.find(params[:id])
-        else
-          @current_application.application_qualifications.build(
-            level: ApplicationQualification.levels[:other],
-          )
-        end
+      application_qualification = current_qualification ||
+        @current_application.application_qualifications.build(
+          level: ApplicationQualification.levels[:other],
+        )
 
       application_qualification.assign_attributes(attributes_for_persistence)
       application_qualification.save!
     end
 
-    def initialize_new_qualification(qualifications)
+    def initialize_from_last_qualification(qualifications)
       return if qualifications.blank?
 
       if previous_qualification_is_of_same_type?(qualifications)
         self.institution_country ||= qualifications[-1].institution_country
         self.award_year ||= qualifications[-1].award_year
       end
-      if qualification_type == 'non_uk'
+      if qualification_type == OtherQualificationTypeForm::NON_UK_TYPE
         self.non_uk_qualification_type ||= qualifications[-1].non_uk_qualification_type
-      elsif qualification_type == 'Other'
+      elsif qualification_type == OtherQualificationTypeForm::OTHER_TYPE
         self.other_uk_qualification_type ||= qualifications[-1].other_uk_qualification_type
       end
     end
 
     def qualification_type_name
-      if qualification_type == 'non_uk'
+      if qualification_type == OtherQualificationTypeForm::NON_UK_TYPE
         non_uk_qualification_type
-      elsif qualification_type == 'Other' && other_uk_qualification_type.present?
+      elsif qualification_type == OtherQualificationTypeForm::OTHER_TYPE && other_uk_qualification_type.present?
         other_uk_qualification_type
       else
         qualification_type
@@ -101,6 +106,10 @@ module CandidateInterface
     def missing_type_validation_error?
       valid?
       errors.details[:qualification_type].any? { |e| e[:error] == :blank }
+    end
+
+    def current_qualification
+      @current_qualification ||= id.present? ? @current_application.application_qualifications.other.find(id) : nil
     end
 
   private
@@ -125,7 +134,7 @@ module CandidateInterface
 
     def intermediate_state
       as_json(
-        only: %w[id current_step checking_answers subject institution_country predicted_grade grade award_year],
+        only: %w[id current_step checking_answers qualification_type other_uk_qualification_type non_uk_qualification_type subject institution_country predicted_grade grade award_year],
       )
     end
 
@@ -135,7 +144,26 @@ module CandidateInterface
       if !valid_year?(award_year)
         errors.add(:award_year, :invalid)
       elsif award_year.to_i >= year_limit
-        errors.add(:award_year, :in_the_future, date: year_limit)
+         errors.add(:award_year, :in_the_future, date: year_limit)
+      end
+    end
+
+    def grade_format_is_valid
+      case qualification_type
+      when OtherQualificationTypeForm::A_LEVEL_TYPE
+        unless grade.in?(A_LEVEL_GRADES)
+          errors.add(:grade, :invalid)
+        end
+      when OtherQualificationTypeForm::AS_LEVEL_TYPE
+        unless grade.in?(AS_LEVEL_GRADES)
+          errors.add(:grade, :invalid)
+        end
+      end
+    end
+
+    def sanitize_grade_where_required
+      if qualification_type.in? [OtherQualificationTypeForm::A_LEVEL_TYPE, OtherQualificationTypeForm::AS_LEVEL_TYPE]
+        self.grade = grade.delete(' ').upcase if grade
       end
     end
   end

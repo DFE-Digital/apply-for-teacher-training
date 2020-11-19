@@ -1,9 +1,9 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.add_other_qualification'), @wizard.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.add_other_qualification'), @form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @wizard, url: candidate_interface_edit_other_qualification_type_path, method: :patch do |f| %>
+    <%= form_with model: @form, url: candidate_interface_edit_other_qualification_type_path, method: :patch do |f| %>
       <%= render partial: 'shared_form', locals: { f: f } %>
     <% end %>
   </div>

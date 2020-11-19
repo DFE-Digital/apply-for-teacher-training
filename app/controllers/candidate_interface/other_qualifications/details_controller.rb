@@ -3,7 +3,7 @@ module CandidateInterface
     def new
       @form = form_for(current_step: :type)
       @form.qualification_type ||= params[:qualification_type]
-      @form.initialize_new_qualification(
+      @form.initialize_from_last_qualification(
         current_application.application_qualifications.other.order(:created_at),
       )
       set_subject_autocomplete_data
@@ -17,7 +17,7 @@ module CandidateInterface
       set_subject_autocomplete_data
       set_grade_autocomplete_data
 
-      if @form.valid?(:details)
+      if @form.valid?
         @form.save!
         reset_intermediate_state!
 
@@ -39,8 +39,8 @@ module CandidateInterface
 
     def edit
       @form = form_for(
+        id: params[:id],
         current_step: :details,
-        initialize_from_db: true,
         checking_answers: true,
       )
       @form.save_intermediate!
@@ -50,13 +50,17 @@ module CandidateInterface
 
     def update
       @form = form_for(
-        other_qualification_update_params.merge(current_step: :details, checking_answers: true),
+        other_qualification_update_params.merge(
+          id: params[:id],
+          current_step: :details,
+          checking_answers: true,
+        ),
       )
       @form.save_intermediate!
       set_subject_autocomplete_data
       set_grade_autocomplete_data
 
-      if @form.valid?(:details)
+      if @form.valid?
         @form.save!
         current_application.update!(other_qualifications_completed: false)
         reset_intermediate_state!
@@ -72,11 +76,14 @@ module CandidateInterface
 
   private
 
+    def detail_attributes(application_qualification)
+      application_qualification.attributes.extract!(
+        *CandidateInterface::OtherQualificationDetailForm::PERSISTENT_ATTRIBUTES,
+      )
+    end
+
     def form_for(options)
       options[:checking_answers] = true if params[:checking_answers] == 'true'
-      if options.delete(:initialize_from_db)
-        options.merge(current_qualification) if params[:id]
-      end
 
       OtherQualificationDetailForm.new(
         current_application,
@@ -101,13 +108,15 @@ module CandidateInterface
 
     def other_qualification_update_params
       other_qualification_params.merge(
-        params.require(:candidate_interface_other_qualification_wizard).permit(:qualification_type),
+        params.require(:candidate_interface_other_qualification_detail_form).permit(
+          :qualification_type,
+        ),
       )
     end
 
     def set_subject_autocomplete_data
-      qualification_type = @wizard.qualification_type_name
-      if qualification_type.in? [OtherQualificationWizard::A_LEVEL_TYPE, OtherQualificationWizard::AS_LEVEL_TYPE]
+      qualification_type = @form.qualification_type_name
+      if qualification_type.in? [OtherQualificationTypeForm::A_LEVEL_TYPE, OtherQualificationTypeForm::AS_LEVEL_TYPE]
         @subject_autocomplete_data = A_AND_AS_LEVEL_SUBJECTS
       elsif qualification_type == 'GCSE'
         @subject_autocomplete_data = GCSE_SUBJECTS
@@ -115,7 +124,7 @@ module CandidateInterface
     end
 
     def set_grade_autocomplete_data
-      qualification_type = @wizard.qualification_type_name
+      qualification_type = @form.qualification_type_name
       if qualification_type.in? OTHER_UK_QUALIFICATIONS
         @grade_autocomplete_data = OTHER_UK_QUALIFICATION_GRADES
       end

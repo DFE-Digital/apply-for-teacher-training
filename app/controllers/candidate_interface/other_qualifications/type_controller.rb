@@ -3,13 +3,14 @@ module CandidateInterface
     def new
       reset_intermediate_state!
       @form = form_for(current_step: :type)
+      @form.save_intermediate!
     end
 
     def create
       @form = form_for(other_qualification_type_params.merge(current_step: :type))
 
-      if @form.valid?(:type)
-        @form.save!
+      if @form.valid?
+        @form.save_intermediate!
 
         next_step = @form.next_step
 
@@ -26,9 +27,12 @@ module CandidateInterface
     end
 
     def edit
-      @form = form_for(current_step: :type)
-      @form.copy_attributes(current_qualification)
-      @form.save!
+      @form = form_for(
+        current_step: :type,
+        initialize_from_db: true,
+        checking_answers: true,
+      )
+      @form.save_intermediate!
     end
 
     def update
@@ -39,14 +43,16 @@ module CandidateInterface
           id: current_qualification.id,
         ),
       )
-      if @form.valid?(:type)
-        @form.save!
+
+      if @form.valid?
+        @form.save_intermediate!
 
         next_step = @form.next_step
 
         if next_step == :details
           redirect_to candidate_interface_edit_other_qualification_details_path(current_qualification.id)
         elsif next_step == :check
+          @form.save!
           reset_intermediate_state!
           redirect_to candidate_interface_review_other_qualifications_path
         else
@@ -60,9 +66,20 @@ module CandidateInterface
 
   private
 
+    def type_attributes(application_qualification)
+      application_qualification.attributes.extract!(
+        *CandidateInterface::OtherQualificationTypeForm::PERSISTENT_ATTRIBUTES,
+      )
+    end
+
     def form_for(options)
       options[:checking_answers] = true if params[:checking_answers] == 'true'
+      if options.delete(:initialize_from_db)
+        options.merge!(type_attributes(current_qualification)) if params[:id]
+      end
+
       OtherQualificationTypeForm.new(
+        current_application,
         intermediate_data_service,
         options,
       )
