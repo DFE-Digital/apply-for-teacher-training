@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix("Your reference for #{@reference_form.application_form.full_name}", @reference_form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.referee.feedback', full_name: @reference_form.application_form.full_name), @reference_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(referee_interface_safeguarding_path(token: @token_param)) %>
 
 <div class="govuk-grid-row">
@@ -10,7 +10,9 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">Your reference for <%= @reference_form.application_form.full_name %></h1>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.referee.feedback', full_name: @reference_form.application_form.full_name) %>
+      </h1>
 
       <%= render(RefereeInterface::FeedbackHintsComponent.new(reference: @reference_form.reference)) %>
 

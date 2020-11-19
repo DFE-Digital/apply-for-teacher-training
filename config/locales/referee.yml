@@ -12,7 +12,6 @@ en:
     relationship_correction:
       label: Tell us what your relationship is to %{full_name} and how long you’ve known them
     any_safeguarding_concerns:
-      legend: Do you know of any reason why %{full_name} should not work with children?
       'yes':
         label: 'Yes'
       'no':

@@ -1,18 +1,23 @@
 <% if @reference.feedback_refused? %>
-  <% content_for :title, t('page_titles.give_a_reference.finish') %>
+  <% content_for :title, t('page_titles.referee.finish') %>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl">Thank you</h1>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.referee.finish') %>
+      </h1>
+
       <p class="govuk-body">We’ll ask the candidate to suggest another referee.</p>
       <p class="govuk-body">If you have any questions about the Apply for teacher training service, please contact <%= bat_contact_mail_to %>.</p>
     </div>
   </div>
 <% else %>
-  <% content_for :title, t('page_titles.give_a_reference.confirmation') %>
+  <% content_for :title, t('page_titles.referee.confirmation', full_name: @reference.application_form.full_name) %>
 
   <div class="govuk-panel govuk-panel--confirmation govuk-!-margin-bottom-8">
-    <h1 class="govuk-panel__title">Your reference for <%= @reference.application_form.full_name %> has been submitted</h1>
+    <h1 class="govuk-panel__title">
+      <%= t('page_titles.referee.confirmation', full_name: @reference.application_form.full_name) %>
+    </h1>
   </div>
 
   <div class="govuk-grid-row">
