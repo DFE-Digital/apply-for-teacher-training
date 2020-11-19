@@ -52,6 +52,14 @@ module CandidateInterface
       ])
     end
 
+    def next_gcse_path
+      if english_gcse_grade_form.award_year.nil?
+        candidate_interface_gcse_details_edit_year_path(subject: @subject)
+      else
+        candidate_interface_gcse_review_path(subject: @subject)
+      end
+    end
+
     def view_path
       if gcse_qualification? && multiple_gsces_are_active? && application_not_submitted_yet?
         'candidate_interface/gcse/english/grade/multiple_gcse_edit'
