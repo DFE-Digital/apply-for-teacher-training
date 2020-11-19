@@ -14,7 +14,7 @@
 
       <%= render(RefereeInterface::ReferenceReviewComponent.new(reference: @reference_form.reference, token_param: @token_param)) %>
 
-      <%= f.govuk_submit t('reference_form.confirm') %>
+      <%= f.govuk_submit t('referee.review.submit') %>
     <% end %>
   </div>
 </div>

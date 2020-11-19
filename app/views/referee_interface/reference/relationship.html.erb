@@ -15,10 +15,10 @@
 
       <p class="govuk-inset-text"><%= @relationship %></p>
 
-      <%= f.govuk_radio_buttons_fieldset :relationship_confirmation, legend: { text: 'Is this correct?' } do %>
-        <%= f.govuk_radio_button :relationship_confirmation, :yes, label: { text: 'Yes' }, link_errors: true %>
-        <%= f.govuk_radio_button :relationship_confirmation, :no, label: { text: 'No' } do %>
-          <%= f.govuk_text_area :relationship_correction, label: { text: "Tell us what your relationship is to #{@application.full_name} and how long you’ve known them" }, max_words: 50, rows: 5 %>
+      <%= f.govuk_radio_buttons_fieldset :relationship_confirmation, legend: { text: t('referee.relationship_confirmation.legend') } do %>
+        <%= f.govuk_radio_button :relationship_confirmation, :yes, label: { text: t('referee.relationship_confirmation.yes.label') }, link_errors: true %>
+        <%= f.govuk_radio_button :relationship_confirmation, :no, label: { text: t('referee.relationship_confirmation.no.label') } do %>
+          <%= f.govuk_text_area :relationship_correction, label: { text: t('referee.relationship_correction.label', full_name: @application.full_name) }, max_words: 50, rows: 5 %>
         <% end %>
       <% end %>
 

@@ -178,11 +178,11 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def and_i_click_the_submit_reference_button
-    click_button t('reference_form.confirm')
+    click_button t('referee.review.submit')
   end
 
   def and_i_click_the_finish_button
-    click_button t('questionnaire_form.confirm')
+    click_button t('referee.questionnaire.submit')
   end
 
   def then_i_see_am_told_i_submittted_my_refernce
@@ -219,7 +219,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_choose_to_be_contactable
-    choose t('questionnaire_form.consent_to_be_contacted')
+    choose t('referee.questionnaire.consent_to_be_contacted.yes.label')
     fill_in 'Please let us know when you’re available', with: 'anytime 012345 678900'
   end
 end
