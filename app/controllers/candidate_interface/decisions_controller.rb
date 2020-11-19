@@ -59,7 +59,7 @@ module CandidateInterface
       @withdrawal_feedback_form = WithdrawalFeedbackForm.new(withdrawl_feedback_params)
 
       if @withdrawal_feedback_form.save(@application_choice)
-        flash[:success] = 'Thank you for your feedback.'
+        flash[:success] = I18n.t('decisions.withdrawal_feedback.success.flash')
 
         redirect_to candidate_interface_application_complete_path
       else

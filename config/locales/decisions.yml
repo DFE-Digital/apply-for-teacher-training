@@ -30,4 +30,6 @@ en:
           label: I’d prefer not to say
       contact_details:
         label: Please let us know when you’re available and give a phone number.
+      success:
+        flash: Thank you for your feedback.
 
