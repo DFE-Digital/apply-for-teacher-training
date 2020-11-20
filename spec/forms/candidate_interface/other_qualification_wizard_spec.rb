@@ -114,7 +114,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
           qualification.valid?(:details)
 
           expect(qualification.errors.full_messages_for(:award_year)).to eq(
-            ['Award year Enter a year before 2020'],
+            ['Award year Assessment year must be this year or a previous year'],
           )
         end
       end

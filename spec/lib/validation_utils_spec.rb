@@ -26,4 +26,24 @@ RSpec.describe ValidationUtils do
       expect(form.new).not_to be_valid_year(too_long_year)
     end
   end
+
+  describe '#future_year' do
+    let(:form) do
+      Class.new do
+        include ValidationUtils
+      end
+    end
+
+    it 'returns true if the year passed is greater than the current year' do
+      next_year = Time.zone.today.year.to_i + 1
+
+      expect(form.new.future_year?(next_year)).to eq true
+    end
+
+    it 'returns false if the year passed is before or equal to the current year' do
+      last_year = Time.zone.today.year.to_i
+
+      expect(form.new.future_year?(last_year)).to eq false
+    end
+  end
 end

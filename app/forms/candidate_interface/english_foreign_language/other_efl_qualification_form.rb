@@ -41,6 +41,8 @@ module CandidateInterface
       def award_year_is_a_valid_year
         if !valid_year?(award_year)
           errors.add(:award_year, :invalid)
+        elsif future_year?(award_year)
+          errors.add(:award_year, :in_the_future)
         end
       end
 
