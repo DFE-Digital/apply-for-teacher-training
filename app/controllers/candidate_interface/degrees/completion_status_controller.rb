@@ -10,6 +10,7 @@ module CandidateInterface
         if @completion_status_form.save(current_degree)
           redirect_to candidate_interface_degree_grade_path
         else
+          track_validation_error(@completion_status_form)
           render :new
         end
       end
@@ -26,7 +27,7 @@ module CandidateInterface
           redirect_to candidate_interface_degrees_review_path
         else
           track_validation_error(@completion_status_form)
-          render :new
+          render :edit
         end
       end
 

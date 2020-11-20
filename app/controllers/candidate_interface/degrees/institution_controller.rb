@@ -17,6 +17,7 @@ module CandidateInterface
             redirect_to candidate_interface_degree_completion_status_path
           end
         else
+          track_validation_error(@degree_institution_form)
           render :new
         end
       end
