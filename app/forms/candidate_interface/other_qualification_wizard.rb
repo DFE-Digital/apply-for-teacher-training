@@ -203,18 +203,16 @@ module CandidateInterface
     def grade_format_is_valid
       case qualification_type
       when A_LEVEL_TYPE
-        unless grade.in?(A_LEVEL_GRADES)
-          errors.add(:grade, :invalid)
-        end
+        errors.add(:grade, :invalid) unless grade.in?(A_LEVEL_GRADES)
       when AS_LEVEL_TYPE
-        unless grade.in?(AS_LEVEL_GRADES)
-          errors.add(:grade, :invalid)
-        end
+        errors.add(:grade, :invalid) unless grade.in?(AS_LEVEL_GRADES)
+      when GCSE_TYPE
+        errors.add(:grade, :invalid) unless grade.in?(ALL_GCSE_GRADES)
       end
     end
 
     def sanitize_grade_where_required
-      if qualification_type.in? [A_LEVEL_TYPE, AS_LEVEL_TYPE]
+      if qualification_type.in? [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE]
         self.grade = grade.delete(' ').upcase if grade
       end
     end
