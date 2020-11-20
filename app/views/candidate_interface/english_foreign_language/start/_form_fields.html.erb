@@ -1,3 +1,5 @@
+<%= f.govuk_error_summary %>
+
 <%= f.govuk_radio_buttons_fieldset :qualification_status, legend: { size: 'm', text: 'Have you done an English as a foreign language assessment?', tag: 'span' } do %>
   <%= f.govuk_radio_button :qualification_status, 'has_qualification', label: { text: 'Yes' } %>
   <%= f.govuk_radio_button :qualification_status, 'qualification_not_needed', label: { text: 'No, English is not a foreign language to me' } %>
