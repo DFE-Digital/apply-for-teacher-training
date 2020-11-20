@@ -9,7 +9,7 @@
 
       <%= render(RefereeInterface::FeedbackHintsComponent.new(reference: @reference_form.reference)) %>
 
-      <%= f.govuk_text_area :feedback, label: { text: 'Your reference', size: 'm' }, max_words: 300, rows: 15 %>
+      <%= f.govuk_text_area :feedback, label: { text: 'Your reference', size: 'm' }, max_words: 500, rows: 15 %>
 
       <%= f.govuk_submit 'Continue' %>
     </div>
