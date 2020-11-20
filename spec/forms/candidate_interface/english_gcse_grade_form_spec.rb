@@ -11,6 +11,63 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
     end
 
     context 'when qualification type is GCSE' do
+      context 'multiple GCSEs enabled' do
+        before do
+          FeatureFlag.activate(:multiple_english_gcses)
+        end
+
+        let(:qualification) do
+          FactoryBot.build_stubbed(
+            :application_qualification,
+            subject: 'english',
+            qualification_type: 'gcse',
+            level: 'gcse',
+          )
+        end
+        let(:form) { CandidateInterface::EnglishGcseGradeForm.build_from_qualification(qualification) }
+
+        it 'returns validation error if no GCSE is selected' do
+          form.english_gcses = []
+          form.validate(:structured_grades)
+
+          expect(form.errors[:english_gcses]).to include('Select at least one GCSE')
+        end
+
+        it 'returns validation error if GCSE is selected but no grade is entered' do
+          form.english_single_award = true
+          form.grade_english_single = ''
+          form.validate(:structured_grades)
+
+          expect(form.errors[:grade_english_single]).to include('Enter your grade')
+        end
+
+        it 'returns validation error if GCSE is selected and an invalid grade is entered' do
+          form.english_single_award = true
+          form.grade_english_single = 'AWESOME'
+          form.validate(:structured_grades)
+
+          expect(form.errors[:grade_english_single]).to include('Enter a real grade')
+        end
+
+        it 'returns no errors if GCSE is selected and a valid grade is entered' do
+          form.english_single_award = true
+          form.grade_english_single = 'A*'
+          form.validate(:structured_grades)
+
+          expect(form.errors[:grade_english_single]).to be_empty
+        end
+
+        it 'returns validation error if other English GCSE is selected but no details are entered' do
+          form.other_english_gcse = true
+          form.other_english_gcse_name = ''
+          form.grade_other_english_gcse = ''
+          form.validate(:structured_grades)
+
+          expect(form.errors[:other_english_gcse_name]).to include('Enter an English GCSE')
+          expect(form.errors[:grade_other_english_gcse]).to include('Enter your grade')
+        end
+      end
+
       context 'multiple GCSEs disabled' do
         FeatureFlag.deactivate('multiple_english_gcses')
         let(:qualification) do
@@ -56,7 +113,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
         it 'logs validation errors if grade is invalid' do
           allow(Rails.logger).to receive(:info)
           form.grade = 'XYZ'
-          form.save_grade
+          form.save
 
           expect(Rails.logger).to have_received(:info).with(
             'Validation error: {:field=>"grade", :error_messages=>"Enter a real grade", :value=>"XYZ"}',

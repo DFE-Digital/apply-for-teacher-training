@@ -28,7 +28,7 @@ module CandidateInterface
     validates :grade, presence: true, on: :grade
     validates :other_grade, presence: true, if: :grade_is_other?
     validate :validate_grade_format, on: :grade, unless: :is_multiple_gcse? || :new_record?
-    validate :validate_grades, unless: :new_record?, on: :structured_grades, if: :is_multiple_gcse?
+    validate :validate_grades_format, on: :structured_grades, if: :is_multiple_gcse?, unless: :new_record?
     validate :gcse_selected, on: :structured_grades, if: :is_multiple_gcse?
 
     class << self
@@ -181,7 +181,7 @@ module CandidateInterface
       end
     end
 
-    def validate_grades
+    def validate_grades_format
       if english_single_award
         errors.add(:grade_english_single, :blank) if grade_english_single.blank?
         errors.add(:grade_english_single, :invalid) unless SINGLE_GCSE_GRADES.include?(grade_english_single.strip.upcase)
@@ -270,12 +270,8 @@ module CandidateInterface
       end
     end
 
-    def multiple_gsces_are_active?
-      FeatureFlag.active?('multiple_english_gcses')
-    end
-
     def is_multiple_gcse?
-      qualification.qualification_type == 'gcse' && multiple_gsces_are_active?
+      qualification.qualification_type == 'gcse' && FeatureFlag.active?(:multiple_english_gcses)
     end
   end
 end
