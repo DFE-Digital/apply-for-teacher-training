@@ -27,6 +27,20 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsForm, type: :mod
       expect(form).not_to be_valid
       expect(form.errors.full_messages) .to eq ['Award year Enter a real year']
     end
+
+    context 'user inputs single digit band_score' do
+      let(:valid_form_2) do
+        described_class.new(
+          trf_number: '12345',
+          band_score: '6',
+          award_year: 2000,
+        )
+      end
+
+      it 'is valid with valid attributes' do
+        expect(valid_form).to be_valid
+      end
+    end
   end
 
   describe '#save' do
@@ -53,6 +67,28 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::IeltsForm, type: :mod
       expect(qualification.trf_number).to eq '12345'
       expect(qualification.band_score).to eq '6.5'
       expect(qualification.award_year).to eq 2000
+    end
+
+    context 'user inputs single digit band_score' do
+      let(:valid_form_2) do
+        described_class.new(
+          trf_number: '12345',
+          band_score: '6',
+          award_year: 2000,
+        )
+      end
+
+      it 'saves a sanitized grade' do
+        application_form = create(:application_form)
+        valid_form_2.application_form = application_form
+
+        valid_form_2.save
+
+        expect(application_form.english_proficiency.qualification_status).to eq 'has_qualification'
+        qualification = application_form.english_proficiency.efl_qualification
+
+        expect(qualification.band_score).to eq '6.0'
+      end
     end
 
     context 'application_form already has an EnglishProficiency record' do
