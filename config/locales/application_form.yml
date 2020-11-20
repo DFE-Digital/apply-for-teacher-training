@@ -743,6 +743,7 @@ en:
               inclusion: Select the country you studied in from the list
             grade:
               blank: Enter your grade
+              invalid: Enter a real grade
               too_long: The grade must be %{count} characters or fewer
             award_year:
               blank: Enter the year the qualification was awarded
