@@ -10,7 +10,7 @@ RSpec.describe 'Syncing providers', sidekiq: true do
     when_the_sync_runs
     then_it_creates_one_provider
     and_it_updates_another
-    # and_it_sets_the_last_synced_timestamp
+    and_it_sets_the_last_synced_timestamp
   end
 
   def given_there_are_2_providers_in_the_teacher_training_api
@@ -43,10 +43,10 @@ RSpec.describe 'Syncing providers', sidekiq: true do
   def and_it_updates_another
     expect(Provider.find_by(code: 'DEF').name).to eql('DER College')
   end
-  #
-  # def and_it_sets_the_last_synced_timestamp
-  #   expect(TeacherTrainingAPI::SyncCheck.last_sync).not_to be_blank
-  # end
+
+  def and_it_sets_the_last_synced_timestamp
+    expect(TeacherTrainingAPI::SyncCheck.last_sync).not_to be_blank
+  end
 
   def stub_teacher_training_api_all_providers(recruitment_cycle_year: RecruitmentCycle.current_year)
     stub_request(

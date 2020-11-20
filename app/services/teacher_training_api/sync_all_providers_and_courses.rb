@@ -4,6 +4,8 @@ module TeacherTrainingAPI
       sync_providers(
         TeacherTrainingAPI::Provider.where(year: 2021).all,
       )
+
+      TeacherTrainingAPI::SyncCheck.set_last_sync(Time.zone.now)
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingAPI::SyncError
     end
