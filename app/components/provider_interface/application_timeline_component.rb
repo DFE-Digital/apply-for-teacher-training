@@ -7,7 +7,7 @@ module ProviderInterface
       @application_choice = application_choice
     end
 
-    Event = Struct.new(:title, :actor, :date)
+    Event = Struct.new(:title, :actor, :date, :link_name, :link_path)
 
     TITLES = {
       'awaiting_provider_decision' => 'Application submitted',
