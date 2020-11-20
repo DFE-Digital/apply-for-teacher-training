@@ -158,6 +158,12 @@ module CandidateInterface
       errors.details[:qualification_type].any? { |e| e[:error] == :blank }
     end
 
+    def grade_hint
+      if qualification_type == GCSE_TYPE
+        { text: I18n.t('gcse_edit_grade.hint.other.gcse_single_and_double') }
+      end
+    end
+
   private
 
     def qualification_type_changed?

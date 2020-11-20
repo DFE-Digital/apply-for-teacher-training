@@ -408,4 +408,32 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
       expect(qualification.missing_type_validation_error?).to be false
     end
   end
+
+  describe '#grade_hint' do
+    it 'returns a GCSE hint if qualification_type is GCSE_TYPE' do
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        nil,
+        current_step: :details,
+        qualification_type: 'GCSE',
+      )
+
+      expect(qualification.grade_hint).to eq({ text: 'For example, ‘C’, ‘CD’, ‘4’ or ‘4-3’' })
+    end
+
+    it 'returns nil for any other qualification_type' do
+      namespace = CandidateInterface::OtherQualificationWizard
+
+      (namespace::ALL_VALID_TYPES - [namespace::GCSE_TYPE]).each do |qualification_type|
+        qualification = CandidateInterface::OtherQualificationWizard.new(
+          nil,
+          nil,
+          current_step: :details,
+          qualification_type: qualification_type,
+        )
+
+        expect(qualification.grade_hint).to eq nil
+      end
+    end
+  end
 end
