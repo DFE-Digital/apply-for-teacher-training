@@ -364,6 +364,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
       expect(email.body).to include('Apply again:')
       expect(email.body).not_to include('Review your feedback and apply again:')
+      expect(email.body).to include('They gave the following feedback')
     end
 
     it 'has the correct subject and content for rejection by default' do
@@ -372,15 +373,18 @@ RSpec.describe CandidateMailer, type: :mailer do
       expect(email.subject).to eq 'Your application was unsuccessful but you can apply again'
       expect(email.body).to include('Dear Fred,')
       expect(email.body).to include(
-        'Bilberry College did not respond to your application for Mathematics (M101) in time.',
+        'Your application for Mathematics (M101) has been automatically rejected because Bilberry College did not respond in time.',
       )
+      expect(email.body).not_to include('They gave the following feedback')
     end
 
     it 'has the correct content when rejection reason is given' do
-      email = send_email(rejected_by_default: true, rejection_reason: 'Not clever enough')
+      email = send_email(rejection_reason: 'Not clever enough')
 
       expect(email.body).not_to include('Apply again:')
       expect(email.body).to include('Review your feedback and apply again:')
+      expect(email.body).to include('They gave the following feedback')
+      expect(email.body).to include('Not clever enough')
     end
   end
 
