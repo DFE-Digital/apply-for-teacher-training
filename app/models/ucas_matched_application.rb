@@ -29,6 +29,10 @@ class UCASMatchedApplication
     application_choice.present?
   end
 
+  def trackable_applicant_key
+    @matching_data['Trackable applicant key']
+  end
+
   def scheme
     @matching_data['Scheme']
   end

@@ -73,6 +73,7 @@ RSpec.feature 'See UCAS matches' do
   end
 
   def and_there_are_ucas_matches_in_the_system
+    trackable_applicant_id = '0F8FB8240C73AB94'
     ucas_matching_data =
       {
         'Scheme' => 'B',
@@ -80,6 +81,7 @@ RSpec.feature 'See UCAS matches' do
         'Course code' => @course1.code.to_s,
         'Provider code' => @course1.provider.code.to_s,
         'Withdrawns' => '1',
+        'Trackable applicant key' => trackable_applicant_id,
       }
     dfe_matching_data =
       {
@@ -87,6 +89,7 @@ RSpec.feature 'See UCAS matches' do
         'Apply candidate ID' => @candidate.id.to_s,
         'Course code' => @course2.code.to_s,
         'Provider code' => @course2.provider.code.to_s,
+        'Trackable applicant key' => trackable_applicant_id,
       }
     invalid_dfe_matching_data =
       {
@@ -94,6 +97,7 @@ RSpec.feature 'See UCAS matches' do
         'Apply candidate ID' => @candidate.id.to_s,
         'Course code' => 'DOES_NOT_EXIST',
         'Provider code' => @course2.provider.code.to_s,
+        'Trackable applicant key' => trackable_applicant_id,
       }
 
     create(:ucas_match, matching_state: 'new_match', application_form: @application_form, matching_data: [ucas_matching_data, dfe_matching_data, invalid_dfe_matching_data])
@@ -133,6 +137,9 @@ RSpec.feature 'See UCAS matches' do
   end
 
   def then_i_should_see_ucas_match_summary
+    expect(page).to have_content 'Trackable applicant key'
+    expect(page).to have_content '0F8FB8240C73AB94'
+
     expect(page).to have_content 'Matched courses'
     within('tbody tr:eq(1)') do
       expect(page).to have_content(@course1.code)

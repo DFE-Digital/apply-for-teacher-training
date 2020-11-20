@@ -22,6 +22,7 @@
   'Last updated' => @match.updated_at.to_s(:govuk_date_and_time),
   'First added' => @match.created_at.to_s(:govuk_date_and_time),
   'Status' => status,
+  'Trackable applicant key' => @match.trackable_applicant_key,
   'Application on Apply' => govuk_link_to('View application', support_interface_application_form_path(application)),
 }) %>
 

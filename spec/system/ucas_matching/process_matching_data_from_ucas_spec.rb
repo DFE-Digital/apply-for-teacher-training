@@ -58,7 +58,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
            application_form: application_form,
            scheme: 'B',
            ucas_status: :offer,
-           matching_data: [{ 'Apply candidate ID' => '99957', 'Provider code' => '1EP', 'Course code' => 'UVW' }])
+           matching_data: [{ 'Apply candidate ID' => '99957', 'Provider code' => '1EP', 'Course code' => 'UVW', 'Trackable applicant key' => 'AA716BA0F69AE605' }])
   end
 
   def and_ucas_has_uploaded_a_file_to_our_shared_folder
