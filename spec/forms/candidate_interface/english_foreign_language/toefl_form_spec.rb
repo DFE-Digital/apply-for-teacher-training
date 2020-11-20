@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflForm, type: :mod
       form = valid_form.tap { |f| f.award_year = Time.zone.today.year.to_i + 1 }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages) .to eq ["Award year Enter a year before #{Time.zone.today.year.to_i + 1}"]
+      expect(form.errors.full_messages) .to eq ['Award year Assessment year must be this year or a previous year']
     end
   end
 

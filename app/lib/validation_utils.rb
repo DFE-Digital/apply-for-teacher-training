@@ -4,6 +4,6 @@ module ValidationUtils
   end
 
   def future_year?(year)
-    year.to_i >= Time.zone.today.year
+    year.to_i > Time.zone.today.year
   end
 end
