@@ -15,6 +15,7 @@ module CandidateInterface
         if @other_qualification_form.save
           redirect_to candidate_interface_english_foreign_language_review_path
         else
+          track_validation_error(@other_qualification_form)
           render :new
         end
       end
@@ -32,7 +33,8 @@ module CandidateInterface
         if @other_qualification_form.save
           redirect_to candidate_interface_english_foreign_language_review_path
         else
-          render :new
+          track_validation_error(@other_qualification_form)
+          render :edit
         end
       end
 

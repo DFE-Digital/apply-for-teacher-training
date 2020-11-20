@@ -13,6 +13,7 @@ module CandidateInterface
         if @type_form.save
           redirect_to @type_form.next_form_path
         else
+          track_validation_error(@type_form)
           render :new
         end
       end
