@@ -144,20 +144,20 @@ module CandidateInterface
       self
     end
 
-    def save_grades
-      if !valid?(:structured_grades)
-        log_validation_errors(:structured_grades)
-        return false
+    def save
+      if is_multiple_gcse?
+        if !valid?(:structured_grades)
+          log_validation_errors(:structured_grades)
+          return false
+        end
+        qualification.update(structured_grades: build_grades_json, grade: nil)
+      else
+        if !valid?(:grade)
+          log_validation_errors(:grade)
+          return false
+        end
+        qualification.update(grade: set_grade, structured_grades: nil)
       end
-      qualification.update(structured_grades: build_grades_json, grade: nil)
-    end
-
-    def save_grade
-      if !valid?(:grade)
-        log_validation_errors(:grade)
-        return false
-      end
-      qualification.update(grade: set_grade, structured_grades: nil)
     end
 
   private

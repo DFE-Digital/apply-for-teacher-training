@@ -16,9 +16,7 @@ module CandidateInterface
       @qualification_type = gcse_english_qualification.qualification_type
       @gcse_grade_form = english_gcse_grade_form.assign_values(english_details_params)
 
-      save_successful = multiple_gsces_are_active? && @qualification_type == 'gcse' ? @gcse_grade_form.save_grades : @gcse_grade_form.save_grade
-
-      if save_successful
+      if @gcse_grade_form.save
         update_gcse_completed(false)
         redirect_to next_gcse_path
       else
