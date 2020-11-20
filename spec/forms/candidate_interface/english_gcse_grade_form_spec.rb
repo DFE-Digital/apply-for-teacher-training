@@ -69,7 +69,10 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
       end
 
       context 'multiple GCSEs disabled' do
-        FeatureFlag.deactivate('multiple_english_gcses')
+        before do
+          FeatureFlag.deactivate(:multiple_english_gcses)
+        end
+
         let(:qualification) do
           FactoryBot.build_stubbed(
             :application_qualification,
