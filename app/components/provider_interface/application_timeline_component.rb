@@ -32,6 +32,7 @@ module ProviderInterface
           title_for(change),
           actor_for(change),
           change.changed_at,
+          *link_params_for_status(change),
         )
       end
     end
@@ -43,6 +44,8 @@ module ProviderInterface
             'Note added',
             provider_name(note.provider_user),
             note.created_at,
+            'View note',
+            provider_interface_application_choice_note_path(application_choice, note),
           )
         end
       else
@@ -60,6 +63,8 @@ module ProviderInterface
             'Feedback sent',
             actor_for(feedback_audit),
             feedback_audit.created_at,
+            'View feedback',
+            provider_interface_application_choice_path(application_choice),
           )
         end
       else
@@ -83,6 +88,18 @@ module ProviderInterface
       else
         'system'
       end
+    end
+
+    def link_params_for_status(change)
+      title_for(change).match(/^Application/) ? application_link_params : offer_link_params
+    end
+
+    def application_link_params
+      ['View application', provider_interface_application_choice_path(application_choice)]
+    end
+
+    def offer_link_params
+      ['View offer', provider_interface_application_choice_offer_path(application_choice)]
     end
 
     def provider_name(provider_user)

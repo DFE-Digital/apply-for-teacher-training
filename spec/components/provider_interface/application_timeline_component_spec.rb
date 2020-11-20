@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   around do |example|
-    @now = Time.zone.local(2020, 2, 11)
+    @now = Time.zone.local(2020, 2, 11, 22, 0, 0)
     Timecop.freeze(@now) do
       example.run
     end
   end
 
   def setup_application(changes)
-    application_choice = instance_double(ApplicationChoice)
+    application_choice = create(:application_choice)
     finder_service = instance_double(FindStatusChangeAudits, call: changes)
     allow(FindStatusChangeAudits).to receive(:new).with(
       application_choice: application_choice,
@@ -47,8 +47,10 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Application submitted'
-      expect(rendered.text).to include 'by candidate'
-      expect(rendered.text).to include '6 Feb 2020'
+      expect(rendered.text).to include 'candidate'
+      expect(rendered.text).to include '6 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View application'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
     end
   end
 
@@ -60,23 +62,28 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Offer made'
-      expect(rendered.text).to include 'by Bob Roberts'
-      expect(rendered.text).to include '8 Feb 2020'
+      expect(rendered.text).to include 'Bob Roberts'
+      expect(rendered.text).to include '8 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View offer'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/offer"
     end
   end
 
   context 'for an application with a note' do
     it 'renders note event' do
       application_choice = create(:application_choice)
-      application_choice.notes << Note.new(
+      note = Note.new(
         provider_user: provider_user,
         subject: 'This is a note',
         message: 'Notes are a new feature',
       )
+      application_choice.notes << note
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Note added'
-      expect(rendered.text).to include 'by Bob Roberts'
-      expect(rendered.text).to include '11 Feb 2020'
+      expect(rendered.text).to include 'Bob Roberts'
+      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View note'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/notes/#{note.id}"
     end
   end
 
@@ -85,7 +92,9 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       application_choice = create(:application_choice, :with_rejection_by_default_and_feedback)
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Feedback sent'
-      expect(rendered.text).to include '11 Feb 2020'
+      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View feedback'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
     end
   end
 
