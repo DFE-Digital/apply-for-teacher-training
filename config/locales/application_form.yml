@@ -705,7 +705,7 @@ en:
             award_year:
               blank: Enter year the assessment was done
               invalid: Enter a real year
-              in_the_future: Enter a year before %{date}
+              in_the_future: Assessment year must be this year or a previous year
         candidate_interface/english_foreign_language/other_efl_qualification_form:
           attributes:
             name:
@@ -715,7 +715,7 @@ en:
             award_year:
               blank: Enter year the assessment was done
               invalid: Enter a real year
-              in_the_future: Enter a year before %{date}
+              in_the_future: Assessment year must be this year or a previous year
         candidate_interface/english_foreign_language/toefl_form:
           attributes:
             registration_number:
@@ -726,7 +726,7 @@ en:
             award_year:
               blank: Enter year the assessment was done
               invalid: Enter a real year
-              in_the_future: Enter a year before %{date}
+              in_the_future: Assessment year must be this year or a previous year
         candidate_interface/other_qualification_wizard:
           attributes:
             non_uk_qualification_type:
@@ -752,7 +752,7 @@ en:
             award_year:
               blank: Enter the year the qualification was awarded
               invalid: Enter a real year
-              in_the_future: Enter a year before %{date}
+              in_the_future: Assessment year must be this year or a previous year
             choice:
               blank: Do you want to add another qualification?
         candidate_interface/work_experience_form:
