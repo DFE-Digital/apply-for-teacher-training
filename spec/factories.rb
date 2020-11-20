@@ -551,18 +551,11 @@ FactoryBot.define do
       rejection_reason { Faker::Lorem.paragraph_by_chars(number: 200) }
       reject_by_default_feedback_sent_at { Time.zone.now }
 
-      after(:create) do |choice, evaluator|
-        choice.audits << Audited::Audit.create(
-          auditable_id: evaluator.id,
-          auditable_type: 'ApplicationChoice',
-          associated_id: evaluator.application_form.id,
-          associated_type: 'ApplicationForm',
-          user_id: 1,
-          user_type: 'ProviderUser',
-          action: 'update',
-          audited_changes: { 'reject_by_default_feedback_sent_at' => Time.zone.now.iso8601 },
-          version: 1,
-          created_at: Time.zone.now,
+      after(:create) do |_choice, evaluator|
+        create(
+          :audit,
+          application_choice: evaluator,
+          changes: { 'reject_by_default_feedback_sent_at' => Time.zone.now.iso8601 },
         )
       end
     end
@@ -837,6 +830,25 @@ FactoryBot.define do
 
     subject { Faker::Company.bs.capitalize }
     message { Faker::Quote.most_interesting_man_in_the_world }
+  end
+
+  factory :audit, class: 'Audited::Audit' do
+    action { 'update' }
+    user { create(:support_user) }
+    version { 1 }
+    request_uuid { SecureRandom.uuid }
+    created_at { Time.zone.now }
+
+    transient do
+      application_choice { create(:application_choice, :awaiting_provider_decision) }
+      changes { {} }
+    end
+
+    after(:build) do |audit, evaluator|
+      audit.auditable = evaluator.application_choice
+      audit.associated ||= evaluator.application_choice.application_form
+      audit.audited_changes = evaluator.changes
+    end
   end
 
   factory :feature do
