@@ -27,6 +27,13 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflForm, type: :mod
       expect(form).not_to be_valid
       expect(form.errors.full_messages) .to eq ['Award year Enter a real year']
     end
+
+    it 'is is future year if given a future year' do
+      form = valid_form.tap { |f| f.award_year = Time.zone.today.year.to_i + 1 }
+
+      expect(form).not_to be_valid
+      expect(form.errors.full_messages) .to eq ["Award year Enter a year before #{Time.zone.today.year.to_i + 1}"]
+    end
   end
 
   describe '#save' do
