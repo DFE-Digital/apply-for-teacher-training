@@ -4,6 +4,8 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @degree_grade_form, url: candidate_interface_edit_degree_grade_path(@degree_grade_form.degree), method: :patch do |f| %>
+      <%= f.govuk_error_summary %>
+
       <h1 class="govuk-heading-xl">
         <%= @page_title %>
       </h1>
