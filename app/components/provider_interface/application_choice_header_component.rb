@@ -31,7 +31,7 @@ module ProviderInterface
       end
 
       sub_navigation_items.push(
-        { name: 'Notes', url: provider_interface_notes_path(application_choice) },
+        { name: 'Notes', url: provider_interface_application_choice_notes_path(application_choice) },
       )
 
       sub_navigation_items.push(

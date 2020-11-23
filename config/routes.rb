@@ -570,7 +570,7 @@ Rails.application.routes.draw do
       post '/feedback/check' => 'feedback#check', as: :application_choice_check_feedback
       post '/feedback' => 'feedback#create', as: :application_choice_feedback
 
-      resources :notes, except: %i[edit destroy update]
+      resources :notes, only: %i[index show new create], as: :application_choice_notes
     end
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate

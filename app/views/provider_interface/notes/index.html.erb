@@ -2,7 +2,7 @@
 
 <%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>
 
-<%= govuk_button_link_to 'Add note', new_provider_interface_note_path(@application_choice), class: 'govuk-button--secondary' %>
+<%= govuk_button_link_to 'Add note', new_provider_interface_application_choice_note_path(@application_choice), class: 'govuk-button--secondary' %>
 
 <% unless @notes.empty? %>
   <div class="govuk-grid-row">
@@ -11,7 +11,7 @@
         <% @notes.each do |note| %>
           <div class="app-notes__note">
             <h2 class="govuk-heading-m govuk-!-margin-bottom-1">
-              <%= govuk_link_to note.subject, provider_interface_note_path(@application_choice, note), id: note.id %>
+              <%= govuk_link_to note.subject, provider_interface_application_choice_note_path(@application_choice, note), id: note.id %>
             </h2>
             <p class="govuk-body govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= note.message %></p>
             <p class="meta">
