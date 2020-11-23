@@ -53,6 +53,9 @@ RSpec.feature 'Entering their personal details' do
     and_i_submit_the_form
     then_i_see_the_right_to_work_or_study_page
 
+    when_i_submit_the_form
+    then_i_see_a_validation_error
+
     when_i_choose_i_do_not_know
     and_i_submit_the_form
     then_i_see_the_personal_details_review_page
@@ -116,6 +119,7 @@ RSpec.feature 'Entering their personal details' do
   def and_i_submit_the_form
     click_button t('application_form.personal_details.complete_form_button')
   end
+  alias_method :when_i_submit_the_form, :and_i_submit_the_form
 
   def then_i_see_the_nationalites_page
     expect(page).to have_current_path candidate_interface_nationalities_path
@@ -211,6 +215,10 @@ RSpec.feature 'Entering their personal details' do
 
   def and_i_choose_yes
     choose 'Yes'
+  end
+
+  def then_i_see_a_validation_error
+    expect(page).to have_content 'Select if you have the right to work or study in the UK'
   end
 
   def when_i_choose_i_do_not_know
