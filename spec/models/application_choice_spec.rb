@@ -107,4 +107,10 @@ RSpec.describe ApplicationChoice, type: :model do
       end
     end
   end
+
+  describe 'validations' do
+    subject(:application_choice) { create(:application_choice) }
+
+    it { is_expected.to validate_uniqueness_of(:course_option).scoped_to(:application_form_id) }
+  end
 end
