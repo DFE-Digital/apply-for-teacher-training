@@ -25,10 +25,6 @@ Rails.application.routes.draw do
     get '/account', to: 'start_page#create_account_or_sign_in', as: :create_account_or_sign_in
     post '/account', to: 'start_page#create_account_or_sign_in_handler'
 
-    get '/eligibility' => 'start_page#eligibility', as: :eligibility
-    post '/eligibility' => 'start_page#determine_eligibility'
-    get '/not-eligible', to: 'start_page#not_eligible', as: :not_eligible
-
     get '/applications-closed' => 'start_page#applications_closed', as: :applications_closed
 
     get '/sign-up', to: 'sign_up#new', as: :sign_up
