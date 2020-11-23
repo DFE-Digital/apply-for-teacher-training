@@ -53,6 +53,8 @@ RSpec.describe 'Reject an application' do
   end
 
   def then_i_give_reasons_why_i_am_rejecting_the_application
+    expect(page).to have_link('Back', href: provider_interface_application_choice_respond_path(@application_choice))
+
     choose 'provider-interface-reasons-for-rejection-candidate-behaviour-y-n-yes-field'
     check 'provider-interface-reasons-for-rejection-candidate-behaviour-what-did-the-candidate-do-other-field'
     fill_in 'provider-interface-reasons-for-rejection-candidate-behaviour-other-field', with: "There was no need to sing 'Run to the Hills' for us"
@@ -87,6 +89,8 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_check_the_reasons_for_rejection
+    expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_initial_questions_path(@application_choice))
+
     expect(page).to have_content('Training provider feedback')
     expect(page).to have_content('Here’s why your application was unsuccessful')
 
@@ -123,6 +127,8 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_answer_additional_reasons
+    expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_initial_questions_path(@application_choice))
+
     choose 'provider-interface-reasons-for-rejection-other-advice-or-feedback-y-n-yes-field'
     fill_in 'provider-interface-reasons-for-rejection-other-advice-or-feedback-details-field', with: 'While impressive, your parkour skills are not relevant'
 
@@ -132,6 +138,8 @@ RSpec.describe 'Reject an application' do
   end
 
   def and_i_check_the_amended_reasons_for_rejection
+    expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_other_reasons_path(@application_choice))
+
     expect(page).to have_content('The provider would be interested in future applications from you')
 
     expect(page).not_to have_content('Honesty and professionalism')

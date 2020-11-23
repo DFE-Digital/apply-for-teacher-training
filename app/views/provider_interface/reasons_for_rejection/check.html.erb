@@ -1,3 +1,5 @@
+<% content_for :before_content, govuk_back_link_to(@back_link_path) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @wizard, url: provider_interface_reasons_for_rejection_commit_path do |f| %>

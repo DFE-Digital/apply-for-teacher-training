@@ -37,6 +37,12 @@ module ProviderInterface
 
     def check
       @wizard = ReasonsForRejectionWizard.new(store, current_step: 'check')
+      @back_link_path = if @wizard.needs_other_reasons?
+                          provider_interface_reasons_for_rejection_other_reasons_path(@application_choice)
+                        else
+                          provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
+                        end
+
       @wizard.save_state!
     end
 
