@@ -28,7 +28,7 @@ module CandidateInterface
     validates :grade, presence: true, on: :grade
     validates :other_grade, presence: true, if: :grade_is_other?
     validate :validate_grade_format, on: :grade, unless: :is_multiple_gcse? || :new_record?
-    validate :validate_grades, unless: :new_record?, on: :structured_grades, if: :is_multiple_gcse?
+    validate :validate_grades_format, on: :structured_grades, if: :is_multiple_gcse?, unless: :new_record?
     validate :gcse_selected, on: :structured_grades, if: :is_multiple_gcse?
 
     class << self
@@ -144,13 +144,11 @@ module CandidateInterface
       self
     end
 
-    def save_grades
-      if !valid?(:structured_grades)
-        log_validation_errors(:structured_grades)
-        return false
-      end
-      qualification.update(structured_grades: build_grades_json, grade: nil)
+    def save
+      is_multiple_gcse? ? save_grades : save_grade
     end
+
+  private
 
     def save_grade
       if !valid?(:grade)
@@ -160,7 +158,13 @@ module CandidateInterface
       qualification.update(grade: set_grade, structured_grades: nil)
     end
 
-  private
+    def save_grades
+      if !valid?(:structured_grades)
+        log_validation_errors(:structured_grades)
+        return false
+      end
+      qualification.update(structured_grades: build_grades_json, grade: nil)
+    end
 
     def build_grades_json
       grades = {}.tap do |model|
@@ -181,7 +185,7 @@ module CandidateInterface
       end
     end
 
-    def validate_grades
+    def validate_grades_format
       if english_single_award
         errors.add(:grade_english_single, :blank) if grade_english_single.blank?
         errors.add(:grade_english_single, :invalid) unless SINGLE_GCSE_GRADES.include?(grade_english_single.strip.upcase)
@@ -270,12 +274,8 @@ module CandidateInterface
       end
     end
 
-    def multiple_gsces_are_active?
-      FeatureFlag.active?('multiple_english_gcses')
-    end
-
     def is_multiple_gcse?
-      qualification.qualification_type == 'gcse' && multiple_gsces_are_active?
+      qualification.qualification_type == 'gcse' && FeatureFlag.active?(:multiple_english_gcses)
     end
   end
 end
