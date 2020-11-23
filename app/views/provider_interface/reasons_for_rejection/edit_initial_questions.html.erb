@@ -65,7 +65,7 @@
         <%= f.govuk_radio_button :quality_of_application_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:qualifications_y_n, legend: { size: 'm', text: 'Was it related to qualifications?' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:qualifications_y_n, legend: { size: 'm', text: 'Was it related to their qualifications?' }) do %>
         <%= f.govuk_radio_button :qualifications_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_check_boxes_fieldset :qualifications_which_qualifications, small: true, legend: { text: "Which qualifications?", size: "s" } do %>
             <%= f.govuk_check_box :qualifications_which_qualifications,

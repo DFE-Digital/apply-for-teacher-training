@@ -14,81 +14,81 @@ en:
         provider_interface/reasons_for_rejection_wizard:
           attributes:
             candidate_behaviour_y_n:
-              blank: Select yes if it was due to candidate behaviour
+              blank: Select yes if it was related to candidate behaviour
             candidate_behaviour_what_did_the_candidate_do:
-              blank: Select at least one reason related to the candidate's behaviour
+              blank: Select at least one reason related to candidate behaviour
             candidate_behaviour_other:
-              blank: Enter details about what the candidate did
-              too_long: The details you give about their behaviour must be 100 words or fewer
+              blank: Enter details about candidate behaviour
+              too_long: Details about candidate behaviour must be 100 words or fewer
             candidate_behaviour_what_to_improve:
               blank: Enter details about how the candidate can improve their behaviour
-              too_long: The details you give about how the candidate can improve their behaviour must be 100 words or fewer
+              too_long: Details about how the candidate can improve their behaviour must be 100 words or fewer
             quality_of_application_y_n:
-              blank: Select yes if it was due to the quality of their application
+              blank: Select yes if it was related to the quality of their application
             quality_of_application_which_parts_needed_improvement:
               blank: Select at least one reason related to the quality of their application
             quality_of_application_personal_statement_what_to_improve:
               blank: Enter details about how they can improve their personal statement
-              too_long: The details you give about how they can improve their personal statement must be 100 words or fewer
+              too_long: Details about how they can improve their personal statement must be 100 words or fewer
             quality_of_application_subject_knowledge_what_to_improve:
               blank: Enter details about how they can improve their subject knowledge
-              too_long: The details you give about how the candidate can improve their subject knowledge must be 100 words or fewer
+              too_long: Details about how the candidate can improve their subject knowledge must be 100 words or fewer
             quality_of_application_other_details:
-              blank: Enter details about the quality of the their application
-              too_long: The details you give about the quality of their application must be 100 words or fewer
+              blank: Enter details about the quality of their application
+              too_long: Details about the quality of their application must be 100 words or fewer
             quality_of_application_other_what_to_improve:
-              blank: Enter how they can improve their application
-              too_long: The details you give about how they can improve their application must be 100 words or fewer
+              blank: Enter how they can improve the quality of their application
+              too_long: Details about how they can improve their application must be 100 words or fewer
             qualifications_y_n:
-              blank: Select yes if it was due to their qualifications
+              blank: Select yes if it was related to their qualifications
             qualifications_which_qualifications:
               blank: Select at least one reason related to their qualifications
             qualifications_other_details:
-              blank: Enter details about the issue with their qualifications
-              too_long: The details you give about their qualifications must be 100 words or fewer
+              blank: Enter details about the problem with their qualifications
+              too_long: Details about the problem with their qualifications must be 100 words or fewer
             performance_at_interview_y_n:
               blank: Select yes if it was related to their performance at interview
             performance_at_interview_what_to_improve:
               blank: Enter details about how they can improve their performance at interview
-              too_long: The details you give about how they can improve their performance at interview must be 100 words or fewer
+              too_long: Details about how they can improve their performance at interview must be 100 words or fewer
             course_full_y_n:
               blank: Select yes if it was because this course is full
             offered_on_another_course_y_n:
               blank: Select yes if it was because you offered them a place on another course
             offered_on_another_course_details:
               blank: Enter details about the place offered on another course
-              too_long: The details you give about an offer on another course must be 100 words or fewer
+              too_long: Details about the place offered on another course must be 100 words or fewer
             honesty_and_professionalism_y_n:
-              blank: Select yes if it was due to concerns about their honesty and professionalism
+              blank: Select yes if it was related to concerns about their honesty and professionalism
             honesty_and_professionalism_concerns:
-              blank: Select at least one reason related to the candidate's honesty and professionalism
+              blank: Select at least one reason related to the candidate’s honesty and professionalism
             honesty_and_professionalism_concerns_information_false_or_inaccurate_details:
-              blank: Enter details related to false or inaccurate information given
-              too_long: The details you give related to false or inaccurate information given must be 100 words or fewer
+              blank: Enter details about the inaccurate or false information in the application
+              too_long: Details about inaccurate or false information in the application must be 100 words or fewer
             honesty_and_professionalism_concerns_plagiarism_details:
-              blank: Enter details related to evidence of plagiarism in personal statement or elsewhere
-              too_long: The details you give related to evidence of plagiarism in personal statement or elsewhere must be 100 words or fewer
+              blank: Enter details related to evidence of plagiarism in the application
+              too_long: The details about evidence of plagiarism in the application must be 100 words or fewer
             honesty_and_professionalism_concerns_references_details:
-              blank: Enter details related to references not supporting the application
-              too_long: The details you give related to references must be 100 words or fewer
+              blank: Enter details about references not supporting the application
+              too_long: Details about references not supporting the application must be 100 words or fewer
             honesty_and_professionalism_concerns_other_details:
               blank: Enter details about the candidate’s honesty and professionalism
-              too_long: The details you give related to their honesty and professionalism must be 100 words or fewer
+              too_long: Details about the candidate’s honesty and professionalism must be 100 words or fewer
             safeguarding_y_n:
               blank: Select yes if it was related to safeguarding
             safeguarding_concerns:
               blank: Select at least one reason related to safeguarding
             safeguarding_concerns_candidate_disclosed_information_details:
-              blank: Enter details about the information they disclosed making them unsuitable to work with children
-              too_long: The details you give about the information they disclosed must be 100 words or fewer
+              blank: Enter details about information the candidate disclosed which makes them unsuitable to work with children
+              too_long: Details about the information the candidate disclosed must be 100 words or fewer
             safeguarding_concerns_vetting_disclosed_information_details:
-              blank: Enter details about the information revealed by your vetting process
-              too_long: The details you give about the information revealed by your vetting process must be 100 words or fewer
+              blank: Enter details about the information found by your vetting process which makes the candidate unsuitable to work with children
+              too_long: Details about the information found by your vetting process which makes the candidate unsuitable to work with children must be 100 words or fewer
             safeguarding_concerns_other_details:
               blank: Enter details about safeguarding
-              too_long: The details you give about safeguarding must be 100 words or fewer
+              too_long: Details about safeguarding must be 100 words or fewer
             why_are_you_rejecting_this_application:
-              blank: Enter details about why you're rejecting their application
+              blank: Enter why you’re rejecting this application
               too_long: The details you give for rejecting this application must be 200 words or fewer
             other_advice_or_feedback_y_n:
               blank: Select yes if there is any other advice or feedback you‘d like to give
