@@ -1,23 +1,24 @@
-class GetProviderActivityLogEvents
-  attr_reader :provider_user
+class GetActivityLogEvents
+  attr_reader :application_choices
 
-  def initialize(provider_user:)
-    @provider_user = provider_user
+  def initialize(application_choices:)
+    @application_choices = application_choices
   end
 
-  def call
-    scope = GetApplicationChoicesForProviders.call(providers: provider_user.providers)
+  def call(since: nil)
+    since ||= Time.zone.local(2018, 1, 1)
 
     Audited::Audit.from <<~COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE.squish
       (
-        SELECT a.*, '' AS description
+        SELECT a.*
           FROM audits a
           INNER JOIN application_choices ac
             ON auditable_id = ac.id
               AND auditable_type = 'ApplicationChoice'
               AND action = 'update'
-          INNER JOIN (#{scope.to_sql}) visible
-            ON ac.id = visible.t0_r0
+          INNER JOIN (#{application_choices.to_sql}) visible
+            ON ac.id = visible.id
+          WHERE a.created_at >= '#{since.iso8601}'::TIMESTAMPTZ
           ORDER BY a.created_at DESC
       ) AS audits
     COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE

@@ -553,7 +553,7 @@ FactoryBot.define do
 
       after(:create) do |_choice, evaluator|
         create(
-          :audit,
+          :application_choice_audit,
           application_choice: evaluator,
           changes: { 'reject_by_default_feedback_sent_at' => Time.zone.now.iso8601 },
         )
@@ -832,7 +832,7 @@ FactoryBot.define do
     message { Faker::Quote.most_interesting_man_in_the_world }
   end
 
-  factory :audit, class: 'Audited::Audit' do
+  factory :application_choice_audit, class: 'Audited::Audit' do
     action { 'update' }
     user { create(:support_user) }
     version { 1 }
@@ -845,8 +845,9 @@ FactoryBot.define do
     end
 
     after(:build) do |audit, evaluator|
-      audit.auditable = evaluator.application_choice
-      audit.associated ||= evaluator.application_choice.application_form
+      audit.auditable_type = 'ApplicationChoice'
+      audit.auditable_id = evaluator.application_choice.id
+      audit.associated = evaluator.application_choice.application_form
       audit.audited_changes = evaluator.changes
     end
   end

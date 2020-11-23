@@ -1,13 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe GetProviderActivityLogEvents, with_audited: true do
+RSpec.describe GetActivityLogEvents, with_audited: true do
   around do |example|
     @now = Time.zone.local(2020, 2, 11)
     Timecop.travel(@now) { example.run }
   end
 
-  let(:service) { GetProviderActivityLogEvents.new(provider_user: provider_user) }
   let(:provider_user) { create(:provider_user, :with_two_providers) }
+  let(:application_choices_for_provider_user) { GetApplicationChoicesForProviders.call(providers: provider_user.providers) }
+  let(:service) { GetActivityLogEvents.new(application_choices: application_choices_for_provider_user) }
+
   let(:course_provider_a) { create(:course, provider: provider_user.providers.first) }
   let(:course_provider_b) { create(:course, provider: provider_user.providers.second) }
   let(:course_unrelated) { create(:course) }
@@ -21,10 +23,15 @@ RSpec.describe GetProviderActivityLogEvents, with_audited: true do
   end
 
   def create_audit_for_application_choice(application_choice, changes: {})
-    create(:audit, user: provider_user, application_choice: application_choice, changes: changes)
+    create(:application_choice_audit, user: provider_user, application_choice: application_choice, changes: changes)
   end
 
   describe '#call' do
+    it 'raises an error unless application_choices responds_to #to_sql ' do
+      array = 2.times.map { create_application_choice_for_course(course_provider_a) }
+      expect { GetActivityLogEvents.new(application_choices: array).call }.to raise_error(NoMethodError)
+    end
+
     it 'returns an empty array if no audits are found' do
       expect(service.call).to eq([])
     end
@@ -37,9 +44,25 @@ RSpec.describe GetProviderActivityLogEvents, with_audited: true do
 
       expect(result.count).to eq(1)
 
-      %i[description created_at auditable].each do |attr|
+      %i[created_at auditable].each do |attr|
         expect(result.first).to respond_to(attr)
       end
+    end
+
+    it 'supports an since: argument for limiting number of events' do
+      choice = create_application_choice_for_course course_provider_a
+      create_audit_for_application_choice choice
+
+      expected = create(
+        :application_choice_audit,
+        user: provider_user,
+        application_choice: choice,
+        created_at: @now + 1.day,
+      )
+
+      result = service.call(since: @now + 6.hours)
+
+      expect(result.first).to eq(expected)
     end
   end
 
@@ -52,18 +75,6 @@ RSpec.describe GetProviderActivityLogEvents, with_audited: true do
       expect(choice.audits.count).to eq(1)
       expect(choice.audits.first.action).to eq('create')
       expect(result.count).to eq(0)
-    end
-
-    it 'follows same visibility rules as GetApplicationChoicesForProviders' do
-      %i[course_provider_a course_provider_b course_unrelated ratified_course_provider_b ratified_course_unrelated].each do |course|
-        choice = create_application_choice_for_course send(course)
-        create_audit_for_application_choice choice
-      end
-
-      result = service.call
-
-      expected_ids = GetApplicationChoicesForProviders.call(providers: provider_user.providers).map(&:id)
-      expect(result.map(&:auditable).map(&:id).to_set).to eq(expected_ids.to_set)
     end
   end
 
@@ -92,7 +103,9 @@ RSpec.describe GetProviderActivityLogEvents, with_audited: true do
   end
 
   context 'completes in a reasonable timeframe' do
-    it '<10ms for 1000 application choices', skip: true do
+    it '<50ms for 1000 application choices' do
+      skip 'This spec takes a long time and should be run manually'
+
       1000.times do
         %i[course_provider_a course_provider_b course_unrelated ratified_course_provider_b ratified_course_unrelated].each do |course|
           choice = create_application_choice_for_course send(course)
@@ -103,7 +116,7 @@ RSpec.describe GetProviderActivityLogEvents, with_audited: true do
       elapsed_time = Benchmark.measure { service.call }.real
       puts "GetProviderActivityLogEvents #call completed in #{elapsed_time}s"
 
-      expect(elapsed_time).to be < 0.01
+      expect(elapsed_time).to be < 0.05
     end
   end
 end
