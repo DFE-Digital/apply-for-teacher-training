@@ -12,6 +12,7 @@ class ApplicationChoice < ApplicationRecord
   has_one :accredited_provider, through: :course, class_name: 'Provider'
 
   has_many :notes, dependent: :destroy
+  validates :course_option, uniqueness: { scope: :application_form_id }
 
   audited associated_with: :application_form
 
