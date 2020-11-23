@@ -11,7 +11,9 @@ module SupportInterface
         'candidates.hide_in_reporting' => false,
       )
 
-      applications_of_interest.map do |application_form|
+      results = []
+
+      applications_of_interest.find_each(batch_size: 100) do |application_form|
         associated_audits = application_form.associated_audits.sort_by(&:created_at).reverse
 
         output = {
@@ -64,8 +66,10 @@ module SupportInterface
           output[:"#{column}_last_updated_at"] = value
         end
 
-        output
+        results << output
       end
+
+      results
     end
 
     alias_method :data_for_export, :applications

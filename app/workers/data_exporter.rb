@@ -14,6 +14,7 @@ class DataExporter
         importer_class.constantize.new.data_for_export,
       )
     rescue StandardError => e
+      Rails.logger.info "Export generation failed: `#{e.message}`"
       data_export.update!(audit_comment: "Export generation failed: `#{e.message}`")
       raise
     end
@@ -25,6 +26,7 @@ class DataExporter
       data: csv_data,
       completed_at: Time.zone.now,
     )
+
     Rails.logger.info 'Finished writing CSV. Sidekiq done'
   end
 

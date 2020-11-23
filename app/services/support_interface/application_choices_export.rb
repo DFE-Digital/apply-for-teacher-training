@@ -1,9 +1,11 @@
 module SupportInterface
   class ApplicationChoicesExport
     def application_choices
-      relevant_applications.flat_map do |application_form|
-        application_form.application_choices.map do |choice|
-          {
+      results = []
+
+      relevant_applications.find_each(batch_size: 100) do |application_form|
+        application_form.application_choices.each do |choice|
+          results << {
             candidate_id: application_form.candidate_id,
             recruitment_cycle_year: application_form.recruitment_cycle_year,
             support_reference: application_form.support_reference,
@@ -24,6 +26,8 @@ module SupportInterface
           }
         end
       end
+
+      results
     end
 
     alias_method :data_for_export, :application_choices
