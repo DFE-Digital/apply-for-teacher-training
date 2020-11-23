@@ -1,18 +1,50 @@
 en:
-  reference_form:
-    confirm: Submit reference
-  questionnaire_form:
-    why_that_rating: Tell us why you chose that rating
-    very_poor: Very poor
-    poor: Poor
-    ok: Ok
-    good: Good
-    very_good: Very Good
-    hint_text: We’d ideally like to speak on the phone for half an hour.
-    consent_to_be_contacted: Yes, you can contact me
-    availibility: Please let us know when you’re available and give a phone number
-    not_consent_to_be_contacted: No, do not contact me
-    confirm: Finish
+  referee:
+    refuse_feedback:
+      confirm: Yes – I’m sure
+      cancel: Cancel
+    relationship_confirmation:
+      legend: Is this correct?
+      'yes':
+        label: 'Yes'
+      'no':
+        label: 'No'
+    relationship_correction:
+      label: Tell us what your relationship is to %{full_name} and how long you’ve known them
+    any_safeguarding_concerns:
+      'yes':
+        label: 'Yes'
+      'no':
+        label: 'No'
+    safeguarding_concerns:
+      label: Tell us why you think %{full_name} should not work with children
+    feedback:
+      label: Your reference
+    review:
+      submit: Submit reference
+    questionnaire:
+      experience:
+        very_poor:
+          label: Very poor
+        poor:
+          label: Poor
+        ok:
+          label: Ok
+        good:
+          label: Good
+        very_good:
+          label: Very Good
+        explanation:
+          label: Tell us why you chose that rating
+      consent_to_be_contacted:
+        hint: We’d ideally like to speak on the phone for half an hour.
+        'yes':
+          label: Yes, you can contact me
+        'no':
+          label: No, do not contact me
+      consent_to_be_contacted_details:
+        label: Please let us know when you’re available and give a phone number
+      submit: Finish
   reference_confirmation_email:
     subject: Reference submitted for %{candidate_name}
   reference_cancelled_email:

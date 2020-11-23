@@ -1,15 +1,21 @@
-<% content_for :title, "Your reference for #{@application.full_name}" %>
+<% content_for :title, t('page_titles.referee.refuse_feedback', full_name: @application.full_name) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Are you sure you will not give <%= @application.full_name %> a reference?</h1>
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.referee.refuse_feedback', full_name: @application.full_name) %>
+    </h1>
 
-    <%= form_with model: @reference, url: referee_interface_refuse_feedback_path(token: @token_param), method: :patch do |f| %>
-      <%= f.govuk_submit 'Yes - I’m sure' %>
+    <%= form_with(
+      model: @reference,
+      url: referee_interface_refuse_feedback_path(token: @token_param),
+      method: :patch
+    ) do |f| %>
+      <%= f.govuk_submit t('referee.refuse_feedback.confirm') %>
     <% end %>
 
     <p class="govuk-body">
-      <%= govuk_link_to 'Cancel', referee_interface_reference_feedback_path(token: @token_param) %>
+      <%= govuk_link_to t('referee.refuse_feedback.cancel'), referee_interface_reference_feedback_path(token: @token_param) %>
     </p>
   </div>
 </div>
