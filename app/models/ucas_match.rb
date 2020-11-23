@@ -15,6 +15,10 @@ class UCASMatch < ApplicationRecord
     ucas_withdrawal_requested: 'ucas_withdrawal_requested',
   }
 
+  def trackable_applicant_key
+    ucas_matched_applications.first.trackable_applicant_key
+  end
+
   def action_needed?
     return false if processed?
 
@@ -39,7 +43,7 @@ class UCASMatch < ApplicationRecord
   end
 
   def ucas_matched_applications
-    matching_data.map do |data|
+    @_ucas_matched_applications ||= matching_data.map do |data|
       UCASMatchedApplication.new(data, recruitment_cycle_year)
     end
   end

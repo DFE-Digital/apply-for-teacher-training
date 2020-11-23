@@ -106,7 +106,7 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
         expect(result.text).to include('Action needed Confirm withdrawal from UCAS')
         expect(result.css('input').attr('value').value).to include('Confirm the application was withdrawn from UCAS')
         expect(result.css('form').attr('action').value).to include('/process-match')
-        expect(result.text).to include("We need to ensure that UCAS have removed the candidate's duplicate application from UTT.")
+        expect(result.text).to include('We need to ensure that UCAS have removed the candidate’s duplicate application from UTT.')
       end
     end
 

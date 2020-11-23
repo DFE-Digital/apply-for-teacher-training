@@ -21,14 +21,14 @@ module SupportInterface
         description: 'Request withdrawal from UCAS',
         button_text: 'Confirm withdrawal from UCAS was requested',
         form_path: :support_interface_record_ucas_withdrawal_requested_path,
-        instructions: "We need to contact UCAS. Please send an encrypted file with the candidate's duplicate application details to Harry Haines (h.haines@ucas.ac.uk) and Lizzy Carter (l.carter@ucas.ac.uk) from UCAS to ask them to remove the candidate from UTT.",
+        instructions: 'We need to contact UCAS. Please send the trackable applicant key and the candidate’s duplicate application details to Harry Haines (h.haines@ucas.ac.uk) and Lizzy Carter (l.carter@ucas.ac.uk) from UCAS to ask them to remove the candidate from UTT.',
         past_tense_description: 'requested withdrawal from UCAS',
       },
       confirmed_withdrawal_from_ucas: {
         description: 'Confirm withdrawal from UCAS',
         button_text: 'Confirm the application was withdrawn from UCAS',
         form_path: :support_interface_process_match_path,
-        instructions: "We need to ensure that UCAS have removed the candidate's duplicate application from UTT.",
+        instructions: 'We need to ensure that UCAS have removed the candidate’s duplicate application from UTT.',
         past_tense_description: 'confirmed that the candidate was withdrawn from UCAS. We contacted UCAS to request removal from UTT',
       },
     }.freeze

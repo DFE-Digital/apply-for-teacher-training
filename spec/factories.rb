@@ -26,11 +26,14 @@ FactoryBot.define do
         ucas_match.matching_data = evaluator.application_form.application_choices.map do |application_choice|
           scheme = evaluator.scheme || %w[U D B].sample
 
+          candidate_id = ucas_match.candidate.id.to_s
+
           data = {
             'Scheme' => scheme,
-            'Apply candidate ID' => ucas_match.candidate.id.to_s,
+            'Apply candidate ID' => candidate_id,
             'Course code' => application_choice.offered_option.course.code.to_s,
             'Provider code' => application_choice.offered_option.course.provider.code.to_s,
+            'Trackable applicant key' => "ABC#{candidate_id}DEF",
           }
 
           unless scheme == 'D'
