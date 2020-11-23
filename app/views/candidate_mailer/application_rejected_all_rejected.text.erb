@@ -1,12 +1,4 @@
-Dear <%= @application_form.first_name %>,
-
-# Application outcome
-
-<% if @application_choice.rejected_by_default %>
-  <%= @course.provider.name %> did not respond to your application for <%= @course.name_and_code %> in time.
-<% else %>
-  <%= @course.provider.name %> has decided not to progress your teacher training application for <%= @course.name_and_code %> on this occasion.
-<% end %>
+<%= render 'application_rejected_intro' %>
 
 # You can apply again
 
