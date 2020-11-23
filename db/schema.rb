@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_18_140921) do
+ActiveRecord::Schema.define(version: 2020_11_23_163914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -258,6 +258,7 @@ ActiveRecord::Schema.define(version: 2020_11_18_140921) do
     t.index ["course_id"], name: "index_course_options_on_course_id"
     t.index ["site_id", "course_id", "study_mode"], name: "index_course_options_on_site_id_and_course_id_and_study_mode", unique: true
     t.index ["site_id"], name: "index_course_options_on_site_id"
+    t.index ["vacancy_status", "site_still_valid"], name: "index_course_options_on_vacancy_status_and_site_still_valid"
   end
 
   create_table "courses", force: :cascade do |t|
