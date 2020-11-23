@@ -13,5 +13,9 @@ module ProviderInterface
     def editable?
       editable
     end
+
+    def subheading_tag_name
+      editable? ? :h2 : :h3
+    end
   end
 end
