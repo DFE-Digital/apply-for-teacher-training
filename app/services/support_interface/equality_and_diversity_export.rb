@@ -29,7 +29,6 @@ module SupportInterface
 
     def application_forms
       ApplicationForm
-        .select(:submitted_at, :recruitment_cycle_year, :equality_and_diversity, :created_at, :updated_at)
         .includes(:application_choices)
         .where.not(equality_and_diversity: nil)
     end

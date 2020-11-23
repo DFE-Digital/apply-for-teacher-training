@@ -17,6 +17,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
       application_form_one = create(:completed_application_form, equality_and_diversity: two_disabilities)
       application_form_two = create(:completed_application_form, equality_and_diversity: one_disability)
       create(:completed_application_form, equality_and_diversity: nil)
+      create(:application_choice, :awaiting_provider_decision, application_form: application_form_two)
 
       expect(described_class.new.data_for_export).to contain_exactly(
         {
@@ -36,7 +37,7 @@ RSpec.describe SupportInterface::EqualityAndDiversityExport do
           'Ethnic background' => application_form_two.equality_and_diversity['ethnic_background'],
           'Ethnic group' => application_form_two.equality_and_diversity['ethnic_group'],
           'Disability 1' => application_form_two.equality_and_diversity['disabilities'].first,
-          'Application status' => 'Have not started form',
+          'Application status' => 'Awaiting decisions from providers',
         },
       )
     end
