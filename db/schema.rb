@@ -144,6 +144,8 @@ ActiveRecord::Schema.define(version: 2020_11_24_084022) do
     t.integer "recruitment_cycle_year", null: false
     t.string "feedback_satisfaction_level"
     t.text "feedback_suggestions"
+    t.float "latitude"
+    t.float "longitude"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
