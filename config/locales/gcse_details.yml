@@ -33,6 +33,7 @@ en:
         subject_per_grade: You have a grade for each subject
       other:
         gcse: For example, ‘C’ or ‘4’
+        gcse_single_and_double: For example, ‘C’, ‘CD’, ‘4’ or ‘4-3’
         gce_o_level: For example, ‘C’
         scottish_national_5: For example, ‘C’ or ‘4’
   gcse_edit_year:

@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
         expect(gcse.errors.full_messages_for(:grade)).not_to be_empty
       end
 
-      it 'validates grade format for A/AS levels' do
+      it 'validates grade format for A/AS levels, sanitizing the string in the process' do
         valid_a_level = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'A level', grade: 'a* a*')
         valid_as_level = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'AS level', grade: 'b  b')
         valid_other_qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'Other', grade: 'Gold star')
@@ -61,6 +61,24 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
 
         expect(invalid_a_level.errors.messages[:grade].pop).to eq 'Enter a real grade'
         expect(invalid_as_level.errors.messages[:grade].pop).to eq 'Enter a real grade'
+      end
+
+      it 'validates grade format for GCSE, sanitizing the string in the process' do
+        valid_gcse_one = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'GCSE', grade: '9 - 8')
+        valid_gcse_two = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'GCSE', grade: 'e   e')
+        valid_other_qualification = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'Other', grade: 'Gold star')
+        invalid_gcse = CandidateInterface::OtherQualificationWizard.new(nil, nil, qualification_type: 'GCSE', grade: '5%')
+
+        [valid_gcse_one, valid_gcse_two, valid_other_qualification, invalid_gcse].each { |q| q.valid?(:details) }
+
+        expect(valid_gcse_one.errors.messages[:grade]).to be_blank
+        expect(valid_gcse_one.grade).to eq '9-8'
+        expect(valid_gcse_two.errors.messages[:grade]).to be_blank
+        expect(valid_gcse_two.grade).to eq 'EE'
+        expect(valid_other_qualification.errors.messages[:grade]).to be_blank
+        expect(valid_other_qualification.grade).to eq 'Gold star'
+
+        expect(invalid_gcse.errors.messages[:grade].pop).to eq 'Enter a real grade'
       end
     end
 
@@ -388,6 +406,34 @@ RSpec.describe CandidateInterface::OtherQualificationWizard, type: :model do
       )
       expect(qualification.valid?(:type)).to be true
       expect(qualification.missing_type_validation_error?).to be false
+    end
+  end
+
+  describe '#grade_hint' do
+    it 'returns a GCSE hint if qualification_type is GCSE_TYPE' do
+      qualification = CandidateInterface::OtherQualificationWizard.new(
+        nil,
+        nil,
+        current_step: :details,
+        qualification_type: 'GCSE',
+      )
+
+      expect(qualification.grade_hint).to eq({ text: 'For example, ‘C’, ‘CD’, ‘4’ or ‘4-3’' })
+    end
+
+    it 'returns nil for any other qualification_type' do
+      namespace = CandidateInterface::OtherQualificationWizard
+
+      (namespace::ALL_VALID_TYPES - [namespace::GCSE_TYPE]).each do |qualification_type|
+        qualification = CandidateInterface::OtherQualificationWizard.new(
+          nil,
+          nil,
+          current_step: :details,
+          qualification_type: qualification_type,
+        )
+
+        expect(qualification.grade_hint).to eq nil
+      end
     end
   end
 end
