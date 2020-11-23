@@ -91,11 +91,8 @@ RSpec.describe 'Reject an application' do
   def and_i_check_the_reasons_for_rejection
     expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_initial_questions_path(@application_choice))
 
-    expect(page).to have_content('Training provider feedback')
-    expect(page).to have_content('Here’s why your application was unsuccessful')
-
     expect(page).to have_content('Something you did')
-    expect(page).to have_content("There was no need to sing 'Run to the Hills' for us\nAdvice: Leave the singing out next time")
+    expect(page).to have_content("There was no need to sing 'Run to the Hills' for us\nLeave the singing out next time")
 
     expect(page).to have_content('Quality of application')
     expect(page).to have_content('Telling people you are a stable genius might be a bit loaded')
@@ -140,8 +137,6 @@ RSpec.describe 'Reject an application' do
   def and_i_check_the_amended_reasons_for_rejection
     expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_other_reasons_path(@application_choice))
 
-    expect(page).to have_content('The provider would be interested in future applications from you')
-
     expect(page).not_to have_content('Honesty and professionalism')
     expect(page).not_to have_content('Safeguarding issues')
 
@@ -161,15 +156,13 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_content('Rejection details')
 
     expect(page).to have_content('The following feedback was sent to the candidate.')
-    expect(page).to have_content('The provider would be interested in future applications from you')
-    expect(page).to have_content('Here’s why your application was unsuccessful.')
     expect(page).to have_content('Something you did')
     expect(page).to have_content("There was no need to sing 'Run to the Hills' for us")
-    expect(page).to have_content('Advice: Leave the singing out next time')
+    expect(page).to have_content('Leave the singing out next time')
     expect(page).to have_content('Quality of application')
     expect(page).to have_content('Telling people you are a stable genius might be a bit loaded')
     expect(page).to have_content('Qualifications')
-    expect(page).to have_content('No Maths GCSE grade 4 (C) or above, or valid equivalent No degree')
+    expect(page).to have_content("No Maths GCSE grade 4 (C) or above, or valid equivalent.\nNo degree.")
     expect(page).to have_content('Performance at interview')
     expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
     expect(page).to have_content('Additional advice')

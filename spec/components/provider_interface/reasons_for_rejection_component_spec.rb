@@ -32,10 +32,9 @@ RSpec.describe ProviderInterface::ReasonsForRejectionComponent do
     it 'renders rejection reason answers under headings' do
       result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection)).to_html
 
-      expect(result).to include('The provider would be interested in future applications from you')
       expect(result).to include('Something you did')
       expect(result).to include('Shouted a lot')
-      expect(result).to include('Advice: Speak calmly')
+      expect(result).to include('Speak calmly')
 
       expect(result).to include('Quality of application')
       expect(result).to include('Do not refer to yourself in the third person')
@@ -51,13 +50,6 @@ RSpec.describe ProviderInterface::ReasonsForRejectionComponent do
 
       expect(result).to include('Additional advice')
       expect(result).to include('That zoom background...')
-    end
-
-    it 'renders a different heading if no alternative course was offered' do
-      reasons_for_rejection_attrs[:interested_in_future_applications_y_n] = 'No'
-      result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection)).to_html
-
-      expect(result).to include('Training provider feedback')
     end
 
     it 'renders change links when editable' do

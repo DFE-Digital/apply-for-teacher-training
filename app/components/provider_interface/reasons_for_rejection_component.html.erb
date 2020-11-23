@@ -1,11 +1,4 @@
 <div class="govuk-inset-text app-inset-text">
-  <div class="app-feedback">
-    <h2 class="govuk-heading-m">
-      <%= feedback_heading %>
-    </h2>
-  </div>
-  <p class="govuk-body">Here’s why your application was unsuccessful.</p>
-
   <% if reasons_for_rejection.candidate_behaviour_y_n == 'Yes' %>
     <div class="app-feedback">
       <h3 class="govuk-heading-s">Something you did</h3>
@@ -13,10 +6,10 @@
         <% reasons_for_rejection.candidate_behaviour_what_did_the_candidate_do.each do |reason| %>
           <li>
             <% if reason == 'other' %>
-              <%= reasons_for_rejection.candidate_behaviour_other %>
-              <p>Advice: <%= reasons_for_rejection.candidate_behaviour_what_to_improve %></p>
+              <p><%= reasons_for_rejection.candidate_behaviour_other %></p>
+              <p><%= reasons_for_rejection.candidate_behaviour_what_to_improve %></p>
             <% else %>
-              <%= t("reasons_for_rejection.candidate_behaviour_what_did_the_candidate_do.#{reason}") %>
+              <p><%= t("reasons_for_rejection.candidate_behaviour_what_did_the_candidate_do.#{reason}") %>.</p>
             <% end %>
           </li>
         <% end %>
@@ -36,10 +29,10 @@
         <% reasons_for_rejection.quality_of_application_which_parts_needed_improvement.each do |reason| %>
           <li>
             <% if reason == 'other' %>
-              <%= reasons_for_rejection.quality_of_application_other_details %>
-              <p>Advice: <%= reasons_for_rejection.quality_of_application_other_what_to_improve %></p>
+              <p><%= reasons_for_rejection.quality_of_application_other_details %></p>
+              <p><%= reasons_for_rejection.quality_of_application_other_what_to_improve %></p>
             <% else %>
-              <%= reasons_for_rejection.send(:"quality_of_application_#{reason}_what_to_improve") %>
+              <p><%= reasons_for_rejection.send(:"quality_of_application_#{reason}_what_to_improve") %>.</p>
             <% end %>
           </li>
         <% end %>
@@ -59,9 +52,9 @@
         <% reasons_for_rejection.qualifications_which_qualifications.each do |reason| %>
           <li>
             <% if reason == 'other' %>
-              <%= reasons_for_rejection.qualifications_other_details %>
+              <p><%= reasons_for_rejection.qualifications_other_details %></p>
             <% else %>
-              <%= t("reasons_for_rejection.qualifications_which_qualifications.#{reason}") %>
+              <p><%= t("reasons_for_rejection.qualifications_which_qualifications.#{reason}") %>.</p>
             <% end %>
           </li>
         <% end %>
