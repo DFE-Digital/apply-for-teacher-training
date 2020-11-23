@@ -17,7 +17,7 @@ module CandidateInterface
       @intermediate_data_service ||= IntermediateDataService.new(
         WizardStateStores::RedisStore.new(
           key: persistence_key_for_current_user,
-        )
+        ),
       )
     end
 

@@ -37,7 +37,6 @@ RSpec.describe CandidateInterface::IntermediateDataService do
   describe '#clear_state!' do
     it 'removes all existing data' do
       service = create_service
-      initial_data = { 'key1' => 'one', 'key2' => 'two', 'key3' => 'three' }
       service.clear_state!
       expect(service.read).to eq({})
     end

@@ -144,7 +144,7 @@ module CandidateInterface
       if !valid_year?(award_year)
         errors.add(:award_year, :invalid)
       elsif award_year.to_i >= year_limit
-         errors.add(:award_year, :in_the_future, date: year_limit)
+        errors.add(:award_year, :in_the_future, date: year_limit)
       end
     end
 

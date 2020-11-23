@@ -31,7 +31,7 @@ module CandidateInterface
 
     def save_intermediate!
       @intermediate_data_service.write(intermediate_state)
-      @next_step = (checking_answers && !qualification_type_changed?) ? :check : :details
+      @next_step = checking_answers && !qualification_type_changed? ? :check : :details
     end
 
     def save!

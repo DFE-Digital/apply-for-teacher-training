@@ -102,7 +102,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailForm do
           qualification.valid?(:details)
 
           expect(qualification.errors.full_messages_for(:award_year)).to eq(
-            ["Award year #{error_message}"]
+            ["Award year #{error_message}"],
           )
         end
       end
