@@ -108,6 +108,12 @@ module CandidateInterface
       errors.details[:qualification_type].any? { |e| e[:error] == :blank }
     end
 
+    def grade_hint
+      if qualification_type == CandidateInterface::OtherQualificationTypeForm::GCSE_TYPE
+        { text: I18n.t('gcse_edit_grade.hint.other.gcse_single_and_double') }
+      end
+    end
+
     def current_qualification
       @current_qualification ||= id.present? ? @current_application.application_qualifications.other.find(id) : nil
     end
@@ -139,12 +145,10 @@ module CandidateInterface
     end
 
     def award_year_is_date_and_before_current_year
-      year_limit = Time.zone.today.year.to_i + 1
-
       if !valid_year?(award_year)
         errors.add(:award_year, :invalid)
-      elsif award_year.to_i >= year_limit
-        errors.add(:award_year, :in_the_future, date: year_limit)
+      elsif future_year?(award_year)
+        errors.add(:award_year, :in_the_future)
       end
     end
 

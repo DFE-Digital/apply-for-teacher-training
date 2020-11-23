@@ -3,8 +3,8 @@ import { accessibleAutocompleteFromSource } from "./helpers.js";
 const initOtherQualificationsGradeAutocomplete = () => {
   try {
     const inputIds = [
-      "candidate-interface-other-qualification-wizard-grade-field",
-      "candidate-interface-other-qualification-wizard-grade-field-error",
+      "candidate-interface-other-qualification-detail-form-grade-field",
+      "candidate-interface-other-qualification-detail-form-grade-field-error",
     ];
 
     inputIds.forEach(inputId => {
