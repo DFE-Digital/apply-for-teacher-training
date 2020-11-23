@@ -113,7 +113,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_click_on_course_choices
-    click_link 'Course choices'
+    click_link 'Choose your courses'
   end
 
   def and_i_click_on_add_course
@@ -203,7 +203,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def then_i_see_that_the_section_is_completed
-    expect(page).to have_css('#course-choices-badge-id', text: 'Completed')
+    expect(page).to have_css('#choose-your-courses-badge-id', text: 'Completed')
   end
 
   def when_i_click_continue

@@ -42,11 +42,11 @@ RSpec.feature 'International candidate submits the application' do
     given_courses_exist
     visit candidate_interface_application_form_path
 
-    click_link 'Course choices'
+    click_link 'Choose your courses'
     candidate_fills_in_course_choices
 
     # Basic personal details
-    click_link t('page_titles.personal_details')
+    click_link t('page_titles.personal_information')
     scope = 'application_form.personal_details'
     fill_in t('first_name.label', scope: scope), with: 'Lando'
     fill_in t('last_name.label', scope: scope), with: 'Calrissian'
@@ -101,10 +101,10 @@ RSpec.feature 'International candidate submits the application' do
     click_link 'Academic and other relevant qualifications'
     candidate_fills_in_their_other_qualifications
 
-    click_link 'Why do you want to be a teacher?'
+    click_link 'Why do you want to teach'
     candidate_fills_in_becoming_a_teacher
 
-    click_link 'What do you know about the subject you want to teach?'
+    click_link 'Your suitability to teach a subject or age group'
     candidate_fills_in_subject_knowledge
 
     click_link t('page_titles.interview_preferences')

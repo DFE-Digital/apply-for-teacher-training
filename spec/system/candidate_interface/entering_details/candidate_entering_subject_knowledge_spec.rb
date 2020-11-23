@@ -42,7 +42,7 @@ RSpec.feature 'Entering subject knowledge' do
   end
 
   def and_i_have_chosen_a_course
-    click_link 'Course choices'
+    click_link 'Choose your course'
     candidate_fills_in_course_choices
   end
 
@@ -99,6 +99,6 @@ RSpec.feature 'Entering subject knowledge' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#what-do-you-know-about-the-subject-you-want-to-teach-badge-id', text: 'Completed')
+    expect(page).to have_css('#your-suitability-to-teach-a-subject-or-age-group-badge-id', text: 'Completed')
   end
 end

@@ -65,7 +65,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content 'Why do you want to be a teacher?'
+    expect(page).to have_content 'Why do you want to teach'
     expect(page).to have_content 'Hello world'
   end
 
@@ -83,7 +83,7 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
   end
 
   def then_i_can_check_my_revised_answers
-    expect(page).to have_content 'Why do you want to be a teacher?'
+    expect(page).to have_content 'Why do you want to teach'
     expect(page).to have_content 'Hello world again'
   end
 
@@ -96,6 +96,6 @@ RSpec.feature 'Entering "Why do you want to be a teacher?"' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#why-do-you-want-to-be-a-teacher-badge-id', text: 'Completed')
+    expect(page).to have_css('#why-do-you-want-to-teach-badge-id', text: 'Completed')
   end
 end

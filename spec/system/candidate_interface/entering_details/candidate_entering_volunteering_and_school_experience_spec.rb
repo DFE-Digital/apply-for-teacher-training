@@ -198,7 +198,7 @@ RSpec.feature 'Entering volunteering and school experience' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#unpaid-experience-and-volunteering-badge-id', text: 'Completed')
+    expect(page).to have_css('#unpaid-experience-badge-id', text: 'Completed')
   end
 
   def then_i_can_check_my_answers

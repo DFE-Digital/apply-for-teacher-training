@@ -62,7 +62,7 @@ RSpec.describe 'Add additional courses flow' do
   end
 
   def and_i_click_on_course_choices
-    click_link 'Course choices'
+    click_link 'Choose your courses'
   end
 
   def and_i_click_on_add_course

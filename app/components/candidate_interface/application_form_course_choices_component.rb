@@ -18,7 +18,11 @@ module CandidateInterface
     end
 
     def page_title
-      I18n.t!('page_titles.course_choices')
+      I18n.t!('page_titles.courses')
+    end
+
+    def text
+      I18n.t!('page_titles.courses_text')
     end
   end
 end

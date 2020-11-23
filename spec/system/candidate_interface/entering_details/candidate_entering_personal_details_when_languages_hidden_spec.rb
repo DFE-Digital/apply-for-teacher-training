@@ -6,7 +6,7 @@ RSpec.describe 'Entering personal details' do
   scenario 'The languages page is hidden' do
     given_i_am_signed_in
     and_my_application_is_in_a_state_where_languages_should_not_be_visible
-    then_i_can_complete_personal_details_without_seeing_the_languages_page
+    then_i_can_complete_personal_information_without_seeing_the_languages_page
     and_i_can_mark_the_section_complete
   end
 
@@ -25,8 +25,8 @@ RSpec.describe 'Entering personal details' do
     ).to eq nil
   end
 
-  def then_i_can_complete_personal_details_without_seeing_the_languages_page
-    click_link t('page_titles.personal_details')
+  def then_i_can_complete_personal_information_without_seeing_the_languages_page
+    click_link t('page_titles.personal_information')
 
     # Basic details
     scope = 'application_form.personal_details'
@@ -66,6 +66,6 @@ RSpec.describe 'Entering personal details' do
     check t('application_form.completed_checkbox')
     click_button 'Continue'
 
-    expect(page).to have_css('#personal-details-badge-id', text: 'Completed')
+    expect(page).to have_css('#personal-information-badge-id', text: 'Completed')
   end
 end

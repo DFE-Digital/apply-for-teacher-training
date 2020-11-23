@@ -52,7 +52,7 @@ RSpec.feature 'Candidate edits their choice section' do
   end
 
   def then_the_course_choices_section_should_be_marked_as_incomplete
-    expect(page.text).to include 'Course choices Incomplete'
+    expect(page.text).to include 'Choose your courses Incomplete'
   end
 
   def given_there_are_courses_to_add

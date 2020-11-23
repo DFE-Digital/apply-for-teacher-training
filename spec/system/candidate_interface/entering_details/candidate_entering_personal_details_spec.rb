@@ -9,7 +9,7 @@ RSpec.feature 'Entering their personal details' do
     given_i_am_signed_in
     and_i_visit_the_site
 
-    when_i_click_on_personal_details
+    when_i_click_on_personal_information
     and_i_fill_in_some_details_but_omit_some_required_details
     and_i_submit_the_form
     then_i_should_see_validation_errors
@@ -37,7 +37,7 @@ RSpec.feature 'Entering their personal details' do
     then_i_should_see_the_form
     and_that_the_section_is_completed
 
-    when_i_click_on_personal_details
+    when_i_click_on_personal_information
     then_i_can_check_my_revised_answers
   end
 
@@ -49,8 +49,8 @@ RSpec.feature 'Entering their personal details' do
     visit candidate_interface_application_form_path
   end
 
-  def when_i_click_on_personal_details
-    click_link t('page_titles.personal_details')
+  def when_i_click_on_personal_information
+    click_link t('page_titles.personal_information')
   end
 
   def and_i_fill_in_some_details_but_omit_some_required_details
@@ -131,10 +131,10 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def then_i_should_see_the_form
-    expect(page).to have_content(t('page_titles.personal_details'))
+    expect(page).to have_content(t('page_titles.personal_information'))
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#personal-details-badge-id', text: 'Completed')
+    expect(page).to have_css('#personal-information-badge-id', text: 'Completed')
   end
 end
