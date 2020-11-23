@@ -137,8 +137,10 @@ RSpec.feature 'See UCAS matches' do
   end
 
   def then_i_should_see_ucas_match_summary
-    expect(page).to have_content 'Trackable applicant key'
-    expect(page).to have_content '0F8FB8240C73AB94'
+    within('main dl div:eq(7)') do
+      expect(page).to have_content 'Trackable applicant key'
+      expect(page).to have_content '0F8FB8240C73AB94'
+    end
 
     expect(page).to have_content 'Matched courses'
     within('tbody tr:eq(1)') do
