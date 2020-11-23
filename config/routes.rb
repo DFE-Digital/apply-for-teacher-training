@@ -547,9 +547,6 @@ Rails.application.routes.draw do
     scope path: '/applications/:application_choice_id' do
       get '/' => 'application_choices#show', as: :application_choice
       get '/offer' => 'application_choices#offer', as: :application_choice_offer
-      get '/notes' => 'application_choices#notes', as: :application_choice_notes
-      get '/notes/new' => 'application_choices#new_note', as: :application_choice_new_note
-      post '/notes' => 'application_choices#create_note', as: :application_choice_create_note
       get '/timeline' => 'application_choices#timeline', as: :application_choice_timeline
       get '/emails' => 'application_choices#emails', as: :application_choice_emails
       get '/respond' => 'decisions#respond', as: :application_choice_respond
@@ -573,6 +570,8 @@ Rails.application.routes.draw do
       get '/feedback' => 'feedback#new', as: :application_choice_new_feedback
       post '/feedback/check' => 'feedback#check', as: :application_choice_check_feedback
       post '/feedback' => 'feedback#create', as: :application_choice_feedback
+
+      resources :notes, only: %i[index show new create], as: :application_choice_notes
     end
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
