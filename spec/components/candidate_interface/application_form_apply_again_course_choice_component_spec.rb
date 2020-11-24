@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::ApplicationFormApplyAgainCourseChoiceComponen
         described_class.new(completed: true),
       )
 
-      expect(heading(result)).to eq 'Choose your course'
+      expect(heading(result)).to eq 'Course'
       expect(link_text(result)).to eq 'Choose your course'
       expect(href(result)).to eq '/candidate/application/review'
       expect(status_text(result)).to eq 'Completed'
@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::ApplicationFormApplyAgainCourseChoiceComponen
     end
 
     it 'renders successfully' do
-      expect(heading(result)).to eq 'Choose your course'
+      expect(heading(result)).to eq 'Course'
       expect(link_text(result)).to eq 'Choose your course'
       expect(href(result)).to eq '/candidate/application/courses'
       expect(status_text(result)).to eq 'Incomplete'

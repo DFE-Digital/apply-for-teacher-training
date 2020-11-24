@@ -16,13 +16,5 @@ module CandidateInterface
         candidate_interface_course_choices_index_path
       end
     end
-
-    def page_title
-      I18n.t!('page_titles.courses')
-    end
-
-    def text
-      I18n.t!('section_items.choose_courses')
-    end
   end
 end
