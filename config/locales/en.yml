@@ -183,6 +183,7 @@ en:
     adjustments: Adjustments
     safeguarding: Safeguarding
     review: Review
+    check_and_submit: Check and submit
     previous_applications: Previous applications
   section_items:
     choose_course: Choose your course
@@ -190,6 +191,7 @@ en:
     review_references: Review your references
     manage_references: Manage your references
     add_references: Add your references
+    check_and_submit: Check and submit your application
   layout:
     support:
       title: Get support
