@@ -39,12 +39,14 @@ RSpec.describe FindSync::SyncProviderFromFind, sidekiq: true do
           provider_code: 'ABC',
           course_code: '9CBA',
           findable: true,
+          postcode: 'SW1P 3BT',
         )
 
         described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         course_option = CourseOption.last
         expect(course_option.course.provider.code).to eq 'ABC'
+        expect(course_option.course.provider.postcode).to eq 'SW1P 3BT'
         expect(course_option.course.code).to eq '9CBA'
         expect(course_option.course.exposed_in_find).to be true
         expect(course_option.course.recruitment_cycle_year).to eql stubbed_recruitment_cycle_year

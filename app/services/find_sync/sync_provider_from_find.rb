@@ -50,6 +50,7 @@ module FindSync
     def provider_attrs_from(find_provider)
       {
         region_code: find_provider.region_code&.strip,
+        postcode: find_provider.postcode,
         name: find_provider.provider_name,
       }
     end
