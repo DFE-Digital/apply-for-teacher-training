@@ -58,6 +58,8 @@ module FindSync
         site.address_line3 = find_site.address3&.strip
         site.address_line4 = find_site.address4&.strip
         site.postcode = find_site.postcode&.strip
+        site.latitude = find_site.latitude
+        site.longitude = find_site.longitude
         site.save!
 
         find_site_status = site_statuses.find { |ss| ss.site.id == find_site.id }

@@ -62,6 +62,8 @@ module FindAPIHelper
                 'address3': 'Bruntcliffe Lane',
                 'address4': 'MORLEY, LEEDS',
                 'postcode': 'LS27 0LZ',
+                'longitude': -1.620208,
+                'latitude': 53.745587,
               },
             },
             {
@@ -190,6 +192,8 @@ module FindAPIHelper
                 'address3': 'Bruntcliffe Lane',
                 'address4': 'MORLEY, LEEDS',
                 'postcode': 'LS27 0LZ',
+                'longitude': -1.620208,
+                'latitude': 53.745587,
               },
             },
             {
@@ -307,6 +311,8 @@ module FindAPIHelper
               'address3': 'Bruntcliffe Lane',
               'address4': 'MORLEY, Leeds',
               'postcode': 'LS27 0LZ',
+              'longitude': -1.620208,
+              'latitude': 53.745587,
             },
           },
           {
@@ -320,6 +326,8 @@ module FindAPIHelper
               'address3': 'Another Lane',
               'address4': 'MORLEY, Leeds',
               'postcode': 'LS27 5HT',
+              'longitude': -1.62334,
+              'latitude': 53.745028,
             },
           },
           {
@@ -545,6 +553,8 @@ module FindAPIHelper
                 'address3': 'Bruntcliffe Lane',
                 'address4': 'MORLEY, LEEDS',
                 'postcode': 'LS27 0LZ',
+                'longitude': -1.620208,
+                'latitude': 53.745587,
               },
             },
             {
