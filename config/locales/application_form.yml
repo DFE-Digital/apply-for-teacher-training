@@ -559,6 +559,8 @@ en:
               too_many_words: Other languages spoken must be %{count} words or fewer
         candidate_interface/right_to_work_or_study_form:
           attributes:
+            right_to_work_or_study:
+              blank: Select if you have the right to work or study in the UK
             right_to_work_or_study_details:
               blank: Please provide details of your right to work or study in the UK.
               too_many_words: Other languages spoken must be %{count} words or fewer
