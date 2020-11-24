@@ -193,19 +193,21 @@ module VendorAPI
     end
 
     def parse_structured_gcses(gcses)
-      multiple_english_gcse = gcses.find { |gcse| gcse[:subject] == 'english' && gcse[:structured_grades].present? }
+      multiple_gcses = gcses.select { |gcse| gcse[:subject] != 'science triple award' && gcse[:structured_grades].present? }
 
-      if multiple_english_gcse
-        structured_english_grades = JSON.parse(multiple_english_gcse[:structured_grades])
+      if multiple_gcses.any?
+        multiple_gcses.each do |multiple_gcse|
+          structured_grades = JSON.parse(multiple_gcse[:structured_grades])
 
-        structured_english_grades.each do |k, v|
-          new_separated_gcse = multiple_english_gcse.dup
-          new_separated_gcse.subject = k.humanize
-          new_separated_gcse.grade = v
-          gcses << new_separated_gcse
+          structured_grades.each do |k, v|
+            new_separated_gcse = multiple_gcse.dup
+            new_separated_gcse.subject = k.humanize
+            new_separated_gcse.grade = v
+            gcses << new_separated_gcse
+          end
+
+          gcses.delete_if { |gcse| gcse == multiple_gcse }
         end
-
-        gcses.delete_if { |gcse| gcse == multiple_english_gcse }
       end
       gcses
     end

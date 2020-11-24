@@ -54,7 +54,7 @@ class GcseQualificationCardsComponent < ViewComponent::Base
         "#{grades['chemistry']} (Chemistry)",
         "#{grades['physics']} (Physics)",
       ]
-    elsif qualification.subject == 'english' && qualification.structured_grades
+    elsif qualification.structured_grades
       grades = JSON.parse(qualification.structured_grades)
       grades.map { |k, v,| "#{v} (#{k.humanize.titleize})" }
     else
