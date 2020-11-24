@@ -184,8 +184,11 @@ en:
     review: Review
     previous_applications: Previous applications
   section_items:
-    choose_your_course: Choose your course
-    choose_your_courses: Choose your courses
+    choose_course: Choose your course
+    choose_courses: Choose your courses
+    review_references: Review your references
+    manage_references: Manage your references
+    add_references: Add your references
   layout:
     support:
       title: Get support

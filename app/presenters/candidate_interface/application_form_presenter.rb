@@ -119,11 +119,11 @@ module CandidateInterface
 
     def references_link_text
       if @application_form.enough_references_have_been_provided?
-        'Review your references'
+        I18n.t('section_items.review_references')
       elsif @application_form.application_references.present?
-        'Manage your references'
+        I18n.t('section_items.manage_references')
       else
-        'Add your references'
+        I18n.t('section_items.add_references')
       end
     end
 

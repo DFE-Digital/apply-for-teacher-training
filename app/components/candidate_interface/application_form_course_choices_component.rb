@@ -22,7 +22,7 @@ module CandidateInterface
     end
 
     def text
-      I18n.t!('section_items.choose_your_courses')
+      I18n.t!('section_items.choose_courses')
     end
   end
 end
