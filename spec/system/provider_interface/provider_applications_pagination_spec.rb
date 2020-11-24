@@ -31,11 +31,10 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def and_my_organisation_has_fewer_than_30_applications
-    current_provider = create(:provider, :with_signed_agreement, code: 'ABC')
-
-    @course_option_one = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Alchemy', provider: current_provider))
-    @course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider))
-    @course_option_three = course_option_for_provider(provider: current_provider, course: create(:course, name: 'English', provider: current_provider))
+    @provider = create(:provider, :with_signed_agreement, code: 'ABC')
+    @course_option_one = course_option_for_provider(provider: @provider, course: create(:course, name: 'Alchemy', provider: @provider))
+    @course_option_two = course_option_for_provider(provider: @provider, course: create(:course, name: 'Divination', provider: @provider))
+    @course_option_three = course_option_for_provider(provider: @provider, course: create(:course, name: 'English', provider: @provider))
 
     create(:application_choice, :awaiting_provider_decision, course_option: @course_option_one, status: 'withdrawn', application_form:
            create(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 1.day.ago)
@@ -60,14 +59,13 @@ RSpec.feature 'Providers should be able to sort applications' do
   end
 
   def given_my_organisation_has_more_than_30_applications
-    create_list(
-      :application_choice,
-      30,
-      :awaiting_provider_decision,
-      course_option: @course_option_one,
-      application_form: create(:application_form),
-      updated_at: 1.day.ago,
-    )
+    30.times do |_n|
+      create(:application_choice,
+             :awaiting_provider_decision,
+             course_option: course_option_for_provider(provider: @provider, course: create(:course, name: 'Alchemy', provider: @provider)),
+             application_form: create(:application_form),
+             updated_at: 1.day.ago)
+    end
   end
 
   def then_i_should_see_a_paginator
