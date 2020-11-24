@@ -242,12 +242,140 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
     end
   end
 
-  describe '#feedback_heading' do
-    it 'indicates whether the provider would be interested in further applications' do
-      expect(described_class.new(store, {}).feedback_heading).to eq('Training provider feedback')
+  describe '#next_step' do
+    it 'is other_reasons when the current step is initial_questions, needs_other_reasons is true' do
+      expect(
+        described_class.new(
+          store,
+          current_step: 'initial_questions',
+          honesty_and_professionalism_y_n: 'No',
+          safeguarding_y_n: 'No',
+        ).next_step,
+      ).to eq 'other_reasons'
+    end
 
-      expect(described_class.new(store, { interested_in_future_applications_y_n: 'Yes' }).feedback_heading)
-        .to eq('The provider would be interested in future applications from you')
+    it 'is check when the current step is initial_questions and needs_other_reasons is false' do
+      expect(
+        described_class.new(
+          store,
+          current_step: 'initial_questions',
+          honesty_and_professionalism_y_n: 'No',
+          safeguarding_y_n: 'Yes',
+        ).next_step,
+      ).to eq 'check'
+    end
+
+    it 'is check when the current step is other_reasons' do
+      expect(
+        described_class.new(
+          store,
+          current_step: 'other_reasons',
+        ).next_step,
+      ).to eq 'check'
+    end
+  end
+
+  describe 'nested answers' do
+    let(:attrs_with_nested_answers) do
+      {
+        current_step: 'initial_questions',
+        candidate_behaviour_y_n: 'No',
+        candidate_behaviour_what_did_the_candidate_do: %w[other],
+        candidate_behaviour_other: 'Blah',
+        candidate_behaviour_what_to_improve: 'Less blah',
+        quality_of_application_y_n: 'No',
+        quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge other],
+        quality_of_application_personal_statement_what_to_improve: 'AAA',
+        quality_of_application_subject_knowledge_what_to_improve: 'BBB',
+        quality_of_application_other_details: 'CCC',
+        quality_of_application_other_what_to_improve: 'DDD',
+        qualifications_y_n: 'No',
+        qualifications_which_qualifications: %w[other],
+        qualifications_other_details: 'Nyyyyyyaaah',
+        performance_at_interview_y_n: 'No',
+        performance_at_interview_what_to_improve: 'Be better',
+        offered_on_another_course_y_n: 'No',
+        offered_on_another_course_details: 'ZZZ',
+        honesty_and_professionalism_y_n: 'No',
+        honesty_and_professionalism_concerns: %w[information_false_or_inaccurate plagiarism references other],
+        honesty_and_professionalism_concerns_information_false_or_inaccurate_details: 'AAA',
+        honesty_and_professionalism_concerns_plagiarism_details: 'BBB',
+        honesty_and_professionalism_concerns_references_details: 'CCC',
+        honesty_and_professionalism_concerns_other_details: 'DDD',
+        safeguarding_y_n: 'No',
+        safeguarding_concerns: %w[candidate_disclosed_information vetting_disclosed_information other],
+        safeguarding_concerns_candidate_disclosed_information_details: 'PPP',
+        safeguarding_concerns_vetting_disclosed_information_details: 'QQQ',
+        safeguarding_concerns_other_details: 'GGG',
+      }
+    end
+
+    subject(:wizard) { described_class.new(store, attrs_with_nested_answers) }
+
+    it 'ignores existing nested answers when top level answer is No' do
+      expect(wizard.candidate_behaviour_what_did_the_candidate_do).to eq([])
+      expect(wizard.candidate_behaviour_other).to be nil
+      expect(wizard.candidate_behaviour_what_to_improve).to be nil
+
+      expect(wizard.quality_of_application_which_parts_needed_improvement).to eq([])
+      expect(wizard.quality_of_application_personal_statement_what_to_improve).to be nil
+      expect(wizard.quality_of_application_subject_knowledge_what_to_improve).to be nil
+      expect(wizard.quality_of_application_other_details).to be nil
+      expect(wizard.quality_of_application_other_what_to_improve).to be nil
+
+      expect(wizard.qualifications_which_qualifications).to eq([])
+      expect(wizard.qualifications_other_details).to be nil
+
+      expect(wizard.performance_at_interview_what_to_improve).to be nil
+      expect(wizard.offered_on_another_course_details).to be nil
+
+      expect(wizard.honesty_and_professionalism_concerns).to eq([])
+      expect(wizard.honesty_and_professionalism_concerns_information_false_or_inaccurate_details).to be nil
+      expect(wizard.honesty_and_professionalism_concerns_plagiarism_details).to be nil
+      expect(wizard.honesty_and_professionalism_concerns_references_details).to be nil
+      expect(wizard.honesty_and_professionalism_concerns_other_details).to be nil
+
+      expect(wizard.safeguarding_concerns).to eq([])
+      expect(wizard.safeguarding_concerns_candidate_disclosed_information_details).to be nil
+      expect(wizard.safeguarding_concerns_vetting_disclosed_information_details).to be nil
+      expect(wizard.safeguarding_concerns_other_details).to be nil
+    end
+
+    # eg.
+    # candidate_behaviour_y_n: 'Yes'
+    # candidate_behaviour_what_did_the_candidate_do: [didnt_attend_interview]
+    # candidate_behaviour_other: 'Some text' <- this value should be cleared
+    it 'ignores nested answers when parent is not selected' do
+      described_class::INITIAL_TOP_LEVEL_QUESTIONS.each { |q| attrs_with_nested_answers[q] = 'Yes' }
+
+      attrs_with_nested_answers[:candidate_behaviour_what_did_the_candidate_do] = %w[didnt_attend_interview]
+      attrs_with_nested_answers[:quality_of_application_which_parts_needed_improvement] = %w[personal_statement]
+      attrs_with_nested_answers[:qualifications_which_qualifications] = %w[no_degree]
+      attrs_with_nested_answers[:honesty_and_professionalism_concerns] = %w[information_false_or_inaccurate]
+      attrs_with_nested_answers[:safeguarding_concerns] = %w[other]
+
+      expect(wizard.candidate_behaviour_other).to be nil
+      expect(wizard.candidate_behaviour_what_to_improve).to be nil
+
+      expect(wizard.quality_of_application_personal_statement_what_to_improve).to eq(
+        attrs_with_nested_answers[:quality_of_application_personal_statement_what_to_improve],
+      )
+      expect(wizard.quality_of_application_subject_knowledge_what_to_improve).to be nil
+      expect(wizard.quality_of_application_other_details).to be nil
+      expect(wizard.quality_of_application_other_what_to_improve).to be nil
+
+      expect(wizard.qualifications_other_details).to be nil
+
+      expect(wizard.honesty_and_professionalism_concerns_information_false_or_inaccurate_details).to eq(
+        attrs_with_nested_answers[:honesty_and_professionalism_concerns_information_false_or_inaccurate_details],
+      )
+      expect(wizard.honesty_and_professionalism_concerns_plagiarism_details).to be nil
+      expect(wizard.honesty_and_professionalism_concerns_references_details).to be nil
+      expect(wizard.honesty_and_professionalism_concerns_other_details).to be nil
+
+      expect(wizard.safeguarding_concerns_candidate_disclosed_information_details).to be nil
+      expect(wizard.safeguarding_concerns_vetting_disclosed_information_details).to be nil
+      expect(wizard.safeguarding_concerns_other_details).to eq(attrs_with_nested_answers[:safeguarding_concerns_other_details])
     end
   end
 end

@@ -9,7 +9,7 @@ module ProviderInterface
     end
 
     def update_initial_questions
-      @wizard = ReasonsForRejectionWizard.new(store, reasons_for_rejection_params)
+      @wizard = ReasonsForRejectionWizard.new(store, reasons_for_rejection_params.merge(current_step: 'initial_questions'))
 
       if @wizard.valid_for_current_step?
         @wizard.save_state!
@@ -25,7 +25,7 @@ module ProviderInterface
     end
 
     def update_other_reasons
-      @wizard = ReasonsForRejectionWizard.new(store, reasons_for_rejection_params)
+      @wizard = ReasonsForRejectionWizard.new(store, reasons_for_rejection_params.merge(current_step: 'other_reasons'))
 
       if @wizard.valid_for_current_step?
         @wizard.save_state!

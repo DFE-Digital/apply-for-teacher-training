@@ -22,6 +22,8 @@ RSpec.describe 'Reject an application' do
     and_i_choose_to_change_some_reasons_for_rejection
     and_i_answer_additional_reasons
     and_i_check_the_amended_reasons_for_rejection
+    and_i_choose_to_revert_my_changes
+    and_i_recheck_my_reasons
     and_i_submit_the_reasons_for_rejection
     then_i_can_see_the_reasons_why_the_application_was_rejected
   end
@@ -105,6 +107,7 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
 
     expect(page).to have_content('Honesty and professionalism')
+    expect(page).to have_content('We doubt claims about your golf handicap')
     expect(page).to have_content('We cannot accept references from your mum')
 
     expect(page).to have_content('Safeguarding issues')
@@ -144,6 +147,31 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_content('While impressive, your parkour skills are not relevant')
   end
 
+  def and_i_choose_to_revert_my_changes
+    click_on 'Change', match: :first
+
+    expect(page).to have_checked_field 'provider-interface-reasons-for-rejection-safeguarding-y-n-no-field'
+    expect(page).to have_checked_field 'provider-interface-reasons-for-rejection-honesty-and-professionalism-y-n-no-field'
+
+    choose 'provider-interface-reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
+
+    expect(page).to have_field('provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: '')
+    expect(page).to have_field('provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-plagiarism-details-field', with: '')
+    expect(page).to have_field('provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: '')
+
+    check 'provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-references-field'
+    fill_in 'provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: 'We cannot accept references from your gran'
+
+    click_on 'Continue'
+  end
+
+  def and_i_recheck_my_reasons
+    expect(page).to have_current_path(provider_interface_reasons_for_rejection_check_path(@application_choice))
+
+    expect(page).to have_content('Honesty and professionalism')
+    expect(page).not_to have_content('Safeguarding issues')
+  end
+
   def and_i_submit_the_reasons_for_rejection
     click_on 'Reject application'
   end
@@ -165,6 +193,8 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_content("No Maths GCSE grade 4 (C) or above, or valid equivalent.\nNo degree.")
     expect(page).to have_content('Performance at interview')
     expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
+    expect(page).to have_content('Honesty and professionalism')
+    expect(page).to have_content('We cannot accept references from your gran')
     expect(page).to have_content('Additional advice')
     expect(page).to have_content('While impressive, your parkour skills are not relevant')
   end

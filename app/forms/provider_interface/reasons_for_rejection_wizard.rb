@@ -2,12 +2,60 @@ module ProviderInterface
   class ReasonsForRejectionWizard
     include ActiveModel::Model
 
+    INITIAL_TOP_LEVEL_QUESTIONS = %i[
+      candidate_behaviour_y_n
+      quality_of_application_y_n
+      qualifications_y_n
+      performance_at_interview_y_n
+      offered_on_another_course_y_n
+      honesty_and_professionalism_y_n
+      safeguarding_y_n
+    ].freeze
+
+    INITIAL_QUESTIONS = {
+      candidate_behaviour_y_n: {
+        candidate_behaviour_what_did_the_candidate_do: {
+          other: %i[candidate_behaviour_other candidate_behaviour_what_to_improve],
+        },
+      },
+      quality_of_application_y_n: {
+        quality_of_application_which_parts_needed_improvement: {
+          personal_statement: :quality_of_application_personal_statement_what_to_improve,
+          subject_knowledge: :quality_of_application_subject_knowledge_what_to_improve,
+          other: %i[quality_of_application_other_details quality_of_application_other_what_to_improve],
+        },
+      },
+      qualifications_y_n: {
+        qualifications_which_qualifications: {
+          other: :qualifications_other_details,
+        },
+      },
+      performance_at_interview_y_n: { performance_at_interview_what_to_improve: nil },
+      offered_on_another_course_y_n: { offered_on_another_course_details: nil },
+      honesty_and_professionalism_y_n: {
+        honesty_and_professionalism_concerns: {
+          information_false_or_inaccurate: :honesty_and_professionalism_concerns_information_false_or_inaccurate_details,
+          plagiarism: :honesty_and_professionalism_concerns_plagiarism_details,
+          references: :honesty_and_professionalism_concerns_references_details,
+          other: :honesty_and_professionalism_concerns_other_details,
+        },
+      },
+      safeguarding_y_n: {
+        safeguarding_concerns: {
+          candidate_disclosed_information: :safeguarding_concerns_candidate_disclosed_information_details,
+          vetting_disclosed_information: :safeguarding_concerns_vetting_disclosed_information_details,
+          other: :safeguarding_concerns_other_details,
+        },
+      },
+    }.freeze
+
     attr_accessor :current_step, :checking_answers
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
 
       remove_empty_strings_from_array_attributes!(attrs)
+      clean_child_values_on_deselected_answers!(attrs)
 
       super(last_saved_state.deep_merge(attrs))
 
@@ -21,15 +69,7 @@ module ProviderInterface
     end
 
     def reason_not_captured_by_initial_questions?
-      %i[
-        candidate_behaviour_y_n
-        quality_of_application_y_n
-        qualifications_y_n
-        performance_at_interview_y_n
-        offered_on_another_course_y_n
-        honesty_and_professionalism_y_n
-        safeguarding_y_n
-      ].all? { |attr| send(attr) == 'No' }
+      INITIAL_TOP_LEVEL_QUESTIONS.all? { |attr| send(attr) == 'No' }
     end
 
     def needs_other_reasons?
@@ -285,6 +325,38 @@ module ProviderInterface
     end
 
   private
+
+    def clean_answers_for_initial_questions(attrs)
+      INITIAL_QUESTIONS.each_key { |k| clean_initial_question(attrs, k) }
+    end
+
+    def clean_answers_for_other_reasons(attrs)
+      attrs[:other_advice_or_feedback_details] = nil if attrs[:other_advice_or_feedback_y_n] == 'No'
+      attrs[:why_are_you_rejecting_this_application] = nil unless attrs.slice(*INITIAL_TOP_LEVEL_QUESTIONS).values.uniq == %w[No]
+    end
+
+    def clean_initial_question(attrs, key)
+      options_attribute_name, options = INITIAL_QUESTIONS[key].first
+      # Clear the immediate child options if the Yes/No top level answer is No
+      attrs.merge!(options_attribute_name => nil) if attrs[key] == 'No'
+
+      if options.is_a?(Hash) && attrs.key?(options_attribute_name)
+        options.each do |options_key, options_values|
+          # Some options have multiple children to clear.
+          Array(options_values).each do |child_attribute|
+            # Clear each nested attribute unless the relevant key is present for the options collection attribute value.
+            unless attrs[options_attribute_name]&.include?(options_key.to_s)
+              attrs.merge!(child_attribute => nil)
+            end
+          end
+        end
+      end
+    end
+
+    def clean_child_values_on_deselected_answers!(attrs)
+      clean_answers_for_initial_questions(attrs) if attrs[:current_step] == 'initial_questions'
+      clean_answers_for_other_reasons(attrs) if attrs[:current_step] == 'other_reasons'
+    end
 
     # Removes empty strings from array attributes, as they incorrectly pass presence validation
     def remove_empty_strings_from_array_attributes!(attrs)
