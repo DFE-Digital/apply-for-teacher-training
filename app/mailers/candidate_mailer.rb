@@ -299,7 +299,7 @@ class CandidateMailer < ApplicationMailer
     @application_form = application_choice.application_form
     @course_name_and_code = application_choice.course_option.course.name_and_code
     @provider_name = application_choice.course_option.course.provider.name
-    @date_to_withdraw_application_by = 10.business_days.after(Time.zone.today).to_s(:govuk_date)
+    @date_to_withdraw_application_by = TimeLimitCalculator.new(rule: :ucas_match_candidate_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
 
     email_for_candidate(
       @application_form,

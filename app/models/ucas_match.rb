@@ -56,15 +56,15 @@ class UCASMatch < ApplicationRecord
   def need_to_send_reminder_emails?
     return false unless initial_emails_sent?
 
-    send_reminder_emails_date = 5.business_days.after(candidate_last_contacted_at).to_date
-    Time.zone.today >= send_reminder_emails_date
+    candidate_withdrawal_request_reminder_date = calculate_action_date(:ucas_match_candidate_withdrawal_request_reminder, candidate_last_contacted_at)
+    Time.zone.today >= candidate_withdrawal_request_reminder_date
   end
 
   def need_to_request_withdrawal_from_ucas?
     return false unless reminder_emails_sent?
 
-    request_withdrawal_from_ucas_date = 10.business_days.after(candidate_last_contacted_at).to_date
-    Time.zone.today >= request_withdrawal_from_ucas_date
+    ucas_withdrawal_request_date = calculate_action_date(:ucas_match_ucas_withdrawal_request, candidate_last_contacted_at)
+    Time.zone.today >= ucas_withdrawal_request_date
   end
 
   def next_action
@@ -98,5 +98,9 @@ private
 
     application_for_the_same_course_on_both_services.map(&:application_in_progress_on_ucas?).any? &&
       application_for_the_same_course_on_both_services.map(&:application_in_progress_on_apply?).any?
+  end
+
+  def calculate_action_date(action, effective_date)
+    TimeLimitCalculator.new(rule: action, effective_date: effective_date).call.fetch(:time_in_future).to_date
   end
 end
