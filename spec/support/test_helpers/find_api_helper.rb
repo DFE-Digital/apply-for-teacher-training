@@ -11,6 +11,7 @@ module FindAPIHelper
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
     postcode: 'SW1P 3BT',
+    provider_type: 'scitt',
     course_code: 'X130',
     site_code: 'X',
     findable: true,
@@ -83,6 +84,7 @@ module FindAPIHelper
                 'funding_type': funding_type,
                 'age_range_in_years': age_range_in_years,
                 'content_status': content_status,
+                'provider_type': provider_type,
               },
               'relationships': {
                 'sites': {
@@ -142,6 +144,7 @@ module FindAPIHelper
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
     postcode: 'SW1P 3BT',
+    provider_type: 'scitt',
     course_code: 'X130',
     site_code: 'X',
     accredited_provider_code: 'XYZ',
@@ -216,6 +219,7 @@ module FindAPIHelper
                 },
                 'funding_type': 'fee',
                 'age_range_in_years': age_range_in_years,
+                'provider_type': provider_type,
               },
               'relationships': {
                 'sites': {
@@ -263,6 +267,7 @@ module FindAPIHelper
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
     postcode: 'SW1P 3BT',
+    provider_type: 'scitt',
     course_code: 'X130',
     findable: true,
     study_mode: 'full_time_or_part_time',
@@ -286,6 +291,7 @@ module FindAPIHelper
             'provider_code': provider_code,
             'region_code': region_code,
             'postcode': postcode,
+            'provider_type': provider_type,
           },
           'relationships': {
             'sites': {
@@ -345,6 +351,7 @@ module FindAPIHelper
               'funding_type': 'fee',
               'age_range_in_years': age_range_in_years,
               'content_status': content_status,
+              'provider_type': provider_type,
             },
             'relationships': {
               'sites': {
@@ -498,6 +505,7 @@ module FindAPIHelper
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
     postcode: 'SW1P 3BT',
+    provider_type: 'scitt',
     course_code: 'X130',
     site_code: 'X',
     findable: true,
@@ -574,6 +582,7 @@ module FindAPIHelper
                 'program_type': program_type,
                 'qualifications': qualifications,
                 'content_status': content_status,
+                'provider_type': provider_type,
               },
               'relationships': {
                 'sites': {
