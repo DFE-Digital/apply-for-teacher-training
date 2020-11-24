@@ -1,12 +1,6 @@
 class GetActivityLogEvents
-  attr_reader :application_choices
-
-  def initialize(application_choices:)
-    @application_choices = application_choices
-  end
-
-  def call(since: nil)
-    since ||= Time.zone.local(2018, 1, 1)
+  def self.call(application_choices:, since: nil)
+    since ||= Time.zone.local(2018, 1, 1) # before the pilot began, i.e. all records
 
     Audited::Audit.from <<~COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE.squish
       (

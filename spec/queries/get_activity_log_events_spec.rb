@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe GetActivityLogEvents, with_audited: true do
   around do |example|
-    @now = Time.zone.local(2020, 2, 11)
-    Timecop.travel(@now) { example.run }
+    now = Time.zone.local(2020, 2, 11)
+    Timecop.travel(now) { example.run }
   end
 
   let(:provider_user) { create(:provider_user, :with_two_providers) }
   let(:application_choices_for_provider_user) { GetApplicationChoicesForProviders.call(providers: provider_user.providers) }
-  let(:service) { GetActivityLogEvents.new(application_choices: application_choices_for_provider_user) }
+  let(:service_call) { GetActivityLogEvents.call(application_choices: application_choices_for_provider_user) }
 
   let(:course_provider_a) { create(:course, provider: provider_user.providers.first) }
   let(:course_provider_b) { create(:course, provider: provider_user.providers.second) }
@@ -27,20 +27,20 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
   end
 
   describe '#call' do
-    it 'raises an error unless application_choices responds_to #to_sql ' do
+    it 'raises an error when application_choices do not respond to #to_sql ' do
       array = 2.times.map { create_application_choice_for_course(course_provider_a) }
-      expect { GetActivityLogEvents.new(application_choices: array).call }.to raise_error(NoMethodError)
+      expect { GetActivityLogEvents.call(application_choices: array) }.to raise_error(NoMethodError)
     end
 
     it 'returns an empty array if no audits are found' do
-      expect(service.call).to eq([])
+      expect(service_call).to eq([])
     end
 
     it 'returns objects responding to the required attributes' do
       choice = create_application_choice_for_course course_provider_a
       create_audit_for_application_choice choice
 
-      result = service.call
+      result = service_call
 
       expect(result.count).to eq(1)
 
@@ -57,10 +57,13 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
         :application_choice_audit,
         user: provider_user,
         application_choice: choice,
-        created_at: @now + 1.day,
+        created_at: 1.day.from_now,
       )
 
-      result = service.call(since: @now + 6.hours)
+      result = GetActivityLogEvents.call(
+        application_choices: application_choices_for_provider_user,
+        since: 6.hours.from_now,
+      )
 
       expect(result.first).to eq(expected)
     end
@@ -70,7 +73,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
     it 'filters on action == update' do
       choice = create_application_choice_for_course course_provider_a
 
-      result = service.call
+      result = service_call
 
       expect(choice.audits.count).to eq(1)
       expect(choice.audits.first.action).to eq('create')
@@ -83,7 +86,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
       choice = create_application_choice_for_course course_provider_a
       audits = 3.times.map { create_audit_for_application_choice choice }
 
-      result = service.call
+      result = service_call
 
       expect(result.map(&:id)).to eq(audits.reverse.map(&:id))
     end
@@ -96,7 +99,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
         create_audit_for_application_choice [choice_a, choice_b].sample
       end
 
-      result = service.call
+      result = service_call
 
       expect(result.map(&:id)).to eq(audits.reverse.map(&:id))
     end
@@ -113,7 +116,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
         end
       end
 
-      elapsed_time = Benchmark.measure { service.call }.real
+      elapsed_time = Benchmark.measure { service_call }.real
       puts "GetProviderActivityLogEvents #call completed in #{elapsed_time}s"
 
       expect(elapsed_time).to be < 0.05
