@@ -90,6 +90,11 @@ class DataExport < ApplicationRecord
       description: 'A list of providers and information about their permissions',
       class: SupportInterface::ProviderAccessControlsExport,
     },
+    locations_export: {
+      name: 'Locations export',
+      description: 'A list of application choices with the associated postcodes for the candidate, provider and site.',
+      class: SupportInterface::LocationsExport,
+    },
   }.freeze
 
   belongs_to :initiator, polymorphic: true, optional: true
