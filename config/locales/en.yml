@@ -13,7 +13,7 @@ en:
       ielts: Your IELTS result
       other: Your English language assessment result
       review: English as a foreign language
-      start: English as a foreign language
+      start: English as a foreign language assessment
       toefl: Your TOEFL result
       type: What English language assessment did you do?
     error_prefix: "Error: "
@@ -45,11 +45,11 @@ en:
     guidance_for_the_new_cycle: Guidance for the new cycle (2020 to 2021)
     cookies_candidate: Cookies
     cookies_provider: Cookies
+    contact_information: Contact information
     contact_details: Contact details
     where_do_you_live: Where do you live?
     address: What is your address?
     work_history: Work history
-    work_experience: Work experience
     work_history_breaks: Tell us about any breaks in your work history
     work_history_break: Please tell us what you were doing over this period
     destroy_work_history_break: Are you sure you want to delete this entry?
@@ -72,8 +72,8 @@ en:
     work_history_explanation: Tell us why you’ve been out of the workplace
     destroy_degree: Are you sure you want to delete this degree?
     choosing_courses: Choosing your courses
+    course: Course
     courses: Courses
-    courses_text: Choose your courses
     course_choices: Course choices
     course_choice: Course choice
     full_course: You cannot apply to this course because it has no vacancies
@@ -95,9 +95,6 @@ en:
     subject_knowledge: Your suitability to teach a subject or age group
     interview_preferences: Interview needs
     training_with_a_disability: Asking for support if you're disabled
-    personal_statement: Personal statement
-    adjustments: Adjustments
-    safeguarding: Safeguarding
     suitability_to_work_with_children: Declaring any safeguarding issues
     recommendation: I would recommend this service to a friend or colleague
     complexity: I found this service unnecessarily complex
@@ -113,6 +110,9 @@ en:
     other_information: Is there anything else you would like to tell us?
     contact: Are you happy for us to contact you with follow-up questions to your feedback?
     thank_you: Thank you for your feedback
+    english_gcse: English GCSE or equivalent
+    maths_gcse: Maths GCSE or equivalent
+    science_gcse: Science GCSE or equivalent
     volunteering:
       short: Unpaid experience
       long: Unpaid experience working with children and other volunteering
@@ -173,6 +173,19 @@ en:
     guidance: User guidance
     applications_closed: Create an Apply for teacher training account
     your_feedback: Your feedback
+  section_groups:
+    courses: Courses
+    personal_details: Personal details
+    qualifications: Qualifications
+    work_experience: Work experience
+    personal_statement: Personal statement
+    adjustments: Adjustments
+    safeguarding: Safeguarding
+    review: Review
+    previous_applications: Previous applications
+  section_items:
+    choose_your_course: Choose your course
+    choose_your_courses: Choose your courses
   layout:
     support:
       title: Get support

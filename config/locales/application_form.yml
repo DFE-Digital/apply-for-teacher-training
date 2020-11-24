@@ -53,7 +53,7 @@ en:
         label: Is there anything else you would like to tell us about your application?
       further_information_details:
         label: Enter further information
-    contact_details:
+    contact_information:
       phone_number:
         label: Phone number
         hint_text: Enter a landline or mobile. For non-UK numbers, include the country code

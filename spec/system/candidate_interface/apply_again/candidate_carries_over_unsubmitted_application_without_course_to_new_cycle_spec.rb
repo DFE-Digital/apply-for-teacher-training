@@ -118,7 +118,7 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
 
   def when_i_view_courses
     click_link 'Back to application'
-    click_link 'Course choice'
+    click_link 'Choose your course'
   end
 
   def then_i_can_see_that_i_need_to_select_courses

@@ -97,7 +97,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
   end
 
   def when_i_click_through_to_select_a_course
-    click_link 'Course choice', exact: true
+    click_link 'Choose your course', exact: true
   end
 
   def then_i_am_informed_i_can_only_select_one_course

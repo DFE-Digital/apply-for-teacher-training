@@ -70,7 +70,7 @@ RSpec.feature 'International candidate submits the application' do
     check t('application_form.completed_checkbox')
     click_button 'Continue'
 
-    click_link t('page_titles.contact_details')
+    click_link t('page_titles.contact_information')
     visit candidate_interface_contact_details_edit_base_path
     candidate_fills_in_international_contact_details
 

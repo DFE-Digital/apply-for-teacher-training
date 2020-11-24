@@ -16,7 +16,7 @@ module CandidateInterface
     end
 
     def course_choice_title
-      I18n.t!('page_titles.course_choice')
+      I18n.t!('section_items.choose_your_course')
     end
   end
 end

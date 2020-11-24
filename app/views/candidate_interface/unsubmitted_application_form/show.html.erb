@@ -4,9 +4,7 @@
 <%= render(CandidateInterface::DeadlineBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?)) %>
 <%= render(CandidateInterface::ReopenBannerComponent.new(phase: @application_form.phase, flash_empty: flash.empty?)) %>
 
-<h1 class="govuk-heading-xl govuk-!-margin-bottom-2">
-  <%= t('page_titles.application_form') %>
-</h1>
+<h1 class="govuk-heading-xl govuk-!-margin-bottom-2"><%= t('page_titles.application_form') %></h1>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -14,7 +12,7 @@
 
     <% if !CandidateInterface::EndOfCyclePolicy.can_add_course_choice?(@application_form)%>
       <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-bottom-2">
-        <%= t('page_titles.course_choices') %>
+        <%= t('section_groups.courses') %>
       </h2>
 
       <p class="govuk-body">
@@ -32,258 +30,244 @@
           completed: @application_form_presenter.course_choices_completed?,
         )
       ) %>
-    <% else %>
+  <% else %>
+    <%= render(
+      CandidateInterface::ApplicationFormCourseChoicesComponent.new(
+        choices_are_present: @application_form_presenter.application_choices_added?,
+        completed: @application_form_presenter.course_choices_completed?,
+      )
+    ) %>
+<% end %>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"> <%= t('page_titles.references') %></h2>
+
+  <% unless @application_form_presenter.enough_references_provided? %>
+    <p class="govuk-body">You have to get 2 references back before you can send your application to training providers.</p>
+
+    <p class="govuk-body">It takes 8 days to get a reference on average.</p>
+  <% end %>
+
+  <ol class="app-task-list">
+    <li class="app-task-list__item">
       <%= render(
-        CandidateInterface::ApplicationFormCourseChoicesComponent.new(
-          choices_are_present: @application_form_presenter.application_choices_added?,
-          completed: @application_form_presenter.course_choices_completed?,
+        TaskListItemComponent.new(
+          text: @application_form_presenter.references_link_text,
+          completed: @application_form_presenter.enough_references_provided?,
+          path: @application_form_presenter.references_path,
+          custom_status: @application_form_presenter.references_in_progress? ? 'In progress' : nil
         )
       ) %>
+    <%= render(
+      TaskListItemReferencesComponent.new(
+        references: @application_form_presenter.references,
+      )
+    ) if @application_form_presenter.references.present? %>
+    </li>
+  </ol>
+
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.personal_details') %></h2>
+  <ol class="app-task-list">
+    <li class="app-task-list__item">
+      <% all_sections_completed =  @application_form.first_name.present? &&
+        @application_form.first_nationality.present? &&
+        (!@application_form.english_main_language.nil? ||
+         @application_form.right_to_work_or_study.present?) %>
+       <%= render(
+         TaskListItemComponent.new(
+           text: t('page_titles.personal_information'),
+           completed: @application_form_presenter.personal_details_completed?,
+           path: all_sections_completed ? candidate_interface_personal_details_show_path : candidate_interface_personal_details_path
+         )
+       ) %>
+    </li>
+    <li class="app-task-list__item">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.contact_information'),
+          completed: @application_form_presenter.contact_details_completed?,
+          path: @application_form_presenter.contact_details_valid? ? candidate_interface_contact_details_review_path : candidate_interface_contact_details_edit_base_path
+        )
+      ) %>
+    </li>
+  </ol>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.qualifications') %></h2>
+  <ol class="app-task-list">
+    <li class="app-task-list__item">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.degree'),
+          completed: @application_form_presenter.degrees_completed?,
+          path: @application_form_presenter.degrees_path
+        )
+      ) %>
+    </li>
+    <li class="app-task-list__item">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.english_gcse'),
+          completed: @application_form_presenter.english_gcse_completed?,
+          path: @application_form_presenter.english_gcse_added? ? candidate_interface_gcse_review_path(subject: :english) : candidate_interface_gcse_details_edit_type_path(subject: :english)
+        )
+      ) %>
+    </li>
+    <% if FeatureFlag.active?(:efl_section) && @application_form_presenter.display_efl_link?  %>
+      <li class="app-task-list__item">
+        <%= render(
+          TaskListItemComponent.new(
+            text: t('page_titles.efl.start'),
+            completed: @application_form_presenter.english_as_a_foreign_language_completed?,
+            path: @application_form_presenter.english_as_a_foreign_language_path
+          )
+        ) %>
+      </li>
     <% end %>
-
-    <section class="govuk-!-margin-bottom-8">
-      <h2 class="govuk-heading-m govuk-!-font-size-27">References</h2>
-
-      <% unless @application_form_presenter.enough_references_provided? %>
-        <p class="govuk-body">You have to get 2 references back before you can send your application to training providers.</p>
-
-        <p class="govuk-body">It takes 8 days to get a reference on average.</p>
-      <% end %>
-
-      <ol class="app-task-list">
-        <li class="app-task-list__item">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: @application_form_presenter.references_link_text,
-                  completed: @application_form_presenter.enough_references_provided?,
-                  path: @application_form_presenter.references_path,
-                  custom_status: @application_form_presenter.references_in_progress? ? 'In progress' : nil
-                )
-              ) %>
-          <%= render(
-                TaskListItemReferencesComponent.new(
-                  references: @application_form_presenter.references,
-                  )
-              ) if @application_form_presenter.references.present? %>
-        </li>
-      </ol>
-
-    </section>
-
-    <section class="govuk-!-margin-bottom-8">
-      <h2 class="govuk-heading-m govuk-!-font-size-27">
-        <%= t('page_titles.personal_information') %>
-      </h2>
-      <ol class="app-task-list">
-        <li class="app-task-list__item">
-          <% all_sections_completed =  @application_form.first_name.present? &&
-            @application_form.first_nationality.present? &&
-            (!@application_form.english_main_language.nil? ||
-              @application_form.right_to_work_or_study.present?) %>
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.personal_information'),
-                  completed: @application_form_presenter.personal_details_completed?,
-                  path: all_sections_completed ? candidate_interface_personal_details_show_path : candidate_interface_personal_details_path
-                )
-              ) %>
-        </li>
-        <li class="app-task-list__item">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.contact_details'),
-                  completed: @application_form_presenter.contact_details_completed?,
-                  path: @application_form_presenter.contact_details_valid? ? candidate_interface_contact_details_review_path : candidate_interface_contact_details_edit_base_path
-                )
-              ) %>
-        </li>
-      </ol>
-    </section>
-
-    <section class="govuk-!-margin-bottom-8">
-      <h2 class="govuk-heading-m govuk-!-font-size-27">
-        Qualifications
-      </h2>
-      <ol class="app-task-list">
-        <li class="app-task-list__item">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.degree'),
-                  completed: @application_form_presenter.degrees_completed?,
-                  path: @application_form_presenter.degrees_path
-                )
-              ) %>
-        </li>
-        <li class="app-task-list__item">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: 'Maths GCSE or equivalent',
-                  completed: @application_form_presenter.maths_gcse_completed?,
-                  path: @application_form_presenter.maths_gcse_added? ? candidate_interface_gcse_review_path(subject: :maths) : candidate_interface_gcse_details_edit_type_path(subject: :maths)
-                )
-              ) %>
-        </li>
-        <li class="app-task-list__item">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: 'English GCSE or equivalent',
-                  completed: @application_form_presenter.english_gcse_completed?,
-                  path: @application_form_presenter.english_gcse_added? ? candidate_interface_gcse_review_path(subject: :english) : candidate_interface_gcse_details_edit_type_path(subject: :english)
-                )
-              ) %>
-        </li>
-        <% if @application_form.science_gcse_needed? %>
-          <li class="app-task-list__item">
-            <%= render(
-                  TaskListItemComponent.new(
-                    text: 'Science GCSE or equivalent',
-                    completed: @application_form_presenter.science_gcse_completed?,
-                    path: @application_form_presenter.science_gcse_added? ? candidate_interface_gcse_review_path(subject: :science) : candidate_interface_gcse_details_edit_type_path(subject: :science)
-                  )
-                ) %>
-          </li>
-        <% end %>
-        <li class="app-task-list__item">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.other_qualification'),
-                  completed: @application_form_presenter.other_qualifications_completed?,
-                  path: @application_form_presenter.other_qualification_path, show_incomplete: false
-                )
-              ) %>
-        </li>
-        <% if FeatureFlag.active? :efl_section %>
-          <% if @application_form_presenter.display_efl_link? %>
-            <li class="app-task-list__item">
-              <%= render(
-                    TaskListItemComponent.new(
-                      text: 'English as a foreign language',
-                      completed: @application_form_presenter.english_as_a_foreign_language_completed?,
-                      path: @application_form_presenter.english_as_a_foreign_language_path
-                    )
-                  ) %>
-            </li>
-          <% end %>
-        <% end %>
-      </ol>
-    </section>
-
-    <section class="govuk-!-margin-bottom-8">
-      <h2 class="govuk-heading-m govuk-!-font-size-27">
-        Work experience
-      </h2>
-
-      <ol class="app-task-list">
-        <li class="app-task-list__item">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.work_history'),
-                  completed: @application_form_presenter.work_experience_completed?,
-                  path: @application_form_presenter.work_experience_path
-                )
-              ) %>
-        </li>
-        <li class="app-task-list__item">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.volunteering.short'),
-                  completed: @application_form_presenter.volunteering_completed?,
-                  path: @application_form_presenter.volunteering_path
-                )
-              ) %>
-        </li>
-      </ol>
-    </section>
-
-    <section class="govuk-!-margin-bottom-8">
-      <h2 class="govuk-heading-m govuk-!-font-size-27">
-        Personal statement
-      </h2>
-
-      <ol class="app-task-list">
-        <li class="app-task-list__item govuk-hint">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.becoming_a_teacher'),
-                  completed: @application_form_presenter.becoming_a_teacher_completed?,
-                  path: @application_form_presenter.becoming_a_teacher_valid? ? candidate_interface_becoming_a_teacher_show_path : candidate_interface_edit_becoming_a_teacher_path
-                )
-              ) %>
-        </li>
-        <li class="app-task-list__item govuk-hint">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.subject_knowledge'),
-                  completed: @application_form_presenter.subject_knowledge_completed?,
-                  path: @application_form_presenter.subject_knowledge_valid? ? candidate_interface_subject_knowledge_show_path : candidate_interface_edit_subject_knowledge_path
-                )
-              ) %>
-        </li>
-      </ol>
-    </section>
-
-    <section class="govuk-!-margin-bottom-8">
-      <h2 class="govuk-heading-m govuk-!-font-size-27">
-        Adjustments
-      </h2>
-
-      <ol class="app-task-list">
-        <li class="app-task-list__item">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.training_with_a_disability'),
-                  completed: @application_form_presenter.training_with_a_disability_completed?,
-                  path: @application_form_presenter.training_with_a_disability_valid? ? candidate_interface_training_with_a_disability_show_path : candidate_interface_edit_training_with_a_disability_path
-                )
-              ) %>
-        </li>
-        <li class="app-task-list__item govuk-hint">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.interview_preferences'),
-                  completed: @application_form_presenter.interview_preferences_completed?,
-                  path: @application_form_presenter.interview_preferences_valid? ? candidate_interface_interview_preferences_show_path : candidate_interface_edit_interview_preferences_path
-                )
-              ) %>
-        </li>
-      </ol>
-    </section>
-
-    <section class="govuk-!-margin-bottom-8">
-      <h2 class="govuk-heading-m govuk-!-font-size-27">
-        Safeguarding
-      </h2>
-
-      <ol class="app-task-list">
-        <li class="app-task-list__item">
-          <%= render(
-                TaskListItemComponent.new(
-                  text: t('page_titles.suitability_to_work_with_children'),
-                  completed: @application_form_presenter.safeguarding_completed?,
-                  path: @application_form_presenter.safeguarding_valid? ? candidate_interface_review_safeguarding_path : candidate_interface_edit_safeguarding_path
-                )
-              ) %>
-        </li>
-      </ol>
-    </section>
-
-    <% if EndOfCycleTimetable.between_cycles?(@application_form.phase) %>
-      <h2 class="govuk-heading-m govuk-!-font-size-27">Review</h2>
-      <p class="govuk-body">
-        You cannot submit your application until <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>. You can keep making changes to the rest of your application until then.
-      </p>
-      <%= govuk_button_link_to 'Review your application', candidate_interface_application_review_path %>
-    <% elsif CandidateInterface::EndOfCyclePolicy.can_submit?(@application_form) %>
-      <h2 class="govuk-heading-m govuk-!-font-size-27">Check and submit</h2>
-      <%= govuk_button_link_to 'Check and submit your application', candidate_interface_application_review_path %>
+    <li class="app-task-list__item">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.maths_gcse'),
+          completed: @application_form_presenter.maths_gcse_completed?,
+          path: @application_form_presenter.maths_gcse_added? ? candidate_interface_gcse_review_path(subject: :maths) : candidate_interface_gcse_details_edit_type_path(subject: :maths)
+        )
+      ) %>
+    </li>
+    <% if @application_form.science_gcse_needed? %>
+      <li class="app-task-list__item">
+        <%= render(
+          TaskListItemComponent.new(
+            text: t('page_titles.science_gcse'),
+            completed: @application_form_presenter.science_gcse_completed?,
+            path: @application_form_presenter.science_gcse_added? ? candidate_interface_gcse_review_path(subject: :science) : candidate_interface_gcse_details_edit_type_path(subject: :science)
+          )
+        ) %>
+      </li>
     <% end %>
+    <li class="app-task-list__item">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.other_qualification'),
+          completed: @application_form_presenter.other_qualifications_completed?,
+          path: @application_form_presenter.other_qualification_path, show_incomplete: false
+        )
+      ) %>
+    </li>
+  </ol>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.work_experience') %></h2>
+
+  <ol class="app-task-list">
+    <li class="app-task-list__item">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.work_history'),
+          completed: @application_form_presenter.work_experience_completed?,
+          path: @application_form_presenter.work_experience_path
+        )
+      ) %>
+    </li>
+    <li class="app-task-list__item">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.volunteering.short'),
+          completed: @application_form_presenter.volunteering_completed?,
+          path: @application_form_presenter.volunteering_path
+        )
+      ) %>
+    </li>
+  </ol>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.personal_statement') %></h2>
+
+  <ol class="app-task-list">
+    <li class="app-task-list__item govuk-hint">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.becoming_a_teacher'),
+          completed: @application_form_presenter.becoming_a_teacher_completed?,
+          path: @application_form_presenter.becoming_a_teacher_valid? ? candidate_interface_becoming_a_teacher_show_path : candidate_interface_edit_becoming_a_teacher_path
+        )
+      ) %>
+    </li>
+    <li class="app-task-list__item govuk-hint">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.subject_knowledge'),
+          completed: @application_form_presenter.subject_knowledge_completed?,
+          path: @application_form_presenter.subject_knowledge_valid? ? candidate_interface_subject_knowledge_show_path : candidate_interface_edit_subject_knowledge_path
+        )
+      ) %>
+    </li>
+  </ol>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.adjustments') %></h2>
+
+  <ol class="app-task-list">
+    <li class="app-task-list__item">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.training_with_a_disability'),
+          completed: @application_form_presenter.training_with_a_disability_completed?,
+          path: @application_form_presenter.training_with_a_disability_valid? ? candidate_interface_training_with_a_disability_show_path : candidate_interface_edit_training_with_a_disability_path
+        )
+      ) %>
+    </li>
+    <li class="app-task-list__item govuk-hint">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.interview_preferences'),
+          completed: @application_form_presenter.interview_preferences_completed?,
+          path: @application_form_presenter.interview_preferences_valid? ? candidate_interface_interview_preferences_show_path : candidate_interface_edit_interview_preferences_path
+        )
+      ) %>
+    </li>
+  </ol>
+</section>
+
+<section class="govuk-!-margin-bottom-8">
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.safeguarding') %></h2>
+
+  <ol class="app-task-list">
+    <li class="app-task-list__item">
+      <%= render(
+        TaskListItemComponent.new(
+          text: t('page_titles.suitability_to_work_with_children'),
+          completed: @application_form_presenter.safeguarding_completed?,
+          path: @application_form_presenter.safeguarding_valid? ? candidate_interface_review_safeguarding_path : candidate_interface_edit_safeguarding_path
+        )
+      ) %>
+    </li>
+  </ol>
+</section>
+
+<% if EndOfCycleTimetable.between_cycles?(@application_form.phase) %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.review') %></h2>
+  <p class="govuk-body">
+  You cannot submit your application until <%= EndOfCycleTimetable.apply_reopens.to_s(:govuk_date) %>. You can keep making changes to the rest of your application until then.
+  </p>
+  <%= govuk_button_link_to 'Review your application', candidate_interface_application_review_path %>
+<% elsif CandidateInterface::EndOfCyclePolicy.can_submit?(@application_form) %>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">Check and submit</h2>
+  <%= govuk_button_link_to 'Check and submit your application', candidate_interface_application_review_path %>
+<% end %>
   </div>
 
   <div class="govuk-grid-column-one-third">
     <%= render partial: '/candidate_interface/shared/support', locals: { support_reference: @application_form.support_reference } %>
 
     <% if @application_form.candidate_has_previously_applied? %>
-      <h2 class="govuk-heading-s">Previous applications</h2>
+      <h2 class="govuk-heading-s"><%= t('section_groups.previous_applications') %></h2>
       <%= render(CandidateInterface::LinksToPreviousApplicationsComponent.new(application_form: @application_form)) %>
     <% end %>
   </div>
