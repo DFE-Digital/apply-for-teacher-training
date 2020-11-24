@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_24_132410) do
+ActiveRecord::Schema.define(version: 2020_11_24_162533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -428,6 +428,7 @@ ActiveRecord::Schema.define(version: 2020_11_24_132410) do
     t.boolean "sync_courses", default: false, null: false
     t.string "region_code"
     t.string "postcode"
+    t.string "provider_type"
     t.index ["code"], name: "index_providers_on_code", unique: true
   end
 
