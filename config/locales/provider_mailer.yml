@@ -22,3 +22,5 @@ en:
       initial_email:
         duplicate_applications:
           subject: "Duplicate applicant identified"
+      resolved_on_ucas:
+        subject: Duplicate applicant removed from UTT

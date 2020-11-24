@@ -341,6 +341,17 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def ucas_match_resolved_on_ucas_email(application_choice)
+    @application_form = application_choice.application_form
+    @course_name_and_code = application_choice.offered_option.course.name_and_code
+    @provider_name = application_choice.offered_option.provider.name
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.ucas_match.resolved_on_ucas.subject'),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)

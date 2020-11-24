@@ -91,3 +91,6 @@ en:
         subject: 'Action required: please withdraw one of your duplicate applications'
       multiple_acceptances:
         subject: 'Action required: please withdraw one of your acceptances'
+    ucas_match:
+      resolved_on_ucas:
+        subject: Your application has been deleted from UTT

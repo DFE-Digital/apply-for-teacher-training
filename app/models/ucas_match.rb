@@ -13,6 +13,7 @@ class UCASMatch < ApplicationRecord
     initial_emails_sent: 'initial_emails_sent',
     reminder_emails_sent: 'reminder_emails_sent',
     ucas_withdrawal_requested: 'ucas_withdrawal_requested',
+    resolved_on_ucas: 'resolved_on_ucas',
   }
 
   def trackable_applicant_key
