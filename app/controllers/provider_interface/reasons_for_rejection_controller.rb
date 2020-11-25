@@ -56,6 +56,7 @@ module ProviderInterface
         flash[:success] = 'Application rejected'
         redirect_to provider_interface_applications_path
       else
+        @wizard.errors.merge!(service.errors)
         render :check
       end
     end
