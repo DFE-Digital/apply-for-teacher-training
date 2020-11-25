@@ -37,8 +37,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_submitted.subject'),
       'heading' => 'Application submitted',
       'support reference' => 'SUPPORT-REFERENCE',
-      'magic link to authenticate' => 'http://localhost:3000/candidate/confirm_authentication?token=raw_token&u=encrypted_id',
-      'magic link to to authenticate with path params' => 'http://localhost:3000/candidate/confirm_authentication?path=candidate_interface_feedback_form_path&token=raw_token&u=encrypted_id',
+      'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token&u=encrypted_id',
+      'magic link to to authenticate with path params' => 'http://localhost:3000/candidate/sign-in/confirm?path=candidate_interface_feedback_form_path&token=raw_token&u=encrypted_id',
     )
   end
 
