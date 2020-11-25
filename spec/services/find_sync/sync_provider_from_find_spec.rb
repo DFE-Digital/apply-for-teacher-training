@@ -58,6 +58,8 @@ RSpec.describe FindSync::SyncProviderFromFind, sidekiq: true do
         expect(course_option.site.address_line3).to eq 'Bruntcliffe Lane'
         expect(course_option.site.address_line4).to eq 'MORLEY, LEEDS'
         expect(course_option.site.postcode).to eq 'LS27 0LZ'
+        expect(course_option.site.latitude).to eq 53.745587
+        expect(course_option.site.longitude).to eq(-1.620208)
         expect(course_option.vacancy_status).to eq 'vacancies'
       end
 
