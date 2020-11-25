@@ -21,5 +21,6 @@ class GetApplicationChoicesForProviders
       .or(ApplicationChoice.includes(*includes)
         .where('courses.accredited_provider_id' => providers, 'courses.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers))
       .where('status IN (?)', statuses)
+      .select('"application_choices"."id" AS id')
   end
 end
