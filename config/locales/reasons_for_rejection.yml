@@ -89,11 +89,11 @@ en:
               too_long: Details about safeguarding must be 100 words or fewer
             why_are_you_rejecting_this_application:
               blank: Enter why you’re rejecting this application
-              too_long: The details you give for rejecting this application must be 200 words or fewer
+              too_long: Details about why you’re rejecting this application must be 200 words or fewer
             other_advice_or_feedback_y_n:
               blank: Select yes if there is any other advice or feedback you‘d like to give
             other_advice_or_feedback_details:
               blank: Enter any other advice or feedback
-              too_long: The advice or feedback you give must be 200 words or fewer
+              too_long: The other advice or feedback must be 200 words or fewer
             interested_in_future_applications_y_n:
-              blank: Select yes if you'd be interested in future applications from this candidate
+              blank: Select yes if you’d be interested in future applications from this candidate
