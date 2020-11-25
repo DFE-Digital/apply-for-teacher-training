@@ -14,6 +14,12 @@ module SupportInterface
           value: applied_filters[:q],
           name: 'q',
         },
+        {
+          type: :search,
+          heading: 'Candidate ID',
+          value: applied_filters[:candidate_number],
+          name: 'candidate_number',
+        },
       ]
     end
   end
