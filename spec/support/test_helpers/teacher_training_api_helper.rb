@@ -3,10 +3,24 @@ module TeacherTrainingAPIHelper
     stub_request(
       :get,
       "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers",
+    ).with(
+      query: { page: { page: 1, per_page: 500 } },
     ).to_return(
       status: 200,
       headers: { 'Content-Type': 'application/vnd.api+json' },
       body: provider_list_response(specified_attributes).to_json,
+    )
+
+    # Fake the error the API sends on exceeding the pagination limit
+    stub_request(
+      :get,
+      "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers",
+    ).with(
+      query: { page: { page: 2, per_page: 500 } },
+    ).to_return(
+      status: 400,
+      headers: { 'Content-Type': 'application/vnd.api+json' },
+      body: pagination_error_response,
     )
   end
 
@@ -14,6 +28,8 @@ module TeacherTrainingAPIHelper
     stub_request(
       :get,
       "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses",
+    ).with(
+      query: { page: { per_page: 500 } },
     ).to_return(
       status: 200,
       headers: { 'Content-Type': 'application/vnd.api+json' },
@@ -78,5 +94,11 @@ private
     end
 
     api_response
+  end
+
+  def pagination_error_response
+    File.read(
+      Rails.root.join('spec/examples/teacher_training_api/pagination_error.json'),
+    )
   end
 end

@@ -1,9 +1,15 @@
 module TeacherTrainingAPI
   class SyncAllProvidersAndCourses
     def self.call
-      sync_providers(
-        TeacherTrainingAPI::Provider.where(year: 2021).all,
-      )
+      begin
+        (1..).each do |page|
+          sync_providers(
+            TeacherTrainingAPI::Provider.where(year: 2021).paginate(page: page, per_page: 500).all,
+          )
+        end
+      rescue JsonApiClient::Errors::ClientError
+        # This is how the API responds when we run out of pages :/
+      end
 
       TeacherTrainingAPI::SyncCheck.set_last_sync(Time.zone.now)
     rescue JsonApiClient::Errors::ApiError

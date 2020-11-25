@@ -11,7 +11,7 @@ module TeacherTrainingAPI
       TeacherTrainingAPI::Course.where(
         year: recruitment_cycle_year,
         provider_code: @provider.code,
-      ).each do |course_from_api|
+      ).paginate(per_page: 500).each do |course_from_api|
         update_course(course_from_api, recruitment_cycle_year)
       end
     rescue JsonApiClient::Errors::ApiError
