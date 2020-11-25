@@ -304,14 +304,6 @@ module ProviderInterface
       safeguarding_y_n == 'Yes' && safeguarding_concerns.include?(option)
     end
 
-    def feedback_heading
-      if interested_in_future_applications_y_n == 'Yes'
-        'The provider would be interested in future applications from you'
-      else
-        'Training provider feedback'
-      end
-    end
-
     def save_state!
       @state_store.write(state)
     end
