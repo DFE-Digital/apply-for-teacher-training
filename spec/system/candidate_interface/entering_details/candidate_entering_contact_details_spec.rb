@@ -1,13 +1,13 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their contact details' do
+RSpec.feature 'Entering their contact information' do
   include CandidateHelper
 
-  scenario 'Candidate submits their contact details' do
+  scenario 'Candidate submits their contact information' do
     given_i_am_signed_in
     and_i_visit_the_site
 
-    when_i_click_on_contact_details
+    when_i_click_on_contact_information
     and_i_incorrectly_fill_in_my_phone_number
     and_i_submit_my_phone_number
     then_i_should_see_validation_errors_for_my_phone_number
@@ -44,7 +44,7 @@ RSpec.feature 'Entering their contact details' do
     then_i_should_see_the_form
     and_that_the_section_is_completed
 
-    when_i_click_on_contact_details
+    when_i_click_on_contact_information
     then_i_can_check_my_revised_answers
   end
 
@@ -56,16 +56,16 @@ RSpec.feature 'Entering their contact details' do
     visit candidate_interface_application_form_path
   end
 
-  def when_i_click_on_contact_details
-    click_link t('page_titles.contact_details')
+  def when_i_click_on_contact_information
+    click_link t('page_titles.contact_information')
   end
 
   def and_i_incorrectly_fill_in_my_phone_number
-    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 CAT DOG'
+    fill_in t('application_form.contact_information.phone_number.label'), with: '07700 CAT DOG'
   end
 
   def and_i_submit_my_phone_number
-    click_button t('application_form.contact_details.base.button')
+    click_button t('application_form.contact_information.base.button')
   end
 
   def then_i_should_see_validation_errors_for_my_phone_number
@@ -81,18 +81,18 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def when_i_fill_in_my_phone_number
-    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
+    fill_in t('application_form.contact_information.phone_number.label'), with: '07700 900 982'
   end
 
   def and_i_select_live_in_uk
     expect(page).to have_content('Where do you live?')
     choose 'In the UK'
-    click_button t('application_form.contact_details.base.button')
+    click_button t('application_form.contact_information.base.button')
   end
 
   def and_i_incorrectly_fill_in_my_address
-    fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
-    fill_in t('application_form.contact_details.postcode.label'), with: 'MUCH W0W'
+    fill_in t('application_form.contact_information.address_line3.label'), with: 'London'
+    fill_in t('application_form.contact_information.postcode.label'), with: 'MUCH W0W'
   end
 
   def then_i_should_see_validation_errors_for_my_address
@@ -102,16 +102,16 @@ RSpec.feature 'Entering their contact details' do
 
   def when_i_fill_in_my_address
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
-    fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
-    fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
+    fill_in t('application_form.contact_information.address_line3.label'), with: 'London'
+    fill_in t('application_form.contact_information.postcode.label'), with: 'SW1P 3BT'
   end
 
   def and_i_submit_my_address
-    click_button t('application_form.contact_details.address.button')
+    click_button t('application_form.contact_information.address.button')
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content t('application_form.contact_details.phone_number.label')
+    expect(page).to have_content t('application_form.contact_information.phone_number.label')
     expect(page).to have_content '07700 900 982'
   end
 
@@ -124,11 +124,11 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def when_i_fill_in_a_different_phone_number
-    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 424 242'
+    fill_in t('application_form.contact_information.phone_number.label'), with: '07700 424 242'
   end
 
   def then_i_can_check_my_revised_phone_number
-    expect(page).to have_content t('application_form.contact_details.phone_number.label')
+    expect(page).to have_content t('application_form.contact_information.phone_number.label')
     expect(page).to have_content '07700 424 242'
   end
 
@@ -149,8 +149,8 @@ RSpec.feature 'Entering their contact details' do
   def when_i_select_outside_the_uk
     expect(page).to have_content('Where do you live?')
     choose 'Outside the UK'
-    select('India', from: t('application_form.contact_details.country.label'))
-    click_button t('application_form.contact_details.base.button')
+    select('India', from: t('application_form.contact_information.country.label'))
+    click_button t('application_form.contact_information.base.button')
   end
 
   def and_fill_in_an_international_address
@@ -158,7 +158,7 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def then_i_can_check_my_revised_address
-    expect(page).to have_content t('application_form.contact_details.full_address.label')
+    expect(page).to have_content t('application_form.contact_information.full_address.label')
     expect(page).to have_content '123 Chandni Chowk, Old Delhi'
     expect(page).to have_content 'India'
   end
@@ -168,7 +168,7 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def and_i_submit_my_details
-    click_button t('application_form.contact_details.review.button')
+    click_button t('application_form.contact_information.review.button')
   end
 
   def then_i_should_see_the_form
@@ -176,7 +176,7 @@ RSpec.feature 'Entering their contact details' do
   end
 
   def and_that_the_section_is_completed
-    expect(page).to have_css('#contact-details-badge-id', text: 'Completed')
+    expect(page).to have_css('#contact-information-badge-id', text: 'Completed')
   end
 
   def then_i_can_check_my_revised_answers

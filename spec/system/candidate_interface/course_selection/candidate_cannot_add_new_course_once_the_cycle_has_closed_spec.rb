@@ -53,7 +53,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def then_there_is_a_link_to_the_course_choices_section
-    expect(page).to have_link('Course choices')
+    expect(page).to have_link('Choose your courses')
   end
 
   def given_it_is_the_day_after_the_apply1_deadline
@@ -65,7 +65,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def and_there_is_not_a_link_to_the_course_choices_section
-    expect(page).not_to have_link('Course choices')
+    expect(page).not_to have_link('Choose your courses')
   end
 
   def when_i_click_review_your_application

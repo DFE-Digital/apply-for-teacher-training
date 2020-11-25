@@ -14,9 +14,5 @@ module CandidateInterface
         candidate_interface_course_choices_index_path
       end
     end
-
-    def course_choice_title
-      I18n.t!('page_titles.course_choice')
-    end
   end
 end

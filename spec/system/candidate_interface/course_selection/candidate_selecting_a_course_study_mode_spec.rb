@@ -61,7 +61,7 @@ RSpec.feature 'Selecting a study mode' do
 
   def when_i_select_a_part_time_course
     visit candidate_interface_application_form_path
-    click_link 'Course choices'
+    click_link 'Choose your courses'
     click_link 'Continue'
 
     choose 'Yes, I know where I want to apply'
@@ -130,7 +130,7 @@ RSpec.feature 'Selecting a study mode' do
 
   def when_i_select_the_single_site_full_time_course
     visit candidate_interface_application_form_path
-    click_link 'Course choices'
+    click_link 'Choose your courses'
     click_link 'Add another course'
 
     choose 'Yes, I know where I want to apply'

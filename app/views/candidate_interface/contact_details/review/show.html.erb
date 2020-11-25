@@ -1,8 +1,8 @@
-<% content_for :title, t('page_titles.contact_details') %>
+<% content_for :title, t('page_titles.contact_information') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
 <h1 class="govuk-heading-xl">
-  <%= t('page_titles.contact_details') %>
+  <%= t('page_titles.contact_information') %>
 </h1>
 
 <%= render(CandidateInterface::ContactDetailsReviewComponent.new(application_form: @application_form)) %>

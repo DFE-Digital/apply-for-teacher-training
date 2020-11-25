@@ -30,13 +30,13 @@ module CandidateHelper
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path
 
-    click_link 'Course choices'
+    click_link 'Choose your courses'
     candidate_fills_in_course_choices
 
-    click_link t('page_titles.personal_details')
+    click_link t('page_titles.personal_information')
     candidate_fills_in_personal_details
 
-    click_link t('page_titles.contact_details')
+    click_link t('page_titles.contact_information')
     visit candidate_interface_contact_details_edit_base_path
     candidate_fills_in_contact_details
 
@@ -67,10 +67,10 @@ module CandidateHelper
     click_link 'Academic and other relevant qualifications'
     candidate_fills_in_their_other_qualifications
 
-    click_link 'Why do you want to be a teacher?'
+    click_link 'Why do you want to teach'
     candidate_fills_in_becoming_a_teacher
 
-    click_link 'What do you know about the subject you want to teach?'
+    click_link 'Your suitability to teach a subject or age group'
     candidate_fills_in_subject_knowledge
 
     click_link t('page_titles.interview_preferences')
@@ -169,29 +169,29 @@ module CandidateHelper
   end
 
   def candidate_fills_in_contact_details
-    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
-    click_button t('application_form.contact_details.base.button')
+    fill_in t('application_form.contact_information.phone_number.label'), with: '07700 900 982'
+    click_button t('application_form.contact_information.base.button')
 
     choose 'In the UK'
-    click_button t('application_form.contact_details.base.button')
+    click_button t('application_form.contact_information.base.button')
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
-    fill_in t('application_form.contact_details.address_line3.label'), with: 'London'
-    fill_in t('application_form.contact_details.postcode.label'), with: 'SW1P 3BT'
-    click_button t('application_form.contact_details.address.button')
+    fill_in t('application_form.contact_information.address_line3.label'), with: 'London'
+    fill_in t('application_form.contact_information.postcode.label'), with: 'SW1P 3BT'
+    click_button t('application_form.contact_information.address.button')
 
     check t('application_form.completed_checkbox')
     click_button t('application_form.continue')
   end
 
   def candidate_fills_in_international_contact_details
-    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
-    click_button t('application_form.contact_details.base.button')
+    fill_in t('application_form.contact_information.phone_number.label'), with: '07700 900 982'
+    click_button t('application_form.contact_information.base.button')
 
     choose 'Outside the UK'
-    select('India', from: t('application_form.contact_details.country.label'))
-    click_button t('application_form.contact_details.base.button')
+    select('India', from: t('application_form.contact_information.country.label'))
+    click_button t('application_form.contact_information.base.button')
     find(:css, "[autocomplete='address']").fill_in with: 'Vishnu Garden\nNew Delhi\nDelhi\n110018'
-    click_button t('application_form.contact_details.address.button')
+    click_button t('application_form.contact_information.address.button')
 
     check t('application_form.completed_checkbox')
     click_button t('application_form.continue')

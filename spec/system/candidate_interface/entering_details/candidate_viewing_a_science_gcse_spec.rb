@@ -71,7 +71,7 @@ RSpec.feature 'Candidate viewing Science GCSE' do
   end
 
   def when_i_add_a_primary_course
-    click_link 'Course choices'
+    click_link 'Choose your courses'
     candidate_fills_in_course_choices
   end
 

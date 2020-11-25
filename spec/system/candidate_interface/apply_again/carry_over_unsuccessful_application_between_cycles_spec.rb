@@ -68,8 +68,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def then_i_can_see_application_details
-    expect(page).to have_content('Personal details Completed')
-    click_link 'Personal details'
+    expect(page).to have_content('Personal information Completed')
+    click_link 'Personal information'
     expect(page).to have_content(@application_form.full_name)
     click_button 'Continue'
   end
@@ -87,8 +87,8 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
   end
 
   def then_i_can_add_course_choices
-    expect(page).to have_content('Course choice Incomplete')
-    click_link 'Course choice'
+    expect(page).to have_content('Choose your course Incomplete')
+    click_link 'Choose your course'
     expect(page).to have_content 'You can apply for up to 3 courses'
   end
 end

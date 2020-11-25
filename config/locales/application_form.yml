@@ -53,7 +53,7 @@ en:
         label: Is there anything else you would like to tell us about your application?
       further_information_details:
         label: Enter further information
-    contact_details:
+    contact_information:
       phone_number:
         label: Phone number
         hint_text: Enter a landline or mobile. For non-UK numbers, include the country code
@@ -327,8 +327,8 @@ en:
       confirm_delete: Yes I’m sure - delete this qualification
     personal_statement:
       becoming_a_teacher:
-        change_action: tell us why you want to be a teacher
-        label: Tell us why you want to be a teacher
+        change_action: why do you want to be a teacher?
+        label: Why do you want to be a teacher?
         complete_form_button: Continue
       subject_knowledge:
         key: Your knowledge about the subject you want to teach
