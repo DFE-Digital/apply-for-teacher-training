@@ -17,6 +17,10 @@ module SupportInterface
         application_forms = application_forms.where("CONCAT(application_forms.first_name, ' ', application_forms.last_name, ' ', candidates.email_address, ' ', application_forms.support_reference) ILIKE ?", "%#{applied_filters[:q]}%")
       end
 
+      if applied_filters[:application_choice_id].present?
+        application_forms = application_forms.joins(:application_choices).where('application_choices.id = ?', applied_filters[:application_choice_id])
+      end
+
       if applied_filters[:phase]
         application_forms = application_forms.where('phase IN (?)', applied_filters[:phase])
       end
@@ -29,7 +33,7 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= [search_filter] + [year_filter] + [phase_filter]
+      @filters ||= [search_filter] + [search_by_application_choice_filter] + [year_filter] + [phase_filter]
     end
 
   private
@@ -57,6 +61,15 @@ module SupportInterface
         heading: 'Name, email or reference',
         value: applied_filters[:q],
         name: 'q',
+      }
+    end
+
+    def search_by_application_choice_filter
+      {
+        type: :search,
+        heading: 'Provider application ID',
+        value: applied_filters[:application_choice_id],
+        name: 'application_choice_id',
       }
     end
 
