@@ -11,6 +11,7 @@ module CandidateInterface
         if @degree_naric_statement_form.save
           redirect_to candidate_interface_degree_completion_status_path
         else
+          track_validation_error(@degree_naric_statement_form)
           render :new
         end
       end

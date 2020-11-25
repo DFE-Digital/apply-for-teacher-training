@@ -13,6 +13,7 @@ module CandidateInterface
         if @start_form.save
           redirect_to @start_form.next_path
         else
+          track_validation_error(@start_form)
           render :new
         end
       end
@@ -27,7 +28,8 @@ module CandidateInterface
         if @start_form.save
           redirect_to @start_form.next_path
         else
-          render :new
+          track_validation_error(@start_form)
+          render :edit
         end
       end
 

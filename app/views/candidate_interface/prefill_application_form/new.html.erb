@@ -11,6 +11,8 @@
       url: candidate_interface_prefill_path,
       method: :post,
     ) do |f| %>
+      <%= f.govuk_error_summary %>
+
       <%= f.govuk_radio_buttons_fieldset :prefill, legend: { text: 'What do you want to do?' } do %>
         <%= f.govuk_radio_button :prefill, false, label: { text: 'Start with a blank application form' }, link_errors: true %>
         <%= f.govuk_radio_button :prefill, true, label: { text: 'Start with the form filled in automatically' } %>

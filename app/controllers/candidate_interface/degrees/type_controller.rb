@@ -15,6 +15,7 @@ module CandidateInterface
             @degree_type_form.degree,
           )
         else
+          track_validation_error(@degree_type_form)
           conditionally_render_new_degree_type_form
         end
       end

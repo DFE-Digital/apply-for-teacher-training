@@ -8,6 +8,8 @@
       url: candidate_interface_edit_degree_type_path(@degree_type_form.degree),
       method: :patch
     ) do |f| %>
+      <%= f.govuk_error_summary %>
+
       <h1 class="govuk-heading-xl">
         <%= t('page_titles.edit_degree_type') %>
       </h1>

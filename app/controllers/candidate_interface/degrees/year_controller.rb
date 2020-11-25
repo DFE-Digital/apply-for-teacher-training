@@ -11,6 +11,7 @@ module CandidateInterface
         if @degree_year_form.save
           redirect_to candidate_interface_degrees_review_path
         else
+          track_validation_error(@degree_type_form)
           render :new
         end
       end
@@ -27,7 +28,7 @@ module CandidateInterface
           redirect_to candidate_interface_degrees_review_path
         else
           track_validation_error(@degree_year_form)
-          render :new
+          render :edit
         end
       end
 

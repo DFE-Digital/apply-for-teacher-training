@@ -12,6 +12,7 @@ module CandidateInterface
         if @degree_subject_form.save
           redirect_to candidate_interface_degree_institution_path(current_degree)
         else
+          track_validation_error(@degree_subject_form)
           render :new
         end
       end
