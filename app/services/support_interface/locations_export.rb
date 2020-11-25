@@ -5,7 +5,8 @@ module SupportInterface
         application_form = application_choice.application_form
 
         {
-          'id' => application_form.candidate_id,
+          'Candidate id' => application_form.candidate_id,
+          'Support reference' => application_form.support_reference,
           'Age' => return_age(application_form),
           'Candidates postcode' => application_form.postcode,
           'Providers postcode' => application_choice.provider.postcode,
@@ -14,6 +15,7 @@ module SupportInterface
           'Accrediting provider type' => application_choice.course.accredited_provider&.provider_type,
           'Program type' => application_choice.course.program_type,
           'Degree completed' => return_lastest_degree_award_year(application_form),
+          'Degree type' => return_lastest_degree_type(application_form),
           'Status' => application_state(application_form),
         }
       end
@@ -35,8 +37,16 @@ module SupportInterface
       ProcessState.new(application_form).state
     end
 
+    def return_lastest_degree_type(application_form)
+      latest_degree(application_form).qualification_type
+    end
+
     def return_lastest_degree_award_year(application_form)
-      application_form.application_qualifications.degree.map(&:award_year).compact.max
+      latest_degree(application_form).award_year
+    end
+
+    def latest_degree(application_form)
+      application_form.application_qualifications.degree.max_by(&:award_year)
     end
   end
 end
