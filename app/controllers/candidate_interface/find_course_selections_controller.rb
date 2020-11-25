@@ -14,7 +14,7 @@ module CandidateInterface
       course = Course.find(params[:course_id])
 
       course_selection = CourseSelectionForm.new(course, course_selection_params[:confirm])
-      if !course_selection.confirm
+      if !course_selection.confirm || current_application.contains_course?(course)
         redirect_to candidate_interface_course_choices_index_path
         return
       end
