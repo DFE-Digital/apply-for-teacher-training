@@ -16,6 +16,10 @@ RSpec.feature 'See applications' do
     when_i_search_for_an_application
     then_i_see_only_that_application
 
+    when_my_search_returns_nothing
+    then_i_see_a_message_saying_there_are_no_applications
+    and_i_clear_filters
+
     when_i_follow_the_link_to_applications
     then_i_should_see_the_application_references
   end
@@ -64,6 +68,15 @@ RSpec.feature 'See applications' do
     expect(page).to have_content @completed_application.candidate.email_address
     expect(page).not_to have_content @application_with_reference.candidate.email_address
     expect(page).not_to have_content @unsubmitted_application.candidate.email_address
+  end
+
+  def when_my_search_returns_nothing
+    fill_in :q, with: 'STRING THAT WILL NEVER MATCH'
+    click_on 'Apply filters'
+  end
+
+  def then_i_see_a_message_saying_there_are_no_applications
+    expect(page).to have_content 'No applications found'
   end
 
   def when_i_follow_the_link_to_applications
