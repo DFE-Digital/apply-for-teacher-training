@@ -179,11 +179,37 @@ module VendorAPI
 
     def qualifications
       {
-        gcses: qualifications_of_level('gcse').reject(&:missing_qualification?).map { |q| qualification_to_hash(q) },
+        gcses: format_gcses,
         degrees: qualifications_of_level('degree').map { |q| qualification_to_hash(q) },
         other_qualifications: qualifications_of_level('other').map { |q| qualification_to_hash(q) },
         missing_gcses_explanation: missing_gcses_explanation(qualifications_of_level('gcse').select(&:missing_qualification?)),
       }
+    end
+
+    def format_gcses
+      gcses = qualifications_of_level('gcse').reject(&:missing_qualification?)
+      parsed_gcses = parse_structured_gcses(gcses)
+      parsed_gcses.map { |q| qualification_to_hash(q) }
+    end
+
+    def parse_structured_gcses(gcses)
+      multiple_gcses = gcses.select { |gcse| gcse[:subject] != 'science triple award' && gcse[:structured_grades].present? }
+
+      if multiple_gcses.any?
+        multiple_gcses.each do |multiple_gcse|
+          structured_grades = JSON.parse(multiple_gcse[:structured_grades])
+
+          structured_grades.each do |k, v|
+            new_separated_gcse = multiple_gcse.dup
+            new_separated_gcse.subject = k.humanize
+            new_separated_gcse.grade = v
+            gcses << new_separated_gcse
+          end
+
+          gcses.delete_if { |gcse| gcse == multiple_gcse }
+        end
+      end
+      gcses
     end
 
     def qualifications_of_level(level)
@@ -229,7 +255,7 @@ module VendorAPI
 
       grades = qualification.structured_grades
 
-      # We need to serialize 'grades' to the 'grade' field
+      # For triple award science we need to serialize 'grades' to the 'grade' field
       # in the specified order
       if qualification.subject == 'science triple award' && grades
         grade = "#{grades['biology']}#{grades['chemistry']}#{grades['physics']}"

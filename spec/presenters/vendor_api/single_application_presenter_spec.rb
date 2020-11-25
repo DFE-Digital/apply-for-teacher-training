@@ -469,6 +469,42 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
       expect(qualification[:grade]).to eq 'ABC'
     end
+
+    it 'parses English GCSE structured grades' do
+      create(
+        :gcse_qualification,
+        subject: 'english',
+        grade: nil,
+        structured_grades: '{"english_language":"E","english_literature":"E","Cockney Rhyming Slang":"A*"}',
+        award_year: 2006,
+        predicted_grade: false,
+        application_form: application_choice.application_form,
+      )
+
+      english_language = presenter.as_json.dig(
+        :attributes,
+        :qualifications,
+        :gcses,
+      ).find { |q| q[:subject] == 'English language' }
+
+      expect(english_language[:grade]).to eq 'E'
+
+      english_literature = presenter.as_json.dig(
+        :attributes,
+        :qualifications,
+        :gcses,
+      ).find { |q| q[:subject] == 'English literature' }
+
+      expect(english_literature[:grade]).to eq 'E'
+
+      rhyming_slang = presenter.as_json.dig(
+        :attributes,
+        :qualifications,
+        :gcses,
+      ).find { |q| q[:subject] == 'Cockney rhyming slang' }
+
+      expect(rhyming_slang[:grade]).to eq 'A*'
+    end
   end
 
   describe 'attributes.offer' do
