@@ -1,12 +1,12 @@
 module CandidateInterface
-  class OtherQualificationDetailForm
+  class OtherQualificationDetailsForm
     include ActiveModel::Model
     include ActiveModel::Validations::Callbacks
     include ActiveModel::Attributes
     include ValidationUtils
 
     attr_reader :next_step
-    attr_accessor :checking_answers, :id, :current_step
+    attr_accessor :editing, :id, :current_step
 
     attr_accessor :qualification_type
     attr_accessor :other_uk_qualification_type
@@ -37,7 +37,7 @@ module CandidateInterface
     end
 
     def self.build_from_qualification(qualification)
-      form = CandidateInterface::OtherQualificationDetailForm.new
+      form = CandidateInterface::OtherQualificationDetailsForm.new
       form.id = qualification.id
       form.assign_attributes(form.persistent_attributes(qualification))
       form
@@ -140,7 +140,7 @@ module CandidateInterface
 
     def intermediate_state
       as_json(
-        only: %w[id current_step checking_answers qualification_type other_uk_qualification_type non_uk_qualification_type subject institution_country predicted_grade grade award_year],
+        only: %w[id current_step editing qualification_type other_uk_qualification_type non_uk_qualification_type subject institution_country predicted_grade grade award_year],
       )
     end
 
@@ -162,11 +162,17 @@ module CandidateInterface
         unless grade.in?(AS_LEVEL_GRADES)
           errors.add(:grade, :invalid)
         end
+      when OtherQualificationTypeForm::GCSE_TYPE
+        errors.add(:grade, :invalid) unless grade.in?(ALL_GCSE_GRADES)
       end
     end
 
     def sanitize_grade_where_required
-      if qualification_type.in? [OtherQualificationTypeForm::A_LEVEL_TYPE, OtherQualificationTypeForm::AS_LEVEL_TYPE]
+      if qualification_type.in?([
+        OtherQualificationTypeForm::A_LEVEL_TYPE,
+        OtherQualificationTypeForm::AS_LEVEL_TYPE,
+        OtherQualificationTypeForm::GCSE_TYPE,
+      ])
         self.grade = grade.delete(' ').upcase if grade
       end
     end

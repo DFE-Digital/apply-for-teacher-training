@@ -11,7 +11,7 @@ module CandidateInterface
     include ActiveModel::Attributes
 
     attr_reader :next_step
-    attr_accessor :checking_answers, :id, :current_step
+    attr_accessor :editing, :id, :current_step
 
     attr_accessor :qualification_type
     attr_accessor :other_uk_qualification_type
@@ -31,7 +31,7 @@ module CandidateInterface
 
     def save_intermediate!
       @intermediate_data_service.write(intermediate_state)
-      @next_step = checking_answers && !qualification_type_changed? ? :check : :details
+      @next_step = editing && !qualification_type_changed? ? :check : :details
     end
 
     def save!
@@ -39,7 +39,7 @@ module CandidateInterface
       application_qualification.update!(attributes_for_persistence)
     end
 
-    PERSISTENT_ATTRIBUTES = %w[id current_step checking_answers qualification_type other_uk_qualification_type non_uk_qualification_type].freeze
+    PERSISTENT_ATTRIBUTES = %w[id current_step editing qualification_type other_uk_qualification_type non_uk_qualification_type].freeze
 
   private
 

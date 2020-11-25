@@ -3,8 +3,8 @@ import { accessibleAutocompleteFromSource } from "./helpers.js";
 const initOtherQualificationsSubjectAutocomplete = () => {
   try {
     const inputIds = [
-      "candidate-interface-other-qualification-detail-form-subject-field",
-      "candidate-interface-other-qualification-detail-form-subject-field-error",
+      "candidate-interface-other-qualification-details-form-subject-field",
+      "candidate-interface-other-qualification-details-form-subject-field-error",
     ];
 
     inputIds.forEach(inputId => {

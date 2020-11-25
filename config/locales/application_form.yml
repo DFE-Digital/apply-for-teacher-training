@@ -736,7 +736,7 @@ en:
             qualification_type:
               blank: Enter the type of qualification
               too_long: Type of qualification must be %{count} characters or fewer
-        candidate_interface/other_qualification_detail_form:
+        candidate_interface/other_qualification_details_form:
           attributes:
             non_uk_qualification_type:
               blank: Enter the type of qualification

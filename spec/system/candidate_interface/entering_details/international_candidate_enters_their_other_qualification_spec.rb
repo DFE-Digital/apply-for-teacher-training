@@ -112,7 +112,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def then_i_see_validation_errors_for_my_qualification
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_detail_form.attributes.award_year.blank')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_details_form.attributes.award_year.blank')
   end
 
   def when_i_fill_in_my_qualification
@@ -162,7 +162,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   def then_i_see_my_qualification_filled_in
     expect(page).to have_selector("input[value='Believing in the Heart of the Cards']")
     expect(page).to have_selector("input[value='2015']")
-    expect(first('#candidate-interface-other-qualification-detail-form-institution-country-field').value).to eq('JP')
+    expect(first('#candidate-interface-other-qualification-details-form-institution-country-field').value).to eq('JP')
   end
 
   def when_i_change_my_qualification

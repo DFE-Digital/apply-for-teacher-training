@@ -1,7 +1,12 @@
 module CandidateInterface
   class OtherQualifications::DetailsController < OtherQualifications::BaseController
     def new
-      @form = form_for(current_step: :type)
+      @form = OtherQualificationDetailsForm.new(
+        current_application,
+        intermediate_data_service,
+        current_step: :details,
+      )
+
       @form.qualification_type ||= params[:qualification_type]
       @form.initialize_from_last_qualification(
         current_application.application_qualifications.other.order(:created_at),
@@ -12,7 +17,12 @@ module CandidateInterface
     end
 
     def create
-      @form = form_for(other_qualification_params.merge(current_step: :details))
+      @form = OtherQualificationDetailsForm.new(
+        current_application,
+        intermediate_data_service,
+        other_qualification_params.merge(current_step: :details),
+      )
+
       @form.save_intermediate!
       set_subject_autocomplete_data
       set_grade_autocomplete_data
@@ -38,24 +48,30 @@ module CandidateInterface
     end
 
     def edit
-      @form = form_for(
+      @form = OtherQualificationDetailsForm.new(
+        current_application,
+        intermediate_data_service,
         id: params[:id],
         current_step: :details,
-        checking_answers: true,
+        editing: true,
       )
+
       @form.save_intermediate!
       set_subject_autocomplete_data
       set_grade_autocomplete_data
     end
 
     def update
-      @form = form_for(
+      @form = OtherQualificationDetailsForm.new(
+        current_application,
+        intermediate_data_service,
         other_qualification_update_params.merge(
           id: params[:id],
           current_step: :details,
-          checking_answers: true,
+          editing: true,
         ),
       )
+
       @form.save_intermediate!
       set_subject_autocomplete_data
       set_grade_autocomplete_data
@@ -76,24 +92,8 @@ module CandidateInterface
 
   private
 
-    def detail_attributes(application_qualification)
-      application_qualification.attributes.extract!(
-        *CandidateInterface::OtherQualificationDetailForm::PERSISTENT_ATTRIBUTES,
-      )
-    end
-
-    def form_for(options)
-      options[:checking_answers] = true if params[:checking_answers] == 'true'
-
-      OtherQualificationDetailForm.new(
-        current_application,
-        intermediate_data_service,
-        options,
-      )
-    end
-
     def other_qualification_params
-      params.require(:candidate_interface_other_qualification_detail_form).permit(
+      params.require(:candidate_interface_other_qualification_details_form).permit(
         :subject,
         :grade,
         :award_year,
@@ -108,7 +108,7 @@ module CandidateInterface
 
     def other_qualification_update_params
       other_qualification_params.merge(
-        params.require(:candidate_interface_other_qualification_detail_form).permit(
+        params.require(:candidate_interface_other_qualification_details_form).permit(
           :qualification_type,
         ),
       )

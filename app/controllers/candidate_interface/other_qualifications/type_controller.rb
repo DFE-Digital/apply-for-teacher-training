@@ -2,12 +2,20 @@ module CandidateInterface
   class OtherQualifications::TypeController < OtherQualifications::BaseController
     def new
       reset_intermediate_state!
-      @form = form_for(current_step: :type)
+      @form = OtherQualificationTypeForm.new(
+        current_application,
+        intermediate_data_service,
+        current_step: :type,
+      )
       @form.save_intermediate!
     end
 
     def create
-      @form = form_for(other_qualification_type_params.merge(current_step: :type))
+      @form = OtherQualificationTypeForm.new(
+        current_application,
+        intermediate_data_service,
+        other_qualification_type_params.merge(current_step: :type),
+      )
 
       if @form.valid?
         @form.save_intermediate!
@@ -27,19 +35,24 @@ module CandidateInterface
     end
 
     def edit
-      @form = form_for(
-        current_step: :type,
-        initialize_from_db: true,
-        checking_answers: true,
+      @form = OtherQualificationTypeForm.new(
+        current_application,
+        intermediate_data_service,
+        {
+          current_step: :type,
+          editing: true,
+        }.merge!(type_attributes(current_qualification)),
       )
       @form.save_intermediate!
     end
 
     def update
-      @form = form_for(
+      @form = OtherQualificationTypeForm.new(
+        current_application,
+        intermediate_data_service,
         other_qualification_type_params.merge(
           current_step: :type,
-          checking_answers: true,
+          editing: true,
           id: current_qualification.id,
         ),
       )
@@ -73,7 +86,7 @@ module CandidateInterface
     end
 
     def form_for(options)
-      options[:checking_answers] = true if params[:checking_answers] == 'true'
+      options[:editing] = true if params[:editing] == 'true'
       if options.delete(:initialize_from_db)
         options.merge!(type_attributes(current_qualification)) if params[:id]
       end
