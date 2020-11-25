@@ -12,11 +12,10 @@ module TeacherTrainingAPI
 
     def self.sync_providers(providers_from_api)
       providers_from_api.each do |provider_from_api|
-        TeacherTrainingAPI::SyncProvider.call(
-          provider_name: provider_from_api.name,
-          provider_code: provider_from_api.code,
-          provider_recruitment_cycle_year: 2021,
-        )
+        TeacherTrainingAPI::SyncProvider.new(
+          provider_from_api: provider_from_api,
+          recruitment_cycle_year: 2021,
+        ).call
       end
     end
 

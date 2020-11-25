@@ -21,6 +21,19 @@ module TeacherTrainingAPIHelper
     )
   end
 
+  def fake_api_provider(provider_attributes = {})
+    api_response = JSON.parse(
+      File.read(
+        Rails.root.join('spec/examples/teacher_training_api/single_provider_response.json'),
+      ),
+      symbolize_names: true,
+    )
+
+    api_response[:data][:attributes] = api_response[:data][:attributes].merge(provider_attributes)
+
+    TeacherTrainingAPI::Provider.new(api_response[:data][:attributes])
+  end
+
 private
 
   def course_list_response(course_attributes = [])

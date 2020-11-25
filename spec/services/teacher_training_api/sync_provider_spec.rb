@@ -6,7 +6,12 @@ RSpec.describe TeacherTrainingAPI::SyncProvider, sidekiq: true do
   describe '.call' do
     context 'ingesting a brand new provider' do
       it 'just creates the provider without any courses' do
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
+        provider_from_api = fake_api_provider(code: 'ABC')
+
+        described_class.new(
+          provider_from_api: provider_from_api,
+          recruitment_cycle_year: RecruitmentCycle.current_year,
+        ).call
 
         provider = Provider.find_by_code('ABC')
 
@@ -19,10 +24,7 @@ RSpec.describe TeacherTrainingAPI::SyncProvider, sidekiq: true do
       it 'assigns qualifications and program_type to an existing course' do
         provider = create :provider, code: 'ABC', sync_courses: true
         course = create(:course, code: 'ABC1', provider: provider)
-
-        stub_teacher_training_api_provider(
-          provider_code: 'ABC',
-        )
+        provider_from_api = fake_api_provider(code: 'ABC')
 
         stub_teacher_training_api_courses(
           provider_code: 'ABC',
@@ -33,7 +35,10 @@ RSpec.describe TeacherTrainingAPI::SyncProvider, sidekiq: true do
           }],
         )
 
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: RecruitmentCycle.current_year)
+        described_class.new(
+          provider_from_api: provider_from_api,
+          recruitment_cycle_year: RecruitmentCycle.current_year,
+        ).call
 
         expect(course.reload.program_type).to eq 'scitt_programme'
         expect(course.reload.qualifications).to eq %w[qts pgce]
