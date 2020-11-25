@@ -8,7 +8,7 @@ RSpec.feature 'Entering their disability information' do
     and_i_visit_the_site
 
     when_i_click_on_check_your_answers
-    then_i_see_training_with_a_disability_is_missing_below_the_section
+    then_i_see_training_with_a_disability_is_incomplete_below_the_section
 
     when_i_submit_my_application
     then_i_see_a_training_with_a_disability_validation_error
@@ -57,8 +57,8 @@ RSpec.feature 'Entering their disability information' do
     expect(page).to have_content(t('page_titles.application_form'))
   end
 
-  def then_i_see_training_with_a_disability_is_missing_below_the_section
-    within('#missing-training_with_a_disability-error') do
+  def then_i_see_training_with_a_disability_is_incomplete_below_the_section
+    within('#incomplete-training_with_a_disability-error') do
       expect(page).to have_content(t('review_application.training_with_a_disability.incomplete'))
     end
   end
