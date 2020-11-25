@@ -1,0 +1,105 @@
+name: Pull request checks
+
+on:
+  pull_request:
+    branches: [ master ]
+    paths:
+    - 'app/models/**'
+
+jobs:
+  warn-enums:
+    name: Detect enum changes
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:11.6-alpine
+        env:
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      # Check-out current branch
+      - name: Checkout PR branch
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # all tag/branches history
+
+      # Install Ruby
+      - name: Set up Ruby (installs .ruby-version, runs bundle install)
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      # Use .env.example
+      - name: Use .env.example as .env
+        run: cp .env.example .env
+
+      # Set up development database
+      - name: Setup development database
+        run: bundle exec rails db:setup
+        env:
+          DB_HOSTNAME: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: password
+          DB_PORT: 5432
+
+      # Get all enums in changed models
+      - name: Check for changed enums
+        run: bundle exec ruby .github/scripts/enums_in_models.rb >enums_after.log
+        env:
+          DB_HOSTNAME: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: password
+          DB_PORT: 5432
+
+      # Keep a copy of the detection script
+      - name: Preserve the detection script
+        run: cp .github/scripts/enums_in_models.rb /tmp/enums_in_models.rb
+
+      # Check-out master
+      - name: Checkout master branch
+        run: git checkout master
+
+      # Get all previous enum definitions for changed models from master
+      - name: Get previous enum definitions
+        run: bundle exec ruby /tmp/enums_in_models.rb enums_after.log >enums_before.log
+        env:
+          DB_HOSTNAME: localhost
+          DB_USERNAME: postgres
+          DB_PASSWORD: password
+          DB_PORT: 5432
+
+      # Diff definitions before and after
+      - name: Check for changed enums
+        run: diff enums_before.log enums_after.log >changed_enums.log || echo 'Enum changes!'
+
+      # Capture changed_enums.log
+      - name: Capture changed enums
+        id: changed-enums
+        run: |
+          MULTILINE=$(cat changed_enums.log)
+          MULTILINE="${MULTILINE//'%'/'%25'}"
+          MULTILINE="${MULTILINE//$'\n'/'%0A'}"
+          MULTILINE="${MULTILINE//$'\r'/'%0D'}"
+          echo $MULTILINE
+          echo "::set-output name=data::$MULTILINE"
+        shell: bash
+
+      # Comment on the PR if enums have changed
+      - name: Comment on PR if enums have changed
+        if: contains(steps.changed-enums.outputs.data, 'enum')
+        uses: mshick/add-pr-comment@v1
+        with:
+          message: |
+            **Database-level enum changes detected**
+
+            Please include a data migration for these attributes and values:
+            ```
+            ${{ steps.changed-enums.outputs.data }}
+            ```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
