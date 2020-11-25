@@ -1,92 +1,105 @@
 module CandidateInterface
   class OtherQualifications::TypeController < OtherQualifications::BaseController
     def new
-      reset_wizard_state!
-      @wizard = wizard_for(current_step: :type)
+      reset_intermediate_state!
+      @form = OtherQualificationTypeForm.new(
+        current_application,
+        intermediate_data_service,
+        current_step: :type,
+      )
+      @form.save_intermediate!
     end
 
     def create
-      @wizard = wizard_for(other_qualification_type_params.merge(current_step: :type))
+      @form = OtherQualificationTypeForm.new(
+        current_application,
+        intermediate_data_service,
+        other_qualification_type_params.merge(current_step: :type),
+      )
 
-      if @wizard.valid?(:type)
-        @wizard.save_state!
+      if @form.valid?
+        @form.save_intermediate!
 
-        next_step = @wizard.next_step
+        next_step = @form.next_step
 
-        if next_step.first == :details
+        if next_step == :details
           redirect_to candidate_interface_other_qualification_details_path
         else
-          track_validation_error(@wizard)
+          track_validation_error(@form)
           render :new
         end
       else
-        track_validation_error(@wizard)
+        track_validation_error(@form)
         render :new
       end
     end
 
     def edit
-      @wizard = wizard_for(current_step: :type)
-      @wizard.copy_attributes(current_qualification)
-      @wizard.save_state!
+      @form = OtherQualificationTypeForm.new(
+        current_application,
+        intermediate_data_service,
+        {
+          current_step: :type,
+          editing: true,
+        }.merge!(type_attributes(current_qualification)),
+      )
+      @form.save_intermediate!
     end
 
     def update
-      @wizard = wizard_for(
+      @form = OtherQualificationTypeForm.new(
+        current_application,
+        intermediate_data_service,
         other_qualification_type_params.merge(
           current_step: :type,
-          checking_answers: true,
+          editing: true,
           id: current_qualification.id,
         ),
       )
-      if @wizard.valid?(:type)
-        @wizard.save_state!
 
-        next_step = @wizard.next_step
+      if @form.valid?
+        @form.save_intermediate!
 
-        if next_step.first == :details
+        next_step = @form.next_step
+
+        if next_step == :details
           redirect_to candidate_interface_edit_other_qualification_details_path(current_qualification.id)
-        elsif next_step.first == :check
-          current_application.update!(other_qualifications_completed: false)
-          commit
-          @wizard.clear_state!
+        elsif next_step == :check
+          @form.save!
+          reset_intermediate_state!
           redirect_to candidate_interface_review_other_qualifications_path
         else
           render :edit
         end
       else
-        track_validation_error(@wizard)
+        track_validation_error(@form)
         render :edit
       end
     end
 
   private
 
-    def commit
-      current_qualification.update!(@wizard.attributes_for_persistence)
+    def type_attributes(application_qualification)
+      application_qualification.attributes.extract!(
+        *CandidateInterface::OtherQualificationTypeForm::PERSISTENT_ATTRIBUTES,
+      )
     end
 
-    def wizard_for(options)
-      options[:checking_answers] = true if params[:checking_answers] == 'true'
-      OtherQualificationWizard.new(
-        WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
-        nil,
+    def form_for(options)
+      options[:editing] = true if params[:editing] == 'true'
+      if options.delete(:initialize_from_db)
+        options.merge!(type_attributes(current_qualification)) if params[:id]
+      end
+
+      OtherQualificationTypeForm.new(
+        current_application,
+        intermediate_data_service,
         options,
       )
     end
 
-    def reset_wizard_state!
-      OtherQualificationWizard.clear_state!(
-        WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
-      )
-    end
-
-    def persistence_key_for_current_user
-      "candidate_user_other_qualification_wizard-#{current_candidate.id}"
-    end
-
     def other_qualification_type_params
-      params.fetch(:candidate_interface_other_qualification_wizard, {}).permit(
+      params.fetch(:candidate_interface_other_qualification_type_form, {}).permit(
         :qualification_type, :other_uk_qualification_type, :non_uk_qualification_type
       )
     end

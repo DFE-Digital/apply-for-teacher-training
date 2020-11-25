@@ -4,9 +4,8 @@ module CandidateInterface
 
     def initialize(application_form:, editable: true, heading_level: 2, missing_error: false, submitting_application: false)
       @application_form = application_form
-      @qualifications = CandidateInterface::OtherQualificationWizard.build_all_from_application(
-        @application_form,
-      )
+      @qualifications =
+        CandidateInterface::OtherQualificationDetailsForm.build_all(@application_form)
       @editable = editable
       @heading_level = heading_level
       @missing_error = missing_error

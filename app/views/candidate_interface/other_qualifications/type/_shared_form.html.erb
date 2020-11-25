@@ -7,15 +7,15 @@
 <%= render 'candidate_interface/other_qualifications/shared/instructions' %>
 
 <%= f.govuk_radio_buttons_fieldset :qualification_type, legend: { text: 'What type of qualification do you want to add?', tag: 'span' } do %>
-  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationWizard::GCSE_TYPE, label: { text: 'GCSE' } %>
-  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationWizard::A_LEVEL_TYPE, label: { text: 'A level' } %>
-  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationWizard::AS_LEVEL_TYPE, label: { text: 'AS level' } %>
+  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::GCSE_TYPE, label: { text: 'GCSE' } %>
+  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::A_LEVEL_TYPE, label: { text: 'A level' } %>
+  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::AS_LEVEL_TYPE, label: { text: 'AS level' } %>
 
-  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationWizard::OTHER_TYPE, label: { text: 'Other UK qualification' } do %>
+  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::OTHER_TYPE, label: { text: 'Other UK qualification' } do %>
     <%= f.govuk_text_field :other_uk_qualification_type, label: { text: 'Qualification name', size: 's' } %>
     <%= tag.div(id: 'other-uk-qualifications-autocomplete', data: { source: OTHER_UK_QUALIFICATIONS }) %>
   <% end %>
-  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationWizard::NON_UK_TYPE, label: { text: 'Non-UK qualification' } do %>
+  <%= f.govuk_radio_button :qualification_type, CandidateInterface::OtherQualificationTypeForm::NON_UK_TYPE, label: { text: 'Non-UK qualification' } do %>
     <%= f.govuk_text_field :non_uk_qualification_type, label: { text: 'Qualification name', size: 's' }, hint: { text: t('application_form.other_qualification.qualification_type.non_uk.hint_text') } %>
   <% end %>
 <% end %>

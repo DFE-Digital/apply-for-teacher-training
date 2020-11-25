@@ -1,106 +1,99 @@
 module CandidateInterface
   class OtherQualifications::DetailsController < OtherQualifications::BaseController
     def new
-      @wizard = wizard_for(current_step: :details)
-      @wizard.qualification_type ||= params[:qualification_type]
-      @wizard.initialize_new_qualification(
+      @form = OtherQualificationDetailsForm.new(
+        current_application,
+        intermediate_data_service,
+        current_step: :details,
+      )
+
+      @form.qualification_type ||= params[:qualification_type]
+      @form.initialize_from_last_qualification(
         current_application.application_qualifications.other.order(:created_at),
       )
-      @wizard.save_state!
       set_subject_autocomplete_data
       set_grade_autocomplete_data
+      @form.save_intermediate!
     end
 
     def create
-      @wizard = wizard_for(other_qualification_params.merge(current_step: :details))
-      @wizard.save_state!
+      @form = OtherQualificationDetailsForm.new(
+        current_application,
+        intermediate_data_service,
+        other_qualification_params.merge(current_step: :details),
+      )
+
+      @form.save_intermediate!
       set_subject_autocomplete_data
       set_grade_autocomplete_data
 
-      if @wizard.valid?(:details)
-        commit
-        @wizard.clear_state!
+      if @form.valid?
+        @form.save!
+        reset_intermediate_state!
 
-        if @wizard.choice == 'same_type'
+        if @form.choice == 'same_type'
           redirect_to candidate_interface_other_qualification_details_path(qualification_type: current_application.application_qualifications.last.qualification_type)
-        elsif @wizard.choice == 'different_type'
+        elsif @form.choice == 'different_type'
           redirect_to candidate_interface_other_qualification_type_path
         else
           redirect_to candidate_interface_review_other_qualifications_path
         end
-      elsif @wizard.missing_type_validation_error?
+      elsif @form.missing_type_validation_error?
         flash[:warning] = "To update one of your qualifications use the 'Change' links below."
         redirect_to candidate_interface_review_other_qualifications_path
       else
-        track_validation_error(@wizard)
+        track_validation_error(@form)
         render :new
       end
     end
 
     def edit
-      @wizard = wizard_for(
+      @form = OtherQualificationDetailsForm.new(
+        current_application,
+        intermediate_data_service,
+        id: params[:id],
         current_step: :details,
-        initialize_from_db: true,
-        checking_answers: true,
+        editing: true,
       )
-      @wizard.save_state!
+
+      @form.save_intermediate!
       set_subject_autocomplete_data
       set_grade_autocomplete_data
     end
 
     def update
-      @wizard = wizard_for(
-        other_qualification_update_params.merge(current_step: :details, checking_answers: true),
+      @form = OtherQualificationDetailsForm.new(
+        current_application,
+        intermediate_data_service,
+        other_qualification_update_params.merge(
+          id: params[:id],
+          current_step: :details,
+          editing: true,
+        ),
       )
-      @wizard.save_state!
+
+      @form.save_intermediate!
       set_subject_autocomplete_data
       set_grade_autocomplete_data
 
-      if @wizard.valid?(:details)
-        commit
+      if @form.valid?
+        @form.save!
         current_application.update!(other_qualifications_completed: false)
-        @wizard.clear_state!
+        reset_intermediate_state!
         redirect_to candidate_interface_review_other_qualifications_path
-      elsif @wizard.missing_type_validation_error?
+      elsif @form.missing_type_validation_error?
         flash[:warning] = "To update one of your qualifications use the 'Change' links below."
         redirect_to candidate_interface_review_other_qualifications_path
       else
-        track_validation_error(@wizard)
+        track_validation_error(@form)
         render :edit
       end
     end
 
   private
 
-    def commit
-      application_qualification =
-        if params[:id].present?
-          current_qualification
-        else
-          current_application.application_qualifications.build(
-            level: ApplicationQualification.levels[:other],
-          )
-        end
-
-      application_qualification.assign_attributes(@wizard.attributes_for_persistence)
-      application_qualification.save!
-    end
-
-    def wizard_for(options)
-      options[:checking_answers] = true if params[:checking_answers] == 'true'
-      OtherQualificationWizard.new(
-        WizardStateStores::RedisStore.new(key: persistence_key_for_current_user),
-        options.delete(:initialize_from_db) ? current_qualification : nil,
-        options,
-      )
-    end
-
-    def persistence_key_for_current_user
-      "candidate_user_other_qualification_wizard-#{current_candidate.id}"
-    end
-
     def other_qualification_params
-      params.require(:candidate_interface_other_qualification_wizard).permit(
+      params.require(:candidate_interface_other_qualification_details_form).permit(
         :subject,
         :grade,
         :award_year,
@@ -115,13 +108,15 @@ module CandidateInterface
 
     def other_qualification_update_params
       other_qualification_params.merge(
-        params.require(:candidate_interface_other_qualification_wizard).permit(:qualification_type),
+        params.require(:candidate_interface_other_qualification_details_form).permit(
+          :qualification_type,
+        ),
       )
     end
 
     def set_subject_autocomplete_data
-      qualification_type = @wizard.qualification_type_name
-      if qualification_type.in? [OtherQualificationWizard::A_LEVEL_TYPE, OtherQualificationWizard::AS_LEVEL_TYPE]
+      qualification_type = @form.qualification_type_name
+      if qualification_type.in? [OtherQualificationTypeForm::A_LEVEL_TYPE, OtherQualificationTypeForm::AS_LEVEL_TYPE]
         @subject_autocomplete_data = A_AND_AS_LEVEL_SUBJECTS
       elsif qualification_type == 'GCSE'
         @subject_autocomplete_data = GCSE_SUBJECTS
@@ -129,7 +124,7 @@ module CandidateInterface
     end
 
     def set_grade_autocomplete_data
-      qualification_type = @wizard.qualification_type_name
+      qualification_type = @form.qualification_type_name
       if qualification_type.in? OTHER_UK_QUALIFICATIONS
         @grade_autocomplete_data = OTHER_UK_QUALIFICATION_GRADES
       end

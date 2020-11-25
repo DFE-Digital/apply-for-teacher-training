@@ -92,7 +92,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   alias_method :and_i_select_add_other_non_uk_qualification, :when_i_select_add_other_non_uk_qualification
 
   def and_i_fill_in_the_name_of_my_qualification
-    fill_in 'candidate-interface-other-qualification-wizard-non-uk-qualification-type-field', with: 'Master Rules'
+    fill_in 'candidate-interface-other-qualification-type-form-non-uk-qualification-type-field', with: 'Master Rules'
   end
 
   def and_i_click_continue
@@ -112,7 +112,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def then_i_see_validation_errors_for_my_qualification
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_wizard.attributes.award_year.blank')
+    expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_details_form.attributes.award_year.blank')
   end
 
   def when_i_fill_in_my_qualification
@@ -148,7 +148,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def when_i_change_my_qualification_type
-    fill_in 'candidate-interface-other-qualification-wizard-non-uk-qualification-type-field', with: 'Battle'
+    fill_in 'candidate-interface-other-qualification-type-form-non-uk-qualification-type-field', with: 'Battle'
   end
 
   def then_i_can_check_my_revised_qualification_type
@@ -162,7 +162,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   def then_i_see_my_qualification_filled_in
     expect(page).to have_selector("input[value='Believing in the Heart of the Cards']")
     expect(page).to have_selector("input[value='2015']")
-    expect(first('#candidate-interface-other-qualification-wizard-institution-country-field').value).to eq('JP')
+    expect(first('#candidate-interface-other-qualification-details-form-institution-country-field').value).to eq('JP')
   end
 
   def when_i_change_my_qualification

@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.qualification_details'), @wizard.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.qualification_details'), @form.errors.any?) %>
 <% if current_application.application_qualifications.other.blank? %>
   <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 <% else %>
@@ -7,18 +7,18 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @wizard, url: candidate_interface_other_qualification_details_path, method: :patch do |f| %>
+    <%= form_with model: @form, url: candidate_interface_other_qualification_details_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl">Academic and other relevant qualifications</span>
-        Add <%= @wizard.qualification_type_name %> qualification
+        Add <%= @form.qualification_type_name %> qualification
       </h1>
 
-      <%= render partial: 'form', locals: { f: f, wizard: @wizard, subject_autocomplete_data: @subject_autocomplete_data, grade_autocomplete_data: @grade_autocomplete_data } %>
+      <%= render partial: 'form', locals: { f: f, subject_autocomplete_data: @subject_autocomplete_data, grade_autocomplete_data: @grade_autocomplete_data } %>
 
       <%= f.govuk_radio_buttons_fieldset :add_another_qualification, legend: { text: 'Do you want to add another qualification?', tag: 'span' } do %>
-        <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@wizard.qualification_type_name}" } %>
+        <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@form.qualification_type_name}" } %>
         <%= f.govuk_radio_button :choice, 'different_type', label: { text: 'Yes, add a different qualification' } %>
         <%= f.govuk_radio_button :choice, 'no', label: { text: 'No, not at the moment' } %>
       <% end %>
