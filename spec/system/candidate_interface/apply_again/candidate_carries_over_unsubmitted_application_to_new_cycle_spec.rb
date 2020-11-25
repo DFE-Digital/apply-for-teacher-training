@@ -31,10 +31,15 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     when_i_view_courses
     then_i_can_see_that_i_need_to_select_courses
 
-    and_i_select_a_course
+    when_i_add_a_course
+    and_i_complete_the_section
+    and_i_visit_the_course_choices_section
+    then_i_see_the_course_choice_review_page
+
+    when_i_add_another_course
     and_i_complete_the_section
     and_i_submit_my_application
-    and_my_application_is_awaiting_provider_decision
+    then_my_application_is_awaiting_provider_decision
   end
 
   def given_i_am_signed_in_as_a_candidate
@@ -131,7 +136,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     expect(page).to have_content 'You can apply for up to 3 courses'
   end
 
-  def and_i_select_a_course
+  def when_i_add_a_course
     given_courses_exist
 
     click_link 'Continue'
@@ -148,6 +153,30 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     expect(page).to have_content 'You can choose 2 more courses'
   end
 
+  def and_i_visit_the_course_choices_section
+    click_link 'Choose your courses'
+  end
+
+  def then_i_see_the_course_choice_review_page
+    expect(page).to have_current_path candidate_interface_course_choices_review_path
+  end
+
+  def when_i_add_another_course
+    click_link 'Add another course'
+
+    choose 'Yes, I know where I want to apply'
+    click_button 'Continue'
+
+    select 'Gorse SCITT (1N1)'
+    click_button 'Continue'
+
+    choose 'Drama (2397)'
+    click_button 'Continue'
+
+    expect(page).to have_content 'You’ve added Drama (2397) to your application'
+    expect(page).to have_content 'You can choose 1 more course'
+  end
+
   def and_i_complete_the_section
     choose 'No, not at the moment'
     click_button 'Continue'
@@ -159,7 +188,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
     @new_application_form = candidate_submits_application
   end
 
-  def and_my_application_is_awaiting_provider_decision
+  def then_my_application_is_awaiting_provider_decision
     application_choice = @new_application_form.application_choices.first
     expect(application_choice.status).to eq 'awaiting_provider_decision'
   end

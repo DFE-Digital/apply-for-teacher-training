@@ -22,12 +22,20 @@
       <% if @application_form.previous_application_form.application_choices.rejected.any?  %>
         <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form.previous_application_form)) %>
       <% end %>
-
-      <%= render(
-        CandidateInterface::ApplicationFormApplyAgainCourseChoiceComponent.new(
-          completed: @application_form_presenter.course_choices_completed?,
-        )
-      ) %>
+      <% if @application_form.apply_1? %>
+        <%= render(
+          CandidateInterface::ApplicationFormCourseChoicesComponent.new(
+            choices_are_present: @application_form_presenter.application_choices_added?,
+            completed: @application_form_presenter.course_choices_completed?,
+          )
+        ) %>
+      <% else %>
+        <%= render(
+          CandidateInterface::ApplicationFormApplyAgainCourseChoiceComponent.new(
+            completed: @application_form_presenter.course_choices_completed?,
+          )
+        ) %>
+      <% end %>
     <% else %>
       <%= render(
         CandidateInterface::ApplicationFormCourseChoicesComponent.new(

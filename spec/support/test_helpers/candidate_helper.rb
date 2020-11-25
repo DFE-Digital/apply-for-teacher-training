@@ -123,7 +123,9 @@ module CandidateHelper
     @provider = create(:provider, name: 'Gorse SCITT', code: '1N1')
     site = create(:site, name: 'Main site', code: '-', provider: @provider)
     course = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Primary', code: '2XT2', provider: @provider, start_date: Date.new(2020, 9, 1))
+    course2 = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Drama', code: '2397', provider: @provider, start_date: Date.new(2020, 9, 1))
     create(:course_option, site: site, course: course)
+    create(:course_option, site: site, course: course2)
   end
 
   def candidate_fills_in_course_choices
