@@ -33,7 +33,7 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= [search_filter] + [search_by_application_choice_filter] + [year_filter] + [phase_filter]
+      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter]
     end
 
   private
