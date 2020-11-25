@@ -37,8 +37,8 @@ Rails.application.routes.draw do
     post '/sign-in/expired', to: 'sign_in#create_from_expired_token', as: :create_expired_sign_in
     get '/sign-in/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_in
     get '/sign-in/expired', to: 'sign_in#expired', as: :expired_sign_in
-    get '/confirm_authentication', to: 'sign_in#confirm_authentication', as: :authenticate
-    post '/confirm_authentication', to: 'sign_in#authenticate'
+    get '/sign-in/confirm', to: 'sign_in#confirm_authentication', as: :authenticate
+    post '/sign-in/confirm', to: 'sign_in#authenticate'
     get '/authenticate', to: 'sign_in#expired'
 
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find
@@ -68,16 +68,16 @@ Rails.application.routes.draw do
       get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
       post '/carry-over' => 'carry_over#create', as: :carry_over
 
-      scope '/personal-details' do
+      scope '/personal-information' do
         get '/' => 'personal_details/base#new', as: :personal_details
         patch '/' => 'personal_details/base#create'
         get '/edit' => 'personal_details/base#edit', as: :edit_personal_details
         patch '/edit' => 'personal_details/base#update'
 
-        get '/nationalities' => 'personal_details/nationalities#new', as: :nationalities
-        patch '/nationalities' => 'personal_details/nationalities#create'
-        get '/nationalities/edit' => 'personal_details/nationalities#edit', as: :edit_nationalities
-        patch '/nationalities/edit' => 'personal_details/nationalities#update'
+        get '/nationality' => 'personal_details/nationalities#new', as: :nationalities
+        patch '/nationality' => 'personal_details/nationalities#create'
+        get '/nationality/edit' => 'personal_details/nationalities#edit', as: :edit_nationalities
+        patch '/nationality/edit' => 'personal_details/nationalities#update'
 
         get '/languages' => 'personal_details/languages#new', as: :languages
         patch '/languages' => 'personal_details/languages#create'
@@ -94,35 +94,39 @@ Rails.application.routes.draw do
       end
 
       scope '/personal-statement' do
-        get '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#edit', as: :edit_becoming_a_teacher
-        patch '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#update'
-        get '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#show', as: :becoming_a_teacher_show
-        patch '/becoming-a-teacher/complete' => 'personal_statement/becoming_a_teacher#complete', as: :becoming_a_teacher_complete
-
-        get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :edit_subject_knowledge
-        patch '/subject-knowledge' => 'personal_statement/subject_knowledge#update'
-        get '/subject-knowledge/review' => 'personal_statement/subject_knowledge#show', as: :subject_knowledge_show
-        patch '/subject-knowledge/complete' => 'personal_statement/subject_knowledge#complete', as: :subject_knowledge_complete
-
-        get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :edit_interview_preferences
-        patch '/interview-preferences' => 'personal_statement/interview_preferences#update'
-        get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
-        patch '/interview-preferences/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
+        get '/' => 'personal_statement/becoming_a_teacher#edit', as: :edit_becoming_a_teacher
+        patch '/' => 'personal_statement/becoming_a_teacher#update'
+        get '/review' => 'personal_statement/becoming_a_teacher#show', as: :becoming_a_teacher_show
+        patch '/complete' => 'personal_statement/becoming_a_teacher#complete', as: :becoming_a_teacher_complete
       end
 
-      scope '/training-with-a-disability' do
+      scope '/subject-knowledge' do
+        get '/' => 'personal_statement/subject_knowledge#edit', as: :edit_subject_knowledge
+        patch '/' => 'personal_statement/subject_knowledge#update'
+        get '/review' => 'personal_statement/subject_knowledge#show', as: :subject_knowledge_show
+        patch '/complete' => 'personal_statement/subject_knowledge#complete', as: :subject_knowledge_complete
+      end
+
+      scope '/interview-needs' do
+        get '/' => 'personal_statement/interview_preferences#edit', as: :edit_interview_preferences
+        patch '/' => 'personal_statement/interview_preferences#update'
+        get '/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
+        patch '/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
+      end
+
+      scope '/additional-support' do
         get '/' => 'training_with_a_disability#edit', as: :edit_training_with_a_disability
         patch '/' => 'training_with_a_disability#update'
         get '/review' => 'training_with_a_disability#show', as: :training_with_a_disability_show
         patch '/complete' => 'training_with_a_disability#complete', as: :training_with_a_disability_complete
       end
 
-      scope '/contact-details' do
+      scope '/contact-information' do
         get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
         patch '/' => 'contact_details/base#update'
 
-        get '/address_type' => 'contact_details/address_type#edit', as: :contact_details_edit_address_type
-        patch '/address_type' => 'contact_details/address_type#update'
+        get '/address-type' => 'contact_details/address_type#edit', as: :contact_details_edit_address_type
+        patch '/address-type' => 'contact_details/address_type#update'
 
         get '/address' => 'contact_details/address#edit', as: :contact_details_edit_address
         patch '/address' => 'contact_details/address#update'
@@ -189,7 +193,7 @@ Rails.application.routes.draw do
         delete '/delete/:id' => 'work_history/destroy#destroy'
       end
 
-      scope '/school-experience' do
+      scope '/unpaid-experience' do
         get '/' => 'volunteering/experience#show', as: :volunteering_experience
         post '/' => 'volunteering/experience#submit'
 
@@ -209,8 +213,8 @@ Rails.application.routes.draw do
       scope '/degrees' do
         get '/' => 'degrees/type#new', as: :new_degree
         post '/' => 'degrees/type#create'
-        get '/:id/type/edit' => 'degrees/type#edit', as: :edit_degree_type
-        patch '/:id/type/edit' => 'degrees/type#update'
+        get '/:id/edit' => 'degrees/type#edit', as: :edit_degree_type
+        patch '/:id/edit' => 'degrees/type#update'
 
         get '/:id/subject' => 'degrees/subject#new', as: :degree_subject
         post '/:id/subject' => 'degrees/subject#create'
@@ -222,10 +226,10 @@ Rails.application.routes.draw do
         get '/:id/institution/edit' => 'degrees/institution#edit', as: :edit_degree_institution
         patch '/:id/institution/edit' => 'degrees/institution#update'
 
-        get '/:id/completion_status' => 'degrees/completion_status#new', as: :degree_completion_status
-        post '/:id/completion_status' => 'degrees/completion_status#create'
-        get '/:id/completion_status/edit' => 'degrees/completion_status#edit', as: :edit_degree_completion_status
-        patch '/:id/completion_status/edit' => 'degrees/completion_status#update'
+        get '/:id/completion-status' => 'degrees/completion_status#new', as: :degree_completion_status
+        post '/:id/completion-status' => 'degrees/completion_status#create'
+        get '/:id/completion-status/edit' => 'degrees/completion_status#edit', as: :edit_degree_completion_status
+        patch '/:id/completion-status/edit' => 'degrees/completion_status#update'
 
         get '/:id/naric' => 'degrees/naric#new', as: :degree_naric
         post '/:id/naric' => 'degrees/naric#create'
@@ -255,7 +259,6 @@ Rails.application.routes.draw do
         get '/choose' => 'course_choices/have_you_chosen#ask', as: :course_choices_choose
         post '/choose' => 'course_choices/have_you_chosen#decide'
         get '/find-a-course' => 'course_choices/have_you_chosen#go_to_find', as: :go_to_find
-        get '/find_a_course', to: redirect('/candidate/application/courses/find-a-course')
 
         get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#create'
@@ -274,9 +277,7 @@ Rails.application.routes.draw do
         get '/apply-on-ucas/provider/:provider_id/course/:course_id' => 'course_choices/ucas#with_course', as: :course_choices_ucas_with_course
 
         get '/confirm-selection/:course_id' => 'find_course_selections#confirm_selection', as: :course_confirm_selection
-        get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
         post '/complete-selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
-        get '/complete_selection/:course_id', to: redirect('/candidate/application/courses/complete-selection/%{course_id}')
 
         get '/review' => 'application_choices#review', as: :course_choices_review
         patch '/review' => 'application_choices#complete', as: :course_choices_complete
@@ -328,6 +329,8 @@ Rails.application.routes.draw do
 
         get '/type' => 'english_foreign_language/type#new', as: :english_foreign_language_type
         post '/type' => 'english_foreign_language/type#create'
+        # get '/type/edit' ?
+        # patch '/type/edit' ?
 
         get '/ielts' => 'english_foreign_language/ielts#new', as: :ielts
         post '/ielts' => 'english_foreign_language/ielts#create'
