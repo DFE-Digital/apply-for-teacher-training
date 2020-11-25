@@ -24,7 +24,9 @@ module FindAPIHelper
     funding_type: 'fee',
     age_range_in_years: '4 to 8',
     vac_status: 'full_time_vacancies',
-    content_status: 'published'
+    content_status: 'published',
+    latitude: '51.498024',
+    longitude: '0.129919'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -39,6 +41,8 @@ module FindAPIHelper
               'provider_code': provider_code,
               'region_code': region_code,
               'postcode': postcode,
+              'latitude': latitude,
+              'longitude': longitude,
             },
             'relationships': {
               'sites': {
@@ -158,7 +162,9 @@ module FindAPIHelper
     course_length: 'OneYear',
     region_code: 'north_west',
     age_range_in_years: '4 to 8',
-    content_status: 'published'
+    content_status: 'published',
+    latitude: '51.498024',
+    longitude: '0.129919'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -173,6 +179,8 @@ module FindAPIHelper
               'provider_code': provider_code,
               'region_code': region_code,
               'postcode': postcode,
+              'latitude': latitude,
+              'longitude': longitude,
             },
             'relationships': {
               'sites': {
@@ -280,8 +288,9 @@ module FindAPIHelper
     course_length: 'OneYear',
     region_code: 'north_west',
     age_range_in_years: '4 to 8',
-    content_status: 'published'
-
+    content_status: 'published',
+    latitude: '51.498024',
+    longitude: '0.129919'
   )
     response_hash = {
       status: 200,
@@ -296,6 +305,8 @@ module FindAPIHelper
             'region_code': region_code,
             'postcode': postcode,
             'provider_type': provider_type,
+            'latitude': latitude,
+            'longitude': longitude,
           },
           'relationships': {
             'sites': {
@@ -528,7 +539,9 @@ module FindAPIHelper
     vac_status: 'full_time_vacancies',
     qualifications: %w[PG PF],
     program_type: 'SD',
-    content_status: 'published'
+    content_status: 'published',
+    latitude: '51.498024',
+    longitude: '0.129919'
   )
     stub_find_api_provider(provider_code)
       .to_return(
@@ -543,6 +556,8 @@ module FindAPIHelper
               'provider_code': provider_code,
               'region_code': region_code,
               'postcode': postcode,
+              'latitude': latitude,
+              'longitude': longitude,
             },
             'relationships': {
               'sites': {
