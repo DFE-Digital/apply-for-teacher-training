@@ -15,23 +15,23 @@ module TeacherTrainingAPI
     end
 
     def call(run_in_background: true)
-      # if sync_courses?
-      #   find_provider = fetch_provider_from_find_api
-      #
-      #   @provider = create_or_update_provider(
-      #     base_provider_attrs.merge(
-      #       provider_attrs_from(find_provider),
-      #     ),
-      #   )
-      #
-      #   if run_in_background
-      #     FindSync::SyncCoursesFromFind.perform_async(provider.id, provider_recruitment_cycle_year)
-      #   else
-      #     FindSync::SyncCoursesFromFind.new.perform(provider.id, provider_recruitment_cycle_year)
-      #   end
-      # else
+      if sync_courses?
+        provider_from_api = fetch_provider_from_teacher_training_api
+
+        @provider = create_or_update_provider(
+          base_provider_attrs.merge(
+            provider_attrs_from(provider_from_api),
+          ),
+        )
+
+        if run_in_background
+          TeacherTrainingAPI::SyncCourses.perform_async(provider.id, provider_recruitment_cycle_year)
+        else
+          TeacherTrainingAPI::SyncCourses.new.perform(provider.id, provider_recruitment_cycle_year)
+        end
+      else
         @provider = create_or_update_provider(base_provider_attrs)
-      # end
+      end
     end
 
   private
@@ -47,10 +47,10 @@ module TeacherTrainingAPI
       }
     end
 
-    def provider_attrs_from(find_provider)
+    def provider_attrs_from(provider_from_api)
       {
-        region_code: find_provider.region_code&.strip,
-        name: find_provider.provider_name,
+        region_code: provider_from_api.region_code&.strip,
+        name: provider_from_api.name,
       }
     end
 
