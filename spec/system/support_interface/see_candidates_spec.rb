@@ -17,6 +17,10 @@ RSpec.feature 'See candidates' do
     then_i_see_that_candidate_too
     and_i_clear_filters
 
+    when_my_search_returns_nothing
+    then_i_see_a_message_saying_there_are_no_applications
+    and_i_clear_filters
+
     when_i_click_on_a_candidate_with_no_applications
     then_i_see_the_candidate_details
 
@@ -72,6 +76,15 @@ RSpec.feature 'See candidates' do
 
   def and_i_clear_filters
     click_on 'Clear'
+  end
+
+  def when_my_search_returns_nothing
+    fill_in :q, with: 'NOT A REAL EMAIL'
+    click_on 'Apply filters'
+  end
+
+  def then_i_see_a_message_saying_there_are_no_applications
+    expect(page).to have_content('No candidates found')
   end
 
   def when_i_click_on_a_candidate_with_no_applications
