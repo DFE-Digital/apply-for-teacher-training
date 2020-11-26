@@ -1,6 +1,7 @@
 module SupportInterface
   class ApplicationSummaryComponent < ViewComponent::Base
     include ViewHelper
+    include GeocodeHelper
 
     delegate :support_reference,
              :submitted_at,
@@ -22,6 +23,7 @@ module SupportInterface
         previous_application_row,
         subsequent_application_row,
         ucas_match_row,
+        average_distance_row,
       ].compact
     end
 
@@ -104,6 +106,16 @@ module SupportInterface
       {
         key: 'Subsequent application',
         value: govuk_link_to(application_form.subsequent_application_form.support_reference, support_interface_application_form_path(application_form.subsequent_application_form)),
+      }
+    end
+
+    def average_distance_row
+      {
+        key: 'Average distance to sites',
+        value: format_average_distance(
+          application_form,
+          application_form.application_choices.map(&:site),
+        ),
       }
     end
 
