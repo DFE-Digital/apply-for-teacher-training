@@ -56,7 +56,7 @@ class TimeLimitConfig
         Rule.new(nil, nil, 5),
       ],
       ucas_match_ucas_withdrawal_request: [
-        Rule.new(nil, nil, 10),
+        Rule.new(nil, nil, 5),
       ],
     }
   end

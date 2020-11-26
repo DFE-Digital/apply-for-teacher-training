@@ -26,8 +26,8 @@ RSpec.describe TimeLimitConfig do
       expect(TimeLimitConfig.limits_for(:ucas_match_candidate_withdrawal_request_reminder).first.limit).to eq(5)
     end
 
-    it ':ucas_match_ucas_withdrawal_request returns a default limit of 10 days' do
-      expect(TimeLimitConfig.limits_for(:ucas_match_ucas_withdrawal_request).first.limit).to eq(10)
+    it ':ucas_match_ucas_withdrawal_request returns a default limit of 5 days' do
+      expect(TimeLimitConfig.limits_for(:ucas_match_ucas_withdrawal_request).first.limit).to eq(5)
     end
   end
 end
