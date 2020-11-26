@@ -330,6 +330,17 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def ucas_match_reminder_email_multiple_acceptances(ucas_match)
+    @application_form = ucas_match.candidate.current_application
+    @initial_email_date = ucas_match.candidate_last_contacted_at.to_s(:govuk_date)
+    @request_ucas_withdrawal_date = TimeLimitCalculator.new(rule: :ucas_match_ucas_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.ucas_match_reminder_email.multiple_acceptances.subject'),
+    )
+  end
+
 private
 
   def new_offer(application_choice, template_name)

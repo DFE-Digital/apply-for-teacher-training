@@ -89,3 +89,5 @@ en:
     ucas_match_reminder_email:
       duplicate_applications:
         subject: 'Action required: please withdraw one of your duplicate applications'
+      multiple_acceptances:
+        subject: 'Action required: please withdraw one of your acceptances'

@@ -48,7 +48,26 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     it 'sends an email containing the date that the application needs to be withdrawn by' do
+      expect(email.body).to include('30 November 2020')
+    end
+  end
 
+  describe '.ucas_match_reminder_email_multiple_acceptances' do
+    let(:email) { mailer.ucas_match_reminder_email_multiple_acceptances(ucas_match) }
+
+    it 'sends an email with the correct subject' do
+      expect(email.subject).to include(I18n.t!('candidate_mailer.ucas_match_reminder_email.multiple_acceptances.subject'))
+    end
+
+    it 'sends an email with the correct heading' do
+      expect(email.body.encoded).to include("Dear #{application_form.full_name}")
+    end
+
+    it 'sends an email containing the date the initial email was sent' do
+      expect(email.body).to include('16 November 2020')
+    end
+
+    it 'sends an email containing the date that the application needs to be withdrawn by' do
       expect(email.body).to include('30 November 2020')
     end
   end
