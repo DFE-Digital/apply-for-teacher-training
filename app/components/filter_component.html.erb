@@ -50,7 +50,7 @@
                   <%= filter[:heading] %>
                 </legend>
                 <% if filter[:type] == :search %>
-                  <input class="govuk-input" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>" >
+                  <input class="govuk-input <%= filter[:css_classes] %>" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>" >
 
                 <% elsif filter[:type] == :checkboxes %>
                     <% filter[:options].each do |option| %>

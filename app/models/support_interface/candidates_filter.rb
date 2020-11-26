@@ -14,6 +14,13 @@ module SupportInterface
           value: applied_filters[:q],
           name: 'q',
         },
+        {
+          type: :search,
+          css_classes: 'govuk-input--width-5',
+          heading: 'Candidate ID',
+          value: applied_filters[:candidate_number],
+          name: 'candidate_number',
+        },
       ]
     end
   end
