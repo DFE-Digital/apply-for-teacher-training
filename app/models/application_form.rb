@@ -333,7 +333,8 @@ private
       saved_change_to_address_line3? ||
       saved_change_to_address_line4? ||
       saved_change_to_country? ||
-      saved_change_to_postcode?
+      saved_change_to_postcode? ||
+      saved_change_to_address_type?
   end
 
   def withdrawn_course_choices

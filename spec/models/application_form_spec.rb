@@ -52,7 +52,7 @@ RSpec.describe ApplicationForm do
       it 'clears existing coordinates if address changed to international' do
         allow(GeocodeApplicationAddressWorker).to receive(:perform_async)
         application_form = create(:completed_application_form, latitude: 1.5, longitude: 0.2)
-        application_form.update!(address_type: :international, country: 'AF')
+        application_form.update!(address_type: :international)
 
         expect([application_form.latitude, application_form.longitude]).to eq [nil, nil]
         expect(GeocodeApplicationAddressWorker)
