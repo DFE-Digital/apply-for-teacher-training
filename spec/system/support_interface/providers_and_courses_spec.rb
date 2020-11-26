@@ -46,15 +46,16 @@ RSpec.feature 'Providers and courses' do
     then_it_should_be_open_on_apply
 
     when_i_visit_the_providers_page
-    when_i_click_on_a_provider
+    and_i_click_on_an_accredited_body
     and_i_click_on_courses
-    then_i_see_the_updated_providers_courses_and_sites
-
-    when_i_visit_the_providers_page
-    when_i_click_on_a_different_provider
+    no_courses_should_be_open_on_apply
+    and_i_click_on_ratified_courses
+    no_ratified_courses_should_be_open_on_apply
     and_i_click_on_courses
     and_i_choose_to_open_all_courses
     then_all_courses_should_be_open_on_apply
+    and_when_i_click_on_ratified_courses
+    then_all_ratified_courses_should_be_open_on_apply
 
     and_when_i_click_the_other_providers_tab
     and_i_should_see_the_list_of_other_providers
@@ -76,10 +77,13 @@ RSpec.feature 'Providers and courses' do
     create(:application_choice, application_form: create(:application_form, support_reference: 'XYZ123'), course_option: course_option)
 
     create :provider, code: 'DEF', name: 'Gorse SCITT', sync_courses: true
-    create :provider, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
     create :provider, code: 'DOF', name: 'An Unsynced Provider', sync_courses: false
+    somerset_scitt = create :provider, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
 
     create(:course_option, course: create(:course, accredited_provider: provider))
+
+    create(:course_option, course: create(:course, exposed_in_find: true, accredited_provider: somerset_scitt))
+    create(:course_option, course: create(:course, exposed_in_find: true, provider: somerset_scitt))
   end
 
   def then_i_should_see_the_providers
@@ -263,16 +267,12 @@ RSpec.feature 'Providers and courses' do
     expect(page).to have_content 'University of Chester'
   end
 
-  def when_i_click_on_a_different_provider
-    click_link 'Gorse SCITT'
-  end
-
   def and_i_choose_to_open_all_courses
     click_button 'Open all courses for the 2021 cycle'
   end
 
   def then_all_courses_should_be_open_on_apply
-    expect(page).to have_content '1 course (1 on DfE Apply)'
+    expect(page).to have_content '2 courses (2 on DfE Apply)'
   end
 
   def and_when_i_click_the_other_providers_tab
@@ -282,5 +282,25 @@ RSpec.feature 'Providers and courses' do
 
   def and_i_should_see_the_list_of_other_providers
     expect(page).to have_content('An Unsynced Provider')
+  end
+
+  def and_i_click_on_an_accredited_body
+    click_link 'Somerset SCITT'
+  end
+
+  def and_when_i_click_on_ratified_courses
+    click_link 'Ratified courses'
+  end
+
+  def then_all_ratified_courses_should_be_open_on_apply
+    expect(page).to have_content 'ratifies 1 course (1 on DfE Apply)'
+  end
+
+  def no_courses_should_be_open_on_apply
+    expect(page).to have_content '2 courses (0 on DfE Apply)'
+  end
+
+  def no_ratified_courses_should_be_open_on_apply
+    expect(page).to have_content 'ratifies 1 course (0 on DfE Apply)'
   end
 end

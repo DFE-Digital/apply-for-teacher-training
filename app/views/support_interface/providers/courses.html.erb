@@ -1,11 +1,14 @@
 <%= render 'provider_navigation', title: 'Courses' %>
 
 <% if @provider.sync_courses? %>
-  <% unless @courses[RecruitmentCycle.current_year].to_a.all?(&:open_on_apply?) %>
+  <% unless @provider.all_courses_open_in_current_cycle? %>
     <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
       <h2 class="govuk-heading-m">Open all courses</h2>
 
       <p class="govuk-body">This will toggle every course on this provider to be available through Apply.</p>
+      <% if @provider.acts_as_accredited_body_in_current_cycle? %>
+        <p class="govuk-body"><%= govuk_link_to 'Courses this provider ratifies at other providers', support_interface_provider_ratified_courses_path(@provider) %> will also be opened.</p>
+      <% end %>
 
       <% unless @provider.all_associated_accredited_providers_onboarded? %>
         <%= render WarningTextComponent.new(

@@ -23,4 +23,17 @@ RSpec.describe OpenProviderCourses do
     expect { OpenProviderCourses.new(provider: provider).call }
       .not_to(change { Course.open_on_apply.count })
   end
+
+  it 'opens the correct ratified courses' do
+    training_provider = create(:provider)
+    accredited_body = create(:provider)
+    ratified_course = create(:course, exposed_in_find: true, open_on_apply: false, provider: training_provider, accredited_provider: accredited_body)
+    other_course = create(:course, exposed_in_find: true, open_on_apply: false, provider: training_provider, accredited_provider: nil)
+
+    expect {
+      described_class.new(provider: accredited_body).call
+    }.to(change { ratified_course.reload.open_on_apply? }.from(false).to(true))
+
+    expect(other_course.reload).not_to be_open_on_apply
+  end
 end
