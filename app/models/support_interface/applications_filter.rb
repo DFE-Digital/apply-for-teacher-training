@@ -67,6 +67,7 @@ module SupportInterface
     def search_by_application_choice_filter
       {
         type: :search,
+        css_classes: 'govuk-input--width-5',
         heading: 'Provider application ID',
         value: applied_filters[:application_choice_id],
         name: 'application_choice_id',
