@@ -164,4 +164,12 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
   end
+
+  describe '.ucas_match_resolved_on_apply_email' do
+    it_behaves_like('a provider mail with subject and content', :ucas_match_resolved_on_apply_email,
+                    I18n.t('provider_mailer.ucas_match.resolved_on_apply.subject'),
+                    'provider name' => 'Dear Johny English',
+                    'candidate name' => 'Harry Potter',
+                    'course name and code' => 'Computer Science (6IND)')
+  end
 end

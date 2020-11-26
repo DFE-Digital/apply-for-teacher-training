@@ -24,3 +24,5 @@ en:
           subject: "Duplicate applicant identified"
       resolved_on_ucas:
         subject: Duplicate applicant removed from UTT
+      resolved_on_apply:
+        subject: Duplicate applicant removed from DfE Apply
