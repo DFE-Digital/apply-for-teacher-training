@@ -106,6 +106,11 @@ class UCASMatch < ApplicationRecord
       ucas_matched_applications.select(&:application_withdrawn_on_ucas?).any?
   end
 
+  def apply_withdrawal?
+    ucas_matched_applications.select(&:both_scheme?) &&
+      ucas_matched_applications.select(&:application_withdrawn_on_apply?).any?
+  end
+
   def application_for_the_same_course_in_progress_on_both_services?
     application_for_the_same_course_on_both_services = ucas_matched_applications.select(&:both_scheme?)
 

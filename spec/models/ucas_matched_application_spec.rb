@@ -320,4 +320,36 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_withdrawn_on_ucas?).to eq(false)
     end
   end
+
+  describe '#application_withdrawn_on_apply?' do
+    context 'when the application_choice status is set to withdrawn' do
+      let(:application_choice) { create(:application_choice, course_option: course_option, status: 'withdrawn') }
+
+      before do
+        application_choice
+      end
+
+      it 'retuns true' do
+        dfe_matching_data =
+          { 'Course code' => course.code.to_s,
+            'Provider code' => course.provider.code.to_s,
+            'Apply candidate ID' => candidate.id.to_s }
+        ucas_matching_application = UCASMatchedApplication.new(dfe_matching_data, recruitment_cycle_year)
+
+        expect(ucas_matching_application.application_withdrawn_on_apply?).to eq(true)
+      end
+    end
+
+    context 'when the application_choice status is not set to withdrawn' do
+      it 'retuns false' do
+        dfe_matching_data =
+          { 'Course code' => course.code.to_s,
+            'Provider code' => course.provider.code.to_s,
+            'Apply candidate ID' => candidate.id.to_s }
+        ucas_matching_application = UCASMatchedApplication.new(dfe_matching_data, recruitment_cycle_year)
+
+        expect(ucas_matching_application.application_withdrawn_on_apply?).to eq(false)
+      end
+    end
+  end
 end

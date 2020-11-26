@@ -16,6 +16,8 @@ class WithdrawApplication
 
     StateChangeNotifier.call(:withdraw, application_choice: application_choice)
     send_email_notification_to_provider_users(application_choice)
+
+    resolve_ucas_match(application_choice)
   end
 
 private
@@ -25,6 +27,14 @@ private
   def send_email_notification_to_provider_users(application_choice)
     NotificationsList.for(application_choice).each do |provider_user|
       ProviderMailer.application_withdrawn(provider_user, application_choice).deliver_later
+    end
+  end
+
+  def resolve_ucas_match(application_choice)
+    match = UCASMatches::RetrieveForApplicationChoice.new(application_choice).call
+
+    if match && match.ready_to_resolve? && match.apply_withdrawal?
+      UCASMatches::ResolveOnApply.new(match).call
     end
   end
 end

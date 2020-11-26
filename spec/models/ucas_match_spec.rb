@@ -103,6 +103,26 @@ RSpec.describe UCASMatch do
     end
   end
 
+  describe 'apply_withdrawal?' do
+    it 'returns true if the application was on both services and withdrawn from Apply' do
+      application_choice = create(:application_choice, status: 'withdrawn')
+      create(:application_form, candidate_id: candidate.id, application_choices: [application_choice])
+      course = application_choice.course_option.course
+
+      ucas_matching_data = { 'Scheme' => 'B',
+                             'Course code' => course.code.to_s,
+                             'Apply candidate ID' => candidate.id.to_s,
+                             'Provider code' => course.provider.code.to_s }
+      apply_matching_data = { 'Scheme' => 'B',
+                              'Course code' => course.code.to_s,
+                              'Apply candidate ID' => candidate.id.to_s,
+                              'Provider code' => course.provider.code.to_s }
+      ucas_match = create(:ucas_match, matching_data: [ucas_matching_data, apply_matching_data])
+
+      expect(ucas_match.apply_withdrawal?).to eq(true)
+    end
+  end
+
   describe '#dual_application_or_dual_acceptance?' do
     it 'returns true if a candidate applied for the same course on both services and both applications are still in progress' do
       ucas_matching_data = { 'Scheme' => 'B',
