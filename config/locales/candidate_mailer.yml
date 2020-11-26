@@ -86,3 +86,6 @@ en:
         subject: 'Action required: it looks like you submitted a duplicate application'
       multiple_acceptances:
         subject: 'Action required: it looks like you’ve accepted two offers'
+    ucas_match_reminder_email:
+      duplicate_applications:
+        subject: 'Action required: please withdraw one of your duplicate applications'
