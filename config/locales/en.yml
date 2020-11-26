@@ -69,8 +69,7 @@ en:
     add_another_degree: Add another degree
     work_history_explanation: Tell us why you’ve been out of the workplace
     destroy_degree: Are you sure you want to delete this degree?
-    choosing_courses: Choosing your courses
-    course: Course
+    choose_courses: Choose your courses
     courses: Courses
     course_choices: Course choices
     course_choice: Course choice
@@ -92,8 +91,8 @@ en:
     becoming_a_teacher: Why do you want to teach
     subject_knowledge: Your suitability to teach a subject or age group
     interview_preferences: Interview needs
-    training_with_a_disability: Asking for support if you’re disabled
-    suitability_to_work_with_children: Declaring any safeguarding issues
+    training_with_a_disability: Ask for support if you’re disabled
+    suitability_to_work_with_children: Declare any safeguarding issues
     recommendation: I would recommend this service to a friend or colleague
     complexity: I found this service unnecessarily complex
     ease_of_use: I thought this service was easy to use
