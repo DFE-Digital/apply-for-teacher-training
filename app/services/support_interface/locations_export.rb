@@ -31,7 +31,7 @@ module SupportInterface
     end
 
     def return_age(application_form)
-      ((Time.zone.now.to_date - application_form.date_of_birth) / 365).floor
+      ((Time.zone.now.to_date - application_form.date_of_birth) / 365).floor if application_form.date_of_birth.present?
     end
 
     def application_state(application_form)
