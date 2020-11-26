@@ -1,4 +1,4 @@
-module TeacherTrainingAPI
+module TeacherTrainingPublicAPI
   class SyncCourses
     attr_reader :provider
 
@@ -8,14 +8,14 @@ module TeacherTrainingAPI
     def perform(provider_id, recruitment_cycle_year)
       @provider = ::Provider.find(provider_id)
 
-      TeacherTrainingAPI::Course.where(
+      TeacherTrainingPublicAPI::Course.where(
         year: recruitment_cycle_year,
         provider_code: @provider.code,
       ).paginate(per_page: 500).each do |course_from_api|
         update_course(course_from_api, recruitment_cycle_year)
       end
     rescue JsonApiClient::Errors::ApiError
-      raise TeacherTrainingAPI::SyncError
+      raise TeacherTrainingPublicAPI::SyncError
     end
 
   private

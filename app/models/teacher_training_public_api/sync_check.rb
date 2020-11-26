@@ -1,4 +1,4 @@
-module TeacherTrainingAPI
+module TeacherTrainingPublicAPI
   class SyncCheck < OkComputer::Check
     LAST_SUCCESSFUL_SYNC = 'last-successful-sync-with-teacher-training-api'.freeze
 

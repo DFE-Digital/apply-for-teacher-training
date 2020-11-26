@@ -1,4 +1,4 @@
-module TeacherTrainingAPI
+module TeacherTrainingPublicAPI
   class SyncProvider
     def initialize(provider_from_api:, recruitment_cycle_year:)
       @provider_from_api = provider_from_api
@@ -12,9 +12,9 @@ module TeacherTrainingAPI
 
       if sync_courses?
         if run_in_background
-          TeacherTrainingAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year)
+          TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year)
         else
-          TeacherTrainingAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year)
+          TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year)
         end
       end
     end
@@ -41,11 +41,11 @@ module TeacherTrainingAPI
       # Prefer this to find_or_create_by as it results in 3x fewer audits
       if existing_provider
         existing_provider.update!(attrs)
-      else
-        new_provider = ::Provider.new(attrs.merge(code: @provider_from_api.code)).save!
-      end
 
-      existing_provider || new_provider
+        existing_provider
+      else
+        ::Provider.new(attrs.merge(code: @provider_from_api.code)).save!
+      end
     end
   end
 end

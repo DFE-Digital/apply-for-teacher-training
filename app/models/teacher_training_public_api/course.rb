@@ -1,5 +1,5 @@
-module TeacherTrainingAPI
-  class Course < TeacherTrainingAPI::Resource
+module TeacherTrainingPublicAPI
+  class Course < TeacherTrainingPublicAPI::Resource
     belongs_to :recruitment_cycle, through: :provider, param: :year
     belongs_to :provider, param: :provider_code
 

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Syncing providers', sidekiq: true do
-  include TeacherTrainingAPIHelper
+  include TeacherTrainingPublicAPIHelper
 
   scenario 'Creates and updates providers' do
     given_there_are_2_providers_in_the_teacher_training_api
@@ -33,7 +33,7 @@ RSpec.describe 'Syncing providers', sidekiq: true do
   end
 
   def when_the_sync_runs
-    TeacherTrainingAPI::SyncAllProvidersAndCoursesWorker.perform_async
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
   end
 
   def then_it_creates_one_provider
@@ -45,6 +45,6 @@ RSpec.describe 'Syncing providers', sidekiq: true do
   end
 
   def and_it_sets_the_last_synced_timestamp
-    expect(TeacherTrainingAPI::SyncCheck.last_sync).not_to be_blank
+    expect(TeacherTrainingPublicAPI::SyncCheck.last_sync).not_to be_blank
   end
 end

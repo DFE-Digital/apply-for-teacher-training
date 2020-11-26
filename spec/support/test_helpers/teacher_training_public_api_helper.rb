@@ -1,4 +1,4 @@
-module TeacherTrainingAPIHelper
+module TeacherTrainingPublicAPIHelper
   def stub_teacher_training_api_providers(recruitment_cycle_year: RecruitmentCycle.current_year, specified_attributes: [])
     stub_request(
       :get,
@@ -47,7 +47,7 @@ module TeacherTrainingAPIHelper
 
     api_response[:data][:attributes] = api_response[:data][:attributes].merge(provider_attributes)
 
-    TeacherTrainingAPI::Provider.new(api_response[:data][:attributes])
+    TeacherTrainingPublicAPI::Provider.new(api_response[:data][:attributes])
   end
 
 private
