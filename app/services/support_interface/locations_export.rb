@@ -39,11 +39,11 @@ module SupportInterface
     end
 
     def return_lastest_degree_type(application_form)
-      latest_degree(application_form).qualification_type
+      latest_degree(application_form)&.qualification_type
     end
 
     def return_lastest_degree_award_year(application_form)
-      latest_degree(application_form).award_year
+      latest_degree(application_form)&.award_year
     end
 
     def latest_degree(application_form)
