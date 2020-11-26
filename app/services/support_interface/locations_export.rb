@@ -1,16 +1,16 @@
 module SupportInterface
   class LocationsExport
     def data_for_export
-      application_choices.map do |application_choice|
+      application_choices.find_each.map do |application_choice|
         application_form = application_choice.application_form
 
         {
           'Candidate id' => application_form.candidate_id,
           'Support reference' => application_form.support_reference,
           'Age' => return_age(application_form),
-          'Candidates postcode' => application_form.postcode,
-          'Providers postcode' => application_choice.provider.postcode,
-          'Sites postcode' => application_choice.site.postcode,
+          'Candidate’s postcode' => application_form.postcode,
+          'Provider’s postcode' => application_choice.provider.postcode,
+          'Site’s postcode' => application_choice.site.postcode,
           'Provider type' => application_choice.provider.provider_type,
           'Accrediting provider type' => application_choice.course.accredited_provider&.provider_type,
           'Program type' => application_choice.course.program_type,
@@ -24,9 +24,10 @@ module SupportInterface
   private
 
     def application_choices
-      ApplicationChoice.all.includes(%i[application_form]).sort_by do |application_choice|
-        application_choice.application_form.candidate_id
-      end
+      ApplicationChoice
+      .includes(%i[application_form site provider course candidate])
+      .joins(:candidate)
+      .merge(Candidate.order(:id))
     end
 
     def return_age(application_form)

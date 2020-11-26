@@ -10,6 +10,7 @@ class ApplicationChoice < ApplicationRecord
   has_one :site, through: :course_option
   has_one :provider, through: :course
   has_one :accredited_provider, through: :course, class_name: 'Provider'
+  has_one :candidate, through: :application_form
 
   has_many :notes, dependent: :destroy
 
