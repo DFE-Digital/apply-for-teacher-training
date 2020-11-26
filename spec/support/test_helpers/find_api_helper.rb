@@ -10,6 +10,8 @@ module FindAPIHelper
   def stub_find_api_provider_200(
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
+    postcode: 'SW1P 3BT',
+    provider_type: 'scitt',
     course_code: 'X130',
     site_code: 'X',
     findable: true,
@@ -36,6 +38,7 @@ module FindAPIHelper
               'provider_name': provider_name,
               'provider_code': provider_code,
               'region_code': region_code,
+              'postcode': postcode,
             },
             'relationships': {
               'sites': {
@@ -83,6 +86,7 @@ module FindAPIHelper
                 'funding_type': funding_type,
                 'age_range_in_years': age_range_in_years,
                 'content_status': content_status,
+                'provider_type': provider_type,
               },
               'relationships': {
                 'sites': {
@@ -141,6 +145,8 @@ module FindAPIHelper
   def stub_find_api_provider_200_with_accredited_provider(
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
+    postcode: 'SW1P 3BT',
+    provider_type: 'scitt',
     course_code: 'X130',
     site_code: 'X',
     accredited_provider_code: 'XYZ',
@@ -166,6 +172,7 @@ module FindAPIHelper
               'provider_name': provider_name,
               'provider_code': provider_code,
               'region_code': region_code,
+              'postcode': postcode,
             },
             'relationships': {
               'sites': {
@@ -216,6 +223,7 @@ module FindAPIHelper
                 },
                 'funding_type': 'fee',
                 'age_range_in_years': age_range_in_years,
+                'provider_type': provider_type,
               },
               'relationships': {
                 'sites': {
@@ -262,6 +270,8 @@ module FindAPIHelper
   def stub_find_api_provider_200_with_multiple_sites(
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
+    postcode: 'SW1P 3BT',
+    provider_type: 'scitt',
     course_code: 'X130',
     findable: true,
     study_mode: 'full_time_or_part_time',
@@ -284,6 +294,8 @@ module FindAPIHelper
             'provider_name': provider_name,
             'provider_code': provider_code,
             'region_code': region_code,
+            'postcode': postcode,
+            'provider_type': provider_type,
           },
           'relationships': {
             'sites': {
@@ -347,6 +359,7 @@ module FindAPIHelper
               'funding_type': 'fee',
               'age_range_in_years': age_range_in_years,
               'content_status': content_status,
+              'provider_type': provider_type,
             },
             'relationships': {
               'sites': {
@@ -499,6 +512,8 @@ module FindAPIHelper
   def stub_find_api_provider_200_with_qualifications_and_program_type(
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
+    postcode: 'SW1P 3BT',
+    provider_type: 'scitt',
     course_code: 'X130',
     site_code: 'X',
     findable: true,
@@ -527,6 +542,7 @@ module FindAPIHelper
               'provider_name': provider_name,
               'provider_code': provider_code,
               'region_code': region_code,
+              'postcode': postcode,
             },
             'relationships': {
               'sites': {
@@ -576,6 +592,7 @@ module FindAPIHelper
                 'program_type': program_type,
                 'qualifications': qualifications,
                 'content_status': content_status,
+                'provider_type': provider_type,
               },
               'relationships': {
                 'sites': {
