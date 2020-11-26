@@ -40,6 +40,8 @@ module SupportInterface
       {
         key: 'Full name',
         value: "#{first_name} #{last_name}",
+        action: 'Change',
+        action_path: support_interface_application_form_edit_applicant_details_path(application_form),
       }
     end
 

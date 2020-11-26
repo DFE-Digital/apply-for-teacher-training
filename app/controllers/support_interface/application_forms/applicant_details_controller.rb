@@ -28,7 +28,7 @@ module SupportInterface
       def edit_application_params
         params.require(
           :support_interface_application_forms_edit_applicant_details_form,
-        ).permit(:phone_number, :audit_comment)
+        ).permit(:first_name, :last_name, :phone_number, :audit_comment)
       end
     end
   end
