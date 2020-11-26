@@ -7,7 +7,7 @@ module UCASMatches
     end
 
     def call
-      return false if !ucas_match.resolved_on_ucas?
+      raise 'The application has not been resolved on UCAS' if !ucas_match.resolved_on_ucas?
 
       application_choice = ucas_match.application_choices_for_same_course_on_both_services.first
 

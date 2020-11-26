@@ -17,6 +17,14 @@ class UCASMatch < ApplicationRecord
     resolved_on_ucas: 'resolved_on_ucas',
   }
 
+  def ready_to_resolve?
+    action_taken.present? && !action_needed? && !resolved?
+  end
+
+  def resolved?
+    %w[resolved_on_apply resolved_on_ucas].include?(action_taken)
+  end
+
   def trackable_applicant_key
     ucas_matched_applications.first.trackable_applicant_key
   end
@@ -91,6 +99,11 @@ class UCASMatch < ApplicationRecord
 
   def application_choices_for_same_course_on_both_services
     ucas_matched_applications.select(&:both_scheme?).map(&:application_choice)
+  end
+
+  def ucas_withdrawal?
+    ucas_matched_applications.select(&:both_scheme?) &&
+      ucas_matched_applications.select(&:application_withdrawn_on_ucas?).any?
   end
 
   def application_for_the_same_course_in_progress_on_both_services?

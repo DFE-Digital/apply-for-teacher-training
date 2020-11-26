@@ -105,6 +105,10 @@ module UCASMatching
             new_matches += 1
           end
 
+          if match.ready_to_resolve? && match.ucas_withdrawal?
+            UCASMAtches::ResolveOnUCAS.new(ucas_match: match).call
+          end
+
           match.save!
         else
           Rails.logger.info "Found a match for candidate ID #{candidate_id}, but no changes to record"

@@ -101,6 +101,10 @@ class UCASMatchedApplication
     ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym)
   end
 
+  def application_withdrawn_on_ucas?
+    mapped_ucas_status.eql?('withdrawn')
+  end
+
   def application_choice
     @application_choice ||= begin
       ApplicationChoice.includes(:application_form)

@@ -33,7 +33,7 @@ RSpec.describe UCASMatch do
       end
     end
 
-    it 'returns false if reminder emails were sent and we don not need to request withdrawal from UCAS yet' do
+    it 'returns false if reminder emails were sent and we do not need to request withdrawal from UCAS yet' do
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: Time.zone.now)
       allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
       allow(ucas_match).to receive(:need_to_request_withdrawal_from_ucas?).and_return(false)
@@ -68,6 +68,38 @@ RSpec.describe UCASMatch do
       allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(false)
 
       expect(ucas_match.action_needed?).to eq(false)
+    end
+  end
+
+  describe '#resolved?' do
+    it 'returns true if action_taken is resolved_on_apply or resolved_on_ucas' do
+      ucas_match = create(:ucas_match, action_taken: 'resolved_on_ucas')
+
+      expect(ucas_match.resolved?).to eq(true)
+    end
+  end
+
+  describe '#ready_to_resolve' do
+    it 'returns true if no further action is required and the match is not resolved' do
+      ucas_match = create(:ucas_match, action_taken: 'initial_emails_sent', matching_state: 'processed')
+
+      expect(ucas_match.ready_to_resolve?).to eq(true)
+    end
+
+    it 'returns false if no further action is required and the match is resolved' do
+      ucas_match = create(:ucas_match, action_taken: 'resolved_on_ucas')
+
+      expect(ucas_match.ready_to_resolve?).to eq(false)
+    end
+  end
+
+  describe 'ucas_withdrawal?' do
+    it 'returns true if the application was on both services and withdrawn from UCAS' do
+      ucas_matching_data = { 'Scheme' => 'B',
+                             'Withdrawns' => '1' }
+      ucas_match = create(:ucas_match, matching_data: [ucas_matching_data])
+
+      expect(ucas_match.ucas_withdrawal?).to eq(true)
     end
   end
 
@@ -169,7 +201,7 @@ RSpec.describe UCASMatch do
       end
     end
 
-    it 'returns false if initial emails were sent and we don not need to send the reminders yet' do
+    it 'returns false if initial emails were sent and we do not need to send the reminders yet' do
       emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: emails_sent_at)
 
@@ -198,7 +230,7 @@ RSpec.describe UCASMatch do
       end
     end
 
-    it 'returns false if reminder emails were sent and we don not need to request withdrawal from ucas yet' do
+    it 'returns false if reminder emails were sent and we do not need to request withdrawal from ucas yet' do
       emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: emails_sent_at)
 

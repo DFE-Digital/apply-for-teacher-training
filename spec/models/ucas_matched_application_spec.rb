@@ -121,7 +121,7 @@ RSpec.describe UCASMatchedApplication do
   end
 
   describe '#application_in_progress_on_ucas?' do
-    it 'retruns true if application is not in an unsucesfull state on UCAS' do
+    it 'returns true if application is not in an unsucesfull state on UCAS' do
       ucas_matching_data =
         { 'Scheme' => 'B',
           'Course code' => course.code.to_s,
@@ -141,7 +141,7 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(true)
     end
 
-    it 'retruns false if application is in unsucesfull state on UCAS' do
+    it 'returns false if application is in unsucesfull state on UCAS' do
       ucas_matching_data =
         { 'Scheme' => 'B',
           'Course code' => course.code.to_s,
@@ -161,14 +161,14 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
     end
 
-    it 'retruns false the application is DfE scheme' do
+    it 'returns false the application is DfE scheme' do
       ucas_matching_data = { 'Scheme' => 'D' }
       ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
       expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
     end
 
-    it 'retruns false the provider is not on apply' do
+    it 'returns false the provider is not on apply' do
       ucas_matching_data = { 'Scheme' => 'U', 'Provider code' => 'WELSH PROVIDER CODE' }
       ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
@@ -177,7 +177,7 @@ RSpec.describe UCASMatchedApplication do
   end
 
   describe '#application_in_progress_on_apply?' do
-    it 'retruns true if application is not in an unsucesfull state on Apply' do
+    it 'returns true if application is not in an unsucesfull state on Apply' do
       ucas_matching_data =
         { 'Scheme' => 'B',
           'Course code' => course.code.to_s,
@@ -188,7 +188,7 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_in_progress_on_apply?).to eq(true)
     end
 
-    it 'retruns false if application is in unsucesfull state on Apply' do
+    it 'returns false if application is in unsucesfull state on Apply' do
       ucas_matching_data =
         { 'Scheme' => 'B',
           'Course code' => course.code.to_s,
@@ -199,7 +199,7 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
     end
 
-    it 'retruns false the application is UCAS scheme' do
+    it 'returns false the application is UCAS scheme' do
       ucas_matching_data = { 'Scheme' => 'U' }
       ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
@@ -208,7 +208,7 @@ RSpec.describe UCASMatchedApplication do
   end
 
   describe '#application_accepted_on_ucas?' do
-    it 'retruns true if application is in recruited state on UCAS' do
+    it 'returns true if application is in recruited state on UCAS' do
       ucas_matching_data =
         { 'Scheme' => 'U',
           'Course code' => course.code.to_s,
@@ -221,7 +221,7 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_accepted_on_ucas?).to eq(true)
     end
 
-    it 'retruns true if application is in pending_conditions state on UCAS' do
+    it 'returns true if application is in pending_conditions state on UCAS' do
       ucas_matching_data =
         { 'Scheme' => 'B',
           'Course code' => course.code.to_s,
@@ -234,7 +234,7 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_accepted_on_ucas?).to eq(true)
     end
 
-    it 'retruns false if application is in unsucesfull state on UCAS' do
+    it 'returns false if application is in unsucesfull state on UCAS' do
       ucas_matching_data =
         { 'Scheme' => 'U',
           'Course code' => course.code.to_s,
@@ -246,14 +246,14 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
     end
 
-    it 'retruns false the application is DfE scheme' do
+    it 'returns false when the application is DfE scheme' do
       ucas_matching_data = { 'Scheme' => 'D' }
       ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
       expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
     end
 
-    it 'retruns false the provider is not on Apply' do
+    it 'returns false when the provider is not on Apply' do
       ucas_matching_data = { 'Scheme' => 'U', 'Provider code' => 'WELSH PROVIDER CODE' }
       ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
@@ -262,7 +262,7 @@ RSpec.describe UCASMatchedApplication do
   end
 
   describe '#application_accepted_on_apply?' do
-    it 'retruns true if application is accepted on Apply' do
+    it 'returns true if application is accepted on Apply' do
       ucas_matching_data =
         { 'Scheme' => 'D',
           'Course code' => course.code.to_s,
@@ -273,7 +273,7 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_in_progress_on_apply?).to eq(true)
     end
 
-    it 'retruns false if application is in unsucesfull state on Apply' do
+    it 'returns false if application is in unsucesfull state on Apply' do
       ucas_matching_data =
         { 'Scheme' => 'B',
           'Course code' => course.code.to_s,
@@ -284,7 +284,7 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
     end
 
-    it 'retruns false the application is UCAS scheme' do
+    it 'returns false if the application is in UCAS scheme' do
       ucas_matching_data = { 'Scheme' => 'U' }
       ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
@@ -302,6 +302,22 @@ RSpec.describe UCASMatchedApplication do
       ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
       expect(ucas_matching_application.application_choice).to eq(application_choice2)
+    end
+  end
+
+  describe '#application_withdrawn_on_ucas?' do
+    it 'returns true if application has been withdrawn on UCAS' do
+      ucas_matching_data = { 'Withdrawns' => '1' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_withdrawn_on_ucas?).to eq(true)
+    end
+
+    it 'returns false if application has not been withdrawn on UCAS' do
+      ucas_matching_data = { 'Withdrawns' => '' }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_withdrawn_on_ucas?).to eq(false)
     end
   end
 end
