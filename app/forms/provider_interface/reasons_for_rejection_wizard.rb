@@ -7,6 +7,7 @@ module ProviderInterface
       quality_of_application_y_n
       qualifications_y_n
       performance_at_interview_y_n
+      course_full_y_n
       offered_on_another_course_y_n
       honesty_and_professionalism_y_n
       safeguarding_y_n
@@ -324,7 +325,8 @@ module ProviderInterface
 
     def clean_answers_for_other_reasons(attrs)
       attrs[:other_advice_or_feedback_details] = nil if attrs[:other_advice_or_feedback_y_n] == 'No'
-      attrs[:why_are_you_rejecting_this_application] = nil unless attrs.slice(*INITIAL_TOP_LEVEL_QUESTIONS).values.uniq == %w[No]
+      answers_for_initial_top_level_questions = last_saved_state.slice(*INITIAL_TOP_LEVEL_QUESTIONS.map(&:to_s)).values
+      attrs[:why_are_you_rejecting_this_application] = nil unless answers_for_initial_top_level_questions.uniq == %w[No]
     end
 
     def clean_initial_question(attrs, key)

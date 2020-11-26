@@ -378,4 +378,34 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       expect(wizard.safeguarding_concerns_other_details).to eq(attrs_with_nested_answers[:safeguarding_concerns_other_details])
     end
   end
+
+  describe 'why_are_you_rejecting_this_application' do
+    let(:last_state) do
+      {
+        candidate_behaviour_y_n: 'No',
+        quality_of_application_y_n: 'No',
+        qualifications_y_n: 'No',
+        performance_at_interview_y_n: 'No',
+        course_full_y_n: 'No',
+        offered_on_another_course_y_n: 'No',
+        honesty_and_professionalism_y_n: 'No',
+        safeguarding_y_n: 'No',
+      }
+    end
+
+    subject(:wizard) { described_class.new(store, current_step: 'other_reasons', why_are_you_rejecting_this_application: 'I am drunk with power') }
+
+    it 'value is set if all top level initial questions were answered No' do
+      allow(store).to receive(:read).and_return(last_state.to_json)
+
+      expect(wizard.why_are_you_rejecting_this_application).to eq('I am drunk with power')
+    end
+
+    it 'value is ignored unless all top level initial questions were answered No' do
+      last_state[:course_full_y_n] = 'Yes'
+      allow(store).to receive(:read).and_return(last_state.to_json)
+
+      expect(wizard.why_are_you_rejecting_this_application).to be nil
+    end
+  end
 end
