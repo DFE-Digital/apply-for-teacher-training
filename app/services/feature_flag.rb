@@ -17,7 +17,7 @@ class FeatureFlag
     [:dfe_sign_in_fallback, 'Use this when DfE Sign-in is down', 'Tijmen Brommet'],
     [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Michael Nacos'],
     [:pilot_open, 'Enables the Apply for Teacher Training service', 'Tijmen Brommet'],
-    [:getting_ready_for_next_cycle_banner, 'Displays an information banner related to the end-of-cycle with link to static page', 'Steve Hook'],
+    [:provider_information_banner, 'Displays an information banner for providers on the start page and applications page', 'Ben Swannack'],
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Malcolm Baig'],
     [:hold_courses_open, 'Force all courses to appear to have vacancies. Do not enable in production!', 'Duncan Brown'],
     [:vendor_api_request_tracing, 'Enable middleware which records vendor API requests', 'Steve Laing'],
