@@ -51,7 +51,7 @@ module SupportInterface
 
       return nil if degrees_with_award_year.blank?
 
-      application_form.application_qualifications.degree.max_by(&:award_year)
+      degrees_with_award_year.max_by(&:award_year)
     end
   end
 end
