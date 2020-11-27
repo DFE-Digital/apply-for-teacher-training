@@ -227,10 +227,10 @@ Rails.application.routes.draw do
         get '/:id/completion_status/edit' => 'degrees/completion_status#edit', as: :edit_degree_completion_status
         patch '/:id/completion_status/edit' => 'degrees/completion_status#update'
 
-        get '/:id/naric-statement' => 'degrees/naric_statement#new', as: :degree_naric_statement
-        post '/:id/naric-statement' => 'degrees/naric_statement#create'
-        get '/:id/naric-statement/edit' => 'degrees/naric_statement#edit', as: :edit_degree_naric_statement
-        patch '/:id/naric-statement/edit' => 'degrees/naric_statement#update'
+        get '/:id/naric' => 'degrees/naric#new', as: :degree_naric
+        post '/:id/naric' => 'degrees/naric#create'
+        get '/:id/naric/edit' => 'degrees/naric#edit', as: :edit_degree_naric
+        patch '/:id/naric/edit' => 'degrees/naric#update'
 
         get '/:id/grade' => 'degrees/grade#new', as: :degree_grade
         post '/:id/grade' => 'degrees/grade#create'

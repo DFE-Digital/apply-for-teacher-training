@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::DegreeNaricStatementForm do
+RSpec.describe CandidateInterface::DegreeNaricForm do
   describe '#save' do
     context 'when `have_naric_reference` is "yes"' do
       it 'returns false if naric_reference and comparable_uk_degree are empty' do
