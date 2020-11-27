@@ -61,7 +61,6 @@ Rails.application.routes.draw do
       get '/complete' => 'submitted_application_form#complete', as: :application_complete
       get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
       get '/submit-success' => 'submitted_application_form#submit_success', as: :application_submit_success
-      get '/edit' => 'submitted_application_form#edit', as: :application_edit
       get '/start-apply-again' => 'submitted_application_form#start_apply_again', as: :start_apply_again
       post '/apply-again' => 'submitted_application_form#apply_again', as: :apply_again
       get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
