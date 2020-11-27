@@ -1,5 +1,5 @@
 module CandidateInterface
-  class NaricReferenceForm
+  class GcseNaricForm
     include ActiveModel::Model
 
     attr_accessor :naric_reference_choice, :naric_reference, :comparable_uk_qualification

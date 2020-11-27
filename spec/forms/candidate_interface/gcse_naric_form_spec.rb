@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::NaricReferenceForm do
+RSpec.describe CandidateInterface::GcseNaricForm do
   describe 'validations' do
     let(:form) { subject }
 
@@ -28,13 +28,13 @@ RSpec.describe CandidateInterface::NaricReferenceForm do
     describe '#build_from_qualification' do
       it 'creates an object based on the provided ApplicationQualification' do
         qualification = ApplicationQualification.new(qualification_data)
-        naric_reference_form = CandidateInterface::NaricReferenceForm.build_from_qualification(
+        naric_form = CandidateInterface::GcseNaricForm.build_from_qualification(
           qualification,
         )
 
-        expect(naric_reference_form.naric_reference_choice).to eq 'Yes'
-        expect(naric_reference_form.naric_reference).to eq qualification.naric_reference
-        expect(naric_reference_form.comparable_uk_qualification).to eq qualification.comparable_uk_qualification
+        expect(naric_form.naric_reference_choice).to eq 'Yes'
+        expect(naric_form.naric_reference).to eq qualification.naric_reference
+        expect(naric_form.comparable_uk_qualification).to eq qualification.comparable_uk_qualification
       end
     end
 
@@ -48,16 +48,16 @@ RSpec.describe CandidateInterface::NaricReferenceForm do
       end
 
       it 'returns false if not valid' do
-        naric_reference_form = CandidateInterface::NaricReferenceForm.new
+        naric_form = CandidateInterface::GcseNaricForm.new
 
-        expect(naric_reference_form.save(ApplicationQualification.new)).to eq(false)
+        expect(naric_form.save(ApplicationQualification.new)).to eq(false)
       end
 
       it 'updates the provided ApplicationQualification if valid' do
         qualification = create(:gcse_qualification)
-        naric_reference_form = CandidateInterface::NaricReferenceForm.new(form_data)
+        naric_form = CandidateInterface::GcseNaricForm.new(form_data)
 
-        expect(naric_reference_form.save(qualification)).to eq(true)
+        expect(naric_form.save(qualification)).to eq(true)
         expect(qualification.naric_reference).to eq form_data[:naric_reference]
         expect(qualification.comparable_uk_qualification).to eq form_data[:comparable_uk_qualification]
       end

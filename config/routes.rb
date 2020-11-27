@@ -149,8 +149,8 @@ Rails.application.routes.draw do
         get '/country' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
         patch '/country' => 'gcse/institution_country#update'
 
-        get '/naric-reference' => 'gcse/naric_reference#edit', as: :gcse_details_edit_naric_reference
-        patch '/naric-reference' => 'gcse/naric_reference#update'
+        get '/naric' => 'gcse/naric#edit', as: :gcse_details_edit_naric
+        patch '/naric' => 'gcse/naric#update'
 
         get '/year' => 'gcse/year#edit', as: :gcse_details_edit_year
         patch '/year' => 'gcse/year#update'

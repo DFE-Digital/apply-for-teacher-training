@@ -105,7 +105,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def then_i_see_the_add_naric_reference_page
-    expect(page).to have_current_path candidate_interface_gcse_details_edit_naric_reference_path('maths')
+    expect(page).to have_current_path candidate_interface_gcse_details_edit_naric_path('maths')
   end
 
   def when_i_do_not_input_my_naric_reference_or_choose_an_equivalency; end
@@ -127,7 +127,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def when_i_fill_in_my_naric_reference_and_choose_an_equivalency
-    fill_in 'candidate-interface-naric-reference-form-naric-reference-field-error', with: '12345'
+    fill_in 'candidate-interface-gcse-naric-form-naric-reference-field-error', with: '12345'
     choose 'GCSE (grades A*-C / 9-4)'
   end
 
