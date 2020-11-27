@@ -50,6 +50,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
         expect(described_class.new.data_for_export).to match_array([
           {
             name: training_provider.name,
+            code: training_provider.code,
             dsa_signer: provider_user1.email_address,
             last_user_permissions_change_at: 1.day.ago,
             total_user_permissions_changes: 1,
@@ -71,6 +72,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
           },
           {
             name: ratifying_provider.name,
+            code: ratifying_provider.code,
             dsa_signer: provider_user3.email_address,
             last_user_permissions_change_at: 2.days.ago,
             total_user_permissions_changes: 2,
