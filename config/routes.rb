@@ -16,15 +16,15 @@ Rails.application.routes.draw do
 
   namespace :candidate_interface, path: '/candidate' do
     get '/', to: redirect(GOVUK_APPLY_START_PAGE_URL)
+
     get '/accessibility', to: 'content#accessibility'
-    get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_candidate', as: :cookies
-    get '/terms-of-use', to: 'content#terms_candidate', as: :terms
+    get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/providers', to: 'content#providers', as: :providers
+    get '/terms-of-use', to: 'content#terms_candidate', as: :terms
 
     get '/account', to: 'start_page#create_account_or_sign_in', as: :create_account_or_sign_in
     post '/account', to: 'start_page#create_account_or_sign_in_handler'
-
     get '/applications-closed' => 'start_page#applications_closed', as: :applications_closed
 
     get '/sign-up', to: 'sign_up#new', as: :sign_up
@@ -37,7 +37,6 @@ Rails.application.routes.draw do
     post '/sign-in/expired', to: 'sign_in#create_from_expired_token', as: :create_expired_sign_in
     get '/sign-in/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_in
     get '/sign-in/expired', to: 'sign_in#expired', as: :expired_sign_in
-
     get '/confirm_authentication', to: 'sign_in#confirm_authentication', as: :authenticate
     post '/confirm_authentication', to: 'sign_in#authenticate'
     get '/authenticate', to: 'sign_in#expired'
@@ -48,21 +47,24 @@ Rails.application.routes.draw do
     get '/interstitial', to: 'after_sign_in#interstitial', as: :interstitial
 
     scope '/application' do
-      get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
-
-      get '/' => 'unsubmitted_application_form#show', as: :application_form
       get '/prefill', to: 'prefill_application_form#new'
       post '/prefill', to: 'prefill_application_form#create'
-      get '/review' => 'unsubmitted_application_form#review', as: :application_review
+
       get '/before-you-start', to: 'unsubmitted_application_form#before_you_start'
+      get '/' => 'unsubmitted_application_form#show', as: :application_form
+      get '/review' => 'unsubmitted_application_form#review', as: :application_review
       get '/submit' => 'unsubmitted_application_form#submit_show', as: :application_submit_show
       post '/submit' => 'unsubmitted_application_form#submit', as: :application_submit
 
+      get '/submit-success' => 'submitted_application_form#submit_success', as: :application_submit_success
       get '/complete' => 'submitted_application_form#complete', as: :application_complete
       get '/review/submitted' => 'submitted_application_form#review_submitted', as: :application_review_submitted
-      get '/submit-success' => 'submitted_application_form#submit_success', as: :application_submit_success
+
+      get '/review/submitted/:id' => 'application_form#review_previous_application', as: :review_previous_application
+
       get '/start-apply-again' => 'submitted_application_form#start_apply_again', as: :start_apply_again
       post '/apply-again' => 'submitted_application_form#apply_again', as: :apply_again
+
       get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
       post '/carry-over' => 'carry_over#create', as: :carry_over
 
@@ -71,18 +73,22 @@ Rails.application.routes.draw do
         patch '/' => 'personal_details/base#create'
         get '/edit' => 'personal_details/base#edit', as: :edit_personal_details
         patch '/edit' => 'personal_details/base#update'
+
         get '/nationalities' => 'personal_details/nationalities#new', as: :nationalities
         patch '/nationalities' => 'personal_details/nationalities#create'
         get '/nationalities/edit' => 'personal_details/nationalities#edit', as: :edit_nationalities
         patch '/nationalities/edit' => 'personal_details/nationalities#update'
+
         get '/languages' => 'personal_details/languages#new', as: :languages
         patch '/languages' => 'personal_details/languages#create'
         get '/languages/edit' => 'personal_details/languages#edit', as: :edit_languages
         patch '/languages/edit' => 'personal_details/languages#update'
+
         get '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#new', as: :right_to_work_or_study
         patch '/right-to-work-or-study' => 'personal_details/right_to_work_or_study#create'
         get '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#edit', as: :edit_right_to_work_or_study
         patch '/right-to-work-or-study/edit' => 'personal_details/right_to_work_or_study#update'
+
         get '/review' => 'personal_details/review#show', as: :personal_details_show
         patch '/review' => 'personal_details/review#complete', as: :personal_details_complete
       end
@@ -245,10 +251,6 @@ Rails.application.routes.draw do
 
       scope '/courses' do
         get '/' => 'application_choices#index', as: :course_choices_index
-        get '/review' => 'application_choices#review', as: :course_choices_review
-        patch '/review' => 'application_choices#complete', as: :course_choices_complete
-        get '/delete/:id' => 'application_choices#confirm_destroy', as: :confirm_destroy_course_choice
-        delete '/delete/:id' => 'application_choices#destroy'
 
         get '/choose' => 'course_choices/have_you_chosen#ask', as: :course_choices_choose
         post '/choose' => 'course_choices/have_you_chosen#decide'
@@ -257,6 +259,7 @@ Rails.application.routes.draw do
 
         get '/provider' => 'course_choices/provider_selection#new', as: :course_choices_provider
         post '/provider' => 'course_choices/provider_selection#create'
+
         get '/provider/:provider_id/courses' => 'course_choices/course_selection#new', as: :course_choices_course
         post '/provider/:provider_id/courses' => 'course_choices/course_selection#create'
         get '/provider/:provider_id/courses/:course_id' => 'course_choices/study_mode_selection#new', as: :course_choices_study_mode
@@ -274,6 +277,12 @@ Rails.application.routes.draw do
         get '/confirm_selection/:course_id', to: redirect('/candidate/application/courses/confirm-selection/%{course_id}')
         post '/complete-selection/:course_id' => 'find_course_selections#complete_selection', as: :course_complete_selection
         get '/complete_selection/:course_id', to: redirect('/candidate/application/courses/complete-selection/%{course_id}')
+
+        get '/review' => 'application_choices#review', as: :course_choices_review
+        patch '/review' => 'application_choices#complete', as: :course_choices_complete
+
+        get '/delete/:id' => 'application_choices#confirm_destroy', as: :confirm_destroy_course_choice
+        delete '/delete/:id' => 'application_choices#destroy'
       end
 
       scope '/choice/:id' do
@@ -346,25 +355,21 @@ Rails.application.routes.draw do
 
         get '/type' => 'references/type#new', as: :references_type
         post '/type' => 'references/type#create'
-
         get '/type/edit/:id' => 'references/type#edit', as: :references_edit_type
         patch '/type/edit/:id' => 'references/type#update'
 
         get '/name/:id' => 'references/name#new', as: :references_name
         patch '/name/:id' => 'references/name#create'
-
         get '/name/edit/:id' => 'references/name#edit', as: :references_edit_name
         patch '/name/edit/:id' => 'references/name#update'
 
         get '/email/:id' => 'references/email_address#new', as: :references_email_address
         patch '/email/:id' => 'references/email_address#create'
-
         get '/email/edit/:id' => 'references/email_address#edit', as: :references_edit_email_address
         patch '/email/edit/:id' => 'references/email_address#update'
 
         get '/relationship/:id' => 'references/relationship#new', as: :references_relationship
         patch '/relationship/:id' => 'references/relationship#create'
-
         get '/relationship/edit/:id' => 'references/relationship#edit', as: :references_edit_relationship
         patch '/relationship/edit/:id' => 'references/relationship#update'
 
@@ -396,16 +401,22 @@ Rails.application.routes.draw do
       scope '/equality-and-diversity' do
         get '/' => 'equality_and_diversity#start', as: :start_equality_and_diversity
         post '/' => 'equality_and_diversity#choice'
+
         get '/sex' => 'equality_and_diversity#edit_sex', as: :edit_equality_and_diversity_sex
         patch '/sex' => 'equality_and_diversity#update_sex'
+
         get '/disability-status' => 'equality_and_diversity#edit_disability_status', as: :edit_equality_and_diversity_disability_status
         patch '/disability-status' => 'equality_and_diversity#update_disability_status'
+
         get '/disabilities' => 'equality_and_diversity#edit_disabilities', as: :edit_equality_and_diversity_disabilities
         patch '/disabilities' => 'equality_and_diversity#update_disabilities'
+
         get '/ethnic-group' => 'equality_and_diversity#edit_ethnic_group', as: :edit_equality_and_diversity_ethnic_group
         patch '/ethnic-group' => 'equality_and_diversity#update_ethnic_group'
+
         get '/ethnic-background' => 'equality_and_diversity#edit_ethnic_background', as: :edit_equality_and_diversity_ethnic_background
         patch '/ethnic-background' => 'equality_and_diversity#update_ethnic_background'
+
         get '/review' => 'equality_and_diversity#review', as: :review_equality_and_diversity
       end
 
