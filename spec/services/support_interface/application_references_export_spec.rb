@@ -23,12 +23,16 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
           'Application state' => ProcessState.new(application_form_one).state,
           'Ref 1 type' => application_form_one.application_references[0].referee_type,
           'Ref 1 state' => application_form_one.application_references[0].feedback_status,
+          'Ref 1 requested at' => application_form_one.application_references[0].requested_at,
           'Ref 2 type' => application_form_one.application_references[1].referee_type,
           'Ref 2 state' => application_form_one.application_references[1].feedback_status,
+          'Ref 2 requested at' => application_form_one.application_references[0].requested_at,
           'Ref 3 type' => application_form_one.application_references[2].referee_type,
           'Ref 3 state' => application_form_one.application_references[2].feedback_status,
+          'Ref 3 requested at' => application_form_one.application_references[0].requested_at,
           'Ref 4 type' => application_form_one.application_references[3].referee_type,
           'Ref 4 state' => application_form_one.application_references[3].feedback_status,
+          'Ref 4 requested at' => application_form_one.application_references[0].requested_at,
         },
         {
           'Recruitment cycle year' => application_form_two.recruitment_cycle_year,
@@ -37,6 +41,7 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
           'Application state' => ProcessState.new(application_form_two).state,
           'Ref 1 type' => application_form_two.application_references[0].referee_type,
           'Ref 1 state' => application_form_two.application_references[0].feedback_status,
+          'Ref 1 requested at' => application_form_one.application_references[0].requested_at,
         },
       )
     end

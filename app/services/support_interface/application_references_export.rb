@@ -14,6 +14,7 @@ module SupportInterface
         af.application_references.map.with_index(1) do |reference, index|
           output["Ref #{index} type"] = reference.referee_type
           output["Ref #{index} state"] = reference.feedback_status
+          output["Ref #{index} requested at"] = reference.requested_at
         end
 
         output
