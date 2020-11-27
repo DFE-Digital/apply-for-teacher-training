@@ -1,11 +1,11 @@
 <% content_for :browser_title, 'Applications' %>
 
-<% if FeatureFlag.active?('getting_ready_for_next_cycle_banner') %>
+<% if FeatureFlag.active?('provider_information_banner') %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <div class="app-banner" aria-labelledby="getting-ready-for-next-cycle-message">
+      <div class="app-banner" aria-labelledby="change-to-working-days-message">
         <div class="app-banner__message">
-          <h2 class="govuk-heading-m" id="getting-ready-for-next-cycle-message">
+          <h2 class="govuk-heading-m" id="change-to-working-days-message">
             20 December 2020 to 1 January 2021 do not count as working days
           </h2>
           <p class="govuk-body">
