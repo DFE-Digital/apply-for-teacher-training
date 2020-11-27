@@ -36,4 +36,10 @@ class Clock
       UCASMatching::ProcessMatchingData.perform_async
     end
   end
+
+  every(1.hour, 'SyncAllFromTeacherTrainingPublicAPI') do
+    if FeatureFlag.active?(:sync_from_public_teacher_training_api)
+      TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
+    end
+  end
 end
