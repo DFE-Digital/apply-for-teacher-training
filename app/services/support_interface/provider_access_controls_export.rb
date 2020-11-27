@@ -1,7 +1,7 @@
 module SupportInterface
   class ProviderAccessControlsExport
     def data_for_export
-      providers = Provider.all
+      providers = Provider.where(sync_courses: true)
 
       providers.map do |provider|
         access_controls = ProviderAccessControlsStats.new(provider)
