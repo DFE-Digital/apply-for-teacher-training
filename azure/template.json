@@ -184,6 +184,13 @@
                 "description": "The permitted status codes to indicate a successful app warmup."
             }
         },
+        "googleMapsAPIKey": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Google Maps API key, used for geocoding addresses"
+            }
+        },
         "govukNotifyAPIKey": {
             "type": "string",
             "metadata": {
@@ -648,6 +655,10 @@
                             {
                                 "name": "RAILS_SERVE_STATIC_FILES",
                                 "value": "[parameters('railsServeStaticFiles')]"
+                            },
+                            {
+                                "name": "GOOGLE_MAPS_API_KEY",
+                                "secureValue": "[parameters('googleMapsAPIKey')]"
                             },
                             {
                                 "name": "GOVUK_NOTIFY_API_KEY",

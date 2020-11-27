@@ -40,6 +40,7 @@ parameters:
   logstashHost:
   logstashPort:
   logstashSsl:
+  googleMapsAPIKey:
   govukNotifyAPIKey:
   findBaseUrl:
   dfeSignInClientId:
@@ -222,6 +223,7 @@ jobs:
                 -containerStartTimeLimit "${{parameters.containerStartTimeLimit}}"
                 -warmupPingPath "${{parameters.warmupPingPath}}"
                 -warmupPingStatus "${{parameters.warmupPingStatus}}"
+                -googleMapsAPIKey "${{parameters.googleMapsAPIKey}}"
                 -govukNotifyAPIKey "${{parameters.govukNotifyAPIKey}}"
                 -basicAuthUsername "${{parameters.basicAuthUsername}}"
                 -basicAuthPassword "${{parameters.basicAuthPassword}}"

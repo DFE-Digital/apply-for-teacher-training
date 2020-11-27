@@ -203,6 +203,7 @@ stages:
       logstashHost: '$(logstashHost)'
       logstashPort: '$(logstashPort)'
       logstashSsl: '$(logstashSsl)'
+      googleMapsAPIKey: '$(googleMapsAPIKey)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       dfeSignInClientId: '$(dfeSignInClientId)'
