@@ -377,10 +377,10 @@ Rails.application.routes.draw do
         post '/review-unsubmitted/:id' => 'references/review#submit', as: :references_submit
 
         get '/review' => 'references/review#show', as: :references_review
-        get '/review/destroy-referee/:id' => 'references/review#confirm_destroy_referee', as: :destroy_referee
-        get '/review/destroy-reference/:id' => 'references/review#confirm_destroy_reference', as: :destroy_reference
-        get '/review/destroy-reference-request/:id' => 'references/review#confirm_destroy_reference_request', as: :delete_reference_request
-        delete '/review/destroy-reference/:id' => 'references/review#destroy'
+        get '/review/delete-referee/:id' => 'references/review#confirm_destroy_referee', as: :destroy_referee
+        get '/review/delete-reference/:id' => 'references/review#confirm_destroy_reference', as: :destroy_reference
+        get '/review/delete-request/:id' => 'references/review#confirm_destroy_reference_request', as: :delete_reference_request
+        delete '/review/delete/:id' => 'references/review#destroy'
 
         get 'review/cancel/:id' => 'references/review#confirm_cancel', as: :confirm_cancel_reference
         patch 'review/cancel/:id' => 'references/review#cancel', as: :cancel_reference
