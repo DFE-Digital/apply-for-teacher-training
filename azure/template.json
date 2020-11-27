@@ -418,6 +418,13 @@
             "metadata": {
                 "description": "Password to login to the docker registry"
             }
+        },
+        "teacherTrainingApiBaseUrl": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+                "description": "URL for the public Teacher training API"
+            }
         }
     },
     "variables": {
@@ -772,6 +779,10 @@
                             {
                                 "name": "SANDBOX",
                                 "value": "[parameters('sandbox')]"
+                            },
+                            {
+                                "name": "TEACHER_TRAINING_API_BASE_URL",
+                                "value": "[parameters('teacherTrainingApiBaseUrl')]"
                             }
                         ]
                     }
