@@ -388,14 +388,14 @@ Rails.application.routes.draw do
         get '/request/:id' => 'references/request#new', as: :references_new_request
         post '/request/:id' => 'references/request#create', as: :references_create_request
 
-        get '/retry_request/:id' => 'references/retry_request#new', as: :references_retry_request
-        post '/retry_request/:id' => 'references/retry_request#create'
+        get '/retry-request/:id' => 'references/retry_request#new', as: :references_retry_request
+        post '/retry-request/:id' => 'references/retry_request#create'
 
         get '/reminder/:id' => 'references/reminder#new', as: :references_new_reminder
         post '/reminder/:id' => 'references/reminder#create'
 
-        get '/candidate_name/:id' => 'references/candidate_name#new', as: :references_new_candidate_name
-        post '/candidate_name/:id' => 'references/candidate_name#create', as: :references_create_candidate_name
+        get '/candidate-name/:id' => 'references/candidate_name#new', as: :references_new_candidate_name
+        post '/candidate-name/:id' => 'references/candidate_name#create', as: :references_create_candidate_name
       end
 
       scope '/equality-and-diversity' do
