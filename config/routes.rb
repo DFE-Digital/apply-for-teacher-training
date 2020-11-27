@@ -305,15 +305,13 @@ Rails.application.routes.draw do
       scope '/other-qualifications' do
         get '/' => 'other_qualifications/type#new', as: :other_qualification_type
         post '/' => 'other_qualifications/type#create'
+        get '/type/edit/:id' => 'other_qualifications/type#edit', as: :edit_other_qualification_type
+        patch '/type/edit/:id' => 'other_qualifications/type#update'
 
-        get '/edit-type/:id' => 'other_qualifications/type#edit', as: :edit_other_qualification_type
-        patch '/edit-type/:id' => 'other_qualifications/type#update'
-
-        get '/new' => 'other_qualifications/details#new', as: :other_qualification_details
-        patch '/new' => 'other_qualifications/details#create'
-
-        get '/edit-details/:id' => 'other_qualifications/details#edit', as: :edit_other_qualification_details
-        patch '/edit-details/:id' => 'other_qualifications/details#update'
+        get '/details' => 'other_qualifications/details#new', as: :other_qualification_details
+        patch '/details' => 'other_qualifications/details#create'
+        get '/details/edit/:id' => 'other_qualifications/details#edit', as: :edit_other_qualification_details
+        patch '/details/edit/:id' => 'other_qualifications/details#update'
 
         get '/review' => 'other_qualifications/review#show', as: :review_other_qualifications
         patch '/review' => 'other_qualifications/review#complete', as: :complete_other_qualifications
