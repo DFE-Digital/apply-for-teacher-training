@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Candidate reviewing an incomplete application' do
   include CandidateHelper
 
-  scenario 'sees everything missing from the current state' do
+  scenario 'sees everything incomplete from the current state' do
     given_i_am_signed_in
 
     when_i_visit_the_review_application_page
@@ -24,8 +24,8 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
 
   def then_i_should_be_able_to_click_through_and_complete_each_required_section
     (CandidateHelper::APPLICATION_FORM_SECTIONS - %i[science_gcse efl]).each do |section|
-      within "#missing-#{section}-error" do
-        expect(page).to have_selector("a[data-qa='missing-#{section}']")
+      within "#incomplete-#{section}-error" do
+        expect(page).to have_selector("a[data-qa='incomplete-#{section}']")
       end
     end
   end

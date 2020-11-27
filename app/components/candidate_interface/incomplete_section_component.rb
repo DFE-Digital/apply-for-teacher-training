@@ -1,5 +1,7 @@
 module CandidateInterface
-  class SectionMissingBannerComponent < ViewComponent::Base
+  class IncompleteSectionComponent < ViewComponent::Base
+    include ViewHelper
+
     validates :section, :section_path, presence: true
 
     def initialize(

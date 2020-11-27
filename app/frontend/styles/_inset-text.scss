@@ -1,0 +1,17 @@
+.app-inset-text--important {
+  border-color: govuk-colour("blue");
+  border-left-width: $govuk-border-width;
+
+  .govuk-heading-s {
+    color: govuk-colour("blue");
+  }
+}
+
+.app-inset-text--error {
+  border-color: $govuk-error-colour;
+  border-left-width: $govuk-border-width;
+
+  .govuk-heading-s {
+    color: $govuk-error-colour;
+  }
+}
