@@ -8,6 +8,8 @@ module SupportInterface
       form_not_started
       form_started_and_not_submitted
       submitted
+      reference_1_requested_at
+      reference_2_requested_at
       reference_1_received
       reference_2_received
       reference_reminder_email_sent
@@ -45,12 +47,20 @@ module SupportInterface
       @application_choice.application_form.submitted_at
     end
 
+    def reference_1_requested_at
+      received_references_timings.dig(0, :requested_at)
+    end
+
+    def reference_2_requested_at
+      received_references_timings.dig(1, :requested_at)
+    end
+
     def reference_1_received
-      received_reference_times[0]
+      received_references_timings.dig(0, :received_at)
     end
 
     def reference_2_received
-      received_reference_times[1]
+      received_references_timings.dig(1, :received_at)
     end
 
     def reference_reminder_email_sent
@@ -141,9 +151,16 @@ module SupportInterface
       @received_references ||= all_references.select(&:feedback_provided?)
     end
 
-    def received_reference_times
-      @received_reference_times ||=
-        received_references.map { |reference| earliest_update_audit_for(reference, feedback_status: 'feedback_provided') }.compact.sort
+    def received_references_timings
+      @received_reference_timings ||=
+        received_references.map do |reference|
+          {
+            received_at: earliest_update_audit_for(reference, feedback_status: 'feedback_provided'),
+            requested_at: reference.requested_at,
+          }
+        end
+
+      @received_reference_timings.sort_by { |times| times[:received_at] }
     end
 
     def earliest_update_audit_for(model, attributes)
