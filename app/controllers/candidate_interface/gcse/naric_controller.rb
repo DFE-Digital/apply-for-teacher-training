@@ -43,7 +43,7 @@ module CandidateInterface
 
     def naric_params
       params.require(:candidate_interface_gcse_naric_form)
-        .permit(:naric_reference_choice, :naric_reference, :comparable_uk_qualification)
+        .permit(:have_naric_reference, :naric_reference, :comparable_uk_qualification)
     end
   end
 end

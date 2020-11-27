@@ -133,20 +133,20 @@ RSpec.describe ApplicationQualification, type: :model do
     end
   end
 
-  describe '#naric_reference_choice' do
+  describe '#have_naric_reference' do
     it 'returns No when naric reference is nil and grade is present' do
       qualification = build_stubbed(:application_qualification, naric_reference: nil, grade: 'c')
-      expect(qualification.naric_reference_choice).to eq('No')
+      expect(qualification.have_naric_reference).to eq('No')
     end
 
     it 'returns Yes when reference number provided' do
       qualification = build_stubbed(:application_qualification, naric_reference: '12345')
-      expect(qualification.naric_reference_choice).to eq('Yes')
+      expect(qualification.have_naric_reference).to eq('Yes')
     end
 
     it 'returns nil when field not submitted' do
       qualification = build_stubbed(:application_qualification, naric_reference: nil, grade: nil)
-      expect(qualification.naric_reference_choice).to eq(nil)
+      expect(qualification.have_naric_reference).to eq(nil)
     end
   end
 

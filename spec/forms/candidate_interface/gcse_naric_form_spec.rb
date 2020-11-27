@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::GcseNaricForm do
       }
     end
 
-    it { is_expected.to validate_presence_of(:naric_reference_choice) }
+    it { is_expected.to validate_presence_of(:have_naric_reference) }
 
     context 'validates naric_reference if they have chosen that they have one' do
       before { allow(form).to receive(:chose_to_provide_naric_reference?).and_return(true) }
@@ -32,7 +32,7 @@ RSpec.describe CandidateInterface::GcseNaricForm do
           qualification,
         )
 
-        expect(naric_form.naric_reference_choice).to eq 'Yes'
+        expect(naric_form.have_naric_reference).to eq 'Yes'
         expect(naric_form.naric_reference).to eq qualification.naric_reference
         expect(naric_form.comparable_uk_qualification).to eq qualification.comparable_uk_qualification
       end
@@ -41,9 +41,9 @@ RSpec.describe CandidateInterface::GcseNaricForm do
     describe '#save' do
       let(:form_data) do
         {
+          have_naric_reference: 'Yes',
           naric_reference: '12345',
           comparable_uk_qualification: 'GCSE (grades A*-C / 9-4)',
-          naric_reference_choice: 'Yes',
         }
       end
 
