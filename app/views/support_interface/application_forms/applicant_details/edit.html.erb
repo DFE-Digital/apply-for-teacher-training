@@ -7,6 +7,8 @@
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_fieldset legend: { text: 'Edit applicant details', size: 'l' } do %>
+        <%= f.govuk_text_field :first_name, label: { text: 'First Name' } %>
+        <%= f.govuk_text_field :last_name, label: { text: 'Last Name' } %>
         <%= f.govuk_text_field :phone_number, label: { text: 'Phone number' } %>
         <%= f.govuk_text_field :audit_comment, label: { text: 'Audit log comment' }, hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' } %>
       <% end %>

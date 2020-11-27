@@ -9,10 +9,13 @@ RSpec.feature 'Editing application details' do
 
     when_i_visit_the_application_page
     and_i_click_the_change_link_next_to_the_phone_number
+    and_i_supply_a_new_first_name
+    and_i_supply_a_new_last_name
     and_i_supply_a_new_phone_number
     and_i_add_a_note_for_the_audit_log
 
     then_i_should_see_a_flash_message
+    and_i_should_see_the_new_name_in_full
     and_i_should_see_the_new_phone_number
     and_i_should_see_my_comment_in_the_audit_log
   end
@@ -30,13 +33,19 @@ RSpec.feature 'Editing application details' do
   end
 
   def and_i_click_the_change_link_next_to_the_phone_number
-    within('[data-qa="personal-details"]') do
-      click_on 'Change'
-    end
+    all('.govuk-summary-list__actions')[0].click_link 'Change'
   end
 
   def and_i_supply_a_new_phone_number
     fill_in 'support_interface_application_forms_edit_applicant_details_form[phone_number]', with: '0891 50 50 50'
+  end
+
+  def and_i_supply_a_new_first_name
+    fill_in 'support_interface_application_forms_edit_applicant_details_form[first_name]', with: 'Steven'
+  end
+
+  def and_i_supply_a_new_last_name
+    fill_in 'support_interface_application_forms_edit_applicant_details_form[last_name]', with: 'Seagal'
   end
 
   def and_i_add_a_note_for_the_audit_log
@@ -51,6 +60,10 @@ RSpec.feature 'Editing application details' do
 
   def and_i_should_see_the_new_phone_number
     expect(page).to have_content '0891 50 50 50'
+  end
+
+  def and_i_should_see_the_new_name_in_full
+    expect(page).to have_content 'Steven Seagal'
   end
 
   def and_i_should_see_my_comment_in_the_audit_log
