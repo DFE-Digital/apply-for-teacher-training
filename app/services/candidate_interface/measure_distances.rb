@@ -3,15 +3,14 @@ module CandidateInterface
     def average_distance(start, destinations)
       return nil unless has_coordinates?(start)
 
-      distances = destinations.map do |destination|
-        distance(start, destination)
-      end.compact
+      distances = destinations.map { |destination| distance(start, destination) }.compact
       return nil if distances.blank?
 
       distances.sum(0.0) / distances.size
     end
 
   private
+
     def distance(from, to)
       return nil unless has_coordinates?(from) && has_coordinates?(to)
 
