@@ -47,7 +47,9 @@ module SupportInterface
     end
 
     def latest_degree(application_form)
-      return nil if application_form.application_qualifications.degree.blank?
+      degrees_with_award_year = application_form.application_qualifications.degree.select { |degree| degree.award_year.present? }
+
+      return nil if degrees_with_award_year.blank?
 
       application_form.application_qualifications.degree.max_by(&:award_year)
     end
