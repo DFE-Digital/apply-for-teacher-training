@@ -59,6 +59,7 @@ parameters:
   govukNotifyCallbackAPIKey:
   dsiApiUrl:
   dsiApiSecret:
+  teacherTrainingApiBaseUrl: https://api.publish-teacher-training-courses.service.gov.uk/api/public/v1
   ucasUsername:
   ucasPassword:
   ucasZipPassword:
@@ -253,6 +254,7 @@ jobs:
                 -ucasUsername "${{parameters.ucasUsername}}"
                 -ucasPassword "${{parameters.ucasPassword}}"
                 -ucasZipPassword "${{parameters.ucasZipPassword}}"
+                -teacherTrainingApiBaseUrl "${{parameters.teacherTrainingApiBaseUrl}}"
                 -ucasUploadBaseurl "$(ucasUploadBaseurl)"
                 -ucasUploadFolder "$(ucasUploadFolder)"
                 -ucasDownloadZipPassword "$(ucasDownloadZipPassword)"
