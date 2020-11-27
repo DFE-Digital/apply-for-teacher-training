@@ -4,7 +4,10 @@ module TeacherTrainingPublicAPI
       begin
         (1..).each do |page|
           sync_providers(
-            TeacherTrainingPublicAPI::Provider.where(year: 2021).paginate(page: page, per_page: 500).all,
+            TeacherTrainingPublicAPI::Provider
+              .where(year: RecruitmentCycle.current_year)
+              .paginate(page: page, per_page: 500)
+              .all,
           )
         end
       rescue JsonApiClient::Errors::ClientError
@@ -20,7 +23,7 @@ module TeacherTrainingPublicAPI
       providers_from_api.each do |provider_from_api|
         TeacherTrainingPublicAPI::SyncProvider.new(
           provider_from_api: provider_from_api,
-          recruitment_cycle_year: 2021,
+          recruitment_cycle_year: RecruitmentCycle.current_year,
         ).call
       end
     end
