@@ -45,7 +45,11 @@ class NavigationItems
       items = []
 
       if current_provider_user && !performing_setup
-        items << NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes]))
+        items << NavigationItem.new('Applications', provider_interface_applications_path, is_active(current_controller, %w[application_choices decisions offer_changes notes feedback conditions reconfirm_deferred_offers]))
+
+        if FeatureFlag.active?(:provider_activity_log)
+          items << NavigationItem.new('Activity log', provider_interface_activity_log_path, is_active(current_controller, %w[activity_log]))
+        end
 
         if FeatureFlag.active?(:export_hesa_data)
           items << NavigationItem.new('Export data', provider_interface_new_applications_export_path, is_active(current_controller, %w[applications_exports]))

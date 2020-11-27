@@ -10,6 +10,10 @@ class GetActivityLogEvents
             ON auditable_id = ac.id
               AND auditable_type = 'ApplicationChoice'
               AND action = 'update'
+              AND (
+                jsonb_exists(audited_changes, 'status')
+                OR jsonb_exists(audited_changes, 'reject_by_default_feedback_sent_at')
+              )
           INNER JOIN (#{application_choices.to_sql}) visible
             ON ac.id = visible.id
           WHERE a.created_at >= '#{since.iso8601}'::TIMESTAMPTZ
