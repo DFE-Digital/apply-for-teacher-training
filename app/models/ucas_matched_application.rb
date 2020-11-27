@@ -101,8 +101,6 @@ class UCASMatchedApplication
     ApplicationStateChange::ACCEPTED_STATES.include?(status.to_sym)
   end
 
-private
-
   def application_choice
     @application_choice ||= begin
       ApplicationChoice.includes(:application_form)
@@ -110,6 +108,8 @@ private
         .find_by(course_option: course.course_options)
     end
   end
+
+private
 
   def provider_not_on_apply?
     Provider.find_by(code: @matching_data['Provider code']).nil?

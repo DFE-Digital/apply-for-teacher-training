@@ -291,4 +291,17 @@ RSpec.describe UCASMatchedApplication do
       expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
     end
   end
+
+  describe '#application_choice' do
+    it 'returns the application_choice related with the candidate and course option' do
+      ucas_matching_data =
+        { 'Scheme' => 'B',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate2.id.to_s }
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+      expect(ucas_matching_application.application_choice).to eq(application_choice2)
+    end
+  end
 end

@@ -257,4 +257,14 @@ RSpec.describe UCASMatch do
       expect(ucas_match.last_action).to eq(:confirmed_withdrawal_from_ucas)
     end
   end
+
+  describe '#ucas_matched_applications_on_both_services' do
+    it 'returns applications for the same course that exist on both services' do
+      ucas_match = create(:ucas_match)
+      matched_application = instance_double(UCASMatchedApplication, both_scheme?: true, application_choice: :application_choice)
+      allow(ucas_match).to receive(:ucas_matched_applications).and_return([matched_application])
+
+      expect(ucas_match.application_choices_for_same_course_on_both_services).to eq([:application_choice])
+    end
+  end
 end
