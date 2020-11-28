@@ -364,6 +364,12 @@ en:
         fee: Fee
         salary: Salary
         apprenticeship: Apprenticeship
+      course/program_type:
+        higher_education_programme: Higher education institution
+        scitt_programme: SCITT
+        school_direct_training_programme: School direct (unsalaried)
+        school_direct_salaried_training_programme: School direct (salaried)
+        pg_teaching_apprenticeship: Postgraduate teaching apprenticeship
     errors:
       models:
         candidate:
