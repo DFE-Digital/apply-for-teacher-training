@@ -39,6 +39,10 @@ module SupportInterface
           value: (course.qualifications || []).map(&:upcase).to_sentence,
         },
         {
+          key: 'Start date',
+          value: course.start_date.to_s(:month_and_year),
+        },
+        {
           key: 'Last updated',
           value: course.updated_at.to_s(:govuk_date_and_time),
         },
