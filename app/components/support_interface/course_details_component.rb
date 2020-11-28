@@ -39,6 +39,10 @@ module SupportInterface
           value: (course.qualifications || []).map(&:upcase).to_sentence,
         },
         {
+          key: 'Description',
+          value: course.description,
+        },
+        {
           key: 'Start date',
           value: course.start_date.to_s(:month_and_year),
         },
