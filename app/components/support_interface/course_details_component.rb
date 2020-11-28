@@ -35,6 +35,10 @@ module SupportInterface
           value: Course.human_attribute_name("program_type.#{course.program_type}", default: 'Unknown'),
         },
         {
+          key: 'Qualifications',
+          value: (course.qualifications || []).map(&:upcase).to_sentence,
+        },
+        {
           key: 'Last updated',
           value: course.updated_at.to_s(:govuk_date_and_time),
         },
