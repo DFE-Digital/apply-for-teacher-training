@@ -1,5 +1,7 @@
 module SupportInterface
   class LocationsExport
+    include GeocodeHelper
+
     def data_for_export
       application_choices.find_each.map do |application_choice|
         application_form = application_choice.application_form
@@ -17,6 +19,8 @@ module SupportInterface
           'Degree completed' => return_lastest_degree_award_year(application_form),
           'Degree type' => return_lastest_degree_type(application_form),
           'Status' => application_state(application_form),
+          'Distance from site to candidate' => distance(application_choice),
+          'Average distance from all sites to candidate' => average_distance(application_form),
         }
       end
     end
@@ -52,6 +56,21 @@ module SupportInterface
       return nil if degrees_with_award_year.blank?
 
       degrees_with_award_year.max_by(&:award_year)
+    end
+
+    def distance(application_choice)
+      format_distance(
+        application_choice.application_form,
+        application_choice&.site, with_units: false
+      )
+    end
+
+    def average_distance(application_form)
+      format_average_distance(
+        application_form,
+        application_form.application_choices.map(&:site),
+        with_units: false,
+      )
     end
   end
 end

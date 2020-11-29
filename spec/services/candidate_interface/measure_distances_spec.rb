@@ -1,6 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::MeasureDistances do
+  describe '#distance' do
+    it 'returns correct distance between geocoded destinations' do
+      start = instance_double(ApplicationForm, latitude: 51.5973506, longitude: -1.2967454)
+      destination = instance_double(Site, latitude: 51.6097184, longitude: -1.2482939)
+      expect(described_class.new.distance(start, destination)).to be_within(0.1).of(2.2)
+    end
+
+    it 'handles nil lat/lng values for `start` model' do
+      start = instance_double(ApplicationForm, latitude: nil, longitude: nil)
+      destination = instance_double(Site, latitude: 51.6097184, longitude: -1.2482939)
+      expect(described_class.new.distance(start, destination)).to be_nil
+    end
+
+    it 'handles nil lat/lng values for `destination` model' do
+      start = instance_double(ApplicationForm, latitude: 51.5973506, longitude: -1.2967454)
+      destination = instance_double(Site, latitude: nil, longitude: nil)
+      expect(described_class.new.distance(start, destination)).to be_nil
+    end
+
+    it 'handles nil `destination` model' do
+      start = instance_double(ApplicationForm, latitude: 51.5973506, longitude: -1.2967454)
+      expect(described_class.new.distance(start, nil)).to be_nil
+    end
+  end
+
   describe '#average_distance' do
     it 'returns correct average given multiple destinations' do
       start = instance_double(ApplicationForm, latitude: 51.5973506, longitude: -1.2967454)
