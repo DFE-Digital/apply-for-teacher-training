@@ -19,27 +19,33 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
       expect(row[:value]).to include(reference.email_address)
     end
 
-    it 'contains a relationship row' do
+    it 'contains a type of reference row' do
       row = component.rows.third
+      expect(row[:key]).to eq('Type of reference')
+      expect(row[:value]).to include(reference.referee_type.capitalize)
+    end
+
+    it 'contains a relationship row' do
+      row = component.rows.fourth
       expect(row[:key]).to eq('Relationship between candidate and referee')
       expect(row[:value]).to eq(reference.relationship)
     end
 
     context 'referee relationship confirmation' do
       it 'contains a confirmation row' do
-        expect(component.rows.fourth[:key]).to eq('Relationship confirmed by referee?')
+        expect(component.rows.fifth[:key]).to eq('Relationship confirmed by referee?')
       end
 
       it 'affirms the referee relationship when uncorrected' do
-        expect(component.rows.fourth[:value]).to eq('Yes')
+        expect(component.rows.fifth[:value]).to eq('Yes')
       end
 
       it 'contains a correction as the row value when corrected' do
         reference.relationship_correction = 'This is not correct'
 
-        expect(component.rows.fourth[:value]).to eq('No')
+        expect(component.rows.fifth[:value]).to eq('No')
 
-        correction_row = component.rows.fifth
+        correction_row = component.rows[5]
 
         expect(correction_row[:key]).to eq('Relationship amended by referee')
         expect(correction_row[:value]).to eq('This is not correct')
@@ -47,8 +53,8 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
     end
 
     context 'safeguarding' do
-      let(:safeguarding_row) { component.rows[4] }
-      let(:safeguarding_concerns_row) { component.rows[5] }
+      let(:safeguarding_row) { component.rows[5] }
+      let(:safeguarding_concerns_row) { component.rows[6] }
 
       it 'contains a safeguarding row' do
         expect(safeguarding_row[:key]).to eq(
