@@ -53,8 +53,8 @@ module FindSync
         postcode: find_provider.postcode,
         name: find_provider.provider_name,
         provider_type: find_provider.courses.first&.provider_type,
-        latitude: find_provider.latitude,
-        longitude: find_provider.longitude,
+        latitude: find_provider.try(:latitude),
+        longitude: find_provider.try(:longitude),
       }
     end
 
