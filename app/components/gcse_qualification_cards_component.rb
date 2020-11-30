@@ -23,7 +23,13 @@ class GcseQualificationCardsComponent < ViewComponent::Base
   end
 
   def subject(qualification)
-    qualification.subject.capitalize
+    if [ApplicationQualification::SCIENCE_SINGLE_AWARD,
+        ApplicationQualification::SCIENCE_DOUBLE_AWARD,
+        ApplicationQualification::SCIENCE_TRIPLE_AWARD].include? qualification.subject
+      'Science'
+    else
+      qualification.subject.capitalize
+    end
   end
 
   def institution_country(qualification)
@@ -47,14 +53,19 @@ class GcseQualificationCardsComponent < ViewComponent::Base
   end
 
   def grade_details(qualification)
-    if qualification.subject == ApplicationQualification::SCIENCE_TRIPLE_AWARD
+    case qualification.subject
+    when ApplicationQualification::SCIENCE_TRIPLE_AWARD
       grades = qualification.structured_grades
       [
         "#{grades['biology']} (Biology)",
         "#{grades['chemistry']} (Chemistry)",
         "#{grades['physics']} (Physics)",
       ]
-    elsif qualification.structured_grades
+    when ApplicationQualification::SCIENCE_DOUBLE_AWARD
+      ["#{qualification.grade} (Double award)"]
+    when ApplicationQualification::SCIENCE_SINGLE_AWARD
+      ["#{qualification.grade} (Single award)"]
+    when ->(_n) { qualification.structured_grades }
       grades = JSON.parse(qualification.structured_grades)
       grades.map { |k, v,| "#{v} (#{k.humanize.titleize})" }
     else
