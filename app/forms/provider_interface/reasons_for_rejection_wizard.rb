@@ -50,6 +50,51 @@ module ProviderInterface
       },
     }.freeze
 
+    class NestedAnswerValidator < ActiveModel::EachValidator
+      def validate_each(record, attribute, value)
+        return unless options.key?(:collection_name) && options.key?(:selected_option)
+
+        top_level_question = options[:top_level_question]
+        top_level_answer = record.send(top_level_question)
+
+        record.errors.add(top_level_question, :blank) if top_level_answer.blank?
+        record.errors.add(top_level_question, :inclusion) unless %w[Yes No].include?(top_level_answer)
+
+        return unless record.send(top_level_question) == 'Yes'
+
+        collection_values = record.send(options[:collection_name])
+        if collection_values.blank?
+          record.errors.add(options[:collection_name], :blank)
+          return
+        end
+
+        if collection_values.include?(options[:selected_option])
+          record.errors.add(attribute, :blank) if value.blank?
+          record.errors.add(attribute, :too_long) if record.excessive_word_count?(value)
+        end
+      end
+    end
+
+    INITIAL_QUESTIONS.each do |top_level_question, children|
+      children.each do |options_collection_name, options|
+        next unless options.present? && options.is_a?(Hash)
+
+        options.each do |option, attr_names|
+          Array(attr_names).each do |attr_name|
+            validates(
+              attr_name,
+              nested_answer: {
+                top_level_question: top_level_question,
+                collection_name: options_collection_name,
+                selected_option: option.to_s,
+              },
+              on: :initial_questions,
+            )
+          end
+        end
+      end
+    end
+
     attr_accessor :current_step, :checking_answers
 
     def initialize(state_store, attrs = {})
@@ -154,19 +199,6 @@ module ProviderInterface
     attr_accessor :why_are_you_rejecting_this_application
 
     with_options(on: :initial_questions) do
-      validates :candidate_behaviour_y_n, presence: true, inclusion: { in: %w[Yes No] }
-      validates :candidate_behaviour_what_did_the_candidate_do, presence: true, if: -> { candidate_behaviour_y_n == 'Yes' }
-
-      validates :quality_of_application_y_n, presence: true, inclusion: { in: %w[Yes No] }
-      validates :quality_of_application_which_parts_needed_improvement,
-                presence: true,
-                if: -> { quality_of_application_y_n == 'Yes' }
-
-      validates :qualifications_y_n, presence: true, inclusion: { in: %w[Yes No] }
-      validates :qualifications_which_qualifications,
-                presence: { message: 'Select at least one reason related to their qualifications' },
-                if: -> { qualifications_y_n == 'Yes' }
-
       validates :performance_at_interview_y_n, presence: true, inclusion: { in: %w[Yes No] }
       validates :performance_at_interview_what_to_improve,
                 presence: true,
@@ -179,45 +211,6 @@ module ProviderInterface
                 presence: true,
                 if: -> { offered_on_another_course_y_n == 'Yes' }
 
-      validates :honesty_and_professionalism_y_n, presence: true, inclusion: { in: %w[Yes No] }
-      validates :honesty_and_professionalism_concerns,
-                presence: true,
-                if: -> { honesty_and_professionalism_y_n == 'Yes' }
-
-      validates :safeguarding_y_n, presence: true, inclusion: { in: %w[Yes No] }
-      validates :safeguarding_concerns, presence: true, if: -> { safeguarding_y_n == 'Yes' }
-
-      validates_each(:candidate_behaviour_other, :candidate_behaviour_what_to_improve) do |record, attr, value|
-        if record.candidate_behaviour_y_n == 'Yes' && record.candidate_behaviour_what_did_the_candidate_do.include?('other')
-          record.errors.add(attr, :blank) if value.blank?
-          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
-        end
-      end
-
-      validates_each(:quality_of_application_personal_statement_what_to_improve, :quality_of_application_subject_knowledge_what_to_improve,
-                     :quality_of_application_other_details, :quality_of_application_other_what_to_improve) do |record, attr, value|
-        if record.quality_of_application_reasons_required?(attr)
-          record.errors.add(attr, :blank) if value.blank?
-          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
-        end
-      end
-
-      validates_each(:honesty_and_professionalism_concerns_information_false_or_inaccurate_details, :honesty_and_professionalism_concerns_plagiarism_details,
-                     :honesty_and_professionalism_concerns_references_details, :honesty_and_professionalism_concerns_other_details) do |record, attr, value|
-        if record.honesty_and_professionalism_concerns_reasons_required?(attr)
-          record.errors.add(attr, :blank) if value.blank?
-          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
-        end
-      end
-
-      validates_each(:safeguarding_concerns_candidate_disclosed_information_details, :safeguarding_concerns_vetting_disclosed_information_details,
-                     :safeguarding_concerns_other_details) do |record, attr, value|
-        if record.safeguarding_concerns_reasons_required?(attr)
-          record.errors.add(attr, :blank) if value.blank?
-          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
-        end
-      end
-
       validates_each(:performance_at_interview_what_to_improve, :offered_on_another_course_details) do |record, attr, value|
         method = if attr == :performance_at_interview_what_to_improve
                    :performance_at_interview_y_n
@@ -226,13 +219,6 @@ module ProviderInterface
                  end
 
         if record.send(method) == 'Yes'
-          record.errors.add(attr, :blank) if value.blank?
-          record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
-        end
-      end
-
-      validates_each(:qualifications_other_details) do |record, attr, value|
-        if record.qualifications_y_n == 'Yes' && record.qualifications_which_qualifications.include?('other')
           record.errors.add(attr, :blank) if value.blank?
           record.errors.add(attr, :too_long) if record.excessive_word_count?(value)
         end
@@ -262,47 +248,6 @@ module ProviderInterface
 
     def excessive_word_count?(value, count = 100)
       value.present? && value.scan(/\w+/).size > count
-    end
-
-    def quality_of_application_reasons_required?(attr)
-      option = case attr
-               when :quality_of_application_personal_statement_what_to_improve
-                 'personal_statement'
-               when :quality_of_application_subject_knowledge_what_to_improve
-                 'subject_knowledge'
-               else
-                 'other'
-               end
-
-      quality_of_application_y_n == 'Yes' && quality_of_application_which_parts_needed_improvement.include?(option)
-    end
-
-    def honesty_and_professionalism_concerns_reasons_required?(attr)
-      option = case attr
-               when :honesty_and_professionalism_concerns_information_false_or_inaccurate_details
-                 'information_false_or_inaccurate'
-               when :honesty_and_professionalism_concerns_plagiarism_details
-                 'plagiarism'
-               when :honesty_and_professionalism_concerns_references_details
-                 'references'
-               else
-                 'other'
-               end
-
-      honesty_and_professionalism_y_n == 'Yes' && honesty_and_professionalism_concerns.include?(option)
-    end
-
-    def safeguarding_concerns_reasons_required?(attr)
-      option = case attr
-               when :safeguarding_concerns_candidate_disclosed_information_details
-                 'candidate_disclosed_information'
-               when :safeguarding_concerns_vetting_disclosed_information_details
-                 'vetting_disclosed_information'
-               else
-                 'other'
-               end
-
-      safeguarding_y_n == 'Yes' && safeguarding_concerns.include?(option)
     end
 
     def save_state!
