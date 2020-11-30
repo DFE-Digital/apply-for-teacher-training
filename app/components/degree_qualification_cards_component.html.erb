@@ -25,9 +25,9 @@
                 <dd class="app-qualification__value app-qualification__value--caption">Institution name is withheld at this stage to avoid any unconscious bias in favour of certain institutions.</dd>
               <% end %>
 
-              <% if naric_statement(degree) %>
+              <% if naric(degree) %>
                 <dt class="app-qualification__key">Comparability</dt>
-                <dd class="app-qualification__value"><%= naric_statement(degree) %></dd>
+                <dd class="app-qualification__value"><%= naric(degree) %></dd>
               <% end %>
 
               <% if show_hesa_codes? %>

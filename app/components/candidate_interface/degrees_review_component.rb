@@ -98,7 +98,7 @@ module CandidateInterface
         key: t('application_form.degree.naric_statment.review_label'),
         value: degree.naric_reference.present? ? 'Yes' : 'No',
         action: generate_action(degree: degree, attribute: t('application_form.degree.naric_statment.change_action')),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree.id),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_path(degree.id),
       }
     end
 
@@ -109,7 +109,7 @@ module CandidateInterface
         key: t('application_form.degree.naric_reference.review_label'),
         value: degree.naric_reference,
         action: generate_action(degree: degree, attribute: t('application_form.degree.naric_reference.change_action')),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree.id),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_path(degree.id),
       }
     end
 
@@ -120,7 +120,7 @@ module CandidateInterface
         key: t('application_form.degree.comparable_uk_degree.review_label'),
         value: t("application_form.degree.comparable_uk_degree.values.#{degree.comparable_uk_degree}", default: ''),
         action: generate_action(degree: degree, attribute: t('application_form.degree.comparable_uk_degree.change_action')),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree.id),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_path(degree.id),
       }
     end
 

@@ -650,7 +650,7 @@ en:
             institution_country:
               blank: Enter the country where the institution is based
               too_long: The country where you studied must be %{count} characters or fewer
-        candidate_interface/degree_naric_statement_form:
+        candidate_interface/degree_naric_form:
           attributes:
             have_naric_reference:
               blank: Select whether you have a UK NARIC reference number or not

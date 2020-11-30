@@ -233,15 +233,15 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
         expect(result.css('.govuk-summary-list__value')[3].text.strip).to eq('Yes')
         expect(result.css('.govuk-summary-list__actions a')[3].attr('href')).to include(
-          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree1),
+          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_path(degree1),
         )
         expect(result.css('.govuk-summary-list__value')[4].text.strip).to eq('0123456789')
         expect(result.css('.govuk-summary-list__actions a')[4].attr('href')).to include(
-          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree1),
+          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_path(degree1),
         )
         expect(result.css('.govuk-summary-list__value')[5].text.strip).to eq('Bachelor (Honours) degree')
         expect(result.css('.govuk-summary-list__actions a')[5].attr('href')).to include(
-          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_statement_path(degree1),
+          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_path(degree1),
         )
         expect(result.css('.govuk-summary-list__actions').text).to include(
           "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",

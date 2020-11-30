@@ -1,5 +1,5 @@
 module CandidateInterface
-  class DegreeNaricStatementForm
+  class DegreeNaricForm
     include ActiveModel::Model
 
     attr_accessor :degree, :have_naric_reference, :naric_reference, :comparable_uk_degree

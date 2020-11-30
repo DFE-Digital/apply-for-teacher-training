@@ -38,7 +38,7 @@ class DegreeQualificationCardsComponent < ViewComponent::Base
     degree.international? ? institution_and_country(degree) : institution(degree)
   end
 
-  def naric_statement(degree)
+  def naric(degree)
     if degree.naric_reference.present? && degree.comparable_uk_degree.present?
       degree_name = I18n.t("application_form.degree.comparable_uk_degree.values.#{degree.comparable_uk_degree}")
       "UK NARIC statement #{degree.naric_reference} says this is comparable to a #{degree_name}"
