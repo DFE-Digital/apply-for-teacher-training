@@ -375,10 +375,10 @@ Rails.application.routes.draw do
         post '/review-unsubmitted/:id' => 'references/review#submit', as: :references_submit
 
         get '/review' => 'references/review#show', as: :references_review
-        get '/review/destroy-referee/:id' => 'references/review#confirm_destroy_referee', as: :destroy_referee
-        get '/review/destroy-reference/:id' => 'references/review#confirm_destroy_reference', as: :destroy_reference
-        get '/review/destroy-reference-request/:id' => 'references/review#confirm_destroy_reference_request', as: :delete_reference_request
-        delete '/review/destroy-reference/:id' => 'references/review#destroy'
+        get '/review/delete-referee/:id' => 'references/review#confirm_destroy_referee', as: :confirm_destroy_referee
+        get '/review/delete-reference/:id' => 'references/review#confirm_destroy_reference', as: :confirm_destroy_reference
+        get '/review/delete-reference-request/:id' => 'references/review#confirm_destroy_reference_request', as: :confirm_destroy_reference_request
+        delete '/review/delete/:id' => 'references/review#destroy', as: :destroy_reference
 
         get 'review/cancel/:id' => 'references/review#confirm_cancel', as: :confirm_cancel_reference
         patch 'review/cancel/:id' => 'references/review#cancel', as: :cancel_reference
@@ -386,14 +386,14 @@ Rails.application.routes.draw do
         get '/request/:id' => 'references/request#new', as: :references_new_request
         post '/request/:id' => 'references/request#create', as: :references_create_request
 
-        get '/retry_request/:id' => 'references/retry_request#new', as: :references_retry_request
-        post '/retry_request/:id' => 'references/retry_request#create'
+        get '/retry-request/:id' => 'references/retry_request#new', as: :references_retry_request
+        post '/retry-request/:id' => 'references/retry_request#create'
 
         get '/reminder/:id' => 'references/reminder#new', as: :references_new_reminder
         post '/reminder/:id' => 'references/reminder#create'
 
-        get '/candidate_name/:id' => 'references/candidate_name#new', as: :references_new_candidate_name
-        post '/candidate_name/:id' => 'references/candidate_name#create', as: :references_create_candidate_name
+        get '/candidate-name/:id' => 'references/candidate_name#new', as: :references_new_candidate_name
+        post '/candidate-name/:id' => 'references/candidate_name#create', as: :references_create_candidate_name
       end
 
       scope '/equality-and-diversity' do
