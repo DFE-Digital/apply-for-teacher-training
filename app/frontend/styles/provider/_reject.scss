@@ -1,0 +1,15 @@
+.app-feedback {
+  margin-bottom: 20px;
+  padding-right: 70px;
+  position: relative;
+
+  .app-rejection-change-link {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.app-list--spaced > li {
+  margin-bottom: 15px !important;
+}

@@ -1,0 +1,99 @@
+en:
+  reasons_for_rejection:
+    candidate_behaviour_what_did_the_candidate_do:
+      didnt_reply_to_interview_offer: 'Didn’t reply to our interview offer'
+      didnt_attend_interview: 'Didn’t attend interview'
+    qualifications_which_qualifications:
+      no_maths_gcse: 'No Maths GCSE grade 4 (C) or above, or valid equivalent'
+      no_english_gcse: 'No English GCSE grade 4 (C) or above, or valid equivalent'
+      no_science_gcse: 'No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)'
+      no_degree: 'No degree'
+  activemodel:
+    errors:
+      models:
+        provider_interface/reasons_for_rejection_wizard:
+          attributes:
+            candidate_behaviour_y_n:
+              blank: Select yes if it was related to candidate behaviour
+            candidate_behaviour_what_did_the_candidate_do:
+              blank: Select at least one reason related to candidate behaviour
+            candidate_behaviour_other:
+              blank: Enter details about candidate behaviour
+              too_long: Details about candidate behaviour must be 100 words or fewer
+            candidate_behaviour_what_to_improve:
+              blank: Enter details about how the candidate can improve their behaviour
+              too_long: Details about how the candidate can improve their behaviour must be 100 words or fewer
+            quality_of_application_y_n:
+              blank: Select yes if it was related to the quality of their application
+            quality_of_application_which_parts_needed_improvement:
+              blank: Select at least one reason related to the quality of their application
+            quality_of_application_personal_statement_what_to_improve:
+              blank: Enter details about how they can improve their personal statement
+              too_long: Details about how they can improve their personal statement must be 100 words or fewer
+            quality_of_application_subject_knowledge_what_to_improve:
+              blank: Enter details about how they can improve their subject knowledge
+              too_long: Details about how the candidate can improve their subject knowledge must be 100 words or fewer
+            quality_of_application_other_details:
+              blank: Enter details about the quality of their application
+              too_long: Details about the quality of their application must be 100 words or fewer
+            quality_of_application_other_what_to_improve:
+              blank: Enter how they can improve the quality of their application
+              too_long: Details about how they can improve their application must be 100 words or fewer
+            qualifications_y_n:
+              blank: Select yes if it was related to their qualifications
+            qualifications_which_qualifications:
+              blank: Select at least one reason related to their qualifications
+            qualifications_other_details:
+              blank: Enter details about the problem with their qualifications
+              too_long: Details about the problem with their qualifications must be 100 words or fewer
+            performance_at_interview_y_n:
+              blank: Select yes if it was related to their performance at interview
+            performance_at_interview_what_to_improve:
+              blank: Enter details about how they can improve their performance at interview
+              too_long: Details about how they can improve their performance at interview must be 100 words or fewer
+            course_full_y_n:
+              blank: Select yes if it was because this course is full
+            offered_on_another_course_y_n:
+              blank: Select yes if it was because you offered them a place on another course
+            offered_on_another_course_details:
+              blank: Enter details about the place offered on another course
+              too_long: Details about the place offered on another course must be 100 words or fewer
+            honesty_and_professionalism_y_n:
+              blank: Select yes if it was related to concerns about their honesty and professionalism
+            honesty_and_professionalism_concerns:
+              blank: Select at least one reason related to the candidate’s honesty and professionalism
+            honesty_and_professionalism_concerns_information_false_or_inaccurate_details:
+              blank: Enter details about the inaccurate or false information in the application
+              too_long: Details about inaccurate or false information in the application must be 100 words or fewer
+            honesty_and_professionalism_concerns_plagiarism_details:
+              blank: Enter details related to evidence of plagiarism in the application
+              too_long: The details about evidence of plagiarism in the application must be 100 words or fewer
+            honesty_and_professionalism_concerns_references_details:
+              blank: Enter details about references not supporting the application
+              too_long: Details about references not supporting the application must be 100 words or fewer
+            honesty_and_professionalism_concerns_other_details:
+              blank: Enter details about the candidate’s honesty and professionalism
+              too_long: Details about the candidate’s honesty and professionalism must be 100 words or fewer
+            safeguarding_y_n:
+              blank: Select yes if it was related to safeguarding
+            safeguarding_concerns:
+              blank: Select at least one reason related to safeguarding
+            safeguarding_concerns_candidate_disclosed_information_details:
+              blank: Enter details about information the candidate disclosed which makes them unsuitable to work with children
+              too_long: Details about the information the candidate disclosed must be 100 words or fewer
+            safeguarding_concerns_vetting_disclosed_information_details:
+              blank: Enter details about the information found by your vetting process which makes the candidate unsuitable to work with children
+              too_long: Details about the information found by your vetting process which makes the candidate unsuitable to work with children must be 100 words or fewer
+            safeguarding_concerns_other_details:
+              blank: Enter details about safeguarding
+              too_long: Details about safeguarding must be 100 words or fewer
+            why_are_you_rejecting_this_application:
+              blank: Enter why you’re rejecting this application
+              too_long: Details about why you’re rejecting this application must be 200 words or fewer
+            other_advice_or_feedback_y_n:
+              blank: Select yes if there is any other advice or feedback you‘d like to give
+            other_advice_or_feedback_details:
+              blank: Enter any other advice or feedback
+              too_long: The other advice or feedback must be 200 words or fewer
+            interested_in_future_applications_y_n:
+              blank: Select yes if you’d be interested in future applications from this candidate

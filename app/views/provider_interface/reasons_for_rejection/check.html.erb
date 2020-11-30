@@ -1,0 +1,26 @@
+<% content_for :before_content, govuk_back_link_to(@back_link_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @wizard, url: provider_interface_reasons_for_rejection_commit_path do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <h1 class="govuk-heading-l">Check your feedback and reject application</h1>
+
+      <p class="govuk-body">
+        Your feedback will be given to the candidate in the format below.
+      </p>
+
+      <%= render ProviderInterface::ReasonsForRejectionComponent.new(
+        application_choice: @application_choice,
+        reasons_for_rejection: @wizard.to_model,
+        editable: true,
+      ) %>
+
+      <%= f.govuk_submit 'Reject application' %>
+    <% end %>
+
+    <p class="govuk-body"><%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice) %></p>
+  </div>
+</div>

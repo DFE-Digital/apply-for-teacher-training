@@ -2,6 +2,7 @@ module ProviderInterface
   class DecisionsController < ProviderInterfaceController
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
+    before_action :redirect_to_structured_reasons_for_rejection_if_enabled, only: %i[new_reject confirm_reject create_reject]
 
     def respond
       @pick_response_form = PickResponseForm.new
@@ -156,6 +157,12 @@ module ProviderInterface
 
     def make_an_offer_params
       params.require(:make_an_offer)
+    end
+
+    def redirect_to_structured_reasons_for_rejection_if_enabled
+      if FeatureFlag.active?(:structured_reasons_for_rejection)
+        redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
+      end
     end
   end
 end
