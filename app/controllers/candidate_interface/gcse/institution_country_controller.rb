@@ -41,7 +41,7 @@ module CandidateInterface
         current_application.qualification_in_subject(:gcse, subject_param),
       )
       if @details_form.qualification.grade.nil?
-        candidate_interface_gcse_details_edit_naric_reference_path
+        candidate_interface_gcse_details_edit_naric_path
       else
         candidate_interface_gcse_review_path
       end

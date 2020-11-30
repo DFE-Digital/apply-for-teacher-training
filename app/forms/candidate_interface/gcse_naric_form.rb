@@ -1,17 +1,17 @@
 module CandidateInterface
-  class NaricReferenceForm
+  class GcseNaricForm
     include ActiveModel::Model
 
-    attr_accessor :naric_reference_choice, :naric_reference, :comparable_uk_qualification
+    attr_accessor :have_naric_reference, :naric_reference, :comparable_uk_qualification
 
-    validates :naric_reference_choice, presence: true
+    validates :have_naric_reference, presence: true
 
     validates :naric_reference, :comparable_uk_qualification, presence: true, if: :chose_to_provide_naric_reference?
 
     def self.build_from_qualification(qualification)
       new(
+        have_naric_reference: qualification.have_naric_reference,
         naric_reference: qualification.naric_reference,
-        naric_reference_choice: qualification.naric_reference_choice,
         comparable_uk_qualification: qualification.comparable_uk_qualification,
       )
     end
@@ -26,7 +26,7 @@ module CandidateInterface
     end
 
     def set_attributes(params)
-      @naric_reference_choice = params['naric_reference_choice']
+      @have_naric_reference = params['have_naric_reference']
       @naric_reference = chose_to_provide_naric_reference? ? params['naric_reference'] : nil
       @comparable_uk_qualification = chose_to_provide_naric_reference? ? params['comparable_uk_qualification'] : nil
     end
@@ -34,7 +34,7 @@ module CandidateInterface
   private
 
     def chose_to_provide_naric_reference?
-      naric_reference_choice == 'Yes'
+      have_naric_reference == 'Yes'
     end
   end
 end

@@ -882,9 +882,9 @@ en:
             institution_country:
               blank: Enter the country you studied in
               inclusion: Select the country you studied in from the list
-        candidate_interface/naric_reference_form:
+        candidate_interface/gcse_naric_form:
           attributes:
-            naric_reference_choice:
+            have_naric_reference:
               blank: Select if you have a UK NARIC statement of comparability
             naric_reference:
               blank: Enter your UK NARIC reference number

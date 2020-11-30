@@ -82,7 +82,7 @@ class ApplicationQualification < ApplicationRecord
     false
   end
 
-  def naric_reference_choice
+  def have_naric_reference
     if naric_reference.present?
       'Yes'
     elsif naric_reference.nil? && grade.present?

@@ -17,7 +17,7 @@ module CandidateInterface
         [
           qualification_row,
           country_row,
-          naric_statment_row,
+          naric_statement_row,
           naric_reference_row,
           comparable_uk_qualification_row,
           grade_row,
@@ -107,14 +107,14 @@ module CandidateInterface
       }
     end
 
-    def naric_statment_row
+    def naric_statement_row
       return nil unless application_qualification.qualification_type == 'non_uk'
 
       {
         key: t('application_form.gcse.naric_statement.review_label'),
         value: application_qualification.naric_reference ? 'Yes' : 'No',
         action: t('application_form.gcse.naric_statement.change_action'),
-        change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_naric_path(subject: subject),
       }
     end
 
@@ -126,7 +126,7 @@ module CandidateInterface
         key: t('application_form.gcse.naric_reference.review_label'),
         value: application_qualification.naric_reference,
         action: t('application_form.gcse.naric_reference.change_action'),
-        change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_naric_path(subject: subject),
       }
     end
 
@@ -138,7 +138,7 @@ module CandidateInterface
         key: t('application_form.gcse.comparable_uk_qualification.review_label'),
         value: application_qualification.comparable_uk_qualification,
         action: t('application_form.gcse.comparable_uk_qualification.change_action'),
-        change_path: candidate_interface_gcse_details_edit_naric_reference_path(subject: subject),
+        change_path: candidate_interface_gcse_details_edit_naric_path(subject: subject),
       }
     end
 
