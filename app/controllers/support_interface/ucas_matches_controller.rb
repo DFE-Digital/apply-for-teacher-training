@@ -29,13 +29,19 @@ module SupportInterface
       redirect_to support_interface_ucas_match_path(match)
     end
 
-    def record_reminder_emails_sent
+    def send_reminder_email
       match = UCASMatch.find(params[:id])
-      match.update!(
-        candidate_last_contacted_at: Time.zone.now,
-        action_taken: 'reminder_emails_sent',
-      )
-      flash[:success] = 'The date of the reminder emails was recorded'
+
+      if SupportInterface::SendUCASMatchReminderEmails.new(match).call
+        match.update!(
+          candidate_last_contacted_at: Time.zone.now,
+          action_taken: 'reminder_emails_sent',
+        )
+
+        flash[:success] = 'Reminder email was sent'
+      else
+        flash[:error] = 'Reminder email was not sent'
+      end
       redirect_to support_interface_ucas_match_path(match)
     end
 

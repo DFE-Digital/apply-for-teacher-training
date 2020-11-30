@@ -37,8 +37,8 @@ RSpec.feature 'See UCAS matches' do
 
     given_five_working_days_passed
     when_i_visit_the_page_again
-    then_i_see_that_i_need_to 'Send reminder emails'
-    and_when_i_click 'Confirm reminder emails were sent'
+    then_i_see_that_i_need_to 'Send a reminder email'
+    and_when_i_click 'Send a reminder email'
     then_i_see_last_performed_action_is 'sent the reminder emails'
 
     given_five_more_working_days_passed

@@ -23,7 +23,7 @@ RSpec.describe UCASMatch do
       end
     end
 
-    it 'returns true if initial emails were sent and it is time to send reminder emails' do
+    it 'returns true if initial emails were sent and it is time to send a reminder email' do
       initial_emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: initial_emails_sent_at)
       allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
@@ -178,7 +178,7 @@ RSpec.describe UCASMatch do
       end
     end
 
-    it 'returns true if initial emails were sent and it is time to send reminder emails' do
+    it 'returns true if initial emails were sent and it is time to send a reminder email' do
       emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: emails_sent_at)
 
@@ -224,7 +224,7 @@ RSpec.describe UCASMatch do
       expect(ucas_match.next_action).to eq(:initial_emails_sent)
     end
 
-    it 'returns :reminder_emails_sent if initial emails were sent and it time to send reminder emails' do
+    it 'returns :reminder_emails_sent if initial emails were sent and it time to send a reminder email' do
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: Time.zone.now - 6.days)
       allow(ucas_match).to receive(:need_to_send_reminder_emails?).and_return(true)
 
