@@ -132,7 +132,7 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
-    erubi (1.9.0)
+    erubi (1.10.0)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.1.0)
@@ -152,7 +152,7 @@ GEM
     geocoder (1.6.4)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    govuk_design_system_formbuilder (2.1.4)
+    govuk_design_system_formbuilder (2.1.5)
       actionview (>= 5.2)
       activemodel (>= 5.2)
       activesupport (>= 5.2)
@@ -230,7 +230,7 @@ GEM
     logstash-event (1.2.02)
     logstash-logger (0.26.1)
       logstash-event (~> 1.2)
-    loofah (2.7.0)
+    loofah (2.8.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)
@@ -514,7 +514,7 @@ GEM
     workflow (2.0.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.4.1)
+    zeitwerk (2.4.2)
 
 PLATFORMS
   ruby
@@ -540,7 +540,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   geocoder
-  govuk_design_system_formbuilder (~> 2.1.4)
+  govuk_design_system_formbuilder (~> 2.1.5)
   govuk_markdown
   guard-rspec
   holidays
