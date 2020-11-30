@@ -13,7 +13,7 @@
 
       <%= f.govuk_radio_buttons_fieldset(:candidate_behaviour_y_n, legend: { size: 'm', text: 'Was it related to candidate behaviour?' }) do %>
         <%= f.govuk_radio_button :candidate_behaviour_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
-          <%= f.govuk_check_boxes_fieldset :candidate_behaviour_what_did_the_candidate_do, small: true, legend: { text: "What did the candidate do?", size: "s" } do %>
+          <%= f.govuk_check_boxes_fieldset :candidate_behaviour_what_did_the_candidate_do, legend: { text: "What did the candidate do?", size: "s" } do %>
             <%= f.govuk_check_box :candidate_behaviour_what_did_the_candidate_do,
               'didnt_reply_to_interview_offer',
               label: { text: "Didn’t reply to our interview offer" },
@@ -37,7 +37,7 @@
 
       <%= f.govuk_radio_buttons_fieldset(:quality_of_application_y_n, legend: { size: 'm', text: 'Was it related to the quality of their application?' }) do %>
         <%= f.govuk_radio_button :quality_of_application_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
-          <%= f.govuk_check_boxes_fieldset :quality_of_application_which_parts_needed_improvement, small: true, legend: { text: "What did the candidate do?", size: "s" } do %>
+          <%= f.govuk_check_boxes_fieldset :quality_of_application_which_parts_needed_improvement, legend: { text: "What did the candidate do?", size: "s" } do %>
             <%= f.govuk_check_box :quality_of_application_which_parts_needed_improvement,
               'personal_statement',
               label: { text: "Personal statement" },
@@ -67,7 +67,7 @@
 
       <%= f.govuk_radio_buttons_fieldset(:qualifications_y_n, legend: { size: 'm', text: 'Was it related to their qualifications?' }) do %>
         <%= f.govuk_radio_button :qualifications_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
-          <%= f.govuk_check_boxes_fieldset :qualifications_which_qualifications, small: true, legend: { text: "Which qualifications?", size: "s" } do %>
+          <%= f.govuk_check_boxes_fieldset :qualifications_which_qualifications, legend: { text: "Which qualifications?", size: "s" } do %>
             <%= f.govuk_check_box :qualifications_which_qualifications,
               'no_maths_gcse',
               label: { text: "No Maths GCSE grade 4 (C) or above, or valid equivalent" },
@@ -119,7 +119,7 @@
 
       <%= f.govuk_radio_buttons_fieldset(:honesty_and_professionalism_y_n, legend: { size: 'm', text: 'Was it related to concerns about the candidate’s honesty and professionalism' }) do %>
         <%= f.govuk_radio_button :honesty_and_professionalism_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
-          <%= f.govuk_check_boxes_fieldset :honesty_and_professionalism_concerns, small: true, legend: { text: "Which qualifications?", size: "s" } do %>
+          <%= f.govuk_check_boxes_fieldset :honesty_and_professionalism_concerns, legend: { text: "Which qualifications?", size: "s" } do %>
             <%= f.govuk_check_box :honesty_and_professionalism_concerns,
               'information_false_or_inaccurate',
               label: { text: "Information given on application form false or inaccurate" } do %>
@@ -154,7 +154,7 @@
 
       <%= f.govuk_radio_buttons_fieldset(:safeguarding_y_n, legend: { size: 'm', text: 'Was it related to safeguarding' }) do %>
         <%= f.govuk_radio_button :safeguarding_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
-          <%= f.govuk_check_boxes_fieldset :safeguarding_concerns, small: true, legend: { text: "Which safeguarding issues in particular?", size: "s" } do %>
+          <%= f.govuk_check_boxes_fieldset :safeguarding_concerns, legend: { text: "Which safeguarding issues in particular?", size: "s" } do %>
             <%= f.govuk_check_box :safeguarding_concerns,
               'candidate_disclosed_information',
               label: { text: "Information disclosed by candidate makes them unsuitable to work with children" } do %>
