@@ -22,18 +22,18 @@ RSpec.feature 'Candidate entering GCSE English details' do
 
     when_i_click_english_single_award
     and_i_click_save_and_continue
-    then_i_see_the_enter_your_grade_error
+    then_i_see_the_enter_your_english_single_award_grade_error
 
     when_i_click_english_single_award
     and_i_enter_an_invalid_grade
     and_i_click_save_and_continue
-    then_i_see_the_invalid_grade_error
+    then_i_see_the_invalid_english_single_award_grade_error
 
     when_i_click_other_english_subject
     and_i_uncheck_english_single_award
     and_i_click_save_and_continue
     then_i_see_the_enter_an_english_gcse_error
-    then_i_see_the_enter_your_grade_error
+    then_i_see_the_enter_your_other_english_grade_error
 
     when_i_click_other_english_subject
     and_i_enter_a_valid_english_gcse
@@ -85,8 +85,12 @@ RSpec.feature 'Candidate entering GCSE English details' do
     check 'English (Single award)'
   end
 
-  def then_i_see_the_enter_your_grade_error
-    expect(page).to have_content 'Enter your grade'
+  def then_i_see_the_enter_your_english_single_award_grade_error
+    expect(page).to have_content 'Enter your English (Single award) grade'
+  end
+
+  def then_i_see_the_enter_your_other_english_grade_error
+    expect(page).to have_content 'Enter your other English subject grade'
   end
 
   def and_i_enter_an_invalid_grade
@@ -95,8 +99,8 @@ RSpec.feature 'Candidate entering GCSE English details' do
     end
   end
 
-  def then_i_see_the_invalid_grade_error
-    expect(page).to have_content 'Enter a real grade'
+  def then_i_see_the_invalid_english_single_award_grade_error
+    expect(page).to have_content 'Enter a real English (Single award) grade'
   end
 
   def and_i_uncheck_english_single_award

@@ -77,7 +77,7 @@ module CandidateInterface
         "#{application_qualification.grade} (Double award)"
       when ApplicationQualification::SCIENCE_SINGLE_AWARD
         "#{application_qualification.grade} (Single award)"
-      when ->(subject) { subject === 'english' && application_qualification.structured_grades }
+      when ->(subject) { subject == 'english' && application_qualification.structured_grades }
         grades = JSON.parse(application_qualification.structured_grades)
         grades.map { |k, v,| "#{v} (#{k.humanize.titleize})" }
       else
