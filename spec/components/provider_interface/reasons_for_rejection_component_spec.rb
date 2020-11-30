@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ReasonsForRejectionComponent do
   describe 'rendered component' do
+    let(:provider) { build_stubbed(:provider, name: 'The University of Metal') }
     let(:application_choice) { build_stubbed(:application_choice) }
     let(:reasons_for_rejection_attrs) do
       {
@@ -29,6 +30,8 @@ RSpec.describe ProviderInterface::ReasonsForRejectionComponent do
 
     let(:reasons_for_rejection) { ProviderInterface::ReasonsForRejection.new(reasons_for_rejection_attrs) }
 
+    before { allow(application_choice).to receive(:provider).and_return(provider) }
+
     it 'renders rejection reason answers under headings' do
       result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection))
       html = result.to_html
@@ -51,6 +54,9 @@ RSpec.describe ProviderInterface::ReasonsForRejectionComponent do
 
       expect(result.css('h3.govuk-heading-s').text).to include('Additional advice')
       expect(html).to include('That zoom background...')
+
+      expect(result.css('h3.govuk-heading-s').text).to include('Future applications')
+      expect(html).to include('The University of Metal would be interested in future applications from you.')
     end
 
     it 'renders change links when editable' do
@@ -66,6 +72,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionComponent do
       expect(result.css('h2.govuk-heading-s').text).to include('Qualifications')
       expect(result.css('h2.govuk-heading-s').text).to include('Performance at interview')
       expect(result.css('h2.govuk-heading-s').text).to include('Additional advice')
+      expect(result.css('h2.govuk-heading-s').text).to include('Future applications')
     end
   end
 end

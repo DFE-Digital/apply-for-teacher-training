@@ -190,4 +190,16 @@
       <% end %>
     </div>
   <% end %>
+
+  <% if reasons_for_rejection.interested_in_future_applications_y_n == 'Yes' %>
+    <div class="app-feedback">
+      <%= content_tag(subheading_tag_name, 'Future applications', class: 'govuk-heading-s') %>
+      <p class="govuk-body"><%= application_choice.provider.name %> would be interested in future applications from you.</p>
+      <% if editable? %>
+        <p class="app-rejection-change-link">
+          <%= govuk_link_to 'Change', provider_interface_reasons_for_rejection_other_reasons_path(application_choice), class: 'app-rejection-change-link' %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
 </div>
