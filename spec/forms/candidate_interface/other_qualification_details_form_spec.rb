@@ -206,6 +206,94 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
     end
   end
 
+  describe '#initialize_from_last_qualification' do
+    it 'sets choice' do
+      qualification = build_stubbed(
+        :application_qualification,
+      )
+
+      last_qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+        nil,
+        nil,
+      )
+
+      last_qualification.initialize_from_last_qualification([qualification])
+
+      expect(last_qualification.choice).to eq('no')
+    end
+
+    context 'blank qualifications' do
+      it 'returns nil' do
+        last_qualification = CandidateInterface::OtherQualificationDetailsForm.new
+        expect(last_qualification.initialize_from_last_qualification([])).to be_nil
+      end
+    end
+
+    context 'previous qualification is same type' do
+      it 'sets institution_country and award_year' do
+        qualification_type = 'foo'
+
+        qualification = build_stubbed(
+          :application_qualification,
+          qualification_type: qualification_type,
+        )
+
+        last_qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+          nil,
+          nil,
+          qualification_type: qualification_type,
+        )
+
+        last_qualification.initialize_from_last_qualification([qualification])
+
+        expect(last_qualification.institution_country).to eq(qualification.institution_country)
+        expect(last_qualification.award_year).to eq(qualification.award_year)
+      end
+    end
+
+    context 'qualification is non-uk' do
+      it 'sets non_uk_qualification_type' do
+        non_uk = 'non_uk'
+
+        qualification = build_stubbed(
+          :application_qualification,
+          qualification_type: non_uk,
+        )
+
+        last_qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+          nil,
+          nil,
+          qualification_type: 'foo',
+        )
+
+        last_qualification.initialize_from_last_qualification([qualification])
+
+        expect(last_qualification.non_uk_qualification_type).to eq(qualification.non_uk_qualification_type)
+      end
+    end
+
+    context 'qualification is other' do
+      it 'sets other_uk_qualification_type' do
+        other = 'Other'
+
+        qualification = build_stubbed(
+          :application_qualification,
+          qualification_type: 'foo',
+        )
+
+        last_qualification = CandidateInterface::OtherQualificationDetailsForm.new(
+          nil,
+          nil,
+          qualification_type: other,
+        )
+
+        last_qualification.initialize_from_last_qualification([qualification])
+
+        expect(last_qualification.other_uk_qualification_type).to eq(qualification.other_uk_qualification_type)
+      end
+    end
+  end
+
   describe '#title' do
     context 'for a non-uk qualification' do
       it 'concatenates the non_uk_qualification_type and subject' do

@@ -82,6 +82,8 @@ module CandidateInterface
       elsif qualification_type == OtherQualificationTypeForm::OTHER_TYPE
         self.other_uk_qualification_type ||= qualifications[-1].other_uk_qualification_type
       end
+
+      self.choice = 'no'
     end
 
     def qualification_type_name

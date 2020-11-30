@@ -14,18 +14,20 @@ module CandidateInterface
                                   start_date_year: start_date.year,
                                   end_date_month: end_date&.month || '',
                                   end_date_year: end_date&.year || '',
-                                  add_another_job: true,
+                                  add_another_job: 'no',
                                 )
                               else
-                                WorkExperienceForm.new(add_another_job: true)
+                                WorkExperienceForm.new(add_another_job: 'no')
                               end
     end
 
     def create
       @work_experience_form = WorkExperienceForm.new(work_experience_form_params)
 
-      if @work_experience_form.save(current_application)
-        if @work_experience_form.add_another_job == 'true'
+      if @work_experience_form.blank_form?
+        redirect_to candidate_interface_work_history_show_path
+      elsif @work_experience_form.save(current_application)
+        if @work_experience_form.add_another_job == 'yes'
           redirect_to candidate_interface_new_work_history_path
         else
           redirect_to candidate_interface_work_history_show_path
@@ -41,7 +43,7 @@ module CandidateInterface
       work_experience = current_application
         .application_work_experiences.find(work_experience_params[:id])
       @work_experience_form = WorkExperienceForm.build_from_experience(work_experience)
-      @work_experience_form.add_another_job = false
+      @work_experience_form.add_another_job = 'no'
     end
 
     def update
