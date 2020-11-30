@@ -60,7 +60,7 @@ module SupportInterface
         },
         {
           key: 'Financial support',
-          value: course.financial_support || 'None'
+          value: course.financial_support || 'None',
         },
         {
           key: 'Course in previous cycle',

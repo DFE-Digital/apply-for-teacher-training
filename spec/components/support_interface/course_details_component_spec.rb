@@ -12,7 +12,7 @@ RSpec.describe SupportInterface::CourseDetailsComponent do
   end
 
   it 'renders qualifications if possible' do
-    course_with_qualifications = create(:course, qualifications: ['qts', 'pgce'])
+    course_with_qualifications = create(:course, qualifications: %w[qts pgce])
     course_without_qualifications = create(:course, qualifications: nil)
 
     result_with_qualifications = render_inline(
