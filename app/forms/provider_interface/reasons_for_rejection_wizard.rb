@@ -319,14 +319,17 @@ module ProviderInterface
 
   private
 
-    def clean_answers_for_initial_questions(attrs)
-      INITIAL_QUESTIONS.each_key { |k| clean_initial_question(attrs, k) }
+    def clean_child_values_on_deselected_answers!(attrs)
+      step = attrs[:current_step]
+      clean_answers_for_initial_questions(attrs) if step == 'initial_questions'
+      clean_answers_for_other_reasons(attrs) if step == 'other_reasons'
+
+      other_reasons_unnecessary = last_saved_state.slice('honesty_and_professionalism_y_n', 'safeguarding_y_n').values.any?('Yes')
+      unset_answers_for_other_reasons(attrs) if step == 'check' && other_reasons_unnecessary
     end
 
-    def clean_answers_for_other_reasons(attrs)
-      attrs[:other_advice_or_feedback_details] = nil if attrs[:other_advice_or_feedback_y_n] == 'No'
-      answers_for_initial_top_level_questions = last_saved_state.slice(*INITIAL_TOP_LEVEL_QUESTIONS.map(&:to_s)).values
-      attrs[:why_are_you_rejecting_this_application] = nil unless answers_for_initial_top_level_questions.uniq == %w[No]
+    def clean_answers_for_initial_questions(attrs)
+      INITIAL_QUESTIONS.each_key { |k| clean_initial_question(attrs, k) }
     end
 
     def clean_initial_question(attrs, key)
@@ -347,9 +350,17 @@ module ProviderInterface
       end
     end
 
-    def clean_child_values_on_deselected_answers!(attrs)
-      clean_answers_for_initial_questions(attrs) if attrs[:current_step] == 'initial_questions'
-      clean_answers_for_other_reasons(attrs) if attrs[:current_step] == 'other_reasons'
+    def clean_answers_for_other_reasons(attrs)
+      attrs[:other_advice_or_feedback_details] = nil if attrs[:other_advice_or_feedback_y_n] == 'No'
+      answers_for_initial_top_level_questions = last_saved_state.slice(*INITIAL_TOP_LEVEL_QUESTIONS.map(&:to_s)).values
+      attrs[:why_are_you_rejecting_this_application] = nil unless answers_for_initial_top_level_questions.uniq == %w[No]
+    end
+
+    def unset_answers_for_other_reasons(attrs)
+      attrs[:why_are_you_rejecting_this_application] = nil
+      attrs[:interested_in_future_applications_y_n] = nil
+      attrs[:other_advice_or_feedback_y_n] = nil
+      attrs[:other_advice_or_feedback_details] = nil
     end
 
     # Removes empty strings from array attributes, as they incorrectly pass presence validation

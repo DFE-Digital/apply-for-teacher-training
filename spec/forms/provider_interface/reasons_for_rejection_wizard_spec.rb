@@ -408,4 +408,33 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       expect(wizard.why_are_you_rejecting_this_application).to be nil
     end
   end
+
+  describe 'other reasons when checking answers' do
+    let(:last_state) do
+      {
+        why_are_you_rejecting_this_application: 'reasons',
+        other_advice_or_feedback_y_n: 'Yes',
+        other_advice_or_feedback_details: 'details',
+        interested_in_future_applications_y_n: 'Yes',
+        honesty_and_professionalism_y_n: 'Yes',
+        safeguarding_y_n: 'No',
+      }
+    end
+
+    subject(:wizard) do
+      described_class.new(
+        store,
+        current_step: 'check',
+      )
+    end
+
+    it 'are reset to nil unless they are necessary' do
+      allow(store).to receive(:read).and_return(last_state.to_json)
+
+      expect(wizard.why_are_you_rejecting_this_application).to be nil
+      expect(wizard.other_advice_or_feedback_y_n).to be nil
+      expect(wizard.other_advice_or_feedback_details).to be nil
+      expect(wizard.interested_in_future_applications_y_n).to be nil
+    end
+  end
 end

@@ -145,6 +145,9 @@ RSpec.describe 'Reject an application' do
 
     expect(page).to have_content('Additional advice')
     expect(page).to have_content('While impressive, your parkour skills are not relevant')
+
+    expect(page).to have_content('Future applications')
+    expect(page).to have_content("#{@application_choice.provider.name} would be interested in future applications from you.")
   end
 
   def and_i_choose_to_revert_my_changes
@@ -195,7 +198,5 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
     expect(page).to have_content('Honesty and professionalism')
     expect(page).to have_content('We cannot accept references from your gran')
-    expect(page).to have_content('Additional advice')
-    expect(page).to have_content('While impressive, your parkour skills are not relevant')
   end
 end
