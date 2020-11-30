@@ -286,4 +286,42 @@ RSpec.describe UCASMatch do
       expect(ucas_match.application_choices_for_same_course_on_both_services).to eq([:application_choice])
     end
   end
+
+  describe '#application_for_the_same_course_in_progress_on_both_services?' do
+    it 'returns true if candidate has application for the same course in progress on both UCAS and Apply' do
+      application_choice = create(:application_choice, status: :awaiting_provider_decision)
+      ucas_match = create(:ucas_match,
+                          matching_state: 'new_match',
+                          scheme: 'B',
+                          application_form: application_choice.application_form,
+                          ucas_status: :awaiting_provider_decision)
+
+      expect(ucas_match.application_for_the_same_course_in_progress_on_both_services?).to eq(true)
+    end
+
+    it 'returns false if dual application is not in progress on Apply' do
+      application_choice = create(:application_choice, :with_rejection)
+      ucas_match = create(:ucas_match,
+                          matching_state: 'new_match',
+                          scheme: 'B',
+                          application_form: application_choice.application_form)
+
+      expect(ucas_match.application_for_the_same_course_in_progress_on_both_services?).to eq(false)
+    end
+
+    it 'returns false if dual application is not in progress on UCAS' do
+      ucas_match = create(:ucas_match,
+                          matching_state: 'new_match',
+                          scheme: 'B',
+                          ucas_status: :withdrawn)
+
+      expect(ucas_match.application_for_the_same_course_in_progress_on_both_services?).to eq(false)
+    end
+
+    it 'returns false if there is no dual application' do
+      ucas_match = create(:ucas_match, matching_state: 'new_match', scheme: 'D')
+
+      expect(ucas_match.application_for_the_same_course_in_progress_on_both_services?).to eq(false)
+    end
+  end
 end
