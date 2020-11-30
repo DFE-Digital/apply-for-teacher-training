@@ -58,6 +58,46 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     end
   end
 
+  describe '#reference_1_requested_at' do
+    it 'returns nil if no references have been requested' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+
+      expect(described_class.new(application_choice).reference_1_requested_at).to be_nil
+    end
+
+    it 'returns the time when the first reference was requested' do
+      application_form = create(:application_form)
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      Timecop.freeze(now) do
+        application_reference = create(:reference, :feedback_requested, requested_at: 1.day.ago, application_form: application_form)
+        application_reference.update!(feedback_status: 'feedback_provided')
+      end
+      expect(described_class.new(application_choice).reference_1_requested_at).to eq(now - 1.day)
+    end
+  end
+
+  describe '#reference_2_requested_at' do
+    let(:application_reference1) { create(:reference, :feedback_requested, requested_at: 2.days.ago, application_form: application_form) }
+    let(:application_reference2) { create(:reference, :feedback_requested, requested_at: 1.day.ago, application_form: application_form) }
+    let(:application_form) { create(:application_form) }
+
+    it 'returns nil if only one reference has been requested' do
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_reference1.update!(feedback_status: 'feedback_provided')
+
+      expect(described_class.new(application_choice).reference_2_requested_at).to be_nil
+    end
+
+    it 'returns the time when the second reference was requested' do
+      application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+      application_reference1.update!(feedback_status: 'feedback_provided')
+      application_reference2.update!(feedback_status: 'feedback_provided')
+
+      expect(described_class.new(application_choice).reference_2_requested_at).to eq(application_reference2.requested_at)
+    end
+  end
+
   describe '#reference_1_received' do
     it 'returns nil if no references were received' do
       application_form = create(:application_form)
