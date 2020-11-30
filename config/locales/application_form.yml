@@ -995,6 +995,12 @@ en:
               blank: Issues cannot blank
             consent_to_be_contacted:
               blank: Can we contact you about your feedback?
+        candidate_interface/withdrawal_feedback_form:
+          attributes:
+            feedback:
+              blank: Will you give a reason for withdrawing your course choice?
+            consent_to_be_contacted:
+              blank: Can we contact you about your feedback?
         referee_interface/reference_relationship_form:
           attributes:
             relationship_confirmation:

@@ -119,17 +119,17 @@ RSpec.feature 'International candidate submits the application' do
   end
 
   def then_i_should_see_the_efl_section_is_incomplete
-    expect(page).to have_selector "[data-qa='missing-efl']"
+    expect(page).to have_selector "[data-qa='incomplete-efl']"
   end
 
   def then_i_see_an_error_about_the_efl_section
-    within '#missing-efl-error' do
+    within '#incomplete-efl-error' do
       expect(page).to have_content 'English as a foreign language not marked as complete'
     end
   end
 
   def when_i_complete_the_efl_section
-    within '#missing-efl-error' do
+    within '#incomplete-efl-error' do
       click_link 'Have you done an English as a foreign language assessment?'
     end
 
@@ -141,7 +141,7 @@ RSpec.feature 'International candidate submits the application' do
 
   def then_i_should_see_all_sections_are_complete
     CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
-      expect(page).not_to have_selector "[data-qa='missing-#{section}']"
+      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
     end
   end
 

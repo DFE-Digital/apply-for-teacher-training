@@ -3,6 +3,7 @@
 class ApplicationForm < ApplicationRecord
   audited
   has_associated_audits
+  geocoded_by :address_formatted_for_geocoding
 
   include Chased
 
@@ -70,13 +71,9 @@ class ApplicationForm < ApplicationRecord
 
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
-  before_create lambda {
-    self.support_reference ||= GenerateSupportRef.call
-  }
-
-  after_save lambda {
-    application_choices.update_all(updated_at: Time.zone.now)
-  }
+  before_create -> { self.support_reference ||= GenerateSupportRef.call }
+  after_save -> { application_choices.update_all(updated_at: Time.zone.now) }
+  after_commit :geocode_address_if_required
 
   def submitted?
     submitted_at.present?
@@ -314,7 +311,31 @@ class ApplicationForm < ApplicationRecord
     application_references.feedback_provided.count >= MINIMUM_COMPLETE_REFERENCES
   end
 
+  def address_formatted_for_geocoding
+    full_address.compact.join(', ')
+  end
+
 private
+
+  def geocode_address_if_required
+    return unless address_changed?
+
+    if international?
+      update!(latitude: nil, longitude: nil)
+    else
+      GeocodeApplicationAddressWorker.perform_async(id)
+    end
+  end
+
+  def address_changed?
+    saved_change_to_address_line1? ||
+      saved_change_to_address_line2? ||
+      saved_change_to_address_line3? ||
+      saved_change_to_address_line4? ||
+      saved_change_to_country? ||
+      saved_change_to_postcode? ||
+      saved_change_to_address_type?
+  end
 
   def withdrawn_course_choices
     application_choices.includes(%i[provider course]).select { |choice| choice.course.withdrawn == true }

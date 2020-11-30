@@ -47,7 +47,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Application submitted'
-      expect(rendered.text).to include 'candidate'
+      expect(rendered.text).to include 'Candidate'
       expect(rendered.text).to include '6 February 2020 at 10:00pm'
       expect(rendered.css('a').text).to eq 'View application'
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"

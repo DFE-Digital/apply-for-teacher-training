@@ -67,7 +67,7 @@ module CandidateInterface
         @provider = @application_choice.provider
         @course = @application_choice.course
 
-        render :feedback
+        render :withdrawal_feedback
       end
     end
 

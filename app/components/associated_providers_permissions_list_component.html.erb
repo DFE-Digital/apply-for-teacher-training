@@ -1,49 +1,49 @@
-<% if training_providers_that_can(permission_name).any? %>
+<% if training_providers_for_which_this_provider_can(permission_name).any? %>
   <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
     <p class="govuk-body govuk-!-margin-bottom-1">
       Applies to courses run by:
     </p>
     <ul class="govuk-list">
-      <% training_providers_that_can(permission_name).each do |provider| %>
+      <% training_providers_for_which_this_provider_can(permission_name).each do |provider| %>
         <li><%= render IconComponent.new(type: 'check') %> <%= provider.name %></li>
       <% end %>
     </ul>
   </div>
 <% end %>
 
-<% if training_providers_that_cannot(permission_name).any? %>
+<% if training_providers_for_which_this_provider_cannot(permission_name).any? %>
   <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
     <p class="govuk-body govuk-!-margin-bottom-1">
       Does not apply to courses run by:
     </p>
     <ul class="govuk-list">
-      <% training_providers_that_cannot(permission_name).each do |provider| %>
+      <% training_providers_for_which_this_provider_cannot(permission_name).each do |provider| %>
         <li><%= render IconComponent.new(type: 'cross') %> <%= provider.name %></li>
       <% end %>
     </ul>
   </div>
 <% end %>
 
-<% if ratifying_providers_that_can(permission_name).any? %>
+<% if ratifying_providers_for_which_this_provider_can(permission_name).any? %>
   <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
     <p class="govuk-body govuk-!-margin-bottom-1">
       Applies to courses ratified by:
     </p>
     <ul class="govuk-list">
-      <% ratifying_providers_that_can(permission_name).each do |provider| %>
+      <% ratifying_providers_for_which_this_provider_can(permission_name).each do |provider| %>
         <li><%= render IconComponent.new(type: 'check') %> <%= provider.name %></li>
       <% end %>
     </ul>
   </div>
 <% end %>
 
-<% if ratifying_providers_that_cannot(permission_name).any? %>
+<% if ratifying_providers_for_which_this_provider_cannot(permission_name).any? %>
   <div class="govuk-!-margin-left-5 govuk-!-margin-top-2">
     <p class="govuk-body govuk-!-margin-bottom-1">
       Does not apply to courses ratified by:
     </p>
     <ul class="govuk-list">
-      <% ratifying_providers_that_cannot(permission_name).each do |provider| %>
+      <% ratifying_providers_for_which_this_provider_cannot(permission_name).each do |provider| %>
         <li><%= render IconComponent.new(type: 'cross') %> <%= provider.name %></li>
       <% end %>
     </ul>

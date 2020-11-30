@@ -82,11 +82,11 @@ module ProviderInterface
 
     def actor_for(change)
       if change.user.is_a?(Candidate)
-        'candidate'
+        'Candidate'
       elsif change.user.is_a?(ProviderUser)
         provider_name(change.user)
       else
-        'system'
+        'System'
       end
     end
 

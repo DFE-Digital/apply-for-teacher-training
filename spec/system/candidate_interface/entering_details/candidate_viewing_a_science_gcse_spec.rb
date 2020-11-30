@@ -9,7 +9,7 @@ RSpec.feature 'Candidate viewing Science GCSE' do
     then_i_dont_see_science_gcse
 
     when_i_click_on_check_your_answers
-    then_i_dont_see_science_gcse_is_missing_below_the_section
+    then_i_dont_see_science_gcse_is_incomplete_below_the_section
 
     when_i_submit_my_application
     then_i_dont_see_a_science_gcse_validation_error
@@ -20,7 +20,7 @@ RSpec.feature 'Candidate viewing Science GCSE' do
     then_i_see_science_gcse
 
     when_i_click_on_check_your_answers
-    then_i_see_science_gcse_is_missing_below_the_section
+    then_i_see_science_gcse_is_incomplete_below_the_section
 
     when_i_submit_my_application
     then_i_see_a_science_gcse_validation_error
@@ -42,8 +42,8 @@ RSpec.feature 'Candidate viewing Science GCSE' do
     click_link 'Check and submit your application'
   end
 
-  def then_i_see_science_gcse_is_missing_below_the_section
-    within('#missing-science_gcse-error') do
+  def then_i_see_science_gcse_is_incomplete_below_the_section
+    within('#incomplete-science_gcse-error') do
       expect(page).to have_content(t('review_application.science_gcse.incomplete'))
     end
   end
@@ -52,7 +52,7 @@ RSpec.feature 'Candidate viewing Science GCSE' do
     expect(page).not_to have_content('Science GCSE or equivalent')
   end
 
-  def then_i_dont_see_science_gcse_is_missing_below_the_section
+  def then_i_dont_see_science_gcse_is_incomplete_below_the_section
     expect(page).not_to have_content(t('review_application.science_gcse.incomplete'))
   end
 
@@ -75,8 +75,8 @@ RSpec.feature 'Candidate viewing Science GCSE' do
     candidate_fills_in_course_choices
   end
 
-  def then_i_see_science_gcse_is_missing_below_the_section
-    within '#missing-science_gcse-error' do
+  def then_i_see_science_gcse_is_incomplete_below_the_section
+    within '#incomplete-science_gcse-error' do
       expect(page).to have_content(t('review_application.science_gcse.incomplete'))
     end
   end

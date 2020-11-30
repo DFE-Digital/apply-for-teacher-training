@@ -40,6 +40,7 @@ parameters:
   logstashHost:
   logstashPort:
   logstashSsl:
+  googleMapsAPIKey:
   govukNotifyAPIKey:
   findBaseUrl:
   dfeSignInClientId:
@@ -58,6 +59,7 @@ parameters:
   govukNotifyCallbackAPIKey:
   dsiApiUrl:
   dsiApiSecret:
+  teacherTrainingApiBaseUrl: https://api.publish-teacher-training-courses.service.gov.uk/api/public/v1
   ucasUsername:
   ucasPassword:
   ucasZipPassword:
@@ -222,6 +224,7 @@ jobs:
                 -containerStartTimeLimit "${{parameters.containerStartTimeLimit}}"
                 -warmupPingPath "${{parameters.warmupPingPath}}"
                 -warmupPingStatus "${{parameters.warmupPingStatus}}"
+                -googleMapsAPIKey "${{parameters.googleMapsAPIKey}}"
                 -govukNotifyAPIKey "${{parameters.govukNotifyAPIKey}}"
                 -basicAuthUsername "${{parameters.basicAuthUsername}}"
                 -basicAuthPassword "${{parameters.basicAuthPassword}}"
@@ -251,6 +254,7 @@ jobs:
                 -ucasUsername "${{parameters.ucasUsername}}"
                 -ucasPassword "${{parameters.ucasPassword}}"
                 -ucasZipPassword "${{parameters.ucasZipPassword}}"
+                -teacherTrainingApiBaseUrl "${{parameters.teacherTrainingApiBaseUrl}}"
                 -ucasUploadBaseurl "$(ucasUploadBaseurl)"
                 -ucasUploadFolder "$(ucasUploadFolder)"
                 -ucasDownloadZipPassword "$(ucasDownloadZipPassword)"

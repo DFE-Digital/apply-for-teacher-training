@@ -15,7 +15,6 @@ class Clock
 
   every(1.hour, 'SendChaseEmailToProviders', at: '**:35') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
-  every(1.hour, 'SendCourseFullNotifications', at: '**:45') { SendCourseFullNotificationsWorker.perform_async }
 
   every(1.day, 'Generate export for TAD', at: '23:59') do
     data_export = DataExport.create!(name: 'Daily export of applications for TAD')
@@ -35,6 +34,12 @@ class Clock
       end
 
       UCASMatching::ProcessMatchingData.perform_async
+    end
+  end
+
+  every(1.hour, 'SyncAllFromTeacherTrainingPublicAPI') do
+    if FeatureFlag.active?(:sync_from_public_teacher_training_api)
+      TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
     end
   end
 end

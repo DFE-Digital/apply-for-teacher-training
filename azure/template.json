@@ -184,6 +184,13 @@
                 "description": "The permitted status codes to indicate a successful app warmup."
             }
         },
+        "googleMapsAPIKey": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Google Maps API key, used for geocoding addresses"
+            }
+        },
         "govukNotifyAPIKey": {
             "type": "string",
             "metadata": {
@@ -418,6 +425,13 @@
             "metadata": {
                 "description": "Password to login to the docker registry"
             }
+        },
+        "teacherTrainingApiBaseUrl": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+                "description": "URL for the public Teacher training API"
+            }
         }
     },
     "variables": {
@@ -650,6 +664,10 @@
                                 "value": "[parameters('railsServeStaticFiles')]"
                             },
                             {
+                                "name": "GOOGLE_MAPS_API_KEY",
+                                "secureValue": "[parameters('googleMapsAPIKey')]"
+                            },
+                            {
                                 "name": "GOVUK_NOTIFY_API_KEY",
                                 "secureValue": "[parameters('govukNotifyAPIKey')]"
                             },
@@ -772,6 +790,10 @@
                             {
                                 "name": "SANDBOX",
                                 "value": "[parameters('sandbox')]"
+                            },
+                            {
+                                "name": "TEACHER_TRAINING_API_BASE_URL",
+                                "value": "[parameters('teacherTrainingApiBaseUrl')]"
                             }
                         ]
                     }

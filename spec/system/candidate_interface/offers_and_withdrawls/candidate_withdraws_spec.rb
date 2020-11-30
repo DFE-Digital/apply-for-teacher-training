@@ -29,6 +29,10 @@ RSpec.feature 'A candidate withdraws her application' do
     and_a_slack_notification_is_sent
     and_the_provider_has_received_an_email
 
+    when_i_submit_the_questionnaire_without_choosing_options
+    then_i_am_told_i_need_to_choose_whether_i_want_to_provide_feedback
+    and_i_am_asked_if_i_can_be_contacted_about_my_feeedback
+
     when_i_fill_in_my_feedback
     and_i_click_continue
     then_i_see_my_application_dashboard
@@ -105,6 +109,18 @@ RSpec.feature 'A candidate withdraws her application' do
   def and_the_provider_has_received_an_email
     open_email(@provider_user.email_address)
     expect(current_email.subject).to have_content "#{@application_choice.application_form.full_name} (#{@application_choice.application_form.support_reference}) withdrew their application"
+  end
+
+  def when_i_submit_the_questionnaire_without_choosing_options
+    click_button 'Continue'
+  end
+
+  def then_i_am_told_i_need_to_choose_whether_i_want_to_provide_feedback
+    expect(page).to have_content 'Will you give a reason for withdrawing your course choice?'
+  end
+
+  def and_i_am_asked_if_i_can_be_contacted_about_my_feeedback
+    expect(page).to have_content 'Can we contact you about your feedback?'
   end
 
   def when_i_fill_in_my_feedback

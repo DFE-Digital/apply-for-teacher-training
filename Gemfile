@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '2.7.2'
 
 gem 'rails', '~> 6.0'
 gem 'puma', '~> 5.0'
@@ -78,6 +78,9 @@ gem ENV['WKHTMLTOPDF_GEM'] || 'wkhtmltopdf-binary'
 gem 'pdfkit'
 
 gem 'archive-zip'
+
+# Geocoding
+gem 'geocoder'
 
 group :development do
   gem 'web-console', '>= 3.3.0'

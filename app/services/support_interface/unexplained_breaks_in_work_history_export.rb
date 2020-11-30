@@ -21,8 +21,8 @@ module SupportInterface
     def data_for_export
       applications = ApplicationForm
                          .where.not(date_of_birth: nil)
-                         .select(:id, :candidate_id, :submitted_at, :date_of_birth)
-                         .includes(:application_qualifications, :application_work_experiences, :application_work_history_breaks)
+                         .select(:id, :candidate_id, :submitted_at, :date_of_birth, :work_history_completed)
+                         .includes(:application_qualifications, :application_work_experiences, :application_work_history_breaks, :application_choices)
                          .order(submitted_at: :desc).uniq(&:candidate_id)
 
       data_for_export = applications.map do |application_form|
@@ -48,6 +48,8 @@ module SupportInterface
           'Number of unexplained breaks' => unexplained_breaks.length,
           'Number of unexplained breaks in last 5 years' => unexplained_breaks_in_last_five_years,
           'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees,
+          'Work history completed' => application_form.work_history_completed,
+          'Course choice statuses' => application_form.application_choices.map(&:status),
         }
         output
       end
