@@ -38,6 +38,11 @@ class UCASMatch < ApplicationRecord
       application_accepted_on_ucas_and_accepted_on_apply?
   end
 
+  def application_accepted_on_ucas_and_accepted_on_apply?
+    ucas_matched_applications.map(&:application_accepted_on_ucas?).any? &&
+      ucas_matched_applications.map(&:application_accepted_on_apply?).any?
+  end
+
   def invalid_matching_data?
     !ucas_matched_applications.all?(&:valid_matching_data?)
   end
@@ -51,15 +56,15 @@ class UCASMatch < ApplicationRecord
   def need_to_send_reminder_emails?
     return false unless initial_emails_sent?
 
-    send_reminder_emails_date = 5.business_days.after(candidate_last_contacted_at).to_date
-    Time.zone.today >= send_reminder_emails_date
+    candidate_withdrawal_request_reminder_date = calculate_action_date(:ucas_match_candidate_withdrawal_request_reminder, candidate_last_contacted_at)
+    Time.zone.today >= candidate_withdrawal_request_reminder_date
   end
 
   def need_to_request_withdrawal_from_ucas?
     return false unless reminder_emails_sent?
 
-    request_withdrawal_from_ucas_date = 10.business_days.after(candidate_last_contacted_at).to_date
-    Time.zone.today >= request_withdrawal_from_ucas_date
+    ucas_withdrawal_request_date = calculate_action_date(:ucas_match_ucas_withdrawal_request, candidate_last_contacted_at)
+    Time.zone.today >= ucas_withdrawal_request_date
   end
 
   def next_action
@@ -82,6 +87,10 @@ class UCASMatch < ApplicationRecord
     action_taken.to_sym
   end
 
+  def application_choices_for_same_course_on_both_services
+    ucas_matched_applications.select(&:both_scheme?).map(&:application_choice)
+  end
+
 private
 
   def application_for_the_same_course_in_progress_on_both_services?
@@ -91,8 +100,7 @@ private
       application_for_the_same_course_on_both_services.map(&:application_in_progress_on_apply?).any?
   end
 
-  def application_accepted_on_ucas_and_accepted_on_apply?
-    ucas_matched_applications.map(&:application_accepted_on_ucas?).any? &&
-      ucas_matched_applications.map(&:application_accepted_on_apply?).any?
+  def calculate_action_date(action, effective_date)
+    TimeLimitCalculator.new(rule: action, effective_date: effective_date).call.fetch(:time_in_future).to_date
   end
 end

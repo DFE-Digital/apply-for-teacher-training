@@ -81,3 +81,8 @@ en:
         course_full: "%{course_name} at %{provider_name} became full while %{candidate_name} was awaiting references"
         location_full: "%{course_name} at %{provider_name} became full at %{location} while %{candidate_name} was awaiting references"
         study_mode_full: "%{study_mode} places for %{course_name} at %{provider_name} became full while %{candidate_name} was awaiting references"
+    ucas_match_initial_email:
+      duplicate_applications:
+        subject: 'Action required: it looks like you submitted a duplicate application'
+      multiple_acceptances:
+        subject: 'Action required: it looks like you’ve accepted two offers'

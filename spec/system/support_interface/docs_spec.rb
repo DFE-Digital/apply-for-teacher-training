@@ -29,8 +29,11 @@ RSpec.feature 'Docs' do
     emails_outside_of_states = %w[
       provider_mailer-account_created
       provider_mailer-fallback_sign_in_email
+      provider_mailer-ucas_match_initial_email_duplicate_applications
       candidate_mailer-apply_again_call_to_action
       candidate_mailer-course_unavailable_notification
+      candidate_mailer-ucas_match_initial_email_duplicate_applications
+      candidate_mailer-ucas_match_initial_email_multiple_acceptances
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"

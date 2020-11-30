@@ -18,3 +18,7 @@ en:
       subject: "Respond to %{candidate_name}’s (%{support_reference}) application"
     application_withdrawn:
       subject: "%{candidate_name} (%{support_reference}) withdrew their application"
+    ucas_match:
+      initial_email:
+        duplicate_applications:
+          subject: "Duplicate applicant identified"

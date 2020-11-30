@@ -19,8 +19,8 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
       result = render_inline(described_class.new(ucas_match))
 
       expect(result.text).to include('Action needed Send initial emails')
-      expect(result.css('input').attr('value').value).to include('Confirm initial emails were sent')
-      expect(result.css('form').attr('action').value).to include('/record-initial-emails-sent')
+      expect(result.css('input').attr('value').value).to include('Send emails')
+      expect(result.css('form').attr('action').value).to include('/send-initial-emails')
       expect(result.text).to include('We need to contact the candidate and the provider.')
     end
 
