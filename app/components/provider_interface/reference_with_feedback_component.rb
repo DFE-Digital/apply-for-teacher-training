@@ -5,6 +5,7 @@ module ProviderInterface
     delegate :feedback,
              :name,
              :email_address,
+             :referee_type,
              :relationship,
              :relationship_confirmation,
              :relationship_correction,
@@ -21,6 +22,7 @@ module ProviderInterface
       [
         name_row,
         email_address_row,
+        reference_type_row,
         relationship_row,
         relationship_confirmation_row,
         relationship_correction_row,
@@ -43,6 +45,13 @@ module ProviderInterface
       {
         key: 'Email address',
         value: mail_to(email_address, email_address, class: 'govuk-link'),
+      }
+    end
+
+    def reference_type_row
+      {
+        key: 'Type of reference',
+        value: referee_type.capitalize,
       }
     end
 
