@@ -128,6 +128,6 @@ RSpec.feature 'Candidate entering GCSE English details' do
   end
 
   def then_i_see_the_grade_year_page
-    expect(page).to have_content 'When was your english qualification awarded?'
+    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'English', qualification_type: 'GCSE')
   end
 end
