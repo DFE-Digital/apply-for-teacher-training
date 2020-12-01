@@ -22,6 +22,13 @@
       <div class="govuk-grid-column-two-thirds">
         <h3 class="govuk-heading-m"><%= export.fetch(:name) %></h3>
         <p class="govuk-body"><%= export.fetch(:description) %></p>
+
+        <% if DataSetDocumentation.for(export.fetch(:class)) %>
+          <p class="govuk-body">
+            <%= govuk_link_to "View documentation for #{export.fetch(:name)}", support_interface_data_set_documentation_path(id) %>
+          </p>
+        <% end %>
+
         <%= button_to "Generate #{export.fetch(:name)} export", support_interface_data_exports_path(export_type_id: id), class: 'govuk-button govuk-button--secondary' %>
       </div>
     </div>

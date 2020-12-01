@@ -25,5 +25,9 @@ module SupportInterface
       data_export.update!(audit_comment: 'File downloaded')
       send_data data_export.data, filename: data_export.filename, disposition: :attachment
     end
+
+    def data_set_documentation
+      @export_type = DataExport::EXPORT_TYPES.fetch(params.fetch(:export_type_id).to_sym)
+    end
   end
 end
