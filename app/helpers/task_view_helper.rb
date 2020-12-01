@@ -2,7 +2,7 @@ module TaskViewHelper
   def task_view_header(choice)
     case choice&.task_view_group
     when 1 then 'Deferred offers: review and confirm'
-    when 2 then 'Deadline approaching: respond to candidate'
+    when 2 then 'Reject by Default date approaching'
     when 3 then 'Give feedback: you did not respond in time'
     when 4 then 'Ready for review'
     when 5 then 'Offers pending conditions (previous cycle)'
