@@ -73,6 +73,14 @@ module CandidateInterface
       )
     end
 
+    def blank_form?
+      [
+        role, organisation, details, working_with_children, commitment,
+        working_pattern, start_date_day, start_date_month, start_date_year,
+        end_date_day, end_date_month, end_date_year
+      ].all?(&:blank?)
+    end
+
     def start_date
       valid_or_invalid_date(start_date_year, start_date_month)
     end
