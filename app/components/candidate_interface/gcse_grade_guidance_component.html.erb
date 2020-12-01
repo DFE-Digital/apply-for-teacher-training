@@ -1,9 +1,9 @@
 <% unless FeatureFlag.active?('multiple_english_gcses') && @subject == 'english'%>
   <p class="govuk-body">
     <% if gce_o_level? %>
-      <%= t('gcse_edit_grade.guidance.o_level_guidance') %>
+      <%= simple_format t('gcse_edit_grade.guidance.o_level_guidance'), class: 'govuk-body' %>
     <% else %>
-      <%= t('gcse_edit_grade.guidance.main') %>
+      <%= simple_format t('gcse_edit_grade.guidance.main'), class: 'govuk-body' %>
     <% end %>
   </p>
 <% end %>

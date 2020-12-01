@@ -7,12 +7,16 @@ en:
   gcse_edit_grade:
     page_title: What grade is your %{subject} qualification?
     guidance:
-      main: >
+      main: |
         Providers expect you to have a grade C or 4 (or the equivalent) in order
-        to train. If you do not have this, contact your provider to discuss your
+        to train.
+
+        If you do not have this, contact your provider to discuss your
         options. You might be able to retake an exam or do an equivalence test.
-      o_level_guidance: >
-        Providers expect you to have a grade C or above in order to train. If you do not have this, contact your provider to discuss your
+      o_level_guidance: |
+        Providers expect you to have a grade C or above in order to train.
+
+        If you do not have this, contact your provider to discuss your
         options. You might be able to retake an exam or do an equivalence test.
       o_level_triple_gcse_science: If you have a combined or triple O Level in science, enter your total grade.
       multiple_english_gcses:
