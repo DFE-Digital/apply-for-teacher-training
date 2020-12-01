@@ -63,7 +63,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def then_i_see_the_science_gcse_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'science')
+    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'science', qualification_type: 'GCSE')
     # If we did see this we would know that we were on the new Science GCSE awards page
     expect(page).not_to have_content 'Select the GCSEs you did and include your grade'
   end

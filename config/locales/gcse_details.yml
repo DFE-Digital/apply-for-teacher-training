@@ -5,7 +5,7 @@ en:
       english: Add English GCSE grade 4 (C) or above, or equivalent
       science: Add science GCSE grade 4 (C) or above, or equivalent
   gcse_edit_grade:
-    page_title: What grade is your %{subject} qualification?
+    page_title: What grade is your %{subject} %{qualification_type}?
     guidance:
       main: |
         Providers expect you to have a grade C or 4 (or the equivalent) in order

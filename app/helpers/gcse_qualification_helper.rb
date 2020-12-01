@@ -15,4 +15,14 @@ module GcseQualificationHelper
       t("gcse_edit_grade.hint.#{subject}.#{qualification_type}")
     end
   end
+
+  def grade_step_title(subject, qualification_type)
+    subject = subject.capitalize if subject == 'english'
+    qualification_type_name = if %w[gcse gce_o_level scottish_national_5].include?(qualification_type)
+                                t('application_form.gcse.qualification_types')[qualification_type.parameterize.underscore.to_sym]
+                              else
+                                'qualification'
+                              end
+    t('gcse_edit_grade.page_title', subject: subject, qualification_type: qualification_type_name)
+  end
 end
