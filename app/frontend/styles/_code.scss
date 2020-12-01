@@ -3,6 +3,10 @@ code {
   font-family: monospace;
   padding: 2px 5px;
 
+  .govuk-panel--confirmation & {
+    background-color: transparent;
+  }
+
   a {
     text-decoration: none;
   }
