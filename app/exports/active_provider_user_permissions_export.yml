@@ -1,0 +1,43 @@
+custom_columns:
+  name:
+    type: string
+
+  email_address:
+    type: string
+
+  provider:
+    type: string
+
+  last_signed_in_at:
+    type: string
+    format: date-time
+
+  has_make_decisions:
+    type: string
+    enum:
+      - true
+      - false
+
+  has_view_safeguarding:
+    type: string
+    enum:
+      - true
+      - false
+
+  has_view_diversity:
+    type: string
+    enum:
+      - true
+      - false
+
+  has_manage_users:
+    type: string
+    enum:
+      - true
+      - false
+
+  has_manage_organisations:
+    type: string
+    enum:
+      - true
+      - false

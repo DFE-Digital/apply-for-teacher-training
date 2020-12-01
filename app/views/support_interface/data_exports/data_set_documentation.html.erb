@@ -1,0 +1,6 @@
+<% content_for :title, "Data set documentation for `#{@export_type.fetch(:name)}`" %>
+<% content_for :before_content, govuk_back_link_to(new_support_interface_data_export_path) %>
+
+<% DataSetDocumentation.for(@export_type.fetch(:class)).each do |column_name, column| %>
+  <%= render DataSetAttributeComponent.new(column_name: column_name, column: column) %>
+<% end %>

@@ -755,6 +755,8 @@ Rails.application.routes.draw do
       get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search
       get '/validation-errors/summary' => 'validation_errors#summary', as: :validation_error_summary
 
+      get '/data-export/documentation/:export_type_id' => 'data_exports#data_set_documentation', as: :data_set_documentation
+
       resources :data_exports, path: '/data-exports' do
         member do
           get :download

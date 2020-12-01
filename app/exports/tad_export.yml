@@ -1,0 +1,49 @@
+common_columns:
+- extract_date
+- candidate_id
+- application_choice_id
+- application_form_id
+- phase
+- first_name
+- last_name
+- date_of_birth
+- email
+- postcode
+- country
+- nationality
+- sex
+- disability
+- ethnicity
+- degree_classification
+- degree_classification_hesa_code
+- provider_code
+- provider_id
+- provider_name
+- accrediting_provider_code
+- accrediting_provider_id
+- accrediting_provider_name
+- course_level
+- program_type
+- programme_outcome
+- course_name
+- course_code
+- nctl_subject
+
+custom_columns:
+  status:
+    type: string
+    description: |
+      The status of this application. Limited to a number of statuses because we
+      only expose applications that have been submitted.
+    enum:
+    - awaiting_provider_decision
+    - conditions_not_met
+    - declined
+    - declined_by_default
+    - offer
+    - pending_conditions
+    - recruited
+    - rejected
+    - rejected_by_default
+    - withdrawn
+    example: awaiting_provider_decision

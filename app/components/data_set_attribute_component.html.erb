@@ -1,0 +1,35 @@
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      <code><%= column_name %></code><br/>
+    </dt>
+
+    <dd class="govuk-summary-list__value">
+      <p class="app-data-set-documentation--datatype">
+        <%= type_description %>
+      </p>
+
+      <p class="govuk-body">
+        <%= description %>
+      </p>
+
+      <% if has_example? %>
+        <p class="govuk-body">
+          Example: <code><%= example %></code>
+        </p>
+      <% end %>
+
+      <% if column['enum'] %>
+        <p class="govuk-body">
+          Possible values:
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <% column['enum'].each do |item| %>
+            <li><code><%= item.inspect %></code></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </dd>
+  </div>
+</dl>

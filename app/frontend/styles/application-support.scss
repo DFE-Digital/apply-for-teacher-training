@@ -1,3 +1,9 @@
 @import "application";
 @import "support/all";
 @import "components/paginated_filter";
+
+.app-data-set-documentation--datatype {
+  color:  $govuk-secondary-text-colour;
+  margin: 0;
+  font-weight: normal;
+}
