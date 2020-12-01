@@ -322,7 +322,7 @@ class CandidateMailer < ApplicationMailer
     @course_name_and_code = application_choice.course_option.course.name_and_code
     @provider_name = application_choice.course_option.course.provider.name
     @initial_email_date = ucas_match.candidate_last_contacted_at.to_s(:govuk_date)
-    @request_ucas_withdrawal_date = TimeLimitCalculator.new(rule: :ucas_match_ucas_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
+    @request_ucas_withdrawal_date = ucas_match.calculate_action_date(:ucas_match_ucas_withdrawal_request, Time.zone.today).to_s(:govuk_date)
 
     email_for_candidate(
       @application_form,
@@ -333,7 +333,7 @@ class CandidateMailer < ApplicationMailer
   def ucas_match_reminder_email_multiple_acceptances(ucas_match)
     @application_form = ucas_match.candidate.current_application
     @initial_email_date = ucas_match.candidate_last_contacted_at.to_s(:govuk_date)
-    @request_ucas_withdrawal_date = TimeLimitCalculator.new(rule: :ucas_match_ucas_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
+    @request_ucas_withdrawal_date = ucas_match.calculate_action_date(:ucas_match_ucas_withdrawal_request, Time.zone.today).to_s(:govuk_date)
 
     email_for_candidate(
       @application_form,

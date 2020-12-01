@@ -324,4 +324,24 @@ RSpec.describe UCASMatch do
       expect(ucas_match.application_for_the_same_course_in_progress_on_both_services?).to eq(false)
     end
   end
+
+  describe '#calculate_action_date' do
+    it 'returns the date when candidate has to withdraw one of their dual applications or acceptances by' do
+      ucas_match = create(:ucas_match)
+
+      expect(ucas_match.calculate_action_date(:ucas_match_candidate_withdrawal_request, Time.zone.local(2020, 11, 16))).to eq(Date.new(2020, 11, 30))
+    end
+
+    it 'returns the date when a reminder email has to be sent to a candidate' do
+      ucas_match = create(:ucas_match)
+
+      expect(ucas_match.calculate_action_date(:ucas_match_candidate_withdrawal_request_reminder, Time.zone.local(2020, 11, 16))).to eq(Date.new(2020, 11, 23))
+    end
+
+    it 'returns the date when UCAS will be asked to remove duplicate application or acceptances' do
+      ucas_match = create(:ucas_match)
+
+      expect(ucas_match.calculate_action_date(:ucas_match_ucas_withdrawal_request, Time.zone.local(2020, 11, 16))).to eq(Date.new(2020, 11, 23))
+    end
+  end
 end

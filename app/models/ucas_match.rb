@@ -98,8 +98,6 @@ class UCASMatch < ApplicationRecord
       application_for_the_same_course_on_both_services.map(&:application_in_progress_on_apply?).any?
   end
 
-private
-
   def calculate_action_date(action, effective_date)
     TimeLimitCalculator.new(rule: action, effective_date: effective_date).call.fetch(:time_in_future).to_date
   end
