@@ -1,0 +1,29 @@
+<% content_for :title, title_with_error_prefix(t('page_titles.find_feedback'), @find_feedback_form.errors.any?) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @find_feedback_form, url: candidate_interface_find_feedback_path, method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.find_feedback') %>
+      </h1>
+
+      <%= f.hidden_field :path %>
+      <%= f.hidden_field :original_controller %>
+
+      <div class="govuk-visually-hidden">
+        <%= f.govuk_text_field :hidden_feedback_field, label: { text: t('find_feedback.hidden_feedback_field.label'), size: 'm' } %>
+      </div>
+
+      <%= f.govuk_text_area :feedback, label: { text: t('find_feedback.feedback.label'), size: 'm' }, rows: 5, max_words: 300 %>
+
+      <%= f.govuk_text_field :email_address,
+                              label: { text: t('find_feedback.email_address.label'), size: 'm' },
+                              hint: { text: t('find_feedback.email_address.hint_text') },
+                              width: 20 %>
+
+      <%= f.govuk_submit t('find_feedback.submit') %>
+    <% end %>
+  </div>
+</div>

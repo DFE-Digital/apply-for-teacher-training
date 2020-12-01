@@ -133,6 +133,7 @@ en:
     references_send_reminder: Would you like to send a reminder to this referee?
     application_feedback: How can we improve %{section} section?
     application_feedback_thank_you: Thank you for your feedback
+    find_feedback: Help us improve this service
     referee:
       refuse_feedback: Decline to give a reference
       relationship: Confirm how you know %{full_name}

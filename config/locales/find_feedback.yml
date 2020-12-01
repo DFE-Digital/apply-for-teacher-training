@@ -1,0 +1,10 @@
+en:
+  find_feedback:
+    hidden_feedback_field:
+      label: Do not fill in. To catch bots
+    feedback:
+      label: How can we improve this service?
+    email_address:
+      label: Email address (optional)
+      hint_text: We may contact you to ask you some questions about your feedback
+    submit: Submit feedback
