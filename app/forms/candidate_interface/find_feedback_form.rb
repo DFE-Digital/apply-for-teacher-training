@@ -19,5 +19,9 @@ module CandidateInterface
         email_address: email_address,
       )
     end
+
+    def user_is_a_bot?
+      errors.key?(:hidden_feedback_field)
+    end
   end
 end
