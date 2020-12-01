@@ -486,6 +486,8 @@ en:
         not_requested_yet: We’ll contact your referees after you submit your application.
         awaiting_reference_sent_less_than_5_days_ago: We’ve emailed your referee. Keep in touch with them to ensure they’re planning on giving a reference as soon as possible.
         awaiting_reference_sent_more_than_5_days_ago: Your referee has not responded yet. Ask them if they got the email - it may have gone to junk or spam.
+      review:
+        too_many: More than 2 references have been given
   activemodel:
     errors:
       models:

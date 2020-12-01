@@ -6,13 +6,32 @@
 </h1>
 
 <%= render CandidateInterface::AddReferenceComponent.new(@application_form) %>
+<% if @too_many_references %>
+  <div class="govuk-error-summary" tabindex="-1" role="alert" data-module="govuk-error-summary" aria-labelledby="error-summary-title">
+    <h2 id="error-summary-title" class="govuk-error-summary__title">
+      There is a problem
+    </h2>
+    <div class="govuk-error-summary__body">
+      <ul class="govuk-list govuk-error-summary__list">
+        <li><%= link_to t('application_form.references.review.too_many'), '#references_given' %></li>
+      </ul>
+    </div>
+  </div>
+<% end %>
 
 <% if @references_given.present? %>
   <div id="references_given">
     <h2 class="govuk-heading-m">References that have been given</h2>
-    <%= render(
-      CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true)
-    ) %>
+    <% review_component = CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true) %>
+    <% if @too_many_references %>
+      <div class="govuk-inset-text app-inset-text--error">
+        <p class="govuk-heading-s govuk-!-margin-bottom-2"><%= t('application_form.references.review.too_many') %></p>
+        <p class="govuk-body"><%= @too_many_references_error %></p>
+        <%= render(review_component) %>
+      </div>
+    <% else %>
+        <%= render(review_component) %>
+    <% end %>
   </div>
 <% end %>
 
