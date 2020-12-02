@@ -40,6 +40,7 @@ module CandidateInterface
           gcse_science: qualification.subject,
           subject: qualification.subject,
           qualification: qualification,
+          award_year: qualification.award_year,
         }
 
         case qualification.subject

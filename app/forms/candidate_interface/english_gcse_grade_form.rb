@@ -48,6 +48,7 @@ module CandidateInterface
         params = {
           grade: qualification.grade,
           qualification: qualification,
+          award_year: qualification.award_year,
         }
 
         if qualification.structured_grades

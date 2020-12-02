@@ -66,23 +66,23 @@ class GcseQualificationCardsComponent < ViewComponent::Base
     when ApplicationQualification::SCIENCE_SINGLE_AWARD
       ["#{qualification.grade} (Single award)"]
     when ->(_n) { qualification.structured_grades }
-      present_structured_grades
+      present_structured_grades(qualification)
     else
       [qualification.grade]
     end
   end
 
-  def present_structured_grades
-    grades = JSON.parse(application_qualification.structured_grades)
+  def present_structured_grades(qualification)
+    grades = JSON.parse(qualification.structured_grades)
     grades.map do |k, v,|
       case k
-      when "english_single_award"
+      when 'english_single_award'
         "#{v} (English Single award)"
-      when "english_double_award"
+      when 'english_double_award'
         "#{v} (English Double award)"
-      when "english_studies_single_award"
+      when 'english_studies_single_award'
         "#{v} (English Studies Single award)"
-      when "english_studies_double_award"
+      when 'english_studies_double_award'
         "#{v} (English Studies Double award)"
       else
         "#{v} (#{k.humanize.titleize})"
