@@ -112,21 +112,29 @@ module RefereeInterface
     end
 
     def refuse_feedback
+      @refuse_feedback_form = RefuseFeedbackForm.new
       @application = reference.application_form
-      @reference = reference
     end
 
     def confirm_feedback_refusal
-      reference.update!(feedback_status: 'feedback_refused')
+      @refuse_feedback_form = RefuseFeedbackForm.new(refuse_feedback_params)
 
-      send_slack_notification
-
-      SendNewRefereeRequestEmail.call(reference: @reference, reason: :refused)
-
-      redirect_to referee_interface_confirmation_path(token: @token_param)
+      if @refuse_feedback_form.valid?
+        if @refuse_feedback_form.referee_has_confirmed_they_wont_a_reference?
+          @refuse_feedback_form.save(reference)
+          redirect_to referee_interface_thank_you_path(token: @token_param)
+        else
+          redirect_to referee_interface_reference_relationship_path(token: @token_param)
+        end
+      else
+        track_validation_error(@refuse_feedback_form)
+        render :refuse_feedback
+      end
     end
 
     def finish; end
+
+    def thank_you; end
 
   private
 
@@ -160,13 +168,6 @@ module RefereeInterface
       render 'errors/not_found', status: :not_found
     end
 
-    def send_slack_notification
-      message = ":sadparrot: A referee declined to give feedback for #{reference.application_form.first_name}’s application"
-      url = helpers.support_interface_application_form_url(reference.application_form)
-
-      SlackNotificationWorker.perform_async(message, url)
-    end
-
     def questionnaire_params
       params.require(:referee_interface_questionnaire_form).permit(*QuestionnaireForm::FORM_KEYS)
     end
@@ -179,6 +180,11 @@ module RefereeInterface
     def safeguarding_params
       params.require(:referee_interface_reference_safeguarding_form)
             .permit(:any_safeguarding_concerns, :safeguarding_concerns)
+    end
+
+    def refuse_feedback_params
+      params.require(:referee_interface_refuse_feedback_form)
+            .permit(:choice)
     end
   end
 end
