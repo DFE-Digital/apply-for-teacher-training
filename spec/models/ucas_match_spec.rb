@@ -23,7 +23,7 @@ RSpec.describe UCASMatch do
       end
     end
 
-    it 'returns true if initial emails were sent and it is time to send reminder emails' do
+    it 'returns true if initial emails were sent and it is time to send a reminder email' do
       initial_emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: initial_emails_sent_at)
       allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
@@ -178,7 +178,7 @@ RSpec.describe UCASMatch do
       end
     end
 
-    it 'returns true if initial emails were sent and it is time to send reminder emails' do
+    it 'returns true if initial emails were sent and it is time to send a reminder email' do
       emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: emails_sent_at)
 
@@ -224,7 +224,7 @@ RSpec.describe UCASMatch do
       expect(ucas_match.next_action).to eq(:initial_emails_sent)
     end
 
-    it 'returns :reminder_emails_sent if initial emails were sent and it time to send reminder emails' do
+    it 'returns :reminder_emails_sent if initial emails were sent and it time to send a reminder email' do
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: Time.zone.now - 6.days)
       allow(ucas_match).to receive(:need_to_send_reminder_emails?).and_return(true)
 
@@ -284,6 +284,64 @@ RSpec.describe UCASMatch do
       allow(ucas_match).to receive(:ucas_matched_applications).and_return([matched_application])
 
       expect(ucas_match.application_choices_for_same_course_on_both_services).to eq([:application_choice])
+    end
+  end
+
+  describe '#application_for_the_same_course_in_progress_on_both_services?' do
+    it 'returns true if candidate has application for the same course in progress on both UCAS and Apply' do
+      application_choice = create(:application_choice, status: :awaiting_provider_decision)
+      ucas_match = create(:ucas_match,
+                          matching_state: 'new_match',
+                          scheme: 'B',
+                          application_form: application_choice.application_form,
+                          ucas_status: :awaiting_provider_decision)
+
+      expect(ucas_match.application_for_the_same_course_in_progress_on_both_services?).to eq(true)
+    end
+
+    it 'returns false if dual application is not in progress on Apply' do
+      application_choice = create(:application_choice, :with_rejection)
+      ucas_match = create(:ucas_match,
+                          matching_state: 'new_match',
+                          scheme: 'B',
+                          application_form: application_choice.application_form)
+
+      expect(ucas_match.application_for_the_same_course_in_progress_on_both_services?).to eq(false)
+    end
+
+    it 'returns false if dual application is not in progress on UCAS' do
+      ucas_match = create(:ucas_match,
+                          matching_state: 'new_match',
+                          scheme: 'B',
+                          ucas_status: :withdrawn)
+
+      expect(ucas_match.application_for_the_same_course_in_progress_on_both_services?).to eq(false)
+    end
+
+    it 'returns false if there is no dual application' do
+      ucas_match = create(:ucas_match, matching_state: 'new_match', scheme: 'D')
+
+      expect(ucas_match.application_for_the_same_course_in_progress_on_both_services?).to eq(false)
+    end
+  end
+
+  describe '#calculate_action_date' do
+    it 'returns the date when candidate has to withdraw one of their dual applications or acceptances by' do
+      ucas_match = create(:ucas_match)
+
+      expect(ucas_match.calculate_action_date(:ucas_match_candidate_withdrawal_request, Time.zone.local(2020, 11, 16))).to eq(Date.new(2020, 11, 30))
+    end
+
+    it 'returns the date when a reminder email has to be sent to a candidate' do
+      ucas_match = create(:ucas_match)
+
+      expect(ucas_match.calculate_action_date(:ucas_match_candidate_withdrawal_request_reminder, Time.zone.local(2020, 11, 16))).to eq(Date.new(2020, 11, 23))
+    end
+
+    it 'returns the date when UCAS will be asked to remove duplicate application or acceptances' do
+      ucas_match = create(:ucas_match)
+
+      expect(ucas_match.calculate_action_date(:ucas_match_ucas_withdrawal_request, Time.zone.local(2020, 11, 16))).to eq(Date.new(2020, 11, 23))
     end
   end
 end

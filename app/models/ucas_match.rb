@@ -91,8 +91,6 @@ class UCASMatch < ApplicationRecord
     ucas_matched_applications.select(&:both_scheme?).map(&:application_choice)
   end
 
-private
-
   def application_for_the_same_course_in_progress_on_both_services?
     application_for_the_same_course_on_both_services = ucas_matched_applications.select(&:both_scheme?)
 
