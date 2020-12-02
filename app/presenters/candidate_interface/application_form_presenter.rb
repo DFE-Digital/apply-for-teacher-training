@@ -39,7 +39,7 @@ module CandidateInterface
       ].compact
     end
 
-    def section_errors
+    def incomplete_sections
       sections_with_completion
         .reject(&:second)
         .map(&:first)
