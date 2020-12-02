@@ -79,7 +79,7 @@ module UCASMatching
     end
 
     def process_csv_file(file)
-      candidates = CSV.read(file, headers: true).map(&:to_h).group_by { |row| row['Apply candidate ID'] }
+      candidates = CSV.read(file, headers: true, encoding: 'windows-1251').map(&:to_h).group_by { |row| row['Apply candidate ID'] }
 
       updated_matches = 0
       new_matches = 0
