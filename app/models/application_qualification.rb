@@ -74,7 +74,7 @@ class ApplicationQualification < ApplicationRecord
         send(field_name).blank?
       end
     else
-      return true if EXPECTED_OTHER_QUALIFICATION_DATA.any? do |field_name|
+      return true if EXPECTED_OTHER_QUALIFICATION_DATA.reject { |k| k == :grade }.any? do |field_name|
         send(field_name).blank?
       end
     end
