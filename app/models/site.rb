@@ -1,5 +1,6 @@
 class Site < ApplicationRecord
   belongs_to :provider
+  geocoded_by :full_address
 
   audited associated_with: :provider
 
