@@ -7,7 +7,10 @@ module ProviderInterface
       render_component
     end
 
-    def withdrawn; end
+    def withdrawn
+      @activity_log_event = build_event_for_choice :withdrawn
+      render_component
+    end
 
     def with_rejection
       @activity_log_event = build_event_for_choice :with_rejection
@@ -29,9 +32,15 @@ module ProviderInterface
       render_component
     end
 
-    def with_modified_offer; end
+    def with_modified_offer
+      @activity_log_event = build_event_for_choice :with_modified_offer
+      render_component
+    end
 
-    def with_accepted_offer; end
+    def with_accepted_offer
+      @activity_log_event = build_event_for_choice :with_accepted_offer
+      render_component
+    end
 
     def with_declined_offer
       @activity_log_event = build_event_for_choice :with_declined_offer
@@ -43,11 +52,20 @@ module ProviderInterface
       render_component
     end
 
-    def with_withdrawn_offer; end
+    def with_withdrawn_offer
+      @activity_log_event = build_event_for_choice :with_withdrawn_offer
+      render_component
+    end
 
-    def with_recruited; end
+    def with_recruited
+      @activity_log_event = build_event_for_choice :with_recruited
+      render_component
+    end
 
-    def with_deferred_offer; end
+    def with_deferred_offer
+      @activity_log_event = build_event_for_choice :with_deferred_offer
+      render_component
+    end
 
   private
 

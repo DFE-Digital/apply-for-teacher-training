@@ -859,7 +859,17 @@ FactoryBot.define do
       end
     end
 
+    trait :withdrawn do
+      changes do
+        {
+          'status' => %w[awaiting_provider_decision withdrawn],
+        }
+      end
+    end
+
     trait :with_rejection do
+      application_choice { create(:application_choice, :with_rejection) }
+
       changes do
         {
           'status' => %w[awaiting_provider_decision rejected],
@@ -868,6 +878,8 @@ FactoryBot.define do
     end
 
     trait :with_rejection_by_default do
+      application_choice { create(:application_choice, :with_rejection_by_default) }
+
       changes do
         {
           'status' => %w[awaiting_provider_decision rejected],
@@ -876,6 +888,8 @@ FactoryBot.define do
     end
 
     trait :with_rejection_by_default_and_feedback do
+      application_choice { create(:application_choice, :with_rejection_by_default) }
+
       changes do
         {
           'reject_by_default_feedback_sent_at' => Time.zone.now.iso8601,
@@ -909,6 +923,56 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[awaiting_provider_decision offer],
+        }
+      end
+    end
+
+    trait :with_withdrawn_offer do
+      application_choice { create(:application_choice, :with_withdrawn_offer) }
+
+      changes do
+        {
+          'status' => %w[offer offer_withdrawn],
+        }
+      end
+    end
+
+    trait :with_modified_offer do
+      application_choice { create(:application_choice, :with_modified_offer) }
+
+      changes do
+        {
+          'status' => %w[awaiting_provider_decision offer],
+        }
+      end
+    end
+
+    trait :with_accepted_offer do
+      application_choice { create(:application_choice, :with_accepted_offer) }
+
+      changes do
+        {
+          'status' => %w[offer pending_conditions],
+        }
+      end
+    end
+
+    trait :with_recruited do
+      application_choice { create(:application_choice, :with_recruited) }
+
+      changes do
+        {
+          'status' => %w[pending_conditions recruited],
+        }
+      end
+    end
+
+    trait :with_deferred_offer do
+      application_choice { create(:application_choice, :with_deferred_offer) }
+
+      changes do
+        {
+          'status' => %w[pending_conditions offer_deferred],
         }
       end
     end

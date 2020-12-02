@@ -16,20 +16,32 @@ module ProviderInterface
       changes = event.audited_changes
 
       case changes.key?('status') && changes['status'].second
-      when 'awaiting_provider_decision' then "#{candidate} submitted an application"
+      when 'awaiting_provider_decision'
+        "#{candidate} submitted an application"
+      when 'withdrawn'
+        "#{candidate} withdrew their application"
       when 'rejected'
         if application_choice.rejected_by_default
           "#{candidate}’s application was rejected automatically"
         else
           "#{user} rejected #{candidate}’s application"
         end
-      when 'offer' then "#{user} made an offer to #{candidate}"
+      when 'offer'
+        "#{user} made an offer to #{candidate}"
+      when 'offer_withdrawn'
+        "#{user} withdrew #{candidate}’s offer"
       when 'declined'
         if application_choice.declined_by_default
           "#{candidate}’s offer was declined automatically"
         else
           "#{candidate} declined an offer"
         end
+      when 'pending_conditions'
+        "#{candidate} accepted an offer"
+      when 'recruited'
+        "#{user} recruited #{candidate}"
+      when 'offer_deferred'
+        "#{user} deferred #{candidate}’s offer"
       else
         if changes['reject_by_default_feedback_sent_at'].present?
           "#{user} sent feedback to #{candidate}"

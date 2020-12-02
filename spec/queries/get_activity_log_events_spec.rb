@@ -22,8 +22,8 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
     create(:application_choice, :awaiting_provider_decision, course_option: course_option)
   end
 
-  def create_audit_for_application_choice(application_choice, changes: {})
-    create(:application_choice_audit, user: provider_user, application_choice: application_choice, changes: changes)
+  def create_audit_for_application_choice(application_choice)
+    create(:application_choice_audit, :with_offer, user: provider_user, application_choice: application_choice)
   end
 
   describe '#call' do
@@ -55,6 +55,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
 
       expected = create(
         :application_choice_audit,
+        :with_offer,
         user: provider_user,
         application_choice: choice,
         created_at: 1.day.from_now,
