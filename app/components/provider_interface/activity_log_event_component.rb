@@ -1,21 +1,28 @@
 module ProviderInterface
   class ActivityLogEventComponent < ViewComponent::Base
     include ViewHelper
+    attr_reader :event, :application_choice
 
-    attr_reader :event, :application_choice, :course_option
+    ORIGINAL_OPTION_STATUSES = %w[awaiting_provider_decision rejected].freeze
 
     def initialize(activity_log_event:)
       @event = activity_log_event
       @application_choice = event.auditable
-      @course_option = @application_choice.offered_option
+    end
+
+    def changes
+      event.audited_changes
+    end
+
+    def application_status_at_event
+      changes.key?('status') && changes['status'].second
     end
 
     def event_description
       user = event.user.try(:full_name) || event.user.try(:display_name)
       candidate = application_choice.application_form.full_name
-      changes = event.audited_changes
 
-      case changes.key?('status') && changes['status'].second
+      case application_status_at_event
       when 'awaiting_provider_decision'
         "#{candidate} submitted an application"
       when 'withdrawn'
@@ -49,10 +56,43 @@ module ProviderInterface
       end
     end
 
-    def link_destination
-      Rails.application.routes.url_helpers.provider_interface_application_choice_path(
-        application_choice.id,
-      )
+    def course_option
+      current_status = application_status_at_event || application_choice.status
+
+      @course_option ||= if ORIGINAL_OPTION_STATUSES.include?(current_status)
+                           application_choice.course_option
+                         else
+                           application_choice.offered_option
+                         end
+    end
+
+    def link
+      routes = Rails.application.routes.url_helpers
+
+      case application_status_at_event
+      when 'offer'
+        {
+          url: routes.provider_interface_application_choice_offer_path(event.auditable.id),
+          text: 'View offer',
+        }
+      when 'pending_conditions'
+        {
+          url: routes.provider_interface_application_choice_offer_path(event.auditable.id),
+          text: 'View conditions',
+        }
+      else
+        if changes['reject_by_default_feedback_sent_at'].present?
+          {
+            url: routes.provider_interface_application_choice_path(event.auditable.id),
+            text: 'View feedback',
+          }
+        else
+          {
+            url: routes.provider_interface_application_choice_path(event.auditable.id),
+            text: 'View application',
+          }
+        end
+      end
     end
   end
 end

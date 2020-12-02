@@ -25,7 +25,9 @@
             – ratified by <%= course_option.course.accredited_provider.name %>
           <% end %>
         </p>
-        <p class="app-timeline__event_link"><a class="govuk-link" href="<%= link_destination %>">View application</a></p>
+        <% if link[:url].present? %>
+          <p class="app-timeline__event_link"><a class="govuk-link" href="<%= link[:url] %>"><%= link[:text] %></a></p>
+        <% end %>
       </div>
     </div>
   </div>

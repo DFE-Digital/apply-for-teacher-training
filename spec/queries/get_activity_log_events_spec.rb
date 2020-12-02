@@ -80,6 +80,48 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
       expect(choice.audits.first.action).to eq('create')
       expect(result.count).to eq(0)
     end
+
+    it 'includes events with a status change' do
+      choice = create_application_choice_for_course course_provider_a
+
+      excluded = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'reject_by_default_at' => [nil, 40.days.from_now.iso8601] },
+      )
+
+      included = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'status' => %w[awaiting_provider_decision offer] },
+      )
+
+      result = service_call
+
+      expect(result).not_to include(excluded)
+      expect(result).to include(included)
+    end
+
+    it 'includes events with a reject_by_default_feedback_sent_at change' do
+      choice = create_application_choice_for_course course_provider_a
+
+      excluded = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'reject_by_default_at' => [nil, 40.days.from_now.iso8601] },
+      )
+
+      included = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'reject_by_default_feedback_sent_at' => [nil, Time.zone.now.iso8601] },
+      )
+
+      result = service_call
+
+      expect(result).not_to include(excluded)
+      expect(result).to include(included)
+    end
   end
 
   context 'sorts events in reverse chronological order' do
