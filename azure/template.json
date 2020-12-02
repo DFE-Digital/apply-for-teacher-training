@@ -435,7 +435,7 @@
         }
     },
     "variables": {
-        "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/master/templates/",
+        "deploymentUrlBase": "https://raw.githubusercontent.com/DFE-Digital/bat-platform-building-blocks/postgres-server-configuration/templates/",
         "deploymentUrlBaseLocal": "[concat('https://raw.githubusercontent.com/DFE-Digital/apply-for-teacher-training/', parameters('localBranchName'),'/azure/')]",
         "resourceNamePrefix": "[toLower(concat(parameters('subscriptionPrefix'), parameters('resourceEnvironmentName'),'-', parameters('serviceName')))]",
         "appServiceName": "[concat(variables('resourceNamePrefix'), '-as')]",
@@ -1102,7 +1102,95 @@
                 }
             },
             "dependsOn": [
+                "postgresql-server",
+                "postgresql-server-read-replica"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "postgresql-server-configurations",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-server-configuration.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "serverName": {
+                        "value": "[variables('databaseServerName')]"
+                    },
+                    "configurations": {
+                        "value": [{
+                            "name": "azure.replication_support",
+                            "value": "REPLICA",
+                            "source": "user-override"
+                        }]
+                    }
+                }
+            },
+            "dependsOn": [
                 "postgresql-server"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "postgresql-server-read-replica",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-server.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
+                    "postgresServerName": {
+                        "value": "[variables('databaseServerName')]"
+                    },
+                    "isReadReplica": {
+                        "value": true
+                    },
+                    "storageAutoGrow": {
+                        "value": "[parameters('databaseStorageAutoGrow')]"
+                    },
+                    "backupRetentionDays": {
+                        "value": "[parameters('databaseBackupRetentionDays')]"
+                    },
+                    "storageAccountName": {
+                        "value": "[variables('storageAccountName')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "postgresql-server",
+                "postgresql-server-configurations",
+                "postgresql-database"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "postgresql-replica-server-firewall-rules",
+            "type": "Microsoft.Resources/deployments",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-server-firewall-rules.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "serverName": {
+                        "value": "[concat(variables('databaseServerName'), '-replica')]"
+                    },
+                    "allowAzureServicesAccess": {
+                        "value": true
+                    }
+                }
+            },
+            "dependsOn": [
+                "postgresql-server-read-replica"
             ]
         },
         {
