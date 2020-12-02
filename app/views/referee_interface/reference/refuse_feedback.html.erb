@@ -1,21 +1,28 @@
-<% content_for :title, t('page_titles.referee.refuse_feedback', full_name: @application.full_name) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.referee.refuse_feedback'), @refuse_feedback_form.errors.any?) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">
-      <%= t('page_titles.referee.refuse_feedback', full_name: @application.full_name) %>
-    </h1>
-
     <%= form_with(
-      model: @reference,
+      model: @refuse_feedback_form,
       url: referee_interface_refuse_feedback_path(token: @token_param),
       method: :patch
     ) do |f| %>
-      <%= f.govuk_submit t('referee.refuse_feedback.confirm') %>
-    <% end %>
+      <%= f.govuk_error_summary %>
 
-    <p class="govuk-body">
-      <%= govuk_link_to t('referee.refuse_feedback.cancel'), referee_interface_reference_feedback_path(token: @token_param) %>
-    </p>
+      <h1 class="govuk-heading-xl">
+        <%= t('page_titles.referee.refuse_feedback') %>
+      </h1>
+
+      <p class='govuk-body'>Teacher training courses can fill up quickly, and candidates need 2 references to apply.</p>
+
+      <p class='govuk-body'><%= @application.full_name %> will be able to submit the application quicker if you give a reference.</p>
+
+      <%= f.govuk_radio_buttons_fieldset :choices, legend: { text: t('referee.refuse_feedback.choice.label', full_name: @application.full_name)  } do %>
+        <%= f.govuk_radio_button :choice, 'yes', label: { text: t('referee.refuse_feedback.choice.confirm') }  %>
+        <%= f.govuk_radio_button :choice, 'no', label: { text: t('referee.refuse_feedback.choice.cancel') }  %>
+      <% end %>
+
+      <%= f.govuk_submit t('referee.refuse_feedback.continue') %>
+    <% end %>
   </div>
 </div>

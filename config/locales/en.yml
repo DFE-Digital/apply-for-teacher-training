@@ -134,7 +134,7 @@ en:
     application_feedback: How can we improve %{section} section?
     application_feedback_thank_you: Thank you for your feedback
     referee:
-      refuse_feedback: Are you sure you will not give %{full_name} a reference?
+      refuse_feedback: You’ve declined to give a reference
       relationship: Confirm how you know %{full_name}
       safeguarding: Do you know of any reason why %{full_name} should not work with children?
       feedback: Your reference for %{full_name}
