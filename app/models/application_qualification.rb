@@ -66,20 +66,19 @@ class ApplicationQualification < ApplicationRecord
   end
 
   def incomplete_other_qualification?
-    return false unless other?
+    (qualification_type == 'non_uk' && incomplete_international_data?) || incomplete_other_qualification_data?
+  end
 
-    case qualification_type
-    when 'non_uk'
-      return true if EXPECTED_INTERNATIONAL_OTHER_QUALIFICATION_DATA.any? do |field_name|
-        send(field_name).blank?
-      end
-    else
-      return true if EXPECTED_OTHER_QUALIFICATION_DATA.reject { |k| k == :grade }.any? do |field_name|
-        send(field_name).blank?
-      end
+  def incomplete_international_data?
+    EXPECTED_INTERNATIONAL_OTHER_QUALIFICATION_DATA.any? do |field_name|
+      send(field_name).blank?
     end
+  end
 
-    false
+  def incomplete_other_qualification_data?
+    EXPECTED_OTHER_QUALIFICATION_DATA.reject { |k| k == :grade }.any? do |field_name|
+      send(field_name).blank?
+    end
   end
 
   def have_naric_reference
