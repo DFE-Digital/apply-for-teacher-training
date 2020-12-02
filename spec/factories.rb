@@ -885,6 +885,10 @@ FactoryBot.define do
           'status' => %w[awaiting_provider_decision rejected],
         }
       end
+
+      after(:build) do |audit, _evaluator|
+        audit.auditable.rejected_by_default = true
+      end
     end
 
     trait :with_rejection_by_default_and_feedback do
@@ -894,6 +898,10 @@ FactoryBot.define do
         {
           'reject_by_default_feedback_sent_at' => Time.zone.now.iso8601,
         }
+      end
+
+      after(:build) do |audit, _evaluator|
+        audit.auditable.rejected_by_default = true
       end
     end
 
@@ -914,6 +922,10 @@ FactoryBot.define do
         {
           'status' => %w[offer declined],
         }
+      end
+
+      after(:build) do |audit, _evaluator|
+        audit.auditable.declined_by_default = true
       end
     end
 
