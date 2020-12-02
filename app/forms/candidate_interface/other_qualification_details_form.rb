@@ -23,7 +23,7 @@ module CandidateInterface
     validates :qualification_type, presence: true
 
     validates :award_year, presence: true
-    validates :subject, :grade, presence: true, if: -> { qualification_type != OtherQualificationTypeForm::NON_UK_TYPE && qualification_type != OtherQualificationTypeForm::OTHER_TYPE }
+    validates :subject, :grade, presence: true, if: -> {should_validate_grade?}
     validates :subject, :grade, length: { maximum: 255 }
     validates :institution_country, presence: true, if: -> { qualification_type == OtherQualificationTypeForm::NON_UK_TYPE }
     validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == OtherQualificationTypeForm::NON_UK_TYPE }
@@ -178,6 +178,12 @@ module CandidateInterface
       ])
         self.grade = grade.delete(' ').upcase if grade
       end
+    end
+
+    def should_validate_grade?
+      (qualification_type != OtherQualificationTypeForm::NON_UK_TYPE &&
+          qualification_type != OtherQualificationTypeForm::OTHER_TYPE) ||
+          other_uk_qualification_type == 'BTEC'
     end
   end
 end
