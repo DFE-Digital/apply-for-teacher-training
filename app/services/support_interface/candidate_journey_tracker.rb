@@ -160,7 +160,7 @@ module SupportInterface
           }
         end
 
-      @received_reference_timings.sort_by { |times| times[:received_at] }
+      @received_reference_timings.sort_by { |times| times[:received_at] || Time.zone.now }
     end
 
     def earliest_update_audit_for(model, attributes)

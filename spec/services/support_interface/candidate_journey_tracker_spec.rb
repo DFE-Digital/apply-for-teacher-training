@@ -142,6 +142,22 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       end
       expect(described_class.new(application_choice).reference_2_received).to eq(now + 2.days)
     end
+
+    context 'when audit entries are not present', with_audited: false do
+      it 'returns nil for the time when the second reference was received' do
+        application_form = create(:application_form)
+        application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
+        application_reference1 = create(:reference, :feedback_requested, application_form: application_form)
+        application_reference2 = create(:reference, :feedback_requested, application_form: application_form)
+        Timecop.freeze(now + 1.day) do
+          application_reference1.update!(feedback_status: 'feedback_provided')
+        end
+        Timecop.freeze(now + 2.days) do
+          application_reference2.update!(feedback_status: 'feedback_provided')
+        end
+        expect(described_class.new(application_choice).reference_2_received).to be_nil
+      end
+    end
   end
 
   describe '#reference_reminder_email_sent' do
