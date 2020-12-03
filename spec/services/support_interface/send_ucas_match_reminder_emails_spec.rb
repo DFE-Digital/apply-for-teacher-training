@@ -11,7 +11,7 @@ RSpec.describe SupportInterface::SendUCASMatchReminderEmails do
 
       expect {
         SupportInterface::SendUCASMatchReminderEmails.new(ucas_match).call
-      }.to raise_error('Reminder email was already sent')
+      }.to raise_error("Reminder email for UCAS match ##{ucas_match.id} was already sent")
     end
 
     it 'raises an error when reminder email was not sent' do
@@ -19,7 +19,7 @@ RSpec.describe SupportInterface::SendUCASMatchReminderEmails do
 
       expect {
         SupportInterface::SendUCASMatchReminderEmails.new(ucas_match).call
-      }.to raise_error('Cannot send reminder email before sending an initial one')
+      }.to raise_error("Cannot send reminder email before sending an initial one for UCAS match ##{ucas_match.id}")
     end
 
     context 'when the application has been accepted on both Apply and UCAS' do

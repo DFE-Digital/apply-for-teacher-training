@@ -15,7 +15,7 @@ RSpec.describe SupportInterface::SendUCASMatchInitialEmailsMultipleAcceptances d
         let(:ucas_match) { create(:ucas_match, action_taken: 'initial_emails_sent', candidate: candidate) }
 
         it 'when the emails have already been sent it throws an exception' do
-          expect { described_class.new(ucas_match).call }.to raise_error('UCAS Match initial emails already sent')
+          expect { described_class.new(ucas_match).call }.to raise_error("Initial emails for UCAS match ##{ucas_match.id} were already sent")
         end
       end
 

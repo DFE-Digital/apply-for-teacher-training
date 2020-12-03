@@ -7,7 +7,7 @@ module SupportInterface
     end
 
     def call
-      raise 'UCAS Match initial emails already sent' if ucas_match.initial_emails_sent?
+      raise "Initial emails for UCAS match ##{ucas_match.id} were already sent" if ucas_match.initial_emails_sent?
 
       CandidateMailer.ucas_match_initial_email_multiple_acceptances(ucas_match.candidate).deliver_later
     end

@@ -7,9 +7,9 @@ module SupportInterface
     end
 
     def call
-      raise 'Reminder email was already sent' if ucas_match.reminder_emails_sent?
+      raise "Reminder email for UCAS match ##{ucas_match.id} was already sent" if ucas_match.reminder_emails_sent?
 
-      raise 'Cannot send reminder email before sending an initial one' unless ucas_match.initial_emails_sent?
+      raise "Cannot send reminder email before sending an initial one for UCAS match ##{ucas_match.id}" unless ucas_match.initial_emails_sent?
 
       if send_reminder_email
         UCASMatches::RecordActionTaken.new(ucas_match, :reminder_emails_sent).call
