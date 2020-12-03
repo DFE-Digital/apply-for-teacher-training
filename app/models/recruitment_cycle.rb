@@ -1,7 +1,7 @@
 module RecruitmentCycle
   CYCLES = {
-    '2021' => '2020 to 2021 (Current)',
-    '2020' => '2019 to 2020',
+    '2021' => '2020 to 2021 (starts 2021)',
+    '2020' => '2019 to 2020 (starts 2020)',
   }.freeze
 
   def self.current_year
