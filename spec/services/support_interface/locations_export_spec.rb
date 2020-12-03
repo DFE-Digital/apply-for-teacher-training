@@ -9,11 +9,17 @@ RSpec.describe SupportInterface::LocationsExport do
     end
 
     it 'returns a hash of location and application choice related data' do
-      application_form = create(:application_form, date_of_birth: Date.new(2000, 1, 1))
+      application_form = create(
+        :application_form,
+        date_of_birth: Date.new(2000, 1, 1),
+        latitude: 51.5973506,
+        longitude: -1.2967454,
+      )
       provider = create(:provider, provider_type: 'lead_school')
       accredited_provider = create(:provider, provider_type: 'scitt')
       course = create(:course, provider: provider, accredited_provider: accredited_provider, program_type: 'scitt_programme')
-      course_option = create(:course_option, course: course)
+      site = create(:site, latitude: 51.6097184, longitude: -1.2482939, provider: provider)
+      course_option = create(:course_option, course: course, site: site)
       application_choice = create(:application_choice, course_option: course_option, application_form: application_form, status: :awaiting_provider_decision)
       create(:degree_qualification, award_year: '2020', application_form: application_form, qualification_type: 'Bachelor of Theology')
       create(:degree_qualification, award_year: '2018', application_form: application_form)
@@ -40,6 +46,8 @@ private
       'Degree completed' => '2020',
       'Degree type' => 'Bachelor of Theology',
       'Status' => :awaiting_provider_decisions,
+      'Distance from site to candidate' => '2.2',
+      'Average distance from all sites to candidate' => '2.2',
     }
   end
 end

@@ -179,6 +179,22 @@ module SupportInterface
       audits.map(&:created_at).min
     end
 
+    def missing_audit?(model)
+      audits = model.audits.select do |audit|
+        audit.action == 'update' &&
+          { feedback_status: 'feedback_provided' }.all? do |attribute, value|
+            change = audit.audited_changes[attribute.to_s]
+            if value.is_a?(Array)
+              change && value.include?(change[1])
+            else
+              change && change[1] == value
+            end
+          end
+      end
+
+      audits.blank?
+    end
+
     def earliest_reference_chaser_sent(chaser_type)
       chasers = @application_choice.application_form.application_references.map(&:chasers_sent).flatten
       chasers.select { |chaser| chaser.chaser_type == chaser_type.to_s }.map(&:created_at).min

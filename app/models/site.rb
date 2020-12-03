@@ -25,4 +25,8 @@ class Site < ApplicationRecord
       name
     end
   end
+
+  def geocoded?
+    latitude.present? && longitude.present?
+  end
 end

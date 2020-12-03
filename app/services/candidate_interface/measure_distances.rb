@@ -9,8 +9,6 @@ module CandidateInterface
       distances.sum(0.0) / distances.size
     end
 
-  private
-
     def distance(from, to)
       return nil unless has_coordinates?(from) && has_coordinates?(to)
 
@@ -20,8 +18,10 @@ module CandidateInterface
       )
     end
 
+  private
+
     def has_coordinates?(model)
-      !model.latitude.nil? && !model.longitude.nil?
+      model && model.geocoded?
     end
   end
 end
