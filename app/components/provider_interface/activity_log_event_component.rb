@@ -7,7 +7,7 @@ module ProviderInterface
 
     def initialize(activity_log_event:)
       @event = activity_log_event
-      @application_choice = event.auditable
+      @application_choice = activity_log_event.auditable
     end
 
     def changes
@@ -29,7 +29,7 @@ module ProviderInterface
         "#{candidate} withdrew their application"
       when 'rejected'
         if application_choice.rejected_by_default
-          "#{candidate}’s application was rejected automatically"
+          "#{candidate}’s application was automatically rejected"
         else
           "#{user} rejected #{candidate}’s application"
         end
@@ -39,14 +39,14 @@ module ProviderInterface
         "#{user} withdrew #{candidate}’s offer"
       when 'declined'
         if application_choice.declined_by_default
-          "#{candidate}’s offer was declined automatically"
+          "#{candidate}’s offer was automatically declined"
         else
           "#{candidate} declined an offer"
         end
       when 'pending_conditions'
         "#{candidate} accepted an offer"
       when 'recruited'
-        "#{user} recruited #{candidate}"
+        "#{candidate} met all offer conditions"
       when 'offer_deferred'
         "#{user} deferred #{candidate}’s offer"
       else
@@ -72,23 +72,23 @@ module ProviderInterface
       case application_status_at_event
       when 'offer'
         {
-          url: routes.provider_interface_application_choice_offer_path(event.auditable.id),
+          url: routes.provider_interface_application_choice_offer_path(event.auditable),
           text: 'View offer',
         }
       when 'pending_conditions'
         {
-          url: routes.provider_interface_application_choice_offer_path(event.auditable.id),
-          text: 'View conditions',
+          url: routes.provider_interface_application_choice_offer_path(event.auditable),
+          text: 'View offer',
         }
       else
         if changes['reject_by_default_feedback_sent_at'].present?
           {
-            url: routes.provider_interface_application_choice_path(event.auditable.id),
+            url: routes.provider_interface_application_choice_path(event.auditable),
             text: 'View feedback',
           }
         else
           {
-            url: routes.provider_interface_application_choice_path(event.auditable.id),
+            url: routes.provider_interface_application_choice_path(event.auditable),
             text: 'View application',
           }
         end

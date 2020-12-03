@@ -17,15 +17,15 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
       awaiting_provider_decision: '<candidate> submitted an application',
       withdrawn: '<candidate> withdrew their application',
       with_rejection: '<user> rejected <candidate>’s application',
-      with_rejection_by_default: '<candidate>’s application was rejected automatically',
+      with_rejection_by_default: '<candidate>’s application was automatically rejected',
       with_rejection_by_default_and_feedback: '<user> sent feedback to <candidate>',
       with_offer: '<user> made an offer to <candidate>',
       with_modified_offer: '<user> made an offer to <candidate>',
       with_accepted_offer: '<candidate> accepted an offer',
       with_declined_offer: '<candidate> declined an offer',
-      with_declined_by_default_offer: '<candidate>’s offer was declined automatically',
+      with_declined_by_default_offer: '<candidate>’s offer was automatically declined',
       with_withdrawn_offer: '<user> withdrew <candidate>’s offer',
-      with_recruited: '<user> recruited <candidate>',
+      with_recruited: '<candidate> met all offer conditions',
       with_deferred_offer: '<user> deferred <candidate>’s offer',
     }
 
@@ -64,7 +64,7 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
       with_event(:with_accepted_offer) do |event, _user, _candidate|
         expect(component_for(event).link).to eq({
           url: routes.provider_interface_application_choice_offer_path(event.auditable.id),
-          text: 'View conditions',
+          text: 'View offer',
         })
       end
     end
