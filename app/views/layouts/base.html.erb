@@ -35,7 +35,7 @@
     <% end %>
   </head>
 
-  <body class="govuk-template__body">
+  <body class="govuk-template__body <%= yield :body_class %>">
     <script>
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
