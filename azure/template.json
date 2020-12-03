@@ -154,6 +154,12 @@
                 "description": "Used to configure the number of days the database backups will be retained for."
             }
         },
+        "databaseReplicaExists": {
+            "type": "bool",
+            "metadata": {
+                "description": "Does the database read replica already exists?"
+            }
+        },
         "securityAlertEmail": {
             "type": "string",
             "metadata": {
@@ -1110,6 +1116,7 @@
             "apiVersion": "2017-05-10",
             "name": "postgresql-server-configurations",
             "type": "Microsoft.Resources/deployments",
+            "condition": "[not(parameters('databaseReplicaExists'))]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -1137,6 +1144,7 @@
             "apiVersion": "2017-05-10",
             "name": "postgresql-server-read-replica",
             "type": "Microsoft.Resources/deployments",
+            "condition": "[not(parameters('databaseReplicaExists'))]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -1174,6 +1182,7 @@
             "apiVersion": "2017-05-10",
             "name": "postgresql-replica-server-firewall-rules",
             "type": "Microsoft.Resources/deployments",
+            "condition": "[not(parameters('databaseReplicaExists'))]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {

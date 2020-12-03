@@ -185,6 +185,22 @@ jobs:
                 Write-Host "##vso[task.setvariable variable=deploymentStartTime]$(Get-Date)"
                 Write-Host "##vso[task.setvariable variable=fullDeployment]$fullDeployment"
 
+          - task: AzureCLI@2
+            displayName: 'Check if read replica postgres server exists in $(resourceGroupName)'
+            env:
+              REPLICA_SERVER_NAME: ${{ format('{0}-psql-replica', variables.resourceGroupName) }}
+              RESOURCE_GROUP_NAME: $(resourceGroupName)
+            inputs:
+              azureSubscription: '${{parameters.subscriptionName}}'
+              ScriptType: pscore
+              ScriptLocation: inlineScript
+              inlineScript: |
+                echo $env:REPLICA_SERVER_NAME  
+                az account show
+                az postgres server list --resource-group $env:RESOURCE_GROUP_NAME | ConvertFrom-Json
+                $replicaServer = az postgres server list --resource-group $env:RESOURCE_GROUP_NAME | ConvertFrom-Json | where name -eq $env:REPLICA_SERVER_NAME
+                Write-Host "##vso[task.setvariable variable=databaseReplicaExists]$($replicaServer -ne $null)"
+
           - task: AzureResourceGroupDeployment@2
             displayName: 'ARM Deployment - Create Or Update Resource Group action on $(resourceGroupName)'
             condition: and(eq(variables['buildCancelled'], false), or(eq(variables['fullDeployment'], true), eq(variables['overrideFullDeployment'], true) ))
@@ -218,6 +234,7 @@ jobs:
                 -databasePassword "${{parameters.databasePassword}}"
                 -databaseStorageAutoGrow "${{parameters.databaseStorageAutoGrow}}"
                 -databaseBackupRetentionDays "${{parameters.databaseBackupRetentionDays}}"
+                -databaseReplicaExists "${{ eq(variables.databaseReplicaExists, True) }}"
                 -environment "${{parameters.environment}}"
                 -securityAlertEmail "${{parameters.securityAlertEmail}}"
                 -secretKeyBase "${{parameters.railsSecretKeyBase}}"
