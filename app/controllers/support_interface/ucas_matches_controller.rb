@@ -18,7 +18,7 @@ module SupportInterface
     def send_initial_emails
       match = UCASMatch.find(params[:id])
 
-      if SupportInterface::SendUCASMatchInitialEmails.new(match)
+      if SupportInterface::SendUCASMatchInitialEmails.new(match).call
         match.update!(action_taken: 'initial_emails_sent',
                       candidate_last_contacted_at: Time.zone.now)
 
