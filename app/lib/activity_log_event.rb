@@ -6,6 +6,10 @@ class ActivityLogEvent
     @audit = audit
   end
 
+  def application_choice
+    audit.auditable if audit.auditable_type == 'ApplicationChoice'
+  end
+
   def changes
     audit.audited_changes
   end

@@ -16,29 +16,34 @@ class GetApplicationChoicesForProviders
 
     statuses = vendor_api ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.states_visible_to_provider
 
-    provider_ids_string = providers.map(&:id).join(', ')
+    with_course_joins = ApplicationChoice
+      .joins('INNER JOIN course_options AS current_option ON COALESCE(offered_course_option_id, course_option_id) = current_option.id')
+      .joins('INNER JOIN course_options AS original_option ON course_option_id = original_option.id')
+      .joins('INNER JOIN courses AS current_course ON current_option.course_id = current_course.id')
+      .joins('INNER JOIN courses AS original_course ON original_option.course_id = original_course.id')
 
-    ApplicationChoice.includes(*includes).from <<~GET_APPLICATION_CHOICES_FOR_PROVIDERS.squish
-      (
-        SELECT ac.*
-          FROM application_choices ac
-          INNER JOIN course_options co
-                  ON co.id = COALESCE(ac.offered_course_option_id, ac.course_option_id)
-          INNER JOIN courses c
-                  ON co.course_id = c.id
-          LEFT OUTER JOIN course_options original_co
-                  ON original_co.id = ac.course_option_id
-          LEFT OUTER JOIN courses original_c
-                  ON original_co.course_id = original_c.id
-          WHERE c.recruitment_cycle_year IN (#{RecruitmentCycle.years_visible_to_providers.join(', ')})
-            AND ac.status IN (#{statuses.map { |s| "'#{s}'" }.join(', ')})
-            AND (
-              c.provider_id IN (#{provider_ids_string})
-              OR c.accredited_provider_id IN (#{provider_ids_string})
-              OR original_c.provider_id IN (#{provider_ids_string})
-              OR original_c.accredited_provider_id IN (#{provider_ids_string})
-            )
-      ) AS application_choices
-    GET_APPLICATION_CHOICES_FOR_PROVIDERS
+    applications =
+      with_course_joins.where(
+        'original_course.provider_id' => providers,
+        'original_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+      ).or(
+        with_course_joins.where(
+          'original_course.accredited_provider_id' => providers,
+          'original_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+        ),
+      ).or(
+        with_course_joins.where(
+          'current_course.provider_id' => providers,
+          'current_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+        ),
+      ).or(
+        with_course_joins.where(
+          'current_course.accredited_provider_id' => providers,
+          'current_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+        ),
+      )
+      .where('status IN (?)', statuses)
+
+    applications.includes(*includes)
   end
 end

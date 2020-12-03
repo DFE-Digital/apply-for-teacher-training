@@ -8,7 +8,7 @@ module ProviderInterface
 
     def initialize(activity_log_event:)
       @event = activity_log_event
-      @application_choice = activity_log_event.audit.auditable
+      @application_choice = activity_log_event.application_choice
     end
 
     def event_description
