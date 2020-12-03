@@ -21,7 +21,7 @@
                                  navigation_items: NavigationItems.for_provider_account_nav(try(:current_provider_user), controller, @provider_setup&.pending?))) %>
 
                                <% if controller.controller_name == 'start_page' %>
-                                 <%= render PhaseBannerComponent.new(no_border: true, feedback_link: ProviderInterface::FEEDBACK_LINK) %>
+                                 <%= render PhaseBannerComponent.new(feedback_link: ProviderInterface::FEEDBACK_LINK) %>
                                <% elsif controller.controller_name.in? %w[sessions content provider_agreements] %>
                                  <%= render PhaseBannerComponent.new(feedback_link: ProviderInterface::FEEDBACK_LINK) %>
                                <% else %>

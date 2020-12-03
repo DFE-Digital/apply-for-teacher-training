@@ -1,12 +1,14 @@
-<div class="govuk-width-container">
-  <div class="govuk-phase-banner <%= @no_border ? 'app-phase-banner--no-border' : '' %> govuk-!-display-none-print">
-    <p class="govuk-phase-banner__content">
-      <strong class="govuk-tag govuk-phase-banner__content__tag <%= phase_tag_class %>">
-        <%= HostingEnvironment.phase %>
-      </strong>
-      <span class="govuk-phase-banner__text">
-        <%= text %>
-      </span>
-    </p>
+<div class="app-phase-banner<%= @no_border ? ' app-phase-banner--no-border' : '' %>">
+  <div class="govuk-width-container">
+    <div class="govuk-phase-banner govuk-!-display-none-print">
+      <p class="govuk-phase-banner__content">
+        <strong class="govuk-tag govuk-phase-banner__content__tag <%= phase_tag_class %>">
+          <%= HostingEnvironment.phase %>
+        </strong>
+        <span class="govuk-phase-banner__text">
+          <%= text %>
+        </span>
+      </p>
+    </div>
   </div>
 </div>
