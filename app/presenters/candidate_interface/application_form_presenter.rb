@@ -91,6 +91,14 @@ module CandidateInterface
       end
     end
 
+    def reference_section_errors
+      [].tap do |errors|
+        if @application_form.too_many_complete_references?
+          errors << OpenStruct.new(message: I18n.t('application_form.references.review.more_than_two'), anchor: '#references')
+        end
+      end
+    end
+
     def ready_to_submit?
       sections_with_completion.map(&:second).all? &&
         application_choice_errors.empty?

@@ -1,5 +1,6 @@
 <% missing_error = @incomplete_sections && @incomplete_sections.any? %>
 <% application_choice_error = @application_choice_errors && @application_choice_errors.any? %>
+<% reference_section_error = @reference_section_errors && @reference_section_errors.any? %>
 
 <section class="govuk-!-margin-bottom-8">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.courses') %></h2>
@@ -23,7 +24,7 @@
  <% end %>
 </section>
 
-<section class="govuk-!-margin-bottom-8">
+<section class="govuk-!-margin-bottom-8" id="references">
   <h2 class="govuk-heading-m govuk-!-font-size-27"><%= t('section_groups.references') %></h2>
   <% if !application_form.enough_references_have_been_provided? && editable %>
     <%= render(
@@ -36,7 +37,13 @@
       ),
     ) %>
   <% else %>
-    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: application_form.application_references.includes(:application_form).feedback_provided, editable: false)) %>
+    <%= render(
+      CandidateInterface::ReferencesReviewComponent.new(
+      references: application_form.application_references.includes(:application_form).feedback_provided,
+      editable: false,
+      is_errored: reference_section_error
+      )
+    ) %>
   <% end %>
 </section>
 

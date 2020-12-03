@@ -13,7 +13,7 @@
     </h2>
     <div class="govuk-error-summary__body">
       <ul class="govuk-list govuk-error-summary__list">
-        <li><%= link_to t('application_form.references.review.too_many'), '#references_given' %></li>
+        <li><%= link_to t('application_form.references.review.more_than_two'), '#references_given' %></li>
       </ul>
     </div>
   </div>
@@ -22,16 +22,7 @@
 <% if @references_given.present? %>
   <div id="references_given">
     <h2 class="govuk-heading-m">References that have been given</h2>
-    <% review_component = CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true) %>
-    <% if @too_many_references %>
-      <div class="govuk-inset-text app-inset-text--error">
-        <p class="govuk-heading-s govuk-!-margin-bottom-2"><%= t('application_form.references.review.too_many') %></p>
-        <p class="govuk-body"><%= @too_many_references_error %></p>
-        <%= render(review_component) %>
-      </div>
-    <% else %>
-        <%= render(review_component) %>
-    <% end %>
+    <%= render(CandidateInterface::ReferencesReviewComponent.new(references: @references_given, show_history: true, is_errored: @too_many_references)) %>
   </div>
 <% end %>
 

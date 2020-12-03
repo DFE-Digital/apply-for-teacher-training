@@ -9,8 +9,7 @@ module CandidateInterface
         @references_waiting_to_be_sent = current_application.application_references.includes(:application_form).not_requested_yet
         @references_sent = current_application.application_references.includes(:application_form).pending_feedback_or_failed
 
-        @too_many_references = @references_given.size > ApplicationForm::MINIMUM_COMPLETE_REFERENCES
-        @too_many_references_error = too_many_references_error(@references_given, @too_many_references)
+        @too_many_references = @application_form.too_many_complete_references?
       end
 
       def unsubmitted
@@ -102,14 +101,6 @@ module CandidateInterface
 
       def redirect_to_start_path_if_candidate_has_no_references
         redirect_to candidate_interface_references_start_path if current_application.application_references.blank?
-      end
-
-      def too_many_references_error(references, too_many)
-        return if references.blank?
-        return unless too_many
-
-        number_to_delete = references.size - ApplicationForm::MINIMUM_COMPLETE_REFERENCES
-        "Delete #{number_to_delete} #{'reference'.pluralize(number_to_delete)}. You can only include 2 with your application"
       end
     end
   end

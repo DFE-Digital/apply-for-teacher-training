@@ -1,11 +1,12 @@
 module CandidateInterface
   class ReferencesReviewComponent < ViewComponent::Base
-    attr_reader :references, :editable, :show_history
+    attr_reader :references, :editable, :show_history, :is_errored
 
-    def initialize(references:, editable: true, show_history: false)
+    def initialize(references:, editable: true, show_history: false, is_errored: false)
       @references = references
       @editable = editable
       @show_history = show_history
+      @is_errored = is_errored
     end
 
     def card_title(reference)
@@ -49,6 +50,23 @@ module CandidateInterface
 
     def ignore_editable_for
       %w[History]
+    end
+
+    def too_many_complete_references?
+      references.select(&:feedback_provided?).size > ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+    end
+
+    def container_class
+      if too_many_complete_references?
+        is_errored ? 'app-review-warning app-review-warning--error' : 'app-review-warning'
+      end
+    end
+
+    def too_many_references_error
+      return if references.blank?
+
+      number_to_delete = references.size - ApplicationForm::MINIMUM_COMPLETE_REFERENCES
+      "Delete #{number_to_delete} #{'reference'.pluralize(number_to_delete)}. You can only include 2 with your application"
     end
 
   private
