@@ -126,7 +126,13 @@ module RefereeInterface
       redirect_to referee_interface_confirmation_path(token: @token_param)
     end
 
-    def finish; end
+    def finish
+      @min_feedback_provided = reference
+        .application_form
+        .application_references
+        .minimum_feedback_provided?
+      @application_form = reference.application_form
+    end
 
   private
 

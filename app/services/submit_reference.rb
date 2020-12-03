@@ -9,7 +9,7 @@ class SubmitReference
   def save!
     reference_feedback_provided!
     cancel_feedback_requested_references if enough_references_have_been_provided?
-    CandidateMailer.reference_received(@reference).deliver_later
+    CandidateMailer.reference_received(reference).deliver_later
     RefereeMailer.reference_confirmation_email(application_form, reference).deliver_later
   end
 
