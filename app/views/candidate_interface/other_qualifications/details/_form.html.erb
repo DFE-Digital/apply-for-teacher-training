@@ -7,7 +7,7 @@
     <%= f.govuk_text_field :subject, label: { text: t('application_form.other_qualification.subject.label'), size: 'm' } %>
     <%= tag.div(id: 'subject-autocomplete-data', data: { source: subject_autocomplete_data }) if subject_autocomplete_data %>
     <%= f.govuk_text_field :grade,
-                           label: { text: t('application_form.other_qualification.grade.optional_label'), size: 'm' },
+                           label: { text: @form.qualification_type === "Other" ? t('application_form.other_qualification.grade.optional_label') : t('application_form.other_qualification.grade.label'), size: 'm' },
                            width: ['A level', 'AS level', 'GCSE'].include?(@form.qualification_type) ? 4 : 10,
                            hint: @form.grade_hint %>
     <%= tag.div(id: 'grade-autocomplete-data', data: { source: grade_autocomplete_data }) if grade_autocomplete_data %>
