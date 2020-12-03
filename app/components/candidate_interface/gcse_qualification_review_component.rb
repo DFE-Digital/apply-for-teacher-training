@@ -65,18 +65,40 @@ module CandidateInterface
     end
 
     def present_grades
-      if application_qualification.subject == ApplicationQualification::SCIENCE_TRIPLE_AWARD
+      case application_qualification.subject
+      when ApplicationQualification::SCIENCE_TRIPLE_AWARD
         grades = application_qualification.structured_grades
         [
           "#{grades['biology']} (Biology)",
           "#{grades['chemistry']} (Chemistry)",
           "#{grades['physics']} (Physics)",
         ]
-      elsif application_qualification.subject == 'english' && application_qualification.structured_grades
-        grades = JSON.parse(application_qualification.structured_grades)
-        grades.map { |k, v,| "#{v} (#{k.humanize.titleize})" }
+      when ApplicationQualification::SCIENCE_DOUBLE_AWARD
+        "#{application_qualification.grade} (Double award)"
+      when ApplicationQualification::SCIENCE_SINGLE_AWARD
+        "#{application_qualification.grade} (Single award)"
+      when ->(_n) { application_qualification.structured_grades }
+        present_structured_grades
       else
         application_qualification.grade
+      end
+    end
+
+    def present_structured_grades
+      grades = JSON.parse(application_qualification.structured_grades)
+      grades.map do |k, v,|
+        case k
+        when 'english_single_award'
+          "#{v} (English Single award)"
+        when 'english_double_award'
+          "#{v} (English Double award)"
+        when 'english_studies_single_award'
+          "#{v} (English Studies Single award)"
+        when 'english_studies_double_award'
+          "#{v} (English Studies Double award)"
+        else
+          "#{v} (#{k.humanize.titleize})"
+        end
       end
     end
 

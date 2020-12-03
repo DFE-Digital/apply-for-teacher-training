@@ -843,26 +843,26 @@ en:
             english_gcses:
               blank: Select at least one GCSE
             grade_english_single:
-              blank: Enter your grade
-              invalid: Enter a real grade
+              blank: Enter your English (Single award) grade
+              invalid: Enter a real English (Single award) grade
             grade_english_double:
-              blank: Enter your grade
-              invalid: Enter a real grade
+              blank: Enter your English (Double award) grade
+              invalid: Enter a real English (Double award) grade
             grade_english_language:
-              blank: Enter your grade
-              invalid: Enter a real grade
+              blank: Enter your English Language grade
+              invalid: Enter a real English Language grade
             grade_english_literature:
-              blank: Enter your grade
-              invalid: Enter a real grade
+              blank: Enter your English Literature grade
+              invalid: Enter a real English Literature grade
             grade_english_studies_single:
-              blank: Enter your grade
-              invalid: Enter a real grade
+              blank: Enter your English Studies (Single award) grade
+              invalid: Enter a real English Studies (Single award) grade
             grade_english_studies_double:
-              blank: Enter your grade
-              invalid: Enter a real grade
+              blank: Enter your English Studies (Double award) grade
+              invalid: Enter a real English Studies (Double award) grade
             grade_other_english_gcse:
-              blank: Enter your grade
-              invalid: Enter a real grade
+              blank: Enter your other English subject grade
+              invalid: Enter a real other English subject grade
             other_english_gcse_name:
               blank: Enter an English GCSE
         candidate_interface/gcse_qualification_type_form:

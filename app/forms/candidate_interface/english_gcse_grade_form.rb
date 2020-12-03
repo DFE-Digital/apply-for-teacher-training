@@ -48,6 +48,7 @@ module CandidateInterface
         params = {
           grade: qualification.grade,
           qualification: qualification,
+          award_year: qualification.award_year,
         }
 
         if qualification.structured_grades
@@ -168,13 +169,13 @@ module CandidateInterface
 
     def build_grades_json
       grades = {}.tap do |model|
-        model[:english_single_award] = grade_english_single if english_single_award
-        model[:english_double_award] = grade_english_double if english_double_award
-        model[:english_language] = grade_english_language if english_language
-        model[:english_literature] = grade_english_literature if english_literature
-        model[:english_studies_single_award] = grade_english_studies_single if english_studies_single_award
-        model[:english_studies_double_award] = grade_english_studies_double if english_studies_double_award
-        model[other_english_gcse_name] = grade_other_english_gcse if other_english_gcse
+        model[:english_single_award] = sanitize(grade_english_single) if english_single_award
+        model[:english_double_award] = sanitize(grade_english_double) if english_double_award
+        model[:english_language] = sanitize(grade_english_language) if english_language
+        model[:english_literature] = sanitize(grade_english_literature) if english_literature
+        model[:english_studies_single_award] = sanitize(grade_english_studies_single) if english_studies_single_award
+        model[:english_studies_double_award] = sanitize(grade_english_studies_double) if english_studies_double_award
+        model[other_english_gcse_name] = sanitize(grade_other_english_gcse) if other_english_gcse
       end
       grades.to_json if grades.any?
     end
@@ -231,6 +232,10 @@ module CandidateInterface
       if qualification_rexp && grade.match(qualification_rexp)
         errors.add(:grade, :invalid)
       end
+    end
+
+    def sanitize(grade)
+      grade.delete(' ').upcase if grade
     end
 
     def invalid_grades

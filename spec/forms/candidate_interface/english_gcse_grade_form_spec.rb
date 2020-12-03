@@ -38,7 +38,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
           form.grade_english_single = ''
           form.validate(:structured_grades)
 
-          expect(form.errors[:grade_english_single]).to include('Enter your grade')
+          expect(form.errors[:grade_english_single]).to include('Enter your English (Single award) grade')
         end
 
         it 'returns validation error if GCSE is selected and an invalid grade is entered' do
@@ -46,7 +46,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
           form.grade_english_single = 'AWESOME'
           form.validate(:structured_grades)
 
-          expect(form.errors[:grade_english_single]).to include('Enter a real grade')
+          expect(form.errors[:grade_english_single]).to include('Enter a real English (Single award) grade')
         end
 
         it 'returns no errors if GCSE is selected and a valid grade is entered' do
@@ -64,7 +64,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
           form.validate(:structured_grades)
 
           expect(form.errors[:other_english_gcse_name]).to include('Enter an English GCSE')
-          expect(form.errors[:grade_other_english_gcse]).to include('Enter your grade')
+          expect(form.errors[:grade_other_english_gcse]).to include('Enter your other English subject grade')
         end
       end
 

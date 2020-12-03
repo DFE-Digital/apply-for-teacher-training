@@ -125,11 +125,11 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def then_i_see_add_grade_page
-    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths')
+    expect(page).to have_content t('gcse_edit_grade.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
   def then_i_see_add_year_page
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths')
+    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'GCSE')
   end
 
   def when_i_fill_in_the_grade

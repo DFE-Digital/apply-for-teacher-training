@@ -353,7 +353,7 @@ module CandidateHelper
   def candidate_fills_in_a_gcse(subject)
     choose('GCSE')
     click_button 'Save and continue'
-    subject == 'maths' ? fill_in('Please specify your grade', with: 'B') : select('B', from: 'Grade')
+    %w[maths english].include?(subject) ? fill_in('Please specify your grade', with: 'B') : select('B', from: 'Grade')
     click_button 'Save and continue'
     fill_in 'Enter year', with: '1990'
     click_button 'Save and continue'

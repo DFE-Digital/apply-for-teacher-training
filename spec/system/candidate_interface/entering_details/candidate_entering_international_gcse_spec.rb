@@ -150,7 +150,7 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
   end
 
   def then_i_see_add_year_page
-    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths')
+    expect(page).to have_content t('gcse_edit_year.page_title', subject: 'maths', qualification_type: 'qualification')
   end
 
   def when_i_choose_other

@@ -646,10 +646,17 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       expect(presenter).to be_no_incomplete_qualifications
     end
 
+    it 'allows optional grades for Other UK qualifications to be empty' do
+      application_form = create(:application_form)
+      create(:other_qualification, application_form: application_form, grade: nil)
+      presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
+
+      expect(presenter).to be_no_incomplete_qualifications
+    end
+
     it 'returns false if there is an incomplete qualification' do
       application_form = create(:application_form)
-      create(:application_qualification, application_form: application_form, level: 'other', grade: nil)
-
+      create(:other_qualification, application_form: application_form, award_year: nil)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).not_to be_no_incomplete_qualifications

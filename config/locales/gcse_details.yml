@@ -5,11 +5,18 @@ en:
       english: Add English GCSE grade 4 (C) or above, or equivalent
       science: Add science GCSE grade 4 (C) or above, or equivalent
   gcse_edit_grade:
-    page_title: What grade is your %{subject} qualification?
+    page_title: What grade is your %{subject} %{qualification_type}?
     guidance:
-      main: >
+      main: |
         Providers expect you to have a grade C or 4 (or the equivalent) in order
-        to train. If you do not have this, contact your provider to discuss your
+        to train.
+
+        If you do not have this, contact your provider to discuss your
+        options. You might be able to retake an exam or do an equivalence test.
+      o_level_guidance: |
+        Providers expect you to have a grade C or above in order to train.
+
+        If you do not have this, contact your provider to discuss your
         options. You might be able to retake an exam or do an equivalence test.
       o_level_triple_gcse_science: If you have a combined or triple O Level in science, enter your total grade.
       multiple_english_gcses:
@@ -37,7 +44,7 @@ en:
         gce_o_level: For example, ‘C’
         scottish_national_5: For example, ‘C’ or ‘4’
   gcse_edit_year:
-    page_title: When was your %{subject} qualification awarded?
+    page_title: When was your %{subject} %{qualification_type} awarded?
   gcse_edit_institution_country:
     page_title: In which country did you study for your %{subject} qualification?
   gcse_edit_naric:
