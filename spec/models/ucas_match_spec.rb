@@ -5,6 +5,12 @@ RSpec.describe UCASMatch do
   let(:course) { create(:course) }
   let!(:application_form_awaiting_provider_decision) { create(:completed_application_form, candidate_id: candidate.id, application_choices_count: 1) }
   let(:course1) { application_form_awaiting_provider_decision.application_choices.first.course_option.course }
+  let(:both_schemes_match) do
+    { 'Scheme' => 'B',
+      'Course code' => course.code.to_s,
+      'Apply candidate ID' => candidate.id.to_s,
+      'Provider code' => course.provider.code.to_s }
+  end
 
   describe '#action_needed?' do
     it 'returns false if ucas match is processed' do
@@ -93,54 +99,58 @@ RSpec.describe UCASMatch do
     end
   end
 
-  describe 'ucas_withdrawal?' do
-    it 'returns true if the application was on both services and withdrawn from UCAS' do
-      ucas_matching_data = { 'Scheme' => 'B',
-                             'Withdrawns' => '1' }
-      ucas_match = create(:ucas_match, matching_data: [ucas_matching_data])
+  describe '#duplicate_applications_withdrawn_from_ucas?' do
+    let(:withdrawn_match) { both_schemes_match.merge('Withdrawns' => '1') }
 
-      expect(ucas_match.ucas_withdrawal?).to eq(true)
+    it 'returns true if all duplicate applications are withdrawn from UCAS' do
+      ucas_match = create(:ucas_match, matching_data: [withdrawn_match, withdrawn_match])
+
+      expect(ucas_match.duplicate_applications_withdrawn_from_ucas?).to eq(true)
+    end
+
+    it 'returns false if there are still non withdrawn duplicate applications on UCAS' do
+      non_withdrawn_match = both_schemes_match.merge('Withdrawns' => '')
+      ucas_match = create(:ucas_match, matching_data: [withdrawn_match, non_withdrawn_match])
+
+      expect(ucas_match.duplicate_applications_withdrawn_from_ucas?).to eq(false)
     end
   end
 
-  describe 'apply_withdrawal?' do
-    it 'returns true if the application was on both services and withdrawn from Apply' do
-      application_choice = create(:application_choice, status: 'withdrawn')
-      create(:application_form, candidate_id: candidate.id, application_choices: [application_choice])
-      course = application_choice.course_option.course
+  describe '#duplicate_applications_withdrawn_from_apply?' do
+    let(:application_choice) { create(:application_choice, status: 'withdrawn') }
+    let(:course) { application_choice.course_option.course }
 
-      ucas_matching_data = { 'Scheme' => 'B',
-                             'Course code' => course.code.to_s,
-                             'Apply candidate ID' => candidate.id.to_s,
-                             'Provider code' => course.provider.code.to_s }
-      apply_matching_data = { 'Scheme' => 'B',
-                              'Course code' => course.code.to_s,
-                              'Apply candidate ID' => candidate.id.to_s,
-                              'Provider code' => course.provider.code.to_s }
-      ucas_match = create(:ucas_match, matching_data: [ucas_matching_data, apply_matching_data])
+    it 'returns true if all duplicate applications are withdrawn from Apply' do
+      create(:application_form, candidate_id: candidate.id,
+                                application_choices: [application_choice])
+      ucas_match = create(:ucas_match, matching_data: [both_schemes_match, both_schemes_match])
 
-      expect(ucas_match.apply_withdrawal?).to eq(true)
+      expect(ucas_match.duplicate_applications_withdrawn_from_apply?).to eq(true)
+    end
+
+    it 'returns false if there are still non withdrawn duplicate applications on Apply' do
+      active_application_choice = create(:application_choice, status: '')
+      create(:application_form, candidate_id: candidate.id,
+                                application_choices: [application_choice, active_application_choice])
+      application_course = active_application_choice.course_option.course
+      active_apply_match = both_schemes_match.merge({ 'Course code' => application_course.code.to_s,
+                                                      'Provider code' => application_course.provider.code.to_s })
+      ucas_match = create(:ucas_match, matching_data: [both_schemes_match, active_apply_match])
+
+      expect(ucas_match.duplicate_applications_withdrawn_from_apply?).to eq(false)
     end
   end
 
   describe '#dual_application_or_dual_acceptance?' do
     it 'returns true if a candidate applied for the same course on both services and both applications are still in progress' do
-      ucas_matching_data = { 'Scheme' => 'B',
-                             'Course code' => course1.code.to_s,
-                             'Provider code' => course1.provider.code.to_s,
-                             'Apply candidate ID' => candidate.id.to_s }
-      ucas_match = create(:ucas_match, matching_state: 'new_match', candidate: candidate, matching_data: [ucas_matching_data])
+      ucas_match = create(:ucas_match, matching_state: 'new_match', candidate: candidate, matching_data: [both_schemes_match])
 
       expect(ucas_match.dual_application_or_dual_acceptance?).to eq(true)
     end
 
     it 'returns false if a candidate applied for the same course on both services but at least one of them was unsucesfull' do
-      ucas_matching_data = { 'Scheme' => 'B',
-                             'Course code' => course1.code.to_s,
-                             'Provider code' => course1.provider.code.to_s,
-                             'Apply candidate ID' => candidate.id.to_s,
-                             'Rejects' => '1' }
-      ucas_match = create(:ucas_match, matching_state: 'new_match', candidate: candidate, matching_data: [ucas_matching_data])
+      both_schemes_match.merge!('Rejects' => '1')
+      ucas_match = create(:ucas_match, matching_state: 'new_match', candidate: candidate, matching_data: [both_schemes_match])
 
       expect(ucas_match.dual_application_or_dual_acceptance?).to eq(false)
     end

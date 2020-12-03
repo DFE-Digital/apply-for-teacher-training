@@ -98,27 +98,29 @@ class UCASMatch < ApplicationRecord
   end
 
   def application_choices_for_same_course_on_both_services
-    ucas_matched_applications.select(&:both_scheme?).map(&:application_choice)
+    duplicate_course_applications.map(&:application_choice)
   end
 
-  def ucas_withdrawal?
-    ucas_matched_applications.select(&:both_scheme?) &&
-      ucas_matched_applications.select(&:application_withdrawn_on_ucas?).any?
+  def duplicate_applications_withdrawn_from_ucas?
+    duplicate_course_applications.any? && duplicate_course_applications.all?(&:application_withdrawn_on_ucas?)
   end
 
-  def apply_withdrawal?
-    ucas_matched_applications.select(&:both_scheme?) &&
-      ucas_matched_applications.select(&:application_withdrawn_on_apply?).any?
+  def duplicate_applications_withdrawn_from_apply?
+    duplicate_course_applications.any? && duplicate_course_applications.all?(&:application_withdrawn_on_apply?)
   end
 
   def application_for_the_same_course_in_progress_on_both_services?
-    application_for_the_same_course_on_both_services = ucas_matched_applications.select(&:both_scheme?)
-
-    application_for_the_same_course_on_both_services.map(&:application_in_progress_on_ucas?).any? &&
-      application_for_the_same_course_on_both_services.map(&:application_in_progress_on_apply?).any?
+    duplicate_course_applications.map(&:application_in_progress_on_ucas?).any? &&
+      duplicate_course_applications.map(&:application_in_progress_on_apply?).any?
   end
 
   def calculate_action_date(action, effective_date)
     TimeLimitCalculator.new(rule: action, effective_date: effective_date).call.fetch(:time_in_future).to_date
+  end
+
+private
+
+  def duplicate_course_applications
+    ucas_matched_applications.select(&:both_scheme?)
   end
 end
