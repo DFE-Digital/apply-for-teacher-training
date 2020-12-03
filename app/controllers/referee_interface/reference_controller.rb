@@ -117,18 +117,16 @@ module RefereeInterface
     end
 
     def confirm_feedback_refusal
-      @refuse_feedback_form = RefuseFeedbackForm.new(refuse_feedback_params)
+      @refuse_feedback_form = RefuseFeedbackForm.new(choice: choice_params)
+      @application = reference.application_form
 
-      if @refuse_feedback_form.valid?
-        if @refuse_feedback_form.referee_has_confirmed_they_wont_a_reference?
-          @refuse_feedback_form.save(reference)
-          redirect_to referee_interface_thank_you_path(token: @token_param)
-        else
-          redirect_to referee_interface_reference_relationship_path(token: @token_param)
-        end
+      render :refuse_feedback and return unless @refuse_feedback_form.valid?
+
+      if @refuse_feedback_form.referee_has_confirmed_they_wont_a_reference?
+        @refuse_feedback_form.save(reference)
+        redirect_to referee_interface_thank_you_path(token: @token_param)
       else
-        track_validation_error(@refuse_feedback_form)
-        render :refuse_feedback
+        redirect_to referee_interface_reference_relationship_path(token: @token_param)
       end
     end
 
@@ -182,9 +180,8 @@ module RefereeInterface
             .permit(:any_safeguarding_concerns, :safeguarding_concerns)
     end
 
-    def refuse_feedback_params
-      params.require(:referee_interface_refuse_feedback_form)
-            .permit(:choice)
+    def choice_params
+      params.dig(:referee_interface_refuse_feedback_form, :choice)
     end
   end
 end
