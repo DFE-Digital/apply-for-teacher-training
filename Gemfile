@@ -41,6 +41,7 @@ gem 'faker'
 gem 'view_component'
 
 gem 'uk_postcode'
+gem 'ruby_postal'
 
 gem 'business_time'
 gem 'holidays'

@@ -427,6 +427,7 @@ GEM
       nokogiri
       rest-client
     ruby-progressbar (1.10.1)
+    ruby_postal (1.0.0)
     rubyzip (2.3.0)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
@@ -578,6 +579,7 @@ DEPENDENCIES
   rubocop-govuk
   ruby-graphviz
   ruby-jmeter
+  ruby_postal
   selenium-webdriver
   sentry-raven
   shoulda-matchers (~> 4.4)
