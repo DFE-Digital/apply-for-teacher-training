@@ -154,6 +154,12 @@
                 "description": "Used to configure the number of days the database backups will be retained for."
             }
         },
+        "databaseReplicaExists": {
+            "type": "string",
+            "metadata": {
+                "description": "Does the database read replica already exists?"
+            }
+        },
         "securityAlertEmail": {
             "type": "string",
             "metadata": {
@@ -443,6 +449,7 @@
         "storageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'str'), '-', '')]",
         "databaseServerName": "[concat(variables('resourceNamePrefix'), '-psql')]",
         "useCustomDomains": "[greater(length(parameters('customDomains')), 0)]",
+        "databaseReplicaExists": "[bool(parameters('databaseReplicaExists'))]",
         "rubyAuthHosts": "[parameters('authorisedHosts')]",
         "defaultAvailabilityCheckHosts": "[if(variables('useCustomDomains'), createArray(concat('azcheck:', variables('appServiceName'), '.azurewebsites.net/check'), concat('check:', parameters('customDomains')[0].domainName, '/check')), createArray(concat('azcheck:', variables('appServiceName'), '.azurewebsites.net/check')))]",
         "availabilityCheckHosts": "[if(greater(length(parameters('customAvailabilityMonitors')), 0), concat(variables('defaultAvailabilityCheckHosts'), parameters('customAvailabilityMonitors')), variables('defaultAvailabilityCheckHosts'))]",
@@ -1102,7 +1109,104 @@
                 }
             },
             "dependsOn": [
+                "postgresql-server",
+                "postgresql-server-read-replica"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "postgresql-server-configurations",
+            "type": "Microsoft.Resources/deployments",
+            "condition": "[not(variables('databaseReplicaExists'))]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-server-configuration.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "serverName": {
+                        "value": "[variables('databaseServerName')]"
+                    },
+                    "configurations": {
+                        "value": [{
+                            "name": "azure.replication_support",
+                            "value": "REPLICA",
+                            "source": "user-override"
+                        }]
+                    }
+                }
+            },
+            "dependsOn": [
                 "postgresql-server"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "postgresql-server-read-replica",
+            "type": "Microsoft.Resources/deployments",
+            "condition": "[not(variables('databaseReplicaExists'))]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-server.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "resourceTags": {
+                        "value": "[parameters('commonResourceTags')]"
+                    },
+                    "postgresServerName": {
+                        "value": "[variables('databaseServerName')]"
+                    },
+                    "isReadReplica": {
+                        "value": true
+                    },
+                    "storageAutoGrow": {
+                        "value": "[parameters('databaseStorageAutoGrow')]"
+                    },
+                    "backupRetentionDays": {
+                        "value": "[parameters('databaseBackupRetentionDays')]"
+                    },
+                    "storageAccountName": {
+                        "value": "[variables('storageAccountName')]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "postgresql-server",
+                "postgresql-server-configurations",
+                "postgresql-database"
+            ]
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "postgresql-replica-server-firewall-rules",
+            "type": "Microsoft.Resources/deployments",
+            "condition": "[not(variables('databaseReplicaExists'))]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('deploymentUrlBase'),'postgresql-server-firewall-rules.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "serverName": {
+                        "value": "[concat(variables('databaseServerName'), '-replica')]"
+                    },
+                    "allowAzureServicesAccess": {
+                        "value": true
+                    },
+                    "firewallRuleNamePrefix": {
+                        "value": "AZURE_IP-"
+                    },
+                    "ipAddresses": {
+                        "value": "[reference('app-service-and-containers').outputs.appServiceIpAddresses.value]"
+                    }
+                }
+            },
+            "dependsOn": [
+                "postgresql-server-read-replica"
             ]
         },
         {
