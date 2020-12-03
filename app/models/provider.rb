@@ -69,4 +69,8 @@ class Provider < ApplicationRecord
   def not_accepting_appplications_on_ucas?
     NOT_ACCEPTING_APPLICATIONS_ON_UCAS.include?(code)
   end
+
+  def geocoded?
+    latitude.present? && longitude.present?
+  end
 end

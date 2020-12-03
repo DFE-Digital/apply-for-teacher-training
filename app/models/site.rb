@@ -1,6 +1,5 @@
 class Site < ApplicationRecord
   belongs_to :provider
-  geocoded_by :full_address
 
   audited associated_with: :provider
 
@@ -25,5 +24,9 @@ class Site < ApplicationRecord
     else
       name
     end
+  end
+
+  def geocoded?
+    latitude.present? && longitude.present?
   end
 end
