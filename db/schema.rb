@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_01_132605) do
+ActiveRecord::Schema.define(version: 2020_12_03_144318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -339,7 +339,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_132605) do
 
   create_table "find_feedback", force: :cascade do |t|
     t.string "path", null: false
-    t.string "original_controller", null: false
+    t.string "find_controller", null: false
     t.string "feedback", null: false
     t.string "email_address"
     t.datetime "created_at", precision: 6, null: false
