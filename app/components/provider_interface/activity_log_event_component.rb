@@ -2,16 +2,13 @@ module ProviderInterface
   class ActivityLogEventComponent < ViewComponent::Base
     include ViewHelper
     attr_reader :event, :application_choice
+    delegate :changes, to: :event
 
     ORIGINAL_OPTION_STATUSES = %w[awaiting_provider_decision rejected].freeze
 
-    def initialize(event:)
-      @event = event.becomes(ActivityLogEvent)
-      @application_choice = event.auditable
-    end
-
-    def changes
-      event.audited_changes
+    def initialize(activity_log_event:)
+      @event = activity_log_event
+      @application_choice = activity_log_event.audit.auditable
     end
 
     def event_description
@@ -68,23 +65,23 @@ module ProviderInterface
       case event.application_status_at_event
       when 'offer'
         {
-          url: routes.provider_interface_application_choice_offer_path(event.auditable),
+          url: routes.provider_interface_application_choice_offer_path(application_choice),
           text: 'View offer',
         }
       when 'pending_conditions'
         {
-          url: routes.provider_interface_application_choice_offer_path(event.auditable),
+          url: routes.provider_interface_application_choice_offer_path(application_choice),
           text: 'View offer',
         }
       else
         if changes['reject_by_default_feedback_sent_at'].present?
           {
-            url: routes.provider_interface_application_choice_path(event.auditable),
+            url: routes.provider_interface_application_choice_path(application_choice),
             text: 'View feedback',
           }
         else
           {
-            url: routes.provider_interface_application_choice_path(event.auditable),
+            url: routes.provider_interface_application_choice_path(application_choice),
             text: 'View application',
           }
         end

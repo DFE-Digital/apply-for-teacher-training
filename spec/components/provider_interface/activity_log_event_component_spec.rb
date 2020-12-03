@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ActivityLogEventComponent do
-  def component_for(event)
-    described_class.new(event: event)
+  def component_for(audit)
+    described_class.new(activity_log_event: ActivityLogEvent.new(audit: audit))
   end
 
-  def with_event(trait)
-    event = create(:application_choice_audit, trait)
-    user = event.user.display_name
-    candidate = event.auditable.application_form.full_name
-    yield event, user, candidate
+  def with_audit(trait)
+    audit = create(:application_choice_audit, trait)
+    user = audit.user.display_name
+    candidate = audit.auditable.application_form.full_name
+    yield audit, user, candidate
   end
 
   describe '#event_description' do
@@ -31,9 +31,9 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
 
     examples.each do |trait, template|
       it "for application #{trait}" do
-        with_event(trait) do |event, user, candidate|
+        with_audit(trait) do |audit, user, candidate|
           expected = template.gsub('<user>', user).gsub('<candidate>', candidate)
-          expect(component_for(event).event_description).to eq(expected)
+          expect(component_for(audit).event_description).to eq(expected)
         end
       end
     end
@@ -43,36 +43,36 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
     let(:routes) { Rails.application.routes.url_helpers }
 
     it 'shows a link to View application in most cases' do
-      with_event(:awaiting_provider_decision) do |event, _user, _candidate|
-        expect(component_for(event).link).to eq({
-          url: routes.provider_interface_application_choice_path(event.auditable.id),
+      with_audit(:awaiting_provider_decision) do |audit, _user, _candidate|
+        expect(component_for(audit).link).to eq({
+          url: routes.provider_interface_application_choice_path(audit.auditable),
           text: 'View application',
         })
       end
     end
 
     it 'links to View offer if application is at offer stage' do
-      with_event(:with_offer) do |event, _user, _candidate|
-        expect(component_for(event).link).to eq({
-          url: routes.provider_interface_application_choice_offer_path(event.auditable.id),
+      with_audit(:with_offer) do |audit, _user, _candidate|
+        expect(component_for(audit).link).to eq({
+          url: routes.provider_interface_application_choice_offer_path(audit.auditable),
           text: 'View offer',
         })
       end
     end
 
     it 'links to View conditions if application is at pending_conditions stage' do
-      with_event(:with_accepted_offer) do |event, _user, _candidate|
-        expect(component_for(event).link).to eq({
-          url: routes.provider_interface_application_choice_offer_path(event.auditable.id),
+      with_audit(:with_accepted_offer) do |audit, _user, _candidate|
+        expect(component_for(audit).link).to eq({
+          url: routes.provider_interface_application_choice_offer_path(audit.auditable),
           text: 'View offer',
         })
       end
     end
 
     it 'says View feedback if showing a feedback event' do
-      with_event(:with_rejection_by_default_and_feedback) do |event, _user, _candidate|
-        expect(component_for(event).link).to eq({
-          url: routes.provider_interface_application_choice_path(event.auditable.id),
+      with_audit(:with_rejection_by_default_and_feedback) do |audit, _user, _candidate|
+        expect(component_for(audit).link).to eq({
+          url: routes.provider_interface_application_choice_path(audit.auditable),
           text: 'View feedback',
         })
       end
@@ -90,10 +90,10 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
 
       examples.each do |trait|
         it "for application #{trait}" do
-          with_event(trait) do |event, _user, _candidate|
-            choice = event.auditable
+          with_audit(trait) do |audit, _user, _candidate|
+            choice = audit.auditable
             choice.update_columns(offered_course_option_id: create(:course_option).id)
-            expect(component_for(event).course_option.id).to eq(choice.course_option.id)
+            expect(component_for(audit).course_option.id).to eq(choice.course_option.id)
           end
         end
       end
@@ -114,10 +114,10 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
 
       examples.each do |trait|
         it "for application #{trait}" do
-          with_event(trait) do |event, _user, _candidate|
-            choice = event.auditable
+          with_audit(trait) do |audit, _user, _candidate|
+            choice = audit.auditable
             choice.update_columns(offered_course_option_id: create(:course_option).id)
-            expect(component_for(event).course_option.id).to eq(choice.offered_option.id)
+            expect(component_for(audit).course_option.id).to eq(choice.offered_option.id)
           end
         end
       end
@@ -125,8 +125,8 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
   end
 
   it 'does actually render html :)' do
-    with_event(:awaiting_provider_decision) do |event, _user, _candidate|
-      expect(render_inline(component_for(event)).to_html).to be_present
+    with_audit(:awaiting_provider_decision) do |audit, _user, _candidate|
+      expect(render_inline(component_for(audit)).to_html).to be_present
     end
   end
 end
