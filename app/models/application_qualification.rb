@@ -66,7 +66,13 @@ class ApplicationQualification < ApplicationRecord
   end
 
   def incomplete_other_qualification?
-    (qualification_type == 'non_uk' && incomplete_international_data?) || incomplete_other_qualification_data?
+    if qualification_type == 'non_uk'
+      incomplete_international_data?
+    elsif other?
+      incomplete_other_qualification_data?
+    else
+      false
+    end
   end
 
   def incomplete_international_data?
