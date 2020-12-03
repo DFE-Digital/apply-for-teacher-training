@@ -11,8 +11,15 @@ RSpec.feature 'References' do
     given_i_am_signed_in
     and_i_have_an_application_with_too_many_references
     then_i_see_errors_on_the_reference_review_page
+    and_i_see_a_warning_on_the_application_review_page
+
+    when_i_submit_the_application
+    then_i_see_an_error_on_the_application_review_page
+
     when_i_remove_a_reference
     then_i_no_longer_see_errors_on_the_reference_review_page
+    and_i_no_longer_see_a_warning_on_the_application_review_page
+    and_app_submission_no_longer_triggers_a_reference_section_error
   end
 
   def given_i_am_signed_in
@@ -27,8 +34,31 @@ RSpec.feature 'References' do
 
   def then_i_see_errors_on_the_reference_review_page
     visit candidate_interface_references_review_path
-    expect(page).to have_content 'More than 2 references have been given'
-    expect(page).to have_content 'Delete 1 reference. You can only include 2 with your application'
+    within('.app-review-warning--error') do
+      expect(page).to have_content 'More than 2 references have been given'
+      expect(page).to have_content 'Delete 1 reference. You can only include 2 with your application'
+    end
+  end
+
+  def and_i_see_a_warning_on_the_application_review_page
+    visit candidate_interface_application_review_path
+    within('#references > .app-review-warning') do
+      expect(page).to have_content 'More than 2 references have been given'
+    end
+  end
+
+  def when_i_submit_the_application
+    click_link 'Continue'
+  end
+
+  def then_i_see_an_error_on_the_application_review_page
+    within('.govuk-error-summary') do
+      expect(page).to have_content 'More than 2 references have been given'
+    end
+    within('#references > .app-review-warning--error') do
+      expect(page).to have_content 'More than 2 references have been given'
+      expect(page).to have_content 'Delete 1 reference. You can only include 2 with your application'
+    end
   end
 
   def when_i_remove_a_reference
@@ -37,7 +67,19 @@ RSpec.feature 'References' do
   end
 
   def then_i_no_longer_see_errors_on_the_reference_review_page
+    visit candidate_interface_references_review_path
     expect(page).not_to have_content 'More than 2 references have been given'
-    expect(page).not_to have_content 'Delete 1 reference. You can only include 2 with your application'
+  end
+
+  def and_i_no_longer_see_a_warning_on_the_application_review_page
+    visit candidate_interface_application_review_path
+    expect(page).not_to have_content 'More than 2 references have been given'
+  end
+
+  def and_app_submission_no_longer_triggers_a_reference_section_error
+    click_link 'Continue'
+    within('.govuk-error-summary') do
+      expect(page).not_to have_content 'More than 2 references have been given'
+    end
   end
 end
