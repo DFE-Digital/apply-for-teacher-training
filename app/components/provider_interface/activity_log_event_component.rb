@@ -5,24 +5,20 @@ module ProviderInterface
 
     ORIGINAL_OPTION_STATUSES = %w[awaiting_provider_decision rejected].freeze
 
-    def initialize(activity_log_event:)
-      @event = activity_log_event
-      @application_choice = activity_log_event.auditable
+    def initialize(event:)
+      @event = event.becomes(ActivityLogEvent)
+      @application_choice = event.auditable
     end
 
     def changes
       event.audited_changes
     end
 
-    def application_status_at_event
-      changes.key?('status') && changes['status'].second
-    end
-
     def event_description
-      user = event.user.try(:full_name) || event.user.try(:display_name)
-      candidate = application_choice.application_form.full_name
+      user = event.user_full_name
+      candidate = event.candidate_full_name
 
-      case application_status_at_event
+      case event.application_status_at_event
       when 'awaiting_provider_decision'
         "#{candidate} submitted an application"
       when 'withdrawn'
@@ -57,7 +53,7 @@ module ProviderInterface
     end
 
     def course_option
-      current_status = application_status_at_event || application_choice.status
+      current_status = event.application_status_at_event || application_choice.status
 
       @course_option ||= if ORIGINAL_OPTION_STATUSES.include?(current_status)
                            application_choice.course_option
@@ -69,7 +65,7 @@ module ProviderInterface
     def link
       routes = Rails.application.routes.url_helpers
 
-      case application_status_at_event
+      case event.application_status_at_event
       when 'offer'
         {
           url: routes.provider_interface_application_choice_offer_path(event.auditable),

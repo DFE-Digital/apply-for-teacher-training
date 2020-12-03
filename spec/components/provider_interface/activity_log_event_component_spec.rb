@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::ActivityLogEventComponent do
   def component_for(event)
-    described_class.new(activity_log_event: event)
+    described_class.new(event: event)
   end
 
   def with_event(trait)

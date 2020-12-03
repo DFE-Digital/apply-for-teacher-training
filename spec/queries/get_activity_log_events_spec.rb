@@ -59,7 +59,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
         user: provider_user,
         application_choice: choice,
         created_at: 1.day.from_now,
-      )
+      ).becomes(ActivityLogEvent)
 
       result = GetActivityLogEvents.call(
         application_choices: application_choices_for_provider_user,
@@ -88,13 +88,13 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
         :application_choice_audit,
         application_choice: choice,
         changes: { 'reject_by_default_at' => [nil, 40.days.from_now.iso8601] },
-      )
+      ).becomes(ActivityLogEvent)
 
       included = create(
         :application_choice_audit,
         application_choice: choice,
         changes: { 'status' => %w[awaiting_provider_decision offer] },
-      )
+      ).becomes(ActivityLogEvent)
 
       result = service_call
 
@@ -109,13 +109,13 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
         :application_choice_audit,
         application_choice: choice,
         changes: { 'reject_by_default_at' => [nil, 40.days.from_now.iso8601] },
-      )
+      ).becomes(ActivityLogEvent)
 
       included = create(
         :application_choice_audit,
         application_choice: choice,
         changes: { 'reject_by_default_feedback_sent_at' => [nil, Time.zone.now.iso8601] },
-      )
+      ).becomes(ActivityLogEvent)
 
       result = service_call
 
