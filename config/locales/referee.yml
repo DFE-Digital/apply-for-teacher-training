@@ -1,8 +1,11 @@
 en:
   referee:
     refuse_feedback:
-      confirm: Yes – I’m sure
-      cancel: Cancel
+      choice:
+        label: Are you sure you do not want to give %{full_name} a reference?
+        confirm: Yes, I’m sure
+        cancel: No, I’ve changed my mind
+      continue: Continue
     relationship_confirmation:
       legend: Is this correct?
       'yes':

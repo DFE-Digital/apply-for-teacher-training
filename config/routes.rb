@@ -504,6 +504,8 @@ Rails.application.routes.draw do
 
     get '/refuse-feedback' => 'reference#refuse_feedback', as: :refuse_feedback
     patch '/refuse-feedback' => 'reference#confirm_feedback_refusal'
+
+    get '/thank-you' => 'reference#thank_you', as: :thank_you
   end
 
   namespace :vendor_api, path: 'api/v1' do

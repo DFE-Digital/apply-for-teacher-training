@@ -9,10 +9,10 @@ RSpec.feature 'Refusing to give a reference' do
     then_i_receive_an_email_with_a_reference_request
 
     when_i_click_the_refuse_reference_link_in_the_email
-    and_i_say_that_i_do_actually_want_to_give_a_reference
-    then_i_see_the_reference_comment_page
+    and_choose_that_i_do_actually_want_to_give_a_reference
+    then_i_see_the_reference_relationship_page
 
-    when_i_click_the_refuse_reference_link_in_the_email
+    when_i_click_on_the_backlink
     and_i_confirm_that_i_wont_give_a_reference
     and_a_slack_notification_is_sent
     then_an_email_is_sent_to_the_candidate
@@ -36,20 +36,26 @@ RSpec.feature 'Refusing to give a reference' do
     current_email.click_link(refuse_feedback_url)
   end
 
-  def and_i_say_that_i_do_actually_want_to_give_a_reference
-    click_link 'Cancel'
+  def and_choose_that_i_do_actually_want_to_give_a_reference
+    choose 'No, I’ve changed my mind'
+    click_button 'Continue'
   end
 
-  def then_i_see_the_reference_comment_page
-    expect(page).to have_content("Your reference for #{@application.full_name}")
+  def then_i_see_the_reference_relationship_page
+    expect(page).to have_content("Confirm how you know #{@application.full_name}")
+  end
+
+  def when_i_click_on_the_backlink
+    click_link 'Back'
+  end
+
+  def and_i_confirm_that_i_wont_give_a_reference
+    choose 'Yes, I’m sure'
+    click_button 'Continue'
   end
 
   def and_a_slack_notification_is_sent
     expect_slack_message_with_text ":sadparrot: A referee declined to give feedback for #{@application.first_name}’s application"
-  end
-
-  def and_i_confirm_that_i_wont_give_a_reference
-    click_button 'Yes – I’m sure'
   end
 
   def then_an_email_is_sent_to_the_candidate
