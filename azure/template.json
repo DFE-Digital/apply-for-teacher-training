@@ -448,6 +448,7 @@
         "appServicePlanName": "[concat(variables('resourceNamePrefix'), '-asp')]",
         "storageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'str'), '-', '')]",
         "databaseServerName": "[concat(variables('resourceNamePrefix'), '-psql')]",
+        "replicaServerConnectionString": "[concat('postgres://', parameters('databaseUsername'), ':', parameters('databasePassword'), '@', variables('databaseServerName'), '-replica.postgres.database.azure.com:5432/', parameters('databaseName'))]",
         "useCustomDomains": "[greater(length(parameters('customDomains')), 0)]",
         "databaseReplicaExists": "[bool(parameters('databaseReplicaExists'))]",
         "rubyAuthHosts": "[parameters('authorisedHosts')]",
@@ -645,6 +646,10 @@
                             {
                                 "name": "DB_DATABASE",
                                 "value": "[parameters('databaseName')]"
+                            },
+                            { 
+                                "name": "BLAZER_DATABASE_URL",
+                                "value": "[variables('replicaServerConnectionString')]"
                             },
                             {
                                 "name": "SECRET_KEY_BASE",
@@ -1161,6 +1166,9 @@
                     },
                     "isReadReplica": {
                         "value": true
+                    },
+                    "readReplicaExists": {
+                        "value": "[variables('databaseReplicaExists')]"
                     },
                     "storageAutoGrow": {
                         "value": "[parameters('databaseStorageAutoGrow')]"
