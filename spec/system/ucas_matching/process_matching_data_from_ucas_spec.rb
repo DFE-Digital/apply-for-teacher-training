@@ -14,7 +14,6 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
     when_i_visit_the_ucas_matches_page_in_support
     then_the_new_match_is_created
-    and_the_existing_match_is_updated
 
     when_i_click_on_a_match
     then_i_see_the_matching_info
@@ -124,12 +123,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   def then_the_new_match_is_created
     expect(page).to have_content @not_previously_matched.email_address
-    expect(page).to have_content 'New match'
-  end
-
-  def and_the_existing_match_is_updated
-    expect(page).to have_content @previously_matched_changed.email_address
-    expect(page).to have_content 'Updated'
+    expect(page).to have_content 'No action taken'
   end
 
   def when_i_click_on_a_match

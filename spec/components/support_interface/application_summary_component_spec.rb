@@ -5,7 +5,7 @@ RSpec.describe SupportInterface::ApplicationSummaryComponent do
     it 'includes a link to a UCAS match if present' do
       candidate = create(:candidate)
       application_form = create(:application_form, candidate: candidate)
-      create(:ucas_match, candidate: candidate, matching_state: 'new_match')
+      create(:ucas_match, candidate: candidate)
 
       result = render_inline(described_class.new(application_form: application_form))
 

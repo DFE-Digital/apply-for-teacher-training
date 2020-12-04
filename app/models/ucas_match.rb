@@ -3,11 +3,6 @@ class UCASMatch < ApplicationRecord
 
   belongs_to :candidate
 
-  enum matching_state: {
-    matching_data_updated: 'matching_data_updated',
-    new_match: 'new_match',
-  }
-
   enum action_taken: {
     initial_emails_sent: 'initial_emails_sent',
     reminder_emails_sent: 'reminder_emails_sent',
