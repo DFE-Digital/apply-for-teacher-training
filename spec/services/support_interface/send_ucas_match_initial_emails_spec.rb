@@ -13,10 +13,11 @@ RSpec.describe SupportInterface::SendUCASMatchInitialEmails do
         allow(SupportInterface::SendUCASMatchInitialEmailsMultipleAcceptances).to receive(:new).with(ucas_match).and_return(multiple_acceptances_mailer)
       end
 
-      it 'sends the initial multiple acceptances ucas_match email' do
+      it 'sends the initial multiple acceptances ucas_match email and records the action taken' do
         described_class.new(ucas_match).call
 
         expect(SupportInterface::SendUCASMatchInitialEmailsMultipleAcceptances).to have_received(:new).with(ucas_match)
+        expect(ucas_match.action_taken).to eq('initial_emails_sent')
       end
     end
 
@@ -26,10 +27,11 @@ RSpec.describe SupportInterface::SendUCASMatchInitialEmails do
         allow(SupportInterface::SendUCASMatchInitialEmailsDuplicateApplications).to receive(:new).with(ucas_match).and_return(duplicate_applications_mailer)
       end
 
-      it 'sends the initial duplicate applications ucas_match email' do
+      it 'sends the initial duplicate applications ucas_match email and records the action taken' do
         described_class.new(ucas_match).call
 
         expect(SupportInterface::SendUCASMatchInitialEmailsDuplicateApplications).to have_received(:new).with(ucas_match)
+        expect(ucas_match.action_taken).to eq('initial_emails_sent')
       end
     end
   end

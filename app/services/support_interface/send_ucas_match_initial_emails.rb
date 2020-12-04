@@ -7,9 +7,19 @@ module SupportInterface
     end
 
     def call
-      return SupportInterface::SendUCASMatchInitialEmailsMultipleAcceptances.new(ucas_match).call if ucas_match.application_accepted_on_ucas_and_accepted_on_apply?
+      if send_initial_emails
+        UCASMatches::RecordActionTaken.new(ucas_match, :initial_emails_sent).call
+      end
+    end
 
-      SupportInterface::SendUCASMatchInitialEmailsDuplicateApplications.new(ucas_match).call if ucas_match.dual_application_or_dual_acceptance?
+    private
+
+    def send_initial_emails
+      if ucas_match.application_accepted_on_ucas_and_accepted_on_apply?
+        SupportInterface::SendUCASMatchInitialEmailsMultipleAcceptances.new(ucas_match).call
+      elsif ucas_match.dual_application_or_dual_acceptance?
+        SupportInterface::SendUCASMatchInitialEmailsDuplicateApplications.new(ucas_match).call
+      end
     end
   end
 end
