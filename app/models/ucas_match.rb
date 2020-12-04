@@ -82,6 +82,10 @@ class UCASMatch < ApplicationRecord
     end
   end
 
+  def requires_manual_action?
+    next_action == :ucas_withdrawal_requested
+  end
+
   def last_action
     return nil if action_taken.nil?
 

@@ -91,7 +91,7 @@ RSpec.describe UCASMatch do
     end
   end
 
-  describe '#ready_to_resolve' do
+  describe '#ready_to_resolve?' do
     it 'returns true if no further action is required and the match is not resolved' do
       ucas_match = create(:ucas_match, action_taken: 'ucas_withdrawal_requested')
 
@@ -304,6 +304,20 @@ RSpec.describe UCASMatch do
       allow(ucas_match).to receive(:need_to_request_withdrawal_from_ucas?).and_return(true)
 
       expect(ucas_match.next_action).to eq(:ucas_withdrawal_requested)
+    end
+  end
+
+  describe '#requires_manual_action?' do
+    it 'returns true if a support agent needs to request withdrawal from UCAS' do
+      ucas_match = create(:ucas_match, matching_state: 'new_match', scheme: 'B', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: 6.business_days.before(Time.zone.now))
+
+      expect(ucas_match.requires_manual_action?).to eq(true)
+    end
+
+    it 'returns false if the next action is automated' do
+      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: 6.business_days.before(Time.zone.now))
+
+      expect(ucas_match.requires_manual_action?).to eq(false)
     end
   end
 

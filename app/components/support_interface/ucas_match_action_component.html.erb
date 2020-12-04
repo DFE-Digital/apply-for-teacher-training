@@ -7,7 +7,7 @@
       <p class="govuk-body">
         <%= action_details %>
       </p>
-      <% if @match.action_needed? %>
+      <% if @match.action_needed? && @match.requires_manual_action? %>
         <%= form_with url: button[:path], method: :post do |f| %>
           <%= f.submit button[:text], class: 'govuk-button' %>
         <% end %>
