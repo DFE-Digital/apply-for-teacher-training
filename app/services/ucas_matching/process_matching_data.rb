@@ -42,6 +42,7 @@ module UCASMatching
         Rails.logger.info "Skipping file with ID #{movit_file.fetch('id')} - we’ve already processed it"
         return
       else
+        UCASMatching::FileDownloadCheck.set_last_sync(Time.zone.now)
         Rails.logger.info "Downloading file with ID #{movit_file.fetch('id')}"
       end
 

@@ -9,7 +9,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     and_there_is_a_previously_matched_candidate_with_no_changes
     and_ucas_has_uploaded_a_file_to_our_shared_folder
 
-    when_the_daily_download_runs
+    a_file_download_check_is_logged { when_the_daily_download_runs }
     then_we_have_received_a_slack_message
 
     when_i_visit_the_ucas_matches_page_in_support
@@ -106,6 +106,12 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     UCASMatching::ProcessMatchingData.new.perform
   rescue UCASMatching::APIError => e
     @latest_exception = e
+  end
+
+  def a_file_download_check_is_logged(&block)
+    allow(UCASMatching::FileDownloadCheck).to receive(:set_last_sync)
+    block.call
+    expect(UCASMatching::FileDownloadCheck).to have_received(:set_last_sync)
   end
 
   def then_we_have_received_a_slack_message
