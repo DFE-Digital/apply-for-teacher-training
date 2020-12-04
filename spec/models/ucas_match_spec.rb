@@ -55,11 +55,11 @@ RSpec.describe UCASMatch do
       expect(ucas_match.action_needed?).to eq(true)
     end
 
-    it 'returns true if we requested withdrawal from UCAS' do
+    it 'returns false if we requested withdrawal from UCAS' do
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: Time.zone.now)
       allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
 
-      expect(ucas_match.action_needed?).to eq(true)
+      expect(ucas_match.action_needed?).to eq(false)
     end
 
     it 'returns true if there is a dual application or dual acceptance' do
@@ -299,12 +299,6 @@ RSpec.describe UCASMatch do
 
       expect(ucas_match.next_action).to eq(:ucas_withdrawal_requested)
     end
-
-    it 'returns :confirmed_withdrawal_from_ucas if withdrawal from UCAS was requested' do
-      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: Time.zone.now)
-
-      expect(ucas_match.next_action).to eq(:confirmed_withdrawal_from_ucas)
-    end
   end
 
   describe '#last_action' do
@@ -332,10 +326,16 @@ RSpec.describe UCASMatch do
       expect(ucas_match.last_action).to eq(:ucas_withdrawal_requested)
     end
 
-    it 'returns :confirmed_withdrawal_from_ucas if reminder emails were sent and the match is processed' do
-      ucas_match = create(:ucas_match, matching_state: 'processed', action_taken: 'ucas_withdrawal_requested')
+    it 'returns :resolved_on_ucas if the match was resolved on ucas' do
+      ucas_match = create(:ucas_match, matching_state: 'processed', action_taken: 'resolved_on_ucas')
 
-      expect(ucas_match.last_action).to eq(:confirmed_withdrawal_from_ucas)
+      expect(ucas_match.last_action).to eq(:resolved_on_ucas)
+    end
+
+    it 'returns :resolved_on_apply if the match was resolved on Apply' do
+      ucas_match = create(:ucas_match, matching_state: 'processed', action_taken: 'resolved_on_apply')
+
+      expect(ucas_match.last_action).to eq(:resolved_on_apply)
     end
   end
 

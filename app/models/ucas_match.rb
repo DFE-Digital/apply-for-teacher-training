@@ -32,13 +32,15 @@ class UCASMatch < ApplicationRecord
   def action_needed?
     return false if processed?
 
-    return false unless dual_application_or_dual_acceptance?
+    return false if resolved?
 
-    return true if ucas_withdrawal_requested?
+    return false unless dual_application_or_dual_acceptance?
 
     return need_to_send_reminder_emails? if initial_emails_sent?
 
     return need_to_request_withdrawal_from_ucas? if reminder_emails_sent?
+
+    return false if ucas_withdrawal_requested?
 
     true
   end
@@ -84,15 +86,11 @@ class UCASMatch < ApplicationRecord
       :reminder_emails_sent
     elsif reminder_emails_sent? && need_to_request_withdrawal_from_ucas?
       :ucas_withdrawal_requested
-    elsif ucas_withdrawal_requested?
-      :confirmed_withdrawal_from_ucas
     end
   end
 
   def last_action
     return nil if action_taken.nil?
-
-    return :confirmed_withdrawal_from_ucas if processed? && ucas_withdrawal_requested?
 
     action_taken.to_sym
   end
