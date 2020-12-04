@@ -74,6 +74,10 @@ class Course < ApplicationRecord
     "#{name} (#{code}) – #{accredited_provider&.name}"
   end
 
+  def name_code_and_training_provider
+    "#{name} (#{code}) – #{provider&.name}"
+  end
+
   def name_code_and_age_range
     "#{name} (#{code}) – #{age_range}"
   end

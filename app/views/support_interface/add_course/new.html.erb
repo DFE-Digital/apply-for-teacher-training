@@ -1,0 +1,24 @@
+<% content_for :title, 'Add a course to a submitted application' %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+            model: @pick_course,
+            url:   support_interface_add_course_for_candidate_path,
+            id:    'pick-course-form',
+        ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_collection_select(
+              :course_option_id,
+              select_course_options(@pick_course.dropdown_available_courses),
+              :id,
+              :name,
+              label:   { text: "Search for a course", size: 'xl' },
+              options: { selected: nil },
+          ) %>
+      <%= f.hidden_field :application_form_id, value: @pick_course.application_form_id %>
+      <%= f.govuk_submit "Submit" %>
+    <% end %>
+  </div>
+</div>
