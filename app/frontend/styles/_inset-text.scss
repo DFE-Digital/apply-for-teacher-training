@@ -2,7 +2,7 @@
   border-color: govuk-colour("blue");
   border-left-width: $govuk-border-width;
 
-  .govuk-heading-s {
+  .app-inset-text__title {
     color: govuk-colour("blue");
   }
 }
@@ -11,7 +11,12 @@
   border-color: $govuk-error-colour;
   border-left-width: $govuk-border-width;
 
-  .govuk-heading-s {
+  .app-inset-text__title {
     color: $govuk-error-colour;
   }
+}
+
+.app-inset-text__title {
+  @include govuk-typography-weight-bold;
+  margin-bottom: govuk-spacing(2);
 }
