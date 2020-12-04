@@ -1,11 +1,6 @@
-<% content_for :title, t('page_titles.references') %>
+<% content_for :title, title_with_error_prefix(t('page_titles.references'), @too_many_references) %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.references') %>
-</h1>
-
-<%= render CandidateInterface::AddReferenceComponent.new(@application_form) %>
 <% if @too_many_references %>
   <div class="govuk-error-summary" tabindex="-1" role="alert" data-module="govuk-error-summary" aria-labelledby="error-summary-title">
     <h2 id="error-summary-title" class="govuk-error-summary__title">
@@ -18,6 +13,12 @@
     </div>
   </div>
 <% end %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.references') %>
+</h1>
+
+<%= render CandidateInterface::AddReferenceComponent.new(@application_form) %>
 
 <% if @references_given.present? %>
   <div id="references_given">
