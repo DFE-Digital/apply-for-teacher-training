@@ -10,7 +10,7 @@ RSpec.describe 'Candidate providing feedback on Find' do
   end
 
   def given_i_arrive_from_find_with_valid_params_in_the_query_string
-    visit candidate_interface_find_feedback_path(original_controller: 'courses', path: '/course/T92/X130')
+    visit candidate_interface_find_feedback_path(find_controller: 'courses', path: '/course/T92/X130')
   end
 
   def and_the_find_feedback_flag_is_active

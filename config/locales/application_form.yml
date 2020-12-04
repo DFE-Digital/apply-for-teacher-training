@@ -1001,8 +1001,8 @@ en:
           attributes:
             path:
               blank: Path cannot be blank
-            original_controller:
-              blank: Original controller cannot be blank
+            find_controller:
+              blank: Find controller cannot be blank
             feedback:
               blank: How we can improve the service?
         candidate_interface/withdrawal_feedback_form:

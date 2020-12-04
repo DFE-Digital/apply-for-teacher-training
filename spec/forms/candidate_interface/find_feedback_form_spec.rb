@@ -4,7 +4,7 @@ RSpec.describe CandidateInterface::FindFeedbackForm, type: :model do
   let(:form) do
     described_class.new(
       path: '/course/T92/X130',
-      original_controller: 'courses',
+      find_controller: 'courses',
       feedback: 'Make it better.',
       email_address: 'email@gmail.com',
       hidden_feedback_field: nil,
@@ -13,14 +13,14 @@ RSpec.describe CandidateInterface::FindFeedbackForm, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:path) }
-    it { is_expected.to validate_presence_of(:original_controller) }
+    it { is_expected.to validate_presence_of(:find_controller) }
     it { is_expected.to validate_presence_of(:feedback) }
 
     describe '#hidden_feedback_field_is_blank' do
       it 'validates that #hidden_feedback_field is blank' do
         invalid_form = described_class.new(
           path: '/course/T92/X130',
-          original_controller: 'courses',
+          find_controller: 'courses',
           feedback: 'Make it better.',
           email_address: 'email@gmail.com',
           hidden_feedback_field: 'I am a bot',
@@ -44,7 +44,7 @@ RSpec.describe CandidateInterface::FindFeedbackForm, type: :model do
 
       expect(FindFeedback.count).to eq 1
       expect(feedback.path).to eq form.path
-      expect(feedback.original_controller).to eq form.original_controller
+      expect(feedback.find_controller).to eq form.find_controller
       expect(feedback.feedback).to eq form.feedback
       expect(feedback.email_address).to eq form.email_address
     end

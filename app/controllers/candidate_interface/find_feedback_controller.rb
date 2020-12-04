@@ -5,7 +5,7 @@ module CandidateInterface
     def new
       @find_feedback_form = CandidateInterface::FindFeedbackForm.new(
         path: params[:path],
-        original_controller: params[:original_controller],
+        find_controller: params[:find_controller],
       )
     end
 
@@ -27,7 +27,7 @@ module CandidateInterface
 
     def feedback_params
       params.require(:candidate_interface_find_feedback_form).permit(
-        :path, :original_controller, :hidden_feedback_field, :feedback, :email_address
+        :path, :find_controller, :hidden_feedback_field, :feedback, :email_address
       )
     end
   end
