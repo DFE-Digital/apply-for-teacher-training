@@ -1,6 +1,7 @@
 module CandidateInterface
   class SubmittedApplicationFormController < CandidateInterfaceController
     before_action :redirect_to_application_form_unless_submitted, except: %i[start_carry_over carry_over]
+    before_action :redirect_to_dashboard_unless_ended_without_success, only: [:apply_again]
 
     def review_submitted
       @application_form = current_application
@@ -31,6 +32,12 @@ module CandidateInterface
       CarryOverApplication.new(current_application).call
       flash[:success] = 'Your application is ready for editing'
       redirect_to candidate_interface_before_you_start_path
+    end
+
+  private
+
+    def redirect_to_dashboard_unless_ended_without_success
+      redirect_to candidate_interface_application_complete_path unless current_application.ended_without_success?
     end
   end
 end
