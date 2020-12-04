@@ -1,5 +1,5 @@
-.app-inset-text {
-  border-left-width: $govuk-border-width;
+.app-inset-text--narrow-border {
+  border-left-width: $govuk-border-width-narrow;
 }
 
 .app-inset-text--important {
@@ -19,6 +19,6 @@
 }
 
 .app-inset-text__title {
-  @include govuk-typography-weight-bold;
+  @include govuk-font($size: 19, $weight: "bold");
   margin-bottom: govuk-spacing(2);
 }

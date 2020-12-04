@@ -77,7 +77,7 @@ module CandidateInterface
       return unless @editable
 
       if application_choice.course_option_availability_error?
-        "govuk-inset-text app-inset-text app-inset-text--#{@application_choice_error ? 'error' : 'important'}"
+        "govuk-inset-text app-inset-text--narrow-border app-inset-text--#{@application_choice_error ? 'error' : 'important'}"
       end
     end
 
