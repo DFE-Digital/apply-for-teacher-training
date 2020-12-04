@@ -73,11 +73,11 @@ module CandidateInterface
       end
     end
 
-    def warning_container_css_class(application_choice)
+    def container_class(application_choice)
       return unless @editable
 
       if application_choice.course_option_availability_error?
-        @application_choice_error ? 'app-review-warning app-review-warning--error' : 'app-review-warning'
+        "govuk-inset-text app-inset-text--narrow-border app-inset-text--#{@application_choice_error ? 'error' : 'important'}"
       end
     end
 
