@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_10_105121) do
+ActiveRecord::Schema.define(version: 2020_12_10_145233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -526,7 +526,6 @@ ActiveRecord::Schema.define(version: 2020_12_10_105121) do
   create_table "ucas_matches", force: :cascade do |t|
     t.bigint "candidate_id", null: false
     t.json "matching_data"
-    t.string "matching_state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "recruitment_cycle_year", null: false
