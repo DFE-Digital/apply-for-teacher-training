@@ -776,11 +776,8 @@ components:
         grade:
           type: string
           maxLength: 256
-          description: The grade awarded
-          example:
-          - 2:1 (University degree)
-          - A* (GSCE grade in a single subject)
-          - A*A*A (GCSE Science triple award, where grades are for Biology, Chemistry and Physics, respectively)
+          description: The grade awarded. e.g. "2:1" for university degrees, "A" for GCSE, "BA*" for double-award science, or "ABC" for triple-award science. For triple-award science, which is the only possible value with three grades, the grades are in the order Biology, Physics, Chemistry.
+          example: "AA*B"
         start_year:
           type: string
           nullable: true
