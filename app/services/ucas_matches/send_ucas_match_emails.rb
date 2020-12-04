@@ -6,9 +6,9 @@ module UCASMatches
       ucas_matches_requiring_action.each do |ucas_match|
         case ucas_match.next_action
         when :initial_emails_sent
-          SupportInterface::SendUCASMatchInitialEmails.new(ucas_match).call
+          UCASMatches::SendUCASMatchInitialEmails.new(ucas_match).call
         when :reminder_emails_sent
-          SupportInterface::SendUCASMatchReminderEmails.new(ucas_match).call
+          UCASMatches::SendUCASMatchReminderEmails.new(ucas_match).call
         end
       end
     end

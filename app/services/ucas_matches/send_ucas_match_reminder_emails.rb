@@ -1,4 +1,4 @@
-module SupportInterface
+module UCASMatches
   class SendUCASMatchReminderEmails
     attr_accessor :ucas_match
 
@@ -17,6 +17,7 @@ module SupportInterface
     end
 
   private
+
     def send_reminder_email
       # it's impossible for the candiate to have multiple acceptances and duplicate applications
       # we will contact them about dual application in progress before they have a change to accept multiple offers

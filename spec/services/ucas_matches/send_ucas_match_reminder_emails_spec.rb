@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::SendUCASMatchReminderEmails do
+RSpec.describe UCASMatches::SendUCASMatchReminderEmails do
   describe '#call' do
     let(:application_choice) { create(:application_choice, :with_accepted_offer) }
     let(:application_form) { create(:completed_application_form, application_choices: [application_choice]) }
@@ -10,7 +10,7 @@ RSpec.describe SupportInterface::SendUCASMatchReminderEmails do
       ucas_match = create(:ucas_match, action_taken: 'reminder_emails_sent')
 
       expect {
-        SupportInterface::SendUCASMatchReminderEmails.new(ucas_match).call
+        UCASMatches::SendUCASMatchReminderEmails.new(ucas_match).call
       }.to raise_error("Reminder email for UCAS match ##{ucas_match.id} was already sent")
     end
 
@@ -18,7 +18,7 @@ RSpec.describe SupportInterface::SendUCASMatchReminderEmails do
       ucas_match = create(:ucas_match, action_taken: nil)
 
       expect {
-        SupportInterface::SendUCASMatchReminderEmails.new(ucas_match).call
+        UCASMatches::SendUCASMatchReminderEmails.new(ucas_match).call
       }.to raise_error("Cannot send reminder email before sending an initial one for UCAS match ##{ucas_match.id}")
     end
 

@@ -1,4 +1,4 @@
-module SupportInterface
+module UCASMatches
   class SendUCASMatchInitialEmailsDuplicateApplications
     attr_reader :ucas_match
 

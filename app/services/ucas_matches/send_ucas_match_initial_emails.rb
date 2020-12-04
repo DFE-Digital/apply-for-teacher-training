@@ -1,4 +1,4 @@
-module SupportInterface
+module UCASMatches
   class SendUCASMatchInitialEmails
     attr_reader :ucas_match
 
@@ -12,13 +12,13 @@ module SupportInterface
       end
     end
 
-    private
+  private
 
     def send_initial_emails
       if ucas_match.application_accepted_on_ucas_and_accepted_on_apply?
-        SupportInterface::SendUCASMatchInitialEmailsMultipleAcceptances.new(ucas_match).call
+        UCASMatches::SendUCASMatchInitialEmailsMultipleAcceptances.new(ucas_match).call
       elsif ucas_match.dual_application_or_dual_acceptance?
-        SupportInterface::SendUCASMatchInitialEmailsDuplicateApplications.new(ucas_match).call
+        UCASMatches::SendUCASMatchInitialEmailsDuplicateApplications.new(ucas_match).call
       end
     end
   end
