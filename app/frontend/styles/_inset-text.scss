@@ -1,6 +1,9 @@
+.app-inset-text {
+  border-left-width: $govuk-border-width;
+}
+
 .app-inset-text--important {
   border-color: govuk-colour("blue");
-  border-left-width: $govuk-border-width;
 
   .app-inset-text__title {
     color: govuk-colour("blue");
@@ -9,7 +12,6 @@
 
 .app-inset-text--error {
   border-color: $govuk-error-colour;
-  border-left-width: $govuk-border-width;
 
   .app-inset-text__title {
     color: $govuk-error-colour;
