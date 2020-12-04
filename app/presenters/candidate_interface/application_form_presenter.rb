@@ -101,7 +101,8 @@ module CandidateInterface
 
     def ready_to_submit?
       sections_with_completion.map(&:second).all? &&
-        application_choice_errors.empty?
+        application_choice_errors.empty? &&
+        reference_section_errors.empty?
     end
 
     def application_choices_added?
