@@ -73,7 +73,7 @@ module CandidateInterface
       end
     end
 
-    def warning_container_css_class(application_choice)
+    def container_class(application_choice)
       return unless @editable
 
       if application_choice.course_option_availability_error?
