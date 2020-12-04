@@ -67,7 +67,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
         body: { access_token: '123456789' }.to_json,
       )
 
-    stub_request(:get, 'https://transfer.ucasenvironments.com/api/v1/folders/691078359/files')
+    stub_request(:get, 'https://transfer.ucasenvironments.com/api/v1/folders/691078359/files?sortField=uploadStamp&sortDirection=descending')
       .with(
         headers: {
           'Authorization' => 'Bearer 123456789',

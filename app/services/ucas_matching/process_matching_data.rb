@@ -70,7 +70,7 @@ module UCASMatching
     end
 
     def files_in_ucas_movit_folder
-      response = JSON.parse(HTTP.auth(auth_string).get("#{UCASAPI.base_url}/folders/#{UCASAPI.download_folder}/files"))
+      response = JSON.parse(HTTP.auth(auth_string).get("#{UCASAPI.base_url}/folders/#{UCASAPI.download_folder}/files?sortField=uploadStamp&sortDirection=descending"))
       response.fetch('items')
     end
 
