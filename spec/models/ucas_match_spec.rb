@@ -19,8 +19,8 @@ RSpec.describe UCASMatch do
       expect(ucas_match.action_needed?).to eq(false)
     end
 
-    it 'returns false if ucas match is processed' do
-      ucas_match = create(:ucas_match, matching_state: 'processed')
+    it 'returns false if ucas match is resolved' do
+      ucas_match = create(:ucas_match, action_taken: 'resolved_on_ucas')
 
       expect(ucas_match.action_needed?).to eq(false)
     end
@@ -93,7 +93,7 @@ RSpec.describe UCASMatch do
 
   describe '#ready_to_resolve' do
     it 'returns true if no further action is required and the match is not resolved' do
-      ucas_match = create(:ucas_match, action_taken: 'initial_emails_sent', matching_state: 'processed')
+      ucas_match = create(:ucas_match, action_taken: 'ucas_withdrawal_requested')
 
       expect(ucas_match.ready_to_resolve?).to eq(true)
     end
@@ -332,16 +332,16 @@ RSpec.describe UCASMatch do
       expect(ucas_match.last_action).to eq(:ucas_withdrawal_requested)
     end
 
-    it 'returns :resolved_on_ucas if the match was resolved on ucas' do
-      ucas_match = create(:ucas_match, matching_state: 'processed', action_taken: 'resolved_on_ucas')
-
-      expect(ucas_match.last_action).to eq(:resolved_on_ucas)
-    end
-
-    it 'returns :resolved_on_apply if the match was resolved on Apply' do
-      ucas_match = create(:ucas_match, matching_state: 'processed', action_taken: 'resolved_on_apply')
+    it 'returns :resolved_on_apply if the match was resolved on apply' do
+      ucas_match = create(:ucas_match, action_taken: 'resolved_on_apply')
 
       expect(ucas_match.last_action).to eq(:resolved_on_apply)
+    end
+
+    it 'returns :resolved_on_ucas if the match was resolved on ucas' do
+      ucas_match = create(:ucas_match, action_taken: 'resolved_on_ucas')
+
+      expect(ucas_match.last_action).to eq(:resolved_on_ucas)
     end
   end
 

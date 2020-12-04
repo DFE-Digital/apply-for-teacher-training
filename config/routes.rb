@@ -655,7 +655,6 @@ Rails.application.routes.draw do
       post '/send-initial-emails' => 'ucas_matches#send_initial_emails', as: :send_initial_emails
       post '/send-reminder-email' => 'ucas_matches#send_reminder_email', as: :send_reminder_email
       post '/record-ucas-withdrawal-requested' => 'ucas_matches#record_ucas_withdrawal_requested', as: :record_ucas_withdrawal_requested
-      post '/process-match' => 'ucas_matches#process_match', as: :process_match
     end
 
     get '/application_choices/:application_choice_id' => 'application_choices#show', as: :application_choice

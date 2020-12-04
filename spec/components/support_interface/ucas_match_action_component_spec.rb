@@ -111,7 +111,6 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
     it 'renders correct information after UCAS resolution of a match' do
       Timecop.freeze(Time.zone.local(2020, 10, 19, 12, 0, 0)) do
         ucas_match = create(:ucas_match,
-                            matching_state: 'processed',
                             scheme: 'U',
                             action_taken: 'resolved_on_ucas',
                             candidate_last_contacted_at: Time.zone.now - 1.day)
@@ -127,7 +126,6 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
     it 'renders correct information after Apply resolution of a match' do
       Timecop.freeze(Time.zone.local(2020, 10, 19, 12, 0, 0)) do
         ucas_match = create(:ucas_match,
-                            matching_state: 'processed',
                             scheme: 'U',
                             action_taken: 'resolved_on_apply',
                             candidate_last_contacted_at: Time.zone.now - 1.day)
@@ -143,7 +141,6 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
     it 'renders correct information after the manual resolution of a match' do
       Timecop.freeze(Time.zone.local(2020, 10, 19, 12, 0, 0)) do
         ucas_match = create(:ucas_match,
-                            matching_state: 'processed',
                             scheme: 'U',
                             action_taken: 'manually_resolved',
                             candidate_last_contacted_at: Time.zone.now - 1.day)

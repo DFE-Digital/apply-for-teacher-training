@@ -15,7 +15,6 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     when_i_visit_the_ucas_matches_page_in_support
     then_the_new_match_is_created
     and_the_existing_match_is_updated
-    and_the_unchanged_existing_match_is_left_alone
 
     when_i_click_on_a_match
     then_i_see_the_matching_info
@@ -44,7 +43,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     course_option3 = create(:course_option, course: course3)
     application_choice3 = create(:submitted_application_choice, course_option: course_option3)
     application_form = create(:completed_application_form, candidate: @previously_matched_changed, application_choices: [application_choice1, application_choice2, application_choice3])
-    create(:ucas_match, matching_state: 'processed', application_form: application_form, scheme: 'U', ucas_status: :offer)
+    create(:ucas_match, application_form: application_form, scheme: 'U', ucas_status: :offer)
   end
 
   def and_there_is_a_previously_matched_candidate_with_no_changes
@@ -54,7 +53,6 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     application_choice = create(:submitted_application_choice, course_option: course_option)
     application_form = create(:completed_application_form, candidate: @previously_matched_unchanged, application_choices: [application_choice])
     create(:ucas_match,
-           matching_state: 'processed',
            application_form: application_form,
            scheme: 'B',
            ucas_status: :offer,
@@ -132,11 +130,6 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
   def and_the_existing_match_is_updated
     expect(page).to have_content @previously_matched_changed.email_address
     expect(page).to have_content 'Updated'
-  end
-
-  def and_the_unchanged_existing_match_is_left_alone
-    expect(page).to have_content @previously_matched_unchanged.email_address
-    expect(page).to have_content 'Processed'
   end
 
   def when_i_click_on_a_match
