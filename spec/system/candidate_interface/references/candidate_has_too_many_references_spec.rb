@@ -32,7 +32,7 @@ RSpec.feature 'References' do
 
   def then_i_see_errors_on_the_reference_review_page
     visit candidate_interface_references_review_path
-    within('.app-review-warning--error') do
+    within('.app-inset-text--error') do
       expect(page).to have_content 'More than 2 references have been given'
       expect(page).to have_content 'Delete 1 reference. You can only include 2 with your application'
     end
@@ -40,7 +40,7 @@ RSpec.feature 'References' do
 
   def and_i_see_a_warning_on_the_application_review_page
     visit candidate_interface_application_review_path
-    within('#references > .app-review-warning') do
+    within('#references > .app-inset-text--important') do
       expect(page).to have_content 'More than 2 references have been given'
     end
   end
@@ -53,7 +53,7 @@ RSpec.feature 'References' do
     within('.govuk-error-summary') do
       expect(page).to have_content 'More than 2 references have been given'
     end
-    within('#references > .app-review-warning--error') do
+    within('#references > .app-inset-text--error') do
       expect(page).to have_content 'More than 2 references have been given'
       expect(page).to have_content 'Delete 1 reference. You can only include 2 with your application'
     end

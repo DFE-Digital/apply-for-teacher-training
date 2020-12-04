@@ -1,7 +1,7 @@
 <div class="<%= container_class %>">
   <% if too_many_complete_references? %>
-    <p class='app-review-warning__primary-message'><%= t('application_form.references.review.more_than_two') %></p>
-    <p class='govuk-body'><%= too_many_references_error %></p>
+    <p class="app-inset-text__title"><%= t('application_form.references.review.more_than_two') %></p>
+    <p class="govuk-body"><%= too_many_references_error %></p>
   <% end %>
 
   <% references.each do |reference| %>

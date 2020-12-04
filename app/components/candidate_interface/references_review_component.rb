@@ -58,7 +58,7 @@ module CandidateInterface
 
     def container_class
       if too_many_complete_references?
-        is_errored ? 'app-review-warning app-review-warning--error' : 'app-review-warning'
+        "govuk-inset-text app-inset-text--narrow-border app-inset-text--#{is_errored ? 'error' : 'important'}"
       end
     end
 

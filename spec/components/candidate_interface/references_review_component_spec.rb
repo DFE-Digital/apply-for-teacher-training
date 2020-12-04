@@ -72,14 +72,14 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
       it 'renders a warning' do
         result = render_inline(described_class.new(references: references))
         expect(result.text).to include 'Delete 2 references. You can only include 2 with your application'
-        expect(result.css('div.app-review-warning')).to be_present
-        expect(result.css('div.app-review-warning--error')).not_to be_present
+        expect(result.css('div.app-inset-text--important')).to be_present
+        expect(result.css('div.app-inset-text--error')).not_to be_present
       end
 
       it 'styles the warning as an error if rendered in an errored state' do
         result = render_inline(described_class.new(references: references, is_errored: true))
-        expect(result.css('div.app-review-warning')).to be_present
-        expect(result.css('div.app-review-warning--error')).to be_present
+        expect(result.css('div.app-inset-text--important')).not_to be_present
+        expect(result.css('div.app-inset-text--error')).to be_present
       end
     end
 
@@ -91,8 +91,8 @@ RSpec.describe CandidateInterface::ReferencesReviewComponent, type: :component d
       it 'does not render a warning' do
         result = render_inline(described_class.new(references: references, is_errored: true))
         expect(result.text).not_to include 'Delete 1 reference. You can only include 2 with your application'
-        expect(result.css('div.app-review-warning')).not_to be_present
-        expect(result.css('div.app-review-warning--error')).not_to be_present
+        expect(result.css('div.app-inset-text--important')).not_to be_present
+        expect(result.css('div.app-inset-text--error')).not_to be_present
       end
     end
   end
