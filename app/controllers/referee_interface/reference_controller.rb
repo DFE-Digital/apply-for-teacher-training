@@ -131,10 +131,7 @@ module RefereeInterface
     end
 
     def finish
-      @min_feedback_provided = reference
-        .application_form
-        .application_references
-        .minimum_feedback_provided?
+      @reference_cancelled = reference.cancelled?
       @application_form = reference.application_form
     end
 
