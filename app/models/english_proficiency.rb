@@ -1,4 +1,6 @@
 class EnglishProficiency < ApplicationRecord
+  audited associated_with: :application_form
+
   belongs_to :application_form
   belongs_to :efl_qualification, polymorphic: true, optional: true, dependent: :destroy
 
