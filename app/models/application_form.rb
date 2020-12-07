@@ -3,7 +3,7 @@
 class ApplicationForm < ApplicationRecord
   audited
   has_associated_audits
-  geocoded_by :address_formatted_for_geocoding
+  geocoded_by :address_formatted_for_geocoding, params: { region: 'uk' }
 
   include Chased
 
