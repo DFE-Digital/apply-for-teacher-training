@@ -16,6 +16,21 @@ RSpec.describe ChangeOffer do
     expect { service.save }.to change(application_choice, :offered_course_option_id)
   end
 
+  it 'populates offer_changed_at for the application choice' do
+    expect { service.save }.to change(application_choice, :offer_changed_at)
+  end
+
+  it 'groups offer(ed)_ changes in a single audit', with_audited: true do
+    service.save
+
+    audit_with_option_id =
+      application_choice.audits
+      .where('jsonb_exists(audited_changes, :key)', key: 'offered_course_option_id')
+      .last
+
+    expect(audit_with_option_id.audited_changes).to have_key('offer_changed_at')
+  end
+
   it 'replaces conditions if offer_conditions is supplied' do
     application_choice.update(offer: { 'conditions' => ['DBS check'] })
 
