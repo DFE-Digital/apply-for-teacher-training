@@ -13,7 +13,17 @@ class UCASMatch < ApplicationRecord
     initial_emails_sent: 'initial_emails_sent',
     reminder_emails_sent: 'reminder_emails_sent',
     ucas_withdrawal_requested: 'ucas_withdrawal_requested',
+    resolved_on_apply: 'resolved_on_apply',
+    resolved_on_ucas: 'resolved_on_ucas',
   }
+
+  def ready_to_resolve?
+    action_taken.present? && !action_needed? && !resolved?
+  end
+
+  def resolved?
+    %w[resolved_on_apply resolved_on_ucas].include?(action_taken)
+  end
 
   def trackable_applicant_key
     ucas_matched_applications.first.trackable_applicant_key
@@ -22,13 +32,15 @@ class UCASMatch < ApplicationRecord
   def action_needed?
     return false if processed?
 
-    return false unless dual_application_or_dual_acceptance?
+    return false if resolved?
 
-    return true if ucas_withdrawal_requested?
+    return false unless dual_application_or_dual_acceptance?
 
     return need_to_send_reminder_emails? if initial_emails_sent?
 
     return need_to_request_withdrawal_from_ucas? if reminder_emails_sent?
+
+    return false if ucas_withdrawal_requested?
 
     true
   end
@@ -74,31 +86,39 @@ class UCASMatch < ApplicationRecord
       :reminder_emails_sent
     elsif reminder_emails_sent? && need_to_request_withdrawal_from_ucas?
       :ucas_withdrawal_requested
-    elsif ucas_withdrawal_requested?
-      :confirmed_withdrawal_from_ucas
     end
   end
 
   def last_action
     return nil if action_taken.nil?
 
-    return :confirmed_withdrawal_from_ucas if processed? && ucas_withdrawal_requested?
-
     action_taken.to_sym
   end
 
   def application_choices_for_same_course_on_both_services
-    ucas_matched_applications.select(&:both_scheme?).map(&:application_choice)
+    duplicate_course_applications.map(&:application_choice)
+  end
+
+  def duplicate_applications_withdrawn_from_ucas?
+    duplicate_course_applications.any? && duplicate_course_applications.all?(&:application_withdrawn_on_ucas?)
+  end
+
+  def duplicate_applications_withdrawn_from_apply?
+    duplicate_course_applications.any? && duplicate_course_applications.all?(&:application_withdrawn_on_apply?)
   end
 
   def application_for_the_same_course_in_progress_on_both_services?
-    application_for_the_same_course_on_both_services = ucas_matched_applications.select(&:both_scheme?)
-
-    application_for_the_same_course_on_both_services.map(&:application_in_progress_on_ucas?).any? &&
-      application_for_the_same_course_on_both_services.map(&:application_in_progress_on_apply?).any?
+    duplicate_course_applications.map(&:application_in_progress_on_ucas?).any? &&
+      duplicate_course_applications.map(&:application_in_progress_on_apply?).any?
   end
 
   def calculate_action_date(action, effective_date)
     TimeLimitCalculator.new(rule: action, effective_date: effective_date).call.fetch(:time_in_future).to_date
+  end
+
+private
+
+  def duplicate_course_applications
+    ucas_matched_applications.select(&:both_scheme?)
   end
 end

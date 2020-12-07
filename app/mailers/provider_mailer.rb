@@ -113,6 +113,28 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def ucas_match_resolved_on_ucas_email(provider_user, application_choice)
+    @application_form = application_choice.application_form
+    @course_name_and_code = application_choice.course.name_and_code
+
+    email_for_provider(
+      provider_user,
+      @application_form,
+      subject: I18n.t!('provider_mailer.ucas_match.resolved_on_ucas.subject'),
+    )
+  end
+
+  def ucas_match_resolved_on_apply_email(provider_user, application_choice)
+    @application_form = application_choice.application_form
+    @course_name_and_code = application_choice.course.name_and_code
+
+    email_for_provider(
+      provider_user,
+      @application_form,
+      subject: I18n.t!('provider_mailer.ucas_match.resolved_on_apply.subject'),
+    )
+  end
+
 private
 
   def email_for_provider(provider_user, application_form, args = {})

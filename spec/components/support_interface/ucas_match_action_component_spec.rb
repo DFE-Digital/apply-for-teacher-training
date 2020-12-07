@@ -103,43 +103,40 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
 
         result = render_inline(described_class.new(ucas_match))
 
-        expect(result.text).to include('Action needed Confirm withdrawal from UCAS')
-        expect(result.css('input').attr('value').value).to include('Confirm the application was withdrawn from UCAS')
-        expect(result.css('form').attr('action').value).to include('/process-match')
-        expect(result.text).to include('We need to ensure that UCAS have removed the candidate’s duplicate application from UTT.')
+        expect(result.text).to include('No action required')
+        expect(result.text).to include(' We requested withdrawal from UCAS on the 18 October 2020 at 12:00p')
       end
     end
 
-    it 'renders correct information after withdrawal from UCAS was confirmed by a support user' do
+    it 'renders correct information after UCAS resolution of a match' do
       Timecop.freeze(Time.zone.local(2020, 10, 19, 12, 0, 0)) do
         ucas_match = create(:ucas_match,
                             matching_state: 'processed',
                             scheme: 'U',
-                            action_taken: 'ucas_withdrawal_requested',
+                            action_taken: 'resolved_on_ucas',
                             candidate_last_contacted_at: Time.zone.now - 1.day)
         allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
 
         result = render_inline(described_class.new(ucas_match))
 
         expect(result.text).to include('No action required')
-        expect(result.text).to include('We confirmed that the candidate was withdrawn from UCAS. We contacted UCAS to request removal from UTT on the 18 October 2020')
+        expect(result.text).to include('We confirmed that the candidate was withdrawn from UCAS on the 18 October 2020')
       end
     end
 
-    it 'renders correct information after UCAS matching data was updated automatically after requesting withdrawal' do
+    it 'renders correct information after Apply resolution of a match' do
       Timecop.freeze(Time.zone.local(2020, 10, 19, 12, 0, 0)) do
         ucas_match = create(:ucas_match,
-                            matching_state: 'matching_data_updated',
+                            matching_state: 'processed',
                             scheme: 'U',
-                            ucas_status: :withdrawn,
-                            action_taken: 'ucas_withdrawal_requested',
-                            candidate_last_contacted_at: Time.zone.now - 8.days)
-        allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(false)
+                            action_taken: 'resolved_on_apply',
+                            candidate_last_contacted_at: Time.zone.now - 1.day)
+        allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
 
         result = render_inline(described_class.new(ucas_match))
 
         expect(result.text).to include('No action required')
-        expect(result.text).not_to include('Confirm withdrawal from UCAS')
+        expect(result.text).to include('We confirmed that the candidate was withdrawn from Apply on the 18 October 2020')
       end
     end
   end

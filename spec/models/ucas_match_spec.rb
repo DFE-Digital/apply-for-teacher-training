@@ -5,6 +5,12 @@ RSpec.describe UCASMatch do
   let(:course) { create(:course) }
   let!(:application_form_awaiting_provider_decision) { create(:completed_application_form, candidate_id: candidate.id, application_choices_count: 1) }
   let(:course1) { application_form_awaiting_provider_decision.application_choices.first.course_option.course }
+  let(:both_schemes_match) do
+    { 'Scheme' => 'B',
+      'Course code' => course.code.to_s,
+      'Apply candidate ID' => candidate.id.to_s,
+      'Provider code' => course.provider.code.to_s }
+  end
 
   describe '#action_needed?' do
     it 'returns false if ucas match is processed' do
@@ -33,7 +39,7 @@ RSpec.describe UCASMatch do
       end
     end
 
-    it 'returns false if reminder emails were sent and we don not need to request withdrawal from UCAS yet' do
+    it 'returns false if reminder emails were sent and we do not need to request withdrawal from UCAS yet' do
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: Time.zone.now)
       allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
       allow(ucas_match).to receive(:need_to_request_withdrawal_from_ucas?).and_return(false)
@@ -49,11 +55,11 @@ RSpec.describe UCASMatch do
       expect(ucas_match.action_needed?).to eq(true)
     end
 
-    it 'returns true if we requested withdrawal from UCAS' do
+    it 'returns false if we requested withdrawal from UCAS' do
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: Time.zone.now)
       allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
 
-      expect(ucas_match.action_needed?).to eq(true)
+      expect(ucas_match.action_needed?).to eq(false)
     end
 
     it 'returns true if there is a dual application or dual acceptance' do
@@ -71,24 +77,80 @@ RSpec.describe UCASMatch do
     end
   end
 
+  describe '#resolved?' do
+    it 'returns true if action_taken is resolved_on_apply or resolved_on_ucas' do
+      ucas_match = create(:ucas_match, action_taken: 'resolved_on_ucas')
+
+      expect(ucas_match.resolved?).to eq(true)
+    end
+  end
+
+  describe '#ready_to_resolve' do
+    it 'returns true if no further action is required and the match is not resolved' do
+      ucas_match = create(:ucas_match, action_taken: 'initial_emails_sent', matching_state: 'processed')
+
+      expect(ucas_match.ready_to_resolve?).to eq(true)
+    end
+
+    it 'returns false if no further action is required and the match is resolved' do
+      ucas_match = create(:ucas_match, action_taken: 'resolved_on_ucas')
+
+      expect(ucas_match.ready_to_resolve?).to eq(false)
+    end
+  end
+
+  describe '#duplicate_applications_withdrawn_from_ucas?' do
+    let(:withdrawn_match) { both_schemes_match.merge('Withdrawns' => '1') }
+
+    it 'returns true if all duplicate applications are withdrawn from UCAS' do
+      ucas_match = create(:ucas_match, matching_data: [withdrawn_match, withdrawn_match])
+
+      expect(ucas_match.duplicate_applications_withdrawn_from_ucas?).to eq(true)
+    end
+
+    it 'returns false if there are still non withdrawn duplicate applications on UCAS' do
+      non_withdrawn_match = both_schemes_match.merge('Withdrawns' => '')
+      ucas_match = create(:ucas_match, matching_data: [withdrawn_match, non_withdrawn_match])
+
+      expect(ucas_match.duplicate_applications_withdrawn_from_ucas?).to eq(false)
+    end
+  end
+
+  describe '#duplicate_applications_withdrawn_from_apply?' do
+    let(:application_choice) { create(:application_choice, status: 'withdrawn') }
+    let(:course) { application_choice.course_option.course }
+
+    it 'returns true if all duplicate applications are withdrawn from Apply' do
+      create(:application_form, candidate_id: candidate.id,
+                                application_choices: [application_choice])
+      ucas_match = create(:ucas_match, matching_data: [both_schemes_match, both_schemes_match])
+
+      expect(ucas_match.duplicate_applications_withdrawn_from_apply?).to eq(true)
+    end
+
+    it 'returns false if there are still non withdrawn duplicate applications on Apply' do
+      active_application_choice = create(:application_choice, status: '')
+      create(:application_form, candidate_id: candidate.id,
+                                application_choices: [application_choice, active_application_choice])
+      application_course = active_application_choice.course_option.course
+      active_apply_match = both_schemes_match.merge({ 'Course code' => application_course.code.to_s,
+                                                      'Provider code' => application_course.provider.code.to_s })
+      ucas_match = create(:ucas_match, matching_data: [both_schemes_match, active_apply_match])
+
+      expect(ucas_match.duplicate_applications_withdrawn_from_apply?).to eq(false)
+    end
+  end
+
   describe '#dual_application_or_dual_acceptance?' do
     it 'returns true if a candidate applied for the same course on both services and both applications are still in progress' do
-      ucas_matching_data = { 'Scheme' => 'B',
-                             'Course code' => course1.code.to_s,
-                             'Provider code' => course1.provider.code.to_s,
-                             'Apply candidate ID' => candidate.id.to_s }
-      ucas_match = create(:ucas_match, matching_state: 'new_match', candidate: candidate, matching_data: [ucas_matching_data])
+      ucas_match = create(:ucas_match, matching_state: 'new_match', candidate: candidate, matching_data: [both_schemes_match])
 
       expect(ucas_match.dual_application_or_dual_acceptance?).to eq(true)
     end
 
     it 'returns false if a candidate applied for the same course on both services but at least one of them was unsucesfull' do
-      ucas_matching_data = { 'Scheme' => 'B',
-                             'Course code' => course1.code.to_s,
-                             'Provider code' => course1.provider.code.to_s,
-                             'Apply candidate ID' => candidate.id.to_s,
-                             'Rejects' => '1' }
-      ucas_match = create(:ucas_match, matching_state: 'new_match', candidate: candidate, matching_data: [ucas_matching_data])
+      both_schemes_match.merge!('Rejects' => '1')
+      ucas_match = create(:ucas_match, matching_state: 'new_match', candidate: candidate, matching_data: [both_schemes_match])
 
       expect(ucas_match.dual_application_or_dual_acceptance?).to eq(false)
     end
@@ -169,7 +231,7 @@ RSpec.describe UCASMatch do
       end
     end
 
-    it 'returns false if initial emails were sent and we don not need to send the reminders yet' do
+    it 'returns false if initial emails were sent and we do not need to send the reminders yet' do
       emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: emails_sent_at)
 
@@ -198,7 +260,7 @@ RSpec.describe UCASMatch do
       end
     end
 
-    it 'returns false if reminder emails were sent and we don not need to request withdrawal from ucas yet' do
+    it 'returns false if reminder emails were sent and we do not need to request withdrawal from ucas yet' do
       emails_sent_at = Time.zone.now
       ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: emails_sent_at)
 
@@ -237,12 +299,6 @@ RSpec.describe UCASMatch do
 
       expect(ucas_match.next_action).to eq(:ucas_withdrawal_requested)
     end
-
-    it 'returns :confirmed_withdrawal_from_ucas if withdrawal from UCAS was requested' do
-      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: Time.zone.now)
-
-      expect(ucas_match.next_action).to eq(:confirmed_withdrawal_from_ucas)
-    end
   end
 
   describe '#last_action' do
@@ -270,10 +326,16 @@ RSpec.describe UCASMatch do
       expect(ucas_match.last_action).to eq(:ucas_withdrawal_requested)
     end
 
-    it 'returns :confirmed_withdrawal_from_ucas if reminder emails were sent and the match is processed' do
-      ucas_match = create(:ucas_match, matching_state: 'processed', action_taken: 'ucas_withdrawal_requested')
+    it 'returns :resolved_on_ucas if the match was resolved on ucas' do
+      ucas_match = create(:ucas_match, matching_state: 'processed', action_taken: 'resolved_on_ucas')
 
-      expect(ucas_match.last_action).to eq(:confirmed_withdrawal_from_ucas)
+      expect(ucas_match.last_action).to eq(:resolved_on_ucas)
+    end
+
+    it 'returns :resolved_on_apply if the match was resolved on Apply' do
+      ucas_match = create(:ucas_match, matching_state: 'processed', action_taken: 'resolved_on_apply')
+
+      expect(ucas_match.last_action).to eq(:resolved_on_apply)
     end
   end
 
