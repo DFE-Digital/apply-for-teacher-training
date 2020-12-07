@@ -206,6 +206,56 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
     end
   end
 
+  describe '#initialize' do
+    let(:current_application) { create(:application_form) }
+    let(:intermediate_data_service) do
+      Class.new {
+        def read
+          {
+            'qualification_type' => 'GCSE',
+            'subject' => 'French',
+            'grade' => 'D',
+          }
+        end
+      }.new
+    end
+
+    context 'a current qualification does not exist' do
+      it 'returns data stored in the intermediate data service' do
+        form = CandidateInterface::OtherQualificationDetailsForm.new(
+          current_application,
+          intermediate_data_service,
+          current_step: :details,
+          editing: true,
+        )
+
+        expect(form.award_year).to be_nil
+        expect(form.qualification_type).to eq(intermediate_data_service.read['qualification_type'])
+        expect(form.subject).to eq(intermediate_data_service.read['subject'])
+        expect(form.grade).to eq(intermediate_data_service.read['grade'])
+      end
+    end
+
+    context 'a current qualification exists' do
+      it 'merges the current qualification with data stored in the intermediate data service' do
+        qualification = create(:other_qualification, :non_uk, application_form: current_application)
+
+        form = CandidateInterface::OtherQualificationDetailsForm.new(
+          current_application,
+          intermediate_data_service,
+          id: qualification.id,
+          current_step: :details,
+          editing: true,
+        )
+
+        expect(form.award_year).to eq(qualification.award_year)
+        expect(form.qualification_type).to eq(intermediate_data_service.read['qualification_type'])
+        expect(form.subject).to eq(intermediate_data_service.read['subject'])
+        expect(form.grade).to eq(intermediate_data_service.read['grade'])
+      end
+    end
+  end
+
   describe '#initialize_from_last_qualification' do
     it 'sets choice' do
       qualification = build_stubbed(

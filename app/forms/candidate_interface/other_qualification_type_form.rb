@@ -13,6 +13,13 @@ module CandidateInterface
     attr_reader :next_step
     attr_accessor :editing, :id, :current_step
 
+    attr_accessor :subject
+    attr_accessor :institution_country
+    attr_accessor :choice
+    attr_accessor :award_year
+    attr_accessor :predicted_grade
+    attr_accessor :grade
+
     attr_accessor :qualification_type
     attr_accessor :other_uk_qualification_type
     attr_accessor :non_uk_qualification_type
@@ -25,7 +32,11 @@ module CandidateInterface
     def initialize(current_application = nil, intermediate_data_service = nil, options = nil)
       @current_application = current_application
       @intermediate_data_service = intermediate_data_service
-      options = @intermediate_data_service.read.merge(options.select { |_, value| value.present? }) if @intermediate_data_service
+      options = if @intermediate_data_service
+                  prepared_options = prepare(options)
+                  @intermediate_data_service.read.merge(prepared_options)
+                end
+
       super(options)
     end
 
@@ -57,6 +68,16 @@ module CandidateInterface
 
     def qualification_type_changed?
       id && ApplicationQualification.find(id)&.qualification_type != qualification_type
+    end
+
+    def prepare(options)
+      options.select { |_, value| value.present? }
+
+      if [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE].include?(options[:qualification_type])
+        options[:non_uk_qualification_type] = ''
+      end
+
+      options
     end
   end
 end
