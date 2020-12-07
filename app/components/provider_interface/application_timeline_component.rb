@@ -5,6 +5,8 @@ module ProviderInterface
 
     def initialize(application_choice:)
       @application_choice = application_choice
+      audits = GetActivityLogEvents.call(application_choices: [application_choice])
+      @activity_log_events = audits.map { |audit| ActivityLogEvent.new(audit: audit) }
     end
 
     Event = Struct.new(:title, :actor, :date, :link_name, :link_path)
@@ -24,15 +26,22 @@ module ProviderInterface
 
   private
 
+    def with_activity_log_events_for(attr)
+      filtered = @activity_log_events.select { |event| event.changes.key?(attr) }
+      filtered.map { |event| yield event }
+    end
+
+    def timeline_events
+      (status_change_events + note_events + feedback_events).sort_by(&:date).reverse
+    end
+
     def status_change_events
-      changes = FindStatusChangeAudits.new(application_choice: application_choice).call
-      changes = changes.select { |change| TITLES.key?(change.status) }
-      changes.map do |change|
+      with_activity_log_events_for('status') do |event|
         Event.new(
-          title_for(change),
-          actor_for(change),
-          change.changed_at,
-          *link_params_for_status(change),
+          title_for(event.application_status_at_event),
+          actor_for(event),
+          event.created_at,
+          *link_params_for_status(event.application_status_at_event),
         )
       end
     end
@@ -54,30 +63,19 @@ module ProviderInterface
     end
 
     def feedback_events
-      if application_choice.rejected_by_default
-        application_choice.audits.where(action: 'update').where(
-          'jsonb_exists(audited_changes, :key)',
-          key: :reject_by_default_feedback_sent_at,
-        ).order('created_at').map do |feedback_audit|
-          Event.new(
-            'Feedback sent',
-            actor_for(feedback_audit),
-            feedback_audit.created_at,
-            'View feedback',
-            provider_interface_application_choice_path(application_choice),
-          )
-        end
-      else
-        []
+      with_activity_log_events_for('reject_by_default_feedback_sent_at') do |event|
+        Event.new(
+          'Feedback sent',
+          actor_for(event),
+          event.created_at,
+          'View feedback',
+          provider_interface_application_choice_path(application_choice),
+        )
       end
     end
 
-    def events
-      (status_change_events + note_events + feedback_events).sort_by(&:date).reverse
-    end
-
-    def title_for(change)
-      TITLES[change.status]
+    def title_for(status)
+      TITLES[status]
     end
 
     def actor_for(change)
@@ -90,8 +88,8 @@ module ProviderInterface
       end
     end
 
-    def link_params_for_status(change)
-      title_for(change).match(/^Application/) ? application_link_params : offer_link_params
+    def link_params_for_status(status)
+      title_for(status).match(/^Application/) ? application_link_params : offer_link_params
     end
 
     def application_link_params
