@@ -16,11 +16,15 @@ module SupportInterface
         ucas_matches = ucas_matches.where(id: action_needed_ids)
       end
 
+      if applied_filters[:action_taken]
+        ucas_matches = ucas_matches.where(action_taken: applied_filters[:action_taken])
+      end
+
       ucas_matches
     end
 
     def filters
-      @filters ||= [year_filter] + [action_needed_filter]
+      @filters ||= [year_filter] + [action_needed_filter] + [action_taken_filter]
     end
 
   private
@@ -53,6 +57,25 @@ module SupportInterface
           checked: applied_filters[:action_needed]&.include?('yes'),
         }],
       }
+    end
+
+    def action_taken_filter
+      {
+        type: :checkboxes,
+        heading: 'Last action taken',
+        name: 'action_taken',
+        options: action_taken_options,
+      }
+    end
+
+    def action_taken_options
+      UCASMatch.distinct(:action_taken).pluck(:action_taken).compact.map do |action|
+        {
+          value: action,
+          label: action.humanize,
+          checked: applied_filters[:action_taken]&.include?(action),
+        }
+      end
     end
   end
 end

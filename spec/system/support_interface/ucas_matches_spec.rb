@@ -47,6 +47,11 @@ RSpec.feature 'See UCAS matches' do
     and_when_i_click 'Confirm withdrawal from UCAS was requested'
 
     then_i_see_last_performed_action_is 'requested withdrawal from UCAS'
+
+    when_i_go_to_ucas_matches_page
+    and_when_i_filter_by_last_action_taken
+    then_i_only_see_matches_with_selected_action_taken
+    and_i_expect_the_relevant_action_taken_tags_to_be_visible
   end
 
   def given_i_am_a_support_user
@@ -210,5 +215,19 @@ RSpec.feature 'See UCAS matches' do
   def when_i_visit_the_page_again
     visit current_path
     given_i_am_a_support_user
+  end
+
+  def and_when_i_filter_by_last_action_taken
+    find(:css, '#action_taken-ucas_withdrawal_requested').set(true)
+    click_button('Apply filters')
+  end
+
+  def then_i_only_see_matches_with_selected_action_taken
+    expect(page).to have_content(@candidate2.email_address)
+    expect(page).not_to have_content(@candidate.email_address)
+  end
+
+  def and_i_expect_the_relevant_action_taken_tags_to_be_visible
+    expect(page).to have_css('.moj-filter-tags', text: 'UCAS withdrawal requested')
   end
 end
