@@ -13,5 +13,7 @@ module SupportInterface
     def unavailable_choices
       @monitor = SupportInterface::ApplicationMonitor.new
     end
+
+    def ucas_matches_stats; end
   end
 end

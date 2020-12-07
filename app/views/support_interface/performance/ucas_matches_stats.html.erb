@@ -1,0 +1,13 @@
+<% content_for :title, 'UCAS matches stats' %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'UCAS matches stats'
+    }
+  ]) %>
+<% end %>
