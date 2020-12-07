@@ -34,6 +34,6 @@ OkComputer::Registry.register 'sidekiq_retries_count', SidekiqRetriesCheck.new
 OkComputer::Registry.register 'simulated_failure', SimulatedFailureCheck.new
 OkComputer::Registry.register 'find_sync', FindSyncCheck.new
 OkComputer::Registry.register 'version', OkComputer::AppVersionCheck.new
-OkComputer::Registry.register 'ucas_matching_file_download', UCASMatching::FileDownloadCheck.new
+OkComputer::Registry.register 'ucas_matching_file_download', UCASMatching::FileDownloadCheck.new if HostingEnvironment.production?
 
 OkComputer.make_optional %w[version]
