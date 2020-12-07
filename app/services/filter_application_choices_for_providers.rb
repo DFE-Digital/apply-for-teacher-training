@@ -11,7 +11,7 @@ class FilterApplicationChoicesForProviders
     def search(application_choices, candidates_name)
       return application_choices if candidates_name.blank?
 
-      application_choices.where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{candidates_name}%")
+      application_choices.joins(:application_form).where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{candidates_name}%")
     end
 
     def recruitment_cycle_year(application_choices, years)

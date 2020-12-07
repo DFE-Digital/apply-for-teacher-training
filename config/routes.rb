@@ -545,6 +545,8 @@ Rails.application.routes.draw do
     get '/data-sharing-agreements/new', to: 'provider_agreements#new_data_sharing_agreement', as: :new_data_sharing_agreement
     post '/data-sharing-agreements', to: 'provider_agreements#create_data_sharing_agreement', as: :create_data_sharing_agreement
 
+    get '/activity' => 'activity_log#index', as: :activity_log
+
     get '/applications' => 'application_choices#index'
 
     get '/applications/export/new' => 'applications_exports#new', as: :new_applications_export

@@ -66,7 +66,32 @@
   margin: 0;
 }
 
+.app-timeline__date {
+  @include govuk-font($size: 19);
+  color: $govuk-secondary-text-colour;
+  margin: 0;
+}
+
 .app-timeline__event_link {
   @include govuk-font($size: 19);
   margin-top: govuk-spacing(4);
+}
+
+.app-timeline__log-card__note:last-of-type {
+  margin-bottom: 5px;
+}
+
+.app-timeline__log-card__note {
+  margin-bottom: 10px;
+}
+
+.app-timeline__log-card__note--title {
+  @include govuk-font($size: 19);
+  margin-bottom: 5px;
+}
+
+.app-timeline__log-card__note--content {
+  @include govuk-font($size: 19);
+  color: $govuk-secondary-text-colour;
+  margin-bottom: 20px;
 }

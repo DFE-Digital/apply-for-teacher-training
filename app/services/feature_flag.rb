@@ -33,6 +33,7 @@ class FeatureFlag
     [:multiple_english_gcses, 'Candidates can enter structured data for multiple English GCSEs.', 'Raam Chauhan'],
     [:structured_reasons_for_rejection, 'Allows providers to give specific reasons for rejecting an application', 'Steve Laing'],
     [:sync_from_public_teacher_training_api, 'Pull data from the public Teacher training API as well as the old "Find" API', 'Duncan Brown'],
+    [:provider_activity_log, 'Show provider users a log of all application activity', 'Michael Nacos'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|

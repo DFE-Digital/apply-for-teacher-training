@@ -1,20 +1,33 @@
 class GetActivityLogEvents
+  INCLUDES = {
+    user: %i[
+      provider_user
+      support_user
+    ],
+    auditable: %i[
+      application_form
+      course_option
+      course
+      site
+      provider
+      accredited_provider
+      offered_course_option
+    ],
+  }.freeze
+
+  ONLY_CHANGES_TO = %w[status reject_by_default_feedback_sent_at].freeze
+
   def self.call(application_choices:, since: nil)
     since ||= Time.zone.local(2018, 1, 1) # before the pilot began, i.e. all records
 
-    Audited::Audit.from <<~COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE.squish
-      (
-        SELECT a.*
-          FROM audits a
-          INNER JOIN application_choices ac
-            ON auditable_id = ac.id
-              AND auditable_type = 'ApplicationChoice'
-              AND action = 'update'
-          INNER JOIN (#{application_choices.to_sql}) visible
-            ON ac.id = visible.id
-          WHERE a.created_at >= '#{since.iso8601}'::TIMESTAMPTZ
-          ORDER BY a.created_at DESC
-      ) AS audits
-    COMBINE_AUDITS_WITH_APPLICATION_CHOICES_SCOPE
+    filter = ONLY_CHANGES_TO.map { |f| "jsonb_exists(audited_changes, '#{f}')" }
+                            .join(' OR ')
+
+    Audited::Audit.includes(INCLUDES)
+                  .where(auditable: application_choices)
+                  .where(action: :update)
+                  .where(filter)
+                  .where('created_at > ?', since)
+                  .order(created_at: :desc)
   end
 end

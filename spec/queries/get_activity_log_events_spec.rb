@@ -22,16 +22,11 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
     create(:application_choice, :awaiting_provider_decision, course_option: course_option)
   end
 
-  def create_audit_for_application_choice(application_choice, changes: {})
-    create(:application_choice_audit, user: provider_user, application_choice: application_choice, changes: changes)
+  def create_audit_for_application_choice(application_choice)
+    create(:application_choice_audit, :with_offer, user: provider_user, application_choice: application_choice)
   end
 
   describe '#call' do
-    it 'raises an error when application_choices do not respond to #to_sql ' do
-      array = 2.times.map { create_application_choice_for_course(course_provider_a) }
-      expect { GetActivityLogEvents.call(application_choices: array) }.to raise_error(NoMethodError)
-    end
-
     it 'returns an empty array if no audits are found' do
       expect(service_call).to eq([])
     end
@@ -55,6 +50,7 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
 
       expected = create(
         :application_choice_audit,
+        :with_offer,
         user: provider_user,
         application_choice: choice,
         created_at: 1.day.from_now,
@@ -78,6 +74,48 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
       expect(choice.audits.count).to eq(1)
       expect(choice.audits.first.action).to eq('create')
       expect(result.count).to eq(0)
+    end
+
+    it 'includes events with a status change' do
+      choice = create_application_choice_for_course course_provider_a
+
+      excluded = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'reject_by_default_at' => [nil, 40.days.from_now.iso8601] },
+      )
+
+      included = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'status' => %w[awaiting_provider_decision offer] },
+      )
+
+      result = service_call
+
+      expect(result).not_to include(excluded)
+      expect(result).to include(included)
+    end
+
+    it 'includes events with a reject_by_default_feedback_sent_at change' do
+      choice = create_application_choice_for_course course_provider_a
+
+      excluded = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'reject_by_default_at' => [nil, 40.days.from_now.iso8601] },
+      )
+
+      included = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'reject_by_default_feedback_sent_at' => [nil, Time.zone.now.iso8601] },
+      )
+
+      result = service_call
+
+      expect(result).not_to include(excluded)
+      expect(result).to include(included)
     end
   end
 

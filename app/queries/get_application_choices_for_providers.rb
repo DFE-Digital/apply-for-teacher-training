@@ -16,11 +16,34 @@ class GetApplicationChoicesForProviders
 
     statuses = vendor_api ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.states_visible_to_provider
 
-    ApplicationChoice.includes(*includes)
-      .where('courses.provider_id' => providers, 'courses.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers)
-      .or(ApplicationChoice.includes(*includes)
-        .where('courses.accredited_provider_id' => providers, 'courses.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers))
+    with_course_joins = ApplicationChoice
+      .joins('INNER JOIN course_options AS current_option ON COALESCE(offered_course_option_id, course_option_id) = current_option.id')
+      .joins('INNER JOIN course_options AS original_option ON course_option_id = original_option.id')
+      .joins('INNER JOIN courses AS current_course ON current_option.course_id = current_course.id')
+      .joins('INNER JOIN courses AS original_course ON original_option.course_id = original_course.id')
+
+    applications =
+      with_course_joins.where(
+        'original_course.provider_id' => providers,
+        'original_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+      ).or(
+        with_course_joins.where(
+          'original_course.accredited_provider_id' => providers,
+          'original_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+        ),
+      ).or(
+        with_course_joins.where(
+          'current_course.provider_id' => providers,
+          'current_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+        ),
+      ).or(
+        with_course_joins.where(
+          'current_course.accredited_provider_id' => providers,
+          'current_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+        ),
+      )
       .where('status IN (?)', statuses)
-      .select('"application_choices"."id" AS id')
+
+    applications.includes(*includes)
   end
 end

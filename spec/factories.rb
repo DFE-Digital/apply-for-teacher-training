@@ -554,8 +554,8 @@ FactoryBot.define do
       after(:create) do |_choice, evaluator|
         create(
           :application_choice_audit,
+          :with_rejection_by_default_and_feedback,
           application_choice: evaluator,
-          changes: { 'reject_by_default_feedback_sent_at' => Time.zone.now.iso8601 },
         )
       end
     end
@@ -849,6 +849,144 @@ FactoryBot.define do
       audit.auditable_id = evaluator.application_choice.id
       audit.associated = evaluator.application_choice.application_form
       audit.audited_changes = evaluator.changes
+    end
+
+    trait :awaiting_provider_decision do
+      changes do
+        {
+          'status' => %w[unsubmitted awaiting_provider_decision],
+        }
+      end
+    end
+
+    trait :withdrawn do
+      changes do
+        {
+          'status' => %w[awaiting_provider_decision withdrawn],
+        }
+      end
+    end
+
+    trait :with_rejection do
+      application_choice { create(:application_choice, :with_rejection) }
+
+      changes do
+        {
+          'status' => %w[awaiting_provider_decision rejected],
+        }
+      end
+    end
+
+    trait :with_rejection_by_default do
+      application_choice { create(:application_choice, :with_rejection_by_default) }
+
+      changes do
+        {
+          'status' => %w[awaiting_provider_decision rejected],
+        }
+      end
+
+      after(:build) do |audit, _evaluator|
+        audit.auditable.rejected_by_default = true
+      end
+    end
+
+    trait :with_rejection_by_default_and_feedback do
+      application_choice { create(:application_choice, :with_rejection_by_default) }
+
+      changes do
+        {
+          'reject_by_default_feedback_sent_at' => Time.zone.now.iso8601,
+        }
+      end
+
+      after(:build) do |audit, _evaluator|
+        audit.auditable.rejected_by_default = true
+      end
+    end
+
+    trait :with_declined_offer do
+      application_choice { create(:application_choice, :with_declined_offer) }
+
+      changes do
+        {
+          'status' => %w[offer declined],
+        }
+      end
+    end
+
+    trait :with_declined_by_default_offer do
+      application_choice { create(:application_choice, :with_declined_by_default_offer) }
+
+      changes do
+        {
+          'status' => %w[offer declined],
+        }
+      end
+
+      after(:build) do |audit, _evaluator|
+        audit.auditable.declined_by_default = true
+      end
+    end
+
+    trait :with_offer do
+      application_choice { create(:application_choice, :with_offer) }
+
+      changes do
+        {
+          'status' => %w[awaiting_provider_decision offer],
+        }
+      end
+    end
+
+    trait :with_withdrawn_offer do
+      application_choice { create(:application_choice, :with_withdrawn_offer) }
+
+      changes do
+        {
+          'status' => %w[offer offer_withdrawn],
+        }
+      end
+    end
+
+    trait :with_modified_offer do
+      application_choice { create(:application_choice, :with_modified_offer) }
+
+      changes do
+        {
+          'status' => %w[awaiting_provider_decision offer],
+        }
+      end
+    end
+
+    trait :with_accepted_offer do
+      application_choice { create(:application_choice, :with_accepted_offer) }
+
+      changes do
+        {
+          'status' => %w[offer pending_conditions],
+        }
+      end
+    end
+
+    trait :with_recruited do
+      application_choice { create(:application_choice, :with_recruited) }
+
+      changes do
+        {
+          'status' => %w[pending_conditions recruited],
+        }
+      end
+    end
+
+    trait :with_deferred_offer do
+      application_choice { create(:application_choice, :with_deferred_offer) }
+
+      changes do
+        {
+          'status' => %w[pending_conditions offer_deferred],
+        }
+      end
     end
   end
 

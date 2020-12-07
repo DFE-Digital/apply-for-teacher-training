@@ -1,0 +1,34 @@
+<div class="app-timeline__item">
+  <div class="app-timeline__header">
+    <h2 class="app-timeline__title">
+      <%= event_description %>
+    </h2>
+    <p class="app-timeline__date">
+      <time datetime="<%= event.created_at.iso8601 %>">
+        <%= event.created_at.to_s(:govuk_date_and_time) %>
+      </time>
+    </p>
+
+  </div>
+
+  <div class="app-timeline__description">
+    <div class="app-timeline__log-card">
+      <div class="app-timeline__log-card__note">
+        <p class="app-timeline__log-card__note--title">
+          <%= course_option.course.name_and_code %>
+          at
+          <%= course_option.site.name %>
+        </p>
+        <p class="app-timeline__log-card__note--content govuk-!-margin-top-0">
+          <%= course_option.provider.name %>
+          <% if course_option.course.accredited_provider.present? %>
+            – ratified by <%= course_option.course.accredited_provider.name %>
+          <% end %>
+        </p>
+        <% if link[:url].present? %>
+          <p class="app-timeline__event_link"><a class="govuk-link" href="<%= link[:url] %>"><%= link[:text] %></a></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
