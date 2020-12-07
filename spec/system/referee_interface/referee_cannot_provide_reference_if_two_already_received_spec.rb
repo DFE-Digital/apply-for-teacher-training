@@ -67,6 +67,6 @@ RSpec.feature 'Referee is not required to submit a reference' do
 
   def then_i_should_see_that_i_am_not_required_to_give_a_reference
     expect(page).to have_content('Thank you')
-    expect(page).to have_content('You do not need to give a reference anymore.')
+    expect(page).to have_content('You do not need to give a reference anymore')
   end
 end
