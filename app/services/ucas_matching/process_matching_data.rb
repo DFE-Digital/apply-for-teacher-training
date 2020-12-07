@@ -42,6 +42,7 @@ module UCASMatching
         Rails.logger.info "Skipping file with ID #{movit_file.fetch('id')} - we’ve already processed it"
         return
       else
+        UCASMatching::FileDownloadCheck.set_last_sync(Time.zone.now)
         Rails.logger.info "Downloading file with ID #{movit_file.fetch('id')}"
       end
 
@@ -70,7 +71,7 @@ module UCASMatching
     end
 
     def files_in_ucas_movit_folder
-      response = JSON.parse(HTTP.auth(auth_string).get("#{UCASAPI.base_url}/folders/#{UCASAPI.download_folder}/files"))
+      response = JSON.parse(HTTP.auth(auth_string).get("#{UCASAPI.base_url}/folders/#{UCASAPI.download_folder}/files?sortField=uploadStamp&sortDirection=descending"))
       response.fetch('items')
     end
 
