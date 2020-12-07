@@ -69,7 +69,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def then_i_should_see_all_sections_are_complete
     CandidateHelper::APPLICATION_FORM_SECTIONS.each do |section|
-      expect(page).not_to have_selector "[data-qa='missing-#{section}']"
+      expect(page).not_to have_selector "[data-qa='incomplete-#{section}']"
     end
   end
 
