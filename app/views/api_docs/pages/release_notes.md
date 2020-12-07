@@ -1,3 +1,9 @@
+### 7th December 2020
+
+Documentation:
+
+- Clarify the format of the `grade` field in the spec and documentation
+
 ### 19th November 2020
 
 - The `Qualification` object now supports multiple types of English GCSEs (eg. English Language, English Studies Double 
