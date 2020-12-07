@@ -48,7 +48,8 @@ module CandidateInterface
       @intermediate_data_service = intermediate_data_service
       options = @intermediate_data_service.read.merge(options) if @intermediate_data_service
 
-      self.id ||= options[:id]
+      self.id ||= options[:id] || options['id']
+
       options = persistent_attributes(current_qualification).merge(options) if current_qualification
 
       super(options)
