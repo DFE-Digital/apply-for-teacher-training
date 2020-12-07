@@ -39,7 +39,7 @@ module CandidateInterface
       ].compact
     end
 
-    def section_errors
+    def incomplete_sections
       sections_with_completion
         .reject(&:second)
         .map(&:first)
@@ -91,9 +91,18 @@ module CandidateInterface
       end
     end
 
+    def reference_section_errors
+      [].tap do |errors|
+        if @application_form.too_many_complete_references?
+          errors << OpenStruct.new(message: I18n.t('application_form.references.review.more_than_two'), anchor: '#references')
+        end
+      end
+    end
+
     def ready_to_submit?
       sections_with_completion.map(&:second).all? &&
-        application_choice_errors.empty?
+        application_choice_errors.empty? &&
+        reference_section_errors.empty?
     end
 
     def application_choices_added?

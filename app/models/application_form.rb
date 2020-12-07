@@ -213,6 +213,10 @@ class ApplicationForm < ApplicationRecord
     application_references.size < MINIMUM_COMPLETE_REFERENCES
   end
 
+  def too_many_complete_references?
+    application_references.feedback_provided.size > MINIMUM_COMPLETE_REFERENCES
+  end
+
   def ready_to_be_sent_to_provider?
     !can_edit_after_submission? && enough_references_have_been_provided?
   end

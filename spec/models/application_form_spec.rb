@@ -239,6 +239,26 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe '#too_many_complete_references?' do
+    it 'returns true if there are more than 2 references' do
+      application_form = create :application_form
+      references = []
+      3.times { references << create(:reference, :feedback_provided) }
+      application_form.application_references = references
+
+      expect(application_form.too_many_complete_references?).to be true
+    end
+
+    it 'returns false if there are 2 or fewer references' do
+      application_form = create :application_form
+      expect(application_form.too_many_complete_references?).to be false
+      application_form.application_references << create(:reference)
+      expect(application_form.too_many_complete_references?).to be false
+      application_form.application_references << create(:reference)
+      expect(application_form.too_many_complete_references?).to be false
+    end
+  end
+
   describe '#equality_and_diversity_answers_provided?' do
     context 'when minimal expected attributes are present' do
       it 'is true' do

@@ -23,8 +23,9 @@ module CandidateInterface
       if @application_form_presenter.ready_to_submit?
         @further_information_form = FurtherInformationForm.new
       else
-        @errors = @application_form_presenter.section_errors
+        @incomplete_sections = @application_form_presenter.incomplete_sections
         @application_choice_errors = @application_form_presenter.application_choice_errors
+        @reference_section_errors = @application_form_presenter.reference_section_errors
 
         render 'candidate_interface/unsubmitted_application_form/review' and return
       end
