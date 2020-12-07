@@ -41,3 +41,10 @@
     width: 40%;
   }
 }
+
+.app-start-page {
+  .app-header.app-header--full-border,
+  .govuk-header__container {
+    border-bottom-color: transparent;
+  }
+}
