@@ -29,6 +29,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
     then_my_application_is_submitted_and_sent_to_the_provider
     and_i_receive_an_email_that_my_application_has_been_sent
     and_i_do_not_see_referee_related_guidance
+    and_i_cannot_apply_again_yet
   end
 
   def given_the_pilot_is_open
@@ -141,5 +142,11 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
   def and_i_do_not_see_referee_related_guidance
     expect(page).not_to have_content 'References'
+  end
+
+  def and_i_cannot_apply_again_yet
+    visit candidate_interface_start_apply_again_path
+    and_i_click_on_start_now
+    expect(page).to have_current_path candidate_interface_application_complete_path
   end
 end
