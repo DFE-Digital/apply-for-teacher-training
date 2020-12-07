@@ -10,6 +10,11 @@ module ProviderInterface
 
     TRIBAL_MAX_ADDRESS_LENGTH = 50
     MAX_ADDRESS_LINES = 4
+    FIELDS = %i[
+      po_box unit level house house_number road
+      suburb city_district city state_district state
+      postcode
+    ].freeze
 
     def convert(address_file_name)
       parsed_addresses = {}
@@ -62,12 +67,16 @@ module ProviderInterface
     end
 
     def address_lines(address)
-      address = Hash[address.map(&:values)]
+      # Parsed address data may contain the same label twice eg. [{ label: :road 'Here' }, { label: :road, 'There' }]
+      concatenated_fields = {}
+      FIELDS.each do |field|
+        concatenated_fields[field] = address.select { |a| a[:label] == field && a[:value].present? }.map { |h| h[:value] }.join(' ').squish
+      end
 
       lines = [
-        address.slice(:po_box, :unit, :level, :house, :house_number, :road).values.compact.join(' '),
-        address.slice(:suburb, :city_district, :city, :state_district, :state).values.compact.join(' '),
-        address[:postcode],
+        concatenated_fields.slice(:po_box, :unit, :level, :house, :house_number, :road).values.compact.join(' ').squish,
+        concatenated_fields.slice(:suburb, :city_district, :city, :state_district, :state).values.compact.join(' ').squish,
+        concatenated_fields[:postcode].squish,
       ].reject(&:blank?)
 
       return lines if has_lines_of_acceptable_length?(lines)
