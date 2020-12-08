@@ -40,8 +40,8 @@ module SupportInterface
       {
         key: 'Full name',
         value: "#{first_name} #{last_name}",
-        action: 'Change',
-        action_path: support_interface_application_form_edit_applicant_details_path(application_form),
+        action: 'name',
+        change_path: support_interface_application_form_edit_applicant_details_path(application_form),
       }
     end
 
@@ -56,8 +56,8 @@ module SupportInterface
       {
         key: 'Phone number',
         value: phone_number || MISSING,
-        action: 'Change',
-        action_path: support_interface_application_form_edit_applicant_details_path(application_form),
+        action: 'phone number',
+        change_path: support_interface_application_form_edit_applicant_details_path(application_form),
       }
     end
 
@@ -90,8 +90,8 @@ module SupportInterface
       {
         key: 'Date of birth',
         value: application_form.date_of_birth ? application_form.date_of_birth.to_s(:govuk_date) : MISSING,
-        action: 'Change',
-        action_path: support_interface_application_form_edit_applicant_details_path(application_form),
+        action: 'date of birth',
+        change_path: support_interface_application_form_edit_applicant_details_path(application_form),
       }
     end
 
