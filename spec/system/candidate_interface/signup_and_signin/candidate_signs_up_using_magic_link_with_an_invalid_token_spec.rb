@@ -13,7 +13,6 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
 
     when_the_magic_link_token_is_overwritten
     and_i_click_on_the_link_in_my_email
-    and_i_confirm_the_sign_in
     then_i_am_taken_to_the_expired_link_page
 
     when_i_click_the_button_to_send_me_a_sign_in_email
@@ -54,7 +53,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
   end
 
   def when_the_magic_link_token_is_overwritten
-    Candidate.find_by(email_address: @email).update(magic_link_token: MagicLinkToken.new.raw)
+    Candidate.find_by(email_address: @email).authentication_tokens.delete_all
   end
 
   def and_i_click_on_the_link_in_my_email

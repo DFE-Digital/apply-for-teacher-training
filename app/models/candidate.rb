@@ -1,5 +1,7 @@
 class Candidate < ApplicationRecord
   include Chased
+  include AuthenticatedUsingMagicLinks
+
   # Only Devise's :timeoutable module is enabled to handle session expiry
   devise :timeoutable
   audited last_signed_in_at: true
@@ -27,23 +29,6 @@ class Candidate < ApplicationRecord
 
   def last_updated_application
     application_forms.max_by(&:updated_at)
-  end
-
-  def refresh_magic_link_token!
-    magic_link_token = MagicLinkToken.new
-    update!(
-      magic_link_token: magic_link_token.encrypted,
-      magic_link_token_sent_at: Time.zone.now,
-    )
-    magic_link_token.raw
-  end
-
-  def update_sign_in_fields!
-    update!(
-      magic_link_token: nil,
-      magic_link_token_sent_at: nil,
-      last_signed_in_at: Time.zone.now,
-    )
   end
 
   def encrypted_id

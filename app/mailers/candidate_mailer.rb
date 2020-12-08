@@ -401,7 +401,7 @@ private
   end
 
   def candidate_magic_link(candidate)
-    raw_token = candidate.refresh_magic_link_token!
+    raw_token = candidate.create_magic_link_token!
     candidate_interface_authenticate_url(u: candidate.encrypted_id, token: raw_token)
   end
 
