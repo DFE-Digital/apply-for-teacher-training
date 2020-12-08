@@ -151,7 +151,11 @@ RSpec.describe SetDeclineByDefault do
       end
 
       it 'the DBD for all offers is extended if an offer is updated' do
-        choices[1].update(status: :offer, offered_at: last_decision_at + 1.day)
+        choices[1].update(
+          status: :offer,
+          offered_at: last_decision_at,
+          offer_changed_at: last_decision_at + 1.day,
+        )
 
         call_service
 
