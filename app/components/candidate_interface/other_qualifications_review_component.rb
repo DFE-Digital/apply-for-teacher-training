@@ -115,7 +115,7 @@ module CandidateInterface
     end
 
     def grade_set_key(qualification)
-      if qualification.qualification_type == 'non_uk'
+      if qualification.qualification_type == 'non_uk' || (qualification.qualification_type == 'Other' && qualification.qualification_type_name != 'BTEC')
         t('application_form.other_qualification.grade.optional_label')
       else
         t('application_form.other_qualification.grade.label')

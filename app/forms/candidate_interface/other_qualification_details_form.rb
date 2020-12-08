@@ -134,7 +134,7 @@ module CandidateInterface
         subject: subject,
         institution_country: institution_country,
         predicted_grade: predicted_grade,
-        grade: grade,
+        grade: grade.presence,
         other_uk_qualification_type: other_uk_qualification_type,
         non_uk_qualification_type: non_uk_qualification_type,
         award_year: award_year,

@@ -8,7 +8,7 @@ class QualificationGradeComponent < ViewComponent::Base
     if @qualification.predicted_grade?
       "#{@qualification.grade} (predicted)"
     else
-      @qualification.grade
+      @qualification.grade || 'Not entered'
     end
   end
 
