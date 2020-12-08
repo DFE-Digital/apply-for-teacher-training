@@ -36,6 +36,18 @@ RSpec.describe GeocodeApplicationAddressWorker do
         expect(application.latitude).to be_nil
         expect(application.longitude).to be_nil
       end
+
+      it 'does not use result if geocoder returns nil' do
+        application = create(:application_form, latitude: 51.23456, longitude: 1.23456)
+        allow(application).to receive(:geocode).and_return(nil)
+        allow(ApplicationForm).to receive(:find).with(application.id).and_return(application)
+
+        described_class.new.perform(application.id)
+
+        application.reload
+        expect(application.latitude).to eq 51.23456
+        expect(application.longitude).to eq 1.23456
+      end
     end
   end
 end

@@ -8,6 +8,8 @@ class GeocodeApplicationAddressWorker
 
     application_form = ApplicationForm.find(application_form_id)
     coordinates = application_form.geocode
+    return if coordinates.nil?
+
     application_form.latitude, application_form.longitude = outside_uk_or_unknown?(coordinates) ? [nil, nil] : coordinates
 
     application_form.save!
