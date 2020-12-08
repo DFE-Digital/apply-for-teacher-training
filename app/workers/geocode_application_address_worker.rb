@@ -8,7 +8,7 @@ class GeocodeApplicationAddressWorker
 
     application_form = ApplicationForm.find(application_form_id)
     coordinates = application_form.geocode
-    application_form.latitude, application_form.longitude = outside_uk?(coordinates) ? [nil, nil] : coordinates
+    application_form.latitude, application_form.longitude = outside_uk_or_unknown?(coordinates) ? [nil, nil] : coordinates
 
     application_form.save!
   end
@@ -20,9 +20,10 @@ private
   WESTERLY_LIMIT = -8.638
   EASTERLY_LIMIT = 1.46
 
-  def outside_uk?(coordinates)
+  def outside_uk_or_unknown?(coordinates)
     latitude, longitude = coordinates
-    latitude < SOUTHERLY_LIMIT ||
+    (latitude.blank? || longitude.blank?) ||
+      latitude < SOUTHERLY_LIMIT ||
       latitude > NORTHERLY_LIMIT ||
       longitude < WESTERLY_LIMIT ||
       longitude > EASTERLY_LIMIT
