@@ -1,4 +1,4 @@
-<% content_for :title, 'UCAS matches stats' %>
+<% content_for :title, 'UCAS matches statistics' %>
 
 <% content_for :before_content do %>
   <%= render BreadcrumbComponent.new(items: [
@@ -7,7 +7,12 @@
       path: support_interface_performance_path
     },
     {
-      text: 'UCAS matches stats'
+      text: 'UCAS matches statistics'
     }
   ]) %>
 <% end %>
+<h2 class="govuk-heading-m govuk-!-margin-top-9"> Recruitment cycle <%= RecruitmentCycle::CYCLES[RecruitmentCycle.current_year.to_s] %></h2>
+<%= render SupportInterface::UCASMatchesStatisticsComponent.new(UCASMatch.where(recruitment_cycle_year: RecruitmentCycle.current_year)) %>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-9"> Recruitment cycle <%= RecruitmentCycle::CYCLES[RecruitmentCycle.previous_year.to_s] %></h2>
+<%= render SupportInterface::UCASMatchesStatisticsComponent.new(UCASMatch.where(recruitment_cycle_year: RecruitmentCycle.previous_year)) %>
