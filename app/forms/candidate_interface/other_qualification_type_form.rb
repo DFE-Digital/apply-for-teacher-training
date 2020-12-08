@@ -13,6 +13,13 @@ module CandidateInterface
     attr_reader :next_step
     attr_accessor :editing, :id, :current_step
 
+    attr_accessor :subject
+    attr_accessor :institution_country
+    attr_accessor :choice
+    attr_accessor :award_year
+    attr_accessor :predicted_grade
+    attr_accessor :grade
+
     attr_accessor :qualification_type
     attr_accessor :other_uk_qualification_type
     attr_accessor :non_uk_qualification_type
@@ -26,6 +33,12 @@ module CandidateInterface
       @current_application = current_application
       @intermediate_data_service = intermediate_data_service
       options = @intermediate_data_service.read.merge(options.select { |_, value| value.present? }) if @intermediate_data_service
+
+      if options && [A_LEVEL_TYPE, AS_LEVEL_TYPE, GCSE_TYPE].include?(options['qualification_type'])
+        options['non_uk_qualification_type'] = nil
+        options['institution_country'] = nil
+      end
+
       super(options)
     end
 
@@ -39,7 +52,7 @@ module CandidateInterface
       application_qualification.update!(attributes_for_persistence)
     end
 
-    PERSISTENT_ATTRIBUTES = %w[id current_step editing qualification_type other_uk_qualification_type non_uk_qualification_type].freeze
+    PERSISTENT_ATTRIBUTES = %w[id current_step editing qualification_type other_uk_qualification_type non_uk_qualification_type institution_country].freeze
 
   private
 
