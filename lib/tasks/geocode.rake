@@ -18,8 +18,11 @@ namespace :geocode do
           application_batch.each_slice(10) do |slice|
             threads = slice.map do |application|
               Thread.new do
-                application.latitude, application.longitude = application.geocode
-                application.save!
+                coordinates = application.geocode
+                if coordinates
+                  application.latitude, application.longitude = GeocodeFilter.outside_uk?(coordinates) ? [nil, nil] : coordinates
+                  application.save!
+                end
               end
             end
             threads.each(&:join)
