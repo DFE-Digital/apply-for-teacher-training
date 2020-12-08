@@ -6,7 +6,11 @@ RSpec.describe ChangeOffer do
   let(:provider) { provider_user.providers.first }
   let(:original_course_option) { course_option_for_provider(provider: provider) }
   let(:new_course_option) { course_option_for_provider(provider: provider) }
-  let(:application_choice) { create(:application_choice, :with_modified_offer, course_option: original_course_option) }
+  let(:application_choice) do
+    choice = create(:application_choice, :with_modified_offer, course_option: original_course_option)
+    SetDeclineByDefault.new(application_form: choice.application_form).call # fix DBD
+    choice.reload
+  end
 
   def service
     ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
