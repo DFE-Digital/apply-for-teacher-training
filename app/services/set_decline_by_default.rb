@@ -14,6 +14,7 @@ class SetDeclineByDefault
     # applications have either an offer, been rejected by provider, withdrawn by
     # the candidate, or have the offer withdrawn.
     final_decision_date = [
+      application_choices.maximum(:offer_changed_at),
       application_choices.maximum(:offered_at),
       application_choices.maximum(:rejected_at),
       application_choices.maximum(:withdrawn_at),

@@ -6,7 +6,11 @@ RSpec.describe ChangeOffer do
   let(:provider) { provider_user.providers.first }
   let(:original_course_option) { course_option_for_provider(provider: provider) }
   let(:new_course_option) { course_option_for_provider(provider: provider) }
-  let(:application_choice) { create(:application_choice, :with_modified_offer, course_option: original_course_option) }
+  let(:application_choice) do
+    choice = create(:application_choice, :with_modified_offer, course_option: original_course_option)
+    SetDeclineByDefault.new(application_form: choice.application_form).call # fix DBD
+    choice.reload
+  end
 
   def service
     ChangeOffer.new(actor: provider_user, application_choice: application_choice, course_option: new_course_option)
@@ -14,6 +18,27 @@ RSpec.describe ChangeOffer do
 
   it 'changes offered_course_option_id for the application choice' do
     expect { service.save }.to change(application_choice, :offered_course_option_id)
+  end
+
+  it 'does not change offered_at' do
+    expect { service.save }.not_to change(application_choice, :offered_at)
+  end
+
+  it 'populates offer_changed_at for the application choice' do
+    Timecop.freeze do
+      expect { service.save }.to change(application_choice, :offer_changed_at).to(Time.zone.now)
+    end
+  end
+
+  it 'groups offer(ed)_ changes in a single audit', with_audited: true do
+    service.save
+
+    audit_with_option_id =
+      application_choice.audits
+      .where('jsonb_exists(audited_changes, :key)', key: 'offered_course_option_id')
+      .last
+
+    expect(audit_with_option_id.audited_changes).to have_key('offer_changed_at')
   end
 
   it 'replaces conditions if offer_conditions is supplied' do
@@ -28,12 +53,6 @@ RSpec.describe ChangeOffer do
 
     expect { with_conditions.save }.to change(application_choice, :offer)
     expect(application_choice.offer['conditions']).to eq(['First condition', 'Second condition'])
-  end
-
-  it 'sets the offered_at date for the application_choice' do
-    Timecop.freeze do
-      expect { service.save }.to change(application_choice, :offered_at).to(Time.zone.now)
-    end
   end
 
   it 'resets declined_by_default_at for the application choice' do

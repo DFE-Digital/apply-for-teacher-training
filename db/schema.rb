@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_03_144318) do
+ActiveRecord::Schema.define(version: 2020_12_07_175009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2020_12_03_144318) do
     t.datetime "offer_deferred_at"
     t.string "status_before_deferral"
     t.datetime "reject_by_default_feedback_sent_at"
+    t.datetime "offer_changed_at"
     t.index ["application_form_id", "course_option_id"], name: "index_course_option_to_application_form_id", unique: true
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
