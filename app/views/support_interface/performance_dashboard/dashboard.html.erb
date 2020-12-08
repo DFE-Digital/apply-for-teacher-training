@@ -3,8 +3,6 @@
 <% if params[:screen] == "1" %>
   <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Performance for <%= params[:year] || "all cycles" %></h1>
 <% else %>
-  <h1 class="govuk-heading-xl govuk-!-margin-bottom-2">Service performance</h1>
-
   <p class="govuk-body govuk-!-margin-bottom-8">
     <%= govuk_link_to 'View in large screen mode', '?screen=1' %>
   </p>
