@@ -21,11 +21,31 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       subject: 'Making Cat Sounds',
     )
   end
+  let(:qualification3) do
+    build_stubbed(
+      :application_qualification,
+      level: 'other',
+      qualification_type: 'Other',
+      other_uk_qualification_type: 'BTEC',
+      subject: 'Dog walking',
+      grade: 'Merit',
+    )
+  end
+  let(:qualification4) do
+    build_stubbed(
+      :application_qualification,
+      level: 'other',
+      qualification_type: 'Other',
+      other_uk_qualification_type: 'not a BTEC',
+      subject: 'Cat walking',
+      grade: nil,
+    )
+  end
 
   context 'when other qualifications are editable' do
     before do
       allow(application_form).to receive(:application_qualifications).and_return(
-        ActiveRecordRelationStub.new(ApplicationQualification, [qualification1, qualification2], scopes: [:other]),
+        ActiveRecordRelationStub.new(ApplicationQualification, [qualification1, qualification2, qualification3, qualification4], scopes: [:other]),
       )
     end
 
@@ -64,6 +84,20 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       expect(result.css('.govuk-summary-list__actions').text).to include(
         "Change #{t('application_form.other_qualification.grade.change_action')} for A-Level, Making Doggo Sounds, 2012",
       )
+    end
+
+    it 'renders component with correct grade values for BTEC qualifications' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.grade.label'))
+      expect(result.css('.govuk-summary-list__value').text).to include('Merit')
+    end
+
+    it 'renders component with correct values for non-BTEC other qualifications' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.other_qualification.grade.optional_label'))
+      expect(result.css('.govuk-summary-list__value').text).to include('Not entered')
     end
 
     it 'renders component with correct values for multiple qualifications' do
@@ -169,7 +203,7 @@ RSpec.describe CandidateInterface::OtherQualificationsReviewComponent do
       end
     end
 
-    context 'when they have an incomplete qualification and are submtting their application' do
+    context 'when they have an incomplete qualification and are submitting their application' do
       it 'returns true' do
         create(:other_qualification, application_form: application_form, award_year: nil)
         expect(described_class.new(application_form: application_form, submitting_application: true).show_missing_banner?).to eq true
