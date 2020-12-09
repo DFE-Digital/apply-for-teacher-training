@@ -106,6 +106,18 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
+  context 'for an application with a change offer event' do
+    it 'renders the change offer event' do
+      application_choice = create(:application_choice, :with_changed_offer)
+      create(:application_choice_audit, :with_changed_offer, application_choice: application_choice)
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Offer changed'
+      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View offer'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/offer"
+    end
+  end
+
   it 'has a title for all state transitions' do
     expect(ApplicationStateChange.states_visible_to_provider).to match_array(ProviderInterface::ApplicationTimelineComponent::TITLES.keys.map(&:to_sym))
   end

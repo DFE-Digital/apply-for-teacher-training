@@ -32,7 +32,7 @@ module ProviderInterface
     end
 
     def timeline_events
-      (status_change_events + note_events + feedback_events).sort_by(&:date).reverse
+      (status_change_events + note_events + feedback_events + change_offer_events).sort_by(&:date).reverse
     end
 
     def status_change_events
@@ -70,6 +70,18 @@ module ProviderInterface
           event.created_at,
           'View feedback',
           provider_interface_application_choice_path(application_choice),
+        )
+      end
+    end
+
+    def change_offer_events
+      with_activity_log_events_for('offer_changed_at') do |event|
+        Event.new(
+          'Offer changed',
+          actor_for(event),
+          event.created_at,
+          'View offer',
+          provider_interface_application_choice_offer_path(application_choice),
         )
       end
     end
