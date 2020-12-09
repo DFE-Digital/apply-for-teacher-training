@@ -188,6 +188,9 @@ class TestApplications
     case state
     when :offer
       make_offer(choice)
+    when :offer_changed
+      make_offer(choice)
+      change_offer(choice)
     when :rejected
       reject_application(choice)
     when :offer_withdrawn
@@ -259,6 +262,23 @@ class TestApplications
         offer_conditions: conditions,
       ).save
       choice.update_columns(offered_at: time, updated_at: time)
+    end
+    choice.audits.last&.update_columns(created_at: time)
+  end
+
+  def change_offer(choice, conditions: ['Complete DBS'])
+    as_provider_user(choice) do
+      fast_forward
+      year = choice.offered_course.recruitment_cycle_year
+      new_course = choice.offered_course.provider.courses
+                         .in_cycle(year).with_course_options.sample
+      ChangeOffer.new(
+        actor: actor,
+        application_choice: choice,
+        course_option: new_course.course_options.first,
+        offer_conditions: conditions,
+      ).save
+      choice.update_columns(offer_changed_at: time, updated_at: time)
     end
     choice.audits.last&.update_columns(created_at: time)
   end
