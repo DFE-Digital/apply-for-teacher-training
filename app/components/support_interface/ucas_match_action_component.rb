@@ -30,6 +30,9 @@ module SupportInterface
       resolved_on_apply: {
         past_tense_description: 'confirmed that the candidate was withdrawn from Apply',
       },
+      manually_resolved: {
+        past_tense_description: 'resolved the match manually',
+      },
     }.freeze
 
     def initialize(match)
