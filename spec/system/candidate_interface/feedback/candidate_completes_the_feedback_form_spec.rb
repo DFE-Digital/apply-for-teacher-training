@@ -8,13 +8,12 @@ RSpec.describe 'Candidate feedback form' do
   end
 
   scenario 'Candidate completes the feedback form' do
-    given_the_candidate_completes_and_submits_their_application
-    then_i_should_receive_the_application_submitted_email
-    and_i_should_not_be_asked_to_give_feedback_on_the_submit_success_page
+    given_i_complete_and_submit_my_application
+    then_i_should_be_asked_to_give_feedback
+    and_i_should_receive_the_application_submitted_email
 
     when_i_click_give_feedback
-    and_i_confirm_my_sign_in
-    then_they_should_see_the_feedback_form
+    then_i_should_see_the_feedback_form
 
     when_i_click_send_feedback
     then_i_should_see_a_validation_error
@@ -26,29 +25,25 @@ RSpec.describe 'Candidate feedback form' do
     and_my_feedback_should_reflect_my_inputs
   end
 
-  def given_the_candidate_completes_and_submits_their_application
+  def given_i_complete_and_submit_my_application
     candidate_completes_application_form
     candidate_submits_application
   end
 
-  def then_i_should_receive_the_application_submitted_email
+  def then_i_should_be_asked_to_give_feedback
+    expect(page).to have_content('Your feedback will help us improve.')
+  end
+
+  def and_i_should_receive_the_application_submitted_email
     open_email(current_candidate.email_address)
     expect(current_email.subject).to have_content t('candidate_mailer.application_submitted.subject')
   end
 
-  def and_i_should_not_be_asked_to_give_feedback_on_the_submit_success_page
-    expect(page).not_to have_content('Your feedback will help us improve.')
-  end
-
   def when_i_click_give_feedback
-    current_email.find_css('a')[1].click
+    click_link 'Give feedback'
   end
 
-  def and_i_confirm_my_sign_in
-    click_button 'Continue'
-  end
-
-  def then_they_should_see_the_feedback_form
+  def then_i_should_see_the_feedback_form
     expect(page).to have_content(t('page_titles.your_feedback'))
   end
 

@@ -22,9 +22,11 @@
     <p class="govuk-body">You can track or withdraw your application from your application dashboard.</p>
     <p class="govuk-body"><%= govuk_link_to 'To view your application, return to your application dashboard', candidate_interface_application_complete_path %>.</p>
 
-    <% unless FeatureFlag.active?('feedback_form') %>
-      <h2 class="govuk-heading-m">Tell us what you think of this service</h2>
-      <p class="govuk-body">Your feedback will help us improve.</p>
+    <h2 class="govuk-heading-m">Tell us what you think of this service</h2>
+    <p class="govuk-body">Your feedback will help us improve.</p>
+    <% if FeatureFlag.active?('feedback_form') %>
+      <%= govuk_button_link_to 'Give feedback', candidate_interface_feedback_form_path %>
+      <%else %>
       <%= govuk_button_link_to 'Give feedback', candidate_interface_satisfaction_survey_recommendation_path %>
     <% end %>
   </div>
