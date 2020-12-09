@@ -4,7 +4,7 @@ class GeocodeFilter
   WESTERLY_LIMIT = -8.638
   EASTERLY_LIMIT = 1.46
 
-  def outside_uk_or_unknown?(coordinates)
+  def self.outside_uk_or_unknown?(coordinates)
     latitude, longitude = coordinates
     (latitude.blank? || longitude.blank?) ||
       latitude < SOUTHERLY_LIMIT ||
