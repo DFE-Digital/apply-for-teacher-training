@@ -124,8 +124,7 @@ module CandidateInterface
     end
 
     def set_grade_autocomplete_data
-      qualification_type = @form.qualification_type_name
-      if qualification_type.in? OTHER_UK_QUALIFICATIONS
+      if @form.qualification_type == 'Other'
         @grade_autocomplete_data = OTHER_UK_QUALIFICATION_GRADES
       end
     end
