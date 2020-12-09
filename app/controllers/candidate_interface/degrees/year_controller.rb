@@ -35,11 +35,9 @@ module CandidateInterface
     private
 
       def degree_year_params
-        params
-          .require(:candidate_interface_degree_year_form)
-          .permit(:start_year, :award_year)
-          .transform_values(&:strip)
-          .merge(degree: current_degree)
+        strip_whitespace(
+          params.require(:candidate_interface_degree_year_form).permit(:start_year, :award_year),
+        ).merge(degree: current_degree)
       end
     end
   end

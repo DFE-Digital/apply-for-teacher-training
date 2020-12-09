@@ -36,10 +36,9 @@ module CandidateInterface
   private
 
     def subject_knowledge_params
-      params.require(:candidate_interface_subject_knowledge_form).permit(
+      strip_whitespace params.require(:candidate_interface_subject_knowledge_form).permit(
         :subject_knowledge,
       )
-        .transform_values(&:strip)
     end
 
     def chosen_course_names
@@ -47,8 +46,7 @@ module CandidateInterface
     end
 
     def application_form_params
-      params.require(:application_form).permit(:subject_knowledge_completed)
-        .transform_values(&:strip)
+      strip_whitespace params.require(:application_form).permit(:subject_knowledge_completed)
     end
   end
 end

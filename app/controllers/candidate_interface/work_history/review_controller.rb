@@ -18,8 +18,7 @@ module CandidateInterface
   private
 
     def application_form_params
-      params.require(:application_form).permit(:work_history_completed)
-        .transform_values(&:strip)
+      strip_whitespace params.require(:application_form).permit(:work_history_completed)
     end
   end
 end

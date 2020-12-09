@@ -26,10 +26,7 @@ module CandidateInterface
     def work_history_form_params
       return nil unless params.key?(:candidate_interface_work_history_form)
 
-      params.require(:candidate_interface_work_history_form).permit(
-        :work_history,
-      )
-        .transform_values(&:strip)
+      strip_whitespace params.require(:candidate_interface_work_history_form).permit(:work_history)
     end
   end
 end

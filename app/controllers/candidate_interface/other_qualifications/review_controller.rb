@@ -27,8 +27,7 @@ module CandidateInterface
   private
 
     def application_form_params
-      params.require(:application_form).permit(:other_qualifications_completed)
-        .transform_values(&:strip)
+      strip_whitespace params.require(:application_form).permit(:other_qualifications_completed)
     end
 
     def there_are_incomplete_qualifications?

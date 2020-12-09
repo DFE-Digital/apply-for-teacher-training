@@ -55,12 +55,11 @@ module CandidateInterface
     def current_application
       @current_application ||= current_candidate.current_application
     end
+    helper_method :current_application
 
     def render_application_feedback_component
       @render_application_feedback_component = true
     end
-
-    helper_method :current_application
 
     def render_404
       render 'errors/not_found', status: :not_found
@@ -91,6 +90,10 @@ module CandidateInterface
       when 'end_date(1i)' then 'end_date_year'
       else key
       end
+    end
+
+    def strip_whitespace(params)
+      StripWhitespace.from_hash(params)
     end
   end
 end

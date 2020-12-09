@@ -32,8 +32,7 @@ module CandidateInterface
   private
 
     def contact_details_params
-      params.require(:candidate_interface_contact_details_form).permit(:phone_number)
-        .transform_values(&:strip)
+      strip_whitespace params.require(:candidate_interface_contact_details_form).permit(:phone_number)
     end
   end
 end

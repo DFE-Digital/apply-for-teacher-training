@@ -47,11 +47,10 @@ module CandidateInterface
   private
 
     def further_information_params
-      params.require(:candidate_interface_further_information_form).permit(
+      strip_whitespace params.require(:candidate_interface_further_information_form).permit(
         :further_information,
         :further_information_details,
       )
-        .transform_values(&:strip)
     end
 
     def redirect_to_application_if_between_cycles
