@@ -26,7 +26,7 @@ RSpec.describe GeocodeApplicationAddressWorker do
         expect(application.longitude).to eq(-0.124808)
       end
 
-      it 'does not use coordinates returned by the geocoder if they are outside UK bounding box' do
+      it 'sets location to nil if coordinates returned by the geocoder are outside UK' do
         application = create(:application_form)
         allow(application).to receive(:geocode).and_return([13.7244416, 100.35291])
         allow(ApplicationForm).to receive(:find).with(application.id).and_return(application)
@@ -35,6 +35,18 @@ RSpec.describe GeocodeApplicationAddressWorker do
 
         expect(application.latitude).to be_nil
         expect(application.longitude).to be_nil
+      end
+
+      it 'does not use result if geocoder returns nil' do
+        application = create(:application_form, latitude: 51.23456, longitude: 1.23456)
+        allow(application).to receive(:geocode).and_return(nil)
+        allow(ApplicationForm).to receive(:find).with(application.id).and_return(application)
+
+        described_class.new.perform(application.id)
+
+        application.reload
+        expect(application.latitude).to eq 51.23456
+        expect(application.longitude).to eq 1.23456
       end
     end
   end
