@@ -37,7 +37,7 @@ module ProviderInterface
           'study mode' => study_mode(application),
           'SBJCA' => subject_codes(application),
           'QLAIM' => qualification_aim(application),
-          'FIRSTDEG' => degrees_completed(application),
+          'FIRSTDEG' => ApplicationDataService.degrees_completed(application_form: application.application_form),
           'DEGTYPE' => pad_hesa_value(first_degree, :qualification_type_hesa_code, 3),
           'DEGSBJ' => pad_hesa_value(first_degree, :subject_hesa_code, 4),
           'DEGCLSS' => pad_hesa_value(first_degree, :grade_hesa_code, 2),
@@ -61,14 +61,6 @@ module ProviderInterface
       return 'no data' if code.blank?
 
       code.to_s.rjust(pad_by, '0')
-    end
-
-    def application_statuses_for(statuses)
-      result = []
-      statuses.each do |status|
-        result << STATUSES[status]
-      end
-      result.flatten.compact.uniq
     end
 
     def diversity_information(application)
@@ -104,10 +96,6 @@ module ProviderInterface
       return '020' if application.course.name =~ /^QTS/
 
       '021'
-    end
-
-    def degrees_completed(application)
-      application.application_form.degrees_completed ? 1 : 0
     end
   end
 end

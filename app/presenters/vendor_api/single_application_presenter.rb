@@ -182,7 +182,7 @@ module VendorAPI
         gcses: format_gcses,
         degrees: qualifications_of_level('degree').map { |q| qualification_to_hash(q) },
         other_qualifications: qualifications_of_level('other').map { |q| qualification_to_hash(q) },
-        missing_gcses_explanation: missing_gcses_explanation(qualifications_of_level('gcse').select(&:missing_qualification?)),
+        missing_gcses_explanation: ApplicationDataService.missing_gcses_explanation(application_form: application_form),
       }
     end
 
@@ -219,12 +219,6 @@ module VendorAPI
       application_form.application_qualifications.select do |q|
         q.level == level
       end
-    end
-
-    def missing_gcses_explanation(gcses)
-      gcses
-        .map { |gcse| "#{gcse.subject.capitalize} GCSE or equivalent: #{gcse.missing_explanation}" }
-        .join("\n\n")
     end
 
     def qualification_to_hash(qualification)
