@@ -686,8 +686,8 @@ Rails.application.routes.draw do
       get '/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
       post '/comments' => 'application_forms/comments#create', as: :application_form_comments
 
-      get '/applicant_details' => 'application_forms/applicant_details#edit', as: :application_form_edit_applicant_details
-      post '/applicant_details' => 'application_forms/applicant_details#update', as: :application_form_update_applicant_details
+      get '/applicant-details' => 'application_forms/applicant_details#edit', as: :application_form_edit_applicant_details
+      post '/applicant-details' => 'application_forms/applicant_details#update', as: :application_form_update_applicant_details
     end
 
     get '/ucas-matches' => 'ucas_matches#index'
