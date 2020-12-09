@@ -104,7 +104,7 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
         result = render_inline(described_class.new(ucas_match))
 
         expect(result.text).to include('No action required')
-        expect(result.text).to include(' We requested withdrawal from UCAS on the 18 October 2020 at 12:00p')
+        expect(result.text).to include(' We requested withdrawal from UCAS on the 18 October 2020 at 12pm (midday)')
       end
     end
 
