@@ -45,6 +45,8 @@ module ProviderInterface
       else
         if changes['reject_by_default_feedback_sent_at'].present?
           "#{user} sent feedback to #{candidate}"
+        elsif changes['offer_changed_at'].present?
+          "#{user} changed #{candidate}’s offer"
         end
       end
     end
@@ -52,7 +54,10 @@ module ProviderInterface
     def course_option
       current_status = event.application_status_at_event || application_choice.status
 
-      @course_option ||= if ORIGINAL_OPTION_STATUSES.include?(current_status)
+      @course_option ||= if changes['offer_changed_at'].present? && changes['offered_course_option_id'].present?
+                           from_event = CourseOption.find_by(id: changes['offered_course_option_id'].second)
+                           from_event || application_choice.offered_option
+                         elsif ORIGINAL_OPTION_STATUSES.include?(current_status)
                            application_choice.course_option
                          else
                            application_choice.offered_option
@@ -78,6 +83,11 @@ module ProviderInterface
           {
             url: routes.provider_interface_application_choice_path(application_choice),
             text: 'View feedback',
+          }
+        elsif changes['offer_changed_at'].present? && application_choice.status == 'offer'
+          {
+            url: routes.provider_interface_application_choice_offer_path(application_choice),
+            text: 'View offer',
           }
         else
           {

@@ -15,7 +15,11 @@ class GetActivityLogEvents
     ],
   }.freeze
 
-  ONLY_CHANGES_TO = %w[status reject_by_default_feedback_sent_at].freeze
+  ONLY_CHANGES_TO = %w[
+    status
+    reject_by_default_feedback_sent_at
+    offer_changed_at
+  ].freeze
 
   def self.call(application_choices:, since: nil)
     since ||= Time.zone.local(2018, 1, 1) # before the pilot began, i.e. all records
