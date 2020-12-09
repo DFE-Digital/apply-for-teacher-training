@@ -42,9 +42,9 @@ module CandidateInterface
     private
 
       def languages_params
-        params.require(:candidate_interface_languages_form).permit(
-          :english_main_language, :english_language_details, :other_language_details
-        )
+        strip_whitespace params
+          .require(:candidate_interface_languages_form)
+          .permit(:english_main_language, :english_language_details, :other_language_details)
       end
     end
   end

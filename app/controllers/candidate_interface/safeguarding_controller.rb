@@ -31,7 +31,8 @@ module CandidateInterface
   private
 
     def safeguarding_params
-      params.require(:candidate_interface_safeguarding_issues_declaration_form)
+      strip_whitespace params
+        .require(:candidate_interface_safeguarding_issues_declaration_form)
         .permit(:share_safeguarding_issues, :safeguarding_issues)
     end
 

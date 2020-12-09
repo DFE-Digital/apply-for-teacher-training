@@ -38,9 +38,9 @@ module CandidateInterface
   private
 
     def training_with_a_disability_params
-      params.require(:candidate_interface_training_with_a_disability_form).permit(
-        :disclose_disability, :disability_disclosure
-      )
+      strip_whitespace params
+        .require(:candidate_interface_training_with_a_disability_form)
+        .permit(:disclose_disability, :disability_disclosure)
     end
 
     def application_form_params

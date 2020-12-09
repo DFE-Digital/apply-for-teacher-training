@@ -40,7 +40,7 @@ module CandidateInterface
     private
 
       def referee_name_param
-        params.require(:candidate_interface_reference_referee_name_form).permit(:name)
+        strip_whitespace params.require(:candidate_interface_reference_referee_name_form).permit(:name)
       end
     end
   end

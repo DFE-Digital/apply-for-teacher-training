@@ -93,23 +93,25 @@ module CandidateInterface
   private
 
     def other_qualification_params
-      params.require(:candidate_interface_other_qualification_details_form).permit(
-        :subject,
-        :grade,
-        :award_year,
-        :choice,
-        :institution_country,
-        :other_uk_qualification_type,
-        :non_uk_qualification_type,
-      ).merge!(
-        id: params[:id],
-      )
+      strip_whitespace params
+        .require(:candidate_interface_other_qualification_details_form).permit(
+          :subject,
+          :grade,
+          :award_year,
+          :choice,
+          :institution_country,
+          :other_uk_qualification_type,
+          :non_uk_qualification_type,
+        )
+        .merge!(id: params[:id])
     end
 
     def other_qualification_update_params
       other_qualification_params.merge(
-        params.require(:candidate_interface_other_qualification_details_form).permit(
-          :qualification_type,
+        strip_whitespace(
+          params
+          .require(:candidate_interface_other_qualification_details_form)
+          .permit(:qualification_type),
         ),
       )
     end

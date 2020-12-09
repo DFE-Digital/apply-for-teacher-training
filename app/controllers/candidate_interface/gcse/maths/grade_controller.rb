@@ -44,7 +44,7 @@ module CandidateInterface
     end
 
     def maths_params
-      params.require(:candidate_interface_gcse_qualification_details_form).permit(%i[grade award_year other_grade])
+      strip_whitespace params.require(:candidate_interface_gcse_qualification_details_form).permit(%i[grade award_year other_grade])
     end
 
     def maths_gsce_grade_form

@@ -35,7 +35,7 @@ module CandidateInterface
       end
 
       def retry_params
-        params
+        strip_whitespace params
           .require(:candidate_interface_reference_referee_email_address_form).permit(:email_address)
           .merge!(reference_id: @reference.id)
       end

@@ -10,10 +10,7 @@ module CandidateInterface
       end
 
       def create
-        @reference_candidate_name_form = Reference::CandidateNameForm.new(
-          first_name: first_name_param,
-          last_name: last_name_param,
-        )
+        @reference_candidate_name_form = Reference::CandidateNameForm.new(name_params)
 
         if @reference_candidate_name_form.save(@reference)
           RequestReference.new.call(@reference)
@@ -27,12 +24,10 @@ module CandidateInterface
 
     private
 
-      def first_name_param
-        params.dig(:candidate_interface_reference_candidate_name_form, :first_name)
-      end
-
-      def last_name_param
-        params.dig(:candidate_interface_reference_candidate_name_form, :last_name)
+      def name_params
+        strip_whitespace params
+          .require(:candidate_interface_reference_candidate_name_form)
+          .permit(:first_name, :last_name)
       end
     end
   end
