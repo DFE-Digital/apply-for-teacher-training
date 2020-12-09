@@ -13,8 +13,8 @@
         legend: { text: page_title, size: "xl" },
         caption: { text: application_choice.application_form.full_name, size: "xl" } do %>
 
-        <% study_modes.each do |study_mode| %>
-          <%= f.govuk_radio_button :study_mode, study_mode, label: { text: study_mode.to_s.humanize }, hint: { text: course.name_and_code } %>
+        <% study_modes.each_with_index do |study_mode, i| %>
+          <%= f.govuk_radio_button :study_mode, study_mode, label: { text: study_mode.to_s.humanize }, hint: { text: course.name_and_code }, link_errors: i.zero? %>
         <% end %>
       <% end %>
 
