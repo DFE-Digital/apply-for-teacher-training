@@ -29,8 +29,6 @@ RSpec.describe CandidateMailer, type: :mailer do
   describe '.application_submitted' do
     let(:mail) { mailer.application_submitted(@application_form) }
 
-    before { FeatureFlag.activate(:feedback_form) }
-
     it_behaves_like(
       'a mail with subject and content',
       :application_submitted,
