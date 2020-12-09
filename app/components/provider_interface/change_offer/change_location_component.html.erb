@@ -13,8 +13,8 @@
         legend: { text: page_title, size: "xl" },
         caption: { text: application_choice.application_form.full_name, size: "xl" } do %>
 
-        <% course_options.each do |course_option| %>
-          <%= f.govuk_radio_button :course_option_id, course_option.id, label: { text: course_option.site.name }, hint: { text: course_option.site.full_address } %>
+        <% course_options.each_with_index do |course_option, i| %>
+          <%= f.govuk_radio_button :course_option_id, course_option.id, label: { text: course_option.site.name }, hint: { text: course_option.site.full_address }, link_errors: i.zero? %>
         <% end %>
       <% end %>
 

@@ -11,8 +11,8 @@
       <% text_field_options.merge(width: 20) %>
       <%= f.govuk_text_field(:other_grade, text_field_options) %>
     <% end %>
-    <% @international_main_grades.each do |grade| %>
-      <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>
+    <% @international_main_grades.each_with_index do |grade, i | %>
+      <%= f.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: i.zero?  %>
     <% end %>
   <% end %>
 
@@ -25,8 +25,8 @@
   <% end %>
 
   <%= f.govuk_radio_buttons_fieldset :grade, legend: { tag: 'span' } do %>
-    <% @main_grades.each do |grade| %>
-      <%= f.govuk_radio_button :grade, grade, label: { text: grade } %>
+    <% @main_grades.each_with_index do |grade, i| %>
+      <%= f.govuk_radio_button :grade, grade, label: { text: grade }, link_errors: i.zero? %>
     <% end %>
     <%= f.govuk_radio_button :grade, 'other', label: { text: t('application_form.degree.grade.other.label') } do %>
       <%= f.govuk_text_field :other_grade, label: { text: t('application_form.degree.grade.other.conditional.label') }, width: 10 %>

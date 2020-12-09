@@ -9,8 +9,8 @@
         <%= t('page_titles.your_feedback') %>
       </h1>
       <%= f.govuk_radio_buttons_fieldset :satisfaction_level, legend: { text: 'How satisfied are you with this service?' } do %>
-        <% ApplicationForm.feedback_satisfaction_levels.values.each do |value| %>
-          <%= f.govuk_radio_button :satisfaction_level, value, label: { text: t("satisfaction_levels.#{value}") }  %>
+        <% ApplicationForm.feedback_satisfaction_levels.values.each_with_index do |value, i| %>
+          <%= f.govuk_radio_button :satisfaction_level, value, label: { text: t("satisfaction_levels.#{value}") }, link_errors: i.zero?  %>
         <% end %>
       <% end %>
       <%= f.govuk_text_area :suggestions, label: { text: 'How could we improve this service?', size: 'm' }, rows: 8, max_words: 400 %>
