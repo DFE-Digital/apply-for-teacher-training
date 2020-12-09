@@ -10,19 +10,15 @@ RSpec.feature 'Entering their other qualifications' do
     when_i_click_on_other_qualifications
     then_i_see_the_select_qualification_type_page
 
-    when_i_select_add_an_other_uk_qualification
-    and_i_fill_in_the_qualification_name_as_btec
-    and_i_click_continue
+    when_i_attempt_to_add_a_btec
     then_i_see_the_add_btec_qualifications_form
 
     when_i_fill_in_some_of_my_qualification_but_omit_some_required_details
     and_i_submit_the_other_qualification_form
     then_i_see_validation_errors_for_my_qualification
 
-    when_i_select_a_grade
-    and_i_submit_the_other_qualification_form
-    then_i_see_the_other_qualification_review_page
-    and_i_should_see_my_qualifications
+    when_i_complete_the_form
+    then_i_see_my_btec_on_the_review_page
     and_my_other_uk_qualification_has_the_correct_format
   end
 
@@ -42,18 +38,11 @@ RSpec.feature 'Entering their other qualifications' do
     expect(page).to have_current_path(candidate_interface_other_qualification_type_path)
   end
 
-  def when_i_select_add_an_other_uk_qualification
+  def when_i_attempt_to_add_a_btec
     choose 'Other'
-  end
-
-  def and_i_fill_in_the_qualification_name_as_btec
     fill_in 'candidate-interface-other-qualification-type-form-other-uk-qualification-type-field', with: 'BTEC'
-  end
-
-  def and_i_click_continue
     click_button 'Continue'
   end
-  alias_method :when_i_click_continue, :and_i_click_continue
 
   def then_i_see_the_add_btec_qualifications_form
     expect(page).to have_content('Add BTEC qualification')
@@ -72,15 +61,14 @@ RSpec.feature 'Entering their other qualifications' do
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_details_form.attributes.grade.blank')
   end
 
-  def when_i_select_a_grade
+  def when_i_complete_the_form
     choose 'Merit'
+    click_button t('application_form.other_qualification.base.button')
   end
 
-  def then_i_see_the_other_qualification_review_page
+  def then_i_see_my_btec_on_the_review_page
     expect(page).to have_current_path(candidate_interface_review_other_qualifications_path)
-  end
 
-  def and_i_should_see_my_qualifications
     expect(page).to have_content('BTEC')
     expect(page).to have_content('Music Theory')
     expect(page).to have_content('2015')

@@ -121,6 +121,10 @@ module CandidateInterface
       @current_qualification ||= id.present? ? @current_application.application_qualifications.other.find(id) : nil
     end
 
+    def btec?
+      other_uk_qualification_type == 'BTEC'
+    end
+
   private
 
     def previous_qualification_is_of_same_type?(qualifications)
@@ -182,8 +186,7 @@ module CandidateInterface
 
     def should_validate_grade?
       (qualification_type != OtherQualificationTypeForm::NON_UK_TYPE &&
-          qualification_type != OtherQualificationTypeForm::OTHER_TYPE) ||
-        other_uk_qualification_type == 'BTEC'
+          qualification_type != OtherQualificationTypeForm::OTHER_TYPE) || btec?
     end
   end
 end
