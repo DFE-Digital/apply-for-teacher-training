@@ -58,4 +58,60 @@ RSpec.describe ApplicationDataService do
       expect(explanation).to be_nil
     end
   end
+
+  describe 'degrees_completed' do
+    it 'returns 1 if the degrees section of the application form has been completed' do
+      application_form = create(:completed_application_form)
+
+      result = described_class.degrees_completed(application_form: application_form)
+
+      expect(result).to eq(1)
+    end
+
+    it 'returns 0 if the degrees section of the application form has not been completed' do
+      application_form = create(:application_form)
+
+      result = described_class.degrees_completed(application_form: application_form)
+
+      expect(result).to eq(0)
+    end
+  end
+
+  describe 'composite_equivalency_details' do
+    it 'returns a sentence describing equivalency details for a degree' do
+      degree = create(
+        :degree_qualification,
+        qualification_type: 'Bachelor degree',
+        international: true,
+        institution_country: 'US',
+        naric_reference: '0123456789',
+        comparable_uk_degree: 'bachelor_honours_degree',
+        equivalency_details: 'equivalent to a UK BSc',
+      )
+
+      result = described_class.composite_equivalency_details(qualification: degree)
+
+      expect(result).to eq('Naric: 0123456789 - bachelor_honours_degree - equivalent to a UK BSc')
+    end
+
+    it 'returns a sentence describing equivalency details for a GCSE level qualification' do
+      gcse = create(
+        :gcse_qualification,
+        qualification_type: 'scottish_national_5',
+        equivalency_details: 'equivalent to a GCSE',
+      )
+
+      result = described_class.composite_equivalency_details(qualification: gcse)
+
+      expect(result).to eq('equivalent to a GCSE')
+    end
+
+    it 'returns nil if there is no data to show' do
+      gcse = create(:gcse_qualification, equivalency_details: nil)
+
+      result = described_class.composite_equivalency_details(qualification: gcse)
+
+      expect(result).to be_nil
+    end
+  end
 end

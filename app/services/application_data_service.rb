@@ -23,10 +23,6 @@ class ApplicationDataService
     explanation.presence
   end
 
-  def self.summary_for_gcse(gcse)
-    "#{gcse.qualification_type.humanize} #{gcse.subject.capitalize}, #{gcse.grade}, #{gcse.start_year}-#{gcse.award_year}" if gcse.present?
-  end
-
   def self.degrees_completed(application_form:)
     application_form.degrees_completed ? 1 : 0
   end
@@ -35,11 +31,17 @@ class ApplicationDataService
     return if qualification.nil?
 
     details = [
-      ("Naric: #{qualification.naric_reference}" if qualification.naric_reference),
-      qualification.comparable_uk_qualification,
-      qualification.equivalency_details,
+    ("Naric: #{qualification.naric_reference}" if qualification.naric_reference),
+    qualification.comparable_uk_qualification || qualification.comparable_uk_degree,
+    qualification.equivalency_details,
     ].compact.join(' - ')
 
     details.strip if details.present?
   end
+
+  def self.summary_for_gcse(gcse)
+    "#{gcse.qualification_type.humanize} #{gcse.subject.capitalize}, #{gcse.grade}, #{gcse.start_year}-#{gcse.award_year}" if gcse.present?
+  end
+
+  private_class_method :summary_for_gcse
 end
