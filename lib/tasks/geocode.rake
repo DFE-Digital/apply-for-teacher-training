@@ -20,7 +20,7 @@ namespace :geocode do
               Thread.new do
                 coordinates = application.geocode
                 if coordinates
-                  application.latitude, application.longitude = GeocodeFilter.outside_uk?(coordinates) ? [nil, nil] : coordinates
+                  application.latitude, application.longitude = GeocodeFilter.outside_uk_or_unknown?(coordinates) ? [nil, nil] : coordinates
                   application.save!
                 end
               end
