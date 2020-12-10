@@ -46,7 +46,7 @@ module ProviderInterface
         if changes['reject_by_default_feedback_sent_at'].present?
           "#{user} sent feedback to #{candidate}"
         elsif changes['offer_changed_at'].present?
-          "#{user} changed #{candidate}’s offer"
+          "#{user} changed the offer made to #{candidate}"
         end
       end
     end
