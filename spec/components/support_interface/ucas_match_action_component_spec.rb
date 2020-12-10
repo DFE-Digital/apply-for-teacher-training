@@ -139,5 +139,21 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
         expect(result.text).to include('We confirmed that the candidate was withdrawn from Apply on the 18 October 2020')
       end
     end
+
+    it 'renders correct information after the manual resolution of a match' do
+      Timecop.freeze(Time.zone.local(2020, 10, 19, 12, 0, 0)) do
+        ucas_match = create(:ucas_match,
+                            matching_state: 'processed',
+                            scheme: 'U',
+                            action_taken: 'manually_resolved',
+                            candidate_last_contacted_at: Time.zone.now - 1.day)
+        allow(ucas_match).to receive(:dual_application_or_dual_acceptance?).and_return(true)
+
+        result = render_inline(described_class.new(ucas_match))
+
+        expect(result.text).to include('No action required')
+        expect(result.text).to include('We resolved the match manually')
+      end
+    end
   end
 end

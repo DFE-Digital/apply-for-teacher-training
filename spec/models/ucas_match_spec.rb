@@ -13,6 +13,12 @@ RSpec.describe UCASMatch do
   end
 
   describe '#action_needed?' do
+    it 'returns false if ucas match has been manually resolved' do
+      ucas_match = create(:ucas_match, action_taken: 'manually_resolved')
+
+      expect(ucas_match.action_needed?).to eq(false)
+    end
+
     it 'returns false if ucas match is processed' do
       ucas_match = create(:ucas_match, matching_state: 'processed')
 
