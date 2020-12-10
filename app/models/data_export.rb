@@ -30,14 +30,9 @@ class DataExport < ApplicationRecord
       description: 'This provides the compiled results of all feedback received from prompts throughout the application form.',
       class: SupportInterface::CandidateApplicationFeedbackExport,
     },
-    candidate_survey: {
-      name: 'Candidate survey',
-      description: 'This provides the compiled results of all the multi-page candidate satisfaction surveys.',
-      class: SupportInterface::CandidateSurveyExport,
-    },
     candidate_feedback: {
       name: 'Candidate feedback',
-      description: 'This provides the compiled results of all the new single-page candidate feedback forms.',
+      description: 'This provides the compiled results of all the single-page candidate feedback forms.',
       class: SupportInterface::CandidateFeedbackExport,
     },
     active_provider_users: {

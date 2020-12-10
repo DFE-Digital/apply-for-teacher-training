@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Candidate feedback form' do
   include CandidateHelper
 
-  before do
-    FeatureFlag.activate(:feedback_form)
-  end
-
   scenario 'Candidate completes the feedback form' do
     given_i_complete_and_submit_my_application
     then_i_should_be_asked_to_give_feedback
