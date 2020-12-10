@@ -41,7 +41,7 @@ module CandidateInterface
     private
 
       def ielts_params
-        params
+        strip_whitespace params
           .fetch(:candidate_interface_english_foreign_language_ielts_form, {})
           .permit(:trf_number, :band_score, :award_year)
           .merge(application_form: current_application)

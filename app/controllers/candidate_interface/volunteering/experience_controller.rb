@@ -26,10 +26,9 @@ module CandidateInterface
     def volunteering_experience_form_params
       return nil unless params.key?(:candidate_interface_volunteering_experience_form)
 
-      params.require(:candidate_interface_volunteering_experience_form).permit(
+      strip_whitespace params.require(:candidate_interface_volunteering_experience_form).permit(
         :experience,
       )
-        .transform_values(&:strip)
     end
   end
 end

@@ -21,7 +21,7 @@ module CandidateInterface
     private
 
       def type_params
-        params
+        strip_whitespace params
           .fetch(:candidate_interface_english_foreign_language_type_form, {})
           .permit(:type)
       end

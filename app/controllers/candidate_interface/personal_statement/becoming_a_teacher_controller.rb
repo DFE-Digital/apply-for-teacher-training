@@ -34,15 +34,13 @@ module CandidateInterface
   private
 
     def becoming_a_teacher_params
-      params.require(:candidate_interface_becoming_a_teacher_form).permit(
+      strip_whitespace params.require(:candidate_interface_becoming_a_teacher_form).permit(
         :becoming_a_teacher,
       )
-        .transform_values(&:strip)
     end
 
     def application_form_params
-      params.require(:application_form).permit(:becoming_a_teacher_completed)
-        .transform_values(&:strip)
+      strip_whitespace params.require(:application_form).permit(:becoming_a_teacher_completed)
     end
   end
 end

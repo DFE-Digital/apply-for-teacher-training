@@ -462,6 +462,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    strip_attributes (1.11.0)
+      activemodel (>= 3.0, < 7.0)
     super_diff (0.5.2)
       attr_extras (>= 6.2.4)
       diff-lcs
@@ -587,6 +589,7 @@ DEPENDENCIES
   simplecov
   simplecov-cobertura
   skylight
+  strip_attributes
   super_diff
   timecop
   tzinfo-data

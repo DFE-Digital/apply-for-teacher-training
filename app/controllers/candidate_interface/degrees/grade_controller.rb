@@ -54,10 +54,9 @@ module CandidateInterface
       end
 
       def grade_params
-        params
+        strip_whitespace params
           .require(:candidate_interface_degree_grade_form)
           .permit(:grade, :other_grade)
-          .transform_values(&:strip)
           .merge(degree: current_degree)
       end
 

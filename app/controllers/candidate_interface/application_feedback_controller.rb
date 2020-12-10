@@ -26,7 +26,7 @@ module CandidateInterface
   private
 
     def feedback_params
-      params.require(:candidate_interface_application_feedback_form).permit(
+      strip_whitespace params.require(:candidate_interface_application_feedback_form).permit(
         :path, :page_title, :does_not_understand_section,
         :need_more_information, :answer_does_not_fit_format,
         :other_feedback, :consent_to_be_contacted,

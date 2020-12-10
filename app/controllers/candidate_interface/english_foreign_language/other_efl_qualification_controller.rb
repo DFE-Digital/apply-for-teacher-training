@@ -41,7 +41,7 @@ module CandidateInterface
     private
 
       def other_params
-        params
+        strip_whitespace params
           .fetch(:candidate_interface_english_foreign_language_other_efl_qualification_form, {})
           .permit(:name, :grade, :award_year)
           .merge(application_form: current_application)

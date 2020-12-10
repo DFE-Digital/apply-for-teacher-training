@@ -41,7 +41,7 @@ module CandidateInterface
     private
 
       def toefl_params
-        params
+        strip_whitespace params
           .fetch(:candidate_interface_english_foreign_language_toefl_form, {})
           .permit(:registration_number, :total_score, :award_year)
           .merge(application_form: current_application)

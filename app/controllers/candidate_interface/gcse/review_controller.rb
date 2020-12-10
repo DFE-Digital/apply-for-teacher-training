@@ -23,8 +23,7 @@ module CandidateInterface
     end
 
     def application_form_params
-      params.require(:application_form).permit(@field_name)
-        .transform_values(&:strip)
+      strip_whitespace params.require(:application_form).permit(@field_name)
     end
   end
 end

@@ -34,15 +34,13 @@ module CandidateInterface
   private
 
     def interview_preferences_params
-      params.require(:candidate_interface_interview_preferences_form).permit(
+      strip_whitespace params.require(:candidate_interface_interview_preferences_form).permit(
         :any_preferences, :interview_preferences
       )
-        .transform_values(&:strip)
     end
 
     def application_form_params
-      params.require(:application_form).permit(:interview_preferences_completed)
-        .transform_values(&:strip)
+      strip_whitespace params.require(:application_form).permit(:interview_preferences_completed)
     end
   end
 end

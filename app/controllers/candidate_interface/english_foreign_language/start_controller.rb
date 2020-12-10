@@ -36,7 +36,7 @@ module CandidateInterface
     private
 
       def start_params
-        params
+        strip_whitespace params
           .fetch(:candidate_interface_english_foreign_language_start_form, {})
           .permit(:qualification_status, :no_qualification_details)
           .merge(application_form: current_application)

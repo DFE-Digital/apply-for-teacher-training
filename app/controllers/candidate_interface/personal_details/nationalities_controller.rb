@@ -61,9 +61,11 @@ module CandidateInterface
       end
 
       def nationalities_params
-        params.require(:candidate_interface_nationalities_form).permit(
-          :first_nationality, :second_nationality, :other_nationality1, :other_nationality2, :other_nationality3, nationalities: []
-        )
+        strip_whitespace params
+          .require(:candidate_interface_nationalities_form)
+          .permit(
+            :first_nationality, :second_nationality, :other_nationality1, :other_nationality2, :other_nationality3, nationalities: []
+          )
       end
 
       def british_or_irish?

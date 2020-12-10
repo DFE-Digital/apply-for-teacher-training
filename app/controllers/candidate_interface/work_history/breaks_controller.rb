@@ -22,10 +22,7 @@ module CandidateInterface
   private
 
     def work_breaks_form_params
-      params.require(:candidate_interface_work_breaks_form).permit(
-        :work_history_breaks,
-      )
-        .transform_values(&:strip)
+      strip_whitespace params.require(:candidate_interface_work_breaks_form).permit(:work_history_breaks)
     end
   end
 end

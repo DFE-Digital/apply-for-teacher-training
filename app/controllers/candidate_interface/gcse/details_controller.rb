@@ -20,7 +20,7 @@ module CandidateInterface
     end
 
     def details_params
-      params.require(:candidate_interface_gcse_qualification_details_form).permit(%i[grade award_year other_grade])
+      strip_whitespace params.require(:candidate_interface_gcse_qualification_details_form).permit(%i[grade award_year other_grade])
     end
 
     def details_form

@@ -42,7 +42,8 @@ module CandidateInterface
     end
 
     def naric_params
-      params.require(:candidate_interface_gcse_naric_form)
+      strip_whitespace params
+        .require(:candidate_interface_gcse_naric_form)
         .permit(:have_naric_reference, :naric_reference, :comparable_uk_qualification)
     end
   end

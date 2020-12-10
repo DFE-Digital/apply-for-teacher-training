@@ -40,7 +40,7 @@ module CandidateInterface
     private
 
       def right_to_work_params
-        params.require(:candidate_interface_right_to_work_or_study_form).permit(
+        strip_whitespace params.require(:candidate_interface_right_to_work_or_study_form).permit(
           :right_to_work_or_study, :right_to_work_or_study_details
         )
       end

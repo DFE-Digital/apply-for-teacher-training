@@ -48,7 +48,7 @@ module CandidateInterface
       end
 
       def institution_params
-        params
+        strip_whitespace params
           .require(:candidate_interface_degree_institution_form)
           .permit(:institution_name, :institution_country)
           .merge(degree: current_degree)

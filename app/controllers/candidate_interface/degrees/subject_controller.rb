@@ -39,7 +39,7 @@ module CandidateInterface
       end
 
       def subject_params
-        params
+        strip_whitespace params
           .require(:candidate_interface_degree_subject_form)
           .permit(:subject)
           .merge(degree: current_degree)

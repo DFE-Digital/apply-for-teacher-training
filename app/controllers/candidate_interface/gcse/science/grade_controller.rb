@@ -50,8 +50,9 @@ module CandidateInterface
     end
 
     def science_details_params
-      params.require(:candidate_interface_science_gcse_grade_form)
-            .permit(%i[gcse_science grade single_award_grade double_award_grade biology_grade chemistry_grade physics_grade])
+      strip_whitespace params
+        .require(:candidate_interface_science_gcse_grade_form)
+        .permit(%i[gcse_science grade single_award_grade double_award_grade biology_grade chemistry_grade physics_grade])
     end
 
     def gcse_science_qualification

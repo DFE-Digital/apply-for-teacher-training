@@ -42,12 +42,12 @@ module CandidateInterface
     private
 
       def personal_details_params
-        params.require(:candidate_interface_personal_details_form).permit(
-          :first_name, :last_name,
-          :"date_of_birth(3i)", :"date_of_birth(2i)", :"date_of_birth(1i)"
+        strip_whitespace(
+          params.require(:candidate_interface_personal_details_form).permit(
+            :first_name, :last_name,
+            :"date_of_birth(3i)", :"date_of_birth(2i)", :"date_of_birth(1i)"
+          ).transform_keys { |key| dob_field_to_attribute(key) },
         )
-          .transform_keys { |key| dob_field_to_attribute(key) }
-          .transform_values(&:strip)
       end
 
       def dob_field_to_attribute(key)

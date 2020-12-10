@@ -34,7 +34,7 @@ module CandidateInterface
     private
 
       def naric_params
-        params
+        strip_whitespace params
           .require(:candidate_interface_degree_naric_form)
           .permit(:have_naric_reference, :naric_reference, :comparable_uk_degree)
           .merge(degree: current_degree)

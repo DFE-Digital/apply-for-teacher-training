@@ -28,26 +28,28 @@ module CandidateInterface
   private
 
     def english_details_params
-      params.require(:candidate_interface_english_gcse_grade_form).permit([
-        :english_single_award,
-        :grade_english_single,
-        :english_double_award,
-        :grade_english_double,
-        :english_language,
-        :grade_english_language,
-        :english_literature,
-        :grade_english_literature,
-        :english_studies_single_award,
-        :grade_english_studies_single,
-        :english_studies_double_award,
-        :grade_english_studies_double,
-        :other_english_gcse,
-        :other_english_gcse_name,
-        :grade_other_english_gcse,
-        :grade,
-        :other_grade,
-        english_gcses: [],
-      ])
+      strip_whitespace params
+        .require(:candidate_interface_english_gcse_grade_form)
+        .permit([
+          :english_single_award,
+          :grade_english_single,
+          :english_double_award,
+          :grade_english_double,
+          :english_language,
+          :grade_english_language,
+          :english_literature,
+          :grade_english_literature,
+          :english_studies_single_award,
+          :grade_english_studies_single,
+          :english_studies_double_award,
+          :grade_english_studies_double,
+          :other_english_gcse,
+          :other_english_gcse_name,
+          :grade_other_english_gcse,
+          :grade,
+          :other_grade,
+          english_gcses: [],
+        ])
     end
 
     def next_gcse_path

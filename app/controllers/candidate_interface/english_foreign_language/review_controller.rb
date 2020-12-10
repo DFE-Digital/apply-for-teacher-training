@@ -27,7 +27,7 @@ module CandidateInterface
       end
 
       def completion_params
-        params
+        strip_whitespace params
           .require(:application_form)
           .permit(:efl_completed)
       end

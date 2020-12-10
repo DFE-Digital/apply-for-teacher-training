@@ -42,8 +42,7 @@ module CandidateInterface
     private
 
       def application_form_params
-        params.require(:application_form).permit(:personal_details_completed)
-          .transform_values(&:strip)
+        strip_whitespace params.require(:application_form).permit(:personal_details_completed)
       end
 
       def hiding_languages_section?

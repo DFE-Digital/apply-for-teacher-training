@@ -99,9 +99,9 @@ module CandidateInterface
     end
 
     def other_qualification_type_params
-      params.fetch(:candidate_interface_other_qualification_type_form, {}).permit(
-        :qualification_type, :other_uk_qualification_type, :non_uk_qualification_type
-      )
+      strip_whitespace params
+        .fetch(:candidate_interface_other_qualification_type_form, {})
+        .permit(:qualification_type, :other_uk_qualification_type, :non_uk_qualification_type)
     end
   end
 end
