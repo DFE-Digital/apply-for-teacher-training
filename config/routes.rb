@@ -431,49 +431,6 @@ Rails.application.routes.draw do
         get '/thank-you' => 'feedback_form#thank_you', as: :feedback_form_thank_you
       end
 
-      scope '/satisfaction-survey' do
-        get '/recommendation' => 'satisfaction_survey#recommendation', as: :satisfaction_survey_recommendation
-        post '/recommendation' => 'satisfaction_survey#submit_recommendation', as: :satisfaction_survey_submit_recommendation
-
-        get '/complexity' => 'satisfaction_survey#complexity', as: :satisfaction_survey_complexity
-        post '/complexity' => 'satisfaction_survey#submit_complexity', as: :satisfaction_survey_submit_complexity
-
-        get '/ease-of-use' => 'satisfaction_survey#ease_of_use', as: :satisfaction_survey_ease_of_use
-        post '/ease-of-use' => 'satisfaction_survey#submit_ease_of_use', as: :satisfaction_survey_submit_ease_of_use
-
-        get '/help-needed' => 'satisfaction_survey#help_needed', as: :satisfaction_survey_help_needed
-        post '/help-needed' => 'satisfaction_survey#submit_help_needed', as: :satisfaction_survey_submit_help_needed
-
-        get '/organisation' => 'satisfaction_survey#organisation', as: :satisfaction_survey_organisation
-        post '/organisation' => 'satisfaction_survey#submit_organisation', as: :satisfaction_survey_submit_organisation
-
-        get '/consistency' => 'satisfaction_survey#consistency', as: :satisfaction_survey_consistency
-        post '/consistency' => 'satisfaction_survey#submit_consistency', as: :satisfaction_survey_submit_consistency
-
-        get '/adaptability' => 'satisfaction_survey#adaptability', as: :satisfaction_survey_adaptability
-        post '/adaptability' => 'satisfaction_survey#submit_adaptability', as: :satisfaction_survey_submit_adaptability
-
-        get '/awkward' => 'satisfaction_survey#awkward', as: :satisfaction_survey_awkward
-        post '/awkward' => 'satisfaction_survey#submit_awkward', as: :satisfaction_survey_submit_awkward
-
-        get '/confidence' => 'satisfaction_survey#confidence', as: :satisfaction_survey_confidence
-        post '/confidence' => 'satisfaction_survey#submit_confidence', as: :satisfaction_survey_submit_confidence
-
-        get '/needed-additional-learning' => 'satisfaction_survey#needed_additional_learning', as: :satisfaction_survey_needed_additional_learning
-        post '/needed-additional-learning' => 'satisfaction_survey#submit_needed_additional_learning', as: :satisfaction_survey_submit_needed_additional_learning
-
-        get '/improvements' => 'satisfaction_survey#improvements', as: :satisfaction_survey_improvements
-        post '/improvements' => 'satisfaction_survey#submit_improvements', as: :satisfaction_survey_submit_improvements
-
-        get '/other-information' => 'satisfaction_survey#other_information', as: :satisfaction_survey_other_information
-        post '/other-information' => 'satisfaction_survey#submit_other_information', as: :satisfaction_survey_submit_other_information
-
-        get '/contact' => 'satisfaction_survey#contact', as: :satisfaction_survey_contact
-        post '/contact' => 'satisfaction_survey#submit_contact', as: :satisfaction_survey_submit_contact
-
-        get '/thank-you' => 'satisfaction_survey#thank_you', as: :satisfaction_survey_thank_you
-      end
-
       scope '/application-feedback' do
         get '/' => 'application_feedback#new', as: :application_feedback
         post '/' => 'application_feedback#create'
