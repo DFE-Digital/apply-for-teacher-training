@@ -540,6 +540,54 @@ FactoryBot.define do
       end
     end
 
+    trait :with_structured_rejection_reasons do
+      with_rejection_by_default
+      structured_rejection_reasons { {
+        course_full_y_n: 'No',
+        safeguarding_y_n: 'Yes',
+        qualifications_y_n: 'Yes',
+        safeguarding_concerns: ['other'],
+        candidate_behaviour_y_n: 'Yes',
+        candidate_behaviour_other: 'Persistent scratching',
+        quality_of_application_y_n: 'Yes',
+        other_advice_or_feedback_y_n: nil,
+        performance_at_interview_y_n: 'Yes',
+        qualifications_other_details: 'All the other stuff',
+        offered_on_another_course_y_n: 'Yes',
+        honesty_and_professionalism_y_n: 'Yes',
+        other_advice_or_feedback_details: nil,
+        offered_on_another_course_details: nil,
+        candidate_behaviour_what_to_improve: 'Not scratch so much',
+        qualifications_which_qualifications: ['no_english_gcse', 'other'],
+        safeguarding_concerns_other_details: nil,
+        honesty_and_professionalism_concerns: ['information_false_or_inaccurate', 'references'],
+        quality_of_application_other_details: 'Lights on but nobody home',
+        interested_in_future_applications_y_n: nil,
+        why_are_you_rejecting_this_application: nil,
+        performance_at_interview_what_to_improve: 'Be fully dressed',
+        quality_of_application_other_what_to_improve: 'Study harder',
+        candidate_behaviour_what_did_the_candidate_do: ['didnt_reply_to_interview_offer', 'didnt_attend_interview', 'other'],
+        honesty_and_professionalism_concerns_other_details: nil,
+        quality_of_application_which_parts_needed_improvement: ['personal_statement', 'subject_knowledge', 'other'],
+        honesty_and_professionalism_concerns_plagiarism_details: nil,
+        honesty_and_professionalism_concerns_references_details: 'Clearly not a popular student',
+        quality_of_application_subject_knowledge_what_to_improve: 'Claiming to be the \'world\'s leading expert\' seemed a bit strong',
+        quality_of_application_personal_statement_what_to_improve: 'Use a spellchecker',
+        safeguarding_concerns_vetting_disclosed_information_details: nil,
+        safeguarding_concerns_candidate_disclosed_information_details: nil,
+        honesty_and_professionalism_concerns_information_false_or_inaccurate_details: 'Fake news',
+      } }
+      reject_by_default_feedback_sent_at { Time.zone.now }
+
+      after(:create) do |_choice, evaluator|
+        create(
+          :application_choice_audit,
+          :with_rejection_by_default,
+          application_choice: evaluator,
+        )
+      end
+    end
+
     trait :application_not_sent do
       status { 'application_not_sent' }
       rejected_at { Time.zone.now }

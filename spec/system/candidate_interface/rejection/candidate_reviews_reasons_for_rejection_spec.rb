@@ -22,7 +22,7 @@ RSpec.describe 'Candidate can see their structured reasons for rejection when re
 
   def and_i_have_an_apply1_application_with_3_rejections
     @application_form = create(:completed_application_form, :with_completed_references, candidate: @candidate)
-    create_list(:application_choice, 3, :with_rejection, application_form: @application_form)
+    create_list(:application_choice, 3, :with_structured_rejection_reasons, application_form: @application_form)
   end
 
   def when_i_visit_my_application_complete_page
@@ -30,6 +30,7 @@ RSpec.describe 'Candidate can see their structured reasons for rejection when re
   end
 
   def then_i_can_see_my_rejection_reasons
-    expect(page).to have_content(@application_form.application_choices.first.rejection_reason)
+    expect(page).to have_content('Quality of application')
+    expect(page).to have_content('Your subject knowledge could be improved.')
   end
 end
