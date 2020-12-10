@@ -107,7 +107,7 @@ module UCASMatching
           end
 
           if match.ready_to_resolve? && match.duplicate_applications_withdrawn_from_ucas?
-            UCASMAtches::ResolveOnUCAS.new(ucas_match: match).call
+            UCASMatches::ResolveOnUCAS.new(ucas_match: match).call
           end
 
           match.save!
