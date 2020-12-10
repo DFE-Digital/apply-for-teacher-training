@@ -58,7 +58,7 @@ module SupportInterface
           existing_permissions_for_user = []
         end
 
-        Provider.where(sync_courses: true).map do |provider|
+        Provider.where(sync_courses: true).order(:name).map do |provider|
           provider_permissions = existing_permissions_for_user.find { |existing_permission| existing_permission.provider_id == provider.id }
           provider_permissions || ProviderPermissions.new(provider: provider)
         end
