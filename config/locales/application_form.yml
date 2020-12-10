@@ -997,6 +997,14 @@ en:
               blank: Issues cannot blank
             consent_to_be_contacted:
               blank: Can we contact you about your feedback?
+        candidate_interface/find_feedback_form:
+          attributes:
+            path:
+              blank: Path cannot be blank
+            find_controller:
+              blank: Find controller cannot be blank
+            feedback:
+              blank: How we can improve the service?
         candidate_interface/withdrawal_feedback_form:
           attributes:
             feedback:

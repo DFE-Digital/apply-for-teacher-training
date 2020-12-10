@@ -46,6 +46,12 @@ Rails.application.routes.draw do
 
     get '/interstitial', to: 'after_sign_in#interstitial', as: :interstitial
 
+    scope '/find-feedback' do
+      get '/' => 'find_feedback#new', as: :find_feedback
+      post '/' => 'find_feedback#create'
+      get '/thank-you' => 'find_feedback#thank_you', as: :find_feedback_thank_you
+    end
+
     scope '/application' do
       get '/prefill', to: 'prefill_application_form#new'
       post '/prefill', to: 'prefill_application_form#create'
