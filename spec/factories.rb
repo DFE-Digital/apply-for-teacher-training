@@ -945,6 +945,7 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[awaiting_provider_decision offer],
+          'offered_course_option_id' => application_choice.course_option_id,
         }
       end
     end
@@ -965,6 +966,7 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[awaiting_provider_decision offer],
+          'offered_course_option_id' => application_choice.offered_course_option_id,
         }
       end
     end

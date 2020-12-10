@@ -57,6 +57,10 @@ module ProviderInterface
       @course_option ||= if changes['offer_changed_at'].present? && changes['offered_course_option_id'].present?
                            from_event = CourseOption.find_by(id: changes['offered_course_option_id'].second)
                            from_event || application_choice.offered_option
+                         elsif current_status == 'offer'
+                           # older offers won't have a course option id as part of this
+                           from_event = CourseOption.find_by(id: changes['offered_course_option_id']&.second)
+                           from_event || application_choice.offered_option
                          elsif ORIGINAL_OPTION_STATUSES.include?(current_status)
                            application_choice.course_option
                          else

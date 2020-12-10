@@ -112,8 +112,6 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
     context 'shows the most up-to-date course option if the offer may have been changed' do
       examples = %i[
         withdrawn
-        with_offer
-        with_modified_offer
         with_accepted_offer
         with_declined_offer
         with_declined_by_default_offer
@@ -133,12 +131,20 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
       end
     end
 
-    context 'for change offer events' do
-      it 'is the course_option from the event, not the application' do
-        with_audit(:with_changed_offer) do |audit, _user, _candidate|
-          audit.auditable.update_columns(offered_course_option_id: create(:course_option).id)
-          expected = audit.audited_changes['offered_course_option_id'].second
-          expect(component_for(audit).course_option.id).to eq(expected)
+    context 'for offer and change offer events' do
+      examples = %i[
+        with_offer
+        with_modified_offer
+        with_changed_offer
+      ]
+
+      examples.each do |trait|
+        it "#{trait} uses the course option from the event, not the application" do
+          with_audit(trait) do |audit, _user, _candidate|
+            audit.auditable.update_columns(offered_course_option_id: create(:course_option).id)
+            expected = audit.audited_changes['offered_course_option_id'].second
+            expect(component_for(audit).course_option.id).to eq(expected)
+          end
         end
       end
     end
