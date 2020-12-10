@@ -253,6 +253,10 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       application_form_attributes = {
         phone_number: '07700 900 982',
         address_type: 'international',
+        address_line1: '456 Marine Drive',
+        address_line2: 'Mumbai',
+        address_line3: nil,
+        address_line4: nil,
         international_address: '456 Marine Drive, Mumbai',
         country: 'IN',
       }
@@ -272,7 +276,46 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(response.to_json).to be_valid_against_openapi_schema('Application')
       expect(response.dig(:attributes, :contact_details)).to eq({
         phone_number: '07700 900 982',
+        address_line1: '456 Marine Drive',
+        address_line2: 'Mumbai',
+        address_line3: nil,
+        address_line4: nil,
+        country: 'IN',
+        email: application_form.candidate.email_address,
+      })
+    end
+
+    it 'presents the international_address field if no address lines are populated' do
+      application_form_attributes = {
+        phone_number: '07700 900 982',
+        address_type: 'international',
+        international_address: '456 Marine Drive, Mumbai',
+        address_line1: nil,
+        address_line2: nil,
+        address_line3: nil,
+        address_line4: nil,
+        country: 'IN',
+      }
+      application_form = create(
+        :completed_application_form,
+        :with_completed_references,
+        application_form_attributes,
+      )
+      application_choice = create(
+        :application_choice,
+        status: 'awaiting_provider_decision',
+        application_form: application_form,
+      )
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.to_json).to be_valid_against_openapi_schema('Application')
+      expect(response.dig(:attributes, :contact_details)).to eq({
+        phone_number: '07700 900 982',
         address_line1: '456 Marine Drive, Mumbai',
+        address_line2: nil,
+        address_line3: nil,
+        address_line4: nil,
         country: 'IN',
         email: application_form.candidate.email_address,
       })
