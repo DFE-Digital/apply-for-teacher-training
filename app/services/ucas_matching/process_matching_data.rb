@@ -98,11 +98,9 @@ module UCASMatching
 
           if match.persisted?
             Rails.logger.info "Found a match for candidate ID #{candidate_id}, updating matching data"
-            match.matching_state = 'matching_data_updated'
             updated_matches += 1
           else
             Rails.logger.info "Found a match for candidate ID #{candidate_id}, creating new matching record"
-            match.matching_state = 'new_match'
             new_matches += 1
           end
 

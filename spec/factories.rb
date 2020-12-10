@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :ucas_match do
     candidate { application_form.candidate }
-    matching_state { %w[new_match matching_data_updated processed].sample }
     matching_data { nil }
     recruitment_cycle_year { application_form.recruitment_cycle_year }
 

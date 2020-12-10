@@ -7,8 +7,7 @@
 <%= render SupportInterface::UCASMatchActionComponent.new(@match) %>
 
 <% application = @match.candidate.application_forms.first %>
-<% status = [render(TagComponent.new(text: @match.matching_state.humanize, type: @match.processed? ? :green : :purple))] %>
-<% status << render(TagComponent.new(text: @match.action_taken.humanize, type: :purple)) if @match.action_taken.present? %>
+<% status = [render(TagComponent.new(text: @match.action_taken&.humanize || 'New match', type: @match.resolved? ? :green : :purple))] %>
 <% if @match.invalid_matching_data? %>
   <% status << render(TagComponent.new(text: "Invalid data", type: :red)) %>
 <% elsif @match.action_needed? %>

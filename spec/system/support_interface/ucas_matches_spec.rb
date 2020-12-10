@@ -16,7 +16,7 @@ RSpec.feature 'See UCAS matches' do
 
     when_i_go_to_ucas_matches_page
     then_i_should_see_list_of_ucas_matches
-    and_i_should_which_ucas_matches_need_action
+    and_i_should_see_which_ucas_matches_need_action
 
     when_i_filter_by_recruitment_cycle
     then_i_only_see_applications_for_that_recruitment_cycle
@@ -102,8 +102,8 @@ RSpec.feature 'See UCAS matches' do
         'Trackable applicant key' => trackable_applicant_id,
       }
 
-    create(:ucas_match, matching_state: 'new_match', application_form: @application_form, matching_data: [ucas_matching_data, dfe_matching_data, invalid_dfe_matching_data])
-    create(:ucas_match, matching_state: 'matching_data_updated', scheme: 'B', ucas_status: :offer, application_form: @application_form2)
+    create(:ucas_match, application_form: @application_form, matching_data: [ucas_matching_data, dfe_matching_data, invalid_dfe_matching_data])
+    create(:ucas_match, scheme: 'B', ucas_status: :offer, application_form: @application_form2)
   end
 
   def when_i_go_to_ucas_matches_page
@@ -111,12 +111,12 @@ RSpec.feature 'See UCAS matches' do
   end
 
   def then_i_should_see_list_of_ucas_matches
-    expect(page).to have_content 'New match'
+    expect(page).to have_content 'No action taken'
     expect(page).to have_content @candidate.email_address
   end
 
-  def and_i_should_which_ucas_matches_need_action
-    expect(page).to have_content 'Updated Action needed'
+  def and_i_should_see_which_ucas_matches_need_action
+    expect(page).to have_content 'No action taken Action needed'
     expect(page).to have_content 'Invalid data'
   end
 

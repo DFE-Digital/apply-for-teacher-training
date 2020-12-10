@@ -3,12 +3,6 @@ class UCASMatch < ApplicationRecord
 
   belongs_to :candidate
 
-  enum matching_state: {
-    matching_data_updated: 'matching_data_updated',
-    new_match: 'new_match',
-    processed: 'processed',
-  }
-
   enum action_taken: {
     initial_emails_sent: 'initial_emails_sent',
     reminder_emails_sent: 'reminder_emails_sent',
@@ -31,8 +25,6 @@ class UCASMatch < ApplicationRecord
   end
 
   def action_needed?
-    return false if processed?
-
     return false if resolved?
 
     return false unless dual_application_or_dual_acceptance?

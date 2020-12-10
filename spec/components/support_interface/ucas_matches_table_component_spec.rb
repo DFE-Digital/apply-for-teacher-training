@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::UCASMatchesTableComponent do
   let(:today) { Time.zone.local(2020, 1, 7, 12, 0, 0) }
-  let(:ucas_match) { create(:ucas_match, matching_state: 'new_match') }
+  let(:ucas_match) { create(:ucas_match) }
 
   around do |example|
     Timecop.freeze(today) do
@@ -11,7 +11,7 @@ RSpec.describe SupportInterface::UCASMatchesTableComponent do
   end
 
   it 'renders the status' do
-    expect(render_result.css('.govuk-tag').first.text.strip).to eq('New match')
+    expect(render_result.css('.govuk-tag').first.text.strip).to eq('No action taken')
   end
 
   it 'renders candidates email address' do

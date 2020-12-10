@@ -25,7 +25,6 @@ RSpec.describe SupportInterface::SendUCASMatchReminderEmails do
     context 'when the application has been accepted on both Apply and UCAS' do
       it 'sends the candidate the reminder ucas match email for multiple acceptances' do
         ucas_match = create(:ucas_match,
-                            matching_state: 'new_match',
                             ucas_status: :pending_conditions,
                             application_form: application_form,
                             action_taken: 'initial_emails_sent',
@@ -43,7 +42,6 @@ RSpec.describe SupportInterface::SendUCASMatchReminderEmails do
     context 'when the candidate applied for the same course on both Apply and UCAS' do
       it 'sends the candidate the reminder ucas match email for the duplicate application' do
         ucas_match = create(:ucas_match,
-                            matching_state: 'new_match',
                             scheme: 'B',
                             application_form: application_form,
                             action_taken: 'initial_emails_sent',
