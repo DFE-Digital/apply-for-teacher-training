@@ -682,6 +682,12 @@ Rails.application.routes.draw do
 
     scope path: '/applications/:application_form_id' do
       get '/' => 'application_forms#show', as: :application_form
+
+      get '/add-course/search' => 'application_forms/courses#new_search', as: :application_form_search_course_new
+      post '/add-course/search' => 'application_forms/courses#search', as: :application_form_search_course
+      get '/add-course/:course_code' => 'application_forms/courses#new', as: :application_form_new_course
+      post '/add-course/:course_code' => 'application_forms/courses#create', as: :application_form_create_course
+
       get '/audit' => 'application_forms#audit', as: :application_form_audit
       get '/comments/new' => 'application_forms/comments#new', as: :application_form_new_comment
       post '/comments' => 'application_forms/comments#create', as: :application_form_comments
