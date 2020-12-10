@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_07_175009) do
+ActiveRecord::Schema.define(version: 2020_12_10_105121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -121,7 +121,6 @@ ActiveRecord::Schema.define(version: 2020_12_07_175009) do
     t.string "phase", default: "apply_1", null: false
     t.jsonb "equality_and_diversity"
     t.text "safeguarding_issues"
-    t.jsonb "satisfaction_survey"
     t.string "safeguarding_issues_status", default: "not_answered_yet", null: false
     t.integer "previous_application_form_id"
     t.boolean "personal_details_completed", default: false
