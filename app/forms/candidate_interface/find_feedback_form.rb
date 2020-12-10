@@ -20,6 +20,17 @@ module CandidateInterface
       )
     end
 
+    def arrived_from_page
+      case find_controller
+      when 'courses'
+        'course'
+      when 'results'
+        'results'
+      else
+        'unknown'
+      end
+    end
+
     def user_is_a_bot?
       errors.key?(:hidden_feedback_field)
     end
