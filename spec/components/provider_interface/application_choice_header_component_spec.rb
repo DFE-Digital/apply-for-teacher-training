@@ -1,6 +1,55 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
+  describe 'rendered component' do
+    let(:reject_by_default_at) { 10.days.from_now }
+    let(:provider_can_respond) { true }
+    let(:status) { 'awaiting_provider_decision' }
+    let(:application_choice) { build_stubbed(:application_choice, status: status, reject_by_default_at: reject_by_default_at) }
+
+    subject(:result) { render_inline(described_class.new(application_choice: application_choice, provider_can_respond: provider_can_respond)) }
+
+    context 'when the application is awaiting provider decision and the user can make decisions' do
+      it 'presents a button to respond to application' do
+        expect(result.css('.govuk-button').text).to eq('Respond to application')
+      end
+    end
+
+    context 'when the application is awaiting provider decision, reject by default is tomorrow and user can make decisions' do
+      let(:reject_by_default_at) { 1.day.from_now }
+
+      it 'formats the reject by default time in a sentence' do
+        expect(result.css('.govuk-inset-text').text).to include(
+          'You have until 12pm (midday) tomorrow to respond to this application. Otherwise it will be automatically rejected.',
+        )
+      end
+
+      it 'presents a button to respond to application' do
+        expect(result.css('.govuk-button').text).to eq('Respond to application')
+      end
+    end
+
+    context 'when the application is awaiting provider decision and the user cannot make decisions' do
+      let(:provider_can_respond) { false }
+
+      it 'presents content without a heading or button' do
+        expect(result.css('.govuk-inset-text').text).not_to include('Respond to application')
+        expect(result.css('.govuk-inset-text').text).to include('There are 10 days to respond.')
+      end
+    end
+
+    context 'when the application is awaiting provider decision, reject by default is tomorrow and user cannot make decisions' do
+      let(:provider_can_respond) { false }
+      let(:reject_by_default_at) { 1.day.from_now }
+
+      it 'formats the reject by default time in a sentence' do
+        expect(result.css('.govuk-inset-text').text).to include(
+          'This application will be automatically rejected at 12pm (midday) tomorrow',
+        )
+      end
+    end
+  end
+
   describe '#deferred_offer_wizard_applicable' do
     it 'is true for a deferred offer belonging to the previous recruitment cycle' do
       application_choice = instance_double(ApplicationChoice, status: 'offer_deferred')

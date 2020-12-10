@@ -56,5 +56,28 @@ module ProviderInterface
     def offer_present?
       ApplicationStateChange::OFFERED_STATES.include?(application_choice.status.to_sym)
     end
+
+    def respond_to_application?
+      provider_can_respond && application_choice.awaiting_provider_decision?
+    end
+
+    def deferred_offer_wizard_applicable?
+      provider_can_respond && deferred_offer_wizard_applicable
+    end
+
+    def rejection_reason_required?
+      provider_can_respond && rejection_reason_required
+    end
+
+    def provider_cannot_respond?
+      !provider_can_respond && application_choice.awaiting_provider_decision?
+    end
+
+    def show_inset_text?
+      flash.empty? && (
+        respond_to_application? || deferred_offer_wizard_applicable? ||
+        rejection_reason_required? || provider_cannot_respond?
+      )
+    end
   end
 end
