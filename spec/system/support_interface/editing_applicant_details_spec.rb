@@ -9,16 +9,23 @@ RSpec.feature 'Editing application details' do
 
     when_i_visit_the_application_page
     and_i_click_the_change_link_next_to_full_name
-    and_i_supply_a_new_first_name
+    and_i_fill_in_all_fields_with_blank_values
+    and_i_submit_the_update_form
+    then_i_should_see_relevant_blank_error_messages
+
+    when_i_supply_a_new_first_name
     and_i_supply_a_new_last_name
     and_i_supply_a_new_date_of_birth
     and_i_supply_a_new_phone_number
+    and_i_supply_a_new_email_address
     and_i_add_a_note_for_the_audit_log
+    and_i_submit_the_update_form
 
     then_i_should_see_a_flash_message
     and_i_should_see_the_new_name_in_full
     and_i_should_see_the_new_date_of_birth
     and_i_should_see_the_new_phone_number
+    and_i_should_see_the_new_email_address
     and_i_should_see_my_comment_in_the_audit_log
   end
 
@@ -38,16 +45,40 @@ RSpec.feature 'Editing application details' do
     all('.govuk-summary-list__actions')[0].click_link 'Change'
   end
 
+  def and_i_fill_in_all_fields_with_blank_values
+    fill_in 'support_interface_application_forms_edit_applicant_details_form[first_name]', with: ''
+    fill_in 'support_interface_application_forms_edit_applicant_details_form[last_name]', with: ''
+    fill_in 'support_interface_application_forms_edit_applicant_details_form[email_address]', with: ''
+    fill_in 'Day', with: ''
+    fill_in 'Month', with: ''
+    fill_in 'Year', with: ''
+    fill_in 'support_interface_application_forms_edit_applicant_details_form[phone_number]', with: ''
+    fill_in 'support_interface_application_forms_edit_applicant_details_form[audit_comment]', with: ''
+  end
+
+  def then_i_should_see_relevant_blank_error_messages
+    expect(page).to have_content 'First name cannot be blank'
+    expect(page).to have_content 'Last name cannot be blank'
+    expect(page).to have_content 'Enter an email address'
+    expect(page).to have_content 'Enter a date of birth in the correct format'
+    expect(page).to have_content 'Phone number can’t be blank'
+    expect(page).to have_content 'You must provide an audit comment'
+  end
+
   def and_i_supply_a_new_phone_number
     fill_in 'support_interface_application_forms_edit_applicant_details_form[phone_number]', with: '0891 50 50 50'
   end
 
-  def and_i_supply_a_new_first_name
+  def when_i_supply_a_new_first_name
     fill_in 'support_interface_application_forms_edit_applicant_details_form[first_name]', with: 'Steven'
   end
 
   def and_i_supply_a_new_last_name
     fill_in 'support_interface_application_forms_edit_applicant_details_form[last_name]', with: 'Seagal'
+  end
+
+  def and_i_supply_a_new_email_address
+    fill_in 'support_interface_application_forms_edit_applicant_details_form[email_address]', with: 'steven.seagal@example.com'
   end
 
   def and_i_supply_a_new_date_of_birth
@@ -58,7 +89,9 @@ RSpec.feature 'Editing application details' do
 
   def and_i_add_a_note_for_the_audit_log
     fill_in 'support_interface_application_forms_edit_applicant_details_form[audit_comment]', with: 'https://becomingateacher.zendesk.com/12345'
+  end
 
+  def and_i_submit_the_update_form
     click_button 'Update'
   end
 
@@ -75,7 +108,11 @@ RSpec.feature 'Editing application details' do
   end
 
   def and_i_should_see_the_new_date_of_birth
-    expect(page).to have_content('5 May 1950')
+    expect(page).to have_content '5 May 1950'
+  end
+
+  def and_i_should_see_the_new_email_address
+    expect(page).to have_content 'steven.seagal@example.com'
   end
 
   def and_i_should_see_my_comment_in_the_audit_log

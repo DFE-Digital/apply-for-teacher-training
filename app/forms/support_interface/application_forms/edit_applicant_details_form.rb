@@ -7,6 +7,7 @@ module SupportInterface
       attr_accessor :first_name
       attr_accessor :last_name
       attr_accessor :day, :month, :year
+      attr_accessor :email_address
       attr_accessor :phone_number
       attr_accessor :audit_comment
       attr_reader :application_form
@@ -14,6 +15,10 @@ module SupportInterface
       validates :first_name, :last_name, presence: true
       validates :first_name, :last_name,
                 length: { maximum: 60 }
+
+      validates :email_address, presence: true, email_address: true, length: { maximum: 100 }
+
+      validate :candidate_email_address_has_access
 
       validates :date_of_birth, presence: true
       validate :date_of_birth_valid
@@ -29,6 +34,7 @@ module SupportInterface
         super(
           first_name: @application_form.first_name,
           last_name: @application_form.last_name,
+          email_address: @application_form.candidate.email_address,
           day: @application_form.date_of_birth&.day,
           month: @application_form.date_of_birth&.month,
           year: @application_form.date_of_birth&.year,
@@ -37,12 +43,16 @@ module SupportInterface
       end
 
       def save!
-        @application_form.first_name = first_name
-        @application_form.last_name = last_name
-        @application_form.date_of_birth = date_of_birth
-        @application_form.phone_number = phone_number
-        @application_form.audit_comment = audit_comment
-        @application_form.save!
+        @application_form.update!(
+          first_name: first_name,
+          last_name: last_name,
+          date_of_birth: date_of_birth,
+          phone_number: phone_number,
+          audit_comment: audit_comment,
+        )
+
+        candidate.email_address = email_address
+        candidate.save!
       end
 
       def date_of_birth
@@ -68,6 +78,20 @@ module SupportInterface
 
         age_limit = Time.zone.today - 16.years
         errors.add(:date_of_birth, :below_lower_age_limit, date: age_limit.to_s(:govuk_date)) if date_of_birth > age_limit
+      end
+
+      def candidate_email_address_has_access
+        if HostingEnvironment.dfe_signup_only? &&
+            email_address.present? &&
+            !email_address.match(/education\.gov\.uk$/)
+          errors.add(:email_address, :dfe_signup_only)
+        end
+      end
+
+    private
+
+      def candidate
+        @application_form.candidate
       end
     end
   end

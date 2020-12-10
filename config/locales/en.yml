@@ -244,6 +244,11 @@ en:
             last_name:
               blank: Last name cannot be blank
               too_long: Last name must be %{count} characters or fewer
+            email_address:
+              blank: Enter an email address
+              invalid: Enter an email address in the correct format, like name@example.com
+              taken: Email address is already in use
+              too_long: Email address must be %{count} characters or fewer
             date_of_birth:
               invalid: Enter a date of birth in the correct format
               future: Enter a date of birth that is in the past, for example 31 3 1980

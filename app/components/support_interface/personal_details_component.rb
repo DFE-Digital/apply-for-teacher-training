@@ -49,6 +49,8 @@ module SupportInterface
       {
         key: 'Email address',
         value: mail_to(email_address, email_address, class: 'govuk-link'),
+        action: 'email address',
+        change_path: support_interface_application_form_edit_applicant_details_path(application_form),
       }
     end
 
