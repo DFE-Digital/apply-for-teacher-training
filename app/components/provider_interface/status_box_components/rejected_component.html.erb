@@ -4,7 +4,7 @@
   <p class="govuk-body">
     This application was rejected on <%= @application_choice.rejected_at.to_s(:govuk_date) %>. The following feedback was sent to the candidate.
   </p>
-  <%= render ProviderInterface::ReasonsForRejectionComponent.new(
+  <%= render ReasonsForRejectionComponent.new(
     application_choice: @application_choice,
     reasons_for_rejection: ProviderInterface::ReasonsForRejection.new(@application_choice.structured_rejection_reasons),
   ) %>

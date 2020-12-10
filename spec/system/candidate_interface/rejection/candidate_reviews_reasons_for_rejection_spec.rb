@@ -31,6 +31,6 @@ RSpec.describe 'Candidate can see their structured reasons for rejection when re
 
   def then_i_can_see_my_rejection_reasons
     expect(page).to have_content('Quality of application')
-    expect(page).to have_content('Your subject knowledge could be improved.')
+    expect(page).to have_content('Use a spellchecker.')
   end
 end
