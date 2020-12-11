@@ -20,11 +20,11 @@ class FeatureFlag
     [:provider_information_banner, 'Displays an information banner for providers on the start page and applications page', 'Ben Swannack'],
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Malcolm Baig'],
     [:hold_courses_open, 'Force all courses to appear to have vacancies. Do not enable in production!', 'Duncan Brown'],
+    [:export_hesa_data, 'Providers can export applications including HESA data.', 'Steve Laing'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
     [:efl_section, 'Allow candidates with nationalities other then British or Irish to specify their English as a Foreign Language experience', 'Malcolm Baig'],
-    [:export_hesa_data, 'Providers can export applications including HESA data.', 'Steve Laing'],
     [:feedback_prompts, 'Candidates can give feedback while completing their application form', 'David Gisbey'],
     [:multiple_science_gcses, 'Candidates can enter structured data for multiple science GCSEs', 'Toby Retallick'],
     [:multiple_english_gcses, 'Candidates can enter structured data for multiple English GCSEs.', 'Raam Chauhan'],
