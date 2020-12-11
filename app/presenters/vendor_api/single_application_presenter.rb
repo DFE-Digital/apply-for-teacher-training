@@ -3,7 +3,7 @@ module VendorAPI
     include Rails.application.routes.url_helpers
 
     def initialize(application_choice)
-      @application_choice = application_choice
+      @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
       @application_form = application_choice.application_form
     end
 
@@ -182,7 +182,7 @@ module VendorAPI
         gcses: format_gcses,
         degrees: qualifications_of_level('degree').map { |q| qualification_to_hash(q) },
         other_qualifications: qualifications_of_level('other').map { |q| qualification_to_hash(q) },
-        missing_gcses_explanation: ApplicationDataService.missing_gcses_explanation(application_form: application_form),
+        missing_gcses_explanation: application_choice.missing_gcses_explanation(separator_string: "\n\n"),
       }
     end
 
@@ -232,7 +232,7 @@ module VendorAPI
         award_year: qualification.award_year,
         institution_details: institution_details(qualification),
         awarding_body: qualification.awarding_body,
-        equivalency_details: ApplicationDataService.composite_equivalency_details(qualification: qualification),
+        equivalency_details: qualification.composite_equivalency_details,
       }.merge HesaQualificationFieldsPresenter.new(qualification).to_hash
     end
 

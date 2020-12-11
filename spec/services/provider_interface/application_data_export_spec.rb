@@ -48,7 +48,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
                        .find_by(level: 'degree')
 
       expected = {
-        'id' => application_choice.id.to_s,
+        'application_choice_id' => application_choice.id.to_s,
         'support_reference' => application_choice.application_form.support_reference,
         'status' => application_choice.status,
         'submitted_at' => application_choice.application_form.submitted_at&.to_s,
@@ -65,11 +65,10 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'third_nationality' => application_choice.application_form.third_nationality,
         'fourth_nationality' => application_choice.application_form.fourth_nationality,
         'fifth_nationality' => application_choice.application_form.fifth_nationality,
-        'domicile' => application_choice.application_form.country,
         'uk_residency_status' => application_choice.application_form.uk_residency_status,
         'english_main_language' => application_choice.application_form.english_main_language&.to_s,
         'english_language_qualifications' => application_choice.application_form.english_language_details,
-        'email_address' => application_choice.application_form.candidate.email_address,
+        'email' => application_choice.application_form.candidate.email_address,
         'phone_number' => application_choice.application_form.phone_number,
         'address_line1' => application_choice.application_form.address_line1,
         'address_line2' => application_choice.application_form.address_line2,
@@ -79,7 +78,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'country' => application_choice.application_form.country,
         'recruitment_cycle_year' => application_choice.application_form.recruitment_cycle_year&.to_s,
         'provider_code' => application_choice.provider.code,
-        'accredited_body' => application_choice.accredited_provider&.name,
+        'accrediting_provider_name' => application_choice.accredited_provider&.name,
         'course_code' => application_choice.course.code,
         'site_code' => application_choice.site.code,
         'study_mode' => application_choice.course.study_mode,
@@ -94,7 +93,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'institution_details' => first_degree&.institution_name,
         'equivalency_details' => first_degree&.equivalency_details,
         'awarding_body' => first_degree&.awarding_body,
-        'gcse_qualifications_summary' => ApplicationDataService.gcse_qualifications_summary(application_form: application_choice.application_form),
+        'gcse_qualifications_summary' => nil,
         'missing_gcses_explanation' => nil,
         'disability_disclosure' => application_choice.application_form.disability_disclosure,
       }

@@ -15,7 +15,9 @@ module ProviderInterface
 
       rows = []
 
-      applications.each do |application|
+      applications.each do |application_choice|
+        application = ApplicationChoiceExportDecorator.new(application_choice)
+
         first_degree = application.application_form.application_qualifications
           .order(created_at: :asc)
           .find_by(level: 'degree')
@@ -37,7 +39,7 @@ module ProviderInterface
           'study_mode' => study_mode(application),
           'SBJCA' => subject_codes(application),
           'QLAIM' => qualification_aim(application),
-          'FIRSTDEG' => ApplicationDataService.degrees_completed(application_form: application.application_form),
+          'FIRSTDEG' => application.degrees_completed_flag,
           'DEGTYPE' => pad_hesa_value(first_degree, :qualification_type_hesa_code, 3),
           'DEGSBJ' => pad_hesa_value(first_degree, :subject_hesa_code, 4),
           'DEGCLSS' => pad_hesa_value(first_degree, :grade_hesa_code, 2),

@@ -4,7 +4,9 @@ module ProviderInterface
       rows = []
       applications = Array.wrap(application_choices)
 
-      applications.each do |application|
+      applications.each do |application_choice|
+        application = ApplicationChoiceExportDecorator.new(application_choice)
+
         first_degree = application.application_form.application_qualifications
                          .order(created_at: :asc)
                          .find_by(level: 'degree')
@@ -45,7 +47,7 @@ module ProviderInterface
           'site_code' => application.site.code,
           'study_mode' => application.course.study_mode,
           'start_date' => application.course.start_date,
-          'FIRSTDEG' => ApplicationDataService.degrees_completed(application_form: application.application_form),
+          'FIRSTDEG' => application.degrees_completed_flag,
           'qualification_type' => first_degree&.qualification_type,
           'non_uk_qualification_type' => first_degree&.non_uk_qualification_type,
           'subject' => first_degree&.subject,
@@ -53,10 +55,10 @@ module ProviderInterface
           'start_year' => first_degree&.start_year,
           'award_year' => first_degree&.award_year,
           'institution_details' => first_degree&.institution_name,
-          'equivalency_details' => ApplicationDataService.composite_equivalency_details(qualification: first_degree),
+          'equivalency_details' => first_degree&.composite_equivalency_details,
           'awarding_body' => first_degree&.awarding_body,
-          'gcse_qualifications_summary' => ApplicationDataService.gcse_qualifications_summary(application_form: application.application_form),
-          'missing_gcses_explanation' => ApplicationDataService.missing_gcses_explanation(application_form: application.application_form),
+          'gcse_qualifications_summary' => application.gcse_qualifications_summary,
+          'missing_gcses_explanation' => application.missing_gcses_explanation,
           'disability_disclosure' => application.application_form.disability_disclosure,
         }
       end

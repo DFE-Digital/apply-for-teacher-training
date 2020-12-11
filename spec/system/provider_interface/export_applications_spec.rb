@@ -45,17 +45,14 @@ RSpec.feature 'Export applications' do
 
   def then_i_can_download_application_data_as_csv
     csv = CSV.parse(page.body, headers: true)
-    expect(csv.headers).to eq([
-      'id', 'status', 'first name', 'last name', 'date of birth', 'nationality',
-      'domicile', 'email address', 'recruitment cycle', 'provider code', 'accredited body',
-      'course code', 'site code', 'study mode', 'SBJCA', 'QLAIM', 'FIRSTDEG', 'DEGTYPE',
-      'DEGSBJ', 'DEGCLSS', 'institution country', 'DEGSTDT', 'DEGENDDT', 'institution details',
-      'sex', 'disabilities', 'ethnicity'
-    ])
+    expect(csv.headers).to eq(%w[id status first_name last_name date_of_birth nationality
+                                 country email recruitment_cycle_year provider_code accrediting_provider_name course_code site_code
+                                 study_mode SBJCA QLAIM FIRSTDEG DEGTYPE DEGSBJ DEGCLSS institution_country DEGSTDT DEGENDDT
+                                 institution_details sex disabilities ethnicity])
 
     expect(csv['id'].sort).to eq(@applications.map { |a| a.application_form.support_reference }.sort)
-    expect(csv['email address'].sort).to eq(@applications.map { |a| a.application_form.candidate.email_address }.sort)
-    expect(csv['provider code'].sort).to eq(@applications.map { |a| a.provider.code }.sort)
-    expect(csv['course code'].sort).to eq(@applications.map { |a| a.course.code }.sort)
+    expect(csv['email'].sort).to eq(@applications.map { |a| a.application_form.candidate.email_address }.sort)
+    expect(csv['provider_code'].sort).to eq(@applications.map { |a| a.provider.code }.sort)
+    expect(csv['course_code'].sort).to eq(@applications.map { |a| a.course.code }.sort)
   end
 end

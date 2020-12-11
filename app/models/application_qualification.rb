@@ -113,4 +113,14 @@ class ApplicationQualification < ApplicationRecord
   def completed?
     !predicted_grade?
   end
+
+  def composite_equivalency_details
+    details = [
+      ("Naric: #{naric_reference}" if naric_reference),
+      comparable_uk_qualification || comparable_uk_degree,
+      equivalency_details,
+    ].compact.join(' - ')
+
+    details.strip if details.present?
+  end
 end

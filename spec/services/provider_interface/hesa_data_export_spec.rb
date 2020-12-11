@@ -18,28 +18,28 @@ RSpec.describe ProviderInterface::HesaDataExport do
 
         expect(row['id']).to eq(@application_with_offer.application_form.support_reference)
         expect(row['status']).to eq(@application_with_offer.status)
-        expect(row['first name']).to eq(@application_with_offer.application_form.first_name)
-        expect(row['last name']).to eq(@application_with_offer.application_form.last_name)
-        expect(row['date of birth']).to eq(@application_with_offer.application_form.date_of_birth.to_s)
+        expect(row['first_name']).to eq(@application_with_offer.application_form.first_name)
+        expect(row['last_name']).to eq(@application_with_offer.application_form.last_name)
+        expect(row['date_of_birth']).to eq(@application_with_offer.application_form.date_of_birth.to_s)
         expect(row['nationality']).to eq(@application_with_offer.application_form.first_nationality)
-        expect(row['domicile']).to eq(@application_with_offer.application_form.country)
-        expect(row['email address']).to eq(@application_with_offer.application_form.candidate.email_address)
-        expect(row['recruitment cycle']).to eq(@application_with_offer.application_form.recruitment_cycle_year.to_s)
-        expect(row['provider code']).to eq(@application_with_offer.provider.code)
-        expect(row['accredited body']).to eq(@application_with_offer.course.accredited_provider.name)
-        expect(row['course code']).to eq(@course.code)
-        expect(row['site code']).to eq(@application_with_offer.site.code)
-        expect(row['study mode']).to eq('01')
+        expect(row['country']).to eq(@application_with_offer.application_form.country)
+        expect(row['email']).to eq(@application_with_offer.application_form.candidate.email_address)
+        expect(row['recruitment_cycle_year']).to eq(@application_with_offer.application_form.recruitment_cycle_year.to_s)
+        expect(row['provider_code']).to eq(@application_with_offer.provider.code)
+        expect(row['accrediting_provider_name']).to eq(@application_with_offer.course.accredited_provider.name)
+        expect(row['course_code']).to eq(@course.code)
+        expect(row['site_code']).to eq(@application_with_offer.site.code)
+        expect(row['study_mode']).to eq('01')
         expect(row['SBJCA']).to eq('100425 101277')
         expect(row['QLAIM']).to eq('021')
         expect(row['FIRSTDEG']).to eq('1')
         expect(row['DEGTYPE']).to eq('007')
         expect(row['DEGSBJ']).to eq('100100')
         expect(row['DEGCLSS']).to eq('02')
-        expect(row['institution country']).to eq('GB')
+        expect(row['institution_country']).to eq('GB')
         expect(row['DEGSTDT']).to eq('2010')
         expect(row['DEGENDDT']).to eq('2013')
-        expect(row['institution details']).to eq('0001')
+        expect(row['institution_details']).to eq('0001')
         expect(row['sex']).to eq('1')
         expect(row['disabilities']).to eq('53 55 54')
         expect(row['ethnicity']).to eq('15')
@@ -73,13 +73,10 @@ RSpec.describe ProviderInterface::HesaDataExport do
 
     it 'generates CSV headers' do
       csv = CSV.parse(export_data, headers: true)
-      expect(csv.headers).to eq([
-        'id', 'status', 'first name', 'last name', 'date of birth', 'nationality',
-        'domicile', 'email address', 'recruitment cycle', 'provider code', 'accredited body',
-        'course code', 'site code', 'study mode', 'SBJCA', 'QLAIM', 'FIRSTDEG', 'DEGTYPE',
-        'DEGSBJ', 'DEGCLSS', 'institution country', 'DEGSTDT', 'DEGENDDT', 'institution details',
-        'sex', 'disabilities', 'ethnicity'
-      ])
+      expect(csv.headers).to eq(%w[id status first_name last_name date_of_birth nationality
+                                   country email recruitment_cycle_year provider_code accrediting_provider_name course_code site_code
+                                   study_mode SBJCA QLAIM FIRSTDEG DEGTYPE DEGSBJ DEGCLSS institution_country DEGSTDT DEGENDDT
+                                   institution_details sex disabilities ethnicity])
     end
 
     it_behaves_like 'a full HESA export'

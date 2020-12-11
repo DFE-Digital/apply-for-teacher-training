@@ -183,4 +183,36 @@ RSpec.describe ApplicationQualification, type: :model do
       expect(qualification.set_other_grade).to eq 'D'
     end
   end
+
+  describe 'composite_equivalency_details' do
+    it 'returns a sentence describing equivalency details for a degree' do
+      degree = build_stubbed(
+        :degree_qualification,
+        qualification_type: 'Bachelor degree',
+        international: true,
+        institution_country: 'US',
+        naric_reference: '0123456789',
+        comparable_uk_degree: 'bachelor_honours_degree',
+        equivalency_details: 'equivalent to a UK BSc',
+      )
+
+      expect(degree.composite_equivalency_details).to eq('Naric: 0123456789 - bachelor_honours_degree - equivalent to a UK BSc')
+    end
+
+    it 'returns a sentence describing equivalency details for a GCSE level qualification' do
+      gcse = build_stubbed(
+        :gcse_qualification,
+        qualification_type: 'scottish_national_5',
+        equivalency_details: 'equivalent to a GCSE',
+      )
+
+      expect(gcse.composite_equivalency_details).to eq('equivalent to a GCSE')
+    end
+
+    it 'returns nil if there is no data to show' do
+      gcse = build_stubbed(:gcse_qualification, equivalency_details: nil)
+
+      expect(gcse.composite_equivalency_details).to be_nil
+    end
+  end
 end
