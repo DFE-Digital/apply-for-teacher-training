@@ -10,7 +10,17 @@ module ProviderInterface
       @application_data_export_form = ApplicationDataExportForm.new(application_data_export_params.merge({ current_provider_user: current_provider_user }))
 
       if @application_data_export_form.valid?
-        render :new
+        providers = @application_data_export_form.selected_providers
+        cycle_years = @application_data_export_form.selected_years
+        statuses = @application_data_export_form.selected_statuses
+
+        application_choices = GetApplicationChoicesForProviders.call(providers: providers)
+                                .where('courses.recruitment_cycle_year' => cycle_years)
+                                .where('status IN (?)', statuses)
+                                .where('candidates.hide_in_reporting': false)
+
+        csv_data = ApplicationDataExport.call(application_choices: application_choices)
+        send_data csv_data, disposition: 'attachment', filename: csv_filename
       else
         render :new
       end
