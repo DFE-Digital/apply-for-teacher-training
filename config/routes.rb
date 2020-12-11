@@ -515,6 +515,9 @@ Rails.application.routes.draw do
     get '/applications/export/new' => 'applications_exports#new', as: :new_applications_export
     get '/applications/export' => 'applications_exports#export', as: :applications_export
 
+    get 'applications/data_export/new' => 'application_data_export#new'
+    post 'applications/data_export' => 'application_data_export#export'
+
     scope path: '/applications/:application_choice_id' do
       get '/' => 'application_choices#show', as: :application_choice
       get '/offer' => 'application_choices#offer', as: :application_choice_offer
