@@ -26,7 +26,7 @@ module VendorAPI
             first_name: application_form.first_name,
             last_name: application_form.last_name,
             date_of_birth: application_form.date_of_birth,
-            nationality: nationalities,
+            nationality: application_choice.nationalities,
             domicile: application_form.country,
             uk_residency_status: uk_residency_status,
             english_main_language: application_form.english_main_language,
@@ -94,21 +94,10 @@ module VendorAPI
       }
     end
 
-    def nationalities
-      [
-        application_form.first_nationality,
-        application_form.second_nationality,
-        application_form.third_nationality,
-        application_form.fourth_nationality,
-        application_form.fifth_nationality,
-      ].map { |n| NATIONALITIES_BY_NAME[n] }.compact.uniq
-        .sort.partition { |e| %w[GB IE].include? e }.flatten
-    end
-
     def uk_residency_status
-      return 'UK Citizen' if nationalities.include?('GB')
+      return 'UK Citizen' if application_choice.nationalities.include?('GB')
 
-      return 'Irish Citizen' if nationalities.include?('IE')
+      return 'Irish Citizen' if application_choice.nationalities.include?('IE')
 
       return application_form.right_to_work_or_study_details if application_form.right_to_work_or_study_yes?
 

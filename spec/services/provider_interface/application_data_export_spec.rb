@@ -34,7 +34,8 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
     end
 
     it 'returns data for application_choices with an incomplete application form' do
-      choice = create(:application_choice)
+      application_form = create(:application_form, first_nationality: 'British', second_nationality: 'American')
+      choice = create(:application_choice, application_form: application_form)
 
       exported_data = CSV.parse(described_class.call(application_choices: choice), headers: true)
       row = exported_data.first
@@ -60,11 +61,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'first_name' => application_choice.application_form.first_name,
         'last_name' => application_choice.application_form.last_name,
         'date_of_birth' => application_choice.application_form.date_of_birth&.to_s,
-        'nationality' => application_choice.application_form.first_nationality,
-        'second_nationality' => application_choice.application_form.second_nationality,
-        'third_nationality' => application_choice.application_form.third_nationality,
-        'fourth_nationality' => application_choice.application_form.fourth_nationality,
-        'fifth_nationality' => application_choice.application_form.fifth_nationality,
+        'nationality' => 'GB US',
         'uk_residency_status' => application_choice.application_form.uk_residency_status,
         'english_main_language' => application_choice.application_form.english_main_language&.to_s,
         'english_language_qualifications' => application_choice.application_form.english_language_details,

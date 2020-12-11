@@ -82,4 +82,33 @@ RSpec.describe ApplicationChoiceExportDecorator do
       expect(result).to eq(0)
     end
   end
+
+  describe 'nationalities' do
+    it 'returns an array of 2 letter country codes corresponding to the candidate’s nationalities' do
+      application_form = create(:application_form, first_nationality: 'British')
+      application_choice = create(:application_choice, application_form: application_form)
+
+      result = described_class.new(application_choice).nationalities
+
+      expect(result).to eq(%w[GB])
+    end
+
+    it 'sorts nationalities alphabetically' do
+      application_form = create(:application_form, first_nationality: 'American', second_nationality: 'Turkish')
+      application_choice = create(:application_choice, application_form: application_form)
+
+      result = described_class.new(application_choice).nationalities
+
+      expect(result).to eq(%w[TR US])
+    end
+
+    it 'sorts nationalities alphabetically and puts British and Irish first' do
+      application_form = create(:application_form, first_nationality: 'American', second_nationality: 'British', third_nationality: 'Irish')
+      application_choice = create(:application_choice, application_form: application_form)
+
+      result = described_class.new(application_choice).nationalities
+
+      expect(result).to eq(%w[GB IE US])
+    end
+  end
 end

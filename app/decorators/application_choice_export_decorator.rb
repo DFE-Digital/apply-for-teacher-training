@@ -24,6 +24,17 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
     application_form.degrees_completed ? 1 : 0
   end
 
+  def nationalities
+    [
+      application_form.first_nationality,
+      application_form.second_nationality,
+      application_form.third_nationality,
+      application_form.fourth_nationality,
+      application_form.fifth_nationality,
+    ].map { |n| NATIONALITIES_BY_NAME[n] }.compact.uniq
+      .sort.partition { |e| %w[GB IE].include? e }.flatten
+  end
+
 private
 
   def missing_gcse_explanation(gcse)
