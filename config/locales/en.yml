@@ -258,6 +258,24 @@ en:
               below_lower_age_limit: Enter a date of birth before %{date} – candidate must be over 16 years old to Apply for teacher training
             audit_comment:
               blank: You must provide an audit comment
+        support_interface/application_forms/edit_reference_form:
+          attributes:
+            name:
+              blank: Referee's name can’t be blank
+              too_short: Referee's name must be %{count} characters or more
+              too_long: Referee's name must be %{count} characters or fewer
+            email_address:
+              blank: Enter an email address
+              invalid: Enter an email address in the correct format, like name@example.com
+              too_long: Email address must be %{count} characters or fewer
+            relationship:
+              blank: Relationship cannot be blank
+              too_long: Relationship must be %{count} characters or fewer
+            feedback:
+              blank: Feedback cannot be blank
+              too_long: Feedback must be %{count} characters or fewer
+            audit_comment:
+              blank: You must provide an audit comment
         provider_interface/pick_response_form:
           attributes:
             decision:
