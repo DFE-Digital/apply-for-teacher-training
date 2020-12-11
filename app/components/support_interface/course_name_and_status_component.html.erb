@@ -1,0 +1,16 @@
+<%= govuk_link_to(
+  application_choice.offered_course.year_name_and_code,
+  support_interface_course_path(application_choice.offered_course)
+) %>
+
+<% if application_choice.course_not_available? %>
+  <%= render TagComponent.new(text: 'Course removed from Find', type: 'yellow') %>
+<% end %>
+
+<% if application_choice.course_closed_on_apply? %>
+  <%= render TagComponent.new(text: 'Course closed on Apply', type: 'yellow') %>
+<% end %>
+
+<% if application_choice.course_full? %>
+  <%= render TagComponent.new(text: 'Course is full', type: 'yellow') %>
+<% end %>
