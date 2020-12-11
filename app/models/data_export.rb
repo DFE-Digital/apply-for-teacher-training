@@ -90,6 +90,11 @@ class DataExport < ApplicationRecord
       description: 'A list of application choices with the associated postcodes for the candidate, provider and site.',
       class: SupportInterface::LocationsExport,
     },
+    sites_export: {
+      name: 'Sites',
+      description: 'A list of sites that are being synced from Find, along with distances to their respective providers',
+      class: SupportInterface::SitesExport,
+    },
   }.freeze
 
   belongs_to :initiator, polymorphic: true, optional: true
