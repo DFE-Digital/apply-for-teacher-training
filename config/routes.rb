@@ -676,9 +676,13 @@ Rails.application.routes.draw do
 
       get '/applicant-address-type' => 'application_forms/address_type#edit', as: :application_form_edit_address_type
       post '/applicant-address-type' => 'application_forms/address_type#update', as: :application_form_update_address_type
-
       get '/applicant-address-details' => 'application_forms/address_details#edit', as: :application_form_edit_address_details
       post '/applicant-address-details' => 'application_forms/address_details#update', as: :application_form_update_address_details
+
+      get '/nationalities' => 'application_forms/nationalities#edit', as: :application_form_edit_nationalities
+      patch '/nationalities' => 'application_forms/nationalities#update'
+      get '/right-to-work-or-study' => 'application_forms/right_to_work_or_study#edit', as: :application_form_edit_right_to_work_or_study
+      patch '/right-to-work-or-study' => 'application_forms/right_to_work_or_study#update'
     end
 
     get '/ucas-matches' => 'ucas_matches#index'
