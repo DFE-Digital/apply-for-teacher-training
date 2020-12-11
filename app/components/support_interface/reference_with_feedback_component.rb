@@ -11,9 +11,10 @@ module SupportInterface
              :consent_to_be_contacted,
              to: :reference
 
-    def initialize(reference:, reference_number:)
+    def initialize(reference:, reference_number:, editable: true)
       @reference = reference
       @reference_number = reference_number
+      @editable = editable
     end
 
     def rows
@@ -23,8 +24,8 @@ module SupportInterface
         name_row,
         email_address_row,
         relationship_row,
-        consent_row,
         feedback_row,
+        consent_row,
         history_row,
         possible_actions_row,
       ].flatten.compact
@@ -107,6 +108,8 @@ module SupportInterface
       {
         key: 'Name',
         value: name,
+        action: 'name',
+        change_path: support_interface_application_form_edit_reference_path(reference.application_form, reference),
       }
     end
 
@@ -114,6 +117,8 @@ module SupportInterface
       {
         key: 'Email address',
         value: email_address,
+        action: 'email_address',
+        change_path: support_interface_application_form_edit_reference_path(reference.application_form, reference),
       }
     end
 
@@ -121,6 +126,8 @@ module SupportInterface
       {
         key: 'Relationship to candidate',
         value: relationship,
+        action: 'relationship',
+        change_path: support_interface_application_form_edit_reference_path(reference.application_form, reference),
       }
     end
 
@@ -129,6 +136,8 @@ module SupportInterface
         {
           key: 'Reference',
           value: feedback,
+          action: 'feedback',
+          change_path: support_interface_application_form_edit_reference_path(reference.application_form, reference),
         }
       end
     end
