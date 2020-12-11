@@ -1,13 +1,20 @@
-<% content_for :title, t('page_titles.provider.export_data') %>
+<% content_for :title, t('page_titles.provider.export_application_data') %>
 
-<h1 class="govuk-heading-l">
-  <%= t('page_titles.provider.export_data') %>
-</h1>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('page_titles.provider.export_application_data') %>
+    </h1>
+
+    <% if FeatureFlag.active?(:export_hesa_data) %>
+      <p class="govuk-body">
+        Choose which data to export or <%= govuk_link_to 'export only the data needed by the Higher Education Statistics Agency (HESA)', provider_interface_new_hesa_export_path %>.
+      </p>
+    <% end %>
+
     <%= form_with(
-          model: @application_data_export_form,
-          url: provider_interface_applications_data_export_path,
+    model: @application_data_export_form,
+          url: provider_interface_application_data_export_path,
           method: :post,
           ) do |f| %>
       <%= f.govuk_error_summary %>

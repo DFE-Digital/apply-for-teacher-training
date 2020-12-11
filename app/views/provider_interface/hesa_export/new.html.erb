@@ -1,0 +1,37 @@
+<%= content_for :title, t('page_titles.provider.export_hesa_data') %>
+<% if FeatureFlag.active?(:export_application_data) %>
+  <% content_for :before_content do %>
+    <%= render BreadcrumbComponent.new(items: [
+      {
+        text: t('page_titles.provider.export_application_data'),
+        path: provider_interface_new_application_data_export_path
+      },
+      {
+        text: t('page_titles.provider.export_hesa_data')
+      }
+    ]) %>
+  <% end %>
+<% end %>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t('page_titles.provider.export_hesa_data') %>
+    </h1>
+    <p class="govuk-body">
+      The data will include all candidates who have accepted an offer from any of your organisations.
+    </p>
+    <p class="govuk-body">
+      Diversity information will be marked confidential if you do not have permission to view it.
+    </p>
+  </div>
+
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with url: provider_interface_hesa_export_path(format: :csv), method: :get do %>
+      <button class="govuk-button" data-module="govuk-button">
+        Export data for HESA
+      </button>
+    <% end %>
+  </div>
+</div>

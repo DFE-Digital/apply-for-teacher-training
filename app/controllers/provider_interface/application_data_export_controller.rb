@@ -37,7 +37,7 @@ module ProviderInterface
     end
 
     def redirect_to_hesa_export_unless_feature_enabled
-      render_404 unless FeatureFlag.active?(:export_application_data)
+      redirect_to provider_interface_new_hesa_export_path unless FeatureFlag.active?(:export_application_data)
     end
   end
 end

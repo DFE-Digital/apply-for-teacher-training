@@ -51,8 +51,8 @@ class NavigationItems
           items << NavigationItem.new('Activity log', provider_interface_activity_log_path, is_active(current_controller, %w[activity_log]))
         end
 
-        if FeatureFlag.active?(:export_hesa_data)
-          items << NavigationItem.new('Export data', provider_interface_new_applications_export_path, is_active(current_controller, %w[applications_exports]))
+        if FeatureFlag.active?(:export_application_data) || FeatureFlag.active?(:export_hesa_data)
+          items << NavigationItem.new('Export data', provider_interface_new_application_data_export_path, is_active(current_controller, %w[application_data_export hesa_export]))
         end
       end
 
