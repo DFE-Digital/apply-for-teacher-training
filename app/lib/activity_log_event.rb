@@ -1,6 +1,6 @@
 class ActivityLogEvent
   attr_reader :audit
-  delegate :created_at, to: :audit
+  delegate :user, :created_at, to: :audit
 
   def initialize(audit:)
     @audit = audit
@@ -15,7 +15,7 @@ class ActivityLogEvent
   end
 
   def user_full_name
-    audit.user.try(:full_name) || audit.user.try(:display_name)
+    user.try(:full_name) || user.try(:display_name)
   end
 
   def candidate_full_name

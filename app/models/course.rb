@@ -15,6 +15,9 @@ class Course < ApplicationRecord
   scope :previous_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.previous_year) }
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
 
+  scope :with_course_options, -> { left_outer_joins(:course_options).where('course_options.id IS NOT NULL') }
+  scope :without_course_options, -> { left_outer_joins(:course_options).where('course_options.id IS NULL') }
+
   CODE_LENGTH = 4
 
   # This enum is copied verbatim from Find to maintain consistency

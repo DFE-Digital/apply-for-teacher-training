@@ -563,6 +563,16 @@ FactoryBot.define do
       end
     end
 
+    trait :with_changed_offer do
+      with_offer
+
+      after(:build) do |choice, _evaluator|
+        other_course = create(:course, provider: choice.course_option.course.provider)
+        choice.offered_course_option_id = create(:course_option, course: other_course).id
+        choice.offer_changed_at = Time.zone.now - 1.day
+      end
+    end
+
     trait :with_accepted_offer do
       with_offer
       status { 'pending_conditions' }
@@ -587,6 +597,12 @@ FactoryBot.define do
       status { 'offer_withdrawn' }
       offer_withdrawal_reason { 'There has been a mistake' }
       offer_withdrawn_at { Time.zone.now - 1.day }
+    end
+
+    trait :with_conditions_not_met do
+      with_accepted_offer
+      status { 'conditions_not_met' }
+      conditions_not_met_at { Time.zone.now }
     end
 
     trait :with_recruited do
@@ -875,7 +891,7 @@ FactoryBot.define do
 
       changes do
         {
-          'reject_by_default_feedback_sent_at' => Time.zone.now.iso8601,
+          'reject_by_default_feedback_sent_at' => [nil, Time.zone.now.iso8601],
         }
       end
 
@@ -914,6 +930,7 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[awaiting_provider_decision offer],
+          'offered_course_option_id' => [nil, application_choice.course_option_id],
         }
       end
     end
@@ -934,6 +951,18 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[awaiting_provider_decision offer],
+          'offered_course_option_id' => [nil, application_choice.offered_course_option_id],
+        }
+      end
+    end
+
+    trait :with_changed_offer do
+      application_choice { create(:application_choice, :with_changed_offer) }
+
+      changes do
+        {
+          'offer_changed_at' => [nil, Time.zone.now.iso8601],
+          'offered_course_option_id' => [nil, application_choice.offered_course_option_id],
         }
       end
     end
@@ -944,6 +973,16 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[offer pending_conditions],
+        }
+      end
+    end
+
+    trait :with_conditions_not_met do
+      application_choice { create(:application_choice, :with_conditions_not_met) }
+
+      changes do
+        {
+          'status' => %w[pending_conditions conditions_not_met],
         }
       end
     end

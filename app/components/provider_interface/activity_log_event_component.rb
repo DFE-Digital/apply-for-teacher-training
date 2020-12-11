@@ -38,13 +38,17 @@ module ProviderInterface
         end
       when 'pending_conditions'
         "#{candidate} accepted an offer"
+      when 'conditions_not_met'
+        "#{user} marked #{candidate}’s offer conditions as not met"
       when 'recruited'
-        "#{candidate} met all offer conditions"
+        "#{user} marked #{candidate}’s offer conditions as all met"
       when 'offer_deferred'
         "#{user} deferred #{candidate}’s offer"
       else
         if changes['reject_by_default_feedback_sent_at'].present?
           "#{user} sent feedback to #{candidate}"
+        elsif changes['offer_changed_at'].present?
+          "#{user} changed the offer made to #{candidate}"
         end
       end
     end
@@ -52,7 +56,14 @@ module ProviderInterface
     def course_option
       current_status = event.application_status_at_event || application_choice.status
 
-      @course_option ||= if ORIGINAL_OPTION_STATUSES.include?(current_status)
+      @course_option ||= if changes['offer_changed_at'].present? && changes['offered_course_option_id'].present?
+                           from_event = CourseOption.find_by(id: changes['offered_course_option_id'].second)
+                           from_event || application_choice.offered_option
+                         elsif current_status == 'offer'
+                           # older offers won't have a course option id as part of this
+                           from_event = CourseOption.find_by(id: changes['offered_course_option_id']&.second)
+                           from_event || application_choice.offered_option
+                         elsif ORIGINAL_OPTION_STATUSES.include?(current_status)
                            application_choice.course_option
                          else
                            application_choice.offered_option
@@ -78,6 +89,11 @@ module ProviderInterface
           {
             url: routes.provider_interface_application_choice_path(application_choice),
             text: 'View feedback',
+          }
+        elsif changes['offer_changed_at'].present? && application_choice.status == 'offer'
+          {
+            url: routes.provider_interface_application_choice_offer_path(application_choice),
+            text: 'View offer',
           }
         else
           {

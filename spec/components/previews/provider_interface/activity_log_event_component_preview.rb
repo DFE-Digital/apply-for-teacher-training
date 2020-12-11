@@ -37,6 +37,11 @@ module ProviderInterface
       render_component
     end
 
+    def with_changed_offer
+      @activity_log_event = build_event_for_choice :with_changed_offer
+      render_component
+    end
+
     def with_accepted_offer
       @activity_log_event = build_event_for_choice :with_accepted_offer
       render_component
@@ -57,6 +62,11 @@ module ProviderInterface
       render_component
     end
 
+    def with_conditions_not_met
+      @activity_log_event = build_event_for_choice :with_conditions_not_met
+      render_component
+    end
+
     def with_recruited
       @activity_log_event = build_event_for_choice :with_recruited
       render_component
@@ -74,7 +84,8 @@ module ProviderInterface
       choice = FactoryBot.build(*choice_args)
 
       audit_args = [:application_choice_audit].concat(args).concat [application_choice: choice]
-      FactoryBot.build(*audit_args)
+      audit = FactoryBot.build(*audit_args)
+      ActivityLogEvent.new(audit: audit)
     end
 
     def render_component

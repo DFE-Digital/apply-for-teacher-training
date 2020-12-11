@@ -8,14 +8,12 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
-  def setup_application(changes)
-    application_choice = create(:application_choice)
-    finder_service = instance_double(FindStatusChangeAudits, call: changes)
-    allow(FindStatusChangeAudits).to receive(:new).with(
-      application_choice: application_choice,
-    ).and_return(finder_service)
+  def application_choice_with_audits(audits)
+    application_choice = audits.first&.auditable || create(:application_choice)
+    allow(GetActivityLogEvents).to receive(:call).with(
+      application_choices: [application_choice],
+    ).and_return(audits)
     allow(application_choice).to receive(:notes).and_return([])
-    allow(application_choice).to receive(:rejected_by_default)
     application_choice
   end
 
@@ -33,7 +31,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
   context 'for a newly created application' do
     it 'renders empty timeline' do
-      application_choice = setup_application([])
+      application_choice = application_choice_with_audits []
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Timeline'
     end
@@ -41,9 +39,14 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
   context 'for a submitted application sent to provider' do
     it 'renders submit event' do
-      application_choice = setup_application([
-        FindStatusChangeAudits::StatusChange.new('awaiting_provider_decision', 5.days.ago, candidate),
-      ])
+      audit = create(
+        :application_choice_audit,
+        :awaiting_provider_decision,
+        user: candidate,
+        created_at: 5.days.ago,
+      )
+      application_choice = application_choice_with_audits [audit]
+
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Application submitted'
@@ -56,9 +59,14 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
   context 'for an offered application' do
     it 'renders offer event' do
-      application_choice = setup_application([
-        FindStatusChangeAudits::StatusChange.new('offer', 3.days.ago, provider_user),
-      ])
+      audit = create(
+        :application_choice_audit,
+        :with_offer,
+        user: provider_user,
+        created_at: 3.days.ago,
+      )
+      application_choice = application_choice_with_audits [audit]
+
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Offer made'
@@ -95,6 +103,18 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include '11 February 2020 at 10:00pm'
       expect(rendered.css('a').text).to eq 'View feedback'
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
+    end
+  end
+
+  context 'for an application with a change offer event' do
+    it 'renders the change offer event' do
+      application_choice = create(:application_choice, :with_changed_offer)
+      create(:application_choice_audit, :with_changed_offer, application_choice: application_choice)
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Offer changed'
+      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View offer'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/offer"
     end
   end
 

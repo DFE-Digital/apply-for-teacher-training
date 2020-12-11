@@ -125,4 +125,15 @@ RSpec.describe MakeAnOffer, sidekiq: true do
       expect { new_offer.save }.not_to raise_error
     end
   end
+
+  describe 'audits', with_audited: true do
+    it 'generates an audit event combining status change with offered_course_option_id' do
+      offer = MakeAnOffer.new(actor: user, application_choice: application_choice, course_option: valid_course_option)
+
+      offer.save
+
+      audit_with_status_change = application_choice.reload.audits.find_by('jsonb_exists(audited_changes, ?)', 'status')
+      expect(audit_with_status_change.audited_changes).to have_key('offered_course_option_id')
+    end
+  end
 end

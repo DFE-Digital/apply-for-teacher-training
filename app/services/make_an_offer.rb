@@ -36,22 +36,25 @@ class MakeAnOffer
 
     @auth.assert_can_make_decisions!(application_choice: application_choice, course_option_id: @course_option.id)
 
-    ApplicationStateChange.new(application_choice).make_offer!
-    application_choice.offered_course_option = course_option
-    application_choice.offer = { 'conditions' => offer_conditions }
+    if ApplicationStateChange.new(application_choice).can_make_offer?
+      ActiveRecord::Base.transaction do
+        application_choice.status = 'offer'
+        application_choice.offered_course_option = course_option
+        application_choice.offer = { 'conditions' => offer_conditions }
+        application_choice.offered_at = Time.zone.now
+        application_choice.save!
+        SetDeclineByDefault.new(application_form: application_choice.application_form).call
+      end
 
-    application_choice.offered_at = Time.zone.now
-    application_choice.save!
-
-    SetDeclineByDefault.new(application_form: application_choice.application_form).call
-    SendNewOfferEmailToCandidate.new(application_choice: @application_choice).call
-    StateChangeNotifier.call(:make_an_offer, application_choice: application_choice)
-  rescue Workflow::NoTransitionAllowed
-    errors.add(
-      :base,
-      I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
-    )
-    false
+      SendNewOfferEmailToCandidate.new(application_choice: @application_choice).call
+      StateChangeNotifier.call(:make_an_offer, application_choice: application_choice)
+    else
+      errors.add(
+        :base,
+        I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
+      )
+      false
+    end
   end
 
   def offer_conditions
