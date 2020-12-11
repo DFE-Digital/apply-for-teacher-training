@@ -17,26 +17,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
 
   describe '#filters' do
     it 'calculates a correct list of possible filters' do
-      FeatureFlag.deactivate(:providers_can_filter_by_recruitment_cycle)
-
-      filter = described_class.new(
-        params: ActionController::Parameters.new,
-        provider_user: provider_user,
-        state_store: {},
-      )
-
-      expected_number_of_filters = 3
-      providers_array_index = 2
-      number_of_courses = 3
-
-      expect(filter.filters).to be_a(Array)
-      expect(filter.filters.size).to eq(expected_number_of_filters)
-      expect(filter.filters[providers_array_index][:options].size).to eq(number_of_courses)
-    end
-
-    it 'calculates a correct list of possible filters when filtering by recruitment cycle is allowed' do
-      FeatureFlag.activate(:providers_can_filter_by_recruitment_cycle)
-
       filter = described_class.new(
         params: ActionController::Parameters.new,
         provider_user: provider_user,
@@ -54,16 +34,14 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       expect(filter.filters[providers_array_index][:options].size).to eq(number_of_courses)
     end
 
-    it 'does not include providers if avaible providers is < 2' do
-      FeatureFlag.deactivate(:providers_can_filter_by_recruitment_cycle)
-
+    it 'does not include providers if available providers is < 2' do
       filter = described_class.new(
         params: ActionController::Parameters.new,
         provider_user: another_provider_user,
         state_store: {},
       )
 
-      expected_number_of_filters = 2
+      expected_number_of_filters = 3
 
       headings = filter.filters.map { |f| f[:heading] }
 
@@ -72,8 +50,6 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
     end
 
     it 'can return filter config for a list of provider locations' do
-      FeatureFlag.deactivate(:providers_can_filter_by_recruitment_cycle)
-
       filter = described_class.new(
         params: ActionController::Parameters.new({ provider: [provider1.id] }),
         provider_user: another_provider_user,
@@ -87,11 +63,11 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
       relevant_provider_ids = [provider1.sites.first.id, provider1.sites.last.id]
       relevant_provider_names = [provider1.sites.first.name, provider1.sites.last.name]
 
-      expect(relevant_provider_ids).to include(filter.filters[2][:options][0][:value])
-      expect(relevant_provider_ids).to include(filter.filters[2][:options][1][:value])
+      expect(relevant_provider_ids).to include(filter.filters[3][:options][0][:value])
+      expect(relevant_provider_ids).to include(filter.filters[3][:options][1][:value])
 
-      expect(relevant_provider_names).to include(filter.filters[2][:options][0][:label])
-      expect(relevant_provider_names).to include(filter.filters[2][:options][1][:label])
+      expect(relevant_provider_names).to include(filter.filters[3][:options][0][:label])
+      expect(relevant_provider_names).to include(filter.filters[3][:options][1][:label])
     end
   end
 

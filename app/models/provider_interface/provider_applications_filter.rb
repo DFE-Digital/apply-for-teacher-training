@@ -49,8 +49,6 @@ module ProviderInterface
     end
 
     def recruitment_cycle_filter
-      return nil unless FeatureFlag.active?(:providers_can_filter_by_recruitment_cycle)
-
       cycle_options = RecruitmentCycle::CYCLES.map do |year, label|
         {
           value: year,

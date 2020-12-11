@@ -23,7 +23,6 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
-    [:providers_can_filter_by_recruitment_cycle, 'Allows provider users to filter applications by recruitment cycle', 'Michael Nacos'],
     [:efl_section, 'Allow candidates with nationalities other then British or Irish to specify their English as a Foreign Language experience', 'Malcolm Baig'],
     [:export_hesa_data, 'Providers can export applications including HESA data.', 'Steve Laing'],
     [:feedback_prompts, 'Candidates can give feedback while completing their application form', 'David Gisbey'],

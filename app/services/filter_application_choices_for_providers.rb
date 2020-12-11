@@ -17,8 +17,6 @@ class FilterApplicationChoicesForProviders
     def recruitment_cycle_year(application_choices, years)
       return application_choices if years.blank?
 
-      return application_choices unless FeatureFlag.active?(:providers_can_filter_by_recruitment_cycle)
-
       application_choices.where('courses.recruitment_cycle_year' => years)
     end
 

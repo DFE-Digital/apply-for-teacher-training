@@ -21,7 +21,6 @@ RSpec.feature 'Providers should be able to filter applications' do
     and_i_am_permitted_to_see_applications_from_multiple_providers
     and_my_organisation_has_courses_with_applications
     and_i_sign_in_to_the_provider_interface
-    and_the_filter_by_recruitment_cycle_flag_is_on
 
     when_i_visit_the_provider_page
 
@@ -155,10 +154,6 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def and_i_expect_the_relevant_provider_location_tags_to_be_visible
     expect(page).to have_css('.moj-filter-tags', text: site.name)
-  end
-
-  def and_the_filter_by_recruitment_cycle_flag_is_on
-    FeatureFlag.activate(:providers_can_filter_by_recruitment_cycle)
   end
 
   def when_i_filter_by_recruitment_cycle
