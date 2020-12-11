@@ -49,7 +49,7 @@ module CandidateInterface
 
     def course_id
       @provider = Provider.find_by(code: params[:providerCode])
-      @course = @provider.courses.find_by(code: params[:courseCode]) if @provider.present?
+      @course = @provider.courses.current_cycle.find_by(code: params[:courseCode]) if @provider.present?
       @course.id if @course.present?
     end
   end
