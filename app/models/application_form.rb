@@ -234,7 +234,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def efl_section_required?
-    nationalities.present? && !english_speaking_nationality? && FeatureFlag.active?(:efl_section)
+    nationalities.present? && !english_speaking_nationality?
   end
 
   def build_nationalities_hash

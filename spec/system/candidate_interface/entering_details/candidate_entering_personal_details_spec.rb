@@ -4,8 +4,6 @@ RSpec.feature 'Entering their personal details' do
   include CandidateHelper
 
   scenario 'Candidate submits their personal details' do
-    FeatureFlag.deactivate(:efl_section)
-
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -21,11 +19,8 @@ RSpec.feature 'Entering their personal details' do
 
     when_i_input_my_nationalities
     and_i_submit_the_form
-    then_i_see_the_languages_page
-
-    when_i_choose_that_english_is_my_primary_language
-    and_i_submit_the_form
-    then_i_can_check_my_answers
+    then_i_see_the_review_page
+    and_i_can_check_my_answers
 
     when_i_click_to_change_my_answer
     and_i_fill_in_a_different_answer
@@ -92,20 +87,14 @@ RSpec.feature 'Entering their personal details' do
     end
   end
 
-  def then_i_see_the_languages_page
-    expect(page).to have_current_path candidate_interface_languages_path
+  def then_i_see_the_review_page
+    expect(page).to have_current_path candidate_interface_personal_details_show_path
   end
 
-  def when_i_choose_that_english_is_my_primary_language
-    choose 'Yes'
-    fill_in t('english_main_language.yes_label', scope: @scope), with: 'I’m great at Galactic Basic so English is a piece of cake', match: :prefer_exact
-  end
-
-  def then_i_can_check_my_answers
+  def and_i_can_check_my_answers
     expect(page).to have_content 'Name'
     expect(page).to have_content 'Lando Calrissian'
     expect(page).to have_content 'British and American'
-    expect(page).to have_content 'I’m great at Galactic Basic so English is a piece of cake'
   end
 
   def when_i_click_to_change_my_answer

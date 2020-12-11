@@ -122,7 +122,7 @@
             )
           ) %>
         </li>
-        <% if FeatureFlag.active?(:efl_section) && @application_form_presenter.display_efl_link?  %>
+        <% if @application_form_presenter.display_efl_link?  %>
           <li class="app-task-list__item">
             <%= render(
               TaskListItemComponent.new(

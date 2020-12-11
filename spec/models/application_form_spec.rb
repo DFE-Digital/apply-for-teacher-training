@@ -402,40 +402,27 @@ RSpec.describe ApplicationForm do
       build_stubbed :application_form, first_nationality: 'Jamaican', second_nationality: 'Chinese'
     end
 
-    context 'efl_section feature flag is off' do
-      before { FeatureFlag.deactivate :efl_section }
+    context 'at least one selected nationality is considered "English-speaking"' do
+      let(:application_form) { application_with_english_speaking_nationality }
 
       it 'returns false' do
-        expect(application_with_english_speaking_nationality.efl_section_required?).to be false
-        expect(application_with_no_english_speaking_nationalities.efl_section_required?).to be false
+        expect(application_form.efl_section_required?).to be false
       end
     end
 
-    context 'efl_section feature flag is on' do
-      before { FeatureFlag.activate :efl_section }
+    context 'no "English-speaking" nationalities selected' do
+      let(:application_form) { application_with_no_english_speaking_nationalities }
 
-      context 'at least one selected nationality is considered "English-speaking"' do
-        let(:application_form) { application_with_english_speaking_nationality }
-
-        it 'returns false' do
-          expect(application_form.efl_section_required?).to be false
-        end
+      it 'returns true' do
+        expect(application_form.efl_section_required?).to be true
       end
+    end
 
-      context 'no "English-speaking" nationalities selected' do
-        let(:application_form) { application_with_no_english_speaking_nationalities }
+    context 'nationalities not selected' do
+      let(:application_form) { build_stubbed :application_form }
 
-        it 'returns true' do
-          expect(application_form.efl_section_required?).to be true
-        end
-      end
-
-      context 'nationalities not selected' do
-        let(:application_form) { build_stubbed :application_form }
-
-        it 'returns false' do
-          expect(application_form.efl_section_required?).to be false
-        end
+      it 'returns false' do
+        expect(application_form.efl_section_required?).to be false
       end
     end
   end

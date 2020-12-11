@@ -24,7 +24,6 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
-    [:efl_section, 'Allow candidates with nationalities other then British or Irish to specify their English as a Foreign Language experience', 'Malcolm Baig'],
     [:feedback_prompts, 'Candidates can give feedback while completing their application form', 'David Gisbey'],
     [:multiple_science_gcses, 'Candidates can enter structured data for multiple science GCSEs', 'Toby Retallick'],
     [:multiple_english_gcses, 'Candidates can enter structured data for multiple English GCSEs.', 'Raam Chauhan'],

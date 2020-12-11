@@ -64,7 +64,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
           domicile: 'GB',
           uk_residency_status: 'UK Citizen',
           english_main_language: true,
-          other_languages: 'I’m great at Galactic Basic so English is a piece of cake',
+          other_languages: nil,
           english_language_qualifications: nil,
           disability_disclosure: 'I have difficulty climbing stairs',
         },

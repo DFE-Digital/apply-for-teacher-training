@@ -1,8 +1,4 @@
 module EFLHelper
-  def and_the_efl_feature_flag_is_active
-    FeatureFlag.activate(:efl_section)
-  end
-
   def when_i_declare_a_non_english_nationality
     current_candidate.current_application.update(
       first_nationality: 'Hong Konger',
