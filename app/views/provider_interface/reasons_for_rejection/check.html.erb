@@ -12,11 +12,14 @@
         Your feedback will be given to the candidate in the format below.
       </p>
 
-      <%= render ReasonsForRejectionComponent.new(
-        application_choice: @application_choice,
-        reasons_for_rejection: @wizard.to_model,
-        editable: true,
-      ) %>
+
+      <div class="govuk-inset-text">
+        <%= render ReasonsForRejectionComponent.new(
+          application_choice: @application_choice,
+          reasons_for_rejection: @wizard.to_model,
+          editable: true,
+        ) %>
+      </div>
 
       <%= f.govuk_submit 'Reject application' %>
     <% end %>
