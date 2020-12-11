@@ -4,8 +4,6 @@ RSpec.feature 'Vendor API Requests' do
   include DfESignInHelpers
 
   scenario 'Listed requests are filtered' do
-    FeatureFlag.activate(:vendor_api_request_tracing)
-
     given_i_am_a_support_user
     and_some_applications_exist
     and_vendor_api_requests_for_applications_have_been_made

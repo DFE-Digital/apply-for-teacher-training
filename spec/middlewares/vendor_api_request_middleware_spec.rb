@@ -18,7 +18,6 @@ RSpec.describe VendorAPIRequestMiddleware, type: :request do
   end
 
   before do
-    FeatureFlag.activate(:vendor_api_request_tracing)
     mock_app
     allow(VendorAPIRequestWorker).to receive(:perform_async)
   end

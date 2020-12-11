@@ -20,7 +20,6 @@ class FeatureFlag
     [:provider_information_banner, 'Displays an information banner for providers on the start page and applications page', 'Ben Swannack'],
     [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Malcolm Baig'],
     [:hold_courses_open, 'Force all courses to appear to have vacancies. Do not enable in production!', 'Duncan Brown'],
-    [:vendor_api_request_tracing, 'Enable middleware which records vendor API requests', 'Steve Laing'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
