@@ -10,7 +10,7 @@ module ProviderInterface
                          .find_by(level: 'degree')
 
         rows << {
-          'id' => application.id,
+          'application_choice_id' => application.id,
           'support_reference' => application.application_form.support_reference,
           'status' => application.status,
           'submitted_at' => application.application_form.submitted_at,
@@ -27,11 +27,10 @@ module ProviderInterface
           'third_nationality' => application.application_form.third_nationality,
           'fourth_nationality' => application.application_form.fourth_nationality,
           'fifth_nationality' => application.application_form.fifth_nationality,
-          'domicile' => application.application_form.country,
           'uk_residency_status' => application.application_form.uk_residency_status,
           'english_main_language' => application.application_form.english_main_language,
           'english_language_qualifications' => application.application_form.english_language_details,
-          'email_address' => application.application_form.candidate.email_address,
+          'email' => application.application_form.candidate.email_address,
           'phone_number' => application.application_form.phone_number,
           'address_line1' => application.application_form.address_line1,
           'address_line2' => application.application_form.address_line2,
@@ -41,7 +40,7 @@ module ProviderInterface
           'country' => application.application_form.country,
           'recruitment_cycle_year' => application.application_form.recruitment_cycle_year,
           'provider_code' => application.provider.code,
-          'accredited_body' => application.accredited_provider&.name,
+          'accrediting_provider_name' => application.accredited_provider&.name,
           'course_code' => application.course.code,
           'site_code' => application.site.code,
           'study_mode' => application.course.study_mode,
