@@ -38,8 +38,10 @@ module ProviderInterface
         end
       when 'pending_conditions'
         "#{candidate} accepted an offer"
+      when 'conditions_not_met'
+        "#{user} marked #{candidate}’s offer conditions as not met"
       when 'recruited'
-        "#{candidate} met all offer conditions"
+        "#{user} marked #{candidate}’s offer conditions as all met"
       when 'offer_deferred'
         "#{user} deferred #{candidate}’s offer"
       else

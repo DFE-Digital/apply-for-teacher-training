@@ -26,7 +26,8 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
       with_declined_offer: '<candidate> declined an offer',
       with_declined_by_default_offer: '<candidate>’s offer was automatically declined',
       with_withdrawn_offer: '<user> withdrew <candidate>’s offer',
-      with_recruited: '<candidate> met all offer conditions',
+      with_conditions_not_met: '<user> marked <candidate>’s offer conditions as not met',
+      with_recruited: '<user> marked <candidate>’s offer conditions as all met',
       with_deferred_offer: '<user> deferred <candidate>’s offer',
     }
 

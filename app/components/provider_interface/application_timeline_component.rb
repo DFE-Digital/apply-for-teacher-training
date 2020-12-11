@@ -26,7 +26,7 @@ module ProviderInterface
 
   private
 
-    def with_activity_log_events_for(attr)
+    def map_activity_log_events_for(attr)
       filtered = @activity_log_events.select { |event| event.changes.key?(attr) }
       filtered.map { |event| yield event }
     end
@@ -36,7 +36,7 @@ module ProviderInterface
     end
 
     def status_change_events
-      with_activity_log_events_for('status') do |event|
+      map_activity_log_events_for('status') do |event|
         Event.new(
           title_for(event.application_status_at_event),
           actor_for(event),
@@ -63,7 +63,7 @@ module ProviderInterface
     end
 
     def feedback_events
-      with_activity_log_events_for('reject_by_default_feedback_sent_at') do |event|
+      map_activity_log_events_for('reject_by_default_feedback_sent_at') do |event|
         Event.new(
           'Feedback sent',
           actor_for(event),
@@ -75,7 +75,7 @@ module ProviderInterface
     end
 
     def change_offer_events
-      with_activity_log_events_for('offer_changed_at') do |event|
+      map_activity_log_events_for('offer_changed_at') do |event|
         Event.new(
           'Offer changed',
           actor_for(event),

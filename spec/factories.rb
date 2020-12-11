@@ -620,6 +620,12 @@ FactoryBot.define do
       offer_withdrawn_at { Time.zone.now - 1.day }
     end
 
+    trait :with_conditions_not_met do
+      with_accepted_offer
+      status { 'conditions_not_met' }
+      conditions_not_met_at { Time.zone.now }
+    end
+
     trait :with_recruited do
       with_accepted_offer
       status { 'recruited' }
@@ -906,7 +912,7 @@ FactoryBot.define do
 
       changes do
         {
-          'reject_by_default_feedback_sent_at' => Time.zone.now.iso8601,
+          'reject_by_default_feedback_sent_at' => [nil, Time.zone.now.iso8601],
         }
       end
 
@@ -945,7 +951,7 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[awaiting_provider_decision offer],
-          'offered_course_option_id' => application_choice.course_option_id,
+          'offered_course_option_id' => [nil, application_choice.course_option_id],
         }
       end
     end
@@ -966,7 +972,7 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[awaiting_provider_decision offer],
-          'offered_course_option_id' => application_choice.offered_course_option_id,
+          'offered_course_option_id' => [nil, application_choice.offered_course_option_id],
         }
       end
     end
@@ -976,8 +982,8 @@ FactoryBot.define do
 
       changes do
         {
-          'offer_changed_at' => Time.zone.now.iso8601,
-          'offered_course_option_id' => application_choice.offered_course_option_id,
+          'offer_changed_at' => [nil, Time.zone.now.iso8601],
+          'offered_course_option_id' => [nil, application_choice.offered_course_option_id],
         }
       end
     end
@@ -988,6 +994,16 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[offer pending_conditions],
+        }
+      end
+    end
+
+    trait :with_conditions_not_met do
+      application_choice { create(:application_choice, :with_conditions_not_met) }
+
+      changes do
+        {
+          'status' => %w[pending_conditions conditions_not_met],
         }
       end
     end

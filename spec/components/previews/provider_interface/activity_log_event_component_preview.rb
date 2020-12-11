@@ -62,6 +62,11 @@ module ProviderInterface
       render_component
     end
 
+    def with_conditions_not_met
+      @activity_log_event = build_event_for_choice :with_conditions_not_met
+      render_component
+    end
+
     def with_recruited
       @activity_log_event = build_event_for_choice :with_recruited
       render_component
