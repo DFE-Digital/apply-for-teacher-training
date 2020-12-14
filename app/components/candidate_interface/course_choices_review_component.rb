@@ -179,11 +179,13 @@ module CandidateInterface
       if FeatureFlag.active?(:structured_reasons_for_rejection) && application_choice.structured_rejection_reasons.present?
         {
           key: 'Feedback',
-          value: render(ReasonsForRejectionComponent.new(
-            application_choice: application_choice,
-            reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
-            editable: false,
-          )),
+          value: render(
+            ReasonsForRejectionComponent.new(
+              application_choice: application_choice,
+              reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
+              editable: false,
+            ),
+          ),
         }
       elsif application_choice.rejection_reason.present?
         {
