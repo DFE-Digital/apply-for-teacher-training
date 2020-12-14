@@ -2,8 +2,6 @@ module CandidateInterface
   module EnglishForeignLanguage
     class StartController < CandidateInterfaceController
       def new
-        render_404 unless FeatureFlag.active?(:efl_section)
-
         @start_form = EnglishForeignLanguage::StartForm.new
       end
 

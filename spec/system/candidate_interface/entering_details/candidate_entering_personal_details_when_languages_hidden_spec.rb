@@ -19,7 +19,6 @@ RSpec.describe 'Entering personal details' do
     # This is the expected state for Personal Details -> Languages to be
     # hidden. See LanguagesSectionPolicy and its corresponding spec for more
     # detail.
-    FeatureFlag.activate(:efl_section)
     expect(
       current_candidate.current_application.english_main_language(fetch_database_value: true),
     ).to eq nil

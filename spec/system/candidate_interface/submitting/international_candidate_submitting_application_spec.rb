@@ -8,7 +8,6 @@ RSpec.feature 'International candidate submits the application' do
     FeatureFlag.deactivate(:multiple_english_gcses)
 
     given_i_am_signed_in
-    and_the_efl_feature_flag_is_active
 
     when_i_have_completed_everything_except_the_efl_section
     when_i_review_my_application

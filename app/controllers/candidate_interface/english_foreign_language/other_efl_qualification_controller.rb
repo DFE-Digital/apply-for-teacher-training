@@ -4,8 +4,6 @@ module CandidateInterface
       include EflRootConcern
 
       def new
-        render_404 unless FeatureFlag.active?(:efl_section)
-
         @other_qualification_form = EnglishForeignLanguage::OtherEflQualificationForm.new
       end
 

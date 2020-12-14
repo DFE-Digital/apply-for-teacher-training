@@ -6,7 +6,6 @@ RSpec.feature 'Your IELTS result' do
 
   scenario 'Candidate completes EFL section with details of their IELTS' do
     given_i_am_signed_in
-    and_the_efl_feature_flag_is_active
     and_i_declare_a_non_english_speaking_nationality
     and_i_click_on_the_efl_section_link
 

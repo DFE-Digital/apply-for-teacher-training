@@ -6,7 +6,6 @@ RSpec.feature 'Declare no EFL qualification' do
 
   scenario 'Candidate declares they have no qualification and provides more detail' do
     given_i_am_signed_in
-    and_the_efl_feature_flag_is_active
     and_i_declare_a_non_english_speaking_nationality
     and_i_click_on_the_efl_section_link
 
