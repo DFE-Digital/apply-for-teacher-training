@@ -34,6 +34,11 @@ To enable API clients to benefit from this consistency, we expose the following 
 - `/reference-data/gcse-subjects`: a list of GCSE subjects based on [Ofqual’s list](https://register.ofqual.gov.uk/Download)
 - `/reference-data/a-and-as-level-subjects`: a list of A and AS level subjects based on [Ofqual’s list](https://register.ofqual.gov.uk/Download)
 
+Grades for GCSEs and A/AS levels are strictly validated since the ITT 2021 recruitment cycle. The following lists contain all possible grades for these qualifications:
+
+- `/reference-data/gcse-grades`
+- `/reference-data/a-and-as-level-grades`
+
 ## How do I connect to this API?
 
 ### Authentication and authorisation
