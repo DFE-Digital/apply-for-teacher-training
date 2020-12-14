@@ -341,6 +341,49 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected__awaiting_decision_only(application_form.application_choices.first)
   end
 
+  def application_rejected__offers_only
+    reasons_for_rejection = {
+      candidate_behaviour_y_n: 'Yes',
+      candidate_behaviour_what_did_the_candidate_do: %w[other],
+      candidate_behaviour_other: 'Bad language',
+      candidate_behaviour_what_to_improve: 'Do not swear',
+      quality_of_application_y_n: 'Yes',
+      quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
+      quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
+    }
+
+    application_form = FactoryBot.build_stubbed(
+      :application_form,
+      first_name: 'Tyrell',
+      last_name: 'Wellick',
+      candidate: candidate,
+      application_choices: [
+        FactoryBot.build_stubbed(
+          :application_choice,
+          application_form: application_form,
+          course_option: course_option,
+          status: :rejected,
+          structured_rejection_reasons: reasons_for_rejection,
+        ),
+        FactoryBot.build_stubbed(
+          :application_choice,
+          :with_offer,
+          application_form: application_form,
+          decline_by_default_at: 3.days.from_now,
+          course_option: course_option,
+        ),
+        FactoryBot.build_stubbed(
+          :application_choice,
+          :with_offer,
+          application_form: application_form,
+          decline_by_default_at: 2.days.from_now,
+          course_option: course_option,
+        ),
+      ],
+    )
+    CandidateMailer.application_rejected__offers_only(application_form.application_choices.first)
+  end
+
   def feedback_received_for_application_rejected_by_default
     application_choice = FactoryBot.build_stubbed(
       :application_choice,

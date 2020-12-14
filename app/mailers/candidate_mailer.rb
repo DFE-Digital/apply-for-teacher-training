@@ -126,6 +126,19 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_choice.application_form)
   end
 
+  def application_rejected__offers_only(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @offers = application_choice.self_and_siblings.select(&:offer?)
+    @respond_by_date = @offers.sort_by(&:decline_by_default_at).map(&:decline_by_default_at).first.to_s(:govuk_date)
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.application_rejected__offers_only.subject', date: @respond_by_date),
+    )
+  end
+
   def feedback_received_for_application_rejected_by_default(application_choice)
     @application_choice = application_choice
     @course_option = @application_choice.offered_option

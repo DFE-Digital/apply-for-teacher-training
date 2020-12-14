@@ -302,6 +302,66 @@ RSpec.describe CandidateMailer, type: :mailer do
         'decision day' => 'They should make their decisions by 15 February 2020'
       )
     end
+
+    describe '.application_rejected__offers_only' do
+      before do
+        reasons_for_rejection = {
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_what_did_the_candidate_do: %w[other],
+          candidate_behaviour_other: 'Bad language',
+          candidate_behaviour_what_to_improve: 'Do not swear',
+        }
+        provider = build_stubbed(:provider, name: 'Falconholt Technical College')
+        course_option = build_stubbed(:course_option,
+                                      course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
+        course_option2 = build_stubbed(:course_option,
+                                       course: build_stubbed(:course, name: 'Computer Science', provider: provider))
+
+        @application_form = FactoryBot.build_stubbed(
+          :application_form,
+          first_name: 'Tyrell',
+          last_name: 'Wellick',
+          candidate: @application_form.candidate,
+          application_choices: [
+            FactoryBot.build_stubbed(
+              :application_choice,
+              status: :rejected,
+              application_form: @application_form,
+              course_option: course_option,
+              structured_rejection_reasons: reasons_for_rejection,
+            ),
+            FactoryBot.build_stubbed(
+              :application_choice,
+              :with_offer,
+              decline_by_default_at: 5.days.from_now,
+              application_form: @application_form,
+              course_option: course_option,
+            ),
+            FactoryBot.build_stubbed(
+              :application_choice,
+              :with_offer,
+              decline_by_default_at: 10.days.from_now,
+              application_form: @application_form,
+              course_option: course_option2,
+            ),
+          ],
+        )
+        @application_choice = @application_form.application_choices.first
+      end
+
+      it_behaves_like(
+        'a mail with subject and content', :application_rejected__offers_only,
+        I18n.t!('candidate_mailer.application_rejected__offers_only.subject', date: '16 February 2020'),
+        'heading' => 'Dear Tyrell',
+        'course name and code' => 'Forensic Science (E0FO)',
+        'rejection reason heading' => 'Something you did',
+        'rejection reason content' => 'Bad language',
+        'other application details' => 'You’re not waiting for any other decisions.',
+        'first application details' => 'Falconholt Technical College to study Forensic Science',
+        'second application details' => 'Falconholt Technical College to study Computer Science',
+        'respond by date' => 'The offers will automatically be withdrawn if you do not respond by 16 February 2020'
+      )
+    end
   end
 
   describe 'feedback_received_for_application_rejected_by_default' do
