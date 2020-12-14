@@ -7,8 +7,10 @@ RSpec.describe 'Candidate can see their structured reasons for rejection when re
     and_i_have_an_apply1_application_with_3_rejections
 
     when_i_visit_my_application_complete_page
-
     then_i_can_see_my_rejection_reasons
+
+    when_i_apply_again
+    then_i_can_see_rejection_reasons_from_the_earlier_application
   end
 
   def given_i_am_signed_in
@@ -30,6 +32,17 @@ RSpec.describe 'Candidate can see their structured reasons for rejection when re
   end
 
   def then_i_can_see_my_rejection_reasons
+    expect(page).to have_content('Quality of application')
+    expect(page).to have_content('Use a spellchecker.')
+  end
+
+  def when_i_apply_again
+    click_on 'Do you want to apply again?'
+    click_on 'Start now'
+    click_on 'Go to your application form'
+  end
+
+  def then_i_can_see_rejection_reasons_from_the_earlier_application
     expect(page).to have_content('Quality of application')
     expect(page).to have_content('Use a spellchecker.')
   end
