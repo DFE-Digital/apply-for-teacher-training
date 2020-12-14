@@ -32,6 +32,7 @@ Where it is not possible to structure data strictly — for example, in the case
 To enable API clients to benefit from this consistency, we expose the following lists of possible autocomplete values:
 
 - `/reference-data/gcse-subjects`: a list of GCSE subjects based on [Ofqual’s list](https://register.ofqual.gov.uk/Download)
+- `/reference-data/a-and-as-level-subjects`: a list of A and AS level subjects based on [Ofqual’s list](https://register.ofqual.gov.uk/Download)
 
 ## How do I connect to this API?
 
