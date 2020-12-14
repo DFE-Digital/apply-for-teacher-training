@@ -25,6 +25,7 @@ module SupportInterface
           feedback: feedback,
           audit_comment: audit_comment,
         )
+        SubmitReference.new(reference: @reference).save!
       end
     end
   end
