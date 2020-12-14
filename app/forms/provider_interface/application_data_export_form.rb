@@ -5,6 +5,7 @@ module ProviderInterface
     attr_accessor :current_provider_user, :provider_ids, :recruitment_cycle_years, :application_status_choice, :statuses
 
     validate :at_least_one_recruitment_cycle_year_is_selected
+    validates :application_status_choice, presence: true
     validate :at_least_one_status_is_selected, if: :custom_status_selected?
     validate :at_least_one_provider_is_selected, if: :actor_has_more_than_one_provider?
 
