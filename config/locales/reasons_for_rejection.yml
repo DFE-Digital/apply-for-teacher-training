@@ -1,5 +1,27 @@
 en:
   reasons_for_rejection:
+    candidate_behaviour:
+      title: 'Something you did'
+    quality_of_application:
+      title: 'Quality of application'
+    qualifications:
+      title: 'Qualifications'
+    interview_performance:
+      title: 'Performance at interview'
+    full_course:
+      title: 'Course full'
+      reason: "We're sorry to tell you the course you applied to was full"
+    offered_on_another_course:
+      title: 'They offered you a place on another course'
+    honesty_and_professionalism:
+      title: 'Honesty and professionalism'
+    safeguarding_issues:
+      title: 'Safeguarding issues'
+    additional_advice:
+      title: 'Additional advice'
+    interested_in_future_applications:
+      title: 'Future applications'
+      reason: '%{provider_name} would be interested in future applications from you'
     candidate_behaviour_what_did_the_candidate_do:
       didnt_reply_to_interview_offer: 'Didn’t reply to our interview offer'
       didnt_attend_interview: 'Didn’t attend interview'
