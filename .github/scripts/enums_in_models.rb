@@ -7,9 +7,9 @@ if filename
     next unless line =~ /^<enum> /
     line.split('<enum> ')[1].split('.')[0]
   end
-  model_names.compact.uniq.map(&:constantize)
+  model_names.compact.uniq.map(&:constantize) rescue nil
 else
-  diff_tree_output = `git diff-tree -r --name-only --no-commit-id origin/master HEAD app/models`
+  diff_tree_output = `git diff-tree -r --name-only --no-commit-id --no-renames --diff-filter=d origin/master HEAD app/models`
   diff_tree_output.split(/\n/).map do |model_path|
     require "./#{model_path}"
   end
