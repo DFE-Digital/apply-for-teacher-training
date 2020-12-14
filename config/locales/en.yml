@@ -261,9 +261,9 @@ en:
         support_interface/application_forms/edit_reference_form:
           attributes:
             name:
-              blank: Referee's name can’t be blank
-              too_short: Referee's name must be %{count} characters or more
-              too_long: Referee's name must be %{count} characters or fewer
+              blank: Referee’s name can’t be blank
+              too_short: Referee’s name must be %{count} characters or more
+              too_long: Referee’s name must be %{count} characters or fewer
             email_address:
               blank: Enter an email address
               invalid: Enter an email address in the correct format, like name@example.com

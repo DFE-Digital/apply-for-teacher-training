@@ -7,14 +7,14 @@ en:
       restore: Restore support user
     edit_reference_form:
       name:
-        label: What is the referee's name?
+        label: What is the referee’s name?
       email_address:
-        label: What is the referee's email address?
+        label: What is the referee’s email address?
         hint_text: In most cases, this should be a work address
       relationship:
-        label: What is the referee's relationship to the candidate?
+        label: What is the referee’s relationship to the candidate?
       feedback:
-        label: What is the referee's feedback?
+        label: What is the referee’s feedback?
   activemodel:
     errors:
       models:
