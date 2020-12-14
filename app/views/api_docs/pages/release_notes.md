@@ -1,3 +1,12 @@
+### 15th December 2020
+
+New feature: reference data. See the [Codes and reference data section](https://www.apply-for-teacher-training.service.gov.uk/api-docs#codes-and-reference-data) of the documentation.
+
+- `reference-data/gcse-subjects` returns a list of GCSE subjects
+- `reference-data/gcse-grades` returns a list of GCSE grades
+- `reference-data/a-and-as-level-subjects` returns a list of A and AS Level subjects
+- `reference-data/a-and-as-level-grades` returns a list of A and AS Level grades
+
 ### 7th December 2020
 
 Documentation:
