@@ -183,6 +183,65 @@ RSpec.describe CandidateMailer, type: :mailer do
         'rejection reason content' => 'Write in the first person'
       )
     end
+
+    describe '.application_rejected__one_offer_one_awaiting_decision' do
+      before do
+        reasons_for_rejection = {
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_what_did_the_candidate_do: %w[other],
+          candidate_behaviour_other: 'Bad language',
+          candidate_behaviour_what_to_improve: 'Do not swear',
+        }
+        provider = build_stubbed(:provider, name: 'Falconholt Technical College')
+        course_option = build_stubbed(:course_option,
+                                      course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
+        course_option2 = build_stubbed(:course_option,
+                                       course: build_stubbed(:course, name: 'Computer Science', provider: provider))
+
+        @application_form = FactoryBot.build_stubbed(
+          :application_form,
+          first_name: 'Tyrell',
+          last_name: 'Wellick',
+          candidate: @application_form.candidate,
+          application_choices: [
+            FactoryBot.build_stubbed(
+              :application_choice,
+              status: :rejected,
+              application_form: @application_form,
+              course_option: course_option,
+              structured_rejection_reasons: reasons_for_rejection,
+            ),
+            FactoryBot.build_stubbed(
+              :application_choice,
+              :with_offer,
+              application_form: @application_form,
+              course_option: course_option,
+            ),
+            FactoryBot.build_stubbed(
+              :application_choice,
+              application_form: @application_form,
+              decline_by_default_at: 2.days.from_now,
+              status: :awaiting_provider_decision,
+              course_option: course_option2,
+            ),
+          ],
+        )
+        @application_choice = @application_form.application_choices.first
+      end
+
+      it_behaves_like(
+        'a mail with subject and content', :application_rejected__one_offer_one_awaiting_decision,
+        I18n.t!('candidate_mailer.application_rejected__one_offer_one_awaiting_decision.subject',
+                provider_name: 'Falconholt Technical College'),
+        'heading' => 'Dear Tyrell',
+        'course name and code' => 'Forensic Science (E0FO)',
+        'rejection reason heading' => 'Something you did',
+        'rejection reason content' => 'Bad language',
+        'other application details' => 'You have an offer and are waiting for a decision about another course',
+        'application with offer' => 'You have an offer from Falconholt Technical College to study Forensic Science',
+        'application awaiting decision' => 'to make a decision about your application to study Computer Science'
+      )
+    end
   end
 
   describe 'feedback_received_for_application_rejected_by_default' do

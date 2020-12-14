@@ -106,6 +106,17 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_choice.application_form)
   end
 
+  def application_rejected__one_offer_one_awaiting_decision(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @offer = application_choice.self_and_siblings.find(&:offer?)
+    @awaiting_decision = application_choice.self_and_siblings.find(&:awaiting_provider_decision?)
+    @awaiting_decision_by = @awaiting_decision.decline_by_default_at.to_s(:govuk_date)
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
+
+    email_for_candidate(application_choice.application_form)
+  end
+
   def feedback_received_for_application_rejected_by_default(application_choice)
     @application_choice = application_choice
     @course_option = @application_choice.offered_option
