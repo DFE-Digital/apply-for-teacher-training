@@ -46,7 +46,7 @@ RSpec.feature 'Provider defers an offer' do
   end
 
   def and_i_click_on_defer_offer
-    click_on 'defer offer'
+    click_on 'Defer offer'
   end
 
   def then_i_am_asked_to_confirm_deferral_of_the_offer

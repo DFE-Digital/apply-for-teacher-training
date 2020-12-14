@@ -3,9 +3,7 @@
 
   <% if provider_can_respond %>
   <p class="govuk-body govuk-!-margin-bottom-4 govuk-!-display-none-print">
-    <%= govuk_link_to 'Withdraw offer', provider_interface_application_choice_new_withdraw_offer_path(application_choice.id) %>
-    or
-    <%= govuk_link_to 'defer offer', provider_interface_application_choice_new_defer_offer_path(application_choice.id) %>
+    <%= govuk_link_to 'Defer offer', provider_interface_application_choice_new_defer_offer_path(application_choice.id) %>
   </p>
   <% end %>
 
