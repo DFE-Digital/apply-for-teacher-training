@@ -109,7 +109,7 @@ module SupportInterface
         key: 'Name',
         value: name,
         action: 'name',
-        change_path: support_interface_application_form_edit_reference_path(reference.application_form, reference),
+        change_path: support_interface_application_form_edit_reference_details_path(reference.application_form, reference),
       }
     end
 
@@ -118,7 +118,7 @@ module SupportInterface
         key: 'Email address',
         value: email_address,
         action: 'email_address',
-        change_path: support_interface_application_form_edit_reference_path(reference.application_form, reference),
+        change_path: support_interface_application_form_edit_reference_details_path(reference.application_form, reference),
       }
     end
 
@@ -127,7 +127,7 @@ module SupportInterface
         key: 'Relationship to candidate',
         value: relationship,
         action: 'relationship',
-        change_path: support_interface_application_form_edit_reference_path(reference.application_form, reference),
+        change_path: support_interface_application_form_edit_reference_details_path(reference.application_form, reference),
       }
     end
 
@@ -137,7 +137,7 @@ module SupportInterface
           key: 'Reference',
           value: feedback,
           action: 'feedback',
-          change_path: support_interface_application_form_edit_reference_path(reference.application_form, reference),
+          change_path: support_interface_application_form_edit_reference_feedback_path(reference.application_form, reference),
         }
       end
     end

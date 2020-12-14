@@ -665,8 +665,11 @@ Rails.application.routes.draw do
       get '/applicant-details' => 'application_forms/applicant_details#edit', as: :application_form_edit_applicant_details
       post '/applicant-details' => 'application_forms/applicant_details#update', as: :application_form_update_applicant_details
 
-      get '/references/:reference_id' => 'application_forms/references#edit', as: :application_form_edit_reference
-      post '/references/:reference_id' => 'application_forms/references#update', as: :application_form_update_reference
+      get '/references/:reference_id/details' => 'application_forms/references#edit_reference_details', as: :application_form_edit_reference_details
+      post '/references/:reference_id/details' => 'application_forms/references#update_reference_details', as: :application_form_update_reference_details
+
+      get '/references/:reference_id/feedback' => 'application_forms/references#edit_reference_feedback', as: :application_form_edit_reference_feedback
+      post '/references/:reference_id/feedback' => 'application_forms/references#update_reference_feedback', as: :application_form_update_reference_feedback
     end
 
     get '/ucas-matches' => 'ucas_matches#index'
