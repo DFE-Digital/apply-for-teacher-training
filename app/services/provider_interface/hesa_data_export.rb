@@ -15,7 +15,9 @@ module ProviderInterface
 
       rows = []
 
-      applications.each do |application|
+      applications.each do |application_choice|
+        application = ApplicationChoiceExportDecorator.new(application_choice)
+
         first_degree = application.application_form.application_qualifications
           .order(created_at: :asc)
           .find_by(level: 'degree')
@@ -23,28 +25,28 @@ module ProviderInterface
         rows << {
           'id' => application.application_form.support_reference,
           'status' => application.status,
-          'first name' => application.application_form.first_name,
-          'last name' => application.application_form.last_name,
-          'date of birth' => application.application_form.date_of_birth,
-          'nationality' => application.application_form.first_nationality, # nationality
-          'domicile' => application.application_form.country, # domicile
-          'email address' => application.application_form.candidate.email_address,
-          'recruitment cycle' => application.application_form.recruitment_cycle_year,
-          'provider code' => application.provider.code,
-          'accredited body' => application.accredited_provider&.name,
-          'course code' => application.course.code,
-          'site code' => application.site.code,
-          'study mode' => study_mode(application),
+          'first_name' => application.application_form.first_name,
+          'last_name' => application.application_form.last_name,
+          'date_of_birth' => application.application_form.date_of_birth,
+          'nationality' => application.application_form.first_nationality,
+          'country' => application.application_form.country,
+          'email' => application.application_form.candidate.email_address,
+          'recruitment_cycle_year' => application.application_form.recruitment_cycle_year,
+          'provider_code' => application.provider.code,
+          'accrediting_provider_name' => application.accredited_provider&.name,
+          'course_code' => application.course.code,
+          'site_code' => application.site.code,
+          'study_mode' => study_mode(application),
           'SBJCA' => subject_codes(application),
           'QLAIM' => qualification_aim(application),
-          'FIRSTDEG' => degrees_completed(application),
+          'FIRSTDEG' => application.degrees_completed_flag,
           'DEGTYPE' => pad_hesa_value(first_degree, :qualification_type_hesa_code, 3),
           'DEGSBJ' => pad_hesa_value(first_degree, :subject_hesa_code, 4),
           'DEGCLSS' => pad_hesa_value(first_degree, :grade_hesa_code, 2),
-          'institution country' => first_degree&.institution_country,
+          'institution_country' => first_degree&.institution_country,
           'DEGSTDT' => first_degree&.start_year,
           'DEGENDDT' => first_degree&.award_year,
-          'institution details' => pad_hesa_value(first_degree, :institution_hesa_code, 4),
+          'institution_details' => pad_hesa_value(first_degree, :institution_hesa_code, 4),
         }.merge(diversity_information(application))
       end
 
@@ -61,14 +63,6 @@ module ProviderInterface
       return 'no data' if code.blank?
 
       code.to_s.rjust(pad_by, '0')
-    end
-
-    def application_statuses_for(statuses)
-      result = []
-      statuses.each do |status|
-        result << STATUSES[status]
-      end
-      result.flatten.compact.uniq
     end
 
     def diversity_information(application)
@@ -104,10 +98,6 @@ module ProviderInterface
       return '020' if application.course.name =~ /^QTS/
 
       '021'
-    end
-
-    def degrees_completed(application)
-      application.application_form.degrees_completed ? 1 : 0
     end
   end
 end

@@ -66,6 +66,7 @@ FactoryBot.define do
       last_name { Faker::Name.last_name }
       date_of_birth { Faker::Date.birthday }
       first_nationality { 'British' }
+      second_nationality { 'American' }
       english_main_language { %w[true false].sample }
       english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }

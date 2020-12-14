@@ -3,7 +3,7 @@ module VendorAPI
     include Rails.application.routes.url_helpers
 
     def initialize(application_choice)
-      @application_choice = application_choice
+      @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
       @application_form = application_choice.application_form
     end
 
@@ -26,7 +26,7 @@ module VendorAPI
             first_name: application_form.first_name,
             last_name: application_form.last_name,
             date_of_birth: application_form.date_of_birth,
-            nationality: nationalities,
+            nationality: application_choice.nationalities,
             domicile: application_form.country,
             uk_residency_status: uk_residency_status,
             english_main_language: application_form.english_main_language,
@@ -94,21 +94,10 @@ module VendorAPI
       }
     end
 
-    def nationalities
-      [
-        application_form.first_nationality,
-        application_form.second_nationality,
-        application_form.third_nationality,
-        application_form.fourth_nationality,
-        application_form.fifth_nationality,
-      ].map { |n| NATIONALITIES_BY_NAME[n] }.compact.uniq
-        .sort.partition { |e| %w[GB IE].include? e }.flatten
-    end
-
     def uk_residency_status
-      return 'UK Citizen' if nationalities.include?('GB')
+      return 'UK Citizen' if application_choice.nationalities.include?('GB')
 
-      return 'Irish Citizen' if nationalities.include?('IE')
+      return 'Irish Citizen' if application_choice.nationalities.include?('IE')
 
       return application_form.right_to_work_or_study_details if application_form.right_to_work_or_study_yes?
 
@@ -182,7 +171,7 @@ module VendorAPI
         gcses: format_gcses,
         degrees: qualifications_of_level('degree').map { |q| qualification_to_hash(q) },
         other_qualifications: qualifications_of_level('other').map { |q| qualification_to_hash(q) },
-        missing_gcses_explanation: missing_gcses_explanation(qualifications_of_level('gcse').select(&:missing_qualification?)),
+        missing_gcses_explanation: application_choice.missing_gcses_explanation(separator_string: "\n\n"),
       }
     end
 
@@ -221,12 +210,6 @@ module VendorAPI
       end
     end
 
-    def missing_gcses_explanation(gcses)
-      gcses
-        .map { |gcse| "#{gcse.subject.capitalize} GCSE or equivalent: #{gcse.missing_explanation}" }
-        .join("\n\n")
-    end
-
     def qualification_to_hash(qualification)
       {
         id: qualification.id,
@@ -238,7 +221,7 @@ module VendorAPI
         award_year: qualification.award_year,
         institution_details: institution_details(qualification),
         awarding_body: qualification.awarding_body,
-        equivalency_details: composite_equivalency_details(qualification),
+        equivalency_details: qualification.composite_equivalency_details,
       }.merge HesaQualificationFieldsPresenter.new(qualification).to_hash
     end
 
@@ -262,16 +245,6 @@ module VendorAPI
       end
 
       grade
-    end
-
-    def composite_equivalency_details(qualification)
-      details = [
-        ("Naric: #{qualification.naric_reference}" if qualification.naric_reference),
-        qualification.comparable_uk_qualification,
-        qualification.equivalency_details,
-      ].compact.join(' - ')
-
-      details.strip if details.present? # return nil instead of empty string
     end
 
     def institution_details(qualification)
