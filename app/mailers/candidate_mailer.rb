@@ -117,6 +117,15 @@ class CandidateMailer < ApplicationMailer
     email_for_candidate(application_choice.application_form)
   end
 
+  def application_rejected__awaiting_decision_only(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @awaiting_decision = application_choice.self_and_siblings.select(&:awaiting_provider_decision?)
+    @awaiting_decisions_by = @awaiting_decision.sort_by(&:decline_by_default_at).map(&:decline_by_default_at).last.to_s(:govuk_date)
+
+    email_for_candidate(application_choice.application_form)
+  end
+
   def feedback_received_for_application_rejected_by_default(application_choice)
     @application_choice = application_choice
     @course_option = @application_choice.offered_option
