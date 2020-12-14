@@ -236,36 +236,27 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def all_applications_rejected
-    reasons_for_rejection = {
-      candidate_behaviour_y_n: 'Yes',
-      candidate_behaviour_what_did_the_candidate_do: %w[other],
-      candidate_behaviour_other: 'Bad language',
-      candidate_behaviour_what_to_improve: 'Do not swear',
-      quality_of_application_y_n: 'Yes',
-      quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
-      quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
-    }
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
-      :with_rejection_by_default_and_feedback,
       application_form: application_form,
       course_option: course_option,
+      status: :rejected,
       structured_rejection_reasons: reasons_for_rejection,
     )
     CandidateMailer.all_applications_rejected(application_choice)
   end
 
-  def application_rejected__one_offer_one_awaiting_decision
-    reasons_for_rejection = {
-      candidate_behaviour_y_n: 'Yes',
-      candidate_behaviour_what_did_the_candidate_do: %w[other],
-      candidate_behaviour_other: 'Bad language',
-      candidate_behaviour_what_to_improve: 'Do not swear',
-      quality_of_application_y_n: 'Yes',
-      quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
-      quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
-    }
+  def all_applications_rejected_by_default
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      :with_rejection_by_default_and_feedback,
+      application_form: application_form,
+      course_option: course_option,
+    )
+    CandidateMailer.all_applications_rejected(application_choice)
+  end
 
+  def application_rejected__one_offer_one_awaiting_decision
     application_form = FactoryBot.build_stubbed(
       :application_form,
       first_name: 'Tyrell',
@@ -299,16 +290,6 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def application_rejected__awaiting_decision_only
-    reasons_for_rejection = {
-      candidate_behaviour_y_n: 'Yes',
-      candidate_behaviour_what_did_the_candidate_do: %w[other],
-      candidate_behaviour_other: 'Bad language',
-      candidate_behaviour_what_to_improve: 'Do not swear',
-      quality_of_application_y_n: 'Yes',
-      quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
-      quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
-    }
-
     application_form = FactoryBot.build_stubbed(
       :application_form,
       first_name: 'Tyrell',
@@ -342,16 +323,6 @@ class CandidateMailerPreview < ActionMailer::Preview
   end
 
   def application_rejected__offers_only
-    reasons_for_rejection = {
-      candidate_behaviour_y_n: 'Yes',
-      candidate_behaviour_what_did_the_candidate_do: %w[other],
-      candidate_behaviour_other: 'Bad language',
-      candidate_behaviour_what_to_improve: 'Do not swear',
-      quality_of_application_y_n: 'Yes',
-      quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
-      quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
-    }
-
     application_form = FactoryBot.build_stubbed(
       :application_form,
       first_name: 'Tyrell',
@@ -654,5 +625,17 @@ private
                              course_option: course_option,
                              decline_by_default_at: Time.zone.now,
                              sent_to_provider_at: 1.day.ago)
+  end
+
+  def reasons_for_rejection
+    {
+      candidate_behaviour_y_n: 'Yes',
+      candidate_behaviour_what_did_the_candidate_do: %w[other],
+      candidate_behaviour_other: 'Bad language',
+      candidate_behaviour_what_to_improve: 'Do not swear',
+      quality_of_application_y_n: 'Yes',
+      quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
+      quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
+    }
   end
 end
