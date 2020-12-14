@@ -20,7 +20,7 @@ module ProviderInterface
                                 .where('candidates.hide_in_reporting': false)
 
         csv_data = ApplicationDataExport.call(application_choices: application_choices)
-        send_data csv_data, disposition: 'attachment', filename: csv_filename
+        send_data csv_data, filename: csv_filename
       else
         render :new
       end

@@ -15,7 +15,7 @@
     <%= form_with(
     model: @application_data_export_form,
           url: provider_interface_application_data_export_path,
-          method: :post,
+          method: :get,
           ) do |f| %>
       <%= f.govuk_error_summary %>
 

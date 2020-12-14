@@ -516,7 +516,7 @@ Rails.application.routes.draw do
     get '/applications/hesa_export' => 'hesa_export#export', as: :hesa_export
 
     get 'applications/data_export/new' => 'application_data_export#new', as: :new_application_data_export
-    post 'applications/data_export' => 'application_data_export#export', as: :application_data_export
+    get 'applications/data_export' => 'application_data_export#export', as: :application_data_export
 
     scope path: '/applications/:application_choice_id' do
       get '/' => 'application_choices#show', as: :application_choice
