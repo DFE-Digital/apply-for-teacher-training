@@ -11,7 +11,12 @@ if filename
 else
   diff_tree_output = `git diff-tree -r --name-only --no-commit-id origin/master HEAD app/models`
   diff_tree_output.split(/\n/).map do |model_path|
-    require "./#{model_path}"
+    puts model_path
+    begin
+      require "./#{model_path}"
+    rescue LoadError
+      puts "Could not load file #{model_path}. Has it been deleted or moved?"
+    end
   end
 end
 
