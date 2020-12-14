@@ -66,10 +66,10 @@ module SupportInterface
     end
 
     def required_action_details
-      instructions = ACTIONS[@match.next_action][:instructions]
-      support_manual_info = "<br><br>Please refer to <a class='govuk-link' href='https://docs.google.com/document/d/1XvZiD8_ng_aG_7nvDGuJ9JIdPu6pFdCO2ujfKeFDOk4'>Dual-running user support manual</a> for more information about the current process."
-
-      instructions.concat(support_manual_info).html_safe
+      (
+        ACTIONS[@match.next_action][:instructions] +
+        %(<br><br>Please refer to <a class="govuk-link" href="https://docs.google.com/document/d/1XvZiD8_ng_aG_7nvDGuJ9JIdPu6pFdCO2ujfKeFDOk4">Dual-running user support manual</a> for more information about the current process.)
+      ).html_safe
     end
 
     def last_action_details
