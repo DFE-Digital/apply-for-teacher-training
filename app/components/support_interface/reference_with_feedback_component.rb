@@ -11,10 +11,9 @@ module SupportInterface
              :consent_to_be_contacted,
              to: :reference
 
-    def initialize(reference:, reference_number:, editable: true)
+    def initialize(reference:, reference_number:)
       @reference = reference
       @reference_number = reference_number
-      @editable = editable
     end
 
     def rows
