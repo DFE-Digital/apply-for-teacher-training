@@ -132,14 +132,12 @@ module SupportInterface
     end
 
     def feedback_row
-      if feedback
-        {
-          key: 'Reference',
-          value: feedback,
-          action: 'feedback',
-          change_path: support_interface_application_form_edit_reference_feedback_path(reference.application_form, reference),
-        }
-      end
+      {
+        key: 'Reference',
+        value: feedback,
+        action: 'feedback',
+        change_path: support_interface_application_form_edit_reference_feedback_path(reference.application_form, reference),
+      }
     end
 
     def consent_row
