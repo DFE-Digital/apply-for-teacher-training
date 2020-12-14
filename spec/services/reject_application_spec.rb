@@ -50,7 +50,7 @@ RSpec.describe RejectApplication do
       service = described_class.new(
         actor: provider_user,
         application_choice: application_choice,
-        structured_rejection_reasons: ProviderInterface::ReasonsForRejection.new(reasons_for_rejection_attrs),
+        structured_rejection_reasons: ReasonsForRejection.new(reasons_for_rejection_attrs),
       )
 
       service.save

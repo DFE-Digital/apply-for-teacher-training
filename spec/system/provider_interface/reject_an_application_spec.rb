@@ -57,35 +57,35 @@ RSpec.describe 'Reject an application' do
   def then_i_give_reasons_why_i_am_rejecting_the_application
     expect(page).to have_link('Back', href: provider_interface_application_choice_respond_path(@application_choice))
 
-    choose 'provider-interface-reasons-for-rejection-candidate-behaviour-y-n-yes-field'
-    check 'provider-interface-reasons-for-rejection-candidate-behaviour-what-did-the-candidate-do-other-field'
-    fill_in 'provider-interface-reasons-for-rejection-candidate-behaviour-other-field', with: "There was no need to sing 'Run to the Hills' for us"
-    fill_in 'provider-interface-reasons-for-rejection-candidate-behaviour-what-to-improve-field', with: 'Leave the singing out next time'
+    choose 'reasons-for-rejection-candidate-behaviour-y-n-yes-field'
+    check 'reasons-for-rejection-candidate-behaviour-what-did-the-candidate-do-other-field'
+    fill_in 'reasons-for-rejection-candidate-behaviour-other-field', with: "There was no need to sing 'Run to the Hills' for us"
+    fill_in 'reasons-for-rejection-candidate-behaviour-what-to-improve-field', with: 'Leave the singing out next time'
 
-    choose 'provider-interface-reasons-for-rejection-quality-of-application-y-n-yes-field'
-    check 'provider-interface-reasons-for-rejection-quality-of-application-which-parts-needed-improvement-personal-statement-field'
-    fill_in 'provider-interface-reasons-for-rejection-quality-of-application-personal-statement-what-to-improve-field', with: 'Telling people you are a stable genius might be a bit loaded'
+    choose 'reasons-for-rejection-quality-of-application-y-n-yes-field'
+    check 'reasons-for-rejection-quality-of-application-which-parts-needed-improvement-personal-statement-field'
+    fill_in 'reasons-for-rejection-quality-of-application-personal-statement-what-to-improve-field', with: 'Telling people you are a stable genius might be a bit loaded'
 
-    choose 'provider-interface-reasons-for-rejection-qualifications-y-n-yes-field'
-    check 'provider-interface-reasons-for-rejection-qualifications-which-qualifications-no-maths-gcse-field'
-    check 'provider-interface-reasons-for-rejection-qualifications-which-qualifications-no-degree-field'
+    choose 'reasons-for-rejection-qualifications-y-n-yes-field'
+    check 'reasons-for-rejection-qualifications-which-qualifications-no-maths-gcse-field'
+    check 'reasons-for-rejection-qualifications-which-qualifications-no-degree-field'
 
-    choose 'provider-interface-reasons-for-rejection-performance-at-interview-y-n-yes-field'
-    fill_in 'provider-interface-reasons-for-rejection-performance-at-interview-what-to-improve-field', with: "Don't sing 'Run to the Hills' at the start of the interview"
+    choose 'reasons-for-rejection-performance-at-interview-y-n-yes-field'
+    fill_in 'reasons-for-rejection-performance-at-interview-what-to-improve-field', with: "Don't sing 'Run to the Hills' at the start of the interview"
 
-    choose 'provider-interface-reasons-for-rejection-course-full-y-n-no-field'
+    choose 'reasons-for-rejection-course-full-y-n-no-field'
 
-    choose 'provider-interface-reasons-for-rejection-offered-on-another-course-y-n-no-field'
+    choose 'reasons-for-rejection-offered-on-another-course-y-n-no-field'
 
-    choose 'provider-interface-reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
-    check 'provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-field'
-    fill_in 'provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: 'We doubt claims about your golf handicap'
-    check 'provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-references-field'
-    fill_in 'provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: 'We cannot accept references from your mum'
+    choose 'reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
+    check 'reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-field'
+    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: 'We doubt claims about your golf handicap'
+    check 'reasons-for-rejection-honesty-and-professionalism-concerns-references-field'
+    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: 'We cannot accept references from your mum'
 
-    choose 'provider-interface-reasons-for-rejection-safeguarding-y-n-yes-field'
-    check 'provider-interface-reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-field'
-    fill_in 'provider-interface-reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-details-field', with: 'You abducted Jenny, now Matrix is coming to find her'
+    choose 'reasons-for-rejection-safeguarding-y-n-yes-field'
+    check 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-field'
+    fill_in 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-details-field', with: 'You abducted Jenny, now Matrix is coming to find her'
 
     click_on 'Continue'
   end
@@ -94,7 +94,7 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_initial_questions_path(@application_choice))
 
     expect(page).to have_content('Something you did')
-    expect(page).to have_content("There was no need to sing 'Run to the Hills' for us\nLeave the singing out next time")
+    expect(page).to have_content("There was no need to sing 'Run to the Hills' for us\nDetails: Leave the singing out next time")
 
     expect(page).to have_content('Quality of application')
     expect(page).to have_content('Telling people you are a stable genius might be a bit loaded')
@@ -117,11 +117,11 @@ RSpec.describe 'Reject an application' do
   def and_i_choose_to_change_some_reasons_for_rejection
     click_on 'Change', match: :first
 
-    expect(page).to have_checked_field 'provider-interface-reasons-for-rejection-safeguarding-y-n-yes-field'
-    expect(page).to have_checked_field 'provider-interface-reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
+    expect(page).to have_checked_field 'reasons-for-rejection-safeguarding-y-n-yes-field'
+    expect(page).to have_checked_field 'reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
 
-    choose 'provider-interface-reasons-for-rejection-honesty-and-professionalism-y-n-no-field'
-    choose 'provider-interface-reasons-for-rejection-safeguarding-y-n-no-field'
+    choose 'reasons-for-rejection-honesty-and-professionalism-y-n-no-field'
+    choose 'reasons-for-rejection-safeguarding-y-n-no-field'
 
     click_on 'Continue'
   end
@@ -129,10 +129,10 @@ RSpec.describe 'Reject an application' do
   def and_i_answer_additional_reasons
     expect(page).to have_link('Back', href: provider_interface_reasons_for_rejection_initial_questions_path(@application_choice))
 
-    choose 'provider-interface-reasons-for-rejection-other-advice-or-feedback-y-n-yes-field'
-    fill_in 'provider-interface-reasons-for-rejection-other-advice-or-feedback-details-field', with: 'While impressive, your parkour skills are not relevant'
+    choose 'reasons-for-rejection-other-advice-or-feedback-y-n-yes-field'
+    fill_in 'reasons-for-rejection-other-advice-or-feedback-details-field', with: 'While impressive, your parkour skills are not relevant'
 
-    choose 'provider-interface-reasons-for-rejection-interested-in-future-applications-y-n-yes-field'
+    choose 'reasons-for-rejection-interested-in-future-applications-y-n-yes-field'
 
     click_on 'Continue'
   end
@@ -153,17 +153,17 @@ RSpec.describe 'Reject an application' do
   def and_i_choose_to_revert_my_changes
     click_on 'Change', match: :first
 
-    expect(page).to have_checked_field 'provider-interface-reasons-for-rejection-safeguarding-y-n-no-field'
-    expect(page).to have_checked_field 'provider-interface-reasons-for-rejection-honesty-and-professionalism-y-n-no-field'
+    expect(page).to have_checked_field 'reasons-for-rejection-safeguarding-y-n-no-field'
+    expect(page).to have_checked_field 'reasons-for-rejection-honesty-and-professionalism-y-n-no-field'
 
-    choose 'provider-interface-reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
+    choose 'reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
 
-    expect(page).to have_field('provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: '')
-    expect(page).to have_field('provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-plagiarism-details-field', with: '')
-    expect(page).to have_field('provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: '')
+    expect(page).to have_field('reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: '')
+    expect(page).to have_field('reasons-for-rejection-honesty-and-professionalism-concerns-plagiarism-details-field', with: '')
+    expect(page).to have_field('reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: '')
 
-    check 'provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-references-field'
-    fill_in 'provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: 'We cannot accept references from your gran'
+    check 'reasons-for-rejection-honesty-and-professionalism-concerns-references-field'
+    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: 'We cannot accept references from your gran'
 
     click_on 'Continue'
   end

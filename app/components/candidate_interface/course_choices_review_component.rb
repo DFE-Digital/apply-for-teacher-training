@@ -181,7 +181,7 @@ module CandidateInterface
           key: 'Feedback',
           value: render(ReasonsForRejectionComponent.new(
             application_choice: application_choice,
-            reasons_for_rejection: ProviderInterface::ReasonsForRejection.new(application_choice.structured_rejection_reasons),
+            reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
             editable: false,
           )),
         }

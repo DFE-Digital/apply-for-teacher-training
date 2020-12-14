@@ -69,7 +69,7 @@ module ProviderInterface
     end
 
     def reasons_for_rejection_params
-      params.require(:provider_interface_reasons_for_rejection)
+      params.require(:reasons_for_rejection)
         .permit(:candidate_behaviour_y_n, :candidate_behaviour_other,
                 :candidate_behaviour_what_to_improve,
                 :quality_of_application_y_n, :quality_of_application_personal_statement_what_to_improve,

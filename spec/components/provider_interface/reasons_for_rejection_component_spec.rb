@@ -28,7 +28,7 @@ RSpec.describe ReasonsForRejectionComponent do
       }
     end
 
-    let(:reasons_for_rejection) { ProviderInterface::ReasonsForRejection.new(reasons_for_rejection_attrs) }
+    let(:reasons_for_rejection) { ReasonsForRejection.new(reasons_for_rejection_attrs) }
 
     before { allow(application_choice).to receive(:provider).and_return(provider) }
 
