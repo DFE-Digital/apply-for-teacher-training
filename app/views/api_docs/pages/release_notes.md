@@ -7,6 +7,16 @@ New feature: reference data. See the [Codes and reference data section](https://
 - `reference-data/a-and-as-level-subjects` returns a list of A and AS Level subjects
 - `reference-data/a-and-as-level-grades` returns a list of A and AS Level grades
 
+### 11th December 2020
+
+Change to international addresses:
+
+- Previously, international addresses were not structured and only the
+  address_line1 field was populated. From now on, international addresses will
+  be structured and will populate address lines 1-4.
+- `address_line1` character count is reduced from 200 to 50 in line with other
+  address lines.
+
 ### 7th December 2020
 
 Documentation:
