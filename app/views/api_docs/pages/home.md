@@ -27,6 +27,12 @@ Codes appear in three contexts:
 - Nationality is expressed as an [ISO 3166-2](https://www.iso.org/iso-3166-country-codes.html) country code
 - Demographic data required for HESA reporting uses [HESA codes for the 2019/20 Initial Teacher Training return](https://www.hesa.ac.uk/collection/c19053/e/ittschms). When the HESA codes for the next cycle are released, we will update the documentation to reflect these.
 
+Where it is not possible to structure data strictly — for example, in the case of GCSE subjects, where candidates need to be able to enter subjects our sources might not include — we encourage candidates to enter values from an [autocomplete field](https://designnotes.blog.gov.uk/2017/04/20/were-building-an-autocomplete/).
+
+To enable API clients to benefit from this consistency, we expose the following lists of possible autocomplete values:
+
+- `/reference-data/gcse-subjects`: a list of GCSE subjects based on [Ofqual’s list](https://register.ofqual.gov.uk/Download)
+
 ## How do I connect to this API?
 
 ### Authentication and authorisation

@@ -487,6 +487,8 @@ Rails.application.routes.draw do
     post '/test-data/generate' => 'test_data#generate'
     post '/test-data/clear' => 'test_data#clear!'
 
+    get '/reference-data/gcse-subjects' => 'reference_data#gcse_subjects'
+
     post '/experimental/test-data/generate' => 'test_data#experimental_endpoint_moved'
     post '/experimental/test-data/clear' => 'test_data#experimental_endpoint_moved'
 
