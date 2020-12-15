@@ -10,6 +10,7 @@ module CandidateInterface
     def application_choice_rows(application_choice)
       [
         course_details_row(application_choice),
+        status_row(application_choice),
         rejection_reasons_row(application_choice),
       ].compact
     end
@@ -24,13 +25,22 @@ module CandidateInterface
     end
 
     def course_details_row_value(application_choice)
-      if EndOfCycleTimetable.find_down?
+      if EndOfCycleTimetable.find_down? || FeatureFlag.active?(:structured_reasons_for_rejection)
         tag.p(application_choice.offered_course.name_and_code, class: 'govuk-!-margin-bottom-0') + tag.p(application_choice.course.description, class: 'govuk-body')
       else
         govuk_link_to(application_choice.offered_course.name_and_code,
                       application_choice.offered_course.find_url, target: '_blank', rel: 'noopener') +
           tag.p(application_choice.course.description, class: 'govuk-body')
       end
+    end
+
+    def status_row(application_choice)
+      return nil unless FeatureFlag.active?(:structured_reasons_for_rejection)
+
+      {
+        key: 'Status',
+        value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
+      }
     end
 
     def rejection_reasons_row(application_choice)
