@@ -3,7 +3,7 @@ module SupportInterface
     class EditReferenceFeedbackForm
       include ActiveModel::Model
 
-      attr_accessor :feedback, :audit_comment
+      attr_accessor :feedback, :audit_comment, :send_emails
 
       validates :feedback, presence: true, word_count: { maximum: 500 }
       validates :audit_comment, presence: true
@@ -19,7 +19,6 @@ module SupportInterface
           feedback: feedback,
           audit_comment: audit_comment,
         )
-        SubmitReference.new(reference: reference).save!
       end
     end
   end

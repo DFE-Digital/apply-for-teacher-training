@@ -24,6 +24,7 @@ module SupportInterface
         @feedback_form = EditReferenceFeedbackForm.new(edit_reference_feedback_params)
 
         if @feedback_form.save(reference)
+          SubmitReference.new(reference: reference, send_emails: send_emails).save!
           flash[:success] = 'Reference updated'
           redirect_to support_interface_application_form_path(@reference.application_form)
         else
@@ -38,7 +39,11 @@ module SupportInterface
       end
 
       def edit_reference_feedback_params
-        params.require(:support_interface_application_forms_edit_reference_feedback_form).permit(:feedback, :audit_comment)
+        params.require(:support_interface_application_forms_edit_reference_feedback_form).permit(:feedback, :audit_comment, :send_emails)
+      end
+
+      def send_emails
+        edit_reference_feedback_params[:send_emails]
       end
 
       def reference
