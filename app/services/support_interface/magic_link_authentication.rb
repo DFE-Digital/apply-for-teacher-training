@@ -11,7 +11,7 @@ module SupportInterface
       hashed_token = MagicLinkToken.from_raw(token)
       AuthenticationToken.where('created_at > ?', TOKEN_DURATION.ago)
         .find_by!(hashed_token: hashed_token)
-        .authenticable
+        .user
     end
   end
 end

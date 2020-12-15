@@ -17,7 +17,7 @@ module CandidateInterface
     # they click a button to confirm the sign in.
     def confirm_authentication
       authentication_token = AuthenticationToken.find_by_hashed_token(
-        authenticable_type: 'Candidate',
+        user_type: 'Candidate',
         raw_token: params[:token],
       )
 
@@ -36,14 +36,14 @@ module CandidateInterface
     # After they click the confirm button, actually do the user sign in.
     def authenticate
       authentication_token = AuthenticationToken.find_by_hashed_token(
-        authenticable_type: 'Candidate',
+        user_type: 'Candidate',
         raw_token: params[:token],
       )
 
       redirect_to(action: :new) and return if authentication_token.nil?
 
       if authentication_token && authentication_token.still_valid?
-        candidate = authentication_token.authenticable
+        candidate = authentication_token.user
         flash[:success] = t('apply_from_find.account_created_message') if candidate.last_signed_in_at.nil?
         sign_in(candidate, scope: :candidate)
         add_identity_to_log(candidate.id)
