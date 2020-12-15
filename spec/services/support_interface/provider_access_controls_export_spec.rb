@@ -79,7 +79,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
             dsa_signer: provider_user3.email_address,
             last_user_permissions_change_at: 2.days.ago,
             total_user_permissions_changes: 2,
-            user_permissions_changed_by: [provider_user2.email_address, provider_user3.email_address],
+            user_permissions_changed_by: [provider_user2.email_address, provider_user3.email_address].sort,
             total_manage_users_users: 2,
             total_manage_orgs_users: 0,
             total_users: 2,
