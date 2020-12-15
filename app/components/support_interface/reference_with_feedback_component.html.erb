@@ -9,6 +9,10 @@
         </div>
       <% elsif reference.feedback_requested? %>
         <div class='app-summary-card__actions'>
+          <% if HostingEnvironment.test_environment? %>
+            <%= govuk_link_to 'Provide feedback', referee_interface_reference_relationship_path(token: reference.refresh_feedback_token!) %>
+            <%= govuk_link_to 'Refuse feedback', referee_interface_refuse_feedback_path(token: reference.refresh_feedback_token!) %>
+          <% end %>
           <%= link_to support_interface_cancel_reference_path(reference), class: 'govuk-link' do %>
             Cancel reference<span class="govuk-visually-hidden"> for <%= reference.name %></span>
           <% end %>
