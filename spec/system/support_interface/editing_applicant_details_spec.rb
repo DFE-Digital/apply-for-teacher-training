@@ -17,6 +17,28 @@ RSpec.feature 'Editing application details' do
     and_i_submit_the_update_form
     then_i_should_see_a_flash_message
     and_i_should_see_the_new_applicant_details
+
+    when_i_update_the_applicant_nationality
+    then_i_see_the_updated_nationality
+  end
+
+  def when_i_update_the_applicant_nationality
+    click_on 'Details'
+    click_link 'Change nationality'
+    uncheck 'British'
+    check 'Citizen of a different country'
+    select 'Armenian', from: 'support-interface-application-forms-nationalities-form-other-nationality1-field'
+    click_button 'Save and continue'
+    choose 'Not yet – I will need to apply for permission to work or study in the UK'
+    click_button 'Save and continue'
+  end
+
+  def then_i_see_the_updated_nationality
+    within('[data-qa="personal-details"]') do
+      expect(page).to have_content 'Armenian'
+      expect(page).to have_content 'Has the right to work or study in the UK?'
+      expect(page).to have_content 'Not yet'
+    end
   end
 
   def given_i_am_a_support_user
