@@ -19,6 +19,7 @@ Rails.application.routes.draw do
 
     get '/accessibility', to: 'content#accessibility'
     get '/cookies', to: 'content#cookies_candidate', as: :cookies
+    get '/make-a-complaint', to: 'content#complaints', as: :complaints
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/providers', to: 'content#providers', as: :providers
     get '/terms-of-use', to: 'content#terms_candidate', as: :terms
@@ -499,6 +500,7 @@ Rails.application.routes.draw do
     get '/accessibility', to: 'content#accessibility'
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/cookies', to: 'content#cookies_provider', as: :cookies
+    get '/make-a-complaint', to: 'content#complaints', as: :complaints
     get '/service-guidance', to: 'content#service_guidance_provider', as: :service_guidance
     get '/covid-19-guidance', to: redirect('/')
 

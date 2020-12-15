@@ -43,6 +43,7 @@ en:
     guidance_for_the_new_cycle: Guidance for the new cycle (2020 to 2021)
     cookies_candidate: Cookies
     cookies_provider: Cookies
+    complaints: Make a complaint about this service
     contact_information: Contact information
     contact_details: Contact details
     where_do_you_live: Where do you live?
@@ -192,6 +193,7 @@ en:
       title: Support links
       accessibility: Accessibility
       cookies: Cookies
+      complaints: Complaints
       terms_of_use: Terms of use
       privacy_policy: Privacy policy
   activemodel:
