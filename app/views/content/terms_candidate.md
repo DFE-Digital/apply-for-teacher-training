@@ -1,40 +1,53 @@
-Thank you for using Apply for teacher training, a service run by the Department for Education.
+Terms are a mixture of rules and things to know, like what we do with your data. Applying for teacher training here means you agree to our terms.
 
-Using Apply for teacher training means you agree to these terms of use.
+If you do not follow them your application might be withdrawn.
 
-## How to apply for teacher training courses
+Other things to know:
 
-### Stage 1: submitting your initial application
+- All information you give must be truthful and as accurate as possible.
+- Wherever you’re applying from, you must not use our website for illegal or fraudulent reasons.
+- You must not gather or use data from our website, or use data in a way that is not allowed by our [privacy policy](https://www.apply-for-teacher-training.service.gov.uk/candidate/privacy-policy).
+- You must not use abusive language or behaviour towards anyone you come into contact with.
 
-You can apply for up to 3 courses across Apply for teacher training and [UCAS Teacher Training](https://www.ucas.com/teaching-in-the-uk).
+## Applying for teacher training courses
 
-**You can only accept 1 offer**, even if you use both services.
+### Stage 1: Submitting your initial application
 
-You can not apply for the same course on both services.
+You can apply for a total of 3 courses across our service and [UCAS](https://www.ucas.com/teaching-in-the-uk). We share your information between us, and with organisations that provide teacher training.
 
-### Stage 2: trying again if your application was not successful
+As long as you use the same email address, you only need to sign up once across our service and [UCAS](https://www.ucas.com/teaching-in-the-uk).
 
-You can apply for another course at this stage if you do not get an offer or if you choose not to accept your offer(s).
+If you apply for a course or accept an offer on both, we’ll get in touch with you to cancel one of your applications.
+
+### Stage 2: Apply again if your application was not successful
+
+You can apply for another course at this stage if you do not get an offer or if you choose not to accept your offers.
 
 [Get Into Teaching](https://getintoteaching.education.gov.uk/get-help-and-support) can guide you through the process of applying for more courses. Contact them for free on 0800 389 2500, or [chat to an adviser using the online chat service](https://getintoteaching.education.gov.uk/lp/live-chat).
-
+ 
 ### Making changes to your application
 
-Get in touch with us as soon as possible after submitting your application if you need to make any amends, as we only have 5 working days to make changes for you.
+Contact us at <becomingateacher@digital.education.gov.uk> if you need to make changes. We only have 5 working days to make changes for you. 
 
-For example, you can add more courses (if you have not reached your limit of 3) or change your course choices.
+Once we’ve processed your request, we will not be able to make any more changes.
 
-Once we’ve processed your request, we will not be able to make any more changes for you.
+You can add more courses (if you have not reached your limit of 3) or change the courses you have chosen.
 
-However, you can ask us to amend your name or contact details at any point up until enrolment.
+You can ask us to amend your name or contact details at any point until you are enrolled on a course.
 
-Contact us at <becomingateacher@digital.education.gov.uk> if you need to make changes.
+If you have heard back from your training provider, for example if they have turned down your application, we will not be able to change your choice of course.
 
 ### Withdrawing your application
 
-You can withdraw your application to your course(s) at any point, even after you’ve accepted an offer.
+You can withdraw your application at any point, even after you have accepted an offer.
 
-[Sign in to your account](/candidate/sign-in) and click ‘withdraw’ next to the course(s) you want to withdraw.
+[Sign in to your account](https://qa.apply-for-teacher-training.service.gov.uk/candidate/sign-in) and click ‘withdraw’ next to the course you want to withdraw.
+
+### Outcome of your application
+
+The Department of Education does not decide on your application. The course provider does.
+
+There are deadlines that you and the course provider will need to meet. We’ll tell you what they are when you apply. If you, or the course provider, do not respond in time your application might be deleted.
 
 ## How we check your suitability for working with children
 
@@ -43,3 +56,21 @@ All candidates must have an enhanced DBS check. This will show up any spent or u
 Not all convictions will stop you from teaching. [Talk to your provider about their policy on criminal convictions](https://www.gov.uk/exoffenders-and-employment).
 
 Your name will also be checked against a DBS list of people who have been barred from working with children.
+
+## Questions or support
+
+If you need our help, email <becomingateacher@digital.education.gov.uk>.
+
+We respond within 5 working days, or 1 working day for more urgent queries.
+
+If you’re applying from overseas, you can find out more about becoming a teacher in England in our guidance for overseas graduates.
+
+## Changing our service
+
+Our service is always evolving, and we will make changes from time to time. We will not tell you about the changes beforehand. We will let you know if the website will be unavailable while we’re updating it.
+
+## About your online account
+
+When you start your application, we’ll create an account for you automatically. Any information you give will be stored there. We’ll keep your data safe and only use it in line with our [privacy policy](https://www.apply-for-teacher-training.service.gov.uk/candidate/privacy-policy).
+
+You do not need a password for your account. Instead, each time you log in, we’ll email you a unique and secure link.
