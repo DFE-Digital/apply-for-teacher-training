@@ -67,7 +67,7 @@ module CandidateInterface
 
       if candidate_id
         candidate = Candidate.find(candidate_id)
-        CandidateInterface::RequestMagicLink.call(candidate: candidate)
+        CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate)
         add_identity_to_log candidate.id
         redirect_to candidate_interface_check_email_sign_in_path
       else
