@@ -44,7 +44,7 @@ RSpec.feature 'Receives rejection email' do
 
   def when_i_am_awaiting_decisions_and_have_no_offers
     @application_form = create(:completed_application_form)
-    create_list(:application_choice, 2, status: :awaiting_provider_decision, application_form: @application_form)
+    create_list(:application_choice, 2, status: :awaiting_provider_decision, decline_by_default_at: 10.business_days.from_now, application_form: @application_form)
     @application_choice = @application_form.application_choices.first
   end
 
@@ -80,33 +80,33 @@ RSpec.feature 'Receives rejection email' do
   def then_i_receive_the_all_applications_rejected_email
     open_email(@application_form.candidate.email_address)
 
-    expect(current_email.subject).to include(I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: @application_choice.provider.name))
+    expect(current_email.subject).to include(I18n.t!('candidate_mailer.application_rejected_all_applications_rejected.subject', provider_name: @application_choice.provider.name))
   end
 
   def then_i_receive_the_application_rejected_awaiting_decisions_email
     open_email(@application_form.candidate.email_address)
 
-    expect(current_email.subject).to include(I18n.t!('candidate_mailer.application_rejected.awaiting_decisions.subject', provider_name: @application_choice.provider.name, course_name: @application_choice.course.name))
+    expect(current_email.subject).to include(I18n.t!('candidate_mailer.application_rejected_awaiting_decision_only.subject', provider_name: @application_choice.provider.name, course_name: @application_choice.course.name))
   end
 
   def then_i_receive_the_application_rejected_offers_made_email
     open_email(@application_form.candidate.email_address)
 
-    expect(current_email.subject).to include(I18n.t!('candidate_mailer.application_rejected.offers_made.subject', provider_name: @application_choice.provider.name, course_name: @application_choice.course.name, dbd_days: @offer.decline_by_default_days))
+    expect(current_email.subject).to include(I18n.t!('candidate_mailer.application_rejected_offers_only.subject', date: @offer.decline_by_default_at.to_s(:govuk_date)))
   end
 
   def and_it_includes_details_of_my_offer
     expect(current_email.text).to include(@offer.provider.name)
-    expect(current_email.text).to include(@offer.course.name_and_code)
+    expect(current_email.text).to include(@offer.course.name)
 
-    expect(current_email.text).to include("Make a decision about your offer by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
+    expect(current_email.text).to include("The offer will automatically be withdrawn if you do not respond by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
   end
 
   def and_it_includes_details_of_my_offers
     expect(current_email.text).to include(@offer.provider.name)
-    expect(current_email.text).to include(@offer.course.name_and_code)
+    expect(current_email.text).to include(@offer.course.name)
     expect(current_email.text).to include(@offer2.provider.name)
-    expect(current_email.text).to include(@offer2.course.name_and_code)
-    expect(current_email.text).to include("Make a decision about your offers by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
+    expect(current_email.text).to include(@offer2.course.name)
+    expect(current_email.text).to include("The offers will automatically be withdrawn if you do not respond by #{@offer.decline_by_default_at.to_s(:govuk_date)}")
   end
 end

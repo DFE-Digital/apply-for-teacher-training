@@ -141,41 +141,10 @@ RSpec.describe CandidateMailer, type: :mailer do
       magic_link_stubbing(@application_form.candidate)
     end
 
-    describe '.application_rejected_all_rejected' do
+    describe '.application_rejected_all_applications_rejected' do
       it_behaves_like(
-        'a mail with subject and content', :application_rejected_all_rejected,
-        I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: 'Falconholt Technical College'),
-        'heading' => 'Dear Tyrell',
-        'course name and code' => 'Forensic Science (E0FO)'
-      )
-    end
-
-    describe '.application_rejected_awaiting_decisions' do
-      before do
-        provider = build_stubbed(:provider, name: 'Vertapple University')
-        course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Law', code: 'UFHG', provider: provider))
-        @application_choice_awaiting_provider_decision = @application_form.application_choices.build(
-          application_form: @application_form,
-          course_option: course_option,
-          status: :awaiting_provider_decision,
-          rejection_reason: 'The application had little detail.',
-        )
-      end
-
-      it_behaves_like(
-        'a mail with subject and content', :application_rejected_awaiting_decisions,
-        I18n.t!('candidate_mailer.application_rejected.awaiting_decisions.subject', provider_name: 'Falconholt Technical College', course_name: 'Forensic Science (E0FO)'),
-        'heading' => 'Dear Tyrell',
-        'course name and code' => 'Forensic Science (E0FO)',
-        'courses they are awaiting decisions' => 'Law (UFHG)',
-        'providers they are awaiting decisions' => 'Vertapple University'
-      )
-    end
-
-    describe '.all_applications_rejected' do
-      it_behaves_like(
-        'a mail with subject and content', :all_applications_rejected,
-        I18n.t!('candidate_mailer.all_applications_rejected.subject',
+        'a mail with subject and content', :application_rejected_all_applications_rejected,
+        I18n.t!('candidate_mailer.application_rejected_all_applications_rejected.subject',
                 provider_name: 'Falconholt Technical College'),
         'heading' => 'Dear Tyrell',
         'course name and code' => 'Forensic Science (E0FO)',
@@ -184,7 +153,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    describe '.application_rejected__one_offer_one_awaiting_decision' do
+    describe '.application_rejected_one_offer_one_awaiting_decision' do
       before do
         reasons_for_rejection = {
           candidate_behaviour_y_n: 'Yes',
@@ -230,8 +199,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it_behaves_like(
-        'a mail with subject and content', :application_rejected__one_offer_one_awaiting_decision,
-        I18n.t!('candidate_mailer.application_rejected__one_offer_one_awaiting_decision.subject',
+        'a mail with subject and content', :application_rejected_one_offer_one_awaiting_decision,
+        I18n.t!('candidate_mailer.application_rejected_one_offer_one_awaiting_decision.subject',
                 provider_name: 'Falconholt Technical College'),
         'heading' => 'Dear Tyrell',
         'course name and code' => 'Forensic Science (E0FO)',
@@ -243,7 +212,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    describe '.application_rejected__awaiting_decision_only' do
+    describe '.application_rejected_awaiting_decision_only' do
       before do
         reasons_for_rejection = {
           candidate_behaviour_y_n: 'Yes',
@@ -290,8 +259,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it_behaves_like(
-        'a mail with subject and content', :application_rejected__awaiting_decision_only,
-        I18n.t!('candidate_mailer.application_rejected__awaiting_decision_only.subject'),
+        'a mail with subject and content', :application_rejected_awaiting_decision_only,
+        I18n.t!('candidate_mailer.application_rejected_awaiting_decision_only.subject'),
         'heading' => 'Dear Tyrell',
         'course name and code' => 'Forensic Science (E0FO)',
         'rejection reason heading' => 'Something you did',
@@ -303,7 +272,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       )
     end
 
-    describe '.application_rejected__offers_only' do
+    describe '.application_rejected_offers_only' do
       before do
         reasons_for_rejection = {
           candidate_behaviour_y_n: 'Yes',
@@ -350,8 +319,8 @@ RSpec.describe CandidateMailer, type: :mailer do
       end
 
       it_behaves_like(
-        'a mail with subject and content', :application_rejected__offers_only,
-        I18n.t!('candidate_mailer.application_rejected__offers_only.subject', date: '16 February 2020'),
+        'a mail with subject and content', :application_rejected_offers_only,
+        I18n.t!('candidate_mailer.application_rejected_offers_only.subject', date: '16 February 2020'),
         'heading' => 'Dear Tyrell',
         'course name and code' => 'Forensic Science (E0FO)',
         'rejection reason heading' => 'Something you did',

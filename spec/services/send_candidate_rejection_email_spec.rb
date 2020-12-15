@@ -4,50 +4,60 @@ RSpec.describe SendCandidateRejectionEmail do
   describe '#call' do
     let(:application_form) { build(:completed_application_form) }
     let(:application_choice) { create(:application_choice, status: :rejected, application_form: application_form) }
+    let(:application_choice_with_offer) { create(:application_choice, :with_offer, application_form: application_form) }
+    let(:application_choice_awaiting_decision) { create(:application_choice, status: :awaiting_provider_decision, application_form: application_form) }
     let(:mail) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
 
-    context 'when the candidate has had all of their application choices rejected' do
-      before do
-        allow(CandidateMailer).to receive(:application_rejected_all_rejected).and_return(mail)
-        described_class.new(application_choice: application_choice).call
+    context 'when an application choice is rejected' do
+      describe 'when all application choices have been rejected' do
+        before do
+          allow(CandidateMailer).to receive(:application_rejected_all_applications_rejected).and_return(mail)
+          described_class.new(application_choice: application_choice).call
+        end
+
+        it 'the all_applications_rejected email is sent to the candidate' do
+          expect(CandidateMailer).to have_received(:application_rejected_all_applications_rejected).with(application_choice)
+        end
       end
 
-      it 'sends them the all applications rejected email' do
-        expect(CandidateMailer).to have_received(:application_rejected_all_rejected).with(application_choice)
-      end
-    end
+      describe 'when there are applications both with offer and awaiting decision' do
+        before do
+          application_choice_with_offer
+          application_choice_awaiting_decision
 
-    context 'when the candidate receives a rejection and has pending decisions' do
-      before do
-        create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
-        allow(CandidateMailer).to receive(:application_rejected_awaiting_decisions).and_return(mail)
-        described_class.new(application_choice: application_choice).call
-      end
+          allow(CandidateMailer).to receive(:application_rejected_one_offer_one_awaiting_decision).and_return(mail)
+          described_class.new(application_choice: application_choice).call
+        end
 
-      it 'sends them the awaiting_decisions email' do
-        expect(CandidateMailer).to have_received(:application_rejected_awaiting_decisions).with(application_choice)
-      end
-    end
-
-    context 'when the candidate receives a rejection and an offer' do
-      before do
-        create(:application_choice, status: :offer, application_form: application_form)
-        allow(CandidateMailer).to receive(:application_rejected_offers_made).and_return(mail)
-        described_class.new(application_choice: application_choice).call
+        it 'the application_rejected_one_offer_one_awaiting_decision email is sent to the candidate' do
+          expect(CandidateMailer).to have_received(:application_rejected_one_offer_one_awaiting_decision).with(application_choice)
+        end
       end
 
-      it 'sends them the awaiting_decisions email' do
-        expect(CandidateMailer).to have_received(:application_rejected_offers_made).with(application_choice)
-      end
-    end
+      describe 'when all remaining applications are awaiting decision' do
+        before do
+          application_choice_awaiting_decision
 
-    context 'when the service receives any other combination of statuses' do
-      before do
-        create(:application_choice, status: :recruited, application_form: application_form)
+          allow(CandidateMailer).to receive(:application_rejected_awaiting_decision_only).and_return(mail)
+          described_class.new(application_choice: application_choice).call
+        end
+
+        it 'the application_rejected_awaiting_decision_only email is sent to the candidate' do
+          expect(CandidateMailer).to have_received(:application_rejected_awaiting_decision_only).with(application_choice)
+        end
       end
 
-      it 'returns nil' do
-        expect(described_class.new(application_choice: application_choice).call).to eq(nil)
+      describe 'when all remaining applications are with offer' do
+        before do
+          application_choice_with_offer
+
+          allow(CandidateMailer).to receive(:application_rejected_offers_only).and_return(mail)
+          described_class.new(application_choice: application_choice).call
+        end
+
+        it 'the application_rejected_offers_only email is sent to the candidate' do
+          expect(CandidateMailer).to have_received(:application_rejected_offers_only).with(application_choice)
+        end
       end
     end
   end
