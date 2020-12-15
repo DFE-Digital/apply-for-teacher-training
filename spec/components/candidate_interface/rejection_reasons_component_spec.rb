@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent do
     end
 
     context 'when there are no rejected application choices with feedback' do
-      let!(:application_choice) { create(:application_choice, :with_rejection, application_form: application_form, rejection_reason: nil) }
+      let(:application_choice) { create(:application_choice, :with_rejection, application_form: application_form, rejection_reason: nil) }
 
       it 'does not render' do
         result = render_inline(described_class.new(application_form: application_form))
