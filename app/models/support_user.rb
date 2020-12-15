@@ -1,10 +1,9 @@
 class SupportUser < ActiveRecord::Base
   include Discard::Model
+  include AuthenticatedUsingMagicLinks
 
   validates :dfe_sign_in_uid, presence: true
   validates :email_address, presence: true, uniqueness: true
-
-  has_many :authentication_tokens, as: :authenticable, dependent: :destroy
 
   before_save :downcase_email_address
 
