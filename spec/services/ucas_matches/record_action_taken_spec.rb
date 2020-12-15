@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UCASMatches::RecordActionTaken, sidekiq: true do
-  let!(:ucas_match) { create(:ucas_match, matching_state: 'new_match', action_taken: nil) }
+  let!(:ucas_match) { create(:ucas_match, action_taken: nil) }
 
   describe '#call' do
     it 'records the action taken when given a string' do
