@@ -2,44 +2,28 @@ module SupportInterface
   module ApplicationForms
     class ReferencesController < SupportInterfaceController
       def edit_reference_details
-        @reference = EditReferenceDetailsForm.new(
-          ApplicationForm.find(params[:application_form_id]),
-          ApplicationReference.find(params[:reference_id]),
-        )
+        @details_form = EditReferenceDetailsForm.build_from_reference(reference)
       end
 
       def update_reference_details
-        @reference = EditReferenceDetailsForm.new(
-          ApplicationForm.find(params[:application_form_id]),
-          ApplicationReference.find(params[:reference_id]),
-        )
+        @details_form = EditReferenceDetailsForm.new(edit_reference_details_params)
 
-        @reference.assign_attributes(edit_reference_details_params)
-        if @reference.valid?
-          @reference.save!
+        if @details_form.save(reference)
           flash[:success] = 'Reference updated'
-          redirect_to support_interface_application_form_path(@reference.application_form)
+          redirect_to support_interface_application_form_path(reference.application_form)
         else
           render :edit_reference_details
         end
       end
 
       def edit_reference_feedback
-        @reference = EditReferenceFeedbackForm.new(
-          ApplicationForm.find(params[:application_form_id]),
-          ApplicationReference.find(params[:reference_id]),
-        )
+        @feedback_form = EditReferenceFeedbackForm.build_from_reference(reference)
       end
 
       def update_reference_feedback
-        @reference = EditReferenceFeedbackForm.new(
-          ApplicationForm.find(params[:application_form_id]),
-          ApplicationReference.find(params[:reference_id]),
-        )
+        @feedback_form = EditReferenceFeedbackForm.new(edit_reference_feedback_params)
 
-        @reference.assign_attributes(edit_reference_feedback_params)
-        if @reference.valid?
-          @reference.save!
+        if @feedback_form.save(reference)
           flash[:success] = 'Reference updated'
           redirect_to support_interface_application_form_path(@reference.application_form)
         else
@@ -55,6 +39,10 @@ module SupportInterface
 
       def edit_reference_feedback_params
         params.require(:support_interface_application_forms_edit_reference_feedback_form).permit(:feedback, :audit_comment)
+      end
+
+      def reference
+        @reference = ApplicationReference.find(params[:reference_id])
       end
     end
   end

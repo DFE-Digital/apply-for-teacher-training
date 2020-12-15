@@ -1,9 +1,9 @@
-<% content_for :browser_title, title_with_error_prefix('Edit reference feedback', @reference.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix('Edit reference feedback', @feedback_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path(@reference.application_form)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @reference, url: support_interface_application_form_update_reference_feedback_path do |f| %>
+    <%= form_with model: @feedback_form, url: support_interface_application_form_update_reference_feedback_path do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_fieldset legend: { text: 'Edit reference feedback', size: 'l' } do %>
