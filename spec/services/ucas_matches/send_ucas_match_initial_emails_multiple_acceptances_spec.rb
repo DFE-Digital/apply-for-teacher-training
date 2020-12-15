@@ -2,12 +2,8 @@ require 'rails_helper'
 
 RSpec.describe UCASMatches::SendUCASMatchInitialEmailsMultipleAcceptances do
   describe '#call' do
-    let(:course) { create(:course, recruitment_cycle_year: 2020) }
     let(:candidate) { create(:candidate) }
-    let(:course_option) { create(:course_option, course: course) }
-    let(:application_choice) { create(:application_choice, course_option: course_option) }
-    let(:application_form) { create(:completed_application_form, candidate_id: candidate.id, application_choices: [application_choice]) }
-    let(:ucas_match) { create(:ucas_match, recruitment_cycle_year: 2020, candidate: candidate, matching_data: [matching_data]) }
+    let(:ucas_match) { create(:ucas_match, :with_multiple_acceptances) }
     let(:mail) { instance_double(ActionMailer::MessageDelivery, deliver_later: true) }
 
     context 'when the application has been accepted on both apply and ucas' do
@@ -20,10 +16,7 @@ RSpec.describe UCASMatches::SendUCASMatchInitialEmailsMultipleAcceptances do
       end
 
       describe 'when the initial emails have not been sent already' do
-        let(:matching_data) { { 'Scheme' => 'B', 'Course code' => course.code.to_s, 'Provider code' => course.provider.code.to_s, 'Apply candidate ID' => candidate.id.to_s } }
-
         before do
-          application_form
           allow(CandidateMailer).to receive(:ucas_match_initial_email_multiple_acceptances).and_return(mail)
           described_class.new(ucas_match).call
         end

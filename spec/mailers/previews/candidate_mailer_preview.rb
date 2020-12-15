@@ -523,9 +523,8 @@ class CandidateMailerPreview < ActionMailer::Preview
     )
     ucas_match = FactoryBot.build_stubbed(
       :ucas_match,
+      :need_to_send_reminder_emails,
       application_form: application_choice.application_form,
-      action_taken: 'initial_emails_sent',
-      candidate_last_contacted_at: Time.zone.local(2019, 10, 14),
     )
 
     CandidateMailer.ucas_match_reminder_email_duplicate_applications(application_choice, ucas_match)
@@ -534,8 +533,7 @@ class CandidateMailerPreview < ActionMailer::Preview
   def ucas_match_reminder_email_multiple_acceptances
     ucas_match = FactoryBot.build_stubbed(
       :ucas_match,
-      action_taken: 'initial_emails_sent',
-      candidate_last_contacted_at: Time.zone.local(2019, 10, 14),
+      :need_to_send_reminder_emails,
     )
 
     CandidateMailer.ucas_match_reminder_email_multiple_acceptances(ucas_match)

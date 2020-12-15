@@ -6,9 +6,9 @@ RSpec.describe SupportInterface::UCASMatchTableComponent do
   let(:course_option) { create(:course_option, course: course) }
   let(:application_choice) { create(:application_choice, :with_offer, course_option: course_option) }
   let(:application_form) { create(:application_form, candidate: candidate, application_choices: [application_choice]) }
-  let(:ucas_match_for_apply_application) { create(:ucas_match, scheme: 'D', application_form: application_form) }
-  let(:ucas_match_for_ucas_application) { create(:ucas_match, scheme: 'U', ucas_status: :rejected, application_form: application_form) }
-  let(:ucas_match) { create(:ucas_match, scheme: 'B', ucas_status: :rejected, application_form: application_form) }
+  let(:ucas_match_for_apply_application) { create(:ucas_match, scheme: %w[D], application_form: application_form) }
+  let(:ucas_match_for_ucas_application) { create(:ucas_match, scheme: %w[U D], ucas_status: :rejected, application_form: application_form) }
+  let(:ucas_match) { create(:ucas_match, scheme: %w[B], ucas_status: :rejected, application_form: application_form) }
   let(:ucas_match_course_only_on_ucas) do
     create(:ucas_match,
            matching_data: [{

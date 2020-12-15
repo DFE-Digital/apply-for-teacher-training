@@ -110,7 +110,7 @@ RSpec.feature 'See UCAS matches' do
       }
 
     create(:ucas_match, application_form: @application_form, matching_data: [ucas_matching_data, dfe_matching_data, invalid_dfe_matching_data])
-    create(:ucas_match, scheme: 'B', ucas_status: :offer, application_form: @application_form2)
+    create(:ucas_match, scheme: %w[B], ucas_status: :offer, application_form: @application_form2)
   end
 
   def when_i_go_to_ucas_matches_page

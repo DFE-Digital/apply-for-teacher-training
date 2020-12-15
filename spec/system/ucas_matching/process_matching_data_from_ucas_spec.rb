@@ -44,7 +44,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     course_option3 = create(:course_option, course: course3)
     application_choice3 = create(:submitted_application_choice, course_option: course_option3)
     application_form = create(:completed_application_form, candidate: @previously_matched_changed, application_choices: [application_choice1, application_choice2, application_choice3])
-    create(:ucas_match, application_form: application_form, scheme: 'U', ucas_status: :offer)
+    create(:ucas_match, application_form: application_form, scheme: %w[U], ucas_status: :offer)
   end
 
   def and_there_is_a_previously_matched_candidate_with_no_changes
@@ -55,9 +55,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     application_form = create(:completed_application_form, candidate: @previously_matched_unchanged, application_choices: [application_choice])
     create(:ucas_match,
            application_form: application_form,
-           scheme: 'B',
-           ucas_status: :offer,
-           matching_data: [{ 'Apply candidate ID' => '99957', 'Provider code' => '1EP', 'Course code' => 'UVW', 'Trackable applicant key' => 'AA716BA0F69AE605' }])
+           matching_data: [{ 'Scheme' => 'D', 'Apply candidate ID' => '99957', 'Provider code' => '1EP', 'Course code' => 'UVW', 'Offers' => '0', 'Trackable applicant key' => 'ABC99957DEFпїЅ' }])
   end
 
   def and_ucas_has_uploaded_a_file_to_our_shared_folder
