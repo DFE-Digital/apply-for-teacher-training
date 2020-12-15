@@ -309,13 +309,13 @@ RSpec.describe UCASMatch do
 
   describe '#requires_manual_action?' do
     it 'returns true if a support agent needs to request withdrawal from UCAS' do
-      ucas_match = create(:ucas_match, matching_state: 'new_match', scheme: 'B', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: 6.business_days.before(Time.zone.now))
+      ucas_match = create(:ucas_match, scheme: 'B', action_taken: 'reminder_emails_sent', candidate_last_contacted_at: 6.business_days.before(Time.zone.now))
 
       expect(ucas_match.requires_manual_action?).to eq(true)
     end
 
     it 'returns false if the next action is automated' do
-      ucas_match = create(:ucas_match, matching_state: 'new_match', action_taken: 'initial_emails_sent', candidate_last_contacted_at: 6.business_days.before(Time.zone.now))
+      ucas_match = create(:ucas_match, action_taken: 'initial_emails_sent', candidate_last_contacted_at: 6.business_days.before(Time.zone.now))
 
       expect(ucas_match.requires_manual_action?).to eq(false)
     end

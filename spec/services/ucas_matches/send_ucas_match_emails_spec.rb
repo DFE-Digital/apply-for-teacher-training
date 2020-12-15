@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe UCASMatches::SendUCASMatchEmails, sidekiq: true do
-  let!(:ucas_match_no_action_needed) { create(:ucas_match, scheme: 'D', matching_state: 'new_match', action_taken: nil) }
+  let!(:ucas_match_no_action_needed) { create(:ucas_match, scheme: 'D', action_taken: nil) }
   let!(:application_form) { create(:application_form, application_choices: [create(:submitted_application_choice)]) }
   let!(:ucas_match_action_needed) do
     create(:ucas_match,
-           matching_state: 'new_match',
            application_form: application_form,
            scheme: 'B',
            ucas_status: :awaiting_provider_decision,
@@ -13,7 +12,6 @@ RSpec.describe UCASMatches::SendUCASMatchEmails, sidekiq: true do
   end
   let!(:ucas_match_to_send_remider_emails) do
     create(:ucas_match,
-           matching_state: 'new_match',
            scheme: 'B',
            ucas_status: :awaiting_provider_decision,
            action_taken: 'initial_emails_sent',
