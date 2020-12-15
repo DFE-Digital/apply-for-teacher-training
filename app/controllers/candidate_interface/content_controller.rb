@@ -18,6 +18,10 @@ module CandidateInterface
       render_content_page :terms_candidate
     end
 
+    def complaints
+      render_content_page :complaints
+    end
+
     ProviderCourses = Struct.new(:provider_name, :courses)
     RegionProviderCourses = Struct.new(:region_code, :provider_name, :courses)
 

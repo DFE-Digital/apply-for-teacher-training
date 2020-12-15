@@ -9,6 +9,9 @@ RSpec.feature 'Provider content' do
     when_i_click_on_the_cookie_policy
     then_i_can_see_the_cookie_policy
 
+    when_i_click_on_complaints
+    then_i_can_see_the_complaints_page
+
     when_i_click_on_the_privacy_policy
     then_i_can_see_the_privacy_policy
 
@@ -34,6 +37,15 @@ RSpec.feature 'Provider content' do
 
   def then_i_can_see_the_cookie_policy
     expect(page).to have_content(t('page_titles.cookies_provider'))
+  end
+
+  def when_i_click_on_complaints
+    within('.govuk-footer') { click_link t('layout.support_links.complaints') }
+  end
+
+  def then_i_can_see_the_complaints_page
+    expect(page).to have_content(t('page_titles.complaints'))
+    expect(page).to have_content('Make a complaint about this service')
   end
 
   def when_i_click_on_the_privacy_policy
