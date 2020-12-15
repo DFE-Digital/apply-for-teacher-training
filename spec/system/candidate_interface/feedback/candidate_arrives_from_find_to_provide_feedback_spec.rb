@@ -5,7 +5,6 @@ RSpec.describe 'Candidate providing feedback on Find' do
 
   scenario 'Candidate arrives from Find and provides feedback' do
     given_i_arrive_from_the_course_show_page
-    and_the_find_feedback_flag_is_active
 
     when_i_complete_and_submit_the_feedback_form_with_an_invalid_email_address
     then_i_am_asked_to_provide_a_valid_email_address
@@ -31,10 +30,6 @@ RSpec.describe 'Candidate providing feedback on Find' do
 
   def given_i_arrive_from_the_course_show_page
     visit candidate_interface_find_feedback_path(find_controller: 'courses', path: '/course/T92/X130')
-  end
-
-  def and_the_find_feedback_flag_is_active
-    FeatureFlag.activate('find_feedback')
   end
 
   def when_i_complete_and_submit_the_feedback_form_with_an_invalid_email_address
