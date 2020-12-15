@@ -1,0 +1,16 @@
+<% content_for :title, title_with_error_prefix("Search for a course to add to #{@course_search.applicant_name}’s application", @course_search.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(support_interface_application_form_path) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+            model: @course_search,
+            url: support_interface_application_form_search_course_path,
+        ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_text_field :course_code, label: { text: 'Course code' }, width: 5 %>
+      <%= f.govuk_submit "Search" %>
+    <% end %>
+  </div>
+</div>

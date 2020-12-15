@@ -1,0 +1,3 @@
+<% if application_form.submitted? && !application_form.has_the_maximum_number_of_course_choices? %>
+  <%= govuk_button_link_to 'Add a course', support_interface_application_form_search_course_new_path(application_form_id: application_form.id), form_class: 'govuk-!-display-inline-block' %>
+<% end %>

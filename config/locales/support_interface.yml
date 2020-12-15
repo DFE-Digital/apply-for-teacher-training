@@ -5,3 +5,14 @@ en:
       confirm_restore: Are you sure you want to restore support user %{email}?
       remove: Remove support user
       restore: Restore support user
+  activemodel:
+    errors:
+      models:
+        support_interface/application_forms/course_search_form:
+          attributes:
+            course_code:
+              blank: Please enter a course code
+        support_interface/application_forms/pick_course_form:
+          attributes:
+            course_option_id:
+              blank: Please select a course
