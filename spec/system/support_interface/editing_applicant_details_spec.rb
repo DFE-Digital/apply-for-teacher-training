@@ -13,20 +13,10 @@ RSpec.feature 'Editing application details' do
     and_i_submit_the_update_form
     then_i_should_see_relevant_blank_error_messages
 
-    when_i_supply_a_new_first_name
-    and_i_supply_a_new_last_name
-    and_i_supply_a_new_date_of_birth
-    and_i_supply_a_new_phone_number
-    and_i_supply_a_new_email_address
-    and_i_add_a_note_for_the_audit_log
+    when_i_supply_new_applicant_details
     and_i_submit_the_update_form
-
     then_i_should_see_a_flash_message
-    and_i_should_see_the_new_name_in_full
-    and_i_should_see_the_new_date_of_birth
-    and_i_should_see_the_new_phone_number
-    and_i_should_see_the_new_email_address
-    and_i_should_see_my_comment_in_the_audit_log
+    and_i_should_see_the_new_applicant_details
   end
 
   def given_i_am_a_support_user
@@ -118,5 +108,22 @@ RSpec.feature 'Editing application details' do
   def and_i_should_see_my_comment_in_the_audit_log
     click_on 'History'
     expect(page).to have_content 'https://becomingateacher.zendesk.com/12345'
+  end
+
+  def when_i_supply_new_applicant_details
+    when_i_supply_a_new_first_name
+    and_i_supply_a_new_last_name
+    and_i_supply_a_new_date_of_birth
+    and_i_supply_a_new_phone_number
+    and_i_supply_a_new_email_address
+    and_i_add_a_note_for_the_audit_log
+  end
+
+  def and_i_should_see_the_new_applicant_details
+    and_i_should_see_the_new_name_in_full
+    and_i_should_see_the_new_date_of_birth
+    and_i_should_see_the_new_phone_number
+    and_i_should_see_the_new_email_address
+    and_i_should_see_my_comment_in_the_audit_log
   end
 end
