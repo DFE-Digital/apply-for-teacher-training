@@ -26,4 +26,31 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent do
       end
     end
   end
+
+  context 'with `structured_reasons_for_rejection` feature flag active' do
+    before { FeatureFlag.activate(:structured_reasons_for_rejection) }
+
+    it 'removes the link to Find' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__value').to_html).to include("#{application_choice.course.name} (#{application_choice.course.code})")
+      expect(result.css('a').to_html).not_to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
+    end
+
+    it 'adds a status row' do
+      result = render_inline(described_class.new(application_form: application_form))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Status')
+      expect(result.css('.govuk-summary-list__value').text).to include('Unsuccessful')
+    end
+
+    context 'when there are no rejected application choices with feedback' do
+      let!(:application_choice) { create(:application_choice, :with_rejection, application_form: application_form, rejection_reason: nil) }
+
+      it 'does not render' do
+        result = render_inline(described_class.new(application_form: application_form))
+        expect(result.to_html).to be_blank
+      end
+    end
+  end
 end

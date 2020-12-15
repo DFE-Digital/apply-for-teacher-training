@@ -15,6 +15,10 @@ module CandidateInterface
       ].compact
     end
 
+    def render?
+      rejected_application_choices.present?
+    end
+
   private
 
     def course_details_row(application_choice)
@@ -60,6 +64,14 @@ module CandidateInterface
           key: 'Feedback',
           value: application_choice.rejection_reason,
         }
+      end
+    end
+
+    def rejected_application_choices
+      @rejected_application_choices ||= begin
+        rejected_applications = @application_form.application_choices.includes(:course, :provider, [:offered_course_option]).rejected
+        rejected_applications = rejected_applications.where('application_choices.rejection_reason IS NOT NULL OR application_choices.structured_rejection_reasons IS NOT NULL') if FeatureFlag.active?(:structured_reasons_for_rejection)
+        rejected_applications
       end
     end
   end
