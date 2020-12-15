@@ -29,6 +29,7 @@ module SupportInterface
       user_permissions_audits
         .map { |audit| audit.user.email_address }
         .uniq
+        .sort
     end
 
     def total_manage_users_users
@@ -138,6 +139,7 @@ module SupportInterface
       send("audits_for_#{permission_change}")
         .map { |audit| audit.user.email_address }
         .uniq
+        .sort
     end
   end
 end
