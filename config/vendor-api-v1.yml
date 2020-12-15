@@ -257,6 +257,50 @@ paths:
           "$ref": "#/components/responses/NotFound"
         '422':
           "$ref": "#/components/responses/UnprocessableEntity"
+  "/reference-data/gcse-subjects":
+    get:
+      tags:
+      - Reference data
+      responses:
+        '200':
+          description: An array of possible GCSE subjects. Candidates are offered these in an autocomplete when filling in the form, but are also able to provide free-text responses.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ListResponse"
+  "/reference-data/gcse-grades":
+    get:
+      tags:
+      - Reference data
+      responses:
+        '200':
+          description: An array of possible GCSE grades including double-award grades.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ListResponse"
+  "/reference-data/a-and-as-level-subjects":
+    get:
+      tags:
+      - Reference data
+      responses:
+        '200':
+          description: An array of possible A and AS level subjects. Candidates are offered these in an autocomplete when filling in the form, but are also able to provide free-text responses.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ListResponse"
+  "/reference-data/a-and-as-level-grades":
+    get:
+      tags:
+      - Reference data
+      responses:
+        '200':
+          description: An array of possible A and AS level grades.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ListResponse"
   "/test-data/regenerate":
     post:
       tags:
@@ -1248,6 +1292,15 @@ components:
               items:
                 type: string
                 maxLength: 10
+    ListResponse:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: array
+          items:
+            type: string
   parameters:
     application_id:
       name: application_id
