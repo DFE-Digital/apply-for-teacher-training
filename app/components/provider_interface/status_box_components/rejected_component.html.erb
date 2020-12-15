@@ -6,7 +6,7 @@
   </p>
   <%= render ProviderInterface::ReasonsForRejectionComponent.new(
     application_choice: @application_choice,
-    reasons_for_rejection: ProviderInterface::ReasonsForRejection.new(@application_choice.structured_rejection_reasons),
+    reasons_for_rejection: ReasonsForRejection.new(@application_choice.structured_rejection_reasons),
   ) %>
 <% else %>
   <%= render SummaryListComponent.new(rows: rejected_rows) %>
