@@ -325,10 +325,6 @@ RSpec.describe UCASMatchedApplication do
     context 'when the application_choice status is set to withdrawn' do
       let(:application_choice) { create(:application_choice, course_option: course_option, status: 'withdrawn') }
 
-      before do
-        application_choice
-      end
-
       it 'retuns true' do
         dfe_matching_data =
           { 'Course code' => course.code.to_s,
@@ -341,6 +337,8 @@ RSpec.describe UCASMatchedApplication do
     end
 
     context 'when the application_choice status is not set to withdrawn' do
+      let(:application_choice) { create(:application_choice, course_option: course_option, status: (ApplicationStateChange.valid_states - [:withdrawn]).sample) }
+
       it 'retuns false' do
         dfe_matching_data =
           { 'Course code' => course.code.to_s,
