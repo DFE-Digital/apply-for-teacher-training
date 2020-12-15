@@ -5,16 +5,12 @@ module SupportInterface
     ACTIONS = {
       initial_emails_sent: {
         description: 'Send initial emails',
-        button_text: 'Send emails',
-        form_path: :support_interface_send_initial_emails_path,
-        instructions: 'We need to contact the candidate and the provider.',
+        instructions: 'Emails to the candidate and the provider will be sent automatically.',
         past_tense_description: 'sent the initial emails',
       },
       reminder_emails_sent: {
         description: 'Send a reminder email',
-        button_text: 'Send a reminder email',
-        form_path: :support_interface_send_reminder_email_path,
-        instructions: 'We need to contact the candidate again to remind them they need to take action.',
+        instructions: 'A reminder email to the candidate will be sent automatically.',
         past_tense_description: 'sent the reminder emails',
       },
       ucas_withdrawal_requested: {

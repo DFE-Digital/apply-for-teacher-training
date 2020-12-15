@@ -124,6 +124,8 @@ module UCASMatching
       SlackNotificationWorker.perform_async(message, url)
 
       send_action_needed_slack_notification
+
+      UCASMatches::SendUCASMatchEmails.perform_async
     end
 
     def send_action_needed_slack_notification

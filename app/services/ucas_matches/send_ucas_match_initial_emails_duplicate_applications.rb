@@ -1,4 +1,4 @@
-module SupportInterface
+module UCASMatches
   class SendUCASMatchInitialEmailsDuplicateApplications
     attr_reader :ucas_match
 
@@ -7,7 +7,7 @@ module SupportInterface
     end
 
     def call
-      raise 'UCAS Match initial emails already sent' if ucas_match.initial_emails_sent?
+      raise "Initial emails for UCAS match ##{ucas_match.id} were already sent" if ucas_match.initial_emails_sent?
 
       application_choice = ucas_match.application_choices_for_same_course_on_both_services.first
 

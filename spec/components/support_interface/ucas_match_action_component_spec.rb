@@ -19,9 +19,7 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
       result = render_inline(described_class.new(ucas_match))
 
       expect(result.text).to include('Action needed Send initial emails')
-      expect(result.css('input').attr('value').value).to include('Send emails')
-      expect(result.css('form').attr('action').value).to include('/send-initial-emails')
-      expect(result.text).to include('We need to contact the candidate and the provider.')
+      expect(result.text).to include('Emails to the candidate and the provider will be sent automatically.')
     end
 
     it 'renders correct information after sending the initial emails' do
@@ -50,9 +48,7 @@ RSpec.describe SupportInterface::UCASMatchActionComponent do
         result = render_inline(described_class.new(ucas_match))
 
         expect(result.text).to include('Action needed Send a reminder email')
-        expect(result.css('input').attr('value').value).to include('Send a reminder email')
-        expect(result.css('form').attr('action').value).to include('/send-reminder-email')
-        expect(result.text).to include('We need to contact the candidate again')
+        expect(result.text).to include('A reminder email to the candidate will be sent automatically.')
       end
     end
 

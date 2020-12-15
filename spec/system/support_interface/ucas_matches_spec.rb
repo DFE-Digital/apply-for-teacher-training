@@ -9,7 +9,7 @@ RSpec.feature 'See UCAS matches' do
     end
   end
 
-  scenario 'Support agent visits UCAS matches pages' do
+  scenario 'Support agent visits UCAS matches pages', sidekiq: true do
     given_i_am_a_support_user
     and_there_are_applications_in_the_system
     and_there_are_ucas_matches_in_the_system
@@ -32,13 +32,13 @@ RSpec.feature 'See UCAS matches' do
 
     when_i_follow_the_link_to_ucas_match_for_a_candidate_which_needs_an_action
     then_i_see_that_i_need_to 'Send initial emails'
-    and_when_i_click 'Send emails'
+    given_the_send_ucas_matches_emails_worker_run
     then_i_see_last_performed_action_is 'sent the initial emails'
 
     given_five_working_days_passed
     when_i_visit_the_page_again
     then_i_see_that_i_need_to 'Send a reminder email'
-    and_when_i_click 'Send a reminder email'
+    given_the_send_ucas_matches_emails_worker_run
     then_i_see_last_performed_action_is 'sent the reminder emails'
 
     given_five_more_working_days_passed
@@ -56,6 +56,13 @@ RSpec.feature 'See UCAS matches' do
 
   def given_i_am_a_support_user
     sign_in_as_support_user
+  end
+
+  def given_the_send_ucas_matches_emails_worker_run
+    Sidekiq::Worker.clear_all
+    UCASMatches::SendUCASMatchEmails.perform_async
+    Sidekiq::Worker.drain_all
+    visit current_path
   end
 
   def and_there_are_applications_in_the_system

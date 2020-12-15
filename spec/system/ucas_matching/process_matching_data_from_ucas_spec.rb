@@ -11,6 +11,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
     a_file_download_check_is_logged { when_the_daily_download_runs }
     then_we_have_received_a_slack_message
+    and_we_have_sent_emails_to_the_candidate_and_the_provider
 
     when_i_visit_the_ucas_matches_page_in_support
     then_the_new_match_is_created
@@ -24,7 +25,8 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   def given_there_is_a_newly_matched_candidate
     @not_previously_matched = Candidate.create_with(email_address: 'not_previously_matched@abc.com').find_or_create_by(id: 999213)
-    course = create(:course, code: 'XYZ', provider: create(:provider, code: 'XX'))
+    @provider_user = create(:provider_user, send_notifications: true)
+    course = create(:course, code: 'XYZ', provider: create(:provider, code: 'XX', provider_users: [@provider_user]))
     course_option = create(:course_option, course: course)
     application_choice = create(:submitted_application_choice, course_option: course_option)
     create(:completed_application_form, candidate: @not_previously_matched, application_choices: [application_choice])
@@ -114,6 +116,14 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
   def then_we_have_received_a_slack_message
     expect_slack_message_with_text('It contained 1 new match, 1 updated match, and 1 match we’ve already seen.')
     expect_slack_message_with_text('We have 1 match requiring action.')
+  end
+
+  def and_we_have_sent_emails_to_the_candidate_and_the_provider
+    candidate_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == @not_previously_matched.email_address }
+    expect(candidate_email.subject).to include 'Action required: it looks like you submitted a duplicate application'
+
+    provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == @provider_user.email_address }
+    expect(provider_email.subject).to include 'Duplicate applicant identified'
   end
 
   def when_i_visit_the_ucas_matches_page_in_support

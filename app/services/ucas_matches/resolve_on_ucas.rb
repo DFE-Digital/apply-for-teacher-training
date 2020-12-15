@@ -7,9 +7,7 @@ module UCASMatches
     end
 
     def call
-      ucas_match.update!(action_taken: 'resolved_on_ucas',
-                         candidate_last_contacted_at: Time.zone.now)
-
+      UCASMatches::RecordActionTaken.new(ucas_match, :resolved_on_ucas).call
       UCASMatches::SendResolvedOnUCASEmails.new(ucas_match).call
     end
   end

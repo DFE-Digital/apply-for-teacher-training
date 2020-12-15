@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::SendUCASMatchInitialEmailsDuplicateApplications do
+RSpec.describe UCASMatches::SendUCASMatchInitialEmailsDuplicateApplications do
   describe '#call' do
     let(:course) { create(:course, recruitment_cycle_year: 2020) }
     let(:candidate) { create(:candidate) }
@@ -16,7 +16,7 @@ RSpec.describe SupportInterface::SendUCASMatchInitialEmailsDuplicateApplications
         let(:ucas_match) { create(:ucas_match, action_taken: 'initial_emails_sent', candidate: candidate) }
 
         it 'when the emails have already been sent it throws an exception' do
-          expect { described_class.new(ucas_match).call }.to raise_error('UCAS Match initial emails already sent')
+          expect { described_class.new(ucas_match).call }.to raise_error("Initial emails for UCAS match ##{ucas_match.id} were already sent")
         end
       end
 
