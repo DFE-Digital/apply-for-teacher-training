@@ -7,7 +7,7 @@ en:
     declined:
       subject: "%{candidate_name} (%{support_reference}) declined an offer"
     account_created:
-      subject: Sign in to Manage teacher training applications
+      subject: Sign in to manage teacher training applications
     application_submitted:
       subject: Application received for %{course_name_and_code}
     application_submitted_with_safeguarding_issues:
@@ -21,7 +21,7 @@ en:
     ucas_match:
       initial_email:
         duplicate_applications:
-          subject: "Duplicate applicant identified"
+          subject: "%{candidate_name} applied for your course twice"
       resolved_on_ucas:
         subject: Duplicate applicant removed from UTT
       resolved_on_apply:

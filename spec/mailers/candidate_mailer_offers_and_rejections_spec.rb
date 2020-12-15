@@ -35,7 +35,7 @@ RSpec.describe CandidateMailer, type: :mailer do
   describe '.new_offer_single_offer' do
     it_behaves_like(
       'a mail with subject and content', :new_offer_single_offer,
-      'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
+      'Make a decision: successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
       'decline by default date' => 'Make a decision by 25 February 2020',
       'first_condition' => 'DBS check',
@@ -56,7 +56,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content', :new_offer_single_offer,
-        'Offer received for Forensic Science (E0FO) at Falconholt Technical College',
+        'Make a decision: successful application for Falconholt Technical College',
         'heading' => 'Dear Bob',
         'decline by default date' => 'Make a decision by 25 February 2020',
         'first_condition' => 'DBS check',
@@ -85,7 +85,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content', :new_offer_multiple_offers,
-      'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
+      'Make a decision: successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
       'decline by default date' => 'Make a decision by 25 February 2020',
       'first_condition' => 'DBS check',
@@ -110,7 +110,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content', :new_offer_decisions_pending,
-      'Offer received for Applied Science (Psychology) (3TT5) at Brighthurst Technical College',
+      'Successful application for Brighthurst Technical College',
       'heading' => 'Dear Bob',
       'first_condition' => 'DBS check',
       'second_condition' => 'Pass exams',
@@ -354,7 +354,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     it_behaves_like(
       'a mail with subject and content',
       :feedback_received_for_application_rejected_by_default,
-      'Feedback on your application for Nevermind',
+      'Feedback on your application for Geffen Records',
       'heading' => 'Dear Kurt',
       'provider name' => 'Geffen Records did not respond in time',
       'name and code for course' => 'Nevermind (NV4)',

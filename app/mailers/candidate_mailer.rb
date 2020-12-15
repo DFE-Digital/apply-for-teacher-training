@@ -91,7 +91,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       @application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.feedback_received_for_application_rejected_by_default.subject', course_name: @course_option.course.name_and_code),
+      subject: I18n.t!('candidate_mailer.feedback_received_for_application_rejected_by_default.subject', provider_name: @course_option.course.provider.name),
     )
   end
 

@@ -1,8 +1,8 @@
 en:
   candidate_offer:
     single_offer:
-      subject: "Offer received for %{course_name} at %{provider_name}: make a decision"
+      subject: "Make a decision: successful application for %{provider_name}"
     multiple_offers:
-      subject: "Offer received for %{course_name} at %{provider_name}: make a decision"
+      subject: "Make a decision: successful application for %{provider_name}"
     decisions_pending:
-      subject: "Offer received for %{course_name} at %{provider_name}"
+      subject: "Successful application for %{provider_name}"

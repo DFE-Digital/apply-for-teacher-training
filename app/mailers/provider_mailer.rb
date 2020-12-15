@@ -95,12 +95,11 @@ class ProviderMailer < ApplicationMailer
 
   def ucas_match_initial_email_duplicate_applications(provider_user, application_choice)
     @application_form = application_choice.application_form
-    @course_name_and_code = application_choice.course.name_and_code
 
     email_for_provider(
       provider_user,
       @application_form,
-      subject: I18n.t!('provider_mailer.ucas_match.initial_email.duplicate_applications.subject'),
+      subject: I18n.t!('provider_mailer.ucas_match.initial_email.duplicate_applications.subject', candidate_name: application_choice.application_form.full_name),
     )
   end
 
