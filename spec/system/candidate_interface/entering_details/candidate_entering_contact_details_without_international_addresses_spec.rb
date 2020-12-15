@@ -94,8 +94,8 @@ RSpec.feature 'Entering their contact information without international_addresse
   end
 
   def and_i_incorrectly_fill_in_my_address
-    fill_in t('application_form.contact_information.address_line3.label'), with: 'London'
-    fill_in t('application_form.contact_information.postcode.label'), with: 'MUCH W0W'
+    fill_in t('application_form.contact_information.address_line3.uk.label'), with: 'London'
+    fill_in t('application_form.contact_information.postcode.uk.label'), with: 'MUCH W0W'
   end
 
   def then_i_should_see_validation_errors_for_my_address
@@ -105,8 +105,8 @@ RSpec.feature 'Entering their contact information without international_addresse
 
   def when_i_fill_in_my_address
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
-    fill_in t('application_form.contact_information.address_line3.label'), with: 'London'
-    fill_in t('application_form.contact_information.postcode.label'), with: 'SW1P 3BT'
+    fill_in t('application_form.contact_information.address_line3.uk.label'), with: 'London'
+    fill_in t('application_form.contact_information.postcode.uk.label'), with: 'SW1P 3BT'
   end
 
   def and_i_submit_my_address

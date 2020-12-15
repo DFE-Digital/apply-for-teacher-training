@@ -78,5 +78,9 @@ module CandidateInterface
     def international?
       address_type == 'international'
     end
+
+    def label_for(attr)
+      I18n.t("application_form.contact_information.#{attr}.#{address_type}.label")
+    end
   end
 end

@@ -173,8 +173,8 @@ module CandidateHelper
     choose 'In the UK'
     click_button t('application_form.contact_information.base.button')
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
-    fill_in t('application_form.contact_information.address_line3.label'), with: 'London'
-    fill_in t('application_form.contact_information.postcode.label'), with: 'SW1P 3BT'
+    fill_in t('application_form.contact_information.address_line3.uk.label'), with: 'London'
+    fill_in t('application_form.contact_information.postcode.uk.label'), with: 'SW1P 3BT'
     click_button t('application_form.contact_information.address.button')
 
     check t('application_form.completed_checkbox')
