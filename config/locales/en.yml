@@ -280,6 +280,8 @@ en:
               too_long: Feedback must be %{count} characters or fewer
             audit_comment:
               blank: You must provide an audit comment
+            send_emails:
+              blank: You must select an email option
         provider_interface/pick_response_form:
           attributes:
             decision:

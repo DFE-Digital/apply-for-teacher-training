@@ -15,6 +15,11 @@ en:
         label: What is the referee’s relationship to the candidate?
       feedback:
         label: What is the referee’s feedback?
+      audit_comment:
+        label: Audit log comment
+        hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
+      send_emails:
+        label: Send notification emails to candidate and referee?
   activemodel:
     errors:
       models:

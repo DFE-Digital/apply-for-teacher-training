@@ -7,6 +7,7 @@ module SupportInterface
 
       validates :feedback, presence: true, word_count: { maximum: 500 }
       validates :audit_comment, presence: true
+      validates :send_emails, presence: true
 
       def self.build_from_reference(reference)
         new(feedback: reference.feedback)
