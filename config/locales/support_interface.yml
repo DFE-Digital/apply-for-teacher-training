@@ -20,6 +20,16 @@ en:
         hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
       send_emails:
         label: Send notification emails to candidate and referee?
+    edit_address_details_form:
+      address_types:
+        label: Where does the candidate live?
+      address_details:
+        label: What is the candidate’s address?
+      international_address:
+        label: International address
+      audit_comment:
+        label: Audit log comment
+        hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
   activemodel:
     errors:
       models:
