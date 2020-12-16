@@ -33,7 +33,7 @@ module ProviderInterface
           'email' => application.application_form.candidate.email_address,
           'recruitment_cycle_year' => application.application_form.recruitment_cycle_year,
           'provider_code' => application.provider.code,
-          'accrediting_provider_name' => application.accredited_provider&.name,
+          'accredited_provider_name' => application.accredited_provider&.name,
           'course_code' => application.course.code,
           'site_code' => application.site.code,
           'study_mode' => study_mode(application),

@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ApplicationsExportsController < ProviderInterfaceController
+  class HesaExportController < ProviderInterfaceController
     before_action :render_404_unless_feature_enabled
 
     def export

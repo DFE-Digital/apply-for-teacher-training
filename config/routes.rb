@@ -519,8 +519,11 @@ Rails.application.routes.draw do
 
     get '/applications' => 'application_choices#index'
 
-    get '/applications/export/new' => 'applications_exports#new', as: :new_applications_export
-    get '/applications/export' => 'applications_exports#export', as: :applications_export
+    get '/applications/hesa-export/new' => 'hesa_export#new', as: :new_hesa_export
+    get '/applications/hesa-export' => 'hesa_export#export', as: :hesa_export
+
+    get 'applications/data-export/new' => 'application_data_export#new', as: :new_application_data_export
+    get 'applications/data-export' => 'application_data_export#export', as: :application_data_export
 
     scope path: '/applications/:application_choice_id' do
       get '/' => 'application_choices#show', as: :application_choice

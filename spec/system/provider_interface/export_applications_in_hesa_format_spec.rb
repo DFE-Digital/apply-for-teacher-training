@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Export applications' do
+RSpec.feature 'Export applications in HESA format' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
@@ -32,13 +32,12 @@ RSpec.feature 'Export applications' do
   end
 
   def when_i_visit_the_export_applications_page
-    visit provider_interface_applications_path
-    click_on 'Export data'
+    visit provider_interface_new_hesa_export_path
   end
 
   def and_i_click_export_data
-    expect(page).to have_content('The export will include all candidates who have accepted an offer.')
-    expect(page).to have_content('Diversity information will only be included if you have permission to view it.')
+    expect(page).to have_content('The data will include all candidates who have accepted an offer from any of your organisations.')
+    expect(page).to have_content('Diversity information will be marked confidential if you do not have permission to view it.')
 
     click_button 'Export data'
   end
@@ -46,7 +45,7 @@ RSpec.feature 'Export applications' do
   def then_i_can_download_application_data_as_csv
     csv = CSV.parse(page.body, headers: true)
     expect(csv.headers).to eq(%w[id status first_name last_name date_of_birth nationality
-                                 country email recruitment_cycle_year provider_code accrediting_provider_name course_code site_code
+                                 country email recruitment_cycle_year provider_code accredited_provider_name course_code site_code
                                  study_mode SBJCA QLAIM FIRSTDEG DEGTYPE DEGSBJ DEGCLSS institution_country DEGSTDT DEGENDDT
                                  institution_details sex disabilities ethnicity])
 
