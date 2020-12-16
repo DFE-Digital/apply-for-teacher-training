@@ -33,7 +33,10 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
         expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_information.full_address.change_action')}")
       end
 
-      it 'renders component with correct values for an international address' do
+      # TODO: Remove this example when removing `international_addresses` feature flag
+      it 'renders component with correct values for an international address without `international_addresses` feature flag' do
+        FeatureFlag.deactivate(:international_addresses)
+
         application_form = build_stubbed(
           :application_form,
           phone_number: '+91 1234567890',
@@ -45,6 +48,25 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_information.full_address.label'))
         expect(result.css('.govuk-summary-list__value').to_html).to include('321 MG Road, Mumbai<br>India')
+        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path)
+        expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_information.full_address.change_action')}")
+      end
+
+      it 'renders component with correct values for an international address' do
+        FeatureFlag.activate(:international_addresses)
+
+        application_form = build_stubbed(
+          :application_form,
+          phone_number: '+91 1234567890',
+          address_type: 'international',
+          address_line1: '321 MG Road',
+          address_line3: 'Mumbai',
+          country: 'IN',
+        )
+        result = render_inline(described_class.new(application_form: application_form))
+
+        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_information.full_address.label'))
+        expect(result.css('.govuk-summary-list__value').to_html).to include('321 MG Road<br>Mumbai<br>India')
         expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path)
         expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_information.full_address.change_action')}")
       end
