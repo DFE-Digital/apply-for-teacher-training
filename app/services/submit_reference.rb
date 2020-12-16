@@ -2,15 +2,19 @@ class SubmitReference
   attr_reader :reference
   delegate :application_form, to: :reference
 
-  def initialize(reference:)
+  def initialize(reference:, send_emails: true)
     @reference = reference
+    @send_emails = send_emails
   end
 
   def save!
     reference_feedback_provided!
     cancel_feedback_requested_references if enough_references_have_been_provided?
-    CandidateMailer.reference_received(reference).deliver_later
-    RefereeMailer.reference_confirmation_email(application_form, reference).deliver_later
+
+    if @send_emails
+      CandidateMailer.reference_received(reference).deliver_later
+      RefereeMailer.reference_confirmation_email(application_form, reference).deliver_later
+    end
   end
 
 private

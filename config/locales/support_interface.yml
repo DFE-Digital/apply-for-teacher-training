@@ -5,6 +5,21 @@ en:
       confirm_restore: Are you sure you want to restore support user %{email}?
       remove: Remove support user
       restore: Restore support user
+    edit_reference_form:
+      name:
+        label: What is the referee’s name?
+      email_address:
+        label: What is the referee’s email address?
+        hint_text: In most cases, this should be a work address
+      relationship:
+        label: What is the referee’s relationship to the candidate?
+      feedback:
+        label: What is the referee’s feedback?
+      audit_comment:
+        label: Audit log comment
+        hint: This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here
+      send_emails:
+        label: Send notification emails to candidate and referee?
   activemodel:
     errors:
       models:
