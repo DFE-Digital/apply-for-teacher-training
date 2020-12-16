@@ -128,7 +128,6 @@ RSpec.describe CandidateMailer, type: :mailer do
         application_form: @application_form,
         course_option: course_option,
         status: :rejected,
-        rejection_reason: 'The application had little detail.',
         structured_rejection_reasons: {
           quality_of_application_y_n: 'Yes',
           quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],

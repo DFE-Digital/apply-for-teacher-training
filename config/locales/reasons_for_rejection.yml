@@ -1,5 +1,7 @@
 en:
   reasons_for_rejection:
+    single_rejection_reason:
+      title: 'Why your application was unsuccessful'
     candidate_behaviour:
       title: 'Something you did'
     quality_of_application:

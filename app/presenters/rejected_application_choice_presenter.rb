@@ -1,9 +1,11 @@
 class RejectedApplicationChoicePresenter < SimpleDelegator
   def rejection_reasons
-    @rejection_reasons = [candidate_behaviour, quality_of_application, qualifications,
-                          interview_performance, full_course, offered_other_course,
-                          honesty_and_professionalism_reasons, safeguarding_issues, additional_advice,
-                          interested_in_future_applications].reduce({}, :merge)
+    @rejection_reasons = single_reason_for_rejection if single_reason_for_rejection.present?
+
+    @rejection_reasons ||= [candidate_behaviour, quality_of_application, qualifications,
+                            interview_performance, full_course, offered_other_course,
+                            honesty_and_professionalism_reasons, safeguarding_issues, additional_advice,
+                            interested_in_future_applications].reduce({}, :merge)
   end
 
   def reasons
@@ -11,6 +13,12 @@ class RejectedApplicationChoicePresenter < SimpleDelegator
   end
 
 private
+
+  def single_reason_for_rejection
+    return nil unless rejection_reason?
+
+    { I18n.t('reasons_for_rejection.single_rejection_reason.title') => [rejection_reason] }
+  end
 
   def candidate_behaviour
     return {} unless reasons.candidate_behaviour_y_n.eql?('Yes')
