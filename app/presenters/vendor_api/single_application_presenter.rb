@@ -72,9 +72,9 @@ module VendorAPI
     end
 
     def get_rejection
-      if application_choice.rejection_reason?
+      if application_choice.rejection_reason? || application_choice.structured_rejection_reasons.present?
         {
-          reason: application_choice.rejection_reason,
+          reason: RejectionReasonPresenter.new(application_choice).present,
           date: application_choice.rejected_at.iso8601,
         }
       elsif application_choice.offer_withdrawal_reason?
