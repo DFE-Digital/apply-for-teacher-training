@@ -26,7 +26,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
         expect(row['email']).to eq(@application_with_offer.application_form.candidate.email_address)
         expect(row['recruitment_cycle_year']).to eq(@application_with_offer.application_form.recruitment_cycle_year.to_s)
         expect(row['provider_code']).to eq(@application_with_offer.provider.code)
-        expect(row['accrediting_provider_name']).to eq(@application_with_offer.course.accredited_provider.name)
+        expect(row['accredited_provider_name']).to eq(@application_with_offer.course.accredited_provider.name)
         expect(row['course_code']).to eq(@course.code)
         expect(row['site_code']).to eq(@application_with_offer.site.code)
         expect(row['study_mode']).to eq('01')
@@ -74,7 +74,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
     it 'generates CSV headers' do
       csv = CSV.parse(export_data, headers: true)
       expect(csv.headers).to eq(%w[id status first_name last_name date_of_birth nationality
-                                   country email recruitment_cycle_year provider_code accrediting_provider_name course_code site_code
+                                   country email recruitment_cycle_year provider_code accredited_provider_name course_code site_code
                                    study_mode SBJCA QLAIM FIRSTDEG DEGTYPE DEGSBJ DEGCLSS institution_country DEGSTDT DEGENDDT
                                    institution_details sex disabilities ethnicity])
     end

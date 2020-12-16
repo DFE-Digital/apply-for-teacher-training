@@ -45,7 +45,7 @@ RSpec.feature 'Export applications in HESA format' do
   def then_i_can_download_application_data_as_csv
     csv = CSV.parse(page.body, headers: true)
     expect(csv.headers).to eq(%w[id status first_name last_name date_of_birth nationality
-                                 country email recruitment_cycle_year provider_code accrediting_provider_name course_code site_code
+                                 country email recruitment_cycle_year provider_code accredited_provider_name course_code site_code
                                  study_mode SBJCA QLAIM FIRSTDEG DEGTYPE DEGSBJ DEGCLSS institution_country DEGSTDT DEGENDDT
                                  institution_details sex disabilities ethnicity])
 
