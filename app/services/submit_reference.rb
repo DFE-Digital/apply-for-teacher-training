@@ -2,7 +2,7 @@ class SubmitReference
   attr_reader :reference
   delegate :application_form, to: :reference
 
-  def initialize(reference:, send_emails: false)
+  def initialize(reference:, send_emails: true)
     @reference = reference
     @send_emails = send_emails
   end

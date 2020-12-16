@@ -90,7 +90,6 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_click_the_change_link_next_to_feedback
-    print page.body
     all('.govuk-summary-list__actions')[13].click_link 'Change'
   end
 
@@ -101,11 +100,13 @@ RSpec.feature 'Editing reference' do
   def then_i_should_see_relevant_blank_error_messages
     expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.feedback.blank')
     expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.audit_comment.blank')
+    expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_reference_feedback_form.attributes.send_emails.blank')
   end
 
   def when_i_complete_the_feedback_form
     fill_in 'support_interface_application_forms_edit_reference_feedback_form[feedback]', with: 'Harry is a good egg'
     fill_in 'support_interface_application_forms_edit_reference_feedback_form[audit_comment]', with: 'Updated as part of Zen Desk ticket #12346'
+    choose 'Yes'
   end
 
   def and_i_should_see_the_new_feedback
