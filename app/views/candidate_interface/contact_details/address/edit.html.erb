@@ -15,7 +15,7 @@
           ) %>
           <%= f.govuk_text_field(
             :address_line2,
-            label: { text: @contact_details_form.label_for(:address_line2) },
+            label: { text: @contact_details_form.label_for(:address_line2), hidden: true },
             autocomplete: 'address-line2',
           ) %>
           <%= f.govuk_text_field(

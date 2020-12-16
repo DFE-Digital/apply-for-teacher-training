@@ -152,11 +152,11 @@ RSpec.feature 'Entering their contact information' do
     select('India', from: t('application_form.contact_information.country.label'))
     click_button t('application_form.contact_information.base.button')
   end
-  
+
   def and_i_incorrectly_fill_in_my_international_address
-    fill_in t('application_form.contact_information.address_line2.international.label'), with: '123 Chandni Chowk'
-    fill_in t('application_form.contact_information.address_line3.international.label'), with: 'Delhi'
-    fill_in t('application_form.contact_information.postcode.international.label'), with: '110006'
+    fill_in 'candidate_interface_contact_details_form[address_line1]', with: ''
+    fill_in 'candidate_interface_contact_details_form[address_line2]', with: 'New Delhi'
+    fill_in 'candidate_interface_contact_details_form[postcode]', with: '110006'
   end
 
   def then_i_should_see_validation_errors_for_address_line1
@@ -164,15 +164,14 @@ RSpec.feature 'Entering their contact information' do
   end
 
   def when_i_fill_in_an_international_address
-    fill_in t('application_form.contact_information.address_line1.international.label'), with: '123 Chandni Chowk'
-    fill_in t('application_form.contact_information.address_line3.international.label'), with: 'Delhi'
-    fill_in t('application_form.contact_information.postcode.international.label'), with: '110006'
+    fill_in 'candidate_interface_contact_details_form[address_line1]', with: '123 Chandni Chowk'
+    fill_in 'candidate_interface_contact_details_form[address_line3]', with: 'New Delhi'
+    fill_in 'candidate_interface_contact_details_form[postcode]', with: '110006'
   end
 
   def then_i_can_check_my_revised_address
-    expect(page).not_to have_content t('application_form.contact_information.full_address.label')
     expect(page).to have_content '123 Chandni Chowk'
-    expect(page).to have_content 'Delhi'
+    expect(page).to have_content 'New Delhi'
     expect(page).to have_content 'India'
   end
 

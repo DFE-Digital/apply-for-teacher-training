@@ -123,15 +123,31 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       it { is_expected.to validate_presence_of(:address_line3).on(:address) }
       it { is_expected.to validate_presence_of(:postcode).on(:address) }
       it { is_expected.not_to validate_presence_of(:international_address).on(:address) }
+      it { is_expected.not_to allow_value('MUCH WOW').for(:postcode).on(:address) }
     end
 
-    context 'for an international address' do
+    context 'for an international address without `international_addresses` feature flag active' do
+      before { FeatureFlag.deactivate(:international_addresses) }
+
       subject(:form) { described_class.new(address_type: 'international') }
 
       it { is_expected.to validate_presence_of(:international_address).on(:address) }
       it { is_expected.not_to validate_presence_of(:address_line1).on(:address) }
       it { is_expected.not_to validate_presence_of(:address_line3).on(:address) }
       it { is_expected.not_to validate_presence_of(:postcode).on(:address) }
+      it { is_expected.to allow_value('MUCH WOW').for(:postcode).on(:address) }
+    end
+
+    context 'for an international address' do
+      before { FeatureFlag.activate(:international_addresses) }
+
+      subject(:form) { described_class.new(address_type: 'international') }
+
+      it { is_expected.not_to validate_presence_of(:international_address).on(:address) }
+      it { is_expected.to validate_presence_of(:address_line1).on(:address) }
+      it { is_expected.not_to validate_presence_of(:address_line3).on(:address) }
+      it { is_expected.not_to validate_presence_of(:postcode).on(:address) }
+      it { is_expected.to allow_value('MUCH WOW').for(:postcode).on(:address) }
     end
 
     it { is_expected.to validate_length_of(:address_line1).is_at_most(50).on(:address) }
@@ -140,7 +156,6 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
     it { is_expected.to validate_length_of(:address_line4).is_at_most(50).on(:address) }
 
     it { is_expected.to allow_value('SW1P 3BT').for(:postcode).on(:address) }
-    it { is_expected.not_to allow_value('MUCH WOW').for(:postcode).on(:address) }
 
     it { is_expected.to allow_value('07700 900 982').for(:phone_number).on(:base) }
     it { is_expected.not_to allow_value('07700 WUT WUT').for(:phone_number).on(:base) }
