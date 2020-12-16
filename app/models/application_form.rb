@@ -319,6 +319,14 @@ class ApplicationForm < ApplicationRecord
     full_address.compact.join(', ')
   end
 
+  def domicile
+    if international?
+      DomicileResolver.hesa_code_for_country country
+    else
+      DomicileResolver.hesa_code_for_postcode postcode
+    end
+  end
+
 private
 
   def geocode_address_if_required

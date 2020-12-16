@@ -493,4 +493,22 @@ RSpec.describe ApplicationForm do
       expect(application_form.full_address).to eq ['Beverley Hills 90210', 'United States']
     end
   end
+
+  describe '#domicile' do
+    it 'calls #hesa_code_for_country for international addresses' do
+      application_form = build_stubbed(:completed_application_form, :international_address)
+      allow(DomicileResolver).to receive(:hesa_code_for_country)
+                                 .with(application_form.country).and_return(':)')
+
+      expect(application_form.domicile).to eq(':)')
+    end
+
+    it 'calls #hesa_code_for_postcode for UK addresses' do
+      application_form = create(:completed_application_form)
+      allow(DomicileResolver).to receive(:hesa_code_for_postcode)
+                                 .with(application_form.postcode).and_return(':)')
+
+      expect(application_form.domicile).to eq(':)')
+    end
+  end
 end

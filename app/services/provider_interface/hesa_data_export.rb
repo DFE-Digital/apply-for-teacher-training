@@ -29,7 +29,7 @@ module ProviderInterface
           'last_name' => application.application_form.last_name,
           'date_of_birth' => application.application_form.date_of_birth,
           'nationality' => application.application_form.first_nationality,
-          'country' => application.application_form.country,
+          'domicile' => application.application_form.domicile,
           'email' => application.application_form.candidate.email_address,
           'recruitment_cycle_year' => application.application_form.recruitment_cycle_year,
           'provider_code' => application.provider.code,

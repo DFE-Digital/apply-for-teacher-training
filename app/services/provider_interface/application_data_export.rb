@@ -25,7 +25,7 @@ module ProviderInterface
           'last_name' => application.application_form.last_name,
           'date_of_birth' => application.application_form.date_of_birth,
           'nationality' => application.nationalities.join(' '),
-          'domicile' => application.application_form.country,
+          'domicile' => application.application_form.domicile,
           'uk_residency_status' => application.application_form.uk_residency_status,
           'english_main_language' => application.application_form.english_main_language,
           'english_language_qualifications' => application.application_form.english_language_details,

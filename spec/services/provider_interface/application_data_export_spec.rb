@@ -62,7 +62,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'last_name' => application_choice.application_form.last_name,
         'date_of_birth' => application_choice.application_form.date_of_birth&.to_s,
         'nationality' => 'GB US',
-        'domicile' => application_choice.application_form.country,
+        'domicile' => application_choice.application_form.domicile,
         'uk_residency_status' => application_choice.application_form.uk_residency_status,
         'english_main_language' => application_choice.application_form.english_main_language&.to_s,
         'english_language_qualifications' => application_choice.application_form.english_language_details,
