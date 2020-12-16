@@ -61,20 +61,46 @@ RSpec.describe CandidateInterface::ContactDetailsForm, type: :model do
       expect(application_form.international_address).to be_nil
     end
 
-    it 'updates the provided ApplicationForm with the international address field if valid' do
-      form_data = {
-        international_address: '123 Chandni Chowk, Old Delhi',
-      }
-      application_form = build(:application_form)
-      contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+    # TODO: remove this context when removing `international_addresses` feature flag
+    context 'without international_addresses feature flag' do
+      before { FeatureFlag.deactivate(:international_addresses) }
 
-      expect(contact_details.save_address(application_form)).to eq(true)
-      expect(application_form).to have_attributes(form_data)
-      expect(application_form.address_line1).to be_nil
-      expect(application_form.address_line2).to be_nil
-      expect(application_form.address_line3).to be_nil
-      expect(application_form.address_line4).to be_nil
-      expect(application_form.postcode).to be_nil
+      it 'updates the provided ApplicationForm with the international address field if valid' do
+        form_data = {
+          international_address: '123 Chandni Chowk, Old Delhi',
+        }
+        application_form = build(:application_form)
+        contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+        expect(contact_details.save_address(application_form)).to eq(true)
+        expect(application_form).to have_attributes(form_data)
+        expect(application_form.address_line1).to be_nil
+        expect(application_form.address_line2).to be_nil
+        expect(application_form.address_line3).to be_nil
+        expect(application_form.address_line4).to be_nil
+        expect(application_form.postcode).to be_nil
+      end
+    end
+
+    context 'with international_addresses feature flag' do
+      before { FeatureFlag.activate(:international_addresses) }
+
+      it 'updates the provided ApplicationForm with the international address field if valid' do
+        form_data = {
+          address_line1: '123 Chandni Chowk',
+          address_line3: 'Old Delhi',
+          postcode: '110006',
+        }
+        application_form = build(:application_form)
+        contact_details = CandidateInterface::ContactDetailsForm.new(form_data)
+
+        expect(contact_details.save_address(application_form)).to eq(true)
+        expect(application_form).to have_attributes(form_data)
+        expect(application_form.address_line2).to be_nil
+        expect(application_form.address_line4).to be_nil
+        expect(application_form.postcode).to eq '110006'
+        expect(application_form.international_address).to be_nil
+      end
     end
   end
 

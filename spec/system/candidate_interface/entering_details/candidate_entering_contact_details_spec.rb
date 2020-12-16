@@ -172,6 +172,7 @@ RSpec.feature 'Entering their contact information' do
   def then_i_can_check_my_revised_address
     expect(page).to have_content '123 Chandni Chowk'
     expect(page).to have_content 'New Delhi'
+    expect(page).to have_content '110006'
     expect(page).to have_content 'India'
   end
 

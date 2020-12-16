@@ -41,16 +41,17 @@ module CandidateInterface
     def save_address(application_form)
       return false unless valid?(:address)
 
-      if uk?
-        application_form.update(
+      if uk? || FeatureFlag.active?(:international_addresses)
+        attrs = {
           address_line1: address_line1,
           address_line2: address_line2,
           address_line3: address_line3,
           address_line4: address_line4,
           postcode: postcode&.upcase,
-          country: 'GB',
           international_address: nil,
-        )
+        }
+        attrs[:country] = 'GB' if uk?
+        application_form.update(attrs)
       else
         application_form.update(
           address_line1: nil,
