@@ -43,7 +43,7 @@ module SupportInterface
       end
 
       def send_emails
-        edit_reference_feedback_params[:send_emails]
+        edit_reference_feedback_params[:send_emails] == 'true'
       end
 
       def reference
