@@ -34,8 +34,8 @@ module CandidateInterface
 
       rows.tap do |r|
         r << status_row(application_choice) if @show_status
-        r << rejection_reasons_row(application_choice),
-        r << rejection_reason_row(application_choice) if application_choice.rejection_reason.present?
+        rejection_reasons = rejection_reasons_row(application_choice)
+        r << rejection_reasons if rejection_reasons
         r << offer_withdrawal_reason_row(application_choice) if application_choice.offer_withdrawal_reason.present?
       end
     end
