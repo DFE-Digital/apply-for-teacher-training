@@ -1,14 +1,16 @@
 module SupportInterface
   module ApplicationForms
     class AddressTypeController < SupportInterfaceController
+      before_action :set_application_form
+
       def edit
-        @details = details_form
+        @details = EditAddressDetailsForm.build_from_application_form(@application_form)
       end
 
       def update
-        application_form.assign_attributes(address_type_params)
-        @details = details_form
-        if @details.save_address_type(application_form)
+        @application_form.assign_attributes(address_type_params)
+        @details = EditAddressDetailsForm.build_from_application_form(@application_form)
+        if @details.save_address_type(@application_form)
           redirect_to support_interface_application_form_edit_address_details_path
         else
           render :edit
@@ -24,12 +26,8 @@ module SupportInterface
         )
       end
 
-      def details_form
-        @details ||= EditAddressDetailsForm.build_from_application_form(application_form)
-      end
-
-      def application_form
-        @application_form ||= ApplicationForm.find(params[:application_form_id])
+      def set_application_form
+        @application_form = ApplicationForm.find(params[:application_form_id])
       end
     end
   end
