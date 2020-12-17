@@ -25,7 +25,7 @@ module SupportInterface
 
       def right_to_work_params
         StripWhitespace.from_hash params.require(:support_interface_application_forms_right_to_work_or_study_form).permit(
-          :right_to_work_or_study, :right_to_work_or_study_details
+          :right_to_work_or_study, :right_to_work_or_study_details, :audit_comment
         )
       end
     end

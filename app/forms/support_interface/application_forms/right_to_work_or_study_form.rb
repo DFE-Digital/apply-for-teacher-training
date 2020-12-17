@@ -3,11 +3,12 @@ module SupportInterface
     class RightToWorkOrStudyForm
       include ActiveModel::Model
 
-      attr_accessor :right_to_work_or_study, :right_to_work_or_study_details
+      attr_accessor :right_to_work_or_study, :right_to_work_or_study_details, :audit_comment
 
       validates :right_to_work_or_study, presence: true
       validates :right_to_work_or_study_details, presence: true, if: :has_right_to_work_or_study?
       validates :right_to_work_or_study_details, word_count: { maximum: 200 }
+      validates :audit_comment, presence: true
 
       def self.build_from_application(application_form)
         new(
@@ -22,6 +23,7 @@ module SupportInterface
         application_form.update(
           right_to_work_or_study: right_to_work_or_study,
           right_to_work_or_study_details: set_right_to_work_or_study_details,
+          audit_comment: audit_comment,
         )
       end
 

@@ -28,8 +28,10 @@ RSpec.feature 'Editing application details' do
     uncheck 'British'
     check 'Citizen of a different country'
     select 'Armenian', from: 'support-interface-application-forms-nationalities-form-other-nationality1-field'
+    fill_in 'Audit log comment', with: 'Changed nationality details - zendesk ticket 1234'
     click_button 'Save and continue'
     choose 'Not yet – I will need to apply for permission to work or study in the UK'
+    fill_in 'Audit log comment', with: 'Changed nationality details - zendesk ticket 1234'
     click_button 'Save and continue'
   end
 
@@ -39,6 +41,9 @@ RSpec.feature 'Editing application details' do
       expect(page).to have_content 'Has the right to work or study in the UK?'
       expect(page).to have_content 'Not yet'
     end
+
+    click_on 'History'
+    expect(page).to have_content 'Changed nationality details - zendesk ticket 1234'
   end
 
   def given_i_am_a_support_user

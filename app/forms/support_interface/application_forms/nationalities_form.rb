@@ -5,14 +5,15 @@ module SupportInterface
 
       attr_accessor(
         :first_nationality, :second_nationality, :british, :irish, :other,
-        :other_nationality1, :other_nationality2, :other_nationality3, :nationalities
+        :other_nationality1, :other_nationality2, :other_nationality3, :nationalities,
+        :audit_comment
       )
 
       validates(
         :first_nationality, :second_nationality, :other_nationality1, :other_nationality2, :other_nationality3,
         inclusion: { in: NATIONALITY_DEMONYMS, allow_blank: true }
       )
-
+      validates :audit_comment, presence: true
       validate :candidate_provided_nationality
 
       UK_AND_IRISH_NATIONALITIES = ['British', 'Welsh', 'Scottish', 'Northern Irish', 'Irish', 'English'].freeze
@@ -37,6 +38,7 @@ module SupportInterface
             fifth_nationality: nationalities[4],
             right_to_work_or_study: nil,
             right_to_work_or_study_details: nil,
+            audit_comment: audit_comment,
           )
         else
           application_form.update!(
@@ -45,6 +47,7 @@ module SupportInterface
             third_nationality: nationalities[2],
             fourth_nationality: nationalities[3],
             fifth_nationality: nationalities[4],
+            audit_comment: audit_comment,
           )
         end
       end
