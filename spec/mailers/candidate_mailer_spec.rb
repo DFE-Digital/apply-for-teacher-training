@@ -309,7 +309,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
   end
 
-  describe '#offer_accepted' do
+  describe '.offer_accepted' do
     def build_stubbed_application_form
       build_stubbed(
         :application_form,
