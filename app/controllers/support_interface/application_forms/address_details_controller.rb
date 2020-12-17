@@ -4,13 +4,14 @@ module SupportInterface
       before_action :set_application_form
 
       def edit
-        @details = EditAddressDetailsForm.build_from_application_form(@application_form)
+        @details_form = EditAddressDetailsForm.build_from_application_form(@application_form)
       end
 
       def update
         @application_form.assign_attributes(address_details_params)
-        @details = EditAddressDetailsForm.build_from_application_form(@application_form)
-        if @details.save_address(@application_form)
+        @details_form = EditAddressDetailsForm.build_from_application_form(@application_form)
+
+        if @details_form.save_address(@application_form)
           flash[:success] = 'Address details updated'
           redirect_to support_interface_application_form_path(@application_form)
         else

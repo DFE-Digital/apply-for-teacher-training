@@ -4,13 +4,13 @@ module SupportInterface
       before_action :set_application_form
 
       def edit
-        @details = EditAddressDetailsForm.build_from_application_form(@application_form)
+        @details_form = EditAddressDetailsForm.build_from_application_form(@application_form)
       end
 
       def update
         @application_form.assign_attributes(address_type_params)
-        @details = EditAddressDetailsForm.build_from_application_form(@application_form)
-        if @details.save_address_type(@application_form)
+        @details_form = EditAddressDetailsForm.build_from_application_form(@application_form)
+        if @details_form.save_address_type(@application_form)
           redirect_to support_interface_application_form_edit_address_details_path
         else
           render :edit
