@@ -9,7 +9,7 @@ RSpec.feature 'Candidate account' do
     and_i_am_an_existing_candidate
 
     when_i_sign_in_and_out
-    and_i_try_to_resuse_the_same_magic_link
+    and_i_try_to_reuse_the_same_magic_link
     then_i_am_prompted_to_get_a_new_magic_link
 
     when_i_get_a_new_magic_link
@@ -42,7 +42,7 @@ RSpec.feature 'Candidate account' do
     expect(page).to have_current_path(candidate_interface_create_account_or_sign_in_path)
   end
 
-  def and_i_try_to_resuse_the_same_magic_link
+  def and_i_try_to_reuse_the_same_magic_link
     @magic_link.click
   end
 

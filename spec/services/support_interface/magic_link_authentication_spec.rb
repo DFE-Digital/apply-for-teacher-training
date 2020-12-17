@@ -17,7 +17,7 @@ RSpec.describe SupportInterface::MagicLinkAuthentication do
     it 'gets the user for the passed token' do
       user = create(:support_user)
       create(:authentication_token,
-             authenticable: user,
+             user: user,
              hashed_token: 'known_token',
              created_at: Time.zone.now)
 
@@ -31,7 +31,7 @@ RSpec.describe SupportInterface::MagicLinkAuthentication do
       it 'raises an ActiveRecord::RecordNotFound error' do
         user = create(:support_user)
         create(:authentication_token,
-               authenticable: user,
+               user: user,
                hashed_token: 'known_token',
                created_at: (SupportInterface::MagicLinkAuthentication::TOKEN_DURATION + 1.second).ago)
 

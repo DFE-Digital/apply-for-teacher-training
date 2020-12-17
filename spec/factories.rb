@@ -756,7 +756,7 @@ FactoryBot.define do
   end
 
   factory :authentication_token do
-    authenticable { support_user }
+    user { support_user }
   end
 
   factory :provider_user do

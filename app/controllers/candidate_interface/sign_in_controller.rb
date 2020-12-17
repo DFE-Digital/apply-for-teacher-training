@@ -12,38 +12,47 @@ module CandidateInterface
       SignInCandidate.new(candidate_params[:email_address], self).call
     end
 
+    # This is where users land after clicking the magic link in their email. Because
+    # some email clients preload links in emails, this is an extra step where
+    # they click a button to confirm the sign in.
     def confirm_authentication
-      candidate = retrieve_candidate_by_token || retrieve_candidate_by_user_id
+      authentication_token = AuthenticationToken.find_by_hashed_token(
+        user_type: 'Candidate',
+        raw_token: params[:token],
+      )
 
-      redirect_to(action: :new) and return if candidate.nil?
-
-      if FindCandidateByToken.token_not_expired?(candidate)
+      if authentication_token && authentication_token.still_valid?
         render 'confirm_authentication'
-      else
+      elsif params[:u]
+        # If the token is invalid or expired, redirect the user to a page
+        # with their encrypted user id as a param where they can request
+        # a new sign in email.
         redirect_to candidate_interface_expired_sign_in_path(u: params[:u], path: params[:path])
+      else
+        redirect_to(action: :new)
       end
     end
 
+    # After they click the confirm button, actually do the user sign in.
     def authenticate
-      candidate = retrieve_candidate_by_token
-      token_not_expired = FindCandidateByToken.token_not_expired?(candidate)
+      authentication_token = AuthenticationToken.find_by_hashed_token(
+        user_type: 'Candidate',
+        raw_token: params[:token],
+      )
 
-      if candidate.nil?
-        candidate = retrieve_candidate_by_user_id
-      end
+      redirect_to(action: :new) and return if authentication_token.nil?
 
-      redirect_to(action: :new) and return if candidate.nil?
-
-      if token_not_expired
+      if authentication_token && authentication_token.still_valid?
+        candidate = authentication_token.user
         flash[:success] = t('apply_from_find.account_created_message') if candidate.last_signed_in_at.nil?
         sign_in(candidate, scope: :candidate)
-        add_identity_to_log candidate.id
-        candidate.update_sign_in_fields!
+        add_identity_to_log(candidate.id)
+        candidate.update!(last_signed_in_at: Time.zone.now)
+        authentication_token.destroy!
 
         redirect_to candidate_interface_interstitial_path(path: params[:path])
       else
-        encrypted_candidate_id = Encryptor.encrypt(candidate.id)
-        redirect_to candidate_interface_expired_sign_in_path(u: encrypted_candidate_id, path: params[:path])
+        redirect_to candidate_interface_expired_sign_in_path(u: params[:u], path: params[:path])
       end
     end
 
@@ -58,7 +67,7 @@ module CandidateInterface
 
       if candidate_id
         candidate = Candidate.find(candidate_id)
-        MagicLinkSignIn.call(candidate: candidate)
+        CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate)
         add_identity_to_log candidate.id
         redirect_to candidate_interface_check_email_sign_in_path
       else
@@ -70,15 +79,6 @@ module CandidateInterface
 
     def candidate_params
       params.require(:candidate).permit(:email_address)
-    end
-
-    def retrieve_candidate_by_token
-      FindCandidateByToken.call(raw_token: params[:token])
-    end
-
-    def retrieve_candidate_by_user_id
-      candidate_id = Encryptor.decrypt(params[:u])
-      Candidate.find(candidate_id) if candidate_id
     end
   end
 end
