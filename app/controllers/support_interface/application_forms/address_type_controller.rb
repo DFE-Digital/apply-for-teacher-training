@@ -8,8 +8,7 @@ module SupportInterface
       end
 
       def update
-        @application_form.assign_attributes(address_type_params)
-        @details_form = EditAddressDetailsForm.build_from_application_form(@application_form)
+        @details_form = EditAddressDetailsForm.new(address_type_params)
         if @details_form.save_address_type(@application_form)
           redirect_to support_interface_application_form_edit_address_details_path
         else

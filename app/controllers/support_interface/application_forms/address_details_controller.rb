@@ -8,8 +8,9 @@ module SupportInterface
       end
 
       def update
-        @application_form.assign_attributes(address_details_params)
-        @details_form = EditAddressDetailsForm.build_from_application_form(@application_form)
+        @details_form = EditAddressDetailsForm.new(
+          address_details_params.merge(address_type: @application_form.address_type),
+        )
 
         if @details_form.save_address(@application_form)
           flash[:success] = 'Address details updated'
