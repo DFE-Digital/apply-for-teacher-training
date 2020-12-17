@@ -129,6 +129,12 @@ RSpec.describe CandidateMailer, type: :mailer do
         course_option: course_option,
         status: :rejected,
         rejection_reason: 'The application had little detail.',
+        structured_rejection_reasons: {
+          quality_of_application_y_n: 'Yes',
+          quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
+          quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
+          quality_of_application_subject_knowledge_what_to_improve: 'Write in the first person',
+        },
       )
       @application_form.application_choices = [@application_choice]
 
@@ -163,6 +169,18 @@ RSpec.describe CandidateMailer, type: :mailer do
         'course name and code' => 'Forensic Science (E0FO)',
         'courses they are awaiting decisions' => 'Law (UFHG)',
         'providers they are awaiting decisions' => 'Vertapple University'
+      )
+    end
+
+    describe '.all_applications_rejected' do
+      it_behaves_like(
+        'a mail with subject and content', :all_applications_rejected,
+        I18n.t!('candidate_mailer.all_applications_rejected.subject',
+                provider_name: 'Falconholt Technical College'),
+        'heading' => 'Dear Tyrell',
+        'course name and code' => 'Forensic Science (E0FO)',
+        'rejection reason heading' => 'Quality of application',
+        'rejection reason content' => 'Write in the first person'
       )
     end
   end

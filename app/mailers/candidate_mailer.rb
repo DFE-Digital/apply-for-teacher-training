@@ -97,6 +97,15 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def all_applications_rejected(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
+    @multiple_applications = application_choice.self_and_siblings.count > 1
+
+    email_for_candidate(application_choice.application_form)
+  end
+
   def feedback_received_for_application_rejected_by_default(application_choice)
     @application_choice = application_choice
     @course_option = @application_choice.offered_option

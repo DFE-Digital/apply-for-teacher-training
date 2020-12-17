@@ -40,6 +40,7 @@ RSpec.feature 'Docs' do
       provider_mailer-ucas_match_resolved_on_ucas_email
       candidate_mailer-ucas_match_resolved_on_apply_email
       provider_mailer-ucas_match_resolved_on_apply_email
+      candidate_mailer-all_applications_rejected
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"

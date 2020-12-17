@@ -1,0 +1,37 @@
+Dear <%= @application_form.first_name %>,
+
+# Update on your application
+
+<%= @course.provider.name %> has decided not to make you an offer to study <%= @course.name_and_code %>.
+They've given feedback to explain this decision.
+
+<% @application_choice.rejection_reasons.each_pair do |title, reasons| %>
+
+^ # <%=  title %>
+
+   <% reasons.each do |reason| %>
+    ^ <%= reason %>
+    ^
+    <% end %>
+  <% end %>
+
+
+Contact <%= @course.provider.name %> directly if you have any questions about their feedback.
+
+
+# You can apply again
+
+<% if @multiple_applications %>
+  You’ve now had decisions about all the courses you applied for. You did not get any offers, so you can apply again.
+<% end %>
+
+Your last application has been saved. You can make changes before you submit your new application.
+
+
+# Get support
+
+If you need help getting a place on a course, contact Get Into Teaching (8:30am to 5pm Monday to Friday). Call for free on 0800 389 2500 or chat to an adviser online:
+
+https://getintoteaching.education.gov.uk/lp/live-chat
+
+Contact [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk) if you have problems applying online or want to give feedback.

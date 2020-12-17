@@ -46,6 +46,8 @@ en:
       subject:
         one: "You did not respond to your offer: next steps"
         other: "You did not respond to your offers: next steps"
+    all_applications_rejected:
+      subject: Update on your application - all decisions now made
     application_withdrawn:
       subject:
         one: "You’ve withdrawn your application: next steps"

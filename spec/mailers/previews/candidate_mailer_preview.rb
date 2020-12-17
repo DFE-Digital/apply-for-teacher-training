@@ -235,6 +235,26 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.application_rejected_offers_made(application_form.application_choices.last)
   end
 
+  def all_applications_rejected
+    reasons_for_rejection = {
+      candidate_behaviour_y_n: 'Yes',
+      candidate_behaviour_what_did_the_candidate_do: %w[other],
+      candidate_behaviour_other: 'Bad language',
+      candidate_behaviour_what_to_improve: 'Do not swear',
+      quality_of_application_y_n: 'Yes',
+      quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
+      quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
+    }
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      :with_rejection_by_default_and_feedback,
+      application_form: application_form,
+      course_option: course_option,
+      structured_rejection_reasons: reasons_for_rejection,
+    )
+    CandidateMailer.all_applications_rejected(application_choice)
+  end
+
   def feedback_received_for_application_rejected_by_default
     application_choice = FactoryBot.build_stubbed(
       :application_choice,
