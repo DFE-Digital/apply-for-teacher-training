@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_15_200431) do
+ActiveRecord::Schema.define(version: 2020_12_17_121006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -218,8 +218,8 @@ ActiveRecord::Schema.define(version: 2020_12_15_200431) do
   end
 
   create_table "authentication_tokens", force: :cascade do |t|
-    t.bigint "authenticable_id", null: false
-    t.string "authenticable_type", null: false
+    t.bigint "authenticable_id"
+    t.string "authenticable_type"
     t.string "hashed_token", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
