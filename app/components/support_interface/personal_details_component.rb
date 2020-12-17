@@ -26,6 +26,7 @@ module SupportInterface
         name_row,
         date_of_birth_row,
         nationality_row,
+        domicile_row,
         right_to_work_or_study_row,
         residency_details_row,
         phone_number_row,
@@ -67,6 +68,13 @@ module SupportInterface
       {
         key: 'Nationality',
         value: application_form.nationalities.to_sentence(last_word_connector: ' and '),
+      }
+    end
+
+    def domicile_row
+      {
+        key: 'Domicile',
+        value: application_form.domicile,
       }
     end
 
