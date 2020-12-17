@@ -25,7 +25,7 @@ module CandidateInterface
         render 'confirm_authentication'
       elsif params[:u]
         # If the token is invalid or expired, redirect the user to a page
-        # with their encryped user id as a param where they can request
+        # with their encrypted user id as a param where they can request
         # a new sign in email.
         redirect_to candidate_interface_expired_sign_in_path(u: params[:u], path: params[:path])
       else
