@@ -152,7 +152,10 @@ RSpec.feature 'Managing provider users' do
   end
 
   def when_i_filter_the_list_of_provider_users
+    expect(page).to have_field('Has signed in')
+
     fill_in :q, with: 'harrison'
+    check 'Never signed in'
     click_on 'Apply filters'
   end
 
