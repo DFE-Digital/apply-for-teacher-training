@@ -1,3 +1,9 @@
+### 16th December 2020
+
+Changes to existing attributes:
+
+- The `domicile` attribute of `Candidate` has been updated to return two-letter HESA codes instead of ISO 3166-2 country codes. For most international addresses the two types of code are identical, but HESA domicile codes do not include a `GB` value, specifying the country instead (e.g. `XF` for England, `XI` for Wales etc.)
+
 ### 15th December 2020
 
 New feature: reference data. See the [Codes and reference data section](https://www.apply-for-teacher-training.service.gov.uk/api-docs#codes-and-reference-data) of the documentation.

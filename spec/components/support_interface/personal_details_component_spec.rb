@@ -32,6 +32,10 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
     expect(result.css('.govuk-summary-list__value').text).to include('British, Irish and Spanish')
   end
 
+  it 'renders their HESA domicile code' do
+    expect(result.css('.govuk-summary-list__value').text).to include(application_form.domicile)
+  end
+
   it 'renders the candidate phone number' do
     expect(result.css('.govuk-summary-list__value').text).to include(application_form.phone_number)
   end
@@ -59,8 +63,8 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
       SupportInterface::PersonalDetailsComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
         application_form.right_to_work_or_study = key
         result = render_inline(SupportInterface::PersonalDetailsComponent.new(application_form: application_form))
-        row_title = result.css('.govuk-summary-list__row')[3].css('dt').text
-        row_value = result.css('.govuk-summary-list__row')[3].css('dd').text
+        row_title = result.css('.govuk-summary-list__row')[4].css('dt').text
+        row_value = result.css('.govuk-summary-list__row')[4].css('dd').text
         expect(row_title).to include 'Has the right to work or study in the UK?'
         expect(row_value).to include value
       end

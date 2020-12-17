@@ -587,7 +587,7 @@ components:
           type: string
           maxLength: 2
           description: The candidate’s domicile, as extracted from their address
-          example: GB
+          example: XF
         uk_residency_status:
           type: string
           maxLength: 256

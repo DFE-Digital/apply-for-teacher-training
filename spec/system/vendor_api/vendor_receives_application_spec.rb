@@ -61,7 +61,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
           last_name: 'Calrissian',
           date_of_birth: '1937-04-06',
           nationality: %w[GB US],
-          domicile: 'GB',
+          domicile: @application.domicile,
           uk_residency_status: 'UK Citizen',
           english_main_language: true,
           other_languages: nil,
