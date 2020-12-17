@@ -1,21 +1,45 @@
 class SendCandidateRejectionEmail
-  attr_accessor :application_choice
+  attr_reader :application_choice
 
   def initialize(application_choice:)
-    self.application_choice = application_choice
+    @application_choice = application_choice
   end
 
   def call
-    candidate_application_choices = application_choice.self_and_siblings
-    number_of_pending_decisions = candidate_application_choices.awaiting_provider_decision.count
-    number_of_offers = candidate_application_choices.offer.count
-
-    if candidate_application_choices.all?(&:rejected?)
-      CandidateMailer.send(:application_rejected_all_rejected, application_choice).deliver_later
-    elsif number_of_pending_decisions.positive?
-      CandidateMailer.send(:application_rejected_awaiting_decisions, application_choice).deliver_later
-    elsif number_of_offers.positive?
-      CandidateMailer.send(:application_rejected_offers_made, application_choice).deliver_later
+    if candidate_applications.all?(&:rejected?)
+      CandidateMailer.application_rejected_all_applications_rejected(application_choice).deliver_later
+    elsif applications_with_offer_and_awaiting_decision?
+      CandidateMailer.application_rejected_one_offer_one_awaiting_decision(application_choice).deliver_later
+    elsif applications_awaiting_decision_only?
+      CandidateMailer.application_rejected_awaiting_decision_only(application_choice).deliver_later
+    elsif applications_with_offers_only?
+      CandidateMailer.application_rejected_offers_only(application_choice).deliver_later
     end
+  end
+
+private
+
+  def applications_with_offer_and_awaiting_decision?
+    applications_with_offer_count == 1 && applications_awaiting_decision_count == 1
+  end
+
+  def applications_with_offers_only?
+    applications_with_offer_count.positive? && applications_awaiting_decision_count.zero?
+  end
+
+  def applications_awaiting_decision_only?
+    applications_awaiting_decision_count.positive? && applications_with_offer_count.zero?
+  end
+
+  def applications_awaiting_decision_count
+    @applications_pending_decision_count ||= candidate_applications.awaiting_provider_decision.count
+  end
+
+  def applications_with_offer_count
+    @applications_with_offer_count ||= candidate_applications.offer.count
+  end
+
+  def candidate_applications
+    @candidate_applications ||= application_choice.self_and_siblings
   end
 end

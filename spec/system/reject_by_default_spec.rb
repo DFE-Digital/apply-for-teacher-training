@@ -78,11 +78,6 @@ RSpec.feature 'Reject by default' do
   def and_the_candidate_should_receive_an_email
     open_email(@candidate.email_address)
 
-    expect(current_email.subject).to include(
-      t(
-        'candidate_mailer.application_rejected_by_default.subject',
-        provider_name: @application_choice.provider.name,
-      ),
-    )
+    expect(current_email.subject).to include(I18n.t('candidate_mailer.application_rejected_all_applications_rejected.subject'))
   end
 end

@@ -43,57 +43,45 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
-  def application_rejected_all_rejected(application_choice)
+  def application_rejected_all_applications_rejected(application_choice)
     @course = application_choice.course_option.course
-    @application_choice = application_choice
+    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
+    @multiple_applications = application_choice.self_and_siblings.count > 1
+
+    email_for_candidate(application_choice.application_form)
+  end
+
+  def application_rejected_one_offer_one_awaiting_decision(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @offer = application_choice.self_and_siblings.find(&:offer?)
+    @awaiting_decision = application_choice.self_and_siblings.find(&:awaiting_provider_decision?)
+    @awaiting_decision_by = @awaiting_decision.decline_by_default_at.to_s(:govuk_date)
+    @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
+
+    email_for_candidate(application_choice.application_form)
+  end
+
+  def application_rejected_awaiting_decision_only(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @awaiting_decision = application_choice.self_and_siblings.select(&:awaiting_provider_decision?)
+    @awaiting_decisions_by = @awaiting_decision.sort_by(&:decline_by_default_at).map(&:decline_by_default_at).last.to_s(:govuk_date)
+
+    email_for_candidate(application_choice.application_form)
+  end
+
+  def application_rejected_offers_only(application_choice)
+    @course = application_choice.course_option.course
+    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @offers = application_choice.self_and_siblings.select(&:offer?)
+    @respond_by_date = @offers.sort_by(&:decline_by_default_at).map(&:decline_by_default_at).first.to_s(:govuk_date)
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!(
-        application_choice.rejected_by_default ? 'candidate_mailer.application_rejected_by_default.subject' : 'candidate_mailer.application_rejected.all_rejected.subject',
-      ),
-      template_name: :application_rejected_all_rejected,
-    )
-  end
-
-  def application_rejected_awaiting_decisions(application_choice)
-    @decisions = application_choice.self_and_siblings.select(&:awaiting_provider_decision?)
-    @application_choice = application_choice
-
-    # We cannot use `through:` associations with FactoryBot's `build_stubbed`. Using
-    # the association directly instead allows us to use `build_stubbed` in tests
-    # and mailer previews.
-    @course = application_choice.course_option.course
-
-    email_for_candidate(
-      application_choice.application_form,
-      subject: I18n.t!(
-        application_choice.rejected_by_default ? 'candidate_mailer.application_rejected_by_default.subject' : 'candidate_mailer.application_rejected.awaiting_decisions.subject',
-        provider_name: @course.provider.name,
-        course_name: @course.name_and_code,
-      ),
-    )
-  end
-
-  def application_rejected_offers_made(application_choice)
-    @offers = application_choice.self_and_siblings.select(&:offer?)
-    @decline_by_default_at = @offers.first.decline_by_default_at.to_s(:govuk_date)
-    @dbd_days = @offers.first.decline_by_default_days
-    @application_choice = application_choice
-
-    # We cannot use `through:` associations with FactoryBot's `build_stubbed`. Using
-    # the association directly instead allows us to use `build_stubbed` in tests
-    # and mailer previews.
-    @course = application_choice.course_option.course
-
-    email_for_candidate(
-      application_choice.application_form,
-      subject: I18n.t!(
-        application_choice.rejected_by_default ? 'candidate_mailer.application_rejected_by_default.subject' : 'candidate_mailer.application_rejected.offers_made.subject',
-        provider_name: @course.provider.name,
-        dbd_days: @dbd_days,
-      ),
+      subject: I18n.t!('candidate_mailer.application_rejected_offers_only.subject', date: @respond_by_date),
     )
   end
 

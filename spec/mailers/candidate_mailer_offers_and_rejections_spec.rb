@@ -128,41 +128,206 @@ RSpec.describe CandidateMailer, type: :mailer do
         application_form: @application_form,
         course_option: course_option,
         status: :rejected,
-        rejection_reason: 'The application had little detail.',
+        structured_rejection_reasons: {
+          quality_of_application_y_n: 'Yes',
+          quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
+          quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
+          quality_of_application_subject_knowledge_what_to_improve: 'Write in the first person',
+        },
       )
       @application_form.application_choices = [@application_choice]
 
       magic_link_stubbing(@application_form.candidate)
     end
 
-    describe '.application_rejected_all_rejected' do
+    describe '.application_rejected_all_applications_rejected' do
       it_behaves_like(
-        'a mail with subject and content', :application_rejected_all_rejected,
-        I18n.t!('candidate_mailer.application_rejected.all_rejected.subject', provider_name: 'Falconholt Technical College'),
+        'a mail with subject and content', :application_rejected_all_applications_rejected,
+        I18n.t!('candidate_mailer.application_rejected_all_applications_rejected.subject',
+                provider_name: 'Falconholt Technical College'),
         'heading' => 'Dear Tyrell',
-        'course name and code' => 'Forensic Science (E0FO)'
+        'course name and code' => 'Forensic Science (E0FO)',
+        'rejection reason heading' => 'Quality of application',
+        'rejection reason content' => 'Write in the first person'
       )
     end
 
-    describe '.application_rejected_awaiting_decisions' do
+    describe '.application_rejected_one_offer_one_awaiting_decision' do
       before do
-        provider = build_stubbed(:provider, name: 'Vertapple University')
-        course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Law', code: 'UFHG', provider: provider))
-        @application_choice_awaiting_provider_decision = @application_form.application_choices.build(
-          application_form: @application_form,
-          course_option: course_option,
-          status: :awaiting_provider_decision,
-          rejection_reason: 'The application had little detail.',
+        reasons_for_rejection = {
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_what_did_the_candidate_do: %w[other],
+          candidate_behaviour_other: 'Bad language',
+          candidate_behaviour_what_to_improve: 'Do not swear',
+        }
+        provider = build_stubbed(:provider, name: 'Falconholt Technical College')
+        course_option = build_stubbed(:course_option,
+                                      course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
+        course_option2 = build_stubbed(:course_option,
+                                       course: build_stubbed(:course, name: 'Computer Science', provider: provider))
+
+        @application_form = FactoryBot.build_stubbed(
+          :application_form,
+          first_name: 'Tyrell',
+          last_name: 'Wellick',
+          candidate: @application_form.candidate,
+          application_choices: [
+            FactoryBot.build_stubbed(
+              :application_choice,
+              status: :rejected,
+              application_form: @application_form,
+              course_option: course_option,
+              structured_rejection_reasons: reasons_for_rejection,
+            ),
+            FactoryBot.build_stubbed(
+              :application_choice,
+              :with_offer,
+              application_form: @application_form,
+              course_option: course_option,
+            ),
+            FactoryBot.build_stubbed(
+              :application_choice,
+              application_form: @application_form,
+              decline_by_default_at: 2.days.from_now,
+              status: :awaiting_provider_decision,
+              course_option: course_option2,
+            ),
+          ],
         )
+        @application_choice = @application_form.application_choices.first
       end
 
       it_behaves_like(
-        'a mail with subject and content', :application_rejected_awaiting_decisions,
-        I18n.t!('candidate_mailer.application_rejected.awaiting_decisions.subject', provider_name: 'Falconholt Technical College', course_name: 'Forensic Science (E0FO)'),
+        'a mail with subject and content', :application_rejected_one_offer_one_awaiting_decision,
+        I18n.t!('candidate_mailer.application_rejected_one_offer_one_awaiting_decision.subject',
+                provider_name: 'Falconholt Technical College'),
         'heading' => 'Dear Tyrell',
         'course name and code' => 'Forensic Science (E0FO)',
-        'courses they are awaiting decisions' => 'Law (UFHG)',
-        'providers they are awaiting decisions' => 'Vertapple University'
+        'rejection reason heading' => 'Something you did',
+        'rejection reason content' => 'Bad language',
+        'other application details' => 'You have an offer and are waiting for a decision about another course',
+        'application with offer' => 'You have an offer from Falconholt Technical College to study Forensic Science',
+        'application awaiting decision' => 'to make a decision about your application to study Computer Science'
+      )
+    end
+
+    describe '.application_rejected_awaiting_decision_only' do
+      before do
+        reasons_for_rejection = {
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_what_did_the_candidate_do: %w[other],
+          candidate_behaviour_other: 'Bad language',
+          candidate_behaviour_what_to_improve: 'Do not swear',
+        }
+        provider = build_stubbed(:provider, name: 'Falconholt Technical College')
+        course_option = build_stubbed(:course_option,
+                                      course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
+        course_option2 = build_stubbed(:course_option,
+                                       course: build_stubbed(:course, name: 'Computer Science', provider: provider))
+
+        @application_form = FactoryBot.build_stubbed(
+          :application_form,
+          first_name: 'Tyrell',
+          last_name: 'Wellick',
+          candidate: @application_form.candidate,
+          application_choices: [
+            FactoryBot.build_stubbed(
+              :application_choice,
+              status: :rejected,
+              application_form: @application_form,
+              course_option: course_option,
+              structured_rejection_reasons: reasons_for_rejection,
+            ),
+            FactoryBot.build_stubbed(
+              :application_choice,
+              status: :awaiting_provider_decision,
+              decline_by_default_at: 4.days.from_now,
+              application_form: @application_form,
+              course_option: course_option,
+            ),
+            FactoryBot.build_stubbed(
+              :application_choice,
+              application_form: @application_form,
+              decline_by_default_at: 2.days.from_now,
+              status: :awaiting_provider_decision,
+              course_option: course_option2,
+            ),
+          ],
+        )
+        @application_choice = @application_form.application_choices.first
+      end
+
+      it_behaves_like(
+        'a mail with subject and content', :application_rejected_awaiting_decision_only,
+        I18n.t!('candidate_mailer.application_rejected_awaiting_decision_only.subject'),
+        'heading' => 'Dear Tyrell',
+        'course name and code' => 'Forensic Science (E0FO)',
+        'rejection reason heading' => 'Something you did',
+        'rejection reason content' => 'Bad language',
+        'other application details' => "You're waiting for decisions",
+        'first application' => 'Falconholt Technical College to study Forensic Science',
+        'second application' => 'Falconholt Technical College to study Computer Science',
+        'decision day' => 'They should make their decisions by 15 February 2020'
+      )
+    end
+
+    describe '.application_rejected_offers_only' do
+      before do
+        reasons_for_rejection = {
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_what_did_the_candidate_do: %w[other],
+          candidate_behaviour_other: 'Bad language',
+          candidate_behaviour_what_to_improve: 'Do not swear',
+        }
+        provider = build_stubbed(:provider, name: 'Falconholt Technical College')
+        course_option = build_stubbed(:course_option,
+                                      course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
+        course_option2 = build_stubbed(:course_option,
+                                       course: build_stubbed(:course, name: 'Computer Science', provider: provider))
+
+        @application_form = FactoryBot.build_stubbed(
+          :application_form,
+          first_name: 'Tyrell',
+          last_name: 'Wellick',
+          candidate: @application_form.candidate,
+          application_choices: [
+            FactoryBot.build_stubbed(
+              :application_choice,
+              status: :rejected,
+              application_form: @application_form,
+              course_option: course_option,
+              structured_rejection_reasons: reasons_for_rejection,
+            ),
+            FactoryBot.build_stubbed(
+              :application_choice,
+              :with_offer,
+              decline_by_default_at: 5.days.from_now,
+              application_form: @application_form,
+              course_option: course_option,
+            ),
+            FactoryBot.build_stubbed(
+              :application_choice,
+              :with_offer,
+              decline_by_default_at: 10.days.from_now,
+              application_form: @application_form,
+              course_option: course_option2,
+            ),
+          ],
+        )
+        @application_choice = @application_form.application_choices.first
+      end
+
+      it_behaves_like(
+        'a mail with subject and content', :application_rejected_offers_only,
+        I18n.t!('candidate_mailer.application_rejected_offers_only.subject', date: '16 February 2020'),
+        'heading' => 'Dear Tyrell',
+        'course name and code' => 'Forensic Science (E0FO)',
+        'rejection reason heading' => 'Something you did',
+        'rejection reason content' => 'Bad language',
+        'other application details' => 'You’re not waiting for any other decisions.',
+        'first application details' => 'Falconholt Technical College to study Forensic Science',
+        'second application details' => 'Falconholt Technical College to study Computer Science',
+        'respond by date' => 'The offers will automatically be withdrawn if you do not respond by 16 February 2020'
       )
     end
   end

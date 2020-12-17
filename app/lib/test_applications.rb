@@ -14,7 +14,7 @@ class TestApplications
     end
   end
 
-  def create_application(recruitment_cycle_year:, states:, courses_to_apply_to:, apply_again: false, course_full: false, candidate: nil)
+  def create_application(recruitment_cycle_year:, states:, courses_to_apply_to:, apply_again: false, course_full: false, candidate: nil, decline_by_default_at: 3.days.from_now)
     initialize_time(recruitment_cycle_year)
 
     if apply_again
@@ -96,6 +96,7 @@ class TestApplications
           status: 'unsubmitted',
           course_option: course.course_options.first,
           application_form: @application_form,
+          decline_by_default_at: decline_by_default_at,
           created_at: time,
           updated_at: time,
         )
