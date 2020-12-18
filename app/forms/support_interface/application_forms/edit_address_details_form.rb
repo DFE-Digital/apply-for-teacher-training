@@ -42,10 +42,10 @@ module SupportInterface
           address_line3: address_line3,
           address_line4: address_line4,
           postcode: postcode&.upcase,
-          international_address: nil,
           audit_comment: audit_comment,
         }
         attrs[:country] = 'GB' if uk?
+        attrs[:international_address] = international_address if international?
         application_form.update(attrs)
       end
 

@@ -36,12 +36,6 @@ RSpec.feature 'Editing address' do
     then_i_should_see_a_flash_message
     and_i_should_see_the_new_international_address_details
     and_i_should_see_my_international_address_details_comment_in_the_audit_log
-
-    when_i_have_an_international_address_in_the_old_format_and_i_visit_the_application_page
-    and_i_click_the_change_link_next_to_address
-    and_i_select_outside_the_uk
-    then_i_should_see_the_international_address_details_form
-    and_i_should_see_the_old_text_area
   end
 
   def given_i_am_a_support_user
@@ -137,14 +131,5 @@ RSpec.feature 'Editing address' do
   def and_i_should_see_my_international_address_details_comment_in_the_audit_log
     click_on 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #56789'
-  end
-
-  def when_i_have_an_international_address_in_the_old_format_and_i_visit_the_application_page
-    @form_with_old_international_address = create(:completed_application_form, international_address: '123 Chandni Chowk, New Delhi, 110006')
-    visit support_interface_application_form_path(@form_with_old_international_address)
-  end
-
-  def and_i_should_see_the_old_text_area
-    expect(page).to have_content 'International address'
   end
 end

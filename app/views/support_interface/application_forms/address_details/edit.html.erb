@@ -8,7 +8,7 @@
 
       <%= f.govuk_fieldset legend: {text: t('support_interface.edit_address_details_form.address_details.label'), size: 'xl', tag: 'h1'} do %>
 
-        <% if @details_form.international? && @details_form.international_address %>
+        <% if @details_form.international? %>
           <%= f.govuk_text_area :international_address, label: {text: t('support_interface.edit_address_details_form.international_address.label')}, autocomplete: 'address' %>
         <% end %>
         <%= f.govuk_text_field(
