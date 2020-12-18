@@ -188,7 +188,14 @@ module CandidateHelper
     choose 'Outside the UK'
     select('India', from: t('application_form.contact_information.country.label'))
     click_button t('application_form.contact_information.base.button')
-    find(:css, "[autocomplete='address']").fill_in with: 'Vishnu Garden\nNew Delhi\nDelhi\n110018'
+    if FeatureFlag.active?(:international_addresses)
+      fill_in 'candidate_interface_contact_details_form[address_line1]', with: 'Vishnu Gardens'
+      fill_in 'candidate_interface_contact_details_form[address_line3]', with: 'New Delhi'
+      fill_in 'candidate_interface_contact_details_form[address_line4]', with: 'Delhi'
+      fill_in 'candidate_interface_contact_details_form[postcode]', with: '110018'
+    else
+      find(:css, "[autocomplete='address']").fill_in with: 'Vishnu Garden\nNew Delhi\nDelhi\n110018'
+    end
     click_button t('application_form.contact_information.address.button')
 
     check t('application_form.completed_checkbox')
