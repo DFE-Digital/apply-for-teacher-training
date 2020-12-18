@@ -22,11 +22,11 @@
           select_course_options(@pick_course.dropdown_available_courses),
           :id,
           :name,
-          label: { text: t('page_titles.which_course'), size: 'xl' },
+          label: { text: t('page_titles.which_course'), size: 'xl', tag: 'h1' },
           options: { selected: nil },
         ) %>
       <% else %>
-        <%= f.govuk_radio_buttons_fieldset :course_id, legend: { size: 'xl', text: t('page_titles.which_course') } do %>
+        <%= f.govuk_radio_buttons_fieldset :course_id, legend: { size: 'xl', text: t('page_titles.which_course'), tag: 'h1' } do %>
           <% @pick_course.radio_available_courses.each_with_index do |course, i| %>
             <%= f.govuk_radio_button :course_id, course.id, label: { text: "#{course.name} (#{course.code})" }, hint: { text: course.description }, link_errors: i.zero? %>
           <% end %>
