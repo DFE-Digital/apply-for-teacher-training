@@ -46,14 +46,9 @@ module CandidateInterface
 
     def full_address
       if @contact_details_form.uk?
-        [
-          @contact_details_form.address_line1,
-          @contact_details_form.address_line2,
-          @contact_details_form.address_line3,
-          @contact_details_form.address_line4,
-          @contact_details_form.postcode,
-        ]
-          .reject(&:blank?)
+        local_address.reject(&:blank?)
+      elsif FeatureFlag.active?(:international_addresses)
+        local_address.concat([COUNTRIES[@contact_details_form.country]]).reject(&:blank?)
       else
         [
           @contact_details_form.international_address,
@@ -61,6 +56,16 @@ module CandidateInterface
         ]
           .reject(&:blank?)
       end
+    end
+
+    def local_address
+      [
+        @contact_details_form.address_line1,
+        @contact_details_form.address_line2,
+        @contact_details_form.address_line3,
+        @contact_details_form.address_line4,
+        @contact_details_form.postcode,
+      ]
     end
   end
 end

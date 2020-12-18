@@ -6,7 +6,8 @@ module CandidateInterface
                   :address_line4, :postcode, :address_type, :country, :international_address
 
     validates :address_line1, :address_line3, :postcode, presence: true, on: :address, if: :uk?
-    validates :international_address, presence: true, on: :address, if: :international?
+    validates :address_line1, presence: true, on: :address, if: ->(form) { form.international? && FeatureFlag.active?(:international_addresses) }
+    validates :international_address, presence: true, on: :address, if: ->(form) { form.international? && !FeatureFlag.active?(:international_addresses) }
     validates :address_type, presence: true, on: :address_type
     validates :country, presence: true, on: :address_type, if: :international?
 
@@ -15,7 +16,7 @@ module CandidateInterface
 
     validates :phone_number, length: { maximum: 50 }, phone_number: true, on: :base
 
-    validates :postcode, postcode: true, on: :address
+    validates :postcode, postcode: true, on: :address, if: :uk?
 
     def self.build_from_application(application_form)
       new(
@@ -40,16 +41,17 @@ module CandidateInterface
     def save_address(application_form)
       return false unless valid?(:address)
 
-      if uk?
-        application_form.update(
+      if uk? || FeatureFlag.active?(:international_addresses)
+        attrs = {
           address_line1: address_line1,
           address_line2: address_line2,
           address_line3: address_line3,
           address_line4: address_line4,
           postcode: postcode&.upcase,
-          country: 'GB',
           international_address: nil,
-        )
+        }
+        attrs[:country] = 'GB' if uk?
+        application_form.update(attrs)
       else
         application_form.update(
           address_line1: nil,
@@ -77,6 +79,10 @@ module CandidateInterface
 
     def international?
       address_type == 'international'
+    end
+
+    def label_for(attr)
+      I18n.t("application_form.contact_information.#{attr}.#{address_type}.label")
     end
   end
 end

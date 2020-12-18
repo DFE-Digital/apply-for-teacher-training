@@ -62,16 +62,31 @@ en:
         label: Address
         change_action: address
       address_line1:
-        label: Building and street
+        uk:
+          label: Building and street
+        international:
+          label: Building and street
         hidden: line 1 of 2
       address_line2:
-        label: Building and street line 2 of 2
+        uk:
+          label: Building and street line 2 of 2
+        international:
+          label: Building and street line 2 of 2
       address_line3:
-        label: Town or city
+        uk:
+          label: Town or city
+        international:
+          label: City, town or village
       address_line4:
-        label: County
+        uk:
+          label: County
+        international:
+          label: Region, state or province
       postcode:
-        label: Postcode
+        uk:
+          label: Postcode
+        international:
+          label: ZIP or postal code
       complete_form_button: Save and continue
       base:
         button: Save and continue

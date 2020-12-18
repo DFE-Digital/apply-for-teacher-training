@@ -1,9 +1,10 @@
 require 'rails_helper'
 
-RSpec.feature 'Entering their contact information' do
+# TODO: Delete this spec when the `international_addresses` feature flag is removed
+RSpec.feature 'Entering their contact information without international_addresses' do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:international_addresses) }
+  before { FeatureFlag.deactivate(:international_addresses) }
 
   scenario 'Candidate submits their contact information' do
     given_i_am_signed_in
@@ -37,11 +38,7 @@ RSpec.feature 'Entering their contact information' do
     then_i_can_see_my_address_type
 
     when_i_select_outside_the_uk
-    and_i_incorrectly_fill_in_my_international_address
-    and_i_submit_my_address
-    then_i_should_see_validation_errors_for_address_line1
-
-    when_i_fill_in_an_international_address
+    and_fill_in_an_international_address
     and_i_submit_my_address
     then_i_can_check_my_revised_address
 
@@ -142,6 +139,12 @@ RSpec.feature 'Entering their contact information' do
     find_link('Change', href: candidate_interface_contact_details_edit_address_type_path).click
   end
 
+  def then_i_can_see_my_address
+    expect(page).to have_selector("input[value='42 Much Wow Street']")
+    expect(page).to have_selector("input[value='London']")
+    expect(page).to have_selector("input[value='SW1P 3BT']")
+  end
+
   def then_i_can_see_my_address_type
     expect(page).to have_selector("input[value='uk']")
   end
@@ -153,26 +156,13 @@ RSpec.feature 'Entering their contact information' do
     click_button t('application_form.contact_information.base.button')
   end
 
-  def and_i_incorrectly_fill_in_my_international_address
-    fill_in 'candidate_interface_contact_details_form[address_line1]', with: ''
-    fill_in 'candidate_interface_contact_details_form[address_line2]', with: 'New Delhi'
-    fill_in 'candidate_interface_contact_details_form[postcode]', with: '110006'
-  end
-
-  def then_i_should_see_validation_errors_for_address_line1
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/contact_details_form.attributes.address_line1.blank')
-  end
-
-  def when_i_fill_in_an_international_address
-    fill_in 'candidate_interface_contact_details_form[address_line1]', with: '123 Chandni Chowk'
-    fill_in 'candidate_interface_contact_details_form[address_line3]', with: 'New Delhi'
-    fill_in 'candidate_interface_contact_details_form[postcode]', with: '110006'
+  def and_fill_in_an_international_address
+    fill_in t('page_titles.address'), with: '123 Chandni Chowk, Old Delhi'
   end
 
   def then_i_can_check_my_revised_address
-    expect(page).to have_content '123 Chandni Chowk'
-    expect(page).to have_content 'New Delhi'
-    expect(page).to have_content '110006'
+    expect(page).to have_content t('application_form.contact_information.full_address.label')
+    expect(page).to have_content '123 Chandni Chowk, Old Delhi'
     expect(page).to have_content 'India'
   end
 
