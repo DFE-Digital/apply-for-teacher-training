@@ -4,26 +4,27 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
   include DfESignInHelpers
 
   scenario 'A download from UCAS is processed' do
-    given_there_is_a_newly_matched_candidate
-    and_there_is_a_previously_matched_candidate_with_new_data
-    and_there_is_a_previously_matched_candidate_with_no_changes
+    given_there_is_a_new_match
+    and_there_is_a_previous_match_with_new_data
+    and_there_is_a_previous_match_with_no_changes
     and_ucas_has_uploaded_a_file_to_our_shared_folder
 
     a_file_download_check_is_logged { when_the_daily_download_runs }
-    then_we_have_received_a_slack_message
-    and_we_have_sent_emails_to_the_candidate_and_the_provider
+    then_we_have_sent_emails_about_dual_application_to_the_candidate_and_the_provider
+    and_we_have_received_a_slack_message
 
     when_i_visit_the_ucas_matches_page_in_support
     then_the_new_match_is_created
+    then_the_match_with_dual_application_shows_that_we_sent_the_initial_emails
 
-    when_i_click_on_a_match
+    when_i_click_on_the_new_match
     then_i_see_the_matching_info
 
     when_the_daily_download_runs_again
     then_nothing_has_happened
   end
 
-  def given_there_is_a_newly_matched_candidate
+  def given_there_is_a_new_match
     @not_previously_matched = Candidate.create_with(email_address: 'not_previously_matched@abc.com').find_or_create_by(id: 999213)
     @provider_user = create(:provider_user, send_notifications: true)
     course = create(:course, code: 'XYZ', provider: create(:provider, code: 'XX', provider_users: [@provider_user]))
@@ -32,7 +33,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     @not_previously_matched_application_form = create(:completed_application_form, candidate: @not_previously_matched, application_choices: [application_choice])
   end
 
-  def and_there_is_a_previously_matched_candidate_with_new_data
+  def and_there_is_a_previous_match_with_new_data
     @previously_matched_changed = Candidate.create_with(email_address: 'previously_matched_changed@abc.com').find_or_create_by(id: 99944)
     course1 = create(:course, code: 'LMN', provider: create(:provider, code: '2FF'))
     course_option1 = create(:course_option, course: course1)
@@ -47,7 +48,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     create(:ucas_match, application_form: application_form, scheme: %w[U], ucas_status: :offer)
   end
 
-  def and_there_is_a_previously_matched_candidate_with_no_changes
+  def and_there_is_a_previous_match_with_no_changes
     @previously_matched_unchanged = Candidate.create_with(email_address: 'previously_matched_unchanged@abc.com').find_or_create_by(id: 99957)
     course = create(:course, code: 'UVW', provider: create(:provider, code: '1EP'))
     course_option = create(:course_option, course: course)
@@ -111,12 +112,12 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     expect(UCASMatching::FileDownloadCheck).to have_received(:set_last_sync)
   end
 
-  def then_we_have_received_a_slack_message
+  def and_we_have_received_a_slack_message
     expect_slack_message_with_text('It contained 1 new match, 1 updated match, and 1 match we’ve already seen.')
     expect_slack_message_with_text('We have 1 match requiring action.')
   end
 
-  def and_we_have_sent_emails_to_the_candidate_and_the_provider
+  def then_we_have_sent_emails_to_the_candidate_and_the_provider
     candidate_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == @not_previously_matched.email_address }
     expect(candidate_email.subject).to include 'Action required: it looks like you submitted a duplicate application'
 
@@ -134,7 +135,11 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     expect(page).to have_content 'No action taken'
   end
 
-  def when_i_click_on_a_match
+  def then_the_match_with_dual_application_shows_that_we_sent_the_initial_emails
+    expect(page).to have_content 'Initial emails sent'
+  end
+
+  def when_i_click_on_the_new_match
     click_on @not_previously_matched.email_address
   end
 
