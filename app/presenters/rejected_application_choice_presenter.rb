@@ -9,7 +9,7 @@ class RejectedApplicationChoicePresenter < SimpleDelegator
   end
 
   def reasons
-    @reasons ||= ProviderInterface::ReasonsForRejection.new(structured_rejection_reasons)
+    @reasons ||= ReasonsForRejection.new(structured_rejection_reasons)
   end
 
 private
