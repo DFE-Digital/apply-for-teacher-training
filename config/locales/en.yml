@@ -299,8 +299,6 @@ en:
             postcode:
               blank: Enter a postcode
               invalid: Enter a real postcode (for example, BN1 1AA)
-            international_address:
-              blank: Enter your address
             audit_comment:
               blank: You must provide an audit comment
         provider_interface/pick_response_form:
