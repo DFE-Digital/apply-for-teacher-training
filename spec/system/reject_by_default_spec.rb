@@ -4,7 +4,8 @@ RSpec.feature 'Reject by default' do
   include CourseOptionHelpers
 
   scenario 'An application is rejected by default', with_audited: true do
-    given_there_is_a_provider_user_with_a_provider
+    given_there_is_a_provider_user_for_the_provider_course
+    and_the_provider_user_has_send_notifications_enabled
     and_there_is_a_candidate
     and_an_application_is_ready_to_reject_by_default
 
@@ -16,9 +17,13 @@ RSpec.feature 'Reject by default' do
     and_the_candidate_should_receive_an_email
   end
 
-  def given_there_is_a_provider_user_with_a_provider
+  def given_there_is_a_provider_user_for_the_provider_course
     @course_option = course_option_for_provider_code(provider_code: 'ABC')
     @provider_user = Provider.find_by(code: 'ABC').provider_users.first
+  end
+
+  def and_the_provider_user_has_send_notifications_enabled
+    @provider_user.update(send_notifications: true)
   end
 
   def and_there_is_a_candidate

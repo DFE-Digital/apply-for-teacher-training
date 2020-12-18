@@ -764,6 +764,7 @@ FactoryBot.define do
     email_address { "#{Faker::Name.first_name.downcase}-#{SecureRandom.hex}@example.com" }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
+    send_notifications { Faker::Boolean.boolean(true_ratio: 0.5) }
 
     trait :with_provider do
       after(:create) do |user, _evaluator|

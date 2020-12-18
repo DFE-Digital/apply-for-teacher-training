@@ -16,7 +16,7 @@ RSpec.describe AcceptOffer do
 
     it 'sends a notification email to the provider' do
       application_choice = create(:application_choice, status: :offer)
-      provider_user = create :provider_user, providers: [application_choice.provider]
+      provider_user = create :provider_user, send_notifications: true, providers: [application_choice.provider]
 
       expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(2)
       expect(ActionMailer::Base.deliveries.first.to).to eq [provider_user.email_address]
