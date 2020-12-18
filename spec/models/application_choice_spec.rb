@@ -116,7 +116,7 @@ RSpec.describe ApplicationChoice, type: :model do
 
   describe '#structured_rejection_reasons' do
     it 'are serialized and rehydrateable' do
-      reasons = ProviderInterface::ReasonsForRejection.new(
+      reasons = ReasonsForRejection.new(
         candidate_behaviour_y_n: 'Yes',
         candidate_behaviour_what_did_the_candidate_do: %w[other],
         candidate_behaviour_other: 'Used the wrong spoon for soup',
@@ -125,7 +125,7 @@ RSpec.describe ApplicationChoice, type: :model do
       application_choice = create(:application_choice)
       application_choice.update!(structured_rejection_reasons: reasons)
 
-      rehydrated_reasons = ProviderInterface::ReasonsForRejection.new(application_choice.reload.structured_rejection_reasons)
+      rehydrated_reasons = ReasonsForRejection.new(application_choice.reload.structured_rejection_reasons)
       expect(rehydrated_reasons.candidate_behaviour_y_n).to eq('Yes')
       expect(rehydrated_reasons.candidate_behaviour_what_did_the_candidate_do).to eq(%w[other])
       expect(rehydrated_reasons.candidate_behaviour_other).to eq('Used the wrong spoon for soup')

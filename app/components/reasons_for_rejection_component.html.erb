@@ -1,4 +1,4 @@
-<div class="govuk-inset-text">
+<div>
   <% if reasons_for_rejection.candidate_behaviour_y_n == 'Yes' %>
     <div class="app-feedback">
       <%= content_tag(subheading_tag_name, 'Something you did', class: 'govuk-heading-s') %>
@@ -32,6 +32,7 @@
               <p><%= reasons_for_rejection.quality_of_application_other_details %></p>
               <p><%= reasons_for_rejection.quality_of_application_other_what_to_improve %></p>
             <% else %>
+              <p><%= t("reasons_for_rejection.quality_of_application.#{reason}") %>.</p>
               <p><%= reasons_for_rejection.send(:"quality_of_application_#{reason}_what_to_improve") %>.</p>
             <% end %>
           </li>

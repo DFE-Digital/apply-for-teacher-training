@@ -7,7 +7,7 @@ RSpec.describe ReasonsForRejectionComponent do
     let(:reasons_for_rejection_attrs) do
       {
         candidate_behaviour_y_n: 'Yes',
-        candidate_behaviour_what_did_the_candidate_do: %w[other],
+        candidate_behaviour_what_did_the_candidate_do: %w[other didnt_reply_to_interview_offer],
         candidate_behaviour_other: 'Shouted a lot',
         candidate_behaviour_what_to_improve: 'Speak calmly',
         quality_of_application_y_n: 'Yes',
@@ -19,7 +19,8 @@ RSpec.describe ReasonsForRejectionComponent do
         performance_at_interview_y_n: 'Yes',
         performance_at_interview_what_to_improve: 'There was no need to do all those pressups',
         course_full_y_n: 'No',
-        offered_on_another_course_y_n: 'No',
+        offered_on_another_course_y_n: 'Yes',
+        offered_on_another_course_details: 'We felt you would be better suited to Mathematics',
         honesty_and_professionalism_y_n: 'No',
         safeguarding_y_n: 'No',
         other_advice_or_feedback_y_n: 'Yes',
@@ -37,6 +38,7 @@ RSpec.describe ReasonsForRejectionComponent do
       html = result.to_html
 
       expect(result.css('h3.govuk-heading-s').text).to include('Something you did')
+      expect(html).to include('Didn’t reply to our interview offer')
       expect(html).to include('Shouted a lot')
       expect(html).to include('Speak calmly')
 
@@ -51,6 +53,9 @@ RSpec.describe ReasonsForRejectionComponent do
 
       expect(result.css('h3.govuk-heading-s').text).to include('Performance at interview')
       expect(html).to include('There was no need to do all those pressups')
+
+      expect(result.css('h3.govuk-heading-s').text).to include('They offered you a place on another course')
+      expect(html).to include('We felt you would be better suited to Mathematics')
 
       expect(result.css('h3.govuk-heading-s').text).to include('Additional advice')
       expect(html).to include('That zoom background...')

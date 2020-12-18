@@ -47,26 +47,26 @@ RSpec.describe 'Reject a rejected application' do
   end
 
   def then_i_give_reasons_why_i_am_rejecting_the_application_and_check_them
-    choose 'provider-interface-reasons-for-rejection-candidate-behaviour-y-n-yes-field'
-    check 'provider-interface-reasons-for-rejection-candidate-behaviour-what-did-the-candidate-do-other-field'
-    fill_in 'provider-interface-reasons-for-rejection-candidate-behaviour-other-field', with: "There was no need to sing 'Run to the Hills' for us"
-    fill_in 'provider-interface-reasons-for-rejection-candidate-behaviour-what-to-improve-field', with: 'Leave the singing out next time'
+    choose 'reasons-for-rejection-candidate-behaviour-y-n-yes-field'
+    check 'reasons-for-rejection-candidate-behaviour-what-did-the-candidate-do-other-field'
+    fill_in 'reasons-for-rejection-candidate-behaviour-other-field', with: "There was no need to sing 'Run to the Hills' for us"
+    fill_in 'reasons-for-rejection-candidate-behaviour-what-to-improve-field', with: 'Leave the singing out next time'
 
-    choose 'provider-interface-reasons-for-rejection-quality-of-application-y-n-no-field'
+    choose 'reasons-for-rejection-quality-of-application-y-n-no-field'
 
-    choose 'provider-interface-reasons-for-rejection-qualifications-y-n-no-field'
+    choose 'reasons-for-rejection-qualifications-y-n-no-field'
 
-    choose 'provider-interface-reasons-for-rejection-performance-at-interview-y-n-no-field'
+    choose 'reasons-for-rejection-performance-at-interview-y-n-no-field'
 
-    choose 'provider-interface-reasons-for-rejection-course-full-y-n-no-field'
+    choose 'reasons-for-rejection-course-full-y-n-no-field'
 
-    choose 'provider-interface-reasons-for-rejection-offered-on-another-course-y-n-no-field'
+    choose 'reasons-for-rejection-offered-on-another-course-y-n-no-field'
 
-    choose 'provider-interface-reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
-    check 'provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-field'
-    fill_in 'provider-interface-reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: 'We doubt claims about your golf handicap'
+    choose 'reasons-for-rejection-honesty-and-professionalism-y-n-yes-field'
+    check 'reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-field'
+    fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-information-false-or-inaccurate-details-field', with: 'We doubt claims about your golf handicap'
 
-    choose 'provider-interface-reasons-for-rejection-safeguarding-y-n-no-field'
+    choose 'reasons-for-rejection-safeguarding-y-n-no-field'
 
     click_on 'Continue'
 
