@@ -68,6 +68,8 @@ module SupportInterface
       {
         key: 'Nationality',
         value: application_form.nationalities.to_sentence(last_word_connector: ' and '),
+        action: 'nationality',
+        change_path: support_interface_application_form_edit_nationalities_path(application_form),
       }
     end
 
@@ -84,6 +86,8 @@ module SupportInterface
       {
         key: 'Has the right to work or study in the UK?',
         value: RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.fetch(application_form.right_to_work_or_study),
+        action: 'right to work or study',
+        change_path: support_interface_application_form_edit_right_to_work_or_study_path(application_form),
       }
     end
 
@@ -93,6 +97,8 @@ module SupportInterface
       {
         key: 'Residency details',
         value: application_form.right_to_work_or_study_details,
+        action: 'residency details',
+        change_path: support_interface_application_form_edit_right_to_work_or_study_path(application_form),
       }
     end
 
