@@ -109,6 +109,8 @@ module SupportInterface
       {
         key: 'Address',
         value: application_form.full_address,
+        action: 'address',
+        change_path: support_interface_application_form_edit_address_type_path(application_form),
       }
     end
 
