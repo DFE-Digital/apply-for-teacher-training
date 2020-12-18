@@ -28,7 +28,7 @@ en:
 
           We emailed the referee using this address: %{referee_email}
     feedback_received_for_application_rejected_by_default:
-      subject: "Feedback on your application for %{course_name}"
+      subject: "Feedback on your application for %{provider_name}"
     declined_by_default:
       subject:
         one: Application withdrawn automatically

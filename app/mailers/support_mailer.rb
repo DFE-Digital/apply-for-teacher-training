@@ -5,7 +5,7 @@ class SupportMailer < ApplicationMailer
 
     notify_email(
       to: support_user.email_address,
-      subject: 'New sign in to Support for Apply for teacher training',
+      subject: 'New sign in to Support for Apply',
     )
   end
 
