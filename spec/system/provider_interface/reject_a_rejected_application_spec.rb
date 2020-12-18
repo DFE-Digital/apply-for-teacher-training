@@ -71,7 +71,7 @@ RSpec.describe 'Reject a rejected application' do
     click_on 'Continue'
 
     expect(page).to have_content('Something you did')
-    expect(page).to have_content("There was no need to sing 'Run to the Hills' for us\nDetails: Leave the singing out next time")
+    expect(page).to have_content("There was no need to sing 'Run to the Hills' for us\nLeave the singing out next time")
 
     expect(page).to have_content('Honesty and professionalism')
     expect(page).to have_content('We doubt claims about your golf handicap')

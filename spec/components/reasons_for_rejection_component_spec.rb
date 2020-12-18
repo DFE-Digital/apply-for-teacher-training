@@ -40,11 +40,11 @@ RSpec.describe ReasonsForRejectionComponent do
       expect(result.css('h3.govuk-heading-s').text).to include('Something you did')
       expect(html).to include('Didn’t reply to our interview offer')
       expect(html).to include('Shouted a lot')
-      expect(html).to include('Details: Speak calmly')
+      expect(html).to include('Speak calmly')
 
       expect(result.css('h3.govuk-heading-s').text).to include('Quality of application')
       expect(html).to include('Do not refer to yourself in the third person')
-      expect(html).to include('Details: Write in the first person')
+      expect(html).to include('Write in the first person')
 
       expect(result.css('h3.govuk-heading-s').text).to include('Qualifications')
       expect(html).to include('No English GCSE grade 4 (C) or above, or valid equivalent')
