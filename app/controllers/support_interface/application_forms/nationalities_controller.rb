@@ -11,10 +11,10 @@ module SupportInterface
         @nationalities_form = NationalitiesForm.new(prepare_nationalities_params)
 
         if @nationalities_form.save(@application_form)
-          if !british_or_irish?
-            redirect_to support_interface_application_form_edit_right_to_work_or_study_path
-          else
+          if british_or_irish?
             redirect_to support_interface_application_form_path(@application_form)
+          else
+            redirect_to support_interface_application_form_edit_right_to_work_or_study_path
           end
         else
           render :edit
