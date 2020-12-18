@@ -5,21 +5,22 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   scenario 'A download from UCAS is processed' do
     given_there_is_a_new_match
-    and_there_is_a_previous_match_with_new_data
+    and_there_is_a_previous_match_with_dual_application_we_emailed_about
     and_there_is_a_previous_match_with_no_changes
     and_ucas_has_uploaded_a_file_to_our_shared_folder
 
     a_file_download_check_is_logged { when_the_daily_download_runs }
+    then_we_have_sent_email_to_the_provider_that_the_match_was_resolved_on_ucas
     then_we_have_sent_emails_about_dual_application_to_the_candidate_and_the_provider
     and_we_have_received_a_slack_message
 
     when_i_visit_the_ucas_matches_page_in_support
     then_the_new_match_is_created
     then_the_match_with_dual_application_shows_that_we_sent_the_initial_emails
+    then_the_match_with_dual_application_withdrawn_from_ucas_shows_as_resolved_on_ucas
 
     when_i_click_on_the_new_match
     then_i_see_the_matching_info
-
     when_the_daily_download_runs_again
     then_nothing_has_happened
   end
@@ -33,19 +34,18 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     @not_previously_matched_application_form = create(:completed_application_form, candidate: @not_previously_matched, application_choices: [application_choice])
   end
 
-  def and_there_is_a_previous_match_with_new_data
+  def and_there_is_a_previous_match_with_dual_application_we_emailed_about
     @previously_matched_changed = Candidate.create_with(email_address: 'previously_matched_changed@abc.com').find_or_create_by(id: 99944)
-    course1 = create(:course, code: 'LMN', provider: create(:provider, code: '2FF'))
-    course_option1 = create(:course_option, course: course1)
-    application_choice1 = create(:submitted_application_choice, course_option: course_option1)
-    course2 = create(:course, code: 'OPQ', provider: create(:provider, code: 'D87'))
-    course_option2 = create(:course_option, course: course2)
-    application_choice2 = create(:submitted_application_choice, course_option: course_option2)
-    course3 = create(:course, code: 'RST', provider: create(:provider, code: 'L06'))
-    course_option3 = create(:course_option, course: course3)
-    application_choice3 = create(:submitted_application_choice, course_option: course_option3)
-    application_form = create(:completed_application_form, candidate: @previously_matched_changed, application_choices: [application_choice1, application_choice2, application_choice3])
-    create(:ucas_match, application_form: application_form, scheme: %w[U], ucas_status: :offer)
+    @provider_user1 = create(:provider_user, send_notifications: true)
+    course = create(:course, code: 'LMN', provider: create(:provider, code: '2FF', provider_users: [@provider_user1]))
+    course_option = create(:course_option, course: course)
+    application_choice = create(:submitted_application_choice, course_option: course_option)
+    withdrawn_from_ucas_application_form = create(:completed_application_form, candidate: @previously_matched_changed, application_choices: [application_choice])
+    create(:ucas_match,
+           application_form: withdrawn_from_ucas_application_form,
+           matching_data: [{ 'Scheme' => 'B', 'Apply candidate ID' => '99944', 'Provider code' => '2FF', 'Course code' => 'LMN', 'Offers' => '1', 'Withdrawns' => '.', 'Trackable applicant key' => 'ABC99944DEF' }],
+           action_taken: 'initial_emails_sent',
+           candidate_last_contacted_at: 1.business_days.before(Time.zone.now))
   end
 
   def and_there_is_a_previous_match_with_no_changes
@@ -56,7 +56,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     application_form = create(:completed_application_form, candidate: @previously_matched_unchanged, application_choices: [application_choice])
     create(:ucas_match,
            application_form: application_form,
-           matching_data: [{ 'Scheme' => 'D', 'Apply candidate ID' => '99957', 'Provider code' => '1EP', 'Course code' => 'UVW', 'Offers' => '0', 'Trackable applicant key' => 'ABC99957DEFпїЅ' }])
+           matching_data: [{ 'Scheme' => 'D', 'Apply candidate ID' => '99957', 'Provider code' => '1EP', 'Course code' => 'UVW', 'Offers' => '.', 'Withdrawns' => '.', 'Trackable applicant key' => 'ABC99957DEFпїЅ' }])
   end
 
   def and_ucas_has_uploaded_a_file_to_our_shared_folder
@@ -117,7 +117,12 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     expect_slack_message_with_text('We have 1 match requiring action.')
   end
 
-  def then_we_have_sent_emails_to_the_candidate_and_the_provider
+  def then_we_have_sent_email_to_the_provider_that_the_match_was_resolved_on_ucas
+    provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == @provider_user1.email_address }
+    expect(provider_email.subject).to include 'Duplicate applicant removed from UTT'
+  end
+
+  def then_we_have_sent_emails_about_dual_application_to_the_candidate_and_the_provider
     candidate_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == @not_previously_matched.email_address }
     expect(candidate_email.subject).to include 'Action required: it looks like you submitted a duplicate application'
 
@@ -137,6 +142,10 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   def then_the_match_with_dual_application_shows_that_we_sent_the_initial_emails
     expect(page).to have_content 'Initial emails sent'
+  end
+
+  def then_the_match_with_dual_application_withdrawn_from_ucas_shows_as_resolved_on_ucas
+    expect(page).to have_content 'Resolved on UCAS'
   end
 
   def when_i_click_on_the_new_match
