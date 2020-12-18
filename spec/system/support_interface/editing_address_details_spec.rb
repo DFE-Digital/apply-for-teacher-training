@@ -30,12 +30,18 @@ RSpec.feature 'Editing address' do
 
     when_i_submit_the_update_form
     then_i_should_see_blank_error_messages
-
     when_i_fill_in_an_international_address
+
     and_i_submit_the_update_form
     then_i_should_see_a_flash_message
     and_i_should_see_the_new_international_address_details
     and_i_should_see_my_international_address_details_comment_in_the_audit_log
+
+    when_i_have_an_international_address_in_the_old_format_and_i_visit_the_application_page
+    and_i_click_the_change_link_next_to_address
+    and_i_select_outside_the_uk
+    then_i_should_see_the_international_address_details_form
+    and_i_should_see_the_old_text_area
   end
 
   def given_i_am_a_support_user
@@ -43,8 +49,7 @@ RSpec.feature 'Editing address' do
   end
 
   def and_an_application_exists
-    @form = create(:completed_application_form, :with_completed_references)
-    create(:reference, :feedback_requested, name: 'Dumbledore', email_address: 'a.dumbledore@hogwarts.ac.uk', relationship: 'Headmaster', application_form: @form)
+    @form = create(:completed_application_form)
   end
 
   def when_i_visit_the_application_page
@@ -52,7 +57,6 @@ RSpec.feature 'Editing address' do
   end
 
   def and_i_click_the_change_link_next_to_address
-    print page.body
     all('.govuk-summary-list__actions')[6].click_link 'Change'
   end
 
@@ -67,7 +71,7 @@ RSpec.feature 'Editing address' do
 
   def then_i_should_see_the_uk_address_details_form
     expect(page).to have_content('What is the candidate’s address?')
-    expect(page).to have_content('Building and street')
+    expect(page).to have_content('Town or city')
   end
 
   def when_i_submit_the_update_form
@@ -103,31 +107,44 @@ RSpec.feature 'Editing address' do
 
   def and_i_select_outside_the_uk
     choose 'Outside the UK'
-    select('France', from: t('application_form.contact_information.country.label'))
+    select('India', from: t('application_form.contact_information.country.label'))
     click_button 'Save and continue'
   end
 
   def then_i_should_see_the_international_address_details_form
-    expect(page).to have_content('International address')
+    expect(page).to have_content('What is the candidate’s address?')
+    expect(page).to have_content('City, town or village')
   end
 
   def then_i_should_see_blank_error_messages
-    expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_address_details_form.attributes.international_address.blank')
     expect(page).to have_content t('activemodel.errors.models.support_interface/application_forms/edit_address_details_form.attributes.audit_comment.blank')
   end
 
   def when_i_fill_in_an_international_address
-    fill_in t('support_interface.edit_address_details_form.international_address.label'), with: 'Rue de Rivoli, 75001 Paris'
+    fill_in 'support_interface_application_forms_edit_address_details_form[address_line1]', with: '123 Chandni Chowk'
+    fill_in 'support_interface_application_forms_edit_address_details_form[address_line3]', with: 'New Delhi'
+    fill_in 'support_interface_application_forms_edit_address_details_form[postcode]', with: '110006'
     fill_in 'support_interface_application_forms_edit_address_details_form[audit_comment]', with: 'Updated as part of Zen Desk ticket #56789'
   end
 
   def and_i_should_see_the_new_international_address_details
-    expect(page).to have_content 'Rue de Rivoli, 75001 Paris'
-    expect(page).to have_content 'France'
+    expect(page).to have_content '123 Chandni Chowk'
+    expect(page).to have_content 'New Delhi'
+    expect(page).to have_content '110006'
+    expect(page).to have_content 'India'
   end
 
   def and_i_should_see_my_international_address_details_comment_in_the_audit_log
     click_on 'History'
     expect(page).to have_content 'Updated as part of Zen Desk ticket #56789'
+  end
+
+  def when_i_have_an_international_address_in_the_old_format_and_i_visit_the_application_page
+    @form_with_old_international_address = create(:completed_application_form, international_address: '123 Chandni Chowk, New Delhi, 110006')
+    visit support_interface_application_form_path(@form_with_old_international_address)
+  end
+
+  def and_i_should_see_the_old_text_area
+    expect(page).to have_content 'International address'
   end
 end
