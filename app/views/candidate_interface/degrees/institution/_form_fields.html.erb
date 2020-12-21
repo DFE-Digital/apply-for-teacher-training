@@ -23,7 +23,7 @@
 
   <%= f.govuk_text_field(
     :institution_name,
-    label: { text: t('application_form.degree.institution_name.label'), size: 'xl' }
+    label: { text: t('application_form.degree.institution_name.label'), size: 'xl', tag: 'h1' }
   ) %>
   <%= tag.div(id: 'degree-institution-autosuggest', data: { source: @institutions }) %>
 
