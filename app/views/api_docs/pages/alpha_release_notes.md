@@ -2,14 +2,14 @@
 
 Future release notes will be published on the [Release notes page](/api-docs/release-notes).
 
-### Alpha release - 18 December 2019
+## Alpha release - 18 December 2019
 
 - Clarify that when an application is withdrawn, the `reason` can be null.
 - Clarify that HESA ITT data is only available once a candidate is enrolled.
 - Add `phase` to `ApplicationAttributes`, indicating whether the candidate is
   in Apply 1 or Apply 2
 
-### Alpha release - 13 December 2019
+## Alpha release - 13 December 2019
 
 New attributes:
 
@@ -24,7 +24,7 @@ Removed attributes:
 - `Course` `start_date` has been removed, it is replaced by
     `recruitment_cycle_year` (above).
 
-### Alpha release - 11 December 2019
+## Alpha release - 11 December 2019
 
 Changes to the docs:
 
@@ -49,7 +49,7 @@ Updated attributes:
 - Updated the application `status` enum to contain all statuses that could appear
 - We’ve renamed `provider_ucas_code` to `provider_code`, `course_ucas_code` to `course_code` and `site_ucas_code` to `site_code`. The `site_code` will also be able to have more characters.
 
-### Alpha release - 29 October 2019
+## Alpha release - 29 October 2019
 
 Changes to the data:
 
@@ -91,7 +91,7 @@ Additional changes:
 - Add Development and Vendor Sandbox enviroment details to [api info](/api-docs/reference/#api-info) page.
 - Add Authentication and Metadata sections to the API Reference
 
-### Alpha release - 26 September 2019
+## Alpha release - 26 September 2019
 
 Changes to the data:
 
@@ -133,7 +133,7 @@ Additional changes:
   and [rejecting an application](/api-docs/reference/#post-applications-application_id-reject) endpoints in [usage scenarios](/api-docs/usage-scenarios)
 - Clarify the steps between making an offer and confirming that offer conditions are met in [usage scenarios](/api-docs/usage-scenarios)
 
-### Alpha release - 16 September 2019
+## Alpha release - 16 September 2019
 
 Changes to the data:
 
@@ -146,7 +146,7 @@ Changes to the data:
 - Remove description from course resource
 - Add first name, last name and date of birth for Candidate
 
-### Alpha release - 11 September 2019
+## Alpha release - 11 September 2019
 
 Changes to functionality:
 
@@ -178,6 +178,6 @@ Additional changes:
 - Clarify how to make an unconditional and conditional offer
 - Clarify that offer conditions are optional
 
-### Alpha release - 4 July 2019
+## Alpha release - 4 July 2019
 
 Initial release of the API documentation.

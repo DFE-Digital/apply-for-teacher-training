@@ -1,14 +1,14 @@
-### 17th December
+## 17th December
 
 - The `Rejection` `reason` field may now return more complex 'structured' reasons for rejection. The field type remains `string`. The field contains details and advice about the rejected application as seen by the candidate, grouped under relevant headings.
 
-### 16th December 2020
+## 16th December 2020
 
 Changes to existing attributes:
 
 - The `domicile` attribute of `Candidate` has been updated to return two-letter HESA codes instead of ISO 3166-2 country codes. For most international addresses the two types of code are identical, but HESA domicile codes do not include a `GB` value, specifying the country instead (e.g. `XF` for England, `XI` for Wales etc.)
 
-### 15th December 2020
+## 15th December 2020
 
 New feature: reference data. See the [Codes and reference data section](https://www.apply-for-teacher-training.service.gov.uk/api-docs#codes-and-reference-data) of the documentation.
 
@@ -17,7 +17,7 @@ New feature: reference data. See the [Codes and reference data section](https://
 - `reference-data/a-and-as-level-subjects` returns a list of A and AS Level subjects
 - `reference-data/a-and-as-level-grades` returns a list of A and AS Level grades
 
-### 11th December 2020
+## 11th December 2020
 
 Change to international addresses:
 
@@ -27,48 +27,48 @@ Change to international addresses:
 - `address_line1` character count is reduced from 200 to 50 in line with other
   address lines.
 
-### 7th December 2020
+## 7th December 2020
 
 Documentation:
 
 - Clarify the format of the `grade` field in the spec and documentation
 
-### 19th November 2020
+## 19th November 2020
 
-- The `Qualification` object now supports multiple types of English GCSEs (eg. English Language, English Studies Double 
-Award). Candidates may have multiple English GCSEs. Each GCSE is provided as a separate `Qualification`. The title of 
-the GCSE is given in the `subject` field. 
+- The `Qualification` object now supports multiple types of English GCSEs (eg. English Language, English Studies Double
+Award). Candidates may have multiple English GCSEs. Each GCSE is provided as a separate `Qualification`. The title of
+the GCSE is given in the `subject` field.
 
-### 16th November 2020
+## 16th November 2020
+
 - The `Qualification` `grade` field will now be populated with GCSE Science triple award information
   in the following format, where present:
   `[biology_grade][chemistry_grade][physics_grade]` e.g 'ABC'
 
-### 13th November 2020
+## 13th November 2020
 
 Documentation has been amended to indicate that `disability` is an array and not a string
 
-### 9th November 2020
+## 9th November 2020
 
 New attributes:
 
 - `Course` now has a `start_date` attribute giving the month and year the
   course begins
 
-### 23rd October 2020
+## 23rd October 2020
 
 New attributes:
 
 - `ApplicationAttributes` now has a `recruited_at` attribute which will contain
   an ISO8601 date for candidates in the `recruited` state.
-- `Offer` now has three new date fields: `offer_made_at`, `offer_accepted_at` and
-  `offer_declined_at`.
+- `Offer` now has three new date fields: `offer_made_at`, `offer_accepted_at` and `offer_declined_at`.
 - `Reference` now has two new fields: an enum `referee_type` and a boolean
   `safeguarding_concerns`
 - `Qualification` now has a free text field `non_uk_qualification_type` which
   is populated in the event the qualification type is `non_uk`
 
-### 8th October 2020
+## 8th October 2020
 
 New attributes:
 
@@ -79,7 +79,7 @@ Changes to existing attributes:
 
 - The `equivalency_details` attribute of `Qualification` will now contain a NARIC code and its description, if these are avalailable. Example: 'Naric: 4000123456 - Between GCSE and GCSE AS Level - Equivalent to GCSE C'
 
-### 5th October 2020
+## 5th October 2020
 
 Changes to existing attributes:
 
@@ -87,48 +87,48 @@ Changes to existing attributes:
   accepted. (Previously it was following enrolment, but enrolment has been
   removed).
 
-### 29th September 2020
+## 29th September 2020
 
 New attributes:
 
 - `Reference` now has a unique `id` attribute of type integer to assist with tracking of reference changes.
 
-### 16th September 2020
+## 16th September 2020
 
 Changes to existing attributes:
 
 - Increase the limit of elements in the `nationality` array to 5. Nationalities are sorted so British or Irish are first.
 - `uk_residency_status` now returns strings indicating candidate's right to work and study in the UK
 
-### 15th September 2020
+## 15th September 2020
 
 Changes to existing attributes:
 
 - Maximum length of `address_line1` increased to 200 characters to account for international addresses.
 
-### 9th September 2020
+## 9th September 2020
 
 - fix a bug with test data generation where provider names in qualifications
 were strings like `#<struct HESA::Institution::InstitutionStruct...>`
 
-### 1st September 2020
+## 1st September 2020
 
 - Deprecate the `enrolled` state which will not be part of the Apply service
 - Deprecate the `enrol` endpoint which will now simply return the application unchanged
 - Remove mentions of enrolment from the API documentation
 
-### 28th August 2020
+## 28th August 2020
 
 New attributes:
 
 - `Application` now has a `safeguarding_issues_status` attribute of type string and an optional `safeguarding_issues_details_url` attribute of type string.
 
-### 24th August 2020
+## 24th August 2020
 
 - Fix a bug where the study mode of a chosen or offered course appeared as
   "full_or_part_time" instead of "full_time" or "part_time" as appropriate.
 
-### 10th August 2020
+## 10th August 2020
 
 - `POST /application/:id/offer` is now idempotent and will continue to return 200
 if the same offer details are POSTed repeatedly
@@ -138,7 +138,7 @@ saying it was necessary to offer a different course.
 - Deprecate `Withdrawal.reason`, which was supposed to hold a candidate’s reason for
 withdrawing their application. The Apply service will not collect this information
 
-### 7th July 2020
+## 7th July 2020
 
 Documentation has been amended to emphasise the stability of `/applications` endpoints
 in contrast to the `/test-data` endpoints.
@@ -148,84 +148,84 @@ Experimental endpoints have also been updated:
 - `/test-data/regenerate` endpoint has been deactivated. The response contains an explanatory error message.
 - `/experimental/test-data/*` endpoints moved to `/test-data/*` and POST requests to the old paths return 410 status with a message detailing the new location.
 
-### 2nd July 2020
+## 2nd July 2020
 
 The documentation around the `/offer` endpoint has been clarified to show that:
 
 - it is possible to change the offer by POSTing to that endpoint again
 - for the time being, a changed offer must have a changed course, not just changed conditions
 
-### 30th June 2020
+## 30th June 2020
 
 New attributes:
 
 - `Rejection` now has a `date` attribute of type string.
 
-### 24th June 2020
+## 24th June 2020
 
 Changes to existing attributes:
 
 - `ContactDetails` attributes `address_line1`, `address_line2`, `address_line3` and `postcode` are no longer required attributes.
 
-### 16th June 2020
+## 16th June 2020
 
 Sandbox changes:
 
 - Sandbox no longer sends emails to providers about application state changes
 
-### 15th June 2020
+## 15th June 2020
 
 New attributes:
 
 - `Qualification` now has a `start_year` attribute of type string.
 
-### 9th June 2020
+## 9th June 2020
 
 New attributes:
 
 - `ApplicationAttributes` now has a `support_reference` attribute of type string.
 
-### 20th May 2020
+## 20th May 2020
 
 Corrections to documentation
 
 - The Application lifecycle incorrectly stated that candidates have 5 days to respond to offers. This has been amended to 10 days.
 - Clarify that we use the two-letter version of ISO 3166, ISO 3166-2, for country codes.
 
-### 11th February 2020
+## 11th February 2020
 
 New attributes:
 
 - `Rejection` now includes offer withdrawal reasons
 
-### 10 February 2020
+## 10 February 2020
 
 - Add minimum of 1 to `courses_per_application` field for [`test-data/generate`](/experimental/test-data/generate). Stops test application data being generated that have zero courses per application.
 
-### 5th February 2020
+## 5th February 2020
 
 Field lengths updated:
 
 - free text coming from inline inputs is standardised to 256 chars
 - free text coming from textareas is standardised to 10240 chars (allowing room for over 1000 words)
 
-### 28th January 2020
+## 28th January 2020
 
 New attributes:
 
 - `WorkExperience` now has a unique `id` attribute of type integer.
 - `Qualification` now has a unique `id` attribute of type integer.
 
-### 14th January 2020
+## 14th January 2020
 
 - Introduce `missing_gcses_explanation` field to [`qualifications`](/api-docs/reference#qualifications-object). This contains the candidate’s explanation for any missing GCSE (or equivalent) qualifications.
 
-### 7th January 2020
+## 7th January 2020
 
 - Correct size of [`personal_statement`](/api-docs/reference#applicationattributes-object) field to 11624 chars
 - Introduce `work_history_break_explanation` field to [`work_experience`](/api-docs/reference#workexperiences-object). This contains the candidate’s explanation for any breaks in work history.
 
-### v1.0 — 18th December 2019
+## v1.0 — 18th December 2019
 
 Initial release of the API.
 
