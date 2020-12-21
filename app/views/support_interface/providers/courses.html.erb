@@ -3,7 +3,7 @@
 <% if @provider.sync_courses? %>
   <% unless @courses[RecruitmentCycle.current_year].to_a.all?(&:open_on_apply?) %>
     <%= form_with model: @provider, url: support_interface_provider_path(@provider), method: :post do |f| %>
-      <h3 class="govuk-heading-m">Open all courses</h3>
+      <h2 class="govuk-heading-m">Open all courses</h2>
 
       <p class="govuk-body">This will toggle every course on this provider to be available through Apply.</p>
 
@@ -18,7 +18,7 @@
 
   <% RecruitmentCycle.years_visible_in_support.each do |year| %>
     <% if @courses[year] %>
-      <h3 class='govuk-heading-m'><%= year %>: <%= pluralize(@courses[year].size, 'course') %> (<%= @courses[year].count(&:open_on_apply?) %> on DfE Apply)</h3>
+      <h2 class="govuk-heading-m"><%= year %>: <%= pluralize(@courses[year].size, 'course') %> (<%= @courses[year].count(&:open_on_apply?) %> on DfE Apply)</h2>
 
       <%= render(SupportInterface::ProviderCoursesTableComponent.new(provider: @provider, courses: @courses[year])) %>
     <% else %>
