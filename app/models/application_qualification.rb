@@ -1,4 +1,6 @@
 class ApplicationQualification < ApplicationRecord
+  include AffectsApplicationAPIResponse
+
   EXPECTED_DEGREE_DATA = %i[
     qualification_type
     subject
@@ -29,6 +31,7 @@ class ApplicationQualification < ApplicationRecord
   SCIENCE_TRIPLE_AWARD = 'science triple award'.freeze
 
   belongs_to :application_form, touch: true
+  has_many :application_choices, through: :application_form
 
   scope :degrees, -> { where level: 'degree' }
   scope :gcses, -> { where level: 'gcse' }

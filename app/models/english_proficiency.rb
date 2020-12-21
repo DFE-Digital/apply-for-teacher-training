@@ -1,7 +1,9 @@
 class EnglishProficiency < ApplicationRecord
+  include AffectsApplicationAPIResponse
   audited associated_with: :application_form
 
   belongs_to :application_form
+  has_many :application_choices, through: :application_form
   belongs_to :efl_qualification, polymorphic: true, optional: true, dependent: :destroy
 
   enum qualification_status: {

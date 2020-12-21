@@ -1,5 +1,6 @@
 class ApplicationReference < ApplicationRecord
   include Chased
+  include AffectsApplicationAPIResponse
 
   self.table_name = 'references'
 
@@ -7,6 +8,7 @@ class ApplicationReference < ApplicationRecord
 
   belongs_to :application_form, touch: true
   has_many :reference_tokens, dependent: :destroy
+  has_many :application_choices, through: :application_form
 
   audited associated_with: :application_form
 
