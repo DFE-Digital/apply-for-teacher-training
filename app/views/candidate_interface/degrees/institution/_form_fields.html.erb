@@ -25,7 +25,7 @@
     :institution_name,
     label: { text: t('application_form.degree.institution_name.label'), size: 'xl' }
   ) %>
-  <%= tag.div(id: 'degree-institution-autocomplete', data: { source: @institutions }) %>
+  <%= tag.div(id: 'degree-institution-autosuggest', data: { source: @institutions }) %>
 
 <% end %>
 <%= f.govuk_submit t('application_form.degree.base.button') %>

@@ -1,6 +1,6 @@
-import { accessibleAutocompleteFromSource } from "./helpers.js";
+import { accessibleAutosuggestFromSource } from "./helpers.js";
 
-const initOtherUKQualificationsTypeAutocomplete = () => {
+const initOtherUKQualificationsTypeAutosuggest = () => {
   try {
     const inputIds = [
       "candidate-interface-other-qualification-type-form-other-uk-qualification-type-field",
@@ -11,11 +11,11 @@ const initOtherUKQualificationsTypeAutocomplete = () => {
       const input = document.getElementById(inputId);
       if (!input) return;
 
-      const containerId = "other-uk-qualifications-autocomplete";
+      const containerId = "other-uk-qualifications-autosuggest";
       const container = document.getElementById(containerId);
       if (!container) return;
 
-      accessibleAutocompleteFromSource(input, container);
+      accessibleAutosuggestFromSource(input, container);
     });
 
   } catch (err) {
@@ -23,4 +23,4 @@ const initOtherUKQualificationsTypeAutocomplete = () => {
   }
 };
 
-export default initOtherUKQualificationsTypeAutocomplete;
+export default initOtherUKQualificationsTypeAutosuggest;

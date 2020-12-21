@@ -1,6 +1,6 @@
-import { accessibleAutocompleteFromSource } from "./helpers.js";
+import { accessibleAutosuggestFromSource } from "./helpers.js";
 
-const initOtherQualificationsSubjectAutocomplete = () => {
+const initOtherQualificationsSubjectAutosuggest = () => {
   try {
     const inputIds = [
       "candidate-interface-other-qualification-details-form-subject-field",
@@ -11,11 +11,11 @@ const initOtherQualificationsSubjectAutocomplete = () => {
       const input = document.getElementById(inputId);
       if (!input) return;
 
-      const containerId = "subject-autocomplete-data";
+      const containerId = "subject-autosuggest-data";
       const container = document.getElementById(containerId);
       if (!container) return;
 
-      accessibleAutocompleteFromSource(input, container);
+      accessibleAutosuggestFromSource(input, container);
     });
 
   } catch (err) {
@@ -23,4 +23,4 @@ const initOtherQualificationsSubjectAutocomplete = () => {
   }
 };
 
-export default initOtherQualificationsSubjectAutocomplete;
+export default initOtherQualificationsSubjectAutosuggest;

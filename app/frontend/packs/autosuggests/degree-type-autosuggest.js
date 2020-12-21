@@ -1,6 +1,6 @@
-import { accessibleAutocompleteFromSource } from "./helpers.js";
+import { accessibleAutosuggestFromSource } from "./helpers.js";
 
-const initDegreeTypeAutocomplete = () => {
+const initDegreeTypeAutosuggest = () => {
   function inputTemplate(result) {
     return result ? result.split('|').pop() : '';
   }
@@ -23,11 +23,11 @@ const initDegreeTypeAutocomplete = () => {
       const input = document.getElementById(inputId);
       if (!input) return;
 
-      const containerId = "degree-type-autocomplete";
+      const containerId = "degree-type-autosuggest";
       const container = document.getElementById(containerId);
       if (!container) return;
 
-      accessibleAutocompleteFromSource(input, container, {
+      accessibleAutosuggestFromSource(input, container, {
         templates: {
           inputValue: inputTemplate,
           suggestion: suggestionTemplate
@@ -40,4 +40,4 @@ const initDegreeTypeAutocomplete = () => {
   }
 };
 
-export default initDegreeTypeAutocomplete;
+export default initDegreeTypeAutosuggest;

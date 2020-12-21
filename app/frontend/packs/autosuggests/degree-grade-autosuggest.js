@@ -1,6 +1,6 @@
-import { accessibleAutocompleteFromSource } from "./helpers.js";
+import { accessibleAutosuggestFromSource } from "./helpers.js";
 
-const initDegreeGradeAutocomplete = () => {
+const initDegreeGradeAutosuggest = () => {
   try {
     const inputIds = [
       "candidate-interface-degree-grade-form-other-grade-field",
@@ -11,11 +11,11 @@ const initDegreeGradeAutocomplete = () => {
       const input = document.getElementById(inputId);
       if (!input) return;
 
-      const containerId = "degree-grade-autocomplete";
+      const containerId = "degree-grade-autosuggest";
       const container = document.getElementById(containerId);
       if (!container) return;
 
-      accessibleAutocompleteFromSource(input, container);
+      accessibleAutosuggestFromSource(input, container);
     });
 
   } catch (err) {
@@ -23,4 +23,4 @@ const initDegreeGradeAutocomplete = () => {
   }
 };
 
-export default initDegreeGradeAutocomplete;
+export default initDegreeGradeAutosuggest;
