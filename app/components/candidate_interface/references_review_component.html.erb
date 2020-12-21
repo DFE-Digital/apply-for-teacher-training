@@ -10,7 +10,7 @@
       editable: editable && editable?(reference),
       ignore_editable: ignore_editable_for,
     )) do %>
-      <%= render(SummaryCardHeaderComponent.new(title: card_title(reference))) do %>
+      <%= render(SummaryCardHeaderComponent.new(title: card_title(reference), heading_level: @heading_level)) do %>
         <div class="app-summary-card__actions">
           <ul class="app-summary-card__actions-list">
             <% if reference.feedback_requested? %>

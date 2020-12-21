@@ -2,11 +2,12 @@ module CandidateInterface
   class ReferencesReviewComponent < ViewComponent::Base
     attr_reader :references, :editable, :show_history, :is_errored
 
-    def initialize(references:, editable: true, show_history: false, is_errored: false)
+    def initialize(references:, editable: true, show_history: false, is_errored: false, heading_level: 2)
       @references = references
       @editable = editable
       @show_history = show_history
       @is_errored = is_errored
+      @heading_level = heading_level
     end
 
     def card_title(reference)
