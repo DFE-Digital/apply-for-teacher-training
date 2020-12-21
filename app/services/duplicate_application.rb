@@ -20,6 +20,7 @@ class DuplicateApplication
     )
 
     new_application_form = ApplicationForm.create!(attrs)
+    original_application_form.reload
 
     original_application_form.application_work_experiences.each do |w|
       new_application_form.application_work_experiences.create!(

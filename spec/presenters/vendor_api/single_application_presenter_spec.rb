@@ -69,13 +69,13 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     context 'when the work history breaks field has a value' do
       it 'returns the work_history_breaks attribute of an application' do
         breaks = []
-        application_form = build_stubbed(
+        application_form = create(
           :completed_application_form,
           :with_completed_references,
           work_history_breaks: 'I was sleeping.',
           application_work_history_breaks: breaks,
         )
-        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+        application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
         response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
@@ -86,16 +86,15 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     context 'when individual breaks have been entered' do
       it 'returns a concatentation of application_work_history_breaks of an application' do
-        break1 = build_stubbed(:application_work_history_break, start_date: february2019, end_date: april2019, reason: 'I was watching TV.')
-        break2 = build_stubbed(:application_work_history_break, start_date: september2019, end_date: december2019, reason: 'I was playing games.')
-        breaks = [break1, break2]
-        application_form = build_stubbed(
+        application_form = create(
           :completed_application_form,
           :with_completed_references,
           work_history_breaks: nil,
-          application_work_history_breaks: breaks,
         )
-        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+        create(:application_work_history_break, start_date: february2019, end_date: april2019, reason: 'I was watching TV.', application_form: application_form)
+        create(:application_work_history_break, start_date: september2019, end_date: december2019, reason: 'I was playing games.', application_form: application_form)
+
+        application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
         response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
@@ -109,13 +108,13 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     context 'when no breaks have been entered' do
       it 'returns an empty string' do
         breaks = []
-        application_form = build_stubbed(
+        application_form = create(
           :completed_application_form,
           :with_completed_references,
           work_history_breaks: nil,
           application_work_history_breaks: breaks,
         )
-        application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+        application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
         response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
@@ -416,7 +415,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.qualifications' do
     let(:application_choice) { create(:application_choice, :with_offer) }
-    let(:presenter) { VendorAPI::SingleApplicationPresenter.new(application_choice) }
+    let(:presenter) { VendorAPI::SingleApplicationPresenter.new(application_choice.reload) }
 
     it 'contains HESA qualification fields' do
       create(

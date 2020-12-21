@@ -110,10 +110,11 @@ RSpec.describe ApplicationForm do
     end
 
     it 'can view audit records for ApplicationForm and its associated ApplicationChoices' do
-      application_form = create(:completed_application_form, application_choices_count: 1)
+      application_choice = create(:application_choice, :rejected)
+      application_form = create(:application_form, application_choices: [application_choice])
 
       expect {
-        application_form.application_choices.first.update!(rejection_reason: 'rejected')
+        application_form.application_choices.first.update!(rejected_at: 1.week.ago)
       }.to change { application_form.own_and_associated_audits.count }.by(1)
     end
   end

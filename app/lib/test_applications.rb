@@ -9,7 +9,7 @@ class TestApplications
       create_application(
         recruitment_cycle_year: 2021,
         states: [:awaiting_provider_decision] * courses_per_application,
-        courses_to_apply_to: Course.current_cycle.includes(:course_options).joins(:course_options).distinct.open_on_apply.where(provider: provider),
+        courses_to_apply_to: Course.current_cycle.includes(:course_options, :provider).joins(:course_options).distinct.open_on_apply.where(provider: provider),
       )
     end
   end

@@ -244,13 +244,8 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
 
   context 'when a course choice is rejected' do
     it 'renders component with the status as rejected and displays the reason' do
-      application_form = create(:application_form)
-      create(
-        :application_choice,
-        application_form: application_form,
-        status: 'rejected',
-        rejection_reason: 'Course full',
-      )
+      rejected_choice = create(:application_choice, :with_rejection, rejection_reason: 'Course full')
+      application_form = create(:application_form, application_choices: [rejected_choice])
 
       result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
 

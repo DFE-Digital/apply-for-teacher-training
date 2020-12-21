@@ -198,17 +198,15 @@ RSpec.describe SetDeclineByDefault do
       end
     end
 
-    it 'does not set DBD fields on non-offer application_choices (e.g. rejected/withdrawn)' do
-      choices[0].update(status: :offer, offered_at: 1.business_days.before(now))
-      choices[1].update(status: :rejected, rejected_at: 2.business_days.before(now))
-      choices[2].update(status: :withdrawn, offered_at: 3.business_days.before(now))
+    it 'does not set DBD fields on non-offer application_choices' do
+      rejected_choice = create(:application_choice, :with_rejection)
+      form = create(:application_form, application_choices: [rejected_choice])
 
-      call_service
+      SetDeclineByDefault.new(application_form: form)
+      rejected_choice.reload
 
-      choices.where.not(status: :offer).each do |choice|
-        expect(choice.reload.decline_by_default_at).to be_nil
-        expect(choice.reload.decline_by_default_days).to be_nil
-      end
+      expect(rejected_choice.decline_by_default_at).to be_nil
+      expect(rejected_choice.decline_by_default_days).to be_nil
     end
 
     it 'does not update dates when nothing changes', with_audited: true do
