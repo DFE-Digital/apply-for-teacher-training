@@ -5,8 +5,14 @@ RSpec.feature 'Viewing the provider user account page' do
 
   scenario 'Provider user visits their account page with various permissions' do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_i_can_manage_organisations_but_not_users
+    given_i_cannot_manage_users_or_organisations
+
     and_i_sign_in_to_the_provider_interface
+
+    when_i_go_to_my_account
+    then_i_can_only_see_the_manage_notifications_link
+
+    given_i_can_manage_organisations_but_not_users
 
     when_i_go_to_my_account
     then_i_can_see_the_organisational_permissions_link_and_not_the_users_one
@@ -22,8 +28,21 @@ RSpec.feature 'Viewing the provider user account page' do
     provider_user_exists_in_apply_database
   end
 
-  def and_i_can_manage_organisations_but_not_users
+  def given_i_cannot_manage_users_or_organisations
     @provider_user = ProviderUser.last
+    @provider_user.provider_permissions.update_all(
+      manage_organisations: false,
+      manage_users: false,
+    )
+  end
+
+  def then_i_can_only_see_the_manage_notifications_link
+    expect(page).to have_content(t('page_titles.provider.notifications'))
+    expect(page).not_to have_content(t('page_titles.provider.users'))
+    expect(page).not_to have_content(t('page_titles.provider.org_permissions'))
+  end
+
+  def given_i_can_manage_organisations_but_not_users
     training_provider = Provider.find_by(code: 'ABC')
     ratifying_provider = Provider.find_by(code: 'DEF')
 

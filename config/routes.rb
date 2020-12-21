@@ -602,6 +602,7 @@ Rails.application.routes.draw do
       end
 
       resources :organisations, only: %i[index show], path: 'organisational-permissions'
+      resource :notifications, only: %i[show update], path: 'notification-settings'
     end
 
     scope path: '/provider-relationship-permissions' do

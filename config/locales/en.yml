@@ -154,6 +154,7 @@ en:
       users: Users
       export_hesa_data: Export data for Higher Education Statistics Agency (HESA)
       export_application_data: Export data
+      notifications: Email notifications
     start_apply_again: Do you want to apply again?
     start_carry_over: Do you want to continue applying?
     start_carry_over_between_cycles: You can apply again
