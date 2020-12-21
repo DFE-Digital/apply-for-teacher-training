@@ -23,26 +23,6 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
       expect_row_to_match_application_choice(row, choice)
     end
 
-    it 'returns data for application_choices with a completed form and no degree' do
-      application_form_no_degree = create(:completed_application_form)
-      choice = create(:application_choice, application_form: application_form_no_degree)
-
-      exported_data = CSV.parse(described_class.call(application_choices: choice), headers: true)
-      row = exported_data.first
-
-      expect_row_to_match_application_choice(row, choice)
-    end
-
-    it 'returns data for application_choices with an incomplete application form' do
-      application_form = create(:application_form, first_nationality: 'British', second_nationality: 'American')
-      choice = create(:application_choice, application_form: application_form)
-
-      exported_data = CSV.parse(described_class.call(application_choices: choice), headers: true)
-      row = exported_data.first
-
-      expect_row_to_match_application_choice(row, choice)
-    end
-
     def expect_row_to_match_application_choice(row, application_choice)
       first_degree = application_choice.application_form.application_qualifications
                        .order(created_at: :asc)

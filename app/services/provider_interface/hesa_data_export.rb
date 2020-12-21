@@ -100,7 +100,7 @@ module ProviderInterface
     end
 
     def first_degree_year(application, year_type)
-      application.first_degree&.send year_type
+      application.first_degree.send year_type
     end
 
     def year_to_iso8601(year)

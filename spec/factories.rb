@@ -175,6 +175,10 @@ FactoryBot.define do
         safeguarding_issues_status { 'never_asked' }
       end
 
+      trait :with_degree do
+        with_degree { true }
+      end
+
       after(:build) do |application_form, evaluator|
         if evaluator.with_gcses
           create(:gcse_qualification, application_form: application_form, subject: 'maths')
@@ -475,7 +479,7 @@ FactoryBot.define do
   end
 
   factory :application_choice do
-    application_form
+    association :application_form, factory: %i[completed_application_form with_completed_references with_degree]
     course_option
 
     status { ApplicationStateChange.valid_states.sample }
@@ -484,11 +488,9 @@ FactoryBot.define do
       status { 'awaiting_provider_decision' }
       reject_by_default_at { 40.business_days.from_now }
       reject_by_default_days { 40 }
-      association :application_form, factory: %i[completed_application_form with_completed_references]
     end
 
     trait :awaiting_provider_decision do
-      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :awaiting_provider_decision }
 
       reject_by_default_days { 40 }
@@ -501,7 +503,6 @@ FactoryBot.define do
     end
 
     trait :withdrawn_with_survey_completed do
-      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :withdrawn }
       withdrawn_at { Time.zone.now }
       withdrawal_feedback do
@@ -597,7 +598,6 @@ FactoryBot.define do
     end
 
     trait :with_offer do
-      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { 'offer' }
       decline_by_default_at { Time.zone.now + 7.days }
       decline_by_default_days { 10 }
