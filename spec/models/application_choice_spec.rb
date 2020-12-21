@@ -1,6 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationChoice, type: :model do
+  describe '#refresh_api_response_cache' do
+    it 'updates last_public_update_at to the last time the application choice changed in the API' do
+      choice = create(:application_choice, :with_rejection)
+
+      expect {
+        choice.update(rejection_reason: 'New rejection reason')
+      }.to(change { choice.last_public_update_at })
+    end
+
+    # TODO: until we change application_choice.updated_at for application_choice.last_public_update_at
+    # in the api response the cache will ALWAYS be invalid and we'll always have updated_at in the response.
+    # this state of affairs will not exist for long
+    #
+    # it 'does not change last_public_update_at when an update would not change the application in the API' do
+    #   choice = create(:application_choice, :awaiting_provider_decision)
+    #
+    #   expect {
+    #     choice.update(offer_deferred_at: Time.zone.now)
+    #   }.not_to(change { choice.last_public_update_at })
+    # end
+  end
+
   describe 'auditing', with_audited: true do
     it 'creates audit entries' do
       application_choice = create :application_choice, status: 'unsubmitted'

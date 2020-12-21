@@ -11,9 +11,21 @@ class ApplicationChoice < ApplicationRecord
   has_one :provider, through: :course
   has_one :accredited_provider, through: :course, class_name: 'Provider'
   has_one :candidate, through: :application_form
+  has_one :application_response_cache
 
   has_many :notes, dependent: :destroy
   validates :course_option, uniqueness: { scope: :application_form_id }
+
+  after_save :refresh_api_response_cache
+
+  def refresh_api_response_cache
+    build_application_response_cache if application_response_cache.nil?
+
+    if application_response_cache.stale?
+      update_columns(last_public_update_at: Time.zone.now)
+      application_response_cache.refresh!
+    end
+  end
 
   audited associated_with: :application_form
 

@@ -16,7 +16,7 @@ module VendorAPI
           status: status,
           phase: application_form.phase,
           updated_at: application_choice.updated_at.iso8601,
-          submitted_at: application_form.submitted_at.iso8601,
+          submitted_at: application_form.submitted_at&.iso8601,
           personal_statement: personal_statement,
           interview_preferences: application_form.interview_preferences,
           reject_by_default_at: application_choice.reject_by_default_at&.iso8601,
