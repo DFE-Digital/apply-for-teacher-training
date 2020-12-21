@@ -20,7 +20,7 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<h3 class="govuk-heading-m">Cycle years</h3>
+<h2 class="govuk-heading-m">Cycle years</h2>
 
 <%= render SummaryListComponent.new(rows: {
   'Previous cycle year' => RecruitmentCycle.previous_year,
@@ -29,7 +29,7 @@
   'Years visible to providers' => RecruitmentCycle.years_visible_to_providers.to_sentence,
 }) %>
 
-<h3 class="govuk-heading-m">Deadlines</h2>
+<h2 class="govuk-heading-m">Deadlines</h2>
 
 <p class="govuk-body">(Today is <%= Date.today.to_s(:govuk_date) %>)</p>
 
@@ -42,7 +42,7 @@
   'Apply reopens on' => EndOfCycleTimetable.apply_reopens.to_s(:govuk_date),
 }) %>
 
-<h3 class="govuk-heading-m">Flags</h3>
+<h2 class="govuk-heading-m">Flags</h2>
 
 <%= render SummaryListComponent.new(rows: {
   'Show Apply 1 deadline banner?' => boolean_to_word(EndOfCycleTimetable.show_apply_1_deadline_banner?),
