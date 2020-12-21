@@ -2,8 +2,6 @@
 
 <%= render 'ucas_match_navigation', title: 'Details', match: @match %>
 
-<h2 class='govuk-heading-l'>UCAS match</h2>
-
 <%= render SupportInterface::UCASMatchActionComponent.new(@match) %>
 
 <% application = @match.candidate.application_forms.first %>
@@ -25,10 +23,10 @@
   'Application on Apply' => govuk_link_to('View application', support_interface_application_form_path(application)),
 }) %>
 
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Course choices</h2>
+<h2 class="govuk-heading-m govuk-!-margin-top-8">Course choices</h2>
 <%= render SupportInterface::UCASMatchTableComponent.new(@match) %>
 
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Matched courses</h2>
+<h2 class="govuk-heading-m govuk-!-margin-top-8">Matched courses</h2>
 <% @match.matching_data.each do |matching_datum| %>
   <%= render SummaryCardComponent.new(rows: matching_datum) %>
 <% end %>
