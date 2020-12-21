@@ -1,9 +1,5 @@
 <section class="app-summary-card govuk-!-margin-bottom-6">
-  <header class="app-summary-card__header">
-    <h3 class="app-summary-card__title">
-      You have a break in your work history in the last 5 years (<%= format_months_to_years_and_months(@work_break.length) %>)
-    </h3>
-
+  <%= render(SummaryCardHeaderComponent.new(title: "You have a break in your work history in the last 5 years (#{format_months_to_years_and_months(@work_break.length)})", heading_level: @heading_level)) do %>
     <div class="app-summary-card__actions">
       <ul class="app-summary-card__actions-list">
         <li class="app-summary-card__actions-list-item">
@@ -21,5 +17,5 @@
         </li>
       </ul>
     </div>
-  </header>
+  <% end %>
 </section>
