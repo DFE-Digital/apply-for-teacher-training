@@ -10,7 +10,6 @@ import initDegreeGradeAutosuggest from "./autosuggests/degree-grade-autosuggest"
 import initDegreeInstitutionAutosuggest from "./autosuggests/degree-institution-autosuggest";
 import initDegreeSubjectAutosuggest from "./autosuggests/degree-subject-autosuggest";
 import initDegreeTypeAutosuggest from "./autosuggests/degree-type-autosuggest";
-import initGcseGradeAutocomplete from "./autocompletes/gcse-grade-autocomplete";
 import initOtherUKQualificationsTypeAutosuggest from "./autosuggests/other-uk-qualifications-type-autosuggest";
 import initOtherQualificationsGradeAutosuggest from "./autosuggests/other-qualifications-grade-autosuggest";
 import initOtherQualificationsSubjectAutosuggest from "./autosuggests/other-qualifications-subject-autosuggest";
@@ -28,7 +27,6 @@ initDegreeGradeAutosuggest();
 initDegreeInstitutionAutosuggest();
 initDegreeSubjectAutosuggest();
 initDegreeTypeAutosuggest();
-initGcseGradeAutocomplete();
 initOtherUKQualificationsTypeAutosuggest();
 initOtherQualificationsGradeAutosuggest();
 initOtherQualificationsSubjectAutosuggest();
