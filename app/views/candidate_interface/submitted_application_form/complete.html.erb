@@ -12,7 +12,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render(CandidateInterface::ApplicationCompleteContentComponent.new(application_form: @application_form)) %>
 
-    <%= render(CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form, editable: false, show_status: true)) %>
+    <%= render(CandidateInterface::CourseChoicesReviewComponent.new(application_form: @application_form, editable: false, heading_level: 3, show_status: true)) %>
   </div>
 
   <div class="govuk-grid-column-one-third">
