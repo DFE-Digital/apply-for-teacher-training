@@ -6,23 +6,18 @@ Future release notes will be published on the [Release notes page](/api-docs/rel
 
 - Clarify that when an application is withdrawn, the `reason` can be null.
 - Clarify that HESA ITT data is only available once a candidate is enrolled.
-- Add `phase` to `ApplicationAttributes`, indicating whether the candidate is
-  in Apply 1 or Apply 2
+- Add `phase` to `ApplicationAttributes`, indicating whether the candidate is in Apply 1 or Apply 2
 
 ## Alpha release - 13 December 2019
 
 New attributes:
 
-- `Course` now has a `recruitment_cycle_year` integer attribute to
-    indicate which recruitment year the Course belongs to, e.g. 2020.
-- `Application` now has a `reject_by_default_at` string attribute to
-    indicate when an application is (or was) due to be rejected by
-    default, e.g. "2019-06-13T23:59:59Z"
+- `Course` now has a `recruitment_cycle_year` integer attribute to indicate which recruitment year the Course belongs to, e.g. 2020.
+- `Application` now has a `reject_by_default_at` string attribute to indicate when an application is (or was) due to be rejected by default, e.g. "2019-06-13T23:59:59Z"
 
 Removed attributes:
 
-- `Course` `start_date` has been removed, it is replaced by
-    `recruitment_cycle_year` (above).
+- `Course` `start_date` has been removed, it is replaced by `recruitment_cycle_year` (above).
 
 ## Alpha release - 11 December 2019
 
@@ -54,36 +49,25 @@ Updated attributes:
 Changes to the data:
 
 - Application statuses: remove `declined` and add `unsubmitted`
-- Remove `provider_ucas_code` URL param on GET requests (only applications for
-  the currently authenticated provider will be returned)
+- Remove `provider_ucas_code` URL param on GET requests (only applications for the currently authenticated provider will be returned)
 - Add `futher_information` key to `ApplicationAttributes`
-- Rename `work_experiences` array to `work_experience` object in
-  `ApplicationAttributes` and add properties `jobs` and `volunteering`
-- Change `qualifications` key to an object with with properties `gcses`,
-  `degrees` and `other`
-- Change `Qualification` schema, grouping `place_of_study`,
-  `awarding_body_country` and `awarding_body_name` in a single string
-  `institution_details`.
-- Add `english_main_language`, `english_language_qualifications`,
-  `other_languages` and `disability_disclosure` to `Candidate` schema
+- Rename `work_experiences` array to `work_experience` object in `ApplicationAttributes` and add properties `jobs` and `volunteering`
+- Change `qualifications` key to an object with with properties `gcses`, `degrees` and `other`
+- Change `Qualification` schema, grouping `place_of_study`, `awarding_body_country` and `awarding_body_name` in a single string `institution_details`.
+- Add `english_main_language`, `english_language_qualifications`, `other_languages` and `disability_disclosure` to `Candidate` schema
 - Rename `location_ucas_code` to `site_ucas_code`
-- Change `WorkExperience` schema, adding `working_with_children` boolean and
-  `commitment` (part/full time) and increasing the length of the `description`
-  field
-- Change `Reference` schema, adding `confirms_safe_to_work_with_children` and
-  `phone_number`, renaming `content` to `reference` and removing
-  `reference_type` and `reason_for_character_reference`
+- Change `WorkExperience` schema, adding `working_with_children` boolean and `commitment` (part/full time) and increasing the length of the `description` field
+- Change `Reference` schema, adding `confirms_safe_to_work_with_children` and `phone_number`, renaming `content` to `reference` and removing `reference_type` and `reason_for_character_reference`
 
 Changes to functionality:
 
 - Add [/test-data/regenerate](/api-docs/reference/#post-test-data-regenerate) endpoint.
-- Add [single application](/api-docs/reference/#singleapplicationresponse-object) and [multiple
-  applications](/api-docs/reference/#multipleapplicationsresponse-object) response schemas.
+- Add [single application](/api-docs/reference/#singleapplicationresponse-object) and [multiple applications](/api-docs/reference/#multipleapplicationsresponse-object) response schemas.
 - Add `422` error response to `POST` endpoints including:
-    - [offer](/api-docs/reference/#post-applications-application_id-offer)
-    - [confirm enrolment](/api-docs/reference/#post-applications-application_id-confirm-enrolment)
-    - [confirm conditions met](/api-docs/reference/#post-applications-application_id-confirm-conditions-met)
-    - [reject](/api-docs/reference/#post-applications-application_id-reject)
+  - [offer](/api-docs/reference/#post-applications-application_id-offer)
+  - [confirm enrolment](/api-docs/reference/#post-applications-application_id-confirm-enrolment)
+  - [confirm conditions met](/api-docs/reference/#post-applications-application_id-confirm-conditions-met)
+  - [reject](/api-docs/reference/#post-applications-application_id-reject)
 
 Additional changes:
 
@@ -97,9 +81,7 @@ Changes to the data:
 
 - Change the structure of an [application](/api-docs/reference#get-applications):
   - add `type` field
-  - add `attributes` field and move `status`, `submitted_at`, `updated_at`, `personal_statement`
-    `candidate`, `contact_details`, `course`, `qualifications`, `work_experiences`
-    `references`, `offer`, `withdrawal` and `rejection` fields into it
+  - add `attributes` field and move `status`, `submitted_at`, `updated_at`, `personal_statement`, `candidate`, `contact_details`, `course`, `qualifications`, `work_experiences`, `references`, `offer`, `withdrawal` and `rejection` fields into it
 - Remove date from [reject](/api-docs/reference/#post-applications-application_id-reject) endpoint
 - Limit [candidates](/api-docs/reference/#candidate-object) to only 2 nationalities
 - Rename the `org` field on [work experience](/api-docs/reference/#workexperience-object) to `organisation_name`
@@ -110,11 +92,8 @@ Changes to the data:
 Changes to functionality:
 
 - Change the successful response for all endpoints to be within a `data` object
-- Change the successful response for making an offer, confirming candidate
-  enrolment, confirming offer conditions are met and rejecting an application
-  endpoints to be the application
-- Change the HTTP response code for making an offer, confirming candidate enrolment,
-  confirming offer conditions are met and rejecting an application endpoints to `200`
+- Change the successful response for making an offer, confirming candidate enrolment, confirming offer conditions are met and rejecting an application endpoints to be the application
+- Change the HTTP response code for making an offer, confirming candidate enrolment, confirming offer conditions are met and rejecting an application endpoints to `200`
 - Support a `provider_ucas_code` parameter when [retrieving many applications](/api-docs/reference#retrieve-many-applications)
 - Require a `meta` key in POST request bodies, holding `attribution` and `timestamp` metadata
 
@@ -127,10 +106,7 @@ Additional changes:
 - Add error responses to OpenAPI spec for all endpoints
 - Add [instructions](/api-docs/reference/#use-the-swagger-editor) for importing our OpenAPI specification in the Swagger Editor
 - Add `provider_code` param to retrieving many applications in [usage scenarios](/api-docs/usage-scenarios)
-- Update responses for [making an offer](/api-docs/reference/#post-applications-application_id-offer),
-  [confirming candidate enrolment](/api-docs/reference/#post-applications-application_id-confirm-enrolment),
-  [confirming offer conditions are met](/api-docs/reference/#post-applications-application_id-confirm-conditions-met)
-  and [rejecting an application](/api-docs/reference/#post-applications-application_id-reject) endpoints in [usage scenarios](/api-docs/usage-scenarios)
+- Update responses for [making an offer](/api-docs/reference/#post-applications-application_id-offer), [confirming candidate enrolment](/api-docs/reference/#post-applications-application_id-confirm-enrolment), [confirming offer conditions are met](/api-docs/reference/#post-applications-application_id-confirm-conditions-met) and [rejecting an application](/api-docs/reference/#post-applications-application_id-reject) endpoints in [usage scenarios](/api-docs/usage-scenarios)
 - Clarify the steps between making an offer and confirming that offer conditions are met in [usage scenarios](/api-docs/usage-scenarios)
 
 ## Alpha release - 16 September 2019
