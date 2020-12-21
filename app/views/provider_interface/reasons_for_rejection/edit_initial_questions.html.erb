@@ -11,7 +11,7 @@
 
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset(:candidate_behaviour_y_n, legend: { size: 'm', text: 'Was it related to candidate behaviour?' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:candidate_behaviour_y_n, legend: { text: 'Was it related to candidate behaviour?', size: 'm' }) do %>
         <%= f.govuk_radio_button :candidate_behaviour_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_check_boxes_fieldset :candidate_behaviour_what_did_the_candidate_do, legend: { text: "What did the candidate do?", size: "s" } do %>
             <%= f.govuk_check_box :candidate_behaviour_what_did_the_candidate_do,
@@ -35,7 +35,7 @@
         <%= f.govuk_radio_button :candidate_behaviour_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:quality_of_application_y_n, legend: { size: 'm', text: 'Was it related to the quality of their application?' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:quality_of_application_y_n, legend: { text: 'Was it related to the quality of their application?', size: 'm' }) do %>
         <%= f.govuk_radio_button :quality_of_application_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_check_boxes_fieldset :quality_of_application_which_parts_needed_improvement, legend: { text: "What did the candidate do?", size: "s" } do %>
             <%= f.govuk_check_box :quality_of_application_which_parts_needed_improvement,
@@ -65,7 +65,7 @@
         <%= f.govuk_radio_button :quality_of_application_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:qualifications_y_n, legend: { size: 'm', text: 'Was it related to their qualifications?' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:qualifications_y_n, legend: { text: 'Was it related to their qualifications?', size: 'm' }) do %>
         <%= f.govuk_radio_button :qualifications_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_check_boxes_fieldset :qualifications_which_qualifications, legend: { text: "Which qualifications?", size: "s" } do %>
             <%= f.govuk_check_box :qualifications_which_qualifications,
@@ -96,7 +96,7 @@
             <%= f.govuk_radio_button :qualifications_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:performance_at_interview_y_n, legend: { size: 'm', text: 'Was it related to their performance at interview?' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:performance_at_interview_y_n, legend: { text: 'Was it related to their performance at interview?', size: 'm' }) do %>
         <%= f.govuk_radio_button :performance_at_interview_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_text_area :performance_at_interview_what_to_improve,
             label: { text: 'What could they do to improve?' }, max_words: 100 %>
@@ -104,12 +104,12 @@
         <%= f.govuk_radio_button :performance_at_interview_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:course_full_y_n, legend: { size: 'm', text: 'Was it because this course is full?' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:course_full_y_n, legend: { text: 'Was it because this course is full?', size: 'm' }) do %>
         <%= f.govuk_radio_button :course_full_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true %>
         <%= f.govuk_radio_button :course_full_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:offered_on_another_course_y_n, legend: { size: 'm', text: 'Was it because you offered them a place on another course?' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:offered_on_another_course_y_n, legend: { text: 'Was it because you offered them a place on another course?', size: 'm' }) do %>
         <%= f.govuk_radio_button :offered_on_another_course_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_text_area :offered_on_another_course_details,
             label: { text: 'Give details about the course you offered' }, max_words: 100 %>
@@ -117,7 +117,7 @@
         <%= f.govuk_radio_button :offered_on_another_course_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:honesty_and_professionalism_y_n, legend: { size: 'm', text: 'Was it related to concerns about the candidate’s honesty and professionalism' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:honesty_and_professionalism_y_n, legend: { text: 'Was it related to concerns about the candidate’s honesty and professionalism', size: 'm' }) do %>
         <%= f.govuk_radio_button :honesty_and_professionalism_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_check_boxes_fieldset :honesty_and_professionalism_concerns, legend: { text: "Which qualifications?", size: "s" } do %>
             <%= f.govuk_check_box :honesty_and_professionalism_concerns,
@@ -152,7 +152,7 @@
         <%= f.govuk_radio_button :honesty_and_professionalism_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:safeguarding_y_n, legend: { size: 'm', text: 'Was it related to safeguarding' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:safeguarding_y_n, legend: { text: 'Was it related to safeguarding', size: 'm' }) do %>
         <%= f.govuk_radio_button :safeguarding_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_check_boxes_fieldset :safeguarding_concerns, legend: { text: "Which safeguarding issues in particular?", size: "s" } do %>
             <%= f.govuk_check_box :safeguarding_concerns,

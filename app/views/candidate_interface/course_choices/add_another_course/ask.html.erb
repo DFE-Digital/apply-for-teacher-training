@@ -10,7 +10,7 @@
       <h1 class="govuk-heading-xl"><%= title %></h1>
       <p class="govuk-body">After you submit your application you cannot apply for more courses through this service.</p>
 
-      <%= f.govuk_radio_buttons_fieldset :add_another_course, legend: { tag: 'h2', size: 'm', text: 'Do you want to add another course?' } do %>
+      <%= f.govuk_radio_buttons_fieldset :add_another_course, legend: { text: 'Do you want to add another course?', size: 'm' } do %>
         <%= f.govuk_radio_button :add_another_course, :yes, label: { text: 'Yes, add another course' }, link_errors: true %>
         <%= f.govuk_radio_button :add_another_course, :no, label: { text: 'No, not at the moment' } %>
       <% end %>

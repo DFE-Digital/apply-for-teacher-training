@@ -36,7 +36,7 @@
         Contact your provider if you’re concerned about the interview process.
       </p>
 
-      <%= f.govuk_radio_buttons_fieldset :any_preferences, legend: { size: 'm', text: t('application_form.personal_statement.interview_preferences.label'), tag: 'span' } do %>
+      <%= f.govuk_radio_buttons_fieldset :any_preferences, legend: { text: t('application_form.personal_statement.interview_preferences.label'), size: 'm' } do %>
         <%= f.govuk_radio_button :any_preferences, 'yes', label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_text_area :interview_preferences, label: { text: t('application_form.personal_statement.interview_preferences.yes_label'), size: 's' }, rows: 8, max_words: 200 %>
         <% end %>

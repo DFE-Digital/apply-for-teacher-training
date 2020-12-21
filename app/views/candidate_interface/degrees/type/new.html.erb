@@ -6,20 +6,21 @@
     <%= form_with model: @degree_type_form, url: candidate_interface_new_degree_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.add_undergraduate_degree') %>
-      </h1>
+      <%= f.govuk_radio_buttons_fieldset :uk_degree, legend: { text: t('page_titles.add_undergraduate_degree'), size: 'xl', tag: 'h1' } do %>
+        <p class="govuk-body">
+          Your undergraduate degree confirms your eligibility to teach.
+          Enter the details of your degree as they appear on your certificate,
+          translating them into English if necessary.
+        </p>
 
-      <p class="govuk-body">
-        Your undergraduate degree confirms your eligibility to teach.
-        Enter the details of your degree as they appear on your certificate,
-        translating them into English if necessary.
-      </p>
-      <p class="govuk-body">
-        If you have further postgraduate degrees, you’ll be able to add them next.
-      </p>
+        <p class="govuk-body">
+          If you have further postgraduate degrees, you’ll be able to add them next.
+        </p>
 
-      <%= render 'form_fields', f: f %>
+        <%= render 'form_fields', f: f %>
+      <% end %>
+
+      <%= f.govuk_submit t('application_form.degree.base.button') %>
     <% end %>
   </div>
 </div>
