@@ -8,7 +8,7 @@
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <div class="govuk-inset-text govuk-!-margin-top-0">
         <% if respond_to_application? -%>
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-3">
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
             Respond to application
           </h2>
           <p class="govuk-body">
@@ -30,7 +30,7 @@
             <% end -%>
           </p>
         <% elsif deferred_offer_wizard_applicable? -%>
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-3">
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
             Review and confirm the deferred offer
           </h2>
 
@@ -46,7 +46,7 @@
 
           <%= govuk_button_link_to 'Review deferred offer', provider_interface_reconfirm_deferred_offer_path(application_choice) %>
         <% elsif rejection_reason_required? -%>
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-3">
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
             Give feedback
           </h2>
 
