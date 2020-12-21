@@ -42,7 +42,7 @@ module ProviderInterface
           'DEGTYPE' => pad_hesa_value(application.first_degree, :qualification_type_hesa_code, 3),
           'DEGSBJ' => pad_hesa_value(application.first_degree, :subject_hesa_code, 4),
           'DEGCLSS' => pad_hesa_value(application.first_degree, :grade_hesa_code, 2),
-          'institution_country' => application.first_degree&.institution_country,
+          'institution_country' => application.first_degree.institution_country,
           'DEGSTDT' => first_degree_start,
           'DEGENDDT' => first_degree_end,
           'institution_details' => pad_hesa_value(application.first_degree, :institution_hesa_code, 4),
