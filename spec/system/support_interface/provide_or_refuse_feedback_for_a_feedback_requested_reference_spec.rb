@@ -34,7 +34,7 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   end
 
   def and_click_the_provide_feedback_link
-    click_link 'Provide feedback'
+    click_link 'Give feedback'
   end
 
   def then_i_see_the_reference_relationship_page
@@ -42,7 +42,7 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   end
 
   def and_click_the_refuse_feedback_link
-    click_link 'Refuse feedback'
+    click_link 'decline to give a reference'
   end
 
   def and_click_the_sign_in_button
@@ -62,7 +62,7 @@ RSpec.feature 'Support user can access the RefereeInterface' do
   end
 
   def then_i_do_not_see_the_provide_feedback_or_refuse_feedback_link
-    expect(page).to have_no_link 'Provide feedback'
-    expect(page).to have_no_link 'Refuse feedback'
+    expect(page).to have_no_link 'Give feedback'
+    expect(page).to have_no_link 'decline to give a reference'
   end
 end
