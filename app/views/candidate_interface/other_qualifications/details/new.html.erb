@@ -17,7 +17,7 @@
 
       <%= render partial: 'form', locals: { f: f, subjects: @subjects, grades: @grades } %>
 
-      <%= f.govuk_radio_buttons_fieldset :add_another_qualification, legend: { text: 'Do you want to add another qualification?', tag: 'span' } do %>
+      <%= f.govuk_radio_buttons_fieldset :add_another_qualification, legend: { text: 'Do you want to add another qualification?', size: 'm' } do %>
         <%= f.govuk_radio_button :choice, 'same_type', label: { text: "Yes, add another #{@form.qualification_type_name}" } %>
         <%= f.govuk_radio_button :choice, 'different_type', label: { text: 'Yes, add a different qualification' } %>
         <%= f.govuk_radio_button :choice, 'no', label: { text: 'No, not at the moment' } %>

@@ -30,7 +30,7 @@
         <%= f.hidden_field :provider_code, value: @course.provider.code %>
         <%= f.hidden_field :course_code, value: @course.code %>
 
-        <%= f.govuk_radio_buttons_fieldset :service, legend: { size: 'm', text: 'Do you want to apply using a new GOV.UK service?' } do %>
+        <%= f.govuk_radio_buttons_fieldset :service, legend: { text: 'Do you want to apply using a new GOV.UK service?', size: 'm' } do %>
           <%= f.govuk_radio_button :service,
             :apply,
             label: { text: 'Yes, I want to apply using the new service', size: 's' },

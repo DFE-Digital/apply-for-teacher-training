@@ -17,7 +17,7 @@
             label: { text: 'Extra permissions' },
             hint: { text: 'For example, being able to make offers and access sensitive content' } do %>
 
-      <%= f.govuk_check_boxes_fieldset :permissions, legend: { size: 'm', text: 'Select permissions' } do %>
+      <%= f.govuk_check_boxes_fieldset :permissions, legend: { text: 'Select permissions', size: 'm' } do %>
 
         <%= f.govuk_check_box :manage_organisations, true, multiple: false,
                               label: { text: 'Manage organisational permissions' },
