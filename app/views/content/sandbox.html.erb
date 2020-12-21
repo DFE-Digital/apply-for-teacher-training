@@ -4,46 +4,46 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-xl"><%= t('page_titles.sandbox') %></h1>
 
-    <p class='govuk-body'>
+    <p class="govuk-body">
       The Apply sandbox is a test environment which allows you to experience the service as a candidate, training provider and software vendor.
     </p>
 
-    <h2 class='govuk-heading-m'>You can:</h2>
+    <h2 class="govuk-heading-m">You can:</h2>
 
-    <ul class='govuk-list govuk-list--bullet'>
+    <ul class="govuk-list govuk-list--bullet">
       <li>sign in as a candidate and submit an application</li>
       <li>sign in as a training provider and process an application</li>
       <li>test Apply’s <%= govuk_link_to 'API integrations', 'https://www.apply-for-teacher-training.service.gov.uk/api-docs' %></li>
     </ul>
 
-    <p class='govuk-body'>Throughout, you’ll be able to give us feedback so we can improve the service.</p>
+    <p class="govuk-body">Throughout, you’ll be able to give us feedback so we can improve the service.</p>
 
-    <h2 class='govuk-heading-l'>Get started as a candidate</h2>
+    <h2 class="govuk-heading-l">Get started as a candidate</h2>
 
-    <p class='govuk-body'>You’ll be asked to enter your email address to open a candidate account in the Apply sandbox.</p>
+    <p class="govuk-body">You’ll be asked to enter your email address to open a candidate account in the Apply sandbox.</p>
 
-    <p class='govuk-body'>Please do not use anybody else’s address, as the system will generate real emails as part of the test.</p>
+    <p class="govuk-body">Please do not use anybody else’s address, as the system will generate real emails as part of the test.</p>
 
-    <p class='govuk-body'>Any other data you enter should be anonymised or invented.</p>
+    <p class="govuk-body">Any other data you enter should be anonymised or invented.</p>
 
-    <h4 class='govuk-heading-s'>A note on references</h4>
+    <h4 class="govuk-heading-s">A note on references</h4>
 
-    <p class='govuk-body'>In the live service, an application is only sent to a provider when 2 references have been supplied.</p>
+    <p class="govuk-body">In the live service, an application is only sent to a provider when 2 references have been supplied.</p>
 
-    <p class='govuk-body'>In the Apply sandbox, to avoid testers having to request real references, we’ve enabled dummy referee email addresses:</p>
+    <p class="govuk-body">In the Apply sandbox, to avoid testers having to request real references, we’ve enabled dummy referee email addresses:</p>
 
-    <ul class='govuk-list govuk-list--bullet'>
+    <ul class="govuk-list govuk-list--bullet">
       <li>refbot1@example.com</li>
       <li>refbot2@example.com</li>
     </ul>
 
-    <p class='govuk-body'>In sandbox, enter these email addresses to generate 2 references for your test application.</p>
+    <p class="govuk-body">In sandbox, enter these email addresses to generate 2 references for your test application.</p>
 
-    <h4 class='govuk-heading-s'>A note on editing after submission</h4>
+    <h4 class="govuk-heading-s">A note on editing after submission</h4>
 
-    <p class='govuk-body'>In the live service, applications are sent to the provider 5 working days after submission. This gives candidates a window to edit their application.</p>
+    <p class="govuk-body">In the live service, applications are sent to the provider 5 working days after submission. This gives candidates a window to edit their application.</p>
 
-    <p class='govuk-body'>In the Apply sandbox, applications are sent immediately, if the references are complete.</p>
+    <p class="govuk-body">In the Apply sandbox, applications are sent immediately, if the references are complete.</p>
 
     <%= render(
       GovUkStartButtonComponent.new(
@@ -52,15 +52,15 @@
       ),
     ) %>
 
-    <h2 class='govuk-heading-l'>Get started as a training provider</h2>
+    <h2 class="govuk-heading-l">Get started as a training provider</h2>
 
-    <p class='govuk-body'>To test the service as a training provider, you’ll need to open a Department for Education (DfE) Sign-In account.</p>
+    <p class="govuk-body">To test the service as a training provider, you’ll need to open a Department for Education (DfE) Sign-In account.</p>
 
-    <p class='govuk-body'>Email <%= bat_contact_mail_to %> to request access.</p>
+    <p class="govuk-body">Email <%= bat_contact_mail_to %> to request access.</p>
 
-    <h4 class='govuk-heading-s'>Test as a candidate</h4>
+    <h4 class="govuk-heading-s">Test as a candidate</h4>
 
-    <p class='govuk-body'>From the provider interface in the sandbox, you’ll be able to sign in as a specific candidate. This is useful if you have generated test applications via the API.</p>
+    <p class="govuk-body">From the provider interface in the sandbox, you’ll be able to sign in as a specific candidate. This is useful if you have generated test applications via the API.</p>
 
     <%= render(
       GovUkStartButtonComponent.new(
@@ -69,11 +69,11 @@
       ),
     ) %>
 
-    <h2 class='govuk-heading-l'>Get started with the API</h2>
+    <h2 class="govuk-heading-l">Get started with the API</h2>
 
-    <p class='govuk-body'>Our API allows you to integrate your software with our service.</p>
+    <p class="govuk-body">Our API allows you to integrate your software with our service.</p>
 
-    <p class='govuk-body'>In the sandbox, you’ll be able to test your integration. You’ll also be able to generate dummy applications to process as a training provider.</p>
+    <p class="govuk-body">In the sandbox, you’ll be able to test your integration. You’ll also be able to generate dummy applications to process as a training provider.</p>
 
     <%= render(
       GovUkStartButtonComponent.new(
@@ -82,8 +82,8 @@
       ),
     ) %>
 
-    <h2 class='govuk-heading-l'>Help and support</h2>
+    <h2 class="govuk-heading-l">Help and support</h2>
 
-    <p class='govuk-body'>Email us at <%= bat_contact_mail_to %> for support using Apply sandbox or any other aspect of the Apply for teacher training service.
+    <p class="govuk-body">Email us at <%= bat_contact_mail_to %> for support using Apply sandbox or any other aspect of the Apply for teacher training service.
   </div>
 </div>
