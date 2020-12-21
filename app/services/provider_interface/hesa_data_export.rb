@@ -18,9 +18,8 @@ module ProviderInterface
       applications.each do |application_choice|
         application = ApplicationChoiceExportDecorator.new(application_choice)
 
-        first_degree = application.application_form.application_qualifications
-          .order(created_at: :asc)
-          .find_by(level: 'degree')
+        first_degree_start = year_to_iso8601 first_degree_year(application, :start_year)
+        first_degree_end = year_to_iso8601 first_degree_year(application, :award_year)
 
         rows << {
           'id' => application.application_form.support_reference,
@@ -40,13 +39,13 @@ module ProviderInterface
           'SBJCA' => subject_codes(application),
           'QLAIM' => qualification_aim(application),
           'FIRSTDEG' => application.degrees_completed_flag,
-          'DEGTYPE' => pad_hesa_value(first_degree, :qualification_type_hesa_code, 3),
-          'DEGSBJ' => pad_hesa_value(first_degree, :subject_hesa_code, 4),
-          'DEGCLSS' => pad_hesa_value(first_degree, :grade_hesa_code, 2),
-          'institution_country' => first_degree&.institution_country,
-          'DEGSTDT' => first_degree&.start_year,
-          'DEGENDDT' => first_degree&.award_year,
-          'institution_details' => pad_hesa_value(first_degree, :institution_hesa_code, 4),
+          'DEGTYPE' => pad_hesa_value(application.first_degree, :qualification_type_hesa_code, 3),
+          'DEGSBJ' => pad_hesa_value(application.first_degree, :subject_hesa_code, 4),
+          'DEGCLSS' => pad_hesa_value(application.first_degree, :grade_hesa_code, 2),
+          'institution_country' => application.first_degree&.institution_country,
+          'DEGSTDT' => first_degree_start,
+          'DEGENDDT' => first_degree_end,
+          'institution_details' => pad_hesa_value(application.first_degree, :institution_hesa_code, 4),
         }.merge(diversity_information(application))
       end
 
@@ -98,6 +97,14 @@ module ProviderInterface
       return '020' if application.course.name =~ /^QTS/
 
       '021'
+    end
+
+    def first_degree_year(application, year_type)
+      application.first_degree&.send year_type
+    end
+
+    def year_to_iso8601(year)
+      "#{year}-01-01" if year
     end
   end
 end
