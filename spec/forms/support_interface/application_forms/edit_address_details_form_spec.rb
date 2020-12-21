@@ -12,8 +12,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         international_address: nil,
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
-      application_form = build_stubbed(:application_form, data)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.build_from_application_form(application_form)
+      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
 
       expect(details_form).to have_attributes(data)
     end
@@ -37,8 +36,8 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         international_address: nil,
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
-      application_form = build(:application_form, data)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.build_from_application_form(application_form)
+      application_form = build(:application_form)
+      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
       data[:postcode] = 'BN1 1AA'
       data.except!(:audit_comment)
 
@@ -49,22 +48,20 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
 
     it 'updates the provided ApplicationForm with the international address field if valid' do
       data = {
-        address_type: 'international',
-        international_address: 'Rue de Rivoli, 75001 Paris',
-        country: 'France',
+        address_line1: '123 Chandni Chowk',
+        address_line3: 'Old Delhi',
+        postcode: '110006',
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
-      application_form = build(:application_form, data)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.build_from_application_form(application_form)
+      application_form = build(:application_form)
+      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data.merge(address_type: 'international'))
       data.except!(:audit_comment)
 
       expect(details_form.save_address(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)
-      expect(application_form.address_line1).to be_nil
       expect(application_form.address_line2).to be_nil
-      expect(application_form.address_line3).to be_nil
       expect(application_form.address_line4).to be_nil
-      expect(application_form.postcode).to be_nil
+      expect(application_form.international_address).to be_nil
     end
   end
 
@@ -73,8 +70,8 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       data = {
         address_type: 'uk',
       }
-      application_form = build(:application_form, data)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.build_from_application_form(application_form)
+      application_form = build(:application_form)
+      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
 
       expect(details_form.save_address_type(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)
@@ -85,8 +82,8 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         address_type: 'international',
         country: 'India',
       }
-      application_form = build(:application_form, data)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.build_from_application_form(application_form)
+      application_form = build(:application_form)
+      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
 
       expect(details_form.save_address_type(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)
@@ -96,8 +93,8 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       data = {
         address_type: 'international',
       }
-      application_form = build(:application_form, data)
-      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.build_from_application_form(application_form)
+      application_form = build(:application_form)
+      details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
 
       expect(details_form.save_address_type(application_form)).to eq(false)
     end
@@ -114,17 +111,17 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       it { is_expected.to validate_presence_of(:postcode).on(:address) }
       it { is_expected.to validate_presence_of(:audit_comment).on(:address) }
       it { is_expected.not_to validate_presence_of(:international_address).on(:address) }
+      it { is_expected.not_to allow_value('MUCH WOW').for(:postcode).on(:address) }
     end
 
     context 'for an international address' do
       subject(:form) { described_class.new(address_type: 'international') }
 
-      it { is_expected.to validate_presence_of(:country).on(:address_type) }
-      it { is_expected.to validate_presence_of(:international_address).on(:address) }
-      it { is_expected.to validate_presence_of(:audit_comment).on(:address) }
-      it { is_expected.not_to validate_presence_of(:address_line1).on(:address) }
+      it { is_expected.to validate_presence_of(:address_line1).on(:address) }
+      it { is_expected.not_to validate_presence_of(:international_address).on(:address) }
       it { is_expected.not_to validate_presence_of(:address_line3).on(:address) }
       it { is_expected.not_to validate_presence_of(:postcode).on(:address) }
+      it { is_expected.to allow_value('MUCH WOW').for(:postcode).on(:address) }
     end
 
     it { is_expected.to validate_length_of(:address_line1).is_at_most(50).on(:address) }
@@ -133,6 +130,5 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
     it { is_expected.to validate_length_of(:address_line4).is_at_most(50).on(:address) }
 
     it { is_expected.to allow_value('SW1P 3BT').for(:postcode).on(:address) }
-    it { is_expected.not_to allow_value('MUCH WOW').for(:postcode).on(:address) }
   end
 end
