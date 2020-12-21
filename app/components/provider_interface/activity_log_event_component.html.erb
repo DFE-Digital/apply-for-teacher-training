@@ -1,8 +1,8 @@
 <div class="app-timeline__item">
   <div class="app-timeline__header">
-    <h2 class="app-timeline__title">
+    <h3 class="app-timeline__title">
       <%= event_description %>
-    </h2>
+    </h3>
     <p class="app-timeline__date">
       <time datetime="<%= event.created_at.iso8601 %>">
         <%= event.created_at.to_s(:govuk_date_and_time) %>
