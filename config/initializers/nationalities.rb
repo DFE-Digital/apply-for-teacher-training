@@ -228,3 +228,44 @@ NATIONALITIES = [
 
 NATIONALITIES_BY_NAME = NATIONALITIES.map(&:reverse).to_h
 NATIONALITY_DEMONYMS = NATIONALITIES.map(&:second)
+
+# Last updated on 21/12/2020. To update run the following code in irb and update the EU_COUNTRY_CODES array with the result.
+# require 'net/http' # require 'json'
+# response = Net::HTTP.get('restcountries.eu', '/rest/v2/regionalbloc/eu?fields=alpha2Code;name')
+# JSON.parse(response).inject([]) { |response, country| response << [ country['alpha2Code'], country['name'] ] }
+
+EU_COUNTRY_CODES = [
+  'AX',
+  'AT',
+  'BE',
+  'BG',
+  'HR',
+  'CY',
+  'CZ',
+  'DK',
+  'EE',
+  'FO',
+  'FI',
+  'FR',
+  'GF',
+  'DE',
+  'GI',
+  'GR',
+  'HU',
+  'IE',
+  'IM',
+  'IT',
+  'LV',
+  'LT',
+  'LU',
+  'MT',
+  'NL',
+  'PL',
+  'PT',
+  'RO',
+  'SK',
+  'SI',
+  'ES',
+  'SE',
+  'GB'
+].freeze

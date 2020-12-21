@@ -16,7 +16,7 @@ module ProviderInterface
       rows = []
 
       applications.each do |application_choice|
-        application = ApplicationChoiceExportDecorator.new(application_choice)
+        application = ApplicationChoiceHesaExportDecorator.new(application_choice)
 
         first_degree = application.application_form.application_qualifications
           .order(created_at: :asc)
@@ -28,7 +28,7 @@ module ProviderInterface
           'first_name' => application.application_form.first_name,
           'last_name' => application.application_form.last_name,
           'date_of_birth' => application.application_form.date_of_birth,
-          'nationality' => application.application_form.first_nationality,
+          'nationality' => application.nationality,
           'domicile' => application.application_form.domicile,
           'email' => application.application_form.candidate.email_address,
           'recruitment_cycle_year' => application.application_form.recruitment_cycle_year,
