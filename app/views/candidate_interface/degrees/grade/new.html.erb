@@ -6,10 +6,6 @@
     <%= form_with model: @degree_grade_form, url: candidate_interface_degree_grade_path(@degree_grade_form.degree) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <%= @page_title %>
-      </h1>
-
       <%= render 'form_fields', f: f, degree: @degree_grade_form.degree %>
     <% end %>
   </div>

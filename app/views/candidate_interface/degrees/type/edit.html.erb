@@ -10,11 +10,11 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.edit_degree_type') %>
-      </h1>
+      <%= f.govuk_radio_buttons_fieldset :uk_degree, legend: { text: t('page_titles.edit_degree_type'), size: 'xl', tag: 'h1' } do %>
+        <%= render 'form_fields', f: f %>
+      <% end %>
 
-      <%= render 'form_fields', f: f %>
+      <%= f.govuk_submit t('application_form.degree.base.button') %>
     <% end %>
   </div>
 </div>
