@@ -1,9 +1,6 @@
 <section class="app-summary-card govuk-!-margin-bottom-6">
-  <header class="app-summary-card__header">
-    <h3 class="app-summary-card__title">
-      <%= title %>
-    </h3>
-  </header>
+  <%= render(SummaryCardHeaderComponent.new(title: title, heading_level: @heading_level)) %>
+
   <div class="app-summary-card__body">
     <dl class="govuk-summary-list">
     <% rows.each do |row| %>
