@@ -31,10 +31,6 @@ class Candidate < ApplicationRecord
     application_forms.max_by(&:updated_at)
   end
 
-  def encrypted_id
-    Encryptor.encrypt(id)
-  end
-
 private
 
   def downcase_email
