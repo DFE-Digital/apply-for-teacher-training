@@ -1,6 +1,6 @@
-import { accessibleAutocompleteFromSource } from "./helpers.js";
+import { accessibleAutosuggestFromSource } from "./helpers.js";
 
-const initOtherQualificationsGradeAutocomplete = () => {
+const initOtherQualificationsGradeAutosuggest = () => {
   try {
     const inputIds = [
       "candidate-interface-other-qualification-details-form-grade-field",
@@ -11,11 +11,11 @@ const initOtherQualificationsGradeAutocomplete = () => {
       const input = document.getElementById(inputId);
       if (!input) return;
 
-      const containerId = "grade-autocomplete-data";
+      const containerId = "grade-autosuggest-data";
       const container = document.getElementById(containerId);
       if (!container) return;
 
-      accessibleAutocompleteFromSource(input, container);
+      accessibleAutosuggestFromSource(input, container);
 
       const accessibleAutocompleteWrapper = document.querySelector(`#${containerId} .autocomplete__wrapper`);
       accessibleAutocompleteWrapper.classList.add("govuk-input--width-10");
@@ -27,4 +27,4 @@ const initOtherQualificationsGradeAutocomplete = () => {
   }
 };
 
-export default initOtherQualificationsGradeAutocomplete;
+export default initOtherQualificationsGradeAutosuggest;

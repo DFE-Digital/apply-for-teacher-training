@@ -139,7 +139,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_the_suggested_subject_data_matches_the_as_and_a_level_subjects_data
-    suggested_subjects = find('#subject-autocomplete-data')['data-source']
+    suggested_subjects = find('#subject-autosuggest-data')['data-source']
 
     expect(JSON[suggested_subjects]).to eq A_AND_AS_LEVEL_SUBJECTS
   end
@@ -297,7 +297,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_the_suggested_subject_data_matches_the_gcse_subjects_data
-    suggested_subjects = find('#subject-autocomplete-data')['data-source']
+    suggested_subjects = find('#subject-autosuggest-data')['data-source']
 
     expect(JSON[suggested_subjects]).to eq GCSE_SUBJECTS
   end
