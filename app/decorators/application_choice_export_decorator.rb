@@ -24,6 +24,12 @@ class ApplicationChoiceExportDecorator < SimpleDelegator
     application_form.degrees_completed ? 1 : 0
   end
 
+  def first_degree
+    application_form.application_qualifications
+                    .order(created_at: :asc)
+                    .find_by(level: 'degree')
+  end
+
   def nationalities
     [
       application_form.first_nationality,

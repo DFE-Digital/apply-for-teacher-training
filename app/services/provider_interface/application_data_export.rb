@@ -7,10 +7,6 @@ module ProviderInterface
       applications.each do |application_choice|
         application = ApplicationChoiceExportDecorator.new(application_choice)
 
-        first_degree = application.application_form.application_qualifications
-                         .order(created_at: :asc)
-                         .find_by(level: 'degree')
-
         rows << {
           'application_choice_id' => application.id,
           'support_reference' => application.application_form.support_reference,
@@ -46,15 +42,15 @@ module ProviderInterface
           'study_mode' => application.course.study_mode,
           'start_date' => application.course.start_date,
           'FIRSTDEG' => application.degrees_completed_flag,
-          'qualification_type' => first_degree&.qualification_type,
-          'non_uk_qualification_type' => first_degree&.non_uk_qualification_type,
-          'subject' => first_degree&.subject,
-          'grade' => first_degree&.grade,
-          'start_year' => first_degree&.start_year,
-          'award_year' => first_degree&.award_year,
-          'institution_details' => first_degree&.institution_name,
-          'equivalency_details' => first_degree&.composite_equivalency_details,
-          'awarding_body' => first_degree&.awarding_body,
+          'qualification_type' => application.first_degree.qualification_type,
+          'non_uk_qualification_type' => application.first_degree.non_uk_qualification_type,
+          'subject' => application.first_degree.subject,
+          'grade' => application.first_degree.grade,
+          'start_year' => application.first_degree.start_year,
+          'award_year' => application.first_degree.award_year,
+          'institution_details' => application.first_degree.institution_name,
+          'equivalency_details' => application.first_degree.composite_equivalency_details,
+          'awarding_body' => application.first_degree.awarding_body,
           'gcse_qualifications_summary' => application.gcse_qualifications_summary,
           'missing_gcses_explanation' => application.missing_gcses_explanation,
           'disability_disclosure' => application.application_form.disability_disclosure,
