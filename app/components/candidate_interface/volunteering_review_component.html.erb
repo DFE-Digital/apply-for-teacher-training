@@ -16,7 +16,7 @@
   <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :volunteering, section_path: candidate_interface_volunteering_experience_path, error: @missing_error)) %>
 <% elsif @application_form.application_volunteering_experiences.empty? %>
   <section class="app-summary-card govuk-!-margin-bottom-6">
-    <%= render(SummaryCardHeaderComponent.new(title: t('application_form.volunteering.no_experience.summary_card_title'))) %>
+    <%= render(SummaryCardHeaderComponent.new(title: t('application_form.volunteering.no_experience.summary_card_title'), heading_level: @heading_level)) %>
 
     <div class="app-summary-card__body">
       The Department for Education have made it easier for teacher training
