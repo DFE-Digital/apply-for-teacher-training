@@ -40,7 +40,7 @@
         <%= f.govuk_collection_check_boxes :provider_ids, @application_data_export_form.providers_that_actor_belongs_to, ->(p) { p.id.to_s }, :name, legend: { text: 'Select applications for certain organisations', size: 'm' } %>
       <% end %>
 
-      <%= f.govuk_submit 'Export data' %>
+      <%= f.govuk_submit 'Export data (CSV)' %>
     <% end %>
   </div>
 </div>
