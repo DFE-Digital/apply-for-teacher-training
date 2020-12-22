@@ -5,6 +5,8 @@ module SupportInterface
         .includes(providers: %i[training_provider_permissions ratifying_provider_permissions])
         .page(params[:page] || 1).per(30)
 
+      @provider_users = scope_by_use_of_service
+
       if params[:q]
         @provider_users = @provider_users.where("CONCAT(first_name, ' ', last_name, ' ', email_address) ILIKE ?", "%#{params[:q]}%")
       end
@@ -77,6 +79,16 @@ module SupportInterface
     end
 
   private
+
+    def scope_by_use_of_service
+      if params[:use_of_service] == %w[never_signed_in]
+        @provider_users.where(last_signed_in_at: nil)
+      elsif params[:use_of_service] == %w[has_signed_in]
+        @provider_users.where.not(last_signed_in_at: nil)
+      else
+        @provider_users
+      end
+    end
 
     def provider_user_params
       params.require(:support_interface_provider_user_form)
