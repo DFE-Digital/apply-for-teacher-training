@@ -11,7 +11,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     and_i_submit_my_email_address
     then_i_receive_an_email_inviting_me_to_sign_up
 
-    when_the_magic_link_token_is_overwritten
+    when_the_magic_link_token_is_expired
     and_i_click_on_the_link_in_my_email
     then_i_am_taken_to_the_expired_link_page
 
@@ -52,8 +52,9 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     expect(current_email.subject).to have_content t('authentication.sign_up.email.subject')
   end
 
-  def when_the_magic_link_token_is_overwritten
-    Candidate.find_by(email_address: @email).authentication_tokens.delete_all
+  def when_the_magic_link_token_is_expired
+    Timecop.travel (AuthenticationToken::MAX_TOKEN_DURATION + 1.minute).from_now
+    # Candidate.find_by(email_address: @email).authentication_tokens.delete_all
   end
 
   def and_i_click_on_the_link_in_my_email

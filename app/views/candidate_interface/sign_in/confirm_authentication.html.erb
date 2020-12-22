@@ -10,7 +10,6 @@
         Click below to sign in
       </p>
       <%= hidden_field_tag :token, params[:token] %>
-      <%= hidden_field_tag :u, params[:u] %>
       <%= f.govuk_submit t('authentication.confirm_authentication.button_continue') %>
     <% end %>
   </div>
