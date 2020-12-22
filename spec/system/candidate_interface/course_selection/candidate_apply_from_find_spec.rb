@@ -70,7 +70,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def then_i_should_see_the_landing_page
-    expect(page).to have_content t('apply_from_find.heading')
+    expect(page).to have_content t('page_titles.apply_from_find')
     expect(page).to have_link href: candidate_interface_apply_from_find_path(providerCode: 'ABC', courseCode: 'XYZ1')
   end
 

@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix(t('page_titles.provider.confirm'), @application_offer.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t('page_titles.provider.confirm_offer'), @application_offer.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_offer_path(@application_choice.id)) %>
 
 <%= render(FlashMessageComponent.new(flash: flash)) %>
@@ -18,7 +18,7 @@
 <%= form_with model: @application_offer, url: provider_interface_application_choice_create_offer_path(@application_choice.id), method: :post do |f| %>
   <h1 class="govuk-heading-xl">
     <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
-    Check and confirm offer
+    <%= t('page_titles.provider.confirm_offer') %>
   </h1>
 
   <div class="govuk-grid-row">

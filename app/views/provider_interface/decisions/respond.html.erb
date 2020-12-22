@@ -10,8 +10,8 @@
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :decision,
-        legend: { text: 'Respond to application' , size: "xl" },
-        caption: { text: @application_choice.application_form.full_name, size: "xl" } do %>
+        caption: { text: @application_choice.application_form.full_name, size: 'xl' },
+        legend: { text: t('page_titles.provider.respond'), size: 'xl', tag: 'h1' } do %>
 
         <%= f.govuk_radio_button :decision, 'new_offer', label: { text: offer_text }, link_errors: true %>
 
