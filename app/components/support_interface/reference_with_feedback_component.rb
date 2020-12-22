@@ -153,8 +153,8 @@ module SupportInterface
       if reference.feedback_requested? && HostingEnvironment.test_environment?
         {
           key: 'Sign in as referee',
-          value: govuk_link_to('Give feedback ', referee_interface_reference_relationship_path(token: reference.refresh_feedback_token!)) +
-            'or ' +
+          value: govuk_link_to('Give feedback', referee_interface_reference_relationship_path(token: reference.refresh_feedback_token!)) +
+            ' or ' +
             govuk_link_to('decline to give a reference', referee_interface_refuse_feedback_path(token: reference.refresh_feedback_token!)),
         }
       end
@@ -165,11 +165,14 @@ module SupportInterface
 
       {
         key: 'Email history',
-        value: govuk_link_to('View history', support_interface_email_log_path(
-                                               application_form_id: reference.application_form.id,
-                                               mailer: 'referee_mailer',
-                                               to: reference.email_address,
-                                             )),
+        value: govuk_link_to(
+          "View email history for #{title}",
+          support_interface_email_log_path(
+            application_form_id: reference.application_form.id,
+            mailer: 'referee_mailer',
+            to: reference.email_address,
+          ),
+        ),
       }
     end
 
