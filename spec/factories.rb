@@ -190,7 +190,7 @@ FactoryBot.define do
           create(:degree_qualification, application_form: application_form)
         end
 
-        create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'unsubmitted')
+        create_list(:application_choice, evaluator.application_choices_count, :unsubmitted, application_form: application_form)
         create_list(:reference, evaluator.references_count, evaluator.references_state, application_form: application_form)
         # The application_form validates the length of this collection when
         # it is created, which is BEFORE we create the references here.

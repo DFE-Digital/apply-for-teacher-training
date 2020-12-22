@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SetDeclineByDefault do
   describe '#call' do
     let(:application_form) { create(:completed_application_form, application_choices_count: 3) }
-    let(:choices) { application_form.application_choices }
+    let(:choices) { application_form.reload.application_choices }
     let(:now) { Time.zone.local(2019, 11, 26, 12, 0, 0) }
     let(:time_limit_calculator) do
       instance_double('TimeLimitCalculator',
@@ -41,7 +41,6 @@ RSpec.describe SetDeclineByDefault do
       it 'the DBD is set to 10 business days from the date of the most recent offer' do
         choices[0].update(status: :offer, offered_at: 1.business_days.before(now))
         choices[1].update(status: :offer, offered_at: 2.business_days.before(now))
-        choices[2].destroy # this tests that we can handle fewer than 3 choices
 
         expected_dbd_date = 9.business_days.after(now).end_of_day
 

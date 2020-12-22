@@ -10,6 +10,12 @@ RSpec.describe ApplicationChoice, type: :model do
       }.to(change { choice.last_public_update_at })
     end
 
+    it 'handles destroyed records' do
+      choice = create(:application_choice, :with_rejection)
+
+      expect { choice.destroy }.not_to raise_exception
+    end
+
     # TODO: until we change application_choice.updated_at for application_choice.last_public_update_at
     # in the api response the cache will ALWAYS be invalid and we'll always have updated_at in the response.
     # this state of affairs will not exist for long
