@@ -1,4 +1,5 @@
 <li class="govuk-!-margin-top-2">
+  <span aria-hidden="true"><%= StateDiagram.event_emoji(from_state, event, machine.i18n_namespace) %></span>
   <strong><%= StateDiagram.event_name(from_state, event, machine.i18n_namespace) %></strong> (by <%= by %>).
   <%= description %>
   This will transition the application to the <%= govuk_link_to "#{human_transitions_to} state", "##{transitions_to}" %>.
