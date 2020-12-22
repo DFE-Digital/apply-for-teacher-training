@@ -26,7 +26,7 @@
     Export generation completed in <%= @data_export.generation_time %> <%= 'second'.pluralize(@data_export.generation_time) %>.
   </p>
 
-  <%= govuk_button_link_to 'Download export', download_support_interface_data_export_path(@data_export) %>
+  <%= govuk_button_link_to 'Download export (CSV)', download_support_interface_data_export_path(@data_export), { type: 'text/csv' } %>
 <% else %>
   <p class="govuk-body">
     This export is being generated. Refresh the page to see if it completed.
