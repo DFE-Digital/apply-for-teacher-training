@@ -2,31 +2,31 @@
 
 <%= govuk_button_link_to 'Add support user', new_support_interface_support_user_path %>
 
-<table class='govuk-table'>
-  <thead class='govuk-table__head'>
-    <tr class='govuk-table__row'>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-half'>Email</th>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>DfE Sign-in UID</th>
-      <th scope='col' class='govuk-table__header govuk-!-width-one-quarter'>Actions</th>
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-half">Email</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">DfE Sign-in UID</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Actions</th>
     </tr>
   </thead>
 
-  <tbody class='govuk-table__body'>
+  <tbody class="govuk-table__body">
     <% @support_users.each do |support_user| %>
-      <tr class='govuk-table__row'>
-        <td class='govuk-table__cell'>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
           <%= govuk_link_to support_user.display_name, support_interface_support_user_path(support_user) %>
         </td>
-        <td class='govuk-table__cell'>
+        <td class="govuk-table__cell">
           <%= support_user.dfe_sign_in_uid %>
         </td>
-        <td class='govuk-table__cell'>
+        <td class="govuk-table__cell">
           <%
-              link_action = support_user.discarded? ? 'Restore' : 'Remove'
-              link_path = support_user_account_management_path(support_user)
-          -%>
+            link_action = support_user.discarded? ? 'Restore' : 'Remove'
+            link_path = support_user_account_management_path(support_user)
+          %>
           <%= govuk_link_to(nil, link_path) do %>
-            <%= link_action %> user<span class='govuk-visually-hidden'> <%= support_user.email_address %></span>
+            <%= link_action %> user<span class="govuk-visually-hidden"> <%= support_user.display_name %></span>
           <% end %>
         </td>
       </tr>
@@ -34,4 +34,4 @@
   </tbody>
 </table>
 
-<%= govuk_link_to 'Restore a removed user', support_interface_support_users_path(removed: true) unless params[:removed] == 'true' %>
+<p class="govuk-body"><%= govuk_link_to 'Restore a removed user', support_interface_support_users_path(removed: true) unless params[:removed] == 'true' %></p>

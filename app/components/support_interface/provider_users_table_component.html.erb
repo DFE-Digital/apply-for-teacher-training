@@ -23,7 +23,9 @@
             </ul>
           </td>
           <td class="govuk-table__cell">
-            <%= govuk_link_to('Update permissions', edit_support_interface_provider_user_path(row[:provider_user])) %>
+            <%= govuk_link_to(nil, edit_support_interface_provider_user_path(row[:provider_user])) do %>
+              Update permissions<span class="govuk-visually-hidden"> for <%= provider_user_name(row[:provider_user]) %></span>
+            <% end %>
           </td>
         </tr>
       <% end %>
