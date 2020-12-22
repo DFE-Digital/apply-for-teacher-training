@@ -15,7 +15,7 @@ class StateDiagram
         graph.add_edges(
           state.name.to_s,
           event.transitions_to.to_s,
-          label: event_name(state.name, event, namespace),
+          label: event_emoji(state.name, event, namespace) + ' ' + event_name(state.name, event, namespace),
           fontname: 'Arial',
           color: '#0b0c0c',
           fontcolor: '#0b0c0c',
@@ -58,15 +58,17 @@ class StateDiagram
   end
 
   def self.event_name(state, event, namespace)
+    I18n.t!("#{namespace}events.#{state}-#{event}.name")
+  end
+
+  def self.event_emoji(state, event, namespace)
     by = I18n.t!("#{namespace}events.#{state}-#{event}.by")
 
-    emoji = {
+    {
       'candidate' => '👩‍🎓',
       'referee' => '👩‍🏫',
       'provider' => '🏫',
       'system' => '🤖',
     }.fetch(by)
-
-    emoji + ' ' + I18n.t!("#{namespace}events.#{state}-#{event}.name")
   end
 end

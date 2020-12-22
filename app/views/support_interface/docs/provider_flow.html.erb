@@ -2,20 +2,7 @@
 
 <p class="govuk-body-l">The states and transitions that make up the Apply service, from the perspective of the provider.</p>
 
-<details class="govuk-details" data-module="govuk-details">
-  <summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-      View full diagram
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <%= StateDiagram.svg(only_from_state: nil, machine: ApplicationStateChange) %>
-  </div>
-</details>
-
-<style>
-  svg { max-width: 100%; }
-</style>
+<%= render StateDiagramComponent.new(machine: ApplicationStateChange) %>
 
 <% ApplicationStateChange.workflow_spec.states.each do |_, state| %>
   <%= render StateExplanationComponent.new(machine: ApplicationStateChange, state: state, development_details: true) %>

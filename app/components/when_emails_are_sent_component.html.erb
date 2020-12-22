@@ -48,7 +48,9 @@
       </div>
 
       <div class="govuk-grid-column-one-half">
-        <%= StateDiagram.svg(only_from_state: state_name, machine: ApplicationStateChange) %>
+        <div class="app-diagram" aria-hidden="true">
+          <%= StateDiagram.svg(only_from_state: state_name, machine: ApplicationStateChange) %>
+        </div>
       </div>
     </div>
   </section>
