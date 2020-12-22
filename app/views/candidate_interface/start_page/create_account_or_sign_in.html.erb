@@ -1,4 +1,4 @@
-<% content_for :title, t('page_titles.application') %>
+<% content_for :title, t('page_titles.create_account_or_sign_in') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -10,7 +10,7 @@
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
-        Create an account or sign in
+        <%= t('page_titles.create_account_or_sign_in') %>
       </h1>
 
       <%= f.govuk_radio_buttons_fieldset :existing_account, legend: { text: 'Do you already have an account?' } do %>

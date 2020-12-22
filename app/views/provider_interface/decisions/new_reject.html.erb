@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix('Reject application', @reject_application.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t('page_titles.provider.new_reject'), @reject_application.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice.id)) %>
 
 <div class="govuk-grid-row">
@@ -19,7 +19,7 @@
       <%= f.govuk_submit 'Continue' %>
 
       <p class="govuk-body">
-      <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
       </p>
     <% end %>
   </div>

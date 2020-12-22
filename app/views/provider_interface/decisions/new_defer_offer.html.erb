@@ -1,3 +1,4 @@
+<% content_for :browser_title, title_with_error_prefix(t('page_titles.provider.new_defer_offer'), @defer_offer.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice)) %>
 
 <div class="govuk-grid-row">
@@ -5,12 +6,9 @@
     <%= form_with model: @defer_offer, url: provider_interface_application_choice_defer_offer_path(@application_choice) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <span class="govuk-caption-xl">
-        <%= @application_choice.application_form.full_name %>
-      </span>
-
       <h1 class="govuk-heading-xl">
-        Check and confirm offer deferral
+        <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+        <%= t('page_titles.provider.new_defer_offer') %>
       </h1>
 
       <p class="govuk-body">This application will be marked as deferred.</p>

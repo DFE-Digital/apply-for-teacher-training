@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix('Change response', @edit_response.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(t('page_titles.provider.new_edit_response'), @edit_response.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
 
 <%= form_with model: @edit_response,
@@ -7,7 +7,7 @@
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl">
-    Change response
+    <%= t('page_titles.provider.new_edit_response') %>
   </h1>
 
   <%= render SummaryListComponent.new(rows: [
