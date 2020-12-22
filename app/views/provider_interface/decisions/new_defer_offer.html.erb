@@ -14,7 +14,7 @@
       </h1>
 
       <p class="govuk-body">This application will be marked as deferred.</p>
-      <p class="govuk-body">You must review and confirm your offer again at the start of the next cycle (<%= RecruitmentCycle.next_cycle_name %>).</p>
+      <p class="govuk-body">You must review and confirm your offer again at the start of the next cycle (<%= RecruitmentCycle.cycle_name(@application_choice.recruitment_cycle + 1) %>).</p>
       <p class="govuk-body">We’ll email the candidate notifying them of the deferral after you confirm below.</p>
 
       <%= f.button 'Confirm offer deferral', class: 'govuk-button', data: { module: 'govuk-button' } %>
