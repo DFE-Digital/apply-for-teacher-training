@@ -1,4 +1,5 @@
 module ViewHelper
+  # TODO: Make `body` param optional if `block` is provided
   def govuk_link_to(body, url, html_options = {}, &_block)
     html_options[:class] = prepend_css_class('govuk-link', html_options[:class])
 
