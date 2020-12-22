@@ -38,30 +38,30 @@ RSpec.feature 'Receives rejection email' do
 
   def when_all_but_one_of_my_application_choices_have_been_rejected
     @application_form = create(:completed_application_form)
-    create_list(:application_choice, 2, status: :rejected, application_form: @application_form)
-    @application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: @application_form)
+    create_list(:application_choice, 2, :with_rejection, application_form: @application_form)
+    @application_choice = create(:application_choice, :awaiting_provider_decision, application_form: @application_form)
   end
 
   def when_i_am_awaiting_decisions_and_have_no_offers
     @application_form = create(:completed_application_form)
-    create_list(:application_choice, 2, status: :awaiting_provider_decision, decline_by_default_at: 10.business_days.from_now, application_form: @application_form)
-    @application_choice = @application_form.application_choices.first
+    create_list(:application_choice, 2, :awaiting_provider_decision, decline_by_default_at: 10.business_days.from_now, application_form: @application_form)
+    @application_choice = @application_form.reload.application_choices.first
   end
 
   def when_i_have_a_single_offer
     @application_form = create(:completed_application_form)
     @offer = create(:application_choice,
-                    status: :offer,
+                    :with_offer,
                     application_form: @application_form,
                     decline_by_default_at: 10.business_days.from_now,
                     decline_by_default_days: 10)
-    @application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: @application_form)
+    @application_choice = create(:application_choice, :awaiting_provider_decision, application_form: @application_form)
   end
 
   def when_i_have_multiple_offers
     @application_form = create(:completed_application_form)
     @offer = create(:application_choice,
-                    status: :offer,
+                    :with_offer,
                     application_form: @application_form,
                     decline_by_default_at: 10.business_days.from_now,
                     decline_by_default_days: 10)
@@ -71,7 +71,7 @@ RSpec.feature 'Receives rejection email' do
 
   def and_a_provider_rejects_my_application
     RejectApplication.new(
-      actor: create(:support_user),
+      actor: SupportUser.first.presence || create(:support_user),
       application_choice: @application_choice,
       rejection_reason: 'No experience working with children.',
     ).save

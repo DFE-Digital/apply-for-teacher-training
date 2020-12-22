@@ -103,7 +103,7 @@ RSpec.describe ApplicationChoice, type: :model do
       it 'returns false' do
         course = create(:course)
         create(:course_option, vacancy_status: :vacancies, course: course)
-        application_choice = create(:application_choice, course_option: course.course_options.first)
+        application_choice = create(:application_choice, :awaiting_provider_decision, course_option: course.course_options.first)
         expect(application_choice.study_mode_full?).to be false
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe ApplicationChoice, type: :model do
         candidate_behaviour_other: 'Used the wrong spoon for soup',
       )
 
-      application_choice = create(:application_choice)
+      application_choice = create(:application_choice, :with_rejection)
       application_choice.update!(structured_rejection_reasons: reasons)
 
       rehydrated_reasons = ReasonsForRejection.new(application_choice.reload.structured_rejection_reasons)

@@ -354,11 +354,11 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     statuses.each do |status|
       create(
         :application_choice,
+        status,
         application_form: application_form,
-        status: status,
       )
     end
 
-    application_form
+    application_form.reload
   end
 end

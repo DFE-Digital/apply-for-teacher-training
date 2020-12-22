@@ -40,6 +40,6 @@ private
   end
 
   def candidate_applications
-    @candidate_applications ||= application_choice.self_and_siblings
+    @candidate_applications ||= application_choice.self_and_siblings.reload
   end
 end

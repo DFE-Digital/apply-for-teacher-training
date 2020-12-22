@@ -496,6 +496,10 @@ FactoryBot.define do
       reject_by_default_days { 40 }
     end
 
+    trait :unsubmitted do
+      status { :unsubmitted }
+    end
+
     trait :awaiting_provider_decision do
       status { :awaiting_provider_decision }
 

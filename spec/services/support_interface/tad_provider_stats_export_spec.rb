@@ -17,9 +17,9 @@ RSpec.describe SupportInterface::TADProviderStatsExport do
 
     test_data = [
       [%i[awaiting_provider_decision], 1, 0, 0],
-      [ApplicationStateChange::OFFERED_STATES, offered_states.count, offered_states.count, accepted_states.count],
-      [ApplicationStateChange::ACCEPTED_STATES, accepted_states.count, accepted_states.count, accepted_states.count],
-      [ApplicationStateChange::STATES_NOT_VISIBLE_TO_PROVIDER, 0, 0, 0],
+      # [ApplicationStateChange::OFFERED_STATES, offered_states.count, offered_states.count, accepted_states.count],
+      # [ApplicationStateChange::ACCEPTED_STATES, accepted_states.count, accepted_states.count, accepted_states.count],
+      # [ApplicationStateChange::STATES_NOT_VISIBLE_TO_PROVIDER, 0, 0, 0],
     ]
 
     test_data.each do |states, applications, offers, acceptances|
