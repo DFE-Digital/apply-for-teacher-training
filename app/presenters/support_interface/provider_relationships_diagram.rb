@@ -1,5 +1,11 @@
 module SupportInterface
   class ProviderRelationshipsDiagram
+    AVAILABLE_PERMISSIONS = {
+      view_safeguarding_information: 'view safeguarding',
+      view_diversity_information: 'view diversity',
+      make_decisions: 'make decisions',
+    }.freeze
+
     def initialize(provider:)
       @provider = provider
     end
@@ -33,7 +39,7 @@ module SupportInterface
           graph.add_edges(
             "Provider##{perm.training_provider_id}",
             "Provider##{perm.ratifying_provider_id}",
-            label: "can #{translate_training_permissions(perm)} for courses ratified by",
+            label: translate_training_permissions(perm),
             fontname: 'Arial',
             color: '#0b0c0c',
             fontcolor: '#0b0c0c',
@@ -49,7 +55,7 @@ module SupportInterface
           graph.add_edges(
             "Provider##{perm.ratifying_provider_id}",
             "Provider##{perm.training_provider_id}",
-            label: "can #{translate_ratifying_permissions(perm)} for courses run by",
+            label: translate_ratifying_permissions(perm),
             fontname: 'Arial',
             color: '#0b0c0c',
             fontcolor: '#0b0c0c',
@@ -78,19 +84,29 @@ module SupportInterface
     end
 
     def translate_training_permissions(permission)
-      "#{value_indicator(permission.training_provider_can_view_safeguarding_information)} view safeguarding "\
-      "#{value_indicator(permission.training_provider_can_view_diversity_information)} view diversity "\
-      "#{value_indicator(permission.training_provider_can_make_decisions)} make decisions"
+      return 'Permissions not setup' if permissions_not_setup(permission)
+
+      "can #{build_permissions_string(:training_provider, permission)} for courses ratified by"
     end
 
     def translate_ratifying_permissions(permission)
-      "#{value_indicator(permission.ratifying_provider_can_view_safeguarding_information)} view safeguarding "\
-      "#{value_indicator(permission.ratifying_provider_can_view_diversity_information)} view diversity "\
-      "#{value_indicator(permission.ratifying_provider_can_make_decisions)} make decisions"
+      return 'Permissions not setup' if permissions_not_setup(permission)
+
+      "can #{build_permissions_string(:ratifying_provider, permission)} for courses run by"
     end
 
     def value_indicator(permission_value)
       permission_value ? '✅' : '❌'
+    end
+
+    def permissions_not_setup(permission)
+      permission.setup_at.blank?
+    end
+
+    def build_permissions_string(provider_type, permission)
+      AVAILABLE_PERMISSIONS.inject([]) { |permissions, (rule, rule_text)|
+        permissions << "#{send(:value_indicator, permission.send("#{provider_type}_can_#{rule}"))} #{rule_text}"
+      }.join(' ')
     end
   end
 end
