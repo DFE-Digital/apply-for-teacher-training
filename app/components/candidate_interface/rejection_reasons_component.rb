@@ -10,8 +10,13 @@ module CandidateInterface
     def application_choice_rows(application_choice)
       [
         course_details_row(application_choice),
+        status_row(application_choice),
         rejection_reasons_row(application_choice),
       ].compact
+    end
+
+    def render?
+      rejected_application_choices.present?
     end
 
   private
@@ -33,6 +38,15 @@ module CandidateInterface
       end
     end
 
+    def status_row(application_choice)
+      return nil unless FeatureFlag.active?(:structured_reasons_for_rejection)
+
+      {
+        key: 'Status',
+        value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
+      }
+    end
+
     def rejection_reasons_row(application_choice)
       if FeatureFlag.active?(:structured_reasons_for_rejection) && application_choice.structured_rejection_reasons.present?
         {
@@ -50,6 +64,14 @@ module CandidateInterface
           key: 'Feedback',
           value: application_choice.rejection_reason,
         }
+      end
+    end
+
+    def rejected_application_choices
+      @rejected_application_choices ||= begin
+        rejected_applications = @application_form.application_choices.includes(:course, :provider, [:offered_course_option]).rejected
+        rejected_applications = rejected_applications.where('application_choices.rejection_reason IS NOT NULL OR application_choices.structured_rejection_reasons IS NOT NULL') if FeatureFlag.active?(:structured_reasons_for_rejection)
+        rejected_applications
       end
     end
   end
