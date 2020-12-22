@@ -49,7 +49,7 @@ module SupportInterface
           'Number of unexplained breaks in last 5 years' => unexplained_breaks_in_last_five_years,
           'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees,
           'Work history completed' => application_form.work_history_completed,
-          'Course choice statuses' => application_form.application_choices.map(&:status),
+          'Course choice statuses' => application_form.application_choices.map(&:status).sort,
         }
         output
       end
