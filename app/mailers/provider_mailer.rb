@@ -134,6 +134,12 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def courses_open_on_apply(provider_user)
+    @current_recruitment_cycle_year = RecruitmentCycle.current_year
+
+    notify_email(to: provider_user.email_address)
+  end
+
 private
 
   def email_for_provider(provider_user, application_form, args = {})

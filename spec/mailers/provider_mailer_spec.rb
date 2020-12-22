@@ -5,7 +5,11 @@ RSpec.describe ProviderMailer, type: :mailer do
 
   shared_examples 'a provider mail with subject and content' do |mail, subject, content|
     let(:email) do
-      mail == :account_created ? ProviderMailer.send(mail, @provider_user) : ProviderMailer.send(mail, @provider_user, @application_choice)
+      if %i[account_created courses_open_on_apply].include?(mail)
+        return ProviderMailer.send(mail, @provider_user)
+      end
+
+      ProviderMailer.send(mail, @provider_user, @application_choice)
     end
 
     it 'sends an email with the correct subject' do
@@ -171,5 +175,11 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
+  end
+
+  describe '.courses_open_on_apply' do
+    it_behaves_like('a provider mail with subject and content', :courses_open_on_apply,
+                    I18n.t!('provider_mailer.courses_open_on_apply.subject'),
+                    'recruitment_cycle_year' => RecruitmentCycle.current_year)
   end
 end

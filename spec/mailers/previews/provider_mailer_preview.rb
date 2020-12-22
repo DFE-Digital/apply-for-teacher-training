@@ -49,6 +49,12 @@ class ProviderMailerPreview < ActionMailer::Preview
     )
   end
 
+  def courses_open_on_apply
+    ProviderMailer.courses_open_on_apply(
+      FactoryBot.build_stubbed(:provider_user),
+    )
+  end
+
 private
 
   def provider

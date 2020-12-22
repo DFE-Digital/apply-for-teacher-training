@@ -446,6 +446,12 @@ FactoryBot.define do
         create(:provider_agreement, provider: provider)
       end
     end
+
+    trait :with_user do
+      after(:create) do |provider|
+        create(:provider_permissions, provider: provider)
+      end
+    end
   end
 
   factory :provider_agreement do
