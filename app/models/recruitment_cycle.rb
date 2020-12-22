@@ -29,10 +29,14 @@ module RecruitmentCycle
   end
 
   def self.current_cycle_name
-    "#{current_year} to #{next_year}"
+    cycle_name
   end
 
   def self.next_cycle_name
-    "#{next_year} to #{next_year + 1}"
+    cycle_name(next_year)
+  end
+
+  def self.cycle_name(year = current_year)
+    "#{year} to #{year + 1}"
   end
 end
