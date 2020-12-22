@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::WithdrawalFeedbackForm, type: :model do
     end
 
     it 'updates the withdrawl feedback column if valid' do
-      application_choice = create(:application_choice, status: 'withdrawn')
+      application_choice = create(:application_choice, :withdrawn)
       withdrawal_feedback = described_class.new(
         feedback: 'yes',
         explanation: 'I do not want to travel that far.',
