@@ -21,7 +21,8 @@
 
         <%= f.govuk_check_box :manage_organisations, true, multiple: false,
                               label: { text: 'Manage organisational permissions' },
-                              hint: { text: 'Change permissions between organisations' } %>
+                              hint: { text: 'Change permissions between organisations' },
+                              link_errors: true %>
 
         <%= f.govuk_check_box :manage_users, true, multiple: false,
                               label: { text: 'Manage users' },

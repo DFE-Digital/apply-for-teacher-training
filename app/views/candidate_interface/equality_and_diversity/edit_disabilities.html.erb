@@ -6,9 +6,9 @@
     <%= form_with model: @disabilities, url: candidate_interface_edit_equality_and_diversity_disabilities_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :disabilities, multiple: false, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.disabilities.title'), size: 'xl' } do %>
-        <% disabilities_checkboxes.each do |checkbox| %>
-          <%= f.govuk_check_box :disabilities, checkbox.name, label: { text: checkbox.name, size: 's' }, hint: { text: checkbox.hint_text } %>
+      <%= f.govuk_check_boxes_fieldset :disabilities, multiple: false, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.disabilities.title'), size: 'xl', tag: 'h1' } do %>
+        <% disabilities_checkboxes.each_with_index do |checkbox, i| %>
+          <%= f.govuk_check_box :disabilities, checkbox.name, label: { text: checkbox.name, size: 's' }, hint: { text: checkbox.hint_text }, link_errors: i.zero? %>
         <% end %>
 
         <%= f.govuk_check_box :disabilities, t('equality_and_diversity.disabilities.other.label'), label: { text: t('equality_and_diversity.disabilities.other.label'), size: 's' } do %>

@@ -3,11 +3,12 @@
     <%= cache [permission_form.provider, permission_form.provider_permission] do %>
       <%= f.fields_for "provider_permissions_forms[]", permission_form do |pf| %>
         <%= pf.govuk_check_box :active, true, multiple: false,
-                                label: { text: permission_form.provider.name_and_code } do %>
+                                label: { text: permission_form.provider.name_and_code },
+                                link_errors: true do %>
           <%= pf.fields_for :provider_permission, permission_form.provider_permission do |ppf| %>
             <%= ppf.hidden_field :provider_id %>
             <%= ppf.govuk_check_boxes_fieldset :permissions, legend: { text: 'Choose permissions', size: 's' } do %>
-              <%= ppf.govuk_check_box :manage_users, true, multiple: false, label: { text: 'Manage users' } %>
+              <%= ppf.govuk_check_box :manage_users, true, multiple: false, label: { text: 'Manage users' }, link_errors: true %>
               <%= ppf.govuk_check_box :manage_organisations, true, multiple: false,
                                       label: { text: 'Manage organisational permissions' } %>
               <%= ppf.govuk_check_box :make_decisions, true, multiple: false,

@@ -122,7 +122,8 @@
           <%= f.govuk_check_boxes_fieldset :honesty_and_professionalism_concerns, legend: { text: "Which qualifications?", size: "s" } do %>
             <%= f.govuk_check_box :honesty_and_professionalism_concerns,
               'information_false_or_inaccurate',
-              label: { text: "Information given on application form false or inaccurate" } do %>
+              label: { text: "Information given on application form false or inaccurate" },
+              link_errors: true do %>
               <%= f.govuk_text_area :honesty_and_professionalism_concerns_information_false_or_inaccurate_details,
                 label: { text: 'Please give details' }, max_words: 100 %>
             <% end %>
@@ -157,7 +158,8 @@
           <%= f.govuk_check_boxes_fieldset :safeguarding_concerns, legend: { text: "Which safeguarding issues in particular?", size: "s" } do %>
             <%= f.govuk_check_box :safeguarding_concerns,
               'candidate_disclosed_information',
-              label: { text: "Information disclosed by candidate makes them unsuitable to work with children" } do %>
+              label: { text: "Information disclosed by candidate makes them unsuitable to work with children" },
+              link_errors: true do %>
               <%= f.govuk_text_area :safeguarding_concerns_candidate_disclosed_information_details,
                 label: { text: 'Please give details' }, max_words: 100 %>
             <% end %>
