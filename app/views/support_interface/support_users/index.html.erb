@@ -34,4 +34,4 @@
   </tbody>
 </table>
 
-<%= govuk_link_to 'Restore a removed user', support_interface_support_users_path(removed: true) unless params[:removed] == 'true' %>
+<p class="govuk-body"><%= govuk_link_to 'Restore a removed user', support_interface_support_users_path(removed: true) unless params[:removed] == 'true' %></p>
