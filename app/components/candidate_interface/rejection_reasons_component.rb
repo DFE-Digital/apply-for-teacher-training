@@ -29,7 +29,7 @@ module CandidateInterface
     end
 
     def course_details_row_value(application_choice)
-      if EndOfCycleTimetable.find_down? || FeatureFlag.active?(:structured_reasons_for_rejection)
+      if EndOfCycleTimetable.find_down?
         tag.p(application_choice.offered_course.name_and_code, class: 'govuk-!-margin-bottom-0') + tag.p(application_choice.course.description, class: 'govuk-body')
       else
         govuk_link_to(application_choice.offered_course.name_and_code,

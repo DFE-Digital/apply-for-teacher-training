@@ -34,7 +34,7 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent do
   context 'with `structured_reasons_for_rejection` feature flag active' do
     before { FeatureFlag.activate(:structured_reasons_for_rejection) }
 
-    it 'renders component with correct values (without the Find link)' do
+    it 'renders component with correct values (with the Find link)' do
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.css('.app-summary-card__title').text).to include(application_choice.provider.name)
@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::RejectionReasonsComponent do
       expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.course.description)
       expect(result.css('.govuk-summary-list__key').text).to include('Feedback')
       expect(result.css('.govuk-summary-list__value').to_html).to include(application_choice.rejection_reason)
-      expect(result.css('a').to_html).not_to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
+      expect(result.css('a').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}")
     end
 
     it 'adds a status row' do
