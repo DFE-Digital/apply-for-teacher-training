@@ -22,8 +22,8 @@
     <%= form_with model: current_provider_user, url: provider_interface_notifications_path, method: :put do |f| %>
       <div class='govuk-form-group'>
 
-        <%= f.govuk_radio_buttons_fieldset :send_notifications, inline: true, legend: -> { nil} do %>
-          <%= f.govuk_radio_button :send_notifications, 'true', label: { text: 'On' } %>
+        <%= f.govuk_radio_buttons_fieldset :send_notifications, inline: true, legend: -> { nil } do %>
+          <%= f.govuk_radio_button :send_notifications, 'true', label: { text: 'On' }, link_errors: true %>
           <%= f.govuk_radio_button :send_notifications, 'false', label: { text: 'Off' } %>
         <% end %>
 

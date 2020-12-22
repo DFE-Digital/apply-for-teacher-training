@@ -6,9 +6,9 @@
     <%= form_with model: @details_form, url: support_interface_application_form_update_address_type_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :address_types, legend: { text: t('support_interface.edit_address_details_form.address_types.label'), size: 'xl' } do %>
-        <%= f.govuk_radio_button :address_type, 'uk', label: { text: t('application_form.contact_information.address_type.values.uk') } %>
-        <%= f.govuk_radio_button :address_type, 'international', label: { text: t('application_form.contact_information.address_type.values.international') }, link_errors: true do %>
+      <%= f.govuk_radio_buttons_fieldset :address_types, legend: { text: t('support_interface.edit_address_details_form.address_types.label'), size: 'l', tag: 'h1' } do %>
+        <%= f.govuk_radio_button :address_type, 'uk', label: { text: t('application_form.contact_information.address_type.values.uk') }, link_errors: true %>
+        <%= f.govuk_radio_button :address_type, 'international', label: { text: t('application_form.contact_information.address_type.values.international') } do %>
           <%= f.govuk_collection_select :country, select_country_options, :id, :name, label: { text: t('application_form.contact_information.country.label') } %>
         <% end %>
       <% end %>

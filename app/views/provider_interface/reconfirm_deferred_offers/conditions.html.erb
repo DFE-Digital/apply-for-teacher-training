@@ -21,7 +21,7 @@
         legend: { text: "Has the candidate #{met} all of the conditions?" , size: "m" } do %>
         <%= f.govuk_radio_button :conditions_status, 'met', label: { text: "Yes, all conditions are #{met}" }, link_errors: true %>
 
-        <%= f.govuk_radio_button :conditions_status, 'not met', label: { text: 'No, one or more conditions are pending' }, link_errors: true %>
+        <%= f.govuk_radio_button :conditions_status, 'not met', label: { text: 'No, one or more conditions are pending' } %>
       <% end %>
 
       <%= f.govuk_submit 'Continue' %>

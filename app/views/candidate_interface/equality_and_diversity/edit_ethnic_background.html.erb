@@ -8,10 +8,10 @@
 
       <%= f.govuk_radio_buttons_fieldset :ethnic_background, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: ethnic_background_title(@ethnic_group), size: 'xl' } do %>
         <% ethnic_backgrounds(@ethnic_group).each_with_index do |background, i| %>
-            <% if background.textfield_label.nil? %>
-              <%= f.govuk_radio_button :ethnic_background, background.label, label: { text: background.label }, link_errors: i.zero? %>
-            <% else %>
-              <%= f.govuk_radio_button :ethnic_background, background.label, label: { text: background.label } do %>
+          <% if background.textfield_label.nil? %>
+            <%= f.govuk_radio_button :ethnic_background, background.label, label: { text: background.label }, link_errors: i.zero? %>
+          <% else %>
+            <%= f.govuk_radio_button :ethnic_background, background.label, label: { text: background.label } do %>
               <%= f.govuk_text_field :other_background, label: { text: background.textfield_label } %>
             <% end %>
           <% end %>

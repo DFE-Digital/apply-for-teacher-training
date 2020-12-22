@@ -15,7 +15,7 @@
       <%= f.hidden_field :original_controller %>
 
       <%= f.govuk_check_boxes_fieldset :issues, multiple: false, legend: { text: t('application_feedback.issues.label'), size: 'm' } do %>
-        <%= f.govuk_check_box :does_not_understand_section, true, multiple: false, label: { text: t('application_feedback.issues.does_not_understand_section') } %>
+        <%= f.govuk_check_box :does_not_understand_section, true, multiple: false, label: { text: t('application_feedback.issues.does_not_understand_section') }, link_errors: true %>
         <%= f.govuk_check_box :need_more_information, true, multiple: false, label: { text: t('application_feedback.issues.need_more_information') } %>
         <%= f.govuk_check_box :answer_does_not_fit_format, true, multiple: false, label: { text: t('application_feedback.issues.answer_does_not_fit_format') } %>
       <% end %>
@@ -23,7 +23,7 @@
       <%= f.govuk_text_area :other_feedback, label: { text: t('application_feedback.other_feedback.label'), size: 'm' }, rows: 5, max_words: 300 %>
 
       <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, inline: true, legend: { text: t('application_feedback.consent_to_be_contacted.label'), size: 'm' } do %>
-        <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('application_feedback.consent_to_be_contacted.yes') }  %>
+        <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('application_feedback.consent_to_be_contacted.yes') }, link_errors: true %>
         <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text:t('application_feedback.consent_to_be_contacted.no') } %>
       <% end %>
 

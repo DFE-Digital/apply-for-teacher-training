@@ -16,8 +16,8 @@
       <%= render CandidateInterface::UnsubmittedReferenceReviewComponent.new(reference: @reference) %>
 
       <%= f.govuk_radio_buttons_fieldset :submit_reference, legend: { text: t('application_form.references.unsubmitted.label', reference_name: @reference.name), size: 'm' } do %>
-        <%= f.govuk_radio_button :submit, 'yes', label: { text: t('application_form.references.unsubmitted.yes.label'), link_errors: true } %>
-        <%= f.govuk_radio_button :submit, 'no', label: { text: t('application_form.references.unsubmitted.no.label'), link_errors: true } %>
+        <%= f.govuk_radio_button :submit, 'yes', label: { text: t('application_form.references.unsubmitted.yes.label') }, link_errors: true %>
+        <%= f.govuk_radio_button :submit, 'no', label: { text: t('application_form.references.unsubmitted.no.label') } %>
       <% end %>
 
       <%= f.govuk_submit 'Save and continue' %>

@@ -14,7 +14,7 @@
         caption: { text: application_choice.application_form.full_name, size: "xl" } do %>
 
         <% courses.each_with_index do |course, i| %>
-          <%= f.govuk_radio_button :course_id, course.id, label: { text: course.name_and_code }, hint: { text: course.description }, link_errors: i.zero?  %>
+          <%= f.govuk_radio_button :course_id, course.id, label: { text: course.name_and_code }, hint: { text: course.description }, link_errors: i.zero? %>
         <% end %>
       <% end %>
 
