@@ -188,7 +188,7 @@ ActiveRecord::Schema.define(version: 2020_12_22_130813) do
 
   create_table "application_response_caches", force: :cascade do |t|
     t.bigint "application_choice_id", null: false
-    t.jsonb "response_body"
+    t.jsonb "response"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["application_choice_id"], name: "index_application_response_caches_on_application_choice_id"
