@@ -18,8 +18,6 @@ module SupportInterface
 
       validates :email_address, presence: true, email_address: true, length: { maximum: 100 }
 
-      validate :candidate_email_address_has_access
-
       validates :date_of_birth, presence: true
       validate :date_of_birth_valid
       validate :date_of_birth_not_in_future
@@ -78,14 +76,6 @@ module SupportInterface
 
         age_limit = Time.zone.today - 16.years
         errors.add(:date_of_birth, :below_lower_age_limit, date: age_limit.to_s(:govuk_date)) if date_of_birth > age_limit
-      end
-
-      def candidate_email_address_has_access
-        if HostingEnvironment.dfe_signup_only? &&
-            email_address.present? &&
-            !email_address.match(/education\.gov\.uk$/)
-          errors.add(:email_address, :dfe_signup_only)
-        end
       end
 
     private
