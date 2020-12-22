@@ -6,8 +6,8 @@ RSpec.describe ProviderInterface::HesaDataExport do
     let(:training_provider) { provider_relationship.training_provider }
     let(:accredited_provider) { provider_relationship.ratifying_provider }
     let(:provider_user) { create(:provider_user, :with_view_diversity_information, providers: [training_provider]) }
-
     let(:hesa_disabilities) { [53, 55, 54] }
+    let(:decorated_application) { ApplicationChoiceHesaExportDecorator.new(@application_with_offer) }
 
     subject(:export_data) { described_class.new(actor: provider_user).call }
 
@@ -21,7 +21,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
         expect(row['first_name']).to eq(@application_with_offer.application_form.first_name)
         expect(row['last_name']).to eq(@application_with_offer.application_form.last_name)
         expect(row['date_of_birth']).to eq(@application_with_offer.application_form.date_of_birth.to_s)
-        expect(row['nationality']).to eq(@application_with_offer.application_form.first_nationality)
+        expect(row['nationality']).to eq(decorated_application.nationality)
         expect(row['domicile']).to eq(@application_with_offer.application_form.domicile)
         expect(row['email']).to eq(@application_with_offer.application_form.candidate.email_address)
         expect(row['recruitment_cycle_year']).to eq(@application_with_offer.application_form.recruitment_cycle_year.to_s)
