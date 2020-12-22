@@ -6,6 +6,9 @@ en:
       title: 'Something you did'
     quality_of_application:
       title: 'Quality of application'
+      personal_statement: Personal statement
+      subject_knowledge: Subject knowledge
+      other: Other
     qualifications:
       title: 'Qualifications'
     interview_performance:
@@ -17,6 +20,9 @@ en:
       title: 'They offered you a place on another course'
     honesty_and_professionalism:
       title: 'Honesty and professionalism'
+      information_false_or_inaccurate: Information given on application form false or inaccurate
+      plagiarism: Evidence of plagiarism in personal statement or elsewhere
+      references: References didn’t support application
     safeguarding_issues:
       title: 'Safeguarding issues'
     additional_advice:
@@ -32,6 +38,8 @@ en:
       no_english_gcse: 'No English GCSE grade 4 (C) or above, or valid equivalent'
       no_science_gcse: 'No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)'
       no_degree: 'No degree'
+      other: Other
+    performance_at_interview:
   activemodel:
     errors:
       models:

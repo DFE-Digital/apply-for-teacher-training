@@ -114,10 +114,34 @@ module SupportInterface
     def address_row
       {
         key: 'Address',
-        value: application_form.full_address,
+        value: full_address,
         action: 'address',
         change_path: support_interface_application_form_edit_address_type_path(application_form),
       }
+    end
+
+    def full_address
+      if @application_form.address_type == 'uk'
+        local_address.reject(&:blank?)
+      elsif @application_form.address_line1.present?
+        local_address.concat([COUNTRIES[@application_form.country]]).reject(&:blank?)
+      else
+        [
+          @application_form.international_address,
+          COUNTRIES[@application_form.country],
+        ]
+            .reject(&:blank?)
+      end
+    end
+
+    def local_address
+      [
+        @application_form.address_line1,
+        @application_form.address_line2,
+        @application_form.address_line3,
+        @application_form.address_line4,
+        @application_form.postcode,
+      ]
     end
 
     attr_reader :application_form

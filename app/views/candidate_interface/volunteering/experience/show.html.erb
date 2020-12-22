@@ -25,7 +25,7 @@
       </p>
 
       <div class="govuk-!-margin-top-6">
-        <%= f.govuk_radio_buttons_fieldset :experience, legend: { size: 'm', text: t('application_form.volunteering.experience.label'), tag: 'span' } do %>
+        <%= f.govuk_radio_buttons_fieldset :experience, legend: { text: t('application_form.volunteering.experience.label'), size: 'm' } do %>
           <%= f.govuk_radio_button :experience, 'true', label: { text: 'Yes' }, link_errors: true %>
           <%= f.govuk_radio_button :experience, 'false', label: { text: 'No' } %>
         <% end %>

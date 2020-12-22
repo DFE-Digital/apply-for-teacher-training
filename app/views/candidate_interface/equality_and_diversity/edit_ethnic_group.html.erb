@@ -6,7 +6,7 @@
     <%= form_with model: @ethnic_group, url: candidate_interface_edit_equality_and_diversity_ethnic_group_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :ethnic_group, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.ethnic_group.title'), size: 'xl' } do %>
+      <%= f.govuk_radio_buttons_fieldset :ethnic_group, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.ethnic_group.title'), size: 'xl', tag: 'h1' } do %>
         <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.asian.label'), label: { text: t('equality_and_diversity.ethnic_group.asian.label'), size: 's' }, hint: { text: t('equality_and_diversity.ethnic_group.asian.hint_text') }, link_errors: true %>
         <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.black.label'), label: { text: t('equality_and_diversity.ethnic_group.black.label'), size: 's' }, hint: { text: t('equality_and_diversity.ethnic_group.black.hint_text') } %>
         <%= f.govuk_radio_button :ethnic_group, t('equality_and_diversity.ethnic_group.mixed.label'), label: { text: t('equality_and_diversity.ethnic_group.mixed.label'), size: 's' }, hint: { text: t('equality_and_diversity.ethnic_group.mixed.hint_text') } %>

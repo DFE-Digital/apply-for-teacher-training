@@ -1,5 +1,5 @@
 <p class="govuk-body">You can get a statement from the National Recognition Information Centre for the United Kingdom (UK NARIC) which shows how your qualifications compare to UK qualifications. Not all providers need this.</p>
-<%= f.govuk_radio_buttons_fieldset :have_naric_reference, legend: { text: t('application_form.degree.naric_statment.label'), tag: 'span' } do %>
+<%= f.govuk_radio_buttons_fieldset :have_naric_reference, legend: { text: t('application_form.degree.naric_statment.label'), size: 'm' } do %>
   <%= f.govuk_radio_button :have_naric_reference, 'yes', label: { text: 'Yes' } do %>
     <%= f.govuk_text_field(
       :naric_reference,

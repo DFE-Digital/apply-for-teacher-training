@@ -19,13 +19,13 @@
           ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :recruitment_cycle_years, legend: { size: 'm', text: 'Select year' } do %>
+      <%= f.govuk_check_boxes_fieldset :recruitment_cycle_years, legend: { text: 'Select year', size: 'm' } do %>
         <% RecruitmentCycle.years_visible_to_providers.each do |year| %>
           <%= f.govuk_check_box :recruitment_cycle_years, year.to_s, label: { text: RecruitmentCycle::CYCLES[year.to_s] } %>
         <% end %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset :application_status_choice, legend: { size: 'm', text: 'Select applications' } do %>
+      <%= f.govuk_radio_buttons_fieldset :application_status_choice, legend: { text: 'Select applications', size: 'm' } do %>
         <%= f.govuk_radio_button :application_status_choice, 'all', label: { text: 'All applications' } %>
         <%= f.govuk_radio_button :application_status_choice, 'custom', label: { text: 'Applications with a specific status' } do %>
           <%= f.govuk_check_boxes_fieldset :statuses, legend: { size: 's', text: 'Select statuses' } do %>
@@ -37,7 +37,7 @@
       <% end %>
 
       <% if @application_data_export_form.actor_has_more_than_one_provider? %>
-        <%= f.govuk_collection_check_boxes :provider_ids, @application_data_export_form.providers_that_actor_belongs_to, ->(p) { p.id.to_s }, :name, legend: { size: 'm', text: 'Select applications for certain organisations' } %>
+        <%= f.govuk_collection_check_boxes :provider_ids, @application_data_export_form.providers_that_actor_belongs_to, ->(p) { p.id.to_s }, :name, legend: { text: 'Select applications for certain organisations', size: 'm' } %>
       <% end %>
 
       <%= f.govuk_submit 'Export data' %>

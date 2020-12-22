@@ -175,6 +175,10 @@ FactoryBot.define do
         safeguarding_issues_status { 'never_asked' }
       end
 
+      trait :with_degree do
+        with_degree { true }
+      end
+
       after(:build) do |application_form, evaluator|
         if evaluator.with_gcses
           create(:gcse_qualification, application_form: application_form, subject: 'maths')
@@ -475,7 +479,7 @@ FactoryBot.define do
   end
 
   factory :application_choice do
-    application_form
+    association :application_form, factory: %i[completed_application_form with_completed_references with_degree]
     course_option
 
     status { ApplicationStateChange.valid_states.sample }
@@ -484,11 +488,9 @@ FactoryBot.define do
       status { 'awaiting_provider_decision' }
       reject_by_default_at { 40.business_days.from_now }
       reject_by_default_days { 40 }
-      association :application_form, factory: %i[completed_application_form with_completed_references]
     end
 
     trait :awaiting_provider_decision do
-      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :awaiting_provider_decision }
 
       reject_by_default_days { 40 }
@@ -501,7 +503,6 @@ FactoryBot.define do
     end
 
     trait :withdrawn_with_survey_completed do
-      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { :withdrawn }
       withdrawn_at { Time.zone.now }
       withdrawal_feedback do
@@ -540,6 +541,56 @@ FactoryBot.define do
       end
     end
 
+    trait :with_structured_rejection_reasons do
+      with_rejection_by_default
+      structured_rejection_reasons do
+        {
+          course_full_y_n: 'No',
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_other: 'Persistent scratching',
+          candidate_behaviour_what_to_improve: 'Not scratch so much',
+          candidate_behaviour_what_did_the_candidate_do: %w[didnt_reply_to_interview_offer didnt_attend_interview other],
+          honesty_and_professionalism_y_n: 'Yes',
+          honesty_and_professionalism_concerns_other_details: nil,
+          honesty_and_professionalism_concerns: %w[information_false_or_inaccurate references],
+          honesty_and_professionalism_concerns_plagiarism_details: nil,
+          honesty_and_professionalism_concerns_references_details: 'Clearly not a popular student',
+          honesty_and_professionalism_concerns_information_false_or_inaccurate_details: 'Fake news',
+          offered_on_another_course_y_n: 'No',
+          offered_on_another_course_details: nil,
+          performance_at_interview_y_n: 'Yes',
+          performance_at_interview_what_to_improve: 'Be fully dressed',
+          qualifications_y_n: 'Yes',
+          qualifications_other_details: 'All the other stuff',
+          qualifications_which_qualifications: %w[no_english_gcse other],
+          quality_of_application_y_n: 'Yes',
+          quality_of_application_other_details: 'Lights on but nobody home',
+          quality_of_application_other_what_to_improve: 'Study harder',
+          quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge other],
+          quality_of_application_subject_knowledge_what_to_improve: 'Claiming to be the \'world\'s leading expert\' seemed a bit strong',
+          quality_of_application_personal_statement_what_to_improve: 'Use a spellchecker',
+          safeguarding_y_n: 'Yes',
+          safeguarding_concerns: %w[other],
+          safeguarding_concerns_other_details: 'We need to run further checks',
+          safeguarding_concerns_vetting_disclosed_information_details: nil,
+          safeguarding_concerns_candidate_disclosed_information_details: nil,
+          interested_in_future_applications_y_n: nil,
+          why_are_you_rejecting_this_application: nil,
+          other_advice_or_feedback_y_n: nil,
+          other_advice_or_feedback_details: nil,
+        }
+      end
+      reject_by_default_feedback_sent_at { Time.zone.now }
+
+      after(:create) do |_choice, evaluator|
+        create(
+          :application_choice_audit,
+          :with_rejection_by_default,
+          application_choice: evaluator,
+        )
+      end
+    end
+
     trait :application_not_sent do
       status { 'application_not_sent' }
       rejected_at { Time.zone.now }
@@ -547,7 +598,6 @@ FactoryBot.define do
     end
 
     trait :with_offer do
-      association :application_form, factory: %i[completed_application_form with_completed_references]
       status { 'offer' }
       decline_by_default_at { Time.zone.now + 7.days }
       decline_by_default_days { 10 }
@@ -764,6 +814,7 @@ FactoryBot.define do
     email_address { "#{Faker::Name.first_name.downcase}-#{SecureRandom.hex}@example.com" }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
+    send_notifications { Faker::Boolean.boolean(true_ratio: 0.5) }
 
     trait :with_provider do
       after(:create) do |user, _evaluator|

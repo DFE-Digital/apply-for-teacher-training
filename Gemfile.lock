@@ -468,7 +468,7 @@ GEM
       sprockets (>= 3.0.0)
     strip_attributes (1.11.0)
       activemodel (>= 3.0, < 7.0)
-    super_diff (0.5.2)
+    super_diff (0.5.3)
       attr_extras (>= 6.2.4)
       diff-lcs
       patience_diff
@@ -508,7 +508,7 @@ GEM
     webfinger (1.1.0)
       activesupport
       httpclient (>= 2.4)
-    webmock (3.10.0)
+    webmock (3.11.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)

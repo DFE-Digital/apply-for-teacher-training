@@ -6,7 +6,7 @@
     <%= form_with model: @sex, url: candidate_interface_edit_equality_and_diversity_sex_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :sex, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.sex.title'), size: 'xl' } do %>
+      <%= f.govuk_radio_buttons_fieldset :sex, caption: { text: t('equality_and_diversity.title'), size: 'xl' }, legend: { text: t('equality_and_diversity.sex.title'), size: 'xl', tag: 'h1' } do %>
         <%= f.govuk_radio_button :sex, :female, label: { text: t('equality_and_diversity.sex.female.label') }, link_errors: true %>
         <%= f.govuk_radio_button :sex, :male, label: { text: t('equality_and_diversity.sex.male.label') } %>
         <%= f.govuk_radio_button :sex, :intersex, label: { text: t('equality_and_diversity.sex.intersex.label') } %>

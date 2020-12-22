@@ -37,6 +37,12 @@ class Clock
     end
   end
 
+  every(1.day, 'UCASIntegrationCheck', at: '10:00') do
+    return unless HostingEnvironment.productioun?
+
+    UCASIntegrationCheck.perform_async if Time.zone.yesterday.weekday?
+  end
+
   every(1.hour, 'SyncAllFromTeacherTrainingPublicAPI') do
     if FeatureFlag.active?(:sync_from_public_teacher_training_api)
       TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async

@@ -24,7 +24,7 @@
       </p>
 
       <div class="govuk-!-margin-top-6">
-        <%= f.govuk_radio_buttons_fieldset :work_history, legend: { size: 'm', text: 'Do you have any work history to add?', tag: 'h2' } do %>
+        <%= f.govuk_radio_buttons_fieldset :work_history, legend: { text: 'Do you have any work history to add?', size: 'm' } do %>
           <%= f.govuk_radio_button :work_history, :complete, label: { text: t('application_form.work_history.complete.label'), size: 's' }, hint: { text: t('application_form.work_history.complete.hint_text') }, link_errors: true %>
           <%= f.govuk_radio_button :work_history, :missing, label: { text: t('application_form.work_history.missing.label'), size: 's' } %>
         <% end %>

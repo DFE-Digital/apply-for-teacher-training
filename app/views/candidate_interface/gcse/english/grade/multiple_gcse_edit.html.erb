@@ -6,10 +6,8 @@
     <%= form_with model: @gcse_grade_form, url: candidate_interface_edit_gcse_english_grade_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl"><%= t('multiple_gcse_edit_grade.page_title')%></h1>
-
       <% if @gcse_grade_form.qualification.qualification_type == 'non_uk' %>
-        <%= f.govuk_radio_buttons_fieldset :naric_details, legend: nil do %>
+        <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: t('multiple_gcse_edit_grade.page_title'), size: 'xl', tag: 'h1' } do %>
           <%= f.govuk_radio_button :grade, 'not_applicable', label: { text: 'Not applicable' }  %>
           <%= f.govuk_radio_button :grade, 'unknown', label: { text: 'Unknown' }  %>
           <%= f.govuk_radio_button :grade, 'other', label: { text: 'Other' } do %>
@@ -17,9 +15,11 @@
           <% end %>
         <% end %>
       <% else %>
+        <h1 class="govuk-heading-xl"><%= t('multiple_gcse_edit_grade.page_title') %></h1>
+
         <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
 
-        <%= f.govuk_check_boxes_fieldset :english_gcses, legend: { text: t('multiple_gcse_edit_grade.question'), size: "m" } do %>
+        <%= f.govuk_check_boxes_fieldset :english_gcses, legend: { text: t('multiple_gcse_edit_grade.question'), size: 'm' } do %>
           <%= f.govuk_check_box :english_gcses, 'english_single_award', label: { text: t('multiple_gcse_edit_grade.answers.english_single_award') }, link_errors: true do %>
             <%= f.govuk_text_field :grade_english_single, label: { text: "Grade" }, hint: { text: t('multiple_gcse_edit_grade.hints.single_award') }, width: 2 %>
           <% end %>
@@ -45,7 +45,7 @@
         <% end %>
       <% end %>
 
-      <%= f.submit t('application_form.gcse.complete_form_button'), class: 'govuk-button', 'data-module': 'govuk-button', 'data-prevent-double-click': true %>
+      <%= f.govuk_submit t('application_form.gcse.complete_form_button') %>
     <% end %>
   </div>
 </div>

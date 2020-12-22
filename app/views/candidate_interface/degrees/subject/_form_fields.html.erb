@@ -6,7 +6,7 @@
   hint: { text: t('application_form.degree.subject.hint_text') }
 ) %>
 <% unless @degree_subject_form.international? %>
-  <%= tag.div(id: 'degree-subject-autocomplete', data: { source: @subjects }) %>
+  <%= tag.div(id: 'degree-subject-autosuggest', data: { source: @subjects }) %>
 <% end %>
 
 <%= f.govuk_submit t('application_form.degree.base.button') %>

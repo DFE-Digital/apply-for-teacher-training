@@ -6,7 +6,7 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
 
   scenario 'when a candidate triggers a notification', sidekiq: true, sandbox: true do
     given_i_am_a_provider_user_with_dfe_sign_in
-    and_i_am_permitted_to_see_applications_for_my_provider
+    and_i_am_permitted_to_see_applications_and_receive_notifications_for_my_provider
     and_an_application_choice_with_an_offer_exists_for_the_provider
 
     when_a_user_accepts_the_offer
@@ -21,7 +21,7 @@ RSpec.feature 'Emails are suppressed in Sandbox' do
     provider_exists_in_dfe_sign_in
   end
 
-  def and_i_am_permitted_to_see_applications_for_my_provider
+  def and_i_am_permitted_to_see_applications_and_receive_notifications_for_my_provider
     provider_user_exists_in_apply_database
   end
 

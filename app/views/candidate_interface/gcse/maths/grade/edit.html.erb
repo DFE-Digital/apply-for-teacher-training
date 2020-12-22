@@ -1,15 +1,13 @@
-<% content_for :title, title_with_error_prefix(grade_step_title(@subject, @qualification_type), @application_qualification.errors.any?) %>
+<% content_for :title, title_with_error_prefix(grade_step_title(@subject, @qualification_type), @gcse_grade_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @application_qualification, url: candidate_interface_edit_gcse_maths_grade_path, method: :patch do |f| %>
+    <%= form_with model: @gcse_grade_form, url: candidate_interface_edit_gcse_maths_grade_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl"><%= grade_step_title(@subject, @qualification_type) %></h1>
-
-      <% if @application_qualification.qualification.qualification_type == 'non_uk' %>
-        <%= f.govuk_radio_buttons_fieldset :naric_details, legend: nil do %>
+      <% if @qualification_type == 'non_uk' %>
+        <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: grade_step_title(@subject, @qualification_type), size: 'xl', tag: 'h1' } do %>
           <%= f.govuk_radio_button :grade, 'not_applicable', label: { text: 'Not applicable' }  %>
           <%= f.govuk_radio_button :grade, 'unknown', label: { text: 'Unknown' }  %>
           <%= f.govuk_radio_button :grade, 'other', label: { text: 'Other' } do %>
@@ -17,6 +15,8 @@
           <% end %>
         <% end %>
       <% else %>
+        <h1 class="govuk-heading-xl"><%= grade_step_title(@subject, @qualification_type) %></h1>
+
         <%= render CandidateInterface::GcseGradeGuidanceComponent.new(@subject, @qualification_type) %>
 
         <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint: { text: hint_for_gcse_edit_grade(@subject, @qualification_type) }, width: 2 %>

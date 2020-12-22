@@ -5,12 +5,11 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(model: @toefl_form, url: candidate_interface_toefl_path) do |f| %>
       <%= f.govuk_error_summary %>
-      <h1 class='govuk-heading-xl'>
+      <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl"><%= t('page_titles.efl.start') %></span>
         <%= t('page_titles.efl.toefl') %>
       </h1>
-      <%= render 'form_fields', { f: f } %>
+      <%= render 'form_fields', f: f %>
     <% end %>
-
   </div>
 </div>

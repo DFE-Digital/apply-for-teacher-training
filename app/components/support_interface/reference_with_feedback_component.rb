@@ -25,6 +25,7 @@ module SupportInterface
         relationship_row,
         feedback_row,
         consent_row,
+        sign_in_as_referee_row,
         history_row,
         possible_actions_row,
       ].flatten.compact
@@ -144,6 +145,17 @@ module SupportInterface
         {
           key: 'Given consent for research?',
           value: consent_to_be_contacted_present,
+        }
+      end
+    end
+
+    def sign_in_as_referee_row
+      if reference.feedback_requested? && HostingEnvironment.test_environment?
+        {
+          key: 'Sign in as referee',
+          value: govuk_link_to('Give feedback ', referee_interface_reference_relationship_path(token: reference.refresh_feedback_token!)) +
+            'or ' +
+            govuk_link_to('decline to give a reference', referee_interface_refuse_feedback_path(token: reference.refresh_feedback_token!)),
         }
       end
     end

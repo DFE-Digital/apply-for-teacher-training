@@ -9,7 +9,7 @@
       </p>
       <% if @match.action_needed? && @match.requires_manual_action? %>
         <%= form_with url: button[:path], method: :post do |f| %>
-          <%= f.submit button[:text], class: 'govuk-button' %>
+          <%= f.govuk_submit button[:text] %>
         <% end %>
       <% end %>
     </div>

@@ -13,7 +13,7 @@ module UCASMatches
 
       CandidateMailer.ucas_match_resolved_on_apply_email(application_choice).deliver_later
 
-      NotificationsList.for(application_choice).each do |provider_user|
+      application_choice.provider.provider_users.each do |provider_user|
         ProviderMailer.ucas_match_resolved_on_apply_email(provider_user, application_choice).deliver_later
       end
     end

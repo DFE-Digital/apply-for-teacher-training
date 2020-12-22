@@ -20,7 +20,7 @@
         <% end %>
       </div>
 
-      <%= f.govuk_radio_buttons_fieldset :confirm, legend: { size: 'm', text: t('confirm_selection.question') } do %>
+      <%= f.govuk_radio_buttons_fieldset :confirm, legend: { text: t('confirm_selection.question'), size: 'm' } do %>
         <%= f.govuk_radio_button :confirm, true, label: { text: 'Yes' } %>
         <%= f.govuk_radio_button :confirm, false, label: { text: 'No' } %>
       <% end %>

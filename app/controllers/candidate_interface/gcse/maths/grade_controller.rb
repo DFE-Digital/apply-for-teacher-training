@@ -6,7 +6,7 @@ module CandidateInterface
     before_action :set_subject
 
     def edit
-      @application_qualification = maths_gsce_grade_form
+      @gcse_grade_form = maths_gsce_grade_form
       @qualification_type = maths_gsce_grade_form.qualification.qualification_type
     end
 
@@ -16,14 +16,14 @@ module CandidateInterface
       maths_gsce_grade_form.grade = maths_params[:grade]
       maths_gsce_grade_form.other_grade = maths_params[:other_grade]
 
-      @application_qualification = maths_gsce_grade_form.save_grade
+      @gcse_grade_form = maths_gsce_grade_form.save_grade
 
-      if @application_qualification
+      if @gcse_grade_form
         update_gcse_completed(false)
         redirect_to next_gcse_path
       else
-        @application_qualification = maths_gsce_grade_form
-        track_validation_error(@application_qualification)
+        @gcse_grade_form = maths_gsce_grade_form
+        track_validation_error(@gcse_grade_form)
 
         render :edit
       end

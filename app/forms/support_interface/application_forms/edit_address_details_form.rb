@@ -3,18 +3,20 @@ module SupportInterface
     class EditAddressDetailsForm
       include ActiveModel::Model
 
-      attr_accessor :address_line1, :address_line2, :address_line3,
-                    :address_line4, :postcode, :address_type, :country, :international_address, :audit_comment
+      attr_accessor :address_line1, :address_line2, :address_line3, :address_line4,
+                    :postcode, :address_type, :country, :international_address, :audit_comment
 
       validates :address_line1, :address_line3, :postcode, presence: true, on: :address, if: :uk?
-      validates :international_address, presence: true, on: :address, if: :international?
+
+      validates :address_line1, presence: true, on: :address, if: :international?
+
       validates :address_type, presence: true, on: :address_type
       validates :country, presence: true, on: :address_type, if: :international?
 
       validates :address_line1, :address_line2, :address_line3, :address_line4,
                 length: { maximum: 50 }, on: :address
 
-      validates :postcode, postcode: true, on: :address
+      validates :postcode, postcode: true, on: :address, if: :uk?
       validates :audit_comment, presence: true, on: :address
 
       def self.build_from_application_form(application_form)
@@ -34,28 +36,17 @@ module SupportInterface
       def save_address(application_form)
         return false unless valid?(:address)
 
-        if uk?
-          application_form.update!(
-            address_line1: address_line1,
-            address_line2: address_line2,
-            address_line3: address_line3,
-            address_line4: address_line4,
-            postcode: postcode&.upcase,
-            country: 'GB',
-            international_address: nil,
-            audit_comment: audit_comment,
-          )
-        else
-          application_form.update(
-            address_line1: nil,
-            address_line2: nil,
-            address_line3: nil,
-            address_line4: nil,
-            postcode: nil,
-            international_address: international_address,
-            audit_comment: audit_comment,
-          )
-        end
+        attrs = {
+          address_line1: address_line1,
+          address_line2: address_line2,
+          address_line3: address_line3,
+          address_line4: address_line4,
+          postcode: postcode&.upcase,
+          audit_comment: audit_comment,
+        }
+        attrs[:country] = 'GB' if uk?
+        attrs[:international_address] = international_address if international?
+        application_form.update(attrs)
       end
 
       def save_address_type(application_form)
@@ -63,7 +54,7 @@ module SupportInterface
 
         application_form.update(
           address_type: address_type,
-          country: country.presence || 'GB',
+          country: country.presence,
         )
       end
 
@@ -73,6 +64,10 @@ module SupportInterface
 
       def international?
         address_type == 'international'
+      end
+
+      def label_for(attr)
+        I18n.t("application_form.contact_information.#{attr}.#{address_type}.label")
       end
     end
   end

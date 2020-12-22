@@ -6,7 +6,7 @@
     <%= form_with model: @institution_country, url: candidate_interface_gcse_details_edit_institution_country_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t("gcse_edit_institution_country.page_title", subject: @subject.capitalize), size: 'xl' } %>
+      <%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t("gcse_edit_institution_country.page_title", subject: @subject.capitalize), size: 'xl', tag: 'h1' } %>
       <%= f.govuk_submit t('application_form.gcse.complete_form_button') %>
     <% end %>
   </div>

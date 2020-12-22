@@ -1,18 +1,15 @@
-<%= f.govuk_radio_buttons_fieldset :uk_degree, legend: { tag: 'span' }, legend: nil do %>
-  <%= f.govuk_radio_button :uk_degree, 'yes', label: { text: t('application_form.degree.uk_degree.label') } do %>
-    <%= f.govuk_text_field(
-      :type_description,
-      label: { text: t('application_form.degree.qualification_type.label'), size: 's' },
-      hint: { text: t('application_form.degree.qualification_type.hint_text.undergraduate') }
-    ) %>
-    <%= tag.div(id: 'degree-type-autocomplete', data: { source: @degree_types }) %>
-  <% end %>
-  <%= f.govuk_radio_button :uk_degree, 'no', label: { text: t('application_form.degree.non_uk_degree.label') } do %>
-    <%= f.govuk_text_field(
-      :international_type_description,
-      label: { text: t('application_form.degree.international_qualification_type.label'), size: 's' },
-      hint: { text: t('application_form.degree.international_qualification_type.hint_text') }
-    ) %>
-  <% end %>
+<%= f.govuk_radio_button :uk_degree, 'yes', label: { text: t('application_form.degree.uk_degree.label') } do %>
+  <%= f.govuk_text_field(
+    :type_description,
+    label: { text: t('application_form.degree.qualification_type.label'), size: 's' },
+    hint: { text: t('application_form.degree.qualification_type.hint_text.undergraduate') }
+  ) %>
+  <%= tag.div(id: 'degree-type-autosuggest', data: { source: @degree_types }) %>
 <% end %>
-<%= f.govuk_submit t('application_form.degree.base.button') %>
+<%= f.govuk_radio_button :uk_degree, 'no', label: { text: t('application_form.degree.non_uk_degree.label') } do %>
+  <%= f.govuk_text_field(
+    :international_type_description,
+    label: { text: t('application_form.degree.international_qualification_type.label'), size: 's' },
+    hint: { text: t('application_form.degree.international_qualification_type.hint_text') }
+  ) %>
+<% end %>

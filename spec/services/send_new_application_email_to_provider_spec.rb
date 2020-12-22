@@ -5,7 +5,7 @@ RSpec.describe SendNewApplicationEmailToProvider, sidekiq: true do
 
   it 'sends an email to the provider' do
     provider = create(:provider)
-    create(:provider_user, providers: [provider])
+    create(:provider_user, send_notifications: true, providers: [provider])
     option = course_option_for_provider(provider: provider)
     choice = create(:application_choice, :awaiting_provider_decision, course_option: option)
 
@@ -18,7 +18,7 @@ RSpec.describe SendNewApplicationEmailToProvider, sidekiq: true do
 
   it 'sends a different email when the candidate supplied safeguarding information' do
     provider = create(:provider)
-    create(:provider_user, providers: [provider])
+    create(:provider_user, send_notifications: true, providers: [provider])
     option = course_option_for_provider(provider: provider)
 
     form = create(:completed_application_form, :with_safeguarding_issues_disclosed)
