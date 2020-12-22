@@ -28,6 +28,7 @@ RSpec.feature 'Remove and restore support user' do
     @support_users = create_list(:support_user, 2)
     @removed_user = @support_users.last
     @removed_user_email = @removed_user.email_address
+    @removed_user_name = @removed_user.display_name
   end
 
   def when_i_visit_the_support_users_page
@@ -36,7 +37,7 @@ RSpec.feature 'Remove and restore support user' do
 
   def and_i_remove_a_support_user
     within('.govuk-table__body') do
-      click_on("Remove user #{@removed_user_email}")
+      click_on("Remove user #{@removed_user_name}")
     end
   end
 
@@ -54,7 +55,7 @@ RSpec.feature 'Remove and restore support user' do
   end
 
   def and_the_support_user_is_not_listed
-    expect(page.text).not_to include(@removed_user_email)
+    expect(page.text).not_to include(@removed_user_name)
   end
 
   def when_i_visit_the_removed_support_users_page
@@ -63,7 +64,7 @@ RSpec.feature 'Remove and restore support user' do
 
   def and_i_restore_a_support_user
     within('.govuk-table__body') do
-      click_on("Restore user #{@removed_user_email}")
+      click_on("Restore user #{@removed_user_name}")
     end
   end
 
@@ -77,6 +78,6 @@ RSpec.feature 'Remove and restore support user' do
   end
 
   def and_the_support_user_is_listed
-    expect(page.text).to include(@removed_user_email)
+    expect(page.text).to include(@removed_user_name)
   end
 end
