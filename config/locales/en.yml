@@ -254,8 +254,6 @@ en:
             phone_number:
               blank: Phone number can’t be blank
               invalid: Enter a phone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
-            email_address:
-              blank: Email address cannot be blank
             first_name:
               blank: First name cannot be blank
               too_long: First name must be %{count} characters or fewer
@@ -263,7 +261,7 @@ en:
               blank: Last name cannot be blank
               too_long: Last name must be %{count} characters or fewer
             email_address:
-              blank: Enter an email address
+              blank: Email address cannot be blank
               invalid: Enter an email address in the correct format, like name@example.com
               taken: Email address is already in use
               too_long: Email address must be %{count} characters or fewer
