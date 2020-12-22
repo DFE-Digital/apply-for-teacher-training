@@ -14,6 +14,7 @@ module CandidateInterface
           redirect_to candidate_interface_degree_subject_path(
             @degree_type_form.degree,
           )
+          current_application.update!(degrees_completed: false)
         else
           track_validation_error(@degree_type_form)
           conditionally_render_new_degree_type_form

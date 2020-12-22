@@ -23,6 +23,10 @@ RSpec.feature 'Deleting and replacing a degree' do
     when_i_click_on_delete_degree
     and_i_confirm_that_i_want_to_delete_my_additional_degree
     then_i_can_only_see_my_undergraduate_degree
+
+    when_i_add_another_degree_type_only
+    and_return_to_the_application_review_page
+    then_i_should_see_the_form_and_the_section_is_not_completed
   end
 
   def given_i_am_signed_in
@@ -186,5 +190,17 @@ RSpec.feature 'Deleting and replacing a degree' do
     @application_form = create(:application_form, candidate: @candidate)
     create(:application_qualification, level: 'degree', application_form: @application_form)
     @application_form.update!(degrees_completed: true)
+  end
+
+  def when_i_add_another_degree_type_only
+    click_link t('application_form.degree.another.button')
+    expect(page).to have_content(t('page_titles.add_another_degree'))
+    choose 'UK degree'
+    fill_in 'Type of degree', with: 'Masters'
+    and_i_click_on_save_and_continue
+  end
+
+  def and_return_to_the_application_review_page
+    visit candidate_interface_application_form_path
   end
 end
