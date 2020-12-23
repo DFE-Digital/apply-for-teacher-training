@@ -1,6 +1,6 @@
 <%= f.govuk_error_summary %>
 
-<%= f.govuk_check_boxes_fieldset :nationalities, legend: { size: 'xl', text:  t('page_titles.nationalities'), tag: 'h1' } do %>
+<%= f.govuk_check_boxes_fieldset :nationalities, legend: { text:  t('page_titles.nationalities'), size: 'xl', tag: 'h1' } do %>
   <%= f.govuk_check_box(
     :nationalities,
     'British',
