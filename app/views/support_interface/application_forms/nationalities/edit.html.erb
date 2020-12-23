@@ -6,7 +6,7 @@
     <%= form_with model: @nationalities_form, url: support_interface_application_form_edit_nationalities_path, class: 'app-nationality', method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :nationalities, legend: { size: 'l', text: 'Edit applicant nationality' } do %>
+      <%= f.govuk_check_boxes_fieldset :nationalities, legend: { text: 'Edit applicant nationality', size: 'l', tag: 'h1' } do %>
         <%= f.govuk_check_box(
           :nationalities,
           'British',
