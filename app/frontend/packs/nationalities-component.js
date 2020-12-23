@@ -37,14 +37,14 @@ const nationalitiesComponent = () => {
     removeLink.classList.add("govuk-link", "app-nationality__remove-link");
 
     // This has to be a link and not a button as the govuk-link class requires an
-    // href to apply it's styling
+    // href to apply its styling
     removeLink.href = "#";
     parentEl.insertBefore(removeLink, labelEl);
 
     if (labelEl == secondFormLabel) {
-      addNthNationalityHiddenSpan(removeLink, 'Second');
+      addNthNationalityHiddenSpan(removeLink, "Second");
     } else {
-      addNthNationalityHiddenSpan(removeLink, 'Third');
+      addNthNationalityHiddenSpan(removeLink, "Third");
     }
 
     removeLink.addEventListener("click", function (event) {
