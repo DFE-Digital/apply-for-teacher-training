@@ -30,20 +30,21 @@ const nationalitiesComponent = () => {
   hideSection(thirdSelectEl, thirdFormLabel);
 
   function addRemoveLink(labelEl, selectEl) {
+    const parentEl = labelEl.parentElement;
+
     const removeLink = document.createElement("a");
     removeLink.innerHTML = "Remove";
     removeLink.classList.add("govuk-link", "app-nationality__remove-link");
 
     // This has to be a link and not a button as the govuk-link class requires an
-    // href to apply  it's styling
+    // href to apply it's styling
     removeLink.href = "#";
-    labelEl.appendChild(removeLink);
+    parentEl.insertBefore(removeLink, labelEl);
 
     if (labelEl == secondFormLabel) {
       addNthNationalityHiddenSpan(removeLink, 'Second');
     } else {
       addNthNationalityHiddenSpan(removeLink, 'Third');
-
     }
 
     removeLink.addEventListener("click", function () {
