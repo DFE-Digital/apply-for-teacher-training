@@ -47,7 +47,8 @@ const nationalitiesComponent = () => {
       addNthNationalityHiddenSpan(removeLink, 'Third');
     }
 
-    removeLink.addEventListener("click", function () {
+    removeLink.addEventListener("click", function (event) {
+      event.preventDefault();
       handleRemoveLinkClick(labelEl, selectEl);
     });
   }
@@ -74,7 +75,7 @@ const nationalitiesComponent = () => {
       addNationalityButton.style.display = "none";
     }
 
-    addNationalityButton.addEventListener("click", function () {
+    addNationalityButton.addEventListener("click", function (event) {
       event.preventDefault();
       handleAddNationalityClick();
     });
