@@ -182,11 +182,20 @@ For now, interview scheduling is not part of the Manage service.
 
 For clarity and fairness, while [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate) and UCAS Teacher Training run side by side (until October 2021), we’ve kept the rules governing applications closely aligned.
 
+Candidates can:
+
+ - submit a new application through either service until 7 September 2021
+ - apply again through either service until 21 September 2021
+
+Applications will be automatically rejected on 4 October 2021 if you have not responded to them.
+
 ### Reject by default and decline by default deadlines
 
 Training providers have 40 working days to respond to an application (starting from the date when references have been submitted).
 
 Candidates have 10 working days to accept or reject offer(s) (starting from the date when all their training providers have responded to their application).
+
+The period from 2 to 16 April 2021 does not count as working days.
 
 ### Changing the terms of an offer
 
