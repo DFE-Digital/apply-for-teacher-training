@@ -18,7 +18,10 @@ module SupportInterface
   private
 
     def relevant_sites
-      Site.includes(:provider).where(providers: { sync_courses: true }).order('providers.code ASC')
+      Site.joins(:course_options, :provider)
+          .where(course_options: { site_still_valid: true })
+          .where(providers: { sync_courses: true })
+          .order('providers.code ASC')
     end
   end
 end
