@@ -6,6 +6,7 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
   scenario 'Support user views provider permissions via users page' do
     given_i_am_a_support_user
     and_there_are_two_providers_in_a_partnership
+    and_there_are_two_other_providers_in_a_partnership_with_no_permissions_configured
 
     when_i_visit_the_training_provider
     and_click_users
@@ -14,6 +15,10 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
     when_i_visit_the_ratifying_provider
     and_click_users
     then_i_should_see_the_ratifying_provider_permissions_diagram
+
+    when_i_visit_the_ratifying_provider_with_no_permissions
+    and_click_users
+    then_i_should_clearly_see_that_no_permissions_have_been_setup
   end
 
   def given_i_am_a_support_user
@@ -34,6 +39,18 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
       training_provider_can_make_decisions: false,
       training_provider_can_view_safeguarding_information: true,
       training_provider_can_view_diversity_information: false,
+    )
+  end
+
+  def and_there_are_two_other_providers_in_a_partnership_with_no_permissions_configured
+    training = create(:provider, sync_courses: true, name: 'City Learning Trust')
+    ratifying = create(:provider, sync_courses: true, name: 'Staffordshire University (S72)')
+
+    create(
+      :provider_relationship_permissions,
+      :not_set_up_yet,
+      training_provider: training,
+      ratifying_provider: ratifying,
     )
   end
 
@@ -58,5 +75,15 @@ RSpec.feature 'Viewing provider-provider permissions via support' do
 
   def then_i_should_see_the_ratifying_provider_permissions_diagram
     expect(page).to have_content 'can ❌ view safeguarding ✅ view diversity ✅ make decisions for courses run by'
+  end
+
+  def when_i_visit_the_ratifying_provider_with_no_permissions
+    visit '/support'
+    click_on 'Providers'
+    click_on 'Staffordshire University (S72)'
+  end
+
+  def then_i_should_clearly_see_that_no_permissions_have_been_setup
+    expect(page).to have_content 'Permissions not setup'
   end
 end
