@@ -62,7 +62,7 @@ RSpec.describe ReasonsForRejectionComponent do
     it 'renders change links when editable' do
       result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection, editable: true))
 
-      expect(result.css('.app-rejection-change-link').text).to include('Change')
+      expect(result.css('.app-rejection__actions').text).to include('Change')
     end
 
     it 'renders subheadings as h2s when editable' do
