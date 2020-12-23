@@ -160,7 +160,9 @@ Note that you can defer an offer at any point in the cycle, and with conditions 
 
 ### Email alerts
 
-You’ll receive an email every time an application’s status changes, for example from ‘Offer’ to ‘Offer accepted’.
+You’ll receive an email every time an application’s status changes, for example from ‘Offered’ to ‘Accepted’.
+
+You can turn these emails off in the ‘Email notifications’ section of ‘Your account’.
 
 ### Notes
 
