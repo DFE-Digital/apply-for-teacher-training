@@ -157,7 +157,8 @@ en:
         review_label: Explanation of why you’ve been out of the workplace
         change_action: explanation of why you’ve been out of the workplace
       breaks:
-        review_label: Tell us about any breaks in your work history
+        label: Tell us about any breaks in your work history
+        review_label: Breaks in your work history
         enter_action: Enter explanation
         change_action: Change explanation
       complete_form_button: Save and continue
