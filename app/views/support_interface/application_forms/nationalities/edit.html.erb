@@ -6,36 +6,55 @@
     <%= form_with model: @nationalities_form, url: support_interface_application_form_edit_nationalities_path, class: 'app-nationality', method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :nationalities, legend: { size: 'l', text: 'Edit applicant nationality' } do %>
+      <%= f.govuk_check_boxes_fieldset :nationalities, legend: { text: 'Edit applicant nationality', size: 'l', tag: 'h1' } do %>
         <%= f.govuk_check_box(
           :nationalities,
           'British',
           link_errors: true,
           multiple: true,
           label: { text: 'British' },
-          hint: { text: 'including English, Scottish, Welsh or from Northern Ireland' }) %>
+          hint: { text: 'including English, Scottish, Welsh or from Northern Ireland' }
+        ) %>
         <%= f.govuk_check_box(
           :nationalities,
           'Irish',
           multiple: true,
           label: { text: 'Irish' },
-          hint: { text: 'including from Northern Ireland' }) %>
-
+          hint: { text: 'including from Northern Ireland' }
+        ) %>
         <%= f.govuk_check_box(
           :nationalities,
           'other',
           multiple: true,
-          label: { text: 'Citizen of a different country' }) do %>
-          <%= f.govuk_collection_select :other_nationality1, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
-          <%= f.govuk_collection_select :other_nationality2, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
-          <%= f.govuk_collection_select :other_nationality3, select_nationality_options, :id, :name, label: { text: t('application_form.personal_details.nationality.label') } %>
+          label: { text: 'Citizen of a different country' }
+        ) do %>
+          <%= f.govuk_collection_select(
+            :other_nationality1,
+            select_nationality_options,
+            :id,
+            :name,
+            label: ->{ safe_join([tag.span('First ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+          ) %>
+          <%= f.govuk_collection_select(
+            :other_nationality2,
+            select_nationality_options,
+            :id,
+            :name,
+            label: ->{ safe_join([tag.span('Second ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+          ) %>
+          <%= f.govuk_collection_select(
+            :other_nationality3,
+            select_nationality_options,
+            :id,
+            :name,
+            label: ->{ safe_join([tag.span('Third ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+          ) %>
         <% end %>
       <% end %>
 
       <%= f.govuk_text_field :audit_comment, label: { text: 'Audit log comment', size: 'm' }, hint: { text: 'This will appear in the audit log alongside this change. If the change originated in a Zendesk ticket, paste the Zendesk URL here' } %>
 
       <%= f.govuk_submit 'Save and continue' %>
-
     <% end %>
   </div>
 </div>

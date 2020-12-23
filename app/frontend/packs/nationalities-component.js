@@ -30,23 +30,25 @@ const nationalitiesComponent = () => {
   hideSection(thirdSelectEl, thirdFormLabel);
 
   function addRemoveLink(labelEl, selectEl) {
+    const parentEl = labelEl.parentElement;
+
     const removeLink = document.createElement("a");
     removeLink.innerHTML = "Remove";
     removeLink.classList.add("govuk-link", "app-nationality__remove-link");
 
     // This has to be a link and not a button as the govuk-link class requires an
-    // href to apply  it's styling
+    // href to apply its styling
     removeLink.href = "#";
-    labelEl.appendChild(removeLink);
+    parentEl.insertBefore(removeLink, labelEl);
 
     if (labelEl == secondFormLabel) {
-      addNthNationalityHiddenSpan(removeLink, 'Second');
+      addNthNationalityHiddenSpan(removeLink, "Second");
     } else {
-      addNthNationalityHiddenSpan(removeLink, 'Third');
-
+      addNthNationalityHiddenSpan(removeLink, "Third");
     }
 
-    removeLink.addEventListener("click", function () {
+    removeLink.addEventListener("click", function (event) {
+      event.preventDefault();
       handleRemoveLinkClick(labelEl, selectEl);
     });
   }
@@ -54,7 +56,7 @@ const nationalitiesComponent = () => {
   function addNthNationalityHiddenSpan(removeLink, nthNationality) {
     const nthNationalitySpan = document.createElement("span");
     nthNationalitySpan.classList.add("govuk-visually-hidden");
-    nthNationalitySpan.innerHTML = `${nthNationality} nationality`;
+    nthNationalitySpan.innerHTML = ` ${nthNationality.toLowerCase()} nationality`;
     removeLink.appendChild(nthNationalitySpan);
   }
 
@@ -73,7 +75,7 @@ const nationalitiesComponent = () => {
       addNationalityButton.style.display = "none";
     }
 
-    addNationalityButton.addEventListener("click", function () {
+    addNationalityButton.addEventListener("click", function (event) {
       event.preventDefault();
       handleAddNationalityClick();
     });

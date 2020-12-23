@@ -1,3 +1,4 @@
 .app-nationality__remove-link {
+  @include govuk-font($size: 19);
   float: right;
 }
