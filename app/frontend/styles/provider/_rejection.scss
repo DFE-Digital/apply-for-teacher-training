@@ -1,9 +1,10 @@
-.app-feedback {
-  margin-bottom: 20px;
+.app-rejection {
+  margin-bottom: govuk-spacing(4);
   padding-right: 70px;
   position: relative;
 
-  .app-rejection-change-link {
+  .app-rejection__actions {
+    margin: 0;
     position: absolute;
     right: 0;
     top: 0;
