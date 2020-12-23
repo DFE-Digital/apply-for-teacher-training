@@ -55,7 +55,7 @@ const nationalitiesComponent = () => {
   function addNthNationalityHiddenSpan(removeLink, nthNationality) {
     const nthNationalitySpan = document.createElement("span");
     nthNationalitySpan.classList.add("govuk-visually-hidden");
-    nthNationalitySpan.innerHTML = `${nthNationality} nationality`;
+    nthNationalitySpan.innerHTML = ` ${nthNationality.toLowerCase()} nationality`;
     removeLink.appendChild(nthNationalitySpan);
   }
 
