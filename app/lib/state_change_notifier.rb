@@ -13,13 +13,6 @@ class StateChangeNotifier
     send(text, url)
   end
 
-  def self.submit_application(application_form)
-    message = ":rocket: #{application_form.first_name}’s application has been sent to #{application_form.application_choices.map(&:provider).map(&:name).to_sentence}"
-    url = helpers.support_interface_application_form_url(application_form)
-
-    send(message, url)
-  end
-
   def self.accept_offer(accepted:, withdrawn: [], declined: [])
     accepted_msg = "#{accepted.application_form.first_name} has accepted #{accepted.offered_option.course.provider.name}’s offer for #{accepted.offered_option.course.name_and_code}"
 
