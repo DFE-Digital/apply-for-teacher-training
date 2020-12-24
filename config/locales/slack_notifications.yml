@@ -3,3 +3,11 @@ en:
     sign_up:
       minor_milestone: ':sparkles: The %{candidate_number} candidate just signed up'
       major_milestone: ':ultrafastparrot: The %{candidate_number} candidate just signed up'
+    rejected:
+      message: ":broken_heart: %{applicant}'s application was rejected by %{providers}."
+    withdrawn:
+      message: ":runner: %{applicant} has withdrawn their remaining applications from %{providers}."
+    recruited:
+      message: ":handshake: %{applicant} has been recruited to %{providers}."
+    declined:
+      message: ":no_good: %{applicant} has declined %{providers} offer."

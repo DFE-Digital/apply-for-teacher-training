@@ -62,4 +62,187 @@ RSpec.describe StateChangeNotifier do
       end
     end
   end
+
+  describe '.application_outcome_notification' do
+    let(:application_form) { build(:completed_application_form) }
+    let(:applicant) { application_form.first_name }
+    let(:provider_name) { application_choice.provider.name }
+    let(:rejected_choice) { create(:application_choice, :with_rejection, application_form: application_form) }
+    let(:declined_choice) { create(:application_choice, :with_declined_offer, application_form: application_form) }
+    let(:withdrawn_choice) { create(:application_choice, :withdrawn, application_form: application_form) }
+
+    context ':rejected' do
+      let(:application_choice) { create(:application_choice, :with_rejection, application_form: application_form) }
+
+      it 'all applications are rejected' do
+        rejected_choice
+
+        StateChangeNotifier.new(:rejected, application_choice).application_outcome_notification
+
+        message = /:broken_heart: #{applicant}'s application was rejected by #{provider_name} and #{rejected_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been declined' do
+        declined_choice
+
+        StateChangeNotifier.new(:rejected, application_choice).application_outcome_notification
+
+        message = /:broken_heart:.+#{applicant} previously declined offers from #{declined_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been withdrawn' do
+        withdrawn_choice
+        other_withdrawn_choice = create(:application_choice, :withdrawn, application_form: application_form)
+
+        StateChangeNotifier.new(:rejected, application_choice).application_outcome_notification
+
+        message = /:broken_heart:.+#{applicant} previously withdrew from #{withdrawn_choice.provider.name} and #{other_withdrawn_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been declined and withdrawn' do
+        declined_choice
+        withdrawn_choice
+
+        StateChangeNotifier.new(:rejected, application_choice).application_outcome_notification
+
+        message = /:broken_heart:.+#{applicant} previously declined offers from #{declined_choice.provider.name} and withdrew from #{withdrawn_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+    end
+
+    context ':declined' do
+      let(:application_choice) { create(:application_choice, :declined, application_form: application_form) }
+
+      it 'all declined' do
+        declined_choice
+
+        StateChangeNotifier.new(:declined, application_choice).application_outcome_notification
+
+        message = /:no_good: #{applicant} has declined #{provider_name} and #{declined_choice.provider.name} offer./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been rejected' do
+        rejected_choice
+
+        StateChangeNotifier.new(:declined, application_choice).application_outcome_notification
+
+        message = /:no_good:.+ #{applicant} previously was rejected by #{rejected_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been withdrawn' do
+        withdrawn_choice
+
+        StateChangeNotifier.new(:declined, application_choice).application_outcome_notification
+
+        message = /:no_good:.+#{applicant} previously withdrew from #{withdrawn_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been withdrawn and declined' do
+        withdrawn_choice
+        rejected_choice
+
+        StateChangeNotifier.new(:declined, application_choice).application_outcome_notification
+
+        message = /:no_good:.+#{applicant} previously withdrew from #{withdrawn_choice.provider.name} and was rejected by #{rejected_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+    end
+
+    context ':withdrawn' do
+      let(:application_choice) { create(:application_choice, :withdrawn, application_form: application_form) }
+
+      it 'all withdrawn' do
+        withdrawn_choice
+        other_withdrawn_choice = create(:application_choice, :withdrawn, application_form: application_form)
+
+        StateChangeNotifier.new(:withdrawn, application_choice).application_outcome_notification
+
+        message = /:runner: #{applicant} has withdrawn their remaining applications from #{provider_name}, #{withdrawn_choice.provider.name}, and #{other_withdrawn_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been rejected' do
+        rejected_choice
+
+        StateChangeNotifier.new(:withdrawn, application_choice).application_outcome_notification
+
+        message = /:runner:.+ #{applicant} previously was rejected by #{rejected_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been declined' do
+        declined_choice
+
+        StateChangeNotifier.new(:withdrawn, application_choice).application_outcome_notification
+
+        message = /:runner:.+#{applicant} previously declined offers from #{declined_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been rejected and declined' do
+        declined_choice
+        rejected_choice
+
+        StateChangeNotifier.new(:withdrawn, application_choice).application_outcome_notification
+
+        message = /:runner:.+#{applicant} previously declined offers from #{declined_choice.provider.name} and was rejected by #{rejected_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+    end
+
+    context ':recruited' do
+      let(:application_choice) { create(:application_choice, :recruited, application_form: application_form) }
+
+      it 'and no other applications' do
+        StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
+
+        message = /:handshake: #{applicant} has been recruited to #{provider_name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been rejected' do
+        rejected_choice
+
+        StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
+
+        message = /:handshake:.+#{applicant} previously was rejected by #{rejected_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been declined' do
+        declined_choice
+
+        StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
+
+        message = /:handshake:.+#{applicant} previously declined offers from #{declined_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been withdrawn' do
+        withdrawn_choice
+
+        StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
+
+        message = /:handshake:.+#{applicant} previously withdrew from #{withdrawn_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+
+      it 'other applications have been declined, rejected and withdrawn' do
+        withdrawn_choice
+        declined_choice
+        rejected_choice
+
+        StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
+
+        message = /:handshake:.+#{applicant} previously declined offers from #{declined_choice.provider.name}, withdrew from #{withdrawn_choice.provider.name}, and was rejected by #{rejected_choice.provider.name}./
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
+      end
+    end
+  end
 end
