@@ -108,19 +108,19 @@ RSpec.describe StateChangeNotifier do
       StateChangeNotifier.sign_up(create(:candidate))
     end
 
-    context 'every 25th candidate' do
-      let(:candidate_count) { 25 }
+    context 'every 100 candidate' do
+      let(:candidate_count) { 200 }
 
       it 'reports the sign up' do
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(/sparkles.+25th candidate/, anything)
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(/sparkles.+200th candidate/, anything)
       end
     end
 
-    context 'every 100th candidate' do
-      let(:candidate_count) { 100 }
+    context 'every 500th candidate' do
+      let(:candidate_count) { 1000 }
 
       it 'reports the sign up' do
-        expect(SlackNotificationWorker).to have_received(:perform_async).with(/ultrafastparrot.+100th candidate/, anything)
+        expect(SlackNotificationWorker).to have_received(:perform_async).with(/ultrafastparrot.+1,000th candidate/, anything)
       end
     end
 

@@ -2,18 +2,12 @@ class StateChangeNotifier
   def self.sign_up(candidate)
     candidate_number = Candidate.where(hide_in_reporting: false).count
 
-    return unless (candidate_number % 25).zero?
+    return unless (candidate_number % 100).zero?
 
-    candidate_number_is_significant = (candidate_number % 100).zero?
-
-    human_readable_number = "#{ActiveSupport::NumberHelper.number_to_delimited(candidate_number)}#{candidate_number.ordinal}"
-
-    text = if candidate_number_is_significant
-             ":ultrafastparrot: The #{human_readable_number} candidate just signed up"
-           else
-             ":sparkles: The #{human_readable_number} candidate just signed up"
-           end
-
+    candidate_number_is_significant = (candidate_number % 500).zero?
+    ordinal_number = "#{ActiveSupport::NumberHelper.number_to_delimited(candidate_number)}#{candidate_number.ordinal}"
+    milestone = candidate_number_is_significant ? 'major' : 'minor'
+    text = I18n.t("slack_notifications.sign_up.#{milestone}_milestone", candidate_number: ordinal_number)
     url = helpers.support_interface_candidate_url(candidate)
 
     send(text, url)
