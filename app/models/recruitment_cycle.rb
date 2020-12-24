@@ -28,11 +28,7 @@ module RecruitmentCycle
     [2021, 2020, 2019]
   end
 
-  def self.current_cycle_name
-    "#{current_year} to #{next_year}"
-  end
-
-  def self.next_cycle_name
-    "#{next_year} to #{next_year + 1}"
+  def self.cycle_name(year = current_year)
+    "#{year} to #{year + 1}"
   end
 end
