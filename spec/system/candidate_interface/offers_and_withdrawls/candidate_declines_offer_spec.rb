@@ -13,7 +13,6 @@ RSpec.feature 'Candidate declines an offer' do
     and_i_decline_the_offer
     and_i_confirm_the_decline
 
-    then_a_slack_notification_is_sent
     and_i_see_that_i_declined_the_offer
     and_the_provider_receives_a_notification
 
@@ -75,10 +74,6 @@ RSpec.feature 'Candidate declines an offer' do
 
   def and_i_confirm_the_decline
     click_button 'Yes I’m sure – decline this offer'
-  end
-
-  def then_a_slack_notification_is_sent
-    expect_slack_message_with_text "Harry has declined #{@course_option.course.provider.name}’s offer"
   end
 
   def and_i_see_that_i_declined_the_offer

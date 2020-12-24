@@ -29,7 +29,6 @@ class RejectApplication
       SetDeclineByDefault.new(application_form: @application_choice.application_form).call
     end
 
-    StateChangeNotifier.call(:reject_application, application_choice: @application_choice)
     SendCandidateRejectionEmail.new(application_choice: @application_choice).call
   rescue Workflow::NoTransitionAllowed
     errors.add(

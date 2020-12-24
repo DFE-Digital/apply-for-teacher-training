@@ -26,7 +26,6 @@ RSpec.feature 'A candidate withdraws her application' do
     when_i_click_to_confirm_withdrawal
     then_i_see_the_withdraw_choice_feedback_page
     and_my_application_should_be_withdrawn
-    and_a_slack_notification_is_sent
     and_the_provider_has_received_an_email
 
     when_i_submit_the_questionnaire_without_choosing_options
@@ -92,10 +91,6 @@ RSpec.feature 'A candidate withdraws her application' do
 
   def then_my_application_should_be_withdrawn
     and_my_application_should_be_withdrawn
-  end
-
-  def and_a_slack_notification_is_sent
-    expect_slack_message_with_text 'has withdrawn their application'
   end
 
   def when_i_try_to_visit_the_withdraw_page

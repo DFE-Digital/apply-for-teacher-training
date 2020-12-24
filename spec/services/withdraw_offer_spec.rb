@@ -57,19 +57,5 @@ RSpec.describe WithdrawOffer do
 
       expect(SetDeclineByDefault).to have_received(:new).with(application_form: application_choice.application_form)
     end
-
-    it 'calls StateChangeNotifier given a valid reason' do
-      application_choice = create(:application_choice, status: :offer)
-      allow(StateChangeNotifier).to receive(:call).and_return true
-
-      withdrawal_reason = 'We are so sorry...'
-      WithdrawOffer.new(
-        actor: create(:support_user),
-        application_choice: application_choice,
-        offer_withdrawal_reason: withdrawal_reason,
-      ).save
-
-      expect(StateChangeNotifier).to have_received(:call).with(:withdraw_offer, application_choice: application_choice)
-    end
   end
 end

@@ -23,7 +23,6 @@ class ReinstateConditionsMet
       ActiveRecord::Base.transaction do
         ApplicationStateChange.new(application_choice).reinstate_conditions_met!
         application_choice.update(attrs)
-        StateChangeNotifier.call(:reinstate_offer_conditions_met, application_choice: application_choice)
         CandidateMailer.reinstated_offer(application_choice).deliver_later
       end
     end

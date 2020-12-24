@@ -37,12 +37,6 @@ RSpec.describe ReinstateConditionsMet do
     end
   end
 
-  it 'calls `StateChangeNotifier` to send a Slack notification' do
-    allow(StateChangeNotifier).to receive(:call).and_return(nil)
-    service.save
-    expect(StateChangeNotifier).to have_received(:call).with(:reinstate_offer_conditions_met, application_choice: application_choice)
-  end
-
   describe 'course option validation' do
     it 'checks the course option is present' do
       reinstate = ReinstateConditionsMet.new(actor: provider_user, application_choice: application_choice, course_option: nil)

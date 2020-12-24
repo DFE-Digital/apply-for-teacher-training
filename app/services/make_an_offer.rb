@@ -47,7 +47,6 @@ class MakeAnOffer
       end
 
       SendNewOfferEmailToCandidate.new(application_choice: @application_choice).call
-      StateChangeNotifier.call(:make_an_offer, application_choice: application_choice)
     else
       errors.add(
         :base,

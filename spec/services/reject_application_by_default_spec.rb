@@ -44,11 +44,4 @@ RSpec.describe RejectApplicationByDefault do
     described_class.new(application_choice: application_choice).call
     expect(service_double).to have_received(:call)
   end
-
-  it 'sends a Slack notification' do
-    allow(SlackNotificationWorker).to receive(:perform_async)
-    application_choice = create_application
-    described_class.new(application_choice: application_choice).call
-    expect(SlackNotificationWorker).to have_received(:perform_async)
-  end
 end

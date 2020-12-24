@@ -58,14 +58,6 @@ RSpec.describe RejectApplication do
       expect(application_choice.structured_rejection_reasons.symbolize_keys).to eq(reasons_for_rejection_attrs)
     end
 
-    it 'notifies of state change' do
-      allow(StateChangeNotifier).to receive(:call)
-
-      service.save
-
-      expect(StateChangeNotifier).to have_received(:call).with(:reject_application, application_choice: application_choice)
-    end
-
     it 'emails the candidate' do
       email_service = instance_double(SendCandidateRejectionEmail, call: true)
       allow(SendCandidateRejectionEmail).to receive(:new).and_return(email_service)

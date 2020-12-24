@@ -23,7 +23,6 @@ class ReinstatePendingConditions
           offered_course_option_id: course_option.id,
           recruited_at: nil,
         )
-        StateChangeNotifier.call(:reinstate_offer_pending_conditions, application_choice: application_choice)
         CandidateMailer.reinstated_offer(application_choice).deliver_later
       end
     end

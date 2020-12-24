@@ -13,60 +13,16 @@ class StateChangeNotifier
     send(text, url)
   end
 
-  def self.accept_offer(accepted:, withdrawn: [], declined: [])
-    accepted_msg = "#{accepted.application_form.first_name} has accepted #{accepted.offered_option.course.provider.name}’s offer for #{accepted.offered_option.course.name_and_code}"
-
-    if withdrawn.any?
-      withdrawn_msg = "withdrawn their #{'application'.pluralize(withdrawn.count)} for "
-      withdrawals = withdrawn.map do |ac|
-        "#{ac.offered_option.course.name_and_code} at #{ac.offered_option.course.provider.name}"
-      end
-
-      withdrawn_msg += withdrawals.to_sentence
-    end
-
-    if declined.any?
-      declined_msg = 'declined '
-      declines = declined.map do |ac|
-        "#{ac.offered_option.course.provider.name}’s offer for #{ac.offered_option.course.name_and_code}"
-      end
-
-      declined_msg += declines.to_sentence
-    end
-
-    message = ":handshake: #{[accepted_msg, withdrawn_msg, declined_msg].compact.to_sentence}"
-    url = helpers.support_interface_application_form_url(accepted.application_form)
-
-    send(message, url)
-  end
-
   def self.call(event, application_choice: nil)
     provider_name = application_choice.course.provider.name
-    course_name = application_choice.course.name_and_code
     candidate_name = application_choice.application_form.first_name
     application_form = application_choice.application_form
 
     case event
-    when :make_an_offer
-      text = ":love_letter: #{provider_name} has made an offer to #{candidate_name}’s application"
     when :change_an_offer
       text = ":love_letter: #{provider_name} has changed an offer for #{candidate_name}’s application"
-    when :reject_application
-      text = ":broken_heart: #{provider_name} has rejected #{candidate_name}’s application"
-    when :reject_application_by_default
-      text = ":broken_heart: #{candidate_name}’s application to #{provider_name} has been rejected by default"
-    when :offer_declined
-      text = ":no_good: #{candidate_name} has declined #{provider_name}’s offer"
-    when :withdraw
-      text = ":runner: #{candidate_name} has withdrawn their application for #{course_name} at #{provider_name}"
-    when :withdraw_offer
-      text = ":no_good: #{provider_name} has withdrawn #{candidate_name}’s offer"
     when :defer_offer
       text = ":double_vertical_bar: #{provider_name} has deferred #{candidate_name}’s offer"
-    when :reinstate_offer_conditions_met
-      text = ":arrow_forward: #{provider_name} has reinstated their offer to #{candidate_name} (conditions met)"
-    when :reinstate_offer_pending_conditions
-      text = ":arrow_forward: #{provider_name} has reinstated their offer to #{candidate_name} (pending conditions)"
     else
       raise 'StateChangeNotifier: unsupported state transition event'
     end

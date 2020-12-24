@@ -39,7 +39,6 @@ RSpec.feature 'Candidate submits the application' do
 
     and_i_can_see_my_support_ref
     and_i_receive_an_email_with_my_support_ref
-    and_a_slack_notification_is_sent
 
     when_i_click_on_track_your_application
     then_i_can_see_my_application_dashboard
@@ -193,10 +192,6 @@ RSpec.feature 'Candidate submits the application' do
   def and_i_receive_an_email_with_my_support_ref
     open_email(current_candidate.email_address)
     expect(current_email).to have_content 'Application submitted'
-  end
-
-  def and_a_slack_notification_is_sent
-    expect_slack_message_with_text 'Lando’s application has been sent to Gorse SCITT'
   end
 
   def when_i_click_on_track_your_application

@@ -14,7 +14,6 @@ class WithdrawApplication
       CandidateMailer.withdraw_last_application_choice(@application_choice.application_form).deliver_later
     end
 
-    StateChangeNotifier.call(:withdraw, application_choice: application_choice)
     send_email_notification_to_provider_users(application_choice)
 
     resolve_ucas_match(application_choice)
