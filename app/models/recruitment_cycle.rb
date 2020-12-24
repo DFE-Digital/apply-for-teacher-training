@@ -29,6 +29,6 @@ module RecruitmentCycle
   end
 
   def self.cycle_name(year = current_year)
-    "#{year} to #{year + 1}"
+    "#{year - 1} to #{year}"
   end
 end
