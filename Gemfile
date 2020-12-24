@@ -84,6 +84,9 @@ gem 'geocoder'
 
 gem 'strip_attributes'
 
+# Capturing metric data
+gem 'public_activity'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.4'
