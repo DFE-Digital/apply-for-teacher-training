@@ -1,0 +1,22 @@
+en:
+  notifications_export:
+    email_address: User
+    notification_setting: Notification Setting
+    notifications_for_setting: No. Notifications received whilst Notifications %{status}
+    number_of_changes: Number of changes
+    notifications_received: Total number of notifications received
+    application_submitted: Application submitted
+    application_submitted_with_safeguarding_issues: Application submitted with safeguarding issues
+    application_submitted_with_no_response: Application submitted more than 5 days ago (and no response)
+    application_rejected_by_default: Application rejected by default
+    application_withdrawn: Application withdrawn
+    offer_accepted: Offer accepted
+    offer_declined: Offer declined
+    offer_declined_by_default: Offer declined by default
+    note_added: Note added to application
+    decision_count: Number of decision made with Notifications #{status}
+    avg_decision_time: Average time from application receipt to decision (for decisions made by this user)
+    avg_decision_time_on: Average time from application receipt to decision (for decisions made by this user) - Notifications On
+    avg_decision_time_off: Average time from application receipt to decision (for decisions made by this user) - Notifications Off
+    org_users_with_notifications: No. Users in Org with Notifications %{status}
+    automatic_rejections: No. Applications rejected automatically by this organisation
