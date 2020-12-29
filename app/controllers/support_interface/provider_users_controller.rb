@@ -81,13 +81,18 @@ module SupportInterface
     def impersonate
       @provider_user = ProviderUser.find(params[:provider_user_id])
       dfe_sign_in_user.begin_impersonate! session, @provider_user
-      flash[:success] = 'Provider user impersonated'
-      redirect_to support_interface_provider_user_path(@provider_user)
+      flash[:success] = "Impersonating #{@provider_user.email_address}"
+      redirect_to provider_interface_applications_path
     end
 
     def end_impersonate
-      dfe_sign_in_user.end_impersonate! session
-      redirect_to support_interface_provider_users_path
+      if (impersonated_user = current_support_user.impersonated_provider_user)
+        dfe_sign_in_user.end_impersonate! session
+        redirect_to support_interface_provider_user_path(impersonated_user)
+      else
+        flash[:success] = "No active provider user impersonation to stop"
+        redirect_to support_interface_provider_users_path
+      end
     end
 
   private

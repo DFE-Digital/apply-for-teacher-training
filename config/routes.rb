@@ -852,14 +852,14 @@ Rails.application.routes.draw do
     scope '/users' do
       get '/' => 'users#index', as: :users
 
-      get '/provider/end_impersonate' => 'provider_users#end_impersonate', as: :end_impersonate
-
       get '/delete/:id' => 'support_users#confirm_destroy', as: :confirm_destroy_support_user
       delete '/delete/:id' => 'support_users#destroy', as: :destroy_support_user
       get '/restore/:id' => 'support_users#confirm_restore', as: :confirm_restore_support_user
       delete '/restore/:id' => 'support_users#restore', as: :restore_support_user
 
       resources :support_users, only: %i[index new create show], path: :support
+
+      get '/provider/end_impersonation' => 'provider_users#end_impersonate', as: :end_impersonate
 
       resources :provider_users, only: %i[show index new create edit update], path: :provider do
         get '/audits' => 'provider_users#audits'
