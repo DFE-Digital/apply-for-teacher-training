@@ -7,14 +7,14 @@ RSpec.describe AuthenticationToken do
         :authentication_token,
         created_at: Time.zone.now - AuthenticationToken::MAX_TOKEN_DURATION + 1.minute,
       )
-      expect(authentication_token.still_valid?).to eql(true)
+      expect(authentication_token.still_valid?).to be(true)
     end
 
     it 'is invalid if it has been saved' do
       authentication_token = build(
         :authentication_token,
       )
-      expect(authentication_token.still_valid?).to eql(false)
+      expect(authentication_token.still_valid?).to be(false)
     end
 
     it 'is invalid if it has not expired but has been used' do
@@ -23,7 +23,7 @@ RSpec.describe AuthenticationToken do
         created_at: Time.zone.now - AuthenticationToken::MAX_TOKEN_DURATION + 1.minute,
         used_at: 1.minute.ago,
       )
-      expect(authentication_token.still_valid?).to eql(false)
+      expect(authentication_token.still_valid?).to be(false)
     end
 
     it 'is invalid if it has not been used but has expired' do
@@ -31,7 +31,7 @@ RSpec.describe AuthenticationToken do
         :authentication_token,
         created_at: Time.zone.now - AuthenticationToken::MAX_TOKEN_DURATION - 1.minute,
       )
-      expect(authentication_token.still_valid?).to eql(false)
+      expect(authentication_token.still_valid?).to be(false)
     end
   end
 end
