@@ -1,8 +1,10 @@
 module AuditHelper
   def audit(actor)
-    impersonator = actor.try(:impersonator)
-
-    Audited.audit_class.as_user(impersonator || actor) do
+    if ::Audited.store[:audited_user].blank?
+      Audited.audit_class.as_user(actor.try(:impersonator) || actor) do
+        yield
+      end
+    else # preserve previously set Audited.audited_class.as_user
       yield
     end
   end

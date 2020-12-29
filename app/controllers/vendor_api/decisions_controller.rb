@@ -1,6 +1,6 @@
 module VendorAPI
   class DecisionsController < VendorAPIController
-    before_action :validate_metadata!, :find_api_user
+    before_action :validate_metadata!
 
     def make_offer
       course_data = params.dig(:data, :course)
@@ -19,7 +19,7 @@ module VendorAPI
 
       if application_choice.offer?
         change_offer = ChangeOffer.new(
-          actor: @api_user,
+          actor: audit_user,
           application_choice: application_choice,
           course_option: course_option,
           offer_conditions: params.dig(:data, :conditions),
@@ -34,7 +34,7 @@ module VendorAPI
         end
       else
         make_offer = MakeAnOffer.new(
-          actor: @api_user,
+          actor: audit_user,
           application_choice: application_choice,
           course_option: course_option,
           offer_conditions: params.dig(:data, :conditions),
@@ -46,7 +46,7 @@ module VendorAPI
 
     def confirm_conditions_met
       decision = ConfirmOfferConditions.new(
-        actor: @api_user,
+        actor: audit_user,
         application_choice: application_choice,
       )
 
@@ -55,7 +55,7 @@ module VendorAPI
 
     def conditions_not_met
       decision = ConditionsNotMet.new(
-        actor: @api_user,
+        actor: audit_user,
         application_choice: application_choice,
       )
 
@@ -66,13 +66,13 @@ module VendorAPI
       decision =
         if application_choice.offer?
           WithdrawOffer.new(
-            actor: @api_user,
+            actor: audit_user,
             application_choice: application_choice,
             offer_withdrawal_reason: params.dig(:data, :reason),
           )
         else
           RejectApplication.new(
-            actor: @api_user,
+            actor: audit_user,
             application_choice: application_choice,
             rejection_reason: params.dig(:data, :reason),
           )
@@ -93,12 +93,6 @@ module VendorAPI
 
     def application_choice
       @application_choice ||= GetApplicationChoicesForProviders.call(providers: current_provider, vendor_api: true).find(params[:application_id])
-    end
-
-    def find_api_user
-      @api_user = VendorApiUser.find_or_initialize_by(
-        vendor_api_token_id: @current_vendor_api_token.id,
-      )
     end
 
     def render_application

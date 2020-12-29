@@ -340,10 +340,10 @@ class TestApplications
       fast_forward
       ConfirmOfferConditions.new(actor: actor, application_choice: choice).save
       choice.update_columns(recruited_at: time, updated_at: time)
+      # service generates two audit writes, one for status, one for timestamp
+      choice.audits.second_to_last&.update_columns(created_at: time)
+      choice.audits.last&.update_columns(created_at: time)
     end
-    # service generates two audit writes, one for status, one for timestamp
-    choice.audits.second_to_last&.update_columns(created_at: time)
-    choice.audits.last&.update_columns(created_at: time)
   end
 
   def maybe_add_note(choice)

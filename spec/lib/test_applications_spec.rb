@@ -57,9 +57,9 @@ RSpec.describe TestApplications do
     application_choice = TestApplications.new.create_application(recruitment_cycle_year: 2020, states: %i[recruited], courses_to_apply_to: courses_we_want).first
     provider_user = application_choice.provider.provider_users.first
 
-    offer_audit = application_choice.reload.audits.where("audited_changes @> '{\"status\": [\"recruited\"]}'").first
-    expect(offer_audit).not_to be_nil
-    expect(offer_audit.user).to eq provider_user
+    recruited_audit = application_choice.reload.audits.where("audited_changes @> '{\"status\": [\"recruited\"]}'").first
+    expect(recruited_audit).not_to be_nil
+    expect(recruited_audit.user).to eq provider_user
   end
 
   it 'generates an application for the specified candidate' do
