@@ -56,7 +56,7 @@ RSpec.feature 'See applications' do
   end
 
   def and_i_clear_filters
-    click_on 'Clear'
+    click_on 'Clear filters'
   end
 
   def when_i_search_for_an_application

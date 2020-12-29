@@ -282,7 +282,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_clear_the_filters
-    click_link('Clear')
+    click_link('Clear filters')
   end
 
   def then_i_expect_all_applications_to_be_visible

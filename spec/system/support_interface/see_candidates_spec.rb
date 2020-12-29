@@ -75,7 +75,7 @@ RSpec.feature 'See candidates' do
   end
 
   def and_i_clear_filters
-    click_on 'Clear'
+    click_on 'Clear filters'
   end
 
   def when_my_search_returns_nothing
