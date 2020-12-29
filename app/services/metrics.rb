@@ -8,17 +8,27 @@ module Metrics
       @user = user
     end
 
-    def track(event)
-      create(event: event)
+    def track(event, completion_time = nil)
+      completion_time = formatted_interval(completion_time) if completion_time
+      create(changes: { event: event }, completion_time: completion_time)
     end
 
   private
 
-    def create(changes)
+    def create(changes: {}, completion_time: nil)
       PublicActivity::Activity.create(trackable: model,
                                       key: key,
                                       owner: user,
-                                      parameters: changes)
+                                      parameters: changes,
+                                      completion_time: completion_time)
+    end
+
+    def formatted_interval(seconds)
+      total_seconds = seconds.round
+      hours = total_seconds / (60 * 60)
+      minutes = (total_seconds / 60) % 60
+      seconds = total_seconds % 60
+      [hours, minutes, seconds].map { |t| t.round.to_s.rjust(2, '0') }.join(':')
     end
   end
 
@@ -29,9 +39,8 @@ module Metrics
       @user = user
     end
 
-    def for(key = nil, event = nil)
-      activity_params = { owner: user }
-      activity_params.merge!(key: key) if key.present?
+    def for(key = nil, event = nil, trackable: nil)
+      activity_params = { owner: user, trackable: trackable, key: key }.delete_if { |_, v| v.nil? }
       activity_params.merge!(parameters: { event: event }) if event.present?
       PublicActivity::Activity.where(activity_params)
     end

@@ -61,8 +61,7 @@ module ProviderInterface
       )
 
       if @application_offer.save
-        notification_status = current_provider_user.send_notifications ? 'on' : 'off'
-        Metrics::Tracker.new(@application_choice, "notifications.#{notification_status}", current_provider_user).track(:decision)
+        track_metrics(@application_choice)
         flash[:success] = 'Offer successfully made to candidate'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,
@@ -95,8 +94,7 @@ module ProviderInterface
         rejection_reason: params.dig(:reject_application, :rejection_reason),
       )
       if @reject_application.save
-        notification_status = current_provider_user.send_notifications ? 'on' : 'off'
-        Metrics::Tracker.new(@application_choice, "notifications.#{notification_status}", current_provider_user).track(:decision)
+        track_metrics(@application_choice)
         flash[:success] = 'Application successfully rejected'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,
@@ -167,6 +165,22 @@ module ProviderInterface
       if FeatureFlag.active?(:structured_reasons_for_rejection)
         redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
       end
+    end
+
+    def track_metrics(application_choice)
+      notification_status = current_provider_user.send_notifications ? 'on' : 'off'
+      interval = interval_since_application_submission(application_choice)
+      Metrics::Tracker.new(
+        application_choice,
+        "notifications.update.#{notification_status}",
+        current_provider_user,
+      ).track(:decision, interval)
+    end
+
+    def interval_since_application_submission(application_choice)
+      metrics_data = Metrics::Data.new(current_provider_user).for(nil, :application_submitted, trackable: application_choice).first
+      submitted_at = metrics_data&.created_at || Time.zone.now
+      Time.zone.now - submitted_at
     end
   end
 end

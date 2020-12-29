@@ -1,5 +1,7 @@
 module SupportInterface
   class NotificationsExport
+    include ActionView::Helpers::DateHelper
+
     def data_for_export
       active_provider_users = ProviderUser.includes(:providers)
       active_provider_users.flat_map { |provider_user| data_for_user(provider_user) }
@@ -26,9 +28,9 @@ module SupportInterface
         notifications_received_for(:note_added) => metrics_data_for(provider_user, event: :note_added),
         text_for(:decision_count, status: 'On') => metrics_data_for(provider_user, key: 'notifications.on', event: :decision),
         text_for(:decision_count, status: 'Off') => metrics_data_for(provider_user, key: 'notifications.off', event: :decision),
-        text_for(:avg_decision_time) => 0,
-        text_for(:avg_decision_time_on) => 0,
-        text_for(:avg_decision_time_off) => 0,
+        text_for(:avg_decision_time) => average_decision_time(provider_user),
+        text_for(:avg_decision_time_on) => average_decision_time(provider_user, 'notifications.update.on'),
+        text_for(:avg_decision_time_off) => average_decision_time(provider_user, 'notifications.update.off'),
         text_for(:org_users_with_notifications, status: 'On') => org_users_with_notifications(provider_user, status: 'on'),
         text_for(:org_users_with_notifications, status: 'Off') => org_users_with_notifications(provider_user, status: 'off'),
         text_for(:automatic_rejections) => 0,
@@ -48,9 +50,25 @@ module SupportInterface
       Metrics::Data.new(provider_user).for(key, event).count
     end
 
+    def average_decision_time(provider_user, key = nil)
+      decision_data = Metrics::Data.new(provider_user).for(key, :decision)
+      return '' unless decision_data.any?
+
+      average_completion_time = completion_time_total(decision_data) / decision_data.count
+      distance_of_time_in_words(average_completion_time)
+    end
+
+    def completion_time_total(data)
+      data.map(&:completion_time).map { |interval| convert_to_seconds(interval: interval) }.compact.inject(:+) || 0
+    end
+
     def org_users_with_notifications(provider_user, status: 'on')
       send_notifications = (status == 'on')
       provider_user.providers.map { |provider| provider.provider_users.where(send_notifications: send_notifications) }.flatten.count
+    end
+
+    def convert_to_seconds(interval:)
+      interval.split(':').map(&:to_i).inject(0) { |a, b| a * 60 + b }
     end
   end
 end

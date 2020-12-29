@@ -866,6 +866,14 @@ FactoryBot.define do
       end
     end
 
+    trait :with_signed_provider_agreement do
+      after(:create) do |user, _evaluator|
+        provider = create(:provider)
+        provider.provider_users << user
+        create(:provider_agreement, provider: provider, provider_user: user)
+      end
+    end
+
     trait :with_two_providers do
       after(:create) do |user, _evaluator|
         2.times { create(:provider).provider_users << user }

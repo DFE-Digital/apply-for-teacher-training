@@ -69,7 +69,7 @@ RSpec.feature 'Provider makes an offer' do
   def making_an_offer_is_tracked_as_a_decision(&block)
     expect {
       yield(block)
-    }.to have_metrics_tracked(@application_awaiting_provider_decision, 'notifications.off', @provider_user, :decision)
+    }.to have_metrics_tracked_with_interval(@application_awaiting_provider_decision, 'notifications.update.off', @provider_user, anything, :decision)
   end
 
   def then_i_see_some_application_info

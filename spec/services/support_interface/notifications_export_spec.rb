@@ -10,12 +10,16 @@ RSpec.describe SupportInterface::NotificationsExport do
       application_choice2 = create(:application_choice)
       application_choice3 = create(:application_choice)
 
-      Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(:application_submitted)
-      Metrics::Tracker.new(application_choice2, 'notifications.off', provider_user).track(:application_submitted)
-      Metrics::Tracker.new(application_choice3, 'notifications.off', other_provider_user).track(:application_submitted)
-      Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(:offer_accepted)
-      Metrics::Tracker.new(application_choice2, 'notifications.off', provider_user).track(:offer_declined)
-      Metrics::Tracker.new(application_choice3, 'notifications.off', other_provider_user).track(:application_withdrawn)
+      Timecop.travel(2020, 9, 11, 12, 0) do
+        application_submitted = Timecop.travel(2020, 9, 10, 18, 30) { Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(:application_submitted) }
+        Metrics::Tracker.new(application_choice2, 'notifications.off', provider_user).track(:application_submitted)
+        Metrics::Tracker.new(application_choice3, 'notifications.off', other_provider_user).track(:application_submitted)
+        Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(:offer_accepted)
+        Metrics::Tracker.new(application_choice2, 'notifications.off', provider_user).track(:offer_declined)
+        decision_time = Time.zone.now - application_submitted.created_at
+        Metrics::Tracker.new(application_choice, 'notifications.update.on', provider_user).track(:decision, decision_time)
+        Metrics::Tracker.new(application_choice3, 'notifications.off', other_provider_user).track(:application_withdrawn)
+      end
 
       expect(described_class.new.data_for_export).to match_array([
         {
@@ -35,9 +39,9 @@ RSpec.describe SupportInterface::NotificationsExport do
           'Number of Notifications received for: Offer declined by default' => 0,
           'Number of Notifications received for: Note added to application' => 0,
           'Number of decision made with Notifications' => 0,
-          'Average time from application receipt to decision (for decisions made by this user)' => 0,
-          'Average time from application receipt to decision (for decisions made by this user) - Notifications On' => 0,
-          'Average time from application receipt to decision (for decisions made by this user) - Notifications Off' => 0,
+          'Average time from application receipt to decision (for decisions made by this user)' => 'about 18 hours',
+          'Average time from application receipt to decision (for decisions made by this user) - Notifications On' => 'about 18 hours',
+          'Average time from application receipt to decision (for decisions made by this user) - Notifications Off' => '',
           'No. Users in Org with Notifications On' => 1,
           'No. Users in Org with Notifications Off' => 1,
           'No. Applications rejected automatically by this organisation' => 0,
@@ -59,9 +63,9 @@ RSpec.describe SupportInterface::NotificationsExport do
           'Number of Notifications received for: Offer declined by default' => 0,
           'Number of Notifications received for: Note added to application' => 0,
           'Number of decision made with Notifications' => 0,
-          'Average time from application receipt to decision (for decisions made by this user)' => 0,
-          'Average time from application receipt to decision (for decisions made by this user) - Notifications On' => 0,
-          'Average time from application receipt to decision (for decisions made by this user) - Notifications Off' => 0,
+          'Average time from application receipt to decision (for decisions made by this user)' => '',
+          'Average time from application receipt to decision (for decisions made by this user) - Notifications On' => '',
+          'Average time from application receipt to decision (for decisions made by this user) - Notifications Off' => '',
           'No. Users in Org with Notifications On' => 1,
           'No. Users in Org with Notifications Off' => 1,
           'No. Applications rejected automatically by this organisation' => 0,
