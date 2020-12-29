@@ -31,7 +31,13 @@ class NavigationItems
     end
 
     def for_support_account_nav(current_support_user)
-      if current_support_user
+      if current_support_user && current_support_user.impersonated_provider_user
+        impersonated_email = current_support_user.impersonated_provider_user.email_address
+        [
+          NavigationItem.new("🤿 #{impersonated_email} 🤿", provider_interface_applications_path, false),
+          NavigationItem.new('Stop', support_interface_end_impersonate_path, false),
+        ]
+      elsif current_support_user
         [
           NavigationItem.new(current_support_user.email_address, nil, false),
           NavigationItem.new('Sign out', support_interface_sign_out_path, false),
