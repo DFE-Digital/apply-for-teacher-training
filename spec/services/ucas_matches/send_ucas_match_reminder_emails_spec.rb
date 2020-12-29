@@ -25,10 +25,8 @@ RSpec.describe UCASMatches::SendUCASMatchReminderEmails do
     context 'when the application has been accepted on both Apply and UCAS' do
       it 'sends the candidate the reminder ucas match email for multiple acceptances and records the action' do
         ucas_match = create(:ucas_match,
-                            ucas_status: :pending_conditions,
-                            application_form: application_form,
-                            action_taken: 'initial_emails_sent',
-                            candidate_last_contacted_at: 6.business_days.before(Time.zone.now))
+                            :with_multiple_acceptances,
+                            :need_to_send_reminder_emails)
         allow(ucas_match).to receive(:application_for_the_same_course_in_progress_on_both_services?).and_return(false)
         allow(ucas_match).to receive(:application_accepted_on_ucas_and_accepted_on_apply?).and_return(true)
 
@@ -43,10 +41,9 @@ RSpec.describe UCASMatches::SendUCASMatchReminderEmails do
     context 'when the candidate applied for the same course on both Apply and UCAS' do
       it 'sends the candidate the reminder ucas match email for the duplicate application and records the action' do
         ucas_match = create(:ucas_match,
-                            scheme: 'B',
-                            application_form: application_form,
-                            action_taken: 'initial_emails_sent',
-                            candidate_last_contacted_at: 6.business_days.before(Time.zone.now))
+                            :need_to_send_reminder_emails,
+                            scheme: %w[B],
+                            application_form: application_form)
         allow(ucas_match).to receive(:application_for_the_same_course_in_progress_on_both_services?).and_return(true)
         allow(ucas_match).to receive(:application_accepted_on_ucas_and_accepted_on_apply?).and_return(false)
 

@@ -13,12 +13,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   let(:application_choice) { create(:application_choice) }
   let(:application_form) { create(:completed_application_form, application_choices: [application_choice]) }
-  let(:ucas_match) do
-    create(:ucas_match,
-           application_form: application_form,
-           action_taken: 'initial_emails_sent',
-           candidate_last_contacted_at: 5.business_days.before(Time.zone.today))
-  end
+  let(:ucas_match) { create(:ucas_match, :need_to_send_reminder_emails, application_form: application_form) }
 
   describe '.ucas_match_reminder_email_duplicate_applications' do
     let(:email) { mailer.ucas_match_reminder_email_duplicate_applications(application_choice, ucas_match) }
