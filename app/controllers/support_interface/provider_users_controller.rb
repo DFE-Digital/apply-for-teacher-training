@@ -78,6 +78,12 @@ module SupportInterface
       redirect_to support_interface_provider_user_path(provider_user)
     end
 
+    def impersonate
+      @provider_user = ProviderUser.find(params[:provider_user_id])
+      flash[:success] = 'Provider user impersonated'
+      redirect_to support_interface_provider_user_path(@provider_user)
+    end
+
   private
 
     def scope_by_use_of_service

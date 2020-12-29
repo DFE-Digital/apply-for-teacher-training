@@ -1,0 +1,3 @@
+<% unless HostingEnvironment.production? %>
+  <%= button_to 'Sign in as this provider user', support_interface_provider_user_impersonate_path(provider_user), class: 'govuk-button', form_class: 'govuk-!-display-inline-block' %>
+<% end %>

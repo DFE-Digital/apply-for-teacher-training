@@ -1,5 +1,7 @@
 <% content_for :browser_title, "Provider user #{provider_user_name(@provider_user)}" %>
 
+<%= render 'provider_user_impersonation', provider_user: @provider_user %>
+
 <%= render 'provider_user_navigation', title: 'Details', provider_user: @provider_user %>
 
 <%= render SummaryListComponent.new(rows: [
