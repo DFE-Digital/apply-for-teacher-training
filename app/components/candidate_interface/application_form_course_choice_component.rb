@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ApplicationFormApplyAgainCourseChoiceComponent < ViewComponent::Base
+  class ApplicationFormCourseChoiceComponent < ViewComponent::Base
     def initialize(completed:)
       @completed = completed
     end
