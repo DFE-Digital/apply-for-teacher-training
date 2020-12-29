@@ -23,6 +23,15 @@ module SelectOptionsHelper
     ] + providers.map { |provider| OpenStruct.new(id: provider.id, name: "#{provider.name} (#{provider.code})") }
   end
 
+  def select_sort_options
+    sort_options = [
+      [ValidationErrorSummaryQuery::ALL_TIME, 'All time'],
+      [ValidationErrorSummaryQuery::LAST_WEEK, 'Last week'],
+      [ValidationErrorSummaryQuery::LAST_MONTH, 'Last month'],
+    ]
+    sort_options.map { |sort_option| OpenStruct.new(value: sort_option.first, text: sort_option.last) }
+  end
+
 private
 
   def nationality_options(include_british_and_irish:)
