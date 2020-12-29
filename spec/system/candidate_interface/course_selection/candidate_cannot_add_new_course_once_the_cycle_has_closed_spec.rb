@@ -37,7 +37,7 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
     and_it_is_the_day_before_the_apply_2_deadline
 
     when_i_visit_the_site
-    then_there_is_a_link_to_the_course_choices_section
+    then_there_is_a_link_to_the_apply_again_course_choices_section
   end
 
   def given_i_am_signed_in
@@ -54,6 +54,10 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
 
   def then_there_is_a_link_to_the_course_choices_section
     expect(page).to have_link('Choose your courses')
+  end
+
+  def then_there_is_a_link_to_the_apply_again_course_choices_section
+    expect(page).to have_link('Choose your course')
   end
 
   def given_it_is_the_day_after_the_apply1_deadline
@@ -93,6 +97,10 @@ RSpec.describe 'Candidate vists their application form after the cycle has ended
   end
 
   def given_my_application_forms_phase_is_apply_2
+    create(
+      :application_form,
+      subsequent_application_form: current_candidate.current_application,
+    )
     current_candidate.current_application.apply_2!
   end
 
