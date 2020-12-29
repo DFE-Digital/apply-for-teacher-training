@@ -166,7 +166,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_clear_the_filters
-    click_link('Clear')
+    click_link('Clear filters')
   end
 
   def then_i_do_not_expect_to_see_the_filter_dialogue
