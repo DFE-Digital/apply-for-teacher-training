@@ -21,15 +21,15 @@
 <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Candidates</h3>
 
 <div id="headline-stat" class="govuk-!-margin-bottom-4">
-  <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count, label: 'sign ups (excluding test users)', colour: :blue) %>
+  <%= render SupportInterface::TileComponent.new(count: @statistics.total_form_count, label: 'sign ups (excluding test users)', colour: :blue) %>
 </div>
 
 <div class="govuk-grid-row govuk-!-margin-bottom-4">
   <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(only: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'in pre-submission') %>
+    <%= render SupportInterface::TileComponent.new(count: @statistics.total_form_count(only: %i{never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'unsubmitted application forms') %>
   </div>
   <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.total_submitted_count, label: 'submitted') %>
+    <%= render SupportInterface::TileComponent.new(count: @statistics.total_submitted_count, label: 'submitted application forms') %>
   </div>
 </div>
 
@@ -51,7 +51,7 @@
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::TileComponent.new(count: @statistics.total_candidate_count(except: %i{ended_without_success pending_conditions recruited never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'still being processed', size: :reduced) %>
+        <%= render SupportInterface::TileComponent.new(count: @statistics.total_form_count(except: %i{ended_without_success pending_conditions recruited never_signed_in unsubmitted_not_started_form unsubmitted_in_progress}), label: 'still being processed', size: :reduced) %>
       </div>
       <div class="govuk-grid-column-one-third">
         <%= render SupportInterface::TileComponent.new(count: @statistics.ended_without_success_count, label: 'ended w/o success', size: :reduced, colour: :red) %>

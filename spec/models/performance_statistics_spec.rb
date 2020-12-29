@@ -101,7 +101,7 @@ RSpec.describe PerformanceStatistics, type: :model do
     end
   end
 
-  describe '#total_candidate_count' do
+  describe '#total_form_count' do
     it 'optionally filters only on certain process states and excludes certain states' do
       create(:application_choice, status: 'recruited')
       create(:application_choice, status: 'recruited')
@@ -109,8 +109,8 @@ RSpec.describe PerformanceStatistics, type: :model do
 
       stats = PerformanceStatistics.new(nil)
 
-      expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
-      expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(2)
+      expect(stats.total_form_count(only: %i[recruited])).to eq(2)
+      expect(stats.total_form_count(except: %i[pending_conditions])).to eq(2)
     end
 
     it 'optionally filters by phase' do
@@ -123,11 +123,11 @@ RSpec.describe PerformanceStatistics, type: :model do
 
       stats = PerformanceStatistics.new(nil)
 
-      expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
-      expect(stats.total_candidate_count(only: %i[recruited], phase: :apply_1)).to eq(1)
-      expect(stats.total_candidate_count(only: %i[recruited], phase: :apply_2)).to eq(1)
-      expect(stats.total_candidate_count(phase: :apply_2)).to eq(1)
-      expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(3)
+      expect(stats.total_form_count(only: %i[recruited])).to eq(2)
+      expect(stats.total_form_count(only: %i[recruited], phase: :apply_1)).to eq(1)
+      expect(stats.total_form_count(only: %i[recruited], phase: :apply_2)).to eq(1)
+      expect(stats.total_form_count(phase: :apply_2)).to eq(1)
+      expect(stats.total_form_count(except: %i[pending_conditions])).to eq(3)
     end
   end
 
@@ -138,7 +138,7 @@ RSpec.describe PerformanceStatistics, type: :model do
 
       stats = PerformanceStatistics.new(2021)
 
-      expect(stats.total_candidate_count).to eq(1)
+      expect(stats.total_form_count).to eq(1)
     end
   end
 
@@ -194,6 +194,6 @@ RSpec.describe PerformanceStatistics, type: :model do
 
     stats = PerformanceStatistics.new(nil)
 
-    expect(stats.total_candidate_count).to eq(1)
+    expect(stats.total_form_count).to eq(1)
   end
 end

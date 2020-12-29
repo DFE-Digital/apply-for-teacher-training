@@ -70,7 +70,7 @@ class PerformanceStatistics
       .sum
   end
 
-  def total_candidate_count(only: nil, except: [], phase: nil)
+  def total_form_count(only: nil, except: [], phase: nil)
     candidate_status_counts
       .select { |row| only.nil? || row['status'].to_sym.in?(only) }
       .select { |row| phase.nil? || row['phase']&.to_sym == phase.to_sym }
@@ -93,23 +93,23 @@ class PerformanceStatistics
   end
 
   def total_submitted_count
-    total_candidate_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress])
+    total_form_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress])
   end
 
   def apply_again_submitted_count
-    total_candidate_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress], phase: :apply_2)
+    total_form_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress], phase: :apply_2)
   end
 
   def ended_without_success_count
-    total_candidate_count(only: %i[ended_without_success])
+    total_form_count(only: %i[ended_without_success])
   end
 
   def accepted_offer_count
-    total_candidate_count(only: %i[pending_conditions recruited offer_deferred])
+    total_form_count(only: %i[pending_conditions recruited offer_deferred])
   end
 
   def apply_again_accepted_offer_count
-    total_candidate_count(only: %i[pending_conditions recruited offer_deferred], phase: :apply_2)
+    total_form_count(only: %i[pending_conditions recruited offer_deferred], phase: :apply_2)
   end
 
   def rejected_by_default_count
