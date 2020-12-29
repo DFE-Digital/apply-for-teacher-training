@@ -60,7 +60,7 @@ created via the support UI, which is only accessible to Support users!
 It is possible to grant access directly by updating the database of the environment
 in question.
 
-1. Connect to the database following the [instructions for connecting to a production database]('/docs/connecting-to-databases.md')
+1. Connect to the database following the [instructions for connecting to a production database](connecting-to-databases.md)
 2. Issue the following query, which writes your email address (EMAIL) and DfE Sign-in uid (UID) into the support_users table.
 
 ```SQL
