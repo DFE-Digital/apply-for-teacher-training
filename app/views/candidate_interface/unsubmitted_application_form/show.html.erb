@@ -18,31 +18,24 @@
         (<%= EndOfCycleTimetable.find_reopens.to_s(:govuk_date) %>). You can keep making changes to the rest of your application until then.
       </p>
     </section>
-    <% elsif @application_form.candidate_has_previously_applied? %>
-      <% if @application_form.previous_application_form.application_choices.rejected.any?  %>
+    <% else %>
+      <% if @application_form.candidate_has_previously_applied? && @application_form.previous_application_form.application_choices.rejected.any? %>
         <%= render(CandidateInterface::RejectionReasonsComponent.new(application_form: @application_form.previous_application_form)) %>
       <% end %>
-      <% if @application_form.apply_1? %>
+      <% if  @application_form.candidate_has_previously_applied? && @application_form.apply_2? %>
         <%= render(
-          CandidateInterface::ApplicationFormCourseChoicesComponent.new(
-            choices_are_present: @application_form_presenter.application_choices_added?,
-            completed: @application_form_presenter.course_choices_completed?,
-          )
-        ) %>
+              CandidateInterface::ApplicationFormCourseChoiceComponent.new(
+                completed: @application_form_presenter.course_choices_completed?,
+              )
+            ) %>
       <% else %>
         <%= render(
-          CandidateInterface::ApplicationFormApplyAgainCourseChoiceComponent.new(
-            completed: @application_form_presenter.course_choices_completed?,
-          )
-        ) %>
+              CandidateInterface::ApplicationFormCourseChoicesComponent.new(
+                choices_are_present: @application_form_presenter.application_choices_added?,
+                completed: @application_form_presenter.course_choices_completed?,
+              )
+            ) %>
       <% end %>
-    <% else %>
-      <%= render(
-        CandidateInterface::ApplicationFormCourseChoicesComponent.new(
-          choices_are_present: @application_form_presenter.application_choices_added?,
-          completed: @application_form_presenter.course_choices_completed?,
-        )
-      ) %>
     <% end %>
 
     <section class="govuk-!-margin-bottom-8">

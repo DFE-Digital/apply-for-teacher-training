@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::ApplicationFormApplyAgainCourseChoiceComponent do
+RSpec.describe CandidateInterface::ApplicationFormCourseChoiceComponent do
   context 'completed: true' do
     it 'renders successfully' do
       result = render_inline(
