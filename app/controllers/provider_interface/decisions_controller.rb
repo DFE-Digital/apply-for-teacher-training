@@ -61,6 +61,8 @@ module ProviderInterface
       )
 
       if @application_offer.save
+        notification_status = current_provider_user.send_notifications ? 'on' : 'off'
+        Metrics::Tracker.new(@application_choice, "notifications.#{notification_status}", current_provider_user).track(:decision)
         flash[:success] = 'Offer successfully made to candidate'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,
@@ -93,6 +95,8 @@ module ProviderInterface
         rejection_reason: params.dig(:reject_application, :rejection_reason),
       )
       if @reject_application.save
+        notification_status = current_provider_user.send_notifications ? 'on' : 'off'
+        Metrics::Tracker.new(@application_choice, "notifications.#{notification_status}", current_provider_user).track(:decision)
         flash[:success] = 'Application successfully rejected'
         redirect_to provider_interface_application_choice_path(
           application_choice_id: @application_choice.id,

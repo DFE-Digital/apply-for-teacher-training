@@ -23,6 +23,8 @@ module ProviderInterface
       @new_note_form = ProviderInterface::NewNoteForm.new(note_params)
 
       if @new_note_form.save
+        notification_status = current_provider_user.send_notifications ? 'on' : 'off'
+        Metrics::Tracker.new(@application_choice, "notifications.#{notification_status}", current_provider_user).track(:note_added)
         flash[:success] = 'Note successfully added'
         redirect_to provider_interface_application_choice_notes_path(@application_choice)
       else

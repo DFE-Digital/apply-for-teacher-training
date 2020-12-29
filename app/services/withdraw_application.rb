@@ -27,6 +27,7 @@ private
   def send_email_notification_to_provider_users(application_choice)
     NotificationsList.for(application_choice).each do |provider_user|
       ProviderMailer.application_withdrawn(provider_user, application_choice).deliver_later
+      Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(:application_withdrawn)
     end
   end
 

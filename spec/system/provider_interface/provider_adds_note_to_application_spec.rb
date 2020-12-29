@@ -18,7 +18,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     when_i_visit_that_application_in_the_provider_interface
     and_i_visit_the_notes_tab
     and_i_click_to_add_a_note
-    and_i_write_a_note_with_a_subject_and_some_text
+    adding_a_note_is_tracked { when_i_write_a_note_with_a_subject_and_some_text }
 
     then_i_am_still_on_the_notes_tab
     and_the_notes_tab_includes_the_new_note
@@ -28,8 +28,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   def given_i_am_a_provider_user_with_dfe_sign_in
     @provider = create(:provider, :with_signed_agreement)
-    provider_user = create(:provider_user, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
-    provider_user.providers << @provider
+    @provider_user = create(:provider_user, send_notifications: false, dfe_sign_in_uid: 'DFE_SIGN_IN_UID')
+    @provider_user.providers << @provider
     user_exists_in_dfe_sign_in
   end
 
@@ -50,7 +50,13 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     click_on 'Add note'
   end
 
-  def and_i_write_a_note_with_a_subject_and_some_text
+  def adding_a_note_is_tracked(&block)
+    expect {
+      yield(block)
+    }.to have_metrics_tracked(@application_choice, 'notifications.off', @provider_user, :note_added)
+  end
+
+  def when_i_write_a_note_with_a_subject_and_some_text
     @note_subject = 'Documents missing'
     @note_text = 'The candidate has not forwarded the required documents yet.'
     fill_in 'Subject', with: @note_subject

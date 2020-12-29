@@ -95,6 +95,11 @@ class DataExport < ApplicationRecord
       description: 'A list of sites that are being synced from Find, along with distances to their respective providers',
       class: SupportInterface::SitesExport,
     },
+    notifications_export: {
+      name: 'Notifications',
+      description: 'Data to enable performance assesment of Notification feature',
+      class: SupportInterface::NotificationsExport,
+    },
   }.freeze
 
   belongs_to :initiator, polymorphic: true, optional: true

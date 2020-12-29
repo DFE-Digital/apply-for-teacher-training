@@ -25,7 +25,7 @@ RSpec.feature 'Provider makes an offer' do
     then_i_am_asked_to_confirm_the_offer
     and_i_see_the_correct_offer_conditions
 
-    when_i_confirm_the_offer
+    making_an_offer_is_tracked_as_a_decision { when_i_confirm_the_offer }
     then_i_am_back_to_the_application_page
     and_i_can_see_the_application_has_an_offer_made
   end
@@ -40,7 +40,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
-    provider_user_exists_in_apply_database
+    @provider_user = provider_user_exists_in_apply_database(send_notifications: false)
   end
 
   def and_i_am_permitted_to_make_decisions_for_my_provider
@@ -64,6 +64,12 @@ RSpec.feature 'Provider makes an offer' do
   def and_i_choose_to_make_an_offer
     choose 'Make an offer'
     click_on 'Continue'
+  end
+
+  def making_an_offer_is_tracked_as_a_decision(&block)
+    expect {
+      yield(block)
+    }.to have_metrics_tracked(@application_awaiting_provider_decision, 'notifications.off', @provider_user, :decision)
   end
 
   def then_i_see_some_application_info

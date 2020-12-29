@@ -24,7 +24,7 @@ RSpec.feature 'Provider rejects application' do
     and_i_click_to_continue
     then_i_am_asked_to_confirm_the_rejection
 
-    when_i_confirm_the_rejection
+    rejecting_an_application_is_tracked_as_a_decision {when_i_confirm_the_rejection }
     then_i_am_back_to_the_application_page
     and_i_can_see_the_application_has_just_been_rejected
   end
@@ -34,7 +34,7 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def and_i_am_permitted_to_see_applications_for_my_provider
-    provider_user_exists_in_apply_database
+    @provider_user = provider_user_exists_in_apply_database
   end
 
   def and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
@@ -70,6 +70,12 @@ RSpec.feature 'Provider rejects application' do
 
   def when_i_confirm_the_rejection
     click_on 'Reject application'
+  end
+
+  def rejecting_an_application_is_tracked_as_a_decision(&block)
+    expect {
+      yield(block)
+    }.to have_metrics_tracked(application_awaiting_provider_decision, 'notifications.on', @provider_user, :decision)
   end
 
   def then_i_am_back_to_the_application_page

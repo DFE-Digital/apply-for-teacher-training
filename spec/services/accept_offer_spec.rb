@@ -18,7 +18,11 @@ RSpec.describe AcceptOffer do
       application_choice = create(:application_choice, status: :offer)
       provider_user = create :provider_user, send_notifications: true, providers: [application_choice.provider]
 
-      expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(2)
+      expect {
+        described_class.new(application_choice: application_choice).save!
+      }.to have_metrics_tracked(application_choice, 'notifications.on', provider_user, :offer_accepted)
+        .and change { ActionMailer::Base.deliveries.count }.by(2)
+
       expect(ActionMailer::Base.deliveries.first.to).to eq [provider_user.email_address]
       expect(ActionMailer::Base.deliveries.first.subject).to match(/has accepted your offer/)
     end

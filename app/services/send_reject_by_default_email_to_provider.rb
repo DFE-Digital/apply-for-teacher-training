@@ -10,6 +10,7 @@ class SendRejectByDefaultEmailToProvider
 
     NotificationsList.for(application_choice).each do |provider_user|
       ProviderMailer.application_rejected_by_default(provider_user, application_choice).deliver_later
+      Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(:application_rejected_by_default)
     end
   end
 end

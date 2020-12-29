@@ -14,6 +14,7 @@ class DeclineOffer
 
     NotificationsList.for(@application_choice).each do |provider_user|
       ProviderMailer.declined(provider_user, @application_choice).deliver_later
+      Metrics::Tracker.new(@application_choice, 'notifications.on', provider_user).track(:offer_declined)
     end
   end
 end

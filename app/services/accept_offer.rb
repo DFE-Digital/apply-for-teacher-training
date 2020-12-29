@@ -26,6 +26,7 @@ class AcceptOffer
 
     NotificationsList.for(@application_choice).each do |provider_user|
       ProviderMailer.offer_accepted(provider_user, @application_choice).deliver_later
+      Metrics::Tracker.new(@application_choice, 'notifications.on', provider_user).track(:offer_accepted)
     end
 
     CandidateMailer.offer_accepted(@application_choice).deliver_later

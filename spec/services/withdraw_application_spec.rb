@@ -1,32 +1,37 @@
 require 'rails_helper'
 
 RSpec.describe WithdrawApplication do
+  let(:application_choice) { create(:application_choice, status: :awaiting_provider_decision) }
+
   describe '#save!' do
     it 'changes the state of the application_choice to "withdrawn"' do
-      choice = create(:application_choice, status: :awaiting_provider_decision)
-
-      WithdrawApplication.new(application_choice: choice).save!
-
-      expect(choice.reload.status).to eq 'withdrawn'
+      expect {
+        described_class.new(application_choice: application_choice).save!
+      }.to change { application_choice.status }.to('withdrawn')
     end
 
     it 'calls SetDeclineByDefault with the withdrawn application’s application_form' do
       decline_by_default = instance_double(SetDeclineByDefault, call: nil)
-      withdrawing_application = create(:application_choice, status: :awaiting_provider_decision)
       allow(SetDeclineByDefault).to receive(:new).and_return(decline_by_default)
 
-      WithdrawApplication.new(application_choice: withdrawing_application).save!
+      WithdrawApplication.new(application_choice: application_choice).save!
 
-      expect(SetDeclineByDefault).to have_received(:new).with(application_form: withdrawing_application.application_form)
+      expect(SetDeclineByDefault).to have_received(:new).with(application_form: application_choice.application_form)
+    end
+
+    it 'sends an email notification to the provider user' do
+      provider_user = create :provider_user, send_notifications: true, providers: [application_choice.provider]
+
+      expect {
+        described_class.new(application_choice: application_choice).save!
+      }.to have_metrics_tracked(application_choice, 'notifications.on', provider_user, :application_withdrawn)
     end
 
     describe 'retrieving a UCASMatch' do
       let(:candidate) { create(:candidate) }
-      let(:ucas_match) { create(:ucas_match, candidate: candidate, action_taken: 'initial_emails_sent', matching_data: [ucas_matching_data, apply_matching_data]) }
-      let(:ucas_match_not_ready) { create(:ucas_match, candidate: candidate, matching_data: [ucas_matching_data, apply_matching_data]) }
-      let(:ucas_matching_data) { { 'Scheme' => 'B', 'Course code' => course.code.to_s, 'Apply candidate ID' => candidate.id.to_s, 'Provider code' => course.provider.code.to_s } }
-      let(:apply_matching_data) { { 'Scheme' => 'B', 'Course code' => course.code.to_s, 'Apply candidate ID' => candidate.id.to_s, 'Provider code' => course.provider.code.to_s } }
-      let(:application_choice) { create(:application_choice, status: :awaiting_provider_decision) }
+      let(:ucas_match) { create(:ucas_match, candidate: candidate, action_taken: 'initial_emails_sent', matching_data: [match, match]) }
+      let(:ucas_match_not_ready) { create(:ucas_match, candidate: candidate, matching_data: [match, match]) }
+      let(:match) { { 'Scheme' => 'B', 'Course code' => course.code.to_s, 'Apply candidate ID' => candidate.id.to_s, 'Provider code' => course.provider.code.to_s } }
       let(:course) { application_choice.course_option.course }
 
       before do
