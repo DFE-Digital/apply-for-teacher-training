@@ -1,21 +1,26 @@
 class SaveAndSendRejectByDefaultFeedback
+  include AuditHelper
+
   attr_reader :application_choice, :rejection_reason
 
-  def initialize(application_choice:, rejection_reason:)
+  def initialize(actor:, application_choice:, rejection_reason:)
+    @actor = actor
     @application_choice = application_choice
     @rejection_reason = rejection_reason
   end
 
   def call!
-    ActiveRecord::Base.transaction do
-      application_choice.rejection_reason = rejection_reason
-      application_choice.reject_by_default_feedback_sent_at = Time.zone.now
-      application_choice.save!
+    audit(@actor) do
+      ActiveRecord::Base.transaction do
+        application_choice.rejection_reason = rejection_reason
+        application_choice.reject_by_default_feedback_sent_at = Time.zone.now
+        application_choice.save!
 
-      CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice).deliver_later
+        CandidateMailer.feedback_received_for_application_rejected_by_default(application_choice).deliver_later
+      end
+
+      notify_slack
     end
-
-    notify_slack
   end
 
   def notify_slack

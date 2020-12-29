@@ -1,5 +1,6 @@
 class ReinstatePendingConditions
   include ActiveModel::Validations
+  include AuditHelper
 
   attr_reader :application_choice, :course_option
 
@@ -16,14 +17,17 @@ class ReinstatePendingConditions
   def save
     @auth.assert_can_make_decisions!(application_choice: application_choice, course_option_id: course_option.id)
 
-    if valid?
-      ActiveRecord::Base.transaction do
-        ApplicationStateChange.new(application_choice).reinstate_pending_conditions!
-        @application_choice.update(
-          offered_course_option_id: course_option.id,
-          recruited_at: nil,
-        )
-        CandidateMailer.reinstated_offer(application_choice).deliver_later
+
+    audit(@auth.actor) do
+      if valid?
+        ActiveRecord::Base.transaction do
+          ApplicationStateChange.new(application_choice).reinstate_pending_conditions!
+          @application_choice.update(
+            offered_course_option_id: course_option.id,
+            recruited_at: nil,
+          )
+          CandidateMailer.reinstated_offer(application_choice).deliver_later
+        end
       end
     end
   rescue Workflow::NoTransitionAllowed

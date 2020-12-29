@@ -1,5 +1,6 @@
 class ConfirmOfferConditions
   include ActiveModel::Validations
+  include AuditHelper
 
   def initialize(actor:, application_choice:)
     @auth = ProviderAuthorisation.new(actor: actor)
@@ -9,10 +10,12 @@ class ConfirmOfferConditions
   def save
     @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
 
-    ApplicationStateChange.new(@application_choice).confirm_conditions_met!
-    @application_choice.update!(recruited_at: Time.zone.now)
-    CandidateMailer.conditions_met(@application_choice).deliver_later
-    StateChangeNotifier.new(:recruited, @application_choice).application_outcome_notification
+    audit(@auth.actor) do
+      ApplicationStateChange.new(@application_choice).confirm_conditions_met!
+      @application_choice.update!(recruited_at: Time.zone.now)
+      CandidateMailer.conditions_met(@application_choice).deliver_later
+      StateChangeNotifier.new(:recruited, @application_choice).application_outcome_notification
+    end
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,

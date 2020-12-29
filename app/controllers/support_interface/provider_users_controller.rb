@@ -90,7 +90,7 @@ module SupportInterface
         dfe_sign_in_user.end_impersonate! session
         redirect_to support_interface_provider_user_path(impersonated_user)
       else
-        flash[:success] = "No active provider user impersonation to stop"
+        flash[:success] = 'No active provider user impersonation to stop'
         redirect_to support_interface_provider_users_path
       end
     end

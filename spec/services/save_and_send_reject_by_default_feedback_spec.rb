@@ -3,9 +3,11 @@ require 'rails_helper'
 RSpec.describe SaveAndSendRejectByDefaultFeedback, sidekiq: true do
   let(:application_choice) { create(:application_choice, :with_rejection_by_default) }
   let(:rejection_reason) { 'The course became full' }
+  let(:actor) { create(:provider_user) }
 
   def service
     SaveAndSendRejectByDefaultFeedback.new(
+      actor: actor,
       application_choice: application_choice,
       rejection_reason: rejection_reason,
     )
