@@ -8,7 +8,7 @@ module CandidateInterface
     attr_accessor :application_form, :degree
 
     validates :uk_degree, presence: true
-    validates :type_description, presence: true, unless: -> { international? }
+    validates :type_description, presence: true, if: -> { uk? }
     validates :type_description, length: { maximum: 255 }
     validates :international_type_description, presence: true, if: -> { international? }
     validates :international_type_description, length: { maximum: 255 }
@@ -68,6 +68,10 @@ module CandidateInterface
 
     def international?
       uk_degree == 'no'
+    end
+
+    def uk?
+      uk_degree == 'yes'
     end
   end
 end
