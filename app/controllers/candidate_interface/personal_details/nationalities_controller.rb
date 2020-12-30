@@ -51,7 +51,6 @@ module CandidateInterface
 
       def prepare_nationalities_params
         nationalities_params
-          .tap { |np| np.delete(:nationalities) }
           .merge(nationalities_hash)
       end
 
