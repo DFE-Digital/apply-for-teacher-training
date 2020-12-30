@@ -45,4 +45,16 @@ module Metrics
       PublicActivity::Activity.where(activity_params)
     end
   end
+
+  class IntervalToSeconds
+    attr_reader :interval
+
+    def initialize(interval)
+      @interval = interval
+    end
+
+    def call
+      interval.split(':').map(&:to_i).inject(0) { |a, b| a * 60 + b }
+    end
+  end
 end

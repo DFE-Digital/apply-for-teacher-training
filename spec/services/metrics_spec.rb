@@ -45,4 +45,14 @@ RSpec.describe Metrics do
       end
     end
   end
+
+  describe Metrics::IntervalToSeconds do
+    describe '#call' do
+      it 'converts an interval to seconds' do
+        seconds = Metrics::IntervalToSeconds.new('336:30:20').call
+
+        expect(seconds).to eq(1211420)
+      end
+    end
+  end
 end

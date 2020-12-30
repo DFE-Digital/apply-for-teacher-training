@@ -59,16 +59,12 @@ module SupportInterface
     end
 
     def completion_time_total(data)
-      data.map(&:completion_time).map { |interval| convert_to_seconds(interval: interval) }.compact.inject(:+) || 0
+      data.map(&:completion_time).map { |interval| Metrics::IntervalToSeconds.new(interval).call }.compact.inject(:+) || 0
     end
 
     def org_users_with_notifications(provider_user, status: 'on')
       send_notifications = (status == 'on')
       provider_user.providers.map { |provider| provider.provider_users.where(send_notifications: send_notifications) }.flatten.count
-    end
-
-    def convert_to_seconds(interval:)
-      interval.split(':').map(&:to_i).inject(0) { |a, b| a * 60 + b }
     end
   end
 end
