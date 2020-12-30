@@ -38,8 +38,11 @@ Rails.application.routes.draw do
     post '/sign-in/expired', to: 'sign_in#create_from_expired_token', as: :create_expired_sign_in
     get '/sign-in/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_in
     get '/sign-in/expired', to: 'sign_in#expired', as: :expired_sign_in
-    get '/confirm_authentication', to: 'sign_in#confirm_authentication', as: :authenticate
-    post '/confirm_authentication', to: 'sign_in#authenticate'
+
+    # TODO: remove redirect from Jan 15 2021
+    get '/confirm_authentication', to: redirect('/sign-in/confirm')
+    get '/sign-in/confirm', to: 'sign_in#confirm_authentication', as: :authenticate
+    post '/sign-in/confirm', to: 'sign_in#authenticate'
     get '/authenticate', to: 'sign_in#expired'
 
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find

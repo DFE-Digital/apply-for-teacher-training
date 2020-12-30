@@ -22,7 +22,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     it 'sends an email with a magic link and encrypted candidate id' do
       allow(Encryptor).to receive(:encrypt).and_return('secret')
       expect(mail.body.encoded).to include(
-        "http://localhost:3000/candidate/confirm_authentication?token=#{token}&u=secret",
+        "http://localhost:3000/candidate/sign-in/confirm?token=#{token}&u=secret",
       )
     end
 
@@ -52,7 +52,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     it 'sends an email with a magic link and encrypted candidate id' do
       allow(Encryptor).to receive(:encrypt).and_return('secret')
       expect(mail.body.encoded).to include(
-        "http://localhost:3000/candidate/confirm_authentication?token=#{token}&u=secret",
+        "http://localhost:3000/candidate/sign-in/confirm?token=#{token}&u=secret",
       )
     end
   end
