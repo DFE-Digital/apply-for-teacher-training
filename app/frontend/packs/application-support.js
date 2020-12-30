@@ -5,7 +5,10 @@ import initApiTokenProviderAutocomplete from "./autocompletes/api-token-autocomp
 import "../styles/application-support.scss";
 import filter from "./components/paginated_filter";
 import "accessible-autocomplete/dist/accessible-autocomplete.min.css";
+import initCountryAutocomplete from "./autocompletes/country-autocomplete";
+
 
 govUKFrontendInitAll();
 initApiTokenProviderAutocomplete();
 filter();
+initCountryAutocomplete();

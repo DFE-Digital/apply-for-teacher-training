@@ -11,6 +11,8 @@ const initCountryAutocomplete = () => {
       "#candidate-interface-gcse-institution-country-form-institution-country-field-error",
       "#candidate-interface-other-qualification-details-form-institution-country-field",
       "#candidate-interface-other-qualification-form-institution-country-field-error",
+      "#support-interface-application-forms-edit-address-details-form-country-field",
+      "#support-interface-application-forms-edit-address-details-form-country-field-error",
     ];
 
     inputIds.forEach(id => {
