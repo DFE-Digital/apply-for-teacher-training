@@ -124,18 +124,26 @@ Rails.application.routes.draw do
         patch '/complete' => 'training_with_a_disability#complete', as: :training_with_a_disability_complete
       end
 
+      # TODO: Remove temporary redirects from Jan 15 2021
       scope '/contact-details' do
-        get '/' => 'contact_details/base#edit', as: :contact_details_edit_base
+        get '/', to: redirect('/candidate/application/contact-information')
+        get '/address_type', to: redirect('/candidate/application/contact-information/address-type')
+        get '/address', to: redirect('/candidate/application/contact-information/address')
+        get '/review', to: redirect('/candidate/application/contact-information/review')
+      end
+
+      scope '/contact-information' do
+        get '/' => 'contact_details/base#edit', as: :contact_information_edit_base
         patch '/' => 'contact_details/base#update'
 
-        get '/address_type' => 'contact_details/address_type#edit', as: :contact_details_edit_address_type
-        patch '/address_type' => 'contact_details/address_type#update'
+        get '/address-type' => 'contact_details/address_type#edit', as: :contact_information_edit_address_type
+        patch '/address-type' => 'contact_details/address_type#update'
 
-        get '/address' => 'contact_details/address#edit', as: :contact_details_edit_address
+        get '/address' => 'contact_details/address#edit', as: :contact_information_edit_address
         patch '/address' => 'contact_details/address#update'
 
-        get '/review' => 'contact_details/review#show', as: :contact_details_review
-        patch '/complete' => 'contact_details/review#complete', as: :contact_details_complete
+        get '/review' => 'contact_details/review#show', as: :contact_information_review
+        patch '/complete' => 'contact_details/review#complete', as: :contact_information_complete
       end
 
       scope '/gcse' do

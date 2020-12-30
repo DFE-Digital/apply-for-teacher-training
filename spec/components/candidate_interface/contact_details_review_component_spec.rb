@@ -19,7 +19,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
 
       expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_information.phone_number.label'))
       expect(result.css('.govuk-summary-list__value').text).to include('07700 900 982')
-      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_base_path)
+      expect(result.css('.govuk-summary-list__actions a')[0].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_information_edit_base_path)
       expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_information.phone_number.change_action')}")
     end
 
@@ -29,7 +29,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_information.full_address.label'))
         expect(result.css('.govuk-summary-list__value').to_html).to include('42<br>Much Wow Street<br>London<br>England<br>SW1P 3BT')
-        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path)
+        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_information_edit_address_type_path)
         expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_information.full_address.change_action')}")
       end
 
@@ -48,7 +48,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_information.full_address.label'))
         expect(result.css('.govuk-summary-list__value').to_html).to include('321 MG Road, Mumbai<br>India')
-        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path)
+        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_information_edit_address_type_path)
         expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_information.full_address.change_action')}")
       end
 
@@ -67,7 +67,7 @@ RSpec.describe CandidateInterface::ContactDetailsReviewComponent do
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.contact_information.full_address.label'))
         expect(result.css('.govuk-summary-list__value').to_html).to include('321 MG Road<br>Mumbai<br>India')
-        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path)
+        expect(result.css('.govuk-summary-list__actions a')[1].attr('href')).to include(Rails.application.routes.url_helpers.candidate_interface_contact_information_edit_address_type_path)
         expect(result.css('.govuk-summary-list__actions').text).to include("Change #{t('application_form.contact_information.full_address.change_action')}")
       end
     end

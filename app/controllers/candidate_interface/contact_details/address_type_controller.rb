@@ -12,7 +12,7 @@ module CandidateInterface
       if @contact_details_form.save_address_type(current_application)
         current_application.update!(contact_details_completed: false)
 
-        redirect_to candidate_interface_contact_details_edit_address_path
+        redirect_to candidate_interface_contact_information_edit_address_path
       else
         track_validation_error(@contact_details_form)
         render :edit
