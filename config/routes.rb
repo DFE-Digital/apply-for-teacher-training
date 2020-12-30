@@ -75,16 +75,29 @@ Rails.application.routes.draw do
       get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
       post '/carry-over' => 'carry_over#create', as: :carry_over
 
+      # TODO: Remove temporary redirects from Jan 15 2021
       scope '/personal-details' do
-        get '/' => 'personal_details/base#new', as: :personal_details
+        get '/', to: redirect('/candidate/application/personal-information')
+        get '/edit', to: redirect('/candidate/application/personal-information/edit')
+        get '/nationalities', to: redirect('/candidate/application/personal-information/nationality'), as: :personal_details_nationalities
+        get '/nationalities/edit', to: redirect('/candidate/application/personal-information/nationality/edit'), as: :personal_details_edit_nationalities
+        get '/languages', to: redirect('/candidate/application/personal-information/languages'), as: :personal_details_languages
+        get '/languages/edit', to: redirect('/candidate/application/personal-information/languages/edit'), as: :personal_details_edit_languages
+        get '/right-to-work-or-study', to: redirect('/candidate/application/personal-information/right-to-work-or-study'), as: :personal_details_right_to_work_or_study
+        get '/right-to-work-or-study/edit', to: redirect('/candidate/application/personal-information/right-to-work-or-study/edit'), as: :personal_details_edit_right_to_work_or_study
+        get 'review', to: redirect('/candidate/application/personal-information/review')
+      end
+
+      scope '/personal-information' do
+        get '/' => 'personal_details/base#new', as: :personal_information
         patch '/' => 'personal_details/base#create'
-        get '/edit' => 'personal_details/base#edit', as: :edit_personal_details
+        get '/edit' => 'personal_details/base#edit', as: :edit_personal_information
         patch '/edit' => 'personal_details/base#update'
 
-        get '/nationalities' => 'personal_details/nationalities#new', as: :nationalities
-        patch '/nationalities' => 'personal_details/nationalities#create'
-        get '/nationalities/edit' => 'personal_details/nationalities#edit', as: :edit_nationalities
-        patch '/nationalities/edit' => 'personal_details/nationalities#update'
+        get '/nationality' => 'personal_details/nationalities#new', as: :nationalities
+        patch '/nationality' => 'personal_details/nationalities#create'
+        get '/nationality/edit' => 'personal_details/nationalities#edit', as: :edit_nationalities
+        patch '/nationality/edit' => 'personal_details/nationalities#update'
 
         get '/languages' => 'personal_details/languages#new', as: :languages
         patch '/languages' => 'personal_details/languages#create'
