@@ -5,7 +5,7 @@ class PerformanceStatistics
     @year = year
   end
 
-  def candidate_query
+  def application_form_query
     year_clause = year ? "AND f.recruitment_cycle_year = #{year}" : ''
 
     <<-SQL
@@ -17,7 +17,6 @@ class PerformanceStatistics
               COUNT(f.id) FILTER (WHERE f.id IS NOT NULL) application_forms,
               COUNT(ch.id) FILTER (WHERE f.id IS NOT NULL) application_choices,
               CASE
-                WHEN f.id IS NULL THEN ARRAY['-1', 'never_signed_in']
                 WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) = DATE_TRUNC('second', f.created_at) THEN ARRAY['0', 'unsubmitted_not_started_form']
                 WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN ARRAY['1', 'unsubmitted_in_progress']
                 WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['4', 'awaiting_provider_decisions']
@@ -30,7 +29,7 @@ class PerformanceStatistics
               END status
           FROM
               application_forms f
-          FULL OUTER JOIN
+          LEFT JOIN
               candidates c ON f.candidate_id = c.id
           LEFT JOIN
               application_choices ch ON ch.application_form_id = f.id
@@ -64,14 +63,14 @@ class PerformanceStatistics
   end
 
   def [](key)
-    candidate_status_counts
+    application_form_status_counts
       .select { |x| x['status'] == key.to_s }
       .map { |row| row['count'] }
       .sum
   end
 
   def total_form_count(only: nil, except: [], phase: nil)
-    candidate_status_counts
+    application_form_status_counts
       .select { |row| only.nil? || row['status'].to_sym.in?(only) }
       .select { |row| phase.nil? || row['phase']&.to_sym == phase.to_sym }
       .reject { |row| row['status'].to_sym.in?(except) }
@@ -79,15 +78,15 @@ class PerformanceStatistics
       .sum
   end
 
-  def candidate_status_counts
-    @candidate_status_counts ||= ActiveRecord::Base
+  def application_form_status_counts
+    @application_form_status_counts ||= ActiveRecord::Base
       .connection
-      .execute(candidate_query)
+      .execute(application_form_query)
       .to_a
   end
 
-  def candidate_status_total_counts
-    candidate_status_counts.group_by { |row| row['status'] }.map do |status, rows|
+  def application_form_status_total_counts
+    application_form_status_counts.group_by { |row| row['status'] }.map do |status, rows|
       { 'status' => status, 'count' => rows.map { |r| r['count'] }.sum }
     end
   end
