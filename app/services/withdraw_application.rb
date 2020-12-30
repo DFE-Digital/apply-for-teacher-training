@@ -29,6 +29,10 @@ private
       ProviderMailer.application_withdrawn(provider_user, application_choice).deliver_later
       Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(:application_withdrawn)
     end
+
+    NotificationsList.off_for(application_choice).each do |provider_user|
+      Metrics::Tracker.new(application_choice, 'notifications.off', provider_user).track(:application_withdrawn)
+    end
   end
 
   def resolve_ucas_match(application_choice)

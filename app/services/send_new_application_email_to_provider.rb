@@ -9,13 +9,20 @@ class SendNewApplicationEmailToProvider
     return false unless application_choice.awaiting_provider_decision?
 
     NotificationsList.for(application_choice).each do |provider_user|
-      if application_choice.application_form.has_safeguarding_issues_to_declare?
-        ProviderMailer.application_submitted_with_safeguarding_issues(provider_user, application_choice).deliver_later
-        Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(:application_submitted_with_safeguarding_issues)
-      else
-        ProviderMailer.application_submitted(provider_user, application_choice).deliver_later
-        Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(:application_submitted)
-      end
+      ProviderMailer.send(submission_type, provider_user, application_choice).deliver_later
+      Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(submission_type)
     end
+
+    NotificationsList.off_for(application_choice).each do |provider_user|
+      Metrics::Tracker.new(application_choice, 'notifications.off', provider_user).track(submission_type)
+    end
+  end
+
+private
+
+  def submission_type
+    return :application_submitted unless application_choice.application_form.has_safeguarding_issues_to_declare?
+
+    :application_submitted_with_safeguarding_issues
   end
 end

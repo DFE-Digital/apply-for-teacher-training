@@ -12,24 +12,36 @@ RSpec.describe AcceptOffer do
   end
 
   describe 'emails' do
+    let(:application_choice) { create(:application_choice, status: :offer) }
+
     around { |example| perform_enqueued_jobs(&example) }
 
-    it 'sends a notification email to the provider' do
-      application_choice = create(:application_choice, status: :offer)
-      provider_user = create :provider_user, send_notifications: true, providers: [application_choice.provider]
+    describe 'when provider_user notifications are on' do
+      let(:provider_user) { create :provider_user, send_notifications: true, providers: [application_choice.provider] }
 
-      expect {
-        described_class.new(application_choice: application_choice).save!
-      }.to have_metrics_tracked(application_choice, 'notifications.on', provider_user, :offer_accepted)
-        .and change { ActionMailer::Base.deliveries.count }.by(2)
+      it 'sends and tracks a notification email to the provider' do
+        expect {
+          described_class.new(application_choice: application_choice).save!
+        }.to have_metrics_tracked(application_choice, 'notifications.on', provider_user, :offer_accepted)
+          .and change { ActionMailer::Base.deliveries.count }.by(2)
 
-      expect(ActionMailer::Base.deliveries.first.to).to eq [provider_user.email_address]
-      expect(ActionMailer::Base.deliveries.first.subject).to match(/has accepted your offer/)
+        expect(ActionMailer::Base.deliveries.first.to).to eq [provider_user.email_address]
+        expect(ActionMailer::Base.deliveries.first.subject).to match(/has accepted your offer/)
+      end
+    end
+
+    describe 'when provider_user notifications are off' do
+      let(:provider_user) { create :provider_user, send_notifications: false, providers: [application_choice.provider] }
+
+      it 'tracks that a notification was sent' do
+        expect {
+          described_class.new(application_choice: application_choice).save!
+        }.to have_metrics_tracked(application_choice, 'notifications.off', provider_user, :offer_accepted)
+          .and change { ActionMailer::Base.deliveries.count }.by(1)
+      end
     end
 
     it 'sends a confirmation email to the candidate' do
-      application_choice = create(:application_choice, status: :offer)
-
       expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(ActionMailer::Base.deliveries.first.to).to eq [application_choice.application_form.candidate.email_address]
       expect(ActionMailer::Base.deliveries.first.subject).to match(/You’ve accepted/)

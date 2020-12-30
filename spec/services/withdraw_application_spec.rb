@@ -19,12 +19,24 @@ RSpec.describe WithdrawApplication do
       expect(SetDeclineByDefault).to have_received(:new).with(application_form: application_choice.application_form)
     end
 
-    it 'sends an email notification to the provider user' do
-      provider_user = create :provider_user, send_notifications: true, providers: [application_choice.provider]
+    describe 'when provider_user notifications are on' do
+      let(:provider_user) { create :provider_user, send_notifications: true, providers: [application_choice.provider] }
 
-      expect {
-        described_class.new(application_choice: application_choice).save!
-      }.to have_metrics_tracked(application_choice, 'notifications.on', provider_user, :application_withdrawn)
+      it 'sends and tracks email notification to the provider user' do
+        expect {
+          described_class.new(application_choice: application_choice).save!
+        }.to have_metrics_tracked(application_choice, 'notifications.on', provider_user, :application_withdrawn)
+      end
+    end
+
+    describe 'when provider_user notifications are off' do
+      let(:provider_user) { create :provider_user, send_notifications: false, providers: [application_choice.provider] }
+
+      it 'tracks that an email notification was sent' do
+        expect {
+          described_class.new(application_choice: application_choice).save!
+        }.to have_metrics_tracked(application_choice, 'notifications.off', provider_user, :application_withdrawn)
+      end
     end
 
     describe 'retrieving a UCASMatch' do

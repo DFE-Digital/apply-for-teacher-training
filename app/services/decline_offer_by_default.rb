@@ -21,6 +21,10 @@ class DeclineOfferByDefault
         ProviderMailer.declined_by_default(provider_user, application_choice).deliver_later
         Metrics::Tracker.new(application_choice, 'notifications.on', provider_user).track(:offer_declined_by_default)
       end
+
+      NotificationsList.off_for(application_choice).each do |provider_user|
+        Metrics::Tracker.new(application_choice, 'notifications.off', provider_user).track(:offer_declined_by_default)
+      end
     end
 
     CandidateMailer.declined_by_default(application_form).deliver_later

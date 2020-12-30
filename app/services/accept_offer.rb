@@ -29,6 +29,10 @@ class AcceptOffer
       Metrics::Tracker.new(@application_choice, 'notifications.on', provider_user).track(:offer_accepted)
     end
 
+    NotificationsList.off_for(@application_choice).each do |provider_user|
+      Metrics::Tracker.new(@application_choice, 'notifications.off', provider_user).track(:offer_accepted)
+    end
+
     CandidateMailer.offer_accepted(@application_choice).deliver_later
 
     StateChangeNotifier.accept_offer(accepted: @application_choice, declined: declined, withdrawn: withdrawn)
