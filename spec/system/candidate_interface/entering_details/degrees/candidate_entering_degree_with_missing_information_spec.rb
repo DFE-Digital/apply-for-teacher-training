@@ -8,6 +8,9 @@ RSpec.feature 'Entering degree with missing info' do
     when_i_click_on_degree
     then_i_see_the_undergraduate_degree_form
 
+    when_i_submit_without_selecting_a_degree_type
+    then_i_see_a_validation_error
+
     when_i_submit_a_degree_type
     and_manually_skip_ahead_to_the_review_page
     then_i_cannot_mark_this_section_complete
@@ -24,6 +27,15 @@ RSpec.feature 'Entering degree with missing info' do
 
   def then_i_see_the_undergraduate_degree_form
     expect(page).to have_content 'Add undergraduate degree'
+  end
+
+  def when_i_submit_without_selecting_a_degree_type
+    click_button t('application_form.degree.base.button')
+  end
+
+  def then_i_see_a_validation_error
+    expect(page).to have_content 'Select if this is a UK degree or not'
+    expect(page).not_to have_content 'Enter your degree type'
   end
 
   def when_i_submit_a_degree_type
