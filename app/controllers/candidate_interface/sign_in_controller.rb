@@ -21,7 +21,7 @@ module CandidateInterface
         raw_token: params[:token],
       )
 
-      if authentication_token && authentication_token.still_valid?
+      if authentication_token&.still_valid?
         render 'confirm_authentication'
       elsif authentication_token
         # If the token is expired, redirect the user to a page
