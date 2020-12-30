@@ -271,6 +271,12 @@ en:
               below_lower_age_limit: Enter a date of birth before %{date} – candidate must be over 16 years old to Apply for teacher training
             audit_comment:
               blank: You must provide an audit comment
+        support_interface/application_forms/nationalities_form:
+          attributes:
+            nationalities:
+              blank: What is the candidates nationality?
+            audit_comment:
+              blank: You must provide an audit comment
         support_interface/application_forms/edit_reference_details_form:
           attributes:
             name:
