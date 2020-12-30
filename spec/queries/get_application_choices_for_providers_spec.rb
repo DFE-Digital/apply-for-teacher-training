@@ -169,18 +169,13 @@ RSpec.describe GetApplicationChoicesForProviders do
     provider_we_ratify = create(:provider)
 
     course_option_for_this_cycle = course_option_for_provider(provider: current_provider)
-    course_option_for_past_cycle = course_option_for_provider(provider: current_provider).tap do |option|
-      option.course.update!(recruitment_cycle_year: 2016)
-      option.reload
-    end
+    course_option_for_past_cycle = course_option_for_provider(provider: current_provider, recruitment_cycle_year: 2016)
 
     ratified_course_option_for_past_cycle = course_option_for_accredited_provider(
       provider: provider_we_ratify,
       accredited_provider: current_provider,
-    ).tap do |option|
-      option.course.update!(recruitment_cycle_year: 2016)
-      option.reload
-    end
+      recruitment_cycle_year: 2016,
+    )
 
     choice_for_this_cycle = create(
       :application_choice,

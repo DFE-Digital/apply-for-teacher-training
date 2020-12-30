@@ -1,6 +1,6 @@
 module CourseOptionHelpers
-  def course_option_for_provider(provider:, course: nil, site: nil, study_mode: 'full_time')
-    course ||= create(:course, :open_on_apply, provider: provider)
+  def course_option_for_provider(provider:, course: nil, site: nil, study_mode: 'full_time', recruitment_cycle_year: RecruitmentCycle.current_year)
+    course ||= create(:course, :open_on_apply, provider: provider, recruitment_cycle_year: recruitment_cycle_year)
     site ||= create(:site, provider: provider)
     create(:course_option, course: course, site: site, study_mode: study_mode)
   end
@@ -12,8 +12,8 @@ module CourseOptionHelpers
     create(:course_option, course: course, site: site)
   end
 
-  def course_option_for_accredited_provider(provider:, accredited_provider:)
-    course = create(:course, :open_on_apply, provider: provider, accredited_provider: accredited_provider)
+  def course_option_for_accredited_provider(provider:, accredited_provider:, recruitment_cycle_year: RecruitmentCycle.current_year)
+    course = create(:course, :open_on_apply, provider: provider, accredited_provider: accredited_provider, recruitment_cycle_year: recruitment_cycle_year)
     site = create(:site, provider: provider)
     create(:course_option, course: course, site: site)
   end
