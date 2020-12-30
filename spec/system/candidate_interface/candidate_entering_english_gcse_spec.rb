@@ -4,8 +4,6 @@ RSpec.feature 'Candidate entering GCSE English details' do
   include CandidateHelper
 
   scenario 'Candidate submits their GCSE English qualification' do
-    FeatureFlag.activate(:multiple_english_gcses)
-
     given_i_am_signed_in
     and_i_wish_to_apply_to_a_course_that_requires_gcse_english
     and_i_visit_the_site

@@ -61,7 +61,7 @@ module CandidateInterface
     end
 
     def view_path
-      if gcse_qualification? && multiple_gsces_are_active? && application_not_submitted_yet?
+      if gcse_qualification? && application_not_submitted_yet?
         'candidate_interface/gcse/english/grade/multiple_gcse_edit'
       else
         'candidate_interface/gcse/english/grade/edit'
@@ -70,10 +70,6 @@ module CandidateInterface
 
     def gcse_qualification?
       gcse_english_qualification.qualification_type == 'gcse'
-    end
-
-    def multiple_gsces_are_active?
-      FeatureFlag.active?('multiple_english_gcses')
     end
 
     def application_not_submitted_yet?

@@ -1,4 +1,4 @@
-<% unless FeatureFlag.active?('multiple_english_gcses') && @subject == 'english'%>
+<% unless  @subject == 'english'%>
   <p class="govuk-body">
     <% if gce_o_level? %>
       <%= simple_format t('gcse_edit_grade.guidance.o_level_guidance'), class: 'govuk-body' %>
@@ -19,35 +19,10 @@
 <% end %>
 
 <% if english? && (gcse? || gce_o_level?) %>
-  <% if FeatureFlag.active?('multiple_english_gcses') %>
-    <p class="govuk-body">
-      <%= t('gcse_edit_grade.guidance.multiple_english_gcses.main') %>
-    </p>
-    <p class="govuk-body">
-      <%= t('gcse_edit_grade.guidance.multiple_english_gcses.secondary') %>
-    </p>
-  <% else %>
-    <details class="govuk-details govuk-!-margin-bottom-2" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        <% type = gcse? ? 'a GCSE' : 'an O level' %>
-        <%= t('gcse_edit_grade.guidance.english_literature_only.summary', type: type) %>
-      </span>
-      </summary>
-      <div class="govuk-details__text">
-        <%= t('gcse_edit_grade.guidance.english_literature_only.details') %>
-      </div>
-    </details>
-
-    <details class="govuk-details govuk-!-margin-bottom-6" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        <%= t('gcse_edit_grade.guidance.multiple_english_qualifications.summary') %>
-      </span>
-      </summary>
-      <div class="govuk-details__text">
-        <%= t('gcse_edit_grade.guidance.multiple_english_qualifications.details') %>
-      </div>
-    </details>
-  <% end %>
+  <p class="govuk-body">
+    <%= t('gcse_edit_grade.guidance.multiple_english_gcses.main') %>
+  </p>
+  <p class="govuk-body">
+    <%= t('gcse_edit_grade.guidance.multiple_english_gcses.secondary') %>
+  </p>
 <% end %>
