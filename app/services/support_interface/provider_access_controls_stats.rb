@@ -52,6 +52,10 @@ module SupportInterface
       total(:org_permissions_changes_made_by_this_provider_affecting_this_provider)
     end
 
+    def total_org_permissions_changes_made_by_support
+      total(:org_permissions_changes_made_by_support)
+    end
+
     def org_permissions_changes_made_by_this_provider_affecting_this_provider_made_by
       provider_user_emails_who_made(:org_permissions_changes_made_by_this_provider_affecting_this_provider)
     end
@@ -141,8 +145,13 @@ module SupportInterface
     end
 
     def audits_for_org_permissions_changes_affecting_this_provider
-      audits_for_org_permissions_changes_made_by_this_provider_affecting_this_provider
-        .or(audits_for_org_permissions_changes_made_by_another_provider_affecting_this_provider)
+      org_training_provider_permission_audits.where('audited_changes ?| array[:keys]', keys: TRAINING_PROVIDER_PERMISSIONS_KEYS)
+        .or(org_ratifying_provider_permission_audits.where('audited_changes ?| array[:keys]', keys: RATIFYING_PROVIDER_PERMISSIONS_KEYS))
+    end
+
+    def audits_for_org_permissions_changes_made_by_support
+      audits_for_org_permissions_changes_affecting_this_training_provider_made_by('SupportUser')
+        .or(audits_for_org_permissions_changes_affecting_this_ratifying_provider_made_by('SupportUser'))
     end
 
     def date_of_last(permission_change)

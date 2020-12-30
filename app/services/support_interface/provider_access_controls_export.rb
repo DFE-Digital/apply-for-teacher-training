@@ -24,6 +24,7 @@ module SupportInterface
           org_permissions_changes_made_by_this_provider_affecting_another_provider_made_by: access_controls.org_permissions_changes_made_by_this_provider_affecting_another_provider_made_by,
           org_permissions_changes_affecting_this_provider_last_made_at: access_controls.date_of_last_org_permissions_change_affecting_this_provider,
           total_org_permissions_changes_affecting_this_provider: access_controls.total_org_permissions_changes_affecting_this_provider,
+          total_org_permissions_changes_made_by_support: access_controls.total_org_permissions_changes_made_by_support,
           org_permissions_changes_affecting_this_provider_made_by: access_controls.org_permissions_changes_affecting_this_provider_made_by,
           total_org_relationships_as_trainer: access_controls.total_org_relationships_as_trainer,
           total_org_relationships: access_controls.total_org_relationships,

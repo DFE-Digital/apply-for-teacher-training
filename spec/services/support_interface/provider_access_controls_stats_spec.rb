@@ -218,6 +218,33 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
         expect(access_controls.total_org_permissions_changes_made_by_this_provider_affecting_this_provider).to eq 0
         expect(access_controls.total_org_permissions_changes_made_by_this_provider_affecting_another_provider).to eq 0
         expect(access_controls.total_org_permissions_changes_affecting_this_provider).to eq 0
+        expect(access_controls.total_org_permissions_changes_made_by_support).to eq 0
+      end
+
+      it 'includes changes made by support and provider users where appropriate' do
+        training_provider = create(:provider)
+        ratifying_provider = create(:provider)
+
+        create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+
+        provider_user = create(:provider_user, providers: [training_provider])
+
+        Audited.audit_class.as_user(provider_user) do
+          training_provider.training_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
+          training_provider.training_provider_permissions.last.update!(training_provider_can_view_safeguarding_information: false)
+        end
+
+        Audited.audit_class.as_user(support_user) do
+          training_provider.training_provider_permissions.last.update!(ratifying_provider_can_make_decisions: true)
+          training_provider.training_provider_permissions.last.update!(training_provider_can_make_decisions: false)
+        end
+
+        access_controls = described_class.new(training_provider)
+
+        expect(access_controls.total_org_permissions_changes_made_by_this_provider_affecting_this_provider).to eq 1
+        expect(access_controls.total_org_permissions_changes_made_by_this_provider_affecting_another_provider).to eq 1
+        expect(access_controls.total_org_permissions_changes_affecting_this_provider).to eq 2
+        expect(access_controls.total_org_permissions_changes_made_by_support).to eq 1
       end
     end
 

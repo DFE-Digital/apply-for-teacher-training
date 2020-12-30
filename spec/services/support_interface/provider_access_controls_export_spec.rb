@@ -53,6 +53,7 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
         provider_user_sets_their_view_safeguarding_information_to_true(provider_user3, 2.days.ago)
 
         support_user_sets_provider_users_view_diversity_information_to_false(support_user, provider_user1, 5.days.ago)
+        support_user_changes_org_can_view_diversity_information(support_user, training_provider, 2.days.ago)
 
         expect(described_class.new.data_for_export).to match_array([
           {
@@ -73,8 +74,9 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
             total_org_permissions_changes_made_by_this_provider_affecting_another_provider: 1,
             org_permissions_changes_made_by_this_provider_affecting_another_provider_made_by: [provider_user1.email_address],
             org_permissions_changes_affecting_this_provider_last_made_at: 2.days.ago,
-            total_org_permissions_changes_affecting_this_provider: 1,
-            org_permissions_changes_affecting_this_provider_made_by: [provider_user1.email_address],
+            total_org_permissions_changes_affecting_this_provider: 2,
+            total_org_permissions_changes_made_by_support: 1,
+            org_permissions_changes_affecting_this_provider_made_by: [provider_user1.email_address, support_user.email_address].sort,
             total_org_relationships_as_trainer: 1,
             total_org_relationships: 1,
           },
@@ -96,8 +98,9 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
             total_org_permissions_changes_made_by_this_provider_affecting_another_provider: 0,
             org_permissions_changes_made_by_this_provider_affecting_another_provider_made_by: [],
             org_permissions_changes_affecting_this_provider_last_made_at: 2.days.ago,
-            total_org_permissions_changes_affecting_this_provider: 1,
-            org_permissions_changes_affecting_this_provider_made_by: [provider_user1.email_address],
+            total_org_permissions_changes_affecting_this_provider: 2,
+            total_org_permissions_changes_made_by_support: 1,
+            org_permissions_changes_affecting_this_provider_made_by: [provider_user1.email_address, support_user.email_address].sort,
             total_org_relationships_as_trainer: 0,
             total_org_relationships: 1,
           },
@@ -149,6 +152,17 @@ RSpec.describe SupportInterface::ProviderAccessControlsExport, with_audited: tru
     Audited.audit_class.as_user(support_user) do
       Timecop.freeze(time) do
         provider_user.provider_permissions.last.update!(view_diversity_information: false)
+      end
+    end
+  end
+
+  def support_user_changes_org_can_view_diversity_information(support_user, provider, time)
+    Audited.audit_class.as_user(support_user) do
+      Timecop.freeze(time) do
+        provider.training_provider_permissions.last.update!(
+          training_provider_can_view_diversity_information: true,
+          ratifying_provider_can_view_diversity_information: false,
+        )
       end
     end
   end
