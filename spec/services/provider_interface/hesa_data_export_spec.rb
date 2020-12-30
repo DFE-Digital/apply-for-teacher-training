@@ -108,5 +108,16 @@ RSpec.describe ProviderInterface::HesaDataExport do
 
       it_behaves_like 'a full HESA export'
     end
+
+    context 'when provider has courses in multiple recruitment cycles' do
+      it 'only exports current recruitment cycle data' do
+        previous_cycle_course = create(:course, recruitment_cycle_year: RecruitmentCycle.previous_year, provider: training_provider, accredited_provider: accredited_provider)
+        course_option = create(:course_option, course: previous_cycle_course)
+        create(:application_choice, :with_accepted_offer, course_option: course_option)
+
+        exported_data = CSV.parse(export_data, headers: true)
+        expect(exported_data.count).to eq 1
+      end
+    end
   end
 end

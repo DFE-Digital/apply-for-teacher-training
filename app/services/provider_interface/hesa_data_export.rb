@@ -7,7 +7,7 @@ module ProviderInterface
     end
 
     def call
-      applications = GetApplicationChoicesForProviders.call(providers: @actor.providers)
+      applications = GetApplicationChoicesForProviders.call(providers: @actor.providers, recruitment_cycle_year: RecruitmentCycle.current_year)
                        .where(
                          'candidates.hide_in_reporting' => false,
                          'status' => ApplicationStateChange::ACCEPTED_STATES,
