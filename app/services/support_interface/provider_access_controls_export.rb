@@ -12,6 +12,7 @@ module SupportInterface
           last_user_permissions_change_at: access_controls.user_permissions_last_changed_at,
           total_user_permissions_changes: access_controls.total_user_permissions_changes,
           user_permissions_changed_by: access_controls.user_permissions_changed_by,
+          total_user_permissions_changes_made_by_support: access_controls.total_user_permissions_changes_made_by_support,
           total_manage_users_users: access_controls.total_manage_users_users,
           total_manage_orgs_users: access_controls.total_manage_orgs_users,
           total_users: provider.provider_users.count,

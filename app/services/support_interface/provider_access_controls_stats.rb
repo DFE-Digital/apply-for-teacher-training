@@ -32,6 +32,10 @@ module SupportInterface
         .sort
     end
 
+    def total_user_permissions_changes_made_by_support
+      Audited::Audit.where(action: 'update', auditable: @provider.provider_permissions, user_type: 'SupportUser').count
+    end
+
     def total_manage_users_users
       @provider.provider_permissions.where(manage_users: true).count
     end
