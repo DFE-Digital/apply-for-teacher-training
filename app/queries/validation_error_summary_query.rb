@@ -1,5 +1,23 @@
 class ValidationErrorSummaryQuery
-  COUNT_SQL =
+  ALL_TIME = 'all_time'.freeze
+  LAST_WEEK = 'last_week'.freeze
+  LAST_MONTH = 'last_month'.freeze
+
+  def initialize(sort_param = ALL_TIME)
+    @sort_param = sort_param
+  end
+
+  def call
+    ActiveRecord::Base.connection.exec_query(
+      count_sql,
+      'SQL',
+      [[nil, 1.week.ago.beginning_of_day], [nil, 1.month.ago.beginning_of_day]],
+    ).to_a
+  end
+
+private
+
+  def count_sql
     "WITH validation_error_counts AS (
       SELECT
         form_object,
@@ -43,13 +61,17 @@ class ValidationErrorSummaryQuery
       COUNT(DISTINCT user_id) AS unique_users_all_time
     FROM validation_error_counts
     GROUP BY form_object, attribute
-    ORDER BY incidents_all_time DESC".freeze
+    #{order}"
+  end
 
-  def call
-    ActiveRecord::Base.connection.exec_query(
-      COUNT_SQL,
-      'SQL',
-      [[nil, 1.week.ago.beginning_of_day], [nil, 1.month.ago.beginning_of_day]],
-    ).to_a
+  def order
+    case @sort_param
+    when LAST_WEEK
+      'ORDER BY incidents_last_week DESC'
+    when LAST_MONTH
+      'ORDER BY incidents_last_month DESC'
+    else
+      'ORDER BY incidents_all_time DESC'
+    end
   end
 end

@@ -1,0 +1,61 @@
+.validation-results-header {
+  padding-bottom: govuk-spacing(2);
+
+  @include govuk-media-query($from: desktop) {
+    padding-top: govuk-spacing(2);
+  }
+
+  &__cta {
+    margin: govuk-spacing(1) 0;
+    display: none;
+
+    .js-enabled & {
+      display: block;
+    }
+  }
+
+  .govuk-form {
+    @include mq($from: desktop) {
+      text-align: right;
+    }
+  }
+
+  .govuk-form-group {
+    clear: both;
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: govuk-spacing(2);
+
+    @include mq($from: desktop) {
+      margin: 0;
+    }
+  }
+
+  .govuk-button {
+    float: right;
+    margin: govuk-spacing(2) 0 0 0;
+
+    @include mq($from: desktop) {
+      margin: 0 0 0 govuk-spacing(2);
+    }
+
+    .js-enabled & {
+      display: none;
+    }
+  }
+
+  select {
+    width: 100%;
+
+    @include mq($from: desktop) {
+      width: 220px;
+    }
+  }
+
+  .sortedby-label {
+    @include mq($from: desktop) {
+      display: inline;
+      margin-right: 0.5em;
+    }
+  }
+}

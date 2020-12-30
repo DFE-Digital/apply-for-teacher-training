@@ -16,6 +16,37 @@
   ]) %>
 <% end %>
 
+<div class="validation-results-header">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <%= form_with(url: support_interface_validation_error_summary_path, method: "get", class: "govuk-form") do |f| %>
+        <div class="govuk-form-group">
+          <%= f.govuk_collection_select(
+                :sortby,
+                select_sort_options,
+                :value,
+                :text,
+                label: {
+                  text: "Sorted by",
+                  class: "govuk-label govuk-label--inline sortedby-label"
+                },
+                options: {
+                  selected: params["sortby"] || 'all_time',
+                },
+                html_options: {
+                  class: 'sortedby-label',
+                  selected: 2,
+                  onchange: "this.form.submit()",
+                  role: "listbox",
+                }
+              )%>
+        </div>
+        <%= f.submit("Update", name: nil, class: "govuk-button")%>
+      <% end %>
+    </div>
+  </div>
+</div>
+
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
