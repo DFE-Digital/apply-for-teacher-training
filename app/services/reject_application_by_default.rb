@@ -14,6 +14,10 @@ class RejectApplicationByDefault
 
     SendRejectByDefaultEmailToProvider.new(application_choice: application_choice).call
 
+    if application_choice.application_form.ended_without_success?
+      StateChangeNotifier.new(:rejected, application_choice).application_outcome_notification
+    end
+
     # We delay sending the candidate email because we want processing for all
     # applications for a given candidate to finish before picking the email
     # template - they depend on the status of the candidate's other application

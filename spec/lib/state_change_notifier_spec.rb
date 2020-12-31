@@ -94,11 +94,10 @@ RSpec.describe StateChangeNotifier do
 
       it 'other applications have been withdrawn' do
         withdrawn_choice
-        other_withdrawn_choice = create(:application_choice, :withdrawn, application_form: application_form)
 
         StateChangeNotifier.new(:rejected, application_choice).application_outcome_notification
 
-        message = /:broken_heart:.+#{applicant} previously withdrew from #{withdrawn_choice.provider.name} and #{other_withdrawn_choice.provider.name}./
+        message = /:broken_heart:.+#{applicant} previously withdrew from #{withdrawn_choice.provider.name}./
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
 
@@ -159,11 +158,10 @@ RSpec.describe StateChangeNotifier do
 
       it 'all withdrawn' do
         withdrawn_choice
-        other_withdrawn_choice = create(:application_choice, :withdrawn, application_form: application_form)
 
         StateChangeNotifier.new(:withdrawn, application_choice).application_outcome_notification
 
-        message = /:runner: #{applicant} has withdrawn their remaining applications from #{provider_name}, #{withdrawn_choice.provider.name}, and #{other_withdrawn_choice.provider.name}./
+        message = /:runner: #{applicant} has withdrawn their remaining applications from #{provider_name} and #{withdrawn_choice.provider.name}./
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
 

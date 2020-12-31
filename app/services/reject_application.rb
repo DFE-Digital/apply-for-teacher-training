@@ -30,6 +30,10 @@ class RejectApplication
     end
 
     SendCandidateRejectionEmail.new(application_choice: @application_choice).call
+
+    if @application_choice.application_form.ended_without_success?
+      StateChangeNotifier.new(:rejected, @application_choice).application_outcome_notification
+    end
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,

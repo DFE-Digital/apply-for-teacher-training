@@ -12,6 +12,7 @@ class ConfirmOfferConditions
     ApplicationStateChange.new(@application_choice).confirm_conditions_met!
     @application_choice.update!(recruited_at: Time.zone.now)
     CandidateMailer.conditions_met(@application_choice).deliver_later
+    StateChangeNotifier.new(:recruited, @application_choice).application_outcome_notification
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,
