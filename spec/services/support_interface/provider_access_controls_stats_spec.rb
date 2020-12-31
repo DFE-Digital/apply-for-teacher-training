@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true do
+  let(:support_user) { create(:support_user) }
+
   describe '#dsa_signer_email' do
     it 'returns the email of the user who most recently accepted the dsa' do
       provider = create(:provider)
@@ -80,6 +82,48 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
       access_controls = described_class.new(provider)
 
       expect(access_controls.total_user_permissions_changes).to eq 0
+    end
+
+    it 'ignores changes that were made by support users' do
+      provider = create(:provider)
+      provider_user = create(:provider_user, providers: [provider])
+
+      Audited.audit_class.as_user(support_user) do
+        provider_user.provider_permissions.last.update!(view_diversity_information: true)
+      end
+
+      access_controls = described_class.new(provider)
+
+      expect(access_controls.total_user_permissions_changes).to eq 0
+    end
+  end
+
+  describe '#total_user_permissions_changes_made_by_support' do
+    it 'returns the number of times the user permissions have been updated for the provider by support users' do
+      provider = create(:provider)
+      provider_user = create(:provider_user, providers: [provider])
+
+      Audited.audit_class.as_user(support_user) do
+        provider_user.provider_permissions.last.update!(view_diversity_information: true)
+        provider_user.provider_permissions.last.update!(view_safeguarding_information: true)
+      end
+
+      access_controls = described_class.new(provider)
+
+      expect(access_controls.total_user_permissions_changes_made_by_support).to eq 2
+    end
+
+    it 'ignores changes that were made by other users' do
+      provider = create(:provider)
+      provider_user = create(:provider_user, providers: [provider])
+
+      Audited.audit_class.as_user('Not a support user') do
+        provider_user.provider_permissions.last.update!(view_diversity_information: true)
+      end
+
+      access_controls = described_class.new(provider)
+
+      expect(access_controls.total_user_permissions_changes_made_by_support).to eq 0
     end
   end
 
@@ -174,6 +218,33 @@ RSpec.describe SupportInterface::ProviderAccessControlsStats, with_audited: true
         expect(access_controls.total_org_permissions_changes_made_by_this_provider_affecting_this_provider).to eq 0
         expect(access_controls.total_org_permissions_changes_made_by_this_provider_affecting_another_provider).to eq 0
         expect(access_controls.total_org_permissions_changes_affecting_this_provider).to eq 0
+        expect(access_controls.total_org_permissions_changes_made_by_support).to eq 0
+      end
+
+      it 'includes changes made by support and provider users where appropriate' do
+        training_provider = create(:provider)
+        ratifying_provider = create(:provider)
+
+        create(:provider_relationship_permissions, training_provider: training_provider, ratifying_provider: ratifying_provider)
+
+        provider_user = create(:provider_user, providers: [training_provider])
+
+        Audited.audit_class.as_user(provider_user) do
+          training_provider.training_provider_permissions.last.update!(ratifying_provider_can_view_safeguarding_information: true)
+          training_provider.training_provider_permissions.last.update!(training_provider_can_view_safeguarding_information: false)
+        end
+
+        Audited.audit_class.as_user(support_user) do
+          training_provider.training_provider_permissions.last.update!(ratifying_provider_can_make_decisions: true)
+          training_provider.training_provider_permissions.last.update!(training_provider_can_make_decisions: false)
+        end
+
+        access_controls = described_class.new(training_provider)
+
+        expect(access_controls.total_org_permissions_changes_made_by_this_provider_affecting_this_provider).to eq 1
+        expect(access_controls.total_org_permissions_changes_made_by_this_provider_affecting_another_provider).to eq 1
+        expect(access_controls.total_org_permissions_changes_affecting_this_provider).to eq 2
+        expect(access_controls.total_org_permissions_changes_made_by_support).to eq 1
       end
     end
 
