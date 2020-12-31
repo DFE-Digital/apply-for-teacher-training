@@ -94,11 +94,15 @@ class PerformanceStatistics
   end
 
   def total_submitted_count
-    total_form_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress])
+    total_form_count(except: %i[unsubmitted_not_started_form unsubmitted_in_progress])
   end
 
   def apply_again_submitted_count
-    total_form_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress], phase: :apply_2)
+    total_form_count(except: %i[unsubmitted_not_started_form unsubmitted_in_progress], phase: :apply_2)
+  end
+
+  def still_being_processed_count
+    total_form_count(only: %i[awaiting_provider_decisions awaiting_candidate_response])
   end
 
   def ended_without_success_count
