@@ -14,17 +14,15 @@ class PerformanceStatistics
               c.id,
               f.id,
               f.phase,
-              COUNT(f.id) FILTER (WHERE f.id IS NOT NULL) application_forms,
-              COUNT(ch.id) FILTER (WHERE f.id IS NOT NULL) application_choices,
               CASE
-                WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) = DATE_TRUNC('second', f.created_at) THEN ARRAY['0', 'unsubmitted_not_started_form']
-                WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN ARRAY['1', 'unsubmitted_in_progress']
+                WHEN #{form_is_unsubmitted_sql} AND DATE_TRUNC('second', f.updated_at) = DATE_TRUNC('second', f.created_at) THEN ARRAY['0', 'unsubmitted_not_started_form']
+                WHEN #{form_is_unsubmitted_sql} AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN ARRAY['1', 'unsubmitted_in_progress']
                 WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['4', 'awaiting_provider_decisions']
                 WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['6', 'awaiting_candidate_response']
                 WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['8', 'recruited']
                 WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['7', 'pending_conditions']
                 WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['10', 'offer_deferred']
-                WHEN #{ended_without_success_sql} = '{}' THEN ARRAY['5', 'ended_without_success']
+                WHEN #{form_ended_without_success_sql} THEN ARRAY['5', 'ended_without_success']
                 ELSE ARRAY['10', 'unknown_state']
               END status
           FROM
@@ -52,14 +50,18 @@ class PerformanceStatistics
     SQL
   end
 
-  def ended_without_success_sql
+  def form_is_unsubmitted_sql
+    "('unsubmitted' = ANY(ARRAY_AGG(ch.status)) OR '{NULL}' = ARRAY_AGG(DISTINCT ch.status))"
+  end
+
+  def form_ended_without_success_sql
     sql = 'ARRAY_AGG(DISTINCT ch.status)'
 
     ApplicationStateChange::UNSUCCESSFUL_END_STATES.each do |state|
       sql = "ARRAY_REMOVE(#{sql}, '#{state}')"
     end
 
-    sql
+    "#{sql} = '{}'"
   end
 
   def [](key)
