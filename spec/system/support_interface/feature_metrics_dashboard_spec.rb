@@ -30,6 +30,7 @@ RSpec.feature 'Feature metrics dashboard' do
   end
 
   def then_i_should_see_reference_metrics
+    expect(page).to have_content('Feature metrics')
     pending 'not implemented yet'
     expect(page).to have_content('25 days')
   end
