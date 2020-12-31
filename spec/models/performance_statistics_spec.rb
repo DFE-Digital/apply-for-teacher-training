@@ -101,6 +101,55 @@ RSpec.describe PerformanceStatistics, type: :model do
     end
   end
 
+  describe '#candidate_count' do
+    it 'returns the total number of candidates for a given cycle' do
+      create(:application_form, recruitment_cycle_year: 2020)
+      create(:application_form, recruitment_cycle_year: 2021)
+      create(:application_form, recruitment_cycle_year: 2021)
+
+      expect(described_class.new(2020).candidate_count).to eq(1)
+      expect(described_class.new(2021).candidate_count).to eq(2)
+    end
+
+    it 'returns the total number of candidates that exist when no cycle is given' do
+      create(:application_form, recruitment_cycle_year: 2020)
+      create(:application_form, recruitment_cycle_year: 2021)
+      create(:application_form, recruitment_cycle_year: 2021)
+
+      expect(described_class.new(nil).candidate_count).to eq(3)
+    end
+
+    it 'does not include candidates that do not have a form when a year is given' do
+      create(:application_form, recruitment_cycle_year: 2020)
+      create(:application_form, recruitment_cycle_year: 2021)
+      create(:application_form, recruitment_cycle_year: 2021)
+      create(:candidate)
+
+      expect(described_class.new(2020).candidate_count).to eq(1)
+      expect(described_class.new(2021).candidate_count).to eq(2)
+    end
+
+    it 'includes candidates that do not have a form when a year is not given' do
+      create(:application_form, recruitment_cycle_year: 2020)
+      create(:application_form, recruitment_cycle_year: 2021)
+      create(:application_form, recruitment_cycle_year: 2021)
+      create(:candidate)
+
+      expect(described_class.new(nil).candidate_count).to eq(4)
+    end
+  end
+
+  describe '#candidate_never_signed_in_count' do
+    it 'returns the number of candidates that do not have an associated application form' do
+      create(:application_form, recruitment_cycle_year: 2020)
+      create(:application_form, recruitment_cycle_year: 2021)
+      create(:candidate)
+      create(:candidate)
+
+      expect(described_class.new(nil).candidate_never_signed_in_count).to eq(2)
+    end
+  end
+
   describe '#total_form_count' do
     it 'optionally filters only on certain process states and excludes certain states' do
       create(:application_choice, status: 'recruited')

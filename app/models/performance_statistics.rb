@@ -5,6 +5,23 @@ class PerformanceStatistics
     @year = year
   end
 
+  def candidate_count
+    candidates = Candidate.all
+
+    if year.present?
+      candidates = candidates.joins(:application_forms).where('application_forms.recruitment_cycle_year': year)
+    end
+
+    candidates.where(hide_in_reporting: false).uniq.count
+  end
+
+  def candidate_never_signed_in_count
+    ApplicationForm.joins('FULL OUTER JOIN candidates c on application_forms.candidate_id = c.id')
+                   .where('application_forms.id IS NULL')
+                   .where.not('c.hide_in_reporting')
+                   .count
+  end
+
   def application_form_query
     year_clause = year ? "AND f.recruitment_cycle_year = #{year}" : ''
 
