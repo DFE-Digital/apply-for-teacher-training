@@ -8,6 +8,6 @@
 <%= render(CandidateInterface::ContactDetailsReviewComponent.new(application_form: @application_form)) %>
 
 <%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
-                                        path: candidate_interface_contact_details_complete_path,
+                                        path: candidate_interface_contact_information_complete_path,
                                         request_method: :patch,
                                         field_name: :contact_details_completed)) %>

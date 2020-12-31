@@ -29,12 +29,12 @@ module CandidateInterface
         key: t('application_form.contact_information.phone_number.label'),
         value: @contact_details_form.phone_number,
         action: t('application_form.contact_information.phone_number.change_action'),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_base_path,
+        change_path: Rails.application.routes.url_helpers.candidate_interface_contact_information_edit_base_path,
       }
     end
 
     def address_row
-      change_path = Rails.application.routes.url_helpers.candidate_interface_contact_details_edit_address_type_path
+      change_path = Rails.application.routes.url_helpers.candidate_interface_contact_information_edit_address_type_path
 
       {
         key: t('application_form.contact_information.full_address.label'),

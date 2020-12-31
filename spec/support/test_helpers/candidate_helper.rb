@@ -36,7 +36,7 @@ module CandidateHelper
     candidate_fills_in_personal_details
 
     click_link t('page_titles.contact_information')
-    visit candidate_interface_contact_details_edit_base_path
+    visit candidate_interface_contact_information_edit_base_path
     candidate_fills_in_contact_details
 
     click_link t('page_titles.work_history')
