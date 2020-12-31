@@ -133,7 +133,13 @@ Rails.application.routes.draw do
         patch '/interview-preferences/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
       end
 
+      # TODO: Remove temporary redirects from Jan 15 2021
       scope '/training-with-a-disability' do
+        get '/', to: redirect('/candidate/application/additional-support')
+        get '/review', to: redirect('/candidate/application/additional-support/review')
+      end
+
+      scope '/additional-support' do
         get '/' => 'training_with_a_disability#edit', as: :edit_training_with_a_disability
         patch '/' => 'training_with_a_disability#update'
         get '/review' => 'training_with_a_disability#show', as: :training_with_a_disability_show
