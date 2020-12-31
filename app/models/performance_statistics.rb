@@ -104,12 +104,6 @@ class PerformanceStatistics
       .to_a
   end
 
-  def application_form_status_total_counts
-    application_form_status_counts.group_by { |row| row['status'] }.map do |status, rows|
-      { 'status' => status, 'count' => rows.map { |r| r['count'] }.sum }
-    end
-  end
-
   def total_submitted_count
     total_form_count(except: %i[unsubmitted_not_started_form unsubmitted_in_progress])
   end
@@ -118,16 +112,32 @@ class PerformanceStatistics
     total_form_count(except: %i[unsubmitted_not_started_form unsubmitted_in_progress], phase: :apply_2)
   end
 
+  def unsubmitted_application_form_status_total_counts
+    application_form_status_total_counts(only: %i[unsubmitted_not_started_form unsubmitted_in_progress])
+  end
+
   def still_being_processed_count
     total_form_count(only: %i[awaiting_provider_decisions awaiting_candidate_response])
+  end
+
+  def still_being_processed_application_form_status_total_counts
+    application_form_status_total_counts(only: %i[awaiting_provider_decisions awaiting_candidate_response])
   end
 
   def ended_without_success_count
     total_form_count(only: %i[ended_without_success])
   end
 
+  def ended_without_success_application_form_status_total_counts
+    application_form_status_total_counts(only: %i[ended_without_success])
+  end
+
   def accepted_offer_count
     total_form_count(only: %i[pending_conditions recruited offer_deferred])
+  end
+
+  def accepted_offer_application_form_status_total_counts
+    application_form_status_total_counts(only: %i[pending_conditions recruited offer_deferred])
   end
 
   def apply_again_accepted_offer_count
@@ -155,6 +165,16 @@ class PerformanceStatistics
         else
           '-'
         end
+      end
+  end
+
+private
+
+  def application_form_status_total_counts(only: nil)
+    application_form_status_counts
+      .select { |row| only.nil? || row['status'].to_sym.in?(only) }
+      .group_by { |row| row['status'] }.map do |status, rows|
+        { 'status' => status, 'count' => rows.map { |r| r['count'] }.sum }
       end
   end
 end

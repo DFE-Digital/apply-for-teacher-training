@@ -73,8 +73,13 @@
   </div>
 </div>
 
-<table class="govuk-table govuk-!-margin-top-8">
-  <caption class="govuk-table__caption govuk-heading-m">Application form breakdown</caption>
+<h3 class="govuk-heading-m govuk-!-font-size-27">Application form breakdown</h3>
+
+<h4 class="govuk-heading-s">Unsubmitted applications</h4>
+<p class="govuk-body">
+  Application forms that have not been sent to providers yet.
+</p>
+<table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
@@ -84,7 +89,55 @@
   </thead>
 
   <tbody class="govuk-table__body">
-    <% @statistics.application_form_status_total_counts.each do |row| %>
+    <% @statistics.unsubmitted_application_form_status_total_counts.each do |row| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{row['status']}.name") %></th>
+        <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(row['count']) %></td>
+        <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{row['status']}.description") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h4 class="govuk-heading-s">Applications being processed</h4>
+<p class="govuk-body">
+  Application forms that have been sent to providers and require action from either the candidate or provider to progress.
+</p>
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Count</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Description</th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% @statistics.still_being_processed_application_form_status_total_counts.each do |row| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{row['status']}.name") %></th>
+        <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(row['count']) %></td>
+        <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{row['status']}.description") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h4 class="govuk-heading-s">Unsuccessful applications</h4>
+<p class="govuk-body">
+  Applications that have ended without success. The rejected by default count is included in the ended without success count
+</p>
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Count</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Description</th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% @statistics.ended_without_success_application_form_status_total_counts.each do |row| %>
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{row['status']}.name") %></th>
         <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(row['count']) %></td>
@@ -96,6 +149,30 @@
       <td class="govuk-table__cell govuk-table__cell--numeric"><%= @statistics.rejected_by_default_count %></td>
       <td class="govuk-table__cell govuk-!-width-two-thirds"><%= t("performance_dashboard_other_metrics.rejected_by_default.description") %></td>
     </tr>
+  </tbody>
+</table>
+
+<h4 class="govuk-heading-s">Successful applications</h4>
+<p class="govuk-body">
+  Applications that have received an offer and the candidate has accepted.
+</p>
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Status</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Count</th>
+      <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Description</th>
+    </tr>
+  </thead>
+
+  <tbody class="govuk-table__body">
+    <% @statistics.accepted_offer_application_form_status_total_counts.each do |row| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header"><%= t("candidate_flow_application_states.#{row['status']}.name") %></th>
+        <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(row['count']) %></td>
+        <td class="govuk-table__cell"><%= t("candidate_flow_application_states.#{row['status']}.description") %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 
