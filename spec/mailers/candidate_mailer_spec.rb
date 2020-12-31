@@ -35,7 +35,7 @@ RSpec.describe CandidateMailer, type: :mailer do
       I18n.t!('candidate_mailer.application_submitted.subject'),
       'heading' => 'Application submitted',
       'support reference' => 'SUPPORT-REFERENCE',
-      'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token&u=encrypted_id',
+      'magic link to authenticate' => 'http://localhost:3000/candidate/sign-in/confirm?token=raw_token',
     )
   end
 

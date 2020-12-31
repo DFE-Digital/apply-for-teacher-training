@@ -4,7 +4,7 @@ class AuthenticationToken < ApplicationRecord
   belongs_to :user, polymorphic: true
 
   def still_valid?
-    created_at > (Time.zone.now - MAX_TOKEN_DURATION)
+    created_at.present? && created_at > (Time.zone.now - MAX_TOKEN_DURATION) && used_at.nil?
   end
 
   def self.find_by_hashed_token(user_type:, raw_token:)

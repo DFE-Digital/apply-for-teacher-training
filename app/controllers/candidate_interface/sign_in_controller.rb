@@ -21,13 +21,13 @@ module CandidateInterface
         raw_token: params[:token],
       )
 
-      if authentication_token && authentication_token.still_valid?
+      if authentication_token&.still_valid?
         render 'confirm_authentication'
-      elsif params[:u]
-        # If the token is invalid or expired, redirect the user to a page
-        # with their encrypted user id as a param where they can request
+      elsif authentication_token
+        # If the token is expired, redirect the user to a page
+        # with their token as a param where they can request
         # a new sign in email.
-        redirect_to candidate_interface_expired_sign_in_path(u: params[:u], path: params[:path])
+        redirect_to candidate_interface_expired_sign_in_path(token: params[:token], path: params[:path])
       else
         redirect_to(action: :new)
       end
@@ -48,25 +48,33 @@ module CandidateInterface
         sign_in(candidate, scope: :candidate)
         add_identity_to_log(candidate.id)
         candidate.update!(last_signed_in_at: Time.zone.now)
-        authentication_token.destroy!
+        authentication_token.update!(used_at: Time.zone.now)
 
         redirect_to candidate_interface_interstitial_path(path: params[:path])
       else
-        redirect_to candidate_interface_expired_sign_in_path(u: params[:u], path: params[:path])
+        redirect_to candidate_interface_expired_sign_in_path(token: params[:token], path: params[:path])
       end
     end
 
     def expired
-      if params[:u].blank?
+      authentication_token = AuthenticationToken.find_by_hashed_token(
+        user_type: 'Candidate',
+        raw_token: params[:token],
+      )
+
+      if authentication_token.blank?
         redirect_to candidate_interface_sign_in_path
       end
     end
 
     def create_from_expired_token
-      candidate_id = Encryptor.decrypt(params.fetch(:u))
+      authentication_token = AuthenticationToken.find_by_hashed_token(
+        user_type: 'Candidate',
+        raw_token: params[:token],
+      )
 
-      if candidate_id
-        candidate = Candidate.find(candidate_id)
+      if authentication_token
+        candidate = authentication_token.user
         CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate)
         add_identity_to_log candidate.id
         redirect_to candidate_interface_check_email_sign_in_path

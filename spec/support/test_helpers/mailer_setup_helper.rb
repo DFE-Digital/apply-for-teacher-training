@@ -50,7 +50,6 @@ module TestHelpers
 
     def magic_link_stubbing(candidate)
       allow(candidate).to receive(:create_magic_link_token!).and_return('raw_token')
-      allow(candidate).to receive(:encrypted_id).and_return('encrypted_id')
     end
   end
 end

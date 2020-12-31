@@ -850,7 +850,8 @@ FactoryBot.define do
   end
 
   factory :authentication_token do
-    user { support_user }
+    user { create(:support_user) }
+    hashed_token { '1234567890' }
   end
 
   factory :provider_user do
