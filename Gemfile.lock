@@ -482,7 +482,7 @@ GEM
     trollop (1.16.2)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
-    tzinfo-data (1.2020.5)
+    tzinfo-data (1.2020.6)
       tzinfo (>= 1.0.0)
     uk_postcode (2.1.6)
     unf (0.1.4)
