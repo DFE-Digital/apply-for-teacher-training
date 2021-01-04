@@ -11,7 +11,7 @@ RSpec.feature 'Candidates authenitcation token has the path attriute populated' 
 
     when_i_sign_in_using_the_token
     and_i_confirm_the_sign_in
-    then_i_receive_am_redirected_to_the_personal_statement_page
+    then_i_am_redirected_to_the_personal_statement_page
 
     given_i_am_signed_out
     and_i_have_an_expired_token_associated_with_the_personal_statment_path
@@ -22,7 +22,7 @@ RSpec.feature 'Candidates authenitcation token has the path attriute populated' 
 
     when_i_click_on_the_link_in_my_email
     and_i_confirm_the_sign_in
-    then_i_receive_am_redirected_to_the_personal_statement_page
+    then_i_am_redirected_to_the_personal_statement_page
   end
 
   def given_the_pilot_is_open
@@ -52,7 +52,7 @@ RSpec.feature 'Candidates authenitcation token has the path attriute populated' 
     confirm_sign_in
   end
 
-  def then_i_receive_am_redirected_to_the_personal_statement_page
+  def then_i_am_redirected_to_the_personal_statement_page
     expect(page).to have_current_path candidate_interface_edit_becoming_a_teacher_path
   end
 
