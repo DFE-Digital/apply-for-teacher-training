@@ -54,7 +54,8 @@ class StateDiagram
       graph[:rankdir] = 'LR'
     end
 
-    graph.output(svg: String).force_encoding('UTF-8').html_safe
+    # Add negative tabindex to embedded links to prevent SVG generating illogical focus orders
+    graph.output(svg: String).force_encoding('UTF-8').gsub('xlink:href', 'tabindex="-1" xlink:href').html_safe
   end
 
   def self.event_name(state, event, namespace)
