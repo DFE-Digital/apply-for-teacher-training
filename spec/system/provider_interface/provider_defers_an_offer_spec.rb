@@ -64,7 +64,7 @@ RSpec.feature 'Provider defers an offer' do
 
   def then_i_am_back_to_the_application_page
     expect(page).to have_current_path(
-      provider_interface_application_choice_path(
+      provider_interface_application_choice_offer_path(
         @application_offered.id,
       ),
     )
