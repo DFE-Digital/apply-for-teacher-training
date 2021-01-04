@@ -1,5 +1,5 @@
 module CandidateInterface
-  class PersonalStatement::InterviewPreferencesController < CandidateInterfaceController
+  class InterviewNeedsController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
 
     def edit

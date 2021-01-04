@@ -1,5 +1,5 @@
 module CandidateInterface
-  class PersonalStatement::SubjectKnowledgeController < CandidateInterfaceController
+  class SubjectKnowledgeController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted, :render_application_feedback_component
 
     def edit
