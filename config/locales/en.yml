@@ -1,4 +1,6 @@
 en:
+  validation_errors:
+    email_address_format: Enter an email address in the correct format, like name@example.com
   service_name:
     apply: Apply for teacher training
     manage: Manage teacher training applications
