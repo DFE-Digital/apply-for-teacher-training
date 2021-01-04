@@ -22,7 +22,17 @@ RSpec.describe ProviderInterface::ReferenceWithFeedbackComponent do
     it 'contains a type of reference row' do
       row = component.rows.third
       expect(row[:key]).to eq('Type of reference')
-      expect(row[:value]).to include(reference.referee_type.capitalize)
+      expect(row[:value]).to include(reference.referee_type.capitalize.dasherize)
+    end
+
+    context 'referee_type is nil' do
+      let(:reference) { build(:reference, feedback: feedback, referee_type: nil) }
+
+      it 'renders without raisin an error' do
+        row = component.rows.third
+        expect(row[:key]).to eq('Type of reference')
+        expect(row[:value]).to eq('')
+      end
     end
 
     it 'contains a relationship row' do
