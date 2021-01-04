@@ -41,13 +41,11 @@ private
   end
 
   def type_for_other_uk_qualification
-    I18n.t('application_form.gcse.qualification_types.other_uk')
-      .concat(': ', @qualification.other_uk_qualification_type)
+    @qualification.other_uk_qualification_type
   end
 
   def type_for_non_uk_qualification
-    I18n.t('application_form.gcse.qualification_types.non_uk')
-      .concat(': ', @qualification.non_uk_qualification_type)
+    @qualification.non_uk_qualification_type
   end
 
   def type_for_gcse

@@ -66,7 +66,7 @@ RSpec.describe QualificationTitleComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('Other UK qualification: A Level')
+    expect(result.text.strip).to eq('A Level')
   end
 
   it 'renders the correct title for an non_uk GCSE equivalent' do
@@ -80,7 +80,7 @@ RSpec.describe QualificationTitleComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('Non-UK qualification: High School Diploma')
+    expect(result.text.strip).to eq('High School Diploma')
   end
 
   it 'renders the correct title for an other qualificaiton' do
@@ -93,7 +93,7 @@ RSpec.describe QualificationTitleComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('A Level')
+    expect(result.text.strip).to eq('A Level')
   end
 
   it 'renders the correct title for an other_uk other qualification' do
@@ -107,7 +107,7 @@ RSpec.describe QualificationTitleComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('Other UK qualification: Orienteering')
+    expect(result.text.strip).to eq('Orienteering')
   end
 
   it 'renders the correct title for an non_uk other qualification' do
@@ -121,6 +121,6 @@ RSpec.describe QualificationTitleComponent do
 
     result = render_inline(described_class.new(qualification: qualification))
 
-    expect(result.text).to include('Non-UK qualification: High School Diploma')
+    expect(result.text.strip).to eq('High School Diploma')
   end
 end
