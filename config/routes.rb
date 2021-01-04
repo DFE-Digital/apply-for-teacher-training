@@ -40,7 +40,7 @@ Rails.application.routes.draw do
     get '/sign-in/expired', to: 'sign_in#expired', as: :expired_sign_in
 
     # TODO: remove redirect from Jan 15 2021
-    get '/confirm_authentication', to: redirect('/sign-in/confirm')
+    get '/confirm_authentication', to: redirect('/candidate/sign-in/confirm')
     get '/sign-in/confirm', to: 'sign_in#confirm_authentication', as: :authenticate
     post '/sign-in/confirm', to: 'sign_in#authenticate'
     get '/authenticate', to: 'sign_in#expired'
