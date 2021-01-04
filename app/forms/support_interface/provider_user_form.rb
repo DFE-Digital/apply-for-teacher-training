@@ -9,7 +9,7 @@ module SupportInterface
     attr_reader :email_address
 
     validates :email_address, :first_name, :last_name, presence: true
-    validates :email_address, email_address: true
+    validates :email_address, valid_for_notify: true
     validate :email_is_unique
     validates :provider_permissions, presence: true
 

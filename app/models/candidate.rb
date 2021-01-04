@@ -10,7 +10,7 @@ class Candidate < ApplicationRecord
   validates :email_address, presence: true,
                             uniqueness: { case_sensitive: false },
                             length: { maximum: 100 },
-                            email_address: true
+                            valid_for_notify: true
 
   has_one :ucas_match
   has_many :application_forms

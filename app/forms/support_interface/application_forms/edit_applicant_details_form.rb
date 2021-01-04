@@ -16,7 +16,7 @@ module SupportInterface
       validates :first_name, :last_name,
                 length: { maximum: 60 }
 
-      validates :email_address, presence: true, email_address: true, length: { maximum: 100 }
+      validates :email_address, presence: true, valid_for_notify: true, length: { maximum: 100 }
 
       validates :date_of_birth, presence: true
       validate :date_of_birth_valid

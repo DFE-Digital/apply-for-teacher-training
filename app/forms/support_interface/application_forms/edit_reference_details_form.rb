@@ -7,7 +7,7 @@ module SupportInterface
       attr_accessor :name, :email_address, :relationship, :audit_comment
 
       validates :name, presence: true, length: { minimum: 2, maximum: 200 }
-      validates :email_address, presence: true, email_address: true, length: { maximum: 100 }
+      validates :email_address, presence: true, valid_for_notify: true, length: { maximum: 100 }
       validates :relationship, presence: true, word_count: { maximum: 50 }
       validates :audit_comment, presence: true
 

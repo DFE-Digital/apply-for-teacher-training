@@ -8,7 +8,7 @@ module ProviderInterface
 
     validates :first_name, :last_name, presence: true, if: :new_provider_user?
     validates :email_address, presence: true, if: :new_provider_user?
-    validates :email_address, email_address: true, if: :new_provider_user?
+    validates :email_address, valid_for_notify: true, if: :new_provider_user?
     validates :provider_permissions, presence: true
     validate :permitted_providers
 

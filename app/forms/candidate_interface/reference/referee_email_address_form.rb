@@ -5,7 +5,7 @@ module CandidateInterface
     attr_accessor :email_address, :reference_id
 
     validates :email_address, presence: true,
-                              email_address: true,
+                              valid_for_notify: true,
                               length: { maximum: 100 }
 
     validates :reference_id, presence: true

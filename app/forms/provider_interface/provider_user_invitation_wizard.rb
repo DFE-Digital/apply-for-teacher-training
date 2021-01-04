@@ -9,7 +9,7 @@ module ProviderInterface
 
     with_options(on: :details) do
       validates :email_address, presence: true
-      validates :email_address, email_address: true
+      validates :email_address, valid_for_notify: true
       validates :first_name, presence: true
       validates :last_name, presence: true
     end
