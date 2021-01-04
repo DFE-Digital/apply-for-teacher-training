@@ -4,10 +4,11 @@ module SupportInterface
 
     attr_accessor :application_form, :updated_at, :support_reference
 
-    def initialize(application_form:)
+    def initialize(application_form:, heading_level: 2)
       @application_form = application_form
       @support_reference = application_form.support_reference
       @updated_at = application_form.updated_at.to_s(:govuk_date_and_time)
+      @heading_level = heading_level
     end
 
     def candidate_name

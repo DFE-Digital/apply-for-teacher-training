@@ -1,0 +1,10 @@
+<%= render 'docs_navigation', title: 'Mailer previews' %>
+
+<% @previews.each do |preview| %>
+  <h2 class="govuk-heading-m"><%= preview.preview_name.titleize %></h2>
+  <ul class="govuk-list govuk-list--bullet">
+  <% preview.emails.each do |email| %>
+    <li><%= govuk_link_to email, url_for(controller: 'rails/mailers', action: 'preview', path: "#{preview.preview_name}/#{email}") %></li>
+  <% end %>
+  </ul>
+<% end %>

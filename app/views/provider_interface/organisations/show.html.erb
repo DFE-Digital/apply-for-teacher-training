@@ -47,7 +47,8 @@
       <%= render ProviderInterface::ProviderRelationshipPermissionsListComponent.new(
         permissions_model: permissions,
         change_link_builder: ProviderInterface::ProviderRelationshipEditChangeLinkBuilder,
-        editable: current_provider_user.can_manage_organisations?
+        editable: current_provider_user.can_manage_organisations?,
+        heading_level: 2,
       ) %>
     <% end %>
   </div>

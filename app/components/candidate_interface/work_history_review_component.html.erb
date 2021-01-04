@@ -13,10 +13,10 @@
     <% end %>
   <% elsif entry.is_a?(WorkHistoryWithBreaks::BreakPlaceholder) %>
     <% if show_break_placeholders? %>
-      <%= render(CandidateInterface::BreakPlaceholderInWorkHistoryComponent.new(work_break: entry)) %>
+      <%= render(CandidateInterface::BreakPlaceholderInWorkHistoryComponent.new(work_break: entry, heading_level: @heading_level)) %>
     <% end %>
   <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
-    <%= render(CandidateInterface::BreakInWorkHistoryComponent.new(work_break: entry, editable: @editable)) %>
+    <%= render(CandidateInterface::BreakInWorkHistoryComponent.new(work_break: entry, editable: @editable, heading_level: @heading_level)) %>
   <% end %>
 <% end %>
 

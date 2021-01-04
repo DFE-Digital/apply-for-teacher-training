@@ -14,7 +14,7 @@
       <h1 class="govuk-heading-l"><%= @permissions_model.training_provider.name %> and <%= @permissions_model.ratifying_provider.name %></h1>
 
       <div class="govuk-body">
-        <h1 class="govuk-heading-m">Who can view applications?</h1>
+        <h2 class="govuk-heading-m">Who can view applications?</h2>
         <ul class="govuk-list govuk-list--spaced govuk-!-margin-bottom-6">
           <li><%= render IconComponent.new(type: 'check') %><%= @permissions_model.training_provider.name %></li>
           <li><%= render IconComponent.new(type: 'check') %><%= @permissions_model.ratifying_provider.name %> – can only see courses they ratify</li>

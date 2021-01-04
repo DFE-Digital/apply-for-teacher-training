@@ -27,7 +27,7 @@
     }
   ].compact
   ) do %>
-    <%= render SummaryCardHeaderComponent.new(title: feature_name.humanize, heading_level: 3) do %>
+    <%= render SummaryCardHeaderComponent.new(title: feature_name.humanize, heading_level: 2) do %>
       <% if FeatureFlag.active?(feature_name) %>
         <%= button_to support_interface_deactivate_feature_flag_path(feature_name), class: 'govuk-button app-button--tertiary govuk-!-margin-bottom-0' do %>
           Deactivate<span class="govuk-visually-hidden"> ‘<%= feature_name.humanize %>’ feature</span>

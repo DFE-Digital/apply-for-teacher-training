@@ -45,15 +45,18 @@
         <% validation_error.details.each do |attribute, details| %>
           <% details['messages'].each do |message| %>
             <tr class="govuk-table__row">
-              <td class="govuk-table__cell govuk-!-width-one-half govuk-!-font-size-16"><%= govuk_link_to validation_error.form_object.demodulize.underscore.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object) %>:
-                <strong><%= govuk_link_to attribute.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object, attribute: attribute) %></strong><br/>
-                <%= message %>
+              <td class="govuk-table__cell govuk-!-width-one-half">
+                <h3 class="govuk-heading-s govuk-!-margin-bottom-0">
+                  <span class="govuk-!-font-weight-regular"><%= govuk_link_to validation_error.form_object.demodulize.underscore.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object) %>:</span>
+                  <%= govuk_link_to attribute.humanize, support_interface_validation_error_search_path(form_object: validation_error.form_object, attribute: attribute) %>
+                </h3>
+                <p class="govuk-body govuk-!-margin-bottom-0"><%= message %></p>
               </td>
-              <td class="govuk-table__cell govuk-!-font-size-16">
+              <td class="govuk-table__cell">
                 <% if details['value'].blank? %>
                   <%= render TagComponent.new(text: 'Empty', type: 'grey') %>
                 <% else %>
-                  <%= details['value'].inspect %>
+                  <code><%= details['value'].inspect %></code>
                 <% end %>
               </td>
             </tr>

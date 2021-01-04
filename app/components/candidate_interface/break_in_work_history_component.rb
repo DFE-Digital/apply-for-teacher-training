@@ -4,9 +4,10 @@ module CandidateInterface
 
     attr_reader :work_break
 
-    def initialize(work_break:, editable: true)
+    def initialize(work_break:, editable: true, heading_level: 2)
       @work_break = work_break
       @editable = editable
+      @heading_level = heading_level
     end
 
     def work_break_rows

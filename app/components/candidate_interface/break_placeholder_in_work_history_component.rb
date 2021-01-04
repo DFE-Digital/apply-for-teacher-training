@@ -4,8 +4,9 @@ module CandidateInterface
 
     attr_reader :work_break
 
-    def initialize(work_break:)
+    def initialize(work_break:, heading_level: 2)
       @work_break = work_break
+      @heading_level = heading_level
     end
 
     def between_formatted_dates

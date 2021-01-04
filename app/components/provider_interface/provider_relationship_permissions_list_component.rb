@@ -2,10 +2,11 @@ module ProviderInterface
   class ProviderRelationshipPermissionsListComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize(permissions_model:, change_link_builder:, editable: true)
+    def initialize(permissions_model:, change_link_builder:, editable: true, heading_level: 3)
       @permissions_model = permissions_model
       @change_link_builder = change_link_builder
       @editable = editable
+      @heading_level = heading_level
     end
 
     def title

@@ -13,7 +13,7 @@
         <div class="moj-filter__selected">
           <div class="moj-filter__selected-heading">
             <div class="moj-filter__heading-title">
-              <h2 class="govuk-heading-m govuk-!-margin-bottom-1">Selected filters</h2>
+              <h3 class="govuk-heading-m govuk-!-margin-bottom-1">Selected filters</h3>
               <p class="govuk-body">
                 <%= govuk_link_to 'Clear filters', '?remove=true', class: 'govuk-link--no-visited-state' %>
               </p>
@@ -21,7 +21,7 @@
           </div>
 
           <% active_filters.each do |active_filter| %>
-            <h3 class="govuk-heading-s govuk-!-margin-bottom-0"><%= active_filter[:heading] %></h3>
+            <h4 class="govuk-heading-s govuk-!-margin-bottom-0"><%= active_filter[:heading] %></h4>
             <ul class="moj-filter-tags">
               <% tags_for_active_filter(active_filter).each do |tag| %>
                 <li>

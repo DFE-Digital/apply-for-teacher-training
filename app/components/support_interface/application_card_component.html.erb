@@ -1,9 +1,9 @@
 <section class="app-application-card">
   <header class="app-application-card__header">
-    <h3 class="govuk-heading-s">
+    <h<%= @heading_level %> class="govuk-heading-s">
       <%= govuk_link_to candidate_name, support_interface_application_form_path(application_form) %>
       <span class="govuk-body-s"><%= support_reference %> <%= apply_again_context %></span>
-    </h3>
+    </h<%= @heading_level %>>
     <p class="govuk-body-s govuk-!-margin-bottom-2"><strong><%= overall_status %></strong></p>
   </header>
 

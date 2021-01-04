@@ -1,12 +1,14 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds-from-desktop">
     <div class="govuk-inset-text govuk-!-margin-top-0">
-      <h2 class="govuk-heading-m govuk-!-margin-bottom-3">
+      <h2 class="govuk-heading-s">
         <%= inset_text_header %>
       </h2>
-      <p class="govuk-body">
-        <%= action_details %>
-      </p>
+      <% if action_details.present? %>
+        <p class="govuk-body">
+          <%= action_details %>
+        </p>
+      <% end %>
       <% if @match.action_needed? && @match.requires_manual_action? %>
         <%= form_with url: button[:path], method: :post do |f| %>
           <%= f.govuk_submit button[:text] %>
