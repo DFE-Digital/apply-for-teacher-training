@@ -226,7 +226,16 @@ Rails.application.routes.draw do
         delete '/delete/:id' => 'work_history/destroy#destroy'
       end
 
+      # TODO: Remove temporary redirects from Jan 15 2021
       scope '/school-experience' do
+        get '/', to: redirect('/candidate/application/unpaid-experience')
+        get '/new', to: redirect('/candidate/application/unpaid-experience/new')
+        get '/edit/:id', to: redirect { |params, _| "/candidate/application/unpaid-experience/edit/#{params[:id]}" }
+        get '/review', to: redirect('/candidate/application/unpaid-experience/review')
+        get '/delete/:id', to: redirect { |params, _| "/candidate/application/unpaid-experience/delete/#{params[:id]}" }
+      end
+
+      scope '/unpaid-experience' do
         get '/' => 'volunteering/experience#show', as: :volunteering_experience
         post '/' => 'volunteering/experience#submit'
 
