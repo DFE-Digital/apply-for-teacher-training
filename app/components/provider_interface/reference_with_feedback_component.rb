@@ -51,7 +51,7 @@ module ProviderInterface
     def reference_type_row
       {
         key: 'Type of reference',
-        value: referee_type.capitalize,
+        value: referee_type ? referee_type.capitalize.dasherize : '',
       }
     end
 
