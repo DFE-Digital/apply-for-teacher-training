@@ -1,8 +1,18 @@
 .app-diagram {
   text-align: center;
-}
 
-.app-diagram svg {
-  height: 100%;
-  max-width: 100%;
+  svg {
+    height: 100%;
+    max-width: 100%;
+
+    a:focus polygon {
+      fill: $govuk-focus-colour;
+      stroke: $govuk-text-colour;
+      stroke-width: $govuk-focus-width;
+    }
+
+    a:focus text {
+      fill: $govuk-text-colour;
+    }
+  }
 }
