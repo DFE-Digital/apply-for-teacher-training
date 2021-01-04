@@ -264,7 +264,6 @@ en:
               too_long: Last name must be %{count} characters or fewer
             email_address:
               blank: Email address cannot be blank
-              invalid: Enter an email address in the correct format, like name@example.com
               taken: Email address is already in use
               too_long: Email address must be %{count} characters or fewer
             date_of_birth:
@@ -287,7 +286,6 @@ en:
               too_long: Referee’s name must be %{count} characters or fewer
             email_address:
               blank: Enter an email address
-              invalid: Enter an email address in the correct format, like name@example.com
               too_long: Email address must be %{count} characters or fewer
             relationship:
               blank: Relationship cannot be blank
@@ -449,7 +447,6 @@ en:
               blank: Enter your email address
               taken: Email address is already in use
               too_long: Email address must be %{count} characters or fewer
-              invalid: Enter an email address in the correct format, like name@example.com
         application_reference:
           attributes:
             feedback_status:
