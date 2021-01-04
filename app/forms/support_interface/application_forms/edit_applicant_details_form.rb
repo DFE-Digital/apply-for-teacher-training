@@ -84,7 +84,7 @@ module SupportInterface
           @application_form.candidate.email_address == email_address
 
         return unless Candidate.exists?(email_address: email_address)
-        
+
         errors.add(
           :email_address,
           I18n.t('activemodel.errors.models.support_interface/application_forms/edit_applicant_details_form.attributes.email_address.taken'),
