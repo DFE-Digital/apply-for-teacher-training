@@ -1,4 +1,8 @@
 class PerformanceStatistics
+  UNSUBMITTED_STATUSES = %i[unsubmitted_not_started_form unsubmitted_in_progress]
+  PROCESSING_STATUSES = %i[awaiting_provider_decisions awaiting_candidate_response]
+  ACCEPTED_STATUSES = %i[pending_conditions recruited offer_deferred]
+
   attr_reader :year
 
   def initialize(year)
@@ -99,23 +103,23 @@ class PerformanceStatistics
   end
 
   def total_submitted_count
-    total_form_count(except: %i[unsubmitted_not_started_form unsubmitted_in_progress])
+    total_form_count(except: UNSUBMITTED_STATUSES)
   end
 
   def apply_again_submitted_count
-    total_form_count(except: %i[unsubmitted_not_started_form unsubmitted_in_progress], phase: :apply_2)
+    total_form_count(except: UNSUBMITTED_STATUSES, phase: :apply_2)
   end
 
   def unsubmitted_application_form_status_total_counts
-    application_form_status_total_counts(only: %i[unsubmitted_not_started_form unsubmitted_in_progress])
+    application_form_status_total_counts(only: UNSUBMITTED_STATUSES)
   end
 
   def still_being_processed_count
-    total_form_count(only: %i[awaiting_provider_decisions awaiting_candidate_response])
+    total_form_count(only: PROCESSING_STATUSES)
   end
 
   def still_being_processed_application_form_status_total_counts
-    application_form_status_total_counts(only: %i[awaiting_provider_decisions awaiting_candidate_response])
+    application_form_status_total_counts(only: PROCESSING_STATUSES)
   end
 
   def ended_without_success_count
@@ -127,11 +131,11 @@ class PerformanceStatistics
   end
 
   def accepted_offer_count
-    total_form_count(only: %i[pending_conditions recruited offer_deferred])
+    total_form_count(only: ACCEPTED_STATUSES)
   end
 
   def accepted_offer_application_form_status_total_counts
-    application_form_status_total_counts(only: %i[pending_conditions recruited offer_deferred])
+    application_form_status_total_counts(only: ACCEPTED_STATUSES)
   end
 
   def apply_again_accepted_offer_count
