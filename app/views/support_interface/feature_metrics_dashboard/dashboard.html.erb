@@ -14,14 +14,41 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @statistics.time_to_get_references(Time.zone.now.beginning_of_day),
+          count: @statistics.average_time_to_get_references(Time.zone.now.beginning_of_day),
           label: 'today',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @statistics.time_to_get_references(1.month.ago.beginning_of_day),
+          count: @statistics.average_time_to_get_references(1.month.ago.beginning_of_day),
+          label: 'last month',
+          size: :reduced,
+        ) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="govuk-grid-column-one-half">
+    <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <%= render SupportInterface::TileComponent.new(
+        count: nil,
+        label: '% completed within 30 days',
+        colour: :blue,
+        size: :reduced,
+      ) %>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @statistics.percentage_references_within(30, Time.zone.now.beginning_of_day),
+          label: 'today',
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @statistics.percentage_references_within(30, 1.month.ago.beginning_of_day),
           label: 'last month',
           size: :reduced,
         ) %>
