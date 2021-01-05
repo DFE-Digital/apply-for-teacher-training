@@ -102,51 +102,36 @@ RSpec.describe PerformanceStatistics, type: :model do
   end
 
   describe '#candidate_count' do
-    it 'returns the total number of candidates for a given cycle' do
-      create(:application_form, recruitment_cycle_year: 2020)
-      create(:application_form, recruitment_cycle_year: 2021)
-      create(:application_form, recruitment_cycle_year: 2021)
+    it 'returns the total number of candidates that were created during a given cycle' do
+      Timecop.freeze(2020, 1, 5) do
+        create_list(:candidate, 2)
+      end
+      Timecop.freeze(2020, 12, 25) do
+        create_list(:candidate, 3)
+      end
 
-      expect(described_class.new(2020).candidate_count).to eq(1)
-      expect(described_class.new(2021).candidate_count).to eq(2)
+      expect(described_class.new(2020).candidate_count).to eq(2)
+      expect(described_class.new(2021).candidate_count).to eq(3)
     end
 
     it 'returns the total number of candidates that exist when no cycle is given' do
-      create(:application_form, recruitment_cycle_year: 2020)
-      create(:application_form, recruitment_cycle_year: 2021)
-      create(:application_form, recruitment_cycle_year: 2021)
+      Timecop.freeze(2020, 1, 5) do
+        create_list(:candidate, 2)
+      end
+      Timecop.freeze(2020, 12, 25) do
+        create_list(:candidate, 3)
+      end
 
-      expect(described_class.new(nil).candidate_count).to eq(3)
+      expect(described_class.new(nil).candidate_count).to eq(5)
     end
 
-    it 'does not include candidates that do not have a form when a year is given' do
-      create(:application_form, recruitment_cycle_year: 2020)
-      create(:application_form, recruitment_cycle_year: 2021)
-      create(:application_form, recruitment_cycle_year: 2021)
-      create(:candidate)
+    it 'does not take into account any application forms that a candidate may have' do
+      Timecop.freeze(2020, 1, 5) do
+        create(:application_form, recruitment_cycle_year: 2021)
+      end
 
       expect(described_class.new(2020).candidate_count).to eq(1)
-      expect(described_class.new(2021).candidate_count).to eq(2)
-    end
-
-    it 'includes candidates that do not have a form when a year is not given' do
-      create(:application_form, recruitment_cycle_year: 2020)
-      create(:application_form, recruitment_cycle_year: 2021)
-      create(:application_form, recruitment_cycle_year: 2021)
-      create(:candidate)
-
-      expect(described_class.new(nil).candidate_count).to eq(4)
-    end
-  end
-
-  describe '#candidate_never_signed_in_count' do
-    it 'returns the number of candidates that do not have an associated application form' do
-      create(:application_form, recruitment_cycle_year: 2020)
-      create(:application_form, recruitment_cycle_year: 2021)
-      create(:candidate)
-      create(:candidate)
-
-      expect(described_class.new(nil).candidate_never_signed_in_count).to eq(2)
+      expect(described_class.new(2021).candidate_count).to eq(0)
     end
   end
 

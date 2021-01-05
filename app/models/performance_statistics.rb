@@ -9,17 +9,11 @@ class PerformanceStatistics
     candidates = Candidate.all
 
     if year.present?
-      candidates = candidates.joins(:application_forms).where('application_forms.recruitment_cycle_year': year)
+      year_query = date_range_query_for_recruitment_cycle_year(year)
+      candidates = candidates.where(year_query)
     end
 
     candidates.where(hide_in_reporting: false).uniq.count
-  end
-
-  def candidate_never_signed_in_count
-    ApplicationForm.joins('FULL OUTER JOIN candidates c on application_forms.candidate_id = c.id')
-                   .where('application_forms.id IS NULL')
-                   .where.not('c.hide_in_reporting')
-                   .count
   end
 
   def application_form_query
@@ -169,6 +163,20 @@ class PerformanceStatistics
   end
 
 private
+
+  def date_range_query_for_recruitment_cycle_year(cycle_year)
+    start_date = EndOfCycleTimetable::CYCLE_DATES[cycle_year][:apply_reopens]
+
+    query = "created_at >= '#{start_date}'"
+
+    if EndOfCycleTimetable::CYCLE_DATES.to_a.map(&:first).sort.last != year
+      end_date = EndOfCycleTimetable::CYCLE_DATES[cycle_year + 1][:apply_reopens]
+
+      query += " AND created_at <= '#{end_date}'"
+    end
+
+    query
+  end
 
   def application_form_status_total_counts(only: nil)
     application_form_status_counts
