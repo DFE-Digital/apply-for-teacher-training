@@ -70,13 +70,13 @@ module CandidateInterface
     end
 
     def create_from_expired_token
-      encrypted_user_id = params.fetch(:u)
+      encrypted_user_id = params[:u]
       authentication_token = AuthenticationToken.find_by_hashed_token(
         user_type: 'Candidate',
         raw_token: params[:token],
       )
 
-      candidate = if encrypted_user_id
+      candidate = if encrypted_user_id.present?
         Candidate.find(Encryptor.decrypt(encrypted_user_id))
       elsif authentication_token
         authentication_token.user
