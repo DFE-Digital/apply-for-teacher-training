@@ -1,4 +1,6 @@
 class FilterApplicationChoicesForProviders
+  CANDIDATE_REFERENCE_REGEX = /^[a-zA-Z]{2}\d{4}$/.freeze
+
   def self.call(application_choices:, filters:)
     return application_choices if filters.empty?
 
@@ -8,10 +10,16 @@ class FilterApplicationChoicesForProviders
   class << self
   private
 
-    def search(application_choices, candidates_name)
-      return application_choices if candidates_name.blank?
+    def search(application_choices, candidates_name_or_reference)
+      return application_choices if candidates_name_or_reference.blank?
 
-      application_choices.joins(:application_form).where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{candidates_name}%")
+      candidate_ref_match = candidates_name_or_reference.strip.match(CANDIDATE_REFERENCE_REGEX)
+
+      if candidate_ref_match
+        application_choices.joins(:application_form).where('support_reference = ?', candidate_ref_match[0])
+      else
+        application_choices.joins(:application_form).where("CONCAT(first_name, ' ', last_name) ILIKE ?", "%#{candidates_name_or_reference}%")
+      end
     end
 
     def recruitment_cycle_year(application_choices, years)
