@@ -117,20 +117,32 @@ Rails.application.routes.draw do
       end
 
       scope '/personal-statement' do
-        get '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#edit', as: :edit_becoming_a_teacher
-        patch '/becoming-a-teacher' => 'personal_statement/becoming_a_teacher#update'
-        get '/becoming-a-teacher/review' => 'personal_statement/becoming_a_teacher#show', as: :becoming_a_teacher_show
-        patch '/becoming-a-teacher/complete' => 'personal_statement/becoming_a_teacher#complete', as: :becoming_a_teacher_complete
+        # TODO: Remove redirects from Jan 15 2021
+        get '/becoming-a-teacher', to: redirect('/candidate/application/personal-statement')
+        get '/becoming-a-teacher/review', to: redirect('/candidate/application/personal-statement/review')
+        get '/subject-knowledge', to: redirect('/candidate/application/subject-knowledge')
+        get '/subject-knowledge/review', to: redirect('/candidate/application/subject-knowledge/review')
+        get '/interview-preferences', to: redirect('/candidate/application/interview-needs')
+        get '/interview-preferences/review', to: redirect('/candidate/application/interview-needs/review')
 
-        get '/subject-knowledge' => 'personal_statement/subject_knowledge#edit', as: :edit_subject_knowledge
-        patch '/subject-knowledge' => 'personal_statement/subject_knowledge#update'
-        get '/subject-knowledge/review' => 'personal_statement/subject_knowledge#show', as: :subject_knowledge_show
-        patch '/subject-knowledge/complete' => 'personal_statement/subject_knowledge#complete', as: :subject_knowledge_complete
+        get '/' => 'personal_statement#edit', as: :edit_becoming_a_teacher
+        patch '/' => 'personal_statement#update'
+        get '/review' => 'personal_statement#show', as: :becoming_a_teacher_show
+        patch '/complete' => 'personal_statement#complete', as: :becoming_a_teacher_complete
+      end
 
-        get '/interview-preferences' => 'personal_statement/interview_preferences#edit', as: :edit_interview_preferences
-        patch '/interview-preferences' => 'personal_statement/interview_preferences#update'
-        get '/interview-preferences/review' => 'personal_statement/interview_preferences#show', as: :interview_preferences_show
-        patch '/interview-preferences/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
+      scope '/subject-knowledge' do
+        get '/' => 'subject_knowledge#edit', as: :edit_subject_knowledge
+        patch '/' => 'subject_knowledge#update'
+        get '/review' => 'subject_knowledge#show', as: :subject_knowledge_show
+        patch '/complete' => 'subject_knowledge#complete', as: :subject_knowledge_complete
+      end
+
+      scope '/interview-needs' do
+        get '/' => 'interview_needs#edit', as: :edit_interview_preferences
+        patch '/' => 'interview_needs#update'
+        get '/review' => 'interview_needs#show', as: :interview_preferences_show
+        patch '/complete' => 'interview_needs#complete', as: :interview_preferences_complete
       end
 
       # TODO: Remove temporary redirects from Jan 15 2021

@@ -1,5 +1,5 @@
 module CandidateInterface
-  class PersonalStatement::BecomingATeacherController < CandidateInterfaceController
+  class PersonalStatementController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted, :render_application_feedback_component
 
     def edit
