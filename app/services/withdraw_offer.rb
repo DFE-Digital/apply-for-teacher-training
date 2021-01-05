@@ -25,7 +25,7 @@ class WithdrawOffer
       )
       SetDeclineByDefault.new(application_form: @application_choice.application_form).call
     end
-    StateChangeNotifier.call(:withdraw_offer, application_choice: @application_choice)
+    true
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,

@@ -29,8 +29,6 @@ class AcceptOffer
     end
 
     CandidateMailer.offer_accepted(@application_choice).deliver_later
-
-    StateChangeNotifier.accept_offer(accepted: @application_choice, declined: declined, withdrawn: withdrawn)
   end
 
 private

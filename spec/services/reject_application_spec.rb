@@ -58,14 +58,6 @@ RSpec.describe RejectApplication do
       expect(application_choice.structured_rejection_reasons.symbolize_keys).to eq(reasons_for_rejection_attrs)
     end
 
-    it 'notifies of state change' do
-      allow(StateChangeNotifier).to receive(:call)
-
-      service.save
-
-      expect(StateChangeNotifier).to have_received(:call).with(:reject_application, application_choice: application_choice)
-    end
-
     it 'emails the candidate' do
       email_service = instance_double(SendCandidateRejectionEmail, call: true)
       allow(SendCandidateRejectionEmail).to receive(:new).and_return(email_service)
@@ -74,6 +66,16 @@ RSpec.describe RejectApplication do
 
       expect(SendCandidateRejectionEmail).to have_received(:new).with(application_choice: application_choice)
       expect(email_service).to have_received(:call)
+    end
+
+    it 'sends a Slack notification if all candidate applications have ended without success' do
+      notifier = instance_double(StateChangeNotifier, application_outcome_notification: nil)
+      allow(StateChangeNotifier).to receive(:new).and_return(notifier)
+
+      service.save
+
+      expect(StateChangeNotifier).to have_received(:new).with(:rejected, application_choice)
+      expect(notifier).to have_received(:application_outcome_notification)
     end
   end
 end

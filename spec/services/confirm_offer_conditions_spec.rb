@@ -16,8 +16,10 @@ RSpec.describe ConfirmOfferConditions do
     expect(application_choice.reload.status).to eq 'pending_conditions'
   end
 
-  it 'sets the recruited_at date for the application_choice' do
+  it 'updates the application_choice and sends a Slack notification' do
     application_choice = create(:application_choice, status: :pending_conditions)
+    notifier = instance_double(StateChangeNotifier, application_outcome_notification: nil)
+    allow(StateChangeNotifier).to receive(:new).and_return(notifier)
 
     Timecop.freeze do
       expect {
@@ -26,6 +28,9 @@ RSpec.describe ConfirmOfferConditions do
           application_choice: application_choice,
         ).save
       }.to change { application_choice.recruited_at }.to(Time.zone.now)
+
+      expect(StateChangeNotifier).to have_received(:new).with(:recruited, application_choice)
+      expect(notifier).to have_received(:application_outcome_notification)
     end
   end
 end

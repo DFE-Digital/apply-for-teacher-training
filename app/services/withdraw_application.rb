@@ -12,9 +12,9 @@ class WithdrawApplication
 
     if @application_choice.application_form.ended_without_success?
       CandidateMailer.withdraw_last_application_choice(@application_choice.application_form).deliver_later
+      StateChangeNotifier.new(:withdrawn, @application_choice).application_outcome_notification
     end
 
-    StateChangeNotifier.call(:withdraw, application_choice: application_choice)
     send_email_notification_to_provider_users(application_choice)
 
     resolve_ucas_match(application_choice)
