@@ -1,7 +1,7 @@
 class PerformanceStatistics
-  UNSUBMITTED_STATUSES = %i[unsubmitted_not_started_form unsubmitted_in_progress]
-  PROCESSING_STATUSES = %i[awaiting_provider_decisions awaiting_candidate_response]
-  ACCEPTED_STATUSES = %i[pending_conditions recruited offer_deferred]
+  UNSUBMITTED_STATUSES = %i[unsubmitted_not_started_form unsubmitted_in_progress].freeze
+  PROCESSING_STATUSES = %i[awaiting_provider_decisions awaiting_candidate_response].freeze
+  ACCEPTED_STATUSES = %i[pending_conditions recruited offer_deferred].freeze
 
   attr_reader :year
 
@@ -173,7 +173,7 @@ private
 
     query = "created_at >= '#{start_date}'"
 
-    if EndOfCycleTimetable::CYCLE_DATES.to_a.map(&:first).sort.last != year
+    if EndOfCycleTimetable::CYCLE_DATES.to_a.map(&:first).max != year
       end_date = EndOfCycleTimetable::CYCLE_DATES[cycle_year + 1][:apply_reopens]
 
       query += " AND created_at <= '#{end_date}'"

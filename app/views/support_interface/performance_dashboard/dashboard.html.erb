@@ -32,10 +32,10 @@
 
 <div class="govuk-grid-row govuk-!-margin-bottom-4">
   <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.total_form_count(only: %i{unsubmitted_not_started_form unsubmitted_in_progress}), label: 'unsubmitted application forms') %>
+    <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted', content: SupportInterface::TileComponent.new(count: @statistics.total_form_count(only: %i{unsubmitted_not_started_form unsubmitted_in_progress}), label: 'unsubmitted application forms') ) %>
   </div>
   <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.total_submitted_count, label: 'submitted application forms') %>
+    <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'being-processed', content: SupportInterface::TileComponent.new(count: @statistics.total_submitted_count, label: 'submitted application forms') ) %>
   </div>
 </div>
 
@@ -43,10 +43,10 @@
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_not_started_form], label: 'forms not started', size: :reduced) %>
+        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted', content: SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_not_started_form], label: 'forms not started', size: :reduced) ) %>
       </div>
       <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_in_progress], label: 'forms in progress', size: :reduced) %>
+        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted', content: SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_in_progress], label: 'forms in progress', size: :reduced) ) %>
       </div>
     </div>
   </div>
@@ -54,13 +54,13 @@
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::TileComponent.new(count: @statistics.still_being_processed_count, label: 'still being processed', size: :reduced) %>
+        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'being-processed', content: SupportInterface::TileComponent.new(count: @statistics.still_being_processed_count, label: 'still being processed', size: :reduced) ) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::TileComponent.new(count: @statistics.ended_without_success_count, label: 'ended w/o success', size: :reduced, colour: :red) %>
+        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsuccessful', content: SupportInterface::TileComponent.new(count: @statistics.ended_without_success_count, label: 'ended w/o success', size: :reduced, colour: :red) ) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::TileComponent.new(count: @statistics.accepted_offer_count, label: 'accepted an offer', size: :reduced, colour: :green) %>
+        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'successful', content: SupportInterface::TileComponent.new(count: @statistics.accepted_offer_count, label: 'accepted an offer', size: :reduced, colour: :green) ) %>
       </div>
     </div>
   </div>
@@ -68,7 +68,7 @@
 
 <h3 class="govuk-heading-m govuk-!-font-size-27">Application form breakdown</h3>
 
-<h4 class="govuk-heading-s">Unsubmitted applications</h4>
+<h4 class="govuk-heading-s" id="unsubmitted">Unsubmitted applications</h4>
 <p class="govuk-body">
   Application forms that have not been sent to providers yet.
 </p>
@@ -92,7 +92,7 @@
   </tbody>
 </table>
 
-<h4 class="govuk-heading-s">Applications being processed</h4>
+<h4 class="govuk-heading-s" id="being-processed">Applications being processed</h4>
 <p class="govuk-body">
   Application forms that have been sent to providers and require action from either the candidate or provider to progress.
 </p>
@@ -116,7 +116,7 @@
   </tbody>
 </table>
 
-<h4 class="govuk-heading-s">Unsuccessful applications</h4>
+<h4 class="govuk-heading-s" id="unsuccessful">Unsuccessful applications</h4>
 <p class="govuk-body">
   Applications that have ended without success. The rejected by default count is included in the ended without success count
 </p>
@@ -145,7 +145,7 @@
   </tbody>
 </table>
 
-<h4 class="govuk-heading-s">Successful applications</h4>
+<h4 class="govuk-heading-s" id="successful">Successful applications</h4>
 <p class="govuk-body">
   Applications that have received an offer and the candidate has accepted.
 </p>
