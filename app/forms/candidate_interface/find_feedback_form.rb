@@ -7,7 +7,7 @@ module CandidateInterface
 
     validates :path, :find_controller, :feedback, presence: true
     validates :hidden_feedback_field, absence: true
-    validates :email_address, email_address: true, allow_blank: true
+    validates :email_address, valid_for_notify: true, allow_blank: true
 
     def save
       return false unless valid?

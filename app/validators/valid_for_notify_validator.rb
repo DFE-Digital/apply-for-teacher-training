@@ -1,4 +1,4 @@
-class EmailAddressValidator < ActiveModel::EachValidator
+class ValidForNotifyValidator < ActiveModel::EachValidator
   ALPHANUMERIC = 'a-zA-Z0-9àèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ' + # Number and letters including accented characters
     '\u3000-\u303F\u3040-\u309F\u30A0-\u30FF\uFF00-\uFFEF\u4E00-\u9FAF\u2605-\u2606\u2190-\u2195\u203B'.freeze # Chinese/Japanese/Korean characters
   EMAIL_REGEX = %r{\A[#{ALPHANUMERIC}.!\#$%&'*+\/=?^_`{|}~-] # Local part
@@ -10,7 +10,7 @@ class EmailAddressValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     if value.blank? || !value.match?(EMAIL_REGEX)
-      record.errors[attribute] << I18n.t('activerecord.errors.models.candidate.attributes.email_address.invalid')
+      record.errors[attribute] << I18n.t('validation_errors.email_address_format')
     end
   end
 end
