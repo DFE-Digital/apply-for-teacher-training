@@ -39,7 +39,6 @@ Rails.application.routes.draw do
     get '/sign-in/check-email', to: 'sign_in#check_your_email', as: :check_email_sign_in
     get '/sign-in/expired', to: 'sign_in#expired', as: :expired_sign_in
 
-    # TODO: remove redirect from Jan 15 2021
     get '/confirm_authentication', to: redirect('/candidate/sign-in/confirm')
     get '/sign-in/confirm', to: 'sign_in#confirm_authentication', as: :authenticate
     post '/sign-in/confirm', to: 'sign_in#authenticate'
@@ -78,7 +77,6 @@ Rails.application.routes.draw do
       get '/start-carry-over' => 'carry_over#start', as: :start_carry_over
       post '/carry-over' => 'carry_over#create', as: :carry_over
 
-      # TODO: Remove temporary redirects from Jan 15 2021
       scope '/personal-details' do
         get '/', to: redirect('/candidate/application/personal-information')
         get '/edit', to: redirect('/candidate/application/personal-information/edit')
@@ -133,7 +131,6 @@ Rails.application.routes.draw do
         patch '/interview-preferences/complete' => 'personal_statement/interview_preferences#complete', as: :interview_preferences_complete
       end
 
-      # TODO: Remove temporary redirects from Jan 15 2021
       scope '/training-with-a-disability' do
         get '/', to: redirect('/candidate/application/additional-support')
         get '/review', to: redirect('/candidate/application/additional-support/review')
@@ -146,7 +143,6 @@ Rails.application.routes.draw do
         patch '/complete' => 'training_with_a_disability#complete', as: :training_with_a_disability_complete
       end
 
-      # TODO: Remove temporary redirects from Jan 15 2021
       scope '/contact-details' do
         get '/', to: redirect('/candidate/application/contact-information')
         get '/address_type', to: redirect('/candidate/application/contact-information/address-type')
@@ -226,7 +222,6 @@ Rails.application.routes.draw do
         delete '/delete/:id' => 'work_history/destroy#destroy'
       end
 
-      # TODO: Remove temporary redirects from Jan 15 2021
       scope '/school-experience' do
         get '/', to: redirect('/candidate/application/unpaid-experience')
         get '/new', to: redirect('/candidate/application/unpaid-experience/new')
@@ -268,7 +263,6 @@ Rails.application.routes.draw do
         get '/:id/institution/edit' => 'degrees/institution#edit', as: :edit_degree_institution
         patch '/:id/institution/edit' => 'degrees/institution#update'
 
-        # TODO: Remove temporary redirects from Jan 15 2021
         get '/:id/completion_status', to: redirect { |params, _| "/candidate/application/degrees/#{params[:id]}/completion-status" }
         get '/:id/completion_status/edit', to: redirect { |params, _| "/candidate/application/degrees/#{params[:id]}/completion-status/edit" }
 
