@@ -13,7 +13,7 @@ class PerformanceStatistics
     candidates = Candidate.all
 
     if year.present?
-      year_query = date_range_query_for_recruitment_cycle_year(year)
+      year_query = date_range_query_for_recruitment_cycle_year(year.to_i)
       candidates = candidates.where(year_query)
     end
 
@@ -173,7 +173,7 @@ private
 
     query = "created_at >= '#{start_date}'"
 
-    if EndOfCycleTimetable::CYCLE_DATES.to_a.map(&:first).max != year
+    if EndOfCycleTimetable::CYCLE_DATES.to_a.map(&:first).max != cycle_year
       end_date = EndOfCycleTimetable::CYCLE_DATES[cycle_year + 1][:apply_reopens]
 
       query += " AND created_at <= '#{end_date}'"

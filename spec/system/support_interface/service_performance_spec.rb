@@ -15,11 +15,11 @@ RSpec.feature 'Service performance' do
     when_there_are_candidates_that_have_never_signed_in
     and_i_visit_the_performance_dashboard_in_support
 
-    then_i_see_the_total_number_of_candidates_that_have_not_signed_in
+    then_i_see_the_total_number_of_candidates_in_the_system
 
     when_i_go_a_report_for_a_specific_year
 
-    then_i_only_see_candidates_that_have_signed_in
+    then_i_only_see_candidates_that_signed_up_that_year
   end
 
   def given_i_am_a_support_user
@@ -31,7 +31,12 @@ RSpec.feature 'Service performance' do
   end
 
   def when_there_are_candidates_that_have_never_signed_in
-    create_list(:candidate, 2)
+    Timecop.freeze(2019, 12, 25) do
+      create(:candidate)
+    end
+    Timecop.freeze(2021, 1, 5) do
+      create_list(:candidate, 2)
+    end
   end
 
   def when_i_visit_the_performance_dashboard_in_support
@@ -43,7 +48,6 @@ RSpec.feature 'Service performance' do
 
   def then_i_should_see_the_total_count_of_candidates
     expect(page).to have_content '3 unique candidates'
-    expect(page).not_to have_content 'never signed in'
   end
 
   def and_i_should_see_the_total_count_of_application_forms
@@ -52,17 +56,15 @@ RSpec.feature 'Service performance' do
     end
   end
 
-  def then_i_see_the_total_number_of_candidates_that_have_not_signed_in
-    expect(page).to have_content '5 unique candidates'
-    expect(page).to have_content '2 never signed in'
+  def then_i_see_the_total_number_of_candidates_in_the_system
+    expect(page).to have_content '6 unique candidates'
   end
 
   def when_i_go_a_report_for_a_specific_year
     click_on RecruitmentCycle.cycle_name
   end
 
-  def then_i_only_see_candidates_that_have_signed_in
-    expect(page).to have_content '3 unique candidates'
-    expect(page).not_to have_content 'never signed in'
+  def then_i_only_see_candidates_that_signed_up_that_year
+    expect(page).to have_content '5 unique candidates'
   end
 end
