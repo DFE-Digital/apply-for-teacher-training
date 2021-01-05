@@ -16,6 +16,7 @@ module ProviderInterface
 
     validates :providers, presence: true, on: :providers
     validates :view_applications_only, presence: { message: 'Choose whether this user has extra permissions' }, on: :permissions
+    validate :at_least_one_extra_permission_is_set_if_necessary, on: :permissions
 
     class PermissionsForm
       include ActiveModel::Model
@@ -123,6 +124,15 @@ module ProviderInterface
     end
 
   private
+
+    def at_least_one_extra_permission_is_set_if_necessary
+      return if ActiveModel::Type::Boolean.new.cast(view_applications_only)
+
+      selected_permissions = provider_permissions[current_provider_id].fetch('permissions', []).reject(&:blank?)
+      if selected_permissions.count == 0
+        errors[:provider_permissions] << 'Select extra permissions'
+      end
+    end
 
     def delete_permissions_if_view_applications_only(attrs)
       attrs.fetch(:provider_permissions, {}).each_key do |k|
