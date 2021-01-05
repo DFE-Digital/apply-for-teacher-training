@@ -268,10 +268,14 @@ Rails.application.routes.draw do
         get '/:id/institution/edit' => 'degrees/institution#edit', as: :edit_degree_institution
         patch '/:id/institution/edit' => 'degrees/institution#update'
 
-        get '/:id/completion_status' => 'degrees/completion_status#new', as: :degree_completion_status
-        post '/:id/completion_status' => 'degrees/completion_status#create'
-        get '/:id/completion_status/edit' => 'degrees/completion_status#edit', as: :edit_degree_completion_status
-        patch '/:id/completion_status/edit' => 'degrees/completion_status#update'
+        # TODO: Remove temporary redirects from Jan 15 2021
+        get '/:id/completion_status', to: redirect { |params, _| "/candidate/application/degrees/#{params[:id]}/completion-status" }
+        get '/:id/completion_status/edit', to: redirect { |params, _| "/candidate/application/degrees/#{params[:id]}/completion-status/edit" }
+
+        get '/:id/completion-status' => 'degrees/completion_status#new', as: :degree_completion_status
+        post '/:id/completion-status' => 'degrees/completion_status#create'
+        get '/:id/completion-status/edit' => 'degrees/completion_status#edit', as: :edit_degree_completion_status
+        patch '/:id/completion-status/edit' => 'degrees/completion_status#update'
 
         get '/:id/naric' => 'degrees/naric#new', as: :degree_naric
         post '/:id/naric' => 'degrees/naric#create'
