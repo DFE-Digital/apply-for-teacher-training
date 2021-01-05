@@ -43,14 +43,10 @@ RSpec.feature 'Candidate account' do
   end
 
   def and_i_try_to_use_a_legacy_email_link
-    visit candidate_interface_authenticate_path(
-      token: :missing_token,
-      u: current_candidate.encrypted_id,
-    )
+    visit "/candidate/sign-in/confirm?token=missing_token&u=#{current_candidate.encrypted_id}"
   end
 
   def then_i_am_prompted_to_get_a_new_magic_link
-    save_and_open_page
     expect(page).to have_content 'The link you clicked has expired'
   end
 
