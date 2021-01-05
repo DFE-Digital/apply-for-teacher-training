@@ -9,7 +9,9 @@ class GetApplicationChoicesForProviders
     course_option: [{ course: %i[provider] }, :site],
   ].freeze
 
-  def self.call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES)
+  DEFAULT_RECRUITMENT_CYCLE_YEAR = RecruitmentCycle.years_visible_to_providers
+
+  def self.call(providers:, vendor_api: false, includes: DEFAULT_INCLUDES, recruitment_cycle_year: DEFAULT_RECRUITMENT_CYCLE_YEAR)
     providers = Array.wrap(providers).select(&:present?)
 
     raise MissingProvider if providers.none?
@@ -25,21 +27,21 @@ class GetApplicationChoicesForProviders
     applications =
       with_course_joins.where(
         'original_course.provider_id' => providers,
-        'original_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+        'original_course.recruitment_cycle_year' => recruitment_cycle_year,
       ).or(
         with_course_joins.where(
           'original_course.accredited_provider_id' => providers,
-          'original_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+          'original_course.recruitment_cycle_year' => recruitment_cycle_year,
         ),
       ).or(
         with_course_joins.where(
           'current_course.provider_id' => providers,
-          'current_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+          'current_course.recruitment_cycle_year' => recruitment_cycle_year,
         ),
       ).or(
         with_course_joins.where(
           'current_course.accredited_provider_id' => providers,
-          'current_course.recruitment_cycle_year' => RecruitmentCycle.years_visible_to_providers,
+          'current_course.recruitment_cycle_year' => recruitment_cycle_year,
         ),
       )
       .where('status IN (?)', statuses)

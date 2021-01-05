@@ -164,7 +164,7 @@ RSpec.describe GetApplicationChoicesForProviders do
     expect(returned_application_names).not_to include('Alex')
   end
 
-  it 'returns application choices for courses in this recruitment cycle only' do
+  it 'returns application choices for courses in cycles visible to providers by default' do
     current_provider = create(:provider)
     provider_we_ratify = create(:provider)
 
@@ -200,6 +200,47 @@ RSpec.describe GetApplicationChoicesForProviders do
     expect(returned_applications.map(&:id)).to include(choice_for_this_cycle.id)
     expect(returned_applications.map(&:id)).not_to include(choice_for_past_cycle.id)
     expect(returned_applications.map(&:id)).not_to include(ratified_choice_for_past_cycle.id)
+  end
+
+  it 'returns application choices for courses in a specified cycle' do
+    current_provider = create(:provider)
+    provider_we_ratify = create(:provider)
+
+    course_option_for_current_cycle = course_option_for_provider(provider: current_provider)
+    course_option_for_previous_cycle = course_option_for_provider(
+      provider: current_provider,
+      recruitment_cycle_year: RecruitmentCycle.previous_year,
+    )
+
+    ratified_course_option_for_previous_cycle = course_option_for_accredited_provider(
+      provider: provider_we_ratify,
+      accredited_provider: current_provider,
+      recruitment_cycle_year: RecruitmentCycle.previous_year,
+    )
+
+    choice_for_current_cycle = create(
+      :application_choice,
+      :awaiting_provider_decision,
+      course_option: course_option_for_current_cycle,
+    )
+
+    choice_for_previous_cycle = create(
+      :application_choice,
+      :awaiting_provider_decision,
+      course_option: course_option_for_previous_cycle,
+    )
+
+    ratified_choice_for_previous_cycle = create(
+      :application_choice,
+      :awaiting_provider_decision,
+      course_option: ratified_course_option_for_previous_cycle,
+    )
+
+    returned_applications = GetApplicationChoicesForProviders.call(providers: current_provider, recruitment_cycle_year: RecruitmentCycle.current_year)
+
+    expect(returned_applications.map(&:id)).to include(choice_for_current_cycle.id)
+    expect(returned_applications.map(&:id)).not_to include(choice_for_previous_cycle.id)
+    expect(returned_applications.map(&:id)).not_to include(ratified_choice_for_previous_cycle.id)
   end
 
   context 'when vendor_api argument is true' do
