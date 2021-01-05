@@ -796,7 +796,7 @@ components:
       properties:
         id:
           type: integer
-          description: The qualification ID in the Apply system
+          description: The qualification ID in the Apply system. These ids are not unique
           example: 123
         qualification_type:
           type: string
