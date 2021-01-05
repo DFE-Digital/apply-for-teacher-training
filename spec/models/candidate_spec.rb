@@ -65,7 +65,7 @@ RSpec.describe Candidate, type: :model do
       expect(candidate.course_from_find).to eq(nil)
     end
   end
- 
+
   describe '#encrypted_id' do
     let(:candidate) { create(:candidate) }
 

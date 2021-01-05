@@ -76,11 +76,12 @@ module CandidateInterface
         raw_token: params[:token],
       )
 
-      candidate = if encrypted_user_id.present?
-        Candidate.find(Encryptor.decrypt(encrypted_user_id))
-      elsif authentication_token
-        authentication_token.user
-      end
+      candidate =
+        if encrypted_user_id.present?
+          Candidate.find(Encryptor.decrypt(encrypted_user_id))
+        elsif authentication_token
+          authentication_token.user
+        end
 
       if candidate
         CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate)
