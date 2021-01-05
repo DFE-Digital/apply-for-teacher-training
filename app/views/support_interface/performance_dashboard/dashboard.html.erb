@@ -21,14 +21,7 @@
 <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Candidates</h3>
 
 <div class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-4">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.candidate_count, label: 'unique candidates', colour: :blue) %>
-  </div>
-<% if params[:year].nil? && @statistics.candidate_never_signed_in_count.positive? %>
-  <div class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.candidate_never_signed_in_count, label: 'never signed in', colour: :red) %>
-  </div>
-<% end %>
+  <%= render SupportInterface::TileComponent.new(count: @statistics.candidate_count, label: 'unique candidates', colour: :blue) %>
 </div>
 
 <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Applications</h3>
