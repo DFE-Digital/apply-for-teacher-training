@@ -9,7 +9,7 @@
       <%= f.govuk_radio_buttons_fieldset :type,
         legend: { text: t('page_titles.efl.type'), size: 'xl', tag: 'h1' },
         caption: { text: t('page_titles.efl.start'), size: 'xl' } do %>
-        <%= f.govuk_radio_button :type, 'ielts', label: { text: 'International English Language Testing System (IELTS)' } %>
+        <%= f.govuk_radio_button :type, 'ielts', label: { text: 'International English Language Testing System (IELTS)' }, link_errors: true %>
         <%= f.govuk_radio_button :type, 'toefl', label: { text: 'Test of English as a Foreign Language (TOEFL)' } %>
         <%= f.govuk_radio_button :type, 'other', label: { text: 'Other' } %>
       <% end %>

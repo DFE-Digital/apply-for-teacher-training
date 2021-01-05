@@ -1,4 +1,4 @@
-<%= f.govuk_radio_button :uk_degree, 'yes', label: { text: t('application_form.degree.uk_degree.label') } do %>
+<%= f.govuk_radio_button :uk_degree, 'yes', label: { text: t('application_form.degree.uk_degree.label') }, link_errors: true do %>
   <%= f.govuk_text_field(
     :type_description,
     label: { text: t('application_form.degree.qualification_type.label'), size: 's' },

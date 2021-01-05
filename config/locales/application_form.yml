@@ -963,6 +963,10 @@ en:
           attributes:
             ethnic_group:
               blank: Choose your ethnic group
+        candidate_interface/training_with_a_disability_form:
+          attributes:
+            disclose_disability:
+              inclusion: Choose if you want to ask for help to become a teacher
         candidate_interface/safeguarding_issues_declaration_form:
           attributes:
             share_safeguarding_issues:

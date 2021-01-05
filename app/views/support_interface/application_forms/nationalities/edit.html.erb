@@ -10,10 +10,10 @@
         <%= f.govuk_check_box(
           :nationalities,
           'British',
-          link_errors: true,
           multiple: true,
           label: { text: 'British' },
-          hint: { text: 'including English, Scottish, Welsh or from Northern Ireland' }
+          hint: { text: 'including English, Scottish, Welsh or from Northern Ireland' },
+          link_errors: true
         ) %>
         <%= f.govuk_check_box(
           :nationalities,

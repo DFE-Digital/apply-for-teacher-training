@@ -21,7 +21,8 @@
             <%= pf.govuk_check_boxes_fieldset(:permissions, legend: { text: 'Select permissions', size: "m" }) do %>
               <%= pf.govuk_check_box :permissions, 'manage_organisations',
                                     label: { text: 'Manage organisational permissions' },
-                                    hint: { text: 'Change permissions between organisations' } %>
+                                    hint: { text: 'Change permissions between organisations' },
+                                    link_errors: true %>
 
               <%= pf.govuk_check_box :permissions, 'manage_users',
                                     label: { text: 'Manage users' },

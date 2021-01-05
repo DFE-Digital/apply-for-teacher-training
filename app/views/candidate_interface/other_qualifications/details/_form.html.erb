@@ -8,7 +8,7 @@
     <%= tag.div(id: 'subject-autosuggest-data', data: { source: subjects }) if subjects %>
     <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: t('application_form.other_qualification.grade.label'), size: 'm' } do %>
       <% OTHER_UK_QUALIFICATION_GRADES.each_with_index do |grade, i| %>
-        <%= f.govuk_radio_button :grade, grade, link_errors: i.zero?, label: { text: grade.to_s }%>
+        <%= f.govuk_radio_button :grade, grade, label: { text: grade.to_s }, link_errors: i.zero? %>
       <% end %>
     <% end %>
     <%= f.govuk_text_field :award_year, label: { text: t('application_form.other_qualification.award_year.label'), size: 'm' }, hint: { text: t('application_form.other_qualification.award_year.hint_text') }, width: 4 %>

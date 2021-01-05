@@ -1,7 +1,7 @@
 <%= f.govuk_error_summary %>
 
 <%= f.govuk_radio_buttons_fieldset :qualification_status, caption: { text: t('page_titles.efl.start'), size: 'xl' }, legend: { text: 'Have you done an English as a foreign language assessment?', size: 'xl', tag: 'h1' } do %>
-  <%= f.govuk_radio_button :qualification_status, 'has_qualification', label: { text: 'Yes' } %>
+  <%= f.govuk_radio_button :qualification_status, 'has_qualification', label: { text: 'Yes' }, link_errors: true %>
   <%= f.govuk_radio_button :qualification_status, 'qualification_not_needed', label: { text: 'No, English is not a foreign language to me' } %>
   <%= f.govuk_radio_button :qualification_status, 'no_qualification', label: { text: 'No, I have not done an English as a foreign language assessment' } do %>
     <p class='govuk-hint'>If English is a foreign language to you, or if you do not have an English GCSE or equivalent, you may have to give evidence for your level of English.</p>

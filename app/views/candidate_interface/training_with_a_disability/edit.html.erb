@@ -27,7 +27,7 @@
       </ul>
 
       <%= f.govuk_radio_buttons_fieldset :disclose_disability, legend: { text: t('application_form.training_with_a_disability.disclose_disability.label'), size: 'm' } do %>
-        <%= f.govuk_radio_button :disclose_disability, 'yes', label: { text: t('application_form.training_with_a_disability.disclose_disability.yes') } do %>
+        <%= f.govuk_radio_button :disclose_disability, 'yes', label: { text: t('application_form.training_with_a_disability.disclose_disability.yes') }, link_errors: true do %>
           <%= f.govuk_text_area :disability_disclosure, rows: 8, label: { text: t('application_form.training_with_a_disability.disability_disclosure.label'), size: 's' }, max_words: 400 %>
         <% end %>
 
