@@ -11,8 +11,15 @@
     }
   ]) %>
 <% end %>
-<h2 class="govuk-heading-m govuk-!-margin-top-9"> Recruitment cycle <%= RecruitmentCycle::CYCLES[RecruitmentCycle.current_year.to_s] %></h2>
-<%= render SupportInterface::UCASMatchesStatisticsComponent.new(UCASMatch.where(recruitment_cycle_year: RecruitmentCycle.current_year)) %>
 
-<h2 class="govuk-heading-m govuk-!-margin-top-9"> Recruitment cycle <%= RecruitmentCycle::CYCLES[RecruitmentCycle.previous_year.to_s] %></h2>
-<%= render SupportInterface::UCASMatchesStatisticsComponent.new(UCASMatch.where(recruitment_cycle_year: RecruitmentCycle.previous_year)) %>
+<% year_choices = RecruitmentCycle::CYCLES.map do |year, label| %>
+  <% { name: label, url: "?year=#{year}", current: params[:year] == year } %>
+<% end %>
+
+<%= render TabNavigationComponent.new(items: [
+  { name: 'All years', url: '?', current: params[:year].nil? },
+] + year_choices ) %>
+
+<% ucas_matches = params[:year].nil? ? UCASMatch.all : UCASMatch.where(recruitment_cycle_year: params[:year])%>
+
+<%= render SupportInterface::UCASMatchesStatisticsComponent.new(ucas_matches) %>
