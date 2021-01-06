@@ -96,17 +96,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
   end
 
   context 'when the subject is english' do
-    it 'displays the guidance around the expectation of providers' do
-      FeatureFlag.deactivate(:multiple_english_gcses)
-      subject = 'english'
-
-      result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
-
-      expect(result.text).to include(t('gcse_edit_grade.guidance.main'))
-    end
-
     it 'displays the guidance around the expectation of providers for multiple English GCSEs' do
-      FeatureFlag.activate(:multiple_english_gcses)
       subject = 'english'
 
       result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, 'gcse'))
@@ -121,36 +111,6 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
       result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
 
       expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_science'))
-    end
-
-    context 'and a GCSE' do
-      it 'displays the guidance around only having english literature and more than one english qualification' do
-        FeatureFlag.deactivate(:multiple_english_gcses)
-        subject = 'english'
-        qualification_type = 'gcse'
-
-        result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
-
-        expect(result.text).to include(t('gcse_edit_grade.guidance.english_literature_only.summary', type: 'a GCSE'))
-        expect(result.text).to include(t('gcse_edit_grade.guidance.english_literature_only.details'))
-        expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_qualifications.summary'))
-        expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_qualifications.details'))
-      end
-    end
-
-    context 'and an O Level' do
-      it 'displays the guidance around only having english literature and more than one english qualification' do
-        FeatureFlag.deactivate(:multiple_english_gcses)
-        subject = 'english'
-        qualification_type = 'gce_o_level'
-
-        result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
-
-        expect(result.text).to include(t('gcse_edit_grade.guidance.english_literature_only.summary', type: 'an O level'))
-        expect(result.text).to include(t('gcse_edit_grade.guidance.english_literature_only.details'))
-        expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_qualifications.summary'))
-        expect(result.text).to include(t('gcse_edit_grade.guidance.multiple_english_qualifications.details'))
-      end
     end
 
     context 'and a Scottish National 5' do

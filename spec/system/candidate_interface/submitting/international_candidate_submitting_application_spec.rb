@@ -5,8 +5,6 @@ RSpec.feature 'International candidate submits the application' do
   include EFLHelper
 
   scenario 'International candidate completes and submits an application' do
-    FeatureFlag.deactivate(:multiple_english_gcses)
-
     given_i_am_signed_in
 
     when_i_have_completed_everything_except_the_efl_section
@@ -89,10 +87,10 @@ RSpec.feature 'International candidate submits the application' do
     candidate_fills_in_their_degree
 
     click_link 'Maths GCSE or equivalent'
-    candidate_fills_in_a_gcse('maths')
+    candidate_fills_in_their_maths_gcse
 
     click_link 'English GCSE or equivalent'
-    candidate_fills_in_a_gcse('english')
+    candidate_fills_in_their_english_gcse
 
     click_link 'Science GCSE or equivalent'
     candidate_explains_a_missing_gcse

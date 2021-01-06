@@ -74,7 +74,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
               id: @application.english_gcse.id,
               qualification_type: 'gcse',
               non_uk_qualification_type: nil,
-              subject: 'english',
+              subject: 'English single award',
               grade: 'B',
               start_year: nil,
               award_year: '1990',

@@ -280,7 +280,7 @@ module CandidateInterface
     end
 
     def is_multiple_gcse?
-      qualification.qualification_type == 'gcse' && FeatureFlag.active?(:multiple_english_gcses)
+      qualification.qualification_type == 'gcse'
     end
   end
 end

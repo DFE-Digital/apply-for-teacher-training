@@ -23,8 +23,6 @@ module CandidateHelper
   end
 
   def candidate_completes_application_form(with_referees: true)
-    FeatureFlag.deactivate(:multiple_english_gcses)
-
     given_courses_exist
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path
@@ -55,10 +53,10 @@ module CandidateHelper
     candidate_fills_in_their_degree
 
     click_link 'Maths GCSE or equivalent'
-    candidate_fills_in_a_gcse('maths')
+    candidate_fills_in_their_maths_gcse
 
     click_link 'English GCSE or equivalent'
-    candidate_fills_in_a_gcse('english')
+    candidate_fills_in_their_english_gcse
 
     click_link 'Science GCSE or equivalent'
     candidate_explains_a_missing_gcse
@@ -353,10 +351,22 @@ module CandidateHelper
     visit candidate_interface_application_form_path
   end
 
-  def candidate_fills_in_a_gcse(subject)
+  def candidate_fills_in_their_maths_gcse
     choose('GCSE')
     click_button 'Save and continue'
-    %w[maths english].include?(subject) ? fill_in('Please specify your grade', with: 'B') : select('B', from: 'Grade')
+    fill_in('Please specify your grade', with: 'B')
+    click_button 'Save and continue'
+    fill_in 'Enter year', with: '1990'
+    click_button 'Save and continue'
+    check t('application_form.completed_checkbox')
+    click_button t('application_form.continue')
+  end
+
+  def candidate_fills_in_their_english_gcse
+    choose('GCSE')
+    click_button 'Save and continue'
+    check 'English (Single award)'
+    fill_in('Grade', match: :first, with: 'B')
     click_button 'Save and continue'
     fill_in 'Enter year', with: '1990'
     click_button 'Save and continue'

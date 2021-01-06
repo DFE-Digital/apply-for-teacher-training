@@ -23,12 +23,6 @@ en:
         main: You need a grade C or 4 (or the equivalent). Contact your provider if you do not have this. You might be able to retake an exam or do an equivalence test.
         secondary: An English Language GCSE is preferred.
       triple_scottish_national_science: If you studied three science subjects separately or took a general science qualification, enter your total grade.
-      english_literature_only:
-        summary: If you have %{type} in English Literature only
-        details: Enter your grade here – but be aware that providers may want further evidence of your abilities in English.
-      multiple_english_qualifications:
-        summary: If you have more than one English qualification
-        details: Enter any English Literature qualifications under ‘Academic and other relevant qualifications’.
     hint:
       science:
         gcse: For example, ‘A*A*A*’, ‘AA’, ‘B’, ‘999’, ‘88’, ‘7’
