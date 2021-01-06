@@ -56,8 +56,8 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_search_for_part_of_a_candidate_name
-    find(:css, '#candidate_name').set('ame')
-    click_button('Apply filters')
+    fill_in 'Search by candidate name or reference', with: 'ame'
+    click_button('Search')
   end
 
   def and_the_part_of_the_name_should_appear_in_search_field
@@ -79,13 +79,13 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def and_the_relevant_tags_should_be_visible
-    expect(page).to have_css('.moj-filter-tags', text: 'Jim James')
-    then_i_expect_the_relevant_provider_tags_to_be_visible
+    tags = find(:css, '.moj-filter-tags:nth-of-type(2)')
+    expect(tags).to have_text('Hoth Teacher Training')
+    expect(tags).to have_text('Caladan University')
   end
 
   def then_the_relevant_tag_headings_should_be_visible
     selected_filters = find(:css, '.moj-filter__selected')
-    expect(selected_filters).to have_text('Candidate’s name')
     expect(selected_filters).to have_text('Courses run by')
   end
 
@@ -114,13 +114,13 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_search_for_candidate_name
-    find(:css, '#candidate_name').set('Jim James')
-    click_button('Apply filters')
+    fill_in 'Search by candidate name or reference', with: 'Jim James'
+    click_button('Search')
   end
 
   def when_i_search_for_a_candidate_that_does_not_exist
-    find(:css, '#candidate_name').set('Simon Says')
-    click_button('Apply filters')
+    fill_in 'Search by candidate name or reference', with: 'Simon Says'
+    click_button('Search')
   end
 
   def then_i_search_for_candidate_name
@@ -134,8 +134,8 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_search_for_candidate_name_with_odd_casing
-    find(:css, '#candidate_name').set('jiM JAmeS')
-    click_button('Apply filters')
+    fill_in 'Search by candidate name or reference', with: 'jiM JAmeS'
+    click_button('Search')
   end
 
   def then_only_applications_of_that_name_and_status_should_be_visible
@@ -150,7 +150,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_expect_to_see_the_search_input
-    expect(page).to have_content('Candidate’s name')
+    expect(page).to have_content('Search by candidate name or reference')
   end
 
   def when_i_visit_the_provider_page
@@ -166,11 +166,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def when_i_clear_the_filters
-    click_link('Clear filters')
-  end
-
-  def then_i_do_not_expect_to_see_the_filter_dialogue
-    expect(page).not_to have_button('Apply filters')
+    click_link('Clear search')
   end
 
   def and_i_am_permitted_to_see_applications_from_multiple_providers
@@ -221,11 +217,5 @@ RSpec.feature 'Providers should be able to filter applications' do
     find(:css, "#provider-#{current_provider.id}").set(true)
     find(:css, "#provider-#{second_provider.id}").set(true)
     click_button('Apply filters')
-  end
-
-  def then_i_expect_the_relevant_provider_tags_to_be_visible
-    tags = find(:css, '.moj-filter-tags:nth-of-type(2)')
-    expect(tags).to have_text('Hoth Teacher Training')
-    expect(tags).to have_text('Caladan University')
   end
 end

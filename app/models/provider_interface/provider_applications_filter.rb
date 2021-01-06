@@ -42,9 +42,10 @@ module ProviderInterface
     def search_filter
       {
         type: :search,
-        heading: 'Candidate’s name',
+        heading: 'Candidate name or reference',
         value: applied_filters[:candidate_name],
         name: 'candidate_name',
+        primary: true,
       }
     end
 
