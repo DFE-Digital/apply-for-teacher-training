@@ -8,7 +8,7 @@ class ApplicationStateChange
   OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
   POST_OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer_withdrawn]).freeze
   UNSUCCESSFUL_END_STATES = %w[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent].freeze
-  DECISION_PENDING_STATUSES = %w[awaiting_provider_decision].freeze
+  DECISION_PENDING_STATUSES = %i[awaiting_provider_decision].freeze
   TERMINAL_STATES = UNSUCCESSFUL_END_STATES + %i[recruited].freeze
 
   attr_reader :application_choice

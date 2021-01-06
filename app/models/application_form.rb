@@ -131,7 +131,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def all_provider_decisions_made?
-    application_choices.any? && (application_choices.map(&:status) & ApplicationStateChange::DECISION_PENDING_STATUSES).empty?
+    application_choices.any? && (application_choices.map(&:status).map(&:to_sym) & ApplicationStateChange::DECISION_PENDING_STATUSES).empty?
   end
 
   def all_choices_withdrawn?
