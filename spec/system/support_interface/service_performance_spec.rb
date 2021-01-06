@@ -51,9 +51,7 @@ RSpec.feature 'Service performance' do
   end
 
   def and_i_should_see_the_total_count_of_application_forms
-    within '#application-form-count' do
-      expect(page).to have_content '3'
-    end
+    expect(page).to have_content '3 application forms'
   end
 
   def then_i_see_the_total_number_of_candidates_in_the_system
