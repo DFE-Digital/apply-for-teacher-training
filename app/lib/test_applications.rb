@@ -84,8 +84,15 @@ class TestApplications
 
       # 4 will be requested
       4.times do
-        reference = FactoryBot.create(:reference, :not_requested_yet, application_form: @application_form)
+        reference = FactoryBot.create(
+          :reference,
+          :not_requested_yet,
+          application_form: @application_form,
+          created_at: time,
+          updated_at: time,
+        )
         CandidateInterface::RequestReference.new.call(reference)
+        reference.update!(requested_at: time)
       end
 
       fast_forward
