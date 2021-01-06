@@ -180,17 +180,14 @@ module VendorAPI
 
       # This is to split structured GCSEs in to separate GCSE qualifications for the API
       # Science triple award grades are already properly formatted and so are left out here
-      structured_gcses = gcses.select { |gcse| gcse[:subject] != 'science triple award' && gcse[:structured_grades].present? }
-      separated_gcse_hashes = []
-      if structured_gcses.any?
-        structured_gcses.each do |structured_gcse|
-          separated_gcse_hashes << structured_gcse_to_hashes(structured_gcse)
-          gcses.delete_if { |gcse| gcse == structured_gcse }
-        end
+      to_structure, already_structured = gcses.partition do |gcse|
+        gcse[:subject] != 'science triple award' && gcse[:structured_grades].present?
       end
 
-      gcses_hashes = gcses.map { |q| qualification_to_hash(q) }
-      (gcses_hashes + separated_gcse_hashes).flatten
+      separated_gcse_hashes = to_structure.flat_map { |q| structured_gcse_to_hashes(q) }
+      other_gcses_hashes = already_structured.map { |q| qualification_to_hash(q) }
+
+      other_gcses_hashes + separated_gcse_hashes
     end
 
     def qualifications_of_level(level)
@@ -205,19 +202,10 @@ module VendorAPI
     def structured_gcse_to_hashes(gcse)
       separated_gcses_hashes = []
       structured_grades = JSON.parse(gcse[:structured_grades])
-      structured_grades.each do |k, v|
-        separated_gcse = {
-          id: gcse.id,
-          qualification_type: gcse.qualification_type,
-          non_uk_qualification_type: gcse.non_uk_qualification_type,
-          subject: k.humanize,
-          grade: v,
-          start_year: gcse.start_year,
-          award_year: gcse.award_year,
-          institution_details: institution_details(gcse),
-          awarding_body: gcse.awarding_body,
-          equivalency_details: gcse.composite_equivalency_details,
-        }.merge HesaQualificationFieldsPresenter.new(gcse).to_hash
+
+      structured_grades.each do |subject, grade|
+        separated_gcse = qualification_to_hash(gcse)
+                             .merge(subject: subject.humanize, grade: grade)
 
         separated_gcses_hashes << separated_gcse
       end
