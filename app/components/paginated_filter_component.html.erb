@@ -1,9 +1,8 @@
 <div class='moj-filter-layout'>
-  <%= render FilterComponent.new(filter: filter) %>
+  <%= render FilterComponent.new(filter: filter) do |component| %>
 
-  <div class='moj-filter-layout__content'>
     <%= content %>
 
     <%= render(PaginatorComponent.new(scope: collection)) %>
-  </div>
+  <% end %>
 </div>
