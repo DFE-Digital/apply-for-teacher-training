@@ -173,7 +173,7 @@ private
 
     query = "created_at >= '#{start_date}'"
 
-    if EndOfCycleTimetable::CYCLE_DATES.to_a.map(&:first).max != cycle_year
+    if EndOfCycleTimetable::CYCLE_DATES[cycle_year + 1].present?
       end_date = EndOfCycleTimetable::CYCLE_DATES[cycle_year + 1][:apply_reopens]
 
       query += " AND created_at <= '#{end_date}'"
