@@ -128,8 +128,8 @@ module ProviderInterface
     def at_least_one_extra_permission_is_set_if_necessary
       return if ActiveModel::Type::Boolean.new.cast(view_applications_only)
 
-      selected_permissions = provider_permissions[current_provider_id].fetch('permissions', []).reject(&:blank?)
-      if selected_permissions.count == 0
+      selected_permissions = permissions_for(current_provider_id).fetch('permissions', []).reject(&:blank?)
+      if selected_permissions.none?
         errors[:provider_permissions] << 'Select extra permissions'
       end
     end
