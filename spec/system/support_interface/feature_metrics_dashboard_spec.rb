@@ -17,21 +17,34 @@ RSpec.feature 'Feature metrics dashboard' do
     sign_in_as_support_user
   end
 
-  def and_there_are_candidates_and_application_forms_in_the_system
-    Timecop.freeze(Time.zone.now - 12.days) do
-      @application_form1 = create(:application_form)
-      @references1 = create_list(:reference, 2, application_form: @application_form1)
-      @references1.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
+  def create_application_form_with_references
+    application_form = create(:application_form)
+    references = create_list(:reference, 2, application_form: application_form)
+    references.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
+    references
+  end
 
-      @application_form2 = create(:application_form)
-      @references2 = create_list(:reference, 2, application_form: @application_form2)
-      @references2.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
+  def provide_references(references)
+    references.each { |reference| SubmitReference.new(reference: reference, send_emails: false).save! }
+  end
+
+  def and_there_are_candidates_and_application_forms_in_the_system
+    allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(60.days.ago)
+    Timecop.freeze(Time.zone.now - 50.days) do
+      @references1 = create_application_form_with_references
+      @references2 = create_application_form_with_references
     end
-    Timecop.freeze(Time.zone.now - 9.days) do
-      @references1.each { |reference| SubmitReference.new(reference: reference, send_emails: false).save! }
+    Timecop.freeze(Time.zone.now - 40.days) do
+      @references3 = create_application_form_with_references
+      provide_references(@references1)
     end
-    Timecop.freeze(Time.zone.now) do
-      @references2.each { |reference| SubmitReference.new(reference: reference, send_emails: false).save! }
+    Timecop.freeze(Time.zone.now - 21.days) do
+      @references4 = create_application_form_with_references
+      provide_references(@references2)
+    end
+    Timecop.freeze(Time.zone.now - 2.days) do
+      provide_references(@references3)
+      provide_references(@references4)
     end
   end
 
@@ -45,7 +58,9 @@ RSpec.feature 'Feature metrics dashboard' do
 
   def then_i_should_see_reference_metrics
     expect(page).to have_content('Feature metrics')
-    expect(page).to have_content('12 today')
-    expect(page).to have_content('7.5 last month')
+    expect(page).to have_content('24 this recruitment cycle')
+    expect(page).to have_content('28.7 last month')
+    expect(page).to have_content('75% this recruitment cycle')
+    expect(page).to have_content('66.7% last month')
   end
 end

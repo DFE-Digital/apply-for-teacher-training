@@ -1,16 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe FeatureMetrics, with_audited: true do
+  subject(:feature_metrics) { described_class.new }
+
   context 'without any data' do
     describe '#average_time_to_get_references' do
       it 'just returns n/a' do
-        expect(subject.average_time_to_get_references(1.month.ago)).to eq('n/a')
+        expect(feature_metrics.average_time_to_get_references(1.month.ago)).to eq('n/a')
       end
     end
 
     describe '#percentage_references_within' do
       it 'just returns n/a' do
-        expect(subject.percentage_references_within(30, 1.month.ago)).to eq('n/a')
+        expect(feature_metrics.percentage_references_within(30, 1.month.ago)).to eq('n/a')
       end
     end
   end
@@ -37,33 +39,33 @@ RSpec.describe FeatureMetrics, with_audited: true do
 
     describe '#average_time_to_get_references' do
       it 'returns the correct value for references received today' do
-        expect(subject.average_time_to_get_references(@today.beginning_of_day, @today)).to eq('12')
+        expect(feature_metrics.average_time_to_get_references(@today.beginning_of_day, @today)).to eq('12')
       end
 
       it 'returns the correct value for references received in the past month' do
-        expect(subject.average_time_to_get_references((@today - 1.month).beginning_of_day, @today)).to eq('7.5')
+        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today)).to eq('7.5')
       end
 
       it 'returns the correct value for references received over a custom interval' do
-        expect(subject.average_time_to_get_references((@today - 1.month).beginning_of_day, @today - 1.week)).to eq('3')
+        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today - 1.week)).to eq('3')
       end
     end
 
     describe '#percentage_references_within' do
       it 'returns the correct percentage of references received in 30 days today' do
-        expect(subject.percentage_references_within(30, @today.beginning_of_day, @today)).to eq('100%')
+        expect(feature_metrics.percentage_references_within(30, @today.beginning_of_day, @today)).to eq('100%')
       end
 
       it 'returns the correct percentage of references received in 10 days today' do
-        expect(subject.percentage_references_within(10, @today.beginning_of_day, @today)).to eq('0%')
+        expect(feature_metrics.percentage_references_within(10, @today.beginning_of_day, @today)).to eq('0%')
       end
 
       it 'returns the correct percentage of references received in 30 days the past month' do
-        expect(subject.percentage_references_within(30, (@today - 1.month).beginning_of_day, @today)).to eq('100%')
+        expect(feature_metrics.percentage_references_within(30, (@today - 1.month).beginning_of_day, @today)).to eq('100%')
       end
 
       it 'returns the correct percentage of references received in 10 days the past month' do
-        expect(subject.percentage_references_within(10, (@today - 1.month).beginning_of_day, @today)).to eq('50%')
+        expect(feature_metrics.percentage_references_within(10, (@today - 1.month).beginning_of_day, @today)).to eq('50%')
       end
     end
   end

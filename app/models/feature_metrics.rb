@@ -1,7 +1,10 @@
 class FeatureMetrics
   include ActionView::Helpers::NumberHelper
 
-  def average_time_to_get_references(start_time, end_time = Time.zone.now)
+  def average_time_to_get_references(
+    start_time,
+    end_time = Time.zone.now.beginning_of_day
+  )
     times_to_get = time_to_get_references(start_time, end_time)
     return 'n/a' if times_to_get.blank?
 
@@ -12,7 +15,11 @@ class FeatureMetrics
     )
   end
 
-  def percentage_references_within(number_of_days, start_time, end_time = Time.zone.now)
+  def percentage_references_within(
+    number_of_days,
+    start_time,
+    end_time = Time.zone.now.beginning_of_day
+  )
     times_to_get = time_to_get_references(start_time, end_time)
     return 'n/a' if times_to_get.blank?
 
