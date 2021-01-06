@@ -15,7 +15,11 @@ RSpec.feature 'Managing provider user permissions' do
     and_i_click_to_change_permissions
 
     then_i_see_user_permissions_for_this_provider
-    and_i_add_permission_to_manage_users_for_a_provider_user
+
+    when_i_select_extra_permissions_and_no_special_permissions
+    then_i_see_a_validation_error_for_extra_permissions
+
+    when_i_add_permission_to_manage_users_for_a_provider_user
     then_i_can_see_the_manage_users_permission_for_the_provider_user
     and_i_click_to_change_permissions
 
@@ -80,7 +84,17 @@ RSpec.feature 'Managing provider user permissions' do
     end
   end
 
-  def and_i_add_permission_to_manage_users_for_a_provider_user
+  def when_i_select_extra_permissions_and_no_special_permissions
+    expect(page).not_to have_checked_field 'Manage users'
+    choose 'Extra permissions'
+    click_on 'Save'
+  end
+
+  def then_i_see_a_validation_error_for_extra_permissions
+    expect(page).to have_content 'Select extra permissions'
+  end
+
+  def when_i_add_permission_to_manage_users_for_a_provider_user
     expect(page).not_to have_checked_field 'Manage users'
     choose 'Extra permissions'
     check 'Manage users'
@@ -98,6 +112,7 @@ RSpec.feature 'Managing provider user permissions' do
   def when_i_remove_manage_users_permissions_from_a_provider_user
     expect(page).to have_checked_field 'Manage users'
     uncheck 'Manage users'
+    choose 'View applications only'
     click_on 'Save'
   end
 
