@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe PerformanceStatistics, type: :model do
   describe '#[]' do
-    it 'counts candidates without application forms' do
+    it 'does not count candidates without application forms' do
       create(:candidate)
 
       expect(ProcessState.new(nil).state).to be :never_signed_in
 
-      expect(count_for_process_state(:never_signed_in)).to be(1)
+      expect(count_for_process_state(:never_signed_in)).to be(0)
     end
 
     it 'counts unsubmitted, unstarted applications' do
@@ -101,7 +101,41 @@ RSpec.describe PerformanceStatistics, type: :model do
     end
   end
 
-  describe '#total_candidate_count' do
+  describe '#candidate_count' do
+    it 'returns the total number of candidates that were created during a given cycle' do
+      Timecop.freeze(2020, 1, 5) do
+        create_list(:candidate, 2)
+      end
+      Timecop.freeze(2020, 12, 25) do
+        create_list(:candidate, 3)
+      end
+
+      expect(described_class.new(2020).candidate_count).to eq(2)
+      expect(described_class.new(2021).candidate_count).to eq(3)
+    end
+
+    it 'returns the total number of candidates that exist when no cycle is given' do
+      Timecop.freeze(2020, 1, 5) do
+        create_list(:candidate, 2)
+      end
+      Timecop.freeze(2020, 12, 25) do
+        create_list(:candidate, 3)
+      end
+
+      expect(described_class.new(nil).candidate_count).to eq(5)
+    end
+
+    it 'does not take into account any application forms that a candidate may have' do
+      Timecop.freeze(2020, 1, 5) do
+        create(:application_form, recruitment_cycle_year: 2021)
+      end
+
+      expect(described_class.new(2020).candidate_count).to eq(1)
+      expect(described_class.new(2021).candidate_count).to eq(0)
+    end
+  end
+
+  describe '#total_form_count' do
     it 'optionally filters only on certain process states and excludes certain states' do
       create(:application_choice, status: 'recruited')
       create(:application_choice, status: 'recruited')
@@ -109,8 +143,8 @@ RSpec.describe PerformanceStatistics, type: :model do
 
       stats = PerformanceStatistics.new(nil)
 
-      expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
-      expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(2)
+      expect(stats.total_form_count(only: %i[recruited])).to eq(2)
+      expect(stats.total_form_count(except: %i[pending_conditions])).to eq(2)
     end
 
     it 'optionally filters by phase' do
@@ -123,11 +157,11 @@ RSpec.describe PerformanceStatistics, type: :model do
 
       stats = PerformanceStatistics.new(nil)
 
-      expect(stats.total_candidate_count(only: %i[recruited])).to eq(2)
-      expect(stats.total_candidate_count(only: %i[recruited], phase: :apply_1)).to eq(1)
-      expect(stats.total_candidate_count(only: %i[recruited], phase: :apply_2)).to eq(1)
-      expect(stats.total_candidate_count(phase: :apply_2)).to eq(1)
-      expect(stats.total_candidate_count(except: %i[pending_conditions])).to eq(3)
+      expect(stats.total_form_count(only: %i[recruited])).to eq(2)
+      expect(stats.total_form_count(only: %i[recruited], phase: :apply_1)).to eq(1)
+      expect(stats.total_form_count(only: %i[recruited], phase: :apply_2)).to eq(1)
+      expect(stats.total_form_count(phase: :apply_2)).to eq(1)
+      expect(stats.total_form_count(except: %i[pending_conditions])).to eq(2)
     end
   end
 
@@ -138,7 +172,7 @@ RSpec.describe PerformanceStatistics, type: :model do
 
       stats = PerformanceStatistics.new(2021)
 
-      expect(stats.total_candidate_count).to eq(1)
+      expect(stats.total_form_count).to eq(1)
     end
   end
 
@@ -194,6 +228,6 @@ RSpec.describe PerformanceStatistics, type: :model do
 
     stats = PerformanceStatistics.new(nil)
 
-    expect(stats.total_candidate_count).to eq(1)
+    expect(stats.total_form_count).to eq(1)
   end
 end

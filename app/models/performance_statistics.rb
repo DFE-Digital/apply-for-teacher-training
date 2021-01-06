@@ -1,11 +1,26 @@
 class PerformanceStatistics
+  UNSUBMITTED_STATUSES = %i[unsubmitted_not_started_form unsubmitted_in_progress].freeze
+  PROCESSING_STATUSES = %i[awaiting_provider_decisions awaiting_candidate_response].freeze
+  ACCEPTED_STATUSES = %i[pending_conditions recruited offer_deferred].freeze
+
   attr_reader :year
 
   def initialize(year)
     @year = year
   end
 
-  def candidate_query
+  def candidate_count
+    candidates = Candidate.all
+
+    if year.present?
+      year_query = date_range_query_for_recruitment_cycle_year(year.to_i)
+      candidates = candidates.where(year_query)
+    end
+
+    candidates.where(hide_in_reporting: false).uniq.count
+  end
+
+  def application_form_query
     year_clause = year ? "AND f.recruitment_cycle_year = #{year}" : ''
 
     <<-SQL
@@ -14,23 +29,20 @@ class PerformanceStatistics
               c.id,
               f.id,
               f.phase,
-              COUNT(f.id) FILTER (WHERE f.id IS NOT NULL) application_forms,
-              COUNT(ch.id) FILTER (WHERE f.id IS NOT NULL) application_choices,
               CASE
-                WHEN f.id IS NULL THEN ARRAY['-1', 'never_signed_in']
-                WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) = DATE_TRUNC('second', f.created_at) THEN ARRAY['0', 'unsubmitted_not_started_form']
-                WHEN ARRAY_AGG(DISTINCT ch.status) IN ('{NULL}', '{unsubmitted}') AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN ARRAY['1', 'unsubmitted_in_progress']
+                WHEN #{form_is_unsubmitted_sql} AND DATE_TRUNC('second', f.updated_at) = DATE_TRUNC('second', f.created_at) THEN ARRAY['0', 'unsubmitted_not_started_form']
+                WHEN #{form_is_unsubmitted_sql} AND DATE_TRUNC('second', f.updated_at) <> DATE_TRUNC('second', f.created_at) THEN ARRAY['1', 'unsubmitted_in_progress']
                 WHEN 'awaiting_provider_decision' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['4', 'awaiting_provider_decisions']
                 WHEN 'offer' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['6', 'awaiting_candidate_response']
                 WHEN 'recruited' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['8', 'recruited']
                 WHEN 'pending_conditions' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['7', 'pending_conditions']
                 WHEN 'offer_deferred' = ANY(ARRAY_AGG(ch.status)) THEN ARRAY['10', 'offer_deferred']
-                WHEN #{ended_without_success_sql} = '{}' THEN ARRAY['5', 'ended_without_success']
+                WHEN #{form_ended_without_success_sql} THEN ARRAY['5', 'ended_without_success']
                 ELSE ARRAY['10', 'unknown_state']
               END status
           FROM
               application_forms f
-          FULL OUTER JOIN
+          LEFT JOIN
               candidates c ON f.candidate_id = c.id
           LEFT JOIN
               application_choices ch ON ch.application_form_id = f.id
@@ -53,25 +65,29 @@ class PerformanceStatistics
     SQL
   end
 
-  def ended_without_success_sql
+  def form_is_unsubmitted_sql
+    "('unsubmitted' = ANY(ARRAY_AGG(ch.status)) OR '{NULL}' = ARRAY_AGG(DISTINCT ch.status))"
+  end
+
+  def form_ended_without_success_sql
     sql = 'ARRAY_AGG(DISTINCT ch.status)'
 
     ApplicationStateChange::UNSUCCESSFUL_END_STATES.each do |state|
       sql = "ARRAY_REMOVE(#{sql}, '#{state}')"
     end
 
-    sql
+    "#{sql} = '{}'"
   end
 
   def [](key)
-    candidate_status_counts
+    application_form_status_counts
       .select { |x| x['status'] == key.to_s }
       .map { |row| row['count'] }
       .sum
   end
 
-  def total_candidate_count(only: nil, except: [], phase: nil)
-    candidate_status_counts
+  def total_form_count(only: nil, except: [], phase: nil)
+    application_form_status_counts
       .select { |row| only.nil? || row['status'].to_sym.in?(only) }
       .select { |row| phase.nil? || row['phase']&.to_sym == phase.to_sym }
       .reject { |row| row['status'].to_sym.in?(except) }
@@ -79,37 +95,51 @@ class PerformanceStatistics
       .sum
   end
 
-  def candidate_status_counts
-    @candidate_status_counts ||= ActiveRecord::Base
+  def application_form_status_counts
+    @application_form_status_counts ||= ActiveRecord::Base
       .connection
-      .execute(candidate_query)
+      .execute(application_form_query)
       .to_a
   end
 
-  def candidate_status_total_counts
-    candidate_status_counts.group_by { |row| row['status'] }.map do |status, rows|
-      { 'status' => status, 'count' => rows.map { |r| r['count'] }.sum }
-    end
-  end
-
   def total_submitted_count
-    total_candidate_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress])
+    total_form_count(except: UNSUBMITTED_STATUSES)
   end
 
   def apply_again_submitted_count
-    total_candidate_count(except: %i[never_signed_in unsubmitted_not_started_form unsubmitted_in_progress], phase: :apply_2)
+    total_form_count(except: UNSUBMITTED_STATUSES, phase: :apply_2)
+  end
+
+  def unsubmitted_application_form_status_total_counts
+    application_form_status_total_counts(only: UNSUBMITTED_STATUSES)
+  end
+
+  def still_being_processed_count
+    total_form_count(only: PROCESSING_STATUSES)
+  end
+
+  def still_being_processed_application_form_status_total_counts
+    application_form_status_total_counts(only: PROCESSING_STATUSES)
   end
 
   def ended_without_success_count
-    total_candidate_count(only: %i[ended_without_success])
+    total_form_count(only: %i[ended_without_success])
+  end
+
+  def ended_without_success_application_form_status_total_counts
+    application_form_status_total_counts(only: %i[ended_without_success])
   end
 
   def accepted_offer_count
-    total_candidate_count(only: %i[pending_conditions recruited offer_deferred])
+    total_form_count(only: ACCEPTED_STATUSES)
+  end
+
+  def accepted_offer_application_form_status_total_counts
+    application_form_status_total_counts(only: ACCEPTED_STATUSES)
   end
 
   def apply_again_accepted_offer_count
-    total_candidate_count(only: %i[pending_conditions recruited offer_deferred], phase: :apply_2)
+    total_form_count(only: %i[pending_conditions recruited offer_deferred], phase: :apply_2)
   end
 
   def rejected_by_default_count
@@ -133,6 +163,30 @@ class PerformanceStatistics
         else
           '-'
         end
+      end
+  end
+
+private
+
+  def date_range_query_for_recruitment_cycle_year(cycle_year)
+    start_date = EndOfCycleTimetable::CYCLE_DATES[cycle_year][:apply_reopens]
+
+    query = "created_at >= '#{start_date}'"
+
+    if EndOfCycleTimetable::CYCLE_DATES[cycle_year + 1].present?
+      end_date = EndOfCycleTimetable::CYCLE_DATES[cycle_year + 1][:apply_reopens]
+
+      query += " AND created_at <= '#{end_date}'"
+    end
+
+    query
+  end
+
+  def application_form_status_total_counts(only: nil)
+    application_form_status_counts
+      .select { |row| only.nil? || row['status'].to_sym.in?(only) }
+      .group_by { |row| row['status'] }.map do |status, rows|
+        { 'status' => status, 'count' => rows.map { |r| r['count'] }.sum }
       end
   end
 end
