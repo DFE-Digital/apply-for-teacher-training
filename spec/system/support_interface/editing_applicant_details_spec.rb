@@ -13,6 +13,10 @@ RSpec.feature 'Editing application details' do
     and_i_submit_the_update_form
     then_i_should_see_relevant_blank_error_messages
 
+    when_i_supply_new_applicant_details_with_used_email_address
+    and_i_submit_the_update_form
+    then_i_should_see_a_duplicate_email_error_message
+
     when_i_supply_new_applicant_details
     and_i_submit_the_update_form
     then_i_should_see_a_flash_message
@@ -135,6 +139,16 @@ RSpec.feature 'Editing application details' do
   def and_i_should_see_my_comment_in_the_audit_log
     click_on 'History'
     expect(page).to have_content 'https://becomingateacher.zendesk.com/12345'
+  end
+
+  def when_i_supply_new_applicant_details_with_used_email_address
+    when_i_supply_new_applicant_details
+    create :candidate, email_address: 'bob@example.com'
+    fill_in 'support_interface_application_forms_edit_applicant_details_form[email_address]', with: 'bob@example.com'
+  end
+
+  def then_i_should_see_a_duplicate_email_error_message
+    expect(page).to have_content 'Email address is already in use'
   end
 
   def when_i_supply_new_applicant_details

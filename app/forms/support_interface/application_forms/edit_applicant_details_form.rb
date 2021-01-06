@@ -17,6 +17,7 @@ module SupportInterface
                 length: { maximum: 60 }
 
       validates :email_address, presence: true, valid_for_notify: true, length: { maximum: 100 }
+      validate :email_address_unique
 
       validates :date_of_birth, presence: true
       validate :date_of_birth_valid
@@ -76,6 +77,18 @@ module SupportInterface
 
         age_limit = Time.zone.today - 16.years
         errors.add(:date_of_birth, :below_lower_age_limit, date: age_limit.to_s(:govuk_date)) if date_of_birth > age_limit
+      end
+
+      def email_address_unique
+        return if @application_form.persisted? &&
+          @application_form.candidate.email_address == email_address
+
+        return unless Candidate.exists?(email_address: email_address)
+
+        errors.add(
+          :email_address,
+          I18n.t('activemodel.errors.models.support_interface/application_forms/edit_applicant_details_form.attributes.email_address.taken'),
+        )
       end
 
     private
