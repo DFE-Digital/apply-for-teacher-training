@@ -1,4 +1,4 @@
-<%= content_for :title, t('page_titles.provider.export_hesa_data') %>
+<%= content_for :title, t('page_titles.provider.export_hesa_data', timeframe: '') %>
 <% if FeatureFlag.active?(:export_application_data) %>
   <% content_for :before_content do %>
     <%= render BreadcrumbComponent.new(items: [
@@ -7,7 +7,7 @@
         path: provider_interface_new_application_data_export_path
       },
       {
-        text: t('page_titles.provider.export_hesa_data')
+        text: t('page_titles.provider.export_hesa_data', timeframe: '')
       }
     ]) %>
   <% end %>
@@ -17,7 +17,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      <%= t('page_titles.provider.export_hesa_data') %>
+      <%= t('page_titles.provider.export_hesa_data', timeframe: "since #{EndOfCycleTimetable.apply_reopens.to_s(:govuk_date)}") %>
     </h1>
     <p class="govuk-body">
       The data will include all candidates who have accepted an offer from any of your organisations.
