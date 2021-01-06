@@ -19,6 +19,14 @@ module SupportInterface
         { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)) },
       ]
 
+      if application_choice.rejected?
+        if application_choice.rejected_by_default
+          rows << { key: 'Rejected by default at', value: application_choice.rejected_at.to_s(:govuk_date_and_time) }
+        else
+          rows << { key: 'Rejected at', value: application_choice.rejected_at.to_s(:govuk_date_and_time) }
+        end
+      end
+
       rows << { key: 'Feedback', value: application_choice.rejection_reason } if application_choice.rejection_reason.present?
       rows << { key: 'Sent to provider at', value: application_choice.sent_to_provider_at.to_s(:govuk_date_and_time) } if application_choice.sent_to_provider_at
       rows << { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_s(:govuk_date_and_time) } if application_choice.reject_by_default_at
