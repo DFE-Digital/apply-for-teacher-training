@@ -177,28 +177,17 @@ module VendorAPI
 
     def format_gcses
       gcses = qualifications_of_level('gcse').reject(&:missing_qualification?)
-      parsed_gcses = parse_structured_gcses(gcses)
-      parsed_gcses.map { |q| qualification_to_hash(q) }
-    end
 
-    def parse_structured_gcses(gcses)
-      multiple_gcses = gcses.select { |gcse| gcse[:subject] != 'science triple award' && gcse[:structured_grades].present? }
-
-      if multiple_gcses.any?
-        multiple_gcses.each do |multiple_gcse|
-          structured_grades = JSON.parse(multiple_gcse[:structured_grades])
-
-          structured_grades.each do |k, v|
-            new_separated_gcse = multiple_gcse.dup
-            new_separated_gcse.subject = k.humanize
-            new_separated_gcse.grade = v
-            gcses << new_separated_gcse
-          end
-
-          gcses.delete_if { |gcse| gcse == multiple_gcse }
-        end
+      # This is to split structured GCSEs in to separate GCSE qualifications for the API
+      # Science triple award grades are already properly formatted and so are left out here
+      to_structure, already_structured = gcses.partition do |gcse|
+        gcse[:subject] != 'science triple award' && gcse[:structured_grades].present?
       end
-      gcses
+
+      separated_gcse_hashes = to_structure.flat_map { |q| structured_gcse_to_hashes(q) }
+      other_gcses_hashes = already_structured.map { |q| qualification_to_hash(q) }
+
+      other_gcses_hashes + separated_gcse_hashes
     end
 
     def qualifications_of_level(level)
@@ -207,6 +196,14 @@ module VendorAPI
       # .gcses .degrees etc
       application_form.application_qualifications.select do |q|
         q.level == level
+      end
+    end
+
+    def structured_gcse_to_hashes(gcse)
+      structured_grades = JSON.parse(gcse[:structured_grades])
+      structured_grades.reduce([]) do |array, (subject, grade)|
+        array << qualification_to_hash(gcse)
+                     .merge(subject: subject.humanize, grade: grade)
       end
     end
 

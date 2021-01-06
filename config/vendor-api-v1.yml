@@ -796,7 +796,7 @@ components:
       properties:
         id:
           type: integer
-          description: The qualification ID in the Apply system
+          description: The qualification ID in the Apply system. These IDs are not guaranteed to be unique, for example when a candidate has multiple English GCSEs
           example: 123
         qualification_type:
           type: string
@@ -904,7 +904,7 @@ components:
       properties:
         id:
           type: integer
-          description: A unique reference id
+          description: A unique reference ID
           example: 4321
         name:
           type: string
