@@ -500,7 +500,7 @@ Rails.application.routes.draw do
       end
     end
 
-    get '*path', to: redirect('/candidate/application')
+    get '*path', to: 'errors#not_found'
   end
 
   namespace :referee_interface, path: '/reference' do
