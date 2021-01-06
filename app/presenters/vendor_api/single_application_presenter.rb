@@ -200,16 +200,11 @@ module VendorAPI
     end
 
     def structured_gcse_to_hashes(gcse)
-      separated_gcses_hashes = []
       structured_grades = JSON.parse(gcse[:structured_grades])
-
-      structured_grades.each do |subject, grade|
-        separated_gcse = qualification_to_hash(gcse)
-                             .merge(subject: subject.humanize, grade: grade)
-
-        separated_gcses_hashes << separated_gcse
+      structured_grades.reduce([]) do |array, (subject, grade)|
+        array << qualification_to_hash(gcse)
+                     .merge(subject: subject.humanize, grade: grade)
       end
-      separated_gcses_hashes
     end
 
     def qualification_to_hash(qualification)
