@@ -77,6 +77,7 @@ class TestApplications
         updated_at: time,
         recruitment_cycle_year: recruitment_cycle_year,
         phase: apply_again ? 'apply_2' : 'apply_1',
+        work_history_completed: false,
       )
 
       # One reference that will never be requested
@@ -128,6 +129,9 @@ class TestApplications
       if states.include?(:unsubmitted)
         return application_choices
       end
+
+      @application_form.update!(work_history_completed: true)
+      fast_forward
 
       # The first reference is declined by the referee
       @application_form.application_references.feedback_requested.first.update!(feedback_status: 'feedback_refused')
