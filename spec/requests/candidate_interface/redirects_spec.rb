@@ -45,7 +45,15 @@ RSpec.describe 'Candidate Interface - Redirects', type: :request do
         get path
 
         expect(response.status).to eq(301)
+        expect(path_exists?(response.location)).to be true
       end
     end
+  end
+
+  def path_exists?(path)
+    controller_params = Rails.application.routes.recognize_path(path)
+    controller_params[:action] != 'not_found'
+  rescue ActionController::RoutingError
+    false
   end
 end
