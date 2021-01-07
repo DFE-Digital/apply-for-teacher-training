@@ -18,8 +18,8 @@ RSpec.describe DetectInvariants do
             One or more application choices are still in `awaiting_references` or
             `application_complete` state, but all these states have been removed:
 
-            http://localhost:3000/support/application_choices/#{application_choice_bad.id}
-            http://localhost:3000/support/application_choices/#{application_choice_bad_too.id}
+            http://localhost:3000/support/application-choices/#{application_choice_bad.id}
+            http://localhost:3000/support/application-choices/#{application_choice_bad_too.id}
           MSG
         ),
       )
