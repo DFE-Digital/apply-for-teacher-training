@@ -5,7 +5,7 @@ RSpec.describe ProviderInterface::ProviderUserPermissionsForm do
 
   describe 'validations' do
     it 'is valid when model is set' do
-      expect(described_class.new(model: provider_permissions)).to be_valid
+      expect(described_class.from(provider_permissions)).to be_valid
     end
 
     it 'is invalid without a model' do

@@ -15,6 +15,7 @@ module ProviderInterface
     delegate :id, to: :provider, prefix: true
 
     validates :model, presence: true
+    validate :at_least_one_extra_permission_is_set_if_necessary
 
     def self.from(permissions_model)
       return unless permissions_model
@@ -34,7 +35,7 @@ module ProviderInterface
     end
 
     def update_from_params(hash)
-      view_applications_only = ActiveModel::Type::Boolean.new.cast(hash[:view_applications_only])
+      self.view_applications_only = ActiveModel::Type::Boolean.new.cast(hash[:view_applications_only])
 
       ProviderPermissions::VALID_PERMISSIONS.each do |permission_name|
         permission_value = view_applications_only ? false : hash.fetch(permission_name, false)
@@ -49,6 +50,24 @@ module ProviderInterface
         end
 
         @model.save
+      end
+    end
+
+  private
+
+    def at_least_one_extra_permission_is_set_if_necessary
+      return if view_applications_only
+
+      extra_permissions = [
+        manage_organisations,
+        manage_users,
+        make_decisions,
+        view_safeguarding_information,
+        view_diversity_information,
+      ]
+
+      if extra_permissions.none?
+        errors[:permissions] << 'Select extra permissions'
       end
     end
   end
