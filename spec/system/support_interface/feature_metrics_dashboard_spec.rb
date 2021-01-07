@@ -3,6 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Feature metrics dashboard' do
   include DfESignInHelpers
 
+  around do |example|
+    @today = Time.zone.local(2020, 12, 24, 12)
+    Timecop.freeze(@today) do
+      example.run
+    end
+  end
+
   scenario 'View feature metrics', with_audited: true do
     given_i_am_a_support_user
     and_there_are_candidates_and_application_forms_in_the_system
@@ -11,13 +18,6 @@ RSpec.feature 'Feature metrics dashboard' do
     and_i_click_on_the_feature_metrics_link
 
     then_i_should_see_reference_metrics
-  end
-
-  around do |example|
-    @today = Time.zone.local(2020, 12, 24, 12)
-    Timecop.freeze(@today) do
-      example.run
-    end
   end
 
   def given_i_am_a_support_user
