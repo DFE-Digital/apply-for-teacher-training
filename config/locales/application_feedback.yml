@@ -2,13 +2,6 @@ en:
   application_feedback:
     caption: Help us improve this service
     feedback_link: How can we improve this section? (Opens in a new tab)
-    issues:
-      label: What issues are there in this section?
-      does_not_understand_section: I do not understand the questions
-      need_more_information: I do not have the information needed at the moment
-      answer_does_not_fit_format: My answers do not fit the format
-    other_feedback:
-      label: Do you have any other feedback about this section?
     consent_to_be_contacted:
       label: Can we contact you about your feedback?
       'yes': 'Yes'

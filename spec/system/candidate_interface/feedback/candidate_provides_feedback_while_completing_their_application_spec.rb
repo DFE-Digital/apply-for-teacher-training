@@ -44,9 +44,7 @@ RSpec.feature 'Candidate provides feedback during the application process' do
   end
 
   def when_i_fill_in_my_feedback
-    check t('application_feedback.issues.does_not_understand_section')
-    check t('application_feedback.issues.answer_does_not_fit_format')
-    fill_in t('application_feedback.other_feedback.label'), with: 'Me no understand.'
+    fill_in t('page_titles.application_feedback', section: 'the references'), with: 'Me no understand.'
     choose t('application_feedback.consent_to_be_contacted.yes')
 
     click_button t('application_feedback.submit')
@@ -60,9 +58,6 @@ RSpec.feature 'Candidate provides feedback during the application process' do
     expect(@application.application_feedback.count).to eq 1
     expect(@application.application_feedback.last.path).to eq '/candidate/application/references/start'
     expect(@application.application_feedback.last.page_title).to eq t('page_titles.references_start')
-    expect(@application.application_feedback.last.does_not_understand_section).to eq true
-    expect(@application.application_feedback.last.need_more_information).to eq false
-    expect(@application.application_feedback.last.answer_does_not_fit_format).to eq true
     expect(@application.application_feedback.last.other_feedback).to eq 'Me no understand.'
     expect(@application.application_feedback.last.consent_to_be_contacted).to eq true
   end
