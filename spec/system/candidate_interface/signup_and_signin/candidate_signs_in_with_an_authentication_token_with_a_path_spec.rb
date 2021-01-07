@@ -40,7 +40,7 @@ RSpec.feature 'Candidates authenitcation token has the path attriute populated' 
       :authentication_token,
       user: @candidate,
       hashed_token: @magic_link_token.encrypted,
-      path: 'candidate_interface_edit_becoming_a_teacher_path',
+      path: '/candidate/application/personal-statement/becoming-a-teacher',
     )
   end
 
@@ -66,7 +66,7 @@ RSpec.feature 'Candidates authenitcation token has the path attriute populated' 
       :authentication_token,
       user: @candidate,
       hashed_token: @magic_link_token.encrypted,
-      path: 'candidate_interface_edit_becoming_a_teacher_path',
+      path: '/candidate/application/personal-statement/becoming-a-teacher',
       created_at: 2.hours.ago,
     )
   end

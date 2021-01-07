@@ -84,7 +84,7 @@ module CandidateInterface
         end
 
       if candidate
-        CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate, path: authentication_token.path)
+        CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate, path: authentication_token&.path)
         add_identity_to_log candidate.id
         redirect_to candidate_interface_check_email_sign_in_path
       else

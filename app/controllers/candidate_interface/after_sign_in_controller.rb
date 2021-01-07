@@ -1,6 +1,6 @@
 module CandidateInterface
   class AfterSignInController < CandidateInterfaceController
-    before_action :redirect_to_path_if_path_params_are_present_and_valid
+    before_action :redirect_to_path_if_path_params_are_present
     before_action :redirect_to_application_form_unless_course_from_find_is_present
 
     def interstitial
@@ -23,8 +23,8 @@ module CandidateInterface
 
   private
 
-    def redirect_to_path_if_path_params_are_present_and_valid
-      redirect_to path_params if params[:path].present? || valid_paths.include?(params[:path])
+    def redirect_to_path_if_path_params_are_present
+      redirect_to params[:path] if params[:path].present?
     end
 
     def redirect_to_application_form_unless_course_from_find_is_present
@@ -41,14 +41,6 @@ module CandidateInterface
       else
         redirect_to candidate_interface_application_form_path
       end
-    end
-
-    def valid_paths
-      Rails.application.routes.named_routes.helper_names
-    end
-
-    def path_params
-      Rails.application.routes.url_helpers.send(params[:path])
     end
 
     def course_from_find
