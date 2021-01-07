@@ -65,4 +65,14 @@ RSpec.describe Candidate, type: :model do
       expect(candidate.course_from_find).to eq(nil)
     end
   end
+
+  describe '#encrypted_id' do
+    let(:candidate) { create(:candidate) }
+
+    it 'invokes Encryptor to encrypt id' do
+      allow(Encryptor).to receive(:encrypt).with(candidate.id).and_return 'encrypted id value'
+
+      expect(candidate.encrypted_id).to eq 'encrypted id value'
+    end
+  end
 end
