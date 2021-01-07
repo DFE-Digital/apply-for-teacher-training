@@ -65,6 +65,8 @@ parameters:
   ucasZipPassword:
   skylightAuthToken:
   skylightEnable: false
+  googleAnalyticsApply:
+  googleAnalyticsManage:
 
 jobs:
   - deployment: deploy_${{parameters.resourceEnvironmentName}}
@@ -273,7 +275,9 @@ jobs:
                 -ucasUploadFolder "$(ucasUploadFolder)"
                 -ucasDownloadZipPassword "$(ucasDownloadZipPassword)"
                 -govukNotifyCallbackAPIKey "${{parameters.govukNotifyCallbackAPIKey}}"
-                -sandbox "${{parameters.sandbox}}"'
+                -sandbox "${{parameters.sandbox}}"
+                -googleAnalyticsApply "${{parameters.googleAnalyticsApply}}"
+                -googleAnalyticsManage "${{parameters.googleAnalyticsManage}}"'
               deploymentOutputs: DeploymentOutput
 
           - task: AzureCLI@2

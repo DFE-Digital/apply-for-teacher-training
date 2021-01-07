@@ -438,6 +438,20 @@
             "metadata": {
                 "description": "URL for the public Teacher training API"
             }
+        },
+        "googleAnalyticsApply": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Google analytics code for Apply"
+            }
+        },
+        "googleAnalyticsManage": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Google analytics code for Manage"
+            }
         }
     },
     "variables": {
@@ -807,6 +821,14 @@
                             {
                                 "name": "TEACHER_TRAINING_API_BASE_URL",
                                 "value": "[parameters('teacherTrainingApiBaseUrl')]"
+                            },
+                            {
+                                "name": "GOOGLE_ANALYTICS_APPLY",
+                                "value": "[parameters('googleAnalyticsApply')]"
+                            },
+                            {
+                                "name": "GOOGLE_ANALYTICS_MANAGE",
+                                "value": "[parameters('googleAnalyticsManage')]"
                             }
                         ]
                     }
