@@ -29,41 +29,47 @@ RSpec.describe ReasonsForRejectionFeatureMetrics do
         Timecop.freeze(@today - 9.days) do
           reject_application(
             @application_choice1,
-            { qualifications_y_n: 'Yes' }
+            { qualifications_y_n: 'Yes' },
           )
           reject_application(
             @application_choice2,
-            { qualifications_y_n: 'No' }
+            { qualifications_y_n: 'No' },
           )
         end
         Timecop.freeze(@today - 1.day) do
           reject_application(
             @application_choice3,
-            { qualifications_y_n: 'Yes' }
+            { qualifications_y_n: 'Yes' },
           )
         end
       end
 
       it 'returns the correct value for number of rejections due to qualifications in the last week' do
-        expect(feature_metrics.rejections_due_to(
-          :qualifications_y_n,
-          (@today - 1.week).beginning_of_day,
-          @today,
-        )).to eq(1)
+        expect(
+          feature_metrics.rejections_due_to(
+            :qualifications_y_n,
+            (@today - 1.week).beginning_of_day,
+            @today,
+          ),
+        ).to eq(1)
       end
 
       it 'returns the correct value for number of rejections due to qualifications in the last month' do
-        expect(feature_metrics.rejections_due_to(
-          :qualifications_y_n,
-          (@today - 1.month).beginning_of_day,
-        )).to eq(2)
+        expect(
+          feature_metrics.rejections_due_to(
+            :qualifications_y_n,
+            (@today - 1.month).beginning_of_day,
+          ),
+        ).to eq(2)
       end
 
       it 'returns the correct value for number of rejections due to quality of application in the last month' do
-        expect(feature_metrics.rejections_due_to(
-          :quality_of_application_y_n,
-          (@today - 1.month).beginning_of_day,
-        )).to eq(0)
+        expect(
+          feature_metrics.rejections_due_to(
+            :quality_of_application_y_n,
+            (@today - 1.month).beginning_of_day,
+          ),
+        ).to eq(0)
       end
     end
   end

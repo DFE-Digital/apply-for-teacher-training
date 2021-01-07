@@ -6,7 +6,7 @@ class ReasonsForRejectionFeatureMetrics
     start_time,
     end_time = Time.zone.now.beginning_of_day
   )
-    application_choices = ApplicationChoice
+    ApplicationChoice
       .rejected
       .where("structured_rejection_reasons->>'#{reason}' = 'Yes'")
       .where('rejected_at BETWEEN ? AND ?', start_time, end_time)
