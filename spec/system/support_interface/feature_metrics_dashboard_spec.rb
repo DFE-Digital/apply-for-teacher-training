@@ -94,8 +94,9 @@ RSpec.feature 'Feature metrics dashboard' do
 
   def and_i_should_see_work_history_metrics
     within('#work_history_dashboard_section') do
-      expect(page).to have_content('16.8 this cycle')
-      expect(page).to have_content('19 last month')
+      expect(page).to have_content('16.8 days time to complete')
+      expect(page).to have_content('19 days this month')
+      expect(page).to have_content('10 days last month')
     end
   end
 end

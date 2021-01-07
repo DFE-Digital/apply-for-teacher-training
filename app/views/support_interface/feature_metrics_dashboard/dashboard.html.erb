@@ -79,8 +79,10 @@
   <div class="govuk-grid-column-one-half">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: nil,
-        label: 'time to complete (days)',
+        count: @work_history_statistics.average_time_to_complete(
+          EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        ),
+        label: 'time to complete',
         colour: :blue,
         size: :reduced,
       ) %>
@@ -89,16 +91,57 @@
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @work_history_statistics.average_time_to_complete(
-            EndOfCycleTimetable.apply_reopens.beginning_of_day,
+            Time.zone.now.beginning_of_month,
           ),
-          label: 'this cycle',
+          label: 'this month',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @work_history_statistics.average_time_to_complete(
-            1.month.ago.beginning_of_day,
+            Time.zone.now.beginning_of_month - 1.month,
+            Time.zone.now.beginning_of_month,
+          ),
+          label: 'last month',
+          size: :reduced,
+        ) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Reasons for rejection</h3>
+<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <div class="govuk-grid-column-one-half">
+    <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <%= render SupportInterface::TileComponent.new(
+        count: @reasons_for_rejection_statistics.rejections_due_to(
+          :qualifications_y_n,
+          EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        ),
+        label: 'rejections due to qualifications',
+        colour: :blue,
+        size: :reduced,
+      ) %>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @reasons_for_rejection_statistics.rejections_due_to(
+            :qualifications_y_n,
+            Time.zone.now.beginning_of_month,
+          ),
+          label: 'this month',
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @reasons_for_rejection_statistics.rejections_due_to(
+            :qualifications_y_n,
+            Time.zone.now.beginning_of_month - 1.month,
+            Time.zone.now.beginning_of_month,
           ),
           label: 'last month',
           size: :reduced,

@@ -8,11 +8,12 @@ class WorkHistoryFeatureMetrics
     times_to_get = time_to_complete(start_time, end_time)
     return 'n/a' if times_to_get.blank?
 
-    number_with_precision(
+    average_days = number_with_precision(
       times_to_get.sum.to_f / times_to_get.size,
       precision: 1,
       strip_insignificant_zeros: true,
     )
+    "#{average_days} #{'day'.pluralize(average_days)}"
   end
 
 private

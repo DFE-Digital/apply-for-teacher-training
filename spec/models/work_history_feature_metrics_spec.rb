@@ -30,11 +30,11 @@ RSpec.describe WorkHistoryFeatureMetrics, with_audited: true do
       end
 
       it 'returns the correct value for references received in the past week' do
-        expect(feature_metrics.average_time_to_complete((@today - 1.week), @today)).to eq('9')
+        expect(feature_metrics.average_time_to_complete((@today - 1.week), @today)).to eq('9 days')
       end
 
       it 'returns the correct value for references received in the past month' do
-        expect(feature_metrics.average_time_to_complete((@today - 1.month).beginning_of_day, @today)).to eq('5.5')
+        expect(feature_metrics.average_time_to_complete((@today - 1.month).beginning_of_day, @today)).to eq('5.5 days')
       end
     end
   end
