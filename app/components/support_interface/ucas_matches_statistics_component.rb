@@ -14,7 +14,7 @@ module SupportInterface
         .map(&:application_form).map(&:candidate_id).uniq.compact.size
     end
 
-    def candidates_matched_with_ucas_count
+    def candidates_matched_with_ucas_count_and_percentage
       count = @ucas_matches.size
 
       "#{count} (#{formatted_percentage(count, candidates_on_apply_count)})"
@@ -28,8 +28,14 @@ module SupportInterface
       "#{multiple_acceptances_count} (#{formatted_percentage(multiple_acceptances_count, candidates_on_apply_count)} of candidates on Apply)"
     end
 
-    def resolved_count
-      @ucas_matches.count(&:resolved?)
+    def candidates_with_dual_applications_or_dual_acceptance
+      dual_applications_count + multiple_acceptances_count
+    end
+
+    def unresolved_count
+      [action_taken_count['initial_emails_sent'],
+       action_taken_count['reminder_emails_sent'],
+       action_taken_count['ucas_withdrawal_requested']].compact.sum
     end
 
     def action_taken_count
