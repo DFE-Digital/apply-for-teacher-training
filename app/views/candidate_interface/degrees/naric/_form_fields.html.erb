@@ -1,3 +1,9 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.degree_naric') %>
+</h1>
+
 <p class="govuk-body">You can get a statement from the National Recognition Information Centre for the United Kingdom (UK NARIC) which shows how your qualifications compare to UK qualifications. Not all providers need this.</p>
 <%= f.govuk_radio_buttons_fieldset :have_naric_reference, legend: { text: t('application_form.degree.naric_statment.label'), size: 'm' } do %>
   <%= f.govuk_radio_button :have_naric_reference, 'yes', label: { text: 'Yes' }, link_errors: true do %>
@@ -23,7 +29,7 @@
     <% end %>
   <% end %>
   <%= f.govuk_radio_button :have_naric_reference, 'no', label: { text: 'No' } do %>
-    <p class="govuk-body">Ask your training provider if they need a UK NARIC statement of comparability. Register with <%= govuk_link_to "Get Into Teaching", "https://register.getintoteaching.education.gov.uk/register" %> for help if you need to get one.</p>
+    <p class="govuk-body">Ask your training provider if they need a UK NARIC statement of comparability. You can get a free statement (this usually costs £49.50 plus VAT) by calling Get Into Teaching on Freephone 0800 389 2501.</p>
   <% end %>
 <% end %>
 <%= f.govuk_submit t('application_form.degree.base.button') %>
