@@ -19,6 +19,7 @@ RSpec.feature 'Feature metrics dashboard' do
 
     then_i_should_see_reference_metrics
     and_i_should_see_work_history_metrics
+    and_i_should_see_reasons_for_rejection_metrics
   end
 
   def given_i_am_a_support_user
@@ -27,6 +28,7 @@ RSpec.feature 'Feature metrics dashboard' do
 
   def create_application_form_with_references
     application_form = create(:application_form)
+    create(:application_choice, application_form: application_form)
     references = create_list(:reference, 2, application_form: application_form)
     references.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
     [application_form, references]
@@ -44,6 +46,14 @@ RSpec.feature 'Feature metrics dashboard' do
     application_form.update!(work_history_completed: true)
   end
 
+  def reject_application(application_choice)
+    application_choice.update!(
+      status: :rejected,
+      structured_rejection_reasons: { qualifications_y_n: 'Yes' },
+      rejected_at: Time.zone.now,
+    )
+  end
+
   def and_there_are_candidates_and_application_forms_in_the_system
     allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(60.days.ago)
     Timecop.freeze(@today - 50.days) do
@@ -56,6 +66,7 @@ RSpec.feature 'Feature metrics dashboard' do
       provide_references(@references1)
       start_work_history(@application_form2)
       complete_work_history(@application_form1)
+      reject_application(@application_form1.application_choices.first)
     end
     Timecop.freeze(@today - 21.days) do
       @application_form4, @references4 = create_application_form_with_references
@@ -69,6 +80,7 @@ RSpec.feature 'Feature metrics dashboard' do
       provide_references(@references4)
       complete_work_history(@application_form3)
       complete_work_history(@application_form4)
+      reject_application(@application_form2.application_choices.first)
     end
   end
 
@@ -97,6 +109,14 @@ RSpec.feature 'Feature metrics dashboard' do
       expect(page).to have_content('16.8 days time to complete')
       expect(page).to have_content('19 days this month')
       expect(page).to have_content('10 days last month')
+    end
+  end
+
+  def and_i_should_see_reasons_for_rejection_metrics
+    within('#reasons_for_rejection_dashboard_section') do
+      expect(page).to have_content('2 rejections due to qualifications')
+      expect(page).to have_content('1 last month')
+      expect(page).to have_content('1 this month')
     end
   end
 end
