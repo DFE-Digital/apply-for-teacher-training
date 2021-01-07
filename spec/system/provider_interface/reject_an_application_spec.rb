@@ -182,8 +182,6 @@ RSpec.describe 'Reject an application' do
   def then_i_can_see_the_reasons_why_the_application_was_rejected
     expect(page).to have_content('Application rejected')
 
-    click_on @application_choice.application_form.full_name
-
     expect(page).to have_content('Rejection details')
 
     expect(page).to have_content('The following feedback was sent to the candidate.')
