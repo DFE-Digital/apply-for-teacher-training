@@ -6,6 +6,7 @@ module CandidateInterface
                   :need_more_information, :answer_does_not_fit_format, :other_feedback,
                   :consent_to_be_contacted
 
+    validates :other_feedback, presence: true
     validates :path, :page_title, :consent_to_be_contacted, presence: true
 
     validate :path_is_valid, if: -> { path.present? }
