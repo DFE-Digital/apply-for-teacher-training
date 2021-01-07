@@ -1,0 +1,22 @@
+<div class="govuk-width-container">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="govuk-width-container govuk-!-padding-top-4">
+        <h1 class="govuk-heading-m govuk-!-margin-bottom-4">
+          Tell us whether you accept cookies
+        </h1>
+        <p class="govuk-body">
+        We use <%= govuk_link_to 'cookies to collect information', cookies_path %> about how you use ‘<%= service_name %>’. We use this information to make the website work as well as possible and improve government services.
+        </p>
+        <div class="cookies_banner__button govuk-grid-column-full govuk-grid-column-one-half-from-desktop">
+          <%= form_with model: CookiePreferencesForm.new(consent: 'yes'), url: cookie_preferences_path, method: :post do |f| %>
+            <%= f.govuk_submit 'Accept all cookies' %>
+          <% end %>
+        </div>
+        <div class="cookies_banner__button govuk-grid-column-full govuk-grid-column-one-half-from-desktop">
+          <a class="govuk-button" href=<%= cookies_path %>>Set cookie preferences</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
