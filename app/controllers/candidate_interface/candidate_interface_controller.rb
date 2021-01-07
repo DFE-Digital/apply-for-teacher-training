@@ -4,6 +4,7 @@ module CandidateInterface
     before_action :protect_with_basic_auth
     before_action :authenticate_candidate!
     before_action :add_identity_to_log
+    before_action :check_cookie_preferences
     layout 'application'
     alias_method :audit_user, :current_candidate
 
@@ -14,6 +15,10 @@ module CandidateInterface
       return unless current_candidate
 
       Raven.extra_context(application_support_url: support_interface_application_form_url(current_application))
+    end
+
+    def check_cookie_preferences
+      @google_analytics_id = ENV.fetch('GOOGLE_ANALYTICS_APPLY', '') if cookies['consented-to-apply-cookies'].eql?('yes')
     end
 
     def track_validation_error(form)

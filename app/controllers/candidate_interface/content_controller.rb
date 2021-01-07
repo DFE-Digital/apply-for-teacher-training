@@ -1,6 +1,8 @@
 module CandidateInterface
-  class ContentController < ApplicationController
+  class ContentController < CandidateInterfaceController
     include ContentHelper
+    skip_before_action :authenticate_candidate!
+    skip_before_action :add_identity_to_log
 
     def accessibility
       render_content_page :accessibility
