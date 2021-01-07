@@ -73,7 +73,7 @@ class ProcessState
       :pending_conditions
     elsif any_state_is?('offer_deferred')
       :offer_deferred
-    elsif (states.uniq - ApplicationStateChange::UNSUCCESSFUL_END_STATES).empty?
+    elsif (states.uniq.map(&:to_sym) - ApplicationStateChange::UNSUCCESSFUL_END_STATES).empty?
       :ended_without_success
     else
       :unknown_state
