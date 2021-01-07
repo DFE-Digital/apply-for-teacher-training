@@ -5,8 +5,10 @@
   <div class="govuk-grid-column-one-half">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: nil,
-        label: 'time to get reference back (days)',
+        count: @statistics.average_time_to_get_references(
+          EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        ),
+        label: 'average time to get reference back',
         colour: :blue,
         size: :reduced,
       ) %>
@@ -15,16 +17,17 @@
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @statistics.average_time_to_get_references(
-            EndOfCycleTimetable.apply_reopens.beginning_of_day,
+            Time.zone.now.beginning_of_month,
           ),
-          label: 'this recruitment cycle',
+          label: 'this month',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
           count: @statistics.average_time_to_get_references(
-            1.month.ago.beginning_of_day,
+            Time.zone.now.beginning_of_month - 1.month,
+            Time.zone.now.beginning_of_month,
           ),
           label: 'last month',
           size: :reduced,
@@ -36,8 +39,11 @@
   <div class="govuk-grid-column-one-half">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: nil,
-        label: '% completed within 30 days',
+        count: @statistics.percentage_references_within(
+          30,
+          EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        ),
+        label: 'completed within 30 days',
         colour: :blue,
         size: :reduced,
       ) %>
@@ -47,9 +53,9 @@
         <%= render SupportInterface::TileComponent.new(
           count: @statistics.percentage_references_within(
             30,
-            EndOfCycleTimetable.apply_reopens.beginning_of_day,
+            Time.zone.now.beginning_of_month,
           ),
-          label: 'this recruitment cycle',
+          label: 'this month',
           size: :reduced,
         ) %>
       </div>
@@ -57,7 +63,8 @@
         <%= render SupportInterface::TileComponent.new(
           count: @statistics.percentage_references_within(
             30,
-            1.month.ago.beginning_of_day,
+            Time.zone.now.beginning_of_month - 1.month,
+            Time.zone.now.beginning_of_month,
           ),
           label: 'last month',
           size: :reduced,

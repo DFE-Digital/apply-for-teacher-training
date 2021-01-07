@@ -39,15 +39,15 @@ RSpec.describe FeatureMetrics, with_audited: true do
 
     describe '#average_time_to_get_references' do
       it 'returns the correct value for references received today' do
-        expect(feature_metrics.average_time_to_get_references(@today.beginning_of_day, @today)).to eq('12')
+        expect(feature_metrics.average_time_to_get_references(@today.beginning_of_day, @today)).to eq('12 days')
       end
 
       it 'returns the correct value for references received in the past month' do
-        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today)).to eq('7.5')
+        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today)).to eq('7.5 days')
       end
 
       it 'returns the correct value for references received over a custom interval' do
-        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today - 1.week)).to eq('3')
+        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today - 1.week)).to eq('3 days')
       end
     end
 
