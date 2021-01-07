@@ -61,7 +61,7 @@ RSpec.describe VendorAPI::RejectionReasonPresenter do
         "Honesty and professionalism:\nLies\nLies were copied\nReferees cannot be fictional characters\nA lot of problems here",
         "Safeguarding issues:\nYou seemed very angry",
         "Additional advice:\nTry again soon",
-        "Future applications:\nUoG would be interested in future applications from you",
+        "Future applications:\nUoG would be interested in future applications from you.",
       ])
     end
 
