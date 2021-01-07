@@ -30,10 +30,14 @@
 
 <div class="govuk-grid-row govuk-!-margin-bottom-4">
   <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted', content: SupportInterface::TileComponent.new(count: @statistics.total_form_count(only: %i{unsubmitted_not_started_form unsubmitted_in_progress}), label: 'unsubmitted application forms') ) %>
+    <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted') do %>
+      <%= render SupportInterface::TileComponent.new(count: @statistics.total_form_count(only: %i{unsubmitted_not_started_form unsubmitted_in_progress}), label: 'unsubmitted application forms') %>
+    <% end %>
   </div>
   <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'being-processed', content: SupportInterface::TileComponent.new(count: @statistics.total_submitted_count, label: 'submitted application forms') ) %>
+    <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'being-processed') do %>
+      <%= render SupportInterface::TileComponent.new(count: @statistics.total_submitted_count, label: 'submitted application forms') %>
+    <% end %>
   </div>
 </div>
 
@@ -41,10 +45,14 @@
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted', content: SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_not_started_form], label: 'forms not started', size: :reduced) ) %>
+        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted') do %>
+          <%= render SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_not_started_form], label: 'forms not started', size: :reduced) %>
+        <% end %>
       </div>
       <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted', content: SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_in_progress], label: 'forms in progress', size: :reduced) ) %>
+        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted') do %>
+          <%= render SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_in_progress], label: 'forms in progress', size: :reduced) %>
+        <% end %>
       </div>
     </div>
   </div>
@@ -52,13 +60,19 @@
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'being-processed', content: SupportInterface::TileComponent.new(count: @statistics.still_being_processed_count, label: 'still being processed', size: :reduced) ) %>
+        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'being-processed') do %>
+          <%= render SupportInterface::TileComponent.new(count: @statistics.still_being_processed_count, label: 'still being processed', size: :reduced) %>
+        <% end %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsuccessful', content: SupportInterface::TileComponent.new(count: @statistics.ended_without_success_count, label: 'ended w/o success', size: :reduced, colour: :red) ) %>
+        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsuccessful') do %>
+          <%= render SupportInterface::TileComponent.new(count: @statistics.ended_without_success_count, label: 'ended w/o success', size: :reduced, colour: :red) %>
+        <% end %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'successful', content: SupportInterface::TileComponent.new(count: @statistics.accepted_offer_count, label: 'accepted an offer', size: :reduced, colour: :green) ) %>
+        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'successful') do %>
+          <%= render SupportInterface::TileComponent.new(count: @statistics.accepted_offer_count, label: 'accepted an offer', size: :reduced, colour: :green) %>
+        <% end %>
       </div>
     </div>
   </div>
