@@ -13,6 +13,7 @@ RSpec.feature 'Candidate declines an offer' do
     and_i_decline_the_offer
     and_i_confirm_the_decline
 
+    then_i_see_a_flash_message_telling_me_i_have_declined_the_offer
     and_i_see_that_i_declined_the_offer
     and_the_provider_receives_a_notification
 
@@ -74,6 +75,10 @@ RSpec.feature 'Candidate declines an offer' do
 
   def and_i_confirm_the_decline
     click_button 'Yes I’m sure – decline this offer'
+  end
+
+  def then_i_see_a_flash_message_telling_me_i_have_declined_the_offer
+    expect(page).to have_content "You have declined your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
   end
 
   def and_i_see_that_i_declined_the_offer
