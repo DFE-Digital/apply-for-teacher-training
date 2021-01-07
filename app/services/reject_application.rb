@@ -3,8 +3,7 @@ class RejectApplication
 
   attr_accessor :rejection_reason, :structured_rejection_reasons
 
-  validates_presence_of :rejection_reason, if: -> { structured_rejection_reasons.blank? }
-  validates_presence_of :structured_rejection_reasons, if: -> { rejection_reason.blank? }
+  validate :at_least_one_rejection_reason_format
   validates_length_of :rejection_reason, maximum: 10240
 
   def initialize(actor:, application_choice:, rejection_reason: nil, structured_rejection_reasons: nil)
@@ -40,5 +39,13 @@ class RejectApplication
       I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
     )
     false
+  end
+
+private
+
+  def at_least_one_rejection_reason_format
+    if rejection_reason.blank? && structured_rejection_reasons.blank?
+      errors.add(:rejection_reason, :blank)
+    end
   end
 end
