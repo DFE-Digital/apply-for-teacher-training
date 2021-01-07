@@ -1,5 +1,5 @@
 class RemoveProviderUser
-  include AuditHelper
+  include ImpersonationAuditHelper
 
   attr_reader :current_provider_user, :user_to_remove
 

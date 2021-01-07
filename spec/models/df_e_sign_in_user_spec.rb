@@ -50,7 +50,7 @@ RSpec.describe DfESignInUser, type: :model do
     end
   end
 
-  describe '#begin_impersonate!' do
+  describe '#begin_impersonation!' do
     let(:provider_user) { create(:provider_user) }
     let(:dsi_user) do
       DfESignInUser.new(email_address: nil, dfe_sign_in_uid: nil, first_name: nil, last_name: nil)
@@ -58,25 +58,25 @@ RSpec.describe DfESignInUser, type: :model do
 
     it 'adds an impersonated_provider_user section to the session' do
       session = {}
-      dsi_user.begin_impersonate! session, provider_user
+      dsi_user.begin_impersonation! session, provider_user
       expect(session).to have_key('impersonated_provider_user')
     end
 
     it 'stores the impersonated provider user id' do
       session = {}
-      dsi_user.begin_impersonate! session, provider_user
+      dsi_user.begin_impersonation! session, provider_user
       expect(session['impersonated_provider_user']['provider_user_id']).to eq(provider_user.id)
     end
   end
 
-  describe '#end_impersonate!' do
+  describe '#end_impersonation!' do
     let(:dsi_user) do
       DfESignInUser.new(email_address: nil, dfe_sign_in_uid: nil, first_name: nil, last_name: nil)
     end
 
     it 'deletes the impersonated_provider_user section' do
       session = { 'impersonated_provider_user' => {} }
-      dsi_user.end_impersonate! session
+      dsi_user.end_impersonation! session
       expect(session).not_to have_key('impersonated_provider_user')
     end
   end

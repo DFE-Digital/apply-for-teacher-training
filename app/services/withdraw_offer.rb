@@ -1,6 +1,6 @@
 class WithdrawOffer
   include ActiveModel::Validations
-  include AuditHelper
+  include ImpersonationAuditHelper
 
   attr_accessor :offer_withdrawal_reason
 
@@ -27,12 +27,8 @@ class WithdrawOffer
         )
         SetDeclineByDefault.new(application_form: @application_choice.application_form).call
       end
-      StateChangeNotifier.call(:withdraw_offer, application_choice: @application_choice)
+      true
     end
-<<<<<<< HEAD
-    true
-=======
->>>>>>> 90d424c52... Record impersonator details for provider user actions in audits
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,

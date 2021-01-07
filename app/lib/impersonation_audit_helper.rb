@@ -1,4 +1,4 @@
-module AuditHelper
+module ImpersonationAuditHelper
   def audit(actor)
     if ::Audited.store[:audited_user].blank?
       Audited.audit_class.as_user(actor.try(:impersonator) || actor) do

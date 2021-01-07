@@ -31,13 +31,7 @@ class NavigationItems
     end
 
     def for_support_account_nav(current_support_user)
-      if current_support_user && current_support_user.impersonated_provider_user
-        impersonated_user = current_support_user.impersonated_provider_user
-        [
-          NavigationItem.new("#{impersonated_user.email_address} 🤿", support_interface_provider_user_path(impersonated_user), false),
-          NavigationItem.new('Stop', support_interface_end_impersonate_path, false),
-        ]
-      elsif current_support_user
+      if current_support_user
         [
           NavigationItem.new(current_support_user.email_address, nil, false),
           NavigationItem.new('Sign out', support_interface_sign_out_path, false),
@@ -76,7 +70,11 @@ class NavigationItems
         items << NavigationItem.new(t('page_titles.provider.account'), provider_interface_account_path, is_active(current_controller, %w[account profile provider_users organisations provider_relationship_permissions]))
       end
 
-      items << NavigationItem.new('Sign out', provider_interface_sign_out_path, false)
+      if current_provider_user.impersonator
+        items << NavigationItem.new('Return to support', support_interface_provider_user_path(current_provider_user), false)
+      else
+        items << NavigationItem.new('Sign out', provider_interface_sign_out_path, false)
+      end
     end
 
     def for_api_docs(current_controller)

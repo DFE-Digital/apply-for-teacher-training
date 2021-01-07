@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe AuditHelper do
+RSpec.describe ImpersonationAuditHelper do
   let(:service) do
     Class.new do
-      include AuditHelper
+      include ImpersonationAuditHelper
     end
   end
 

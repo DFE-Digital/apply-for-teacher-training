@@ -1,6 +1,6 @@
 class DeferOffer
   include ActiveModel::Model
-  include AuditHelper
+  include ImpersonationAuditHelper
 
   def initialize(actor:, application_choice:)
     @auth = ProviderAuthorisation.new(actor: actor)

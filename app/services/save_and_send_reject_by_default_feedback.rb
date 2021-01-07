@@ -1,5 +1,5 @@
 class SaveAndSendRejectByDefaultFeedback
-  include AuditHelper
+  include ImpersonationAuditHelper
 
   attr_reader :application_choice, :rejection_reason
 

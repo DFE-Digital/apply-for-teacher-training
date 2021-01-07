@@ -1,6 +1,6 @@
 module ProviderInterface
   class SaveProviderUserService
-    include AuditHelper
+    include ImpersonationAuditHelper
 
     attr_accessor :wizard
 

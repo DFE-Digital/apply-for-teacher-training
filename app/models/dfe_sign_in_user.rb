@@ -59,14 +59,11 @@ class DfESignInUser
     )
   end
 
-  def begin_impersonate!(session, provider_user)
-    session['impersonated_provider_user'] = {
-      'provider_user_id' => provider_user.id,
-      'impersonated_at' => Time.zone.now,
-    }
+  def begin_impersonation!(session, provider_user)
+    session['impersonated_provider_user'] = { 'provider_user_id' => provider_user.id }
   end
 
-  def end_impersonate!(session)
+  def end_impersonation!(session)
     session.delete('impersonated_provider_user')
   end
 

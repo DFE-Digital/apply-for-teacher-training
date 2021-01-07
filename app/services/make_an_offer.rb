@@ -5,7 +5,7 @@ class MakeAnOffer
   attr_accessor :course_option
 
   include ActiveModel::Validations
-  include AuditHelper
+  include ImpersonationAuditHelper
 
   MAX_CONDITIONS_COUNT = 20
   MAX_CONDITION_LENGTH = 255

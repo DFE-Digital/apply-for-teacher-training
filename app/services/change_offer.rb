@@ -1,6 +1,6 @@
 class ChangeOffer
   include ActiveModel::Validations
-  include AuditHelper
+  include ImpersonationAuditHelper
 
   attr_reader :application_choice, :course_option
 

@@ -1,6 +1,6 @@
 class RejectApplication
   include ActiveModel::Validations
-  include AuditHelper
+  include ImpersonationAuditHelper
 
   attr_accessor :rejection_reason, :structured_rejection_reasons
 

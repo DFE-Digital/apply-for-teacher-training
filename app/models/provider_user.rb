@@ -25,11 +25,8 @@ class ProviderUser < ActiveRecord::Base
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
     return unless dfe_sign_in_user
 
-    support_user = SupportUser.load_from_session(session)
-    if (impersonated_user = support_user&.impersonated_provider_user)
-      impersonated_user.impersonator = support_user
-      return impersonated_user
-    end
+    impersonation = ProviderImpersonation.load_from_session(session)
+    return impersonation.provider_user if impersonation
 
     provider_user = ProviderUser.find_by dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid
     provider_user || onboard!(dfe_sign_in_user)
