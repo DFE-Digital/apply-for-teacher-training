@@ -812,6 +812,8 @@ Rails.application.routes.draw do
 
       get '/data-export/documentation/:export_type_id' => 'data_exports#data_set_documentation', as: :data_set_documentation
 
+      get '/feature-metrics' => 'feature_metrics_dashboard#dashboard', as: :feature_metrics_dashboard
+
       resources :data_exports, path: '/data-exports' do
         member do
           get :download
