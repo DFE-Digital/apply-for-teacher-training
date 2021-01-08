@@ -1,20 +1,20 @@
 require 'rails_helper'
 
-RSpec.feature 'Candidates authenitcation token has the path attriute populated' do
+RSpec.feature 'Candidates authentication token has the path attribute populated' do
   include SignInHelper
   include CandidateHelper
 
   scenario 'Candidate is redirected to the appropriate page' do
     given_the_pilot_is_open
     and_i_am_a_candidate_with_an_account
-    and_i_have_received_a_token_associated_with_the_personal_statment_path
+    and_i_have_received_a_token_associated_with_the_personal_statement_path
 
     when_i_sign_in_using_the_token
     and_i_confirm_the_sign_in
     then_i_am_redirected_to_the_personal_statement_page
 
     given_i_am_signed_out
-    and_i_have_an_expired_token_associated_with_the_personal_statment_path
+    and_i_have_an_expired_token_associated_with_the_personal_statement_path
 
     when_i_sign_in_using_the_token
     and_i_request_a_new_link
@@ -48,7 +48,7 @@ RSpec.feature 'Candidates authenitcation token has the path attriute populated' 
     @candidate = current_candidate
   end
 
-  def and_i_have_received_a_token_associated_with_the_personal_statment_path
+  def and_i_have_received_a_token_associated_with_the_personal_statement_path
     @magic_link_token = MagicLinkToken.new
     create(
       :authentication_token,
@@ -74,7 +74,7 @@ RSpec.feature 'Candidates authenitcation token has the path attriute populated' 
     click_link 'Sign out'
   end
 
-  def and_i_have_an_expired_token_associated_with_the_personal_statment_path
+  def and_i_have_an_expired_token_associated_with_the_personal_statement_path
     @magic_link_token = MagicLinkToken.new
     create(
       :authentication_token,
@@ -108,7 +108,7 @@ RSpec.feature 'Candidates authenitcation token has the path attriute populated' 
       :authentication_token,
       user: @candidate,
       hashed_token: @magic_link_token.encrypted,
-      path: "http://localhost:3000/candidate/application/references/review-unsubmitted/#{@reference.id}",
+      path: "/candidate/application/references/review-unsubmitted/#{@reference.id}",
     )
   end
 
