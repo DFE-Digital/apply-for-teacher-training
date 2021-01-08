@@ -25,6 +25,9 @@ module SupportInterface
         else
           rows << { key: 'Rejected at', value: application_choice.rejected_at.to_s(:govuk_date_and_time) }
         end
+        if rejection_reasons_text
+          rows << { key: 'Rejection reason', value: rejection_reasons_text }
+        end
       end
 
       rows << { key: 'Feedback', value: application_choice.rejection_reason } if application_choice.rejection_reason.present?
@@ -37,6 +40,24 @@ module SupportInterface
 
     def accredited_body
       application_choice.course.accredited_provider
+    end
+
+  private
+
+    def rejection_reasons_text
+      @_rejection_reasons_text ||= begin
+        if application_choice.structured_rejection_reasons.present?
+          render(
+            ReasonsForRejectionComponent.new(
+              application_choice: application_choice,
+              reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
+              editable: false,
+            ),
+          )
+        elsif application_choice.rejection_reason.present?
+          application_choice.rejection_reason
+        end
+      end
     end
   end
 end
