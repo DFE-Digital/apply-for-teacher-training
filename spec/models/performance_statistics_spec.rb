@@ -91,12 +91,10 @@ RSpec.describe PerformanceStatistics, type: :model do
       create_list(:application_choice, 2, application_form: rejected_form, status: 'rejected')
       create_list(:application_choice, 2, application_form: declined_form, status: 'declined')
       create_list(:application_choice, 2, application_form: conditions_not_met_form, status: 'conditions_not_met')
-
       expect(ProcessState.new(withdrawn_form).state).to be :ended_without_success
       expect(ProcessState.new(rejected_form).state).to be :ended_without_success
       expect(ProcessState.new(declined_form).state).to be :ended_without_success
       expect(ProcessState.new(conditions_not_met_form).state).to be :ended_without_success
-
       expect(count_for_process_state(:ended_without_success)).to be(4)
     end
   end

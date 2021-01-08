@@ -80,13 +80,13 @@ class UCASMatchedApplication
   def application_in_progress_on_ucas?
     return false if dfe_scheme? || provider_not_on_apply?
 
-    !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(mapped_ucas_status)
+    !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(mapped_ucas_status.to_sym)
   end
 
   def application_in_progress_on_apply?
     return false if ucas_scheme?
 
-    !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status)
+    !ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status.to_sym)
   end
 
   def application_accepted_on_ucas?

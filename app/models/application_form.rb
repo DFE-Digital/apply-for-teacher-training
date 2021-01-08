@@ -131,7 +131,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def all_provider_decisions_made?
-    application_choices.any? && (application_choices.map(&:status) & ApplicationStateChange::DECISION_PENDING_STATUSES).empty?
+    application_choices.any? && (application_choices.map(&:status).map(&:to_sym) & ApplicationStateChange::DECISION_PENDING_STATUSES).empty?
   end
 
   def all_choices_withdrawn?
@@ -206,7 +206,7 @@ class ApplicationForm < ApplicationRecord
 
   def ended_without_success?
     application_choices.present? &&
-      application_choices.map(&:status).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
+      application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
   end
 
   def can_add_reference?
