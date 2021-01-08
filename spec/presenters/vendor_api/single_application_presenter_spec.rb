@@ -593,4 +593,30 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(response.dig(:attributes)[:status]).to eq('awaiting_provider_decision')
     end
   end
+
+  describe 'compliance with models that change updated_at' do
+    it 'looks at all fields which cause a touch' do
+      choice = create(:application_choice, :awaiting_provider_decision)
+
+      # if there is a field on the form that causes a touch but isn't
+      # queried via the presenter on the API, fail this test
+      (ApplicationForm::PUBLISHED_FIELDS - %w[international_address right_to_work_or_study_details]).each do |field|
+        expect_any_instance_of(ApplicationForm).to receive(field).at_least(:once).and_call_original
+      end
+
+      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
+      presenter.as_json
+    end
+
+    it 'doesn’t depend on any fields that don’t cause a touch' do
+      choice = create(:application_choice, :awaiting_provider_decision)
+
+      (ApplicationForm.attribute_names - %w[id] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
+        expect_any_instance_of(ApplicationForm).not_to receive(field)
+      end
+
+      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
+      presenter.as_json
+    end
+  end
 end

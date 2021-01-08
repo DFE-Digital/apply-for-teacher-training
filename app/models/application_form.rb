@@ -81,7 +81,8 @@ class ApplicationForm < ApplicationRecord
     disability_disclosure further_information safeguarding_issues_status
     address_line1 address_line2 address_line3 address_line4
     international_address country postcode equality_and_diversity
-    work_history_breaks
+    work_history_breaks first_nationality second_nationality third_nationality
+    fourth_nationality fifth_nationality phone_number
   ].freeze
 
   before_save do |form|
