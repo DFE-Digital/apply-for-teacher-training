@@ -6,6 +6,22 @@ RSpec.describe ApplicationForm do
     expect(application_form.support_reference).to be_present
   end
 
+  describe 'before_save' do
+    it 'touches the application choice when a field affecting the application choice is changed' do
+      application_form = create(:completed_application_form, application_choices_count: 1)
+
+      expect { application_form.update(first_name: 'a new name') }
+        .to(change { application_form.application_choices.first.updated_at })
+    end
+
+    it 'does not touch the application choice when a field not affecting the application choice is changed' do
+      application_form = create(:completed_application_form, application_choices_count: 1)
+
+      expect { application_form.update(latitude: '0.12343') }
+        .not_to(change { application_form.application_choices.first.updated_at })
+    end
+  end
+
   describe 'after_commit' do
     describe '#geocode_address_if_required' do
       it 'invokes geocoding of UK addresses on create' do
