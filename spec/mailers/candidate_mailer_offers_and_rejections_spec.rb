@@ -188,7 +188,7 @@ RSpec.describe CandidateMailer, type: :mailer do
             FactoryBot.build_stubbed(
               :application_choice,
               application_form: @application_form,
-              decline_by_default_at: 2.days.from_now,
+              reject_by_default_at: Time.zone.local(2021, 1, 17),
               status: :awaiting_provider_decision,
               course_option: course_option2,
             ),
@@ -207,7 +207,8 @@ RSpec.describe CandidateMailer, type: :mailer do
         'rejection reason content' => 'Bad language',
         'other application details' => 'You have an offer and are waiting for a decision about another course',
         'application with offer' => 'You have an offer from Falconholt Technical College to study Forensic Science',
-        'application awaiting decision' => 'to make a decision about your application to study Computer Science'
+        'application awaiting decision' => 'to make a decision about your application to study Computer Science',
+        'decision day' => 'has until 17 January 2021 to make a decision'
       )
     end
 
@@ -241,14 +242,14 @@ RSpec.describe CandidateMailer, type: :mailer do
             FactoryBot.build_stubbed(
               :application_choice,
               status: :awaiting_provider_decision,
-              decline_by_default_at: 4.days.from_now,
+              reject_by_default_at: Time.zone.local(2021, 1, 17),
               application_form: @application_form,
               course_option: course_option,
             ),
             FactoryBot.build_stubbed(
               :application_choice,
               application_form: @application_form,
-              decline_by_default_at: 2.days.from_now,
+              reject_by_default_at: Time.zone.local(2021, 1, 14),
               status: :awaiting_provider_decision,
               course_option: course_option2,
             ),
@@ -267,7 +268,7 @@ RSpec.describe CandidateMailer, type: :mailer do
         'other application details' => "You're waiting for decisions",
         'first application' => 'Falconholt Technical College to study Forensic Science',
         'second application' => 'Falconholt Technical College to study Computer Science',
-        'decision day' => 'They should make their decisions by 15 February 2020'
+        'decision day' => 'They should make their decisions by 17 January 2021'
       )
     end
 

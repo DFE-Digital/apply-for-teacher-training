@@ -57,7 +57,7 @@ class CandidateMailer < ApplicationMailer
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @offer = application_choice.self_and_siblings.find(&:offer?)
     @awaiting_decision = application_choice.self_and_siblings.find(&:awaiting_provider_decision?)
-    @awaiting_decision_by = @awaiting_decision.decline_by_default_at.to_s(:govuk_date)
+    @awaiting_decision_by = @awaiting_decision.reject_by_default_at.to_s(:govuk_date)
     @candidate_magic_link = candidate_magic_link(@application_choice.application_form.candidate)
 
     email_for_candidate(application_choice.application_form)
@@ -67,7 +67,7 @@ class CandidateMailer < ApplicationMailer
     @course = application_choice.course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
     @awaiting_decision = application_choice.self_and_siblings.select(&:awaiting_provider_decision?)
-    @awaiting_decisions_by = @awaiting_decision.sort_by(&:decline_by_default_at).map(&:decline_by_default_at).last.to_s(:govuk_date)
+    @awaiting_decisions_by = @awaiting_decision.sort_by(&:reject_by_default_at).map(&:reject_by_default_at).last.to_s(:govuk_date)
 
     email_for_candidate(application_choice.application_form)
   end

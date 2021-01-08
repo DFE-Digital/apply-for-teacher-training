@@ -18,7 +18,7 @@ Contact <%= @course.provider.name %> directly if you have any questions about th
 
 # You’re waiting for a decision
 
-You’re waiting for <%= @awaiting_decision.first.course_option.course.provider.name %> to make a decision about your application to study <%= @awaiting_decision.first.course_option.course.name %>. They should do this by <%= @awaiting_decision.first.decline_by_default_at.to_s(:govuk_date) %>.
+You’re waiting for <%= @awaiting_decision.first.course_option.course.provider.name %> to make a decision about your application to study <%= @awaiting_decision.first.course_option.course.name %>. They should do this by <%= @awaiting_decision.first.reject_by_default_at.to_s(:govuk_date) %>.
 
 <% else %>
 

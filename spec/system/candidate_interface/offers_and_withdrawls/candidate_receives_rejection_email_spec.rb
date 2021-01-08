@@ -44,7 +44,7 @@ RSpec.feature 'Receives rejection email' do
 
   def when_i_am_awaiting_decisions_and_have_no_offers
     @application_form = create(:completed_application_form)
-    create_list(:application_choice, 2, status: :awaiting_provider_decision, decline_by_default_at: 10.business_days.from_now, application_form: @application_form)
+    create_list(:application_choice, 2, status: :awaiting_provider_decision, reject_by_default_at: 10.business_days.from_now, application_form: @application_form)
     @application_choice = @application_form.application_choices.first
   end
 
