@@ -14,7 +14,6 @@ module CandidateInterface
       if @application_feedback_form.save(current_application)
         redirect_to candidate_interface_application_feedback_thank_you_path
       else
-        @application_feedback_form.set_booleans
         track_validation_error(@references_relationship_form)
 
         render :new
@@ -27,8 +26,7 @@ module CandidateInterface
 
     def feedback_params
       strip_whitespace params.require(:candidate_interface_application_feedback_form).permit(
-        :path, :page_title, :does_not_understand_section,
-        :need_more_information, :answer_does_not_fit_format,
+        :path, :page_title,
         :other_feedback, :consent_to_be_contacted,
         :original_controller
       )
