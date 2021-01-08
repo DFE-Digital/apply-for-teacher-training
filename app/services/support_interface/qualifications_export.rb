@@ -9,8 +9,8 @@ module SupportInterface
         application_form = application_choice.application_form
         course = application_choice.course_option.course
         qualifications = application_form.application_qualifications
-        a_levels = a_levels(qualifications)
-        degrees = degrees(qualifications)
+        a_levels = a_levels(qualifications).sort_by(&:subject)
+        degrees = degrees(qualifications).sort_by(&:subject)
 
         output = {
           'Candidate id' => application_form.candidate_id,
