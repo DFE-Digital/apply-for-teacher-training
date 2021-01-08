@@ -110,11 +110,11 @@ private
   end
 
   def interested_in_future_applications
-    return {} unless reasons.interested_in_future_applications_y_n.eql?('Yes')
+    return {} unless %w[Yes No].include?(reasons.interested_in_future_applications_y_n)
 
     reason_details(
       'interested_in_future_applications',
-      [I18n.t('reasons_for_rejection.interested_in_future_applications.reason',
+      [I18n.t("reasons_for_rejection.interested_in_future_applications.reason.#{reasons.interested_in_future_applications_y_n.downcase}",
               provider_name: course_option.course.provider.name)],
     )
   end

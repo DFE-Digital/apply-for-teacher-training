@@ -29,7 +29,9 @@ en:
       title: 'Additional advice'
     interested_in_future_applications:
       title: 'Future applications'
-      reason: '%{provider_name} would be interested in future applications from you'
+      reason:
+        'yes': '%{provider_name} would be interested in future applications from you.'
+        'no': '%{provider_name} would not be interested in future applications from you.'
     candidate_behaviour_what_did_the_candidate_do:
       didnt_reply_to_interview_offer: 'Didn’t reply to our interview offer'
       didnt_attend_interview: 'Didn’t attend interview'

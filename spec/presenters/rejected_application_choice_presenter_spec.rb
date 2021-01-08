@@ -169,7 +169,7 @@ RSpec.describe RejectedApplicationChoicePresenter do
         rejected_application_choice = RejectedApplicationChoicePresenter.new(application_choice)
 
         expect(rejected_application_choice.rejection_reasons).to eq(
-          { 'Future applications' => ['UoG would be interested in future applications from you'] },
+          { 'Future applications' => ['UoG would be interested in future applications from you.'] },
         )
       end
     end

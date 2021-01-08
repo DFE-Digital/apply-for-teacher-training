@@ -117,9 +117,9 @@
         <%= f.govuk_radio_button :offered_on_another_course_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:honesty_and_professionalism_y_n, legend: { text: 'Was it related to concerns about the candidate’s honesty and professionalism', size: 'm' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:honesty_and_professionalism_y_n, legend: { text: 'Was it related to concerns about the candidate’s honesty and professionalism?', size: 'm' }) do %>
         <%= f.govuk_radio_button :honesty_and_professionalism_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
-          <%= f.govuk_check_boxes_fieldset :honesty_and_professionalism_concerns, legend: { text: "Which qualifications?", size: "s" } do %>
+          <%= f.govuk_check_boxes_fieldset :honesty_and_professionalism_concerns, legend: { text: "What concerns did you have?", size: "s" } do %>
             <%= f.govuk_check_box :honesty_and_professionalism_concerns,
               'information_false_or_inaccurate',
               label: { text: "Information given on application form false or inaccurate" },
@@ -153,7 +153,7 @@
         <%= f.govuk_radio_button :honesty_and_professionalism_y_n, 'No', label: { text: 'No' } %>
       <% end %>
 
-      <%= f.govuk_radio_buttons_fieldset(:safeguarding_y_n, legend: { text: 'Was it related to safeguarding', size: 'm' }) do %>
+      <%= f.govuk_radio_buttons_fieldset(:safeguarding_y_n, legend: { text: 'Was it related to safeguarding?', size: 'm' }) do %>
         <%= f.govuk_radio_button :safeguarding_y_n, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
           <%= f.govuk_check_boxes_fieldset :safeguarding_concerns, legend: { text: "Which safeguarding issues in particular?", size: "s" } do %>
             <%= f.govuk_check_box :safeguarding_concerns,
