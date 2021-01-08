@@ -33,7 +33,8 @@ class NavigationItems
     def for_support_account_nav(current_support_user)
       if current_support_user && (impersonated_user = current_support_user.impersonated_provider_user)
         [
-          NavigationItem.new("<span aria-hidden=\"true\">🎭</span><span class=\"govuk-visually-hidden\">Provider user impersonation: active -- Current support user:</span> #{current_support_user.email_address}".html_safe, support_interface_provider_user_path(impersonated_user), false),
+          NavigationItem.new("<span aria-hidden=\"true\">🎭 ⚙️</span><span class=\"govuk-visually-hidden\">Currently impersonating: #{impersonated_user.email_address}</span>".html_safe, support_interface_provider_user_path(impersonated_user), false),
+          NavigationItem.new(current_support_user.email_address, nil, false),
           NavigationItem.new('Sign out', support_interface_sign_out_path, false),
         ]
       elsif current_support_user

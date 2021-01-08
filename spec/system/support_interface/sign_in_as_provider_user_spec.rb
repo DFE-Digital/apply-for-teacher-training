@@ -48,8 +48,11 @@ RSpec.feature 'Sign in as provider user' do
 
   def when_i_try_to_sign_the_data_sharing_agreement
     provider_name = @provider_user.providers.first.name
-    check "#{provider_name} agrees to comply with the data sharing practices outlined in this agreement"
-    click_on 'Continue'
+
+    ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
+      check "#{provider_name} agrees to comply with the data sharing practices outlined in this agreement"
+      click_on 'Continue'
+    end
   end
 
   def then_i_am_told_i_am_a_support_user
