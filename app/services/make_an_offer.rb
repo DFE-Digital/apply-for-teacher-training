@@ -5,6 +5,7 @@ class MakeAnOffer
   attr_accessor :course_option
 
   include ActiveModel::Validations
+  include ImpersonationAuditHelper
 
   MAX_CONDITIONS_COUNT = 20
   MAX_CONDITION_LENGTH = 255
@@ -36,23 +37,25 @@ class MakeAnOffer
 
     @auth.assert_can_make_decisions!(application_choice: application_choice, course_option_id: @course_option.id)
 
-    if ApplicationStateChange.new(application_choice).can_make_offer?
-      ActiveRecord::Base.transaction do
-        application_choice.status = 'offer'
-        application_choice.offered_course_option = course_option
-        application_choice.offer = { 'conditions' => offer_conditions }
-        application_choice.offered_at = Time.zone.now
-        application_choice.save!
-        SetDeclineByDefault.new(application_form: application_choice.application_form).call
-      end
+    audit(@auth.actor) do
+      if ApplicationStateChange.new(application_choice).can_make_offer?
+        ActiveRecord::Base.transaction do
+          application_choice.status = 'offer'
+          application_choice.offered_course_option = course_option
+          application_choice.offer = { 'conditions' => offer_conditions }
+          application_choice.offered_at = Time.zone.now
+          application_choice.save!
+          SetDeclineByDefault.new(application_form: application_choice.application_form).call
+        end
 
-      SendNewOfferEmailToCandidate.new(application_choice: @application_choice).call
-    else
-      errors.add(
-        :base,
-        I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
-      )
-      false
+        SendNewOfferEmailToCandidate.new(application_choice: @application_choice).call
+      else
+        errors.add(
+          :base,
+          I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
+        )
+        false
+      end
     end
   end
 

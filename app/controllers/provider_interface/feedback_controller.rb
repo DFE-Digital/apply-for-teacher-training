@@ -22,6 +22,7 @@ module ProviderInterface
 
     def create
       SaveAndSendRejectByDefaultFeedback.new(
+        actor: current_provider_user,
         application_choice: @application_choice,
         rejection_reason: feedback_params[:rejection_reason],
       ).call!

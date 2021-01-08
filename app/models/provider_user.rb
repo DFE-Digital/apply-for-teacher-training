@@ -2,6 +2,7 @@ class ProviderUser < ActiveRecord::Base
   has_many :provider_permissions, dependent: :destroy
   has_many :providers, through: :provider_permissions
   has_many :notes, dependent: :destroy
+  attr_accessor :impersonator
 
   validates :dfe_sign_in_uid, uniqueness: true, allow_nil: true
 
@@ -24,8 +25,11 @@ class ProviderUser < ActiveRecord::Base
     dfe_sign_in_user = DfESignInUser.load_from_session(session)
     return unless dfe_sign_in_user
 
-    approved_user = ProviderUser.find_by dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid
-    approved_user || onboard!(dfe_sign_in_user)
+    impersonation = ProviderImpersonation.load_from_session(session)
+    return impersonation.provider_user if impersonation
+
+    provider_user = ProviderUser.find_by dfe_sign_in_uid: dfe_sign_in_user.dfe_sign_in_uid
+    provider_user || onboard!(dfe_sign_in_user)
   end
 
   def self.onboard!(dsi_user)

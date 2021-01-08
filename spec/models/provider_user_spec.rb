@@ -118,4 +118,45 @@ RSpec.describe ProviderUser, type: :model do
       expect(ProviderUser.visible_to(user_a)).not_to include(user_c)
     end
   end
+
+  describe '#load_from_session' do
+    let(:dsi_user) { build(:dfe_sign_in_user) }
+
+    it 'returns nil if there is no DfESignInUser session' do
+      provider_user = ProviderUser.load_from_session({})
+      expect(provider_user).to be_nil
+    end
+
+    it 'returns nil if there is no associated ProviderUser' do
+      allow(DfESignInUser).to receive(:load_from_session).and_return(dsi_user)
+      provider_user = ProviderUser.load_from_session({})
+      expect(provider_user).to be_nil
+    end
+
+    it 'returns the associated ProviderUser' do
+      allow(DfESignInUser).to receive(:load_from_session).and_return(dsi_user)
+      provider_user = create(
+        :provider_user,
+        dfe_sign_in_uid: dsi_user.dfe_sign_in_uid,
+        email_address: dsi_user.email_address,
+        first_name: dsi_user.first_name,
+        last_name: dsi_user.last_name,
+      )
+      expect(ProviderUser.load_from_session({})).to eq(provider_user)
+    end
+
+    it 'returns impersonated_provider_user from SupportUser, if available' do
+      allow(DfESignInUser).to receive(:load_from_session).and_return(dsi_user)
+
+      support_user = create(:support_user)
+      provider_user = create(:provider_user)
+      support_user.impersonated_provider_user = provider_user
+      allow(SupportUser).to receive(:load_from_session).and_return(support_user)
+
+      loaded_user = ProviderUser.load_from_session({})
+
+      expect(loaded_user).to eq(provider_user)
+      expect(loaded_user.impersonator).to eq(support_user)
+    end
+  end
 end

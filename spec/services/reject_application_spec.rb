@@ -16,7 +16,7 @@ RSpec.describe RejectApplication do
   describe '#save' do
     let(:provider_user) { create(:provider_user) }
     let(:application_choice) { create(:submitted_application_choice) }
-    let(:auth) { instance_double(ProviderAuthorisation, assert_can_make_decisions!: true) }
+    let(:auth) { instance_double(ProviderAuthorisation, assert_can_make_decisions!: true, actor: provider_user) }
 
     subject(:service) { described_class.new(actor: provider_user, application_choice: application_choice, rejection_reason: 'wrong') }
 

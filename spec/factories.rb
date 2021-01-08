@@ -842,6 +842,22 @@ FactoryBot.define do
     hashed_token { '1234567890' }
   end
 
+  factory :dfe_sign_in_user do
+    dfe_sign_in_uid { SecureRandom.uuid }
+    email_address { "#{Faker::Name.first_name.downcase}@example.com" }
+    first_name { Faker::Name.first_name }
+    last_name { Faker::Name.last_name }
+
+    initialize_with do
+      new(
+        dfe_sign_in_uid: dfe_sign_in_uid,
+        email_address: email_address,
+        first_name: first_name,
+        last_name: last_name,
+      )
+    end
+  end
+
   factory :support_user do
     dfe_sign_in_uid { SecureRandom.uuid }
     email_address { "#{Faker::Name.first_name.downcase}@example.com" }

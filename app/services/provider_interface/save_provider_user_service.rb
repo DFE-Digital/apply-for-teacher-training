@@ -1,5 +1,7 @@
 module ProviderInterface
   class SaveProviderUserService
+    include ImpersonationAuditHelper
+
     attr_accessor :wizard
 
     def initialize(actor:, wizard:)
@@ -8,11 +10,13 @@ module ProviderInterface
     end
 
     def call!
-      assert_permissions_for_providers!
-      if email_exists?
-        update_user
-      else
-        create_user
+      audit(@actor) do
+        assert_permissions_for_providers!
+        if email_exists?
+          update_user
+        else
+          create_user
+        end
       end
     end
 

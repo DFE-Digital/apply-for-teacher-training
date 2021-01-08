@@ -60,6 +60,12 @@ module ProviderInterface
         provider_user_admin_url: support_interface_provider_user_url(current_provider_user),
       }
 
+      if (impersonator = current_provider_user.impersonator)
+        useful_debugging_info[:dfe_sign_in_uid] = impersonator.dfe_sign_in_uid
+        useful_debugging_info[:support_user_email] = impersonator.email_address
+        useful_debugging_info[:support_user_admin_url] = support_interface_support_user_url(impersonator)
+      end
+
       RequestLocals.store[:identity] = useful_debugging_info
       Raven.user_context(useful_debugging_info)
     end

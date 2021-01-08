@@ -1,5 +1,6 @@
 class ChangeOffer
   include ActiveModel::Validations
+  include ImpersonationAuditHelper
 
   attr_reader :application_choice, :course_option
 
@@ -22,22 +23,24 @@ class ChangeOffer
 
   def save
     @auth.assert_can_make_decisions! application_choice: @application_choice, course_option_id: @course_option.id
-    if valid?
-      now = Time.zone.now
-      attributes = {
-        offered_course_option: @course_option,
-        offer_changed_at: now,
-      }
-      attributes[:offer] = { 'conditions' => @offer_conditions } if @offer_conditions
-      @application_choice.update! attributes
+    audit(@auth.actor) do
+      if valid?
+        now = Time.zone.now
+        attributes = {
+          offered_course_option: @course_option,
+          offer_changed_at: now,
+        }
+        attributes[:offer] = { 'conditions' => @offer_conditions } if @offer_conditions
+        @application_choice.update! attributes
 
-      SetDeclineByDefault.new(application_form: @application_choice.application_form).call
-      CandidateMailer.changed_offer(@application_choice).deliver_later
-      StateChangeNotifier.call(:change_an_offer, application_choice: @application_choice)
+        SetDeclineByDefault.new(application_form: @application_choice.application_form).call
+        CandidateMailer.changed_offer(@application_choice).deliver_later
+        StateChangeNotifier.call(:change_an_offer, application_choice: @application_choice)
 
-      true
-    else
-      false
+        true
+      else
+        false
+      end
     end
   end
 

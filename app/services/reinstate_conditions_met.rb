@@ -1,5 +1,6 @@
 class ReinstateConditionsMet
   include ActiveModel::Validations
+  include ImpersonationAuditHelper
 
   attr_reader :application_choice, :course_option
 
@@ -16,14 +17,16 @@ class ReinstateConditionsMet
   def save
     @auth.assert_can_make_decisions!(application_choice: application_choice, course_option_id: @course_option.id)
 
-    if valid?
-      attrs = { offered_course_option_id: @course_option.id }
-      attrs[:recruited_at] = Time.zone.now unless application_choice.status_before_deferral == 'recruited' # conditions are 'still met'
+    audit(@auth.actor) do
+      if valid?
+        attrs = { offered_course_option_id: @course_option.id }
+        attrs[:recruited_at] = Time.zone.now unless application_choice.status_before_deferral == 'recruited' # conditions are 'still met'
 
-      ActiveRecord::Base.transaction do
-        ApplicationStateChange.new(application_choice).reinstate_conditions_met!
-        application_choice.update(attrs)
-        CandidateMailer.reinstated_offer(application_choice).deliver_later
+        ActiveRecord::Base.transaction do
+          ApplicationStateChange.new(application_choice).reinstate_conditions_met!
+          application_choice.update(attrs)
+          CandidateMailer.reinstated_offer(application_choice).deliver_later
+        end
       end
     end
   rescue Workflow::NoTransitionAllowed

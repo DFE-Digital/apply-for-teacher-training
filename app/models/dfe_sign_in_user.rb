@@ -1,16 +1,17 @@
 class DfESignInUser
-  attr_reader :email_address, :dfe_sign_in_uid
+  attr_reader :email_address, :dfe_sign_in_uid, :impersonated_provider_user
   attr_accessor :first_name, :last_name
 
   # we need to be able to redirect back to our sign-out callback path
   include Rails.application.routes.url_helpers
 
-  def initialize(email_address:, dfe_sign_in_uid:, first_name:, last_name:, id_token: nil)
+  def initialize(email_address:, dfe_sign_in_uid:, first_name:, last_name:, id_token: nil, impersonated_provider_user: nil)
     @email_address = email_address&.downcase
     @dfe_sign_in_uid = dfe_sign_in_uid
     @first_name = first_name
     @last_name = last_name
     @id_token = id_token
+    @impersonated_provider_user = impersonated_provider_user
   end
 
   def provider_interface_dsi_logout_url
@@ -54,12 +55,28 @@ class DfESignInUser
       first_name: dfe_sign_in_session['first_name'],
       last_name: dfe_sign_in_session['last_name'],
       id_token: dfe_sign_in_session['id_token'],
+      impersonated_provider_user: impersonated_provider_user_from(session),
     )
+  end
+
+  def begin_impersonation!(session, provider_user)
+    session['impersonated_provider_user'] = { 'provider_user_id' => provider_user.id }
+  end
+
+  def end_impersonation!(session)
+    session.delete('impersonated_provider_user')
   end
 
   def self.end_session!(session)
     session.delete('post_dfe_sign_in_path')
     session.delete('dfe_sign_in_user')
+    session.delete('impersonated_provider_user')
+  end
+
+  def self.impersonated_provider_user_from(session)
+    if session['impersonated_provider_user']
+      ProviderUser.find session['impersonated_provider_user']['provider_user_id']
+    end
   end
 
 private

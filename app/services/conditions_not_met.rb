@@ -1,5 +1,6 @@
 class ConditionsNotMet
   include ActiveModel::Validations
+  include ImpersonationAuditHelper
 
   def initialize(actor:, application_choice:)
     @auth = ProviderAuthorisation.new(actor: actor)
@@ -9,9 +10,11 @@ class ConditionsNotMet
   def save
     @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
 
-    ApplicationStateChange.new(@application_choice).conditions_not_met!
-    @application_choice.update!(conditions_not_met_at: Time.zone.now)
-    CandidateMailer.conditions_not_met(@application_choice).deliver_later
+    audit(@auth.actor) do
+      ApplicationStateChange.new(@application_choice).conditions_not_met!
+      @application_choice.update!(conditions_not_met_at: Time.zone.now)
+      CandidateMailer.conditions_not_met(@application_choice).deliver_later
+    end
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,

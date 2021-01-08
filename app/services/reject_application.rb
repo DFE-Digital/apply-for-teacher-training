@@ -1,5 +1,6 @@
 class RejectApplication
   include ActiveModel::Validations
+  include ImpersonationAuditHelper
 
   attr_accessor :rejection_reason, :structured_rejection_reasons
 
@@ -19,20 +20,22 @@ class RejectApplication
 
     @auth.assert_can_make_decisions!(application_choice: @application_choice, course_option_id: @application_choice.offered_option.id)
 
-    ActiveRecord::Base.transaction do
-      ApplicationStateChange.new(@application_choice).reject!
-      @application_choice.update!(
-        rejection_reason: @rejection_reason,
-        structured_rejection_reasons: @structured_rejection_reasons,
-        rejected_at: Time.zone.now,
-      )
-      SetDeclineByDefault.new(application_form: @application_choice.application_form).call
-    end
+    audit(@auth.actor) do
+      ActiveRecord::Base.transaction do
+        ApplicationStateChange.new(@application_choice).reject!
+        @application_choice.update!(
+          rejection_reason: @rejection_reason,
+          structured_rejection_reasons: @structured_rejection_reasons,
+          rejected_at: Time.zone.now,
+        )
+        SetDeclineByDefault.new(application_form: @application_choice.application_form).call
+      end
 
-    SendCandidateRejectionEmail.new(application_choice: @application_choice).call
+      SendCandidateRejectionEmail.new(application_choice: @application_choice).call
 
-    if @application_choice.application_form.ended_without_success?
-      StateChangeNotifier.new(:rejected, @application_choice).application_outcome_notification
+      if @application_choice.application_form.ended_without_success?
+        StateChangeNotifier.new(:rejected, @application_choice).application_outcome_notification
+      end
     end
   rescue Workflow::NoTransitionAllowed
     errors.add(
