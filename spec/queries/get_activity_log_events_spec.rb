@@ -117,6 +117,27 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
       expect(result).not_to include(excluded)
       expect(result).to include(included)
     end
+
+    it 'includes only status change events visible to providers' do
+      choice = create_application_choice_for_course course_provider_a
+
+      excluded = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'status' => %w[awaiting_references application_complete] },
+      )
+
+      included = create(
+        :application_choice_audit,
+        application_choice: choice,
+        changes: { 'status' => %w[status_not_visible_to_providers awaiting_provider_decision] },
+      )
+
+      result = service_call
+
+      expect(result).not_to include(excluded)
+      expect(result).to include(included)
+    end
   end
 
   context 'sorts events in reverse chronological order' do
