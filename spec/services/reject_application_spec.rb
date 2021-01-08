@@ -9,7 +9,7 @@ RSpec.describe RejectApplication do
 
     it 'validates rejection_reason and structured_rejection_reasons' do
       expect(invalid_service.valid?).to be false
-      expect(invalid_service.errors.keys.sort).to eq(%i[rejection_reason structured_rejection_reasons])
+      expect(invalid_service.errors.keys.sort).to eq(%i[rejection_reason])
     end
   end
 
