@@ -5,7 +5,7 @@ module CandidateInterface
     attr_accessor :path, :page_title, :original_controller, :other_feedback,
                   :consent_to_be_contacted
 
-    validates :path, :page_title, :consent_to_be_contacted, :other_feedback, presence: true
+    validates :path, :page_title, :other_feedback, :consent_to_be_contacted, presence: true
 
     validate :path_is_valid, if: -> { path.present? }
 
