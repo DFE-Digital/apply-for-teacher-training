@@ -29,6 +29,7 @@ module CandidateInterface
     def confirm_decline
       decline = DeclineOffer.new(application_choice: @application_choice.reload)
       decline.save!
+      flash[:success] = "You have declined your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
       redirect_to candidate_interface_application_complete_path
     end
 
@@ -37,6 +38,7 @@ module CandidateInterface
     def confirm_accept
       accept = AcceptOffer.new(application_choice: @application_choice.reload)
       accept.save!
+      flash[:success] = "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
       redirect_to candidate_interface_application_complete_path
     end
 

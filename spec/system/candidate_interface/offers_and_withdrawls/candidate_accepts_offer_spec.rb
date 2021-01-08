@@ -15,6 +15,7 @@ RSpec.feature 'Candidate accepts an offer' do
     when_i_accept_one_offer
     and_i_confirm_the_acceptance
 
+    then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
     and_i_see_that_i_accepted_the_offer
     and_i_see_that_i_declined_the_other_offer
     and_i_see_that_i_withdrawn_from_the_third_choice
@@ -88,6 +89,10 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def and_i_confirm_the_acceptance
     click_button 'Accept offer'
+  end
+
+  def then_i_see_a_flash_message_telling_me_i_have_accepted_the_offer
+    expect(page).to have_content "You have accepted your offer for #{@application_choice.course.name_and_code} at #{@application_choice.provider.name}"
   end
 
   def and_i_see_that_i_accepted_the_offer
