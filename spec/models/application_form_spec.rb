@@ -519,7 +519,7 @@ RSpec.describe ApplicationForm do
       expect(application_form.all_provider_decisions_made?).to eq(false)
     end
 
-    it 'returns true if the application choices are not in awaiting providor descision state' do
+    it 'returns true if the application choices are not in awaiting provider decision state' do
       application_choice = create(:application_choice, :with_offer)
       application_form = create(:completed_application_form, application_choices: [application_choice])
       expect(application_form.all_provider_decisions_made?).to eq(true)
