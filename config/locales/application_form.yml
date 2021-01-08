@@ -1012,10 +1012,10 @@ en:
               invalid: Path must be a valid endpoint
             page_title:
               blank: Page title cannot be blank
-            issues:
-              blank: Issues cannot blank
+            other_feedback:
+              blank: Enter feedback on how we can improve this section
             consent_to_be_contacted:
-              blank: Can we contact you about your feedback?
+              blank: Select yes if we can contact you about your feedback
         candidate_interface/find_feedback_form:
           attributes:
             path:

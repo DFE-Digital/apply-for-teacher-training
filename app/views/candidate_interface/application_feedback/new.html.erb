@@ -5,22 +5,12 @@
     <%= form_with model: @application_feedback_form, url: candidate_interface_application_feedback_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <span class="govuk-caption-xl"><%= t('application_feedback.caption') %></span>
-        <%= t('page_titles.application_feedback', section: @application_feedback_form.section_name) %>
-      </h1>
-
       <%= f.hidden_field :path %>
       <%= f.hidden_field :page_title %>
       <%= f.hidden_field :original_controller %>
 
-      <%= f.govuk_check_boxes_fieldset :issues, multiple: false, legend: { text: t('application_feedback.issues.label'), size: 'm' } do %>
-        <%= f.govuk_check_box :does_not_understand_section, true, multiple: false, label: { text: t('application_feedback.issues.does_not_understand_section') }, link_errors: true %>
-        <%= f.govuk_check_box :need_more_information, true, multiple: false, label: { text: t('application_feedback.issues.need_more_information') } %>
-        <%= f.govuk_check_box :answer_does_not_fit_format, true, multiple: false, label: { text: t('application_feedback.issues.answer_does_not_fit_format') } %>
-      <% end %>
-
-      <%= f.govuk_text_area :other_feedback, label: { text: t('application_feedback.other_feedback.label'), size: 'm' }, rows: 5, max_words: 300 %>
+      <span class="govuk-caption-xl"><%= t('application_feedback.caption') %></span>
+      <%= f.govuk_text_area :other_feedback, label: { text: t('page_titles.application_feedback', section: @application_feedback_form.section_name), size: 'xl', tag: 'h1' }, rows: 5, max_words: 300, threshold: 90 %>
 
       <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, inline: true, legend: { text: t('application_feedback.consent_to_be_contacted.label'), size: 'm' } do %>
         <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('application_feedback.consent_to_be_contacted.yes') }, link_errors: true %>
