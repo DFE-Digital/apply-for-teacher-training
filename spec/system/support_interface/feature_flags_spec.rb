@@ -13,10 +13,12 @@ RSpec.feature 'Feature flags', with_audited: true do
     when_i_activate_the_feature
     then_the_feature_is_activated
     and_i_can_see_the_activation_in_the_audit_trail
+    and_a_slack_notification_about_the_activation_is_sent
 
     when_i_deactivate_the_feature
     then_the_feature_is_deactivated
     and_i_can_see_the_deactivation_in_the_audit_trail
+    and_a_slack_notification_about_the_deactivation_is_sent
   end
 
   def given_i_am_a_support_user
@@ -50,6 +52,10 @@ RSpec.feature 'Feature flags', with_audited: true do
     expect(page).to have_content('Changed to active by user@apply-support.com')
   end
 
+  def and_a_slack_notification_about_the_activation_is_sent
+    expect_slack_message_with_text(':flags: Feature ‘Pilot open‘ was activated')
+  end
+
   def when_i_deactivate_the_feature
     within(pilot_open_summary_card) { click_button 'Deactivate' }
   end
@@ -61,6 +67,10 @@ RSpec.feature 'Feature flags', with_audited: true do
 
   def and_i_can_see_the_deactivation_in_the_audit_trail
     expect(page).to have_content('Changed to inactive by user@apply-support.com')
+  end
+
+  def and_a_slack_notification_about_the_deactivation_is_sent
+    expect_slack_message_with_text(':flags: Feature ‘Pilot open‘ was deactivated')
   end
 
   def pilot_open_summary_card
