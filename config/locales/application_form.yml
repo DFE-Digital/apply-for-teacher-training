@@ -1013,9 +1013,9 @@ en:
             page_title:
               blank: Page title cannot be blank
             other_feedback:
-              blank: Enter some feedback on how we can improve this section
+              blank: Enter feedback on how we can improve this section
             consent_to_be_contacted:
-              blank: Say yes if we can contact you about your feedback
+              blank: Select yes if we can contact you about your feedback
         candidate_interface/find_feedback_form:
           attributes:
             path:
