@@ -1,7 +1,7 @@
 module CandidateInterface
   class SignInController < CandidateInterfaceController
     skip_before_action :authenticate_candidate!
-    before_action :redirect_to_application_if_signed_in, except: %i[authenticate]
+    before_action :redirect_to_application_if_signed_in, except: %i[confirm_authentication authenticate]
 
     def new
       candidate = Candidate.new
@@ -16,14 +16,14 @@ module CandidateInterface
     # some email clients preload links in emails, this is an extra step where
     # they click a button to confirm the sign in.
     def confirm_authentication
-      authentication_token = AuthenticationToken.find_by_hashed_token(
+      @authentication_token = AuthenticationToken.find_by_hashed_token(
         user_type: 'Candidate',
         raw_token: params[:token],
       )
 
-      if authentication_token&.still_valid?
+      if @authentication_token&.still_valid?
         render 'confirm_authentication'
-      elsif authentication_token
+      elsif @authentication_token
         # If the token is expired, redirect the user to a page
         # with their token as a param where they can request
         # a new sign in email.
@@ -84,7 +84,7 @@ module CandidateInterface
         end
 
       if candidate
-        CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate)
+        CandidateInterface::RequestMagicLink.for_sign_in(candidate: candidate, path: authentication_token&.path)
         add_identity_to_log candidate.id
         redirect_to candidate_interface_check_email_sign_in_path
       else

@@ -1,7 +1,7 @@
 module CandidateInterface
   class RequestMagicLink
-    def self.for_sign_in(candidate:)
-      magic_link_token = candidate.create_magic_link_token!
+    def self.for_sign_in(candidate:, path: nil)
+      magic_link_token = candidate.create_magic_link_token!(path: path)
       AuthenticationMailer.sign_in_email(candidate: candidate, token: magic_link_token).deliver_later
     end
 
