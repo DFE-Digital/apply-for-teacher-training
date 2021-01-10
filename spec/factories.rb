@@ -1176,7 +1176,7 @@ FactoryBot.define do
 
     path { '/candidate/application/degrees' }
     page_title { Faker::Lorem.paragraph(sentence_count: 1) }
-    other_feedback { Faker::Lorem.paragraph(sentence_count: 3) }
+    feedback { Faker::Lorem.paragraph(sentence_count: 3) }
     consent_to_be_contacted { true }
   end
 end
