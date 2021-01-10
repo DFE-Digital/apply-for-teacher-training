@@ -10,9 +10,6 @@ module SupportInterface
           'Submitted at' => feedback.created_at.iso8601,
           'Path' => feedback.path,
           'Page title' => feedback.page_title,
-          'Understood the section' => !feedback.does_not_understand_section,
-          'Needed more information' => feedback.need_more_information,
-          'Answer does not fit the format' => feedback.answer_does_not_fit_format,
           'Other feedback' => feedback.other_feedback,
           'Consent to be contacted' => feedback.consent_to_be_contacted,
         }

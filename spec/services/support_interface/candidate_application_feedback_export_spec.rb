@@ -28,9 +28,6 @@ private
       'Submitted at' => application_feedback.created_at.iso8601,
       'Path' => application_feedback.path,
       'Page title' => application_feedback.page_title,
-      'Understood the section' => !application_feedback.does_not_understand_section,
-      'Needed more information' => application_feedback.need_more_information,
-      'Answer does not fit the format' => application_feedback.answer_does_not_fit_format,
       'Other feedback' => application_feedback.other_feedback,
       'Consent to be contacted' => application_feedback.consent_to_be_contacted,
     }
