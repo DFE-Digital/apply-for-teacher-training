@@ -10,6 +10,8 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
       create(:reference, feedback_status: 'feedback_requested', referee_type: 'school-based', application_form: application_form_one)
       create(:reference, feedback_status: 'feedback_requested', referee_type: 'character', application_form: application_form_one)
 
+      application_form_one.application_references[3].update!(feedback_status: 'feedback_provided')
+
       application_form_two = create(:application_form)
       create(:reference, feedback_status: 'feedback_refused', referee_type: 'academic', application_form: application_form_two)
 
@@ -24,15 +26,19 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
           'Ref 1 type' => application_form_one.application_references[0].referee_type,
           'Ref 1 state' => application_form_one.application_references[0].feedback_status,
           'Ref 1 requested at' => application_form_one.application_references[0].requested_at,
+          'Ref 1 received at' => nil,
           'Ref 2 type' => application_form_one.application_references[1].referee_type,
           'Ref 2 state' => application_form_one.application_references[1].feedback_status,
-          'Ref 2 requested at' => application_form_one.application_references[0].requested_at,
+          'Ref 2 requested at' => application_form_one.application_references[1].requested_at,
+          'Ref 2 received at' => nil,
           'Ref 3 type' => application_form_one.application_references[2].referee_type,
           'Ref 3 state' => application_form_one.application_references[2].feedback_status,
-          'Ref 3 requested at' => application_form_one.application_references[0].requested_at,
+          'Ref 3 requested at' => application_form_one.application_references[2].requested_at,
+          'Ref 3 received at' => nil,
           'Ref 4 type' => application_form_one.application_references[3].referee_type,
           'Ref 4 state' => application_form_one.application_references[3].feedback_status,
-          'Ref 4 requested at' => application_form_one.application_references[0].requested_at,
+          'Ref 4 requested at' => application_form_one.application_references[3].requested_at,
+          'Ref 4 received at' => application_form_one.application_references[3].audits.where("audited_changes#>>'{feedback_status, 1}' = 'feedback_provided'").last&.created_at,
         },
         {
           'Recruitment cycle year' => application_form_two.recruitment_cycle_year,
@@ -42,6 +48,7 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
           'Ref 1 type' => application_form_two.application_references[0].referee_type,
           'Ref 1 state' => application_form_two.application_references[0].feedback_status,
           'Ref 1 requested at' => application_form_one.application_references[0].requested_at,
+          'Ref 1 received at' => nil,
         },
       )
     end
