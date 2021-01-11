@@ -34,7 +34,10 @@ class ApplicationStateChange
       event :reject, transitions_to: :rejected
       event :reject_by_default, transitions_to: :rejected
       event :withdraw, transitions_to: :withdrawn
+      event :interview, transitions_to: :interviewing
     end
+
+    state :interviewing
 
     state :rejected do
       event :make_offer, transitions_to: :offer

@@ -13,8 +13,11 @@ class ApplicationChoice < ApplicationRecord
   has_one :candidate, through: :application_form
 
   has_many :notes, dependent: :destroy
+  has_many :interviews, dependent: :destroy
+
   validates :course_option, uniqueness: { scope: :application_form_id }
 
+  has_associated_audits
   audited associated_with: :application_form
 
   # Note that prior to October 2020, we used to have awaiting_references and
@@ -23,6 +26,7 @@ class ApplicationChoice < ApplicationRecord
     unsubmitted: 'unsubmitted',
     cancelled: 'cancelled',
     awaiting_provider_decision: 'awaiting_provider_decision',
+    interviewing: 'interviewing',
     offer: 'offer',
     pending_conditions: 'pending_conditions',
     recruited: 'recruited',

@@ -1,4 +1,6 @@
 class Interview < ApplicationRecord
+  audited associated_with: :application_choice
+
   belongs_to :application_choice
   belongs_to :provider
 
