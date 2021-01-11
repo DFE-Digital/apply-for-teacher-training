@@ -1,13 +1,24 @@
 <% content_for :title, t('page_titles.courses') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<h1 class="govuk-heading-xl">
-  <% if @application_form.candidate_can_choose_single_course? %>
-    <%= t('page_titles.course_choice') %>
-  <% else %>
-    <%= t('page_titles.course_choices') %>
-  <% end %>
-</h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <% if @application_form.candidate_can_choose_single_course? %>
+        <%= t('page_titles.course_choice') %>
+      <% else %>
+        <%= t('page_titles.course_choices') %>
+      <% end %>
+    </h1>
+
+    <% if @application_choices.present? && @application_form.can_add_more_choices? %>
+      <div class="govuk-inset-text">
+        <p class="govuk-body">You can choose <%= pluralize(current_application.choices_left_to_make, "more course") %>.</p>
+        <%= govuk_button_link_to t('application_form.courses.another.button'), candidate_interface_course_choices_choose_path, class: 'govuk-button--secondary' %>
+      </div>
+    <% end %>
+  </div>
+</div>
 
 <%= form_with model: @application_form, url: candidate_interface_course_choices_complete_path do |f| %>
   <%= f.govuk_error_summary %>
@@ -17,10 +28,6 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <% if @application_choices.present? %>
-        <% if @application_form.can_add_more_choices? %>
-          <%= govuk_button_link_to 'Add another course', candidate_interface_course_choices_choose_path, class: 'govuk-button--secondary govuk-!-margin-bottom-9' %>
-        <% end %>
-
         <% if @application_choices.count >= 1 %>
           <%= f.govuk_check_boxes_fieldset :course_choices_completed, legend: nil do %>
             <%= f.hidden_field :course_choices_completed, value: false %>
