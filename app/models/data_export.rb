@@ -86,7 +86,7 @@ class DataExport < ApplicationRecord
       class: SupportInterface::ProviderAccessControlsExport,
     },
     locations_export: {
-      name: 'Locations export',
+      name: 'Locations',
       description: 'A list of application choices with the associated postcodes for the candidate, provider and site.',
       class: SupportInterface::LocationsExport,
     },
@@ -94,6 +94,11 @@ class DataExport < ApplicationRecord
       name: 'Sites',
       description: 'A list of sites that are being synced from Find, along with distances to their respective providers',
       class: SupportInterface::SitesExport,
+    },
+    qualifications: {
+      name: 'Qualifications',
+      description: 'A list of qualifications for each application choice',
+      class: SupportInterface::QualificationsExport,
     },
   }.freeze
 
