@@ -141,4 +141,14 @@ RSpec.describe TestApplications do
       expect(references.map(&:feedback_status)).to match_array(%w[not_requested_yet feedback_requested feedback_requested feedback_requested feedback_requested])
     end
   end
+
+  describe 'scheduled interview' do
+    it 'generates an interview for application choices in the interviewing state' do
+      courses_we_want = create_list(:course_option, 2, course: create(:course, :open_on_apply)).map(&:course)
+
+      application_choice = TestApplications.new.create_application(recruitment_cycle_year: 2021, states: %i[interviewing], courses_to_apply_to: courses_we_want).first
+
+      expect(application_choice.interviews.count).to eq(1)
+    end
+  end
 end
