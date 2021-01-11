@@ -5,7 +5,7 @@ FactoryBot.define do
     recruitment_cycle_year { application_form.recruitment_cycle_year }
 
     transient do
-      application_form { create(:completed_application_form, application_choices_count: 1) }
+      application_form { create(:completed_application_form, submitted_application_choices_count: 1) }
       ucas_status { nil }
       scheme { rand(1..3).times.map { %w[U D B].sample } }
     end
@@ -148,6 +148,7 @@ FactoryBot.define do
 
       transient do
         application_choices_count { 0 }
+        submitted_application_choices_count { 0 }
         work_experiences_count { 0 }
         volunteering_experiences_count { 0 }
         references_count { 0 }
@@ -229,6 +230,7 @@ FactoryBot.define do
         end
 
         create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'unsubmitted')
+        create_list(:submitted_application_choice, evaluator.submitted_application_choices_count, application_form: application_form)
         create_list(:reference, evaluator.references_count, evaluator.references_state, application_form: application_form)
         # The application_form validates the length of this collection when
         # it is created, which is BEFORE we create the references here.

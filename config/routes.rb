@@ -805,6 +805,7 @@ Rails.application.routes.draw do
       get '/course-stats', to: 'performance#course_stats', as: :course_stats
       get '/course-options', to: 'performance#course_options', as: :course_options
       get '/unavailable-choices' => 'performance#unavailable_choices', as: :unavailable_choices
+      get '/ucas-matches-stats' => 'performance#ucas_matches_stats', as: :ucas_matches_stats
 
       get '/validation-errors' => 'validation_errors#index', as: :validation_errors
       get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search

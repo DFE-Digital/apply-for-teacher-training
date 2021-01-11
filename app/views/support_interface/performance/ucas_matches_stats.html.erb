@@ -1,0 +1,25 @@
+<% content_for :title, 'UCAS matches statistics' %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'UCAS matches statistics'
+    }
+  ]) %>
+<% end %>
+
+<% year_choices = RecruitmentCycle::CYCLES.map do |year, label| %>
+  <% { name: label, url: "?year=#{year}", current: params[:year] == year } %>
+<% end %>
+
+<%= render TabNavigationComponent.new(items: [
+  { name: 'All years', url: '?', current: params[:year].nil? },
+] + year_choices ) %>
+
+<% ucas_matches = params[:year].nil? ? UCASMatch.all : UCASMatch.where(recruitment_cycle_year: params[:year])%>
+
+<%= render SupportInterface::UCASMatchesStatisticsComponent.new(ucas_matches) %>
