@@ -21,6 +21,8 @@ RSpec.describe MagicLinkFeatureMetrics, with_audited: true do
           @application_form2.candidate.update!(magic_link_token: '123456')
         end
         Timecop.freeze(@today - 9.days) do
+          create(:authentication_token, user: @application_form1.candidate, hashed_token: '7654321098')
+          create(:authentication_token, user: @application_form2.candidate, hashed_token: '8765432109')
           @application_choice1 = create(
             :application_choice,
             application_form: @application_form1,
@@ -28,24 +30,27 @@ RSpec.describe MagicLinkFeatureMetrics, with_audited: true do
           )
         end
         Timecop.freeze(@today - 2.days) do
+          @application_form1.candidate.update!(magic_link_token: '345678')
+          @application_form2.candidate.update!(magic_link_token: '234567')
+          create(:authentication_token, user: @application_form2.candidate, hashed_token: '9876543210')
           @application_choice2 = create(
             :application_choice,
             application_form: @application_form2,
-              offered_at: Time.zone.now,
+            offered_at: Time.zone.now,
           )
         end
         Timecop.freeze(@today - 1.days) do
-          @application_form1.candidate.update!(magic_link_token: '345678')
-          @application_form2.candidate.update!(magic_link_token: '234567')
+          @application_form2.candidate.update!(magic_link_token: '456789')
+          create(:authentication_token, user: @application_form2.candidate, hashed_token: '0987654321')
         end
       end
 
       it 'returns the correct value for the past month' do
-        expect(feature_metrics.average_magic_link_requests_upto(:offered_at, @today - 1.month, @today)).to eq('1.5')
+        expect(feature_metrics.average_magic_link_requests_upto(:offered_at, @today - 1.month, @today)).to eq('3.5')
       end
 
       it 'returns the correct value for the past week' do
-        expect(feature_metrics.average_magic_link_requests_upto(:offered_at, @today - 1.week, @today)).to eq('1')
+        expect(feature_metrics.average_magic_link_requests_upto(:offered_at, @today - 1.week, @today)).to eq('4')
       end
     end
   end
