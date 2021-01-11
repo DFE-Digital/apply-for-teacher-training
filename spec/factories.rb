@@ -543,6 +543,15 @@ FactoryBot.define do
       reject_by_default_at { 40.business_days.from_now }
     end
 
+    trait :with_scheduled_interview do
+      awaiting_provider_decision
+
+      after(:build) do |choice, _evaluator|
+        choice.status = :interviewing
+        choice.interviews = [create(:interview)]
+      end
+    end
+
     trait :withdrawn do
       status { :withdrawn }
       withdrawn_at { Time.zone.now }
@@ -728,6 +737,15 @@ FactoryBot.define do
     trait :previous_year_but_still_available do
       course_option { create(:course_option, :previous_year_but_still_available) }
     end
+  end
+
+  factory :interview do
+    provider
+    application_choice
+
+    date_and_time { 7.business_days.from_now }
+    location { Faker::Address.full_address }
+    additional_details { [nil, 'Use staff entrance', 'Ask for John at the reception'].sample }
   end
 
   factory :vendor_api_user, class: 'VendorApiUser' do
