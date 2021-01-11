@@ -112,7 +112,7 @@ HESA_DEGREE_INSTITUTIONS = [
   [112, "The University of Bristol"],
   [113, "Brunel University London"],
   [114, "The University of Cambridge"],
-  [115, "The City University"],
+  [115, "City, University of London"],
   [116, "University of Durham"],
   [117, "The University of East Anglia"],
   [118, "The University of Essex"],
