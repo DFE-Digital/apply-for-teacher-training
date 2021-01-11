@@ -5,11 +5,17 @@ RSpec.describe SupportInterface::QualificationsExport do
   describe '#data_for_export' do
     it 'returns an array of hashes for candidates containing information about their qualifications' do
       candidate_one = create(:candidate)
-      course_option_one = course_option_for_provider_code(provider_code: 'ZZ7')
-      course_option_two = course_option_for_provider_code(provider_code: 'AA1')
+      course_option_one = course_option_for_provider_code(provider_code: 'AA1')
+      course_option_two = course_option_for_provider_code(provider_code: 'ZZ7')
       application_form_one = create(:completed_application_form, candidate: candidate_one)
-      application_choice_one = create(:application_choice, status: 'offer', course_option: course_option_one, application_form: application_form_one)
-      application_choice_two = create(:application_choice, status: 'rejected', rejection_reason: 'cut of jib', course_option: course_option_two, application_form: application_form_one)
+      application_choice_one = create(:application_choice, status: 'rejected', structured_rejection_reasons: {
+        quality_of_application_y_n: 'Yes',
+        quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
+        quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
+        quality_of_application_subject_knowledge_what_to_improve: 'Write in the first person',
+      },
+                                                           course_option: course_option_one, application_form: application_form_one)
+      create(:application_choice, status: 'offer', course_option: course_option_two, application_form: application_form_one)
 
       create(:application_qualification,
              application_form: application_form_one,
@@ -47,7 +53,7 @@ RSpec.describe SupportInterface::QualificationsExport do
       candidate_two = create(:candidate)
       course_option_three = course_option_for_provider_code(provider_code: 'BB8')
       application_form_two = create(:completed_application_form, candidate: candidate_two)
-      application_choice_three = create(:application_choice, status: 'offer', course_option: course_option_three, application_form: application_form_two)
+      create(:application_choice, status: 'rejected', rejection_reason: 'Cut of jib', course_option: course_option_three, application_form: application_form_two)
 
       create(:application_qualification,
              application_form: application_form_two,
@@ -88,10 +94,10 @@ RSpec.describe SupportInterface::QualificationsExport do
           'Support ref' => application_form_one.support_reference,
           'Phase' => application_form_one.phase,
           'Cycle' => application_form_one.recruitment_cycle_year,
-          'Outcome (offer, rejected etc.)' => application_choice_one.status,
-          'Reason for Rejection' => application_choice_one.rejection_reason,
+          'Outcome (offer, rejected etc.)' => 'rejected',
+          'Reason for Rejection' => application_choice_one.structured_rejection_reasons,
           'Course Code' => course_option_one.course.code,
-          'Provider Code' => 'ZZ7',
+          'Provider Code' => 'AA1',
           'GCSE maths grade' => 'A',
           'GCSE science single grade' => nil,
           'GCSE science double grade' => nil,
@@ -125,10 +131,10 @@ RSpec.describe SupportInterface::QualificationsExport do
           'Support ref' => application_form_one.support_reference,
           'Phase' => application_form_one.phase,
           'Cycle' => application_form_one.recruitment_cycle_year,
-          'Outcome (offer, rejected etc.)' => application_choice_two.status,
-          'Reason for Rejection' => application_choice_two.rejection_reason,
+          'Outcome (offer, rejected etc.)' => 'offer',
+          'Reason for Rejection' => nil,
           'Course Code' => course_option_two.course.code,
-          'Provider Code' => 'AA1',
+          'Provider Code' => 'ZZ7',
           'GCSE maths grade' => 'A',
           'GCSE science single grade' => nil,
           'GCSE science double grade' => nil,
@@ -162,8 +168,8 @@ RSpec.describe SupportInterface::QualificationsExport do
           'Support ref' => application_form_two.support_reference,
           'Phase' => application_form_two.phase,
           'Cycle' => application_form_two.recruitment_cycle_year,
-          'Outcome (offer, rejected etc.)' => application_choice_three.status,
-          'Reason for Rejection' => application_choice_three.rejection_reason,
+          'Outcome (offer, rejected etc.)' => 'rejected',
+          'Reason for Rejection' => 'Cut of jib',
           'Course Code' => course_option_three.course.code,
           'Provider Code' => 'BB8',
           'GCSE maths grade' => 'A',

@@ -2,7 +2,7 @@ module SupportInterface
   class QualificationsExport
     def data_for_export
       application_choices = ApplicationChoice
-                                .select(:id, :application_form_id, :rejection_reason, :status, :course_option_id)
+                                .select(:id, :application_form_id, :rejection_reason, :structured_rejection_reasons, :status, :course_option_id)
                                 .includes(:course_option, :course, :provider)
 
       application_choices.map do |application_choice|
@@ -19,7 +19,7 @@ module SupportInterface
           'Cycle' => application_form.recruitment_cycle_year,
 
           'Outcome (offer, rejected etc.)' => application_choice.status,
-          'Reason for Rejection' => application_choice.rejection_reason,
+          'Reason for Rejection' => application_choice.structured_rejection_reasons || application_choice.rejection_reason,
           'Course Code' => course.code,
           'Provider Code' => course.provider.code,
 
