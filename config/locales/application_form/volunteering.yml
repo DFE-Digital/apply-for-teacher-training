@@ -38,8 +38,10 @@ en:
         action: Delete role
         confirm: Yes I’m sure - delete this role
         cancel: Cancel
-      another:
+      add:
         button: Add a role
+      another:
+        button: Add another role
       review:
         completed_checkbox: I have completed this section
 
