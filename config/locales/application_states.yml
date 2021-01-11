@@ -18,6 +18,9 @@ en:
     awaiting_provider_decisions:
       name: Awaiting decisions from providers
       description: We’ve sent the applications to the providers, but we have not heard back from all of them.
+    interviewing:
+      name: Awaiting decisions from providers
+      description: We’ve sent the applications to the providers, but we have not heard back from all of them.
     awaiting_candidate_response:
       name: Awaiting decision from candidate
       description: All providers have responded and it’s now up to the candidate to make a decision.
@@ -38,6 +41,7 @@ en:
       description: This application is in a state that we do not recognise. Please report this to a developer.
   candidate_application_states:
     awaiting_provider_decision: Awaiting decision
+    interviewing: Awaiting decision
     cancelled: Application cancelled
     declined: Offer declined
     offer: Offer received
@@ -52,6 +56,7 @@ en:
     offer_deferred: Offer deferred
   provider_application_states:
     awaiting_provider_decision: Received
+    interviewing: Interviewing
     application_not_sent: Application not sent
     cancelled: Application cancelled
     declined: Declined
@@ -102,6 +107,11 @@ en:
       description: Providers only see the application after the the candidate submits their application.
       emails:
         - provider_mailer-chase_provider_decision
+
+    interviewing:
+      name: Interviewing
+      description: |
+        The provider sets up an interview with the candidate.
 
     cancelled:
       name: Cancelled (no longer used)
@@ -181,6 +191,12 @@ en:
       by: system
       description: Application choices that are unsubmitted are automatically rejected at the end of the cycle but can be carried over in the next cycle.
 
+    awaiting_provider_decision-interview:
+      name: Provider sets up an interview
+      by: provider
+      description: |
+        Providers can set up an interview with candidates before making a decision.
+
     awaiting_provider_decision-make_offer:
       name: Provider makes offer
       by: provider
@@ -225,6 +241,58 @@ en:
         An application is rejected by default (RBD) if the provider does not make an offer within 40 working days after they have received an application.
       emails:
         - provider_mailer-application_rejected_by_default
+
+    interviewing-make_offer:
+      name: Provider makes offer
+      by: provider
+      description: |
+        Providers can make offers to candidates. Making an offer guarantees the candidate a place on the course that they applied to. Offers include conditions, that the candidate must meet in order to gain their place on a course.
+
+        All offers must include the following non-academic conditions:
+        candidates must pass a DBS & childen’s barred list check, and
+        candidates must pass a fitness to work health check.
+
+        An email is sent to the candidate, the content of which depends on the state of the other application choices, whether there are other offers and whether there are pending decisions from providers.
+      emails:
+        - candidate_mailer-new_offer_single_offer
+        - candidate_mailer-new_offer_multiple_offers
+        - candidate_mailer-new_offer_decisions_pending
+
+    interviewing-reject:
+      name: Provider rejects
+      by: provider
+      description: |
+        The provider rejects the candidate.
+
+        An email is sent to the candidate, the content of which depends on the state of the other application choices, whether all choices have been rejected, whether there are other offers and whether there are pending decisions from providers.
+      emails:
+        - candidate_mailer-application_rejected_all_applications_rejected
+        - candidate_mailer-application_rejected_one_offer_one_awaiting_decision
+        - candidate_mailer-application_rejected_awaiting_decision_only
+        - candidate_mailer-application_rejected_offers_only
+
+    interviewing-withdraw:
+      name: Candidate withdraws
+      by: candidate
+      description: |
+        The candidate makes a withdrawal decision to inform the provider that they no longer want their application to be considered. The candidate can withdraw an application at any time.
+      emails:
+        - provider_mailer-application_withdrawn
+
+    interviewing-reject_by_default:
+      name: Rejected by default
+      by: system
+      description: |
+        An application is rejected by default (RBD) if the provider does not make an offer within 40 working days after they have received an application.
+      emails:
+        - provider_mailer-application_rejected_by_default
+
+    interviewing-cancel_interview:
+      name: Provider cancels the interview
+      by: provider
+      description: |
+        Provider cancels the interview with the candidate.
+
 
     offer-make_offer:
       name: Provider updates offer
