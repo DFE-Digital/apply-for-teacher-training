@@ -13,6 +13,7 @@ module ProviderInterface
 
     TITLES = {
       'awaiting_provider_decision' => 'Application received',
+      'interviewing' => 'Interviewing',
       'withdrawn' => 'Application withdrawn',
       'rejected' => 'Application rejected',
       'offer_withdrawn' => 'Offer withdrawn',

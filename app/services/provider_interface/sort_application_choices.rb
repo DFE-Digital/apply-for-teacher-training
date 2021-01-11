@@ -15,11 +15,12 @@ module ProviderInterface
               WHEN #{about_to_be_rejected_automatically} THEN 2
               WHEN #{give_feedback_for_rbd} THEN 3
               WHEN #{awaiting_provider_decision_non_urgent} THEN 4
-              WHEN #{pending_conditions_previous_cycle} THEN 5
-              WHEN #{waiting_on_candidate} THEN 6
-              WHEN #{pending_conditions_current_cycle} THEN 7
-              WHEN #{successful_candidates} THEN 8
-              WHEN #{deferred_offers_current_cycle} THEN 9
+              WHEN #{interviewing_non_urgent} THEN 5
+              WHEN #{pending_conditions_previous_cycle} THEN 6
+              WHEN #{waiting_on_candidate} THEN 7
+              WHEN #{pending_conditions_current_cycle} THEN 8
+              WHEN #{successful_candidates} THEN 9
+              WHEN #{deferred_offers_current_cycle} THEN 10
               ELSE 999
             END AS task_view_group,
             #{pg_days_left_to_respond} AS pg_days_left_to_respond
@@ -52,9 +53,9 @@ module ProviderInterface
     end
 
     def self.about_to_be_rejected_automatically
-      <<~AWAITING_PROVIDER_DECISION.squish
+      <<~DEADLINE_APPROACHING.squish
         (
-          status = 'awaiting_provider_decision'
+          (status = 'awaiting_provider_decision' OR status = 'interviewing')
             AND c.recruitment_cycle_year = #{RecruitmentCycle.current_year}
             AND (
               DATE(reject_by_default_at)
@@ -64,7 +65,7 @@ module ProviderInterface
                 DATE('#{5.business_days.after(Time.zone.now).iso8601}'::TIMESTAMPTZ)
             )
         )
-      AWAITING_PROVIDER_DECISION
+      DEADLINE_APPROACHING
     end
 
     def self.give_feedback_for_rbd
@@ -87,6 +88,17 @@ module ProviderInterface
             )
         )
       AWAITING_PROVIDER_DECISION
+    end
+
+    def self.interviewing_non_urgent
+      <<~INTERVIEWING_NOT_URGENT.squish
+        (
+          status = 'interviewing'
+            AND (
+              DATE(reject_by_default_at) >= DATE('#{Time.zone.now.iso8601}'::TIMESTAMPTZ)
+            )
+        )
+      INTERVIEWING_NOT_URGENT
     end
 
     def self.waiting_on_candidate
