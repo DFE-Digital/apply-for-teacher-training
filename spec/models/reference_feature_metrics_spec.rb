@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FeatureMetrics, with_audited: true do
+RSpec.describe ReferenceFeatureMetrics, with_audited: true do
   subject(:feature_metrics) { described_class.new }
 
   context 'without any data' do

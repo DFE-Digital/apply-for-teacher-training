@@ -1,4 +1,4 @@
-class FeatureMetrics
+class ReferenceFeatureMetrics
   include ActionView::Helpers::NumberHelper
 
   def average_time_to_get_references(
