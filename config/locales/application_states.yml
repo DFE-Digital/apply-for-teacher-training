@@ -51,7 +51,7 @@ en:
     conditions_not_met: Conditions not met
     offer_deferred: Offer deferred
   provider_application_states:
-    awaiting_provider_decision: Submitted
+    awaiting_provider_decision: Received
     application_not_sent: Application not sent
     cancelled: Application cancelled
     declined: Declined
