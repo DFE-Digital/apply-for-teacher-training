@@ -36,6 +36,8 @@ class RejectApplication
         StateChangeNotifier.new(:rejected, @application_choice).application_outcome_notification
       end
     end
+
+    true
   rescue Workflow::NoTransitionAllowed
     errors.add(
       :base,

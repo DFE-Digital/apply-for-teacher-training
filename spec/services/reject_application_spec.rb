@@ -77,5 +77,15 @@ RSpec.describe RejectApplication do
       expect(StateChangeNotifier).to have_received(:new).with(:rejected, application_choice)
       expect(notifier).to have_received(:application_outcome_notification)
     end
+
+    it 'returns true if the call was successful' do
+      expect(service.save).to be true
+    end
+
+    it 'returns false if the call was unsuccessful' do
+      allow(application_choice).to receive(:update!).and_raise(Workflow::NoTransitionAllowed)
+
+      expect(service.save).to be false
+    end
   end
 end
