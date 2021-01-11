@@ -17,7 +17,7 @@ module ProviderInterface
 
       case event.application_status_at_event
       when 'awaiting_provider_decision'
-        "#{candidate} submitted an application"
+        "Application received from #{candidate}"
       when 'withdrawn'
         "#{candidate} withdrew their application"
       when 'rejected'
