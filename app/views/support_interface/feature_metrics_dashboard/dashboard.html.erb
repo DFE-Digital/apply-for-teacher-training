@@ -113,7 +113,7 @@
 
 <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Accessing the service</h3>
 <div id="accessing_the_service_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-third">
+  <div id="accessing_the_service_to_unsubmitted_dashboard_section" class="govuk-grid-column-one-third">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
         count: @magic_link_statistics.average_magic_link_requests_upto(
@@ -149,7 +149,7 @@
       </div>
     </div>
   </div>
-  <div class="govuk-grid-column-one-third">
+  <div id="accessing_the_service_to_offer_dashboard_section" class="govuk-grid-column-one-third">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
         count: @magic_link_statistics.average_magic_link_requests_upto(
@@ -185,7 +185,7 @@
       </div>
     </div>
   </div>
-  <div class="govuk-grid-column-one-third">
+  <div id="accessing_the_service_to_recruitment_dashboard_section" class="govuk-grid-column-one-third">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
         count: @magic_link_statistics.average_magic_link_requests_upto(
