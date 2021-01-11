@@ -18,4 +18,23 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     expect(result.text).to include('Rejected by default at')
     expect(result.text).to include('1 January 2020 at 10:00am')
   end
+
+  it 'displays reasons for rejection on rejected application with structured reasons' do
+    application_choice = create(:application_choice, :with_structured_rejection_reasons)
+
+    result = render_inline(described_class.new(application_choice))
+
+    expect(result.text).to include('Rejection reason')
+    expect(result.text).to include('Something you did')
+    expect(result.text).to include('Persistent scratching')
+  end
+
+  it 'displays reasons for rejection on rejected application without structured reasons' do
+    application_choice = create(:application_choice, :with_rejection)
+
+    result = render_inline(described_class.new(application_choice))
+
+    expect(result.text).to include('Rejection reason')
+    expect(result.text).to include(application_choice.rejection_reason)
+  end
 end
