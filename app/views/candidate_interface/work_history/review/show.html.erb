@@ -1,17 +1,19 @@
 <% content_for :title, t('page_titles.work_history') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_form_path, 'Back to application') %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.work_history') %>
-</h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.work_history') %>
+    </h1>
+
+    <%= govuk_button_link_to nil, candidate_interface_new_work_history_path, class: 'govuk-button--secondary' do %>
+      <%= @application_form.application_work_experiences.any? ? t('application_form.work_history.another.button') : t('application_form.work_history.add.button') %>
+    <% end %>
+  </div>
+</div>
 
 <%= render(CandidateInterface::WorkHistoryReviewComponent.new(application_form: @application_form)) %>
-
-<% if @application_form.application_work_experiences.any? %>
-  <%= govuk_button_link_to t('application_form.work_history.another.button'), candidate_interface_new_work_history_path, class: 'govuk-button--secondary' %>
-<% else %>
-  <%= govuk_button_link_to t('application_form.work_history.add.button'), candidate_interface_new_work_history_path, class: 'govuk-button--secondary' %>
-<% end %>
 
 <%= form_with model: @application_form, url: candidate_interface_work_history_complete_path do |f| %>
   <div class="govuk-form-group">
