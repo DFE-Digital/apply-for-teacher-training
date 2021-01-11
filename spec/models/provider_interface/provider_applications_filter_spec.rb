@@ -140,4 +140,36 @@ RSpec.describe ProviderInterface::ProviderApplicationsFilter do
     # Providing new params replaces the saved state
     expect(state_three.applied_filters).to eq({ 'candidate_name' => 'Another Tom' })
   end
+
+  describe '#no_results_message' do
+    it 'returns a message specific to text searches' do
+      filter = described_class.new(
+        params: ActionController::Parameters.new({ 'candidate_name' => 'Tom' }),
+        provider_user: provider_user,
+        state_store: {},
+      )
+
+      expect(filter.no_results_message).to eq("There are no results for 'Tom'.")
+    end
+
+    it 'returns a message specific to filtering' do
+      filter = described_class.new(
+        params: ActionController::Parameters.new({ 'status' => %w[rejected] }),
+        provider_user: provider_user,
+        state_store: {},
+      )
+
+      expect(filter.no_results_message).to eq('There are no results for the selected filter.')
+    end
+
+    it 'returns a message specific to searching combined with filtering' do
+      filter = described_class.new(
+        params: ActionController::Parameters.new({ 'candidate_name' => 'Tom', 'status' => %w[rejected] }),
+        provider_user: provider_user,
+        state_store: {},
+      )
+
+      expect(filter.no_results_message).to eq("There are no results for 'Tom' and the selected filter.")
+    end
+  end
 end

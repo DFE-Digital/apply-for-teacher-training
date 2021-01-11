@@ -35,7 +35,7 @@
       <% end %>
     </div>
   <% elsif @filter.filtered? %>
-    <p class='govuk-body'>No applications for the selected filters.</p>
+    <p class='govuk-body'><%= @filter.no_results_message %></p>
   <% else %>
     <p class='govuk-body'>You have not received any applications from <%= t('service_name.apply') %>.</p>
   <% end %>

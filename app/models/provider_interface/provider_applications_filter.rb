@@ -25,6 +25,19 @@ module ProviderInterface
       applied_filters.values.any?
     end
 
+    def no_results_message
+      filtering_keys = applied_filters.except(:remove).keys
+      filter_count = applied_filters.except(:candidate_name, :remove).keys.size
+
+      if filtering_keys == %w[candidate_name]
+        "There are no results for '#{applied_filters['candidate_name']}'."
+      elsif filtering_keys.include?('candidate_name')
+        "There are no results for '#{applied_filters['candidate_name']}' and the selected #{'filter'.pluralize(filter_count)}."
+      else
+        "There are no results for the selected #{'filter'.pluralize(filter_count)}."
+      end
+    end
+
   private
 
     def parse_params(params)
