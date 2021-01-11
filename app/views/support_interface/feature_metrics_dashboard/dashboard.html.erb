@@ -111,6 +111,118 @@
   </div>
 </div>
 
+<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Accessing the service</h3>
+<div id="accessing_the_service_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <div class="govuk-grid-column-one-third">
+    <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <%= render SupportInterface::TileComponent.new(
+        count: @magic_link_statistics.average_magic_link_requests_upto(
+          :created_at,
+          EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        ),
+        label: 'magic links per user to unsubmitted',
+        colour: :blue,
+        size: :reduced,
+      ) %>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @magic_link_statistics.average_magic_link_requests_upto(
+            :created_at,
+            Time.zone.now.beginning_of_month,
+          ),
+          label: 'this month',
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @magic_link_statistics.average_magic_link_requests_upto(
+            :created_at,
+            Time.zone.now.beginning_of_month - 1.month,
+            Time.zone.now.beginning_of_month,
+          ),
+          label: 'last month',
+          size: :reduced,
+        ) %>
+      </div>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <%= render SupportInterface::TileComponent.new(
+        count: @magic_link_statistics.average_magic_link_requests_upto(
+          :offered_at,
+          EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        ),
+        label: 'magic links per user to offer',
+        colour: :blue,
+        size: :reduced,
+      ) %>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @magic_link_statistics.average_magic_link_requests_upto(
+            :offered_at,
+            Time.zone.now.beginning_of_month,
+          ),
+          label: 'this month',
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @magic_link_statistics.average_magic_link_requests_upto(
+            :offered_at,
+            Time.zone.now.beginning_of_month - 1.month,
+            Time.zone.now.beginning_of_month,
+          ),
+          label: 'last month',
+          size: :reduced,
+        ) %>
+      </div>
+    </div>
+  </div>
+  <div class="govuk-grid-column-one-third">
+    <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <%= render SupportInterface::TileComponent.new(
+        count: @magic_link_statistics.average_magic_link_requests_upto(
+          :recruited_at,
+          EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        ),
+        label: 'magic links per user to recruitment',
+        colour: :blue,
+        size: :reduced,
+      ) %>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @magic_link_statistics.average_magic_link_requests_upto(
+            :recruited_at,
+            Time.zone.now.beginning_of_month,
+          ),
+          label: 'this month',
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @magic_link_statistics.average_magic_link_requests_upto(
+            :recruited_at,
+            Time.zone.now.beginning_of_month - 1.month,
+            Time.zone.now.beginning_of_month,
+          ),
+          label: 'last month',
+          size: :reduced,
+        ) %>
+      </div>
+    </div>
+  </div>
+</div>
+
 <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Reasons for rejection</h3>
 <div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
   <div class="govuk-grid-column-one-half">
