@@ -1,0 +1,82 @@
+en:
+  application_form:
+    contact_information:
+      phone_number:
+        label: Phone number
+        hint_text: Enter a landline or mobile. For non-UK numbers, include the country code
+        change_action: phone number
+      full_address:
+        label: Address
+        change_action: address
+      address_line1:
+        uk:
+          label: Building and street
+        international:
+          label: Building and street
+        hidden: line 1 of 2
+      address_line2:
+        uk:
+          label: Building and street line 2 of 2
+        international:
+          label: Building and street line 2 of 2
+      address_line3:
+        uk:
+          label: Town or city
+        international:
+          label: City, town or village
+      address_line4:
+        uk:
+          label: County
+        international:
+          label: Region, state or province
+      postcode:
+        uk:
+          label: Postcode
+        international:
+          label: ZIP or postal code
+      complete_form_button: Save and continue
+      base:
+        button: Save and continue
+      address:
+        button: Save and continue
+      address_type:
+        button: Save and continue
+        label: Where do you live?
+        change_action: where I live
+        values:
+          uk: In the UK
+          international: Outside the UK
+      country:
+        label: Which country?
+        default_option: Select a country
+      review:
+        button: Continue
+
+  activemodel:
+    errors:
+      models:
+        candidate_interface/contact_details_form:
+          attributes:
+            phone_number:
+              blank: Enter your phone number
+              invalid: Enter a phone number, like 01632 960 001, 07700 900 982 or +44 0808 157 0192
+              too_long: Phone number must be %{count} characters or fewer
+            address_line1:
+              blank: Enter your building and street
+              too_long: Building and street must be %{count} characters or fewer
+            address_line2:
+              too_long: Building and street must be %{count} characters or fewer
+            address_line3:
+              blank: Enter your town or city
+              too_long: Town or city must be %{count} characters or fewer
+            address_line4:
+              too_long: County must be %{count} characters or fewer
+            postcode:
+              blank: Enter a postcode
+              invalid: Enter a real postcode (for example, BN1 1AA)
+            address_type:
+              blank: Select where you live
+            country:
+              blank: Enter a country
+            international_address:
+              blank: Enter your address
