@@ -119,4 +119,5 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'bullet'
+  gem 'parallel_tests'
 end

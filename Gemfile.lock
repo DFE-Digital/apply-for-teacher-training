@@ -292,6 +292,8 @@ GEM
       webfinger (>= 1.0.1)
     orm_adapter (0.5.0)
     parallel (1.19.2)
+    parallel_tests (3.4.0)
+      parallel
     parser (2.7.2.0)
       ast (~> 2.4.1)
     patience_diff (1.1.0)
@@ -572,6 +574,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection
   omniauth_openid_connect
   openapi3_parser (= 0.8.2)
+  parallel_tests
   pdfkit
   pg (~> 1.2.3)
   pry

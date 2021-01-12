@@ -16,7 +16,7 @@ development:
 
 test:
   <<: *default
-  database: 'bat_apply_test'
+  database: bat_apply_test<%= ENV['TEST_ENV_NUMBER'] %>
   variables:
     idle_in_transaction_session_timeout: 0
 
