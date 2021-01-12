@@ -3,6 +3,15 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
 
+    def index
+      @provider_can_respond = current_provider_user.authorisation.can_make_decisions?(
+        application_choice: @application_choice,
+        course_option_id: @application_choice.offered_option.id,
+      )
+
+      @interviews = @application_choice.interviews
+    end
+
     def new
       # TODO: Remove once the user is able to create new interviews
       # Workaround creating interviews until the interview form is in place.

@@ -1,0 +1,59 @@
+<% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Notes" %>
+
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>
+
+<% if @interviews.any? %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div class="app-interviews">
+        <%= govuk_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(@application_choice), class: 'govuk-button govuk-button--secondary' %>
+        <h2 class="govuk-heading-m">
+          Upcoming interviews
+        </h2>
+
+        <% @interviews.each do |interview| %>
+          <div class="app-interviews__interview">
+
+            <%= render SummaryCardComponent.new(editable: true, border: true, rows: [
+              {
+                key: 'Course',
+                value: interview.offered_course.name
+              },
+              {
+                key: 'Funding type',
+                value: interview.offered_course.funding_type
+              },
+              {
+                key: 'Organisation carrying out interview',
+                value: interview.provider.name
+              },
+              {
+                key: 'Address or online meeting details',
+                value: interview.location
+              },
+              {
+                key: 'Additional details',
+                value: interview.additional_details
+              }
+            ].compact
+             ) do %>
+             <%= render SummaryCardHeaderComponent.new(title: interview.date_and_time.to_s(:govuk_date_and_time), heading_level: 2) do %>
+               <div class="app-summary-card__actions">
+               <ul class= "app-summary-card__actions-list">
+                 <li class="app-summary-card__actions-list-item">
+                   <%= govuk_link_to 'Change details', '', class: 'app-summary-card__actions-list-item' %>
+                 </li>
+                 <li class="app-summary-card__actions-list-item">
+                   <%= govuk_link_to 'Cancel interview', '', class: 'app-summary-card__actions-list-item' %>
+                 </li>
+               </ul>
+               </div>
+             <% end %>
+            <% end %>
+
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

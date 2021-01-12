@@ -24,6 +24,12 @@ module ProviderInterface
         { name: 'Application', url: provider_interface_application_choice_path(application_choice) },
       ]
 
+      if interviews_present?
+        sub_navigation_items.push(
+          { name: 'Interviews', url: provider_interface_application_choice_interviews_path(application_choice) },
+        )
+      end
+
       if offer_present?
         sub_navigation_items.push(
           { name: 'Offer', url: provider_interface_application_choice_offer_path(application_choice) },
@@ -55,6 +61,10 @@ module ProviderInterface
 
     def offer_present?
       ApplicationStateChange::OFFERED_STATES.include?(application_choice.status.to_sym)
+    end
+
+    def interviews_present?
+      application_choice.interviewing? && application_choice.interviews.kept.any?
     end
 
     def respond_to_application?

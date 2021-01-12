@@ -39,6 +39,18 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
         )
       end
     end
+
+    describe '#sub_navigation_items' do
+      let(:status) { :interviewing }
+      let(:interview) { build_stubbed(:interview) }
+      let(:application_choice) { build_stubbed(:application_choice, interviews: [interview], status: status, reject_by_default_at: reject_by_default_at) }
+
+      it 'renders the interview tab when the application is in the interviewing state and there are interviews available' do
+        expect(result.css('.app-tab-navigation li:nth-child(2) a').text).to include(
+          'Interviews',
+        )
+      end
+    end
   end
 
   describe '#deferred_offer_wizard_applicable' do

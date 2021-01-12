@@ -622,7 +622,7 @@ Rails.application.routes.draw do
 
       resources :notes, only: %i[index show new create], as: :application_choice_notes
 
-      resources :interviews, only: %i[new], as: :application_choice_interviews
+      resources :interviews, only: %i[index new], as: :application_choice_interviews
     end
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
