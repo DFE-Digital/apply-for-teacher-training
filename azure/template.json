@@ -469,6 +469,7 @@
         "rubyAuthHosts": "[parameters('authorisedHosts')]",
         "defaultAvailabilityCheckHosts": "[if(variables('useCustomDomains'), createArray(concat('azcheck:', variables('appServiceName'), '.azurewebsites.net/check'), concat('check:', parameters('customDomains')[0].domainName, '/check')), createArray(concat('azcheck:', variables('appServiceName'), '.azurewebsites.net/check')))]",
         "availabilityCheckHosts": "[if(greater(length(parameters('customAvailabilityMonitors')), 0), concat(variables('defaultAvailabilityCheckHosts'), parameters('customAvailabilityMonitors')), variables('defaultAvailabilityCheckHosts'))]",
+        "dbStorageMB": "[if(equals('production', parameters('environment')), 15360 , 5120)]",
         "copy": [
             {
                 "name": "availabilityTests",
@@ -1079,6 +1080,9 @@
                     "storageAutoGrow": {
                         "value": "[parameters('databaseStorageAutoGrow')]"
                     },
+                    "dbStorageMB": {
+                        "value": "[variables('dbStorageMB')]"
+                    },
                     "backupRetentionDays": {
                         "value": "[parameters('databaseBackupRetentionDays')]"
                     }
@@ -1201,6 +1205,9 @@
                     },
                     "storageAccountName": {
                         "value": "[variables('storageAccountName')]"
+                    },
+                    "dbStorageMB": {
+                        "value": "[variables('dbStorageMB')]"
                     }
                 }
             },
