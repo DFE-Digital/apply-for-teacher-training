@@ -107,6 +107,7 @@ group :test do
   gem 'deepsort'
   gem 'ruby-jmeter'
   gem 'super_diff'
+  gem 'test-prof'
 end
 
 group :development, :test do

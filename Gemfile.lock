@@ -477,6 +477,7 @@ GEM
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
+    test-prof (0.12.2)
     thor (1.0.1)
     thread_safe (0.3.6)
     timecop (0.9.2)
@@ -595,6 +596,7 @@ DEPENDENCIES
   skylight
   strip_attributes
   super_diff
+  test-prof
   timecop
   tzinfo-data
   uk_postcode

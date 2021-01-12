@@ -1,25 +1,25 @@
 require 'rails_helper'
 
 RSpec.describe UCASMatchedApplication do
-  let(:course) { create(:course, recruitment_cycle_year: 2020) }
-  let(:candidate) { create(:candidate) }
-  let(:course_option) { create(:course_option, course: course) }
-  let(:application_choice) { create(:application_choice, course_option: course_option) }
-  let(:application_form) { create(:completed_application_form, candidate_id: candidate.id, application_choices: [application_choice]) }
-  let(:apply_again_application_form) { create(:application_form, candidate_id: candidate.id) }
-  let(:recruitment_cycle_year) { 2020 }
-  let(:candidate1) { create(:candidate) }
-  let(:application_choice1) { create(:application_choice, :with_accepted_offer, course_option: course_option) }
-  let(:application_form1) { create(:completed_application_form, candidate_id: candidate1.id, application_choices: [application_choice1]) }
-  let(:candidate2) { create(:candidate) }
-  let(:application_choice2) { create(:application_choice, :with_rejection, course_option: course_option) }
-  let(:application_form2) { create(:completed_application_form, candidate_id: candidate2.id, application_choices: [application_choice2]) }
+  # Reduce database interaction by using the let_it_be/before_all methods. This
+  # creates each record once before running the examples in this group.
+  let_it_be(:course) { create(:course, recruitment_cycle_year: 2020) }
+  let_it_be(:candidate) { create(:candidate) }
+  let_it_be(:course_option) { create(:course_option, course: course) }
+  # Use the reload: true option to reload this object after we roll back any
+  # changes made in the examples below.
+  let_it_be(:application_choice, reload: true) { create(:application_choice, course_option: course_option) }
+  let_it_be(:application_form) { create(:completed_application_form, candidate_id: candidate.id, application_choices: [application_choice]) }
+  let_it_be(:apply_again_application_form) { create(:application_form, candidate_id: candidate.id) }
+  let_it_be(:recruitment_cycle_year) { 2020 }
+  let_it_be(:candidate1) { create(:candidate) }
+  let_it_be(:application_choice1) { create(:application_choice, :with_accepted_offer, course_option: course_option) }
+  let_it_be(:application_form1) { create(:completed_application_form, candidate_id: candidate1.id, application_choices: [application_choice1]) }
+  let_it_be(:candidate2) { create(:candidate) }
+  let_it_be(:application_choice2) { create(:application_choice, :with_rejection, course_option: course_option) }
+  let_it_be(:application_form2) { create(:completed_application_form, candidate_id: candidate2.id, application_choices: [application_choice2]) }
 
-  before do
-    apply_again_application_form
-    application_form
-    application_form1
-    application_form2
+  before_all do
     create(:course, code: course.code, provider: course.provider, recruitment_cycle_year: 2021)
   end
 
@@ -323,9 +323,9 @@ RSpec.describe UCASMatchedApplication do
 
   describe '#application_withdrawn_on_apply?' do
     context 'when the application_choice status is set to withdrawn' do
-      let(:application_choice) { create(:application_choice, course_option: course_option, status: 'withdrawn') }
+      before { application_choice.withdrawn! }
 
-      it 'retuns true' do
+      it 'returns true' do
         dfe_matching_data =
           { 'Course code' => course.code.to_s,
             'Provider code' => course.provider.code.to_s,
@@ -337,9 +337,9 @@ RSpec.describe UCASMatchedApplication do
     end
 
     context 'when the application_choice status is not set to withdrawn' do
-      let(:application_choice) { create(:application_choice, course_option: course_option, status: (ApplicationStateChange.valid_states - [:withdrawn]).sample) }
+      before { application_choice.update!(status: (ApplicationStateChange.valid_states - [:withdrawn]).sample) }
 
-      it 'retuns false' do
+      it 'returns false' do
         dfe_matching_data =
           { 'Course code' => course.code.to_s,
             'Provider code' => course.provider.code.to_s,
