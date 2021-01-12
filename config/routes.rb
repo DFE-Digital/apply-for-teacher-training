@@ -621,6 +621,8 @@ Rails.application.routes.draw do
       post '/rejection-reasons/commit' => 'reasons_for_rejection#commit', as: :reasons_for_rejection_commit
 
       resources :notes, only: %i[index show new create], as: :application_choice_notes
+
+      resources :interviews, only: %i[new], as: :application_choice_interviews
     end
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate

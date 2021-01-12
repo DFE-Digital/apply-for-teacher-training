@@ -9,17 +9,32 @@
       <div class="govuk-inset-text govuk-!-margin-top-0">
         <% if respond_to_application? -%>
           <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
-            Respond to application
+            Set up an interview or make a decision
           </h2>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
               You have until <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %> to respond to this application. Otherwise it will be automatically rejected.
             <% else -%>
-              <%= "You have #{days_until(application_choice.reject_by_default_at.to_date)} to respond to this application." %>
-              On <%= application_choice.reject_by_default_at.to_s(:govuk_date) %> this application will be automatically rejected.
+              You have <%= days_until(application_choice.reject_by_default_at.to_date) %> to make a decision - this application will be automatically rejected on <%= application_choice.reject_by_default_at.to_s(:govuk_date) %>.
             <% end -%>
           </p>
-          <%= govuk_button_link_to 'Respond to application', provider_interface_application_choice_respond_path(application_choice) %>
+
+          <%= govuk_button_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice) %>
+          <%= govuk_button_link_to 'Make decision', provider_interface_application_choice_respond_path(application_choice), class: 'govuk-button--secondary' %>
+        <% elsif waiting_for_interview? %>
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">
+            Make a decision
+          </h2>
+          <p class="govuk-body">
+            <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>
+              You have until <%= time_today_or_tomorrow(application_choice.reject_by_default_at) %> to respond to this application. Otherwise it will be automatically rejected.
+            <% else -%>
+              You have <%= days_until(application_choice.reject_by_default_at.to_date) %> to make a decision - this application will be automatically rejected on <%= application_choice.reject_by_default_at.to_s(:govuk_date) %>.
+            <% end -%>
+          </p>
+
+          <%= govuk_button_link_to 'Make decision', provider_interface_application_choice_respond_path(application_choice) %>
+
         <% elsif provider_cannot_respond? -%>
           <p class="govuk-body">
             <% if time_is_today_or_tomorrow?(application_choice.reject_by_default_at) -%>

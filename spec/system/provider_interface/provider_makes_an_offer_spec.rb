@@ -54,11 +54,11 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def then_i_should_see_a_prompt_to_respond_to_the_application
-    expect(page).to have_content(/You have \d+ days to respond to this application./)
+    expect(page).to have_content(/You have \d+ days to make a decision/)
   end
 
   def when_i_click_to_respond_to_the_application
-    click_on 'Respond to application'
+    click_on 'Make decision'
   end
 
   def and_i_choose_to_make_an_offer

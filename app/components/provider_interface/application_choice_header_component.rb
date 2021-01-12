@@ -61,6 +61,10 @@ module ProviderInterface
       provider_can_respond && application_choice.awaiting_provider_decision?
     end
 
+    def waiting_for_interview?
+      provider_can_respond && application_choice.interviewing?
+    end
+
     def deferred_offer_wizard_applicable?
       provider_can_respond && deferred_offer_wizard_applicable
     end
@@ -77,7 +81,7 @@ module ProviderInterface
       flash.empty? && (
         respond_to_application? || deferred_offer_wizard_applicable? ||
         rejection_reason_required? || provider_cannot_respond?
-      )
+      ) || waiting_for_interview?
     end
   end
 end

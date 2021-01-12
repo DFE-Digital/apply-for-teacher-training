@@ -73,15 +73,15 @@ RSpec.feature 'Provider responds to application' do
   end
 
   def and_i_can_respond_to_the_application
-    expect(page).to have_content 'Respond to application'
+    expect(page).to have_content 'Make decision'
   end
 
   def and_i_cannot_respond_to_the_application
-    expect(page).not_to have_content 'Respond to application'
+    expect(page).not_to have_content 'Make decision'
   end
 
   def when_i_click_to_respond_to_the_application
-    click_on 'Respond to application'
+    click_on 'Make decision'
   end
 
   def then_i_am_given_the_option_to_make_an_offer
