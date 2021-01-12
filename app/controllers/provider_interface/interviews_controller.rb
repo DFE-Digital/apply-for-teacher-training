@@ -9,7 +9,7 @@ module ProviderInterface
         course_option_id: @application_choice.offered_option.id,
       )
 
-      @interviews = @application_choice.interviews
+      @interviews = @application_choice.interviews.kept.includes([:provider])
     end
 
     def new
@@ -35,7 +35,37 @@ module ProviderInterface
       ).save!
 
       flash['success'] = 'Interview successfully created'
+      redirect_to provider_interface_application_choice_interviews_path(@application_choice)
+    end
+
+    def cancel
+      @interview = @application_choice.interviews.find(params[:id])
+    end
+
+    def review_cancel
+      @interview = @application_choice.interviews.find(params[:id])
+      @interview.cancellation_reason = cancellation_reason
+    end
+
+    def confirm_cancel
+      @interview = @application_choice.interviews.find(params[:id])
+      @interview.cancellation_reason = cancellation_reason
+
+      CancelInterview.new(
+        actor: current_provider_user,
+        application_choice: @application_choice,
+        interview: @interview,
+        cancellation_reason: cancellation_reason,
+      ).save!
+
+      flash['success'] = 'Interview cancelled'
       redirect_to provider_interface_application_choice_path(@application_choice)
+    end
+
+  private
+
+    def cancellation_reason
+      params.require(:interview).permit(:cancellation_reason)[:cancellation_reason]
     end
   end
 end

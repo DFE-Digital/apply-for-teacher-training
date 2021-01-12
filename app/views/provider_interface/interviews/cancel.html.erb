@@ -1,0 +1,24 @@
+<% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Cancel Interview" %>
+<% content_for :before_content, govuk_back_link_to(request.referer) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-label-wrapper">
+      <label class="govuk-label govuk-label--l">
+        <span class="govuk-caption-l">
+          <%= @interview.application_choice.application_form.full_name %>
+        </span>
+        Reason for cancelling interview
+      </label>
+    </h1>
+
+
+    <%= form_with model: @interview, url: cancel_review_provider_interface_application_choice_interview_path(@application_choice, @interview), method: :get do |f| %>
+      <div class='govuk-form-group'>
+        <%= f.govuk_text_area :cancellation_reason, label: -> { nil } %>
+      </div>
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>

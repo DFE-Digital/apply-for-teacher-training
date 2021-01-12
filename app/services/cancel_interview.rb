@@ -24,6 +24,8 @@ class CancelInterview
         interview.update!(cancellation_reason: cancellation_reason,
                           cancelled_at: Time.zone.now)
 
+        return if @application_choice.interviews.kept.any?
+
         ApplicationStateChange.new(application_choice).cancel_interview!
       end
     else
