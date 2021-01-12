@@ -55,7 +55,7 @@ RSpec.describe ProviderMailer, type: :mailer do
                     'sign in path' => '/provider/sign-in')
   end
 
-  describe 'Send application submitted email' do
+  describe 'Send application received email' do
     it_behaves_like('a provider mail with subject and content', :application_submitted,
                     I18n.t!('provider_mailer.application_submitted.subject',
                             course_name_and_code: 'Computer Science (6IND)'),

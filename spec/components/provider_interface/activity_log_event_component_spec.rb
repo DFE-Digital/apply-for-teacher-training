@@ -14,7 +14,7 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
 
   describe '#event_description' do
     examples = {
-      awaiting_provider_decision: '<candidate> submitted an application',
+      awaiting_provider_decision: 'Application received from <candidate>',
       withdrawn: '<candidate> withdrew their application',
       with_rejection: '<user> rejected <candidate>’s application',
       with_rejection_by_default: '<candidate>’s application was automatically rejected',

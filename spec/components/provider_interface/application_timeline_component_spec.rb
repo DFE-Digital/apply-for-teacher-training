@@ -37,7 +37,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
-  context 'for a submitted application sent to provider' do
+  context 'for an application received by provider' do
     it 'renders submit event' do
       audit = create(
         :application_choice_audit,
@@ -49,7 +49,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Timeline'
-      expect(rendered.text).to include 'Application submitted'
+      expect(rendered.text).to include 'Application received'
       expect(rendered.text).to include 'Candidate'
       expect(rendered.text).to include '6 February 2020 at 10:00pm'
       expect(rendered.css('a').text).to eq 'View application'

@@ -12,7 +12,7 @@ module ProviderInterface
     Event = Struct.new(:title, :actor, :date, :link_name, :link_path)
 
     TITLES = {
-      'awaiting_provider_decision' => 'Application submitted',
+      'awaiting_provider_decision' => 'Application received',
       'withdrawn' => 'Application withdrawn',
       'rejected' => 'Application rejected',
       'offer_withdrawn' => 'Offer withdrawn',
