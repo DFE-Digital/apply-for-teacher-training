@@ -39,7 +39,7 @@ RSpec.describe MagicLinkFeatureMetrics, with_audited: true do
             offered_at: Time.zone.now,
           )
         end
-        Timecop.freeze(@today - 1.days) do
+        Timecop.freeze(@today - 1.day) do
           @application_form2.candidate.update!(magic_link_token: '456789')
           create(:authentication_token, user: @application_form2.candidate, hashed_token: '0987654321')
         end

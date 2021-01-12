@@ -61,7 +61,6 @@ class TestApplications
                    with_safeguarding_issues_never_asked].sample]
       traits << :with_equality_and_diversity_data if rand < 0.55
 
-
       simulate_signin(candidate)
 
       @application_form = FactoryBot.create(
