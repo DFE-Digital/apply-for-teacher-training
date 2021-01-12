@@ -61,6 +61,9 @@ class TestApplications
                    with_safeguarding_issues_never_asked].sample]
       traits << :with_equality_and_diversity_data if rand < 0.55
 
+
+      simulate_signin(candidate)
+
       @application_form = FactoryBot.create(
         :completed_application_form,
         *traits,
@@ -79,6 +82,10 @@ class TestApplications
         phase: apply_again ? 'apply_2' : 'apply_1',
         work_history_completed: false,
       )
+
+      @application_form.application_work_experiences.each { |experience| experience.update!(created_at: time) }
+      @application_form.application_volunteering_experiences.each { |experience| experience.update!(created_at: time) }
+      @application_form.application_work_history_breaks.each { |experience| experience.update!(created_at: time) }
 
       # One reference that will never be requested
       FactoryBot.create(:reference, :not_requested_yet, application_form: @application_form)
@@ -197,6 +204,8 @@ class TestApplications
 
     return if state == :awaiting_provider_decision
 
+    simulate_signin(choice.application_form.candidate)
+
     case state
     when :offer
       make_offer(choice)
@@ -305,6 +314,7 @@ class TestApplications
         structured_rejection_reasons: {
           performance_at_interview_y_n: 'Yes',
           performance_at_interview_what_to_improve: 'We felt that pyjamas were a little too casual',
+          qualifications_y_n: 'Yes',
         },
       ).save
       choice.update_columns(rejected_at: time, updated_at: time)
@@ -446,5 +456,15 @@ class TestApplications
       end
     end
     courses
+  end
+
+  def simulate_signin(candidate)
+    rand(1..2).times do
+      FactoryBot.create(
+        :authentication_token,
+        user: candidate,
+        created_at: time,
+      )
+    end
   end
 end
