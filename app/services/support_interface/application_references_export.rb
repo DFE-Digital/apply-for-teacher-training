@@ -15,6 +15,7 @@ module SupportInterface
           output["Ref #{index} type"] = reference.referee_type
           output["Ref #{index} state"] = reference.feedback_status
           output["Ref #{index} requested at"] = reference.requested_at
+          output["Ref #{index} received at"] = received_at(reference)
         end
 
         output
@@ -23,6 +24,12 @@ module SupportInterface
       # The DataExport class creates the header row for us so we need to ensure
       # we sort by longest hash length to ensure all headers appear
       data_for_export.sort_by(&:length).reverse
+    end
+
+  private
+
+    def received_at(reference)
+      reference.audits.where("audited_changes#>>'{feedback_status, 1}' = 'feedback_provided'").last&.created_at
     end
   end
 end
