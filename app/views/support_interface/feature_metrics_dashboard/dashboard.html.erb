@@ -1,5 +1,17 @@
 <% content_for :title, 'Feature metrics' %>
 
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'Feature metrics'
+    }
+  ]) %>
+<% end %>
+
 <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">References</h2>
 <div id="references_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
   <div class="govuk-grid-column-one-half">
