@@ -1,6 +1,7 @@
 module ProviderInterface
   class InterviewsController < ProviderInterfaceController
     before_action :set_application_choice
+    before_action :interview_flag_enabled?
     before_action :requires_make_decisions_permission
 
     def index
@@ -66,6 +67,13 @@ module ProviderInterface
 
     def cancellation_reason
       params.require(:interview).permit(:cancellation_reason)[:cancellation_reason]
+    end
+
+    def interview_flag_enabled?
+      unless FeatureFlag.active?(:interviews)
+        fallback_path = provider_interface_application_choice_path(@application_choice)
+        redirect_back(fallback_location: fallback_path)
+      end
     end
   end
 end

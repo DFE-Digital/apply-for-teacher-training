@@ -31,7 +31,7 @@ RSpec.describe CancelInterview do
         create(:interview, application_choice: application_choice)
         service = CancelInterview.new(service_params)
 
-        expect { service.save! }.not_to change { application_choice.status }
+        expect { service.save! }.not_to(change { application_choice.status })
       end
     end
 

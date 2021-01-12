@@ -12,12 +12,27 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     context 'when the application is awaiting provider decision and the user can make decisions' do
       let(:reject_by_default_at) { 1.day.from_now }
 
-      it 'the Make decision and Set up interview buttons are available and RDB info is presented ' do
-        expect(result.css('.govuk-button').first.text).to eq('Set up interview')
-        expect(result.css('.govuk-button').last.text).to eq('Make decision')
-        expect(result.css('.govuk-inset-text').text).to include(
-          'You have until 12pm (midday) tomorrow to respond to this application. Otherwise it will be automatically rejected.',
-        )
+      context 'when the interviews FeatureFlag is enabled' do
+        before do
+          FeatureFlag.activate(:interviews)
+        end
+
+        it 'the Make decision and Set up interview buttons are available and RDB info is presented ' do
+          expect(result.css('.govuk-button').first.text).to eq('Set up interview')
+          expect(result.css('.govuk-button').last.text).to eq('Make decision')
+          expect(result.css('.govuk-inset-text').text).to include(
+            'You have until 12pm (midday) tomorrow to respond to this application. Otherwise it will be automatically rejected.',
+          )
+        end
+      end
+
+      context 'when the interviews FeatureFlag is disabled' do
+        it 'the Make decision button is available and RDB info is presented ' do
+          expect(result.css('.govuk-button').last.text).to eq('Make decision')
+          expect(result.css('.govuk-inset-text').text).to include(
+            'You have until 12pm (midday) tomorrow to respond to this application. Otherwise it will be automatically rejected.',
+          )
+        end
       end
     end
 
@@ -43,9 +58,13 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     describe '#sub_navigation_items' do
       let(:status) { :interviewing }
       let(:interview) { build_stubbed(:interview) }
-      let(:application_choice) { build_stubbed(:application_choice, interviews: [interview], status: status, reject_by_default_at: reject_by_default_at) }
+      let(:interviews) { class_double(Interview, kept: [interview]) }
+      let(:application_choice) { build_stubbed(:application_choice, status: status, reject_by_default_at: reject_by_default_at) }
 
       it 'renders the interview tab when the application is in the interviewing state and there are interviews available' do
+        allow(application_choice).to receive(:interviews).and_return(interviews)
+
+        FeatureFlag.activate(:interviews)
         expect(result.css('.app-tab-navigation li:nth-child(2) a').text).to include(
           'Interviews',
         )
