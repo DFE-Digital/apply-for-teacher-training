@@ -173,6 +173,9 @@
                     },
                     "appServiceAppSettings": {
                         "value": "[json(replace(string(variables('appServiceAppSettings')), 'secureValue', 'value'))]"
+                    },
+                    "healthCheckPath":{
+                        "value": "/check"
                     }
                 }
             }
