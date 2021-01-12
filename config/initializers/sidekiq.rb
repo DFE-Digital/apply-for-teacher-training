@@ -9,7 +9,7 @@ end
 
 # Configure Redis connection
 sidekiq_redis_config = proc { |config|
-  config.redis = { url: Redis.current.id }
+  config.redis = { url: ApplyRedisConnection.url }
 }
 Sidekiq.configure_server(&sidekiq_redis_config)
 Sidekiq.configure_client(&sidekiq_redis_config)
