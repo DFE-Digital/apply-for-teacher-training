@@ -103,7 +103,7 @@ RSpec.configure do |config|
     config.default_formatter = 'doc'
   end
 
-  config.before { Redis.new.flushdb }
+  config.before { Redis.current.flushdb }
 
   config.after { Clockwork::Test.clear! }
 
