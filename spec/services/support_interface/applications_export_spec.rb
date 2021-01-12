@@ -26,6 +26,8 @@ RSpec.describe SupportInterface::ApplicationsExport, with_audited: true do
 
       row = data.first
 
+      expect(row[:candidate_id]).to eql(candidate.id)
+      expect(row[:phase]).to eql('apply_1')
       expect(row[:signed_up_at].to_s).to start_with('2020-01-01')
       expect(row[:first_signed_in_at].to_s).to start_with('2020-01-02')
       expect(row[:submitted_form_at].to_s).to start_with('2020-01-03')
