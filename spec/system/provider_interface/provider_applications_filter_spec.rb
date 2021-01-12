@@ -264,7 +264,7 @@ RSpec.feature 'Providers should be able to filter applications' do
   end
 
   def then_i_should_see_the_no_filter_results_error_message
-    expect(page).to have_content('No applications for the selected filters.')
+    expect(page).to have_content('There are no results for the selected filter.')
   end
 
   def when_i_filter_for_rejected_and_offered_applications

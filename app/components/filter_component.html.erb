@@ -1,74 +1,104 @@
-<div class="moj-filter-layout__filter app-filter">
-  <div class="moj-filter">
-    <div class="moj-filter__header">
-      <div class="moj-filter__header-title">
-        <h2 class="govuk-heading-m">Filter</h2>
-      </div>
-      <div class="moj-filter__header-action">
-      </div>
-    </div>
-
-    <div class="moj-filter__content">
-      <% if active_filters.any? %>
-        <div class="moj-filter__selected">
-          <div class="moj-filter__selected-heading">
-            <div class="moj-filter__heading-title">
-              <h3 class="govuk-heading-m govuk-!-margin-bottom-1">Selected filters</h3>
-              <p class="govuk-body">
-                <%= govuk_link_to 'Clear filters', '?remove=true', class: 'govuk-link--no-visited-state' %>
-              </p>
-            </div>
-          </div>
-
-          <% active_filters.each do |active_filter| %>
-            <h4 class="govuk-heading-s govuk-!-margin-bottom-0"><%= active_filter[:heading] %></h4>
-            <ul class="moj-filter-tags">
-              <% tags_for_active_filter(active_filter).each do |tag| %>
-                <li>
-                  <%= link_to(tag[:title], tag[:remove_link], class: "moj-filter__tag", id: "tag-#{tag[:title].parameterize}") %>
-                </li>
-              <% end %>
-            </ul>
-          <% end %>
-
+<div class='moj-filter-layout'>
+  <div class="moj-filter-layout__filter app-filter">
+    <div class="moj-filter">
+      <div class="moj-filter__header">
+        <div class="moj-filter__header-title">
+          <h2 class="govuk-heading-m">Filter</h2>
         </div>
-      <% end %>
+        <div class="moj-filter__header-action">
+        </div>
+      </div>
 
-      <!-- Div made focusable to 'catch' focus from checkboxes. see https://github.com/DFE-Digital/apply-for-teacher-training/pull/2640
-       -->
-      <div class="moj-filter__options" tabindex="-1">
-        <form method="get">
-          <%= submit_tag "Apply filters", class: "govuk-button" %>
+      <div class="moj-filter__content">
+        <% if active_filters.any? %>
+          <div class="moj-filter__selected">
+            <div class="moj-filter__selected-heading">
+              <div class="moj-filter__heading-title">
+                <h3 class="govuk-heading-m govuk-!-margin-bottom-1">Selected filters</h3>
+                <p class="govuk-body">
+                  <%= govuk_link_to 'Clear filters', clear_filters_link, class: 'govuk-link--no-visited-state' %>
+                </p>
+              </div>
+            </div>
 
-          <% filters.each do |filter, idx| %>
+            <% active_filters.each do |active_filter| %>
+              <h4 class="govuk-heading-s govuk-!-margin-bottom-0"><%= active_filter[:heading] %></h4>
+              <ul class="moj-filter-tags">
+                <% tags_for_active_filter(active_filter).each do |tag| %>
+                  <li>
+                    <%= link_to(tag[:title], tag[:remove_link], class: "moj-filter__tag", id: "tag-#{tag[:title].parameterize}") %>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+        <% end %>
 
-            <div class="govuk-form-group">
-              <fieldset class="govuk-fieldset">
-                <legend id="filter-legend-<%= filter[:name] %>" class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                  <%= filter[:heading] %>
-                </legend>
-                <% if filter[:type] == :search %>
-                  <input class="govuk-input <%= filter[:css_classes] %>" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>" >
+        <!-- Div made focusable to 'catch' focus from checkboxes. see https://github.com/DFE-Digital/apply-for-teacher-training/pull/2640
+         -->
+        <div class="moj-filter__options" tabindex="-1">
+          <form method="get">
+            <%= submit_tag "Apply filters", class: "govuk-button" %>
 
-                <% elsif filter[:type] == :checkboxes %>
+            <%= hidden_field_tag primary_filter[:name], primary_filter[:value] if primary_filter && primary_filter[:value].present? %>
+            <% secondary_filters.each do |filter, idx| %>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                  <legend id="filter-legend-<%= filter[:name] %>" class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                    <%= filter[:heading] %>
+                  </legend>
+                  <% if filter[:type] == :search %>
+                    <input class="govuk-input <%= filter[:css_classes] %>" id="<%= filter[:name] %>" name="<%= filter[:name] %>" type="text" value="<%= filter[:value] %>" aria-labelledby="filter-legend-<%= filter[:name] %>" >
+                  <% elsif filter[:type] == :checkboxes %>
                     <% filter[:options].each do |option| %>
                       <div class="govuk-checkboxes govuk-checkboxes--small">
-
                         <div class="govuk-checkboxes__item">
                           <input class="govuk-checkboxes__input" id="<%= filter[:name] %>-<%= option[:value] %>" name="<%= filter[:name] %>[]" type="checkbox" <%= "checked" if option[:checked] %> value="<%= option[:value] %>">
                           <label class="govuk-label govuk-checkboxes__label" for="<%= filter[:name] %>-<%= option[:value] %>">
                             <%= option[:label] %>
                           </label>
-
                         </div>
                       </div>
                     <% end %>
                   <% end %>
-              </fieldset>
-            </div>
-          <% end %>
-        </form>
+                </fieldset>
+              </div>
+            <% end %>
+          </form>
+        </div>
       </div>
     </div>
+  </div>
+
+  <div class='moj-filter-layout__content'>
+    <% if primary_filter %>
+      <div class="app-search<% if primary_filter[:value].blank? %> govuk-!-margin-bottom-7<% end %>">
+				<form method="get">
+          <% filters_to_params(secondary_filters).each do |name, value| %>
+            <% if value.is_a?(Array) %>
+              <% value.each do |v| %><%= hidden_field_tag("#{name}[]", v) %><% end %>
+            <% else %>
+              <%= hidden_field_tag name, value %>
+            <% end %>
+          <% end %>
+					<div class="govuk-form-group">
+            <label class="govuk-label app-search__label govuk-label--m" for="<%= primary_filter[:name] %>">
+							Search by candidate name or reference
+						</label>
+
+						<input class="govuk-input <%= primary_filter[:css_classes] %>" id="<%= primary_filter[:name] %>" name="<%= primary_filter[:name] %>" type="text" value="<%= primary_filter[:value] %>" aria-labelledby="filter-legend-<%= primary_filter[:name] %>" >
+					</div>
+					<button class="govuk-button app-search__button" data-module="govuk-button">
+						Search
+					</button>
+				</form>
+      </div>
+      <% if primary_filter[:value].present? %>
+        <p class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-7">
+          <%= link_to('Clear search', remove_search_tag_link(primary_filter[:name]), class: 'govuk-link govuk-link--no-visited-state') %>
+        </p>
+      <% end %>
+    <% end %>
+    <%= content %>
   </div>
 </div>

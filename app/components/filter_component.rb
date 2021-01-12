@@ -39,10 +39,24 @@ class FilterComponent < ViewComponent::Base
     filters.select { |f| filter_active?(f) }
   end
 
+  def primary_filter
+    @primary_filter ||= filters.find { |f| f[:primary] }
+  end
+
+  def secondary_filters
+    @secondary_filters ||= filters - [primary_filter]
+  end
+
+  def clear_filters_link
+    link_params = { remove: true }
+    link_params.merge!(filters_to_params([primary_filter])) if primary_filter.present?
+    '?' + link_params.to_query
+  end
+
   def filter_active?(filter)
     case filter[:type]
     when :search
-      filter[:value].present?
+      filter[:primary] != true && filter[:value].present?
     when :checkboxes
       filter[:options].any? { |o| o[:checked] }
     end
