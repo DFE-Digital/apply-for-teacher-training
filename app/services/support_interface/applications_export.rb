@@ -17,8 +17,10 @@ module SupportInterface
         associated_audits = application_form.associated_audits.sort_by(&:created_at).reverse
 
         output = {
+          candidate_id: application_form.candidate.id,
           support_reference: application_form.support_reference,
           recruitment_cycle_year: application_form.recruitment_cycle_year,
+          phase: application_form.phase,
           process_state: ProcessState.new(application_form).state,
           signed_up_at: application_form.candidate.created_at,
           first_signed_in_at: application_form.created_at,
