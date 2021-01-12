@@ -118,7 +118,7 @@ RSpec.feature 'Feature metrics dashboard' do
 
   def and_i_should_see_accessing_the_service_metrics
     within('#accessing_the_service_to_unsubmitted_dashboard_section') do
-      expect(page).to have_content('0.8 magic links per user to unsubmitted')
+      expect(page).to have_content('0.8 average number of sign-ins before submitting application')
       expect(page).to have_content('0 this month')
       expect(page).to have_content('1 last month')
     end
