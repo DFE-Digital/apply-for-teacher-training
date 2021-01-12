@@ -1012,7 +1012,7 @@ en:
               invalid: Path must be a valid endpoint
             page_title:
               blank: Page title cannot be blank
-            other_feedback:
+            feedback:
               blank: Enter feedback on how we can improve this section
             consent_to_be_contacted:
               blank: Select yes if we can contact you about your feedback

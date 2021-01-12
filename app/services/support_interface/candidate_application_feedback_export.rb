@@ -10,7 +10,7 @@ module SupportInterface
           'Submitted at' => feedback.created_at.iso8601,
           'Path' => feedback.path,
           'Page title' => feedback.page_title,
-          'Other feedback' => feedback.other_feedback,
+          'Feedback' => feedback.feedback,
           'Consent to be contacted' => feedback.consent_to_be_contacted,
         }
       end

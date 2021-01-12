@@ -28,7 +28,7 @@ private
       'Submitted at' => application_feedback.created_at.iso8601,
       'Path' => application_feedback.path,
       'Page title' => application_feedback.page_title,
-      'Other feedback' => application_feedback.other_feedback,
+      'Feedback' => application_feedback.feedback,
       'Consent to be contacted' => application_feedback.consent_to_be_contacted,
     }
   end

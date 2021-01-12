@@ -2,10 +2,10 @@ module CandidateInterface
   class ApplicationFeedbackForm
     include ActiveModel::Model
 
-    attr_accessor :path, :page_title, :original_controller, :other_feedback,
+    attr_accessor :path, :page_title, :original_controller, :feedback,
                   :consent_to_be_contacted
 
-    validates :path, :page_title, :other_feedback, :consent_to_be_contacted, presence: true
+    validates :path, :page_title, :feedback, :consent_to_be_contacted, presence: true
 
     validate :path_is_valid, if: -> { path.present? }
 
@@ -15,7 +15,7 @@ module CandidateInterface
       application_form.application_feedback.create!(
         path: path,
         page_title: page_title,
-        other_feedback: other_feedback,
+        feedback: feedback,
         consent_to_be_contacted: consent_to_be_contacted == 'true',
       )
     end
