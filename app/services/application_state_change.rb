@@ -104,7 +104,9 @@ class ApplicationStateChange
   end
 
   def self.states_visible_to_provider
-    STATES_VISIBLE_TO_PROVIDER
+    return STATES_VISIBLE_TO_PROVIDER if FeatureFlag.active?(:interviews)
+
+    STATES_VISIBLE_TO_PROVIDER - [:interviewing]
   end
 
   def self.states_visible_to_provider_without_deferred

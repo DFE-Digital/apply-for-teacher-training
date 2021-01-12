@@ -30,6 +30,7 @@ class FeatureFlag
     [:provider_activity_log, 'Show provider users a log of all application activity', 'Michael Nacos'],
     [:export_application_data, 'Providers can export a customised selection of application data', 'Ben Swannack'],
     [:international_addresses, 'Replace the single free text field for international addresses with fields per line', 'Steve Hook'],
+    [:interviews, 'Providers can filter applications by interviewing state', 'Despo Pentara'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
