@@ -12,8 +12,8 @@ en:
       qualification_type:
         label: Type of degree
         review_label: Degree type
-          undergraduate: For example, BA, BSc or other
         hint_text:
+          undergraduate: For example, BA, BSc or other
           another: For example, Masters, PhD, or other
           all: For example, BA, BSc, Masters, PhD, or other
       international_qualification_type:
