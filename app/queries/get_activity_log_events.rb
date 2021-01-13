@@ -29,11 +29,18 @@ class GetActivityLogEvents
     statuses_visible_to_providers = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.map { |status| "'#{status}'" }.join(', ')
     filter += " OR audited_changes::json#>>'{status, 1}' IN (#{statuses_visible_to_providers})"
 
-    Audited::Audit.includes(INCLUDES)
-                  .where(auditable: application_choices)
-                  .where(action: :update)
-                  .where(filter)
-                  .where('created_at > ?', since)
-                  .order(created_at: :desc)
+    Audited::Audit
+      .includes(INCLUDES)
+      .where(auditable: application_choices)
+      .where(action: :update)
+      .where(filter)
+      .or(
+        Audited::Audit
+          .includes(INCLUDES)
+          .where(associated: application_choices)
+          .where(action: %i[create update]),
+      )
+      .where('created_at > ?', since)
+      .order(created_at: :desc)
   end
 end
