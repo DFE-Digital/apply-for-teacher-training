@@ -13,6 +13,13 @@ RSpec.describe FilterApplicationChoicesForProviders do
       expect(result).to eq([application_choices.first])
     end
 
+    it 'filters by partial candidate reference' do
+      partial_reference = application_choices.first.application_form.support_reference[0...3]
+      result = described_class.call(application_choices: application_choices, filters: { candidate_name: partial_reference })
+
+      expect(result).to eq([application_choices.first])
+    end
+
     it 'filters by candidate name' do
       result = described_class.call(application_choices: application_choices, filters: { candidate_name: application_choices.last.application_form.last_name })
 
