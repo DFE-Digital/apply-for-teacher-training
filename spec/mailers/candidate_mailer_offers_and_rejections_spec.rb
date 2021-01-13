@@ -121,7 +121,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe 'rejection emails' do
     def setup_application
-      provider = build_stubbed(:provider, name: 'Falconholt Technical College')
+      provider = build_stubbed(:provider, name: 'Falconholt Technical College', code: 'X100')
       course_option = build_stubbed(:course_option, course: build_stubbed(:course, name: 'Forensic Science', code: 'E0FO', provider: provider))
       @application_form = build_stubbed(:application_form, first_name: 'Tyrell', last_name: 'Wellick')
       @application_choice = @application_form.application_choices.build(
@@ -133,6 +133,9 @@ RSpec.describe CandidateMailer, type: :mailer do
           quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
           quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
           quality_of_application_subject_knowledge_what_to_improve: 'Write in the first person',
+          qualifications_y_n: 'Yes',
+          qualifications_other_details: 'Bad qualifications',
+          qualifications_which_qualifications: %w[no_english_gcse other],
         },
       )
       @application_form.application_choices = [@application_choice]
@@ -148,7 +151,10 @@ RSpec.describe CandidateMailer, type: :mailer do
         'heading' => 'Dear Tyrell',
         'course name and code' => 'Forensic Science (E0FO)',
         'rejection reason heading' => 'Quality of application',
-        'rejection reason content' => 'Write in the first person'
+        'rejection reason content' => 'Write in the first person',
+        'qualifications rejection heading' => 'Qualifications',
+        'qualifications rejection content' => 'Bad qualifications',
+        'link to course on find' => 'https://www.find-postgraduate-teacher-training.service.gov.uk/course/X100/E0FO#section-entry'
       )
     end
 

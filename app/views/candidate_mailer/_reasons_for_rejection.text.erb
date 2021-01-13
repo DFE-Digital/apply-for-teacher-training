@@ -9,4 +9,8 @@
     ^
     <% end %>
 
+    <% if title == 'Qualifications' %>
+        ^ To check the course requirements view the course here <%= "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{@course.provider.code}/#{@course.code}#section-entry"%>
+    <% end %>
+
 <% end %>
