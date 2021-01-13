@@ -2,10 +2,10 @@ module SupportInterface
   class CourseNameAndStatusComponent < ViewComponent::Base
     include ViewHelper
 
-    attr_reader :application_choice
+    attr_reader :course_option
 
-    def initialize(application_choice:)
-      @application_choice = application_choice
+    def initialize(course_option:)
+      @course_option = course_option
     end
   end
 end
