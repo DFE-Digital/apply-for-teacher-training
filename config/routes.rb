@@ -765,6 +765,8 @@ Rails.application.routes.draw do
       post '/cancel' => 'references#confirm_cancel'
       get '/reinstate' => 'references#reinstate', as: :reinstate_reference
       post '/reinstate' => 'references#confirm_reinstate'
+      get '/impersonate-and-give' => 'references#impersonate_and_give', as: :impersonate_referee_and_give_reference
+      get 'impersonate-and-decline' => 'references#impersonate_and_decline', as: :impersonate_referee_and_decline_reference
     end
 
     get '/tokens' => 'api_tokens#index', as: :api_tokens

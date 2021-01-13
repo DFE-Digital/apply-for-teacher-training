@@ -153,9 +153,9 @@ module SupportInterface
       if reference.feedback_requested? && HostingEnvironment.test_environment?
         {
           key: 'Sign in as referee',
-          value: govuk_link_to('Give feedback', referee_interface_reference_relationship_path(token: reference.refresh_feedback_token!)) +
+          value: govuk_link_to('Give feedback', support_interface_impersonate_referee_and_give_reference_path(reference_id: reference.id)) +
             ' or ' +
-            govuk_link_to('decline to give a reference', referee_interface_refuse_feedback_path(token: reference.refresh_feedback_token!)),
+            govuk_link_to('decline to give a reference', support_interface_impersonate_referee_and_decline_reference_path(reference_id: reference.id)),
         }
       end
     end
