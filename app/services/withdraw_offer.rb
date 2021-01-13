@@ -20,7 +20,7 @@ class WithdrawOffer
 
     audit(@auth.actor) do
       ActiveRecord::Base.transaction do
-        ApplicationStateChange.new(@application_choice).reject!
+        ApplicationStateChange.new(@application_choice).withdraw_offer!
         @application_choice.update!(
           offer_withdrawal_reason: @offer_withdrawal_reason,
           offer_withdrawn_at: Time.zone.now,
