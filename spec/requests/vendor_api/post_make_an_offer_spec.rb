@@ -41,6 +41,28 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
         'offer_declined_at' => nil,
       )
     end
+
+    it 'logs the request as a VendorAPIRequest', sidekiq: true do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+      request_body = {
+        "data": {
+          "conditions": [
+            'Completion of subject knowledge enhancement',
+            'Completion of professional skills test',
+          ],
+        },
+      }
+
+      post_path = "/api/v1/applications/#{application_choice.id}/offer"
+
+      expect {
+        post_api_request post_path, params: request_body
+      }.to change(VendorAPIRequest, :count)
+
+      expect(VendorAPIRequest.first.request_path).to eq(post_path)
+    end
   end
 
   describe 'making an offer for another course' do
@@ -85,6 +107,29 @@ RSpec.describe 'Vendor API - POST /api/v1/applications/:application_id/offer', t
       expect(response).to have_http_status(422)
       expect(parsed_response).to be_valid_against_openapi_schema('UnprocessableEntityResponse')
       expect(error_response['message']).to match 'You are not allowed to make decisions'
+    end
+
+    it 'logs the actual error in a VendorAPIRequest when a 422 is returned', sidekiq: true do
+      application_choice = create_application_choice_for_currently_authenticated_provider(
+        status: 'awaiting_provider_decision',
+      )
+
+      other_course_option = course_option_for_provider(provider: create(:provider))
+
+      expect {
+        post_api_request "/api/v1/applications/#{application_choice.id}/offer", params: {
+          'data' => {
+            'conditions' => [],
+            'course' => course_option_to_course_payload(other_course_option),
+          },
+        }
+      }.to change(VendorAPIRequest, :count)
+
+      expect(response).to have_http_status(422)
+
+      logged_error = VendorAPIRequest.first.response_body['errors'].first['error']
+
+      expect(logged_error).to eq('NotAuthorisedError')
     end
 
     it 'returns an error when specifying a course that is not open on Apply' do
