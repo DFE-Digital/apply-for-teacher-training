@@ -91,6 +91,13 @@ class ApplicationForm < ApplicationRecord
     end
   end
 
+  # We want to touch the application_choices when models that touch application_form are changed
+  # e.g. ApplicationReference, ApplicationQualification
+  # This ensures that the updated_at for the application changes when the API response for the application changes
+  after_touch do
+    application_choices.touch_all
+  end
+
   after_commit :geocode_address_if_required
 
   def submitted?
