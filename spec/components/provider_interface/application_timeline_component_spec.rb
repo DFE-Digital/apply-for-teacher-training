@@ -118,6 +118,48 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
+  context 'for an interview event' do
+    it 'renders the interview set up event' do
+      application_choice = create(:application_choice, status: 'interviewing')
+      interview = create(:interview)
+      application_choice_audit = create(:application_choice_audit, application_choice: application_choice)
+      application_choice_audit.update(audited_changes: { status: %w[awaiting_provider_decision interviewing] })
+      create(:interview_audit, interview: interview, application_choice: application_choice)
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Interview set up'
+      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View interview'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
+    end
+
+    it 'renders the interview updated event' do
+      application_choice = create(:application_choice, status: 'interviewing')
+      interview = create(:interview)
+      application_choice_audit = create(:application_choice_audit, application_choice: application_choice)
+      application_choice_audit.update(audited_changes: { status: %w[awaiting_provider_decision interviewing] })
+      create(:interview_audit, action: 'update', interview: interview, application_choice: application_choice)
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Interview updated'
+      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View interview'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
+    end
+
+    it 'renders the interview cancelled event' do
+      application_choice = create(:application_choice, status: 'interviewing')
+      interview = create(:interview)
+      application_choice_audit = create(:application_choice_audit, application_choice: application_choice)
+      application_choice_audit.update(audited_changes: { status: %w[awaiting_provider_decision interviewing] })
+      interview_audit = create(:interview_audit, action: 'update', interview: interview, application_choice: application_choice)
+      interview_audit.update(audited_changes: { cancelled_at: [nil, Time.zone.now] })
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Interview cancelled'
+      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View interview'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
+    end
+  end
+
   it 'has a title for all state transitions' do
     FeatureFlag.activate(:interviews)
     expect(ApplicationStateChange.states_visible_to_provider).to match_array(ProviderInterface::ApplicationTimelineComponent::TITLES.keys.map(&:to_sym))
