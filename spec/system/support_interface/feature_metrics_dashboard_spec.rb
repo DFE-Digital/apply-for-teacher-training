@@ -19,6 +19,7 @@ RSpec.feature 'Feature metrics dashboard' do
 
     then_i_should_see_reference_metrics
     and_i_should_see_work_history_metrics
+    and_i_should_see_accessing_the_service_metrics
     and_i_should_see_reasons_for_rejection_metrics
   end
 
@@ -59,6 +60,9 @@ RSpec.feature 'Feature metrics dashboard' do
     Timecop.freeze(@today - 50.days) do
       @application_form1, @references1 = create_application_form_with_references
       @application_form2, @references2 = create_application_form_with_references
+      create(:authentication_token, user: @application_form1.candidate, hashed_token: '0987654321')
+      create(:authentication_token, user: @application_form1.candidate, hashed_token: '9876543210')
+      create(:authentication_token, user: @application_form2.candidate, hashed_token: '8765432109')
       start_work_history(@application_form1)
     end
     Timecop.freeze(@today - 40.days) do
@@ -109,6 +113,14 @@ RSpec.feature 'Feature metrics dashboard' do
       expect(page).to have_content('16.8 days time to complete')
       expect(page).to have_content('19 days this month')
       expect(page).to have_content('10 days last month')
+    end
+  end
+
+  def and_i_should_see_accessing_the_service_metrics
+    within('#accessing_the_service_to_unsubmitted_dashboard_section') do
+      expect(page).to have_content('0.8 average number of sign-ins before submitting application')
+      expect(page).to have_content('0 this month')
+      expect(page).to have_content('1 last month')
     end
   end
 

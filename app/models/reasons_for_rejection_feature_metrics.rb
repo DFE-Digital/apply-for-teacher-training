@@ -1,6 +1,4 @@
 class ReasonsForRejectionFeatureMetrics
-  include ActionView::Helpers::NumberHelper
-
   def rejections_due_to(
     reason,
     start_time,

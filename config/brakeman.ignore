@@ -21,6 +21,26 @@
       "note": ""
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "05d90ef689d855e7186cca0d43681bbb15a03b2e9f556e1a1e3aa86c22e1c510",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/magic_link_feature_metrics.rb",
+      "line": 15,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ApplicationForm.select(\"count(DISTINCT audits.id) as audit_count\", \"count(DISTINCT authentication_tokens.id) as token_count\").joins(:application_choices).joins(\"LEFT OUTER JOIN audits ON audits.auditable_id = application_forms.candidate_id AND audits.auditable_type = 'Candidate' AND audits.action = 'update' AND audits.audited_changes#>>'{magic_link_token, 1}' IS NOT NULL AND audits.created_at <= application_choices.#{timestamp}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MagicLinkFeatureMetrics",
+        "method": "average_magic_link_requests_upto"
+      },
+      "user_input": "timestamp",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
       "fingerprint": "07081676ffe0bf0ef753045ae9dcc86c848df5f35a9e48a22692159d5352fbd1",
@@ -181,6 +201,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-01-11 22:04:46 +0000",
+  "updated": "2021-01-13 16:37:34 +0000",
   "brakeman_version": "4.10.1"
 }

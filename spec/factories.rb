@@ -869,7 +869,7 @@ FactoryBot.define do
 
   factory :authentication_token do
     user { create(:support_user) }
-    hashed_token { '1234567890' }
+    hashed_token { SecureRandom.uuid }
   end
 
   factory :provider_user do
