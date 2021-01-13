@@ -7,12 +7,5 @@ Sidekiq.configure_server do |config|
   end
 end
 
-# Configure Redis connection
-sidekiq_redis_config = proc { |config|
-  config.redis = { url: ApplyRedisConnection.url }
-}
-Sidekiq.configure_server(&sidekiq_redis_config)
-Sidekiq.configure_client(&sidekiq_redis_config)
-
 require 'sidekiq/web'
 Sidekiq::Web.set :sessions, false
