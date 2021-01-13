@@ -5,11 +5,12 @@ module TaskViewHelper
     when 2 then 'Deadline approaching: respond to candidate'
     when 3 then 'Give feedback: you did not respond in time'
     when 4 then 'Ready for review'
-    when 5 then 'Offers pending conditions (previous cycle)'
-    when 6 then 'Waiting for candidate action'
-    when 7 then 'Offers pending conditions (current cycle)'
-    when 8 then 'Successful candidates'
-    when 9 then 'Deferred offers'
+    when 5 then 'Interviewing'
+    when 6 then 'Offers pending conditions (previous cycle)'
+    when 7 then 'Waiting for candidate action'
+    when 8 then 'Offers pending conditions (current cycle)'
+    when 9 then 'Successful candidates'
+    when 10 then 'Deferred offers'
     else
       'No action needed'
     end

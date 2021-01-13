@@ -15,7 +15,7 @@ module CandidateInterface
       case application_choice.status
       when 'unsubmitted'
         :grey
-      when 'awaiting_provider_decision'
+      when 'awaiting_provider_decision', 'interviewing'
         :purple
       when 'offer'
         :turquoise

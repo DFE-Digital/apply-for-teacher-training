@@ -2,13 +2,13 @@ class ApplicationStateChange
   include Workflow
 
   STATES_NOT_VISIBLE_TO_PROVIDER = %i[unsubmitted cancelled application_not_sent].freeze
-  STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn offer_deferred].freeze
+  STATES_VISIBLE_TO_PROVIDER = %i[awaiting_provider_decision interviewing offer pending_conditions recruited rejected declined withdrawn conditions_not_met offer_withdrawn offer_deferred].freeze
 
   ACCEPTED_STATES = %i[pending_conditions conditions_not_met recruited offer_deferred].freeze
   OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer offer_withdrawn]).freeze
   POST_OFFERED_STATES = (ACCEPTED_STATES + %i[declined offer_withdrawn]).freeze
   UNSUCCESSFUL_END_STATES = %i[withdrawn cancelled rejected declined conditions_not_met offer_withdrawn application_not_sent].freeze
-  DECISION_PENDING_STATUSES = %i[awaiting_provider_decision].freeze
+  DECISION_PENDING_STATUSES = %i[awaiting_provider_decision interviewing].freeze
   TERMINAL_STATES = UNSUCCESSFUL_END_STATES + %i[recruited].freeze
 
   attr_reader :application_choice
@@ -34,6 +34,15 @@ class ApplicationStateChange
       event :reject, transitions_to: :rejected
       event :reject_by_default, transitions_to: :rejected
       event :withdraw, transitions_to: :withdrawn
+      event :interview, transitions_to: :interviewing
+    end
+
+    state :interviewing do
+      event :make_offer, transitions_to: :offer
+      event :reject, transitions_to: :rejected
+      event :reject_by_default, transitions_to: :rejected
+      event :withdraw, transitions_to: :withdrawn
+      event :cancel_interview, transitions_to: :awaiting_provider_decision
     end
 
     state :rejected do

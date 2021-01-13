@@ -30,7 +30,7 @@ RSpec.describe ApplicationStateChange do
     it 'has corresponding entries in the OpenAPI spec' do
       valid_states_in_openapi = VendorAPISpecification.as_hash['components']['schemas']['ApplicationAttributes']['properties']['status']['enum']
 
-      expect(ApplicationStateChange.states_visible_to_provider_without_deferred - %i[offer_withdrawn])
+      expect(ApplicationStateChange.states_visible_to_provider_without_deferred - %i[interviewing offer_withdrawn])
         .to match_array(valid_states_in_openapi.map(&:to_sym))
     end
   end

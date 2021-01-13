@@ -1,0 +1,37 @@
+class CreateInterview
+  attr_reader :auth, :application_choice, :provider, :date_and_time, :location, :additional_details
+
+  def initialize(
+    actor:,
+    application_choice:,
+    provider:,
+    date_and_time:,
+    location:,
+    additional_details:
+  )
+    @auth = ProviderAuthorisation.new(actor: actor)
+    @application_choice = application_choice
+    @provider = provider
+    @date_and_time = date_and_time
+    @location = location
+    @additional_details = additional_details
+  end
+
+  def save!
+    auth.assert_can_make_decisions!(
+      application_choice: application_choice,
+      course_option_id: application_choice.offered_option.id,
+    )
+
+    if ApplicationStateChange.new(application_choice).can_interview?
+      interview = Interview.new(application_choice: application_choice,
+                                provider: provider,
+                                date_and_time: date_and_time,
+                                location: location,
+                                additional_details: additional_details)
+      interview.save!
+
+      ApplicationStateChange.new(application_choice).interview!
+    end
+  end
+end

@@ -51,9 +51,16 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
       expect(application_choice.task_view_group).to eq(1)
     end
 
-    it '#about_to_be_rejected_automatically' do
-      create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.after(Time.zone.now))
-      expect(application_choice.task_view_group).to eq(2)
+    describe '#about_to_be_rejected_automatically' do
+      it '.awaiting_provider_decision' do
+        create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.after(Time.zone.now))
+        expect(application_choice.task_view_group).to eq(2)
+      end
+
+      it '.interviewing' do
+        create(:application_choice, :interviewing, reject_by_default_at: 5.business_days.after(Time.zone.now))
+        expect(application_choice.task_view_group).to eq(2)
+      end
     end
 
     it '#give_feedback_for_rbd' do
@@ -66,29 +73,34 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
       expect(application_choice.task_view_group).to eq(4)
     end
 
+    it '#interviewing_non_urgent' do
+      create(:application_choice, :interviewing, reject_by_default_at: 6.business_days.from_now)
+      expect(application_choice.task_view_group).to eq(5)
+    end
+
     it '#pending_conditions_previous_cycle' do
       create(:application_choice, :pending_conditions, :previous_year)
-      expect(application_choice.task_view_group).to eq(5)
+      expect(application_choice.task_view_group).to eq(6)
     end
 
     it '#waiting_on_candidate' do
       create(:application_choice, :offer)
-      expect(application_choice.task_view_group).to eq(6)
+      expect(application_choice.task_view_group).to eq(7)
     end
 
     it '#pending_conditions_current_cycle' do
       create(:application_choice, :pending_conditions)
-      expect(application_choice.task_view_group).to eq(7)
+      expect(application_choice.task_view_group).to eq(8)
     end
 
     it '#successful_candidates' do
       create(:application_choice, :recruited)
-      expect(application_choice.task_view_group).to eq(8)
+      expect(application_choice.task_view_group).to eq(9)
     end
 
     it '#deferred_offers_current_cycle' do
       create(:application_choice, :with_deferred_offer)
-      expect(application_choice.task_view_group).to eq(9)
+      expect(application_choice.task_view_group).to eq(10)
     end
 
     it 'all other applications' do
