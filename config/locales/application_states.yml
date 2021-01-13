@@ -312,7 +312,7 @@ en:
         - candidate_mailer-declined_by_default
         - provider_mailer-declined_by_default
 
-    offer-reject:
+    offer-withdraw_offer:
       name: Provider rescinds offer
       by: provider
       description: As long as the candidate has not accepted the offer, the provider can reject the application.
