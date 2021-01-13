@@ -27,7 +27,10 @@ end
 OkComputer.mount_at = 'integrations/monitoring'
 
 OkComputer::Registry.register 'postgres', OkComputer::ActiveRecordCheck.new
-OkComputer::Registry.register 'redis', OkComputer::RedisCheck.new(url: ENV['REDIS_URL'])
+
+# Ideally we'd use Redis.current here, but OkComputer doesn't support that
+OkComputer::Registry.register 'redis', OkComputer::RedisCheck.new(url: ApplyRedisConnection.url)
+
 OkComputer::Registry.register 'sidekiq_default_queue', OkComputer::SidekiqLatencyCheck.new(queue: 'default', threshold: 100) # threshold in seconds
 OkComputer::Registry.register 'sidekiq_mailers_queue', OkComputer::SidekiqLatencyCheck.new(queue: 'mailers', threshold: 100) # threshold in seconds
 OkComputer::Registry.register 'sidekiq_retries_count', SidekiqRetriesCheck.new
