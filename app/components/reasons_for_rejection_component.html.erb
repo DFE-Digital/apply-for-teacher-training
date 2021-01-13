@@ -58,7 +58,9 @@
           <% end %>
         </li>
       <% end %>
-      To check the course requirements view the course <%= link_to 'here.', "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry", class: "govuk-link" %>
+        <% if @render_link_to_find_when_rejected_on_qualifications %>
+          View the course requirements on <%= govuk_link_to 'Find postgraduate teacher training courses', "https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry" %>.
+        <% end %>
     </ul>
     <% if editable? %>
       <p class="app-rejection__actions">

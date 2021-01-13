@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe ReasonsForRejectionComponent do
   describe 'rendered component' do
     let(:provider) { build_stubbed(:provider, name: 'The University of Metal') }
+    let(:course) { build_stubbed(:course, provider: provider) }
     let(:application_choice) { build_stubbed(:application_choice) }
     let(:reasons_for_rejection_attrs) do
       {
@@ -31,7 +32,10 @@ RSpec.describe ReasonsForRejectionComponent do
 
     let(:reasons_for_rejection) { ReasonsForRejection.new(reasons_for_rejection_attrs) }
 
-    before { allow(application_choice).to receive(:provider).and_return(provider) }
+    before do
+      allow(application_choice).to receive(:provider).and_return(provider)
+      allow(application_choice).to receive(:course).and_return(course)
+    end
 
     it 'renders rejection reason answers under headings' do
       result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection))
@@ -50,6 +54,7 @@ RSpec.describe ReasonsForRejectionComponent do
       expect(html).to include('No English GCSE grade 4 (C) or above, or valid equivalent')
       expect(html).to include('No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)')
       expect(html).to include('No degree')
+      expect(html).not_to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course_option.course.code}#section-entry")
 
       expect(result.css('h3.govuk-heading-s').text).to include('Performance at interview')
       expect(html).to include('There was no need to do all those pressups')
@@ -62,6 +67,17 @@ RSpec.describe ReasonsForRejectionComponent do
 
       expect(result.css('h3.govuk-heading-s').text).to include('Future applications')
       expect(html).to include('The University of Metal would be interested in future applications from you.')
+    end
+
+    it 'renders link to course requirements when rejected on qualifications is true' do
+      result = render_inline(described_class.new(application_choice: application_choice, reasons_for_rejection: reasons_for_rejection, render_link_to_find_when_rejected_on_qualifications: true))
+      html = result.to_html
+
+      expect(result.css('h3.govuk-heading-s').text).to include('Qualifications')
+      expect(html).to include('No English GCSE grade 4 (C) or above, or valid equivalent')
+      expect(html).to include('No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)')
+      expect(html).to include('No degree')
+      expect(html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry")
     end
 
     it 'renders change links when editable' do

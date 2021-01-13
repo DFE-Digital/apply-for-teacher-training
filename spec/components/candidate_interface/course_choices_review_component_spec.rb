@@ -259,30 +259,6 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
       expect(result.css('.govuk-summary-list__key').text).to include('Feedback')
       expect(result.css('.govuk-summary-list__value').to_html).to include('Course full')
     end
-
-    before { FeatureFlag.activate(:structured_reasons_for_rejection) }
-    it 'displays a link to the course requirements, if due to qualifications' do
-      application_form = create(:application_form)
-      application_choice = create(
-        :application_choice,
-        application_form: application_form,
-        status: 'rejected',
-        rejection_reason: 'Qualifications',
-        structured_rejection_reasons: {
-          "qualifications_y_n"=>"Yes",
-          "qualifications_other_details"=>"All the other stuff",
-          "qualifications_which_qualifications"=>["no_english_gcse", "other"],
-        }
-      )
-
-      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
-
-      expect(result.css('.govuk-summary-list__key').text).to include('Status')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Unsuccessful')
-      expect(result.css('.govuk-summary-list__key').text).to include('Feedback')
-      expect(result.css('.govuk-summary-list__value').to_html).to include('Qualifications')
-      expect(result.css('.govuk-summary-list__value').to_html).to include("https://www.find-postgraduate-teacher-training.service.gov.uk/course/#{application_choice.provider.code}/#{application_choice.course.code}#section-entry")
-    end
   end
 
   context 'when a course choice is withdrawn by provider' do
