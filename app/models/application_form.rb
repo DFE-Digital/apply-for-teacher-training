@@ -87,7 +87,7 @@ class ApplicationForm < ApplicationRecord
 
   before_save do |form|
     if (form.changed & PUBLISHED_FIELDS).any?
-      application_choices.update_all(updated_at: Time.zone.now)
+      application_choices.touch_all
     end
   end
 
