@@ -8,10 +8,10 @@ module SupportInterface
       form_not_started
       form_started_and_not_submitted
       submitted
-      reference_1_requested_at
-      reference_2_requested_at
-      reference_1_received
-      reference_2_received
+      completed_reference_1_requested_at
+      completed_reference_1_received_at
+      completed_reference_2_requested_at
+      completed_reference_2_received_at
       reference_reminder_email_sent
       new_reference_request_email_sent
       new_reference_added
@@ -47,19 +47,19 @@ module SupportInterface
       @application_choice.application_form.submitted_at
     end
 
-    def reference_1_requested_at
+    def completed_reference_1_requested_at
       received_references_timings.dig(0, :requested_at)
     end
 
-    def reference_2_requested_at
-      received_references_timings.dig(1, :requested_at)
-    end
-
-    def reference_1_received
+    def completed_reference_1_received_at
       received_references_timings.dig(0, :received_at)
     end
 
-    def reference_2_received
+    def completed_reference_2_requested_at
+      received_references_timings.dig(1, :requested_at)
+    end
+
+    def completed_reference_2_received_at
       received_references_timings.dig(1, :received_at)
     end
 
