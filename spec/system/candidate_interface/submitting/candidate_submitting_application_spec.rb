@@ -5,12 +5,11 @@ RSpec.feature 'Candidate submits the application' do
 
   scenario 'Candidate with a completed application' do
     given_i_am_signed_in
+    then_i_should_see_that_i_have_made_no_choices
 
     when_i_have_completed_my_application
     and_i_have_received_2_references
-
     and_i_review_my_application
-
     then_i_should_see_all_sections_are_complete
     and_i_can_see_my_course_choices
     and_i_can_see_my_personal_details
@@ -26,17 +25,14 @@ RSpec.feature 'Candidate submits the application' do
     and_i_can_see_my_interview_preferences
     and_i_can_see_my_referees
 
-    and_i_confirm_my_application
-
-    when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
+    when_i_confirm_my_application
+    and_i_choose_not_to_fill_in_the_equality_and_diversity_survey
     and_i_choose_to_add_further_information_but_omit_adding_details
     then_i_should_see_validation_errors
 
     when_i_fill_in_further_information
-    and_i_can_submit_the_application
-
+    and_i_submit_the_application
     then_i_can_see_my_application_has_been_successfully_submitted
-
     and_i_can_see_my_support_ref
     and_i_receive_an_email_with_my_support_ref
 
@@ -49,6 +45,16 @@ RSpec.feature 'Candidate submits the application' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def then_i_should_see_that_i_have_made_no_choices
+    visit candidate_interface_application_form_path
+    expect(page).to have_content(t('application_form.courses.intro'))
+    visit candidate_interface_application_review_submitted_path
+    expect(page).to have_content(t('application_form.courses.intro'))
+    visit candidate_interface_application_complete_path
+    expect(page).to have_content(t('application_form.courses.intro'))
+    visit candidate_interface_application_submit_success_path
   end
 
   def when_i_have_completed_my_application
@@ -153,11 +159,11 @@ RSpec.feature 'Candidate submits the application' do
     click_link 'Check and submit your application'
   end
 
-  def and_i_confirm_my_application
+  def when_i_confirm_my_application
     click_link 'Continue'
   end
 
-  def when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
+  def and_i_choose_not_to_fill_in_the_equality_and_diversity_survey
     choose 'No'
     click_button 'Continue'
   end
@@ -175,7 +181,7 @@ RSpec.feature 'Candidate submits the application' do
     fill_in t('further_information_details.label', scope: scope), with: "How you doin', ya old pirate? So good to see ya!", match: :prefer_exact
   end
 
-  def and_i_can_submit_the_application
+  def and_i_submit_the_application
     click_button 'Send application'
   end
 
