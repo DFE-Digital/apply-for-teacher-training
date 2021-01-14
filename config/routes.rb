@@ -15,7 +15,11 @@ Rails.application.routes.draw do
   end
 
   namespace :candidate_interface, path: '/candidate' do
-    get '/', to: redirect(GOVUK_APPLY_START_PAGE_URL)
+    if HostingEnvironment.production?
+      root to: redirect(GOVUK_APPLY_START_PAGE_URL)
+    else
+      root to: redirect('/')
+    end
 
     get '/accessibility', to: 'content#accessibility'
     get '/cookies', to: 'content#cookies_page', as: :cookies
