@@ -305,7 +305,7 @@ RSpec.describe FindSync::SyncProviderFromFind, sidekiq: true do
         expect(course_option.course.program_type).to be_nil
       end
 
-      it 'correctly updates qualifications when qualifications are present' do
+      it 'does not update qualifications even when qualifications are present' do
         stub_find_api_provider_200_with_qualifications_and_program_type(
           provider_code: 'ABC',
           course_code: '9CBA',
@@ -315,7 +315,7 @@ RSpec.describe FindSync::SyncProviderFromFind, sidekiq: true do
         described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
         course_option = CourseOption.last
 
-        expect(course_option.course.qualifications).to eq(%w[PG PF])
+        expect(course_option.course.qualifications).to be_nil
       end
 
       it 'correctly updates program_type when program_type is present' do
