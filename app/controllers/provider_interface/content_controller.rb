@@ -20,6 +20,8 @@ module ProviderInterface
       @cookie_ga_code = ENV.fetch('GOOGLE_ANALYTICS_MANAGE', '').gsub(/-/, '_')
       @cookie_preferences = CookiePreferencesForm.new(consent: cookies['consented-to-manage-cookies'])
       @cookie_settings_path = provider_interface_cookie_preferences_path
+      session[:previous_referer] = request.referer
+
       render 'content/cookies'
     end
 
