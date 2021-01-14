@@ -20,6 +20,9 @@ RSpec.describe 'Reject a rejected application' do
     and_the_same_application_is_rejected_elsewhere
     and_i_submit_the_reasons_for_rejection
     then_i_can_see_an_error_message
+
+    when_i_attempt_to_reject_the_application_again
+    then_i_can_see_that_the_application_has_already_been_rejected
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -92,5 +95,13 @@ RSpec.describe 'Reject a rejected application' do
     expect(page).to have_current_path(provider_interface_reasons_for_rejection_commit_path(@application_choice))
     expect(page).to have_content('There is a problem')
     expect(page).to have_content('The application is not ready for that action')
+  end
+
+  def when_i_attempt_to_reject_the_application_again
+    visit provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
+  end
+
+  def then_i_can_see_that_the_application_has_already_been_rejected
+    expect(page).to have_content('This application has already been rejected.')
   end
 end

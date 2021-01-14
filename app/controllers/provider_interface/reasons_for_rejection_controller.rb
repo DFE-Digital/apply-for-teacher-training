@@ -2,6 +2,7 @@ module ProviderInterface
   class ReasonsForRejectionController < ProviderInterfaceController
     before_action :ensure_structured_reasons_for_rejection_feature_is_active
     before_action :set_application_choice
+    before_action :redirect_if_application_rejected, except: :commit
 
     def edit_initial_questions
       @wizard = ReasonsForRejectionWizard.new(store, current_step: 'initial_questions')
@@ -103,6 +104,14 @@ module ProviderInterface
     def store
       key = "reasons_for_rejection_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)
+    end
+
+    def redirect_if_application_rejected
+      if @application_choice&.rejected?
+        flash[:warning] = 'This application has already been rejected.'
+
+        redirect_to provider_interface_application_choice_path(@application_choice)
+      end
     end
 
     def ensure_structured_reasons_for_rejection_feature_is_active
