@@ -68,11 +68,6 @@ en:
               blank: Enter year the assessment was done
               invalid: Enter a real year
               in_the_future: Assessment year must be this year or a previous year
-        receive_reference:
-          attributes:
-            feedback:
-              blank: Enter your reference
-              too_many_words: Your reference must be %{count} words or fewer
         candidate_interface/safeguarding_issues_declaration_form:
           attributes:
             share_safeguarding_issues:
@@ -107,29 +102,6 @@ en:
               blank: Will you give a reason for withdrawing your course choice?
             consent_to_be_contacted:
               blank: Can we contact you about your feedback?
-        referee_interface/reference_relationship_form:
-          attributes:
-            relationship_confirmation:
-              blank: Choose if the described relationship is correct
-            relationship_correction:
-              blank: "Enter your relationship to %{candidate}"
-              too_many_words: Your description must be %{count} words or fewer
-        referee_interface/reference_safeguarding_form:
-          attributes:
-            any_safeguarding_concerns:
-              blank: Select if you know of any reason why %{candidate} should not work with children
-            safeguarding_concerns:
-              blank: Enter a reason why %{candidate} should not work with children
-              too_many_words: Your reason must be %{count} words or fewer
-        referee_interface/reference_feedback_form:
-          attributes:
-            feedback:
-              blank: Enter your reference
-              too_many_words: Your reference must be %{count} words or fewer
-        referee_interface/refuse_feedback_form:
-          attributes:
-            choice:
-              blank: Choose whether to decline this reference request
         candidate_interface/apply_on_ucas_or_apply_form:
           attributes:
             service:
