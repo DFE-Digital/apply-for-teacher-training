@@ -1,7 +1,7 @@
 module SupportInterface
   class ApplicationReferencesExport
     def data_for_export
-      application_forms = ApplicationForm.includes(:application_references, :application_choices)
+      application_forms = ApplicationForm.includes(:application_choices, application_references: :audits)
 
       data_for_export = application_forms.map do |af|
         output = {
@@ -29,7 +29,7 @@ module SupportInterface
   private
 
     def received_at(reference)
-      reference.audits.where("audited_changes#>>'{feedback_status, 1}' = 'feedback_provided'").last&.created_at
+      reference.feedback_provided_at
     end
   end
 end
