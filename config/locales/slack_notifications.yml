@@ -6,15 +6,37 @@ en:
     rejected:
       message:
         primary: ":broken_heart: %{applicant}'s application was rejected by %{providers}."
-        other: "was rejected by %{providers}"
+        other_applications: "was rejected by %{providers}"
+    rejected_by_default:
+      message:
+        primary:
+          one: ":broken_heart: %{applicant}'s application to %{providers} was rejected by default."
+          other: ":broken_heart: %{applicant}'s applications to %{providers} were rejected by default."
+        other_applications:
+          one: "was rejected by default from %{providers}"
+          other: "were rejected by default from %{providers}"
     withdrawn:
       message:
-        primary: ":runner: %{applicant} has withdrawn their remaining applications from %{providers}."
-        other: "withdrew from %{providers}"
+        primary:
+          one: ":runner: %{applicant} has withdrawn their remaining application from %{providers}."
+          other: ":runner: %{applicant} has withdrawn their remaining applications from %{providers}."
+        other_applications: "withdrew from %{providers}"
     recruited:
       message:
         primary: ":handshake: %{applicant} has been recruited to %{providers}."
     declined:
       message:
-        primary: ":no_good: %{applicant} has declined %{providers} offer."
-        other: "declined offers from %{providers}"
+        primary:
+          one: ":no_good: %{applicant} has declined an offer from %{providers}."
+          other: ":no_good: %{applicant} has declined offers from %{providers}."
+        other_applications:
+          one: "declined an offer from %{providers}"
+          other: "declined offers from %{providers}"
+    declined_by_default:
+      message:
+        primary:
+          one: ":no_good: %{applicant} has declined by defaults %{providers}'s offer."
+          other: ":no_good: %{applicant} has declined by default offers from %{providers}."
+        other_applications:
+          one: "declined by default an offer from %{providers}"
+          other: "declined by default offers from %{providers}"

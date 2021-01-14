@@ -1,5 +1,5 @@
 class StateChangeNotifier
-  APPLICATION_OUTCOME_EVENTS = %i[declined withdrawn rejected recruited].freeze
+  APPLICATION_OUTCOME_EVENTS = %i[declined declined_by_default withdrawn rejected rejected_by_default recruited].freeze
 
   attr_reader :application_choice, :event
 
@@ -10,13 +10,16 @@ class StateChangeNotifier
 
   def application_outcome_notification
     candidate_name = application_choice.application_form.first_name
+
     other_applications = application_choice.self_and_siblings.where.not(id: application_choice.id)
-    providers = [application_choice.course.provider.name] + providers_for(event, other_applications)
+    grouped_applications = group_by_status(other_applications)
+
+    providers = [application_choice.course.provider.name] + providers_for(event, grouped_applications)
 
     other_events = APPLICATION_OUTCOME_EVENTS - [event]
-    other_applications_outcome = other_events.map { |e| text_for(other_applications, e) }.compact.to_sentence
+    other_applications_outcome = other_events.map { |e| text_for(grouped_applications, e) }.compact.to_sentence
 
-    message = I18n.t("slack_notifications.#{event}.message.primary", applicant: candidate_name, providers: providers.to_sentence)
+    message = I18n.t("slack_notifications.#{event}.message.primary", applicant: candidate_name, providers: providers.to_sentence, count: providers.count)
     message << " #{candidate_name} previously #{other_applications_outcome}." if other_applications_outcome.present?
 
     url = StateChangeNotifier.helpers.support_interface_application_form_url(application_choice.application_form)
@@ -86,12 +89,23 @@ private
   def providers_for(event, applications)
     return [] if event == :recruited
 
-    applications.select(&"#{event}?".to_sym).map(&:provider).map(&:name)
+    applications[event].map(&:provider).map(&:name)
   end
 
   def text_for(applications, event)
     providers = providers_for(event, applications)
+    return if providers.none?
 
-    return I18n.t("slack_notifications.#{event}.message.other", providers: providers.to_sentence) if providers.any?
+    I18n.t("slack_notifications.#{event}.message.other_applications", providers: providers.to_sentence, count: providers.count)
+  end
+
+  def group_by_status(applications)
+    applications.inject(APPLICATION_OUTCOME_EVENTS.index_with { |_| [] }) do |grouped, application|
+      status = :rejected_by_default if application.rejected? && application.rejected_by_default?
+      status = :declined_by_default if application.declined? && application.declined_by_default?
+
+      grouped[status || application.status.to_sym] << application
+      grouped
+    end
   end
 end
