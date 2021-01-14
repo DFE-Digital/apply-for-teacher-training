@@ -109,7 +109,8 @@ GEM
       ruby-enum (~> 0.5)
     concurrent-ruby (1.1.7)
     connection_pool (2.2.3)
-    crack (0.4.4)
+    crack (0.4.5)
+      rexml
     crass (1.0.6)
     db-query-matchers (0.10.0)
       activesupport (>= 4.0, < 7)
@@ -511,7 +512,7 @@ GEM
     webfinger (1.1.0)
       activesupport
       httpclient (>= 2.4)
-    webmock (3.11.0)
+    webmock (3.11.1)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
