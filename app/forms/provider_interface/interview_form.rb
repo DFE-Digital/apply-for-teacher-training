@@ -2,7 +2,7 @@ module ProviderInterface
   class InterviewForm
     include ActiveModel::Model
 
-    attr_accessor :day, :month, :year, :time, :location, :additional_details, :application_choice
+    attr_accessor :day, :month, :year, :time, :location, :additional_details, :application_choice, :provider_id, :current_provider_user
 
     validates :application_choice, presence: true
     validate :date_is_valid
@@ -28,8 +28,28 @@ module ProviderInterface
       errors[:time] << 'Enter a date and time in the future' if date_and_time < Time.zone.now
     end
 
+    def provider
+      if make_decisions_permission_orgs.count > 1
+        @current_provider_user.providers.find(provider_id)
+      else
+        make_decisions_permission_orgs.first
+      end
+    end
+
     def save
       valid?
+    end
+
+    def make_decisions_permission_orgs
+      @_make_decisions_permission_orgs ||= begin
+        application_choice_providers = [application_choice.provider, application_choice.accredited_provider].compact
+        current_user_providers = current_provider_user
+          .provider_permissions.includes([:provider])
+          .make_decisions
+        .map(&:provider)
+
+        current_user_providers.select { |provider| application_choice_providers.include?(provider)  }
+      end
     end
   end
 end

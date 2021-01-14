@@ -9,7 +9,7 @@ module ProviderInterface
     def rows
       date_row = build_row('Date', @interview_form.date_and_time.to_s(:govuk_date))
       time_row = build_row('Time', @interview_form.date_and_time.to_s(:govuk_time))
-      organisation_row = build_row('Organisation carrying out interview', "@interview_form.provider.name")
+      organisation_row = build_row('Organisation carrying out interview', @interview_form.provider.name)
       location_row = build_row('Address or online meeting details', @interview_form.location)
       details_row = build_row('Additional details', @interview_form.additional_details)
 

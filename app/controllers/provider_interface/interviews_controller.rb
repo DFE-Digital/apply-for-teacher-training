@@ -14,7 +14,7 @@ module ProviderInterface
     end
 
     def new
-      @interview_form = InterviewForm.new
+      @interview_form = InterviewForm.new({application_choice: @application_choice, current_provider_user: current_provider_user})
     end
 
     def check
@@ -68,26 +68,13 @@ module ProviderInterface
       end
     end
 
-    def make_decisions_permission_orgs
-      @_make_decisions_permission_orgs ||= begin
-        application_choice_providers = [@application_choice.provider, @application_choice.accredited_provider].compact
-        current_user_providers = current_provider_user
-          .provider_permissions.includes([:provider])
-          .make_decisions
-        .map(&:provider)
-
-        current_user_providers.select { |provider| application_choice_providers.include?(provider)  }
-      end
-    end
-    helper_method :make_decisions_permission_orgs
-
     def interview_params
       params
         .require(:provider_interface_interview_form)
-        .permit(:'date(3i)', :'date(2i)', :'date(1i)', :time, :location, :additional_details)
+        .permit(:'date(3i)', :'date(2i)', :'date(1i)', :time, :location, :additional_details, :provider_id)
         .transform_keys { |key| date_field_to_attribute(key) }
         .transform_values(&:strip)
-        .merge(application_choice: @application_choice)
+        .merge(application_choice: @application_choice, current_provider_user: current_provider_user)
     end
 
     def date_field_to_attribute(key)
