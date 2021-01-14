@@ -1,0 +1,40 @@
+en:
+  application_form:
+    personal_statement:
+      becoming_a_teacher:
+        change_action: why do you want to be a teacher?
+        label: Why do you want to be a teacher?
+        complete_form_button: Continue
+      subject_knowledge:
+        key: Your knowledge about the subject you want to teach
+        change_action: evidence of subject knowledge
+        label: Tell us what you know about the subject you want to teach
+        complete_form_button: Continue
+      interview_preferences:
+        key: Interview needs
+        change_action: interview needs
+        label: Do you have any interview needs?
+        complete_form_button: Save and continue
+        yes_label: What are your interview needs?
+        no_value: None
+
+  activemodel:
+    errors:
+      models:
+        candidate_interface/becoming_a_teacher_form:
+          attributes:
+            becoming_a_teacher:
+              blank: Tell us why you want to be a teacher
+              too_many_words: Tell us why you want to be a teacher must be %{count} words or fewer
+        candidate_interface/subject_knowledge_form:
+          attributes:
+            subject_knowledge:
+              blank: Enter what you know about the subject you want to teach
+              too_many_words: Your subject knowledge explanation must be %{count} words or fewer
+        candidate_interface/interview_preferences_form:
+          attributes:
+            any_preferences:
+              blank: Choose if you have any interview needs
+            interview_preferences:
+              blank: Enter your interview needs
+              too_many_words: Your interview needs must be %{count} words or fewer
