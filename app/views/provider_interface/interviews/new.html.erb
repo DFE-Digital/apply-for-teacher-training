@@ -1,1 +1,34 @@
-<h1> New interview page </h1>
+<% content_for :browser_title, title_with_error_prefix("Set up an interview", nil) %>
+<% content_for :before_content, govuk_back_link_to %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @new_interview_form,
+          url: provider_interface_application_choice_check_interview_path(@application_choice.id),
+          method: :get do |f| %>
+
+      <%= f.govuk_error_summary %>
+
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <h1 class="govuk-heading-l">Set up an interview</h1>
+
+      <%= f.govuk_date_field :date, legend: { text: 'Date', size: 'm' }, hint: { text: 'For example, 31 3 2020' } %>
+
+      <%= f.govuk_text_field :time, width: 5, label: { text: 'Time', size: 'm' }, hint: { text: 'For example, 9am or 2:30pm - enter 12pm for midday' } %>
+
+      <% if make_decisions_permission_orgs.count > 1 %>
+        <%= f.govuk_radio_buttons_fieldset :provider_ids, legend: { text: 'Organisation carrying out interview', size: 'm' } do %>
+          <% make_decisions_permission_orgs.each do |provider| %>
+            <%= f.govuk_radio_button :provider_ids, provider.id, label: { text: provider.name } %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_text_area :location, label: { text: 'Address or online meeting details', size: 'm' } %>
+
+      <%= f.govuk_text_area :additional_details, label: { text: 'Additional details (optional)', size: 'm' } %>
+
+      <%= f.govuk_submit 'Continue' %>
+    <% end %>
+  </div>
+</div>
