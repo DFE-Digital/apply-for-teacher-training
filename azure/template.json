@@ -688,10 +688,6 @@
                                 "value": "0"
                             },
                             {
-                                "name": "WEBSITE_HEALTHCHECK_MAXPINGFAILURES",
-                                "value": "5" //At 1 ping per minute
-                            },
-                            {
                                 "name": "RAILS_SERVE_STATIC_FILES",
                                 "value": "[parameters('railsServeStaticFiles')]"
                             },
