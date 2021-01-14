@@ -233,10 +233,6 @@ en:
         course_option: The new course
     errors:
       models:
-        candidate_interface/create_account_or_sign_in_form:
-          attributes:
-            email:
-              blank: Enter your email address
         provider_interface/pick_response_form:
           attributes:
             decision:
@@ -330,10 +326,6 @@ en:
               blank: could not be found
               not_open_on_apply: is not open for applications via the Apply service
               not_in_current_cycle: does not belong to the current cycle
-        candidate_interface/reference/referee_email_address_form:
-          attributes:
-            email_address:
-              own: Enter an email address that’s not your own
         provider_interface/rejected_by_default_feedback_form:
           attributes:
             rejection_reason:

@@ -105,6 +105,7 @@ en:
             email_address:
               blank: Enter your referee’s email address
               duplicate: Please give a different email address for each referee
+              own: Enter an email address that’s not your own
         candidate_interface/reference/referee_relationship_form:
           attributes:
             relationship:

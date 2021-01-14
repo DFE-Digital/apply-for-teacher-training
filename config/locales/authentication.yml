@@ -37,3 +37,7 @@ en:
               dfe_signup_only: Only DfE users can sign up in this test environment
             accept_ts_and_cs:
               blank: You must agree to the terms of use
+        candidate_interface/create_account_or_sign_in_form:
+          attributes:
+            email:
+              blank: Enter your email address
