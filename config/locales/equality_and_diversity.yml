@@ -76,3 +76,29 @@ en:
       title_other: Which of the following best describes your ethnicity?
       opt_out:
         label: Prefer not to say
+
+  activemodel:
+    errors:
+      models:
+        candidate_interface/equality_and_diversity/sex_form:
+          attributes:
+            sex:
+              blank: Choose your sex
+        candidate_interface/equality_and_diversity/disability_status_form:
+          attributes:
+            disability_status:
+              blank: Choose if you have a disability
+        candidate_interface/equality_and_diversity/disabilities_form:
+          attributes:
+            disabilities:
+              blank: Select all disabilities that apply to you
+            other_disability:
+              blank: Describe your disability
+        candidate_interface/equality_and_diversity/ethnic_background_form:
+          attributes:
+            ethnic_background:
+              blank: Choose your ethnic background
+        candidate_interface/equality_and_diversity/ethnic_group_form:
+          attributes:
+            ethnic_group:
+              blank: Choose your ethnic group
