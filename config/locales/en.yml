@@ -259,10 +259,6 @@ en:
               blank: Please specify if the candidate has met the conditions of the offer
         provider_interface/interview_form:
           attributes:
-            date:
-              blank: Enter a date
-            time:
-              blank: Enter a time
             location:
               blank: Enter an address or online meeting details
         provider_interface/new_note_form:

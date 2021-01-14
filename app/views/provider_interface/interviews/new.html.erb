@@ -4,21 +4,21 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @interview_form,
-          url: provider_interface_application_choice_check_interview_path(@application_choice.id),
+          url: provider_interface_application_choice_check_interview_path(@interview_form.application_choice.id),
           method: :get do |f| %>
 
       <%= f.govuk_error_summary %>
 
-      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <span class="govuk-caption-l"><%= @interview_form.application_choice.application_form.full_name %></span>
       <h1 class="govuk-heading-l">Set up an interview</h1>
 
       <%= f.govuk_date_field :date, legend: { text: 'Date', size: 'm' }, hint: { text: 'For example, 31 3 2020' } %>
 
       <%= f.govuk_text_field :time, width: 5, label: { text: 'Time', size: 'm' }, hint: { text: 'For example, 9am or 2:30pm - enter 12pm for midday' } %>
 
-      <% if @interview_form.make_decisions_permission_orgs.count > 1 %>
+      <% if @interview_form.user_can_make_decisions_for_multiple_providers? %>
         <%= f.govuk_radio_buttons_fieldset :provider_id, legend: { text: 'Organisation carrying out interview', size: 'm' } do %>
-          <% @interview_form.make_decisions_permission_orgs.each do |provider| %>
+          <% @interview_form.providers_that_user_has_make_decisions_for.each do |provider| %>
             <%= f.govuk_radio_button :provider_id, provider.id, label: { text: provider.name } %>
           <% end %>
         <% end %>

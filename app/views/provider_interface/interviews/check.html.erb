@@ -16,6 +16,14 @@
 
       <%= render ProviderInterface::InterviewDetailsComponent.new(@interview_form) %>
 
+      <%= f.hidden_field 'date(1i)', value: @interview_form.year %>
+      <%= f.hidden_field 'date(2i)', value: @interview_form.month %>
+      <%= f.hidden_field 'date(3i)', value: @interview_form.day %>
+      <%= f.hidden_field :time %>
+      <%= f.hidden_field :location %>
+      <%= f.hidden_field :additional_details %>
+      <%= f.hidden_field :provider_id %>
+
       <%= f.govuk_submit 'Send interview details' %>
 
       <p class="govuk-body">

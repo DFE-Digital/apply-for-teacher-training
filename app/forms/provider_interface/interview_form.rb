@@ -4,35 +4,46 @@ module ProviderInterface
 
     attr_accessor :day, :month, :year, :time, :location, :additional_details, :application_choice, :provider_id, :current_provider_user
 
-    validates :application_choice, presence: true
-    validate :date_is_valid
-    validate :time_is_valid
-    validate :date_and_time_in_future, if: -> form { form.date_is_valid && form.time_is_valid }
+    validates :application_choice, :current_provider_user, presence: true
+    validate :date_is_valid?
+    validate :date_and_time_in_future, if: -> form { form.date_is_valid? && form.time_is_valid? }
+    validate :time_is_valid?
     validates :location, presence: true
 
     def date_and_time
       Time.zone.local(year, month, day, time)
     end
 
-    def date_is_valid
+    def date_is_valid?
       date_args = [year, month, day].map(&:to_i)
-      errors.add(:date, :blank) unless Date.valid_date?(*date_args)
+      if Date.valid_date?(*date_args)
+        true
+      else
+        errors[:date] << 'Enter a valid date' unless Date.valid_date?(*date_args)
+        false
+      end
     end
 
-    def time_is_valid
-      # TODO: Validation to check this is valid!
-      errors.add(:time, "Enter a valid time") unless (time =~ /^(1[0-2]|0?[1-9])([:\.\s]?[0-5][0-9])?([AaPp][Mm])$/)
+    def time_is_valid?
+      # TODO: Specs to check this is valid!
+      if time =~ /^(1[0-2]|0?[1-9])([:\.\s]?[0-5][0-9])?([AaPp][Mm])$/
+        true
+      else
+        errors[:time] << "Enter a valid time"
+        false
+      end
     end
 
     def date_and_time_in_future
-      errors[:time] << 'Enter a date and time in the future' if date_and_time < Time.zone.now
+      # TODO: Specs to ensure this is working
+      errors[:date] << 'Enter a date in the future' if date_and_time < Time.zone.now
     end
 
     def provider
-      if make_decisions_permission_orgs.count > 1
-        @current_provider_user.providers.find(provider_id)
+      if user_can_make_decisions_for_multiple_providers?
+        current_provider_user.providers.find(provider_id)
       else
-        make_decisions_permission_orgs.first
+        providers_that_user_has_make_decisions_for.first
       end
     end
 
@@ -40,13 +51,19 @@ module ProviderInterface
       valid?
     end
 
-    def make_decisions_permission_orgs
-      @_make_decisions_permission_orgs ||= begin
+    def user_can_make_decisions_for_multiple_providers?
+      providers_that_user_has_make_decisions_for.count > 1
+    end
+
+    def providers_that_user_has_make_decisions_for
+      @_providers_that_user_has_make_decisions_for ||= begin
         application_choice_providers = [application_choice.provider, application_choice.accredited_provider].compact
+        # TODO: Need to check permissions here so that user deffo has the rights
         current_user_providers = current_provider_user
-          .provider_permissions.includes([:provider])
+          .provider_permissions
+          .includes([:provider])
           .make_decisions
-        .map(&:provider)
+          .map(&:provider)
 
         current_user_providers.select { |provider| application_choice_providers.include?(provider)  }
       end

@@ -14,7 +14,7 @@ module ProviderInterface
     end
 
     def new
-      @interview_form = InterviewForm.new({application_choice: @application_choice, current_provider_user: current_provider_user})
+      @interview_form = InterviewForm.new(interview_form_context_params)
     end
 
     def check
@@ -25,9 +25,11 @@ module ProviderInterface
 
 
     def create
-      @interview_form = InterviewForm(interview_params)
-      @interview_form.save
+      @interview_form = InterviewForm.new(interview_form_context_params)
+      @interview_form.assign_attributes(interview_params)
+      render :check unless @interview_form.save
 
+      flash[:success] = 'Interview set up'
       redirect_to provider_interface_application_choice_path(@application_choice)
     end
 
@@ -68,13 +70,20 @@ module ProviderInterface
       end
     end
 
+    def interview_form_context_params
+      {
+        application_choice: @application_choice,
+        current_provider_user: current_provider_user,
+      }
+    end
+
     def interview_params
       params
         .require(:provider_interface_interview_form)
         .permit(:'date(3i)', :'date(2i)', :'date(1i)', :time, :location, :additional_details, :provider_id)
         .transform_keys { |key| date_field_to_attribute(key) }
         .transform_values(&:strip)
-        .merge(application_choice: @application_choice, current_provider_user: current_provider_user)
+        .merge(interview_form_context_params)
     end
 
     def date_field_to_attribute(key)
