@@ -14,11 +14,15 @@
   </div>
 <% end %>
 
-<h1 class="govuk-heading-xl">
-  <%= t('page_titles.references') %>
-</h1>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl">
+      <%= t('page_titles.references') %>
+    </h1>
 
-<%= render CandidateInterface::AddReferenceComponent.new(@application_form) %>
+    <%= render CandidateInterface::AddReferenceComponent.new(@application_form) %>
+  </div>
+</div>
 
 <% if @references_given.present? %>
   <div id="references_given">
