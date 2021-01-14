@@ -15,16 +15,13 @@
     <div class="app-timeline__log-card">
       <div class="app-timeline__log-card__note">
         <p class="app-timeline__log-card__note--title">
-          <%= course_option.course.name_and_code %>
-          at
-          <%= course_option.site.name %>
+          <%= event_note_title %>
         </p>
-        <p class="app-timeline__log-card__note--content govuk-!-margin-top-0">
-          <%= course_option.provider.name %>
-          <% if course_option.course.accredited_provider.present? %>
-            – ratified by <%= course_option.course.accredited_provider.name %>
-          <% end %>
-        </p>
+        <% if event_note_content.present? %>
+          <p class="app-timeline__log-card__note--content govuk-!-margin-top-0">
+            <%= event_note_content %>
+          </p>
+        <% end %>
         <% if link[:url].present? %>
           <p class="app-timeline__event_link"><a class="govuk-link" href="<%= link[:url] %>"><%= link[:text] %></a></p>
         <% end %>
