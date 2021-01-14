@@ -16,11 +16,11 @@ module ProviderInterface
       [date_row, time_row, organisation_row, location_row, details_row]
     end
 
-    def build_row(key , value)
+    def build_row(key, value)
       {
         key: key,
         value: value,
-        change_path: provider_interface_application_choice_new_interview_path(@interview_form.application_choice),
+        change_path: new_provider_interface_application_choice_interviews_path(@interview_form.application_choice),
       }
     end
   end

@@ -4,7 +4,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @interview_form,
-          url: provider_interface_application_choice_check_interview_path(@interview_form.application_choice.id),
+          url: new_check_provider_interface_application_choice_interviews_path(@interview_form.application_choice.id),
           method: :get do |f| %>
 
       <%= f.govuk_error_summary %>

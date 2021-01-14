@@ -629,17 +629,19 @@ Rails.application.routes.draw do
       get '/rejection-reasons/check' => 'reasons_for_rejection#check', as: :reasons_for_rejection_check
       post '/rejection-reasons/commit' => 'reasons_for_rejection#commit', as: :reasons_for_rejection_commit
 
-      get '/interviews/new' => 'interviews#new', as: :application_choice_new_interview
-      post '/interviews/new' => 'interviews#create', as: :application_choice_create_interview
-      get '/interviews/new/check' => 'interviews#check', as: :application_choice_check_interview
-
-
       resources :notes, only: %i[index show new create], as: :application_choice_notes
 
-      resources :interviews, only: %i[index new], as: :application_choice_interviews do
-        get :cancel, on: :member
-        get '/cancel/review/', on: :member, to: 'interviews#review_cancel'
-        post '/cancel/confirm/', on: :member, to: 'interviews#confirm_cancel'
+      resources :interviews, only: %i[new index], as: :application_choice_interviews do
+        collection do
+          get '/new/check', to: 'interviews#check'
+          post '/new', to: 'interviews#create'
+        end
+
+        member do
+          get :cancel
+          get '/cancel/review/', to: 'interviews#review_cancel'
+          post '/cancel/confirm/', to: 'interviews#confirm_cancel'
+        end
       end
     end
 

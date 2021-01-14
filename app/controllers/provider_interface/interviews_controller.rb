@@ -23,10 +23,10 @@ module ProviderInterface
       render :new unless @interview_form.valid?
     end
 
-
     def create
       @interview_form = InterviewForm.new(interview_form_context_params)
       @interview_form.assign_attributes(interview_params)
+
       render :check unless @interview_form.save
 
       flash[:success] = 'Interview set up'

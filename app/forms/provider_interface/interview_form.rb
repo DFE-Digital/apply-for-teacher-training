@@ -6,7 +6,7 @@ module ProviderInterface
 
     validates :application_choice, :current_provider_user, presence: true
     validate :date_is_valid?
-    validate :date_and_time_in_future, if: -> form { form.date_is_valid? && form.time_is_valid? }
+    validate :date_and_time_in_future, if: ->(form) { form.date_is_valid? && form.time_is_valid? }
     validate :time_is_valid?
     validates :location, presence: true
 
@@ -29,7 +29,7 @@ module ProviderInterface
       if time =~ /^(1[0-2]|0?[1-9])([:\.\s]?[0-5][0-9])?([AaPp][Mm])$/
         true
       else
-        errors[:time] << "Enter a valid time"
+        errors[:time] << 'Enter a valid time'
         false
       end
     end
@@ -48,7 +48,16 @@ module ProviderInterface
     end
 
     def save
-      valid?
+      return false unless valid?
+
+      CreateInterview.new(
+        actor: current_provider_user,
+        application_choice: application_choice,
+        provider: provider,
+        date_and_time: date_and_time,
+        location: location,
+        additional_details: additional_details,
+      ).save!
     end
 
     def user_can_make_decisions_for_multiple_providers?
@@ -65,7 +74,7 @@ module ProviderInterface
           .make_decisions
           .map(&:provider)
 
-        current_user_providers.select { |provider| application_choice_providers.include?(provider)  }
+        current_user_providers.select { |provider| application_choice_providers.include?(provider) }
       end
     end
   end
