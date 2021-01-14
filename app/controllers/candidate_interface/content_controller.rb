@@ -1,6 +1,8 @@
 module CandidateInterface
-  class ContentController < ApplicationController
+  class ContentController < CandidateInterfaceController
     include ContentHelper
+    skip_before_action :authenticate_candidate!
+    skip_before_action :add_identity_to_log
 
     def accessibility
       render_content_page :accessibility
@@ -10,8 +12,14 @@ module CandidateInterface
       render_content_page :privacy_policy
     end
 
-    def cookies_candidate
-      render_content_page :cookies_candidate
+    def cookies_page
+      @application = :apply
+      @cookie_ga_code = ENV.fetch('GOOGLE_ANALYTICS_APPLY', '').gsub(/-/, '_')
+      @cookie_preferences = CookiePreferencesForm.new(consent: cookies['consented-to-apply-cookies'])
+      @cookie_settings_path = candidate_interface_cookie_preferences_path
+      session[:previous_referer] = request.referer
+
+      render 'content/cookies'
     end
 
     def terms_candidate

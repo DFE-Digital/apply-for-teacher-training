@@ -16,6 +16,7 @@ module ProviderInterface
     before_action :authenticate_provider_user!
     before_action :add_identity_to_log
     before_action :redirect_if_setup_required
+    before_action :check_cookie_preferences
 
     layout 'application'
 
@@ -29,6 +30,10 @@ module ProviderInterface
 
     def current_provider_user
       !@current_provider_user.nil? ? @current_provider_user : @current_provider_user = (ProviderUser.load_from_session(session) || false)
+    end
+
+    def check_cookie_preferences
+      @google_analytics_id = ENV.fetch('GOOGLE_ANALYTICS_MANAGE', '') if cookies['consented-to-manage-cookies'].eql?('yes')
     end
 
     alias_method :audit_user, :current_provider_user

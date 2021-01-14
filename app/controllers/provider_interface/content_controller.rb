@@ -15,8 +15,14 @@ module ProviderInterface
       render_content_page :privacy_policy
     end
 
-    def cookies_provider
-      render_content_page :cookies_provider
+    def cookies_page
+      @application = :manage
+      @cookie_ga_code = ENV.fetch('GOOGLE_ANALYTICS_MANAGE', '').gsub(/-/, '_')
+      @cookie_preferences = CookiePreferencesForm.new(consent: cookies['consented-to-manage-cookies'])
+      @cookie_settings_path = provider_interface_cookie_preferences_path
+      session[:previous_referer] = request.referer
+
+      render 'content/cookies'
     end
 
     def service_guidance_provider

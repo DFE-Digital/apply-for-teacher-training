@@ -6,11 +6,15 @@ RSpec.feature 'Provider content' do
     when_i_click_on_accessibility
     then_i_can_see_the_accessibility_statement
 
-    when_i_click_on_the_cookie_policy
-    then_i_can_see_the_cookie_policy
-
     when_i_click_on_complaints
     then_i_can_see_the_complaints_page
+    and_i_can_see_the_cookie_banner
+
+    when_i_click_on_the_cookies_page
+    and_i_can_no_longer_see_the_cookie_banner
+    then_i_can_see_the_cookies_page
+    and_i_can_opt_in_to_tracking_website_usage
+    and_i_can_go_back_to_the_page_i_was_looking_at_before
 
     when_i_click_on_the_privacy_policy
     then_i_can_see_the_privacy_policy
@@ -31,12 +35,30 @@ RSpec.feature 'Provider content' do
     expect(page).to have_content(t('page_titles.accessibility'))
   end
 
-  def when_i_click_on_the_cookie_policy
+  def and_i_can_see_the_cookie_banner
+    expect(page).to have_content('We use cookies to collect information about how you use ‘Manage teacher training applications’')
+  end
+
+  def when_i_click_on_the_cookies_page
     within('.govuk-footer') { click_link t('layout.support_links.cookies') }
   end
 
-  def then_i_can_see_the_cookie_policy
+  def and_i_can_no_longer_see_the_cookie_banner
+    expect(page).not_to have_content('We use cookies to collect information about how you use ‘Manage teacher training applications’')
+  end
+
+  def then_i_can_see_the_cookies_page
     expect(page).to have_content(t('page_titles.cookies_provider'))
+  end
+
+  def and_i_can_opt_in_to_tracking_website_usage
+    choose 'Yes, opt-in to Google Analytics cookies'
+    click_on 'Save preferences'
+    expect(page).to have_content('Your cookie preferences have been updated')
+  end
+
+  def and_i_can_go_back_to_the_page_i_was_looking_at_before
+    expect(page).to have_link('Go back to the page you were looking at', href: /#{provider_interface_complaints_path}/)
   end
 
   def when_i_click_on_complaints

@@ -21,6 +21,11 @@
         <h2 class="govuk-heading-m" id="success-message">
           <%= flash[:success] %>
         </h2>
+        <% if flash[:link] %>
+          <p class="govuk-link">
+            <%= link_to flash[:link]['text'], flash[:link]['url'], class: 'govuk-link' %>
+          </p>
+        <% end %>
       </div>
     </div>
   <% end %>

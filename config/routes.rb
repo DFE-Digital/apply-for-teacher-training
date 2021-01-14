@@ -18,11 +18,13 @@ Rails.application.routes.draw do
     get '/', to: redirect(GOVUK_APPLY_START_PAGE_URL)
 
     get '/accessibility', to: 'content#accessibility'
-    get '/cookies', to: 'content#cookies_candidate', as: :cookies
+    get '/cookies', to: 'content#cookies_page', as: :cookies
     get '/make-a-complaint', to: 'content#complaints', as: :complaints
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
     get '/providers', to: 'content#providers', as: :providers
     get '/terms-of-use', to: 'content#terms_candidate', as: :terms
+
+    resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
 
     get '/account', to: 'start_page#create_account_or_sign_in', as: :create_account_or_sign_in
     post '/account', to: 'start_page#create_account_or_sign_in_handler'
@@ -553,10 +555,12 @@ Rails.application.routes.draw do
 
     get '/accessibility', to: 'content#accessibility'
     get '/privacy-policy', to: 'content#privacy_policy', as: :privacy_policy
-    get '/cookies', to: 'content#cookies_provider', as: :cookies
+    get '/cookies', to: 'content#cookies_page', as: :cookies
     get '/make-a-complaint', to: 'content#complaints', as: :complaints
     get '/service-guidance', to: 'content#service_guidance_provider', as: :service_guidance
     get '/covid-19-guidance', to: redirect('/')
+
+    resources :cookie_preferences, only: 'create', path: 'cookie-preferences'
 
     get '/getting-ready-for-next-cycle', to: redirect('/provider/guidance-for-the-new-cycle')
     get '/guidance-for-the-new-cycle', to: 'content#guidance_for_the_new_cycle', as: :guidance_for_the_new_cycle

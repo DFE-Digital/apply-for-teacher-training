@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="govuk-template">
   <head>
+    <%= render 'shared/analytics' if @google_analytics_id.present? %>
     <meta charset="utf-8">
     <title><%= try(:browser_title) %></title>
     <%= csrf_meta_tags %>
@@ -39,6 +40,19 @@
     <script>
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
     </script>
+
+    <% unless current_page?(candidate_interface_cookies_path) || current_page?(provider_interface_cookies_path) %>
+      <% if try(:current_namespace).eql?('candidate_interface') && cookies['consented-to-apply-cookies'].blank? %>
+        <%= render 'shared/cookies_banner',
+                   cookies_path: candidate_interface_cookies_path,
+                   cookie_preferences_path: candidate_interface_cookie_preferences_path(consent: 'yes') %>
+
+      <% elsif try(:current_namespace).eql?('provider_interface') && cookies['consented-to-manage-cookies'].blank? %>
+        <%= render 'shared/cookies_banner',
+                   cookies_path: provider_interface_cookies_path,
+                   cookie_preferences_path: provider_interface_cookie_preferences_path(consent: 'yes') %>
+      <% end %>
+    <% end %>
 
     <a href="#main-content" class="govuk-skip-link">Skip to main content</a>
 
