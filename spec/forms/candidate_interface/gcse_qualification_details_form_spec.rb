@@ -118,6 +118,24 @@ RSpec.describe CandidateInterface::GcseQualificationDetailsForm, type: :model do
           expect(form.errors[:grade]).to include('Enter a real grade')
         end
       end
+
+      it 'returns validation error if award year is after 1988' do
+        form.award_year = '2012'
+        form.validate(:award_year)
+
+        expect(form.errors[:award_year]).to include('Enter a year before 1989 - GSCEs replaced O levels in 1988')
+      end
+
+      it 'returns no error if award year is valid' do
+        valid_years = (1951..1988)
+
+        valid_years.each do |year|
+          form.award_year = year
+          form.validate(:award_year)
+
+          expect(form.errors[:award_year]).to be_empty
+        end
+      end
     end
 
     context 'when qualification type is Scottish National 5' do

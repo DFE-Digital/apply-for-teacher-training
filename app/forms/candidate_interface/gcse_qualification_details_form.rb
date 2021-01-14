@@ -57,13 +57,21 @@ module CandidateInterface
       errors.add(:award_year, :in_future, date: date_limit) if award_year.to_i >= date_limit
     end
 
+    def gce_award_year_is_not_after_1988
+      errors.add(:award_year, :gce_o_level_in_future, date: 1989) if award_year.to_i > 1988
+    end
+
     def award_year_is_invalid
       errors.add(:award_year, :invalid)
     end
 
     def award_year_is_a_valid_date
       if valid_year?(award_year)
-        award_year_is_not_in_the_future
+        if qualification.present? && qualification.qualification_type == 'gce_o_level'
+          gce_award_year_is_not_after_1988
+        else
+          award_year_is_not_in_the_future
+        end
       else
         award_year_is_invalid
       end
