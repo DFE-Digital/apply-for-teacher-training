@@ -68,10 +68,6 @@ en:
               blank: Enter year the assessment was done
               invalid: Enter a real year
               in_the_future: Assessment year must be this year or a previous year
-        support_interface/application_comment_form:
-          attributes:
-            comment:
-              blank: Enter a comment about this application
         receive_reference:
           attributes:
             feedback:
