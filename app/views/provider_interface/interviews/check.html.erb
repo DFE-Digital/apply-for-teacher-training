@@ -1,0 +1,26 @@
+<% content_for :browser_title, 'Set up an Interview'%>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_reject_path(@application_choice.id)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <%= t('page_titles.provider.confirm_reject') %>
+    </h1>
+    <%= form_with model: @interview_form, url: provider_interface_application_choice_create_interview_path(@application_choice.id), method: :post do |f| %>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <%= f.govuk_error_summary %>
+        </div>
+      </div>
+
+      <%= render ProviderInterface::InterviewDetailsComponent.new(@interview_form) %>
+
+      <%= f.govuk_submit 'Send interview details' %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      </p>
+    <% end %>
+  </div>
+</div>

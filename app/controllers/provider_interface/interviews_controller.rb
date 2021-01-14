@@ -14,19 +14,19 @@ module ProviderInterface
     end
 
     def new
-      @new_interview_form = InterviewForm.new
+      @interview_form = InterviewForm.new
     end
 
     def check
-      @new_interview_form = InterviewForm.new(new_interview_params)
+      @interview_form = InterviewForm.new(interview_params)
 
-      render :new unless @new_interview_form.valid?
+      render :new unless @interview_form.valid?
     end
 
 
     def create
-      @new_interview_form = InterviewForm(new_interview_params)
-      @new_interview_form.save
+      @interview_form = InterviewForm(interview_params)
+      @interview_form.save
 
       redirect_to provider_interface_application_choice_path(@application_choice)
     end
@@ -81,9 +81,9 @@ module ProviderInterface
     end
     helper_method :make_decisions_permission_orgs
 
-    def new_interview_params
+    def interview_params
       params
-        .require(:provider_interface_new_interview_form)
+        .require(:provider_interface_interview_form)
         .permit(:'date(3i)', :'date(2i)', :'date(1i)', :time, :location, :additional_details)
         .transform_keys { |key| date_field_to_attribute(key) }
         .transform_values(&:strip)
