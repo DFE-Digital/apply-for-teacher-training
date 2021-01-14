@@ -19,7 +19,8 @@ class ActivityLogEvent
   end
 
   def candidate_full_name
-    audit.auditable.try(:application_form)&.full_name
+    audit.auditable.try(:application_form)&.full_name ||
+      audit.associated.try(:application_form)&.full_name
   end
 
   def application_status_at_event
