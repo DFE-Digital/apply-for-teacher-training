@@ -756,17 +756,14 @@ FactoryBot.define do
 
   factory :interview do
     application_choice
-    provider
 
     date_and_time { 7.business_days.from_now }
     location { [Faker::Address.full_address, 'Link to video conference'].sample }
     additional_details { [nil, 'Use staff entrance', 'Ask for John at the reception'].sample }
 
     after(:build) do |interview|
-      if interview.application_choice.present?
-        interview.application_choice.status = 'interviewing'
-        interview.provider = interview.application_choice.offered_course.provider
-      end
+      interview.application_choice.status = 'interviewing'
+      interview.provider ||= interview.application_choice.offered_course.provider
     end
 
     trait :future_date_and_time do

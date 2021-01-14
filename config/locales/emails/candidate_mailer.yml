@@ -99,3 +99,5 @@ en:
         subject: Duplicate application automatically withdrawn
       resolved:
         subject: Duplicate application withdrawn
+    new_interview:
+      subject: Interview arranged - %{provider_name}

@@ -242,4 +242,37 @@ RSpec.describe CandidateMailer, type: :mailer do
       'course start' => 'September 2021',
     )
   end
+
+  context 'Interview emails' do
+    let(:provider)  { create(:provider, name: 'Hogwards') }
+    let(:interview) do
+      create(:interview,
+             date_and_time: Time.zone.local(2021, 1, 15, 9, 30),
+             location: 'Hogwarts Castle',
+             additional_details: 'Bring your magic wand for the spells test',
+             provider: provider)
+    end
+    let(:application_choice_with_interview) { interview.application_choice }
+
+    before do
+      build_stubbed(:application_form,
+                    first_name: 'Fred',
+                    candidate: candidate,
+                    application_choices: [application_choice_with_interview])
+    end
+
+    describe '.new_interview' do
+      let(:email) { mailer.new_interview(application_choice_with_interview, interview) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Interview arranged - Hogwards',
+        'greeting' => 'Dear Fred,',
+        'details' => 'You have an interview with Hogwards',
+        'interview date and time' => '15 January 2021 at 9:30am',
+        'interview location' => 'Hogwarts Castle',
+        'additional interview details' => 'Bring your magic wand for the spells test',
+      )
+    end
+  end
 end
