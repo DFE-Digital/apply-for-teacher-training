@@ -7,7 +7,7 @@ en:
         label: Type of qualification
       qualification_types:
         gcse: GCSE
-        gce_o_level: O Level
+        gce_o_level: O level
         scottish_national_5: Scottish National 5
         other_uk: Other UK qualification
         non_uk: Non-UK qualification
@@ -24,6 +24,7 @@ en:
       award_year:
         label: Enter year
         hint_text: For example, 1996
+        gce_o_level_hint_text: For example, 1978
       naric_statement:
         label: Do you have a statement of comparability from the National Recognition Information Centre?
         review_label: Do you have a UK NARIC statement of comparability?
@@ -58,6 +59,7 @@ en:
               blank: Enter the year you gained your qualification
               invalid: Enter a real year
               in_future: Enter a year before %{date}
+              gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
             other_grade:
               blank: Enter your grade
         candidate_interface/science_gcse_grade_form:
