@@ -43,7 +43,7 @@ RSpec.describe CandidateMailer, type: :mailer do
     context 'when a candidate has one appication choice with offer' do
       it_behaves_like(
         'a mail with subject and content', :chase_candidate_decision,
-        I18n.t!('chase_candidate_decision_email.subject_singular'),
+        I18n.t!('candidate_mailer.chase_candidate_decision_email.subject_singular'),
         'heading' => 'Dear Bob',
         'days left to respond' => -> { "#{TimeLimitCalculator.new(rule: :chase_candidate_before_dbd, effective_date: Time.zone.today).call.fetch(:days)} working days" },
         'dbd date' => -> { 10.business_days.from_now.to_s(:govuk_date).strip },
@@ -59,7 +59,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
       it_behaves_like(
         'a mail with subject and content', :chase_candidate_decision,
-        I18n.t!('chase_candidate_decision_email.subject_plural'),
+        I18n.t!('candidate_mailer.chase_candidate_decision_email.subject_plural'),
         'first course with offer' => 'MS Painting',
         'first course provider with offer' => 'Wen University',
         'second course with offer' => 'Code Refactoring',
