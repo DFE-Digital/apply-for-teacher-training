@@ -90,7 +90,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def and_i_click_on_continue
-    click_button t('application_form.degree.review.button')
+    click_button t('application_form.continue')
   end
 
   def and_click_on_delete_my_additional_qualification

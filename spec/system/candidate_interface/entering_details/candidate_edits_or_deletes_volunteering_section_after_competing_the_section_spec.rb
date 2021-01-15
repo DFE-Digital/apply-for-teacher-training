@@ -76,7 +76,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def and_i_click_on_continue
-    click_button t('application_form.volunteering.review.button')
+    click_button t('application_form.continue')
   end
 
   def and_visit_my_application_page

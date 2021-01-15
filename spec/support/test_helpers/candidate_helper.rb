@@ -226,7 +226,7 @@ module CandidateHelper
     fill_in 'Graduation year', with: year_with_preceding_space
     click_button t('application_form.degree.base.button')
     check t('application_form.degree.review.completed_checkbox')
-    click_button t('application_form.degree.review.button')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_their_other_qualifications
@@ -238,13 +238,13 @@ module CandidateHelper
     choose 'No, not at the moment'
     click_button t('application_form.other_qualification.base.button')
     check t('application_form.other_qualification.review.completed_checkbox')
-    click_button t('application_form.other_qualification.review.button')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_disability_info
     choose t('application_form.training_with_a_disability.disclose_disability.yes')
     fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
-    click_button t('application_form.training_with_a_disability.complete_form_button')
+    click_button t('application_form.continue')
     check t('application_form.completed_checkbox')
     click_button t('application_form.continue')
   end
@@ -286,7 +286,7 @@ module CandidateHelper
 
     click_button t('application_form.work_history.complete_form_button')
     check t('application_form.work_history.review.completed_checkbox')
-    click_button t('application_form.work_history.review.button')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_volunteering_role
@@ -314,7 +314,7 @@ module CandidateHelper
 
     click_button t('application_form.volunteering.complete_form_button')
     check t('application_form.volunteering.review.completed_checkbox')
-    click_button t('application_form.volunteering.review.button')
+    click_button t('application_form.continue')
   end
 
   def candidate_fills_in_referee(params = {})
@@ -384,7 +384,7 @@ module CandidateHelper
 
   def candidate_fills_in_becoming_a_teacher
     fill_in t('application_form.personal_statement.becoming_a_teacher.label'), with: 'I believe I would be a first-rate teacher'
-    click_button t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
+    click_button t('application_form.continue')
     # Confirmation page
     check t('application_form.completed_checkbox')
     click_button t('application_form.continue')
@@ -392,7 +392,7 @@ module CandidateHelper
 
   def candidate_fills_in_subject_knowledge
     fill_in t('application_form.personal_statement.subject_knowledge.label'), with: 'Everything'
-    click_button t('application_form.personal_statement.subject_knowledge.complete_form_button')
+    click_button t('application_form.continue')
     # Confirmation page
     check t('application_form.completed_checkbox')
     click_button t('application_form.continue')

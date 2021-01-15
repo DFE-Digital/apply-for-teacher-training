@@ -43,7 +43,6 @@ en:
       another:
         button: Add a role
       review:
-        button: Continue
         completed_checkbox: I have completed this section
 
   activemodel:

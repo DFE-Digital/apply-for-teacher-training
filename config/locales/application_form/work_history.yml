@@ -68,7 +68,6 @@ en:
         button: Add another job
       review:
         completed_checkbox: I have completed this section
-        button: Continue
 
   activemodel:
     errors:

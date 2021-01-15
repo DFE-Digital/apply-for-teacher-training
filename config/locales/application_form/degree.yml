@@ -62,7 +62,6 @@ en:
         change_action: year
       review:
         completed_checkbox: I have completed this section
-        button: Continue
       another:
         button: Add another degree
       delete: Delete degree

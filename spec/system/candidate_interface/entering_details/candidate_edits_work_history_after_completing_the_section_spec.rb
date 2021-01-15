@@ -124,7 +124,7 @@ RSpec.feature 'Candidate deletes their work history' do
   end
 
   def and_i_click_on_continue
-    click_button t('application_form.work_history.review.button')
+    click_button t('application_form.continue')
   end
 
   def then_i_should_be_told_i_need_to_give_additional_information

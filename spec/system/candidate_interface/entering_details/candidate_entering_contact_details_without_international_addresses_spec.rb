@@ -171,7 +171,7 @@ RSpec.feature 'Entering their contact information without international_addresse
   end
 
   def and_i_submit_my_details
-    click_button t('application_form.contact_details.review.button')
+    click_button t('application_form.continue')
   end
 
   def then_i_should_see_the_form

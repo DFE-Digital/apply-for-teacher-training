@@ -284,7 +284,7 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def and_i_click_on_continue
-    click_button t('application_form.degree.review.button')
+    click_button t('application_form.continue')
   end
 
   def then_i_should_see_the_form

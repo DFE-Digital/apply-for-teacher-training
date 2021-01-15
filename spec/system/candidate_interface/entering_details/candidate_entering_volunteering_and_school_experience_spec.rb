@@ -140,7 +140,7 @@ RSpec.feature 'Entering volunteering and school experience' do
   end
 
   def when_i_click_on_continue
-    click_button t('application_form.volunteering.review.button')
+    click_button t('application_form.continue')
   end
 
   def when_i_delete_my_volunteering_role
@@ -190,7 +190,7 @@ RSpec.feature 'Entering volunteering and school experience' do
   end
 
   def and_i_click_on_continue
-    click_button t('application_form.volunteering.review.button')
+    click_button t('application_form.continue')
   end
 
   def then_i_should_see_the_form

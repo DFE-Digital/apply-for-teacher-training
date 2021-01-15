@@ -311,7 +311,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_on_continue
-    click_button t('application_form.other_qualification.review.button')
+    click_button t('application_form.continue')
   end
 
   def and_the_section_is_not_completed

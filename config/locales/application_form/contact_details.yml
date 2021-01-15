@@ -49,8 +49,6 @@ en:
       country:
         label: Which country?
         default_option: Select a country
-      review:
-        button: Continue
 
   activemodel:
     errors:

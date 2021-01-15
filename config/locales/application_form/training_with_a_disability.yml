@@ -1,7 +1,6 @@
 en:
   application_form:
     training_with_a_disability:
-      complete_form_button: Continue
       disclose_disability:
         label: Do you want to ask for help to become a teacher?
         'yes': "Yes, I want to share information about myself so my provider can take steps to support me"
@@ -12,8 +11,6 @@ en:
         label: Give any relevant information
         review_label: Relevant information
         change_action: what information you want to give
-      review:
-        button: Continue
 
   activemodel:
     errors:
