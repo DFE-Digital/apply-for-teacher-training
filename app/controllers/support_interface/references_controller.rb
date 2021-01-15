@@ -1,25 +1,44 @@
 module SupportInterface
   class ReferencesController < SupportInterfaceController
-    def cancel
-      @reference = ApplicationReference.find(params[:reference_id])
-    end
+    before_action :build_reference
+    before_action :redirect_to_application_form_path_unless_feedback_requested_and_test_environment,
+                  only: %i[impersonate_and_give impersonate_and_decline]
+
+    def cancel; end
 
     def confirm_cancel
-      reference = ApplicationReference.find(params[:reference_id])
-      reference.update!(feedback_status: 'cancelled')
+      @reference.update!(feedback_status: 'cancelled')
       flash[:success] = 'Reference was cancelled'
-      redirect_to support_interface_application_form_path(reference.application_form)
+      redirect_to support_interface_application_form_path(@reference.application_form)
     end
 
-    def reinstate
+    def reinstate; end
+
+    def confirm_reinstate
+      @reference.update!(feedback_status: 'feedback_requested')
+      flash[:success] = 'Reference was reinstated'
+      redirect_to support_interface_application_form_path(@reference.application_form)
+    end
+
+    def impersonate_and_give
+      redirect_to referee_interface_reference_relationship_path(token: @reference.refresh_feedback_token!)
+    end
+
+    def impersonate_and_decline
+      redirect_to referee_interface_refuse_feedback_path(token: @reference.refresh_feedback_token!)
+    end
+
+  private
+
+    def build_reference
       @reference = ApplicationReference.find(params[:reference_id])
     end
 
-    def confirm_reinstate
-      reference = ApplicationReference.find(params[:reference_id])
-      reference.update!(feedback_status: 'feedback_requested')
-      flash[:success] = 'Reference was reinstated'
-      redirect_to support_interface_application_form_path(reference.application_form)
+    def redirect_to_application_form_path_unless_feedback_requested_and_test_environment
+      unless @reference.feedback_requested? && HostingEnvironment.test_environment?
+        redirect_to support_interface_application_form_path(reference.application_form) and
+          return
+      end
     end
   end
 end

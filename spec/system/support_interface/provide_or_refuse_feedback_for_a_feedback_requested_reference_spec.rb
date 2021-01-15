@@ -45,10 +45,6 @@ RSpec.feature 'Support user can access the RefereeInterface' do
     click_link 'decline to give a reference'
   end
 
-  def and_click_the_sign_in_button
-    click_on 'Sign in as this candidate'
-  end
-
   def then_i_see_the_refuse_feedback_page
     expect(page).to have_content "#{@application.full_name} will be able to submit the application quicker if you give a reference"
   end
