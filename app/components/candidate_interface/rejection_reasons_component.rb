@@ -56,6 +56,7 @@ module CandidateInterface
               application_choice: application_choice,
               reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
               editable: false,
+              render_link_to_find_when_rejected_on_qualifications: true,
             ),
           ),
         }

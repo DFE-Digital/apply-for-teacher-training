@@ -10,7 +10,8 @@ module CandidateInterface
       show_status: false,
       show_incomplete: false,
       missing_error: false,
-      application_choice_error: false
+      application_choice_error: false,
+      render_link_to_find_when_rejected_on_qualifications: false
     )
       @application_form = application_form
       @application_choices = @application_form.application_choices.includes(:course, :site, :provider, :offered_course_option).order(id: :asc)
@@ -20,6 +21,7 @@ module CandidateInterface
       @show_incomplete = show_incomplete
       @missing_error = missing_error
       @application_choice_error = application_choice_error
+      @render_link_to_find_when_rejected_on_qualifications = render_link_to_find_when_rejected_on_qualifications
     end
 
     def course_choice_rows(application_choice)
@@ -184,6 +186,7 @@ module CandidateInterface
               application_choice: application_choice,
               reasons_for_rejection: ReasonsForRejection.new(application_choice.structured_rejection_reasons),
               editable: false,
+              render_link_to_find_when_rejected_on_qualifications: @render_link_to_find_when_rejected_on_qualifications,
             ),
           ),
         }

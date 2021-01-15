@@ -128,7 +128,7 @@ class CandidateMailerPreview < ActionMailer::Preview
       application_form: application_form,
       course_option: course_option,
       status: :rejected,
-      structured_rejection_reasons: reasons_for_rejection,
+      structured_rejection_reasons: reasons_for_rejection_with_qualifications,
     )
     CandidateMailer.application_rejected_all_applications_rejected(application_choice)
   end
@@ -603,6 +603,14 @@ private
       quality_of_application_y_n: 'Yes',
       quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge],
       quality_of_application_personal_statement_what_to_improve: 'Do not refer to yourself in the third person',
+    }
+  end
+
+  def reasons_for_rejection_with_qualifications
+    {
+      qualifications_y_n: 'Yes',
+      qualifications_other_details: 'Bad qualifications',
+      qualifications_which_qualifications: %w[no_english_gcse other],
     }
   end
 end
