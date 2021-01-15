@@ -274,5 +274,19 @@ RSpec.describe CandidateMailer, type: :mailer do
         'additional interview details' => 'Bring your magic wand for the spells test',
       )
     end
+
+    describe '.interview_updated' do
+      let(:email) { mailer.interview_updated(application_choice_with_interview, interview) }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Interview details updated - Hogwards',
+        'greeting' => 'Dear Fred,',
+        'details' => 'Hogwards has updated the details of the interview',
+        'interview date and time' => '15 January 2021 at 9:30am',
+        'interview location' => 'Hogwarts Castle',
+        'additional interview details' => 'Bring your magic wand for the spells test',
+      )
+    end
   end
 end

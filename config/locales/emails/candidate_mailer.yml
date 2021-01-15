@@ -101,3 +101,5 @@ en:
         subject: Duplicate application withdrawn
     new_interview:
       subject: Interview arranged - %{provider_name}
+    interview_updated:
+      subject: Interview details updated - %{provider_name}

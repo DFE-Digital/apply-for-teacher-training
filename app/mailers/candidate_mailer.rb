@@ -55,6 +55,17 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def interview_updated(application_choice, interview)
+    @application_form = application_choice.application_form
+    @interview = interview
+    @provider_name = interview.provider.name
+    @course_name = application_choice.offered_option.course.name
+
+    email_for_candidate(
+      @application_form,
+      subject: I18n.t!('candidate_mailer.interview_updated.subject', provider_name: @provider_name),
+    )
+  end
   def application_rejected_all_applications_rejected(application_choice)
     @course = application_choice.course_option.course
     @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
