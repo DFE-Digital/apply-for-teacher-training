@@ -66,7 +66,7 @@ class NavigationItems
     end
 
     def for_provider_account_nav(current_provider_user, current_controller, performing_setup = false)
-      return [] if is_active_action(current_controller, 'new') || is_active_action(current_controller, 'sign_in_by_email')
+      return [] if (is_active_action(current_controller, 'new') && !is_active(current_controller, 'application_data_export')) || is_active_action(current_controller, 'sign_in_by_email')
 
       return [NavigationItem.new('Sign in', provider_interface_sign_in_path, false)] unless current_provider_user
 
