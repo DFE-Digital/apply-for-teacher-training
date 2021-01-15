@@ -26,9 +26,9 @@ module CandidateInterface
 
     def phone_number_row
       {
-        key: t('application_form.contact_information.phone_number.label'),
+        key: t('application_form.contact_details.phone_number.label'),
         value: @contact_details_form.phone_number,
-        action: t('application_form.contact_information.phone_number.change_action'),
+        action: t('application_form.contact_details.phone_number.change_action'),
         change_path: Rails.application.routes.url_helpers.candidate_interface_contact_information_edit_base_path,
       }
     end
@@ -37,9 +37,9 @@ module CandidateInterface
       change_path = Rails.application.routes.url_helpers.candidate_interface_contact_information_edit_address_type_path
 
       {
-        key: t('application_form.contact_information.full_address.label'),
+        key: t('application_form.contact_details.full_address.label'),
         value: full_address,
-        action: t('application_form.contact_information.full_address.change_action'),
+        action: t('application_form.contact_details.full_address.change_action'),
         change_path: change_path,
       }
     end

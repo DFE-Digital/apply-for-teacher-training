@@ -79,8 +79,8 @@ RSpec.feature 'Editing address' do
 
   def when_i_complete_the_details_form
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
-    fill_in t('application_form.contact_information.address_line3.uk.label'), with: 'London'
-    fill_in t('application_form.contact_information.postcode.uk.label'), with: 'SW1P 3BT'
+    fill_in t('application_form.contact_details.address_line3.uk.label'), with: 'London'
+    fill_in t('application_form.contact_details.postcode.uk.label'), with: 'SW1P 3BT'
     fill_in 'support_interface_application_forms_edit_address_details_form[audit_comment]', with: 'Updated as part of Zen Desk ticket #12345'
   end
 
@@ -101,7 +101,7 @@ RSpec.feature 'Editing address' do
 
   def and_i_select_outside_the_uk
     choose 'Outside the UK'
-    select('India', from: t('application_form.contact_information.country.label'))
+    select('India', from: t('application_form.contact_details.country.label'))
     click_button 'Save and continue'
   end
 

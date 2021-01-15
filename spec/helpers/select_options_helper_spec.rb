@@ -47,7 +47,7 @@ RSpec.describe SelectOptionsHelper, type: :helper do
       expect(select_country_options).to include(
         OpenStruct.new(
           id: '',
-          name: t('application_form.contact_information.country.default_option'),
+          name: t('application_form.contact_details.country.default_option'),
         ),
       )
       expect(select_country_options).to include(
