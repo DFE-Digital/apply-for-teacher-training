@@ -127,7 +127,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_form,
-      subject: I18n.t!("candidate_mailer.chase_candidate_decision_email.subject_#{subject_pluralisation}"),
+      subject: I18n.t!("candidate_mailer.chase_candidate_decision.subject_#{subject_pluralisation}"),
     )
   end
 
