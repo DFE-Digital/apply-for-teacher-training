@@ -44,6 +44,7 @@ RSpec.feature 'Docs' do
       provider_mailer-courses_open_on_apply
       candidate_mailer-new_interview
       candidate_mailer-interview_updated
+      candidate_mailer-interview_cancelled
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"

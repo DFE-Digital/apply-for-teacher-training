@@ -288,5 +288,17 @@ RSpec.describe CandidateMailer, type: :mailer do
         'additional interview details' => 'Bring your magic wand for the spells test',
       )
     end
+
+    describe '.interview_cancelled' do
+      let(:email) { mailer.interview_cancelled(application_choice_with_interview, interview, 'We recruited someone else') }
+
+      it_behaves_like(
+        'a mail with subject and content',
+        'Interview cancelled - Hogwards',
+        'greeting' => 'Dear Fred,',
+        'details' => 'Hogwards has cancelled the interview on 15 January 2021 at 9:30am',
+        'cancellation reason' => 'We recruited someone else',
+      )
+    end
   end
 end

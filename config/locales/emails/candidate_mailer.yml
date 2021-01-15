@@ -103,3 +103,5 @@ en:
       subject: Interview arranged - %{provider_name}
     interview_updated:
       subject: Interview details updated - %{provider_name}
+    interview_cancelled:
+      subject: Interview cancelled - %{provider_name}
