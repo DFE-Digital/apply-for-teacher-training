@@ -595,28 +595,51 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   end
 
   describe 'compliance with models that change updated_at' do
-    it 'looks at all fields which cause a touch' do
-      choice = create(:application_choice, :awaiting_provider_decision)
+    let(:non_uk_application_form) do
+      create(
+        :completed_application_form,
+        first_nationality: 'Spanish',
+        right_to_work_or_study: :yes,
+        address_type: :international,
+        address_line1: nil,
+      )
+    end
+    let(:non_uk_application_choice) { create(:submitted_application_choice, application_form: non_uk_application_form) }
+    let(:application_choice) { create(:submitted_application_choice) }
 
+    it 'looks at all fields which cause a touch' do
       # if there is a field on the form that causes a touch but isn't
       # queried via the presenter on the API, fail this test
-      (ApplicationForm::PUBLISHED_FIELDS - %w[international_address right_to_work_or_study_details]).each do |field|
-        expect_any_instance_of(ApplicationForm).to receive(field).at_least(:once).and_call_original
+      ApplicationForm::PUBLISHED_FIELDS.each do |field|
+        allow(non_uk_application_form).to receive(field).and_call_original
+        allow(application_choice.application_form).to receive(field).and_call_original
       end
 
-      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
-      presenter.as_json
+      VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      VendorAPI::SingleApplicationPresenter.new(non_uk_application_choice).as_json
+
+      (ApplicationForm::PUBLISHED_FIELDS - %w[postcode]).each do |field|
+        expect(non_uk_application_form).to have_received(field).at_least(:once)
+      end
+
+      (ApplicationForm::PUBLISHED_FIELDS - %w[international_address right_to_work_or_study_details]).each do |field|
+        expect(application_choice.application_form).to have_received(field).at_least(:once)
+      end
     end
 
     it 'doesn’t depend on any fields that don’t cause a touch' do
-      choice = create(:application_choice, :awaiting_provider_decision)
-
       (ApplicationForm.attribute_names - %w[id] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
-        expect_any_instance_of(ApplicationForm).not_to receive(field)
+        allow(non_uk_application_form).to receive(field).and_call_original
+        allow(application_choice.application_form).to receive(field).and_call_original
       end
 
-      presenter = VendorAPI::SingleApplicationPresenter.new(choice)
-      presenter.as_json
+      VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+      VendorAPI::SingleApplicationPresenter.new(non_uk_application_choice).as_json
+
+      (ApplicationForm.attribute_names - %w[id] - ApplicationForm::PUBLISHED_FIELDS).each do |field|
+        expect(non_uk_application_form).not_to have_received(field)
+        expect(application_choice.application_form).not_to have_received(field)
+      end
     end
   end
 end
