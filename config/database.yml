@@ -9,6 +9,10 @@ default: &default
   host: <%= ENV['DB_HOSTNAME'] %>
   port: <%= ENV['DB_PORT'] %>
   database: <%= ENV['DB_DATABASE'] %>
+  keepalives: 1
+  keepalives_idle: 60
+  keepalives_interval: 10
+  keepalives_count: 3
 
 development:
   <<: *default
