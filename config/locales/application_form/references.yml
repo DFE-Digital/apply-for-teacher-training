@@ -91,6 +91,10 @@ en:
   activemodel:
     errors:
       models:
+        candidate_interface/add_another_referee_form:
+          attributes:
+            add_another_referee:
+              blank: Select if you want to add another referee
         candidate_interface/reference/referee_type_form:
           attributes:
             referee_type:

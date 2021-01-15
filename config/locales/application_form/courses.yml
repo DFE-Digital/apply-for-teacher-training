@@ -13,6 +13,18 @@ en:
   activemodel:
     errors:
       models:
+        candidate_interface/pick_provider_form:
+          attributes:
+            provider_id:
+              blank: Select a training provider
+        candidate_interface/pick_study_mode_form:
+          attributes:
+            study_mode:
+              blank: Select if the course is full time or part time
+        candidate_interface/pick_site_form:
+          attributes:
+            course_option_id:
+              blank: Select which location you’re applying to
         candidate_interface/course_chosen_form:
           attributes:
             choice:

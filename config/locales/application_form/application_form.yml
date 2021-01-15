@@ -8,72 +8,10 @@ en:
   activemodel:
     errors:
       models:
-        candidate_interface/pick_provider_form:
-          attributes:
-            provider_id:
-              blank: Select a training provider
-        candidate_interface/pick_study_mode_form:
-          attributes:
-            study_mode:
-              blank: Select if the course is full time or part time
-        candidate_interface/pick_site_form:
-          attributes:
-            course_option_id:
-              blank: Select which location you’re applying to
-        candidate_interface/add_another_referee_form:
-          attributes:
-            add_another_referee:
-              blank: Select if you want to add another referee
         candidate_interface/respond_to_offer_form:
           attributes:
             response:
               blank: Select if you want to accept or decline the offer
-        candidate_interface/english_foreign_language/start_form:
-          attributes:
-            qualification_status:
-              blank: Have you done an English as a foreign language assessment?
-        candidate_interface/english_foreign_language/type_form:
-          attributes:
-            type:
-              blank: Select your type of assessment
-        candidate_interface/english_foreign_language/ielts_form:
-          attributes:
-            trf_number:
-              blank: Enter your TRF number
-            band_score:
-              blank: Enter your overall band score
-              invalid: Enter an overall band score in the correct format
-            award_year:
-              blank: Enter year the assessment was done
-              invalid: Enter a real year
-              in_the_future: Assessment year must be this year or a previous year
-        candidate_interface/english_foreign_language/other_efl_qualification_form:
-          attributes:
-            name:
-              blank: Enter assessment name
-            grade:
-              blank: Enter your grade
-            award_year:
-              blank: Enter year the assessment was done
-              invalid: Enter a real year
-              in_the_future: Assessment year must be this year or a previous year
-        candidate_interface/english_foreign_language/toefl_form:
-          attributes:
-            registration_number:
-              blank: Enter your registration number
-            total_score:
-              blank: Enter your total score
-              not_a_number: Enter your total score (this should be a number)
-            award_year:
-              blank: Enter year the assessment was done
-              invalid: Enter a real year
-              in_the_future: Assessment year must be this year or a previous year
-        candidate_interface/safeguarding_issues_declaration_form:
-          attributes:
-            share_safeguarding_issues:
-              blank: Choose if you want to share any safeguarding issues
-            safeguarding_issues:
-              too_many_words: Safeguarding issues must be %{count} words or fewer
         candidate_interface/application_feedback_form:
           attributes:
             section:
