@@ -22,6 +22,15 @@ RSpec.describe ApplicationForm do
     end
   end
 
+  describe 'after_touch' do
+    it 'touches the application choice when touched by a related model' do
+      application_form = create(:completed_application_form, with_gcses: true, application_choices_count: 1)
+
+      expect { application_form.maths_gcse.update!(grade: 'D') }
+        .to(change { application_form.application_choices.first.updated_at })
+    end
+  end
+
   describe 'after_commit' do
     describe '#geocode_address_if_required' do
       it 'invokes geocoding of UK addresses on create' do
