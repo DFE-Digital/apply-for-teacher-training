@@ -358,7 +358,7 @@ private
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!(
-        "candidate_offer.#{template_name}.subject",
+        "candidate_mailer.candidate_offer.#{template_name}.subject",
         course_name: course_option.course.name_and_code,
         provider_name: course_option.course.provider.name,
       ),
