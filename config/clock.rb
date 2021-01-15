@@ -6,6 +6,8 @@ require 'clockwork'
 class Clock
   include Clockwork
 
+  error_handler { |error| Raven.capture_exception(error) if defined? Raven }
+
   every(15.minutes, 'SyncAllFromFind') { SyncAllFromFind.perform_async }
   every(1.hour, 'DetectInvariants') { DetectInvariants.perform_async }
   every(1.hour, 'RejectApplicationsByDefault', at: '**:10') { RejectApplicationsByDefaultWorker.perform_async }
@@ -27,7 +29,7 @@ class Clock
     end
   end
 
-  every(1.day, 'UCASMatching::ProcessMatchingData', at: '9:00') do
+  every(1.day, 'UCASMatching::ProcessMatchingData', at: '10:00') do
     if Time.zone.today.weekday?
       if HostingEnvironment.qa?
         UCASMatching::UploadTestFile.new.upload
@@ -37,7 +39,7 @@ class Clock
     end
   end
 
-  every(1.day, 'UCASIntegrationCheck', at: '10:00') do
+  every(1.day, 'UCASIntegrationCheck', at: '11:00') do
     return unless HostingEnvironment.production?
 
     UCASIntegrationCheck.perform_async if Time.zone.yesterday.weekday?
