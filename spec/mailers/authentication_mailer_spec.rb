@@ -7,69 +7,48 @@ RSpec.describe AuthenticationMailer, type: :mailer do
 
   describe '.sign_up_email' do
     let(:token) { 'blub' }
-    let(:mail) { mailer.sign_up_email(candidate: candidate, token: token) }
+    let(:email) { mailer.sign_up_email(candidate: candidate, token: token) }
 
-    before { mail.deliver_later }
-
-    it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('authentication.sign_up.email.subject'))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include(t('authentication.sign_up.email.subject'))
-    end
-
-    it 'sends an email with a magic link and encrypted candidate id' do
+    before do
       allow(Encryptor).to receive(:encrypt).and_return('secret')
-      expect(mail.body.encoded).to include(
-        "http://localhost:3000/candidate/sign-in/confirm?token=#{token}",
-      )
     end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t('authentication.sign_up.email.subject'),
+      'heading' => I18n.t('authentication.sign_up.email.subject'),
+      'magic_link' => 'http://localhost:3000/candidate/sign-in/confirm?token=blub',
+    )
 
     it 'sends a request with a Notify reference' do
       ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'example_env' do
-        mail.deliver_now
+        email.deliver_now
       end
 
-      expect(mail[:reference].value).to start_with("example_env-sign_up_email-#{candidate.id}")
+      expect(email[:reference].value).to start_with("example_env-sign_up_email-#{candidate.id}")
     end
   end
 
   describe 'the candidate receives the sign in email containing the magic link' do
     let(:token) { 'blub' }
-    let(:mail) { mailer.sign_in_email(candidate: candidate, token: token) }
+    let(:email) { mailer.sign_in_email(candidate: candidate, token: token) }
 
-    before { mail.deliver_later }
-
-    it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('authentication.sign_in.email.subject'))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include(t('authentication.sign_in.email.subject'))
-    end
-
-    it 'sends an email with a magic link and encrypted candidate id' do
-      allow(Encryptor).to receive(:encrypt).and_return('secret')
-      expect(mail.body.encoded).to include(
-        "http://localhost:3000/candidate/sign-in/confirm?token=#{token}",
-      )
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t('authentication.sign_in.email.subject'),
+      'heading' => I18n.t('authentication.sign_in.email.subject'),
+      'magic link' => 'http://localhost:3000/candidate/sign-in/confirm?token=blub',
+    )
   end
 
   describe 'the candidate recieves an email when they try to sign in without an existing account' do
-    let(:mail) { mailer.sign_in_without_account_email(to: 'test@example.com') }
+    let(:email) { mailer.sign_in_without_account_email(to: 'test@example.com') }
 
-    it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('authentication.sign_in_without_account.email.subject'))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include(t('authentication.sign_in_without_account.email.subject'))
-    end
-
-    it 'sends an email with a link to sign up' do
-      expect(mail.body.encoded).to include(candidate_interface_sign_up_url)
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t('authentication.sign_in_without_account.email.subject'),
+      'heading' => I18n.t('authentication.sign_in_without_account.email.subject'),
+      'sign up link' => 'http://localhost:3000/candidate/sign-up',
+    )
   end
 end

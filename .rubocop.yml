@@ -53,6 +53,9 @@ RSpec/EmptyLineAfterSubject:
   Exclude:
     - 'spec/factories.rb'
 
+RSpec/LetSetup:
+  Enabled: false
+
 Naming/MethodParameterName:
   AllowedNames:
     - e

@@ -3,60 +3,45 @@ require 'rails_helper'
 RSpec.describe ProviderMailer, type: :mailer do
   include CourseOptionHelpers
 
-  shared_examples 'a provider mail with subject and content' do |mail, subject, content|
-    let(:email) do
-      if %i[account_created courses_open_on_apply].include?(mail)
-        return ProviderMailer.send(mail, @provider_user)
-      end
-
-      ProviderMailer.send(mail, @provider_user, @application_choice)
-    end
-
-    it 'sends an email with the correct subject' do
-      expect(email.subject).to include(subject)
-    end
-
-    content.each do |key, expectation|
-      it "sends an email containing the #{key} in the body" do
-        expectation = expectation.call if expectation.respond_to?(:call)
-        expect(email.body).to include(expectation)
-      end
-    end
-  end
-
-  let(:provider) { create(:provider, :with_signed_agreement, code: 'ABC') }
-  let(:site) { create(:site, provider: provider) }
+  let(:provider) { build_stubbed(:provider, :with_signed_agreement, code: 'ABC', provider_users: [provider_user]) }
+  let(:site) { build_stubbed(:site, provider: provider) }
   let(:offered_course_option) { nil }
+  let(:course) { build_stubbed(:course, provider: provider, name: 'Computer Science', code: '6IND') }
+  let(:course_option) { build_stubbed(:course_option, course: course, site: site) }
+  let(:application_choice) do
+    build_stubbed(:submitted_application_choice, course_option: course_option,
+                                                 offered_course_option: offered_course_option,
+                                                 reject_by_default_at: 40.days.from_now,
+                                                 reject_by_default_days: 123)
+  end
+  let!(:application_form) do
+    build_stubbed(:completed_application_form, first_name: 'Harry',
+                                               last_name: 'Potter',
+                                               support_reference: '123A',
+                                               application_choices: [application_choice],
+                                               submitted_at: 5.days.ago)
+  end
+  let(:provider_user) { build_stubbed(:provider_user, first_name: 'Johny', last_name: 'English') }
 
-  before do
-    course = create(:course, provider: provider, name: 'Computer Science', code: '6IND')
-    @course_option = create(:course_option, course: course, site: site)
-    @application_choice = create(:submitted_application_choice,
-                                 course_option: @course_option,
-                                 offered_course_option: offered_course_option,
-                                 reject_by_default_at: Time.zone.now + 40.days,
-                                 reject_by_default_days: 123,
-                                 application_form:
-                                 create(
-                                   :completed_application_form,
-                                   first_name: 'Harry',
-                                   last_name: 'Potter',
-                                   support_reference: '123A',
-                                 ))
-    @provider_user = @application_choice.provider.provider_users.first
-    @provider_user.update(first_name: 'Johny', last_name: 'English')
-    @application_choice.application_form.update(submitted_at: Time.zone.now - 5.days)
+  around do |example|
+    Timecop.freeze(Time.zone.local(2021, 1, 17)) do
+      example.run
+    end
   end
 
   describe 'Send account created email' do
-    it_behaves_like('a provider mail with subject and content', :account_created,
+    let(:email) { ProviderMailer.account_created(provider_user) }
+
+    it_behaves_like('a mail with subject and content',
                     I18n.t!('provider_mailer.account_created.subject'),
                     'provider name' => 'Dear Johny English',
                     'sign in path' => '/provider/sign-in')
   end
 
   describe 'Send application received email' do
-    it_behaves_like('a provider mail with subject and content', :application_submitted,
+    let(:email) { ProviderMailer.application_submitted(provider_user, application_choice) }
+
+    it_behaves_like('a mail with subject and content',
                     I18n.t!('provider_mailer.application_submitted.subject',
                             course_name_and_code: 'Computer Science (6IND)'),
                     'provider name' => 'Dear Johny English',
@@ -67,44 +52,52 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send application rejected by default email' do
-    it_behaves_like('a provider mail with subject and content', :application_rejected_by_default,
+    let(:email) { ProviderMailer.application_rejected_by_default(provider_user, application_choice) }
+
+    it_behaves_like('a mail with subject and content',
                     I18n.t!('provider_mailer.application_rejected_by_default.subject',
                             candidate_name: 'Harry Potter', support_reference: '123A'),
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
                     'reject by default days' => 'within 123 working days',
-                    'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip })
+                    'submission date' => '12 January 2021')
   end
 
   describe 'Send provider decision chaser email' do
-    before do
-      @application_choice.update(reject_by_default_at: 20.business_days.from_now)
+    let(:email) { ProviderMailer.chase_provider_decision(provider_user, application_choice) }
+    let(:application_choice) do
+      build_stubbed(:submitted_application_choice, course_option: course_option,
+                                                   offered_course_option: offered_course_option,
+                                                   reject_by_default_at: 20.business_days.from_now,
+                                                   reject_by_default_days: 123)
     end
 
-    it_behaves_like('a provider mail with subject and content', :chase_provider_decision,
+    it_behaves_like('a mail with subject and content',
                     I18n.t!('provider_mailer.application_waiting_for_decision.subject',
                             candidate_name: 'Harry Potter', support_reference: '123A'),
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)',
                     'time to respond' => 'Only 20 working days left to respond',
-                    'submission date' => -> { (Time.zone.now - 5.days).to_s(:govuk_date).strip },
-                    'reject by default at' => -> { 20.business_days.from_now.to_s(:govuk_date).strip },
+                    'submission date' => '12 January 2021',
+                    'reject by default at' => '15 February 2021',
                     'link to the application' => 'http://localhost:3000/provider/applications/')
   end
 
   describe '.offer_accepted' do
-    it_behaves_like('a provider mail with subject and content', :offer_accepted,
+    let(:email) { ProviderMailer.offer_accepted(provider_user, application_choice) }
+
+    it_behaves_like('a mail with subject and content',
                     'Harry Potter (123A) has accepted your offer',
                     'provider name' => 'Dear Johny English',
                     'course name and code' => 'Computer Science (6IND)')
 
     context 'with an alternative course offer' do
-      let(:alternative_course) { create(:course, provider: provider, name: 'Welding', code: '9ABC') }
-      let(:offered_course_option) { create(:course_option, course: alternative_course, site: site) }
+      let(:alternative_course) { build_stubbed(:course, provider: provider, name: 'Welding', code: '9ABC') }
+      let(:offered_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
-      it_behaves_like('a provider mail with subject and content', :offer_accepted,
+      it_behaves_like('a mail with subject and content',
                       'Harry Potter (123A) has accepted your offer',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
@@ -112,17 +105,19 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.declined_by_default' do
-    it_behaves_like('a provider mail with subject and content', :declined_by_default,
+    let(:email) { ProviderMailer.declined_by_default(provider_user, application_choice) }
+
+    it_behaves_like('a mail with subject and content',
                     'Harry Potter’s (123A) application withdrawn automatically',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
 
     context 'with an alternative course offer' do
-      let(:alternative_course) { create(:course, provider: provider, name: 'Welding', code: '9ABC') }
-      let(:offered_course_option) { create(:course_option, course: alternative_course, site: site) }
+      let(:alternative_course) { build_stubbed(:course, provider: provider, name: 'Welding', code: '9ABC') }
+      let(:offered_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
-      it_behaves_like('a provider mail with subject and content', :declined_by_default,
+      it_behaves_like('a mail with subject and content',
                       'Harry Potter’s (123A) application withdrawn automatically',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
@@ -130,17 +125,19 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe 'Send email when the application withdrawn' do
-    it_behaves_like('a provider mail with subject and content', :application_withdrawn,
+    let(:email) { ProviderMailer.application_withdrawn(provider_user, application_choice) }
+
+    it_behaves_like('a mail with subject and content',
                     'Harry Potter (123A) withdrew their application',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
 
     context 'with an alternative course offer' do
-      let(:alternative_course) { create(:course, provider: provider, name: 'Welding', code: '9ABC') }
-      let(:offered_course_option) { create(:course_option, course: alternative_course, site: site) }
+      let(:alternative_course) { build_stubbed(:course, provider: provider, name: 'Welding', code: '9ABC') }
+      let(:offered_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
 
-      it_behaves_like('a provider mail with subject and content', :application_withdrawn,
+      it_behaves_like('a mail with subject and content',
                       'Harry Potter (123A) withdrew their application',
                       'provider name' => 'Dear Johny English',
                       'course name and code' => 'Welding (9ABC)')
@@ -148,7 +145,9 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.declined' do
-    it_behaves_like('a provider mail with subject and content', :declined,
+    let(:email) { ProviderMailer.declined(provider_user, application_choice) }
+
+    it_behaves_like('a mail with subject and content',
                     'Harry Potter (123A) declined an offer',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
@@ -156,13 +155,21 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.ucas_match_initial_email_duplicate_applications' do
-    it_behaves_like('a provider mail with subject and content', :ucas_match_initial_email_duplicate_applications,
+    let(:email) { ProviderMailer.ucas_match_initial_email_duplicate_applications(provider_user, application_choice) }
+
+    it_behaves_like('a mail with subject and content',
                     'Harry Potter applied for your course twice',
                     'candidate name' => 'Harry Potter')
   end
 
   describe '.ucas_match_resolved_on_ucas_email' do
-    it_behaves_like('a provider mail with subject and content', :ucas_match_resolved_on_ucas_email,
+    let(:email) { ProviderMailer.ucas_match_resolved_on_ucas_email(provider_user, application_choice) }
+
+    before do
+      allow(application_choice).to receive(:course).and_return(course)
+    end
+
+    it_behaves_like('a mail with subject and content',
                     I18n.t('provider_mailer.ucas_match.resolved_on_ucas.subject'),
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
@@ -170,7 +177,13 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.ucas_match_resolved_on_apply_email' do
-    it_behaves_like('a provider mail with subject and content', :ucas_match_resolved_on_apply_email,
+    let(:email) { ProviderMailer.ucas_match_resolved_on_apply_email(provider_user, application_choice) }
+
+    before do
+      allow(application_choice).to receive(:course).and_return(course)
+    end
+
+    it_behaves_like('a mail with subject and content',
                     I18n.t('provider_mailer.ucas_match.resolved_on_apply.subject'),
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
@@ -178,7 +191,9 @@ RSpec.describe ProviderMailer, type: :mailer do
   end
 
   describe '.courses_open_on_apply' do
-    it_behaves_like('a provider mail with subject and content', :courses_open_on_apply,
+    let(:email) { ProviderMailer.courses_open_on_apply(provider_user) }
+
+    it_behaves_like('a mail with subject and content',
                     I18n.t!('provider_mailer.courses_open_on_apply.subject'),
                     'recruitment_cycle_year' => RecruitmentCycle.current_year)
   end

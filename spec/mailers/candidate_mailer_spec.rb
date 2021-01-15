@@ -1,37 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe CandidateMailer, type: :mailer do
-  include CourseOptionHelpers
   include TestHelpers::MailerSetupHelper
 
   subject(:mailer) { described_class }
 
-  shared_examples 'a mail with subject and content' do |mail, subject, content|
-    let(:email) { described_class.send(mail, @application_form) }
-
-    it 'sends an email with the correct subject' do
-      expect(email.subject).to include(subject)
-    end
-
-    content.each do |key, expectation|
-      it "sends an email containing the #{key} in the body" do
-        expectation = expectation.call if expectation.respond_to?(:call)
-        expect(email.body).to include(expectation)
-      end
-    end
+  let(:application_form) do
+    build_stubbed(:application_form, first_name: 'Fred',
+                                     candidate: candidate,
+                                     support_reference: 'SUPPORT-REFERENCE',
+                                     application_choices: application_choices)
   end
+  let(:candidate) { build_stubbed(:candidate) }
+  let(:application_choices) { [build_stubbed(:application_choice)] }
+  let(:dbd_application) { build_stubbed(:application_choice, :dbd) }
 
   before do
-    setup_application
-    magic_link_stubbing(@candidate)
+    magic_link_stubbing(candidate)
   end
 
   describe '.application_submitted' do
-    let(:mail) { mailer.application_submitted(@application_form) }
+    let(:email) { mailer.application_submitted(application_form) }
 
     it_behaves_like(
       'a mail with subject and content',
-      :application_submitted,
       I18n.t!('candidate_mailer.application_submitted.subject'),
       'heading' => 'Application submitted',
       'support reference' => 'SUPPORT-REFERENCE',
@@ -40,50 +32,67 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe 'Candidate decision chaser email' do
+    let(:email) { mailer.chase_candidate_decision(application_form) }
+    let(:offer) do
+      build_stubbed(:application_choice, :with_offer,
+                    sent_to_provider_at: Time.zone.today,
+                    course_option: course_option)
+    end
+    let(:course_option) do
+      build_stubbed(:course_option, course: build_stubbed(:course,
+                                                          name: 'Applied Science (Psychology)',
+                                                          code: '3TT5', provider: provider))
+    end
+    let(:provider) { build_stubbed(:provider, name: 'Brighthurst Technical College') }
+
     context 'when a candidate has one appication choice with offer' do
+      let(:application_choices) { [offer] }
+
       it_behaves_like(
-        'a mail with subject and content', :chase_candidate_decision,
+        'a mail with subject and content',
         I18n.t!('candidate_mailer.chase_candidate_decision.subject_singular'),
-        'heading' => 'Dear Bob',
-        'days left to respond' => -> { "#{TimeLimitCalculator.new(rule: :chase_candidate_before_dbd, effective_date: Time.zone.today).call.fetch(:days)} working days" },
-        'dbd date' => -> { 10.business_days.from_now.to_s(:govuk_date).strip },
-        'course name and code' => 'Applied Science (Psychology)',
-        'provider name' => 'Brighthurst Technical College'
+        'heading' => 'Dear Fred',
+        'days left to respond' => '5 working days',
+        'dbd date' => 'respond by 8 November',
+        'course name and code' => ' Applied Science (Psychology)',
+        'provider name' => 'Brighthurst Technical College',
       )
     end
 
     context 'when a candidate has multiple application choices with offer' do
-      before do
-        setup_application_form_with_two_offers(@application_form)
+      let(:second_offer) do
+        build_stubbed(:application_choice, :with_offer,
+                      sent_to_provider_at: Time.zone.today,
+                      course_option: second_course_option)
       end
+      let(:second_course_option) do
+        build_stubbed(:course_option, course: build_stubbed(:course,
+                                                            name: 'Code Refactoring',
+                                                            code: 'CRF5',
+                                                            provider: other_provider))
+      end
+      let(:other_provider) { build_stubbed(:provider, name: 'Ting University') }
+      let(:application_choices) { [offer, second_offer] }
 
       it_behaves_like(
-        'a mail with subject and content', :chase_candidate_decision,
+        'a mail with subject and content',
         I18n.t!('candidate_mailer.chase_candidate_decision.subject_plural'),
-        'first course with offer' => 'MS Painting',
-        'first course provider with offer' => 'Wen University',
+        'first course with offer' => 'Applied Science (Psychology)',
+        'first course provider with offer' => 'Brighthurst Technical College',
         'second course with offer' => 'Code Refactoring',
-        'second course provider with offer' => 'Ting University'
+        'second course provider with offer' => 'Ting University',
       )
     end
   end
 
   describe '.decline_by_default' do
+    let(:email) { mailer.declined_by_default(application_form) }
+
     context 'when a candidate has 1 offer that was declined' do
-      before do
-        @application_form = build_stubbed(
-          :application_form,
-          first_name: 'Fred',
-          candidate: @candidate,
-          application_choices: [
-            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-          ],
-        )
-      end
+      let(:application_choices) { [dbd_application] }
 
       it_behaves_like(
         'a mail with subject and content',
-        :declined_by_default,
         'You did not respond to your offer: next steps',
         'heading' => 'Dear Fred',
         'days left to respond' => '10 working days',
@@ -91,37 +100,16 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     context 'when a candidate has 2 or 3 offers that were declined' do
-      before do
-        @application_form = build_stubbed(
-          :application_form,
-          first_name: 'Fred',
-          candidate: @candidate,
-          application_choices: [
-            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-          ],
-        )
-      end
+      let(:application_choices) { [dbd_application, dbd_application] }
 
-      it_behaves_like 'a mail with subject and content', :declined_by_default, 'You did not respond to your offers: next steps', {}
+      it_behaves_like 'a mail with subject and content', 'You did not respond to your offers: next steps', {}
     end
 
     context 'when a candidate has 1 offer that was declined by default and a rejection' do
-      before do
-        @application_form = build_stubbed(
-          :application_form,
-          first_name: 'Fred',
-          candidate: @candidate,
-          application_choices: [
-            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-            build_stubbed(:application_choice, status: 'rejected'),
-          ],
-        )
-      end
+      let(:application_choices) { [dbd_application, build_stubbed(:application_choice, status: 'rejected')] }
 
       it_behaves_like(
         'a mail with subject and content',
-        :declined_by_default,
         'You did not respond to your offer: next steps',
         'heading' => 'Dear Fred',
         'DBD_days_they_had_to_respond' => '10 working days',
@@ -130,22 +118,10 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     context 'when a candidate has 2 offers that were declined by default and a rejection' do
-      before do
-        @application_form = build_stubbed(
-          :application_form,
-          first_name: 'Fred',
-          candidate: @candidate,
-          application_choices: [
-            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-            build_stubbed(:application_choice, status: 'rejected'),
-          ],
-        )
-      end
+      let(:application_choices) { [dbd_application, dbd_application, build_stubbed(:application_choice, status: 'rejected')] }
 
       it_behaves_like(
         'a mail with subject and content',
-        :declined_by_default,
         'You did not respond to your offers: next steps',
         'heading' => 'Dear Fred',
         'DBD_days_they_had_to_respond' => '10 working days',
@@ -154,21 +130,10 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     context 'when a candidate has 1 offer that was declined and it awaiting another decision' do
-      before do
-        @application_form = build_stubbed(
-          :application_form,
-          first_name: 'Fred',
-          candidate: @candidate,
-          application_choices: [
-            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-            build_stubbed(:application_choice, status: 'awaiting_provider_decision'),
-          ],
-        )
-      end
+      let(:application_choices) { [dbd_application, build_stubbed(:application_choice, status: 'awaiting_provider_decision')] }
 
       it_behaves_like(
         'a mail with subject and content',
-        :declined_by_default,
         'Application withdrawn automatically',
         'heading' => 'Dear Fred',
         'days left to respond' => '10 working days',
@@ -176,22 +141,10 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     context 'when a candidate has 2 offers that was declined and it awaiting another decision' do
-      before do
-        @application_form = build_stubbed(
-          :application_form,
-          first_name: 'Fred',
-          candidate: @candidate,
-          application_choices: [
-            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-            build_stubbed(:application_choice, status: 'declined', declined_by_default: true, decline_by_default_days: 10),
-            build_stubbed(:application_choice, status: 'awaiting_provider_decision'),
-          ],
-        )
-      end
+      let(:application_choices) { [dbd_application, dbd_application, build_stubbed(:application_choice, status: 'awaiting_provider_decision')] }
 
       it_behaves_like(
         'a mail with subject and content',
-        :declined_by_default,
         'Applications withdrawn automatically',
         'heading' => 'Dear Fred',
         'days left to respond' => '10 working days',
@@ -200,21 +153,13 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.withdraw_last_application_choice' do
+    let(:email) { mailer.withdraw_last_application_choice(application_form) }
+
     context 'when a candidate has 1 course choice that was withdrawn' do
-      before do
-        @application_form = build_stubbed(
-          :application_form,
-          first_name: 'Fred',
-          candidate: @candidate,
-          application_choices: [
-            build_stubbed(:application_choice, status: 'withdrawn'),
-          ],
-        )
-      end
+      let(:application_choices) { [build_stubbed(:application_choice, status: 'withdrawn')] }
 
       it_behaves_like(
         'a mail with subject and content',
-        :withdraw_last_application_choice,
         'You’ve withdrawn your application: next steps',
         'heading' => 'Dear Fred',
         'application_withdrawn' => 'You’ve withdrawn your application',
@@ -222,21 +167,10 @@ RSpec.describe CandidateMailer, type: :mailer do
     end
 
     context 'when a candidate has 2 or 3 offers that were declined' do
-      before do
-        @application_form = build_stubbed(
-          :application_form,
-          first_name: 'Fred',
-          candidate: @candidate,
-          application_choices: [
-            build_stubbed(:application_choice, status: 'withdrawn'),
-            build_stubbed(:application_choice, status: 'withdrawn'),
-          ],
-        )
-      end
+      let(:application_choices) { [build_stubbed(:application_choice, :withdrawn), build_stubbed(:application_choice, :withdrawn)] }
 
       it_behaves_like(
         'a mail with subject and content',
-        :withdraw_last_application_choice,
         'You’ve withdrawn your applications: next steps',
         'application_withdrawn' => 'You’ve withdrawn your application',
       )
@@ -244,119 +178,68 @@ RSpec.describe CandidateMailer, type: :mailer do
   end
 
   describe '.decline_last_application_choice' do
-    let(:email) { described_class.decline_last_application_choice(@application_form.application_choices.first) }
+    let(:email) { described_class.decline_last_application_choice(application_form.application_choices.first) }
+    let(:application_choices) { [build_stubbed(:application_choice, status: :declined)] }
 
-    before do
-      @application_form = build_stubbed(
-        :application_form,
-        first_name: 'Fred',
-        candidate: @candidate,
-        application_choices: [
-          build_stubbed(:application_choice, status: 'declined'),
-        ],
-      )
-    end
-
-    it 'has the right subject and content' do
-      expect(email.subject).to eq 'You’ve declined an offer: next steps'
-      expect(email).to have_content 'Dear Fred'
-      expect(email).to have_content 'declined your offer to study'
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      'You’ve declined an offer: next steps',
+      'greeting' => 'Dear Fred',
+      'content' => 'declined your offer to study',
+    )
   end
 
   describe '#apply_again_call_to_action' do
-    it 'has the correct subject and content' do
-      application_form = build_stubbed(
-        :application_form,
-        first_name: 'Fred',
-        candidate: @candidate,
-        application_choices: [
-          build_stubbed(
-            :application_choice,
-            status: 'rejected',
-            course_option: build_stubbed(
-              :course_option,
-              course: build_stubbed(
-                :course,
-                name: 'Mathematics',
-                code: 'M101',
-                provider: build_stubbed(
-                  :provider,
-                  name: 'Cholbury College',
-                ),
-              ),
-            ),
-          ),
-        ],
-      )
-      email = described_class.apply_again_call_to_action(application_form)
+    let(:email) { described_class.apply_again_call_to_action(application_form) }
+    let(:application_choices) { [build_stubbed(:application_choice, status: :rejected)] }
 
-      expect(email.subject).to eq 'You can still apply for teacher training'
-      expect(email.body).to include('Dear Fred,')
-      expect(email.body).to include('You can apply for teacher training again if you have not got a place yet')
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      'You can still apply for teacher training',
+      'content' => 'You can apply for teacher training again if you have not got a place yet',
+    )
   end
 
   describe '.chase_reference_again' do
-    let(:email) { described_class.chase_reference_again(@referee) }
+    let(:email) { described_class.chase_reference_again(referee) }
+    let(:referee) { build_stubbed(:reference, name: 'Jolyne Doe', application_form: application_form) }
+    let(:application_choices) { [] }
 
-    before do
-      @referee = build_stubbed(:reference, application_form: @application_form)
-    end
-
-    it 'has the right subject and content' do
-      expect(email.subject).to eq "#{@referee.name} has not responded yet"
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      'Jolyne Doe has not responded yet',
+      'magic_link' => '/candidate/sign-in/confirm?token=raw_token',
+    )
   end
 
   describe '.offer_accepted' do
-    def build_stubbed_application_form
-      build_stubbed(
-        :application_form,
-        first_name: 'Bob',
-        candidate: @candidate,
-        application_choices: [
-          build_stubbed(
-            :application_choice,
-            status: 'pending_conditions',
-            course_option: build_stubbed(
-              :course_option,
-              site: build_stubbed(
-                :site,
-                name: 'West Wilford School',
-              ),
-              course: build_stubbed(
-                :course,
-                name: 'Mathematics',
-                code: 'M101',
-                start_date: Time.zone.local(2021, 9, 6),
-                provider: build_stubbed(
-                  :provider,
-                  name: 'Arithmetic College',
-                ),
-              ),
+    let(:email) { described_class.offer_accepted(application_form.application_choices.first) }
+    let(:application_choices) do
+      [build_stubbed(
+        :application_choice,
+        status: 'pending_conditions',
+        course_option: build_stubbed(
+          :course_option,
+          course: build_stubbed(
+            :course,
+            name: 'Mathematics',
+            code: 'M101',
+            start_date: Time.zone.local(2021, 9, 6),
+            provider: build_stubbed(
+              :provider,
+              name: 'Arithmetic College',
             ),
           ),
-        ],
-      )
+        ),
+      )]
     end
 
-    def send_email
-      application_form = build_stubbed_application_form
-      application_choice = application_form.application_choices.first
-      described_class.offer_accepted(application_choice)
-    end
-
-    it 'has the correct subject and content' do
-      email = send_email
-
-      expect(email.subject).to eq(
-        'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
-      )
-      expect(email.body).to include('Dear Bob,')
-      expect(email.body).to include(
-        'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
-      )
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      'greeting' => 'Dear Fred,',
+      'offer_details' => 'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      'course start' => 'September 2021',
+    )
   end
 end

@@ -1,71 +1,38 @@
 require 'rails_helper'
 
 RSpec.describe CandidateMailer, type: :mailer do
-  include TestHelpers::MailerSetupHelper
-
   subject(:mailer) { described_class }
 
-  let(:ucas_match) { create(:ucas_match) }
-  let(:application_form) { ucas_match.candidate.application_forms.first }
-  let(:application_choice) { application_form.application_choices.first }
+  let(:application_form) { build_stubbed(:application_form, first_name: 'Ada', last_name: 'Lovelace', application_choices: application_choices) }
+  let(:course) { build_stubbed(:course, name: 'Primary', code: '33WA', provider: provider) }
+  let(:course_option) { build_stubbed(:course_option, course: course) }
+  let(:provider) { build_stubbed(:provider, name: 'Wonderland University') }
+  let(:application_choice) { build_stubbed(:application_choice, course_option: course_option, offered_course_option: course_option) }
+  let(:application_choices) { [application_choice] }
 
   describe '.ucas_match_resolved_on_ucas_email' do
-    let(:email) { mailer.ucas_match_resolved_on_ucas_email(application_choice) }
+    let(:email) { mailer.ucas_match_resolved_on_ucas_email(application_form.application_choices.first) }
 
-    it 'sends an email with the correct subject' do
-      expect(email.subject).to include(I18n.t!('candidate_mailer.ucas_match.resolved_on_ucas.subject'))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(email.body.encoded).to include("Dear #{application_form.full_name}")
-    end
-
-    it 'sends an email containing the course name and code in the body' do
-      course_name_and_code = application_choice.course.name_and_code
-
-      expect(email.body).to include(course_name_and_code)
-    end
-
-    it 'sends an email containing the candidate full name in the body' do
-      full_name = application_form.full_name
-
-      expect(email.body).to include(full_name)
-    end
-
-    it 'sends an email containing the provider name in the body' do
-      provider_name = application_choice.course.provider.name
-
-      expect(email.body).to include(provider_name)
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t!('candidate_mailer.ucas_match.resolved_on_ucas.subject'),
+      'heading' => 'Dear Ada Lovelace',
+      'course_code_and_option' => 'to study Primary (33WA) at Wonderland University',
+      'tracking' => 'use Apply for teacher training',
+      'removal details' => 'the course choice was removed from your UCAS application',
+    )
   end
 
   describe '.ucas_match_resolved_on_apply_email' do
-    let(:email) { mailer.ucas_match_resolved_on_apply_email(application_choice) }
+    let(:email) { mailer.ucas_match_resolved_on_apply_email(application_form.application_choices.first) }
 
-    it 'sends an email with the correct subject' do
-      expect(email.subject).to include(I18n.t!('candidate_mailer.ucas_match.resolved_on_apply.subject'))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(email.body.encoded).to include("Dear #{application_form.full_name}")
-    end
-
-    it 'sends an email containing the course name and code in the body' do
-      course_name_and_code = application_choice.course.name_and_code
-
-      expect(email.body).to include(course_name_and_code)
-    end
-
-    it 'sends an email containing the candidate full name in the body' do
-      full_name = application_form.full_name
-
-      expect(email.body).to include(full_name)
-    end
-
-    it 'sends an email containing the provider name in the body' do
-      provider_name = application_choice.course.provider.name
-
-      expect(email.body).to include(provider_name)
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t!('candidate_mailer.ucas_match.resolved_on_apply.subject'),
+      'heading' => 'Dear Ada Lovelace',
+      'course_code_and_option' => 'to study Primary (33WA) at Wonderland University',
+      'tracking' => 'use [UCAS Teacher Training]',
+      'removal details' => 'the course choice was removed from your DfE Apply application',
+    )
   end
 end
