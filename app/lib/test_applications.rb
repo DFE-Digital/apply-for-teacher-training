@@ -206,6 +206,8 @@ class TestApplications
     simulate_signin(choice.application_form.candidate)
 
     case state
+    when :interviewing
+      schedule_interview(choice)
     when :offer
       make_offer(choice)
     when :offer_changed
@@ -242,6 +244,22 @@ class TestApplications
     end
 
     choice.update_columns(updated_at: time)
+  end
+
+  def schedule_interview(choice)
+    as_provider_user(choice) do
+      fast_forward
+      CreateInterview.new(
+        actor: actor,
+        application_choice: choice,
+        provider: choice.course_option.provider,
+        date_and_time: 7.business_days.from_now,
+        location: Faker::Address.full_address,
+        additional_details: [nil, nil, 'Use staff entrance', 'Ask for John at the reception'].sample,
+      ).save!
+      choice.update_columns(updated_at: time)
+    end
+    choice.audits.last&.update_columns(created_at: time)
   end
 
   def accept_offer(choice)
