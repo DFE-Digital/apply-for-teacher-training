@@ -1,8 +1,0 @@
-en:
-  candidate_offer:
-    single_offer:
-      subject: "Make a decision: successful application for %{provider_name}"
-    multiple_offers:
-      subject: "Make a decision: successful application for %{provider_name}"
-    decisions_pending:
-      subject: "Successful application for %{provider_name}"

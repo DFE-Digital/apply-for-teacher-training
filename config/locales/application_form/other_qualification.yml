@@ -1,0 +1,79 @@
+en:
+  application_form:
+    other_qualification:
+      qualification:
+        label: Qualification
+        change_action: qualification
+      qualification_type:
+        label: Type of qualification
+        hint_text: For example, GCSE, A level, BTEC, NVQ or non-UK other
+        non_uk:
+          hint_text: For example, High school diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
+      subject:
+        label: Subject
+        optional_label: Subject (optional)
+        change_action: subject
+      institution_country:
+        label: Country where you studied
+      country:
+        label: Country
+        change_action: country
+      grade:
+        label: Grade
+        optional_label: Grade (optional)
+        change_action: grade
+      award_year:
+        label: Year qualification was awarded
+        hint_text: For example, 1998
+        review_label: Year awarded
+        change_action: year
+      base:
+        button: Save and continue
+      another:
+        button: Add another qualification
+      review:
+        button: Continue
+        completed_checkbox: I have completed this section
+      delete: Delete qualification
+      confirm_delete: Yes I’m sure - delete this qualification
+
+  activemodel:
+    errors:
+      models:
+        candidate_interface/other_qualification_type_form:
+          attributes:
+            non_uk_qualification_type:
+              blank: Enter the type of qualification
+            other_uk_qualification_type:
+              blank: Enter the type of qualification
+            qualification_type:
+              blank: Enter the type of qualification
+              too_long: Type of qualification must be %{count} characters or fewer
+        candidate_interface/other_qualification_details_form:
+          attributes:
+            non_uk_qualification_type:
+              blank: Enter the type of qualification
+            other_uk_qualification_type:
+              blank: Enter the type of qualification
+            qualification_type:
+              blank: Enter the type of qualification
+              too_long: Type of qualification must be %{count} characters or fewer
+            subject:
+              blank: Enter the subject
+              too_long: Subject must be %{count} characters or fewer
+            institution_name:
+              blank: Enter the institution where you studied
+              too_long: The institution where you studied must be %{count} characters or fewer
+            institution_country:
+              blank: Enter the country you studied in
+              inclusion: Select the country you studied in from the list
+            grade:
+              blank: Enter your grade
+              invalid: Enter a real grade
+              too_long: The grade must be %{count} characters or fewer
+            award_year:
+              blank: Enter the year the qualification was awarded
+              invalid: Enter a real year
+              in_the_future: Assessment year must be this year or a previous year
+            choice:
+              blank: Do you want to add another qualification?

@@ -55,6 +55,7 @@ module ApplyForPostgraduateTeacherTraining
 
     config.action_controller.perform_caching = true
     config.cache_store = :memory_store
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
 
     config.middleware.insert_after ActionDispatch::HostAuthorization, RedirectToServiceGovUkMiddleware
     config.middleware.use VendorAPIRequestMiddleware

@@ -127,7 +127,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_form,
-      subject: I18n.t!("chase_candidate_decision_email.subject_#{subject_pluralisation}"),
+      subject: I18n.t!("candidate_mailer.chase_candidate_decision.subject_#{subject_pluralisation}"),
     )
   end
 
@@ -358,7 +358,7 @@ private
     email_for_candidate(
       application_choice.application_form,
       subject: I18n.t!(
-        "candidate_offer.#{template_name}.subject",
+        "candidate_mailer.candidate_offer.#{template_name}.subject",
         course_name: course_option.course.name_and_code,
         provider_name: course_option.course.provider.name,
       ),

@@ -1,15 +1,4 @@
 en:
-  activemodel:
-    errors:
-      models:
-        candidate_interface/sign_up_form:
-          attributes:
-            email_address:
-              blank: Enter your email address
-              too_long: Email address must be %{count} characters or fewer
-              dfe_signup_only: Only DfE users can sign up in this test environment
-            accept_ts_and_cs:
-              blank: You must agree to the terms of use
   authentication:
     sign_up:
       heading: Create an Apply for teacher training account
@@ -36,3 +25,19 @@ en:
     confirm_authentication:
       heading: Confirm sign in
       button_continue: Continue
+
+  activemodel:
+    errors:
+      models:
+        candidate_interface/sign_up_form:
+          attributes:
+            email_address:
+              blank: Enter your email address
+              too_long: Email address must be %{count} characters or fewer
+              dfe_signup_only: Only DfE users can sign up in this test environment
+            accept_ts_and_cs:
+              blank: You must agree to the terms of use
+        candidate_interface/create_account_or_sign_in_form:
+          attributes:
+            email:
+              blank: Enter your email address

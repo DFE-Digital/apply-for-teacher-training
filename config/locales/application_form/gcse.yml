@@ -1,0 +1,144 @@
+en:
+  application_form:
+    gcse:
+      qualification:
+        label: Qualification
+      qualification_type:
+        label: Type of qualification
+      qualification_types:
+        gcse: GCSE
+        gce_o_level: O Level
+        scottish_national_5: Scottish National 5
+        other_uk: Other UK qualification
+        non_uk: Non-UK qualification
+        missing: I do not have this qualification yet
+      other_uk:
+        label: Qualification name
+      non_uk:
+        label: Qualification name
+        hint_text: For example, High School Diploma, Higher Secondary School Certificate, Baccalauréat Général, Título de Bachiller
+      missing_explanation:
+        label: If you are working towards this qualification, give us details (optional)
+      grade:
+        label: Please specify your grade
+      award_year:
+        label: Enter year
+        hint_text: For example, 1996
+      naric_statement:
+        label: Do you have a statement of comparability from the National Recognition Information Centre?
+        review_label: Do you have a UK NARIC statement of comparability?
+        change_action: UK NARIC statement
+      naric_reference:
+        label: UK NARIC reference number
+        hint_text: For example ‘4000228363’
+        review_label: UK NARIC reference number
+        change_action: UK NARIC reference number
+      comparable_uk_qualification:
+        label: Select the comparable UK qualification
+        hint_text: As shown on your statement
+        review_label: Comparable UK qualification
+        change_action: Comparable UK qualification
+        values:
+          gcse: GCSE (grades A*-C / 9-4)
+          gcse_aslevel: Between GCSE and GCE AS level
+          aslevel_alevel: GCE Advanced Subsidiary (AS) level
+          alevel: GCE Advanced (A) level
+      complete_form_button: Save and continue
+
+  activemodel:
+    errors:
+      models:
+        candidate_interface/gcse_qualification_details_form:
+          attributes:
+            grade:
+              blank: Enter your grade
+              invalid: Enter a real grade
+              too_long: Grade must be %{count} characters or fewer
+            award_year:
+              blank: Enter the year you gained your qualification
+              invalid: Enter a real year
+              in_future: Enter a year before %{date}
+            other_grade:
+              blank: Enter your grade
+        candidate_interface/science_gcse_grade_form:
+          attributes:
+            single_award_grade:
+              blank: Enter your single award grade
+              invalid: Enter a real single award grade
+            double_award_grade:
+              blank: Enter your double award grade
+              invalid: Enter a real double award grade
+            grade:
+              blank: Enter your science grade
+              invalid: Enter a real science grade
+              too_long: Grade must be %{count} characters or fewer
+            biology_grade:
+              blank: Enter your biology grade
+              invalid: Enter a real biology grade
+            chemistry_grade:
+              blank: Enter your chemistry grade
+              invalid: Enter a real chemistry grade
+            physics_grade:
+              blank: Enter your physics grade
+              invalid: Enter a real physics grade
+            award_year:
+              blank: Enter the year you gained your qualification
+              invalid: Enter a real year
+              in_future: Enter a year before %{date}
+            other_grade:
+              blank: Enter your grade
+        candidate_interface/english_gcse_grade_form:
+          attributes:
+            grade:
+              blank: Enter your grade
+              invalid: Enter a real grade
+            english_gcses:
+              blank: Select at least one GCSE
+            grade_english_single:
+              blank: Enter your English (Single award) grade
+              invalid: Enter a real English (Single award) grade
+            grade_english_double:
+              blank: Enter your English (Double award) grade
+              invalid: Enter a real English (Double award) grade
+            grade_english_language:
+              blank: Enter your English Language grade
+              invalid: Enter a real English Language grade
+            grade_english_literature:
+              blank: Enter your English Literature grade
+              invalid: Enter a real English Literature grade
+            grade_english_studies_single:
+              blank: Enter your English Studies (Single award) grade
+              invalid: Enter a real English Studies (Single award) grade
+            grade_english_studies_double:
+              blank: Enter your English Studies (Double award) grade
+              invalid: Enter a real English Studies (Double award) grade
+            grade_other_english_gcse:
+              blank: Enter your other English subject grade
+              invalid: Enter a real other English subject grade
+            other_english_gcse_name:
+              blank: Enter an English GCSE
+        candidate_interface/gcse_qualification_type_form:
+          attributes:
+            qualification_type:
+              blank: Enter the type of qualification
+            other_uk_qualification_type:
+              blank: Enter the type of qualification
+              too_long: Type of degree must be %{count} characters or fewer
+            non_uk_qualification_type:
+              blank: Enter the type of qualification
+            missing_explanation:
+              blank: Give us some details
+              too_many_words: Details must be %{count} words or fewer
+        candidate_interface/gcse_institution_country_form:
+          attributes:
+            institution_country:
+              blank: Enter the country you studied in
+              inclusion: Select the country you studied in from the list
+        candidate_interface/gcse_naric_form:
+          attributes:
+            have_naric_reference:
+              blank: Select if you have a UK NARIC statement of comparability
+            naric_reference:
+              blank: Enter your UK NARIC reference number
+            comparable_uk_qualification:
+              blank: Choose a comparable UK qualification

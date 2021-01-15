@@ -149,7 +149,7 @@ RSpec.describe RefereeMailer, type: :mailer do
     end
 
     it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('reference_request.subject.final', candidate_name: 'Elliot Alderson'))
+      expect(mail.subject).to include(t('referee_mailer.reference_request.subject.final', candidate_name: 'Elliot Alderson'))
     end
 
     it 'sends an email with the correct heading' do

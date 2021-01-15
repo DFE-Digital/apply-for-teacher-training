@@ -50,7 +50,7 @@ RSpec.feature 'Decline by default' do
   def then_i_receive_an_email_to_make_a_decision
     open_email(@application_form.candidate.email_address)
 
-    expected_subject = I18n.t('chase_candidate_decision_email.subject_singular')
+    expected_subject = I18n.t('candidate_mailer.chase_candidate_decision.subject_singular')
     expect(current_email.subject).to include(expected_subject)
 
     expect(current_email.body).to include('http://localhost:3000/candidate/sign-in/confirm')

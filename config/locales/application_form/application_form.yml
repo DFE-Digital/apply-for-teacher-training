@@ -1,0 +1,50 @@
+en:
+  application_form:
+    begin_button: Start now
+    completed_checkbox: I have completed this section
+    continue: Continue
+    complete_form_button: Save and continue
+
+  activemodel:
+    errors:
+      models:
+        candidate_interface/respond_to_offer_form:
+          attributes:
+            response:
+              blank: Select if you want to accept or decline the offer
+        candidate_interface/application_feedback_form:
+          attributes:
+            section:
+              blank: Section cannot be blank
+              invalid: Section must be valid
+            path:
+              blank: Path cannot be blank
+              invalid: Path must be a valid endpoint
+            page_title:
+              blank: Page title cannot be blank
+            feedback:
+              blank: Enter feedback on how we can improve this section
+            consent_to_be_contacted:
+              blank: Select yes if we can contact you about your feedback
+        candidate_interface/find_feedback_form:
+          attributes:
+            path:
+              blank: Path cannot be blank
+            find_controller:
+              blank: Find controller cannot be blank
+            feedback:
+              blank: How we can improve the service?
+        candidate_interface/withdrawal_feedback_form:
+          attributes:
+            feedback:
+              blank: Will you give a reason for withdrawing your course choice?
+            consent_to_be_contacted:
+              blank: Can we contact you about your feedback?
+        candidate_interface/apply_on_ucas_or_apply_form:
+          attributes:
+            service:
+              blank: Choose if you want to use the new GOV.UK service
+        candidate_interface/feedback_form:
+          attributes:
+            satisfaction_level:
+              blank: Choose how satisfied are you with this service
