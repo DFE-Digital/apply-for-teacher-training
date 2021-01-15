@@ -2,7 +2,7 @@ en:
   review_application:
     title: Review your application
     heading: Review your application
-    button_continue: Continue
+    continue: Continue
     course_choices:
       incomplete: Course choices are not marked as completed
       complete_section: Complete your course choices
