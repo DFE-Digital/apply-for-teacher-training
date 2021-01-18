@@ -22,7 +22,7 @@ module SupportInterface
     end
 
     def status_code
-      options = VendorAPIRequest.distinct(:status_code).pluck(:status_code).map do |status_code|
+      options = VendorAPIRequest.distinct(:status_code).pluck(:status_code).map(&:to_s).map do |status_code|
         {
           value: status_code,
           label: status_code,
