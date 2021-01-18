@@ -74,7 +74,7 @@ RSpec.feature 'Editing a degree' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('application_form.degree.base.button')
+    click_button t('application_form.complete_form_button')
   end
 
   def when_i_click_on_continue

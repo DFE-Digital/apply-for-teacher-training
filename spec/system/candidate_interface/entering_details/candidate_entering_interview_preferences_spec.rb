@@ -42,7 +42,7 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def and_i_submit_the_form
-    click_button t('application_form.personal_statement.interview_preferences.complete_form_button')
+    click_button t('application_form.complete_form_button')
   end
 
   def when_i_click_to_change_my_answer

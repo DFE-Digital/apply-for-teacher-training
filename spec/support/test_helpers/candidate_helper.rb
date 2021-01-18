@@ -205,26 +205,26 @@ module CandidateHelper
 
     choose 'UK degree'
     fill_in 'Type of degree', with: 'BA'
-    click_button t('application_form.degree.base.button')
+    click_button t('application_form.complete_form_button')
 
     fill_in 'What subject is your degree?', with: 'Doge'
-    click_button t('application_form.degree.base.button')
+    click_button t('application_form.complete_form_button')
 
     fill_in 'Which institution did you study at?', with: 'University of Much Wow'
-    click_button t('application_form.degree.base.button')
+    click_button t('application_form.complete_form_button')
 
     expect(page).to have_content('Have you completed your degree?')
     choose 'Yes'
-    click_button t('application_form.degree.base.button')
+    click_button t('application_form.complete_form_button')
 
     choose 'First class honours'
-    click_button t('application_form.degree.base.button')
+    click_button t('application_form.complete_form_button')
 
     year_with_trailing_space = '2006 '
     year_with_preceding_space = ' 2009'
     fill_in 'Year started course', with: year_with_trailing_space
     fill_in 'Graduation year', with: year_with_preceding_space
-    click_button t('application_form.degree.base.button')
+    click_button t('application_form.complete_form_button')
     check t('application_form.degree.review.completed_checkbox')
     click_button t('application_form.continue')
   end
@@ -236,7 +236,7 @@ module CandidateHelper
     fill_in t('application_form.other_qualification.grade.label'), with: 'A'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
     choose 'No, not at the moment'
-    click_button t('application_form.other_qualification.base.button')
+    click_button t('application_form.complete_form_button')
     check t('application_form.other_qualification.review.completed_checkbox')
     click_button t('application_form.continue')
   end
@@ -284,14 +284,14 @@ module CandidateHelper
       choose 'No, not at the moment'
     end
 
-    click_button t('application_form.work_history.complete_form_button')
+    click_button t('application_form.complete_form_button')
     check t('application_form.work_history.review.completed_checkbox')
     click_button t('application_form.continue')
   end
 
   def candidate_fills_in_volunteering_role
     choose 'Yes' # "Do you have experience volunteering with young people or in school?"
-    click_button t('application_form.volunteering.experience.button')
+    click_button t('application_form.complete_form_button')
 
     with_options scope: 'application_form.volunteering' do |locale|
       fill_in locale.t('role.label'), with: 'Classroom Volunteer'
@@ -312,7 +312,7 @@ module CandidateHelper
       fill_in locale.t('details.label'), with: 'I volunteered.'
     end
 
-    click_button t('application_form.volunteering.complete_form_button')
+    click_button t('application_form.complete_form_button')
     check t('application_form.volunteering.review.completed_checkbox')
     click_button t('application_form.continue')
   end
@@ -401,7 +401,7 @@ module CandidateHelper
   def candidate_fills_in_interview_preferences
     choose 'Yes'
     fill_in t('application_form.personal_statement.interview_preferences.yes_label'), with: 'Not on a Wednesday'
-    click_button t('application_form.personal_statement.interview_preferences.complete_form_button')
+    click_button t('application_form.complete_form_button')
     # Confirmation page
     check t('application_form.completed_checkbox')
     click_button t('application_form.continue')

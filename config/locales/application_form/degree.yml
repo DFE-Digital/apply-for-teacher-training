@@ -1,8 +1,6 @@
 en:
   application_form:
     degree:
-      base:
-        button: Save and continue
       qualification:
         change_action: qualification
       uk_degree:

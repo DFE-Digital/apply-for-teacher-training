@@ -88,7 +88,7 @@ RSpec.feature 'Entering their work history' do
       fill_in 'Year', with: '9999'
     end
 
-    click_button t('application_form.work_history.complete_form_button')
+    click_button t('application_form.complete_form_button')
   end
 
   def then_i_should_see_date_validation_errors
@@ -130,7 +130,7 @@ RSpec.feature 'Entering their work history' do
     choose 'No'
     choose 'No, not at the moment'
 
-    click_button t('application_form.work_history.complete_form_button')
+    click_button t('application_form.complete_form_button')
   end
 
   def then_i_should_see_my_completed_job
@@ -164,7 +164,7 @@ RSpec.feature 'Entering their work history' do
 
   def when_i_change_the_job_title_to_be_blank
     fill_in t('application_form.work_history.role.label'), with: ''
-    click_button t('application_form.work_history.complete_form_button')
+    click_button t('application_form.complete_form_button')
   end
 
   def then_i_should_see_validation_errors
@@ -173,7 +173,7 @@ RSpec.feature 'Entering their work history' do
 
   def when_i_change_the_job_title
     fill_in t('application_form.work_history.role.label'), with: 'Chief Executive Officer'
-    click_button t('application_form.work_history.complete_form_button')
+    click_button t('application_form.complete_form_button')
   end
 
   def then_i_should_see_my_updated_job

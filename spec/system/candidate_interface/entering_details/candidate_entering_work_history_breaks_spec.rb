@@ -84,7 +84,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
     choose 'Yes, I want to add another job'
 
-    click_button t('application_form.work_history.complete_form_button')
+    click_button t('application_form.complete_form_button')
   end
 
   def and_i_add_another_job_between_november_2019_and_december_2019
@@ -110,7 +110,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
     choose 'No, not at the moment'
 
-    click_button t('application_form.work_history.complete_form_button')
+    click_button t('application_form.complete_form_button')
   end
 
   def then_i_see_a_two_months_break_between_my_first_job_and_my_second_job

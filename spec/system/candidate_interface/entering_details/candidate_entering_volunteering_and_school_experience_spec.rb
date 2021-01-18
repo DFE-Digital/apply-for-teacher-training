@@ -78,7 +78,7 @@ RSpec.feature 'Entering volunteering and school experience' do
   end
 
   def and_i_submit_the_volunteering_experience_form
-    click_button t('application_form.volunteering.experience.button')
+    click_button t('application_form.complete_form_button')
   end
 
   def then_i_see_the_add_volunteering_role_form
@@ -98,7 +98,7 @@ RSpec.feature 'Entering volunteering and school experience' do
   end
 
   def and_i_submit_the_volunteering_role_form
-    click_button t('application_form.volunteering.complete_form_button')
+    click_button t('application_form.complete_form_button')
   end
 
   def then_i_see_validation_errors_for_my_volunteering_role

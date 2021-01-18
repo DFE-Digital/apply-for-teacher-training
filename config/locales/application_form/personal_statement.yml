@@ -12,7 +12,6 @@ en:
         key: Interview needs
         change_action: interview needs
         label: Do you have any interview needs?
-        complete_form_button: Save and continue
         yes_label: What are your interview needs?
         no_value: None
 
