@@ -21,8 +21,10 @@ RSpec.describe ApplicationStateChange do
 
   describe '.states_visible_to_provider' do
     it 'matches the valid states and states not visible' do
+      FeatureFlag.deactivate(:interviews)
+
       expect(ApplicationStateChange.states_visible_to_provider)
-        .to match_array(ApplicationStateChange.valid_states - ApplicationStateChange::STATES_NOT_VISIBLE_TO_PROVIDER)
+        .to match_array(ApplicationStateChange.valid_states - ApplicationStateChange::STATES_NOT_VISIBLE_TO_PROVIDER - %i[interviewing])
     end
   end
 

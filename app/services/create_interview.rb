@@ -23,15 +23,15 @@ class CreateInterview
       course_option_id: application_choice.offered_option.id,
     )
 
-    if ApplicationStateChange.new(application_choice).can_interview?
+    ActiveRecord::Base.transaction do
+      ApplicationStateChange.new(application_choice).interview!
+
       interview = Interview.new(application_choice: application_choice,
                                 provider: provider,
                                 date_and_time: date_and_time,
                                 location: location,
                                 additional_details: additional_details)
       interview.save!
-
-      ApplicationStateChange.new(application_choice).interview!
     end
   end
 end

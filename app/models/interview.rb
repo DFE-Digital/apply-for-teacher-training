@@ -1,4 +1,8 @@
 class Interview < ApplicationRecord
+  include Discard::Model
+
+  self.discard_column = :cancelled_at
+
   audited associated_with: :application_choice
 
   belongs_to :application_choice

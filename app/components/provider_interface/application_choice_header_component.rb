@@ -24,6 +24,12 @@ module ProviderInterface
         { name: 'Application', url: provider_interface_application_choice_path(application_choice) },
       ]
 
+      if interviews_present?
+        sub_navigation_items.push(
+          { name: 'Interviews', url: provider_interface_application_choice_interviews_path(application_choice) },
+        )
+      end
+
       if offer_present?
         sub_navigation_items.push(
           { name: 'Offer', url: provider_interface_application_choice_offer_path(application_choice) },
@@ -57,8 +63,18 @@ module ProviderInterface
       ApplicationStateChange::OFFERED_STATES.include?(application_choice.status.to_sym)
     end
 
+    def interviews_present?
+      return false unless FeatureFlag.active?(:interviews)
+
+      application_choice.interviewing? && application_choice.interviews.kept.any?
+    end
+
     def respond_to_application?
       provider_can_respond && application_choice.awaiting_provider_decision?
+    end
+
+    def waiting_for_interview?
+      provider_can_respond && application_choice.interviewing?
     end
 
     def deferred_offer_wizard_applicable?
@@ -77,7 +93,7 @@ module ProviderInterface
       flash.empty? && (
         respond_to_application? || deferred_offer_wizard_applicable? ||
         rejection_reason_required? || provider_cannot_respond?
-      )
+      ) || waiting_for_interview?
     end
   end
 end

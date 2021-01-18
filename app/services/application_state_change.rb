@@ -42,6 +42,7 @@ class ApplicationStateChange
       event :reject, transitions_to: :rejected
       event :reject_by_default, transitions_to: :rejected
       event :withdraw, transitions_to: :withdrawn
+      event :interview, transitions_to: :interviewing
       event :cancel_interview, transitions_to: :awaiting_provider_decision
     end
 
@@ -104,7 +105,9 @@ class ApplicationStateChange
   end
 
   def self.states_visible_to_provider
-    STATES_VISIBLE_TO_PROVIDER
+    return STATES_VISIBLE_TO_PROVIDER if FeatureFlag.active?(:interviews)
+
+    STATES_VISIBLE_TO_PROVIDER - [:interviewing]
   end
 
   def self.states_visible_to_provider_without_deferred

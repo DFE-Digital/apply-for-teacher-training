@@ -30,9 +30,15 @@ RSpec.describe CreateInterview do
 
       associated_audit = application_choice.associated_audits.first
       expect(associated_audit.auditable).to eq(application_choice.interviews.first)
-      expect(associated_audit.audited_changes.keys).to eq(%w[
-        location provider_id date_and_time additional_details application_choice_id
-      ])
+      expect(associated_audit.audited_changes.keys).to contain_exactly(
+        'location',
+        'provider_id',
+        'date_and_time',
+        'additional_details',
+        'application_choice_id',
+        'cancellation_reason',
+        'cancelled_at',
+      )
       expect(associated_audit.audited_changes['location']).to eq('Zoom call')
     end
   end

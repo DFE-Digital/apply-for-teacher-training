@@ -293,6 +293,11 @@ en:
       description: |
         Provider cancels the interview with the candidate.
 
+    interviewing-interview:
+      name: Provider sets up an interview
+      by: provider
+      description: |
+        Providers can set up additional interviews with candidates before making a decision.
 
     offer-make_offer:
       name: Provider updates offer

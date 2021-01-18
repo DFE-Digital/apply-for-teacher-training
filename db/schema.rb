@@ -370,6 +370,8 @@ ActiveRecord::Schema.define(version: 2021_01_14_115857) do
     t.text "additional_details"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "cancellation_reason"
+    t.datetime "cancelled_at"
     t.index ["application_choice_id"], name: "index_interviews_on_application_choice_id"
     t.index ["provider_id"], name: "index_interviews_on_provider_id"
   end

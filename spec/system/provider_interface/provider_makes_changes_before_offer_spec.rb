@@ -63,7 +63,7 @@ RSpec.feature 'Provider makes changes before making an offer' do
 
   def and_i_click_on_respond_to_application
     visit provider_interface_application_choice_path(@application.id)
-    click_on 'Respond to application'
+    click_on 'Make decision'
   end
 
   def then_i_see_options_to_make_an_offer(provider_option: false)

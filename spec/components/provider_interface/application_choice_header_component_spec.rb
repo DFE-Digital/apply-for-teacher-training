@@ -10,22 +10,29 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     subject(:result) { render_inline(described_class.new(application_choice: application_choice, provider_can_respond: provider_can_respond)) }
 
     context 'when the application is awaiting provider decision and the user can make decisions' do
-      it 'presents a button to respond to application' do
-        expect(result.css('.govuk-button').text).to eq('Respond to application')
-      end
-    end
-
-    context 'when the application is awaiting provider decision, reject by default is tomorrow and user can make decisions' do
       let(:reject_by_default_at) { 1.day.from_now }
 
-      it 'formats the reject by default time in a sentence' do
-        expect(result.css('.govuk-inset-text').text).to include(
-          'You have until 12pm (midday) tomorrow to respond to this application. Otherwise it will be automatically rejected.',
-        )
+      context 'when the interviews FeatureFlag is enabled' do
+        before do
+          FeatureFlag.activate(:interviews)
+        end
+
+        it 'the Make decision and Set up interview buttons are available and RDB info is presented ' do
+          expect(result.css('.govuk-button').first.text).to eq('Set up interview')
+          expect(result.css('.govuk-button').last.text).to eq('Make decision')
+          expect(result.css('.govuk-inset-text').text).to include(
+            'You have until 12pm (midday) tomorrow to respond to this application. Otherwise it will be automatically rejected.',
+          )
+        end
       end
 
-      it 'presents a button to respond to application' do
-        expect(result.css('.govuk-button').text).to eq('Respond to application')
+      context 'when the interviews FeatureFlag is disabled' do
+        it 'the Make decision button is available and RDB info is presented ' do
+          expect(result.css('.govuk-button').last.text).to eq('Make decision')
+          expect(result.css('.govuk-inset-text').text).to include(
+            'You have until 12pm (midday) tomorrow to respond to this application. Otherwise it will be automatically rejected.',
+          )
+        end
       end
     end
 
@@ -33,7 +40,6 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       let(:provider_can_respond) { false }
 
       it 'presents content without a heading or button' do
-        expect(result.css('.govuk-inset-text').text).not_to include('Respond to application')
         expect(result.css('.govuk-inset-text').text).to include('There are 10 days to respond.')
       end
     end
@@ -45,6 +51,22 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
       it 'formats the reject by default time in a sentence' do
         expect(result.css('.govuk-inset-text').text).to include(
           'This application will be automatically rejected at 12pm (midday) tomorrow',
+        )
+      end
+    end
+
+    describe '#sub_navigation_items' do
+      let(:status) { :interviewing }
+      let(:interview) { build_stubbed(:interview) }
+      let(:interviews) { class_double(Interview, kept: [interview]) }
+      let(:application_choice) { build_stubbed(:application_choice, status: status, reject_by_default_at: reject_by_default_at) }
+
+      it 'renders the interview tab when the application is in the interviewing state and there are interviews available' do
+        allow(application_choice).to receive(:interviews).and_return(interviews)
+
+        FeatureFlag.activate(:interviews)
+        expect(result.css('.app-tab-navigation li:nth-child(2) a').text).to include(
+          'Interviews',
         )
       end
     end
