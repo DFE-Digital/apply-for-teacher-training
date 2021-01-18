@@ -263,10 +263,14 @@ class ApplicationForm < ApplicationRecord
   end
 
   def has_the_maximum_number_of_course_choices?
+    application_choices.count >= maximum_number_of_course_choices
+  end
+
+  def maximum_number_of_course_choices
     if apply_1?
-      application_choices.count >= MAXIMUM_PHASE_ONE_COURSE_CHOICES
+      MAXIMUM_PHASE_ONE_COURSE_CHOICES
     else
-      application_choices.count >= MAXIMUM_PHASE_TWO_COURSE_CHOICES
+      MAXIMUM_PHASE_TWO_COURSE_CHOICES
     end
   end
 
