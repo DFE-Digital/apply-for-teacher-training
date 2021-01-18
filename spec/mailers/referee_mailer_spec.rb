@@ -1,163 +1,82 @@
 require 'rails_helper'
 RSpec.describe RefereeMailer, type: :mailer do
-  include TestHelpers::MailerSetupHelper
-
   subject(:mailer) { described_class }
 
+  let(:application_form) { build_stubbed(:application_form, first_name: 'Elliot', last_name: 'Alderson') }
+  let(:reference) do
+    build_stubbed(:reference, name: 'Jane',
+                              email_address: 'jane@education.gov.uk',
+                              application_form: application_form)
+  end
+
+  before do
+    allow(reference).to receive(:refresh_feedback_token!).and_return('raw_token')
+  end
+
   describe 'Send request reference email' do
-    let(:first_application_choice) { create(:application_choice) }
-    let(:second_application_choice) { create(:application_choice) }
-    let(:third_application_choice) { create(:application_choice) }
-    let(:application_form) do
-      create(
-        :completed_application_form,
-        first_name: 'Harry',
-        last_name: "O'Potter",
-        references_count: 1,
-        with_gcses: true,
-        application_choices_count: 0,
-        application_choices: [
-          first_application_choice,
-          second_application_choice,
-          third_application_choice,
-        ],
-      )
-    end
-    let(:reference) { application_form.application_references.first }
-    let(:candidate_name) { "#{application_form.first_name} #{application_form.last_name}" }
-    let(:mail) { mailer.reference_request_email(reference) }
+    let(:email) { mailer.reference_request_email(reference) }
 
     it 'sends an email with a link to the reference form' do
-      mail.deliver_now
-      body = mail.body.encoded
-      expect(body).to include(referee_interface_reference_relationship_url(token: ''))
+      expect(email.body).to include('/reference?token=raw_token')
     end
 
     it 'sends a request with a Notify reference' do
       ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'example_env' do
-        mail.deliver_now
+        email.deliver_now
       end
 
-      expect(mail[:reference].value).to start_with("example_env-reference_request-#{reference.id}")
+      expect(email[:reference].value).to start_with("example_env-reference_request-#{reference.id}")
     end
   end
 
   describe 'Send chasing reference email' do
-    let(:first_application_choice) { create(:application_choice) }
-    let(:second_application_choice) { create(:application_choice) }
-    let(:third_application_choice) { create(:application_choice) }
-    let(:application_form) do
-      create(
-        :completed_application_form,
-        with_gcses: true,
-        first_name: 'Harry',
-        last_name: 'Potter',
-        application_choices_count: 0,
-        references_count: 1,
-        application_choices: [
-          first_application_choice,
-          second_application_choice,
-          third_application_choice,
-        ],
-      )
-    end
-    let(:reference) { application_form.application_references.first }
-    let(:candidate_name) { "#{application_form.first_name} #{application_form.last_name}" }
-    let(:mail) { mailer.reference_request_chaser_email(application_form, reference) }
+    let(:email) { mailer.reference_request_chaser_email(application_form, reference) }
 
     it 'sends an email with a link to the reference form' do
-      mail.deliver_now
-      body = mail.body.encoded
-      expect(body).to include(referee_interface_reference_relationship_url(token: ''))
+      expect(email.body).to include('/reference?token=raw_token')
     end
   end
 
   describe 'Send reference confirmation email' do
-    let(:reference) { build_stubbed(:reference) }
-    let(:application_form) do
-      build_stubbed(
-        :application_form,
-        first_name: 'Elliot',
-        last_name: 'Alderson',
-        application_references: [reference],
-      )
-    end
-
-    let(:mail) { mailer.reference_confirmation_email(application_form, reference) }
-
-    before { mail.deliver_later }
+    let(:email) { mailer.reference_confirmation_email(application_form, reference) }
 
     it 'sends an email to the provided referee' do
-      expect(mail.to).to include(reference.email_address)
+      expect(email.to).to include(reference.email_address)
     end
 
-    it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('reference_confirmation_email.subject', candidate_name: 'Elliot Alderson'))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include("Dear #{reference.name}")
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t('reference_confirmation_email.subject', candidate_name: 'Elliot Alderson'),
+      'heading' => 'Dear Jane',
+    )
   end
 
   describe 'Send reference cancelled email' do
-    let(:application_form) do
-      build_stubbed(
-        :application_form,
-        first_name: 'Elliot',
-        last_name: 'Alderson',
-      )
-    end
-
-    let(:reference) { build_stubbed(:reference, application_form: application_form) }
-
-    let(:mail) { mailer.reference_cancelled_email(reference) }
-
-    before { mail.deliver_later }
+    let(:email) { mailer.reference_cancelled_email(reference) }
 
     it 'sends an email to the provided referee' do
-      expect(mail.to).to include(reference.email_address)
+      expect(email.to).to include(reference.email_address)
     end
 
-    it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('reference_cancelled_email.subject', candidate_name: 'Elliot Alderson'))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include("Dear #{reference.name}")
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t('reference_cancelled_email.subject', candidate_name: 'Elliot Alderson'),
+      'heading' => 'Dear Jane',
+    )
   end
 
   describe 'Send reference_request_chase_again_email email' do
-    let!(:application_form) do
-      build_stubbed(
-        :application_form,
-        first_name: 'Elliot',
-        last_name: 'Alderson',
-      )
-    end
-    let(:reference) { build_stubbed(:reference, application_form: application_form) }
-    let(:mail) { mailer.reference_request_chase_again_email(reference) }
-
-    before do
-      allow(reference).to receive(:refresh_feedback_token!).and_return('raw_token')
-      mail.deliver_later
-    end
+    let(:email) { mailer.reference_request_chase_again_email(reference) }
 
     it 'sends an email to the provided referee' do
-      expect(mail.to).to include(reference.email_address)
+      expect(email.to).to include('jane@education.gov.uk')
     end
 
-    it 'sends an email with the correct subject' do
-      expect(mail.subject).to include(t('referee_mailer.reference_request.subject.final', candidate_name: 'Elliot Alderson'))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(mail.body.encoded).to include("Dear #{reference.name}")
-    end
-
-    it 'sends an email with a link to the reference form' do
-      expect(mail.body.encoded).to include(referee_interface_reference_relationship_url(token: ''))
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t('referee_mailer.reference_request.subject.final', candidate_name: 'Elliot Alderson'),
+      'heading' => 'Dear Jane',
+      'reference link' => '/reference?token=raw_token',
+    )
   end
 end

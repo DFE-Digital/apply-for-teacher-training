@@ -557,6 +557,14 @@ FactoryBot.define do
       withdrawn_at { Time.zone.now }
     end
 
+    trait :dbd do
+      with_offer
+
+      status { :declined }
+      declined_by_default { true }
+      decline_by_default_days { 10 }
+    end
+
     trait :withdrawn_with_survey_completed do
       status { :withdrawn }
       withdrawn_at { Time.zone.now }

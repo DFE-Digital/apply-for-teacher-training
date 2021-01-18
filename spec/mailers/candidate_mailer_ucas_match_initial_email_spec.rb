@@ -1,72 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe CandidateMailer, type: :mailer do
-  include TestHelpers::MailerSetupHelper
-
   subject(:mailer) { described_class }
 
-  describe '.ucas_match_initial_email_duplicate_applications' do
-    let(:ucas_match) { create(:ucas_match) }
-    let(:application_form) { ucas_match.candidate.application_forms.first }
-    let(:application_choice) { application_form.application_choices.first }
-    let(:email) { mailer.ucas_match_initial_email_duplicate_applications(application_choice) }
-
-    it 'sends an email with the correct subject' do
-      expect(email.subject).to include(I18n.t!('candidate_mailer.ucas_match_initial_email.duplicate_applications.subject'))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(email.body.encoded).to include("Dear #{application_form.full_name}")
-    end
-
-    it 'sends an email containing the course name and code in the body' do
-      course_name_and_code = application_choice.course.name_and_code
-
-      expect(email.body).to include(course_name_and_code)
-    end
-
-    it 'sends an email containing the candidate full name in the body' do
-      full_name = application_form.full_name
-
-      expect(email.body).to include(full_name)
-    end
-
-    it 'sends an email containing the provider name in the body' do
-      provider_name = application_choice.course.provider.name
-
-      expect(email.body).to include(provider_name)
-    end
-
-    it 'sends an email containing the date that the application needs to be withdrawn by' do
-      withdraw_application_date = 10.business_days.after(Time.zone.today).to_s(:govuk_date)
-
-      expect(email.body).to include(withdraw_application_date)
+  around do |example|
+    Timecop.freeze(Time.zone.local(2021, 1, 17)) do
+      example.run
     end
   end
 
+  let(:application_form) { build_stubbed(:application_form, first_name: 'Jane', application_choices: [application_choice]) }
+  let(:provider) { build_stubbed(:provider, name: 'Coventry University') }
+  let(:course_option) { build_stubbed(:course_option, course: build_stubbed(:course, name: 'Physics', code: '3PH5', provider: provider)) }
+  let(:application_choice) { build_stubbed(:application_choice, course_option: course_option) }
+
+  describe '.ucas_match_initial_email_duplicate_applications' do
+    let(:email) { mailer.ucas_match_initial_email_duplicate_applications(application_form.application_choices.first) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t!('candidate_mailer.ucas_match_initial_email.duplicate_applications.subject'),
+      'heading' => 'Dear Jane',
+      'course' => 'Physics (3PH5)',
+      'provider' => 'Coventry University',
+      'withdrawal day' => '1 February 2021 (in 10 working days)',
+    )
+  end
+
   describe '.ucas_match_initial_email_multiple_acceptances' do
-    let(:ucas_match) { create(:ucas_match) }
-    let(:application_form) { ucas_match.candidate.application_forms.first }
-    let(:email) { mailer.ucas_match_initial_email_multiple_acceptances(ucas_match.candidate) }
+    let(:email) { mailer.ucas_match_initial_email_multiple_acceptances(candidate) }
+    let(:candidate) { build_stubbed(:candidate, application_forms: [application_form]) }
 
-    it 'sends an email with the correct subject' do
-      expect(email.subject).to include(I18n.t!('candidate_mailer.ucas_match_initial_email.multiple_acceptances.subject'))
-    end
-
-    it 'sends an email with the correct heading' do
-      expect(email.body.encoded).to include("Dear #{application_form.first_name}")
-    end
-
-    it 'sends an email containing the candidate name in the body' do
-      candidate_name = application_form.first_name
-
-      expect(email.body).to include(candidate_name)
-    end
-
-    it 'sends an email containing the date that the application needs to be withdrawn by' do
-      withdraw_application_date = 10.business_days.after(Time.zone.today).to_s(:govuk_date)
-
-      expect(email.body).to include(withdraw_application_date)
-    end
+    it_behaves_like(
+      'a mail with subject and content',
+      I18n.t!('candidate_mailer.ucas_match_initial_email.multiple_acceptances.subject'),
+      'heading' => 'Dear Jane',
+      'withdrawal day' => '1 February 2021',
+    )
   end
 end
