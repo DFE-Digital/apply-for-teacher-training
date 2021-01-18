@@ -55,8 +55,10 @@ private
       provided_audit = reference.audits.where("audited_changes#>>'{feedback_status, 1}' = 'feedback_provided'").last
       [reference.requested_at, provided_audit&.created_at]
     end
-    requested_at_times = times.map(&:first)
-    provided_at_times = times.map(&:second)
+    requested_at_times = times.map(&:first).compact
+    provided_at_times = times.map(&:second).compact
+    return nil if requested_at_times.blank? || provided_at_times.blank?
+
     (provided_at_times.min - requested_at_times.max).to_i / 1.day
   end
 end
