@@ -37,6 +37,7 @@ private
       application.application_work_history_breaks.pluck(:created_at) +
       application.application_volunteering_experiences.pluck(:created_at) +
       application.application_work_experiences.pluck(:created_at)).min
+    return nil if started_at.nil? || completion_audit.nil?
 
     (completion_audit.created_at - started_at).to_i / 1.day
   end

@@ -16,6 +16,7 @@ RSpec.describe WorkHistoryFeatureMetrics, with_audited: true do
         Timecop.freeze(@today - 11.days) do
           @application_form1 = create(:application_form)
           @application_form2 = create(:application_form)
+          @application_form3 = create(:application_form)
         end
         Timecop.freeze(@today - 10.days) do
           create(:application_work_experience, application_form: @application_form1)
@@ -26,6 +27,7 @@ RSpec.describe WorkHistoryFeatureMetrics, with_audited: true do
         end
         Timecop.freeze(@today - 1.day) do
           @application_form2.update!(work_history_completed: true)
+          @application_form3.update!(work_history_completed: true)
         end
       end
 
