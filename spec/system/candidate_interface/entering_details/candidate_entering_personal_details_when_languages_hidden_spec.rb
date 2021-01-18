@@ -34,11 +34,11 @@ RSpec.describe 'Entering personal details' do
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
-    click_button t('complete_form_button', scope: scope)
+    click_button t('application_form.complete_form_button')
 
     # Nationality
     check 'British'
-    click_button t('complete_form_button', scope: scope)
+    click_button t('application_form.complete_form_button')
     expect(page).to have_current_path candidate_interface_personal_details_show_path
 
     # Go back and change nationality
@@ -47,12 +47,12 @@ RSpec.describe 'Entering personal details' do
     within all('.govuk-form-group')[1] do
       select 'Pakistani'
     end
-    click_button t('complete_form_button', scope: scope)
+    click_button t('application_form.complete_form_button')
 
     # Right to work or study
     expect(page).to have_content 'Do you have the right to work or study in the UK?'
     choose 'I do not know'
-    click_button t('complete_form_button', scope: scope)
+    click_button t('application_form.complete_form_button')
 
     # Review
     expect(page).to have_current_path candidate_interface_personal_details_show_path
