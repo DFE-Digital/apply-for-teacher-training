@@ -55,7 +55,7 @@ RSpec.describe ChangeOffer do
     expect(application_choice.offer['conditions']).to eq(['First condition', 'Second condition'])
   end
 
-  it 'resets declined_by_default_at for the application choice' do
+  it 'resets decline_by_default_at for the application choice' do
     expect { service.save && application_choice.reload }.to change(application_choice, :decline_by_default_at)
   end
 

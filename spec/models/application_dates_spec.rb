@@ -33,10 +33,10 @@ RSpec.describe ApplicationDates, type: :model do
     end
   end
 
-  describe '#declined_by_default_at' do
+  describe '#decline_by_default_at' do
     let(:choices) { application_form.application_choices }
 
-    it 'returns correct declined_by_default_at' do
+    it 'returns correct decline_by_default_at' do
       choices.update_all(status: :offer, decline_by_default_at: 10.business_days.after(submitted_at))
 
       expect(application_dates.decline_by_default_at).to eq(10.business_days.after(submitted_at))
