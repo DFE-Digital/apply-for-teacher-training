@@ -166,14 +166,14 @@ module CandidateHelper
 
   def candidate_fills_in_contact_details
     fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
-    click_button t('application_form.contact_details.base.button')
+    click_button t('application_form.complete_form_button')
 
     choose 'In the UK'
-    click_button t('application_form.contact_details.base.button')
+    click_button t('application_form.complete_form_button')
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
     fill_in t('application_form.contact_details.address_line3.uk.label'), with: 'London'
     fill_in t('application_form.contact_details.postcode.uk.label'), with: 'SW1P 3BT'
-    click_button t('application_form.contact_details.address.button')
+    click_button t('application_form.complete_form_button')
 
     check t('application_form.completed_checkbox')
     click_button t('application_form.continue')
@@ -181,11 +181,11 @@ module CandidateHelper
 
   def candidate_fills_in_international_contact_details
     fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
-    click_button t('application_form.contact_details.base.button')
+    click_button t('application_form.complete_form_button')
 
     choose 'Outside the UK'
     select('India', from: t('application_form.contact_details.country.label'))
-    click_button t('application_form.contact_details.base.button')
+    click_button t('application_form.complete_form_button')
     if FeatureFlag.active?(:international_addresses)
       fill_in 'candidate_interface_contact_details_form[address_line1]', with: 'Vishnu Gardens'
       fill_in 'candidate_interface_contact_details_form[address_line3]', with: 'New Delhi'
@@ -194,7 +194,7 @@ module CandidateHelper
     else
       find(:css, "[autocomplete='address']").fill_in with: 'Vishnu Garden\nNew Delhi\nDelhi\n110018'
     end
-    click_button t('application_form.contact_details.address.button')
+    click_button t('application_form.complete_form_button')
 
     check t('application_form.completed_checkbox')
     click_button t('application_form.continue')

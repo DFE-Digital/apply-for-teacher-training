@@ -68,7 +68,7 @@ RSpec.feature 'Entering their contact information without international_addresse
   end
 
   def and_i_submit_my_phone_number
-    click_button t('application_form.contact_details.base.button')
+    click_button t('application_form.complete_form_button')
   end
 
   def then_i_should_see_validation_errors_for_my_phone_number
@@ -90,7 +90,7 @@ RSpec.feature 'Entering their contact information without international_addresse
   def and_i_select_live_in_uk
     expect(page).to have_content('Where do you live?')
     choose 'In the UK'
-    click_button t('application_form.contact_details.base.button')
+    click_button t('application_form.complete_form_button')
   end
 
   def and_i_incorrectly_fill_in_my_address
@@ -110,7 +110,7 @@ RSpec.feature 'Entering their contact information without international_addresse
   end
 
   def and_i_submit_my_address
-    click_button t('application_form.contact_details.address.button')
+    click_button t('application_form.complete_form_button')
   end
 
   def then_i_can_check_my_answers
@@ -153,7 +153,7 @@ RSpec.feature 'Entering their contact information without international_addresse
     expect(page).to have_content('Where do you live?')
     choose 'Outside the UK'
     select('India', from: t('application_form.contact_details.country.label'))
-    click_button t('application_form.contact_details.base.button')
+    click_button t('application_form.complete_form_button')
   end
 
   def and_fill_in_an_international_address
