@@ -18,7 +18,7 @@ RSpec.describe RejectApplicationsByDefault do
 
     described_class.new.call
 
-    expect(StateChangeNotifier).to have_received(:new).with(:rejected, application_choice)
+    expect(StateChangeNotifier).to have_received(:new).with(:rejected_by_default, application_choice)
     expect(notifier).to have_received(:application_outcome_notification)
   end
 end
