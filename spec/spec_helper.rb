@@ -107,6 +107,17 @@ RSpec.configure do |config|
 
   config.before { Redis.new.flushdb }
 
+  # If running tests in parallel, use a unique Redis database per test process.
+  # This allocates databases from 1 onwards, as it's assumed that 0 is the
+  # development database.
+  if ENV['TEST_ENV_NUMBER']
+    config.around do |example|
+      ClimateControl.modify(REDIS_URL: "redis://localhost:6379/#{ENV['TEST_ENV_NUMBER'].to_i + 1}") do
+        example.run
+      end
+    end
+  end
+
   config.after { Clockwork::Test.clear! }
 
   # Print the 10 slowest examples and example groups at the
