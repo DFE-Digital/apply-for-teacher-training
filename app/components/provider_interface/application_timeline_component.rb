@@ -93,8 +93,7 @@ module ProviderInterface
           interview_title_for(event.audit),
           actor_for(event),
           event.created_at,
-          'View interview',
-          provider_interface_application_choice_path(application_choice),
+          *interview_link_params(event.audit.auditable),
         )
       end
     end
@@ -133,6 +132,13 @@ module ProviderInterface
 
     def offer_link_params
       ['View offer', provider_interface_application_choice_offer_path(application_choice)]
+    end
+
+    def interview_link_params(interview)
+      return [nil, nil] if interview.discarded?
+
+      # TODO : Amend to interview path
+      ['View interview', provider_interface_application_choice_path(application_choice)]
     end
 
     def provider_name(provider_user)
