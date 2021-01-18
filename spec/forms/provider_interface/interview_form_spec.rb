@@ -85,6 +85,53 @@ RSpec.describe ProviderInterface::InterviewForm do
     end
   end
 
+  describe '#date_and_time' do
+    def form_with_time(time)
+      tomorrow = 1.day.from_now
+      described_class.new(
+        application_choice: application_choice,
+        current_provider_user: provider_user,
+        year: tomorrow.year,
+        month: tomorrow.month,
+        day: tomorrow.day,
+        time: time,
+        location: 'Zoom',
+      )
+    end
+
+    time_conversions = {
+      '12:30pm' => [12, 30],
+      '2pm' => [14, 0],
+      '5:30pM' => [17, 30],
+      '1:30am' => [1, 30],
+      '01:24am' => [1, 24],
+      '3:30pm' => [15, 30],
+      '2 24Am' => [2, 24],
+      '5.35Pm' => [17, 35],
+    }
+    time_conversions.each do |input_time, (expected_hour, expected_minute)|
+      it "#{input_time} parses correctly" do
+        expect(form_with_time(input_time).date_and_time.hour).to equal(expected_hour)
+        expect(form_with_time(input_time).date_and_time.min).to equal(expected_minute)
+      end
+    end
+  end
+
+  describe '#time_is_valid' do
+    it 'raises an errror if input is not valid time' do
+      invalid_time_form = described_class.new(
+        application_choice: application_choice,
+        current_provider_user: provider_user,
+        year: 2022,
+        month: 1,
+        day: 10,
+        time: '23am',
+        location: 'Zoom',
+      )
+      expect(invalid_time_form.time_is_valid?).to equal(false)
+    end
+  end
+
   describe '#save' do
     it 'creates a new interview' do
       tomorrow = 1.day.from_now

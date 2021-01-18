@@ -11,7 +11,11 @@ module ProviderInterface
     validates :location, presence: true
 
     def date_and_time
-      Time.zone.local(year, month, day, time)
+      Time.zone.local(year, month, day, parsed_time.hour, parsed_time.min)
+    end
+
+    def parsed_time
+      Time.zone.parse(time.gsub(/[ .]/, ':'))
     end
 
     def date_is_valid?
