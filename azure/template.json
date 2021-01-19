@@ -280,8 +280,8 @@
             "type": "string"
         },
         "skylightEnable":{
-            "defaultValue": false,
-            "type": "bool"
+            "defaultValue": "false",
+            "type": "string"
         },
         "findBaseUrl": {
             "type": "string",

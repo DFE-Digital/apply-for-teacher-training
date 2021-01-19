@@ -312,7 +312,7 @@ stages:
       ucasZipPassword: '$(ucasZipPassword)'
       sandbox: '$(sandbox)'
       skylightAuthToken: '$(skylightAuthToken)'
-      skylightEnable: $(skylightEnable)
+      skylightEnable: '$(skylightEnable)'
 
 
 - stage: deploy_devops
@@ -372,4 +372,4 @@ stages:
       ucasZipPassword: '$(ucasZipPassword)'
       sandbox: '$(sandbox)'
       skylightAuthToken: '$(skylightAuthToken)'
-      skylightEnable: $(skylightEnable)
+      skylightEnable: '$(skylightEnable)'
