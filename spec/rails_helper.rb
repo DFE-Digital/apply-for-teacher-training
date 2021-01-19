@@ -66,6 +66,11 @@ RSpec.configure do |config|
 
   config.include FactoryBot::Syntax::Methods
 
+  config.include GeocodeTestHelper
+  config.before do
+    stub_const('Geokit::Geocoders::GoogleGeocoder', stub_geocoder)
+  end
+
   config.before { Faker::UniqueGenerator.clear }
 
   config.before { ActionMailer::Base.deliveries.clear }
