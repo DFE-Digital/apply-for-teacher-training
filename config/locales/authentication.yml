@@ -1,6 +1,5 @@
 en:
   authentication:
-    continue: Continue
     sign_up:
       heading: Create an Apply for teacher training account
       accept_terms_checkbox: I agree to the terms of use

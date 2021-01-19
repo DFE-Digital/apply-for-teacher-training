@@ -80,11 +80,11 @@ RSpec.feature 'Candidate account' do
 
   def and_i_submit_my_email_address(email = @email)
     fill_in t('authentication.sign_up.email_address.label'), with: email
-    click_on t('authentication.continue')
+    click_on t('continue')
   end
 
   def and_i_submit_without_entering_an_email
-    click_on t('authentication.continue')
+    click_on t('continue')
   end
 
   def and_the_ts_and_cs_are_still_checked
@@ -137,7 +137,7 @@ RSpec.feature 'Candidate account' do
 
   def and_i_submit_an_invalid_email_address
     fill_in t('authentication.sign_up.email_address.label'), with: 'invalid email'
-    click_on t('authentication.continue')
+    click_on t('continue')
   end
 
   def then_i_see_form_errors_on_the_page

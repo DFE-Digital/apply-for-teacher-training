@@ -61,7 +61,7 @@ RSpec.feature 'Candidate account' do
 
   def and_i_submit_my_email_address(email)
     fill_in t('authentication.sign_up.email_address.label'), with: email
-    click_on t('authentication.continue')
+    click_on t('continue')
   end
 
   def then_i_receive_an_email_with_a_signup_link(email)
