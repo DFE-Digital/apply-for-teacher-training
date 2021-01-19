@@ -64,7 +64,7 @@ parameters:
   ucasPassword:
   ucasZipPassword:
   skylightAuthToken:
-  skylightEnable: false
+  skylightEnable: 'false'
   googleAnalyticsApply:
   googleAnalyticsManage:
 
@@ -264,7 +264,7 @@ jobs:
                 -alertSlackChannel "${{parameters.alertSlackChannel}}"
                 -logRetentionDays ${{parameters.logRetentionDays}}
                 -skylightAuthToken "${{parameters.skylightAuthToken}}"
-                -skylightEnable ${{parameters.skylightEnable}}
+                -skylightEnable "${{parameters.skylightEnable}}"
                 -dsiApiUrl "${{parameters.dsiApiUrl}}"
                 -dsiApiSecret "${{parameters.dsiApiSecret}}"
                 -ucasUsername "${{parameters.ucasUsername}}"
