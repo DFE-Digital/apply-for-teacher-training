@@ -39,6 +39,10 @@ class ApplicationChoice < ApplicationRecord
     offer_deferred: 'offer_deferred',
   }
 
+  def different_offer?
+    offered_course_option_id && offered_course_option_id != course_option_id
+  end
+
   def offered_option
     offered_course_option || course_option
   end
