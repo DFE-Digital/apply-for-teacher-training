@@ -4,11 +4,17 @@ This document explains how to run the test suite across multiple cores in develo
 
 ## Prerequisites
 
-### Check environment
+### Check development Redis config
 
-Ensure that REDIS_URL is not present in .env.test or .env.
+In order to successfully run tests in parallel, each process needs its own Redis database. Configuration in [spec/spec_helper.rb](spec/spec_helper.rb) ensures that a unique database is used per test process. These are allocated from database 1 onwards.
 
-In order to successfully run tests in parallel, each process needs its own Redis database. We determine the Redis database id in [ApplyRedisConnection](app/lib/apply_redis_connection.rb). This class always uses REDIS_URL if present in the environment. In order for it to return the appropriate URL for test runs, we need to ensure REDIS_URL is not set in the test environment.
+To ensure that your development Redis isn't affected by parallel test runs, make sure that the REDIS_URL set in development is using database 0.
+
+eg -
+
+`REDIS_URL=redis://localhost:6379/0`
+
+This should be handled by .env.development, but will be superseded by any local overrides.
 
 ### Prepare Postgres databases
 
