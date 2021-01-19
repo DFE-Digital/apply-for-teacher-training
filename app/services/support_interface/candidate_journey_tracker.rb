@@ -155,7 +155,7 @@ module SupportInterface
       @received_reference_timings ||=
         received_references.map do |reference|
           {
-            received_at: earliest_update_audit_for(reference, feedback_status: 'feedback_provided'),
+            received_at: reference.feedback_provided_at,
             requested_at: reference.requested_at,
           }
         end
