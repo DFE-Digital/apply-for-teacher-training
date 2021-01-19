@@ -22,7 +22,7 @@
         <%= f.govuk_text_field :grade, label: { text: t('application_form.gcse.grade.label'), size: 'm' }, hint: { text: hint_for_gcse_edit_grade(@subject, @qualification_type) }, width: 2 %>
       <% end %>
 
-      <%= f.govuk_submit t('application_form.complete_form_button') %>
+      <%= f.govuk_submit t('save_and_continue') %>
     <% end %>
   </div>
 </div>

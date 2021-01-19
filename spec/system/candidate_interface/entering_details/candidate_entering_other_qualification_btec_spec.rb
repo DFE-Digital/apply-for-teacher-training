@@ -54,7 +54,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_submit_the_other_qualification_form
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_i_see_validation_errors_for_my_qualification
@@ -63,7 +63,7 @@ RSpec.feature 'Entering their other qualifications' do
 
   def when_i_complete_the_form
     choose 'Merit'
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_i_see_my_btec_on_the_review_page

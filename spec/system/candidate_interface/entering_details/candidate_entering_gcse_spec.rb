@@ -189,7 +189,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def and_click_continue
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def when_i_click_on_the_maths_gcse_link

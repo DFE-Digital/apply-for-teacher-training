@@ -50,18 +50,18 @@ RSpec.feature 'International candidate submits the application' do
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
 
     # Nationality
     check 'Citizen of a different country'
     within all('.govuk-form-group')[1] do
       select 'Belgian'
     end
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
 
     # Right to work
     choose 'I do not know'
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
 
     # Mark Personal Details complete
     check t('application_form.completed_checkbox')

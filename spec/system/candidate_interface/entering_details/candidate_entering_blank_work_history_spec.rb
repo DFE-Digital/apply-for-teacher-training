@@ -43,7 +43,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_leave_all_fields_blank_and_submit
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_i_should_be_redirected_to_work_history

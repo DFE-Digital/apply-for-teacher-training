@@ -88,7 +88,7 @@ RSpec.feature 'Candidate deletes their work history' do
     choose 'No'
     choose 'No, not at the moment'
 
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def and_i_click_on_delete_entry
@@ -124,7 +124,7 @@ RSpec.feature 'Candidate deletes their work history' do
   end
 
   def and_i_click_on_continue
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def then_i_should_be_told_i_need_to_give_additional_information
@@ -137,7 +137,7 @@ RSpec.feature 'Candidate deletes their work history' do
 
   def and_i_change_the_job_title
     fill_in t('application_form.work_history.role.label'), with: 'Chief Executive Officer'
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_the_work_history_section_should_be_marked_as_incomplete

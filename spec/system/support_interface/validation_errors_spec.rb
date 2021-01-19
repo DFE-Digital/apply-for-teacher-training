@@ -34,7 +34,7 @@ RSpec.feature 'Validation errors' do
     visit candidate_interface_application_form_path
     click_link t('page_titles.contact_information')
     fill_in t('application_form.contact_details.phone_number.label'), with: 'ABCDEF'
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def given_i_am_a_support_user

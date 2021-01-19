@@ -35,7 +35,7 @@ RSpec.feature 'Choosing no volunteering and school experience' do
   end
 
   def when_i_omit_choosing_if_i_have_experience
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_i_see_validation_errors
@@ -49,7 +49,7 @@ RSpec.feature 'Choosing no volunteering and school experience' do
   end
 
   def and_i_submit_the_volunteering_experience_form
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_i_see_how_to_get_school_experience

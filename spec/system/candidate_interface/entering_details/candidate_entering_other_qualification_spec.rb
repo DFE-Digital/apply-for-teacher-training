@@ -149,7 +149,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_submit_the_other_qualification_form
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_i_see_validation_errors_for_my_qualification
@@ -311,7 +311,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_on_continue
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def and_the_section_is_not_completed

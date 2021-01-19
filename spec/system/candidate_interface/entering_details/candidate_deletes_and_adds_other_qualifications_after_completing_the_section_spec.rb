@@ -70,7 +70,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('application_form.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_the_other_qualifications_section_should_not_be_marked_as_complete
@@ -90,7 +90,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def and_i_click_on_continue
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def and_click_on_delete_my_additional_qualification
