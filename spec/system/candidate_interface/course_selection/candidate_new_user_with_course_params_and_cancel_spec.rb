@@ -42,12 +42,12 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
   def and_i_choose_to_use_apply
     choose 'Yes, I want to apply using the new service'
 
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_confirm_i_am_not_already_signed_up
     choose 'No, I need to create an account'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_submit_my_email_address

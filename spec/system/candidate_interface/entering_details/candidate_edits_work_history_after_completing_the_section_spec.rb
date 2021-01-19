@@ -61,7 +61,7 @@ RSpec.feature 'Candidate deletes their work history' do
 
   def and_i_choose_complete
     choose t('application_form.work_history.complete.label')
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_fill_in_the_job_form

@@ -20,7 +20,7 @@ RSpec.feature 'Declare EFL qualification not required' do
 
   def when_i_declare_that_english_is_not_foreign_to_me
     choose 'No, English is not a foreign language to me'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_the_review_page
@@ -29,11 +29,11 @@ RSpec.feature 'Declare EFL qualification not required' do
   end
 
   def and_i_can_complete_this_section
-    click_button 'Continue'
+    click_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
     click_link efl_link_text
     check 'I have completed this section'
-    click_button 'Continue'
+    click_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Completed')
   end
 end

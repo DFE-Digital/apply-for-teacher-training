@@ -5,6 +5,6 @@ module SignInHelper
 
   def confirm_sign_in
     expect(page).to have_content 'Confirm sign in'
-    click_button 'Continue'
+    click_button t('continue')
   end
 end

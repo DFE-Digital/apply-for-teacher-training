@@ -24,7 +24,7 @@ RSpec.feature 'Declare no EFL qualification' do
       'If you’re planning on doing an assessment, give details here',
       with: 'I’m working towards an IELTS.',
     )
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_the_review_page
@@ -34,11 +34,11 @@ RSpec.feature 'Declare no EFL qualification' do
   end
 
   def and_i_can_complete_this_section
-    click_button 'Continue'
+    click_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
     click_link efl_link_text
     check 'I have completed this section'
-    click_button 'Continue'
+    click_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Completed')
   end
 end

@@ -22,9 +22,9 @@ RSpec.feature 'Your TOEFL result' do
 
   def and_i_select_the_options_for_toefl
     choose 'Yes'
-    click_button 'Continue'
+    click_button t('continue')
     choose 'Test of English as a Foreign Language'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def when_i_provide_my_toefl_details
@@ -53,11 +53,11 @@ RSpec.feature 'Your TOEFL result' do
   end
 
   def and_i_can_complete_this_section
-    click_button 'Continue'
+    click_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Incomplete')
     click_link efl_link_text
     check 'I have completed this section'
-    click_button 'Continue'
+    click_button t('continue')
     expect(page).to have_css('#english-as-a-foreign-language-assessment-badge-id', text: 'Completed')
   end
 end

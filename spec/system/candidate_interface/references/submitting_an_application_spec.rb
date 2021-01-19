@@ -82,7 +82,7 @@ RSpec.feature 'Submitting an application' do
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     choose 'No'
-    click_button 'Continue'
+    click_button t('continue')
     choose 'No'
     click_button 'Send application'
   end

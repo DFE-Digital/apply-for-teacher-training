@@ -84,7 +84,7 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
 
   def when_i_choose_the_part_time_course
     choose 'Part time'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_visit_my_course_choices_page

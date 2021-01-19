@@ -58,7 +58,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   def and_i_choose_i_have_complete_work_history
     choose t('application_form.work_history.complete.label')
 
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_add_a_job_between_february_2015_to_august_2019
@@ -158,7 +158,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   def when_i_enter_a_reason_for_my_break_between_august_2019_and_november_2019
     fill_in 'Enter reasons for break in work history', with: 'Painting is tiring.'
 
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_my_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page
@@ -184,7 +184,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   def and_i_change_my_reason_for_my_break_between_august_2019_and_november_2019
     fill_in 'Enter reasons for break in work history', with: 'Some updated reason about painting.'
 
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_my_updated_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page

@@ -79,7 +79,7 @@ RSpec.feature 'Entering interview preferences' do
   end
 
   def and_i_submit_my_interview_preferences
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_the_form

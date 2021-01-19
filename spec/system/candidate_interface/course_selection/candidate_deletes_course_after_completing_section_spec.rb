@@ -71,16 +71,16 @@ RSpec.feature 'Candidate edits their choice section' do
 
   def and_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_a_provider
     select @course.provider.name_and_code
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_a_course_with_a_single_site
     choose @course.name_and_code
-    click_button 'Continue'
+    click_button t('continue')
   end
 end

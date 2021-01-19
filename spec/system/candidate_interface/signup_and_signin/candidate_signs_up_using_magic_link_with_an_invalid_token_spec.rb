@@ -38,7 +38,7 @@ RSpec.feature 'Candidate tries to sign up using magic link with an invalid token
     visit '/'
 
     choose 'No, I need to create an account'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_submit_my_email_address

@@ -39,7 +39,7 @@ RSpec.feature 'Candidate cannot sign up to a test environment (e.g. qa) without 
     visit '/'
 
     choose 'No, I need to create an account'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def when_i_go_back_to_sign_up_again

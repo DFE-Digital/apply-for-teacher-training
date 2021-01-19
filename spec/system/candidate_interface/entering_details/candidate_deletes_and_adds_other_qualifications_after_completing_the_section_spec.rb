@@ -60,7 +60,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
 
   def and_i_change_my_qualification_type
     choose 'A level'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_change_my_qualification_details

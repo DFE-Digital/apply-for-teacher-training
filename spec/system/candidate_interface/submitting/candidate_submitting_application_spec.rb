@@ -165,7 +165,7 @@ RSpec.feature 'Candidate submits the application' do
 
   def and_i_choose_not_to_fill_in_the_equality_and_diversity_survey
     choose 'No'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_to_add_further_information_but_omit_adding_details

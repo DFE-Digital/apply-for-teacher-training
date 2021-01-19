@@ -63,7 +63,7 @@ RSpec.describe 'Entering personal details' do
 
   def and_i_can_mark_the_section_complete
     check t('application_form.completed_checkbox')
-    click_button 'Continue'
+    click_button t('continue')
 
     expect(page).to have_css('#personal-information-badge-id', text: 'Completed')
   end

@@ -122,12 +122,12 @@ RSpec.feature 'Selecting a course' do
 
   def and_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_a_provider
     select 'Gorse SCITT (1N1)'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_a_course_and_its_description
@@ -136,7 +136,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def when_submit_without_choosing_a_course
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_an_error
@@ -145,7 +145,7 @@ RSpec.feature 'Selecting a course' do
 
   def and_i_choose_a_course
     choose 'Primary (2XT2)'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_the_address
@@ -154,7 +154,7 @@ RSpec.feature 'Selecting a course' do
 
   def and_i_choose_a_location
     choose 'Main site'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_visit_my_course_choices_page
@@ -182,12 +182,12 @@ RSpec.feature 'Selecting a course' do
 
   def and_i_choose_another_provider
     select 'Royal Academy of Dance (R55)'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_another_course_with_only_one_site
     choose 'Dance (W5X1)'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_review_my_second_course_choice
@@ -207,7 +207,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def when_i_click_continue
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_delete_one_of_my_course_choice

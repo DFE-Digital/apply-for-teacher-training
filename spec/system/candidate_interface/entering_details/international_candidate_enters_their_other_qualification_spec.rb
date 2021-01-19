@@ -96,7 +96,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_the_other_qualifications_form

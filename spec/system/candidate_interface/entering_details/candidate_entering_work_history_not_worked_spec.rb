@@ -41,7 +41,7 @@ RSpec.feature 'Entering their work history' do
 
   def when_i_choose_not_worked
     choose t('application_form.work_history.missing.label')
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_the_work_history_explanation_form
@@ -50,7 +50,7 @@ RSpec.feature 'Entering their work history' do
 
   def when_i_fill_in_the_work_history_explanation_form
     fill_in t('application_form.work_history.explanation.label'), with: 'I was not working'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_my_explanation
@@ -63,7 +63,7 @@ RSpec.feature 'Entering their work history' do
 
   def and_i_change_the_explanation
     fill_in t('application_form.work_history.explanation.label'), with: 'I was not working 2'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_my_updated_explanation

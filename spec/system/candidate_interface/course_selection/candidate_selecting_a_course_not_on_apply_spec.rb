@@ -51,12 +51,12 @@ RSpec.feature 'Selecting a course not on Apply' do
 
   def and_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_a_provider_without_a_course
     select 'Provider with no courses (FAKE)'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_that_i_should_apply_to_the_provider_on_ucas
@@ -73,12 +73,12 @@ RSpec.feature 'Selecting a course not on Apply' do
 
   def and_i_choose_a_provider
     select 'Gorse SCITT (1N1)'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_another_course
     choose 'Secondary (X123)'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_should_be_given_the_selected_training_provider_code

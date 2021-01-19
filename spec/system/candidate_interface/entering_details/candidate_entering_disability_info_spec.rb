@@ -111,7 +111,7 @@ RSpec.feature 'Entering their disability information' do
   end
 
   def and_i_submit_my_details
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_the_form

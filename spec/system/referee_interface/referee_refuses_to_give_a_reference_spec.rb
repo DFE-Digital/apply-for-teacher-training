@@ -38,7 +38,7 @@ RSpec.feature 'Refusing to give a reference' do
 
   def and_choose_that_i_do_actually_want_to_give_a_reference
     choose 'No, I’ve changed my mind'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_the_reference_relationship_page
@@ -51,7 +51,7 @@ RSpec.feature 'Refusing to give a reference' do
 
   def and_i_confirm_that_i_wont_give_a_reference
     choose 'Yes, I’m sure'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_a_slack_notification_is_sent

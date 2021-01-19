@@ -95,7 +95,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def when_i_click_on_continue
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_an_error_to_confirm_my_relationship_with_the_candidate
@@ -135,7 +135,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def and_i_click_on_continue
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_the_reference_comment_page
@@ -160,7 +160,7 @@ RSpec.feature 'Referee can submit reference', with_audited: true do
   end
 
   def then_i_can_review_the_amended_relationship
-    click_button 'Continue'
+    click_button t('continue')
     expect(page).to have_content('Amended by referee to: he is not my friend')
   end
 

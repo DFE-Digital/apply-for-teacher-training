@@ -110,13 +110,13 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
     click_link 'Continue'
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
 
     select 'Gorse SCITT (1N1)'
-    click_button 'Continue'
+    click_button t('continue')
 
     choose 'Primary (2XT2)'
-    click_button 'Continue'
+    click_button t('continue')
 
     expect(page).to have_link 'Delete choice'
     expect(page).to have_content 'I have completed this section'
@@ -125,7 +125,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
 
   def when_i_complete_my_application
     check t('application_form.courses.complete.completed_checkbox')
-    click_button 'Continue'
+    click_button t('continue')
     candidate_submits_application
   end
 

@@ -63,7 +63,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_omit_choosing_from_the_list_of_work_lengths
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_work_history_length_validation_errors
@@ -72,7 +72,7 @@ RSpec.feature 'Entering their work history' do
 
   def when_i_choose_complete
     choose t('application_form.work_history.complete.label')
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_the_job_form

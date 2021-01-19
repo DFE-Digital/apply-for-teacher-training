@@ -107,7 +107,7 @@ RSpec.feature 'A candidate withdraws her application' do
   end
 
   def when_i_submit_the_questionnaire_without_choosing_options
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_am_told_i_need_to_choose_whether_i_want_to_provide_feedback
@@ -126,7 +126,7 @@ RSpec.feature 'A candidate withdraws her application' do
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_my_application_dashboard

@@ -71,7 +71,7 @@ RSpec.describe 'Candidate can carry over unsuccessful application to a new recru
     expect(page).to have_content('Personal information Completed')
     click_link 'Personal information'
     expect(page).to have_content(@application_form.full_name)
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_can_see_that_no_courses_are_selected_and_i_cannot_add_any_yet

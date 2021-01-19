@@ -83,7 +83,7 @@ module CandidateHelper
     click_link 'Check and submit your application'
     click_link 'Continue'
     choose 'No'
-    click_button 'Continue'
+    click_button t('continue')
     choose 'No' # "Is there anything else you would like to tell us?"
     click_button 'Send application'
     @application = ApplicationForm.last
@@ -128,19 +128,19 @@ module CandidateHelper
   def candidate_fills_in_course_choices
     click_link 'Continue'
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
 
     select 'Gorse SCITT (1N1)'
-    click_button 'Continue'
+    click_button t('continue')
 
     choose 'Primary (2XT2)'
-    click_button 'Continue'
+    click_button t('continue')
 
     choose 'No, not at the moment'
-    click_button 'Continue'
+    click_button t('continue')
 
     check t('application_form.courses.complete.completed_checkbox')
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def candidate_fills_in_personal_details
@@ -161,7 +161,7 @@ module CandidateHelper
     click_button t('save_and_continue')
 
     check t('application_form.completed_checkbox')
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def candidate_fills_in_contact_details
@@ -231,7 +231,7 @@ module CandidateHelper
 
   def candidate_fills_in_their_other_qualifications
     choose 'A level'
-    click_button 'Continue'
+    click_button t('continue')
     fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards'
     fill_in t('application_form.other_qualification.grade.label'), with: 'A'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
@@ -252,14 +252,14 @@ module CandidateHelper
   def candidate_fills_in_safeguarding_issues
     choose 'Yes'
     fill_in 'Give any relevant information', with: 'I have a criminal conviction.'
-    click_button 'Continue'
+    click_button t('continue')
     check t('application_form.completed_checkbox')
     click_button t('continue')
   end
 
   def candidate_fills_in_work_experience
     choose t('application_form.work_history.complete.label')
-    click_button 'Continue'
+    click_button t('continue')
 
     with_options scope: 'application_form.work_history' do |locale|
       fill_in locale.t('role.label'), with: 'Teacher'

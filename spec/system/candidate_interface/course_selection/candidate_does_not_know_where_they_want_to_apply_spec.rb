@@ -34,7 +34,7 @@ RSpec.feature 'Selecting a course' do
 
   def and_i_choose_that_i_do_not_know_where_i_want_to_apply
     choose 'No, I need to find a course'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_be_on_the_find_a_course_page

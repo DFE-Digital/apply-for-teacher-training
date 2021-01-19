@@ -130,7 +130,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_button t('continue')
   end
   alias_method :when_i_click_continue, :and_i_click_continue
 
