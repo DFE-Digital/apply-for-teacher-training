@@ -15,11 +15,11 @@
     <div class="app-timeline__log-card">
       <div class="app-timeline__log-card__note">
         <p class="app-timeline__log-card__note--title">
-          <%= event_note_title %>
+          <%= event_title %>
         </p>
-        <% if event_note_content.present? %>
+        <% if event_content.present? %>
           <p class="app-timeline__log-card__note--content govuk-!-margin-top-0">
-            <%= event_note_content %>
+            <%= event_content %>
           </p>
         <% end %>
         <% if link[:url].present? %>

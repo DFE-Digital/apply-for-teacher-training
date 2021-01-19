@@ -72,7 +72,7 @@ module ProviderInterface
                          end
     end
 
-    def event_note_title
+    def event_title
       if application_choice.present?
         "#{course_option.course.name_and_code} at #{course_option.site.name}"
       elsif event.audit.auditable.is_a?(Interview)
@@ -81,7 +81,7 @@ module ProviderInterface
       end
     end
 
-    def event_note_content
+    def event_content
       if application_choice.present?
         content = course_option.provider.name
 
