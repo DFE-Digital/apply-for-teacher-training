@@ -1,8 +1,8 @@
-# Apply for Teacher Training - Developer On-boarding
+# Developer On-boarding
 
 ## Purpose
 
-This document describes the on-boardng steps that need to be undertaken for new Developers when they join the team. 
+This document describes the on-boardng steps that need to be undertaken for new Developers when they join the team.
 
 ## Azure/DevOps steps
 

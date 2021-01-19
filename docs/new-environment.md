@@ -1,4 +1,4 @@
-# Creating and Deploying to a new environment in Azure
+# How to: create and deploy a new environment in Azure
 
 All the steps required to create and deploy to an Azure environment are written in the [Pipelines deploy template file](../azure/pipelines/templates/deploy.yml). This template is referenced inside the main Azure Pipelines configuration file and reused with appropriate parameters for the required environment.
 
@@ -43,7 +43,7 @@ dNN | Dev & QA |
 tNN | Staging |
 pNN | Production |
 
-`NN` is a number with 2 digit places. 
+`NN` is a number with 2 digit places.
 
 The first step defined in the deploy template is a script which determines if a full ARM deployment is required.
 A full ARM deployment will be run when the pipeline is triggered for the first time after a new stage is configured.
@@ -64,7 +64,7 @@ in question.
 2. Issue the following query, which writes your email address (EMAIL) and DfE Sign-in uid (UID) into the support_users table.
 
 ```SQL
-INSERT INTO support_users (email_address, dfe_sign_in_uid, created_at, updated_at) 
+INSERT INTO support_users (email_address, dfe_sign_in_uid, created_at, updated_at)
 VALUES ('EMAIL', 'UID', current_timestamp, current_timestamp);
 ```
 

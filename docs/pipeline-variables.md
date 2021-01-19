@@ -1,6 +1,6 @@
-# Pipeline Variables
+# Pipeline variables
 
-The pipeline varianbles can be found in [Azure DevOps](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_library?itemType=VariableGroups)
+The pipeline variables can be found in [Azure DevOps](https://dfe-ssp.visualstudio.com/Become-A-Teacher/_library?itemType=VariableGroups)
 
 Each environment has three tiers of pipelines variables, listed below and starting with the least specific first.
 1. `Docker Shared Variables` - This group is common to all environments in Apply and also Find. It contains the login credentials from Dockerhub used during the build and deployment processes.

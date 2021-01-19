@@ -1,4 +1,4 @@
-# Apply for Postgraduate Teacher Training - Hotfix Deployment
+# How to: do a hotfix deployment
 
 ## Purpose
 

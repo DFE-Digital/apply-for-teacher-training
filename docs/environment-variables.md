@@ -45,7 +45,7 @@ These steps describe the process for making environment variables available to t
         }
       }
       ```
-   2. Around [line 500](../azure/template.json#L505) duplicate this block of code in the *appEnvironmentVariables* parameter of the `app-service-and-containers` resource and configure it to match your new environment varaible. 
+   2. Around [line 500](../azure/template.json#L505) duplicate this block of code in the *appEnvironmentVariables* parameter of the `app-service-and-containers` resource and configure it to match your new environment varaible.
    If the environment variable in question is a secret, change `value` to `secureValue`.
       ```json
       {

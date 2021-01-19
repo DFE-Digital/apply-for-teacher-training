@@ -1,6 +1,4 @@
-# Apply for Postgraduate Teacher Training - PIM Rights 
-
-## Purpose
+# PIM rights for production access
 
 This document describes the process of elevating your permissions using PIM (Privileged Identity Management) in Azure to administer resources in the test and production subscriptions.
 

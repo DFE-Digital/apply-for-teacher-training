@@ -1,4 +1,4 @@
-# Load testing
+# How to: perform load testing on Apply
 
 [Apache JMeter](https://jmeter.apache.org/) allows us to test our service with realistic loads.
 
