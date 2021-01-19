@@ -1,4 +1,4 @@
-<% content_for :title, t('submit_application.title') %>
+<% content_for :title, t('application_form.submit_application.title') %>
 <% content_for :before_content, govuk_back_link_to(candidate_interface_application_review_path) %>
 
 <div class="govuk-grid-row">
@@ -7,12 +7,12 @@
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
-        <%= t('submit_application.heading') %>
+        <%= t('application_form.submit_application.heading') %>
       </h1>
 
       <p class="govuk-body">
         I understand I will have to undergo an enhanced
-        <%= govuk_link_to t('submit_application.disclosure_link'), 'https://www.gov.uk/government/organisations/disclosure-and-barring-service' %>
+        <%= govuk_link_to t('application_form.submit_application.disclosure_link'), 'https://www.gov.uk/government/organisations/disclosure-and-barring-service' %>
         as part of my application.
       </p>
 
@@ -29,7 +29,7 @@
           convictions.
         </p>
         <p class="govuk-body">
-          <%= govuk_link_to t('submit_application.conviction_link'), 'https://www.gov.uk/exoffenders-and-employment' %>.
+          <%= govuk_link_to t('application_form.submit_application.conviction_link'), 'https://www.gov.uk/exoffenders-and-employment' %>.
         </p>
       </div>
 
@@ -46,7 +46,7 @@
         I confirm that the information given is true, complete and accurate.
       </p>
 
-      <%= f.govuk_submit t('submit_application.submit_button') %>
+      <%= f.govuk_submit t('application_form.submit_application.submit_button') %>
     <% end %>
   </div>
 </div>

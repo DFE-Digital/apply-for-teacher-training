@@ -75,7 +75,7 @@ RSpec.feature 'Candidate signs in and prefills application in Sandbox', sandbox:
     choose t('equality_and_diversity.choice.no.label')
     click_on t('continue')
     choose 'No'
-    click_button t('submit_application.submit_button')
+    click_button t('application_form.submit_application.submit_button')
   end
 
   def then_my_application_is_submitted_successfully
