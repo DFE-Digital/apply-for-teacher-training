@@ -120,7 +120,7 @@ module ProviderInterface
           }
         elsif event.audit.auditable.is_a?(Interview)
           {
-            url: routes.provider_interface_application_choice_path(event.audit.associated),
+            url: routes.provider_interface_application_choice_interviews_path(event.audit.associated, anchor: "interview-#{event.audit.auditable.id}"),
             text: 'View interview',
           }
         else

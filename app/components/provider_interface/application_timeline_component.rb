@@ -137,8 +137,7 @@ module ProviderInterface
     def interview_link_params(interview)
       return [nil, nil] if interview.discarded?
 
-      # TODO : Amend to interview path
-      ['View interview', provider_interface_application_choice_path(application_choice)]
+      ['View interview', provider_interface_application_choice_interviews_path(application_choice, anchor: "interview-#{interview.id}")]
     end
 
     def provider_name(provider_user)

@@ -101,7 +101,7 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
       audit = create(:interview_audit)
 
       expect(component_for(audit).link).to eq({
-        url: routes.provider_interface_application_choice_path(audit.associated),
+        url: routes.provider_interface_application_choice_interviews_path(audit.associated, anchor: "interview-#{audit.auditable.id}"),
         text: 'View interview',
       })
     end

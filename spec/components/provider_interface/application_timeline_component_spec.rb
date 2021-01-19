@@ -129,7 +129,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include 'Interview set up'
       expect(rendered.text).to include '11 February 2020 at 10:00pm'
       expect(rendered.css('a').text).to eq 'View interview'
-      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
     end
 
     it 'renders the interview updated event' do
@@ -142,7 +142,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include 'Interview updated'
       expect(rendered.text).to include '11 February 2020 at 10:00pm'
       expect(rendered.css('a').text).to eq 'View interview'
-      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
     end
 
     it 'renders the interview cancelled event' do
@@ -156,7 +156,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include 'Interview cancelled'
       expect(rendered.text).to include '11 February 2020 at 10:00pm'
       expect(rendered.css('a').text).to eq 'View interview'
-      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
     end
   end
 
