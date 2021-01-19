@@ -8,4 +8,4 @@
 
 <%= f.govuk_email_field :email_address, label: { text: t('application_form.references.email_address.label'), size: 'xl', tag: 'h1' }, caption: { text: @reference.name, size: 'xl' }, hint: { text: t('application_form.references.email_address.hint_text') }, spellcheck: false %>
 
-<%= f.govuk_submit 'Save and continue' %>
+<%= f.govuk_submit t('save_and_continue') %>
