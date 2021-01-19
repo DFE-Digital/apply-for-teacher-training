@@ -49,6 +49,11 @@ RSpec.describe ReferenceFeatureMetrics, with_audited: true do
       it 'returns the correct value for references received over a custom interval' do
         expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today - 1.week)).to eq('3 days')
       end
+
+      it 'handles missing `requested_at` timestamp' do
+        @references1.first.update!(requested_at: nil)
+        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today)).to eq('7.5 days')
+      end
     end
 
     describe '#percentage_references_within' do
