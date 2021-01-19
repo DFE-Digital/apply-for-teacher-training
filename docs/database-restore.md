@@ -1,4 +1,4 @@
-# Restore a database
+# How to: restore a database
 
 ## Purpose
 

@@ -1,4 +1,4 @@
-# Connect to a production database
+# How to: connect to a production database
 
 ## Purpose
 

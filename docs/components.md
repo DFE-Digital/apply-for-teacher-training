@@ -1,14 +1,14 @@
-# Rails components
+# View components
 
-We use [ActionView::Component](https://github.com/github/actionview-component) for reusable view components.
+We use [ViewComponent](https://github.com/github/view_component) for reusable view components.
 
 ## Why use components?
 
-The [guide section in the actionview-component README has detailed explanations](https://github.com/github/actionview-component#guide), but in a nutshell these are some pros:
+The [guide section in the ViewComponent README has detailed explanations](https://github.com/github/view_component#guide), but in a nutshell these are some pros:
 
 - They are easy to unit test
 - They are easy to make and reuse
-- They can be used to wrap things like GOVUK Design System components
+- They can be used to wrap things like GOV.UK Design System components
 - They allow you to couple Ruby logic with a Rails partial without having to write the logic inside `erb`
 - They are 5x faster to render than partials
 - They can be previewed on their own and are easy to "Design Systemify"

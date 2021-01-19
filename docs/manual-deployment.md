@@ -1,10 +1,8 @@
-# Apply for Postgraduate Teacher Training - Manual Deployment
-
-## Purpose
+# How to: manually deploy Apply
 
 This document describes the process of manually deploying a new Docker image into the Azure app service.
 
-### When should this process be used?
+## When should this process be used?
 
 In the event that code changes are made to the app but the Azure pipelines fail to complete the deployment stages this process should be followed to deploy the Docker image to the Azure App Service manually. It is anticipated that this process would only be following in response to bug fixes when the deployment pipeline is failing.
 

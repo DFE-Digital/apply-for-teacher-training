@@ -1,4 +1,4 @@
-# Deploying Apply - Step by step
+# How to: deploy Apply
 
 The apply build and release process is split into two separate Azure DevOps pipelines.
 
@@ -20,7 +20,7 @@ If none of the above conditions are met the pipeline will simply load the new im
 
 ## 1. Check what you're deploying
 
-Go to [the Apply Ops Dashboard](https://apply-ops-dashboard.azurewebsites.net) and find the commit you want to deploy 
+Go to [the Apply Ops Dashboard](https://apply-ops-dashboard.azurewebsites.net) and find the commit you want to deploy
 and check the diff on GitHub to see if there's anything risky.
 
 You also have to make sure that you're deploying only work that is safe to deploy. It should be either behind a feature flag or product reviewed.

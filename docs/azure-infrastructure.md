@@ -1,4 +1,4 @@
-# Apply for Teacher Training - Azure Infrastructure 
+# Azure Infrastructure 
 
 ## Purpose
 

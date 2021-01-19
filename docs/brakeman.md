@@ -1,4 +1,4 @@
-# Brakeman
+# Security scanning with Brakeman
 
 [Brakeman](https://github.com/presidentbeef/brakeman) is a static analysis tool which checks for security vulnerabilities.
 

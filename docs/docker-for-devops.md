@@ -1,4 +1,4 @@
-# Apply for Teacher Training - Docker for DevOps
+# Docker for DevOps
 
 ## Purpose
 
@@ -91,7 +91,7 @@ Under normal circumstances you will seldom need to run a build using these instr
 1. Take a backup of the [docker-compose.override.yml](../docker-compose.override.yml) file by renaming it to something else of your choosing.
 1. Take a copy of the [docker-compose.azure.yml](../docker-compose.azure.yml) and name it `docker-compose.override.yml` to replace the file you backed up in the previous step.
 1. Open the new `docker-compose.override.yml` file and make the following changes to it:
-   - Delete the line that starts `image:` 
+   - Delete the line that starts `image:`
    - Remove `=${railsSecretKeyBase}` from the end of the line `- SECRET_KEY_BASE=${railsSecretKeyBase}`
 1. Run the `make build` command. This will take approximately five minutes to complete.
 1. Run the `make setup` command to initialise the database.

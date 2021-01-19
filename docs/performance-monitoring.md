@@ -1,4 +1,4 @@
-# Performance Monitoring
+# Performance monitoring
 
 ## External Integrations
 

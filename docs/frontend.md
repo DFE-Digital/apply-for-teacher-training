@@ -1,4 +1,6 @@
-# Debugging
+# Frontend
+
+## Debugging
 
 We do not use the Rails asset pipeline. We use the Rails webpack wrapper
 [Webpacker](https://github.com/rails/webpacker) to compile our CSS, images, fonts
