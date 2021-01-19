@@ -14,7 +14,7 @@ RSpec.describe 'Candidate interface - validation error tracking', type: :request
       candidate_interface_contact_details_form: {
         phone_number: '01234 567890',
       },
-      commit: 'Save and continue',
+      commit: t('save_and_continue'),
     }
   end
 
@@ -23,7 +23,7 @@ RSpec.describe 'Candidate interface - validation error tracking', type: :request
       candidate_interface_contact_details_form: {
         phone_number: 'NOT A NUMBER',
       },
-      commit: 'Save and continue',
+      commit: t('save_and_continue'),
     }
   end
 
