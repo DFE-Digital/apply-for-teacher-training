@@ -19,25 +19,29 @@ class VendorAPIRequestMiddleware
 
   def call(env)
     @request = Rack::Request.new(env)
-    status, headers, response = @app.call(env)
+    status, @headers, @response = @app.call(env)
 
     begin
       if trace_request?
-        VendorAPIRequestWorker.perform_async(request_data, body_from(response), status, Time.zone.now)
+        VendorAPIRequestWorker.perform_async(request_data, response_data, status, Time.zone.now)
       end
     rescue Redis::BaseError => e
       Rails.logger.warn e.message
     end
 
-    [status, headers, response]
+    [status, @headers, @response]
   end
 
 private
 
-  def body_from(response)
-    body = response.respond_to?(:body) ? response.body : response.join
+  def response_data
+    body = @response.respond_to?(:body) ? @response.body : @response.join
     body = body.join if body.is_a?(Array)
-    body
+
+    {
+      headers: @headers,
+      body: body,
+    }
   end
 
   def request_data
@@ -45,6 +49,7 @@ private
       path: @request.path,
       params: @request.params,
       headers: request_headers,
+      method: @request.env['REQUEST_METHOD'],
     }
   end
 
