@@ -38,7 +38,7 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
 
   def when_i_provide_my_email_address
     fill_in 'Email address', with: 'sUpPoRt@example.com '
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_receive_an_email_with_a_signin_link

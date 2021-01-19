@@ -29,7 +29,7 @@ RSpec.feature 'Selecting a course' do
   end
 
   def and_i_click_on_add_course
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def and_i_choose_that_i_do_not_know_where_i_want_to_apply

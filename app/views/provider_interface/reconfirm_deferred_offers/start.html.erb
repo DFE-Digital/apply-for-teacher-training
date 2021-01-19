@@ -55,7 +55,7 @@
     </div>
 
     <% if @wizard.applicable? %>
-      <%= govuk_link_to 'Continue', provider_interface_reconfirm_deferred_offer_conditions_path(@application_choice.id), class: 'govuk-button' %>
+      <%= govuk_link_to t('continue'), provider_interface_reconfirm_deferred_offer_conditions_path(@application_choice.id), class: 'govuk-button' %>
     <% end %>
   </div>
 </div>

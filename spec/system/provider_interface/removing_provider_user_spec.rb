@@ -80,14 +80,14 @@ RSpec.describe 'Removing a provider user' do
     fill_in 'Email address', with: @user_to_remove.email_address
     fill_in 'First name', with: @user_to_remove.first_name
     fill_in 'Last name', with: @user_to_remove.last_name
-    click_on 'Continue'
+    click_on t('continue')
 
     check @provider.name
-    click_on 'Continue'
+    click_on t('continue')
 
     choose 'Extra permissions'
     check 'Make decisions'
-    click_on 'Continue'
+    click_on t('continue')
 
     click_on 'Invite user'
   end

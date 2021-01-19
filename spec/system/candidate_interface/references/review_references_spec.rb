@@ -147,7 +147,7 @@ RSpec.feature 'Review references' do
   end
 
   def and_i_can_return_to_the_application_page
-    click_link 'Continue'
+    click_link t('continue')
     expect(page).to have_current_path candidate_interface_application_form_path
   end
 end

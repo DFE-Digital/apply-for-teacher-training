@@ -158,7 +158,7 @@ RSpec.feature 'International candidate submits the application' do
   end
 
   def when_i_confirm_my_application
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def when_i_choose_not_to_fill_in_the_equality_and_diversity_survey

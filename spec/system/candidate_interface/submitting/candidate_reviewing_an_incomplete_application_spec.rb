@@ -31,7 +31,7 @@ RSpec.feature 'Candidate reviewing an incomplete application' do
   end
 
   def when_i_confirm_my_application
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def then_i_should_see_an_error_that_i_have_not_completed_everything

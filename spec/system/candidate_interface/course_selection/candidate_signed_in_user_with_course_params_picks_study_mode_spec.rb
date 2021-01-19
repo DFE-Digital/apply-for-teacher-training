@@ -59,7 +59,7 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
 
   def when_i_say_yes
     choose 'Yes'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_should_see_the_course_selection_page
@@ -70,7 +70,7 @@ RSpec.describe 'An existing candidate arriving from Find with course params sele
 
   def when_i_say_yes
     choose 'Yes'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_should_see_the_study_mode_page

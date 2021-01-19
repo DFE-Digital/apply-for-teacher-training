@@ -119,7 +119,7 @@ RSpec.feature 'References' do
   end
 
   def when_i_click_continue
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def then_i_see_the_type_page

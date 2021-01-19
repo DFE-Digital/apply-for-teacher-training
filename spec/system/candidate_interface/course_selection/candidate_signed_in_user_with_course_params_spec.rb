@@ -97,7 +97,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def when_i_say_yes
     choose 'Yes'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_submit_my_email_address

@@ -66,7 +66,7 @@ RSpec.describe 'Add additional courses flow' do
   end
 
   def and_i_click_on_add_course
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def when_i_choose_that_i_know_where_i_want_to_apply
@@ -102,7 +102,7 @@ RSpec.describe 'Add additional courses flow' do
 
   def when_i_choose_no
     choose 'No, not at the moment'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def given_i_am_on_the_additional_courses_page
@@ -111,7 +111,7 @@ RSpec.describe 'Add additional courses flow' do
 
   def when_i_choose_yes
     choose 'Yes, add another course'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_should_see_the_have_you_chosen_a_course_page

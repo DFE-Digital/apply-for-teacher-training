@@ -51,7 +51,7 @@ RSpec.feature 'Sign in as provider user' do
 
     ClimateControl.modify HOSTING_ENVIRONMENT_NAME: 'production' do
       check "#{provider_name} agrees to comply with the data sharing practices outlined in this agreement"
-      click_on 'Continue'
+      click_on t('continue')
     end
   end
 

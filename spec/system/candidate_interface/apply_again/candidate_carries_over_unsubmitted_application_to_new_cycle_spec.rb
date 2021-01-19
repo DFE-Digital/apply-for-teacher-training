@@ -139,7 +139,7 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
   def when_i_add_a_course
     given_courses_exist
 
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
 

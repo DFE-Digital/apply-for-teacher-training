@@ -92,7 +92,7 @@ RSpec.feature 'Provider changes an offer' do
   end
 
   def when_i_click_on_continue
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_see_all_courses_for_this_provider_year_and_study_mode
@@ -104,12 +104,12 @@ RSpec.feature 'Provider changes an offer' do
 
   def and_i_can_change_the_course
     choose @both_modes_course.name_and_code
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_can_change_the_study_mode
     choose 'Part time'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_see_all_available_locations_for_this_study_mode
@@ -121,7 +121,7 @@ RSpec.feature 'Provider changes an offer' do
 
   def and_i_can_change_the_location
     choose @course_option_three.site.name
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def when_i_inspect_and_confirm_these_changes

@@ -65,12 +65,12 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
   def and_i_choose_to_apply_on_apply
     choose 'Yes, I want to apply using the new service'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_choose_i_need_an_account
     choose 'No, I need to create an account'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def when_i_submit_my_email_address
@@ -100,7 +100,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
   def when_i_say_yes
     choose 'Yes'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_should_see_the_courses_review_page

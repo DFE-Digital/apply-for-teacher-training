@@ -102,7 +102,7 @@ RSpec.feature 'Provider makes changes before making an offer' do
 
   def and_i_can_choose_to_make_an_offer_but_change_provider
     choose 'Make an offer but change training provider'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_see_all_providers
@@ -111,7 +111,7 @@ RSpec.feature 'Provider makes changes before making an offer' do
 
   def and_i_can_change_training_provider
     choose @another_provider.name_and_code
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_see_all_courses_for_this_provider
@@ -122,7 +122,7 @@ RSpec.feature 'Provider makes changes before making an offer' do
 
   def and_i_can_change_the_course
     choose @course_option_two.course.name_and_code
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_see_all_available_locations_for_this_course
@@ -133,7 +133,7 @@ RSpec.feature 'Provider makes changes before making an offer' do
 
   def and_i_can_change_the_location
     choose @course_option_three.site.name
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_can_add_conditions_to_the_offer
@@ -142,7 +142,7 @@ RSpec.feature 'Provider makes changes before making an offer' do
     fill_in 'First condition', with: 'Condition the first'
     fill_in 'Second condition', with: 'Condition the second'
 
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_can_see_the_offer_confirmation_details

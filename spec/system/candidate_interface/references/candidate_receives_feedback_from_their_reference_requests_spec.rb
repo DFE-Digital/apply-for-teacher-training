@@ -29,7 +29,7 @@ RSpec.feature 'References' do
 
   def and_i_have_provided_4_references
     visit candidate_interface_references_start_path
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Academic'
     click_button t('save_and_continue')
 
@@ -38,7 +38,7 @@ RSpec.feature 'References' do
     click_button t('save_and_continue')
 
     click_link 'Add a second referee'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Professional'
     click_button t('save_and_continue')
 
@@ -51,7 +51,7 @@ RSpec.feature 'References' do
     click_button t('save_and_continue')
 
     click_link 'Add another referee'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'School-based'
     click_button t('save_and_continue')
 
@@ -64,7 +64,7 @@ RSpec.feature 'References' do
     click_button t('save_and_continue')
 
     click_link 'Add another referee'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Character'
     click_button t('save_and_continue')
 

@@ -51,7 +51,7 @@ RSpec.describe 'Reject an application' do
 
   def and_i_choose_to_reject_it
     choose 'Reject application'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_give_reasons_why_i_am_rejecting_the_application
@@ -87,7 +87,7 @@ RSpec.describe 'Reject an application' do
     check 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-field'
     fill_in 'reasons-for-rejection-safeguarding-concerns-vetting-disclosed-information-details-field', with: 'You abducted Jenny, now Matrix is coming to find her'
 
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_check_the_reasons_for_rejection
@@ -123,7 +123,7 @@ RSpec.describe 'Reject an application' do
     choose 'reasons-for-rejection-honesty-and-professionalism-y-n-no-field'
     choose 'reasons-for-rejection-safeguarding-y-n-no-field'
 
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_answer_additional_reasons
@@ -134,7 +134,7 @@ RSpec.describe 'Reject an application' do
 
     choose 'reasons-for-rejection-interested-in-future-applications-y-n-yes-field'
 
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_check_the_amended_reasons_for_rejection
@@ -165,7 +165,7 @@ RSpec.describe 'Reject an application' do
     check 'reasons-for-rejection-honesty-and-professionalism-concerns-references-field'
     fill_in 'reasons-for-rejection-honesty-and-professionalism-concerns-references-details-field', with: 'We cannot accept references from your gran'
 
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_recheck_my_reasons

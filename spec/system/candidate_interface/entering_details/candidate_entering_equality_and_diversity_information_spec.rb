@@ -97,7 +97,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   def and_i_submit_my_application
     receive_references
     click_link 'Check and submit your application'
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def then_i_see_the_equality_and_diversity_page

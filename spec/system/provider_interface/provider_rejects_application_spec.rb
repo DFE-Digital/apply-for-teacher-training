@@ -49,7 +49,7 @@ RSpec.feature 'Provider rejects application' do
 
   def and_i_choose_to_reject_it
     choose 'Reject application'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_add_a_rejection_reason
@@ -57,7 +57,7 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def and_i_click_to_continue
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_am_asked_to_confirm_the_rejection

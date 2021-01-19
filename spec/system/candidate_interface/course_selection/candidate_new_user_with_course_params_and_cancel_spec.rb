@@ -74,7 +74,7 @@ RSpec.feature 'Candidate tries to sign in after selecting a course in find witho
 
   def when_i_say_no
     choose 'No'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_see_empty_course_review_page

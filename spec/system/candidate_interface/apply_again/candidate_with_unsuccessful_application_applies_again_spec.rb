@@ -108,7 +108,7 @@ RSpec.feature 'Candidate with unsuccessful application' do
   def and_i_can_indeed_only_select_one_course
     given_courses_exist
 
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
 

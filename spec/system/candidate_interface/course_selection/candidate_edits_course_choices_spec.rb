@@ -113,7 +113,7 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_click_on_add_course
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def when_i_choose_that_i_know_where_i_want_to_apply

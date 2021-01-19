@@ -92,7 +92,7 @@ RSpec.feature 'Candidate applying again' do
 
   def when_i_add_a_new_referee
     click_link 'Add a second referee'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Academic'
     click_button t('save_and_continue')
 

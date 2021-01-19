@@ -22,7 +22,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
 
   def when_i_provide_two_references
     visit candidate_interface_references_start_path
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Academic'
     click_button t('save_and_continue')
 
@@ -35,7 +35,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     click_button t('save_and_continue')
 
     click_link 'Add a second referee'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Professional'
     click_button t('save_and_continue')
 

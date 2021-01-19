@@ -81,7 +81,7 @@ module CandidateHelper
   def candidate_submits_application
     receive_references
     click_link 'Check and submit your application'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'No'
     click_button t('continue')
     choose 'No' # "Is there anything else you would like to tell us?"
@@ -126,7 +126,7 @@ module CandidateHelper
   end
 
   def candidate_fills_in_course_choices
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
 
@@ -328,7 +328,7 @@ module CandidateHelper
 
   def candidate_provides_two_referees
     visit candidate_interface_references_start_path
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Academic'
     click_button t('save_and_continue')
 
@@ -337,7 +337,7 @@ module CandidateHelper
     click_button t('save_and_continue')
 
     click_link 'Add a second referee'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Professional'
     click_button t('save_and_continue')
 

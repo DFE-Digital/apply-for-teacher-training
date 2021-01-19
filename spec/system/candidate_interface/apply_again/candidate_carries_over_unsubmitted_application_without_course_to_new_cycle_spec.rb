@@ -128,7 +128,7 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
   def and_i_select_a_course
     given_courses_exist
 
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Yes, I know where I want to apply'
     click_button t('continue')
 
