@@ -25,8 +25,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_sign_in_to_the_provider_interface
 
     when_i_visit_that_application_in_the_provider_interface
-    i_can_set_up_an_interview
-    and_i_can_set_up_another_interview
+    and_i_click_set_up_an_interview
+    and_i_fill_out_the_interview_form(days_in_future: 1, time: '12pm')
+    and_i_click_send_interview_details
+    then_i_see_a_success_message
+    and_an_interview_has_been_created('2 March 2020')
+
+    and_i_can_set_up_another_interview(days_in_future: 2)
+    and_another_interview_has_been_created('3 March 2020')
 
     when_i_cancel_an_interview
     i_can_see_the_application_is_still_in_the_interviewing_state
@@ -53,16 +59,52 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     visit provider_interface_application_choice_path(application_choice)
   end
 
+  def and_i_click_set_up_an_interview
+    click_on 'Set up interview'
+  end
+
   def i_can_set_up_an_interview
     visit new_provider_interface_application_choice_interview_path(application_choice, date_and_time: '2021-2-4')
     expect(page).to have_content('Interview successfully created')
   end
 
-  alias_method :and_i_can_set_up_another_interview, :i_can_set_up_an_interview
+  def and_i_can_set_up_another_interview(days_in_future:)
+    and_i_click_set_up_an_interview
+    and_i_fill_out_the_interview_form(days_in_future: days_in_future, time: '7pm')
+    and_i_click_send_interview_details
+    then_i_see_a_success_message
+  end
+
+  def and_i_fill_out_the_interview_form(days_in_future:, time:)
+    tomorrow = days_in_future.day.from_now
+    fill_in 'Day', with: tomorrow.day
+    fill_in 'Month', with: tomorrow.month
+    fill_in 'Year', with: tomorrow.year
+
+    fill_in 'Time', with: time
+
+    fill_in 'Address or online meeting details', with: 'N/A'
+
+    click_on 'Continue'
+  end
+
+  def and_i_click_send_interview_details
+    click_on 'Send interview details'
+  end
+
+  def then_i_see_a_success_message
+    expect(page).to have_content 'Interview set up'
+  end
+
+  def and_an_interview_has_been_created(date)
+    within('.app-interviews') do
+      expect(page).to have_content(date)
+    end
+  end
+
+  alias_method :and_another_interview_has_been_created, :and_an_interview_has_been_created
 
   def when_i_cancel_an_interview
-    visit provider_interface_application_choice_interviews_path(application_choice)
-
     first(:link, 'Cancel').click
     fill_in 'interview[cancellation_reason]', with: 'A cancellation reason'
     click_on 'Continue'

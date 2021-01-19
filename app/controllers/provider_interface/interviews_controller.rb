@@ -30,7 +30,7 @@ module ProviderInterface
       render :check unless @interview_form.save
 
       flash[:success] = 'Interview set up'
-      redirect_to provider_interface_application_choice_path(@application_choice)
+      redirect_to provider_interface_application_choice_interviews_path(@application_choice)
     end
 
     def cancel
