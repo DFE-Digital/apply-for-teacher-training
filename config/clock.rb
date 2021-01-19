@@ -40,9 +40,9 @@ class Clock
   end
 
   every(1.day, 'UCASIntegrationCheck', at: '11:00') do
-    return unless HostingEnvironment.production?
-
-    UCASIntegrationCheck.perform_async if Time.zone.yesterday.weekday?
+    if HostingEnvironment.production?
+      UCASIntegrationCheck.perform_async if Time.zone.yesterday.weekday?
+    end
   end
 
   every(1.hour, 'SyncAllFromTeacherTrainingPublicAPI') do
