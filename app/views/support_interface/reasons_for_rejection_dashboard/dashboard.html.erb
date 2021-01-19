@@ -1,0 +1,53 @@
+<% content_for :title, 'Reasons for rejection' %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'Reasons for rejection'
+    }
+  ]) %>
+<% end %>
+
+<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Rejections due to qualifications</h3>
+<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+  <div class="govuk-grid-column-one-half">
+    <div id="headline-stat" class="govuk-!-margin-bottom-4">
+      <%= render SupportInterface::TileComponent.new(
+        count: @reasons_for_rejection_statistics.rejections_due_to(
+          :qualifications_y_n,
+          EndOfCycleTimetable.apply_reopens.beginning_of_day,
+        ),
+        label: 'Total',
+        colour: :blue,
+        size: :reduced,
+      ) %>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @reasons_for_rejection_statistics.rejections_due_to(
+            :qualifications_y_n,
+            Time.zone.now.beginning_of_month,
+          ),
+          label: 'this month',
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-column-one-half">
+        <%= render SupportInterface::TileComponent.new(
+          count: @reasons_for_rejection_statistics.rejections_due_to(
+            :qualifications_y_n,
+            Time.zone.now.beginning_of_month - 1.month,
+            Time.zone.now.beginning_of_month,
+          ),
+          label: 'last month',
+          size: :reduced,
+        ) %>
+      </div>
+    </div>
+  </div>
+</div>
