@@ -143,7 +143,7 @@ RSpec.feature 'References' do
   end
 
   def and_i_click_save_and_continue
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def then_i_should_see_the_referee_name_page

@@ -24,7 +24,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
     visit candidate_interface_references_start_path
     click_link 'Continue'
     choose 'Academic'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee(
       name: 'Refbot One',
@@ -32,12 +32,12 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
       relationship: 'First boss',
     )
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     click_link 'Add a second referee'
     click_link 'Continue'
     choose 'Professional'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee(
       name: 'Refbot Two',
@@ -45,7 +45,7 @@ RSpec.feature 'Candidate adding referees in Sandbox', sandbox: true do
       relationship: 'Second boss',
     )
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def then_i_see_that_references_are_given

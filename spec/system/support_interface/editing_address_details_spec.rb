@@ -60,7 +60,7 @@ RSpec.feature 'Editing address' do
 
   def when_i_select_uk
     choose 'In the UK'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def then_i_should_see_the_uk_address_details_form
@@ -69,7 +69,7 @@ RSpec.feature 'Editing address' do
   end
 
   def when_i_submit_the_update_form
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
   alias_method :and_i_submit_the_update_form, :when_i_submit_the_update_form
 
@@ -102,7 +102,7 @@ RSpec.feature 'Editing address' do
   def and_i_select_outside_the_uk
     choose 'Outside the UK'
     select('India', from: t('application_form.contact_details.country.label'))
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def then_i_should_see_the_international_address_details_form

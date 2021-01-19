@@ -83,7 +83,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   end
 
   def and_i_click_save_and_continue
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def when_i_do_not_select_any_gcse_option; end

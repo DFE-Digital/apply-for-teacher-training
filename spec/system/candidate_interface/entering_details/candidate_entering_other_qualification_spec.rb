@@ -167,7 +167,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_click_save_and_continue
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def and_the_year_field_is_pre_populated_with_my_previous_details

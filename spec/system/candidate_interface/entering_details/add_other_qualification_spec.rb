@@ -31,7 +31,7 @@ RSpec.feature 'Add Other qualification' do
     fill_in 'Assessment name', with: 'Pearson Test of English'
     fill_in 'Score or grade', with: '90'
     fill_in 'When did you complete the assessment?', with: '1999'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def then_i_can_review_my_qualification
@@ -46,7 +46,7 @@ RSpec.feature 'Add Other qualification' do
 
     expect(page).to have_field('When did you complete the assessment?', with: '1999')
     fill_in 'When did you complete the assessment?', with: '2001'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
     expect(page).to have_content '2001'

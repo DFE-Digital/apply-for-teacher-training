@@ -94,7 +94,7 @@ RSpec.feature 'Candidate applying again' do
     click_link 'Add a second referee'
     click_link 'Continue'
     choose 'Academic'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee(
       name: 'Bob Lawblob',
@@ -103,7 +103,7 @@ RSpec.feature 'Candidate applying again' do
     )
 
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     @new_reference = ApplicationReference.find_by!(email_address: 'bob@lawblob.com')
   end

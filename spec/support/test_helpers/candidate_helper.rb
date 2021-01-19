@@ -319,27 +319,27 @@ module CandidateHelper
 
   def candidate_fills_in_referee(params = {})
     fill_in t('application_form.references.name.label'), with: params[:name] || 'Terri Tudor'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in t('application_form.references.email_address.label'), with: params[:email_address] || 'terri@example.com'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in t('application_form.references.relationship.label'), with: params[:relationship] || 'Tutor'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def candidate_provides_two_referees
     visit candidate_interface_references_start_path
     click_link 'Continue'
     choose 'Academic'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     click_link 'Add a second referee'
     click_link 'Continue'
     choose 'Professional'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee(
       name: 'Anne Other',
@@ -347,29 +347,29 @@ module CandidateHelper
       relationship: 'First boss',
     )
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     visit candidate_interface_application_form_path
   end
 
   def candidate_fills_in_their_maths_gcse
     choose('GCSE')
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in('Please specify your grade', with: 'B')
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in 'Enter year', with: '1990'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     check t('application_form.completed_checkbox')
     click_button t('continue')
   end
 
   def candidate_fills_in_their_english_gcse
     choose('GCSE')
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     check 'English (Single award)'
     fill_in('Grade', match: :first, with: 'B')
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in 'Enter year', with: '1990'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     check t('application_form.completed_checkbox')
     click_button t('continue')
   end
@@ -377,7 +377,7 @@ module CandidateHelper
   def candidate_explains_a_missing_gcse
     choose('I do not have this qualification yet')
     fill_in t('application_form.gcse.missing_explanation.label'), with: 'I will sit the exam at my local college this summer.'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     check t('application_form.completed_checkbox')
     click_button t('continue')
   end

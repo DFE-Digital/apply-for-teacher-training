@@ -37,7 +37,7 @@ RSpec.feature 'Change qualification' do
     fill_in 'TOEFL registration number', with: '0000 0000'
     fill_in 'Total score', with: '10'
     fill_in 'When did you complete the assessment?', with: '2007'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     expect(page).to have_current_path candidate_interface_english_foreign_language_review_path
     expect(page).to have_content 'TOEFL'

@@ -99,11 +99,11 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
   def when_i_amend_my_application
     click_on 'Maths GCSE or equivalent'
     choose('GCSE')
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in 'Please specify your grade', with: 'A'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in 'Enter year', with: '1990'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def when_i_sign_out

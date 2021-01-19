@@ -126,7 +126,7 @@ RSpec.feature 'Non-uk Other qualifications' do
   end
 
   def and_click_save_and_continue
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def then_i_see_the_other_qualification_review_page
