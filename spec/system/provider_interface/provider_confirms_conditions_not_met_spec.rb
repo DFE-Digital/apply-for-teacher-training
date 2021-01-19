@@ -84,7 +84,7 @@ RSpec.feature 'Confirm conditions not met' do
       choose 'No'
     end
 
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_confirm_my_selection_in_the_next_page

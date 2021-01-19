@@ -29,18 +29,18 @@ RSpec.feature 'References' do
 
   def and_i_have_provided_4_references
     visit candidate_interface_references_start_path
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Academic'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     click_link 'Add a second referee'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Professional'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee(
       name: 'Anne Other',
@@ -48,12 +48,12 @@ RSpec.feature 'References' do
       relationship: 'First boss',
     )
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     click_link 'Add another referee'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'School-based'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee(
       name: 'Mr Declined',
@@ -61,12 +61,12 @@ RSpec.feature 'References' do
       relationship: 'Mentor',
     )
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     click_link 'Add another referee'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Character'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee(
       name: 'Ms Cancelled',
@@ -74,7 +74,7 @@ RSpec.feature 'References' do
       relationship: 'Worked with me at a charity.',
     )
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def and_one_my_references_has_declined_to_give_feedback

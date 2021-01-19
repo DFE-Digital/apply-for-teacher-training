@@ -99,7 +99,7 @@ RSpec.feature 'Providers should be able to filter applications' do
 
   def and_accept_the_data_sharing_agreement
     find(:css, '#provider-agreement-accept-agreement-true-field').set(true)
-    click_button('Continue')
+    click_button(t('continue'))
   end
 
   def and_my_organisation_has_courses_with_applications_without_accredited_providers

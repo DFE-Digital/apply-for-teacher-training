@@ -27,12 +27,9 @@ en:
         hint_text: For example, 1998
         review_label: Year awarded
         change_action: year
-      base:
-        button: Save and continue
       another:
         button: Add another qualification
       review:
-        button: Continue
         completed_checkbox: I have completed this section
       delete: Delete qualification
       confirm_delete: Yes I’m sure - delete this qualification

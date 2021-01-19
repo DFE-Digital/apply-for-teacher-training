@@ -34,11 +34,11 @@ RSpec.describe 'Entering personal details' do
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
-    click_button t('complete_form_button', scope: scope)
+    click_button t('save_and_continue')
 
     # Nationality
     check 'British'
-    click_button t('complete_form_button', scope: scope)
+    click_button t('save_and_continue')
     expect(page).to have_current_path candidate_interface_personal_details_show_path
 
     # Go back and change nationality
@@ -47,12 +47,12 @@ RSpec.describe 'Entering personal details' do
     within all('.govuk-form-group')[1] do
       select 'Pakistani'
     end
-    click_button t('complete_form_button', scope: scope)
+    click_button t('save_and_continue')
 
     # Right to work or study
     expect(page).to have_content 'Do you have the right to work or study in the UK?'
     choose 'I do not know'
-    click_button t('complete_form_button', scope: scope)
+    click_button t('save_and_continue')
 
     # Review
     expect(page).to have_current_path candidate_interface_personal_details_show_path
@@ -63,7 +63,7 @@ RSpec.describe 'Entering personal details' do
 
   def and_i_can_mark_the_section_complete
     check t('application_form.completed_checkbox')
-    click_button 'Continue'
+    click_button t('continue')
 
     expect(page).to have_css('#personal-information-badge-id', text: 'Completed')
   end

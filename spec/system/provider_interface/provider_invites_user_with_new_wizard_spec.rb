@@ -116,7 +116,7 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
   end
 
   def and_i_press_continue
-    click_on 'Continue'
+    click_on t('continue')
   end
   alias_method :when_i_press_continue, :and_i_press_continue
 

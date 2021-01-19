@@ -10,7 +10,7 @@
         <%= f.govuk_fieldset legend: { text: t('page_titles.address'), size: 'xl', tag: 'h1' } do %>
           <%= f.govuk_text_field(
             :address_line1,
-            label: ->{ safe_join([@contact_details_form.label_for(:address_line1), ' ', tag.span(t('application_form.contact_information.address_line1.hidden'), class: 'govuk-visually-hidden')]) },
+            label: ->{ safe_join([@contact_details_form.label_for(:address_line1), ' ', tag.span(t('application_form.contact_details.address_line1.hidden'), class: 'govuk-visually-hidden')]) },
             autocomplete: 'address-line1',
           ) %>
           <%= f.govuk_text_field(
@@ -41,7 +41,7 @@
         <%= f.govuk_text_area :international_address, label: { text: t('page_titles.address'), size: 'xl' }, autocomplete: 'address' %>
       <% end %>
 
-      <%= f.govuk_submit t('application_form.contact_information.address.button') %>
+      <%= f.govuk_submit t('save_and_continue') %>
     <% end %>
   </div>
 </div>

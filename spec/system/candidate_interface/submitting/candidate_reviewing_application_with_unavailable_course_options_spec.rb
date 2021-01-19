@@ -79,7 +79,7 @@ RSpec.feature 'Candidate reviewing an application with unavailable course option
   end
 
   def when_i_submit_the_application
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def then_i_see_error_messages_for_the_things_i_was_warned_about

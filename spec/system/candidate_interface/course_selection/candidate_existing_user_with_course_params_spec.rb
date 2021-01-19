@@ -87,11 +87,11 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def and_i_go_to_sign_in
     choose 'Yes, I want to apply using the new service'
-    click_button 'Continue'
+    click_button t('continue')
 
     choose 'Yes, sign in'
     fill_in 'Email', with: @email
-    click_button 'Continue'
+    click_button t('continue')
 
     open_email(@email)
     click_magic_link_in_email
@@ -121,7 +121,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def when_i_say_yes
     choose 'Yes'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_should_see_the_courses_review_page
@@ -179,7 +179,7 @@ RSpec.describe 'An existing candidate arriving from Find with a course and provi
 
   def and_i_select_the_part_time_study_mode
     choose 'Part time'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_the_course_choices_site_page

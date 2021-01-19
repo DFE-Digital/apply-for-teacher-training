@@ -70,7 +70,7 @@ RSpec.feature 'Candidate declines an offer' do
 
   def and_i_decline_the_offer
     choose 'Decline offer'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_confirm_the_decline

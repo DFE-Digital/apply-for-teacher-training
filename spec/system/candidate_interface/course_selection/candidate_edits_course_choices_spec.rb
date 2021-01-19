@@ -113,22 +113,22 @@ RSpec.describe 'Candidate edits course choices' do
   end
 
   def and_i_click_on_add_course
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def when_i_choose_that_i_know_where_i_want_to_apply
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_a_provider
     select @provider.name_and_code
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_the_third_course_as_my_first_course_choice
     choose @provider.courses.third.name_and_code
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def when_i_click_to_change_the_course_for_the_first_course_choice
@@ -137,7 +137,7 @@ RSpec.describe 'Candidate edits course choices' do
 
   def and_i_choose_the_single_site_course_as_my_first_course_choice
     choose @provider.courses.first.name_and_code
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_be_on_the_course_choice_review_page
@@ -170,17 +170,17 @@ RSpec.describe 'Candidate edits course choices' do
 
   def and_i_choose_the_multi_site_course_as_my_second_course_choice
     choose @provider.courses.second.name_and_code
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_the_full_time_study_mode
     choose 'Full time'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_the_first_site
     choose @provider.courses.second.course_options.first.site.name
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_should_see_the_first_site
@@ -197,7 +197,7 @@ RSpec.describe 'Candidate edits course choices' do
 
   def and_i_choose_the_single_site_course_as_my_third_course_choice
     choose @provider.courses.third.name_and_code
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_should_see_another_change_study_mode_link
@@ -214,7 +214,7 @@ RSpec.describe 'Candidate edits course choices' do
 
   def and_i_choose_the_second_site
     choose @provider.courses.second.course_options.second.site.name
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_should_see_the_updated_site
@@ -227,7 +227,7 @@ RSpec.describe 'Candidate edits course choices' do
 
   def and_i_choose_part_time_study_mode
     choose 'Part time'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_the_add_another_course_page
@@ -236,7 +236,7 @@ RSpec.describe 'Candidate edits course choices' do
 
   def when_i_choose_no_not_at_the_moment
     choose 'No, not at the moment'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_am_asked_to_select_site
@@ -245,7 +245,7 @@ RSpec.describe 'Candidate edits course choices' do
 
   def and_i_choose_the_first_site_that_offers_part_time_study_mode
     choose @provider.courses.second.course_options.third.site.name
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_should_see_the_updated_study_mode_for_the_second_choice

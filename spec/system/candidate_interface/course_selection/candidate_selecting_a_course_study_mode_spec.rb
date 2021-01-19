@@ -62,21 +62,21 @@ RSpec.feature 'Selecting a study mode' do
   def when_i_select_a_part_time_course
     visit candidate_interface_application_form_path
     click_link 'Choose your courses'
-    click_link 'Continue'
+    click_link t('continue')
 
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
 
     select @provider.name
-    click_button 'Continue'
+    click_button t('continue')
 
     choose @course.name
-    click_button 'Continue'
+    click_button t('continue')
 
-    click_button 'Continue'
+    click_button t('continue')
     expect(page).to have_text 'Select if the course is full time or part time'
     choose 'Part time'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_can_only_select_sites_with_a_part_time_course
@@ -91,7 +91,7 @@ RSpec.feature 'Selecting a study mode' do
 
   def when_i_select_a_site
     choose @first_site.name
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_visit_my_course_choices_page
@@ -134,16 +134,16 @@ RSpec.feature 'Selecting a study mode' do
     click_link 'Add another course'
 
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
 
     select @provider.name
-    click_button 'Continue'
+    click_button t('continue')
 
     choose @single_site_course.name
-    click_button 'Continue'
+    click_button t('continue')
 
     choose 'Full time'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_the_site_is_resolved_automatically_and_i_see_the_course_choice

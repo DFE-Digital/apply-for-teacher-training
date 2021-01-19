@@ -44,7 +44,6 @@ en:
           gcse_aslevel: Between GCSE and GCE AS level
           aslevel_alevel: GCE Advanced Subsidiary (AS) level
           alevel: GCE Advanced (A) level
-      complete_form_button: Save and continue
 
   activemodel:
     errors:

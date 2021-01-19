@@ -53,7 +53,7 @@ RSpec.feature 'Provider rejects application' do
   end
 
   def and_i_click_to_continue
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_check_and_send_my_feedback

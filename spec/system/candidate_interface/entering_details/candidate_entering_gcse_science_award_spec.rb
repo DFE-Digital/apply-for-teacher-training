@@ -52,7 +52,7 @@ RSpec.feature 'Candidate entering GCSE Science details' do
   end
 
   def and_i_click_save_and_continue
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def and_i_visit_the_site

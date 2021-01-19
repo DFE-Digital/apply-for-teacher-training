@@ -35,7 +35,7 @@ RSpec.feature 'Entering their work history' do
 
   def when_i_choose_complete
     choose t('application_form.work_history.complete.label')
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_the_job_form
@@ -43,7 +43,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def when_i_leave_all_fields_blank_and_submit
-    click_button t('application_form.work_history.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_i_should_be_redirected_to_work_history

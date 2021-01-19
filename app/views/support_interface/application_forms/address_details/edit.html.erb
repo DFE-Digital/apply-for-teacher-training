@@ -13,7 +13,7 @@
         <% end %>
         <%= f.govuk_text_field(
               :address_line1,
-              label: -> { safe_join([@details_form.label_for(:address_line1), ' ', tag.span(t('application_form.contact_information.address_line1.hidden'), class: 'govuk-visually-hidden')]) },
+              label: -> { safe_join([@details_form.label_for(:address_line1), ' ', tag.span(t('application_form.contact_details.address_line1.hidden'), class: 'govuk-visually-hidden')]) },
               autocomplete: 'address-line1',
             ) %>
         <%= f.govuk_text_field(
@@ -41,7 +41,7 @@
             ) %>
         <%= f.govuk_text_field :audit_comment, label: {text: t('support_interface.edit_address_details_form.audit_comment.label'), size: 'm'}, hint: {text: t('support_interface.edit_address_details_form.audit_comment.hint')} %>
 
-        <%= f.govuk_submit t('application_form.contact_information.address.button') %>
+        <%= f.govuk_submit t('save_and_continue') %>
       <% end %>
     <% end %>
   </div>

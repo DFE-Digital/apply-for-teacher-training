@@ -71,7 +71,7 @@ RSpec.feature 'Provider withdraws an offer' do
   end
 
   def and_i_click_to_continue
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_am_asked_to_confirm_withdrawal_of_the_offer

@@ -41,7 +41,7 @@ RSpec.feature 'Entering their other qualifications' do
   def when_i_attempt_to_add_a_btec
     choose 'Other'
     fill_in 'candidate-interface-other-qualification-type-form-other-uk-qualification-type-field', with: 'BTEC'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_the_add_btec_qualifications_form
@@ -54,7 +54,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_submit_the_other_qualification_form
-    click_button t('application_form.other_qualification.base.button')
+    click_button t('save_and_continue')
   end
 
   def then_i_see_validation_errors_for_my_qualification
@@ -63,7 +63,7 @@ RSpec.feature 'Entering their other qualifications' do
 
   def when_i_complete_the_form
     choose 'Merit'
-    click_button t('application_form.other_qualification.base.button')
+    click_button t('save_and_continue')
   end
 
   def then_i_see_my_btec_on_the_review_page

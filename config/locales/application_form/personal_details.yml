@@ -34,7 +34,6 @@ en:
       right_to_work:
         label: Residency status
         change_action: Right to work or study
-      complete_form_button: Save and continue
 
   activemodel:
     errors:

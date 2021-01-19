@@ -27,7 +27,7 @@ RSpec.feature 'Candidate tries to sign up' do
 
   def and_i_submit_an_email_address_without_checking_terms_of_use
     fill_in t('authentication.sign_up.email_address.label'), with: @email
-    click_on t('authentication.sign_up.button_continue')
+    click_on t('continue')
   end
 
   def then_i_see_a_validation_error

@@ -46,7 +46,7 @@ RSpec.describe 'Reject a rejected application' do
     visit provider_interface_application_choice_respond_path(@application_choice)
 
     choose 'Reject application'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_give_reasons_why_i_am_rejecting_the_application_and_check_them
@@ -71,7 +71,7 @@ RSpec.describe 'Reject a rejected application' do
 
     choose 'reasons-for-rejection-safeguarding-y-n-no-field'
 
-    click_on 'Continue'
+    click_on t('continue')
 
     expect(page).to have_content('Something you did')
     expect(page).to have_content("There was no need to sing 'Run to the Hills' for us\nLeave the singing out next time")

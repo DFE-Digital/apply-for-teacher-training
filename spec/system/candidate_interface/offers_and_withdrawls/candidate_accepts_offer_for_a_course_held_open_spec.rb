@@ -39,16 +39,16 @@ RSpec.feature 'Candidate applies for a course that has been held open' do
   def when_i_select_the_full_course
     visit candidate_interface_application_form_path
     click_link 'Choose your courses'
-    click_link 'Continue'
+    click_link t('continue')
 
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
 
     select @full_course.provider.name
-    click_button 'Continue'
+    click_button t('continue')
 
     choose @full_course.name
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_a_page_telling_me_i_cannot_apply

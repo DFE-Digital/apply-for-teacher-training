@@ -97,7 +97,7 @@ RSpec.feature 'Candidate requests a reference' do
 
   def and_i_choose_to_request_reference_immediately
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def then_i_am_prompted_for_my_name
@@ -105,7 +105,7 @@ RSpec.feature 'Candidate requests a reference' do
   end
 
   def when_i_continue_without_entering_my_name
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def then_i_see_validation_errors
@@ -116,7 +116,7 @@ RSpec.feature 'Candidate requests a reference' do
   def when_i_enter_my_name
     fill_in 'First name', with: 'Topsy'
     fill_in 'Last name', with: 'Turvey'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def then_i_see_a_confirmation_message
@@ -143,7 +143,7 @@ RSpec.feature 'Candidate requests a reference' do
 
   def and_i_choose_not_to_request_reference_immediately
     choose 'No, not at the moment'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def then_i_do_not_see_a_confirmation_message

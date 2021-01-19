@@ -56,6 +56,6 @@ RSpec.feature 'Entering their degrees' do
 private
 
   def click_on_save_and_continue
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
   end
 end

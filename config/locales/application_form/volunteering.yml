@@ -3,7 +3,6 @@ en:
     volunteering:
       experience:
         label: Do you have any experience to add?
-        button: Save and continue
       no_experience:
         summary_card_title: 'Children and young people: no volunteering or experience in school roles entered'
       role:
@@ -35,7 +34,6 @@ en:
           in activities throughout the year’
         review_label: Time commitment and responsibilities
         change_action: time commitment and responsibilities
-      complete_form_button: Save and continue
       delete:
         action: Delete role
         confirm: Yes I’m sure - delete this role
@@ -43,7 +41,6 @@ en:
       another:
         button: Add a role
       review:
-        button: Continue
         completed_checkbox: I have completed this section
 
   activemodel:

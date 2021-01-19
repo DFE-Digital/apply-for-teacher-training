@@ -84,7 +84,7 @@ RSpec.feature 'Candidate accepts an offer' do
 
   def when_i_accept_one_offer
     choose 'Accept offer and conditions'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_confirm_the_acceptance

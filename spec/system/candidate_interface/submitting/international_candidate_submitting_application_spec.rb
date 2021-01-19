@@ -50,22 +50,22 @@ RSpec.feature 'International candidate submits the application' do
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
-    click_button t('complete_form_button', scope: scope)
+    click_button t('save_and_continue')
 
     # Nationality
     check 'Citizen of a different country'
     within all('.govuk-form-group')[1] do
       select 'Belgian'
     end
-    click_button t('complete_form_button', scope: scope)
+    click_button t('save_and_continue')
 
     # Right to work
     choose 'I do not know'
-    click_button t('complete_form_button', scope: scope)
+    click_button t('save_and_continue')
 
     # Mark Personal Details complete
     check t('application_form.completed_checkbox')
-    click_button 'Continue'
+    click_button t('continue')
 
     click_link t('page_titles.contact_information')
     visit candidate_interface_contact_information_edit_base_path
@@ -131,9 +131,9 @@ RSpec.feature 'International candidate submits the application' do
     end
 
     choose 'No, English is not a foreign language to me'
-    click_button 'Continue'
+    click_button t('continue')
     check t('application_form.completed_checkbox')
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_all_sections_are_complete
@@ -158,12 +158,12 @@ RSpec.feature 'International candidate submits the application' do
   end
 
   def when_i_confirm_my_application
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def when_i_choose_not_to_fill_in_the_equality_and_diversity_survey
     choose 'No'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def when_i_choose_not_to_provide_further_information

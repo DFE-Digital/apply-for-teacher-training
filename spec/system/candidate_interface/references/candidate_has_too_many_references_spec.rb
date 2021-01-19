@@ -46,7 +46,7 @@ RSpec.feature 'References' do
   end
 
   def when_i_submit_the_application
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def then_i_see_an_error_on_the_application_review_page
@@ -75,7 +75,7 @@ RSpec.feature 'References' do
   end
 
   def and_app_submission_no_longer_triggers_a_reference_section_error
-    click_link 'Continue'
+    click_link t('continue')
     expect(page).not_to have_content 'More than 2 references have been given'
     expect(page).to have_current_path candidate_interface_start_equality_and_diversity_path
   end

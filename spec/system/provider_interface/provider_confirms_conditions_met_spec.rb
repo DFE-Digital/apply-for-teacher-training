@@ -67,7 +67,7 @@ RSpec.feature 'Confirm conditions met' do
       choose 'Yes, they’ve met all of the conditions'
     end
 
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_confirm_my_selection_in_the_next_page

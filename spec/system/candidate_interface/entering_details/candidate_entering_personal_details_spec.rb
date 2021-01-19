@@ -72,7 +72,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_i_submit_the_form
-    click_button t('application_form.personal_details.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_i_see_the_nationality_page
@@ -116,7 +116,7 @@ RSpec.feature 'Entering their personal details' do
   end
 
   def and_i_submit_my_details
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_the_form

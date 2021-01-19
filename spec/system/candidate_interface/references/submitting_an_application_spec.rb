@@ -65,7 +65,7 @@ RSpec.feature 'Submitting an application' do
   def and_i_submit_the_application
     visit candidate_interface_application_form_path
     click_link 'Check and submit your application'
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def then_i_get_an_error_about_my_references
@@ -82,7 +82,7 @@ RSpec.feature 'Submitting an application' do
 
   def then_i_can_see_my_application_has_been_successfully_submitted
     choose 'No'
-    click_button 'Continue'
+    click_button t('continue')
     choose 'No'
     click_button 'Send application'
   end

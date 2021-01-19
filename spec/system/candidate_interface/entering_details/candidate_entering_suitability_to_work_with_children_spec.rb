@@ -57,7 +57,7 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def and_i_click_on_continue
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_my_relevant_information
@@ -83,7 +83,7 @@ RSpec.feature 'Entering their suitability to work with children' do
   end
 
   def when_i_click_on_continue
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def then_i_see_the_section_is_completed

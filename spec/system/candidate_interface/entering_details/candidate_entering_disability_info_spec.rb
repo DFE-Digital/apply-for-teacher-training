@@ -46,7 +46,7 @@ RSpec.feature 'Entering their disability information' do
   end
 
   def when_i_submit_my_application
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def when_i_visit_training_with_a_disability_section
@@ -84,7 +84,7 @@ RSpec.feature 'Entering their disability information' do
   end
 
   def and_i_submit_the_form
-    click_button t('application_form.training_with_a_disability.complete_form_button')
+    click_button t('continue')
   end
 
   def then_i_can_check_my_answers
@@ -111,7 +111,7 @@ RSpec.feature 'Entering their disability information' do
   end
 
   def and_i_submit_my_details
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_the_form

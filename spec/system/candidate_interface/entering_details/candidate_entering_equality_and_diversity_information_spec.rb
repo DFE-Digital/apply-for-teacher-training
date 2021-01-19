@@ -97,7 +97,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   def and_i_submit_my_application
     receive_references
     click_link 'Check and submit your application'
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def then_i_see_the_equality_and_diversity_page
@@ -107,7 +107,7 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_choose_not_to_complete_equality_and_diversity
     choose 'No'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_can_submit_my_application
@@ -123,7 +123,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def and_i_choose_to_complete_equality_and_diversity
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_am_asked_to_choose_my_sex
@@ -131,7 +131,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def when_i_try_and_submit_without_choosing_my_sex
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_an_error_to_choose_my_sex
@@ -143,7 +143,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def and_i_click_on_continue
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_can_review_my_answers
@@ -171,7 +171,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def when_i_try_and_submit_without_choosing_if_i_have_a_disability
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_an_error_to_choose_if_i_have_a_disability
@@ -187,7 +187,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def when_i_try_and_submit_without_choosing_my_ethnic_group
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_an_error_to_choose_my_ethnic_group
@@ -211,7 +211,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def when_i_try_and_submit_without_ticking_disabilities
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_an_error_to_select_disabilties
@@ -268,7 +268,7 @@ RSpec.feature 'Entering their equality and diversity information' do
   end
 
   def when_i_try_and_submit_without_choosing_my_ethnic_background
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_an_error_to_choose_my_ethnic_background
@@ -290,7 +290,7 @@ RSpec.feature 'Entering their equality and diversity information' do
 
   def when_i_manually_restart_the_questionnaire
     visit candidate_interface_start_equality_and_diversity_path
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_go_straight_to_the_review_page

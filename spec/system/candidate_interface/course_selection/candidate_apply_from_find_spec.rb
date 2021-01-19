@@ -105,7 +105,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def when_i_do_not_make_a_choice_between_ucas_and_apply
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_an_error
@@ -115,12 +115,12 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   def when_i_choose_to_apply_through_apply
     choose 'Yes, I want to apply using the new service'
 
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_confirm_i_am_not_already_signed_up
     choose 'No, I need to create an account'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_see_the_sign_up_page

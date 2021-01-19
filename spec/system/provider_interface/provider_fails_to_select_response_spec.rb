@@ -42,7 +42,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_try_to_proceed_without_selecting_a_response
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_see_an_error_message_prompting_for_a_response

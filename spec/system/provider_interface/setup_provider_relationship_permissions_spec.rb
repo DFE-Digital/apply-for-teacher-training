@@ -78,7 +78,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
   end
 
   def when_i_click_continue
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   alias_method :and_i_click_continue, :when_i_click_continue
@@ -92,7 +92,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
     within(find('.view-safeguarding-information')) { check @training_provider.name }
     within(find('.view-diversity-information')) { check @training_provider.name }
 
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_choose_permissions_for_the_next_provider_relationship
@@ -102,7 +102,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
     within(find('.view-safeguarding-information')) { check @another_ratifying_provider.name }
     within(find('.view-diversity-information')) { check @another_ratifying_provider.name }
 
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_can_see_the_permissions_summary_page
@@ -203,7 +203,7 @@ RSpec.feature 'Setting up provider relationship permissions' do
     click_on 'Change', match: :first
 
     within(find('.make-decisions')) { check @ratifying_provider.name }
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_return_to_the_permissions_summary_page

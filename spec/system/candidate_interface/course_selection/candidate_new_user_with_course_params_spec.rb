@@ -65,19 +65,19 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
   def and_i_choose_to_apply_on_apply
     choose 'Yes, I want to apply using the new service'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def and_i_choose_i_need_an_account
     choose 'No, I need to create an account'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def when_i_submit_my_email_address
     @email = "#{SecureRandom.hex}@example.com"
     fill_in t('authentication.sign_up.email_address.label'), with: @email
     check t('authentication.sign_up.accept_terms_checkbox')
-    click_on t('authentication.sign_up.button_continue')
+    click_on t('continue')
   end
 
   def and_click_on_the_magic_link
@@ -100,7 +100,7 @@ RSpec.describe 'A new candidate arriving from Find with a course and provider co
 
   def when_i_say_yes
     choose 'Yes'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_should_see_the_courses_review_page

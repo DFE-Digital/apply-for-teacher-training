@@ -81,9 +81,9 @@ module CandidateHelper
   def candidate_submits_application
     receive_references
     click_link 'Check and submit your application'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'No'
-    click_button 'Continue'
+    click_button t('continue')
     choose 'No' # "Is there anything else you would like to tell us?"
     click_button 'Send application'
     @application = ApplicationForm.last
@@ -126,21 +126,21 @@ module CandidateHelper
   end
 
   def candidate_fills_in_course_choices
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
 
     select 'Gorse SCITT (1N1)'
-    click_button 'Continue'
+    click_button t('continue')
 
     choose 'Primary (2XT2)'
-    click_button 'Continue'
+    click_button t('continue')
 
     choose 'No, not at the moment'
-    click_button 'Continue'
+    click_button t('continue')
 
     check t('application_form.courses.complete.completed_checkbox')
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def candidate_fills_in_personal_details
@@ -151,41 +151,41 @@ module CandidateHelper
     fill_in 'Day', with: '6'
     fill_in 'Month', with: '4'
     fill_in 'Year', with: '1937'
-    click_button t('complete_form_button', scope: scope)
+    click_button t('save_and_continue')
 
     check 'British'
     check 'Citizen of a different country'
     within('#candidate-interface-nationalities-form-other-nationality1-field') do
       select 'American'
     end
-    click_button t('complete_form_button', scope: scope)
+    click_button t('save_and_continue')
 
     check t('application_form.completed_checkbox')
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def candidate_fills_in_contact_details
-    fill_in t('application_form.contact_information.phone_number.label'), with: '07700 900 982'
-    click_button t('application_form.contact_information.base.button')
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
+    click_button t('save_and_continue')
 
     choose 'In the UK'
-    click_button t('application_form.contact_information.base.button')
+    click_button t('save_and_continue')
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
-    fill_in t('application_form.contact_information.address_line3.uk.label'), with: 'London'
-    fill_in t('application_form.contact_information.postcode.uk.label'), with: 'SW1P 3BT'
-    click_button t('application_form.contact_information.address.button')
+    fill_in t('application_form.contact_details.address_line3.uk.label'), with: 'London'
+    fill_in t('application_form.contact_details.postcode.uk.label'), with: 'SW1P 3BT'
+    click_button t('save_and_continue')
 
     check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def candidate_fills_in_international_contact_details
-    fill_in t('application_form.contact_information.phone_number.label'), with: '07700 900 982'
-    click_button t('application_form.contact_information.base.button')
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
+    click_button t('save_and_continue')
 
     choose 'Outside the UK'
-    select('India', from: t('application_form.contact_information.country.label'))
-    click_button t('application_form.contact_information.base.button')
+    select('India', from: t('application_form.contact_details.country.label'))
+    click_button t('save_and_continue')
     if FeatureFlag.active?(:international_addresses)
       fill_in 'candidate_interface_contact_details_form[address_line1]', with: 'Vishnu Gardens'
       fill_in 'candidate_interface_contact_details_form[address_line3]', with: 'New Delhi'
@@ -194,10 +194,10 @@ module CandidateHelper
     else
       find(:css, "[autocomplete='address']").fill_in with: 'Vishnu Garden\nNew Delhi\nDelhi\n110018'
     end
-    click_button t('application_form.contact_information.address.button')
+    click_button t('save_and_continue')
 
     check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def candidate_fills_in_their_degree
@@ -205,61 +205,61 @@ module CandidateHelper
 
     choose 'UK degree'
     fill_in 'Type of degree', with: 'BA'
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
 
     fill_in 'What subject is your degree?', with: 'Doge'
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
 
     fill_in 'Which institution did you study at?', with: 'University of Much Wow'
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
 
     expect(page).to have_content('Have you completed your degree?')
     choose 'Yes'
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
 
     choose 'First class honours'
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
 
     year_with_trailing_space = '2006 '
     year_with_preceding_space = ' 2009'
     fill_in 'Year started course', with: year_with_trailing_space
     fill_in 'Graduation year', with: year_with_preceding_space
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
     check t('application_form.degree.review.completed_checkbox')
-    click_button t('application_form.degree.review.button')
+    click_button t('continue')
   end
 
   def candidate_fills_in_their_other_qualifications
     choose 'A level'
-    click_button 'Continue'
+    click_button t('continue')
     fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards'
     fill_in t('application_form.other_qualification.grade.label'), with: 'A'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
     choose 'No, not at the moment'
-    click_button t('application_form.other_qualification.base.button')
+    click_button t('save_and_continue')
     check t('application_form.other_qualification.review.completed_checkbox')
-    click_button t('application_form.other_qualification.review.button')
+    click_button t('continue')
   end
 
   def candidate_fills_in_disability_info
     choose t('application_form.training_with_a_disability.disclose_disability.yes')
     fill_in t('application_form.training_with_a_disability.disability_disclosure.label'), with: 'I have difficulty climbing stairs'
-    click_button t('application_form.training_with_a_disability.complete_form_button')
+    click_button t('continue')
     check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def candidate_fills_in_safeguarding_issues
     choose 'Yes'
     fill_in 'Give any relevant information', with: 'I have a criminal conviction.'
-    click_button 'Continue'
+    click_button t('continue')
     check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def candidate_fills_in_work_experience
     choose t('application_form.work_history.complete.label')
-    click_button 'Continue'
+    click_button t('continue')
 
     with_options scope: 'application_form.work_history' do |locale|
       fill_in locale.t('role.label'), with: 'Teacher'
@@ -284,14 +284,14 @@ module CandidateHelper
       choose 'No, not at the moment'
     end
 
-    click_button t('application_form.work_history.complete_form_button')
+    click_button t('save_and_continue')
     check t('application_form.work_history.review.completed_checkbox')
-    click_button t('application_form.work_history.review.button')
+    click_button t('continue')
   end
 
   def candidate_fills_in_volunteering_role
     choose 'Yes' # "Do you have experience volunteering with young people or in school?"
-    click_button t('application_form.volunteering.experience.button')
+    click_button t('save_and_continue')
 
     with_options scope: 'application_form.volunteering' do |locale|
       fill_in locale.t('role.label'), with: 'Classroom Volunteer'
@@ -312,34 +312,34 @@ module CandidateHelper
       fill_in locale.t('details.label'), with: 'I volunteered.'
     end
 
-    click_button t('application_form.volunteering.complete_form_button')
+    click_button t('save_and_continue')
     check t('application_form.volunteering.review.completed_checkbox')
-    click_button t('application_form.volunteering.review.button')
+    click_button t('continue')
   end
 
   def candidate_fills_in_referee(params = {})
     fill_in t('application_form.references.name.label'), with: params[:name] || 'Terri Tudor'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in t('application_form.references.email_address.label'), with: params[:email_address] || 'terri@example.com'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in t('application_form.references.relationship.label'), with: params[:relationship] || 'Tutor'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def candidate_provides_two_referees
     visit candidate_interface_references_start_path
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Academic'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     click_link 'Add a second referee'
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Professional'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee(
       name: 'Anne Other',
@@ -347,64 +347,64 @@ module CandidateHelper
       relationship: 'First boss',
     )
     choose 'Yes, send a reference request now'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     visit candidate_interface_application_form_path
   end
 
   def candidate_fills_in_their_maths_gcse
     choose('GCSE')
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in('Please specify your grade', with: 'B')
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in 'Enter year', with: '1990'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def candidate_fills_in_their_english_gcse
     choose('GCSE')
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     check 'English (Single award)'
     fill_in('Grade', match: :first, with: 'B')
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in 'Enter year', with: '1990'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def candidate_explains_a_missing_gcse
     choose('I do not have this qualification yet')
     fill_in t('application_form.gcse.missing_explanation.label'), with: 'I will sit the exam at my local college this summer.'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def candidate_fills_in_becoming_a_teacher
     fill_in t('application_form.personal_statement.becoming_a_teacher.label'), with: 'I believe I would be a first-rate teacher'
-    click_button t('application_form.personal_statement.becoming_a_teacher.complete_form_button')
+    click_button t('continue')
     # Confirmation page
     check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def candidate_fills_in_subject_knowledge
     fill_in t('application_form.personal_statement.subject_knowledge.label'), with: 'Everything'
-    click_button t('application_form.personal_statement.subject_knowledge.complete_form_button')
+    click_button t('continue')
     # Confirmation page
     check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def candidate_fills_in_interview_preferences
     choose 'Yes'
     fill_in t('application_form.personal_statement.interview_preferences.yes_label'), with: 'Not on a Wednesday'
-    click_button t('application_form.personal_statement.interview_preferences.complete_form_button')
+    click_button t('save_and_continue')
     # Confirmation page
     check t('application_form.completed_checkbox')
-    click_button t('application_form.continue')
+    click_button t('continue')
   end
 
   def click_sign_in_link(email)

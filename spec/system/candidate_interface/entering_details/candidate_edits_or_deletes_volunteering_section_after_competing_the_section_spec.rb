@@ -64,7 +64,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('application_form.volunteering.complete_form_button')
+    click_button t('save_and_continue')
   end
 
   def then_the_volunteering_section_should_be_marked_as_incomplete
@@ -76,7 +76,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def and_i_click_on_continue
-    click_button t('application_form.volunteering.review.button')
+    click_button t('continue')
   end
 
   def and_visit_my_application_page

@@ -20,9 +20,9 @@ RSpec.feature 'Reference history on review page' do
   def and_i_add_a_reference
     current_candidate.current_application.update!(first_name: 'Michael', last_name: 'Render')
     visit candidate_interface_references_start_path
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Academic'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
 
     candidate_fills_in_referee
     @reference = current_candidate.current_application.application_references.first
@@ -31,7 +31,7 @@ RSpec.feature 'Reference history on review page' do
   def and_i_send_it
     Timecop.travel(Time.zone.parse('2020/01/01 14:00')) do
       choose 'Yes, send a reference request now'
-      click_button 'Save and continue'
+      click_button t('save_and_continue')
     end
     @reference.reload
   end

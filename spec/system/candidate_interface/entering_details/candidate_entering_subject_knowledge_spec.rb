@@ -55,7 +55,7 @@ RSpec.feature 'Entering subject knowledge' do
   end
 
   def and_i_submit_the_form
-    click_button t('application_form.personal_statement.subject_knowledge.complete_form_button')
+    click_button t('continue')
   end
 
   def when_i_click_to_change_my_answer
@@ -91,7 +91,7 @@ RSpec.feature 'Entering subject knowledge' do
   end
 
   def and_i_submit_my_subject_knowledge
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_should_see_the_form

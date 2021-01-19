@@ -130,7 +130,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_click_continue
-    click_button 'Continue'
+    click_button t('continue')
   end
   alias_method :when_i_click_continue, :and_i_click_continue
 
@@ -149,7 +149,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_i_submit_the_other_qualification_form
-    click_button t('application_form.other_qualification.base.button')
+    click_button t('save_and_continue')
   end
 
   def then_i_see_validation_errors_for_my_qualification
@@ -167,7 +167,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def and_click_save_and_continue
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def and_the_year_field_is_pre_populated_with_my_previous_details
@@ -311,7 +311,7 @@ RSpec.feature 'Entering their other qualifications' do
   end
 
   def when_i_click_on_continue
-    click_button t('application_form.other_qualification.review.button')
+    click_button t('continue')
   end
 
   def and_the_section_is_not_completed

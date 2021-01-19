@@ -30,7 +30,7 @@ RSpec.feature 'Stop submission of incomplete references', with_audited: true do
   def and_i_confirm_my_relationship_with_the_candidate
     expect(page).to have_content("Confirm how you know #{@application.full_name}")
     choose 'Yes'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_manually_skip_ahead_to_the_review_page

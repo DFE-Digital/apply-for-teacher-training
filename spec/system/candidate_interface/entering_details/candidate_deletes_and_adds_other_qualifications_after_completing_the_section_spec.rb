@@ -60,7 +60,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
 
   def and_i_change_my_qualification_type
     choose 'A level'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_change_my_qualification_details
@@ -70,7 +70,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
   end
 
   def then_the_other_qualifications_section_should_not_be_marked_as_complete
@@ -90,7 +90,7 @@ RSpec.feature 'Candidates academic and other relevant qualifications' do
   end
 
   def and_i_click_on_continue
-    click_button t('application_form.degree.review.button')
+    click_button t('continue')
   end
 
   def and_click_on_delete_my_additional_qualification

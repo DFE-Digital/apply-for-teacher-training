@@ -84,18 +84,18 @@ RSpec.feature 'Accept data sharing agreement' do
 
   def when_i_agree_to_the_data_sharing_agreement
     check 'Example Provider agrees to comply with the data sharing practices outlined in this agreement', allow_label_click: true
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def when_i_agree_to_the_data_sharing_agreement_again
     check 'Another Provider agrees to comply with the data sharing practices outlined in this agreement', allow_label_click: true
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_can_see_the_data_sharing_agreement_success_page
     expect(page).to have_content('You’ve successfully signed the data sharing agreement')
     expect(page).to have_content('Continue to your applications.')
-    expect(page).to have_link('Continue')
+    expect(page).to have_link(t('continue'))
   end
 
   def then_i_can_see_the_data_sharing_agreement_success_page_with_organisation_setup_steps
@@ -105,7 +105,7 @@ RSpec.feature 'Accept data sharing agreement' do
   end
 
   def then_i_can_navigate_to_the_provider_interface
-    click_on 'Continue'
+    click_on t('continue')
     expect(page).to have_current_path provider_interface_applications_path
   end
 

@@ -57,7 +57,7 @@ RSpec.feature 'Candidate viewing Science GCSE' do
   end
 
   def when_i_submit_my_application
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def then_i_dont_see_a_science_gcse_validation_error

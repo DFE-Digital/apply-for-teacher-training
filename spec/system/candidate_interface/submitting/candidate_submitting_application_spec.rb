@@ -160,12 +160,12 @@ RSpec.feature 'Candidate submits the application' do
   end
 
   def when_i_confirm_my_application
-    click_link 'Continue'
+    click_link t('continue')
   end
 
   def and_i_choose_not_to_fill_in_the_equality_and_diversity_survey
     choose 'No'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_choose_to_add_further_information_but_omit_adding_details

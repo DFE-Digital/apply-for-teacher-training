@@ -2,8 +2,6 @@ en:
   application_form:
     begin_button: Start now
     completed_checkbox: I have completed this section
-    continue: Continue
-    complete_form_button: Save and continue
 
   activemodel:
     errors:

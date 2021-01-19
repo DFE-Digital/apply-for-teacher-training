@@ -63,7 +63,7 @@ RSpec.feature 'Provider makes an offer' do
 
   def and_i_choose_to_make_an_offer
     choose 'Make an offer'
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_see_some_application_info
@@ -83,7 +83,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_click_to_continue
-    click_on 'Continue'
+    click_on t('continue')
   end
 
   def then_i_am_asked_to_confirm_the_offer

@@ -48,14 +48,14 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
 
   def and_i_confirm_i_am_not_already_signed_up
     choose 'No, I need to create an account'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_submit_my_email_address
     @email = "#{SecureRandom.hex}@example.com" if @email.blank?
     fill_in t('authentication.sign_up.email_address.label'), with: @email
     check t('authentication.sign_up.accept_terms_checkbox')
-    click_on t('authentication.sign_up.button_continue')
+    click_on t('continue')
   end
 
   def and_click_on_the_magic_link
@@ -99,11 +99,11 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
   def when_i_amend_my_application
     click_on 'Maths GCSE or equivalent'
     choose('GCSE')
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in 'Please specify your grade', with: 'A'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
     fill_in 'Enter year', with: '1990'
-    click_button 'Save and continue'
+    click_button t('save_and_continue')
   end
 
   def when_i_sign_out

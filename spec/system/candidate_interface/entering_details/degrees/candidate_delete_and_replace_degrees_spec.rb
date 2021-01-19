@@ -52,11 +52,11 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def and_i_click_on_save_and_continue
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
   end
 
   def when_i_click_on_save_and_continue
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
   end
 
   def and_i_fill_in_the_degree_type
@@ -104,7 +104,7 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def when_i_click_on_continue
-    click_button t('application_form.degree.review.button')
+    click_button t('continue')
   end
 
   def and_i_click_on_continue
@@ -137,7 +137,7 @@ RSpec.feature 'Deleting and replacing a degree' do
   end
 
   def and_i_submit_the_add_another_degree_form
-    click_button t('application_form.degree.base.button')
+    click_button t('save_and_continue')
   end
 
   def then_i_can_check_my_additional_degree

@@ -128,15 +128,15 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
   def and_i_select_a_course
     given_courses_exist
 
-    click_link 'Continue'
+    click_link t('continue')
     choose 'Yes, I know where I want to apply'
-    click_button 'Continue'
+    click_button t('continue')
 
     select 'Gorse SCITT (1N1)'
-    click_button 'Continue'
+    click_button t('continue')
 
     choose 'Primary (2XT2)'
-    click_button 'Continue'
+    click_button t('continue')
 
     expect(page).to have_content 'You’ve added Primary (2XT2) to your application'
     expect(page).to have_content 'You can choose 2 more courses'
@@ -144,9 +144,9 @@ RSpec.feature 'Manually carry over unsubmitted applications that do not have cou
 
   def and_i_complete_the_section
     choose 'No, not at the moment'
-    click_button 'Continue'
+    click_button t('continue')
     check t('application_form.completed_checkbox')
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def and_i_submit_my_application

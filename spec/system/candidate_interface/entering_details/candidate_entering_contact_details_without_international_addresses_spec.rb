@@ -64,11 +64,11 @@ RSpec.feature 'Entering their contact information without international_addresse
   end
 
   def and_i_incorrectly_fill_in_my_phone_number
-    fill_in t('application_form.contact_information.phone_number.label'), with: '07700 CAT DOG'
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 CAT DOG'
   end
 
   def and_i_submit_my_phone_number
-    click_button t('application_form.contact_information.base.button')
+    click_button t('save_and_continue')
   end
 
   def then_i_should_see_validation_errors_for_my_phone_number
@@ -84,18 +84,18 @@ RSpec.feature 'Entering their contact information without international_addresse
   end
 
   def when_i_fill_in_my_phone_number
-    fill_in t('application_form.contact_information.phone_number.label'), with: '07700 900 982'
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 900 982'
   end
 
   def and_i_select_live_in_uk
     expect(page).to have_content('Where do you live?')
     choose 'In the UK'
-    click_button t('application_form.contact_information.base.button')
+    click_button t('save_and_continue')
   end
 
   def and_i_incorrectly_fill_in_my_address
-    fill_in t('application_form.contact_information.address_line3.uk.label'), with: 'London'
-    fill_in t('application_form.contact_information.postcode.uk.label'), with: 'MUCH W0W'
+    fill_in t('application_form.contact_details.address_line3.uk.label'), with: 'London'
+    fill_in t('application_form.contact_details.postcode.uk.label'), with: 'MUCH W0W'
   end
 
   def then_i_should_see_validation_errors_for_my_address
@@ -105,16 +105,16 @@ RSpec.feature 'Entering their contact information without international_addresse
 
   def when_i_fill_in_my_address
     find(:css, "[autocomplete='address-line1']").fill_in with: '42 Much Wow Street'
-    fill_in t('application_form.contact_information.address_line3.uk.label'), with: 'London'
-    fill_in t('application_form.contact_information.postcode.uk.label'), with: 'SW1P 3BT'
+    fill_in t('application_form.contact_details.address_line3.uk.label'), with: 'London'
+    fill_in t('application_form.contact_details.postcode.uk.label'), with: 'SW1P 3BT'
   end
 
   def and_i_submit_my_address
-    click_button t('application_form.contact_information.address.button')
+    click_button t('save_and_continue')
   end
 
   def then_i_can_check_my_answers
-    expect(page).to have_content t('application_form.contact_information.phone_number.label')
+    expect(page).to have_content t('application_form.contact_details.phone_number.label')
     expect(page).to have_content '07700 900 982'
   end
 
@@ -127,11 +127,11 @@ RSpec.feature 'Entering their contact information without international_addresse
   end
 
   def when_i_fill_in_a_different_phone_number
-    fill_in t('application_form.contact_information.phone_number.label'), with: '07700 424 242'
+    fill_in t('application_form.contact_details.phone_number.label'), with: '07700 424 242'
   end
 
   def then_i_can_check_my_revised_phone_number
-    expect(page).to have_content t('application_form.contact_information.phone_number.label')
+    expect(page).to have_content t('application_form.contact_details.phone_number.label')
     expect(page).to have_content '07700 424 242'
   end
 
@@ -152,8 +152,8 @@ RSpec.feature 'Entering their contact information without international_addresse
   def when_i_select_outside_the_uk
     expect(page).to have_content('Where do you live?')
     choose 'Outside the UK'
-    select('India', from: t('application_form.contact_information.country.label'))
-    click_button t('application_form.contact_information.base.button')
+    select('India', from: t('application_form.contact_details.country.label'))
+    click_button t('save_and_continue')
   end
 
   def and_fill_in_an_international_address
@@ -161,7 +161,7 @@ RSpec.feature 'Entering their contact information without international_addresse
   end
 
   def then_i_can_check_my_revised_address
-    expect(page).to have_content t('application_form.contact_information.full_address.label')
+    expect(page).to have_content t('application_form.contact_details.full_address.label')
     expect(page).to have_content '123 Chandni Chowk, Old Delhi'
     expect(page).to have_content 'India'
   end
@@ -171,7 +171,7 @@ RSpec.feature 'Entering their contact information without international_addresse
   end
 
   def and_i_submit_my_details
-    click_button t('application_form.contact_information.review.button')
+    click_button t('continue')
   end
 
   def then_i_should_see_the_form

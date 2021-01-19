@@ -70,7 +70,7 @@ RSpec.feature 'Candidate attempts to submit the application after the end-of-cyc
   end
 
   def and_i_cannot_submit_my_application
-    expect(page).not_to have_link 'Continue'
+    expect(page).not_to have_link t('continue')
   end
 
   def then_i_am_redirected_to_the_carry_over_interstitial

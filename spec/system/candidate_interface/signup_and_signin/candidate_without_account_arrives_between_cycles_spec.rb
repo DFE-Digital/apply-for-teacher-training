@@ -31,7 +31,7 @@ RSpec.feature 'Candidate without an acccount arrives after the apply1 deadline' 
 
   def and_choose_that_i_dont_have_an_account
     choose 'No, I need to create an account'
-    click_button 'Continue'
+    click_button t('continue')
   end
 
   def then_i_am_told_that_applicatons_have_closed_for_this_cycle

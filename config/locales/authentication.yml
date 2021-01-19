@@ -3,7 +3,6 @@ en:
     sign_up:
       heading: Create an Apply for teacher training account
       accept_terms_checkbox: I agree to the terms of use
-      button_continue: Continue
       email_address:
         label: Enter your email address
         hint_label: Do not use a work or university email address you might lose access to
@@ -24,7 +23,6 @@ en:
       button: Email me a new link
     confirm_authentication:
       heading: Confirm sign in
-      button_continue: Continue
 
   activemodel:
     errors:

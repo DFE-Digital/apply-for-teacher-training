@@ -5,4 +5,4 @@
                       label: { text: t('application_form.references.relationship.label'), size: 'xl', tag: 'h1' },
                       hint: { text: t("application_form.references.relationship.hint_text.#{@reference.referee_type.downcase}"), max_words: 50 } %>
 
-<%= f.govuk_submit 'Save and continue' %>
+<%= f.govuk_submit t('save_and_continue') %>
