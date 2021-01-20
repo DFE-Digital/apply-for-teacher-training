@@ -88,7 +88,7 @@ module ProviderInterface
     end
 
     def interview_events
-      @activity_log_events.select { |e| e.audit.auditable_type == 'Interview' }.map do |event|
+      @activity_log_events.select { |e| e.audit.auditable.is_a?(Interview) }.map do |event|
         Event.new(
           interview_title_for(event.audit),
           actor_for(event),

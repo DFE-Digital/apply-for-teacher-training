@@ -1233,8 +1233,8 @@ FactoryBot.define do
     created_at { Time.zone.now }
 
     transient do
-      application_choice { create(:application_choice, :awaiting_provider_decision) }
-      interview { create(:interview) }
+      application_choice { build_stubbed(:application_choice, :awaiting_provider_decision) }
+      interview { build_stubbed(:interview) }
       changes { {} }
     end
 
