@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_18_135658) do
+ActiveRecord::Schema.define(version: 2021_01_19_154820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -575,6 +575,8 @@ ActiveRecord::Schema.define(version: 2021_01_18_135658) do
     t.jsonb "response_body"
     t.datetime "created_at"
     t.bigint "provider_id"
+    t.string "request_method"
+    t.jsonb "response_headers"
   end
 
   create_table "vendor_api_tokens", force: :cascade do |t|
