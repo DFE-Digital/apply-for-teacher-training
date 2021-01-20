@@ -59,6 +59,6 @@ private
     provided_at_times = times.map(&:second).compact
     return nil if requested_at_times.blank? || provided_at_times.blank?
 
-    (provided_at_times.min - requested_at_times.max).to_i / 1.day
+    (provided_at_times.max - requested_at_times.min) / 1.day
   end
 end
