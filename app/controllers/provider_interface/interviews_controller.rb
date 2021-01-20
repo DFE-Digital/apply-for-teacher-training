@@ -14,23 +14,35 @@ module ProviderInterface
     end
 
     def new
-      @interview_form = InterviewForm.new(interview_form_context_params)
+      @wizard = InterviewWizard.new(store, interview_form_context_params.merge(current_step: 'input'))
+      @wizard.save_state!
     end
 
     def check
-      @interview_form = InterviewForm.new(interview_params)
-
-      render :new unless @interview_form.valid?
+      @wizard = InterviewWizard.new(store, interview_params.merge(current_step: 'check'))
+      @wizard.save_state!
+      render :new unless @wizard.valid?
     end
 
-    def create
-      @interview_form = InterviewForm.new(interview_form_context_params)
-      @interview_form.assign_attributes(interview_params)
+    def commit
+      @wizard = InterviewWizard.new(store, interview_form_context_params)
 
-      render :check unless @interview_form.save
+      if @wizard.valid?
+        CreateInterview.new(
+          actor: current_provider_user,
+          application_choice: @application_choice,
+          provider: @wizard.provider,
+          date_and_time: @wizard.date_and_time,
+          location: @wizard.location,
+          additional_details: @wizard.additional_details,
+        ).save!
+        @wizard.clear_state!
 
-      flash[:success] = 'Interview set up'
-      redirect_to provider_interface_application_choice_interviews_path(@application_choice)
+        flash[:success] = 'Interview set up'
+        redirect_to provider_interface_application_choice_interviews_path(@application_choice)
+      else
+        render :check
+      end
     end
 
     def cancel
@@ -73,13 +85,13 @@ module ProviderInterface
     def interview_form_context_params
       {
         application_choice: @application_choice,
-        current_provider_user: current_provider_user,
+        provider_user: current_provider_user,
       }
     end
 
     def interview_params
       params
-        .require(:provider_interface_interview_form)
+        .require(:provider_interface_interview_wizard)
         .permit(:'date(3i)', :'date(2i)', :'date(1i)', :time, :location, :additional_details, :provider_id)
         .transform_keys { |key| date_field_to_attribute(key) }
         .transform_values(&:strip)
@@ -93,6 +105,11 @@ module ProviderInterface
       when 'date(1i)' then 'year'
       else key
       end
+    end
+
+    def store
+      key = "interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+      WizardStateStores::RedisStore.new(key: key)
     end
   end
 end

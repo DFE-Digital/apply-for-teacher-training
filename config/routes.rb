@@ -634,7 +634,7 @@ Rails.application.routes.draw do
       resources :interviews, only: %i[new index], as: :application_choice_interviews do
         collection do
           get '/new/check', to: 'interviews#check'
-          post '/new', to: 'interviews#create'
+          get '/confirm', to: 'interviews#commit'
         end
 
         member do

@@ -20,7 +20,7 @@ module ProviderInterface
       {
         key: key,
         value: value,
-        change_path: new_provider_interface_application_choice_interviews_path(@interview_form.application_choice),
+        change_path: new_provider_interface_application_choice_interview_path(@interview_form.application_choice),
       }
     end
   end

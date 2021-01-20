@@ -1,23 +1,22 @@
 require 'rails_helper'
+RSpec.describe ProviderInterface::InterviewWizard do
+  let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, course_option: build_stubbed(:course_option, course: course)) }
+  let(:course) { build_stubbed(:course, provider: provider_user.providers.first) }
+  let(:provider_user) { build_stubbed(:provider_user, :with_provider, :with_make_decisions) }
+  let(:store) { instance_double(WizardStateStores::RedisStore) }
 
-RSpec.describe ProviderInterface::InterviewForm do
-  let(:provider) { create(:provider, :with_user) }
-  let(:course) { create(:course, provider: provider) }
-  let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: create(:course_option, course: course)) }
-  let(:provider_user) do
-    provider.provider_permissions.update_all(make_decisions: true)
-    provider.provider_users.first
-  end
+  before { allow(store).to receive(:read) }
 
   describe 'validations' do
     it 'validates presence of :application_choice' do
-      expect(described_class.new).to validate_presence_of(:application_choice)
+      expect(described_class.new(store)).to validate_presence_of(:application_choice)
     end
 
     it 'validates the date entered' do
       invalid_form = described_class.new(
+        store,
         application_choice: application_choice,
-        current_provider_user: provider_user,
+        provider_user: provider_user,
         year: 2020,
         month: 1,
         day: 100,
@@ -31,8 +30,9 @@ RSpec.describe ProviderInterface::InterviewForm do
     it 'validates that :date_and_time is in the future' do
       Timecop.freeze(2021, 1, 13) do
         invalid_form = described_class.new(
+          store,
           application_choice: application_choice,
-          current_provider_user: provider_user,
+          provider_user: provider_user,
           year: 2021,
           month: 1,
           day: 10,
@@ -48,8 +48,9 @@ RSpec.describe ProviderInterface::InterviewForm do
       def form_with_time(time)
         tomorrow = 1.day.from_now
         described_class.new(
+          store,
           application_choice: application_choice,
-          current_provider_user: provider_user,
+          provider_user: provider_user,
           year: tomorrow.year,
           month: tomorrow.month,
           day: tomorrow.day,
@@ -75,13 +76,12 @@ RSpec.describe ProviderInterface::InterviewForm do
       end
     end
 
-    it 'validates presence of :current_provider_user' do
-      expect(described_class.new).to validate_presence_of(:current_provider_user)
+    it 'validates presence of :provider_user' do
+      expect(described_class.new(store)).to validate_presence_of(:provider_user)
     end
 
     it 'validates presence of :location' do
-      expect(described_class.new).to validate_presence_of(:location)
-        .with_message('Enter an address or online meeting details')
+      expect(described_class.new(store)).to validate_presence_of(:location)
     end
   end
 
@@ -89,8 +89,9 @@ RSpec.describe ProviderInterface::InterviewForm do
     def form_with_time(time)
       tomorrow = 1.day.from_now
       described_class.new(
+        store,
         application_choice: application_choice,
-        current_provider_user: provider_user,
+        provider_user: provider_user,
         year: tomorrow.year,
         month: tomorrow.month,
         day: tomorrow.day,
@@ -114,44 +115,6 @@ RSpec.describe ProviderInterface::InterviewForm do
         expect(form_with_time(input_time).date_and_time.hour).to equal(expected_hour)
         expect(form_with_time(input_time).date_and_time.min).to equal(expected_minute)
       end
-    end
-  end
-
-  describe '#time_is_valid' do
-    it 'raises an errror if input is not valid time' do
-      invalid_time_form = described_class.new(
-        application_choice: application_choice,
-        current_provider_user: provider_user,
-        year: 2022,
-        month: 1,
-        day: 10,
-        time: '23am',
-        location: 'Zoom',
-      )
-      expect(invalid_time_form.time_is_valid?).to equal(false)
-    end
-  end
-
-  describe '#save' do
-    it 'creates a new interview' do
-      tomorrow = 1.day.from_now
-      valid_form_object = described_class.new(
-        application_choice: application_choice,
-        current_provider_user: provider_user,
-        year: tomorrow.year,
-        month: tomorrow.month,
-        day: tomorrow.day,
-        time: '10am',
-        location: 'Zoom',
-      )
-
-      expect(valid_form_object).to be_valid
-      expect { valid_form_object.save }.to change { application_choice.interviews.count }.from(0).to(1)
-    end
-
-    it 'fails for invalid forms' do
-      invalid_form_object = described_class.new(application_choice: application_choice)
-      expect { invalid_form_object.save }.not_to(change { application_choice.interviews.count })
     end
   end
 end

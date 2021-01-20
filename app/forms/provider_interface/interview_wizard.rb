@@ -1,21 +1,28 @@
 module ProviderInterface
-  class InterviewForm
+  class InterviewWizard
     include ActiveModel::Model
 
-    attr_accessor :day, :month, :year, :time, :location, :additional_details, :application_choice, :provider_id, :current_provider_user
+    VALID_TIME_FORMAT = /^(1[0-2]|0?[1-9])([:\.\s]?[0-5][0-9])?([AaPp][Mm])$/.freeze
 
-    validates :application_choice, :current_provider_user, presence: true
+    attr_accessor :day, :month, :year, :time, :location, :additional_details, :provider_id, :application_choice, :provider_user
+    attr_accessor :current_step
+
     validate :date_is_valid?
     validate :date_and_time_in_future, if: ->(form) { form.date_is_valid? && form.time_is_valid? }
     validate :time_is_valid?
-    validates :location, presence: true
+    validates :provider_user, :location, :application_choice, presence: true
+
+    def initialize(state_store, attrs = {})
+      @state_store = state_store
+      super(last_saved_state.deep_merge(attrs))
+    end
 
     def date_and_time
       Time.zone.local(year, month, day, parsed_time.hour, parsed_time.min)
     end
 
-    def parsed_time
-      Time.zone.parse(time.gsub(/[ .]/, ':'))
+    def date_and_time_in_future
+      errors[:date] << 'Enter a date in the future' if date_and_time < Time.zone.now
     end
 
     def date_is_valid?
@@ -28,9 +35,12 @@ module ProviderInterface
       end
     end
 
+    def parsed_time
+      Time.zone.parse(time.gsub(/[ .]/, ':'))
+    end
+
     def time_is_valid?
-      # TODO: Specs to check this is valid!
-      if time =~ /^(1[0-2]|0?[1-9])([:\.\s]?[0-5][0-9])?([AaPp][Mm])$/
+      if time =~ VALID_TIME_FORMAT
         true
       else
         errors[:time] << 'Enter a valid time'
@@ -38,30 +48,12 @@ module ProviderInterface
       end
     end
 
-    def date_and_time_in_future
-      # TODO: Specs to ensure this is working
-      errors[:date] << 'Enter a date in the future' if date_and_time < Time.zone.now
-    end
-
     def provider
       if user_can_make_decisions_for_multiple_providers?
-        current_provider_user.providers.find(provider_id)
+        provider_user.providers.find(provider_id)
       else
         providers_that_user_has_make_decisions_for.first
       end
-    end
-
-    def save
-      return false unless valid?
-
-      CreateInterview.new(
-        actor: current_provider_user,
-        application_choice: application_choice,
-        provider: provider,
-        date_and_time: date_and_time,
-        location: location,
-        additional_details: additional_details,
-      ).save!
     end
 
     def user_can_make_decisions_for_multiple_providers?
@@ -70,9 +62,9 @@ module ProviderInterface
 
     def providers_that_user_has_make_decisions_for
       @_providers_that_user_has_make_decisions_for ||= begin
-        application_choice_providers = [application_choice.provider, application_choice.accredited_provider].compact
+        application_choice_providers = [@application_choice.provider, @application_choice.accredited_provider].compact
         # TODO: Need to check permissions here so that user deffo has the rights
-        current_user_providers = current_provider_user
+        current_user_providers = provider_user
           .provider_permissions
           .includes([:provider])
           .make_decisions
@@ -80,6 +72,30 @@ module ProviderInterface
 
         current_user_providers.select { |provider| application_choice_providers.include?(provider) }
       end
+    end
+
+    def save_state!
+      @state_store.write(state)
+    end
+
+    def clear_state!
+      @state_store.delete
+    end
+
+  private
+
+    def last_saved_state
+      saved_state = @state_store.read
+
+      if saved_state
+        JSON.parse(saved_state)
+      else
+        {}
+      end
+    end
+
+    def state
+      as_json(except: %w[state_store errors validation_context]).to_json
     end
   end
 end
