@@ -283,11 +283,11 @@ class CandidateMailer < ApplicationMailer
   def ucas_match_initial_email_duplicate_applications(application_choice)
     @course_name_and_code = application_choice.course_option.course.name_and_code
     @provider_name = application_choice.course_option.course.provider.name
-    @date_to_withdraw_application_by = TimeLimitCalculator.new(rule: :ucas_match_candidate_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
+    @withdraw_by_date = TimeLimitCalculator.new(rule: :ucas_match_candidate_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.ucas_match_initial_email.duplicate_applications.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.duplicate_applications.subject', withdraw_by_date: @withdraw_by_date),
     )
   end
 

@@ -124,7 +124,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   def then_we_have_sent_emails_about_dual_application_to_the_candidate_and_the_provider
     candidate_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == @not_previously_matched.email_address }
-    expect(candidate_email.subject).to include 'Action required: it looks like you submitted a duplicate application'
+    expect(candidate_email.subject).to include 'Withdraw your duplicate application'
 
     provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == @provider_user.email_address }
     expect(provider_email.subject).to include "#{@not_previously_matched_application_form.full_name} applied for your course twice"

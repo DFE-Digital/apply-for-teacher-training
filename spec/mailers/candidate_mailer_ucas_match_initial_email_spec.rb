@@ -19,11 +19,11 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t!('candidate_mailer.ucas_match_initial_email.duplicate_applications.subject'),
+      I18n.t!('candidate_mailer.ucas_match.duplicate_applications.subject', withdraw_by_date: '1 February 2021'),
       'heading' => 'Dear Jane',
       'course' => 'Physics (3PH5)',
       'provider' => 'Coventry University',
-      'withdrawal day' => '1 February 2021 (in 10 working days)',
+      'withdraw by date' => '1 February 2021',
     )
   end
 
