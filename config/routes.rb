@@ -240,6 +240,12 @@ Rails.application.routes.draw do
         delete '/delete/:id' => 'work_history/destroy#destroy'
       end
 
+      scope '/restructured-work-history' do
+        get '/' => 'restructured_work_history/start#choice', as: :restructured_work_history
+        post '/' => 'restructured_work_history/start#submit_choice'
+        get '/review' => 'restructured_work_history/review#show', as: :restructured_work_history_review
+      end
+
       scope '/school-experience' do
         get '/', to: redirect('/candidate/application/unpaid-experience')
         get '/new', to: redirect('/candidate/application/unpaid-experience/new')
