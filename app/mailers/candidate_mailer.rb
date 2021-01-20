@@ -303,12 +303,11 @@ class CandidateMailer < ApplicationMailer
   def ucas_match_reminder_email_duplicate_applications(application_choice, ucas_match)
     @course_name_and_code = application_choice.course_option.course.name_and_code
     @provider_name = application_choice.course_option.course.provider.name
-    @initial_email_date = ucas_match.candidate_last_contacted_at.to_s(:govuk_date)
-    @request_ucas_withdrawal_date = ucas_match.calculate_action_date(:ucas_match_ucas_withdrawal_request, Time.zone.today).to_s(:govuk_date)
+    @withdraw_by_date = ucas_match.calculate_action_date(:ucas_match_ucas_withdrawal_request, Time.zone.today).to_s(:govuk_date)
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.ucas_match_reminder_email.duplicate_applications.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.duplicate_applications.subject', withdraw_by_date: @withdraw_by_date),
     )
   end
 
