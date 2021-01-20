@@ -204,6 +204,8 @@ stages:
       logstashPort: '$(logstashPort)'
       logstashSsl: '$(logstashSsl)'
       googleMapsAPIKey: '$(googleMapsAPIKey)'
+      googleAnalyticsApply: '$(googleAnalyticsApply)'
+      googleAnalyticsManage: '$(googleAnalyticsManage)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
       dfeSignInClientId: '$(dfeSignInClientId)'
