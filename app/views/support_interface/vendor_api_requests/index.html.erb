@@ -17,6 +17,7 @@
           <td class="govuk-table__cell govuk-!-padding-top-0">
             <%= render SummaryListComponent.new(rows: [
               { key: 'Status', value: vendor_api_request.status_code },
+              { key: 'Method', value: vendor_api_request.request_method },
               { key: 'Path', value: vendor_api_request.request_path },
               { key: 'Provider', value: vendor_api_request.provider.present? ? vendor_api_request.provider.name : 'Unknown' },
             ]) %>
