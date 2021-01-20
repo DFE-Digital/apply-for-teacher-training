@@ -31,6 +31,7 @@ class FeatureFlag
     [:export_application_data, 'Providers can export a customised selection of application data', 'Ben Swannack'],
     [:international_addresses, 'Replace the single free text field for international addresses with fields per line', 'Steve Hook'],
     [:interviews, 'Providers can filter applications by interviewing state', 'Despo Pentara'],
+    [:restructured_work_history, 'Candidates use the new design for the Work History section', 'David Gisbey'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|
