@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_19_154820) do
+ActiveRecord::Schema.define(version: 2021_01_20_125426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(version: 2021_01_19_154820) do
     t.text "feedback_suggestions"
     t.float "latitude"
     t.float "longitude"
+    t.boolean "feature_restructured_work_history", default: true
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
