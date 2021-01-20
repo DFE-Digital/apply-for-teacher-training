@@ -17,10 +17,8 @@
   <div class="govuk-grid-column-one-half">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: @reasons_for_rejection_statistics.rejections_due_to(
-          :qualifications_y_n,
-          EndOfCycleTimetable.apply_reopens.beginning_of_day,
-        ),
+        count: @reasons_for_rejection_statistics. :qualifications_y_n,
+          ,
         label: 'Total',
         colour: :blue,
         size: :reduced,

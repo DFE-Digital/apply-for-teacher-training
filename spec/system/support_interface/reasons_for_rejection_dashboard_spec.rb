@@ -1,86 +1,116 @@
 require 'rails_helper'
 
-RSpec.feature 'Reasons for Rejection Dashboard' do
+RSpec.feature 'Feature metrics dashboard' do
   include DfESignInHelpers
 
-  scenario 'View rejection reason statistics' do
+  around do |example|
+    @today = Time.zone.local(2020, 12, 24, 12)
+    Timecop.freeze(@today) do
+      example.run
+    end
+  end
+
+  scenario 'View feature metrics', with_audited: true do
     given_i_am_a_support_user
     and_there_are_candidates_and_application_forms_in_the_system
-    and_there_are_applications_matched_with_ucas
 
-    when_i_visit_the_performance_dashboard_in_support
+    when_i_visit_the_performance_page_in_support
+    and_i_click_on_the_feature_metrics_link
 
-    then_i_should_see_the_total_count_of_candidates
-    and_i_should_see_the_total_count_of_application_forms
-
-    when_there_are_candidates_that_have_never_signed_in
-    and_i_visit_the_performance_dashboard_in_support
-
-    then_i_see_the_total_number_of_candidates_in_the_system
-
-    when_i_go_a_report_for_a_specific_year
-
-    then_i_only_see_candidates_that_signed_up_that_year
-
-    when_i_visit_ucas_matches_stats_in_support
-    then_i_should_see_the_total_number_of_ucas_matches
+    and_i_should_see_reasons_for_rejection_metrics
   end
 
   def given_i_am_a_support_user
     sign_in_as_support_user
   end
 
+  def create_application_form_with_references
+    application_form = create(:application_form)
+    create(:application_choice, application_form: application_form)
+    references = create_list(:reference, 2, application_form: application_form)
+    references.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
+    [application_form, references]
+  end
+
+  def provide_references(references)
+    references.each { |reference| SubmitReference.new(reference: reference, send_emails: false).save! }
+  end
+
+
+  def reject_application(application_choice)
+    application_choice.update!(
+      status: :rejected,
+      structured_rejection_reasons: { qualifications_y_n: 'Yes' },
+      rejected_at: Time.zone.now,
+    )
+  end
+
   def and_there_are_candidates_and_application_forms_in_the_system
-    create_list(:application_form, 3)
-  end
-
-  def when_there_are_candidates_that_have_never_signed_in
-    Timecop.freeze(2019, 12, 25) do
-      create(:candidate)
+    allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(60.days.ago)
+    Timecop.freeze(@today - 50.days) do
+      @application_form1, @references1 = create_application_form_with_references
+      @application_form2, @references2 = create_application_form_with_references
+      create(:authentication_token, user: @application_form1.candidate, hashed_token: '0987654321')
+      create(:authentication_token, user: @application_form1.candidate, hashed_token: '9876543210')
+      create(:authentication_token, user: @application_form2.candidate, hashed_token: '8765432109')
     end
-    Timecop.freeze(2021, 1, 5) do
-      create_list(:candidate, 2)
+    Timecop.freeze(@today - 40.days) do
+      @application_form3, @references3 = create_application_form_with_references
+      provide_references(@references1)
+      reject_application(@application_form1.application_choices.first)
+    end
+    Timecop.freeze(@today - 21.days) do
+      @application_form4, @references4 = create_application_form_with_references
+      provide_references(@references2)
+    end
+    Timecop.freeze(@today - 2.days) do
+      provide_references(@references3)
+      provide_references(@references4)
+      reject_application(@application_form2.application_choices.first)
     end
   end
 
-  def and_there_are_applications_matched_with_ucas
-    create_list(:ucas_match, 2)
-  end
-
-  def when_i_visit_the_performance_dashboard_in_support
+  def when_i_visit_the_performance_page_in_support
     visit support_interface_performance_path
-    click_on 'Service performance'
   end
 
-  alias_method :and_i_visit_the_performance_dashboard_in_support, :when_i_visit_the_performance_dashboard_in_support
-
-  def then_i_should_see_the_total_count_of_candidates
-    expect(page).to have_content '5 unique candidates'
+  def and_i_click_on_the_feature_metrics_link
+    click_on 'Feature metrics'
   end
 
-  def and_i_should_see_the_total_count_of_application_forms
-    expect(page).to have_content '5 application forms'
+  def then_i_should_see_reference_metrics
+    expect(page).to have_content('Feature metrics')
+    within('#references_dashboard_section') do
+      expect(page).to have_content('24 days average time to get reference back')
+      expect(page).to have_content('10 days last month')
+      expect(page).to have_content('28.7 days this month')
+      expect(page).to have_content('75% completed within 30 days')
+      expect(page).to have_content('100% last month')
+      expect(page).to have_content('66.7% this month')
+    end
   end
 
-  def then_i_see_the_total_number_of_candidates_in_the_system
-    expect(page).to have_content '8 unique candidates'
+  def and_i_should_see_work_history_metrics
+    within('#work_history_dashboard_section') do
+      expect(page).to have_content('16.8 days time to complete')
+      expect(page).to have_content('19 days this month')
+      expect(page).to have_content('10 days last month')
+    end
   end
 
-  def when_i_go_a_report_for_a_specific_year
-    click_on RecruitmentCycle.cycle_name
+  def and_i_should_see_accessing_the_service_metrics
+    within('#accessing_the_service_to_unsubmitted_dashboard_section') do
+      expect(page).to have_content('0.8 average number of sign-ins before submitting application')
+      expect(page).to have_content('0 this month')
+      expect(page).to have_content('1 last month')
+    end
   end
 
-  def then_i_only_see_candidates_that_signed_up_that_year
-    expect(page).to have_content '7 unique candidates'
-  end
-
-  def when_i_visit_ucas_matches_stats_in_support
-    visit support_interface_performance_path
-    click_on 'UCAS matches statistics'
-  end
-
-  def then_i_should_see_the_total_number_of_ucas_matches
-    expect(page).to have_content '2 candidates on Apply with submitted application'
-    expect(page).to have_content '2 (100%) candidates matched with UCAS'
+  def and_i_should_see_reasons_for_rejection_metrics
+    within('#reasons_for_rejection_dashboard_section') do
+      expect(page).to have_content('2 rejections due to qualifications')
+      expect(page).to have_content('1 last month')
+      expect(page).to have_content('1 this month')
+    end
   end
 end
