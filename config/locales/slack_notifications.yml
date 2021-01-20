@@ -35,7 +35,7 @@ en:
     declined_by_default:
       message:
         primary:
-          one: ":no_good: %{applicant} has declined by defaults %{providers}'s offer."
+          one: ":no_good: %{applicant} has declined by default %{providers}'s offer."
           other: ":no_good: %{applicant} has declined by default offers from %{providers}."
         other_applications:
           one: "declined by default an offer from %{providers}"
