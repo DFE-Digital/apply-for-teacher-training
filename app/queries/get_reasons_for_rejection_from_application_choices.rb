@@ -1,8 +1,8 @@
 class GetReasonsForRejectionFromApplicationChoices
-  def count_sql
+  def count_sql(date)
     "SELECT reasons.key AS key,
       CASE
-        WHEN rejected_at > format(GETDATE(), 'yyyy-MM-01') THEN
+        WHEN rejected_at > '#{date}' THEN
           'this_month'
         ELSE
           'before_this_month'
