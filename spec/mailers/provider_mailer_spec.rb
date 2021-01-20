@@ -158,8 +158,10 @@ RSpec.describe ProviderMailer, type: :mailer do
     let(:email) { ProviderMailer.ucas_match_initial_email_duplicate_applications(provider_user, application_choice) }
 
     it_behaves_like('a mail with subject and content',
-                    'Harry Potter applied for your course twice',
-                    'candidate name' => 'Harry Potter')
+                    'Duplicate application identified',
+                    'candidate name' => 'Harry Potter',
+                    'course name and code' => 'Computer Science (6IND)',
+                    'withdraw by date' => 'February 2021')
   end
 
   describe '.ucas_match_resolved_on_ucas_email' do
