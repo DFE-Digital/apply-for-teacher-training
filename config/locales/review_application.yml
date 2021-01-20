@@ -30,12 +30,18 @@ en:
     maths_gcse:
       incomplete: Maths GCSE or equivalent not entered
       complete_section: Enter your Maths GCSE or equivalent
+      missing: Maths GCSE not complete
+      enter_missing: Enter all values for Maths GCSE or equivalent
     english_gcse:
       incomplete: English GCSE or equivalent not entered
       complete_section: Enter your English GCSE or equivalent
+      missing: English GCSE not complete
+      enter_missing: Enter all values for English GCSE or equivalent
     science_gcse:
       incomplete: Science GCSE or equivalent not entered
       complete_section: Enter your Science GCSE or equivalent
+      missing: Science GCSE not complete
+      enter_missing: Enter all values for Science GCSE or equivalent
     other_qualifications:
       incomplete: The academic and other relevant qualifications section has an incomplete qualification
       complete_section: Complete your academic and other relevant qualifications

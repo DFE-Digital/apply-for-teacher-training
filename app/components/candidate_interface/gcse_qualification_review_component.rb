@@ -33,6 +33,13 @@ module CandidateInterface
       end
     end
 
+    def show_values_missing_banner?
+      if @submitting_application && @application_qualification.grade.nil? || @submitting_application && @application_qualification.award_year.nil?
+        gcse_completed = "#{@subject}_gcse_completed"
+        @application_form.send(gcse_completed) && @editable
+      end
+    end
+
   private
 
     attr_reader :application_qualification, :subject
