@@ -18,6 +18,13 @@ RSpec.feature 'Vendor API Requests' do
     when_i_filter_by_status
     then_i_only_see_api_requests_filtered_by_status
 
+    and_i_clear_filters
+
+    when_i_filter_by_request_method
+    then_i_see_api_requests_filtered_by_request_method
+
+    and_i_clear_filters
+
     when_i_search_for_a_specific_request_path
     then_i_only_see_api_requests_filtered_by_the_search
 
@@ -36,6 +43,8 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def and_vendor_api_requests_for_applications_have_been_made
+    @post_api_request = create(:vendor_api_request, request_method: 'POST', request_path: '/api/v1/applications/9999/offer')
+
     visit vendor_api_path(@first_application_choice)
 
     provider = @last_application_choice.provider
@@ -54,6 +63,7 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def then_i_see_the_api_request
+    expect(page).to have_content('/api/v1/applications/9999/offer')
     expect(page).to have_content(vendor_api_path(@first_application_choice))
     expect(page).to have_content(vendor_api_path(@last_application_choice))
   end
@@ -70,8 +80,6 @@ RSpec.feature 'Vendor API Requests' do
   def then_i_see_the_request_and_response_info
     expect(page).to have_content('Headers')
     expect(page).to have_content('HTTP_HOST')
-    expect(page).to have_content('Request params')
-    expect(page).to have_content('Response body')
     expect(page).to have_content('Unauthorized')
   end
 
@@ -83,10 +91,25 @@ RSpec.feature 'Vendor API Requests' do
   def then_i_only_see_api_requests_filtered_by_status
     expect(page).not_to have_content(vendor_api_path(@first_application_choice))
     expect(page).to have_content(vendor_api_path(@last_application_choice))
+    expect(page).to have_content('/api/v1/applications/9999/offer')
+  end
+
+  def and_i_clear_filters
+    click_on 'Clear filters'
+  end
+
+  def when_i_filter_by_request_method
+    check 'GET'
+    click_on 'Apply filters'
+  end
+
+  def then_i_see_api_requests_filtered_by_request_method
+    expect(page).to have_content(vendor_api_path(@first_application_choice))
+    expect(page).to have_content(vendor_api_path(@last_application_choice))
+    expect(page).not_to have_content('/api/v1/applications/9999/offer')
   end
 
   def when_i_search_for_a_specific_request_path
-    uncheck '200'
     fill_in :q, with: "applications/#{@first_application_choice.id}"
     click_on 'Apply filters'
   end
