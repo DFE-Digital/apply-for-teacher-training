@@ -145,7 +145,13 @@ module CandidateInterface
     end
 
     def work_experience_path
-      if @application_form.application_work_experiences.any? || @application_form.work_history_explanation.present?
+      if @application_form.feature_restructured_work_history && FeatureFlag.active?(:restructured_work_history)
+        if @application_form.application_work_experiences.any? || @application_form.work_history_explanation.present?
+          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_path
+        else
+          Rails.application.routes.url_helpers.candidate_interface_restructured_work_history_review_path
+        end
+      elsif @application_form.application_work_experiences.any? || @application_form.work_history_explanation.present?
         Rails.application.routes.url_helpers.candidate_interface_work_history_show_path
       else
         Rails.application.routes.url_helpers.candidate_interface_work_history_length_path
