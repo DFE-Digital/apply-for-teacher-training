@@ -1,299 +1,79 @@
-<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Course full</h3>
-<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-half">
-    <div id="headline-stat" class="govuk-!-margin-bottom-4">
-      <%= render SupportInterface::TileComponent.new(
-        count: total_rejection_count("course_full_y_n"),
-        label: 'Total',
-        colour: :blue,
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: current_month_rejection_count("course_full_y_n"),
-          label: 'this month',
-          size: :reduced,
-        ) %>
-      </div>
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: previous_rejection_count("course_full_y_n"),
-          label: 'before this month',
-          size: :reduced,
-        ) %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Course full',
+  total_count:  total_rejection_count("course_full_y_n"),
+  this_month: current_month_rejection_count("course_full_y_n"),
+  before_this_month: previous_rejection_count("course_full_y_n"),
+)
+%>
 
-<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Candidate behaviour</h3>
-<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-half">
-    <div id="headline-stat" class="govuk-!-margin-bottom-4">
-      <%= render SupportInterface::TileComponent.new(
-        count: total_rejection_count("candidate_behaviour_y_n"),
-        label: 'Total',
-        colour: :blue,
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: current_month_rejection_count("candidate_behaviour_y_n"),
-          label: 'this month',
-          size: :reduced,
-        ) %>
-      </div>
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: previous_rejection_count("candidate_behaviour_y_n"),
-          label: 'before this month',
-          size: :reduced,
-        ) %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Candidate behaviour',
+  total_count:  total_rejection_count("candidate_behaviour_y_n"),
+  this_month: current_month_rejection_count("candidate_behaviour_y_n"),
+  before_this_month: previous_rejection_count("candidate_behaviour_y_n"),
+)
+%>
 
-<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Honesty and professionalism</h3>
-<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-half">
-    <div id="headline-stat" class="govuk-!-margin-bottom-4">
-      <%= render SupportInterface::TileComponent.new(
-        count: total_rejection_count("honesty_and_professionalism_y_n"),
-        label: 'Total',
-        colour: :blue,
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: current_month_rejection_count("honesty_and_professionalism_y_n"),
-          label: 'this month',
-          size: :reduced,
-        ) %>
-      </div>
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: previous_rejection_count("honesty_and_professionalism_y_n"),
-          label: 'before this month',
-          size: :reduced,
-        ) %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Honesty and professionalism',
+  total_count:  total_rejection_count("honesty_and_professionalism_y_n"),
+  this_month: current_month_rejection_count("honesty_and_professionalism_y_n"),
+  before_this_month: previous_rejection_count("honesty_and_professionalism_y_n"),
+)
+%>
 
-<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Offered on another course</h3>
-<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-half">
-    <div id="headline-stat" class="govuk-!-margin-bottom-4">
-      <%= render SupportInterface::TileComponent.new(
-        count: total_rejection_count("offered_on_another_course_y_n"),
-        label: 'Total',
-        colour: :blue,
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: current_month_rejection_count("offered_on_another_course_y_n"),
-          label: 'this month',
-          size: :reduced,
-        ) %>
-      </div>
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: previous_rejection_count("offered_on_another_course_y_n"),
-          label: 'before this month',
-          size: :reduced,
-        ) %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Offered on another course',
+  total_count:  total_rejection_count("offered_on_another_course_y_n"),
+  this_month: current_month_rejection_count("offered_on_another_course_y_n"),
+  before_this_month: previous_rejection_count("offered_on_another_course_y_n"),
+)
+%>
 
-<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Performance at interview</h3>
-<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-half">
-    <div id="headline-stat" class="govuk-!-margin-bottom-4">
-      <%= render SupportInterface::TileComponent.new(
-        count: total_rejection_count("performance_at_interview_y_n"),
-        label: 'Total',
-        colour: :blue,
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: current_month_rejection_count("performance_at_interview_y_n"),
-          label: 'this month',
-          size: :reduced,
-        ) %>
-      </div>
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: previous_rejection_count("performance_at_interview_y_n"),
-          label: 'before this month',
-          size: :reduced,
-        ) %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Performance at interview',
+  total_count:  total_rejection_count("performance_at_interview_y_n"),
+  this_month: current_month_rejection_count("performance_at_interview_y_n"),
+  before_this_month: previous_rejection_count("performance_at_interview_y_n"),
+)
+%>
 
-<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Qualifications</h3>
-<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-half">
-    <div id="headline-stat" class="govuk-!-margin-bottom-4">
-      <%= render SupportInterface::TileComponent.new(
-        count: total_rejection_count("qualifications_y_n"),
-        label: 'Total',
-        colour: :blue,
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: current_month_rejection_count("qualifications_y_n"),
-          label: 'this month',
-          size: :reduced,
-        ) %>
-      </div>
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: previous_rejection_count("qualifications_y_n"),
-          label: 'before this month',
-          size: :reduced,
-        ) %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Qualifications',
+  total_count:  total_rejection_count("qualifications_y_n"),
+  this_month: current_month_rejection_count("qualifications_y_n"),
+  before_this_month: previous_rejection_count("qualifications_y_n"),
+)
+%>
 
-<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Quality of application</h3>
-<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-half">
-    <div id="headline-stat" class="govuk-!-margin-bottom-4">
-      <%= render SupportInterface::TileComponent.new(
-        count: total_rejection_count("quality_of_application_y_n"),
-        label: 'Total',
-        colour: :blue,
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: current_month_rejection_count("quality_of_application_y_n"),
-          label: 'this month',
-          size: :reduced,
-        ) %>
-      </div>
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: previous_rejection_count("quality_of_application_y_n"),
-          label: 'before this month',
-          size: :reduced,
-        ) %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Quality of application',
+  total_count:  total_rejection_count("quality_of_application_y_n"),
+  this_month: current_month_rejection_count("quality_of_application_y_n"),
+  before_this_month: previous_rejection_count("quality_of_application_y_n"),
+)
+%>
 
-<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Safeguarding Concerns</h3>
-<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-half">
-    <div id="headline-stat" class="govuk-!-margin-bottom-4">
-      <%= render SupportInterface::TileComponent.new(
-        count: total_rejection_count("safeguarding_y_n"),
-        label: 'Total',
-        colour: :blue,
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: current_month_rejection_count("safeguarding_y_n"),
-          label: 'this month',
-          size: :reduced,
-        ) %>
-      </div>
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: previous_rejection_count("safeguarding_y_n"),
-          label: 'before this month',
-          size: :reduced,
-        ) %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Safeguarding concerns',
+  total_count:  total_rejection_count("safeguarding_y_n"),
+  this_month: current_month_rejection_count("safeguarding_y_n"),
+  before_this_month: previous_rejection_count("safeguarding_y_n"),
+)
+%>
 
-<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Interested in future applications</h3>
-<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-half">
-    <div id="headline-stat" class="govuk-!-margin-bottom-4">
-      <%= render SupportInterface::TileComponent.new(
-        count: total_rejection_count("interested_in_future_applications_y_n"),
-        label: 'Total',
-        colour: :blue,
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: current_month_rejection_count("interested_in_future_applications_y_n"),
-          label: 'this month',
-          size: :reduced,
-        ) %>
-      </div>
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: previous_rejection_count("interested_in_future_applications_y_n"),
-          label: 'before this month',
-          size: :reduced,
-        ) %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Interested in future applications',
+  total_count:  total_rejection_count("interested_in_future_applications_y_n"),
+  this_month: current_month_rejection_count("interested_in_future_applications_y_n"),
+  before_this_month: previous_rejection_count("interested_in_future_applications_y_n"),
+)
+%>
 
-<h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Other Advice or feeback</h3>
-<div id="reasons_for_rejection_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
-  <div class="govuk-grid-column-one-half">
-    <div id="headline-stat" class="govuk-!-margin-bottom-4">
-      <%= render SupportInterface::TileComponent.new(
-        count: total_rejection_count("other_advice_or_feedback_y_n"),
-        label: 'Total',
-        colour: :blue,
-        size: :reduced,
-      ) %>
-    </div>
-    <div class="govuk-grid-row govuk-!-margin-bottom-4">
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: current_month_rejection_count("other_advice_or_feedback_y_n"),
-          label: 'this month',
-          size: :reduced,
-        ) %>
-      </div>
-      <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::TileComponent.new(
-          count: previous_rejection_count("other_advice_or_feedback_y_n"),
-          label: 'before this month',
-          size: :reduced,
-        ) %>
-      </div>
-    </div>
-  </div>
-</div>
+<%= render SupportInterface::ReasonForRejectionDashboardSectionComponent.new(
+  heading: 'Other advice or feedback',
+  total_count:  total_rejection_count("other_advice_or_feedback_y_n"),
+  this_month: current_month_rejection_count("other_advice_or_feedback_y_n"),
+  before_this_month: previous_rejection_count("other_advice_or_feedback_y_n"),
+)
+%>
