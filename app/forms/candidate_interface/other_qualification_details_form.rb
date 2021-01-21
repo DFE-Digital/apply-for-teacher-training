@@ -128,13 +128,13 @@ module CandidateInterface
     def subjects
       if qualification_type_name.in?([OtherQualificationTypeForm::A_LEVEL_TYPE, OtherQualificationTypeForm::AS_LEVEL_TYPE])
         A_AND_AS_LEVEL_SUBJECTS
-      elsif qualification_type_name == 'GCSE'
+      elsif qualification_type_name == OtherQualificationTypeForm::GCSE_TYPE
         GCSE_SUBJECTS
       end
     end
 
     def grades
-      if qualification_type == 'Other'
+      if qualification_type == OtherQualificationTypeForm::OTHER_TYPE
         OTHER_UK_QUALIFICATION_GRADES
       end
     end
