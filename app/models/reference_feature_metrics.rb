@@ -46,19 +46,20 @@ private
           .where('created_at BETWEEN ? AND ?', start_time, end_time),
       )
       .group('application_forms.id')
-      .having('count("references".id) = 2')
-    applications.map { |application| time_to_get_for(application) }.compact
+    applications.map { |application| time_to_get_for(application, end_time) }.compact
   end
 
-  def time_to_get_for(application)
+  def time_to_get_for(application, end_time)
+    return nil unless application.enough_references_have_been_provided?
+
     times = application.application_references.feedback_provided.map do |reference|
       provided_audit = reference.audits.where("audited_changes#>>'{feedback_status, 1}' = 'feedback_provided'").last
       [reference.requested_at, provided_audit&.created_at]
     end
-    requested_at_times = times.map(&:first).compact
-    provided_at_times = times.map(&:second).compact
-    return nil if requested_at_times.blank? || provided_at_times.blank?
+    requested_at_time = times.map(&:first).compact.min
+    provided_at_time = times.map(&:second).compact.max
+    return nil if requested_at_time.nil? || provided_at_time.nil? || provided_at_time > end_time
 
-    (provided_at_times.min - requested_at_times.max).to_i / 1.day
+    (provided_at_time - requested_at_time) / 1.day
   end
 end

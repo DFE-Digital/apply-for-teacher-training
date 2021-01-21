@@ -20,7 +20,7 @@ RSpec.describe ReferenceFeatureMetrics, with_audited: true do
   context 'with reference data' do
     before do
       @today = Time.zone.local(2020, 12, 31, 12)
-      Timecop.freeze(@today - 12.days) do
+      Timecop.freeze(@today - 12.days + 2.hours) do
         @application_form1 = create(:application_form)
         @references1 = create_list(:reference, 2, application_form: @application_form1)
         @references1.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
@@ -28,31 +28,45 @@ RSpec.describe ReferenceFeatureMetrics, with_audited: true do
         @application_form2 = create(:application_form)
         @references2 = create_list(:reference, 2, application_form: @application_form2)
         @references2.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
+
+        @application_form3 = create(:application_form)
+        @references3 = create_list(:reference, 2, application_form: @application_form3)
+        @references3.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
       end
-      Timecop.freeze(@today - 9.days) do
-        @references1.each { |reference| SubmitReference.new(reference: reference, send_emails: false).save! }
+      Timecop.freeze(@today - 10.days) do
+        SubmitReference.new(reference: @references1.first, send_emails: false).save!
+      end
+      Timecop.freeze(@today - 9.days - 2.hours) do
+        SubmitReference.new(reference: @references1.second, send_emails: false).save!
+      end
+      Timecop.freeze(@today - 1.day) do
+        SubmitReference.new(reference: @references2.second, send_emails: false).save!
       end
       Timecop.freeze(@today) do
-        @references2.each { |reference| SubmitReference.new(reference: reference, send_emails: false).save! }
+        SubmitReference.new(reference: @references2.first, send_emails: false).save!
+        SubmitReference.new(reference: @references3.second, send_emails: false).save!
+      end
+      Timecop.freeze(@today + 1.day) do
+        SubmitReference.new(reference: @references3.first, send_emails: false).save!
       end
     end
 
     describe '#average_time_to_get_references' do
       it 'returns the correct value for references received today' do
-        expect(feature_metrics.average_time_to_get_references(@today.beginning_of_day, @today)).to eq('12 days')
+        expect(feature_metrics.average_time_to_get_references(@today.beginning_of_day, @today)).to eq('11.9 days')
       end
 
       it 'returns the correct value for references received in the past month' do
-        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today)).to eq('7.5 days')
+        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today)).to eq('7.4 days')
       end
 
       it 'returns the correct value for references received over a custom interval' do
-        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today - 1.week)).to eq('3 days')
+        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today - 1.week)).to eq('2.8 days')
       end
 
       it 'handles missing `requested_at` timestamp' do
         @references1.first.update!(requested_at: nil)
-        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today)).to eq('7.5 days')
+        expect(feature_metrics.average_time_to_get_references((@today - 1.month).beginning_of_day, @today)).to eq('7.4 days')
       end
     end
 
