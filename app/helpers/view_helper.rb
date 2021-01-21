@@ -37,6 +37,7 @@ module ViewHelper
     mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
   end
 
+  # TODO: Make `body` param optional if `block` is provided
   def govuk_button_link_to(body, url, html_options = {}, &_block)
     html_options = {
       class: prepend_css_class('govuk-button', html_options[:class]),
