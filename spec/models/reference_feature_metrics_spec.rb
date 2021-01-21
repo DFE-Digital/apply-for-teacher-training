@@ -39,7 +39,7 @@ RSpec.describe ReferenceFeatureMetrics, with_audited: true do
       Timecop.freeze(@today - 9.days - 2.hours) do
         SubmitReference.new(reference: @references1.second, send_emails: false).save!
       end
-      Timecop.freeze(@today - 1.days) do
+      Timecop.freeze(@today - 1.day) do
         SubmitReference.new(reference: @references2.second, send_emails: false).save!
       end
       Timecop.freeze(@today) do
