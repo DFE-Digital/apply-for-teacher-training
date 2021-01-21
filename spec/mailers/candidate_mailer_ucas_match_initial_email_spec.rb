@@ -33,7 +33,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t!('candidate_mailer.ucas_match_initial_email.multiple_acceptances.subject'),
+      I18n.t!('candidate_mailer.ucas_match.multiple_acceptances.subject'),
       'heading' => 'Dear Jane',
       'withdrawal day' => '1 February 2021',
     )

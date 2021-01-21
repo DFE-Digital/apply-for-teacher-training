@@ -90,15 +90,11 @@ en:
         course_full: "%{course_name} at %{provider_name} became full while %{candidate_name} was awaiting references"
         location_full: "%{course_name} at %{provider_name} became full at %{location} while %{candidate_name} was awaiting references"
         study_mode_full: "%{study_mode} places for %{course_name} at %{provider_name} became full while %{candidate_name} was awaiting references"
-    ucas_match_initial_email:
-      multiple_acceptances:
-        subject: 'Action required: it looks like you’ve accepted two offers'
-    ucas_match_reminder_email:
-      multiple_acceptances:
-        subject: 'Action required: please withdraw one of your acceptances'
     ucas_match:
       duplicate_applications:
         subject: "Withdraw your duplicate application by %{withdraw_by_date}"
+      multiple_acceptances:
+        subject: "Withdraw from one of your offers by %{withdraw_by_date}"
       resolved_on_ucas:
         subject: Your application has been deleted from UTT
       resolved_on_apply:

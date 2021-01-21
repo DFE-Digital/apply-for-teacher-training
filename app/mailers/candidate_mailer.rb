@@ -296,7 +296,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       candidate.current_application,
-      subject: I18n.t!('candidate_mailer.ucas_match_initial_email.multiple_acceptances.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.multiple_acceptances.subject'),
     )
   end
 
@@ -317,7 +317,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       ucas_match.candidate.current_application,
-      subject: I18n.t!('candidate_mailer.ucas_match_reminder_email.multiple_acceptances.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.multiple_acceptances.subject'),
     )
   end
 
