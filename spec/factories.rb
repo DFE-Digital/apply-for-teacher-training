@@ -812,25 +812,29 @@ FactoryBot.define do
     trait :feedback_refused do
       feedback_status { 'feedback_refused' }
       feedback { nil }
-      requested_at { Time.zone.now }
+      requested_at { Time.zone.now - 1.day }
+      feedback_refused_at { Time.zone.now }
     end
 
     trait :email_bounced do
       feedback_status { 'email_bounced' }
       feedback { nil }
-      requested_at { Time.zone.now }
+      requested_at { Time.zone.now - 1.minute }
+      email_bounced_at { Time.zone.now }
     end
 
     trait :cancelled do
       feedback_status { 'cancelled' }
       feedback { nil }
-      requested_at { Time.zone.now }
+      requested_at { Time.zone.now - 1.day }
+      cancelled_at { Time.zone.now }
     end
 
     trait :cancelled_at_end_of_cycle do
       feedback_status { 'cancelled_at_end_of_cycle' }
       feedback { nil }
-      requested_at { Time.zone.now }
+      requested_at { Time.zone.now - 1.day }
+      cancelled_at_end_of_cycle_at { Time.zone.now }
     end
 
     trait :feedback_requested do
@@ -861,7 +865,8 @@ FactoryBot.define do
     trait :feedback_provided do
       feedback_status { 'feedback_provided' }
       feedback { Faker::Lorem.paragraph(sentence_count: 10) }
-      requested_at { Time.zone.now }
+      requested_at { Time.zone.now - 1.day }
+      feedback_provided_at { Time.zone.now }
       safeguarding_concerns { '' }
       relationship_correction { '' }
     end
