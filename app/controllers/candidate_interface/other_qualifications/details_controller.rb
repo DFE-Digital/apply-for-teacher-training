@@ -11,8 +11,6 @@ module CandidateInterface
       @form.initialize_from_last_qualification(
         current_application.application_qualifications.other.order(:created_at),
       )
-      set_subject_autosuggest_data
-      set_grade_autosuggest_data
       @form.save_intermediate!
     end
 
@@ -24,8 +22,6 @@ module CandidateInterface
       )
 
       @form.save_intermediate!
-      set_subject_autosuggest_data
-      set_grade_autosuggest_data
 
       if @form.valid?
         @form.save!
@@ -57,8 +53,6 @@ module CandidateInterface
       )
 
       @form.save_intermediate!
-      set_subject_autosuggest_data
-      set_grade_autosuggest_data
     end
 
     def update
@@ -73,8 +67,6 @@ module CandidateInterface
       )
 
       @form.save_intermediate!
-      set_subject_autosuggest_data
-      set_grade_autosuggest_data
 
       if @form.valid?
         @form.save!
@@ -114,21 +106,6 @@ module CandidateInterface
           .permit(:qualification_type),
         ),
       )
-    end
-
-    def set_subject_autosuggest_data
-      qualification_type = @form.qualification_type_name
-      if qualification_type.in? [OtherQualificationTypeForm::A_LEVEL_TYPE, OtherQualificationTypeForm::AS_LEVEL_TYPE]
-        @subjects = A_AND_AS_LEVEL_SUBJECTS
-      elsif qualification_type == 'GCSE'
-        @subjects = GCSE_SUBJECTS
-      end
-    end
-
-    def set_grade_autosuggest_data
-      if @form.qualification_type == 'Other'
-        @grades = OTHER_UK_QUALIFICATION_GRADES
-      end
     end
   end
 end

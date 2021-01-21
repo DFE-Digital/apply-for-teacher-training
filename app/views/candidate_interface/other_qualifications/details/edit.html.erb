@@ -11,7 +11,7 @@
         Edit <%= @form.qualification_type_name %> qualification
       </h1>
 
-      <%= render partial: 'form', locals: { f: f, subjects: @subjects, grades: @grades } %>
+      <%= render partial: 'form', locals: { f: f, subjects: @form.subjects, grades: @form.grades } %>
 
       <%= f.govuk_submit t('save_and_continue') %>
     <% end %>

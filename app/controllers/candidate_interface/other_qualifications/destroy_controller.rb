@@ -1,6 +1,7 @@
 module CandidateInterface
   class OtherQualifications::DestroyController < OtherQualifications::BaseController
     before_action :render_application_feedback_component, except: %i[confirm_destroy destroy]
+
     def confirm_destroy
       @qualification = OtherQualificationDetailsForm.build_from_qualification(current_qualification)
     end
