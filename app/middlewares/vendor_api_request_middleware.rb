@@ -48,8 +48,9 @@ private
     {
       path: @request.path,
       params: @request.params,
+      body: @request.body.read,
       headers: request_headers,
-      method: @request.env['REQUEST_METHOD'],
+      method: @request.request_method,
     }
   end
 
