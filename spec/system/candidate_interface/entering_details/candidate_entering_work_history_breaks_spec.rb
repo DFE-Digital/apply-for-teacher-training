@@ -10,6 +10,8 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   scenario 'Candidate enters a reason for a work break' do
+    FeatureFlag.deactivate(:restructured_work_history)
+
     given_i_am_signed_in
     and_i_visit_the_site
 

@@ -4,6 +4,8 @@ RSpec.feature 'Candidate deletes their work history' do
   include CandidateHelper
 
   scenario 'Candidate tries to complete the section with no job, then edits their work history when the section is completed' do
+    FeatureFlag.deactivate(:restructured_work_history)
+
     given_i_am_signed_in
 
     when_i_visit_the_application_page
