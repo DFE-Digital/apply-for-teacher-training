@@ -10,6 +10,8 @@ module CandidateInterface
       @work_details_form = WorkHistoryForm.new(work_history_form_params)
 
       if @work_details_form.valid?
+        current_application.update!(feature_restructured_work_history: false)
+
         if @work_details_form.work_history == 'missing'
           redirect_to candidate_interface_work_history_explanation_path
         else
