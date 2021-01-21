@@ -4,7 +4,7 @@ RSpec.describe VendorAPIRequestWorker do
   describe '#perform' do
     it 'creates a VendorAPIRequest record' do
       expect {
-        described_class.new.perform({ 'headers' => [] }, {}.to_json, 401, Time.zone.now)
+        described_class.new.perform({}, {}.to_json, 401, Time.zone.now)
       }.to change(VendorAPIRequest, :count).by(1)
     end
 
@@ -22,7 +22,7 @@ RSpec.describe VendorAPIRequestWorker do
 
   it 'accepts headers and body in response_data' do
     described_class.new.perform(
-      { 'headers' => {}, 'path' => '/api/v1/foo' },
+      { 'path' => '/api/v1/foo' },
       { 'headers' => { 'this' => 'that' }, 'body' => { 'that' => 'this' }.to_json },
       500,
       Time.zone.now,
@@ -38,5 +38,35 @@ RSpec.describe VendorAPIRequestWorker do
     described_class.new.perform({ 'headers' => {}, 'path' => '/api/v1/bar', 'method' => 'GET' }, {}.to_json, 500, Time.zone.now)
 
     expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_method).to eq('GET')
+  end
+
+  it 'saves params from GET requests' do
+    described_class.new.perform({
+      'params' => { 'foo' => 'meh' },
+      'path' => '/api/v1/bar',
+      'method' => 'GET',
+    }, {}.to_json, 500, Time.zone.now)
+
+    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_body).to eq('foo' => 'meh')
+  end
+
+  it 'saves request data from POST requests' do
+    described_class.new.perform({
+      'body' => { 'foo' => 'meh' }.to_json,
+      'path' => '/api/v1/bar',
+      'method' => 'POST',
+    }, {}.to_json, 500, Time.zone.now)
+
+    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_body).to eq('foo' => 'meh')
+  end
+
+  it 'records when POST data is not valid JSON' do
+    described_class.new.perform({
+      'body' => 'This is not JSON',
+      'path' => '/api/v1/bar',
+      'method' => 'POST',
+    }, {}.to_json, 500, Time.zone.now)
+
+    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_body).to eq('error' => 'request data did not contain valid JSON')
   end
 end
