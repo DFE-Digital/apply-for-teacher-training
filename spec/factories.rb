@@ -1154,6 +1154,16 @@ FactoryBot.define do
         }
       end
     end
+
+    trait :with_scheduled_interview do
+      application_choice { create(:application_choice, :with_scheduled_interview) }
+
+      changes do
+        {
+          'status' => %w[awaiting_provider_decision interviewing],
+        }
+      end
+    end
   end
 
   factory :feature do
@@ -1213,5 +1223,26 @@ FactoryBot.define do
     page_title { Faker::Lorem.paragraph(sentence_count: 1) }
     feedback { Faker::Lorem.paragraph(sentence_count: 3) }
     consent_to_be_contacted { true }
+  end
+
+  factory :interview_audit, class: 'Audited::Audit' do
+    action { 'create' }
+    user { create(:provider_user) }
+    version { 1 }
+    request_uuid { SecureRandom.uuid }
+    created_at { Time.zone.now }
+
+    transient do
+      application_choice { build_stubbed(:application_choice, :awaiting_provider_decision) }
+      interview { build_stubbed(:interview) }
+      changes { {} }
+    end
+
+    after(:build) do |audit, evaluator|
+      audit.auditable_type = 'Interview'
+      audit.auditable_id = evaluator.interview.id
+      audit.associated = evaluator.application_choice
+      audit.audited_changes = evaluator.changes
+    end
   end
 end

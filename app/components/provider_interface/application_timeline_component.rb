@@ -28,12 +28,12 @@ module ProviderInterface
   private
 
     def map_activity_log_events_for(attr)
-      filtered = @activity_log_events.select { |event| event.changes.key?(attr) }
+      filtered = @activity_log_events.select { |event| event.application_status_at_event != 'interviewing' && event.changes.key?(attr) }
       filtered.map { |event| yield event }
     end
 
     def timeline_events
-      (status_change_events + note_events + feedback_events + change_offer_events).sort_by(&:date).reverse
+      (status_change_events + note_events + feedback_events + change_offer_events + interview_events).sort_by(&:date).reverse
     end
 
     def status_change_events
@@ -87,8 +87,29 @@ module ProviderInterface
       end
     end
 
+    def interview_events
+      @activity_log_events.select { |e| e.audit.auditable.is_a?(Interview) }.map do |event|
+        Event.new(
+          interview_title_for(event.audit),
+          actor_for(event),
+          event.created_at,
+          *interview_link_params(event.audit.auditable),
+        )
+      end
+    end
+
     def title_for(status)
       TITLES[status]
+    end
+
+    def interview_title_for(audit)
+      if audit.action == 'create'
+        'Interview set up'
+      elsif audit.action == 'update' && audit.audited_changes.key?('cancelled_at')
+        'Interview cancelled'
+      else
+        'Interview updated'
+      end
     end
 
     def actor_for(change)
@@ -111,6 +132,12 @@ module ProviderInterface
 
     def offer_link_params
       ['View offer', provider_interface_application_choice_offer_path(application_choice)]
+    end
+
+    def interview_link_params(interview)
+      return [nil, nil] if interview.discarded?
+
+      ['View interview', provider_interface_application_choice_interviews_path(application_choice, anchor: "interview-#{interview.id}")]
     end
 
     def provider_name(provider_user)

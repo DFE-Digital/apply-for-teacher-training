@@ -15,6 +15,8 @@ module ProviderInterface
       user = event.user_full_name
       candidate = event.candidate_full_name
 
+      return interview_event_description(user, candidate) if event.audit.auditable.is_a?(Interview)
+
       case event.application_status_at_event
       when 'awaiting_provider_decision'
         "Application received from #{candidate}"
@@ -70,6 +72,27 @@ module ProviderInterface
                          end
     end
 
+    def event_title
+      if application_choice.present?
+        "#{course_option.course.name_and_code} at #{course_option.site.name}"
+      elsif event.audit.auditable.is_a?(Interview)
+        interview = event.audit.auditable
+        "Interviewing on #{interview.date_and_time.to_s(:govuk_date_and_time)}, #{interview.location}"
+      end
+    end
+
+    def event_content
+      if application_choice.present?
+        content = course_option.provider.name
+
+        if course_option.course.accredited_provider.present?
+          content << " – ratified by #{course_option.course.accredited_provider.name}"
+        end
+      end
+
+      content
+    end
+
     def link
       routes = Rails.application.routes.url_helpers
 
@@ -95,6 +118,11 @@ module ProviderInterface
             url: routes.provider_interface_application_choice_offer_path(application_choice),
             text: 'View offer',
           }
+        elsif event.audit.auditable.is_a?(Interview)
+          {
+            url: routes.provider_interface_application_choice_interviews_path(event.audit.associated, anchor: "interview-#{event.audit.auditable.id}"),
+            text: 'View interview',
+          }
         else
           {
             url: routes.provider_interface_application_choice_path(application_choice),
@@ -102,6 +130,13 @@ module ProviderInterface
           }
         end
       end
+    end
+
+    def interview_event_description(user, candidate)
+      return "#{user} set up an interview with #{candidate}" if event.audit.action == 'create'
+      return "#{user} cancelled interview with #{candidate}" if event.audit.audited_changes.key?('cancelled_at')
+
+      "#{user} updated interview with #{candidate}"
     end
   end
 end

@@ -41,6 +41,19 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
     end
   end
 
+  describe '#event_description for an interview audit' do
+    it 'presents interview details' do
+      audit = build_stubbed(:interview_audit)
+      application_choice = build_stubbed(:application_choice)
+      interview = build_stubbed(:interview)
+      allow(audit).to receive(:auditable).and_return(interview)
+      allow(audit).to receive(:associated).and_return(application_choice)
+
+      expected = "#{audit.user.full_name} set up an interview with #{audit.associated.application_form.full_name}"
+      expect(component_for(audit).event_description).to eq(expected)
+    end
+  end
+
   describe '#link' do
     let(:routes) { Rails.application.routes.url_helpers }
 
@@ -87,6 +100,19 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
           text: 'View offer',
         })
       end
+    end
+
+    it 'links to the interview tab for an interview audit' do
+      audit = build_stubbed(:interview_audit, audited_changes: {})
+      application_choice = build_stubbed(:application_choice)
+      interview = build_stubbed(:interview)
+      allow(audit).to receive(:auditable).and_return(interview)
+      allow(audit).to receive(:associated).and_return(application_choice)
+
+      expect(component_for(audit).link).to eq({
+        url: routes.provider_interface_application_choice_interviews_path(application_choice, anchor: "interview-#{interview.id}"),
+        text: 'View interview',
+      })
     end
   end
 

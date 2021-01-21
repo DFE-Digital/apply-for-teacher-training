@@ -118,6 +118,62 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
+  context 'for an interview event' do
+    it 'renders the interview set up event' do
+      application_choice = build_stubbed(:application_choice, status: 'interviewing')
+      interview = build_stubbed(:interview)
+      application_choice_audit = build_stubbed(:application_choice_audit, application_choice: application_choice, audited_changes: { status: %w[awaiting_provider_decision interviewing] })
+      interview_audit = build_stubbed(:interview_audit, interview: interview, application_choice: application_choice, audited_changes: {})
+      allow(application_choice_audit).to receive(:auditable).and_return(application_choice)
+      allow(interview_audit).to receive(:auditable).and_return(interview)
+      allow(GetActivityLogEvents).to receive(:call)
+        .with(application_choices: [application_choice])
+        .and_return([interview_audit, application_choice_audit])
+
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Interview set up'
+      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View interview'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
+    end
+
+    it 'renders the interview updated event' do
+      application_choice = build_stubbed(:application_choice, status: 'interviewing')
+      interview = build_stubbed(:interview)
+      application_choice_audit = build_stubbed(:application_choice_audit, application_choice: application_choice, audited_changes: { status: %w[awaiting_provider_decision interviewing] })
+      interview_audit = build_stubbed(:interview_audit, action: 'update', interview: interview, application_choice: application_choice, audited_changes: {})
+      allow(application_choice_audit).to receive(:auditable).and_return(application_choice)
+      allow(interview_audit).to receive(:auditable).and_return(interview)
+      allow(GetActivityLogEvents).to receive(:call)
+        .with(application_choices: [application_choice])
+        .and_return([interview_audit, application_choice_audit])
+
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Interview updated'
+      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View interview'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
+    end
+
+    it 'renders the interview cancelled event' do
+      application_choice = build_stubbed(:application_choice, status: 'interviewing')
+      interview = build_stubbed(:interview)
+      application_choice_audit = build_stubbed(:application_choice_audit, application_choice: application_choice, audited_changes: { status: %w[awaiting_provider_decision interviewing] })
+      interview_audit = build_stubbed(:interview_audit, action: 'update', interview: interview, application_choice: application_choice, audited_changes: { cancelled_at: [nil, Time.zone.now] })
+      allow(application_choice_audit).to receive(:auditable).and_return(application_choice)
+      allow(interview_audit).to receive(:auditable).and_return(interview)
+      allow(GetActivityLogEvents).to receive(:call)
+        .with(application_choices: [application_choice])
+        .and_return([interview_audit, application_choice_audit])
+
+      rendered = render_inline(described_class.new(application_choice: application_choice))
+      expect(rendered.text).to include 'Interview cancelled'
+      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.css('a').text).to eq 'View interview'
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
+    end
+  end
+
   it 'has a title for all state transitions' do
     FeatureFlag.activate(:interviews)
     expect(ApplicationStateChange.states_visible_to_provider).to match_array(ProviderInterface::ApplicationTimelineComponent::TITLES.keys.map(&:to_sym))

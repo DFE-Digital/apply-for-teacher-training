@@ -181,4 +181,15 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
       expect(elapsed_time).to be < 0.05
     end
   end
+
+  context 'with interviews associated to applications' do
+    let(:application_choice) { create(:application_choice, :with_scheduled_interview) }
+
+    it 'returns events associated with interviews' do
+      result = GetActivityLogEvents.call(application_choices: [application_choice])
+
+      expect(result.first.auditable).to eq(application_choice.interviews.first)
+      expect(result.first.associated).to eq(application_choice)
+    end
+  end
 end
