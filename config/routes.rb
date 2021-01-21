@@ -241,7 +241,7 @@ Rails.application.routes.draw do
       end
 
       scope '/restructured-work-history' do
-        get '/' => 'restructured_work_history/base#show', as: :restructured_work_history
+        get '/' => 'restructured_work_history/start#show', as: :restructured_work_history
         get '/review' => 'restructured_work_history/review#show', as: :restructured_work_history_review
       end
 
