@@ -23,11 +23,11 @@ If you apply for a course or accept an offer on both, we’ll get in touch with 
 
 You can apply for another course at this stage if you do not get an offer or if you choose not to accept your offers.
 
-[Get Into Teaching](https://getintoteaching.education.gov.uk/get-help-and-support) can guide you through the process of applying for more courses. Contact them for free on 0800 389 2500, or [chat to an adviser using the online chat service](https://getintoteaching.education.gov.uk/lp/live-chat).
- 
+[Get Into Teaching](https://beta-getintoteaching.education.gov.uk/helping-you-become-a-teacher) can guide you through the process of applying for more courses. Contact them for free on 0800 389 2500, or [chat to an adviser using the online chat service](https://beta-getintoteaching.education.gov.uk/#talk-to-us).
+
 ### Making changes to your application
 
-Contact us at <becomingateacher@digital.education.gov.uk> if you need to make changes. We only have 5 working days to make changes for you. 
+Contact us at <becomingateacher@digital.education.gov.uk> if you need to make changes. We only have 5 working days to make changes for you.
 
 Once we’ve processed your request, we will not be able to make any more changes.
 
