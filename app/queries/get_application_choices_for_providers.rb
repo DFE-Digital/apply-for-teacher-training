@@ -5,7 +5,7 @@ class GetApplicationChoicesForProviders
     :provider,
     :site,
     application_form: %i[candidate application_references application_work_experiences application_volunteering_experiences application_qualifications],
-    course: %i[provider],
+    course: %i[provider accredited_provider],
     course_option: [{ course: %i[provider] }, :site],
   ].freeze
 
