@@ -62,7 +62,7 @@ en:
         confirm: Yes I’m sure - delete this entry
         cancel: Cancel
       add:
-        button: Add job
+        button: Add a job
       another:
         button: Add another job
       review:

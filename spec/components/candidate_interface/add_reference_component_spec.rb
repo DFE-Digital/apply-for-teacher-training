@@ -9,7 +9,6 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
       result = render_inline(described_class.new(application_form))
 
-      expect(heading(result)).to eq 'Add a referee'
       expect(link_text(result)).to eq 'Add a referee'
       expect(href(result)).to eq '/candidate/application/references/start'
       expect(body_text(result)).to eq 'You need 2 references before you can submit your application.'
@@ -23,7 +22,6 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
       result = render_inline(described_class.new(application_form))
 
-      expect(heading(result)).to eq 'Add a second referee'
       expect(link_text(result)).to eq 'Add a second referee'
       expect(href(result)).to eq '/candidate/application/references/start'
       expect(body_text(result)).to eq 'You need 2 references before you can submit your application.'
@@ -40,7 +38,6 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
       expected_first_para = 'You can add more referees to increase the chances of getting 2 references quickly.'
       expected_second_para = 'We’ll cancel any remaining requests when you’ve received 2 references.'
 
-      expect(heading(result)).to eq 'Add another referee'
       expect(link_text(result)).to eq 'Add another referee'
       expect(href(result)).to eq '/candidate/application/references/start'
       expect(body_text(result)).to eq expected_first_para + expected_second_para
@@ -54,17 +51,12 @@ RSpec.describe CandidateInterface::AddReferenceComponent do
 
       result = render_inline(described_class.new(application_form))
 
-      expect(heading(result)).to be_empty
       expect(link(result)).to be_empty
       expect(body_text(result)).to be_empty
     end
   end
 
 private
-
-  def heading(result)
-    result.css('h2').text.strip
-  end
 
   def link(result)
     result.css('a')
