@@ -137,22 +137,22 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
   describe '#show_values_missing_banner?' do
     context 'when they have an incomplete qualification and are submitting their application' do
       it 'returns true' do
-        application_form = build :application_form
+        application_form = create(:application_form, maths_gcse_completed: true)
 
-        application_qualification = build(
-        :application_qualification,
-        application_form: application_form,
-        qualification_type: 'gcse',
-        level: 'gcse',
-        grade: nil,
-        award_year: nil,
-        subject: 'english',
-      )
+        application_qualification = create(
+          :application_qualification,
+          application_form: application_form,
+          qualification_type: 'gcse',
+          level: 'gcse',
+          grade: nil,
+          award_year: nil,
+          subject: 'maths',
+        )
         result = described_class.new(
           application_form: application_form,
           application_qualification: application_qualification,
-          subject: 'english',
-          submitting_application: true
+          subject: 'maths',
+          submitting_application: true,
         )
 
         expect(result.show_values_missing_banner?).to eq true
