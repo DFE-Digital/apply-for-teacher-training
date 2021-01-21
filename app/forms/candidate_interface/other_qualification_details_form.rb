@@ -125,6 +125,20 @@ module CandidateInterface
       other_uk_qualification_type == 'BTEC'
     end
 
+    def subjects
+      if qualification_type_name.in?([OtherQualificationTypeForm::A_LEVEL_TYPE, OtherQualificationTypeForm::AS_LEVEL_TYPE])
+        A_AND_AS_LEVEL_SUBJECTS
+      elsif qualification_type_name == 'GCSE'
+        GCSE_SUBJECTS
+      end
+    end
+
+    def grades
+      if qualification_type == 'Other'
+        OTHER_UK_QUALIFICATION_GRADES
+      end
+    end
+
   private
 
     def previous_qualification_is_of_same_type?(qualifications)
