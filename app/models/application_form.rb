@@ -24,6 +24,8 @@ class ApplicationForm < ApplicationRecord
   has_many :application_feedback
 
   scope :current_cycle, -> { where(recruitment_cycle_year: RecruitmentCycle.current_year) }
+  scope :with_restructured_work_history, -> { where(feature_restructured_work_history: true) }
+  scope :without_restructured_work_history, -> { where.not(feature_restructured_work_history: true) }
 
   MINIMUM_COMPLETE_REFERENCES = 2
   MAXIMUM_REFERENCES = 10
