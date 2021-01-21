@@ -28,6 +28,10 @@ RSpec.describe ReferenceFeatureMetrics, with_audited: true do
         @application_form2 = create(:application_form)
         @references2 = create_list(:reference, 2, application_form: @application_form2)
         @references2.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
+
+        @application_form3 = create(:application_form)
+        @references3 = create_list(:reference, 2, application_form: @application_form3)
+        @references3.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
       end
       Timecop.freeze(@today - 10.days) do
         SubmitReference.new(reference: @references1.first, send_emails: false).save!
@@ -35,8 +39,15 @@ RSpec.describe ReferenceFeatureMetrics, with_audited: true do
       Timecop.freeze(@today - 9.days - 2.hours) do
         SubmitReference.new(reference: @references1.second, send_emails: false).save!
       end
+      Timecop.freeze(@today - 1.days) do
+        SubmitReference.new(reference: @references2.second, send_emails: false).save!
+      end
       Timecop.freeze(@today) do
-        @references2.each { |reference| SubmitReference.new(reference: reference, send_emails: false).save! }
+        SubmitReference.new(reference: @references2.first, send_emails: false).save!
+        SubmitReference.new(reference: @references3.second, send_emails: false).save!
+      end
+      Timecop.freeze(@today + 1.day) do
+        SubmitReference.new(reference: @references3.first, send_emails: false).save!
       end
     end
 
