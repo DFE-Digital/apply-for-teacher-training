@@ -97,6 +97,13 @@ FactoryBot.define do
   factory :application_form do
     candidate
     address_type { 'uk' }
+    # this can be removed once the new Work History flow has been completed and
+    # the CandidateHelper has been updated to use the new flow.
+    feature_restructured_work_history { false }
+
+    trait :with_feature_restructured_work_history do
+      feature_restructured_work_history { true }
+    end
 
     factory :completed_application_form do
       support_reference { GenerateSupportRef.call }
