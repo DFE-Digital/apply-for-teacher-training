@@ -37,4 +37,21 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     expect(result.text).to include('Rejection reason')
     expect(result.text).to include(application_choice.rejection_reason)
   end
+
+  it 'displays offer date and DBD date for offered applications' do
+    application_choice = create(
+      :application_choice,
+      :with_offer,
+      offered_at: Time.zone.local(2020, 1, 1, 10),
+      decline_by_default_at: Time.zone.local(2020, 1, 10, 10),
+    )
+
+    result = render_inline(described_class.new(application_choice))
+
+    expect(result.text).to include('Offer made at')
+    expect(result.text).to include('1 January 2020 at 10:00am')
+
+    expect(result.text).to include('Decline by default at')
+    expect(result.text).to include('10 January 2020 at 10:00am')
+  end
 end

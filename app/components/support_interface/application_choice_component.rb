@@ -13,6 +13,11 @@ module SupportInterface
         { key: 'Status', value: render(SupportInterface::ApplicationStatusTagComponent.new(status: application_choice.status)) },
       ]
 
+      if application_choice.offer?
+        rows << { key: 'Offer made at', value: application_choice.offered_at.to_s(:govuk_date_and_time) }
+        rows << { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) }
+      end
+
       if application_choice.different_offer?
         rows << [
           { key: 'Course candidate applied for', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) },
@@ -33,7 +38,6 @@ module SupportInterface
         end
       end
 
-      rows << { key: 'Feedback', value: application_choice.rejection_reason } if application_choice.rejection_reason.present?
       rows << { key: 'Sent to provider at', value: application_choice.sent_to_provider_at.to_s(:govuk_date_and_time) } if application_choice.sent_to_provider_at
       rows << { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_s(:govuk_date_and_time) } if application_choice.reject_by_default_at && application_choice.awaiting_provider_decision?
       rows << { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) } if application_choice.decline_by_default_at && application_choice.offer?
