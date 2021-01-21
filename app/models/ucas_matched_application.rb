@@ -120,6 +120,6 @@ class UCASMatchedApplication
 private
 
   def provider_not_on_apply?
-    Provider.find_by(code: @matching_data['Provider code']).nil?
+    !Provider.exists?(code: @matching_data['Provider code'])
   end
 end

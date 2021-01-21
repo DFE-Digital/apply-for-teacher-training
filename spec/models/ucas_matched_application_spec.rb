@@ -1,95 +1,99 @@
 require 'rails_helper'
 
 RSpec.describe UCASMatchedApplication do
-  let(:course) { create(:course, recruitment_cycle_year: 2020) }
-  let(:candidate) { create(:candidate) }
-  let(:course_option) { create(:course_option, course: course) }
-  let(:application_choice) { create(:application_choice, course_option: course_option) }
-  let(:application_form) { create(:completed_application_form, candidate_id: candidate.id, application_choices: [application_choice]) }
-  let(:apply_again_application_form) { create(:application_form, candidate_id: candidate.id) }
   let(:recruitment_cycle_year) { 2020 }
-  let(:candidate1) { create(:candidate) }
-  let(:application_choice1) { create(:application_choice, :with_accepted_offer, course_option: course_option) }
-  let(:application_form1) { create(:completed_application_form, candidate_id: candidate1.id, application_choices: [application_choice1]) }
-  let(:candidate2) { create(:candidate) }
-  let(:application_choice2) { create(:application_choice, :with_rejection, course_option: course_option) }
-  let(:application_form2) { create(:completed_application_form, candidate_id: candidate2.id, application_choices: [application_choice2]) }
-
-  before do
-    apply_again_application_form
-    application_form
-    application_form1
-    application_form2
-    create(:course, code: course.code, provider: course.provider, recruitment_cycle_year: 2021)
-  end
+  let(:candidate) { build_stubbed(:candidate) }
+  let(:provider) { build_stubbed(:provider) }
+  let(:course) { build_stubbed(:course, recruitment_cycle_year: recruitment_cycle_year, provider: provider) }
+  let(:course_option) { build_stubbed(:course_option, course: course) }
 
   describe '#course' do
+    let(:course) { create(:course, recruitment_cycle_year: 2020) }
+    let(:ucas_matching_data) do
+      {
+        'Course code' => course.code.to_s,
+        'Provider code' => course.provider.code.to_s,
+        'Apply candidate ID' => candidate.id.to_s,
+      }
+    end
+
     it 'returns the course for the correct recruitment cycle' do
-      ucas_matching_data =
-        { 'Course code' => course.code.to_s,
-          'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate.id.to_s }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, course.recruitment_cycle_year)
 
       expect(ucas_matching_application.course).to eq(course)
     end
 
-    it 'returns the course details for a course which is not on Apply' do
-      ucas_matching_data =
-        { 'Scheme' => 'U',
+    context 'when a course is not on Apply' do
+      let(:provider) { create(:provider) }
+      let(:ucas_matching_data) do
+        {
           'Course code' => '123',
           'Course name' => 'Not on Apply',
           'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate.id.to_s }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        }
+      end
 
-      expect(ucas_matching_application.course.code).to eq('123')
-      expect(ucas_matching_application.course.name).to eq('Not on Apply')
-      expect(ucas_matching_application.course.provider).to eq(course.provider)
-    end
+      it 'returns the correct course details' do
+        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, course.recruitment_cycle_year)
 
-    it 'handles missing course data' do
-      ucas_matching_data =
-        { 'Scheme' => 'U',
-          'Course code' => '',
-          'Course name' => '',
-          'Provider code' => 'T80',
-          'Apply candidate ID' => candidate.id.to_s }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        expect(ucas_matching_application.course.code).to eq('123')
+        expect(ucas_matching_application.course.name).to eq('Not on Apply')
+        expect(ucas_matching_application.course.provider).to eq(course.provider)
+      end
 
-      expect(ucas_matching_application.course.code).to eq('Missing course code')
-      expect(ucas_matching_application.course.name).to eq('Missing course name')
-      expect(ucas_matching_application.course.provider).to eq(nil)
+      context 'when no course data is provided' do
+        let(:ucas_matching_data) do
+          {
+            'Course code' => '',
+            'Course name' => '',
+            'Provider code' => 'T80',
+          }
+        end
+
+        it 'returns a missing data string' do
+          ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+          expect(ucas_matching_application.course.code).to eq('Missing course code')
+          expect(ucas_matching_application.course.name).to eq('Missing course name')
+          expect(ucas_matching_application.course.provider).to eq(nil)
+        end
+      end
     end
   end
 
   describe '#status' do
-    context 'when it is a DfE match' do
-      it 'returns the applications status' do
-        dfe_matching_data =
-          { 'Scheme' => 'D',
-            'Course code' => course.code.to_s,
-            'Provider code' => course.provider.code.to_s,
-            'Apply candidate ID' => candidate.id.to_s }
-        ucas_matching_application = UCASMatchedApplication.new(dfe_matching_data, recruitment_cycle_year)
+    context 'when in the DfE scheme' do
+      let(:application_choice) { build_stubbed(:application_choice, course_option: course_option) }
+      let(:apply_matching_data) do
+        {
+          'Scheme' => 'D',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate.id.to_s,
+        }
+      end
+
+      it 'returns the application status' do
+        ucas_matching_application = UCASMatchedApplication.new(apply_matching_data, recruitment_cycle_year)
+        allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
         expect(ucas_matching_application.status).to eq(application_choice.status)
       end
     end
 
-    context 'when it is a UCAS match' do
-      it 'returns the applications status' do
-        ucas_matching_data =
-          { 'Scheme' => 'U',
-            'Offers' => '.',
-            'Rejects' => '1',
-            'Withdrawns' => '.',
-            'Applications' => '.',
-            'Unconditional firm' => '.',
-            'Applicant withdrawn entirely from scheme' => '.',
-            'Applicant withdrawn from scheme while offer awaiting applicant reply' => '.',
-            'Applicant withdrawn from scheme after firmly accepting a conditional offer' => '.',
-            'Applicant withdrawn from scheme after firmly accepting an unconditional offer' => '.' }
+    context 'when in the UCAS scheme' do
+      let(:ucas_matching_data) do
+        {
+          'Scheme' => 'U',
+          'Offers' => '.',
+          'Rejects' => '1',
+          'Withdrawns' => '.',
+          'Applications' => '.',
+          'Unconditional firm' => '.',
+        }
+      end
+
+      it 'returns the ucas status' do
         ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
         expect(ucas_matching_application.status).to eq('rejected')
@@ -97,23 +101,20 @@ RSpec.describe UCASMatchedApplication do
       end
     end
 
-    context 'when it is a match on both systems' do
-      it 'returns the applications status on apply' do
-        ucas_matching_data =
-          { 'Scheme' => 'B',
-            'Course code' => course.code.to_s,
-            'Provider code' => course.provider.code.to_s,
-            'Apply candidate ID' => candidate.id.to_s,
-            'Offers' => '.',
-            'Rejects' => '1',
-            'Withdrawns' => '.',
-            'Applications' => '.',
-            'Unconditional firm' => '.',
-            'Applicant withdrawn entirely from scheme' => '.',
-            'Applicant withdrawn from scheme while offer awaiting applicant reply' => '.',
-            'Applicant withdrawn from scheme after firmly accepting a conditional offer' => '.',
-            'Applicant withdrawn from scheme after firmly accepting an unconditional offer' => '.' }
+    context 'when in both schemes' do
+      let(:application_choice) { build_stubbed(:application_choice, course_option: course_option) }
+      let(:ucas_matching_data) do
+        {
+          'Scheme' => 'B',
+          'Course code' => course.code.to_s,
+          'Provider code' => course.provider.code.to_s,
+          'Apply candidate ID' => candidate.id.to_s,
+        }
+      end
+
+      it 'returns the application status' do
         ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
         expect(ucas_matching_application.status).to eq(application_choice.status)
       end
@@ -121,230 +122,294 @@ RSpec.describe UCASMatchedApplication do
   end
 
   describe '#application_in_progress_on_ucas?' do
-    it 'returns true if application is not in an unsucesfull state on UCAS' do
-      ucas_matching_data =
-        { 'Scheme' => 'B',
-          'Course code' => course.code.to_s,
+    context 'when there is a provider' do
+      let(:provider) { create(:provider) }
+      let(:ucas_matching_data) do
+        {
+          'Scheme' => 'B',
           'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate.id.to_s,
-          'Offers' => '1',
+          'Offers' => '',
           'Rejects' => '.',
           'Withdrawns' => '.',
           'Applications' => '.',
-          'Unconditional firm' => '1',
-          'Applicant withdrawn entirely from scheme' => '.',
-          'Applicant withdrawn from scheme while offer awaiting applicant reply' => '.',
-          'Applicant withdrawn from scheme after firmly accepting a conditional offer' => '.',
-          'Applicant withdrawn from scheme after firmly accepting an unconditional offer' => '.' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+          'Unconditional firm' => '',
+        }
+      end
 
-      expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(true)
+      context 'when the application is not in an unsuccessful state on UCAS' do
+        let(:matching_data) { ucas_matching_data }
+
+        it 'returns true' do
+          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+
+          expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(true)
+        end
+      end
+
+      context 'when the application is in an unsuccessful state on UCAS' do
+        let(:matching_data) { ucas_matching_data.merge('Withdrawns' => '1') }
+
+        it 'returns false' do
+          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+
+          expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
+        end
+      end
+
+      context 'when the application is in the DfE scheme' do
+        let(:ucas_matching_data) { { 'Scheme' => 'D' } }
+
+        it 'returns false' do
+          ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+          expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
+        end
+      end
     end
 
-    it 'returns false if application is in unsucesfull state on UCAS' do
-      ucas_matching_data =
-        { 'Scheme' => 'B',
-          'Course code' => course.code.to_s,
-          'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate1.id.to_s,
-          'Offers' => '.',
-          'Rejects' => '.',
-          'Withdrawns' => '1',
-          'Applications' => '.',
-          'Unconditional firm' => '.',
-          'Applicant withdrawn entirely from scheme' => '.',
-          'Applicant withdrawn from scheme while offer awaiting applicant reply' => '.',
-          'Applicant withdrawn from scheme after firmly accepting a conditional offer' => '.',
-          'Applicant withdrawn from scheme after firmly accepting an unconditional offer' => '.' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+    context 'when the provider is not on Apply' do
+      let(:ucas_matching_data) { { 'Scheme' => 'U', 'Provider code' => 'WELSH PROVIDER CODE' } }
 
-      expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
-    end
+      it 'returns false' do
+        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
-    it 'returns false the application is DfE scheme' do
-      ucas_matching_data = { 'Scheme' => 'D' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
-
-      expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
-    end
-
-    it 'returns false the provider is not on apply' do
-      ucas_matching_data = { 'Scheme' => 'U', 'Provider code' => 'WELSH PROVIDER CODE' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
-
-      expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
+        expect(ucas_matching_application.application_in_progress_on_ucas?).to eq(false)
+      end
     end
   end
 
   describe '#application_in_progress_on_apply?' do
-    it 'returns true if application is not in an unsucesfull state on Apply' do
-      ucas_matching_data =
-        { 'Scheme' => 'B',
+    context 'when the application is on Apply' do
+      let(:ucas_matching_data) do
+        {
+          'Scheme' => 'B',
           'Course code' => course.code.to_s,
           'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate1.id.to_s }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+          'Apply candidate ID' => candidate.id.to_s,
+        }
+      end
 
-      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(true)
+      context 'when successful' do
+        let(:application_choice) { build_stubbed(:application_choice, :with_accepted_offer) }
+
+        it 'returns true' do
+          ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+          allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
+
+          expect(ucas_matching_application.application_in_progress_on_apply?).to eq(true)
+        end
+      end
+
+      context 'when unsuccessful' do
+        let(:application_choice) { build_stubbed(:application_choice, :with_rejection) }
+
+        it 'returns false' do
+          ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+          allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
+
+          expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
+        end
+      end
     end
 
-    it 'returns false if application is in unsucesfull state on Apply' do
-      ucas_matching_data =
-        { 'Scheme' => 'B',
-          'Course code' => course.code.to_s,
-          'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate2.id.to_s }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+    context 'when the application is on UCAS' do
+      let(:ucas_matching_data) { { 'Scheme' => 'U' } }
 
-      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
-    end
+      it 'returns false' do
+        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
-    it 'returns false the application is UCAS scheme' do
-      ucas_matching_data = { 'Scheme' => 'U' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
-
-      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
+        expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
+      end
     end
   end
 
   describe '#application_accepted_on_ucas?' do
-    it 'returns true if application is in recruited state on UCAS' do
-      ucas_matching_data =
-        { 'Scheme' => 'U',
+    before do
+      allow(Provider).to receive(:exists?).and_return(true)
+    end
+
+    context 'when the application is on UCAS' do
+      let(:ucas_matching_data) do
+        {
+          'Scheme' => 'U',
           'Course code' => course.code.to_s,
           'Provider code' => course.provider.code.to_s,
           'Apply candidate ID' => candidate.id.to_s,
-          'Offers' => '1',
-          'Unconditional firm' => '1' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+        }
+      end
 
-      expect(ucas_matching_application.application_accepted_on_ucas?).to eq(true)
+      context 'when in a recruited state' do
+        let(:matching_data) { ucas_matching_data.merge('Offers' => '1', 'Unconditional firm' => '1') }
+
+        it 'returns true' do
+          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+
+          expect(ucas_matching_application.application_accepted_on_ucas?).to eq(true)
+        end
+      end
+
+      context 'when in a pending_conditions state' do
+        let(:matching_data) { ucas_matching_data.merge('Offers' => '1', 'Conditional firm' => '1') }
+
+        it 'returns true' do
+          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+
+          expect(ucas_matching_application.application_accepted_on_ucas?).to eq(true)
+        end
+      end
+
+      context 'when in an unsuccesful state' do
+        let(:matching_data) { ucas_matching_data.merge('Withdrawns' => '1') }
+
+        it 'returns false' do
+          ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+          expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
+        end
+      end
     end
 
-    it 'returns true if application is in pending_conditions state on UCAS' do
-      ucas_matching_data =
-        { 'Scheme' => 'B',
-          'Course code' => course.code.to_s,
-          'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate.id.to_s,
-          'Offers' => '1',
-          'Conditional firm' => '1' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+    context 'when the application is in the DfE scheme' do
+      let(:ucas_matching_data) { { 'Scheme' => 'D' } }
 
-      expect(ucas_matching_application.application_accepted_on_ucas?).to eq(true)
+      it 'returns false' do
+        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+        expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
+      end
     end
 
-    it 'returns false if application is in unsucesfull state on UCAS' do
-      ucas_matching_data =
-        { 'Scheme' => 'U',
-          'Course code' => course.code.to_s,
-          'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate1.id.to_s,
-          'Withdrawns' => '1' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+    context 'when the provider is not on Apply' do
+      let(:ucas_matching_data) { { 'Scheme' => 'U', 'Provider code' => 'WELSH PROVIDER CODE' } }
 
-      expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
-    end
+      it 'returns false' do
+        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
-    it 'returns false when the application is DfE scheme' do
-      ucas_matching_data = { 'Scheme' => 'D' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
-
-      expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
-    end
-
-    it 'returns false when the provider is not on Apply' do
-      ucas_matching_data = { 'Scheme' => 'U', 'Provider code' => 'WELSH PROVIDER CODE' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
-
-      expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
+        expect(ucas_matching_application.application_accepted_on_ucas?).to eq(false)
+      end
     end
   end
 
   describe '#application_accepted_on_apply?' do
-    it 'returns true if application is accepted on Apply' do
-      ucas_matching_data =
-        { 'Scheme' => 'D',
+    context 'when on Apply' do
+      let(:matching_data) do
+        {
+          'Scheme' => 'D',
           'Course code' => course.code.to_s,
           'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate1.id.to_s }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+          'Apply candidate ID' => candidate.id.to_s,
+        }
+      end
 
-      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(true)
+      context 'when the application is accepted' do
+        let(:application_choice) { build_stubbed(:application_choice, :pending_conditions) }
+
+        it 'returns true' do
+          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+          allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
+
+          expect(ucas_matching_application.application_accepted_on_apply?).to eq(true)
+        end
+      end
+
+      context 'when the application is not accepted' do
+        let(:application_choice) { build_stubbed(:application_choice, :declined) }
+
+        it 'returns false' do
+          ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+          allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
+
+          expect(ucas_matching_application.application_accepted_on_apply?).to eq(false)
+        end
+      end
     end
 
-    it 'returns false if application is in unsucesfull state on Apply' do
-      ucas_matching_data =
-        { 'Scheme' => 'B',
-          'Course code' => course.code.to_s,
-          'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate2.id.to_s }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+    context 'when on UCAS scheme' do
+      let(:ucas_matching_data) { { 'Scheme' => 'U' } }
 
-      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
-    end
+      it 'returns false' do
+        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
-    it 'returns false if the application is in UCAS scheme' do
-      ucas_matching_data = { 'Scheme' => 'U' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
-
-      expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
+        expect(ucas_matching_application.application_in_progress_on_apply?).to eq(false)
+      end
     end
   end
 
   describe '#application_choice' do
+    let!(:application_form) { create(:completed_application_form, candidate_id: candidate.id, application_choices: [application_choice]) }
+    let(:application_choice) { build(:application_choice, course_option: course_option) }
+    let(:candidate) { create(:candidate) }
+    let(:course) { build(:course, recruitment_cycle_year: recruitment_cycle_year) }
+    let(:course_option) { build(:course_option, course: course) }
+    let(:ucas_matching_data) do
+      {
+        'Course code' => course.code.to_s,
+        'Provider code' => course.provider.code.to_s,
+        'Apply candidate ID' => candidate.id.to_s,
+      }
+    end
+
     it 'returns the application_choice related with the candidate and course option' do
-      ucas_matching_data =
-        { 'Scheme' => 'B',
-          'Course code' => course.code.to_s,
-          'Provider code' => course.provider.code.to_s,
-          'Apply candidate ID' => candidate2.id.to_s }
       ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
 
-      expect(ucas_matching_application.application_choice).to eq(application_choice2)
+      expect(ucas_matching_application.application_choice).to eq(application_choice)
     end
   end
 
   describe '#application_withdrawn_on_ucas?' do
-    it 'returns true if application has been withdrawn on UCAS' do
-      ucas_matching_data = { 'Withdrawns' => '1' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+    context 'when the application has been withdrawn on UCAS' do
+      let(:ucas_matching_data) { { 'Withdrawns' => '1' } }
 
-      expect(ucas_matching_application.application_withdrawn_on_ucas?).to eq(true)
+      it 'returns true' do
+        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+        expect(ucas_matching_application.application_withdrawn_on_ucas?).to eq(true)
+      end
     end
 
-    it 'returns false if application has not been withdrawn on UCAS' do
-      ucas_matching_data = { 'Withdrawns' => '' }
-      ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+    context 'when the application has not been withdrawn on UCAS' do
+      let(:ucas_matching_data) { { 'Withdrawns' => '' } }
 
-      expect(ucas_matching_application.application_withdrawn_on_ucas?).to eq(false)
+      it 'returns false' do
+        ucas_matching_application = UCASMatchedApplication.new(ucas_matching_data, recruitment_cycle_year)
+
+        expect(ucas_matching_application.application_withdrawn_on_ucas?).to eq(false)
+      end
     end
   end
 
   describe '#application_withdrawn_on_apply?' do
-    context 'when the application_choice status is set to withdrawn' do
-      let(:application_choice) { create(:application_choice, course_option: course_option, status: 'withdrawn') }
+    let(:matching_data) do
+      {
+        'Course code' => course.code.to_s,
+        'Provider code' => course.provider.code.to_s,
+        'Apply candidate ID' => candidate.id.to_s,
+      }
+    end
+
+    context 'when the application has been withdrawn on Apply' do
+      let(:application_choice) { build_stubbed(:application_choice, course_option: course_option, status: 'withdrawn') }
 
       it 'retuns true' do
-        dfe_matching_data =
-          { 'Course code' => course.code.to_s,
-            'Provider code' => course.provider.code.to_s,
-            'Apply candidate ID' => candidate.id.to_s }
-        ucas_matching_application = UCASMatchedApplication.new(dfe_matching_data, recruitment_cycle_year)
+        ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+        allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
         expect(ucas_matching_application.application_withdrawn_on_apply?).to eq(true)
       end
     end
 
-    context 'when the application_choice status is not set to withdrawn' do
-      let(:application_choice) { create(:application_choice, course_option: course_option, status: (ApplicationStateChange.valid_states - [:withdrawn]).sample) }
+    context 'when the application has not been withdrawn on Apply' do
+      let(:application_choice) do
+        build_stubbed(
+          :application_choice,
+          course_option: course_option,
+          status: (ApplicationStateChange.valid_states - [:withdrawn]).sample,
+        )
+      end
 
       it 'retuns false' do
-        dfe_matching_data =
-          { 'Course code' => course.code.to_s,
-            'Provider code' => course.provider.code.to_s,
-            'Apply candidate ID' => candidate.id.to_s }
-        ucas_matching_application = UCASMatchedApplication.new(dfe_matching_data, recruitment_cycle_year)
+        ucas_matching_application = UCASMatchedApplication.new(matching_data, recruitment_cycle_year)
+        allow(ucas_matching_application).to receive(:application_choice).and_return(application_choice)
 
         expect(ucas_matching_application.application_withdrawn_on_apply?).to eq(false)
       end
