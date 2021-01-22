@@ -46,7 +46,7 @@ module TeacherTrainingPublicAPI
       end
 
       assign_course_attributes(course, course_from_api, recruitment_cycle_year)
-      add_accredited_provider(course, course_from_api[:accredited_body_code])
+      add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
       course.save!
     def assign_course_attributes(course, course_from_api, recruitment_cycle_year)
       course.name = course_from_api.name
@@ -72,13 +72,13 @@ module TeacherTrainingPublicAPI
       end
     end
 
-    def add_accredited_provider(course, accredited_body_code)
+    def add_accredited_provider(course, accredited_body_code, recruitment_cycle_year)
       if accredited_body_code.present? && course.provider.code != accredited_body_code
 
-        accredited_provider = Provider.find_by(code: accredited_body_code)
+        accredited_provider = ::Provider.find_by(code: accredited_body_code)
+
         if accredited_provider.nil?
-          # doesn't exist, so we must make a new call to get name and other details
-          # accredited_provider.save!
+          accredited_provider = create_new_accredited_provider(accredited_body_code, recruitment_cycle_year)
         end
 
         course.accredited_provider = accredited_provider
@@ -93,7 +93,25 @@ module TeacherTrainingPublicAPI
       ProviderRelationshipPermissions.find_or_create_by!(
           training_provider: provider,
           ratifying_provider: course.accredited_provider,
-          )
+      )
+    end
+
+    def create_new_accredited_provider(accredited_body_code, recruitment_cycle_year)
+      new_provider = TeacherTrainingPublicAPI::Provider
+                         .where(year: recruitment_cycle_year)
+                         .find(accredited_body_code).first
+
+      accredited_provider = ::Provider.new(code: accredited_body_code)
+      accredited_provider.code = new_provider.code
+      accredited_provider.name = new_provider.name
+      accredited_provider.region_code = new_provider.region_code&.strip
+      accredited_provider.postcode = new_provider.postcode
+      accredited_provider.provider_type = new_provider.provider_type
+      accredited_provider.latitude = new_provider.try(:latitude)
+      accredited_provider.longitude = new_provider.try(:longitude)
+      accredited_provider.save!
+
+      accredited_provider
     end
   end
 end
