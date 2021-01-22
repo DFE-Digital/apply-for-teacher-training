@@ -36,7 +36,7 @@ If you have 16 cores you'll start seeing the following error:
 
 You can fix this as follows:
 
-- Find your Redis configuration file (eg - /etc/redis.conf)
+- Find your Redis configuration file (eg - `/etc/redis.conf`, you can find it running `redis-cli INFO | grep 'config_file'`)
 - Change the value of `databases` to CPU count + 2
   ```
   databases 18
