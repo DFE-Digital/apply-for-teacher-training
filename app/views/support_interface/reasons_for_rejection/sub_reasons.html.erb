@@ -1,0 +1,45 @@
+<% content_for :title, 'Reasons for rejection sub-reasons' %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'Reasons for rejection sub-reasons'
+    }
+  ]) %>
+<% end %>
+
+<h1 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Reasons for rejection</h1>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-!-width-one-half">Rejection reason</th>
+      <th class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">Total</th>
+      <th class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">This month</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+  <% @reasons.each do |reason, sub_reasons| %>
+    <% sub_reasons.each do |sub_reason, result| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <h2 class="govuk-heading-s govuk-!-margin-bottom-0">
+            <span class="govuk-!-font-weight-regular"><%= reason %></span>
+            <%= sub_reason %>
+          </h2>
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <%= result.all_time %>
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <%= result.this_month %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>
