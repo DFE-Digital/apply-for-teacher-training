@@ -1,15 +1,15 @@
-<% content_for :browser_title, title_with_error_prefix("Set up an interview", nil) %>
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_interviews_path(@application_choice)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
       <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-      <h1 class="govuk-heading-l">Set up an interview</h1>
+      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
 
       <% if @application_choice.application_form.interview_preferences.present? %>
         <div class="app-banner app-banner--details">
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Candidate interview preferences</h2>
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2"><%= t('.interview_preferences.title') %></h2>
           <p class="govuk-body"><%= @application_choice.application_form.interview_preferences %></p>
         </div>
       <% end %>
@@ -20,9 +20,9 @@
 
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_date_field :date, legend: { text: 'Date', size: 'm' }, hint: { text: 'For example, 31 3 2020' } %>
+      <%= f.govuk_date_field :date, legend: { size: 'm' } %>
 
-      <%= f.govuk_text_field :time, width: 5, label: { text: 'Time', size: 'm' }, hint: { text: 'For example, 9am or 2:30pm - enter 12pm for midday' } %>
+      <%= f.govuk_text_field :time, width: 5, label: { size: 'm' } %>
 
       <% if @wizard.user_can_make_decisions_for_multiple_providers? %>
         <%= f.govuk_radio_buttons_fieldset :provider_id, legend: { text: 'Organisation carrying out interview', size: 'm' } do %>
@@ -32,9 +32,9 @@
         <% end %>
       <% end %>
 
-      <%= f.govuk_text_area :location, label: { text: 'Address or online meeting details', size: 'm' } %>
+      <%= f.govuk_text_area :location, label: { size: 'm' } %>
 
-      <%= f.govuk_text_area :additional_details, label: { text: 'Additional details (optional)', size: 'm' } %>
+      <%= f.govuk_text_area :additional_details, label: { size: 'm' } %>
 
       <%= f.govuk_submit 'Continue' %>
     <% end %>

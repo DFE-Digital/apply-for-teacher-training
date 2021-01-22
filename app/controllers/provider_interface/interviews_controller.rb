@@ -40,7 +40,7 @@ module ProviderInterface
         ).save!
         @wizard.clear_state!
 
-        flash[:success] = 'Interview set up'
+        flash[:success] = t('.success')
         redirect_to provider_interface_application_choice_interviews_path(@application_choice)
       else
         render :check
@@ -67,7 +67,7 @@ module ProviderInterface
         cancellation_reason: cancellation_reason,
       ).save!
 
-      flash['success'] = 'Interview cancelled'
+      flash[:success] = t('.success')
       redirect_to provider_interface_application_choice_path(@application_choice)
     end
 

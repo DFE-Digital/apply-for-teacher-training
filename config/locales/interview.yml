@@ -1,0 +1,49 @@
+en:
+  provider_interface:
+    interviews:
+      new:
+        title: Set up an interview
+        interview_preferences:
+          title:  Candidate interview preferences
+      check:
+        page_title: Set up Interview
+        title: Check and send interview details
+        confirm: Send interview details
+        cancel: Cancel
+      commit:
+        success: Interview set up
+      cancel:
+        page_title: Cancel Interview
+        title: Reason for cancelling interview
+        success: Interview cancelled
+      review_cancel:
+        page_title: Cancel interview
+        title: Check and send interview cancellation
+        cancellation_reason: Reason for cancelling interview
+      confirm_cancel:
+        success: Interview cancelled
+  helpers:
+    label:
+      provider_interface_interview_wizard:
+        location: Address or online meeting details
+        additional_details: Additional details (optional)
+    hint:
+      provider_interface_interview_wizard:
+        date: For example, 31 3 2020
+        time: For example, 9am or 2:30pm - enter 12pm for midday
+  activemodel:
+    errors:
+      models:
+        provider_interface/interview_wizard:
+          attributes:
+            date:
+              invalid: The interview date must be a real date
+              missing_values: The interview date must include a %{missing_details}
+              blank: Enter the interview date
+              past: Enter a date that is in the future
+              after_rdb: The interview date must be before the application closing date
+            time:
+              invalid: Enter a time in the correct format
+              blank: Enter the interview time
+            location:
+              blank: Enter the interview location

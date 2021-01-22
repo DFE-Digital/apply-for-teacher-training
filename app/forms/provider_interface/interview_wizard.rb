@@ -14,9 +14,9 @@ module ProviderInterface
 
     validate :date_is_valid?
     validate :date_in_future, if: :date_is_valid?
-    validate :time_is_valid?
+    validate :time_is_valid?, if: ->(wizard) { wizard.time.present? }
     validate :date_after_rbd_date, if: :date_is_valid?
-    validates :date, :provider_user, :location, :application_choice, presence: true
+    validates :time, :date, :provider_user, :location, :application_choice, presence: true
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
@@ -39,11 +39,14 @@ module ProviderInterface
     def date_is_valid?
       return true if date.is_a?(Date)
 
-      empty_keys = date.to_h.select { |_, v| v.blank? }.keys
-      return errors[:date] << 'Enter the interview date' if empty_keys == date.to_h.keys
-      return errors[:date] << "The interview date must include a #{empty_keys.to_sentence}" if empty_keys.any?
+      return false if errors.added?(:date)
 
-      errors[:date] << 'The interview date must be a real date'
+      empty_keys = date.to_h.select { |_, v| v.blank? }.keys
+      errors.add(:date, :blank) and return(false) if empty_keys == date.to_h.keys
+      errors.add(:date, :missing_values, missing_details: empty_keys.to_sentence) and return(false) if empty_keys.any?
+
+      errors.add(:date, :invalid)
+      false
     end
 
     def date_and_time
@@ -51,11 +54,11 @@ module ProviderInterface
     end
 
     def date_in_future
-      errors[:date] << 'The interview date must be in the future' if date < Time.zone.now
+      errors.add(:date, :past) if date < Time.zone.now
     end
 
     def date_after_rbd_date
-      errors[:date] << 'The interview date must be before the closing date for the application' if date > application_choice.reject_by_default_at
+      errors.add(:date, :after_rdb) if date > application_choice.reject_by_default_at
     end
 
     def parsed_time
@@ -63,12 +66,10 @@ module ProviderInterface
     end
 
     def time_is_valid?
-      if time =~ VALID_TIME_FORMAT
-        true
-      else
-        errors[:time] << 'Enter a valid time'
-        false
-      end
+      return true if time.match(VALID_TIME_FORMAT)
+
+      errors.add(:time, :invalid)
+      false
     end
 
     def provider

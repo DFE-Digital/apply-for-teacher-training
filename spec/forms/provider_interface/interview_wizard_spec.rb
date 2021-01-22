@@ -24,7 +24,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
         location: 'Zoom',
       )
       expect(invalid_form).to be_invalid
-      expect(invalid_form.errors[:date]).to include 'The interview date must be a real date'
+      expect(invalid_form.errors[:date]).to contain_exactly('The interview date must be a real date')
     end
 
     it 'validates that :date_and_time is in the future' do
@@ -40,7 +40,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
           location: 'Zoom',
         )
         expect(invalid_form).to be_invalid
-        expect(invalid_form.errors[:date]).to include 'The interview date must be in the future'
+        expect(invalid_form.errors[:date]).to contain_exactly('Enter a date that is in the future')
       end
     end
 
@@ -60,7 +60,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
             location: 'Zoom',
           )
           expect(invalid_form).to be_invalid
-          expect(invalid_form.errors[:date]).to include 'The interview date must be before the closing date for the application'
+          expect(invalid_form.errors[:date]).to contain_exactly('The interview date must be before the application closing date')
         end
       end
     end
@@ -85,7 +85,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
         it "#{time} is invalid" do
           form = form_with_time(time)
           expect(form).to be_invalid
-          expect(form.errors[:time]).to include 'Enter a valid time'
+          expect(form.errors[:time]).to include 'Enter a time in the correct format'
         end
       end
 
@@ -95,6 +95,10 @@ RSpec.describe ProviderInterface::InterviewWizard do
           expect(form_with_time(time)).to be_valid
         end
       end
+    end
+
+    it 'validates presence of :time' do
+      expect(described_class.new(store)).to validate_presence_of(:time)
     end
 
     it 'validates presence of :provider_user' do

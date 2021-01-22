@@ -1,4 +1,4 @@
-<% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Cancel Interview" %>
+<% content_for :browser_title, t('.page_title') %>
 <% content_for :before_content, govuk_back_link_to(request.referer) %>
 
 <div class="govuk-grid-row">
@@ -9,7 +9,7 @@
         <span class="govuk-caption-l">
           <%= @interview.application_choice.application_form.full_name %>
         </span>
-        Reason for cancelling interview
+        <%= t('.title') %>
       </label>
     </h1>
 
