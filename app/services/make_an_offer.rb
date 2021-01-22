@@ -9,7 +9,7 @@ class MakeAnOffer
 
   MAX_CONDITIONS_COUNT = 20
   MAX_CONDITION_LENGTH = 255
-  STANDARD_CONDITIONS = ['Fitness to Teach check', 'Disclosure and Barring Service (DBS) check'].freeze
+  STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check'].freeze
 
   validates :course_option, presence: true
   validate :validate_course_option_is_open_on_apply

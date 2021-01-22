@@ -71,7 +71,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_see_standard_reasons_are_checked
-    expect(find("input[value='Fitness to Teach check']")).to be_checked
+    expect(find("input[value='Fitness to train to teach check']")).to be_checked
     expect(find("input[value='Disclosure and Barring Service (DBS) check']")).to be_checked
   end
 
@@ -93,7 +93,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def and_i_see_the_correct_offer_conditions
-    expect(page).to have_content 'Fitness to Teach check'
+    expect(page).to have_content 'Fitness to train to teach check'
     expect(page).to have_content 'A further condition'
   end
 
