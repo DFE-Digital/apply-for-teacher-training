@@ -9,7 +9,7 @@ module RefereeInterface
     def save(reference)
       return false unless valid?
 
-      reference.feedback_refused!
+      reference.update!(feedback_status: :feedback_refused, feedback_refused_at: Time.zone.now)
       send_slack_notification(reference)
       SendNewRefereeRequestEmail.call(reference: reference, reason: :refused)
     end
