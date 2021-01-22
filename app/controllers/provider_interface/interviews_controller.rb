@@ -92,19 +92,9 @@ module ProviderInterface
     def interview_params
       params
         .require(:provider_interface_interview_wizard)
-        .permit(:'date(3i)', :'date(2i)', :'date(1i)', :time, :location, :additional_details, :provider_id)
-        .transform_keys { |key| date_field_to_attribute(key) }
+        .permit(:date, :time, :location, :additional_details, :provider_id)
         .transform_values(&:strip)
         .merge(interview_form_context_params)
-    end
-
-    def date_field_to_attribute(key)
-      case key
-      when 'date(3i)' then 'day'
-      when 'date(2i)' then 'month'
-      when 'date(1i)' then 'year'
-      else key
-      end
     end
 
     def store

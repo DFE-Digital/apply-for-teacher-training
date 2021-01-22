@@ -15,16 +15,16 @@ RSpec.describe ProviderInterface::InterviewWizard do
     it 'validates the date entered' do
       invalid_form = described_class.new(
         store,
+        'date(3i)' => '100',
+        'date(2i)' => '1',
+        'date(1i)' => '2020',
         application_choice: application_choice,
         provider_user: provider_user,
-        year: 2020,
-        month: 1,
-        day: 100,
         time: '10am',
         location: 'Zoom',
       )
       expect(invalid_form).to be_invalid
-      expect(invalid_form.errors[:date]).to include 'Enter a valid date'
+      expect(invalid_form.errors[:date]).to include 'The interview date must be a real date'
     end
 
     it 'validates that :date_and_time is in the future' do
@@ -33,14 +33,14 @@ RSpec.describe ProviderInterface::InterviewWizard do
           store,
           application_choice: application_choice,
           provider_user: provider_user,
-          year: 2021,
-          month: 1,
-          day: 10,
+          'date(3i)' => '10',
+          'date(2i)' => '1',
+          'date(1i)' => '2021',
           time: '10am',
           location: 'Zoom',
         )
         expect(invalid_form).to be_invalid
-        expect(invalid_form.errors[:date]).to include 'Enter a date in the future'
+        expect(invalid_form.errors[:date]).to include 'The interview date must be in the future'
       end
     end
 
@@ -51,9 +51,9 @@ RSpec.describe ProviderInterface::InterviewWizard do
           store,
           application_choice: application_choice,
           provider_user: provider_user,
-          year: tomorrow.year,
-          month: tomorrow.month,
-          day: tomorrow.day,
+          'date(3i)' => tomorrow.day,
+          'date(2i)' => tomorrow.month,
+          'date(1i)' => tomorrow.year,
           time: time,
           location: 'Zoom',
         )
@@ -92,15 +92,15 @@ RSpec.describe ProviderInterface::InterviewWizard do
         store,
         application_choice: application_choice,
         provider_user: provider_user,
-        year: tomorrow.year,
-        month: tomorrow.month,
-        day: tomorrow.day,
+        'date(3i)' => tomorrow.day,
+        'date(2i)' => tomorrow.month,
+        'date(1i)' => tomorrow.year,
         time: time,
         location: 'Zoom',
       )
     end
 
-    time_conversions = {
+    {
       '12:30pm' => [12, 30],
       '2pm' => [14, 0],
       '5:30pM' => [17, 30],
@@ -109,8 +109,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
       '3:30pm' => [15, 30],
       '2 24Am' => [2, 24],
       '5.35Pm' => [17, 35],
-    }
-    time_conversions.each do |input_time, (expected_hour, expected_minute)|
+    }.each do |input_time, (expected_hour, expected_minute)|
       it "#{input_time} parses correctly" do
         expect(form_with_time(input_time).date_and_time.hour).to equal(expected_hour)
         expect(form_with_time(input_time).date_and_time.min).to equal(expected_minute)

@@ -1,38 +1,56 @@
 module ProviderInterface
   class InterviewWizard
     include ActiveModel::Model
+    include ActiveModel::Attributes
 
     VALID_TIME_FORMAT = /^(1[0-2]|0?[1-9])([:\.\s]?[0-5][0-9])?([AaPp][Mm])$/.freeze
 
-    attr_accessor :day, :month, :year, :time, :location, :additional_details, :provider_id, :application_choice, :provider_user
-    attr_accessor :current_step
+    attr_accessor :time, :location, :additional_details, :provider_id, :application_choice, :provider_user, :current_step
+    attr_writer :date
+
+    attribute 'date(3i)', :string
+    attribute 'date(2i)', :string
+    attribute 'date(1i)', :string
 
     validate :date_is_valid?
-    validate :date_and_time_in_future, if: ->(form) { form.date_is_valid? && form.time_is_valid? }
+    validate :date_in_future, if: ->(form) { form.date.present? }
     validate :time_is_valid?
-    validates :provider_user, :location, :application_choice, presence: true
+    validates :date, :provider_user, :location, :application_choice, presence: true
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
+
       super(last_saved_state.deep_merge(attrs))
     end
 
-    def date_and_time
-      Time.zone.local(year, month, day, parsed_time.hour, parsed_time.min)
-    end
+    def date
+      day = send('date(3i)')
+      month = send('date(2i)')
+      year = send('date(1i)')
 
-    def date_and_time_in_future
-      errors[:date] << 'Enter a date in the future' if date_and_time < Time.zone.now
+      begin
+        @date = Date.new(year.to_i, month.to_i, day.to_i)
+      rescue ArgumentError
+        @date = Struct.new(:day, :month, :year).new(day, month, year)
+      end
     end
 
     def date_is_valid?
-      date_args = [year, month, day].map(&:to_i)
-      if Date.valid_date?(*date_args)
-        true
-      else
-        errors[:date] << 'Enter a valid date' unless Date.valid_date?(*date_args)
-        false
-      end
+      return true if date.is_a?(Date)
+
+      empty_keys = date.to_h.select { |_, v| v.blank? }.keys
+      return errors[:date] << 'Enter the interview date' if empty_keys == date.to_h.keys
+      return errors[:date] << "The interview date must include a #{empty_keys.to_sentence}" if empty_keys.any?
+
+      errors[:date] << 'The interview date must be a real date'
+    end
+
+    def date_and_time
+      Time.zone.local(date.year, date.month, date.day, parsed_time.hour, parsed_time.min) if date.is_a?(Date)
+    end
+
+    def date_in_future
+      errors[:date] << 'The interview date must be in the future' if date.is_a?(Date) && date < Time.zone.now
     end
 
     def parsed_time
@@ -86,12 +104,7 @@ module ProviderInterface
 
     def last_saved_state
       saved_state = @state_store.read
-
-      if saved_state
-        JSON.parse(saved_state)
-      else
-        {}
-      end
+      saved_state ? JSON.parse(saved_state) : {}
     end
 
     def state
