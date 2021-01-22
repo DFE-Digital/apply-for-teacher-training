@@ -25,21 +25,17 @@ module CandidateInterface
     end
 
     def course_choice_rows(application_choice)
-      rows = [
+      [
         course_row(application_choice),
         study_mode_row(application_choice),
         location_row(application_choice),
         type_row(application_choice.course),
         course_length_row(application_choice.course),
         start_date_row(application_choice),
+        status_row(application_choice),
+        rejection_reasons_row(application_choice),
+        offer_withdrawal_reason_row(application_choice),
       ].compact
-
-      rows.tap do |r|
-        r << status_row(application_choice) if @show_status
-        rejection_reasons = rejection_reasons_row(application_choice)
-        r << rejection_reasons if rejection_reasons
-        r << offer_withdrawal_reason_row(application_choice) if application_choice.offer_withdrawal_reason.present?
-      end
     end
 
     def withdrawable?(application_choice)
@@ -154,11 +150,22 @@ module CandidateInterface
       end
     end
 
+    def interview_row(application_choice)
+      if application_choice.interviews.present?
+        {
+          key: 'Interviews',
+          value: render(InterviewBookingsComponent.new(application_choice)),
+        }
+      end
+    end
+
     def status_row(application_choice)
-      {
-        key: 'Status',
-        value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
-      }
+      if @show_status
+        {
+          key: 'Status',
+          value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
+        }
+      end
     end
 
     def rejection_reason_row(application_choice)
@@ -169,10 +176,12 @@ module CandidateInterface
     end
 
     def offer_withdrawal_reason_row(application_choice)
-      {
-        key: 'Reason for offer withdrawal',
-        value: application_choice.offer_withdrawal_reason,
-      }
+      if application_choice.offer_withdrawal_reason.present?
+        {
+          key: 'Reason for offer withdrawal',
+          value: application_choice.offer_withdrawal_reason,
+        }
+      end
     end
 
     def rejection_reasons_row(application_choice)
