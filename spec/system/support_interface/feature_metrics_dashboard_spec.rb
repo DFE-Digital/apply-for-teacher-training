@@ -31,7 +31,7 @@ RSpec.feature 'Feature metrics dashboard' do
     application_form = create(:application_form)
     create(:application_choice, application_form: application_form)
     references = create_list(:reference, 2, application_form: application_form)
-    references.each { |reference| CandidateInterface::RequestReference.new.call(reference) }
+    references.each { |reference| RequestReference.new.call(reference) }
     [application_form, references]
   end
 
