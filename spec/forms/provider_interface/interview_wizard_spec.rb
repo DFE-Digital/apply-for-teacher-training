@@ -44,6 +44,27 @@ RSpec.describe ProviderInterface::InterviewWizard do
       end
     end
 
+    context 'date validations' do
+      let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, reject_by_default_at: Time.zone.local(2021, 2, 14)) }
+
+      it 'validates that the interview date is before the rbd date' do
+        Timecop.freeze(2021, 1, 13) do
+          invalid_form = described_class.new(
+            store,
+            application_choice: application_choice,
+            provider_user: provider_user,
+            'date(3i)' => '20',
+            'date(2i)' => '2',
+            'date(1i)' => '2021',
+            time: '10am',
+            location: 'Zoom',
+          )
+          expect(invalid_form).to be_invalid
+          expect(invalid_form.errors[:date]).to include 'The interview date must be before the closing date for the application'
+        end
+      end
+    end
+
     describe 'validates :time is in the right format' do
       def form_with_time(time)
         tomorrow = 1.day.from_now

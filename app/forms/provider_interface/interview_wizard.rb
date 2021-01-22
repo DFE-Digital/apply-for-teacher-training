@@ -13,8 +13,9 @@ module ProviderInterface
     attribute 'date(1i)', :string
 
     validate :date_is_valid?
-    validate :date_in_future, if: ->(form) { form.date.present? }
+    validate :date_in_future, if: :date_is_valid?
     validate :time_is_valid?
+    validate :date_after_rbd_date, if: :date_is_valid?
     validates :date, :provider_user, :location, :application_choice, presence: true
 
     def initialize(state_store, attrs = {})
@@ -50,7 +51,11 @@ module ProviderInterface
     end
 
     def date_in_future
-      errors[:date] << 'The interview date must be in the future' if date.is_a?(Date) && date < Time.zone.now
+      errors[:date] << 'The interview date must be in the future' if date < Time.zone.now
+    end
+
+    def date_after_rbd_date
+      errors[:date] << 'The interview date must be before the closing date for the application' if date > application_choice.reject_by_default_at
     end
 
     def parsed_time
