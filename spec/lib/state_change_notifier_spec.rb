@@ -133,7 +133,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(:withdrawn, application_choice).application_outcome_notification
 
-        message = /:runner: #{applicant} has withdrawn their remaining applications from #{provider_name} and #{withdrawn_choice.provider.name}./
+        message = /:runner: #{applicant} has withdrawn their applications from #{provider_name} and #{withdrawn_choice.provider.name}./
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end

@@ -18,8 +18,8 @@ en:
     withdrawn:
       message:
         primary:
-          one: ":runner: %{applicant} has withdrawn their remaining application from %{providers}."
-          other: ":runner: %{applicant} has withdrawn their remaining applications from %{providers}."
+          one: ":runner: %{applicant} has withdrawn their application from %{providers}."
+          other: ":runner: %{applicant} has withdrawn their applications from %{providers}."
         other_applications: "withdrew from %{providers}"
     recruited:
       message:
