@@ -8,7 +8,8 @@ class SubmitReference
   end
 
   def save!
-    reference_feedback_provided!
+    @reference.update!(feedback_status: :feedback_provided, feedback_provided_at: Time.zone.now)
+
     cancel_feedback_requested_references if enough_references_have_been_provided?
 
     if @send_emails
@@ -27,10 +28,6 @@ private
     (
       application_form.application_references.feedback_provided + [@reference]
     ).uniq.count == ApplicationForm::MINIMUM_COMPLETE_REFERENCES
-  end
-
-  def reference_feedback_provided!
-    @reference.update!(feedback_status: 'feedback_provided')
   end
 
   def cancel_feedback_requested_references

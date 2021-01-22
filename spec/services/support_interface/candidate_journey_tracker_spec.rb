@@ -71,7 +71,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
       Timecop.freeze(now) do
         application_reference = create(:reference, :feedback_requested, requested_at: 1.day.ago, application_form: application_form)
-        application_reference.update!(feedback_status: 'feedback_provided')
+        application_reference.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
       end
       expect(described_class.new(application_choice).completed_reference_1_requested_at).to eq(now - 1.day)
     end
@@ -84,15 +84,15 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
 
     it 'returns nil if only one reference has been requested' do
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      application_reference1.update!(feedback_status: 'feedback_provided')
+      application_reference1.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
 
       expect(described_class.new(application_choice).completed_reference_2_requested_at).to be_nil
     end
 
     it 'returns the time when the second reference was requested' do
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      application_reference1.update!(feedback_status: 'feedback_provided')
-      application_reference2.update!(feedback_status: 'feedback_provided')
+      application_reference1.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
+      application_reference2.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
 
       expect(described_class.new(application_choice).completed_reference_2_requested_at).to eq(application_reference2.requested_at)
     end
@@ -111,7 +111,7 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
       application_reference = create(:reference, :feedback_requested, application_form: application_form)
       Timecop.freeze(now + 1.day) do
-        application_reference.update!(feedback_status: 'feedback_provided')
+        application_reference.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
       end
       expect(described_class.new(application_choice).completed_reference_1_received_at).to eq(now + 1.day)
     end
@@ -121,10 +121,9 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     it 'returns nil if only one reference has been received' do
       application_form = create(:application_form)
       application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
-      application_reference1 = create(:reference, :feedback_requested, application_form: application_form)
-      _application_reference2 = create(:reference, :feedback_requested, application_form: application_form)
+      application_reference = create(:reference, :feedback_requested, application_form: application_form)
       Timecop.freeze(now + 1.day) do
-        application_reference1.update!(feedback_status: 'feedback_provided')
+        application_reference.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
       end
       expect(described_class.new(application_choice).completed_reference_2_received_at).to be_nil
     end
@@ -135,25 +134,25 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
       application_reference1 = create(:reference, :feedback_requested, application_form: application_form)
       application_reference2 = create(:reference, :feedback_requested, application_form: application_form)
       Timecop.freeze(now + 1.day) do
-        application_reference1.update!(feedback_status: 'feedback_provided')
+        application_reference1.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
       end
       Timecop.freeze(now + 2.days) do
-        application_reference2.update!(feedback_status: 'feedback_provided')
+        application_reference2.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
       end
       expect(described_class.new(application_choice).completed_reference_2_received_at).to eq(now + 2.days)
     end
 
-    context 'when audit entries are not present', with_audited: false do
+    context 'when feedback_provided_at is nil' do
       it 'returns nil for the time when the second reference was received' do
         application_form = create(:application_form)
         application_choice = create(:application_choice, status: :unsubmitted, application_form: application_form)
         application_reference1 = create(:reference, :feedback_requested, application_form: application_form)
         application_reference2 = create(:reference, :feedback_requested, application_form: application_form)
         Timecop.freeze(now + 1.day) do
-          application_reference1.update!(feedback_status: 'feedback_provided')
+          application_reference1.update!(feedback_status: 'feedback_provided', feedback_provided_at: Time.zone.now)
         end
         Timecop.freeze(now + 2.days) do
-          application_reference2.update!(feedback_status: 'feedback_provided')
+          application_reference2.update!(feedback_status: 'feedback_provided', feedback_provided_at: nil)
         end
         expect(described_class.new(application_choice).completed_reference_2_received_at).to be_nil
       end

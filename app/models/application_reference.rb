@@ -100,10 +100,6 @@ class ApplicationReference < ApplicationRecord
     state_changed_at(from: 'feedback_requested', to: 'feedback_refused')
   end
 
-  def feedback_provided_at
-    state_changed_at(from: 'feedback_requested', to: 'feedback_provided')
-  end
-
   def feedback_cancelled_at
     state_changed_at(from: 'feedback_requested', to: 'cancelled')
   end
