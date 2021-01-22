@@ -795,9 +795,9 @@ components:
       - hesa_degenddt
       properties:
         id:
-          type: integer
-          description: The qualification ID in the Apply system. These IDs are not guaranteed to be unique, for example when a candidate has multiple English GCSEs
-          example: 123
+          type: string
+          description: The qualification ID in the Apply system, which may contain an underscore
+          example: "123_1"
         qualification_type:
           type: string
           maxLength: 256

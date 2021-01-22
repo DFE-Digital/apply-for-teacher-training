@@ -525,32 +525,26 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         application_form: application_choice.application_form,
       )
 
-      english_language = presenter.as_json.dig(
+      qualifications = presenter.as_json.dig(
         :attributes,
         :qualifications,
         :gcses,
-      ).find { |q| q[:subject] == 'English language' }
+      )
 
-      expect(english_language[:id]).to eq 1
-      expect(english_language[:grade]).to eq 'E'
+      english_language = qualifications.find { |q| q[:subject] == 'Cockney rhyming slang' }
 
-      english_literature = presenter.as_json.dig(
-        :attributes,
-        :qualifications,
-        :gcses,
-      ).find { |q| q[:subject] == 'English literature' }
+      expect(english_language[:id]).to eq '1'
+      expect(english_language[:grade]).to eq 'A*'
 
-      expect(english_literature[:id]).to eq 1
+      english_literature = qualifications.find { |q| q[:subject] == 'English language' }
+
+      expect(english_literature[:id]).to eq '1_2'
       expect(english_literature[:grade]).to eq 'E'
 
-      rhyming_slang = presenter.as_json.dig(
-        :attributes,
-        :qualifications,
-        :gcses,
-      ).find { |q| q[:subject] == 'Cockney rhyming slang' }
+      rhyming_slang = qualifications.find { |q| q[:subject] == 'English literature' }
 
-      expect(rhyming_slang[:id]).to eq 1
-      expect(rhyming_slang[:grade]).to eq 'A*'
+      expect(rhyming_slang[:id]).to eq '1_3'
+      expect(rhyming_slang[:grade]).to eq 'E'
     end
   end
 

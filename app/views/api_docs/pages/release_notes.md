@@ -1,4 +1,11 @@
-## 17th December
+## 25th January 2021
+
+- The `id` field on `Qualification`s is now a string and may contain
+  underscores. This is to support multiple qualifications added to a single
+  record, eg an English GCSE comprising English Language and English
+  Literature qualifications.
+
+## 17th December 2020
 
 - The `Rejection` `reason` field may now return more complex 'structured' reasons for rejection. The field type remains `string`. The field contains details and advice about the rejected application as seen by the candidate, grouped under relevant headings.
 

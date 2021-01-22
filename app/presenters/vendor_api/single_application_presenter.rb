@@ -204,15 +204,39 @@ module VendorAPI
 
     def structured_gcse_to_hashes(gcse)
       structured_grades = JSON.parse(gcse[:structured_grades])
-      structured_grades.reduce([]) do |array, (subject, grade)|
-        array << qualification_to_hash(gcse)
-                     .merge(subject: subject.humanize, grade: grade)
+
+      # structured grades are k/v pairs from subject -> grade
+      #
+      # We made a mistake when we originally implemented this and assigned the
+      # same ID to each GCSE derived from the structured hash. Downstream
+      # systems then imported records on top of each other. To prevent
+      # duplication in those systems we need to retain the original ID on at
+      # least one record. We also need to ensure that the records recieve IDs
+      # in a reliable order, otherwise qualifications will appear changed when
+      # they have only swapped positions.
+      #
+      # The solution is to:
+      # - always sort the structured_grades hash
+      # - always leave the first qualification's ID bare
+      # - append a suffix to each subsequent qualification's ID
+
+      sorted_structured_grades = structured_grades.sort.to_h
+
+      sorted_structured_grades.each_with_index.map do |(subject, grade), index|
+        id = if index.positive?
+               "#{gcse.id}_#{index + 1}" # go 123, 123_2, not 123, 123_1
+             else
+               gcse.id.to_s
+             end
+
+        qualification_to_hash(gcse)
+          .merge(subject: subject.humanize, grade: grade, id: id)
       end
     end
 
     def qualification_to_hash(qualification)
       {
-        id: qualification.id,
+        id: qualification.id.to_s,
         qualification_type: qualification.qualification_type,
         non_uk_qualification_type: qualification.non_uk_qualification_type,
         subject: qualification.subject,
