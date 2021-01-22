@@ -8,6 +8,12 @@ class ApplicationQualification < ApplicationRecord
     award_year
   ].freeze
 
+  EXPECTED_GCSE_DATA = %i[
+    qualification_type
+    subject
+    award_year
+  ].freeze
+
   EXPECTED_OTHER_QUALIFICATION_DATA = %i[
     qualification_type
     subject
@@ -59,6 +65,16 @@ class ApplicationQualification < ApplicationRecord
     return true if predicted_grade.nil?
 
     return true if EXPECTED_DEGREE_DATA.any? do |field_name|
+      send(field_name).blank?
+    end
+
+    false
+  end
+
+  def incomplete_gcse_information?
+    return true if grade.nil? && structured_grades.nil?
+
+    return true if EXPECTED_GCSE_DATA.any? do |field_name|
       send(field_name).blank?
     end
 

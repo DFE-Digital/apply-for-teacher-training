@@ -28,8 +28,14 @@ RSpec.feature 'Candidate entering GCSE details' do
 
     when_i_fill_in_the_grade
     and_i_click_save_and_continue
-    then_i_see_add_year_page
+    and_i_visit_the_candidate_application_page
+    and_i_click_on_the_maths_gcse_link
+    and_i_mark_the_section_as_completed
+    and_click_continue
+    then_i_see_the_incompletion_error
 
+    when_i_click_to_change_year
+    then_i_see_add_year_page
     when_i_fill_in_the_year
     and_i_click_save_and_continue
     then_i_see_the_review_page_with_correct_details
@@ -91,6 +97,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   def when_i_visit_the_candidate_application_page
     visit '/candidate/application'
   end
+  alias_method :and_i_visit_the_candidate_application_page, :when_i_visit_the_candidate_application_page
 
   def then_the_maths_gcse_should_be_incomplete
     expect(page).to have_content 'Maths GCSE or equivalent Incomplete'
@@ -144,6 +151,10 @@ RSpec.feature 'Candidate entering GCSE details' do
     expect(page).to have_content 'Enter the type of qualification'
   end
 
+  def then_i_see_the_incompletion_error
+    expect(page).to have_content 'You cannot mark this section complete with incomplete GCSE information.'
+  end
+
   def then_i_see_the_gcse_option_selected
     expect(find_field('GCSE')).to be_checked
   end
@@ -183,6 +194,7 @@ RSpec.feature 'Candidate entering GCSE details' do
   def when_i_mark_the_section_as_completed
     check t('application_form.completed_checkbox')
   end
+  alias_method :and_i_mark_the_section_as_completed, :when_i_mark_the_section_as_completed
 
   def then_i_see_the_maths_gcse_is_completed
     expect(page).to have_css('#maths-gcse-or-equivalent-badge-id', text: 'Completed')

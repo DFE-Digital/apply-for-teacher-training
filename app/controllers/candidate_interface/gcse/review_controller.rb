@@ -11,9 +11,17 @@ module CandidateInterface
     end
 
     def complete
-      current_application.update!(application_form_params)
+      @application_form = current_application
+      @application_qualification = current_application.qualification_in_subject(:gcse, subject_param)
 
-      redirect_to candidate_interface_application_form_path
+      if @application_qualification.incomplete_gcse_information? && !@application_qualification.missing_qualification?
+        flash[:warning] = 'You cannot mark this section complete with incomplete GCSE information.'
+        render :show
+      else
+        current_application.update!(application_form_params)
+
+        redirect_to candidate_interface_application_form_path
+      end
     end
 
   private
