@@ -46,6 +46,7 @@ module TeacherTrainingPublicAPI
       end
 
       assign_course_attributes(course, course_from_api, recruitment_cycle_year)
+      add_accredited_provider(course, course_from_api[:accredited_body_code])
       course.save!
     def assign_course_attributes(course, course_from_api, recruitment_cycle_year)
       course.name = course_from_api.name
@@ -70,3 +71,29 @@ module TeacherTrainingPublicAPI
         "#{course_from_api.age_minimum} to #{course_from_api.age_maximum}"
       end
     end
+
+    def add_accredited_provider(course, accredited_body_code)
+      if accredited_body_code.present? && course.provider.code != accredited_body_code
+
+        accredited_provider = Provider.find_by(code: accredited_body_code)
+        if accredited_provider.nil?
+          # doesn't exist, so we must make a new call to get name and other details
+          # accredited_provider.save!
+        end
+
+        course.accredited_provider = accredited_provider
+        add_provider_relationship(course)
+
+      else
+        course.accredited_provider = nil
+      end
+    end
+
+    def add_provider_relationship(course)
+      ProviderRelationshipPermissions.find_or_create_by!(
+          training_provider: provider,
+          ratifying_provider: course.accredited_provider,
+          )
+    end
+  end
+end
