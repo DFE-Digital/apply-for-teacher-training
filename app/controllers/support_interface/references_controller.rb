@@ -7,7 +7,7 @@ module SupportInterface
     def cancel; end
 
     def confirm_cancel
-      @reference.update!(feedback_status: 'cancelled')
+      CancelReferee.new.call(reference: @reference)
       flash[:success] = 'Reference was cancelled'
       redirect_to support_interface_application_form_path(@reference.application_form)
     end
