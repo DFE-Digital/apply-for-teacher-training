@@ -45,8 +45,9 @@ class MakeAnOffer
           application_choice.offer = { 'conditions' => offer_conditions }
           application_choice.offered_at = Time.zone.now
           application_choice.save!
-          SetDeclineByDefault.new(application_form: application_choice.application_form).call
         end
+
+        SetDeclineByDefault.new(application_form: application_choice.application_form).call
 
         SendNewOfferEmailToCandidate.new(application_choice: @application_choice).call
       else
