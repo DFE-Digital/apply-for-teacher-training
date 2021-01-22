@@ -19,7 +19,7 @@ module FindSync
   private
 
     def find_provider
-      # https://api2.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2020/providers/1N1/?include=sites,courses.sites
+      # https://api.publish-teacher-training-courses.service.gov.uk/api/v3/recruitment_cycles/2021/providers/1N1/?include=sites,courses.sites,courses.subjects,courses.site_statuses.site
       @find_provider ||= begin
         FindAPI::Provider
           .recruitment_cycle(@provider_recruitment_cycle_year)
