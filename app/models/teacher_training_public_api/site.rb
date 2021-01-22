@@ -1,14 +1,18 @@
 module TeacherTrainingPublicAPI
-  class Course < TeacherTrainingPublicAPI::Resource
+  class Site < TeacherTrainingPublicAPI::Resource
     belongs_to :recruitment_cycle, through: :provider, param: :year
     belongs_to :provider, param: :provider_code
-    has_many :sites
+    belongs_to :course, param: :course_code
+
+    def self.table_name
+      "locations"
+    end
 
     def self.fetch(provider_code, course_code)
       where(recruitment_cycle_year: RecruitmentCycle.current_year)
         .where(provider_code: provider_code)
-        .find(course_code)
-        .first
+        .where(course_code:  course_code)
+        .all
     rescue JsonApiClient::Errors::NotFound
       nil
     rescue JsonApiClient::Errors::ServerError, JsonApiClient::Errors::ConnectionError => e
