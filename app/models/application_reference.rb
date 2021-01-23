@@ -96,10 +96,6 @@ class ApplicationReference < ApplicationRecord
     replace_referee_at < Time.zone.now
   end
 
-  def feedback_cancelled_at_end_of_cycle_at
-    state_changed_at(from: 'feedback_requested', to: 'cancelled_at_end_of_cycle')
-  end
-
   def email_bounced_at
     state_changed_at(from: 'feedback_requested', to: 'email_bounced')
   end
