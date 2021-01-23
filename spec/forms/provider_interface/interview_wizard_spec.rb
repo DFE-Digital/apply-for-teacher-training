@@ -1,144 +1,111 @@
 require 'rails_helper'
 RSpec.describe ProviderInterface::InterviewWizard do
-  let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, course_option: build_stubbed(:course_option, course: course)) }
-  let(:course) { build_stubbed(:course, provider: provider_user.providers.first) }
-  let(:provider_user) { build_stubbed(:provider_user, :with_provider, :with_make_decisions) }
   let(:store) { instance_double(WizardStateStores::RedisStore) }
+
+  let(:day) { '1' }
+  let(:month) { '2' }
+  let(:year) { '2021' }
+  let(:time) { '10am' }
+  let(:application_choice) { nil }
+
+  let(:wizard) do
+    described_class.new(
+      store,
+      'date(3i)' => day,
+      'date(2i)' => month,
+      'date(1i)' => year,
+      time: time,
+      application_choice: application_choice,
+    )
+  end
 
   before { allow(store).to receive(:read) }
 
-  describe 'validations' do
-    it 'validates presence of :application_choice' do
-      expect(described_class.new(store)).to validate_presence_of(:application_choice)
+  describe '.validations' do
+    context 'presence checks' do
+      let(:subject) { described_class.new(store) }
+
+      it { is_expected.to validate_presence_of(:time) }
+      it { is_expected.to validate_presence_of(:date) }
+      it { is_expected.to validate_presence_of(:provider_user) }
+      it { is_expected.to validate_presence_of(:location) }
+      it { is_expected.to validate_presence_of(:application_choice) }
     end
 
-    it 'validates the date entered' do
-      invalid_form = described_class.new(
-        store,
-        'date(3i)' => '100',
-        'date(2i)' => '1',
-        'date(1i)' => '2020',
-        application_choice: application_choice,
-        provider_user: provider_user,
-        time: '10am',
-        location: 'Zoom',
-      )
-      expect(invalid_form).to be_invalid
-      expect(invalid_form.errors[:date]).to contain_exactly('The interview date must be a real date')
-    end
+    describe '#date' do
+      context 'when invalid' do
+        let(:day) { 100 }
 
-    it 'validates that :date_and_time is in the future' do
-      Timecop.freeze(2021, 1, 13) do
-        invalid_form = described_class.new(
-          store,
-          application_choice: application_choice,
-          provider_user: provider_user,
-          'date(3i)' => '10',
-          'date(2i)' => '1',
-          'date(1i)' => '2021',
-          time: '10am',
-          location: 'Zoom',
-        )
-        expect(invalid_form).to be_invalid
-        expect(invalid_form.errors[:date]).to contain_exactly('Enter a date that is in the future')
+        it 'is invalid with the correct error' do
+          expect(wizard).to be_invalid
+          expect(wizard.errors[:date]).to contain_exactly('The interview date must be a real date')
+        end
       end
-    end
 
-    context 'date validations' do
-      let(:application_choice) { build_stubbed(:application_choice, :awaiting_provider_decision, reject_by_default_at: Time.zone.local(2021, 2, 14)) }
+      context 'when in the past' do
+        let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: 5.days.from_now) }
+        let(:year) { 2020 }
 
-      it 'validates that the interview date is before the rbd date' do
-        Timecop.freeze(2021, 1, 13) do
-          invalid_form = described_class.new(
-            store,
-            application_choice: application_choice,
-            provider_user: provider_user,
-            'date(3i)' => '20',
-            'date(2i)' => '2',
-            'date(1i)' => '2021',
-            time: '10am',
-            location: 'Zoom',
-          )
-          expect(invalid_form).to be_invalid
-          expect(invalid_form.errors[:date]).to contain_exactly('The interview date must be before the application closing date')
+        it 'is invalid with the correct error' do
+          Timecop.freeze(2021, 1, 13) do
+            expect(wizard).to be_invalid
+            expect(wizard.errors[:date]).to contain_exactly('Enter a date that is in the future')
+          end
+        end
+      end
+
+      context 'when it is after the rdb date' do
+        let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 2, 14)) }
+        let(:day) { 15 }
+
+        it 'is invalid with the correct error' do
+          Timecop.freeze(2021, 1, 13) do
+            expect(wizard).to be_invalid
+            expect(wizard.errors[:date]).to contain_exactly('The interview date must be before the application closing date')
+          end
         end
       end
     end
 
-    describe 'validates :time is in the right format' do
-      def form_with_time(time)
-        tomorrow = 1.day.from_now
-        described_class.new(
-          store,
-          application_choice: application_choice,
-          provider_user: provider_user,
-          'date(3i)' => tomorrow.day,
-          'date(2i)' => tomorrow.month,
-          'date(1i)' => tomorrow.year,
-          time: time,
-          location: 'Zoom',
-        )
-      end
+    describe '#time_is_valid?' do
+      let(:tomorrow) { 1.day.from_now }
+      let(:day) { tomorrow.day }
+      let(:month) { tomorrow.month }
+      let(:year) { tomorrow.year }
 
-      invalid_times = %w[noon 1700 12:30 12:3pm 1800pm]
-      invalid_times.each do |time|
-        it "#{time} is invalid" do
-          form = form_with_time(time)
-          expect(form).to be_invalid
-          expect(form.errors[:time]).to include 'Enter a time in the correct format'
+      context 'checks if the time is in the rights format' do
+        let(:invalid_times) { %w[noon 1700 12:30 12:3pm 1800pm] }
+        let(:valid_times) { %w[12:30pm 2pm 1.30am 01.24AM 3\ 30am] }
+
+        it 'returns false when the time is invalid' do
+          invalid_times.each do |time|
+            wizard.time = time
+            expect(wizard.time_is_valid?).to eq(false)
+          end
+        end
+
+        it 'returns true when the time is valid' do
+          valid_times.each do |time|
+            wizard.time = time
+            expect(wizard.time_is_valid?).to eq(true)
+          end
         end
       end
-
-      valid_times = %w[12:30pm 2pm 1.30am 01.24AM 3\ 30am]
-      valid_times.each do |time|
-        it "#{time} is valid" do
-          expect(form_with_time(time)).to be_valid
-        end
-      end
-    end
-
-    it 'validates presence of :time' do
-      expect(described_class.new(store)).to validate_presence_of(:time)
-    end
-
-    it 'validates presence of :provider_user' do
-      expect(described_class.new(store)).to validate_presence_of(:provider_user)
-    end
-
-    it 'validates presence of :location' do
-      expect(described_class.new(store)).to validate_presence_of(:location)
     end
   end
 
   describe '#date_and_time' do
-    def form_with_time(time)
-      tomorrow = 1.day.from_now
-      described_class.new(
-        store,
-        application_choice: application_choice,
-        provider_user: provider_user,
-        'date(3i)' => tomorrow.day,
-        'date(2i)' => tomorrow.month,
-        'date(1i)' => tomorrow.year,
-        time: time,
-        location: 'Zoom',
-      )
-    end
+    let(:time) { '4:30pm' }
+    let(:day) { '20' }
+    let(:month) { '2' }
+    let(:year) { '2022' }
 
-    {
-      '12:30pm' => [12, 30],
-      '2pm' => [14, 0],
-      '5:30pM' => [17, 30],
-      '1:30am' => [1, 30],
-      '01:24am' => [1, 24],
-      '3:30pm' => [15, 30],
-      '2 24Am' => [2, 24],
-      '5.35Pm' => [17, 35],
-    }.each do |input_time, (expected_hour, expected_minute)|
-      it "#{input_time} parses correctly" do
-        expect(form_with_time(input_time).date_and_time.hour).to equal(expected_hour)
-        expect(form_with_time(input_time).date_and_time.min).to equal(expected_minute)
-      end
+    it 'converts the :date and :time to valid datetime' do
+      expect(wizard.date_and_time.hour).to equal(16)
+      expect(wizard.date_and_time.min).to equal(30)
+      expect(wizard.date_and_time.day).to equal(20)
+      expect(wizard.date_and_time.month).to equal(2)
+      expect(wizard.date_and_time.year).to equal(2022)
     end
   end
 end
