@@ -33,9 +33,11 @@ en:
         'yes': '%{provider_name} would be interested in future applications from you.'
         'no': '%{provider_name} would not be interested in future applications from you.'
     candidate_behaviour_what_did_the_candidate_do:
+      title: 'Something you did'
       didnt_reply_to_interview_offer: 'Didn’t reply to our interview offer'
       didnt_attend_interview: 'Didn’t attend interview'
     qualifications_which_qualifications:
+      title: 'Qualifications'
       no_maths_gcse: 'No Maths GCSE grade 4 (C) or above, or valid equivalent'
       no_english_gcse: 'No English GCSE grade 4 (C) or above, or valid equivalent'
       no_science_gcse: 'No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)'

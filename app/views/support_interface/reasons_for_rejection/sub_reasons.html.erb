@@ -1,4 +1,4 @@
-<% content_for :title, 'Reasons for rejection sub-reasons' %>
+<% content_for :title, 'Reasons for rejection' %>
 
 <% content_for :before_content do %>
   <%= render BreadcrumbComponent.new(items: [
@@ -7,12 +7,10 @@
       path: support_interface_performance_path
     },
     {
-      text: 'Reasons for rejection sub-reasons'
+      text: 'Reasons for rejection'
     }
   ]) %>
 <% end %>
-
-<h1 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Reasons for rejection</h1>
 
 <table class="govuk-table">
   <thead class="govuk-table__head">
@@ -28,8 +26,10 @@
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
           <h2 class="govuk-heading-s govuk-!-margin-bottom-0">
-            <span class="govuk-!-font-weight-regular"><%= reason %></span>
-            <%= sub_reason %>
+            <span class="govuk-!-font-weight-regular">
+              <%= t("reasons_for_rejection.#{SupportInterface::ReasonsForRejectionController::MAPPING[reason]}.title") %>:
+            </span>
+            <%= t("reasons_for_rejection.#{SupportInterface::ReasonsForRejectionController::MAPPING[reason]}.#{sub_reason}") %>
           </h2>
         </td>
         <td class="govuk-table__cell govuk-table__cell--numeric">
