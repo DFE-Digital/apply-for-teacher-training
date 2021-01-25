@@ -37,14 +37,7 @@ private
   def time_to_get_references(start_time, end_time = Time.zone.now)
     applications = ApplicationForm
       .joins(:application_references)
-      .where(
-        '"references".id IN (:reference_ids)',
-        reference_ids: Audited::Audit
-          .select(:auditable_id)
-          .where(auditable_type: 'ApplicationReference')
-          .where("audited_changes#>>'{feedback_status, 1}' = 'feedback_provided'")
-          .where('created_at BETWEEN ? AND ?', start_time, end_time),
-      )
+      .where('"references".feedback_provided_at BETWEEN ? AND ?', start_time, end_time)
       .group('application_forms.id')
     applications.map { |application| time_to_get_for(application, end_time) }.compact
   end
@@ -53,8 +46,7 @@ private
     return nil unless application.enough_references_have_been_provided?
 
     times = application.application_references.feedback_provided.map do |reference|
-      provided_audit = reference.audits.where("audited_changes#>>'{feedback_status, 1}' = 'feedback_provided'").last
-      [reference.requested_at, provided_audit&.created_at]
+      [reference.requested_at, reference.feedback_provided_at]
     end
     requested_at_time = times.map(&:first).compact.min
     provided_at_time = times.map(&:second).compact.max

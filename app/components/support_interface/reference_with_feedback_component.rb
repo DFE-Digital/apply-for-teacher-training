@@ -57,14 +57,14 @@ module SupportInterface
       if reference.cancelled?
         dates << {
           key: 'Cancelled on',
-          value: reference.feedback_cancelled_at&.to_s(:govuk_date_and_time),
+          value: reference.cancelled_at&.to_s(:govuk_date_and_time),
         }
       end
 
       if reference.cancelled_at_end_of_cycle?
         dates << {
           key: 'Cancelled at end of cycle on',
-          value: reference.feedback_cancelled_at_end_of_cycle_at&.to_s(:govuk_date_and_time),
+          value: reference.cancelled_at_end_of_cycle_at&.to_s(:govuk_date_and_time),
         }
       end
 

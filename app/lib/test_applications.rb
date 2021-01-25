@@ -98,7 +98,7 @@ class TestApplications
           created_at: time,
           updated_at: time,
         )
-        CandidateInterface::RequestReference.new.call(reference)
+        RequestReference.new.call(reference)
         reference.update!(requested_at: time)
       end
 

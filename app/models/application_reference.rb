@@ -95,33 +95,4 @@ class ApplicationReference < ApplicationRecord
 
     replace_referee_at < Time.zone.now
   end
-
-  def feedback_refused_at
-    state_changed_at(from: 'feedback_requested', to: 'feedback_refused')
-  end
-
-  def feedback_provided_at
-    state_changed_at(from: 'feedback_requested', to: 'feedback_provided')
-  end
-
-  def feedback_cancelled_at
-    state_changed_at(from: 'feedback_requested', to: 'cancelled')
-  end
-
-  def feedback_cancelled_at_end_of_cycle_at
-    state_changed_at(from: 'feedback_requested', to: 'cancelled_at_end_of_cycle')
-  end
-
-  def email_bounced_at
-    state_changed_at(from: 'feedback_requested', to: 'email_bounced')
-  end
-
-private
-
-  # We don't keep track of all state changes in separate database columns, so we have
-  # to interrogate the audit log for specific transitions. If we start using these
-  # more often, they should become a database column since this isn't very efficient.
-  def state_changed_at(from:, to:)
-    audits.find { |audit| audit.audited_changes['feedback_status'] == [from, to] }&.created_at
-  end
 end

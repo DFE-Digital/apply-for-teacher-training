@@ -16,11 +16,14 @@ RSpec.describe RefereeInterface::RefuseFeedbackForm do
       end
 
       context 'when the form is valid' do
-        it 'updates the reference to feedback_refused' do
-          form = described_class.new(choice: 'yes')
-          form.save(application_reference)
+        it 'updates the reference to feedback_refused and sets the feedback_refused_at to the current time' do
+          Timecop.freeze do
+            form = described_class.new(choice: 'yes')
+            form.save(application_reference)
 
-          expect(application_reference.feedback_status).to eq('feedback_refused')
+            expect(application_reference.feedback_status).to eq('feedback_refused')
+            expect(application_reference.feedback_refused_at).to eq(Time.zone.now)
+          end
         end
       end
     end

@@ -38,7 +38,7 @@ RSpec.describe SupportInterface::ApplicationReferencesExport do
           'Ref 4 type' => application_form_one.application_references[3].referee_type,
           'Ref 4 state' => application_form_one.application_references[3].feedback_status,
           'Ref 4 requested at' => application_form_one.application_references[3].requested_at,
-          'Ref 4 received at' => application_form_one.application_references[3].audits.where("audited_changes#>>'{feedback_status, 1}' = 'feedback_provided'").last&.created_at,
+          'Ref 4 received at' => application_form_one.application_references[3].feedback_provided_at,
         },
         {
           'Recruitment cycle year' => application_form_two.recruitment_cycle_year,

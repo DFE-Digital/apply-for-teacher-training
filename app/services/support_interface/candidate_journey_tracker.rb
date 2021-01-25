@@ -48,19 +48,19 @@ module SupportInterface
     end
 
     def completed_reference_1_requested_at
-      received_references_timings.dig(0, :requested_at)
+      received_references[0]&.requested_at
     end
 
     def completed_reference_1_received_at
-      received_references_timings.dig(0, :received_at)
+      received_references[0]&.feedback_provided_at
     end
 
     def completed_reference_2_requested_at
-      received_references_timings.dig(1, :requested_at)
+      received_references[1]&.requested_at
     end
 
     def completed_reference_2_received_at
-      received_references_timings.dig(1, :received_at)
+      received_references[1]&.feedback_provided_at
     end
 
     def reference_reminder_email_sent
@@ -149,18 +149,6 @@ module SupportInterface
 
     def received_references
       @received_references ||= all_references.select(&:feedback_provided?)
-    end
-
-    def received_references_timings
-      @received_reference_timings ||=
-        received_references.map do |reference|
-          {
-            received_at: reference.feedback_provided_at,
-            requested_at: reference.requested_at,
-          }
-        end
-
-      @received_reference_timings.sort_by { |times| times[:received_at] || Time.zone.now }
     end
 
     def earliest_update_audit_for(model, attributes)
