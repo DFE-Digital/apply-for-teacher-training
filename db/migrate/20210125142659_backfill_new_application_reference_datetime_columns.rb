@@ -10,7 +10,7 @@ class BackfillNewApplicationReferenceDatetimeColumns < ActiveRecord::Migration[6
       email_bounced_at = reference.audits.where("audited_changes#>>'{feedback_status, 1}' = 'email_bounced'").last&.created_at
 
       reference.update!(
-        feeback_provided_at: feedback_provided_at,
+        feedback_provided_at: feedback_provided_at,
         feedback_refused_at: feedback_refused_at,
         cancelled_at: cancelled_at,
         cancelled_at_the_end_of_cycle_at: cancelled_at_eoc_at,
