@@ -27,30 +27,28 @@ class ReasonsForRejectionCountQuery
 private
 
   def to_results(rows)
-    rows.reduce(Hash.new { |hash, key| hash[key] = Result.new(0, 0) }) do |results, row|
+    rows.reduce(Hash.new { |hash, key| hash[key] = Result.new(0, 0) }) { |results, row|
       if row['time_period'] == THIS_MONTH
         results[row['key']].this_month += row['count'].to_i
-        results[row['key']].all_time += row['count'].to_i
-      else
-        results[row['key']].all_time += row['count'].to_i
       end
+      results[row['key']].all_time += row['count'].to_i
       results
-    end.with_indifferent_access
+    }.with_indifferent_access
   end
 
   def to_sub_results(rows)
-    rows.reduce(ActiveSupport::HashWithIndifferentAccess.new { |hash, key|
-      hash[key] = ActiveSupport::HashWithIndifferentAccess.new { |sub_hash, sub_key|
-        sub_hash[sub_key] = Result.new(0, 0)
-      }
-    }) do |results, row|
+    rows.reduce(
+      ActiveSupport::HashWithIndifferentAccess.new do |hash, key|
+        hash[key] = ActiveSupport::HashWithIndifferentAccess.new do |sub_hash, sub_key|
+          sub_hash[sub_key] = Result.new(0, 0)
+        end
+      end,
+    ) do |results, row|
       result = results[row['key']][row['value']]
       if row['time_period'] == THIS_MONTH
         result.this_month += row['count'].to_i
-        result.all_time += row['count'].to_i
-      else
-        result.all_time += row['count'].to_i
       end
+      result.all_time += row['count'].to_i
       results
     end
   end

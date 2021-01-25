@@ -8,7 +8,7 @@ module SupportInterface
       honesty_and_professionalism_concerns: :honesty_and_professionalism,
       safeguarding_concerns: :safeguarding_issues,
     }.with_indifferent_access
-    
+
     def sub_reasons
       @reasons = ReasonsForRejectionCountQuery.new.sub_reason_counts
     end
