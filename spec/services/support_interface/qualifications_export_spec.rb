@@ -49,6 +49,12 @@ RSpec.describe SupportInterface::QualificationsExport do
              level: 'degree',
              qualification_type: 'BA Memes',
              grade: 'First class honours')
+      create(:application_qualification,
+             application_form: application_form_one,
+             level: 'degree',
+             subject: nil,
+             qualification_type: 'BA',
+             grade: '2:1')
 
       candidate_two = create(:candidate)
       course_option_three = course_option_for_provider_code(provider_code: 'BB8')

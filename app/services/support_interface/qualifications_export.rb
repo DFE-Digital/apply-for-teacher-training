@@ -121,7 +121,7 @@ module SupportInterface
     end
 
     def degrees(qualifications)
-      qualifications.where(level: 'degree').take(2)
+      qualifications.where(level: 'degree').reject(&:incomplete_degree_information?).take(2)
     end
 
     def other_qualification_count(qualifications)
