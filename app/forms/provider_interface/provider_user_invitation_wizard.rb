@@ -1,17 +1,15 @@
 module ProviderInterface
   class ProviderUserInvitationWizard
     include ActiveModel::Model
-    STATE_STORE_KEY = :provider_user_invitation_wizard
+    include Wizard
 
-    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :checking_answers, :single_provider, :view_applications_only
+    attr_accessor :current_provider_id, :first_name, :last_name, :checking_answers, :single_provider, :view_applications_only
     attr_reader :email_address
     attr_writer :providers, :provider_permissions, :state_store
 
     with_options(on: :details) do
-      validates :email_address, presence: true
+      validates :email_address, :first_name, :last_name, presence: true
       validates :email_address, valid_for_notify: true
-      validates :first_name, presence: true
-      validates :last_name, presence: true
     end
 
     validates :providers, presence: true, on: :providers
@@ -24,16 +22,6 @@ module ProviderInterface
       attr_accessor :provider_id, :permissions
 
       alias_method :id, :provider_id
-    end
-
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      delete_permissions_if_view_applications_only(attrs)
-
-      super(last_saved_state.deep_merge(attrs))
-
-      self.checking_answers = false if current_step == 'check'
     end
 
     def providers
@@ -62,9 +50,7 @@ module ProviderInterface
       provider_permissions[provider_id].presence || { provider_id: provider_id, permissions: [] }
     end
 
-    def valid_for_current_step?
-      valid?(current_step.to_sym)
-    end
+    alias_method :valid_for_current_step?, :valid?
 
     # returns [step, *params] for the next step.
     #
@@ -107,14 +93,6 @@ module ProviderInterface
       end
     end
 
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
-    end
-
     def new_user?
       email_address.present? && ProviderUser.find_by(email_address: email_address).nil?
     end
@@ -140,20 +118,6 @@ module ProviderInterface
       end
     end
 
-    def state
-      as_json(except: %w[state_store errors validation_context current_step current_provider_id]).to_json
-    end
-
-    def last_saved_state
-      saved_state = @state_store.read
-
-      if saved_state
-        JSON.parse(saved_state)
-      else
-        {}
-      end
-    end
-
     def next_provider_id
       if current_provider_id.blank?
         providers.first
@@ -176,6 +140,18 @@ module ProviderInterface
 
     def any_provider_needs_permissions_setup?
       next_provider_needing_permissions_setup.present?
+    end
+
+    def sanitize_attributes!(params)
+      delete_permissions_if_view_applications_only(params)
+    end
+
+    def enter_review_mode!
+      @checking_answers = false
+    end
+
+    def params_to_exclude_from_saved_state
+      super + %w[current_provider_id]
     end
   end
 end

@@ -83,16 +83,6 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
   end
 
   describe 'initializer' do
-    it 'deserializes state' do
-      state_store = state_store_for(first_name: 'Bob', email_address: 'bob@example.com')
-
-      wizard = described_class.new(state_store, current_step: 'details')
-
-      expect(wizard.first_name).to eq 'Bob'
-      expect(wizard.last_name).to be_nil
-      expect(wizard.email_address).to eq 'bob@example.com'
-    end
-
     it 'ignores permissions attributes if view applications attr is true' do
       state_store = state_store_for(first_name: 'Bob', email_address: 'bob@example.com')
 
@@ -121,46 +111,15 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
     end
   end
 
-  describe '#save_state!' do
-    it 'serializes state to state store' do
-      state_store = state_store_for(first_name: 'Bob', email_address: 'bob@example.com')
-      wizard = described_class.new(state_store)
-      wizard.last_name = 'Roberts'
-      wizard.email_address = 'bob@roberts.com'
-
-      wizard.save_state!
-
-      expect(JSON.parse(state_store.read).symbolize_keys).to eq({
-        first_name: 'Bob',
-        last_name: 'Roberts',
-        email_address: 'bob@roberts.com',
-      })
-    end
-  end
-
-  describe '#clear_state!' do
-    it 'purges all state' do
-      state_store = state_store_for(first_name: 'Bob', email_address: 'bob@example.com')
-      wizard = described_class.new(state_store, current_step: 'details')
-      wizard.last_name = 'Roberts'
-
-      wizard.clear_state!
-
-      expect(state_store.read).to be_nil
-    end
-  end
-
   describe 'validations' do
     context 'with missing name and email fields' do
       it 'first, last name and email address are required' do
         state_store = state_store_for({})
-        wizard = described_class.new(state_store, current_step: 'check')
+        wizard = described_class.new(state_store, current_step: 'details')
 
-        wizard.valid?(:details)
+        wizard.valid?
 
-        expect(wizard.errors[:first_name]).not_to be_empty
-        expect(wizard.errors[:last_name]).not_to be_empty
-        expect(wizard.errors[:email_address]).not_to be_empty
+        expect(wizard.errors.keys).to contain_exactly(:first_name, :last_name, :email_address)
       end
     end
 
@@ -168,9 +127,9 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
       it 'is valid' do
         existing_user = create(:provider_user, :with_provider, email_address: 'provider@example.com')
         state_store = state_store_for({})
-        wizard = described_class.new(state_store, email_address: existing_user.email_address)
+        wizard = described_class.new(state_store, email_address: existing_user.email_address, current_step: 'details')
 
-        wizard.validate
+        wizard.valid?
 
         expect(wizard.errors[:email_address]).to be_empty
       end
@@ -181,7 +140,7 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
         state_store = state_store_for({})
         wizard = described_class.new(state_store, current_step: 'permissions')
 
-        wizard.valid?(:permissions)
+        wizard.valid?
 
         expect(wizard.errors[:view_applications_only]).not_to be_empty
       end
@@ -190,7 +149,7 @@ RSpec.describe ProviderInterface::ProviderUserInvitationWizard do
         state_store = state_store_for({})
         wizard = described_class.new(state_store, current_step: 'permissions', view_applications_only: 'false')
 
-        wizard.valid?(:permissions)
+        wizard.valid?
 
         expect(wizard.errors[:view_applications_only]).to be_empty
       end
