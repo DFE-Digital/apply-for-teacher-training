@@ -43,7 +43,12 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def and_vendor_api_requests_for_applications_have_been_made
-    @post_api_request = create(:vendor_api_request, request_method: 'POST', request_path: '/api/v1/applications/9999/offer')
+    @post_api_request = create(
+      :vendor_api_request,
+      request_method: 'POST',
+      request_body: { data: { 'foo' => 'bar' } },
+      request_path: '/api/v1/applications/9999/offer',
+    )
 
     visit vendor_api_path(@first_application_choice)
 
@@ -78,6 +83,7 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def then_i_see_the_request_and_response_info
+    expect(page).to have_content('Request body')
     expect(page).to have_content('Headers')
     expect(page).to have_content('HTTP_HOST')
     expect(page).to have_content('Unauthorized')

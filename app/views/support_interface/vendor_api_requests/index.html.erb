@@ -31,7 +31,7 @@
                 <h3 class="govuk-!-margin-top-0">Headers</h3>
                 <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_headers)) %>
                 <% if vendor_api_request.request_body.present? %>
-                  <h3>Request params</h3>
+                  <h3>Request <%= vendor_api_request.request_method == 'GET' ? 'params' : 'body' %></h3>
                   <%= tag.pre(JSON.pretty_generate(vendor_api_request.request_body)) %>
                 <% end %>
                 <% if vendor_api_request.response_headers.present? %>
