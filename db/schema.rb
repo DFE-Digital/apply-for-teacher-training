@@ -146,6 +146,7 @@ ActiveRecord::Schema.define(version: 2021_01_25_142659) do
     t.float "latitude"
     t.float "longitude"
     t.boolean "feature_restructured_work_history", default: true
+    t.string "work_history_status"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
