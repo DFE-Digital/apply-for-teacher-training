@@ -58,10 +58,10 @@ RSpec.describe ReasonsForRejectionCountQuery do
     it 'returns correct values' do
       counts = ReasonsForRejectionCountQuery.new.reason_counts
       expect(counts[:candidate_behaviour_y_n]).to eq(
-        ReasonsForRejectionCountQuery::Result.new(3, 2),
+        ReasonsForRejectionCountQuery::Result.new(3, 2, {}),
       )
       expect(counts[:qualifications_y_n]).to eq(
-        ReasonsForRejectionCountQuery::Result.new(1, 1),
+        ReasonsForRejectionCountQuery::Result.new(1, 1, {}),
       )
     end
   end
@@ -69,11 +69,11 @@ RSpec.describe ReasonsForRejectionCountQuery do
   describe '#sub_reason_counts' do
     it 'returns correct values' do
       counts = ReasonsForRejectionCountQuery.new.sub_reason_counts
-      expect(counts[:candidate_behaviour_what_did_the_candidate_do][:other]).to eq(
-        ReasonsForRejectionCountQuery::Result.new(3, 2),
+      expect(counts[:candidate_behaviour_y_n].sub_reasons[:other]).to eq(
+        ReasonsForRejectionCountQuery::Result.new(3, 2, nil),
       )
-      expect(counts[:quality_of_application_which_parts_needed_improvement][:personal_statement]).to eq(
-        ReasonsForRejectionCountQuery::Result.new(2, 1),
+      expect(counts[:quality_of_application_y_n].sub_reasons[:personal_statement]).to eq(
+        ReasonsForRejectionCountQuery::Result.new(2, 1, nil),
       )
     end
   end

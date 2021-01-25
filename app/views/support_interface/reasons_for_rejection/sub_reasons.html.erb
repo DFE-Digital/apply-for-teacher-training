@@ -21,22 +21,35 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-  <% @reasons.each do |reason, sub_reasons| %>
-    <% sub_reasons.each do |sub_reason, result| %>
+  <% @reasons.each do |reason, top_level_result| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <h2 class="govuk-heading-s govuk-!-margin-bottom-0">
+          <%= t("reasons_for_rejection.#{SupportInterface::ReasonsForRejectionController::MAPPING[reason]}.title", default: reason) %>
+        </h2>
+      </td>
+      <td class="govuk-table__cell govuk-table__cell--numeric">
+        <%= top_level_result.all_time %>
+      </td>
+      <td class="govuk-table__cell govuk-table__cell--numeric">
+        <%= top_level_result.this_month %>
+      </td>
+    </tr>
+    <% top_level_result.sub_reasons.each do |sub_reason, sub_reason_result| %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
           <h2 class="govuk-heading-s govuk-!-margin-bottom-0">
             <span class="govuk-!-font-weight-regular">
-              <%= t("reasons_for_rejection.#{SupportInterface::ReasonsForRejectionController::MAPPING[reason]}.title") %>:
+              <%= t("reasons_for_rejection.#{SupportInterface::ReasonsForRejectionController::MAPPING[reason]}.title", default: reason) %>:
             </span>
-            <%= t("reasons_for_rejection.#{SupportInterface::ReasonsForRejectionController::MAPPING[reason]}.#{sub_reason}") %>
+            <%= t("reasons_for_rejection.#{SupportInterface::ReasonsForRejectionController::MAPPING[reason]}.#{sub_reason}", default: sub_reason) %>
           </h2>
         </td>
         <td class="govuk-table__cell govuk-table__cell--numeric">
-          <%= result.all_time %>
+          <%= sub_reason_result.all_time %>
         </td>
         <td class="govuk-table__cell govuk-table__cell--numeric">
-          <%= result.this_month %>
+          <%= sub_reason_result.this_month %>
         </td>
       </tr>
     <% end %>

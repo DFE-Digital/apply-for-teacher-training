@@ -62,8 +62,9 @@ RSpec.feature 'Reasons for rejection sub-reasons' do
         quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge other],
         qualifications_y_n: 'Yes',
         qualifications_which_qualifications: %w[no_maths_gcse no_english_gcse no_science_gcse no_degree other],
-        performance_at_interview_y_n: 'No',
-        offered_on_another_course_y_n: 'No',
+        performance_at_interview_y_n: 'Yes',
+        offered_on_another_course_y_n: 'Yes',
+        course_full_y_n: 'Yes',
         honesty_and_professionalism_y_n: 'Yes',
         honesty_and_professionalism_concerns: %w[information_false_or_inaccurate plagiarism references other],
         safeguarding_concerns: %w[candidate_disclosed_information vetting_disclosed_information other],
@@ -98,8 +99,18 @@ RSpec.feature 'Reasons for rejection sub-reasons' do
   end
 
   def then_i_should_see_counts_for_rejection_sub_reasons
+    expect(page).to have_content("Quality of application\n3 2")
     expect(page).to have_content("Quality of application: Personal statement\n3 2")
     expect(page).to have_content("Quality of application: Other\n1 1")
     expect(page).to have_content("Quality of application: Subject knowledge\n1 1")
+    expect(page).to have_content("Quality of application\n3 2")
+    expect(page).to have_content("Performance at interview\n1 1")
+    expect(page).to have_content("Course full\n1 1")
+    expect(page).to have_content("They offered you a place on another course\n1 1")
+    expect(page).to have_content("Qualifications\n3 2")
+    expect(page).to have_content("Qualifications: No Maths GCSE grade 4 (C) or above, or valid equivalent\n3 2")
+    expect(page).to have_content("Qualifications: No English GCSE grade 4 (C) or above, or valid equivalent\n1 1")
+    expect(page).to have_content("Qualifications: No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)\n1 1")
+    expect(page).to have_content("Qualifications: No degree\n1 1")
   end
 end

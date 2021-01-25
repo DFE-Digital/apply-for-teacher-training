@@ -48,7 +48,6 @@ en:
       no_science_gcse: 'No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)'
       no_degree: 'No degree'
       other: Other
-    performance_at_interview:
   activemodel:
     errors:
       models:

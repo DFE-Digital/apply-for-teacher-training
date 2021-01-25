@@ -2,7 +2,7 @@ class ReasonsForRejectionCountQuery
   THIS_MONTH = 'this_month'.freeze
   BEFORE_THIS_MONTH = 'before_this_month'.freeze
 
-  Result = Struct.new(:all_time, :this_month)
+  Result = Struct.new(:all_time, :this_month, :sub_reasons)
 
   def reason_counts
     rows = ActiveRecord::Base.connection.exec_query(
@@ -15,19 +15,29 @@ class ReasonsForRejectionCountQuery
   end
 
   def sub_reason_counts
+    results = reason_counts
+
     rows = ActiveRecord::Base.connection.exec_query(
       sub_reason_counts_sql,
       'SQL',
       [[nil, Time.zone.now.beginning_of_month]],
     ).to_a
 
-    to_sub_results(rows)
+    add_sub_results(results, rows)
   end
 
 private
 
+  MAPPING = {
+    candidate_behaviour_what_did_the_candidate_do: :candidate_behaviour_y_n,
+    quality_of_application_which_parts_needed_improvement: :quality_of_application_y_n,
+    qualifications_which_qualifications: :qualifications_y_n,
+    honesty_and_professionalism_concerns: :honesty_and_professionalism_y_n,
+    safeguarding_concerns: :safeguarding_y_n,
+  }.with_indifferent_access
+
   def to_results(rows)
-    rows.reduce(Hash.new { |hash, key| hash[key] = Result.new(0, 0) }) { |results, row|
+    rows.reduce(ActiveSupport::HashWithIndifferentAccess.new { |hash, key| hash[key] = Result.new(0, 0, ActiveSupport::HashWithIndifferentAccess.new { |hash, key| hash[key] = Result.new(0, 0, nil) }) }) { |results, row|
       if row['time_period'] == THIS_MONTH
         results[row['key']].this_month += row['count'].to_i
       end
@@ -36,21 +46,16 @@ private
     }.with_indifferent_access
   end
 
-  def to_sub_results(rows)
-    rows.reduce(
-      ActiveSupport::HashWithIndifferentAccess.new do |hash, key|
-        hash[key] = ActiveSupport::HashWithIndifferentAccess.new do |sub_hash, sub_key|
-          sub_hash[sub_key] = Result.new(0, 0)
-        end
-      end,
-    ) do |results, row|
-      result = results[row['key']][row['value']]
+  def add_sub_results(results, rows)
+    rows.each do |row|
+      result = results[MAPPING[row['key']]]
+      sub_result = result.sub_reasons[row['value']]
       if row['time_period'] == THIS_MONTH
-        result.this_month += row['count'].to_i
+        sub_result.this_month += row['count'].to_i
       end
-      result.all_time += row['count'].to_i
-      results
+      sub_result.all_time += row['count'].to_i
     end
+    results
   end
 
   def reason_counts_sql
@@ -67,7 +72,8 @@ private
       jsonb_each_text(structured_rejection_reasons) AS reasons
     WHERE structured_rejection_reasons IS NOT NULL
       AND reasons.value = 'Yes'
-    GROUP BY (key, time_period);
+    GROUP BY (key, time_period)
+    ORDER BY count(*) DESC;
     "
   end
 
