@@ -35,6 +35,8 @@ module TeacherTrainingPublicAPI
           create_course_options(site, study_mode, site_status)
         end
 
+        handle_course_options_with_invalid_sites(sites)
+
       end
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
@@ -72,10 +74,34 @@ module TeacherTrainingPublicAPI
       when 'part_time_vacancies'
         study_mode == 'part_time' ? :vacancies : :no_vacancies
       else
-        raise InvalidFindStatusDescriptionError, vacancy_status_from_api
+        raise InvalidVacancyStatusDescriptionError, vacancy_status_from_api
       end
     end
 
-    class InvalidFindStatusDescriptionError < StandardError; end
+    class InvalidVacancyStatusDescriptionError < StandardError; end
+
+    def handle_course_options_with_invalid_sites(sites)
+      course_options = @course.course_options.joins(:site)
+      canonical_site_codes = sites.map(&:code)
+      invalid_course_options = course_options.where.not(sites: { code: canonical_site_codes })
+      return if invalid_course_options.blank?
+
+      chosen_course_option_ids = ApplicationChoice
+                                     .where(course_option: invalid_course_options)
+                                     .or(ApplicationChoice.where(offered_course_option: invalid_course_options))
+                                     .pluck(:course_option_id, :offered_course_option_id).flatten.uniq
+
+      not_part_of_an_application = invalid_course_options.where.not(id: chosen_course_option_ids)
+      not_part_of_an_application.delete_all
+      part_of_an_application = invalid_course_options.where(id: chosen_course_option_ids)
+
+      return if part_of_an_application.size.zero?
+
+      part_of_an_application.each do |course_option|
+        next if course_option.site_still_valid == false
+
+        course_option.update!(site_still_valid: false)
+      end
+    end
   end
 end
