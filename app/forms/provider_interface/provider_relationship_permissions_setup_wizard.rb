@@ -1,8 +1,9 @@
 module ProviderInterface
   class ProviderRelationshipPermissionsSetupWizard
     include ActiveModel::Model
+    include Wizard
 
-    attr_accessor :current_step, :current_provider_relationship_id, :checking_answers
+    attr_accessor :current_provider_relationship_id, :checking_answers
     attr_writer :provider_relationships, :provider_relationship_permissions, :state_store
     validate :validate_permissions_form, on: :permissions
 
@@ -19,14 +20,6 @@ module ProviderInterface
           end
         end
       end
-    end
-
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      super(last_saved_state.deep_merge(attrs))
-
-      self.checking_answers = false if current_step == 'check'
     end
 
     def provider_relationships
@@ -95,14 +88,6 @@ module ProviderInterface
       end
     end
 
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
-    end
-
     def current_permissions_form
       @_current_permissions_form ||= PermissionsForm.new(
         permissions_for_relationship(current_provider_relationship_id).merge(id: current_provider_relationship_id),
@@ -110,20 +95,6 @@ module ProviderInterface
     end
 
   private
-
-    def state
-      as_json(except: %w[state_store errors validation_context _current_permissions_form current_step]).to_json
-    end
-
-    def last_saved_state
-      state = @state_store.read
-
-      if state
-        JSON.parse(state)
-      else
-        {}
-      end
-    end
 
     def next_provider_relationship_id
       if current_provider_relationship_id.blank?
@@ -155,6 +126,14 @@ module ProviderInterface
       current_permissions_form.errors.map do |key, message|
         errors.add("provider_relationship_permissions[#{current_provider_relationship_id}][#{key}]", message)
       end
+    end
+
+    def enter_review_mode!
+      @checking_answers = false
+    end
+
+    def params_to_exclude_from_saved_state
+      super + %w[_current_permissions_form]
     end
   end
 end

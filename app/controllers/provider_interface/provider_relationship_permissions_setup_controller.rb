@@ -26,7 +26,7 @@ module ProviderInterface
     def save_permissions
       @wizard = wizard_for(permissions_params.merge(current_step: 'permissions'))
 
-      if @wizard.valid?(:permissions)
+      if @wizard.valid?
         @wizard.save_state!
 
         next_step, id = @wizard.next_step
