@@ -7,6 +7,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
   let(:year) { '2021' }
   let(:time) { '10am' }
   let(:application_choice) { nil }
+  let(:provider_user) { nil }
 
   let(:wizard) do
     described_class.new(
@@ -16,6 +17,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
       'date(1i)' => year,
       time: time,
       application_choice: application_choice,
+      provider_user: provider_user,
     )
   end
 
@@ -106,6 +108,48 @@ RSpec.describe ProviderInterface::InterviewWizard do
       expect(wizard.date_and_time.day).to equal(20)
       expect(wizard.date_and_time.month).to equal(2)
       expect(wizard.date_and_time.year).to equal(2022)
+    end
+  end
+
+  describe '#provider_id' do
+    let(:provider_user) { build_stubbed(:provider_user) }
+    let(:application_choice) { build_stubbed(:application_choice) }
+    let(:wizard) { described_class.new(store, provider_user: provider_user, application_choice: application_choice) }
+
+    context 'when user can make decisions for multiple providers' do
+      before do
+        allow(wizard).to receive(:user_can_make_decisions_for_multiple_providers?).and_return(true)
+      end
+
+      it 'validates presence' do
+        expect(wizard).to validate_presence_of(:provider_id)
+      end
+    end
+  end
+
+  describe '#providers_that_user_has_make_decisions_for' do
+    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
+    let(:course_option) { create(:course_option, course: course) }
+    let(:provider) { create(:provider) }
+
+    context 'when the user has make_decision permissions on the application choice training provider only' do
+      let(:course) { create(:course, provider: provider) }
+      let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [provider]) }
+
+      it 'only retrieves the application choice provider' do
+        expect(wizard.providers_that_user_has_make_decisions_for).to contain_exactly(provider)
+      end
+    end
+
+    context 'when the user has make_decision permissions on the providers, accredited provider and other providers' do
+      let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [provider, other_provider, accredited_provider]) }
+      let(:course) { create(:course, provider: provider, accredited_provider: accredited_provider) }
+      let(:accredited_provider) { create(:provider) }
+      let(:other_provider) { create(:provider) }
+
+      it 'only retrieves the application choice provider and accredited provider' do
+        expect(wizard.providers_that_user_has_make_decisions_for).to contain_exactly(accredited_provider, provider)
+      end
     end
   end
 end

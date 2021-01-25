@@ -17,6 +17,7 @@ module ProviderInterface
     validate :time_is_valid?, if: ->(wizard) { wizard.time.present? }
     validate :date_after_rbd_date, if: :date_is_valid?
     validates :time, :date, :provider_user, :location, :application_choice, presence: true
+    validates :provider_id, presence: true, if: %i[application_choice provider_user user_can_make_decisions_for_multiple_providers?]
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
@@ -85,17 +86,13 @@ module ProviderInterface
     end
 
     def providers_that_user_has_make_decisions_for
-      @_providers_that_user_has_make_decisions_for ||= begin
-        application_choice_providers = [@application_choice.provider, @application_choice.accredited_provider].compact
-        # TODO: Need to check permissions here so that user deffo has the rights
-        current_user_providers = provider_user
-          .provider_permissions
-          .includes([:provider])
-          .make_decisions
-          .map(&:provider)
-
-        current_user_providers.select { |provider| application_choice_providers.include?(provider) }
-      end
+      @providers_that_user_has_make_decisions_for ||=
+        provider_user
+        .provider_permissions
+        .includes([:provider])
+        .make_decisions
+        .where(provider: [application_choice.provider, application_choice.accredited_provider])
+        .map(&:provider)
     end
 
     def save_state!
