@@ -3,8 +3,8 @@
   <div class="govuk-grid-column-one-half">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: @total_count,
-        label: 'Total',
+        count: @percentage_rejected,
+        label: 'Overall percentage',
         colour: :blue,
         size: :reduced,
       ) %>
@@ -12,15 +12,15 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @this_month,
-          label: 'this month',
+          count: @total_count,
+          label: 'total',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @before_this_month,
-          label: 'before this month',
+          count: @this_month,
+          label: 'this month',
           size: :reduced,
         ) %>
       </div>
