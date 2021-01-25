@@ -37,7 +37,7 @@ private
   }.with_indifferent_access
 
   def to_results(rows)
-    rows.reduce(ActiveSupport::HashWithIndifferentAccess.new { |hash, key| hash[key] = Result.new(0, 0, ActiveSupport::HashWithIndifferentAccess.new { |hash, key| hash[key] = Result.new(0, 0, nil) }) }) { |results, row|
+    rows.reduce(ActiveSupport::HashWithIndifferentAccess.new { |hash, reason| hash[reason] = Result.new(0, 0, ActiveSupport::HashWithIndifferentAccess.new { |sub_hash, sub_reason| sub_hash[sub_reason] = Result.new(0, 0, nil) }) }) { |results, row|
       if row['time_period'] == THIS_MONTH
         results[row['key']].this_month += row['count'].to_i
       end
