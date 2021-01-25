@@ -1,11 +1,11 @@
 module ProviderInterface
   class ReconfirmDeferredOfferWizard
     include ActiveModel::Model
+    include Wizard
 
     STEPS = %w[start conditions check].freeze
 
-    attr_accessor :current_step, :application_choice_id
-    attr_accessor :conditions_status, :course_option_id
+    attr_accessor :application_choice_id, :conditions_status, :course_option_id
     attr_writer :state_store
 
     validates :application_choice_id, :current_step, presence: true
@@ -16,16 +16,6 @@ module ProviderInterface
 
     validates :conditions_status, presence: true, on: %i[conditions check]
     validates :course_option_id, presence: true, on: %i[check]
-
-    def valid?
-      super(current_step&.to_sym)
-    end
-
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      super(last_saved_state.deep_merge(attrs))
-    end
 
     def application_choice
       @application_choice ||= ApplicationChoice.find(application_choice_id)
@@ -101,28 +91,10 @@ module ProviderInterface
       end
     end
 
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
-    end
-
   private
 
-    def state
-      as_json(except: %w[state_store errors validation_context application_choice course_option_in_new_cycle current_step]).to_json
-    end
-
-    def last_saved_state
-      state = @state_store.read
-
-      if state
-        JSON.parse(state)
-      else
-        {}
-      end
+    def params_to_exclude_from_saved_state
+      super + %w[application_choice course_option_in_new_cycle]
     end
 
     def deferred_offer_data
