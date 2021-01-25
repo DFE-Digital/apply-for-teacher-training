@@ -23,8 +23,12 @@ en:
       information_false_or_inaccurate: Information given on application form false or inaccurate
       plagiarism: Evidence of plagiarism in personal statement or elsewhere
       references: References didn’t support application
+      other: Other
     safeguarding_issues:
       title: 'Safeguarding issues'
+      candidate_disclosed_information: 'Information disclosed by candidate makes them unsuitable to work with children'
+      vetting_disclosed_information: 'Information revealed by our vetting process makes the candidate unsuitable to work with children'
+      other: Other
     additional_advice:
       title: 'Additional advice'
     interested_in_future_applications:
@@ -36,6 +40,7 @@ en:
       title: 'Something you did'
       didnt_reply_to_interview_offer: 'Didn’t reply to our interview offer'
       didnt_attend_interview: 'Didn’t attend interview'
+      other: Other
     qualifications_which_qualifications:
       title: 'Qualifications'
       no_maths_gcse: 'No Maths GCSE grade 4 (C) or above, or valid equivalent'

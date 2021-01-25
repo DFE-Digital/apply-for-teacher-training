@@ -1,6 +1,6 @@
 module SupportInterface
   class ReasonsForRejectionController < SupportInterfaceController
-    # TODO: move this
+    # TODO: move this?
     MAPPING = {
       candidate_behaviour_what_did_the_candidate_do: :candidate_behaviour_what_did_the_candidate_do,
       quality_of_application_which_parts_needed_improvement: :quality_of_application,

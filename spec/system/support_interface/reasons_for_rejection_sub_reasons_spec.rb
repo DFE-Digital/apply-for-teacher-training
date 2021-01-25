@@ -31,7 +31,47 @@ RSpec.feature 'Reasons for rejection sub-reasons' do
   def reject_application(application_choice)
     application_choice.update!(
       status: :rejected,
-      structured_rejection_reasons: { qualifications_y_n: 'Yes' },
+      structured_rejection_reasons: {
+        candidate_behaviour_y_n: 'Yes',
+        candidate_behaviour_what_did_the_candidate_do: %w[didnt_reply_to_interview_offer],
+        quality_of_application_y_n: 'Yes',
+        quality_of_application_which_parts_needed_improvement: %w[personal_statement],
+        qualifications_y_n: 'Yes',
+        qualifications_which_qualifications: %w[no_maths_gcse],
+        performance_at_interview_y_n: 'No',
+        offered_on_another_course_y_n: 'No',
+        honesty_and_professionalism_y_n: 'Yes',
+        honesty_and_professionalism_concerns: %w[other],
+        safeguarding_concerns: %w[candidate_disclosed_information],
+        why_are_you_rejecting_this_application: 'So many reasons',
+        other_advice_or_feedback_y_n: 'Yes',
+        other_advice_or_feedback_details: 'Try again soon',
+        interested_in_future_applications_y_n: 'Yes',
+      },
+      rejected_at: Time.zone.now,
+    )
+  end
+
+  def reject_application_all_reasons(application_choice)
+    application_choice.update!(
+      status: :rejected,
+      structured_rejection_reasons: {
+        candidate_behaviour_y_n: 'Yes',
+        candidate_behaviour_what_did_the_candidate_do: %w[other didnt_reply_to_interview_offer didnt_attend_interview],
+        quality_of_application_y_n: 'Yes',
+        quality_of_application_which_parts_needed_improvement: %w[personal_statement subject_knowledge other],
+        qualifications_y_n: 'Yes',
+        qualifications_which_qualifications: %w[no_maths_gcse no_english_gcse no_science_gcse no_degree other],
+        performance_at_interview_y_n: 'No',
+        offered_on_another_course_y_n: 'No',
+        honesty_and_professionalism_y_n: 'Yes',
+        honesty_and_professionalism_concerns: %w[information_false_or_inaccurate plagiarism references other],
+        safeguarding_concerns: %w[candidate_disclosed_information vetting_disclosed_information other],
+        why_are_you_rejecting_this_application: 'So many reasons',
+        other_advice_or_feedback_y_n: 'Yes',
+        other_advice_or_feedback_details: 'Try again soon',
+        interested_in_future_applications_y_n: 'Yes',
+      },
       rejected_at: Time.zone.now,
     )
   end
@@ -49,7 +89,7 @@ RSpec.feature 'Reasons for rejection sub-reasons' do
       reject_application(@application_choice2)
     end
     Timecop.freeze(@today - 2.days) do
-      reject_application(@application_choice3)
+      reject_application_all_reasons(@application_choice3)
     end
   end
 
@@ -58,5 +98,8 @@ RSpec.feature 'Reasons for rejection sub-reasons' do
   end
 
   def then_i_should_see_counts_for_rejection_sub_reasons
+    expect(page).to have_content("Quality of application: Personal statement\n3 2")
+    expect(page).to have_content("Quality of application: Other\n1 1")
+    expect(page).to have_content("Quality of application: Subject knowledge\n1 1")
   end
 end
