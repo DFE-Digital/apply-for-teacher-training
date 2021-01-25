@@ -69,6 +69,12 @@ class ApplicationForm < ApplicationRecord
     very_dissatisfied: 'very_dissatisfied',
   }
 
+  enum work_history_status: {
+    can_complete: 'can_complete',
+    full_time_education: 'full_time_education',
+    can_not_complete: 'can_not_complete',
+  }
+
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
   before_create -> { self.support_reference ||= GenerateSupportRef.call }
