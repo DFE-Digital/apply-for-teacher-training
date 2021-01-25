@@ -16,7 +16,7 @@ module SupportInterface
     end
 
     def application_choices
-      application_form.application_choices.includes(%i[course provider])
+      application_form.application_choices
     end
 
     def overall_status
