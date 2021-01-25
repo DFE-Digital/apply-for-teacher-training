@@ -10,27 +10,30 @@ module TeacherTrainingPublicAPI
       @provider = ::Provider.find(provider_id)
       @course = ::Course.find(course_id)
 
-      sites = TeacherTrainingPublicAPI::Site.where(
+      sites = TeacherTrainingPublicAPI::Location.where(
         year: recruitment_cycle_year,
         provider_code: @provider.code,
         course_code: @course.code
-      ).includes(:site_status).paginate(per_page: 500)
+      ).includes(:location_status).paginate(per_page: 500)
 
       sites.each do |site_from_api|
         site = provider.sites.find_or_create_by(code: site_from_api.code)
 
         site.name = site_from_api.name
         site.address_line1 = site_from_api.street_address_1&.strip
-        site.address_line2 = site_from_api.try(:street_address_2)&.strip
-        site.address_line3 = site_from_api.try(:street_address_3)&.strip
-        site.address_line4 = site_from_api.try(:street_address_4)&.strip
+        site.address_line2 = site_from_api.street_address_2&.strip
+        site.address_line3 = site_from_api.city&.strip
+        site.address_line4 = site_from_api.county&.strip
         site.postcode = site_from_api.postcode&.strip
         site.latitude = site_from_api.latitude
         site.longitude = site_from_api.longitude
+        site.save!
 
         site_status = site_from_api.location_status
-
-        site.save!
+        study_modes = study_modes(course)
+        study_modes.each do |study_mode|
+          create_course_options(site, study_mode, site_status)
+        end
 
       end
     rescue JsonApiClient::Errors::ApiError
@@ -39,5 +42,40 @@ module TeacherTrainingPublicAPI
 
   private
 
+    def study_modes(course)
+      both_modes = %w[full_time part_time]
+      return both_modes if course.full_time_or_part_time?
+
+      from_existing_course_options = course.course_options.pluck(:study_mode).uniq
+      (from_existing_course_options + [course.study_mode]).uniq
+    end
+
+    def create_course_options(site, study_mode, site_status)
+      course_option = CourseOption.find_or_initialize_by(
+          site: site,
+          course_id: @course.id,
+          study_mode: study_mode,
+          )
+
+      vacancy_status = vacancy_status(site_status.vacancy_status, study_mode)
+      course_option.update!(vacancy_status: vacancy_status)
+    end
+
+    def vacancy_status(vacancy_status_from_api, study_mode)
+      case vacancy_status_from_api
+      when 'no_vacancies'
+        :no_vacancies
+      when 'both_full_time_and_part_time_vacancies'
+        :vacancies
+      when 'full_time_vacancies'
+        study_mode == 'full_time' ? :vacancies : :no_vacancies
+      when 'part_time_vacancies'
+        study_mode == 'part_time' ? :vacancies : :no_vacancies
+      else
+        raise InvalidFindStatusDescriptionError, vacancy_status_from_api
+      end
+    end
+
+    class InvalidFindStatusDescriptionError < StandardError; end
   end
 end

@@ -1,12 +1,8 @@
 module TeacherTrainingPublicAPI
-  class Site < TeacherTrainingPublicAPI::Resource
+  class Location < TeacherTrainingPublicAPI::Resource
     belongs_to :recruitment_cycle, through: :provider, param: :year
     belongs_to :provider, param: :provider_code
     belongs_to :course, param: :course_code
-
-    def self.table_name
-      "locations"
-    end
 
     def self.fetch(provider_code, course_code)
       where(recruitment_cycle_year: RecruitmentCycle.current_year)

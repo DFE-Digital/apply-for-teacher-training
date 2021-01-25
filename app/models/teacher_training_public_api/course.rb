@@ -2,7 +2,7 @@ module TeacherTrainingPublicAPI
   class Course < TeacherTrainingPublicAPI::Resource
     belongs_to :recruitment_cycle, through: :provider, param: :year
     belongs_to :provider, param: :provider_code
-    has_many :sites
+    has_many :locations
 
     def self.fetch(provider_code, course_code)
       where(recruitment_cycle_year: RecruitmentCycle.current_year)

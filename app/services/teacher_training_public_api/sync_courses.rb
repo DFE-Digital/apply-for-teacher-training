@@ -49,7 +49,7 @@ module TeacherTrainingPublicAPI
       add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
       course.save!
 
-      TeacherTrainingPublicAPI::SyncLocations.new.perform(provider.id, recruitment_cycle_year, course.id)
+      TeacherTrainingPublicAPI::SyncSites.new.perform(provider.id, recruitment_cycle_year, course.id)
     end
 
     def assign_course_attributes(course, course_from_api, recruitment_cycle_year)
