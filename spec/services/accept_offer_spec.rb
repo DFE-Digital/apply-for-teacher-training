@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AcceptOffer do
+  include CourseOptionHelpers
+
   it 'sets the accepted_at date for the application_choice' do
     application_choice = create(:application_choice, status: :offer)
 
@@ -14,13 +16,20 @@ RSpec.describe AcceptOffer do
   describe 'emails' do
     around { |example| perform_enqueued_jobs(&example) }
 
-    it 'sends a notification email to the provider' do
-      application_choice = create(:application_choice, status: :offer)
-      provider_user = create :provider_user, send_notifications: true, providers: [application_choice.provider]
+    it 'sends a notification email to the training provider and ratifying provider' do
+      training_provider = create(:provider)
+      training_provider_user = create(:provider_user, send_notifications: true, providers: [training_provider])
 
-      expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(2)
-      expect(ActionMailer::Base.deliveries.first.to).to eq [provider_user.email_address]
+      ratifying_provider = create(:provider)
+      ratifying_provider_user = create(:provider_user, send_notifications: true, providers: [ratifying_provider])
+
+      course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
+      application_choice = create(:application_choice, status: :offer, course_option: course_option)
+
+      expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
       expect(ActionMailer::Base.deliveries.first.subject).to match(/has accepted your offer/)
+      expect(ActionMailer::Base.deliveries.first.to).to eq [training_provider_user.email_address]
+      expect(ActionMailer::Base.deliveries.second.to).to eq [ratifying_provider_user.email_address]
     end
 
     it 'sends a confirmation email to the candidate' do
