@@ -9,7 +9,7 @@ module SupportInterface
         .page(params[:page] || 1).per(30)
 
       if params[:q]
-        @emails = @emails.where("CONCAT('to', ' ', subject, ' ', notify_reference, ' ', body) ILIKE ?", "%#{params[:q]}%")
+        @emails = @emails.where("CONCAT(\"to\", ' ', subject, ' ', notify_reference, ' ', body) ILIKE ?", "%#{params[:q]}%")
       end
 
       if params[:delivery_status]

@@ -16,8 +16,9 @@ RSpec.feature 'Email log' do
     when_notify_tells_us_the_emails_have_not_been_delivered
     then_the_delivery_status_is_displayed_on_the_page
 
-    when_i_search_for_an_email
-    i_see_only_the_filtered_email
+    when_emails_to_other_recipients_have_been_sent
+    and_i_search_by_email_address
+    then_i_see_only_emails_that_match_the_supplied_address
   end
 
   def given_i_am_a_support_user
@@ -95,13 +96,21 @@ RSpec.feature 'Email log' do
     end
   end
 
-  def when_i_search_for_an_email
-    fill_in :q, with: 'harry'
+  def when_emails_to_other_recipients_have_been_sent
+    AuthenticationMailer.sign_up_email(
+      candidate: create(:candidate, email_address: 'severus.snape@example.com'),
+      token: '123',
+    ).deliver_now
+  end
+
+  def and_i_search_by_email_address
+    fill_in :q, with: 'harry@example'
     click_on 'Apply filters'
   end
 
-  def i_see_only_the_filtered_email
-    expect(page).to have_content 'Application submitted (Candidate mailer)'
-    expect(page).not_to have_content 'Sign up email (Authentication mailer)'
+  def then_i_see_only_emails_that_match_the_supplied_address
+    expect(page).to have_selector('tbody tr', count: 2)
+    expect(page).to have_content 'harry@example.com'
+    expect(page).not_to have_content 'severus.snape@example.com'
   end
 end
