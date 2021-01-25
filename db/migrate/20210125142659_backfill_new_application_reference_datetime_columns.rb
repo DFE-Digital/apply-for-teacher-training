@@ -13,7 +13,7 @@ class BackfillNewApplicationReferenceDatetimeColumns < ActiveRecord::Migration[6
         feedback_provided_at: feedback_provided_at,
         feedback_refused_at: feedback_refused_at,
         cancelled_at: cancelled_at,
-        cancelled_at_end_of_cycle: cancelled_at_eoc_at,
+        cancelled_at_end_of_cycle_at: cancelled_at_eoc_at,
         email_bounced_at: email_bounced_at,
         audit_comment: 'Backfilled after adding new datetime columns https://github.com/DFE-Digital/apply-for-teacher-training/pull/3901',
       )
@@ -28,7 +28,7 @@ class BackfillNewApplicationReferenceDatetimeColumns < ActiveRecord::Migration[6
         feedback_provided_at: nil,
         feedback_refused_at: nil,
         cancelled_at: nil,
-        cancelled_at_end_of_cycle: nil,
+        cancelled_at_end_of_cycle_at: nil,
         email_bounced_at: nil,
       )
     end
