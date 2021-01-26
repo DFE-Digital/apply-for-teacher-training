@@ -426,6 +426,12 @@ module CandidateHelper
     end
   end
 
+  def within_summary_row(row_description, &block)
+    within(page.all('.govuk-summary-list__row').find { |row| row.has_text?(row_description) }) do
+      block.call
+    end
+  end
+
   def expect_validation_error(message)
     errors = all('.govuk-error-message')
     expect(errors.map(&:text).one? { |e| e.include? message }).to eq true
