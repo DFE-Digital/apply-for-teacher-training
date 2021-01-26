@@ -21,7 +21,7 @@ en:
     ucas_match:
       initial_email:
         duplicate_applications:
-          subject: "%{candidate_name} applied for your course twice"
+          subject: "Duplicate application identified"
       resolved_on_ucas:
         subject: Duplicate applicant removed from UTT
       resolved_on_apply:

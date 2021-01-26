@@ -17,7 +17,7 @@ RSpec.describe UCASMatches::SendUCASMatchEmails, sidekiq: true do
     it 'sends initial emails for a UCAS match that needs action' do
       initial_email = email_for_candidate(ucas_match_action_needed.candidate)
       expect(initial_email).to be_present
-      expect(initial_email.subject).to include 'Action required: it looks like you submitted a duplicate application'
+      expect(initial_email.subject).to include 'Withdraw your duplicate application by'
     end
 
     it 'records when the initial emails were sent' do
@@ -29,7 +29,7 @@ RSpec.describe UCASMatches::SendUCASMatchEmails, sidekiq: true do
     it 'sends reminder emails for a UCAS match that needs action' do
       reminder_email = email_for_candidate(ucas_match_to_send_remider_emails.candidate)
       expect(reminder_email).to be_present
-      expect(reminder_email.subject).to include 'Action required: please withdraw one of your duplicate applications'
+      expect(reminder_email.subject).to include 'Withdraw your duplicate application by'
     end
 
     it 'records when the reminder emails were sent' do

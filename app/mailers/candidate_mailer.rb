@@ -283,11 +283,11 @@ class CandidateMailer < ApplicationMailer
   def ucas_match_initial_email_duplicate_applications(application_choice)
     @course_name_and_code = application_choice.course_option.course.name_and_code
     @provider_name = application_choice.course_option.course.provider.name
-    @date_to_withdraw_application_by = TimeLimitCalculator.new(rule: :ucas_match_candidate_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
+    @withdraw_by_date = TimeLimitCalculator.new(rule: :ucas_match_candidate_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.ucas_match_initial_email.duplicate_applications.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.duplicate_applications.subject', withdraw_by_date: @withdraw_by_date),
     )
   end
 
@@ -296,19 +296,18 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       candidate.current_application,
-      subject: I18n.t!('candidate_mailer.ucas_match_initial_email.multiple_acceptances.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.multiple_acceptances.subject'),
     )
   end
 
   def ucas_match_reminder_email_duplicate_applications(application_choice, ucas_match)
     @course_name_and_code = application_choice.course_option.course.name_and_code
     @provider_name = application_choice.course_option.course.provider.name
-    @initial_email_date = ucas_match.candidate_last_contacted_at.to_s(:govuk_date)
-    @request_ucas_withdrawal_date = ucas_match.calculate_action_date(:ucas_match_ucas_withdrawal_request, Time.zone.today).to_s(:govuk_date)
+    @withdraw_by_date = ucas_match.calculate_action_date(:ucas_match_ucas_withdrawal_request, Time.zone.today).to_s(:govuk_date)
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.ucas_match_reminder_email.duplicate_applications.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.duplicate_applications.subject', withdraw_by_date: @withdraw_by_date),
     )
   end
 
@@ -318,7 +317,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       ucas_match.candidate.current_application,
-      subject: I18n.t!('candidate_mailer.ucas_match_reminder_email.multiple_acceptances.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.multiple_acceptances.subject'),
     )
   end
 

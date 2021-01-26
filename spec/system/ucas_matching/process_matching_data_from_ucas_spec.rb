@@ -31,7 +31,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
     course = create(:course, code: 'XYZ', provider: create(:provider, code: 'XX', provider_users: [@provider_user]))
     course_option = create(:course_option, course: course)
     application_choice = create(:submitted_application_choice, course_option: course_option)
-    @not_previously_matched_application_form = create(:completed_application_form, candidate: @not_previously_matched, application_choices: [application_choice])
+    create(:completed_application_form, candidate: @not_previously_matched, application_choices: [application_choice])
   end
 
   def and_there_is_a_previous_match_with_dual_application_we_emailed_about
@@ -124,10 +124,10 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   def then_we_have_sent_emails_about_dual_application_to_the_candidate_and_the_provider
     candidate_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == @not_previously_matched.email_address }
-    expect(candidate_email.subject).to include 'Action required: it looks like you submitted a duplicate application'
+    expect(candidate_email.subject).to include 'Withdraw your duplicate application'
 
     provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == @provider_user.email_address }
-    expect(provider_email.subject).to include "#{@not_previously_matched_application_form.full_name} applied for your course twice"
+    expect(provider_email.subject).to include 'Duplicate application identified'
   end
 
   def when_i_visit_the_ucas_matches_page_in_support

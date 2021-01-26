@@ -1,20 +1,17 @@
 Dear <%= @provider_user_name %>
 
-<%= @application_form.full_name %> has applied to <%= @course_name_and_code %> on both DfE Apply for teacher training and UCAS Teacher Training Apply.
+<%= @application_form.full_name %> has applied to study <%= @course_name_and_code %> at <%= @provider_name %> through both DfE Apply for teacher training and UCAS Teacher Training Apply.
 
-We’re letting you know so you recognise this is a duplicate and you do not process this application twice.
+We’re letting you know so that you do not process their application twice.
 
-# Next steps
+# What we’ve done
 
-We’ve contacted the candidate and asked them to withdraw their application from one of the services within 10 working days. If they have not acted within 10 working days, their course choice will be deleted from their UCAS application.
+We’ve contacted the candidate and asked them to withdraw their application from one of the services by <%= @withdraw_by_date %>.
 
-In the meantime, you can review the candidate’s application.
+We’ve told them that their UCAS application will be automatically withdrawn if they do not withdraw from one of the services.
 
-We’ll send you an email once the duplicate application has been deleted.
+# What will happen next
 
+We’ll send you an email once the duplicate application has been withdrawn. We’ll tell you which service it has been withdrawn from.
 
-You do not have to do anything, but if you have any questions you can get in touch with us by contacting [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk).
-
-Sincerely,
-
-The Department for Education & UCAS
+You can review the candidate’s application in the meantime.
