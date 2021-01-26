@@ -14,7 +14,7 @@ module CandidateInterface
       render_link_to_find_when_rejected_on_qualifications: false
     )
       @application_form = application_form
-      @application_choices = @application_form.application_choices.includes(:course, :site, :provider, :offered_course_option).order(id: :asc)
+      @application_choices = @application_form.application_choices.includes(:course, :site, :provider, :offered_course_option, :interviews).order(id: :asc)
       @editable = editable
       @heading_level = heading_level
       @show_status = show_status
@@ -35,6 +35,7 @@ module CandidateInterface
         status_row(application_choice),
         rejection_reasons_row(application_choice),
         offer_withdrawal_reason_row(application_choice),
+        interview_row(application_choice),
       ].compact
     end
 
@@ -153,7 +154,7 @@ module CandidateInterface
     def interview_row(application_choice)
       if application_choice.interviews.present?
         {
-          key: 'Interviews',
+          key: 'Interview'.pluralize(application_choice.interviews.size),
           value: render(InterviewBookingsComponent.new(application_choice)),
         }
       end

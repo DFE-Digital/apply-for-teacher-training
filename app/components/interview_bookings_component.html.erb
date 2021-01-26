@@ -1,0 +1,20 @@
+<% if interviews.many? %>
+  <ul class='govuk-list govuk-list--number'>
+    <% interviews.each do |interview| %>
+      <li>
+        <p class='govuk-body'><%= formatted_time(interview) %></p>
+        <p class='govuk-body govuk-!-margin-bottom-0'><%= provider_name(interview) %></p>
+        <%= location(interview) %>
+        <%= additional_details(interview) %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <% interviews.first.tap do |interview| %>
+    <p class='govuk-body'><%= formatted_time(interview) %></p>
+    <p class='govuk-body govuk-!-margin-bottom-0'><%= provider_name(interview) %></p>
+    <%= location(interview) %>
+    <%= additional_details(interview) %>
+  <% end %>
+<% end %>
+
