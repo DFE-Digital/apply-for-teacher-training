@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Syncing providers', sidekiq: true do
+RSpec.describe 'Sync provider', sidekiq: true do
   include TeacherTrainingPublicAPIHelper
 
   scenario 'Creates and updates providers' do

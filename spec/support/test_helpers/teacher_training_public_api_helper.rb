@@ -45,15 +45,15 @@ module TeacherTrainingPublicAPIHelper
 
   def stub_teacher_training_api_sites(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, specified_attributes: [])
     stub_request(
-        :get,
-        "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}/locations?include=location_status",
-        ).with(
-        query: { page: { per_page: 500 } },
-        ).to_return(
-        status: 200,
-        headers: { 'Content-Type': 'application/vnd.api+json' },
-        body: site_list_response(specified_attributes).to_json,
-        )
+      :get,
+      "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}/locations?include=location_status",
+    ).with(
+      query: { page: { per_page: 500 } },
+    ).to_return(
+      status: 200,
+      headers: { 'Content-Type': 'application/vnd.api+json' },
+      body: site_list_response(specified_attributes).to_json,
+    )
   end
 
   def fake_api_provider(provider_attributes = {})
@@ -73,11 +73,11 @@ private
 
   def provider_list_response(provider_attributes = [])
     api_response = JSON.parse(
-        File.read(
-            Rails.root.join('spec/examples/teacher_training_api/provider_list_response.json'),
-            ),
-        symbolize_names: true,
-        )
+      File.read(
+        Rails.root.join('spec/examples/teacher_training_api/provider_list_response.json'),
+      ),
+      symbolize_names: true,
+    )
 
     if provider_attributes
       example_provider = api_response[:data].first
@@ -117,11 +117,11 @@ private
 
   def site_list_response(site_attributes = [])
     api_response = JSON.parse(
-        File.read(
-            Rails.root.join('spec/examples/teacher_training_api/site_list_response.json'),
-            ),
-        symbolize_names: true,
-        )
+      File.read(
+        Rails.root.join('spec/examples/teacher_training_api/site_list_response.json'),
+      ),
+      symbolize_names: true,
+    )
 
     if site_attributes
       example_site = api_response[:data].first
