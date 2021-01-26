@@ -20,6 +20,13 @@ RSpec.feature 'Entering their other qualifications' do
     when_i_complete_the_form
     then_i_see_my_btec_on_the_review_page
     and_my_other_uk_qualification_has_the_correct_format
+
+    when_i_click_change_qualification_type
+    and_change_qualification_to_gcse
+    then_i_should_see_simple_grade_prompt
+
+    when_i_submit_gcse_details
+    then_i_see_my_gcse_on_the_review_page
   end
 
   def given_i_am_signed_in
@@ -80,5 +87,34 @@ RSpec.feature 'Entering their other qualifications' do
     expect(@application.application_qualifications.last.qualification_type).to eq 'Other'
     expect(@application.application_qualifications.last.other_uk_qualification_type).to eq 'BTEC'
     expect(@application.application_qualifications.last.subject).to eq 'Music Theory'
+  end
+
+  def when_i_click_change_qualification_type
+    within(first('.app-summary-card')) { click_change_link('qualification') }
+  end
+
+  def and_change_qualification_to_gcse
+    choose 'GCSE'
+    click_button t('continue')
+  end
+
+  def then_i_should_see_simple_grade_prompt
+    expect(page).not_to have_field('Merit')
+    expect(page).to have_field('Grade')
+  end
+
+  def when_i_submit_gcse_details
+    fill_in t('application_form.other_qualification.grade.label'), with: 'C'
+    fill_in t('application_form.other_qualification.award_year.label'), with: '2013'
+    click_button t('save_and_continue')
+  end
+
+  def then_i_see_my_gcse_on_the_review_page
+    expect(page).to have_current_path(candidate_interface_review_other_qualifications_path)
+
+    expect(page).to have_content('GCSE')
+    expect(page).to have_content('Music Theory')
+    expect(page).to have_content('2013')
+    expect(page).to have_content('C')
   end
 end
