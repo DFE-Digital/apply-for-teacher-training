@@ -11,6 +11,8 @@ module ProviderInterface
       )
 
       @interviews = @application_choice.interviews.kept.includes([:provider])
+
+      redirect_to provider_interface_application_choice_path if @interviews.none?
     end
 
     def new

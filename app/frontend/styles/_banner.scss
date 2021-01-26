@@ -23,6 +23,10 @@
   border-color: govuk-colour("red");
 }
 
+.app-banner--details {
+  border-color: govuk-colour("mid-grey");
+}
+
 .app-banner__message {
   @include govuk-font($size: 19);
   p { margin-top: 0; }

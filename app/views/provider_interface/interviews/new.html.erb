@@ -1,16 +1,24 @@
 <% content_for :browser_title, title_with_error_prefix("Set up an interview", nil) %>
-<% content_for :before_content, govuk_back_link_to %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_interviews_path(@application_choice)) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @wizard,
+
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <h1 class="govuk-heading-l">Set up an interview</h1>
+
+      <% if @application_choice.application_form.interview_preferences.present? %>
+        <div class="app-banner app-banner--details">
+          <h2 class="govuk-heading-m govuk-!-margin-bottom-2">Candidate interview preferences</h2>
+          <p class="govuk-body"><%= @application_choice.application_form.interview_preferences %></p>
+        </div>
+      <% end %>
+
+      <%= form_with model: @wizard,
           url: new_check_provider_interface_application_choice_interviews_path(@application_choice),
           method: :get do |f| %>
 
       <%= f.govuk_error_summary %>
-
-      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-      <h1 class="govuk-heading-l">Set up an interview</h1>
 
       <%= f.govuk_date_field :date, legend: { text: 'Date', size: 'm' }, hint: { text: 'For example, 31 3 2020' } %>
 
@@ -30,5 +38,7 @@
 
       <%= f.govuk_submit 'Continue' %>
     <% end %>
+
+    <p class="govuk-body"><%= govuk_link_to 'Cancel', provider_interface_application_choice_interviews_path(@application_choice) %></p>
   </div>
 </div>
