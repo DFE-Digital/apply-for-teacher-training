@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_142659) do
+ActiveRecord::Schema.define(version: 2021_01_26_075130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(version: 2021_01_25_142659) do
     t.string "status_before_deferral"
     t.datetime "reject_by_default_feedback_sent_at"
     t.datetime "offer_changed_at"
-    t.datetime "last_public_update_at"
     t.index ["application_form_id", "course_option_id"], name: "index_course_option_to_application_form_id", unique: true
     t.index ["application_form_id"], name: "index_application_choices_on_application_form_id"
     t.index ["course_option_id"], name: "index_application_choices_on_course_option_id"
@@ -183,14 +182,6 @@ ActiveRecord::Schema.define(version: 2021_01_25_142659) do
     t.index ["institution_hesa_code"], name: "qualifications_by_institution_hesa_code"
     t.index ["qualification_type_hesa_code"], name: "qualifications_by_type_hesa_code"
     t.index ["subject_hesa_code"], name: "qualifications_by_subject_hesa_code"
-  end
-
-  create_table "application_response_caches", force: :cascade do |t|
-    t.bigint "application_choice_id", null: false
-    t.jsonb "response_body"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["application_choice_id"], name: "index_application_response_caches_on_application_choice_id"
   end
 
   create_table "application_work_history_breaks", force: :cascade do |t|
@@ -615,7 +606,6 @@ ActiveRecord::Schema.define(version: 2021_01_25_142659) do
   add_foreign_key "application_forms", "application_forms", column: "previous_application_form_id"
   add_foreign_key "application_forms", "candidates", on_delete: :cascade
   add_foreign_key "application_qualifications", "application_forms", on_delete: :cascade
-  add_foreign_key "application_response_caches", "application_choices", on_delete: :cascade
   add_foreign_key "application_work_history_breaks", "application_forms", on_delete: :cascade
   add_foreign_key "course_options", "courses", on_delete: :cascade
   add_foreign_key "course_options", "sites", on_delete: :cascade
