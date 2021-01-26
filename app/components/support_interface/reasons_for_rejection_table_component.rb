@@ -3,7 +3,7 @@ module SupportInterface
     include ViewHelper
     attr_accessor :reasons
 
-    TOP_LEVEL_REASONS_I18N_KEYS = {
+    TOP_LEVEL_REASONS_TO_I18N_KEYS = {
       candidate_behaviour_y_n: :candidate_behaviour_what_did_the_candidate_do,
       quality_of_application_y_n: :quality_of_application,
       qualifications_y_n: :qualifications_which_qualifications,

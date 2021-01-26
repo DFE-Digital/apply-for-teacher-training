@@ -37,13 +37,20 @@ private
   }.with_indifferent_access
 
   def to_results(rows)
-    rows.reduce(ActiveSupport::HashWithIndifferentAccess.new { |hash, reason| hash[reason] = Result.new(0, 0, ActiveSupport::HashWithIndifferentAccess.new { |sub_hash, sub_reason| sub_hash[sub_reason] = Result.new(0, 0, nil) }) }) { |results, row|
+    results_hash = ActiveSupport::HashWithIndifferentAccess.new do |hash, reason|
+      hash[reason] = Result.new(
+        0, 0, ActiveSupport::HashWithIndifferentAccess.new do |sub_hash, sub_reason|
+          sub_hash[sub_reason] = Result.new(0, 0, nil)
+        end
+      )
+    end
+
+    rows.each_with_object(results_hash) do |row, results|
       if row['time_period'] == THIS_MONTH
         results[row['key']].this_month += row['count'].to_i
       end
       results[row['key']].all_time += row['count'].to_i
-      results
-    }.with_indifferent_access
+    end
   end
 
   def add_sub_results(results, rows)
@@ -63,9 +70,9 @@ private
     SELECT reasons.key AS key,
       CASE
         WHEN rejected_at > $1 THEN
-          'this_month'
+          '#{THIS_MONTH}'
         ELSE
-          'before_this_month'
+          '#{BEFORE_THIS_MONTH}'
       END AS time_period,
       count(*)
     FROM application_choices,
@@ -83,16 +90,16 @@ private
       sub_reasons.value AS value,
       CASE
         WHEN rejected_at > $1 THEN
-          'this_month'
+          '#{THIS_MONTH}'
         ELSE
-          'before_this_month'
+          '#{BEFORE_THIS_MONTH}'
       END AS time_period,
       count(*)
     FROM application_choices,
       jsonb_each(structured_rejection_reasons) AS reasons,
       jsonb_array_elements_text(reasons.value) AS sub_reasons
     WHERE structured_rejection_reasons IS NOT NULL
-      AND (reasons.value)::text LIKE '[%'
+      AND (reasons.key)::text IN (#{MAPPING.keys.map { |key| "'#{key}'" }.join(',')})
     GROUP BY (key, sub_reasons.value, time_period);
     "
   end
