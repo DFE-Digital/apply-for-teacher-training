@@ -1,5 +1,6 @@
 module SupportInterface
   class ReasonsForRejectionDashboardComponent < ViewComponent::Base
+    include ViewHelper
     def initialize(rejection_reasons)
       @rejection_reasons = rejection_reasons
     end
@@ -31,15 +32,9 @@ module SupportInterface
     end
 
     def formatted_percentage(count, total)
-      percentage = count.percent_of(total)
+      percentage = percent_of(count, total)
       precision = (percentage % 1).zero? ? 0 : 2
       number_to_percentage(percentage, precision: precision)
     end
-  end
-end
-
-class Numeric
-  def percent_of(number)
-    to_f / number * 100.0
   end
 end

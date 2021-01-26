@@ -1,7 +1,6 @@
 class GetReasonsForRejectionFromApplicationChoices
-
   def reason_counts
-    rows = ActiveRecord::Base.connection.exec_query(
+    ActiveRecord::Base.connection.exec_query(
       count_sql,
       'SQL',
       [[nil, Time.zone.now.beginning_of_month]],
