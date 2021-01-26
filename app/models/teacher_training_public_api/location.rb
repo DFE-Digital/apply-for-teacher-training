@@ -7,7 +7,7 @@ module TeacherTrainingPublicAPI
     def self.fetch(provider_code, course_code)
       where(recruitment_cycle_year: RecruitmentCycle.current_year)
         .where(provider_code: provider_code)
-        .where(course_code:  course_code)
+        .where(course_code: course_code)
         .all
     rescue JsonApiClient::Errors::NotFound
       nil

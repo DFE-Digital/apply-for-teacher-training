@@ -39,9 +39,9 @@ module TeacherTrainingPublicAPI
 
     def create_or_update_course(course_from_api, recruitment_cycle_year)
       course = provider.courses.find_or_create_by(
-          code: course_from_api.code,
-          recruitment_cycle_year: recruitment_cycle_year,
-          ) do |new_course|
+        code: course_from_api.code,
+        recruitment_cycle_year: recruitment_cycle_year,
+      ) do |new_course|
         new_course.open_on_apply = !!new_course.in_previous_cycle&.open_on_apply
       end
 
@@ -95,8 +95,8 @@ module TeacherTrainingPublicAPI
 
     def add_provider_relationship(course)
       ProviderRelationshipPermissions.find_or_create_by!(
-          training_provider: provider,
-          ratifying_provider: course.accredited_provider,
+        training_provider: provider,
+        ratifying_provider: course.accredited_provider,
       )
     end
 

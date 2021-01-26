@@ -13,7 +13,7 @@ module TeacherTrainingPublicAPI
       sites = TeacherTrainingPublicAPI::Location.where(
         year: recruitment_cycle_year,
         provider_code: @provider.code,
-        course_code: @course.code
+        course_code: @course.code,
       ).includes(:location_status).paginate(per_page: 500)
 
       sites.each do |site_from_api|
@@ -36,7 +36,6 @@ module TeacherTrainingPublicAPI
         end
 
         handle_course_options_with_invalid_sites(sites)
-
       end
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
@@ -54,10 +53,10 @@ module TeacherTrainingPublicAPI
 
     def create_course_options(site, study_mode, site_status)
       course_option = CourseOption.find_or_initialize_by(
-          site: site,
-          course_id: @course.id,
-          study_mode: study_mode,
-          )
+        site: site,
+        course_id: @course.id,
+        study_mode: study_mode,
+      )
 
       vacancy_status = vacancy_status(site_status.vacancy_status, study_mode)
       course_option.update!(vacancy_status: vacancy_status)
