@@ -1,4 +1,6 @@
 class ApplicationQualification < ApplicationRecord
+  include PublishedInAPI
+
   EXPECTED_DEGREE_DATA = %i[
     qualification_type
     subject

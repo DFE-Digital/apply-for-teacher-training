@@ -1,5 +1,6 @@
 class ApplicationReference < ApplicationRecord
   include Chased
+  include PublishedInAPI
 
   self.table_name = 'references'
 

@@ -72,7 +72,25 @@ class ApplicationForm < ApplicationRecord
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
   before_create -> { self.support_reference ||= GenerateSupportRef.call }
-  after_save -> { application_choices.update_all(updated_at: Time.zone.now) }
+
+  PUBLISHED_FIELDS = %w[
+    first_name last_name support_reference phase submitted_at
+    becoming_a_teacher subject_knowledge interview_preferences
+    date_of_birth domicile right_to_work_or_study_details
+    english_main_language english_language_details other_language_details
+    disability_disclosure further_information safeguarding_issues_status
+    address_line1 address_line2 address_line3 address_line4
+    international_address country postcode equality_and_diversity
+    work_history_breaks first_nationality second_nationality third_nationality
+    fourth_nationality fifth_nationality phone_number
+  ].freeze
+
+  before_save do |form|
+    if (form.changed & PUBLISHED_FIELDS).any?
+      application_choices.touch_all
+    end
+  end
+
   after_commit :geocode_address_if_required
 
   def submitted?
