@@ -1,6 +1,7 @@
 module ProviderInterface
   class ReasonsForRejectionWizard
     include ActiveModel::Model
+    include Wizard
 
     INITIAL_TOP_LEVEL_QUESTIONS = %i[
       candidate_behaviour_y_n
@@ -95,24 +96,9 @@ module ProviderInterface
       end
     end
 
-    attr_accessor :current_step, :checking_answers
+    attr_accessor :checking_answers
 
-    def initialize(state_store, attrs = {})
-      @state_store = state_store
-
-      remove_empty_strings_from_array_attributes!(attrs)
-      clean_child_values_on_deselected_answers!(attrs)
-
-      super(last_saved_state.deep_merge(attrs))
-
-      # Once we get to the check answers page, this will be true for the rest of
-      # the session
-      @checking_answers = true if current_step == 'check'
-    end
-
-    def valid_for_current_step?
-      valid?(current_step.to_sym)
-    end
+    alias_method :valid_for_current_step?, :valid?
 
     def reason_not_captured_by_initial_questions?
       INITIAL_TOP_LEVEL_QUESTIONS.all? { |attr| send(attr) == 'No' }
@@ -128,10 +114,6 @@ module ProviderInterface
       else
         'check'
       end
-    end
-
-    def save!
-      clear_state!
     end
 
     attr_accessor :candidate_behaviour_y_n
@@ -250,14 +232,6 @@ module ProviderInterface
       value.present? && value.scan(/\w+/).size > count
     end
 
-    def save_state!
-      @state_store.write(state)
-    end
-
-    def clear_state!
-      @state_store.delete
-    end
-
     def to_model
       ReasonsForRejection.new(last_saved_state.except('current_step', 'checking_answers'))
     end
@@ -315,20 +289,13 @@ module ProviderInterface
       end
     end
 
-    # The current state of the object, minus some ActiveModel cruft and
-    # state_store, which is received fresh on each .new
-    def state
-      as_json(except: %w[state_store errors validation_context]).to_json
+    def sanitize_attributes!(params)
+      remove_empty_strings_from_array_attributes!(params)
+      clean_child_values_on_deselected_answers!(params)
     end
 
-    def last_saved_state
-      saved_state = @state_store.read
-
-      if saved_state
-        JSON.parse(saved_state)
-      else
-        {}
-      end
+    def enter_review_mode!
+      @checking_answers = true
     end
   end
 end

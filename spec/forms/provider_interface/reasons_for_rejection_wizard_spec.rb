@@ -12,7 +12,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
     subject(:wizard) { described_class.new(store, wizard_params) }
 
     it 'validates top level questions' do
-      wizard.valid_for_current_step?
+      wizard.valid?
 
       expect(wizard.errors.keys.sort).to eq(
         %i[
@@ -44,7 +44,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       end
 
       it 'validates second level options' do
-        wizard.valid_for_current_step?
+        wizard.valid?
 
         expect(wizard.errors.keys.sort).to eq(
           %i[
@@ -83,7 +83,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       let(:long_text) { Faker::Lorem.sentence(word_count: 101) }
 
       it 'validates details and advice fields' do
-        wizard.valid_for_current_step?
+        wizard.valid?
 
         expect(wizard.errors.keys.sort).to eq(
           %i[
@@ -121,7 +121,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
         wizard_params[:safeguarding_concerns_vetting_disclosed_information_details] = long_text
         wizard_params[:safeguarding_concerns_other_details] = long_text
 
-        wizard.valid_for_current_step?
+        wizard.valid?
 
         expect(wizard.errors.keys.sort).to eq(
           %i[
@@ -162,7 +162,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       end
 
       it 'skips validation on other fields' do
-        wizard.valid_for_current_step?
+        wizard.valid?
 
         expect(wizard.errors.keys.sort).to be_empty
       end
@@ -185,7 +185,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       end
 
       it 'validates the selected reasons' do
-        wizard.valid_for_current_step?
+        wizard.valid?
 
         expect(wizard.errors.keys).to eq(%i[honesty_and_professionalism_concerns_information_false_or_inaccurate_details])
       end
@@ -195,7 +195,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       let(:current_step) { 'other_reasons' }
 
       it 'validates top level questions' do
-        wizard.valid_for_current_step?
+        wizard.valid?
 
         expect(wizard.errors.keys.sort).to eq(%i[interested_in_future_applications_y_n other_advice_or_feedback_y_n])
       end
@@ -211,7 +211,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
       end
 
       it 'validates second level reasons fields' do
-        wizard.valid_for_current_step?
+        wizard.valid?
 
         expect(wizard.errors.keys).to eq(%i[other_advice_or_feedback_details])
       end
