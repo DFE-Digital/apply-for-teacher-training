@@ -44,9 +44,9 @@ See [single_application_presenter_spec.rb](../spec/presenters/vendor_api/single_
 
 This solution will require that spec to be kept up to date with a variety of applications in different states so as to cover all the code paths the application presenter has.
 
-So far, this solution only addresses changes from the ApplicationForm model that affect API responses for ApplicationChoices.
+As described so far, this solution only addresses changes from the ApplicationForm model that affect API responses for ApplicationChoices.
 There are other models (e.g. ApplicationQualification or ApplicationWorkExperience) for which changes to their attributes affect their associated applications.
-For these smaller models, we will use a simple touch relationship between them and their application form, with touches on the application form also touching the application choices.
+For these smaller models, we have added a concern PublishedInAPI which touches the application_choices whenever the model is created, updated or deleted.
 
 ## Consequences
 
