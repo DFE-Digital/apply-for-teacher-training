@@ -292,11 +292,11 @@ class CandidateMailer < ApplicationMailer
   end
 
   def ucas_match_initial_email_multiple_acceptances(candidate)
-    @date_to_withdraw_application_by = TimeLimitCalculator.new(rule: :ucas_match_candidate_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
+    @withdraw_by_date = TimeLimitCalculator.new(rule: :ucas_match_candidate_withdrawal_request, effective_date: Time.zone.today).call.fetch(:time_in_future).to_s(:govuk_date)
 
     email_for_candidate(
       candidate.current_application,
-      subject: I18n.t!('candidate_mailer.ucas_match.multiple_acceptances.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.multiple_acceptances.subject', withdraw_by_date: @withdraw_by_date),
     )
   end
 
