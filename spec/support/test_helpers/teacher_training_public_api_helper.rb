@@ -43,6 +43,19 @@ module TeacherTrainingPublicAPIHelper
     )
   end
 
+  def stub_teacher_training_api_sites(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, specified_attributes: [])
+    stub_request(
+        :get,
+        "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}/locations?include=location_status",
+        ).with(
+        query: { page: { per_page: 500 } },
+        ).to_return(
+        status: 200,
+        headers: { 'Content-Type': 'application/vnd.api+json' },
+        body: site_list_response(specified_attributes).to_json,
+        )
+  end
+
   def fake_api_provider(provider_attributes = {})
     api_response = JSON.parse(
       File.read(
@@ -57,6 +70,28 @@ module TeacherTrainingPublicAPIHelper
   end
 
 private
+
+  def provider_list_response(provider_attributes = [])
+    api_response = JSON.parse(
+        File.read(
+            Rails.root.join('spec/examples/teacher_training_api/provider_list_response.json'),
+            ),
+        symbolize_names: true,
+        )
+
+    if provider_attributes
+      example_provider = api_response[:data].first
+      new_data = provider_attributes.map do |attrs|
+        specified_provider = example_provider.dup
+        specified_provider[:attributes] = specified_provider[:attributes].deep_merge(attrs)
+        specified_provider
+      end
+
+      api_response[:data] = new_data
+    end
+
+    api_response
+  end
 
   def course_list_response(course_attributes = [])
     api_response = JSON.parse(
@@ -80,20 +115,20 @@ private
     api_response
   end
 
-  def provider_list_response(provider_attributes = [])
+  def site_list_response(site_attributes = [])
     api_response = JSON.parse(
-      File.read(
-        Rails.root.join('spec/examples/teacher_training_api/provider_list_response.json'),
-      ),
-      symbolize_names: true,
-    )
+        File.read(
+            Rails.root.join('spec/examples/teacher_training_api/site_list_response.json'),
+            ),
+        symbolize_names: true,
+        )
 
-    if provider_attributes
-      example_provider = api_response[:data].first
-      new_data = provider_attributes.map do |attrs|
-        specified_provider = example_provider.dup
-        specified_provider[:attributes] = specified_provider[:attributes].deep_merge(attrs)
-        specified_provider
+    if site_attributes
+      example_site = api_response[:data].first
+      new_data = site_attributes.map do |attrs|
+        specified_site = example_site.dup
+        specified_site[:attributes] = specified_site[:attributes].deep_merge(attrs)
+        specified_site
       end
 
       api_response[:data] = new_data
