@@ -11,8 +11,7 @@ module SupportInterface
     end
 
     def reasons_for_rejection
-      sql_query = GetReasonsForRejectionFromApplicationChoices.new.count_sql(Time.zone.today.beginning_of_month)
-      @reasons_for_rejection_statistics = ActiveRecord::Base.connection.execute(sql_query).to_a
+      @reasons_for_rejection_statistics = GetReasonsForRejectionFromApplicationChoices.new.reason_counts
     end
 
     def unavailable_choices

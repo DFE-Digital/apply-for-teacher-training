@@ -1,8 +1,17 @@
 class GetReasonsForRejectionFromApplicationChoices
-  def count_sql(date)
+
+  def reason_counts
+    rows = ActiveRecord::Base.connection.exec_query(
+      count_sql,
+      'SQL',
+      [[nil, Time.zone.now.beginning_of_month]],
+    ).to_a
+  end
+
+  def count_sql
     "SELECT reasons.key AS key,
       CASE
-        WHEN rejected_at > '#{date}' THEN
+        WHEN rejected_at > $1 THEN
           'this_month'
         ELSE
           'before_this_month'
