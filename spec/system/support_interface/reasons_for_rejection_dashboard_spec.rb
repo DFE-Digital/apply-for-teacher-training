@@ -92,70 +92,70 @@ private
   def then_i_should_see_reasons_for_rejection_course_full
     expect(all('.govuk-heading-m')[0]).to have_content('Course full')
     expect(all('.govuk-grid-row')[0]).to have_content('10% of all rejections')
-    expect(all('.govuk-grid-row')[1]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[1]).to have_content('1 this month')
+    expect(all('.govuk-grid-row')[0]).to have_content('2 total')
+    expect(all('.govuk-grid-row')[0]).to have_content('1 this month')
   end
 
   def and_i_should_see_reasons_for_rejection_candidate_behaviour
     expect(all('.govuk-heading-m')[1]).to have_content('Candidate behaviour')
-    expect(all('.govuk-grid-row')[2]).to have_content('10% of all rejections')
-    expect(all('.govuk-grid-row')[3]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[3]).to have_content('1 this month')
+    expect(all('.govuk-grid-row')[1]).to have_content('10% of all rejections')
+    expect(all('.govuk-grid-row')[1]).to have_content('2 total')
+    expect(all('.govuk-grid-row')[1]).to have_content('1 this month')
   end
 
   def and_i_should_see_reasons_for_rejection_honesty_and_professionalism
     expect(all('.govuk-heading-m')[2]).to have_content('Honesty and professionalism')
-    expect(all('.govuk-grid-row')[4]).to have_content('10% of all rejections')
-    expect(all('.govuk-grid-row')[5]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[5]).to have_content('1 this month')
+    expect(all('.govuk-grid-row')[2]).to have_content('10% of all rejections')
+    expect(all('.govuk-grid-row')[2]).to have_content('2 total')
+    expect(all('.govuk-grid-row')[2]).to have_content('1 this month')
   end
 
   def and_i_should_see_reasons_for_rejection_offered_on_another_course
     expect(all('.govuk-heading-m')[3]).to have_content('Offered on another course')
-    expect(all('.govuk-grid-row')[6]).to have_content('10% of all rejections')
-    expect(all('.govuk-grid-row')[7]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[7]).to have_content('1 this month')
+    expect(all('.govuk-grid-row')[3]).to have_content('10% of all rejections')
+    expect(all('.govuk-grid-row')[3]).to have_content('2 total')
+    expect(all('.govuk-grid-row')[3]).to have_content('1 this month')
   end
 
   def and_i_should_see_reasons_for_rejection_performance_at_interview
     expect(all('.govuk-heading-m')[4]).to have_content('Performance at interview')
-    expect(all('.govuk-grid-row')[8]).to have_content('10% of all rejections')
-    expect(all('.govuk-grid-row')[9]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[9]).to have_content('1 this month')
+    expect(all('.govuk-grid-row')[4]).to have_content('10% of all rejections')
+    expect(all('.govuk-grid-row')[4]).to have_content('2 total')
+    expect(all('.govuk-grid-row')[4]).to have_content('1 this month')
   end
 
   def and_i_should_see_reasons_for_rejection_qualifications
     expect(all('.govuk-heading-m')[5]).to have_content('Qualifications')
-    expect(all('.govuk-grid-row')[10]).to have_content('10% of all rejections')
-    expect(all('.govuk-grid-row')[11]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[11]).to have_content('1 this month')
+    expect(all('.govuk-grid-row')[5]).to have_content('10% of all rejections')
+    expect(all('.govuk-grid-row')[5]).to have_content('2 total')
+    expect(all('.govuk-grid-row')[5]).to have_content('1 this month')
   end
 
   def and_i_should_see_reasons_for_rejection_quality_of_application
     expect(all('.govuk-heading-m')[6]).to have_content('Quality of application')
-    expect(all('.govuk-grid-row')[12]).to have_content('10% of all rejections')
-    expect(all('.govuk-grid-row')[13]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[13]).to have_content('1 this month')
+    expect(all('.govuk-grid-row')[6]).to have_content('10% of all rejections')
+    expect(all('.govuk-grid-row')[6]).to have_content('2 total')
+    expect(all('.govuk-grid-row')[6]).to have_content('1 this month')
   end
 
   def and_i_should_see_reasons_for_rejection_safeguarding_concerns
     expect(all('.govuk-heading-m')[7]).to have_content('Safeguarding concerns')
-    expect(all('.govuk-grid-row')[14]).to have_content('10% of all rejections')
-    expect(all('.govuk-grid-row')[15]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[15]).to have_content('1 this month')
+    expect(all('.govuk-grid-row')[7]).to have_content('10% of all rejections')
+    expect(all('.govuk-grid-row')[7]).to have_content('2 total')
+    expect(all('.govuk-grid-row')[7]).to have_content('1 this month')
   end
 
   def and_i_should_see_reasons_for_rejection_interested_in_future_applications
     expect(all('.govuk-heading-m')[8]).to have_content('Interested in future applications')
-    expect(all('.govuk-grid-row')[16]).to have_content('10% of all rejections')
-    expect(all('.govuk-grid-row')[17]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[17]).to have_content('1 this month')
+    expect(all('.govuk-grid-row')[8]).to have_content('10% of all rejections')
+    expect(all('.govuk-grid-row')[8]).to have_content('2 total')
+    expect(all('.govuk-grid-row')[8]).to have_content('1 this month')
   end
 
   def and_i_should_see_reasons_for_rejection_other_advice_or_feeback
     expect(all('.govuk-heading-m')[9]).to have_content('Other advice or feedback')
-    expect(all('.govuk-grid-row')[18]).to have_content('10% of all rejections')
-    expect(all('.govuk-grid-row')[19]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[19]).to have_content('1 this month')
+    expect(all('.govuk-grid-row')[9]).to have_content('10% of all rejections')
+    expect(all('.govuk-grid-row')[9]).to have_content('2 total')
+    expect(all('.govuk-grid-row')[9]).to have_content('1 this month')
   end
 end
