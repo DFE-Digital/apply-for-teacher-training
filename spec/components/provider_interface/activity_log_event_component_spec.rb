@@ -182,4 +182,17 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
       expect(render_inline(component_for(audit)).to_html).to be_present
     end
   end
+
+  describe '#event_content' do
+    it 'renders the correct message when event_content is called multiple times' do
+      accredited_provider = create(:provider)
+      course = create(:course, accredited_provider: accredited_provider)
+      course_option = create(:course_option, course: course)
+      application_choice = create(:application_choice, course_option: course_option)
+      audit = create(:application_choice_audit, application_choice: application_choice)
+      component_for(audit).event_content
+
+      expect(component_for(audit).event_content).to eq("#{course_option.provider.name} – ratified by #{accredited_provider.name}")
+    end
+  end
 end
