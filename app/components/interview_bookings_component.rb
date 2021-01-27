@@ -18,31 +18,19 @@ class InterviewBookingsComponent < ViewComponent::Base
   end
 
   def location(interview)
-    make_urls_clickable(
-      show_newlines(
-        interview.location,
-      ),
-    )
+    safely_format_with_hyperlinks(interview.location)
   end
 
   def additional_details(interview)
-    make_urls_clickable(
-      show_newlines(
-        interview.additional_details,
-      ),
-    )
+    safely_format_with_hyperlinks(interview.additional_details)
   end
 
 private
 
-  def show_newlines(text)
-    simple_format(text, class: 'govuk-body')
-  end
-
-  def make_urls_clickable(text)
+  def safely_format_with_hyperlinks(text)
     text
-      .yield_self { |t| t.gsub(URI::DEFAULT_PARSER.make_regexp, '<a href="\0">\0</a>') }
+      .then { |t| simple_format(t, class: 'govuk-body') } # Sanitizes text before handling newlines
+      .then { |t| t.gsub(URI::DEFAULT_PARSER.make_regexp(%w[http https]), '<a href="\0">\0</a>') }
       .then(&:html_safe)
-      .then { |t| sanitize(t, tags: %w[a p br]) }
   end
 end

@@ -33,7 +33,7 @@ RSpec.describe InterviewBookingsComponent, type: :component do
     expect(result.to_html.squish).to include(expected_markup.squish)
   end
 
-  it 'renders additional details, with breaks and hyperlinks' do
+  it 'renders additional_details, with breaks and hyperlinks' do
     interview.update!(
       additional_details: "Backup Zoom call if the trains are cancelled \n https://us02web.zoom.us/j/foo",
     )
@@ -48,9 +48,7 @@ RSpec.describe InterviewBookingsComponent, type: :component do
 
   context 'when location contains undesireable HTML tags' do
     it 'removes them' do
-      interview.update!(
-        location: "l33t hax <script>alert('pwned')</script>",
-      )
+      interview.update!(location: "l33t hax <script>alert('pwned')</script>")
       result = render_inline(described_class.new(interview.application_choice))
 
       expect(result.to_html).to include 'l33t hax'
@@ -58,15 +56,33 @@ RSpec.describe InterviewBookingsComponent, type: :component do
     end
   end
 
-  context 'when additional details contains undesireable HTML tags' do
+  context 'when location contains a URI with the javascript protocol' do
+    it 'does not turn it into a link' do
+      interview.update!(location: "javascript:alert('hi')")
+      render_inline(described_class.new(interview.application_choice))
+
+      expect(page).to have_content "javascript:alert('hi')"
+      expect(page.has_link?('javascript')).to eq false
+    end
+  end
+
+  context 'when additional_details contains undesireable HTML tags' do
     it 'removes them' do
-      interview.update!(
-        additional_details: "l33t hax <script>alert('pwned')</script>",
-      )
+      interview.update!(additional_details: "l33t hax <script>alert('pwned')</script>")
       result = render_inline(described_class.new(interview.application_choice))
 
       expect(result.to_html).to include 'l33t hax'
       expect(result.to_html).not_to include 'script'
+    end
+  end
+
+  context 'when additional_details contains a URI with the javascript protocol' do
+    it 'does not turn it into a link' do
+      interview.update!(additional_details: "javascript:alert('hi')")
+      render_inline(described_class.new(interview.application_choice))
+
+      expect(page).to have_content "javascript:alert('hi')"
+      expect(page.has_link?('javascript')).to eq false
     end
   end
 
