@@ -539,6 +539,26 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.ucas_match_reminder_email_multiple_acceptances(ucas_match)
   end
 
+  def ucas_match_resolved_on_ucas_email
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form: application_form,
+      course_option: course_option,
+    )
+
+    CandidateMailer.ucas_match_resolved_on_ucas_email(application_choice)
+  end
+
+  def ucas_match_resolved_on_apply_email
+    application_choice = FactoryBot.build_stubbed(
+      :application_choice,
+      application_form: application_form,
+      course_option: course_option,
+    )
+
+    CandidateMailer.ucas_match_resolved_on_apply_email(application_choice)
+  end
+
 private
 
   def candidate
