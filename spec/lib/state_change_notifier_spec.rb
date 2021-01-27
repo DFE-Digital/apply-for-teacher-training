@@ -81,7 +81,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(:rejected, application_choice).application_outcome_notification
 
-        message = /:broken_heart: #{applicant}'s application was rejected by #{provider_name} and #{rejected_choice.provider.name}./
+        message = /:broken_heart: #{applicant}'s application was rejected by #{provider_name} and #{rejected_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
@@ -94,7 +94,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(:rejected_by_default, application_choice).application_outcome_notification
 
-        message = /:broken_heart: #{applicant}'s applications to #{provider_name} and #{rejected_by_default_choice.provider.name} were rejected by default./
+        message = /:broken_heart: #{applicant}'s applications to #{provider_name} and #{rejected_by_default_choice.provider.name} were rejected by default/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
@@ -107,7 +107,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(:declined, application_choice).application_outcome_notification
 
-        message = /:no_good: #{applicant} has declined offers from #{provider_name} and #{declined_choice.provider.name}./
+        message = /:no_good: #{applicant} has declined offers from #{provider_name} and #{declined_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
@@ -120,7 +120,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(:declined_by_default, application_choice).application_outcome_notification
 
-        message = /:no_good: #{applicant} has declined by default offers from #{provider_name} and #{declined_by_default_choice.provider.name}./
+        message = /:no_good: #{applicant} has declined by default offers from #{provider_name} and #{declined_by_default_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
@@ -133,7 +133,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(:withdrawn, application_choice).application_outcome_notification
 
-        message = /:runner: #{applicant} has withdrawn their applications from #{provider_name} and #{withdrawn_choice.provider.name}./
+        message = /:runner: #{applicant} has withdrawn their applications from #{provider_name} and #{withdrawn_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe StateChangeNotifier do
       it 'and no other applications' do
         StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
 
-        message = /:handshake: #{applicant} has been recruited to #{provider_name}./
+        message = /:handshake: #{applicant} has been recruited to #{provider_name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
@@ -209,7 +209,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(status.to_sym, application_choice).application_outcome_notification
 
-        message = /.+#{applicant} previously declined an offer from #{declined_choice.provider.name}, withdrew from #{withdrawn_choice.provider.name}, and was rejected by #{rejected_choice.provider.name}./
+        message = /.+#{applicant} previously declined an offer from #{declined_choice.provider.name}, withdrew from #{withdrawn_choice.provider.name}, and was rejected by #{rejected_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
 
@@ -226,7 +226,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(status.to_sym, application_choice).application_outcome_notification
 
-        message = /.+#{applicant} previously declined an offer from #{declined_choice.provider.name}, declined by default an offer from #{declined_by_default_choice.provider.name}, withdrew from #{withdrawn_choice.provider.name}, was rejected by #{rejected_choice.provider.name}, and was rejected by default from #{rejected_by_default_choice.provider.name}./
+        message = /.+#{applicant} previously declined an offer from #{declined_choice.provider.name}, declined by default an offer from #{declined_by_default_choice.provider.name}, withdrew from #{withdrawn_choice.provider.name}, was rejected by #{rejected_choice.provider.name}, and was rejected by default from #{rejected_by_default_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
