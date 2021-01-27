@@ -55,14 +55,26 @@ private
 
   def add_sub_results(results, rows)
     rows.each do |row|
-      result = results[MAPPING[row['key']]]
-      sub_result = result.sub_reasons[row['value']]
-      if row['time_period'] == THIS_MONTH
-        sub_result.this_month += row['count'].to_i
-      end
-      sub_result.all_time += row['count'].to_i
+      result = result_for_row(results, row)
+      sub_result = sub_result_for_row(result, row)
+      increment_sub_reason_counts(sub_result, row)
     end
     results
+  end
+
+  def result_for_row(results, row)
+    results[MAPPING[row['key']]]
+  end
+
+  def sub_result_for_row(result, row)
+    result.sub_reasons[row['value']]
+  end
+
+  def increment_sub_reason_counts(sub_result, row)
+    if row['time_period'] == THIS_MONTH
+      sub_result.this_month += row['count'].to_i
+    end
+    sub_result.all_time += row['count'].to_i
   end
 
   def reason_counts_sql
