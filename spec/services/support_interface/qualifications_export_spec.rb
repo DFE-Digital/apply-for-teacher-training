@@ -17,17 +17,15 @@ RSpec.describe SupportInterface::QualificationsExport do
                                                            course_option: course_option_one, application_form: application_form_one)
       create(:application_choice, status: 'offer', course_option: course_option_two, application_form: application_form_one)
 
-      create(:application_qualification,
+      create(:gcse_qualification,
              application_form: application_form_one,
-             level: 'gcse',
              subject: 'maths',
              grade: 'A')
-      create(:application_qualification,
+      create(:gcse_qualification,
              application_form: application_form_one,
-             level: 'gcse',
              subject: 'science',
              grade: 'A*BB')
-      create(:application_qualification,
+      create(:gcse_qualification,
              application_form: application_form_one,
              level: 'gcse',
              subject: 'english',
@@ -46,12 +44,16 @@ RSpec.describe SupportInterface::QualificationsExport do
              grade: 'A')
       create(:application_qualification,
              application_form: application_form_one,
-             level: 'degree',
+             qualification_type: 'AS level',
+             subject: nil,
+             level: 'other',
+             grade: 'A')
+      create(:degree_qualification,
+             application_form: application_form_one,
              qualification_type: 'BA Memes',
              grade: 'First class honours')
-      create(:application_qualification,
+      create(:degree_qualification,
              application_form: application_form_one,
-             level: 'degree',
              subject: nil,
              qualification_type: 'BA',
              grade: '2:1')
@@ -61,17 +63,17 @@ RSpec.describe SupportInterface::QualificationsExport do
       application_form_two = create(:completed_application_form, candidate: candidate_two)
       create(:application_choice, status: 'rejected', rejection_reason: 'Cut of jib', course_option: course_option_three, application_form: application_form_two)
 
-      create(:application_qualification,
+      create(:gcse_qualification,
              application_form: application_form_two,
              level: 'gcse',
              subject: 'maths',
              grade: 'A')
-      create(:application_qualification,
+      create(:gcse_qualification,
              application_form: application_form_two,
              level: 'gcse',
              subject: 'science double award',
              grade: 'A*A*')
-      create(:application_qualification,
+      create(:gcse_qualification,
              application_form: application_form_two,
              level: 'gcse',
              subject: 'english',
@@ -82,13 +84,13 @@ RSpec.describe SupportInterface::QualificationsExport do
              subject: 'Philosophy',
              level: 'other',
              grade: 'D')
-      create(:application_qualification,
+      create(:degree_qualification,
              application_form: application_form_two,
              qualification_type: 'AS level',
              subject: 'Trout Fishing',
              level: 'other',
              grade: 'A')
-      create(:application_qualification,
+      create(:degree_qualification,
              application_form: application_form_two,
              level: 'degree',
              qualification_type: 'BA Welding',
@@ -130,7 +132,7 @@ RSpec.describe SupportInterface::QualificationsExport do
           'Degree 1 grade' => 'First class honours',
           'Degree 2 type' => nil,
           'Degree 2 grade' => nil,
-          'Number of other qualifications provided' => 2,
+          'Number of other qualifications provided' => 3,
         },
         {
           'Candidate id' => application_form_one.candidate_id,
@@ -167,7 +169,7 @@ RSpec.describe SupportInterface::QualificationsExport do
           'Degree 1 grade' => 'First class honours',
           'Degree 2 type' => nil,
           'Degree 2 grade' => nil,
-          'Number of other qualifications provided' => 2,
+          'Number of other qualifications provided' => 3,
         },
         {
           'Candidate id' => application_form_two.candidate_id,
