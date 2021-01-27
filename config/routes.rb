@@ -831,6 +831,8 @@ Rails.application.routes.draw do
 
       get '/feature-metrics' => 'feature_metrics_dashboard#dashboard', as: :feature_metrics_dashboard
 
+      get '/reasons-for-rejection' => 'performance#reasons_for_rejection', as: :reasons_for_rejection_dashboard
+
       resources :data_exports, path: '/data-exports' do
         member do
           get :download

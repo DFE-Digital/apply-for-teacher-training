@@ -131,6 +131,10 @@ module ViewHelper
     end
   end
 
+  def percent_of(numerator, denominator)
+    numerator.to_f / denominator * 100.0
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)

@@ -10,6 +10,10 @@ module SupportInterface
       @course_options = CourseOption.where('vacancy_status != ?', 'vacancies').includes(:course, :site)
     end
 
+    def reasons_for_rejection
+      @reasons_for_rejection_statistics = GetReasonsForRejectionFromApplicationChoices.new.reason_counts
+    end
+
     def unavailable_choices
       @monitor = SupportInterface::ApplicationMonitor.new
     end
