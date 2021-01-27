@@ -23,6 +23,19 @@ RSpec.describe CandidateMailer, type: :mailer do
     )
   end
 
+  describe '.ucas_match_resolved_on_ucas_at_our_request_email' do
+    let(:email) { mailer.ucas_match_resolved_on_ucas_at_our_request_email(application_form.application_choices.first) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Duplicate application automatically withdrawn',
+      'heading' => 'Dear Ada Lovelace',
+      'course_code_and_option' => 'to study Primary (33WA) at Wonderland University',
+      'tracking' => 'You can track your application through GOV.UK',
+      'removal details' => 'we’ve withdrawn your application through UCAS',
+    )
+  end
+
   describe '.ucas_match_resolved_on_apply_email' do
     let(:email) { mailer.ucas_match_resolved_on_apply_email(application_form.application_choices.first) }
 
