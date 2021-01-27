@@ -38,7 +38,7 @@ module TeacherTrainingPublicAPI
     def assign_course_attributes(course, course_from_api, recruitment_cycle_year)
       course.name = course_from_api.name
       course.level = course_from_api.level
-      course.study_mode = course_from_api.study_mode
+      course.study_mode = study_mode(course_from_api)
       course.description = course_from_api.summary
       course.start_date = course_from_api.start_date
       course.course_length = course_from_api.course_length
@@ -49,6 +49,10 @@ module TeacherTrainingPublicAPI
       course.age_range = age_range_in_years(course_from_api)
       course.withdrawn = course_from_api.state == 'withdrawn'
       course.qualifications = course_from_api.qualifications
+    end
+
+    def study_mode(course_from_api)
+      course_from_api.study_mode == 'both' ? 'full_time_or_part_time' : course_from_api.study_mode
     end
 
     def age_range_in_years(course_from_api)
