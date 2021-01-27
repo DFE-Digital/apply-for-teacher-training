@@ -29,14 +29,20 @@ RSpec.feature 'Reasons for rejection dashboard' do
     application_choice1 = create(:application_choice, :awaiting_provider_decision)
     application_choice2 = create(:application_choice, :awaiting_provider_decision)
     application_choice3 = create(:application_choice, :awaiting_provider_decision)
+    application_choice4 = create(:application_choice, :awaiting_provider_decision)
+    application_choice5 = create(:application_choice, :awaiting_provider_decision)
+    application_choice6 = create(:application_choice, :awaiting_provider_decision)
 
     Timecop.freeze(@today - 40.days) do
-      reject_application_with_structured_reasons(application_choice1)
+      reject_application_for_candidate_behaviour_qualifications_and_safeguarding(application_choice1)
+      reject_application_for_candidate_behaviour_and_qualifications(application_choice2)
+      reject_application_for_candidate_behaviour(application_choice3)
     end
 
     Timecop.freeze(@today) do
-      reject_application_with_structured_reasons(application_choice2)
-      reject_application_without_structured_reasons(application_choice3)
+      reject_application_for_candidate_behaviour_qualifications_and_safeguarding(application_choice4)
+      reject_application_for_candidate_behaviour(application_choice5)
+      reject_application_without_structured_reasons(application_choice6)
     end
   end
 
@@ -54,7 +60,7 @@ RSpec.feature 'Reasons for rejection dashboard' do
     and_i_should_see_reasons_for_rejection_honesty_and_professionalism
     and_i_should_see_reasons_for_rejection_interested_in_future_applications
     and_i_should_see_reasons_for_rejection_offered_on_another_course
-    and_i_should_see_reasons_for_rejection_other_advice_or_feeback
+    and_i_should_see_reasons_for_rejection_other_advice_or_feedback
     and_i_should_see_reasons_for_rejection_performance_at_interview
     and_i_should_see_reasons_for_rejection_qualifications
     and_i_should_see_reasons_for_rejection_quality_of_application
@@ -63,20 +69,58 @@ RSpec.feature 'Reasons for rejection dashboard' do
 
 private
 
-  def reject_application_with_structured_reasons(application_choice)
+  def reject_application_for_candidate_behaviour_qualifications_and_safeguarding(application_choice)
     application_choice.update!(
       status: :rejected,
       structured_rejection_reasons: {
-        course_full_y_n: 'Yes',
+        course_full_y_n: 'No',
         candidate_behaviour_y_n: 'Yes',
-        honesty_and_professionalism_y_n: 'Yes',
-        performance_at_interview_y_n: 'Yes',
+        honesty_and_professionalism_y_n: 'No',
+        performance_at_interview_y_n: 'No',
         qualifications_y_n: 'Yes',
-        quality_of_application_y_n: 'Yes',
+        quality_of_application_y_n: 'No',
         safeguarding_y_n: 'Yes',
-        offered_on_another_course_y_n: 'Yes',
-        interested_in_future_applications_y_n: 'Yes',
-        other_advice_or_feedback_y_n: 'Yes',
+        offered_on_another_course_y_n: 'No',
+        interested_in_future_applications_y_n: 'No',
+        other_advice_or_feedback_y_n: 'No',
+      },
+      rejected_at: Time.zone.now,
+    )
+  end
+
+  def reject_application_for_candidate_behaviour_and_qualifications(application_choice)
+    application_choice.update!(
+      status: :rejected,
+      structured_rejection_reasons: {
+        course_full_y_n: 'No',
+        candidate_behaviour_y_n: 'Yes',
+        honesty_and_professionalism_y_n: 'No',
+        performance_at_interview_y_n: 'No',
+        qualifications_y_n: 'Yes',
+        quality_of_application_y_n: 'No',
+        safeguarding_y_n: 'No',
+        offered_on_another_course_y_n: 'No',
+        interested_in_future_applications_y_n: 'No',
+        other_advice_or_feedback_y_n: 'No',
+      },
+      rejected_at: Time.zone.now,
+    )
+  end
+
+  def reject_application_for_candidate_behaviour(application_choice)
+    application_choice.update!(
+      status: :rejected,
+      structured_rejection_reasons: {
+        course_full_y_n: 'No',
+        candidate_behaviour_y_n: 'Yes',
+        honesty_and_professionalism_y_n: 'No',
+        performance_at_interview_y_n: 'No',
+        qualifications_y_n: 'No',
+        quality_of_application_y_n: 'No',
+        safeguarding_y_n: 'No',
+        offered_on_another_course_y_n: 'No',
+        interested_in_future_applications_y_n: 'No',
+        other_advice_or_feedback_y_n: 'No',
       },
       rejected_at: Time.zone.now,
     )
@@ -90,72 +134,82 @@ private
   end
 
   def then_i_should_see_reasons_for_rejection_course_full
-    expect(all('.govuk-heading-m')[0]).to have_content('Course full')
-    expect(all('.govuk-grid-row')[0]).to have_content('10% of all structured rejections')
-    expect(all('.govuk-grid-row')[0]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[0]).to have_content('1 this month')
+    within '#course_full' do
+      expect(page).to have_content('0 of 5 application choices')
+      expect(page).to have_content('0 total')
+      expect(page).to have_content('0 this month')
+    end
   end
 
   def and_i_should_see_reasons_for_rejection_candidate_behaviour
-    expect(all('.govuk-heading-m')[1]).to have_content('Candidate behaviour')
-    expect(all('.govuk-grid-row')[1]).to have_content('10% of all structured rejections')
-    expect(all('.govuk-grid-row')[1]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[1]).to have_content('1 this month')
+    within '#candidate_behaviour' do
+      expect(page).to have_content('5 of 5 application choices')
+      expect(page).to have_content('5 total')
+      expect(page).to have_content('2 this month')
+    end
   end
 
   def and_i_should_see_reasons_for_rejection_honesty_and_professionalism
-    expect(all('.govuk-heading-m')[2]).to have_content('Honesty and professionalism')
-    expect(all('.govuk-grid-row')[2]).to have_content('10% of all structured rejections')
-    expect(all('.govuk-grid-row')[2]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[2]).to have_content('1 this month')
+    within '#honesty_and_professionalism' do
+      expect(page).to have_content('0 of 5 application choices')
+      expect(page).to have_content('0 total')
+      expect(page).to have_content('0 this month')
+    end
   end
 
   def and_i_should_see_reasons_for_rejection_offered_on_another_course
-    expect(all('.govuk-heading-m')[3]).to have_content('Offered on another course')
-    expect(all('.govuk-grid-row')[3]).to have_content('10% of all structured rejections')
-    expect(all('.govuk-grid-row')[3]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[3]).to have_content('1 this month')
+    within '#offered_on_another_course' do
+      expect(page).to have_content('0 of 5 application choices')
+      expect(page).to have_content('0 total')
+      expect(page).to have_content('0 this month')
+    end
   end
 
   def and_i_should_see_reasons_for_rejection_performance_at_interview
-    expect(all('.govuk-heading-m')[4]).to have_content('Performance at interview')
-    expect(all('.govuk-grid-row')[4]).to have_content('10% of all structured rejections')
-    expect(all('.govuk-grid-row')[4]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[4]).to have_content('1 this month')
+    within '#performance_at_interview' do
+      expect(page).to have_content('0 of 5 application choices')
+      expect(page).to have_content('0 total')
+      expect(page).to have_content('0 this month')
+    end
   end
 
   def and_i_should_see_reasons_for_rejection_qualifications
-    expect(all('.govuk-heading-m')[5]).to have_content('Qualifications')
-    expect(all('.govuk-grid-row')[5]).to have_content('10% of all structured rejections')
-    expect(all('.govuk-grid-row')[5]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[5]).to have_content('1 this month')
+    within '#qualifications' do
+      expect(page).to have_content('3 of 5 application choices')
+      expect(page).to have_content('3 total')
+      expect(page).to have_content('1 this month')
+    end
   end
 
   def and_i_should_see_reasons_for_rejection_quality_of_application
-    expect(all('.govuk-heading-m')[6]).to have_content('Quality of application')
-    expect(all('.govuk-grid-row')[6]).to have_content('10% of all structured rejections')
-    expect(all('.govuk-grid-row')[6]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[6]).to have_content('1 this month')
+    within '#quality_of_application' do
+      expect(page).to have_content('0 of 5 application choices')
+      expect(page).to have_content('0 total')
+      expect(page).to have_content('0 this month')
+    end
   end
 
   def and_i_should_see_reasons_for_rejection_safeguarding_concerns
-    expect(all('.govuk-heading-m')[7]).to have_content('Safeguarding concerns')
-    expect(all('.govuk-grid-row')[7]).to have_content('10% of all structured rejections')
-    expect(all('.govuk-grid-row')[7]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[7]).to have_content('1 this month')
+    within '#safeguarding_concerns' do
+      expect(page).to have_content('2 of 5 application choices')
+      expect(page).to have_content('2 total')
+      expect(page).to have_content('1 this month')
+    end
   end
 
   def and_i_should_see_reasons_for_rejection_interested_in_future_applications
-    expect(all('.govuk-heading-m')[8]).to have_content('Interested in future applications')
-    expect(all('.govuk-grid-row')[8]).to have_content('10% of all structured rejections')
-    expect(all('.govuk-grid-row')[8]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[8]).to have_content('1 this month')
+    within '#interested_in_future_applications' do
+      expect(page).to have_content('0 of 5 application choices')
+      expect(page).to have_content('0 total')
+      expect(page).to have_content('0 this month')
+    end
   end
 
-  def and_i_should_see_reasons_for_rejection_other_advice_or_feeback
-    expect(all('.govuk-heading-m')[9]).to have_content('Other advice or feedback')
-    expect(all('.govuk-grid-row')[9]).to have_content('10% of all structured rejections')
-    expect(all('.govuk-grid-row')[9]).to have_content('2 total')
-    expect(all('.govuk-grid-row')[9]).to have_content('1 this month')
+  def and_i_should_see_reasons_for_rejection_other_advice_or_feedback
+    within '#other_advice_or_feedback' do
+      expect(page).to have_content('0 of 5 application choices')
+      expect(page).to have_content('0 total')
+      expect(page).to have_content('0 this month')
+    end
   end
 end
