@@ -117,7 +117,7 @@ module SupportInterface
     end
 
     def a_levels(qualifications)
-      qualifications.where(qualification_type: 'A level').or(qualifications.where(qualification_type: 'AS level')).take(5)
+      qualifications.where(qualification_type: 'A level').or(qualifications.where(qualification_type: 'AS level')).reject(&:incomplete_other_qualification?).take(5)
     end
 
     def degrees(qualifications)
