@@ -19,5 +19,11 @@ RSpec.describe 'Time::DATE_FORMATS' do
       expect(date_and_time.to_s(:govuk_date_and_time)).to eq('25 December 2020 at 12:01pm')
       expect(date_and_time.to_s(:govuk_time)).to eq('12:01pm')
     end
+
+    it 'does not pad single-digit day and hour with whitespace' do
+      date_and_time = Time.zone.local(2020, 12, 5, 6, 0, 0)
+      expect(date_and_time.to_s(:govuk_date_and_time)).to eq('5 December 2020 at 6:00am')
+      expect(date_and_time.to_s(:govuk_time)).to eq('6:00am')
+    end
   end
 end
