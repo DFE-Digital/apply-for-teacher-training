@@ -28,7 +28,7 @@ class ReasonsForRejectionCountQuery
 
 private
 
-  MAPPING = {
+  SUBREASONS_TO_TOP_LEVEL_REASONS = {
     candidate_behaviour_what_did_the_candidate_do: :candidate_behaviour_y_n,
     quality_of_application_which_parts_needed_improvement: :quality_of_application_y_n,
     qualifications_which_qualifications: :qualifications_y_n,
@@ -63,7 +63,7 @@ private
   end
 
   def result_for_row(results, row)
-    results[MAPPING[row['key']]]
+    results[SUBREASONS_TO_TOP_LEVEL_REASONS[row['key']]]
   end
 
   def sub_result_for_row(result, row)
@@ -111,7 +111,7 @@ private
       jsonb_each(structured_rejection_reasons) AS reasons,
       jsonb_array_elements_text(reasons.value) AS sub_reasons
     WHERE structured_rejection_reasons IS NOT NULL
-      AND (reasons.key)::text IN (#{MAPPING.keys.map { |key| "'#{key}'" }.join(',')})
+      AND (reasons.key)::text IN (#{SUBREASONS_TO_TOP_LEVEL_REASONS.keys.map { |key| "'#{key}'" }.join(',')})
     GROUP BY (key, sub_reasons.value, time_period);
     "
   end
