@@ -111,7 +111,7 @@ private
       jsonb_each(structured_rejection_reasons) AS reasons,
       jsonb_array_elements_text(reasons.value) AS sub_reasons
     WHERE structured_rejection_reasons IS NOT NULL
-      AND (reasons.key)::text IN (#{SUBREASONS_TO_TOP_LEVEL_REASONS.keys.map { |key| "'#{key}'" }.join(',')})
+      AND jsonb_typeof(reasons.value) = 'array'
     GROUP BY (key, sub_reasons.value, time_period);
     "
   end

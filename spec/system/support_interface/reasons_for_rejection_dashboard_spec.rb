@@ -18,6 +18,7 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
     and_i_click_on_the_reasons_for_rejection_dashboard_link
 
     then_i_should_see_reasons_for_rejection_dashboard
+    and_i_should_see_sub_reasons_for_rejection
   end
 
   def given_i_am_a_support_user
@@ -65,6 +66,10 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
     and_i_should_see_reasons_for_rejection_qualifications
     and_i_should_see_reasons_for_rejection_quality_of_application
     and_i_should_see_reasons_for_rejection_safeguarding_concerns
+  end
+
+  def and_i_should_see_sub_reasons_for_rejection
+    and_i_should_see_sub_reasons_for_rejection_qualifications
   end
 
 private
@@ -185,6 +190,13 @@ private
       expect(page).to have_content('3 total')
       expect(page).to have_content('1 this month')
     end
+  end
+
+  def and_i_should_see_sub_reasons_for_rejection_qualifications
+    expect(page).to have_content("No Maths GCSE grade 4 (C) or above, or valid equivalent\n3 2")
+    expect(page).to have_content("No English GCSE grade 4 (C) or above, or valid equivalent\n1 1")
+    expect(page).to have_content("No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)\n1 1")
+    expect(page).to have_content("No degree\n1 1")
   end
 
   def and_i_should_see_reasons_for_rejection_quality_of_application

@@ -1,0 +1,26 @@
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header govuk-!-width-one-half">Sub reason</th>
+      <th class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">Total</th>
+      <th class="govuk-table__header govuk-table__header--numeric govuk-!-width-one-quarter">This month</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% sub_reasons.each do |sub_reason, sub_reason_result| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <h2 class="govuk-heading-s govuk-!-margin-bottom-0">
+            <%= sub_reason_label(sub_reason) %>
+          </h2>
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <%= sub_reason_result&.all_time || 0 %>
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <%= sub_reason_result&.this_month || 0 %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

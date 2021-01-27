@@ -1,7 +1,7 @@
 module SupportInterface
-  class ReasonsForRejectionTableComponent < ViewComponent::Base
+  class SubReasonsForRejectionTableComponent < ViewComponent::Base
     include ViewHelper
-    attr_accessor :reasons
+    attr_accessor :reason, :sub_reasons
 
     TOP_LEVEL_REASONS_TO_I18N_KEYS = {
       candidate_behaviour_y_n: :candidate_behaviour_what_did_the_candidate_do,
@@ -15,16 +15,17 @@ module SupportInterface
       interested_in_future_applications_y_n: :interested_in_future_applications,
     }.with_indifferent_access
 
-    def initialize(reasons)
-      @reasons = reasons
+    def initialize(reason, sub_reasons)
+      @reason = reason
+      @sub_reasons = sub_reasons
     end
 
-    def reason_label(reason)
-      I18n.t("reasons_for_rejection.#{TOP_LEVEL_REASONS_I18N_KEYS[reason]}.title")
+    def reason_label
+      I18n.t("reasons_for_rejection.#{TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.title")
     end
 
-    def sub_reason_label(reason, sub_reason)
-      I18n.t("reasons_for_rejection.#{TOP_LEVEL_REASONS_I18N_KEYS[reason]}.#{sub_reason}")
+    def sub_reason_label(sub_reason)
+      I18n.t("reasons_for_rejection.#{TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.#{sub_reason}")
     end
   end
 end
