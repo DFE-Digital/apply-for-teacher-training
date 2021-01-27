@@ -42,7 +42,13 @@ module SupportInterface
       rows << { key: 'Reject by default at', value: application_choice.reject_by_default_at.to_s(:govuk_date_and_time) } if application_choice.reject_by_default_at && application_choice.awaiting_provider_decision?
       rows << { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) } if application_choice.decline_by_default_at && application_choice.offer?
 
-      rows.flatten
+      if ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER.include?(application_choice.status.to_sym)
+        rows << { key: 'API', value: render(SupportInterface::ApplicationAPIRepresentationComponent.new(application_choice: application_choice)) }
+      else
+        rows << { key: 'API', value: 'This application hasn’t been sent to the provider yet, so it isn’t available over the API' }
+      end
+
+      rows
     end
 
   private
