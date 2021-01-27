@@ -17,7 +17,7 @@ module ProviderInterface
     validate :time_is_valid?, if: ->(wizard) { wizard.time.present? }
     validate :date_after_rbd_date, if: :date_is_valid?
     validates :time, :date, :provider_user, :location, :application_choice, presence: true
-    validates :provider_id, presence: true, if: %i[application_choice provider_user user_can_make_decisions_for_multiple_providers?]
+    validates :provider_id, presence: true, if: %i[application_choice provider_user multiple_application_providers?]
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
@@ -74,25 +74,19 @@ module ProviderInterface
     end
 
     def provider
-      if user_can_make_decisions_for_multiple_providers?
-        provider_user.providers.find(provider_id)
+      if multiple_application_providers?
+        application_providers
       else
-        providers_that_user_has_make_decisions_for.first
+        application_providers.first
       end
     end
 
-    def user_can_make_decisions_for_multiple_providers?
-      providers_that_user_has_make_decisions_for.count > 1
+    def multiple_application_providers?
+      @multiple_application_providers ||= application_providers.count > 1
     end
 
-    def providers_that_user_has_make_decisions_for
-      @providers_that_user_has_make_decisions_for ||=
-        provider_user
-        .provider_permissions
-        .includes([:provider])
-        .make_decisions
-        .where(provider: [application_choice.provider, application_choice.accredited_provider])
-        .map(&:provider)
+    def application_providers
+      @application_providers ||= [application_choice.provider, application_choice.accredited_provider].compact.uniq
     end
 
     def save_state!

@@ -116,9 +116,9 @@ RSpec.describe ProviderInterface::InterviewWizard do
     let(:application_choice) { build_stubbed(:application_choice) }
     let(:wizard) { described_class.new(store, provider_user: provider_user, application_choice: application_choice) }
 
-    context 'when user can make decisions for multiple providers' do
+    context 'when the application has multiple providers' do
       before do
-        allow(wizard).to receive(:user_can_make_decisions_for_multiple_providers?).and_return(true)
+        allow(wizard).to receive(:multiple_application_providers?).and_return(true)
       end
 
       it 'validates presence' do
@@ -127,28 +127,34 @@ RSpec.describe ProviderInterface::InterviewWizard do
     end
   end
 
-  describe '#providers_that_user_has_make_decisions_for' do
+  describe '#application_providers' do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
     let(:course_option) { create(:course_option, course: course) }
     let(:provider) { create(:provider) }
+    let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [provider]) }
+    let(:accredited_provider) { create(:provider) }
 
-    context 'when the user has make_decision permissions on the application choice training provider only' do
+    context 'when the application course has both a provider and an accredited provider' do
       let(:course) { create(:course, provider: provider) }
-      let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [provider]) }
 
-      it 'only retrieves the application choice provider' do
-        expect(wizard.providers_that_user_has_make_decisions_for).to contain_exactly(provider)
+      it 'retrieves both providers' do
+        expect(wizard.application_providers).to contain_exactly(provider)
       end
     end
 
-    context 'when the user has make_decision permissions on the providers, accredited provider and other providers' do
-      let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [provider, other_provider, accredited_provider]) }
+    context 'when the application course only has a provider set' do
       let(:course) { create(:course, provider: provider, accredited_provider: accredited_provider) }
-      let(:accredited_provider) { create(:provider) }
-      let(:other_provider) { create(:provider) }
 
-      it 'only retrieves the application choice provider and accredited provider' do
-        expect(wizard.providers_that_user_has_make_decisions_for).to contain_exactly(accredited_provider, provider)
+      it 'retrieves the ratifying provider' do
+        expect(wizard.application_providers).to contain_exactly(provider, accredited_provider)
+      end
+    end
+
+    context 'when the application course provider and accredited provider are the same' do
+      let(:course) { create(:course, provider: provider, accredited_provider: provider) }
+
+      it 'retrieves the training provider' do
+        expect(wizard.application_providers).to contain_exactly(provider)
       end
     end
   end
