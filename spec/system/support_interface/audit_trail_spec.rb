@@ -33,7 +33,7 @@ RSpec.feature 'See application history', with_audited: true do
 
     Audited.audit_class.as_user(candidate) do
       application_form = create(
-        :application_form,
+        :completed_application_form,
         first_name: 'Alice',
         last_name: 'Wunder',
         candidate: candidate,
