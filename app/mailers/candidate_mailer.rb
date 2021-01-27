@@ -327,7 +327,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.ucas_match.resolved_on_ucas.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.resolved.subject'),
     )
   end
 
@@ -337,7 +337,7 @@ class CandidateMailer < ApplicationMailer
 
     email_for_candidate(
       application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.ucas_match.resolved_on_apply.subject'),
+      subject: I18n.t!('candidate_mailer.ucas_match.resolved.subject'),
     )
   end
 

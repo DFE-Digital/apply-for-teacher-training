@@ -15,7 +15,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t!('candidate_mailer.ucas_match.resolved_on_ucas.subject'),
+      'Duplicate application withdrawn',
       'heading' => 'Dear Ada Lovelace',
       'course_code_and_option' => 'to study Primary (33WA) at Wonderland University',
       'tracking' => 'use Apply for teacher training',
@@ -28,7 +28,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t!('candidate_mailer.ucas_match.resolved_on_apply.subject'),
+      'Duplicate application withdrawn',
       'heading' => 'Dear Ada Lovelace',
       'course_code_and_option' => 'to study Primary (33WA) at Wonderland University',
       'tracking' => 'use [UCAS Teacher Training]',

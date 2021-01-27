@@ -22,9 +22,7 @@ en:
       initial_email:
         duplicate_applications:
           subject: "Duplicate application identified"
-      resolved_on_ucas:
-        subject: Duplicate applicant removed from UTT
-      resolved_on_apply:
-        subject: Duplicate applicant removed from DfE Apply
+      resolved:
+        subject: Duplicate application withdrawn
     courses_open_on_apply:
       subject: Your courses are live on Apply and you have access to Manage

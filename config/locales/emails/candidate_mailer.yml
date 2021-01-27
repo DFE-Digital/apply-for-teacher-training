@@ -95,7 +95,5 @@ en:
         subject: "Withdraw your duplicate application by %{withdraw_by_date}"
       multiple_acceptances:
         subject: "Withdraw from one of your offers by %{withdraw_by_date}"
-      resolved_on_ucas:
-        subject: Your application has been deleted from UTT
-      resolved_on_apply:
-        subject: Your application has been deleted from DfE Apply
+      resolved:
+        subject: Duplicate application withdrawn
