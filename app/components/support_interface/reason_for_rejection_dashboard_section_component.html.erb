@@ -1,9 +1,9 @@
 <h3 class="govuk-heading-m govuk-!-font-size-27"><%=@heading%></h3>
-<div class="govuk-grid-row govuk-!-margin-bottom-8">
+<div id="<%= set_div_id_from_heading %>"class="govuk-grid-row govuk-!-margin-bottom-8">
   <div class="govuk-grid-column-one-half">
     <%= render SupportInterface::TileComponent.new(
       count: @percentage_rejected,
-      label: 'of all structured rejections',
+      label: number_of_rejections_out_of_total_rejections,
       colour: :blue,
       size: :reduced,
     ) %>
