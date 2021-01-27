@@ -44,19 +44,36 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   end
 
   describe 'attributes.hesa_itt_data' do
-    let(:application_choice) do
-      application_form = create(:completed_application_form, :with_completed_references, :with_equality_and_diversity_data)
-      create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+    context "when an application choice has status 'recruited'" do
+      let(:application_choice) do
+        application_form = create(:completed_application_form, :with_completed_references, :with_equality_and_diversity_data)
+        create(:application_choice, status: 'recruited', application_form: application_form)
+      end
+
+      it 'returns the hesa_itt_data attribute of an application' do
+        equality_and_diversity_data = application_choice.application_form.equality_and_diversity
+
+        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+        expect(response.dig(:attributes, :hesa_itt_data)).to eq(
+          disability: equality_and_diversity_data['hesa_disabilities'],
+          ethnicity: equality_and_diversity_data['hesa_ethnicity'],
+          sex: equality_and_diversity_data['hesa_sex'],
+        )
+      end
     end
 
-    it 'returns the hesa_itt_data attribute of an application' do
-      equality_and_diversity_data = application_choice.application_form.equality_and_diversity
-      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
-      expect(response.dig(:attributes, :hesa_itt_data)).to eq(
-        disability: equality_and_diversity_data['hesa_disabilities'],
-        ethnicity: equality_and_diversity_data['hesa_ethnicity'],
-        sex: equality_and_diversity_data['hesa_sex'],
-      )
+    context "when an application choice does not have status 'recruited'" do
+      let(:application_choice) do
+        application_form = create(:completed_application_form, :with_completed_references, :with_equality_and_diversity_data)
+        create(:application_choice, status: 'offer', application_form: application_form)
+      end
+
+      it 'the hesa_itt_data attribute of an application is nil' do
+        response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+        expect(response[:attributes][:hesa_itt_data]).to be_nil
+      end
     end
   end
 
@@ -618,11 +635,11 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
       VendorAPI::SingleApplicationPresenter.new(non_uk_application_choice).as_json
 
-      (ApplicationForm::PUBLISHED_FIELDS - %w[postcode]).each do |field|
+      (ApplicationForm::PUBLISHED_FIELDS - %w[postcode equality_and_diversity]).each do |field|
         expect(non_uk_application_form).to have_received(field).at_least(:once)
       end
 
-      (ApplicationForm::PUBLISHED_FIELDS - %w[international_address right_to_work_or_study_details]).each do |field|
+      (ApplicationForm::PUBLISHED_FIELDS - %w[international_address right_to_work_or_study_details equality_and_diversity]).each do |field|
         expect(application_choice.application_form).to have_received(field).at_least(:once)
       end
     end

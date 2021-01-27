@@ -44,7 +44,6 @@ module VendorAPI
             work_history_break_explanation: work_history_breaks,
           },
           offer: offer,
-          hesa_itt_data: hesa_itt_data,
           rejection: get_rejection,
           withdrawal: withdrawal,
           further_information: application_form.further_information,
@@ -52,8 +51,10 @@ module VendorAPI
           safeguarding_issues_details_url: safeguarding_issues_details_url,
         },
       }
-      if application_choice.status == 'enrolled'
+      if application_choice.status == 'recruited'
         hash[:attributes][:hesa_itt_data] = hesa_itt_data
+      else
+        hash[:attributes][:hesa_itt_data] = nil
       end
       hash
     end
