@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_075130) do
+ActiveRecord::Schema.define(version: 2021_01_27_122508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -65,6 +65,10 @@ ActiveRecord::Schema.define(version: 2021_01_26_075130) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "working_pattern"
+    t.boolean "relevant_skills"
+    t.boolean "currently_working"
+    t.boolean "start_date_unknown"
+    t.boolean "end_date_unknown"
     t.index ["application_form_id"], name: "index_application_experiences_on_application_form_id"
   end
 
