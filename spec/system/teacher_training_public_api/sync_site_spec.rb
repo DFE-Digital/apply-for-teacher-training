@@ -6,10 +6,13 @@ RSpec.describe 'Sync sites', sidekiq: true do
   scenario 'Creates and updates sites' do
     given_there_are_2_sites_in_the_teacher_training_api
     and_one_of_the_sites_exists_already
+    and_course_options_with_invalid_sites_exist
 
     when_the_sync_runs
     then_it_creates_one_site
+    and_it_creates_the_corresponding_course_options
     and_it_updates_another
+    and_it_correctly_handles_course_options_with_invalid_sites
     and_it_sets_the_last_synced_timestamp
   end
 
@@ -24,7 +27,11 @@ RSpec.describe 'Sync sites', sidekiq: true do
     )
     stub_teacher_training_api_courses(
       provider_code: 'ABC',
-      specified_attributes: [{ code: 'ABC1', accredited_body_code: 'ABC' }],
+      specified_attributes: [{
+        code: 'ABC1',
+        accredited_body_code: 'ABC',
+        study_mode: 'both',
+      }],
     )
     stub_teacher_training_api_sites(
       provider_code: 'ABC',
@@ -35,6 +42,7 @@ RSpec.describe 'Sync sites', sidekiq: true do
       }, {
         code: 'B',
       }],
+      vacancy_status: 'part_time_vacancies',
     )
   end
 
@@ -44,22 +52,58 @@ RSpec.describe 'Sync sites', sidekiq: true do
     create(:site, code: 'A', provider: provider, name: 'Hogwarts School of Witchcraft and Wizardry')
   end
 
+  def and_course_options_with_invalid_sites_exist
+    provider = Provider.find_by(code: 'ABC')
+    course = Course.find_by(code: 'ABC1')
+
+    invalid_site_one = create(:site, code: 'X', provider: provider)
+    create(:course_option, course: course, site: invalid_site_one)
+
+    invalid_site_two = create(:site, code: 'Y', provider: provider)
+    course_option_two = create(:course_option, course: course, site: invalid_site_two)
+    create(:application_choice, course_option: course_option_two)
+  end
+
   def when_the_sync_runs
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
   end
 
   def then_it_creates_one_site
-    provider = Provider.find_by(code: 'ABC')
-    expect(Site.find_by(code: 'B', provider: provider)).not_to be_nil
+    site = get_site_by_provider_code('B', 'ABC')
+    expect(site).not_to be_nil
+  end
+
+  def and_it_creates_the_corresponding_course_options
+    course = Course.find_by(code: 'ABC1')
+    site = get_site_by_provider_code('B', 'ABC')
+    full_time_course_option = CourseOption.find_by(site: site, course_id: course.id, study_mode: 'full_time')
+    expect(full_time_course_option).not_to be_nil
+    expect(full_time_course_option.vacancy_status).to eql('no_vacancies')
+
+    part_time_course_option = CourseOption.find_by(site: site, course_id: course.id, study_mode: 'part_time')
+    expect(part_time_course_option).not_to be_nil
+    expect(part_time_course_option.vacancy_status).to eql('vacancies')
   end
 
   def and_it_updates_another
-    provider = Provider.find_by(code: 'ABC')
-    site = Site.find_by(code: 'A', provider: provider)
+    site = get_site_by_provider_code('A', 'ABC')
     expect(site.name).to eql('Waterloo Road')
+  end
+
+  def and_it_correctly_handles_course_options_with_invalid_sites
+    invalid_site_1_not_part_of_an_application = get_site_by_provider_code('X', 'ABC')
+    invalid_site_2_part_of_an_application = get_site_by_provider_code('Y', 'ABC')
+
+    expect(CourseOption.find_by(site: invalid_site_1_not_part_of_an_application)).to be_nil
+    expect(CourseOption.find_by(site: invalid_site_2_part_of_an_application).site_still_valid).to be false
   end
 
   def and_it_sets_the_last_synced_timestamp
     expect(TeacherTrainingPublicAPI::SyncCheck.last_sync).not_to be_blank
+  end
+
+  def get_site_by_provider_code(site_code, provider_code)
+    provider = Provider.find_by(code: provider_code)
+    Site.find_by(code: site_code, provider: provider)
   end
 end

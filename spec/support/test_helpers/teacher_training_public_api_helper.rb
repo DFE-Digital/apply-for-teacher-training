@@ -8,7 +8,7 @@ module TeacherTrainingPublicAPIHelper
     ).to_return(
       status: 200,
       headers: { 'Content-Type': 'application/vnd.api+json' },
-      body: build_response_body(specified_attributes, 'provider_list_response.json'),
+      body: build_response_body('provider_list_response.json', specified_attributes),
     )
 
     # Fake the error the API sends on exceeding the pagination limit
@@ -31,23 +31,14 @@ module TeacherTrainingPublicAPIHelper
   end
 
   def stub_teacher_training_api_courses(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, specified_attributes: [])
-    response_body = build_response_body(specified_attributes, 'course_list_response.json')
+    response_body = build_response_body('course_list_response.json', specified_attributes)
     stub_teacher_training_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses", response_body)
   end
 
   def stub_teacher_training_api_sites(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, specified_attributes: [], vacancy_status: 'full_time_vacancies')
     fixture_file = site_fixture(vacancy_status)
-    response_body = build_response_body(specified_attributes, fixture_file)
+    response_body = build_response_body(fixture_file, specified_attributes)
     stub_teacher_training_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}/locations?include=location_status", response_body)
-  end
-
-  def site_fixture(vacancy_status)
-    case vacancy_status
-    when 'full_time_vacancies'
-      'site_list_response_with_full_time_vacancies.json'
-    when 'part_time_vacancies'
-      'site_list_response_with_part_time_vacancies.json'
-    end
   end
 
   def fake_api_provider(provider_attributes = {})
@@ -78,7 +69,7 @@ private
     )
   end
 
-  def build_response_body(specified_attributes = [], fixture_file)
+  def build_response_body(fixture_file, specified_attributes = [])
     api_response = JSON.parse(
       File.read(
         Rails.root.join("spec/examples/teacher_training_api/#{fixture_file}"),
@@ -126,5 +117,14 @@ private
       headers: { 'Content-Type': 'application/vnd.api+json' },
       body: api_response.to_json,
     )
+  end
+
+  def site_fixture(vacancy_status)
+    case vacancy_status
+    when 'full_time_vacancies'
+      'site_list_response_with_full_time_vacancies.json'
+    when 'part_time_vacancies'
+      'site_list_response_with_part_time_vacancies.json'
+    end
   end
 end
