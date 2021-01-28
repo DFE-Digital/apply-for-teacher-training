@@ -79,7 +79,7 @@ RSpec.describe ReasonsForRejectionCountQuery do
 
     it 'includes zero values' do
       counts = ReasonsForRejectionCountQuery.new.sub_reason_counts
-      expect(counts[:qualifications_y_n].sub_reasons.count).to eql(5)
+      expect(counts[:qualifications_y_n].sub_reasons.count).to be(5)
       expect(counts[:qualifications_y_n].sub_reasons[:no_english_gcse]).to eq(
         ReasonsForRejectionCountQuery::Result.new(0, 0, nil),
       )

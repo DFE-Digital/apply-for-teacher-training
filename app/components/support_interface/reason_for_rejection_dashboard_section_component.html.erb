@@ -1,5 +1,5 @@
 <h3 class="govuk-heading-m govuk-!-font-size-27"><%=@heading%></h3>
-<div id="<%= set_div_id_from_heading %>"class="govuk-grid-row govuk-!-margin-bottom-2">
+<div id="<%= set_div_id_from_heading %>" class="govuk-grid-row govuk-!-margin-bottom-2">
   <div class="govuk-grid-column-one-half">
     <%= render SupportInterface::TileComponent.new(
       count: @percentage_rejected,
@@ -25,7 +25,7 @@
     ) %>
   </div>
 </div>
-<div class="govuk-!-margin-bottom-8">
+<div id="<%= set_div_id_from_heading %>-sub-reasons" class="govuk-!-margin-bottom-8">
   <% if @sub_reasons_key %>
     <%= render SupportInterface::SubReasonsForRejectionTableComponent.new(
       @sub_reasons_key,

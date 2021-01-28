@@ -41,35 +41,12 @@ private
   }.with_indifferent_access
 
   SUBREASON_VALUES = {
-    qualifications_y_n: [
-      :no_maths_gcse,
-      :no_english_gcse,
-      :no_science_gcse,
-      :no_degree,
-      :other,
-    ],
-    candidate_behaviour_y_n: [
-      :didnt_reply_to_interview_offer,
-      :didnt_attend_interview,
-      :other,
-    ],
-    quality_of_application_y_n: [
-      :personal_statement,
-      :subject_knowledge,
-      :other,
-    ],
-    honesty_and_professionalism_y_n: [
-     :information_false_or_inaccurate,
-     :plagiarism,
-     :references,
-     :other,
-    ],
-    safeguarding_y_n: [
-      :candidate_disclosed_information,
-      :vetting_disclosed_information,
-      :other,
-    ],
-  }
+    qualifications_y_n: %i[no_maths_gcse no_english_gcse no_science_gcse no_degree other],
+    candidate_behaviour_y_n: %i[didnt_reply_to_interview_offer didnt_attend_interview other],
+    quality_of_application_y_n: %i[personal_statement subject_knowledge other],
+    honesty_and_professionalism_y_n: %i[information_false_or_inaccurate plagiarism references other],
+    safeguarding_y_n: %i[candidate_disclosed_information vetting_disclosed_information other],
+  }.freeze
 
   def to_results(rows)
     results_hash = ActiveSupport::HashWithIndifferentAccess.new do |hash, reason|

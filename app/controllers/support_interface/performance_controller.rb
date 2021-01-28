@@ -24,7 +24,7 @@ module SupportInterface
     end
 
     def reasons_for_rejection_dashboard
-      @reasons_for_rejection = GetReasonsForRejectionFromApplicationChoices.new.reason_counts
+      @reasons_for_rejection = ReasonsForRejectionCountQuery.new.sub_reason_counts
     end
 
     def ucas_matches_dashboard; end
