@@ -816,7 +816,7 @@ Rails.application.routes.draw do
 
     scope '/performance' do
       get '/' => 'performance#index', as: :performance
-      get '/dashboard' => 'performance_dashboard#dashboard', as: :performance_dashboard
+      get '/dashboard' => 'performance#dashboard', as: :performance_dashboard
 
       get '/course-statistics', to: 'performance#course_statistics', as: :course_statistics
       get '/course-options', to: 'performance#course_options', as: :course_options

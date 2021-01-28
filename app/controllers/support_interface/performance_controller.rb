@@ -10,6 +10,12 @@ module SupportInterface
       @course_options = CourseOption.where('vacancy_status != ?', 'vacancies').includes(:course, :site)
     end
 
+    def dashboard
+      raise ArgumentError unless params[:year].in?([nil, '2020', '2021'])
+
+      @statistics = PerformanceStatistics.new(params[:year])
+    end
+
     def feature_metrics
       @reference_statistics = ReferenceFeatureMetrics.new
       @work_history_statistics = WorkHistoryFeatureMetrics.new
