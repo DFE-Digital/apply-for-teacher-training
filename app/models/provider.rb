@@ -48,6 +48,14 @@ class Provider < ApplicationRecord
     Course.where(accredited_provider: self)
   end
 
+  def acts_as_accredited_body_in_current_cycle?
+    accredited_courses.current_cycle.exposed_in_find.any?
+  end
+
+  def all_courses_open_in_current_cycle?
+    accredited_courses.or(courses).current_cycle.exposed_in_find.all?(&:open_on_apply?)
+  end
+
   def application_forms
     ApplicationForm.where(id: application_choices.select(:application_form_id))
   end

@@ -6,10 +6,24 @@ class OpenProviderCourses
   end
 
   def call
-    if provider.courses.current_cycle.exposed_in_find.update_all(open_on_apply: true).positive?
+    if run_courses.or(ratified_courses).update_all(open_on_apply: true).positive?
       provider.provider_users.each do |provider_user|
         ProviderMailer.courses_open_on_apply(provider_user)
       end
     end
+  end
+
+private
+
+  def run_courses
+    @provider.courses
+      .current_cycle
+      .exposed_in_find
+  end
+
+  def ratified_courses
+    @provider.accredited_courses
+      .current_cycle
+      .exposed_in_find
   end
 end
