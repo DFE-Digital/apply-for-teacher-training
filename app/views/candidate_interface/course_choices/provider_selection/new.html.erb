@@ -10,12 +10,6 @@
     ) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <% if FeatureFlag.active?(:hold_courses_open) %>
-        <%= render SandboxFeatureComponent.new(
-          description: 'All courses are open for applications, even those which are full in real life.'
-        ) %>
-      <% end %>
-
       <%= f.govuk_collection_select(
         :provider_id,
         select_provider_options(@pick_provider.available_providers),

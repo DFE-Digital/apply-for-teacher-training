@@ -22,25 +22,13 @@ class CourseOption < ApplicationRecord
   }
 
   scope :available, lambda {
-    if FeatureFlag.active?(:hold_courses_open)
-      selectable
-    else
-      selectable.where(vacancy_status: 'vacancies')
-    end
-  }
-
-  scope :vacancies, lambda {
-    if FeatureFlag.active?(:hold_courses_open)
-      all
-    else
-      where(vacancy_status: 'vacancies')
-    end
+    selectable.where(vacancy_status: 'vacancies')
   }
 
   delegate :full?, :withdrawn?, :closed_on_apply?, :not_available?, to: :course, prefix: true
 
   def no_vacancies?
-    !FeatureFlag.active?(:hold_courses_open) && vacancy_status == 'no_vacancies'
+    vacancy_status == 'no_vacancies'
   end
 
   def validate_providers
