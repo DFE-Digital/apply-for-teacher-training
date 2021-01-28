@@ -5,6 +5,8 @@ module SupportInterface
       @rejection_reasons = rejection_reasons
     end
 
+  private
+
     def current_month_rejection_count(reason)
       values = @rejection_reasons.find { |h| h['key'] == reason && h['time_period'] == 'this_month' }
       return 0 if values.nil?
@@ -17,12 +19,12 @@ module SupportInterface
     end
 
     def percentage_rejected_for_reason(reason)
-      count = current_month_rejection_count(reason) + previous_rejection_count(reason)
-      total = @rejection_reasons.inject(0) { |sum, hash| sum + hash['count'] }
-      formatted_percentage(count, total)
+      formatted_percentage(total_rejection_count(reason), total_structured_rejection_reasons_count)
     end
 
-  private
+    def total_structured_rejection_reasons_count
+      @total_structured_rejection_reasons_count ||= ApplicationChoice.where.not(structured_rejection_reasons: nil).count
+    end
 
     def previous_rejection_count(reason)
       values = @rejection_reasons.find { |h| h['key'] == reason && h['time_period'] == 'before_this_month' }
