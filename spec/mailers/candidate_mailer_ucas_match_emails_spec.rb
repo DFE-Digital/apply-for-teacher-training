@@ -17,9 +17,9 @@ RSpec.describe CandidateMailer, type: :mailer do
       'a mail with subject and content',
       'Duplicate application withdrawn',
       'heading' => 'Dear Ada Lovelace',
-      'course_code_and_option' => 'to study Primary (33WA) at Wonderland University',
-      'tracking' => 'use Apply for teacher training',
-      'removal details' => 'the course choice was removed from your UCAS application',
+      'course_code_and_option' => 'to study Primary (33WA) with Wonderland University',
+      'tracking' => 'You can track your application through GOV.UK',
+      'removal details' => 'You’ve withdrawn your application through UCAS',
     )
   end
 
