@@ -23,6 +23,7 @@ module CandidateHelper
   end
 
   def candidate_completes_application_form(with_referees: true)
+    FeatureFlag.deactivate(:restructured_work_history)
     given_courses_exist
     create_and_sign_in_candidate
     visit candidate_interface_application_form_path

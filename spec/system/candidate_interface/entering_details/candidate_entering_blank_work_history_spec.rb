@@ -4,6 +4,8 @@ RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history' do
+    FeatureFlag.deactivate(:restructured_work_history)
+
     given_i_am_signed_in
     and_i_visit_the_site
 

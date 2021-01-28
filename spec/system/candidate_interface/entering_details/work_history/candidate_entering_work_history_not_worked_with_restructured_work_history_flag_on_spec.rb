@@ -4,29 +4,28 @@ RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history when they have none' do
-    FeatureFlag.deactivate(:restructured_work_history)
+    FeatureFlag.activate(:restructured_work_history)
 
     given_i_am_signed_in
     and_i_visit_the_site
 
     when_i_click_on_work_history
-    when_i_choose_not_worked
-    then_i_should_see_the_work_history_explanation_form
+    and_i_choose_i_do_not_have_any_work_history
+    and_i_provide_my_reason_for_not_having_worked
+    then_i_should_see_the_work_history_review_page
+    # The below methods are reliant on the new review page
+    # and should be uncommented/extended as part of that card
 
-    when_i_fill_in_the_work_history_explanation_form
-    then_i_should_see_my_explanation
-
-    when_i_click_on_change
-    and_i_change_the_explanation
-    then_i_should_see_my_updated_explanation
-
-    when_i_mark_this_section_as_completed
-    and_i_click_on_continue
-    then_i_should_see_the_form
-    and_that_the_section_is_completed
-
-    when_i_click_on_work_history
-    then_i_should_see_my_explanation
+    # and_i_should_see_my_explanation
+    #
+    # when_i_click_on_change
+    # and_i_change_the_explanation
+    # then_i_should_see_my_updated_explanation
+    #
+    # when_i_mark_this_section_as_completed
+    # and_i_click_on_continue
+    # then_i_should_see_the_form
+    # and_that_the_section_is_completed
   end
 
   def given_i_am_signed_in
@@ -41,21 +40,21 @@ RSpec.feature 'Entering their work history' do
     click_link t('page_titles.work_history')
   end
 
-  def when_i_choose_not_worked
+  def and_i_choose_i_do_not_have_any_work_history
     choose t('application_form.work_history.missing.label')
     click_button t('continue')
   end
 
-  def then_i_should_see_the_work_history_explanation_form
-    expect(page).to have_content(t('page_titles.work_history_explanation'))
-  end
-
-  def when_i_fill_in_the_work_history_explanation_form
-    fill_in t('application_form.work_history.explanation.label'), with: 'I was not working'
+  def and_i_provide_my_reason_for_not_having_worked
+    fill_in 'Tell us why you’ve been out of the workplace', with: 'I was not working'
     click_button t('continue')
   end
 
-  def then_i_should_see_my_explanation
+  def then_i_should_see_the_work_history_review_page
+    expect(page).to have_current_path candidate_interface_restructured_work_history_review_path
+  end
+
+  def and_i_should_see_my_explanation
     expect(page).to have_content('I was not working')
   end
 
@@ -64,12 +63,12 @@ RSpec.feature 'Entering their work history' do
   end
 
   def and_i_change_the_explanation
-    fill_in t('application_form.work_history.explanation.label'), with: 'I was not working 2'
+    fill_in 'Tell us why you’ve been out of the workplace', with: 'I was not working due to childcare'
     click_button t('continue')
   end
 
   def then_i_should_see_my_updated_explanation
-    expect(page).to have_content('I was not working 2')
+    expect(page).to have_content('I was not working due to childcare')
   end
 
   def when_i_mark_this_section_as_completed

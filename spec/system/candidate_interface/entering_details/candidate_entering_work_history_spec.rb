@@ -4,11 +4,14 @@ RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
   scenario 'Candidate submits their work history' do
+    FeatureFlag.deactivate(:restructured_work_history)
+
     given_i_am_signed_in
     and_i_visit_the_site
 
     when_i_click_on_work_history
     then_i_should_see_a_list_of_work_lengths
+    and_my_application_form_is_marked_as_having_used_the_existing_flow
 
     when_i_omit_choosing_from_the_list_of_work_lengths
     then_i_should_see_work_history_length_validation_errors
@@ -60,6 +63,10 @@ RSpec.feature 'Entering their work history' do
 
   def then_i_should_see_a_list_of_work_lengths
     expect(page).to have_content(t('application_form.work_history.complete.label'))
+  end
+
+  def and_my_application_form_is_marked_as_having_used_the_existing_flow
+    expect(ApplicationForm.last.feature_restructured_work_history).to eq false
   end
 
   def when_i_omit_choosing_from_the_list_of_work_lengths

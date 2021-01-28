@@ -4,6 +4,7 @@ module CandidateInterface
 
     def show
       @work_details_form = WorkHistoryForm.new
+      current_application.update!(feature_restructured_work_history: false)
     end
 
     def submit
