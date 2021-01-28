@@ -29,12 +29,19 @@ RSpec.feature 'Entering volunteering and school experience' do
     when_i_click_on_volunteering_with_children_and_young_people
     then_i_can_check_my_answers
 
-    when_i_delete_my_volunteering_role
+    when_i_click_on_add_another_role
+    then_i_see_the_add_volunteering_role_form
+
+    when_i_click_back
+    and_i_delete_my_volunteering_role
     and_i_confirm
     then_i_am_asked_if_i_have_experience_volunteering_with_young_people_or_in_school
 
-    when_i_choose_yes_experience
+    when_i_choose_no_experience
     and_i_submit_the_volunteering_experience_form
+    then_i_can_see_a_link_to_get_school_experience
+
+    when_i_click_on_add_a_role
     then_i_see_the_add_volunteering_role_form
 
     when_i_fill_in_another_volunteering_role
@@ -143,7 +150,7 @@ RSpec.feature 'Entering volunteering and school experience' do
     click_button t('continue')
   end
 
-  def when_i_delete_my_volunteering_role
+  def and_i_delete_my_volunteering_role
     click_link t('application_form.volunteering.delete.action')
   end
 
@@ -203,5 +210,29 @@ RSpec.feature 'Entering volunteering and school experience' do
 
   def then_i_can_check_my_answers
     then_i_check_my_volunteering_role
+  end
+
+  def when_i_click_on_add_another_role
+    click_link t('application_form.volunteering.another.button')
+  end
+
+  def then_i_see_the_add_volunteering_role_form
+    expect(page).to have_content(t('page_titles.add_volunteering_role'))
+  end
+
+  def when_i_click_back
+    click_link 'Back'
+  end
+
+  def when_i_choose_no_experience
+    choose 'No'
+  end
+
+  def then_i_can_see_a_link_to_get_school_experience
+    expect(page).to have_link('Get school experience', href: 'https://schoolexperience.education.gov.uk/')
+  end
+
+  def when_i_click_on_add_a_role
+    click_link t('application_form.volunteering.add.button')
   end
 end
