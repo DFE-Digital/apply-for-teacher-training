@@ -13,9 +13,9 @@ module ProviderInterface
     attribute 'date(1i)', :string
 
     validate :date_is_valid?
-    validate :date_in_future, if: :date_is_valid?
+    validate :date_and_time_in_future, if: %i[date_is_valid? time_is_valid?]
     validate :time_is_valid?, if: ->(wizard) { wizard.time.present? }
-    validate :date_after_rbd_date, if: :date_is_valid?
+    validate :date_after_rbd_date, if: %i[date_is_valid? date_and_time_in_future]
     validates :time, :date, :provider_user, :location, :application_choice, presence: true
     validates :provider_id, presence: true, if: %i[application_choice provider_user multiple_application_providers?]
 
@@ -54,8 +54,15 @@ module ProviderInterface
       Time.zone.local(date.year, date.month, date.day, parsed_time.hour, parsed_time.min) if date.is_a?(Date)
     end
 
-    def date_in_future
-      errors.add(:date, :past) if date < Time.zone.now
+    def date_and_time_in_future
+      return true if date_and_time > Time.zone.now
+
+      if date.past?
+        errors.add(:date, :past) unless errors.added?(:date, :past)
+      else
+        errors.add(:time, :past) unless errors.added?(:time, :past)
+      end
+      false
     end
 
     def date_after_rbd_date

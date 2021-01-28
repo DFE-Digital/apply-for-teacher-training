@@ -44,18 +44,6 @@ RSpec.describe ProviderInterface::InterviewWizard do
         end
       end
 
-      context 'when in the past' do
-        let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: 5.days.from_now) }
-        let(:year) { 2020 }
-
-        it 'is invalid with the correct error' do
-          Timecop.freeze(2021, 1, 13) do
-            expect(wizard).to be_invalid
-            expect(wizard.errors[:date]).to contain_exactly('Enter a date that is in the future')
-          end
-        end
-      end
-
       context 'when it is after the rdb date' do
         let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 2, 14)) }
         let(:day) { 15 }
@@ -90,6 +78,43 @@ RSpec.describe ProviderInterface::InterviewWizard do
           valid_times.each do |time|
             wizard.time = time
             expect(wizard.time_is_valid?).to eq(true)
+          end
+        end
+      end
+    end
+
+    describe '#date_and_time_in_future' do
+      context 'the day is on the same day and the time is in the future' do
+        let(:day) { '13' }
+        let(:time) { '1pm' }
+
+        it 'returns true and adds no errors' do
+          Timecop.freeze(2021, 2, 13, 12, 0, 0) do
+            expect(wizard.date_and_time_in_future).to eq(true)
+          end
+        end
+      end
+
+      context 'the day is before today' do
+        let(:day) { '12' }
+        let(:time) { '9pm' }
+
+        it 'returns false and adds a date error' do
+          Timecop.freeze(2021, 2, 13, 11, 0, 0) do
+            expect(wizard).to be_invalid
+            expect(wizard.errors[:date]).to contain_exactly('The interview date must be in the future')
+          end
+        end
+      end
+
+      context 'the day is on the same day and the time is in the past' do
+        let(:day) { '13' }
+        let(:time) { '9am' }
+
+        it 'returns false and adds a time error' do
+          Timecop.freeze(2021, 2, 13, 11, 0, 0) do
+            expect(wizard).to be_invalid
+            expect(wizard.errors[:time]).to contain_exactly('The interview time must be in the future')
           end
         end
       end

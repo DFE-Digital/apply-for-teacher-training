@@ -40,10 +40,11 @@ en:
               invalid: The interview date must be a real date
               missing_values: The interview date must include a %{missing_details}
               blank: Enter the interview date
-              past: Enter a date that is in the future
+              past: The interview date must be in the future
               after_rdb: The interview date must be before the application closing date
             time:
               invalid: Enter a time in the correct format
               blank: Enter the interview time
+              past: The interview time must be in the future
             location:
               blank: Enter the interview location
