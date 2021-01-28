@@ -1,5 +1,5 @@
 <nav class="app-tab-navigation" aria-label="Sub navigation" data-qa="sub-navigation">
-  <ul class="app-tab-navigation__list">
+  <ul class="app-tab-navigation__list govuk-!-display-none-print">
     <% items.each do |item| %>
       <li class="app-tab-navigation__item">
         <% if item.fetch(:current, false) || current_page?(item.fetch(:url)) %>
