@@ -7,6 +7,9 @@ gem 'rails', '~> 6.0'
 gem 'puma', '~> 5.1'
 gem 'pg', '~> 1.2.3'
 
+# allows us to use the enum type in the db
+gem 'activerecord-pg_enum'
+
 # do not rely on host’s timezone data, which can be inconsistent
 gem 'tzinfo-data'
 
