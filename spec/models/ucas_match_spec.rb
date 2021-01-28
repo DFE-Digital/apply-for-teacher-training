@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe UCASMatch do
   let(:candidate) { create(:candidate) }
   let(:course) { create(:course) }
-  let!(:application_form_awaiting_provider_decision) { create(:completed_application_form, candidate_id: candidate.id, application_choices_count: 1) }
+  let(:application_form_awaiting_provider_decision) { create(:completed_application_form, candidate_id: candidate.id, application_choices_count: 1) }
   let(:course1) { application_form_awaiting_provider_decision.application_choices.first.course_option.course }
   let(:both_schemes_match) do
     { 'Scheme' => 'B',
