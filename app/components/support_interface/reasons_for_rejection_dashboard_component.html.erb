@@ -18,6 +18,9 @@
 <%= render SupportInterface::SubReasonsForRejectionTableComponent.new(
   :candidate_behaviour_y_n,
   sub_reasons_for(:candidate_behaviour_y_n),
+  total_rejections: total_structured_rejection_reasons_count,
+  sub_reasons_key: :candidate_behaviour_y_n,
+  sub_reasons_result: sub_reasons_for(:candidate_behaviour_y_n),
 )
 %>
 
@@ -32,6 +35,9 @@
 <%= render SupportInterface::SubReasonsForRejectionTableComponent.new(
   :honesty_and_professionalism_y_n,
   sub_reasons_for(:honesty_and_professionalism_y_n),
+  total_rejections: total_structured_rejection_reasons_count,
+  sub_reasons_key: :honesty_and_professionalism_y_n,
+  sub_reasons_result: sub_reasons_for(:honesty_and_professionalism_y_n),
 )
 %>
 
@@ -64,6 +70,9 @@
 <%= render SupportInterface::SubReasonsForRejectionTableComponent.new(
   :qualifications_y_n,
   sub_reasons_for(:qualifications_y_n),
+  total_rejections: total_structured_rejection_reasons_count,
+  sub_reasons_key: :qualifications_y_n,
+  sub_reasons_result: sub_reasons_for(:qualifications_y_n),
 )
 %>
 
@@ -78,6 +87,9 @@
 <%= render SupportInterface::SubReasonsForRejectionTableComponent.new(
   :quality_of_application_y_n,
   sub_reasons_for(:quality_of_application_y_n),
+  total_rejections: total_structured_rejection_reasons_count,
+  sub_reasons_key: :quality_of_application_y_n,
+  sub_reasons_result: sub_reasons_for(:quality_of_application_y_n),
 )
 %>
 
@@ -92,6 +104,9 @@
 <%= render SupportInterface::SubReasonsForRejectionTableComponent.new(
   :safeguarding_y_n,
   sub_reasons_for(:safeguarding_y_n),
+  total_rejections: total_structured_rejection_reasons_count,
+  sub_reasons_key: :safeguarding_y_n,
+  sub_reasons_result: sub_reasons_for(:safeguarding_y_n),
 )
 %>
 

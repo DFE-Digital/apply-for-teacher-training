@@ -4,6 +4,10 @@ class ReasonsForRejectionCountQuery
 
   Result = Struct.new(:all_time, :this_month, :sub_reasons)
 
+  def total_structured_reasons_for_rejection
+    ApplicationChoice.where.not(structured_rejection_reasons: nil).count
+  end
+
   def reason_counts
     rows = ActiveRecord::Base.connection.exec_query(
       reason_counts_sql,

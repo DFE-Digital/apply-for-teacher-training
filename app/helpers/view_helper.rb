@@ -135,6 +135,14 @@ module ViewHelper
     numerator.to_f / denominator * 100.0
   end
 
+  def formatted_percentage(count, total)
+    return '-' if total.zero?
+
+    percentage = percent_of(count, total)
+    precision = (percentage % 1).zero? ? 0 : 2
+    number_to_percentage(percentage, precision: precision)
+  end
+
 private
 
   def prepend_css_class(css_class, current_class)

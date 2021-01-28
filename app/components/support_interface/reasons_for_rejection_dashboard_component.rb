@@ -30,11 +30,5 @@ module SupportInterface
     def previous_rejection_count(reason)
       total_rejection_count(reason) - current_month_rejection_count(reason)
     end
-
-    def formatted_percentage(count, total)
-      percentage = percent_of(count, total)
-      precision = (percentage % 1).zero? ? 0 : 2
-      number_to_percentage(percentage, precision: precision)
-    end
   end
 end
