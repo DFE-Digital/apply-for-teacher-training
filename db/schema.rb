@@ -10,11 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_27_122508) do
+ActiveRecord::Schema.define(version: 2021_01_28_094853) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  # These are custom enum types that must be created before they can be used in the schema definition
+  create_enum "work_history_type", ["can_complete", "full_time_education", "can_not_complete"]
 
   create_table "application_choices", force: :cascade do |t|
     t.bigint "application_form_id", null: false
@@ -149,7 +152,7 @@ ActiveRecord::Schema.define(version: 2021_01_27_122508) do
     t.float "latitude"
     t.float "longitude"
     t.boolean "feature_restructured_work_history", default: true
-    t.string "work_history_status"
+    t.enum "work_history_status", as: "work_history_type"
     t.index ["candidate_id"], name: "index_application_forms_on_candidate_id"
     t.index ["submitted_at"], name: "index_application_forms_on_submitted_at"
   end
