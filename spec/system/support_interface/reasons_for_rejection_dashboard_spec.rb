@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Reasons for rejection dashboard' do
+RSpec.feature 'Structured reasons for rejection dashboard' do
   include DfESignInHelpers
 
   around do |example|
@@ -10,14 +10,14 @@ RSpec.feature 'Reasons for rejection dashboard' do
     end
   end
 
-  scenario 'View reasons for rejection', with_audited: true do
+  scenario 'View structured reasons for rejection', with_audited: true do
     given_i_am_a_support_user
     and_there_are_candidates_and_application_forms_in_the_system
 
     when_i_visit_the_performance_page_in_support
-    and_i_click_on_the_reasons_for_rejection_metrics_link
+    and_i_click_on_the_reasons_for_rejection_dashboard_link
 
-    then_i_should_see_reasons_for_rejection_metrics
+    then_i_should_see_reasons_for_rejection_dashboard
   end
 
   def given_i_am_a_support_user
@@ -44,11 +44,11 @@ RSpec.feature 'Reasons for rejection dashboard' do
     visit support_interface_performance_path
   end
 
-  def and_i_click_on_the_reasons_for_rejection_metrics_link
-    click_on 'Reasons for rejection'
+  def and_i_click_on_the_reasons_for_rejection_dashboard_link
+    click_on 'Structured reasons for rejection'
   end
 
-  def then_i_should_see_reasons_for_rejection_metrics
+  def then_i_should_see_reasons_for_rejection_dashboard
     then_i_should_see_reasons_for_rejection_course_full
     and_i_should_see_reasons_for_rejection_candidate_behaviour
     and_i_should_see_reasons_for_rejection_honesty_and_professionalism

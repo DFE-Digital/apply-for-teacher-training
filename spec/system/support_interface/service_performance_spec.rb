@@ -22,7 +22,7 @@ RSpec.feature 'Service performance' do
 
     then_i_only_see_candidates_that_signed_up_that_year
 
-    when_i_visit_ucas_matches_stats_in_support
+    when_i_visit_ucas_matches_dashboard_in_support
     then_i_should_see_the_total_number_of_ucas_matches
   end
 
@@ -74,9 +74,9 @@ RSpec.feature 'Service performance' do
     expect(page).to have_content '7 unique candidates'
   end
 
-  def when_i_visit_ucas_matches_stats_in_support
+  def when_i_visit_ucas_matches_dashboard_in_support
     visit support_interface_performance_path
-    click_on 'UCAS matches statistics'
+    click_on 'UCAS matches'
   end
 
   def then_i_should_see_the_total_number_of_ucas_matches

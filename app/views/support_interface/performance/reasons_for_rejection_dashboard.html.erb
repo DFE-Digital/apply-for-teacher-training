@@ -1,0 +1,15 @@
+<% content_for :title, 'Structured reasons for rejection' %>
+
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [
+    {
+      text: 'Performance',
+      path: support_interface_performance_path
+    },
+    {
+      text: 'Structured reasons for rejection'
+    }
+  ]) %>
+<% end %>
+
+<%= render SupportInterface::ReasonsForRejectionDashboardComponent.new(@reasons_for_rejection) %>
