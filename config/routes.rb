@@ -816,21 +816,21 @@ Rails.application.routes.draw do
 
     scope '/performance' do
       get '/' => 'performance#index', as: :performance
-      get '/dashboard' => 'performance#dashboard', as: :performance_dashboard
 
-      get '/course-statistics', to: 'performance#course_statistics', as: :course_statistics
+      get '/dashboard' => 'performance#performance_dashboard', as: :performance_dashboard
+      get '/course-statistics', to: 'performance#courses_dashboard', as: :courses_dashboard
+      get '/feature-metrics' => 'performance#feature_metrics_dashboard', as: :feature_metrics_dashboard
+      get '/reasons-for-rejection' => 'performance#reasons_for_rejection_dashboard', as: :reasons_for_rejection_dashboard
+      get '/ucas-matches' => 'performance#ucas_matches_dashboard', as: :ucas_matches_dashboard
+
       get '/course-options', to: 'performance#course_options', as: :course_options
-      get '/feature-metrics' => 'performance#feature_metrics', as: :feature_metrics
       get '/unavailable-choices' => 'performance#unavailable_choices', as: :unavailable_choices
-      get '/ucas-matches' => 'performance#ucas_matches', as: :ucas_matches_statistics
 
       get '/validation-errors' => 'validation_errors#index', as: :validation_errors
       get '/validation-errors/search' => 'validation_errors#search', as: :validation_error_search
       get '/validation-errors/summary' => 'validation_errors#summary', as: :validation_error_summary
 
       get '/data-export/documentation/:export_type_id' => 'data_exports#data_set_documentation', as: :data_set_documentation
-
-      get '/reasons-for-rejection' => 'performance#reasons_for_rejection', as: :reasons_for_rejection_dashboard
 
       resources :data_exports, path: '/data-exports' do
         member do
