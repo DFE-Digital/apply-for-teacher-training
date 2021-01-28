@@ -43,11 +43,13 @@ module CandidateInterface
     end
 
     def save_intermediate!
+      sanitize_types
       @intermediate_data_service.write(intermediate_state)
       @next_step = editing && !qualification_type_changed? ? :check : :details
     end
 
     def save!
+      sanitize_types
       application_qualification = @current_application.application_qualifications.other.find(id)
       application_qualification.update!(attributes_for_persistence)
     end
@@ -55,6 +57,11 @@ module CandidateInterface
     PERSISTENT_ATTRIBUTES = %w[id current_step editing qualification_type other_uk_qualification_type non_uk_qualification_type institution_country].freeze
 
   private
+
+    def sanitize_types
+      self.other_uk_qualification_type = nil unless qualification_type == OTHER_TYPE
+      self.non_uk_qualification_type = nil unless qualification_type == NON_UK_TYPE
+    end
 
     def attributes_for_persistence
       {
