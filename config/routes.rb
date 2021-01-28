@@ -714,7 +714,7 @@ Rails.application.routes.draw do
   namespace :integrations, path: '/integrations' do
     post '/notify/callback' => 'notify#callback'
     get '/feature-flags' => 'feature_flags#index'
-    get '/performance-dashboard' => redirect('support/performance/dashboard')
+    get '/performance-dashboard' => redirect('support/performance/service')
   end
 
   namespace :support_interface, path: '/support' do
@@ -817,10 +817,10 @@ Rails.application.routes.draw do
     scope '/performance' do
       get '/' => 'performance#index', as: :performance
 
-      get '/dashboard' => 'performance#performance_dashboard', as: :performance_dashboard
       get '/course-statistics', to: 'performance#courses_dashboard', as: :courses_dashboard
       get '/feature-metrics' => 'performance#feature_metrics_dashboard', as: :feature_metrics_dashboard
       get '/reasons-for-rejection' => 'performance#reasons_for_rejection_dashboard', as: :reasons_for_rejection_dashboard
+      get '/service' => 'performance#service_performance_dashboard', as: :service_performance_dashboard
       get '/ucas-matches' => 'performance#ucas_matches_dashboard', as: :ucas_matches_dashboard
 
       get '/course-options', to: 'performance#course_options', as: :course_options

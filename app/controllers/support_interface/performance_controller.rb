@@ -10,10 +10,10 @@ module SupportInterface
 
     def courses_dashboard; end
 
-    def performance_dashboard
-      raise ArgumentError unless params[:year].in?([nil, '2020', '2021'])
+    def service_performance_dashboard
+      year = params[:year] if %w[2020 2021].include?(params[:year])
 
-      @statistics = PerformanceStatistics.new(params[:year])
+      @statistics = PerformanceStatistics.new(year)
     end
 
     def feature_metrics_dashboard
