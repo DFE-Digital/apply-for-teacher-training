@@ -11,24 +11,24 @@ RSpec.describe UCASMatch do
       'Apply candidate ID' => candidate.id.to_s,
       'Provider code' => course.provider.code.to_s }
   end
-  let(:ucas_match) { create(:ucas_match) }
+  let(:ucas_match) { build_stubbed(:ucas_match) }
 
   describe '#action_needed?' do
     it 'returns false if ucas match has been manually resolved' do
-      ucas_match = create(:ucas_match, action_taken: 'manually_resolved')
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'manually_resolved')
 
       expect(ucas_match.action_needed?).to eq(false)
     end
 
     it 'returns false if ucas match is resolved' do
-      ucas_match = create(:ucas_match, action_taken: 'resolved_on_ucas')
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'resolved_on_ucas')
 
       expect(ucas_match.action_needed?).to eq(false)
     end
 
     it 'returns false if initial emails were sent and we do not need to send the reminders yet' do
       initial_emails_sent_at = Time.zone.now
-      ucas_match = create(:ucas_match, :with_dual_application, action_taken: 'initial_emails_sent', candidate_last_contacted_at: initial_emails_sent_at)
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'initial_emails_sent', candidate_last_contacted_at: initial_emails_sent_at)
 
       Timecop.travel(1.business_days.after(initial_emails_sent_at)) do
         expect(ucas_match.action_needed?).to eq(false)
@@ -36,31 +36,31 @@ RSpec.describe UCASMatch do
     end
 
     it 'returns true if initial emails were sent and it is time to send a reminder email' do
-      ucas_match = create(:ucas_match, :with_dual_application, :need_to_send_reminder_emails)
+      ucas_match = build_stubbed(:dual_application_ucas_match, :need_to_send_reminder_emails)
 
       expect(ucas_match.action_needed?).to eq(true)
     end
 
     it 'returns false if reminder emails were sent and we do not need to request withdrawal from UCAS yet' do
-      ucas_match = create(:ucas_match, :with_dual_application, action_taken: 'reminder_emails_sent', candidate_last_contacted_at: Time.zone.now)
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'reminder_emails_sent', candidate_last_contacted_at: Time.zone.now)
 
       expect(ucas_match.action_needed?).to eq(false)
     end
 
     it 'returns true if reminder emails were sent and it is time to request withdrawal from UCAS' do
-      ucas_match = create(:ucas_match, :with_dual_application, :need_to_request_withdrawal_from_ucas)
+      ucas_match = build_stubbed(:dual_application_ucas_match, :need_to_request_withdrawal_from_ucas)
 
       expect(ucas_match.action_needed?).to eq(true)
     end
 
     it 'returns false if we requested withdrawal from UCAS' do
-      ucas_match = create(:ucas_match, :with_dual_application, action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: Time.zone.now)
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: Time.zone.now)
 
       expect(ucas_match.action_needed?).to eq(false)
     end
 
     it 'returns true if there is a dual application or dual acceptance' do
-      ucas_match = create(:ucas_match, :with_dual_application)
+      ucas_match = build_stubbed(:dual_application_ucas_match)
 
       expect(ucas_match.action_needed?).to eq(true)
     end
@@ -74,7 +74,7 @@ RSpec.describe UCASMatch do
 
   describe '#resolved?' do
     it 'returns true if action_taken is resolved_on_apply or resolved_on_ucas' do
-      ucas_match = create(:ucas_match, action_taken: 'resolved_on_ucas')
+      ucas_match = build_stubbed(:ucas_match, action_taken: 'resolved_on_ucas')
 
       expect(ucas_match.resolved?).to eq(true)
     end
@@ -82,13 +82,13 @@ RSpec.describe UCASMatch do
 
   describe '#ready_to_resolve?' do
     it 'returns true if no further action is required and the match is not resolved' do
-      ucas_match = create(:ucas_match, action_taken: 'ucas_withdrawal_requested')
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'ucas_withdrawal_requested')
 
       expect(ucas_match.ready_to_resolve?).to eq(true)
     end
 
     it 'returns false if no further action is required and the match is resolved' do
-      ucas_match = create(:ucas_match, action_taken: 'resolved_on_ucas')
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'resolved_on_ucas')
 
       expect(ucas_match.ready_to_resolve?).to eq(false)
     end
@@ -186,7 +186,7 @@ RSpec.describe UCASMatch do
   describe '#need_to_send_reminder_emails?' do
     it 'returns false if last action taken in not initial emails sent' do
       emails_sent_at = Time.zone.now
-      ucas_match = create(:ucas_match, action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: emails_sent_at)
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: emails_sent_at)
 
       Timecop.travel(1.business_days.after(emails_sent_at)) do
         expect(ucas_match.need_to_send_reminder_emails?).to eq(false)
@@ -195,7 +195,7 @@ RSpec.describe UCASMatch do
 
     it 'returns false if initial emails were sent and we do not need to send the reminders yet' do
       emails_sent_at = Time.zone.now
-      ucas_match = create(:ucas_match, action_taken: 'initial_emails_sent', candidate_last_contacted_at: emails_sent_at)
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'initial_emails_sent', candidate_last_contacted_at: emails_sent_at)
 
       Timecop.travel(1.business_days.after(emails_sent_at)) do
         expect(ucas_match.need_to_send_reminder_emails?).to eq(false)
@@ -203,7 +203,7 @@ RSpec.describe UCASMatch do
     end
 
     it 'returns true if initial emails were sent and it is time to send a reminder email' do
-      ucas_match = create(:ucas_match, :need_to_send_reminder_emails)
+      ucas_match = build_stubbed(:dual_application_ucas_match, :need_to_send_reminder_emails)
 
       expect(ucas_match.need_to_send_reminder_emails?).to eq(true)
     end
@@ -212,14 +212,14 @@ RSpec.describe UCASMatch do
   describe '#need_to_request_withdrawal_from_ucas?' do
     it 'returns false if last action taken in not reminder emails sent' do
       emails_sent_at = Time.zone.now
-      ucas_match = create(:ucas_match, action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: emails_sent_at)
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'ucas_withdrawal_requested', candidate_last_contacted_at: emails_sent_at)
 
       expect(ucas_match.need_to_request_withdrawal_from_ucas?).to eq(false)
     end
 
     it 'returns false if reminder emails were sent and we do not need to request withdrawal from ucas yet' do
       emails_sent_at = Time.zone.now
-      ucas_match = create(:ucas_match, action_taken: 'reminder_emails_sent', candidate_last_contacted_at: emails_sent_at)
+      ucas_match = build_stubbed(:dual_application_ucas_match, action_taken: 'reminder_emails_sent', candidate_last_contacted_at: emails_sent_at)
 
       Timecop.travel(1.business_days.after(emails_sent_at)) do
         expect(ucas_match.need_to_request_withdrawal_from_ucas?).to eq(false)
@@ -227,7 +227,7 @@ RSpec.describe UCASMatch do
     end
 
     it 'returns true if reminder emails were sent and it is time to request withdrawal from ucas' do
-      ucas_match = create(:ucas_match, :need_to_request_withdrawal_from_ucas)
+      ucas_match = build_stubbed(:dual_application_ucas_match, :need_to_request_withdrawal_from_ucas)
 
       expect(ucas_match.need_to_request_withdrawal_from_ucas?).to eq(true)
     end
@@ -235,17 +235,19 @@ RSpec.describe UCASMatch do
 
   describe '#next_action' do
     it 'returns :initial_emails_sent if the candidate has never been contacted' do
+      ucas_match = build_stubbed(:dual_application_ucas_match)
+
       expect(ucas_match.next_action).to eq(:initial_emails_sent)
     end
 
     it 'returns :reminder_emails_sent if initial emails were sent and it time to send reminder emails' do
-      ucas_match = create(:ucas_match, :need_to_send_reminder_emails)
+      ucas_match = build_stubbed(:dual_application_ucas_match, :need_to_send_reminder_emails)
 
       expect(ucas_match.next_action).to eq(:reminder_emails_sent)
     end
 
     it 'returns :ucas_withdrawal_requested if reminder emails were sent and it time to request withdrawal from UCAS' do
-      ucas_match = create(:ucas_match, :need_to_request_withdrawal_from_ucas)
+      ucas_match = build_stubbed(:dual_application_ucas_match, :need_to_request_withdrawal_from_ucas)
 
       expect(ucas_match.next_action).to eq(:ucas_withdrawal_requested)
     end
