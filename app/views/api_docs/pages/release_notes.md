@@ -1,3 +1,7 @@
+## 29th January
+
+- The documented enum values for `Reference.referee_type` have been corrected to remove commas and replace `school-based` with `school_based`.
+
 ## 17th December
 
 - The `Rejection` `reason` field may now return more complex 'structured' reasons for rejection. The field type remains `string`. The field contains details and advice about the rejected application as seen by the candidate, grouped under relevant headings.

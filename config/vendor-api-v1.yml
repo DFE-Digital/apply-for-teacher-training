@@ -938,10 +938,10 @@ components:
           type: string
           example: professional
           enum:
-          - academic,
-          - professional,
-          - school-based,
-          - character,
+          - academic
+          - professional
+          - school_based
+          - character
     Rejection:
       type: object
       additionalProperties: false
