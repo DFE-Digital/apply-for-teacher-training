@@ -10,6 +10,13 @@ module SupportInterface
       @course_options = CourseOption.where('vacancy_status != ?', 'vacancies').includes(:course, :site)
     end
 
+    def feature_metrics
+      @reference_statistics = ReferenceFeatureMetrics.new
+      @work_history_statistics = WorkHistoryFeatureMetrics.new
+      @magic_link_statistics = MagicLinkFeatureMetrics.new
+      @reasons_for_rejection_statistics = ReasonsForRejectionFeatureMetrics.new
+    end
+
     def reasons_for_rejection
       @reasons_for_rejection = GetReasonsForRejectionFromApplicationChoices.new.reason_counts
     end
