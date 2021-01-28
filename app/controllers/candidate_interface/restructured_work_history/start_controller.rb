@@ -1,7 +1,7 @@
 module CandidateInterface
   class RestructuredWorkHistory::StartController < RestructuredWorkHistory::BaseController
     def choice
-      @choice_form = RestructuredWorkHistory::ChoiceForm.new
+      @choice_form = RestructuredWorkHistory::ChoiceForm.build_from_application(current_application)
     end
 
     def submit_choice
