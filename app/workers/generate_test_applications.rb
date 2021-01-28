@@ -25,6 +25,8 @@ class GenerateTestApplications
     create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
     create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
     create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision awaiting_provider_decision awaiting_provider_decision]
+    create recruitment_cycle_year: 2021, states: %i[interviewing awaiting_provider_decision offer]
+    create recruitment_cycle_year: 2021, states: %i[interviewing interviewing]
     create recruitment_cycle_year: 2021, states: %i[awaiting_provider_decision], apply_again: true
     create recruitment_cycle_year: 2021, states: %i[offer offer]
     create recruitment_cycle_year: 2021, states: %i[offer_changed]
