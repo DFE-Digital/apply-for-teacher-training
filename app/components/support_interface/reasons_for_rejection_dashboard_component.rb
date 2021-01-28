@@ -19,12 +19,11 @@ module SupportInterface
     end
 
     def percentage_rejected_for_reason(reason)
-      count = current_month_rejection_count(reason) + previous_rejection_count(reason)
-      formatted_percentage(count, total_structured_rejection_reasons_count)
+      formatted_percentage(total_rejection_count(reason), total_structured_rejection_reasons_count)
     end
 
     def total_structured_rejection_reasons_count
-      ApplicationChoice.where.not(structured_rejection_reasons: nil).count
+      @total_structured_rejection_reasons_count ||= ApplicationChoice.where.not(structured_rejection_reasons: nil).count
     end
 
     def previous_rejection_count(reason)

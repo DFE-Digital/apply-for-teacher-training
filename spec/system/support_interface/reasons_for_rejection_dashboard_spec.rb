@@ -135,6 +135,7 @@ private
 
   def then_i_should_see_reasons_for_rejection_course_full
     within '#course_full' do
+      expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
       expect(page).to have_content('0 this month')
@@ -143,6 +144,7 @@ private
 
   def and_i_should_see_reasons_for_rejection_candidate_behaviour
     within '#candidate_behaviour' do
+      expect(page).to have_content('100%')
       expect(page).to have_content('5 of 5 application choices')
       expect(page).to have_content('5 total')
       expect(page).to have_content('2 this month')
@@ -151,6 +153,7 @@ private
 
   def and_i_should_see_reasons_for_rejection_honesty_and_professionalism
     within '#honesty_and_professionalism' do
+      expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
       expect(page).to have_content('0 this month')
@@ -159,6 +162,7 @@ private
 
   def and_i_should_see_reasons_for_rejection_offered_on_another_course
     within '#offered_on_another_course' do
+      expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
       expect(page).to have_content('0 this month')
@@ -167,6 +171,7 @@ private
 
   def and_i_should_see_reasons_for_rejection_performance_at_interview
     within '#performance_at_interview' do
+      expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
       expect(page).to have_content('0 this month')
@@ -175,6 +180,7 @@ private
 
   def and_i_should_see_reasons_for_rejection_qualifications
     within '#qualifications' do
+      expect(page).to have_content('60%')
       expect(page).to have_content('3 of 5 application choices')
       expect(page).to have_content('3 total')
       expect(page).to have_content('1 this month')
@@ -183,6 +189,7 @@ private
 
   def and_i_should_see_reasons_for_rejection_quality_of_application
     within '#quality_of_application' do
+      expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
       expect(page).to have_content('0 this month')
@@ -191,6 +198,7 @@ private
 
   def and_i_should_see_reasons_for_rejection_safeguarding_concerns
     within '#safeguarding_concerns' do
+      expect(page).to have_content('40%')
       expect(page).to have_content('2 of 5 application choices')
       expect(page).to have_content('2 total')
       expect(page).to have_content('1 this month')
@@ -199,6 +207,7 @@ private
 
   def and_i_should_see_reasons_for_rejection_interested_in_future_applications
     within '#interested_in_future_applications' do
+      expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
       expect(page).to have_content('0 this month')
@@ -207,6 +216,7 @@ private
 
   def and_i_should_see_reasons_for_rejection_other_advice_or_feedback
     within '#other_advice_or_feedback' do
+      expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
       expect(page).to have_content('0 this month')
