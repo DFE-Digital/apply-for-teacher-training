@@ -54,4 +54,17 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     expect(result.text).to include('Decline by default at')
     expect(result.text).to include('10 January 2020 at 10:00am')
   end
+
+  it 'does not display DBD date for offered applications when it has not yet been set' do
+    application_choice = create(
+      :application_choice,
+      :with_offer,
+      offered_at: Time.zone.local(2020, 1, 1, 10),
+      decline_by_default_at: nil,
+    )
+
+    result = render_inline(described_class.new(application_choice))
+
+    expect(result.text).not_to include('Decline by default at')
+  end
 end
