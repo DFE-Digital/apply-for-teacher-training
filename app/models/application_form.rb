@@ -77,7 +77,7 @@ class ApplicationForm < ApplicationRecord
 
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
-  before_create -> { self.support_reference ||= GenerateSupportRef.call }
+  before_create -> { self.support_reference ||= GenerateSupportReference.call }
 
   PUBLISHED_FIELDS = %w[
     first_name last_name support_reference phase submitted_at

@@ -1,7 +1,7 @@
 class SetMissingSupportReferencesOnApplicationForms < ActiveRecord::Migration[6.0]
   def up
     ApplicationForm.where(support_reference: nil).each do |form|
-      form.update(support_reference: GenerateSupportRef.call)
+      form.update(support_reference: GenerateSupportReference.call)
     end
   end
 

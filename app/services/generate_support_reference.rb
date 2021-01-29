@@ -1,4 +1,4 @@
-class GenerateSupportRef
+class GenerateSupportReference
   NUMBER_OF_LETTERS = 2
   NUMBER_OF_DIGITS = 4
 
