@@ -12,10 +12,6 @@ module SupportInterface
 
   private
 
-    def set_div_id_from_heading
-      @heading.parameterize.underscore
-    end
-
     def number_of_rejections_out_of_total_rejections
       "#{@total_count} of #{@total_structured_rejection_reasons_count} application choices"
     end

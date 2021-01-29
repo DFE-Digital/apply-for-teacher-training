@@ -15,7 +15,7 @@ module SupportInterface
       interested_in_future_applications_y_n: :interested_in_future_applications,
     }.with_indifferent_access
 
-    def initialize(reason, sub_reasons, total)
+    def initialize(reason:, sub_reasons:, total:)
       @reason = reason
       @sub_reasons = sub_reasons
       @total = total
