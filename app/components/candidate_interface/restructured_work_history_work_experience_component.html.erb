@@ -1,0 +1,31 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-0"><%=@work_experience.organisation%></h2>
+
+    <% if @work_experience.commitment == "part_time" %>
+      <p class="govuk-body govuk-!-margin-bottom-0"><%= @work_experience.role %> (Part time)</p>
+    <% else %>
+      <p class="govuk-body govuk-!-margin-bottom-0"><%= @work_experience.role %></p>
+    <% end %>
+
+    <p class="govuk-body">
+      <%= formatted_start_date %> - <%= formatted_end_date %>
+    </p>
+
+    <% if @work_experience.relevant_skills %>
+      <p class="govuk-body-s govuk-!-margin-bottom-1">This role used skills relevant to teaching</p>
+    <% end %>
+  </div>
+
+  <% if @editable %>
+    <div class="govuk-grid-column-one-third govuk-body app-grid-column-one-third--actions">
+      <%= link_to  candidate_interface_edit_restructured_work_history_path(@work_experience.id), class: 'govuk-link' do %>
+        Change <span class="govuk-visually-hidden">entry for experience between <%= formatted_start_date %> and <%= formatted_end_date %></span>
+      <% end %>
+
+      <%= link_to  candidate_interface_destroy_restructured_work_history_path(@work_experience.id), class: 'govuk-link' do %>
+        Delete <span class="govuk-visually-hidden">entry for experience between <%= formatted_start_date %> and <%= formatted_end_date %></span>
+      <% end %>
+    </div>
+  <% end %>
+</div>
