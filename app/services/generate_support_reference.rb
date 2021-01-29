@@ -3,7 +3,7 @@ class GenerateSupportReference
   NUMBER_OF_DIGITS = 4
 
   UNCLEAR_LETTERS = %w[I L O].freeze
-  UNCLEAR_DIGIT = [0, 1].freeze
+  UNCLEAR_DIGIT = %w[0 1].freeze
 
   def self.call
     letters = ('A'..'Z').to_a - UNCLEAR_LETTERS
