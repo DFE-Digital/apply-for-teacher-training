@@ -54,6 +54,10 @@ module TeacherTrainingPublicAPIHelper
     TeacherTrainingPublicAPI::Provider.new(api_response[:data][:attributes])
   end
 
+  def stubbed_recruitment_cycle_year
+    @stubbed_recruitment_cycle_year || 2021
+  end
+
 private
 
   def stub_teacher_training_api_request(url, response_body)

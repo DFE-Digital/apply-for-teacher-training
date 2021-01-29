@@ -56,7 +56,7 @@
         "scholarship_amount": 17000,
         "start_date": "2020-09-01",
         "state": "published",
-        "study_mode": "both",
+        "study_mode": "full_time",
         "summary": "PGCE with QTS full time"
       },
       "relationships": {
@@ -168,7 +168,7 @@
         "scholarship_amount": 17000,
         "start_date": "2020-09-01",
         "state": "published",
-        "study_mode": "both",
+        "study_mode": "full_time",
         "summary": "PGCE with QTS full time"
       },
       "relationships": {

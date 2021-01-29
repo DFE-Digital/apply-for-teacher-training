@@ -1,0 +1,537 @@
+require 'rails_helper'
+
+RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
+  include TeacherTrainingPublicAPIHelper
+
+  describe 'call' do
+    context 'ingesting a brand new provider' do
+      it 'just creates the provider without any courses' do
+        provider_from_api = fake_api_provider({ code: 'ABC' })
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+
+        provider = Provider.find_by(code: 'ABC')
+        expect(provider).to be_present
+        expect(provider.courses).to be_blank
+      end
+    end
+
+    context 'ingesting an existing provider not configured to sync courses' do
+      before do
+        @existing_provider = create :provider, code: 'ABC', sync_courses: false, name: 'Foobar College'
+      end
+
+      it 'correctly updates the provider but does not import any courses' do
+        provider_from_api = fake_api_provider(code: 'ABC', name: 'ABC College')
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+
+        expect(@existing_provider.reload.courses).to be_blank
+        expect(@existing_provider.reload.name).to eq 'ABC College'
+      end
+    end
+
+    context 'ingesting an existing provider configured to sync courses, sites and course_options' do
+      before do
+        @existing_provider = create :provider, code: 'ABC', sync_courses: true
+      end
+
+      it 'correctly creates all the entities' do
+        provider_from_api = fake_api_provider(code: 'ABC', provider_type: 'scitt')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: 'ABC',
+            study_mode: 'full_time',
+            findable: true,
+            summary: 'PGCE with QTS full time',
+            start_date: '2021-09-01',
+            course_length: 'OneYear',
+            age_minimum: 4,
+            age_maximum: 8,
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+            name: 'Main site',
+            street_address_1: 'Gorse SCITT',
+            street_address_2: 'Bruntcliffe Lane',
+            city: 'Morley',
+            county: 'Leeds',
+            postcode: 'LS27 0LZ',
+            latitude: 53.745587,
+            longitude: -1.620208,
+          }],
+          vacancy_status: 'full_time_vacancies',
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+
+        course_option = CourseOption.last
+        expect(course_option.course.provider.code).to eq 'ABC'
+        expect(course_option.course.provider.provider_type).to eq 'scitt'
+        expect(course_option.course.code).to eq 'ABC1'
+        expect(course_option.course.exposed_in_find).to be true
+        expect(course_option.course.recruitment_cycle_year).to eql stubbed_recruitment_cycle_year
+        expect(course_option.course.description).to eq 'PGCE with QTS full time'
+        expect(course_option.course.start_date).to eq Time.zone.local(2021, 9, 1)
+        expect(course_option.course.course_length).to eq 'OneYear'
+        expect(course_option.course.age_range).to eq '4 to 8'
+        expect(course_option.site.name).to eq 'Main site'
+        expect(course_option.site.address_line1).to eq 'Gorse SCITT'
+        expect(course_option.site.address_line2).to eq 'Bruntcliffe Lane'
+        expect(course_option.site.address_line3).to eq 'Morley'
+        expect(course_option.site.address_line4).to eq 'Leeds'
+        expect(course_option.site.postcode).to eq 'LS27 0LZ'
+        expect(course_option.site.latitude).to eq 53.745587
+        expect(course_option.site.longitude).to eq(-1.620208)
+        expect(course_option.vacancy_status).to eq 'vacancies'
+      end
+
+      it 'correctly handles missing address info' do
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+            name: 'Main site',
+            street_address_1: 'Gorse SCITT',
+            street_address_2: nil,
+            city: 'Morley',
+            county: 'Leeds',
+            postcode: 'LS27 0LZ',
+
+          }],
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+
+        course_option = CourseOption.last
+        expect(course_option.site.address_line2).to be_nil
+      end
+
+      it 'correctly updates vacancy status for any existing course options' do
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+            study_mode: 'full_time',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+          vacancy_status: 'full_time_vacancies',
+        )
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(CourseOption.count).to eq 1
+        CourseOption.first.update!(vacancy_status: 'no_vacancies')
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(CourseOption.count).to eq 1
+        expect(CourseOption.first.vacancy_status).to eq 'vacancies'
+      end
+
+      it 'correctly updates withdrawn attribute for an existing course' do
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+            state: 'withdrawn',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(CourseOption.count).to eq 1
+        Course.first.update!(withdrawn: false)
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(Course.first.withdrawn).to eq true
+      end
+
+      it 'sets the accredited provider' do
+        create :provider, code: 'DEF', name: 'Foobar College'
+
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: 'DEF',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        course_option = CourseOption.first
+        expect(course_option.course.accredited_provider.code).to eq 'DEF'
+        expect(course_option.course.accredited_provider.name).to eq 'Foobar College'
+      end
+
+      it 'does not set the accredited provider if it is the same as the training provider' do
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: 'ABC',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(Course.find_by(code: 'ABC1').accredited_provider).to be_nil
+      end
+
+      it 'resets the accredited provider if it is no longer specified' do
+        course = create(:course, accredited_provider: create(:provider), code: 'ABC1', provider: create(:provider, code: 'ABC'))
+
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(course.reload.accredited_provider).to be_nil
+      end
+
+      it 'correctly creates provider relationships' do
+        create :provider, code: 'DEF'
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: 'DEF',
+            study_mode: 'full_time',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+        )
+
+        expect {
+          described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        }.to change(ProviderRelationshipPermissions, :count).by(1)
+
+        permissions = ProviderRelationshipPermissions.last
+        expect(permissions.ratifying_provider.code).to eq('DEF')
+        expect(permissions.training_provider.code).to eq('ABC')
+        expect(permissions.training_provider_can_view_safeguarding_information).to be false
+        expect(permissions.ratifying_provider_can_view_safeguarding_information).to be false
+      end
+
+      it 'does not create provider relationships for self ratifying providers' do
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+            study_mode: 'full_time',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+        )
+
+        expect {
+          described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        }.not_to change(ProviderRelationshipPermissions, :count)
+      end
+
+      it 'does not create provider relationships when the course accredited_provider attribute points back to the same provider' do
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: 'ABC',
+            study_mode: 'full_time',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+        )
+
+        expect {
+          described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        }.not_to change(ProviderRelationshipPermissions, :count)
+      end
+
+      it 'stores full_time/part_time information within courses' do
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: 'ABC',
+            study_mode: 'both',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(Course.find_by(code: 'ABC1').study_mode).to eq 'full_time_or_part_time'
+      end
+
+      it 'creates the correct number of course_options for sites and study_mode' do
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: 'ABC',
+            study_mode: 'both',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          },
+                                 {
+                                   code: 'B',
+                                 }],
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+
+        provider = Provider.find_by(code: 'ABC')
+        course_options = Course.find_by(code: 'ABC1').course_options
+        expect(course_options.count).to eq 4
+        provider.sites.each do |site|
+          modes_for_site = course_options.where(site_id: site.id).pluck(:study_mode)
+          expect(modes_for_site).to match_array %w[full_time part_time]
+        end
+      end
+
+      it 'correctly updates the Provider#region_code' do
+        provider_from_api = fake_api_provider(code: 'ABC', region_code: 'north_west')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+            study_mode: 'full_time',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+          vacancy_status: 'full_time_vacancies',
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(Provider.count).to eq 1
+        Provider.first.update!(region_code: 'london')
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(Provider.count).to eq 1
+        expect(Provider.first.region_code).to eq 'north_west'
+      end
+
+      it 'correctly handles existing course options with invalid sites' do
+        provider_from_api = fake_api_provider(code: 'ABC', region_code: 'north_west')
+        stub_teacher_training_api_courses(
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+            study_mode: 'full_time',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+          vacancy_status: 'full_time_vacancies',
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(Course.count).to eq 1
+        expect(CourseOption.count).to eq 1
+
+        course = Course.first
+        valid_course_option = course.course_options.first
+
+        invalid_site_one = create(:site, provider: course.provider, code: 'B')
+        invalid_site_two = create(:site, provider: course.provider, code: 'C')
+        invalid_site_three = create(:site, provider: course.provider, code: 'D')
+        invalid_course_option_one = create(:course_option, course: course, site: invalid_site_one)
+        invalid_course_option_two = create(:course_option, course: course, site: invalid_site_two)
+        invalid_course_option_three = create(:course_option, course: course, site: invalid_site_three)
+
+        create(:application_choice, course_option: invalid_course_option_two)
+        create(:application_choice, course_option: valid_course_option, offered_course_option: invalid_course_option_three)
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
+        expect(CourseOption.exists?(invalid_course_option_one.id)).to eq false
+        expect(invalid_course_option_two.reload).not_to be_site_still_valid
+        expect(invalid_course_option_three.reload).not_to be_site_still_valid
+        expect(valid_course_option.reload).to be_site_still_valid
+      end
+    end
+
+    context 'ingesting a provider when it existed in the previous recruitment cycle' do
+      before do
+        @existing_provider = create :provider, code: 'ABC', sync_courses: true
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          recruitment_cycle_year: 2020,
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+            study_mode: 'full_time',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          recruitment_cycle_year: 2020,
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+          vacancy_status: 'full_time_vacancies',
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: 2020).call
+      end
+
+      it 'creates separate courses for the courses in this cycle' do
+        expect(Course.count).to eq 1
+
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          recruitment_cycle_year: 2021,
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+            study_mode: 'full_time',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          recruitment_cycle_year: 2021,
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+          vacancy_status: 'full_time_vacancies',
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: 2021).call
+        expect(Course.count).to eq 2
+      end
+
+      it 'carries over the previous course’s open_on_apply status the first time it appears in the new cycle but not the second time' do
+        existing_course = Course.find_by(recruitment_cycle_year: 2020)
+        existing_course.update(open_on_apply: true)
+
+        provider_from_api = fake_api_provider(code: 'ABC')
+        stub_teacher_training_api_courses(
+          recruitment_cycle_year: 2021,
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+            study_mode: 'full_time',
+          }],
+        )
+        stub_teacher_training_api_sites(
+          recruitment_cycle_year: 2021,
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          }],
+          vacancy_status: 'full_time_vacancies',
+        )
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: 2021).call
+
+        new_course = Course.find_by(recruitment_cycle_year: 2021)
+        expect(new_course).to be_open_on_apply
+
+        new_course.update(open_on_apply: false)
+
+        described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: 2021).call
+
+        expect(new_course.reload).not_to be_open_on_apply
+      end
+    end
+  end
+end
