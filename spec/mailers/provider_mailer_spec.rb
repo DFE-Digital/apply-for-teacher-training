@@ -172,7 +172,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
 
     it_behaves_like('a mail with subject and content',
-                    I18n.t('provider_mailer.ucas_match.resolved_on_ucas.subject'),
+                    'Duplicate application withdrawn',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')
@@ -186,7 +186,7 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
 
     it_behaves_like('a mail with subject and content',
-                    I18n.t('provider_mailer.ucas_match.resolved_on_apply.subject'),
+                    'Duplicate application withdrawn',
                     'provider name' => 'Dear Johny English',
                     'candidate name' => 'Harry Potter',
                     'course name and code' => 'Computer Science (6IND)')

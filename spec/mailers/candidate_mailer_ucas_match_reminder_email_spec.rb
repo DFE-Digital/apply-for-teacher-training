@@ -21,7 +21,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t!('candidate_mailer.ucas_match.duplicate_applications.subject', withdraw_by_date: '30 November 2020'),
+      'Withdraw your duplicate application by 30 November 2020',
       'heading' => 'Dear Jane',
       'course name and code' => 'Physics (3PH5)',
       'provider' => 'City University',
@@ -36,7 +36,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t!('candidate_mailer.ucas_match.multiple_acceptances.subject'),
+      'Withdraw from one of your offers by 30 November 2020',
       'heading' => 'Dear Jane',
       'initial email date' => '16 November 2020',
       'withdraw by date' => '30 November 2020',

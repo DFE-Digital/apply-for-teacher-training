@@ -16,11 +16,30 @@ RSpec.describe UCASMatches::SendResolvedOnUCASEmails do
       create(:provider_permissions, provider_id: course.provider.id, provider_user_id: provider_user.id)
       allow(CandidateMailer).to receive(:ucas_match_resolved_on_ucas_email).and_return(mail)
       allow(ProviderMailer).to receive(:ucas_match_resolved_on_ucas_email).and_return(mail)
-      described_class.new(ucas_match).call
+      described_class.new(ucas_match, at_our_request: false).call
     end
 
     it 'sends the candidate the ucas_match_resolved_on_ucas_email' do
       expect(CandidateMailer).to have_received(:ucas_match_resolved_on_ucas_email).with(application_choice)
+    end
+
+    it 'sends the provider the ucas_match_resolved_on_ucas_email' do
+      expect(ProviderMailer).to have_received(:ucas_match_resolved_on_ucas_email).with(provider_user, application_choice)
+    end
+  end
+
+  context 'when the application has been resolved on ucas at our request' do
+    let(:ucas_match) { create(:ucas_match, action_taken: 'resolved_on_ucas', application_form: application_form, scheme: %w[B]) }
+
+    before do
+      create(:provider_permissions, provider_id: course.provider.id, provider_user_id: provider_user.id)
+      allow(CandidateMailer).to receive(:ucas_match_resolved_on_ucas_at_our_request_email).and_return(mail)
+      allow(ProviderMailer).to receive(:ucas_match_resolved_on_ucas_email).and_return(mail)
+      described_class.new(ucas_match, at_our_request: true).call
+    end
+
+    it 'sends the candidate the ucas_match_resolved_on_ucas_at_our_request_email' do
+      expect(CandidateMailer).to have_received(:ucas_match_resolved_on_ucas_at_our_request_email).with(application_choice)
     end
 
     it 'sends the provider the ucas_match_resolved_on_ucas_email' do

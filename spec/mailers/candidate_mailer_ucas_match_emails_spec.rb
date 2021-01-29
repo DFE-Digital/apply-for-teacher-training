@@ -15,11 +15,24 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t!('candidate_mailer.ucas_match.resolved_on_ucas.subject'),
+      'Duplicate application withdrawn',
+      'heading' => 'Dear Ada Lovelace',
+      'course_code_and_option' => 'to study Primary (33WA) with Wonderland University',
+      'tracking' => 'You can track your application through GOV.UK',
+      'removal details' => 'You’ve withdrawn your application through UCAS',
+    )
+  end
+
+  describe '.ucas_match_resolved_on_ucas_at_our_request_email' do
+    let(:email) { mailer.ucas_match_resolved_on_ucas_at_our_request_email(application_form.application_choices.first) }
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'Duplicate application automatically withdrawn',
       'heading' => 'Dear Ada Lovelace',
       'course_code_and_option' => 'to study Primary (33WA) at Wonderland University',
-      'tracking' => 'use Apply for teacher training',
-      'removal details' => 'the course choice was removed from your UCAS application',
+      'tracking' => 'You can track your application through GOV.UK',
+      'removal details' => 'we’ve withdrawn your application through UCAS',
     )
   end
 
@@ -28,7 +41,7 @@ RSpec.describe CandidateMailer, type: :mailer do
 
     it_behaves_like(
       'a mail with subject and content',
-      I18n.t!('candidate_mailer.ucas_match.resolved_on_apply.subject'),
+      'Duplicate application withdrawn',
       'heading' => 'Dear Ada Lovelace',
       'course_code_and_option' => 'to study Primary (33WA) at Wonderland University',
       'tracking' => 'use [UCAS Teacher Training]',

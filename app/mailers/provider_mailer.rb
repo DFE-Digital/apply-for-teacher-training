@@ -122,7 +122,7 @@ class ProviderMailer < ApplicationMailer
     email_for_provider(
       provider_user,
       @application_form,
-      subject: I18n.t!('provider_mailer.ucas_match.resolved_on_ucas.subject'),
+      subject: I18n.t!('provider_mailer.ucas_match.resolved.subject'),
     )
   end
 
@@ -133,7 +133,7 @@ class ProviderMailer < ApplicationMailer
     email_for_provider(
       provider_user,
       @application_form,
-      subject: I18n.t!('provider_mailer.ucas_match.resolved_on_apply.subject'),
+      subject: I18n.t!('provider_mailer.ucas_match.resolved.subject'),
     )
   end
 

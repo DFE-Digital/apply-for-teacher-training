@@ -119,7 +119,7 @@ RSpec.feature 'Processing matching data from UCAS', sidekiq: true do
 
   def then_we_have_sent_email_to_the_provider_that_the_match_was_resolved_on_ucas
     provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == @provider_user1.email_address }
-    expect(provider_email.subject).to include 'Duplicate applicant removed from UTT'
+    expect(provider_email.subject).to include 'Duplicate application withdrawn'
   end
 
   def then_we_have_sent_emails_about_dual_application_to_the_candidate_and_the_provider
