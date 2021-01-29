@@ -5,12 +5,12 @@ class GenerateSupportReference
   UNCLEAR_LETTERS = %w[I L O].freeze
   UNCLEAR_DIGIT = %w[0 1].freeze
 
-  def self.call
-    letters = ('A'..'Z').to_a - UNCLEAR_LETTERS
-    digits = ('1'..'9').to_a - UNCLEAR_DIGIT
+  READABLE_LETTERS = ('A'..'Z').to_a - UNCLEAR_LETTERS
+  READABLE_DIGITS = ('1'..'9').to_a - UNCLEAR_DIGIT
 
-    random_letters = (1..NUMBER_OF_LETTERS).map { letters.sample }
-    random_digits = (1..NUMBER_OF_DIGITS).map { digits.sample }
+  def self.call
+    random_letters = (1..NUMBER_OF_LETTERS).map { READABLE_LETTERS.sample }
+    random_digits = (1..NUMBER_OF_DIGITS).map { READABLE_DIGITS.sample }
 
     (random_letters + random_digits).join
   end
