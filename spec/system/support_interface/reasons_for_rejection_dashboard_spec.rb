@@ -146,7 +146,7 @@ private
   end
 
   def then_i_should_see_reasons_for_rejection_course_full
-    within '#course_full' do
+    within '#course-full' do
       expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
@@ -155,7 +155,7 @@ private
   end
 
   def and_i_should_see_reasons_for_rejection_candidate_behaviour
-    within '#candidate_behaviour' do
+    within '#candidate-behaviour' do
       expect(page).to have_content('100%')
       expect(page).to have_content('5 of 5 application choices')
       expect(page).to have_content('5 total')
@@ -164,7 +164,7 @@ private
   end
 
   def and_i_should_see_reasons_for_rejection_honesty_and_professionalism
-    within '#honesty_and_professionalism' do
+    within '#honesty-and-professionalism' do
       expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
@@ -173,7 +173,7 @@ private
   end
 
   def and_i_should_see_reasons_for_rejection_offered_on_another_course
-    within '#offered_on_another_course' do
+    within '#offered-on-another-course' do
       expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
@@ -182,7 +182,7 @@ private
   end
 
   def and_i_should_see_reasons_for_rejection_performance_at_interview
-    within '#performance_at_interview' do
+    within '#performance-at-interview' do
       expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
@@ -200,7 +200,7 @@ private
   end
 
   def and_i_should_see_reasons_for_rejection_quality_of_application
-    within '#quality_of_application' do
+    within '#quality-of-application' do
       expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
@@ -209,7 +209,7 @@ private
   end
 
   def and_i_should_see_reasons_for_rejection_safeguarding_concerns
-    within '#safeguarding_concerns' do
+    within '#safeguarding-concerns' do
       expect(page).to have_content('40%')
       expect(page).to have_content('2 of 5 application choices')
       expect(page).to have_content('2 total')
@@ -218,7 +218,7 @@ private
   end
 
   def and_i_should_see_reasons_for_rejection_interested_in_future_applications
-    within '#interested_in_future_applications' do
+    within '#interested-in-future-applications' do
       expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
@@ -227,7 +227,7 @@ private
   end
 
   def and_i_should_see_reasons_for_rejection_other_advice_or_feedback
-    within '#other_advice_or_feedback' do
+    within '#other-advice-or-feedback' do
       expect(page).to have_content('0%')
       expect(page).to have_content('0 of 5 application choices')
       expect(page).to have_content('0 total')
@@ -236,28 +236,28 @@ private
   end
 
   def and_i_should_see_sub_reasons_for_rejection_due_to_qualifications
-    within '#qualifications-sub-reasons' do
-      expect(page).to have_content("No Maths GCSE grade 4 (C) or above, or valid equivalent 40%\n2 1")
-      expect(page).to have_content("No English GCSE grade 4 (C) or above, or valid equivalent 20%\n1 0")
-      expect(page).to have_content("Other 20%\n1 0")
-      expect(page).to have_content("No degree 40%\n2 1")
-      expect(page).to have_content("No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants) 0%\n0 0")
+    within '#qualifications' do
+      expect(page).to have_content("No Maths GCSE grade 4 (C) or above, or valid equivalent 40% 2 1")
+      expect(page).to have_content("No English GCSE grade 4 (C) or above, or valid equivalent 20% 1 0")
+      expect(page).to have_content("Other 20% 1 0")
+      expect(page).to have_content("No degree 40% 2 1")
+      expect(page).to have_content("No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants) 0% 0 0")
     end
   end
 
   def and_i_should_see_sub_reasons_for_rejection_due_to_safeguarding
-    within '#safeguarding_concerns-sub-reasons' do
-      expect(page).to have_content("Information disclosed by candidate makes them unsuitable to work with children 0%\n0 0")
-      expect(page).to have_content("Information revealed by our vetting process makes the candidate unsuitable to work with children 0%\n0 0")
-      expect(page).to have_content("Other 40%\n2 1")
+    within '#safeguarding-concerns' do
+      expect(page).to have_content("Information disclosed by candidate makes them unsuitable to work with children 0% 0 0")
+      expect(page).to have_content("Information revealed by our vetting process makes the candidate unsuitable to work with children 0% 0 0")
+      expect(page).to have_content("Other 40% 2 1")
     end
   end
 
   def and_i_should_see_sub_reasons_for_rejection_due_to_candidate_behaviour
-    within '#candidate_behaviour-sub-reasons' do
-      expect(page).to have_content("Didn’t reply to our interview offer 40%\n2 1")
-      expect(page).to have_content("Didn’t attend interview 20%\n1 0")
-      expect(page).to have_content("Other 0%\n0 0")
+    within '#candidate-behaviour' do
+      expect(page).to have_content("Didn’t reply to our interview offer 40% 2 1")
+      expect(page).to have_content("Didn’t attend interview 20% 1 0")
+      expect(page).to have_content("Other 0% 0 0")
     end
   end
 end
