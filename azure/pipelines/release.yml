@@ -143,6 +143,7 @@ stages:
       logstashSsl: '$(logstashSsl)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
       findBaseUrl: '$(findBaseUrl)'
+      teacherTrainingApiBaseUrl: '$(teacherTrainingApiBaseUrl)'
       dfeSignInClientId: '$(dfeSignInClientId)'
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
