@@ -7,6 +7,14 @@ RSpec.describe 'OpenAPI spec' do
     expect(document).to be_valid, document.errors.to_a.inspect
   end
 
+  describe 'referee types' do
+    it 'matches the enum' do
+      enum_in_api = VendorAPISpecification.as_hash['components']['schemas']['Reference']['properties']['referee_type']['enum']
+
+      expect(enum_in_api).to match_array(ApplicationReference.referee_types.keys)
+    end
+  end
+
   document.components.schemas.each do |schema_name, schema|
     describe schema_name do
       it 'requires all of the keys to be present' do
