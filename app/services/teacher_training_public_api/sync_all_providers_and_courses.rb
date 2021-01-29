@@ -3,16 +3,14 @@ module TeacherTrainingPublicAPI
     def self.call
       is_last_page = false
       page_number = 0
-      until is_last_page == true
+      until is_last_page
         page_number += 1
         response = TeacherTrainingPublicAPI::Provider
           .where(year: RecruitmentCycle.current_year)
           .paginate(page: page_number, per_page: 500)
           .all
         sync_providers(response)
-        if response.links.links['next'].nil?
-          is_last_page = true
-        end
+        is_last_page = true if response.links.links['next'].nil?
       end
 
       TeacherTrainingPublicAPI::SyncCheck.set_last_sync(Time.zone.now)

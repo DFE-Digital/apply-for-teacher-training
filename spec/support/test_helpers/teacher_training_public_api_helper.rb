@@ -24,14 +24,10 @@ module TeacherTrainingPublicAPIHelper
     )
   end
 
-  def stub_teacher_training_api_providers_for_pagination(recruitment_cycle_year: RecruitmentCycle.current_year)
-    api_response1 = pagination_response(1)
-    api_response2 = pagination_response(2)
-    api_response3 = pagination_response(3)
-
-    stub_pagination_request(recruitment_cycle_year, 1, api_response1)
-    stub_pagination_request(recruitment_cycle_year, 2, api_response2)
-    stub_pagination_request(recruitment_cycle_year, 3, api_response3)
+  def stub_teacher_training_api_providers_with_multiple_pages(recruitment_cycle_year: RecruitmentCycle.current_year)
+    [1, 2, 3].each do |page_number|
+      stub_pagination_request(recruitment_cycle_year, page_number, paginated_response(page_number))
+    end
   end
 
   def stub_teacher_training_api_courses(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, specified_attributes: [])
@@ -112,7 +108,7 @@ private
     )
   end
 
-  def pagination_response(page_number)
+  def paginated_response(page_number)
     JSON.parse(
       File.read(
         Rails.root.join("spec/examples/teacher_training_api/provider_pagination_response_page_#{page_number}.json"),
