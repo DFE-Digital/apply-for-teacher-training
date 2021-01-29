@@ -15,7 +15,7 @@ module SupportInterface
 
       if application_choice.offer?
         rows << { key: 'Offer made at', value: application_choice.offered_at.to_s(:govuk_date_and_time) }
-        rows << { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) }
+        rows << { key: 'Decline by default at', value: application_choice.decline_by_default_at.to_s(:govuk_date_and_time) } if application_choice.decline_by_default_at
       end
 
       if application_choice.different_offer?
