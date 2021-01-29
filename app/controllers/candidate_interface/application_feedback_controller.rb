@@ -14,7 +14,7 @@ module CandidateInterface
       if @application_feedback_form.save(current_application)
         redirect_to candidate_interface_application_feedback_thank_you_path
       else
-        track_validation_error(@references_relationship_form)
+        track_validation_error(@application_feedback_form)
 
         render :new
       end
