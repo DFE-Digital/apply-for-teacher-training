@@ -4,9 +4,6 @@ class AcceptOffer
   end
 
   def save!
-    declined = []
-    withdrawn = []
-
     ActiveRecord::Base.transaction do
       ApplicationStateChange.new(@application_choice).accept!
       @application_choice.update!(accepted_at: Time.zone.now)
@@ -14,12 +11,10 @@ class AcceptOffer
       StateChangeNotifier.disable_notifications do
         other_application_choices_with_offers.each do |application_choice|
           DeclineOffer.new(application_choice: application_choice).save!
-          declined << application_choice
         end
 
         application_choices_awaiting_provider_decision.each do |application_choice|
           WithdrawApplication.new(application_choice: application_choice).save!
-          withdrawn << application_choice
         end
       end
     end
