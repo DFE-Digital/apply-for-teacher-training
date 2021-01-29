@@ -9,7 +9,7 @@ module SupportInterface
   private
 
     def application_json
-      VendorAPI::SingleApplicationPresenter.new(@application_choice).as_json
+      AllowedCrossNamespaceUsage::VendorAPISingleApplicationPresenter.new(@application_choice).as_json
     end
   end
 end
