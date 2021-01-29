@@ -1,9 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe ApplicationForm do
-  it 'sets a support reference upon creation' do
-    application_form = create :application_form
-    expect(application_form.support_reference).to be_present
+  it 'sets a unique support reference upon creation' do
+    create(:application_form, support_reference: 'AB1234')
+    allow(GenerateSupportReference).to receive(:call).and_return('AB1234', 'OK1234')
+
+    application_form = create(:application_form)
+
+    expect(application_form.support_reference).to eql('OK1234')
   end
 
   describe 'before_save' do

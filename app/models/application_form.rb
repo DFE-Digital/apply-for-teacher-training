@@ -77,7 +77,7 @@ class ApplicationForm < ApplicationRecord
 
   attribute :recruitment_cycle_year, :integer, default: -> { RecruitmentCycle.current_year }
 
-  before_create -> { self.support_reference ||= GenerateSupportRef.call }
+  before_create :add_support_reference
 
   PUBLISHED_FIELDS = %w[
     first_name last_name support_reference phase submitted_at
@@ -387,5 +387,14 @@ private
 
   def courses_not_on_apply
     application_choices.includes(%i[course]).reject { |choice| choice.course.open_on_apply }
+  end
+
+  def add_support_reference
+    return if support_reference
+
+    loop do
+      self.support_reference = GenerateSupportReference.call
+      break unless ApplicationForm.exists?(support_reference: support_reference)
+    end
   end
 end
