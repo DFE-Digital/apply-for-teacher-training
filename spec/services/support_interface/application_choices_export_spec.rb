@@ -29,6 +29,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           offer_response: nil,
           offer_response_at: nil,
           rejection_reason: nil,
+          structured_rejection_reasons: nil,
         },
         {
           candidate_id: submitted_form.candidate_id,
@@ -48,6 +49,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
           offer_response: nil,
           offer_response_at: nil,
           rejection_reason: nil,
+          structured_rejection_reasons: nil,
         },
       )
     end
@@ -132,6 +134,24 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
         choice_row = described_class.new.application_choices.first
         expect(choice_row).to include(offer_response_at: decision_time)
         expect(choice_row).to include(offer_response: :declined_by_default)
+      end
+    end
+
+    context 'for choices rejected with structured rejection reasons' do
+      it 'returns formatted high level rejection reasons (those that include y_n)' do
+        create(
+          :application_choice,
+          structured_rejection_reasons: {
+            course_full_y_n: 'No',
+            candidate_behaviour_y_n: 'Yes',
+            candidate_behaviour_other: 'Persistent scratching',
+            honesty_and_professionalism_y_n: 'Yes',
+            honesty_and_professionalism_concerns: %w[references],
+          },
+        )
+
+        choice_row = described_class.new.application_choices.first
+        expect(choice_row).to include(structured_rejection_reasons: "Candidate behaviour\nHonesty and professionalism")
       end
     end
   end
