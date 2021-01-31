@@ -176,4 +176,22 @@ RSpec.describe ViewHelper, type: :helper do
       expect { helper.time_today_or_tomorrow(time) }.to raise_error(/was expected to be today or tomorrow/)
     end
   end
+
+  describe '#formatted_percentage' do
+    it 'returns the correct value for a whole number percentage' do
+      expect(helper.formatted_percentage(5, 10)).to eq '50%'
+    end
+
+    it 'returns the correct value for fractional percentage' do
+      expect(helper.formatted_percentage(3, 9)).to eq '33.33%'
+    end
+
+    it 'returns the correct value for a zero percentage' do
+      expect(helper.formatted_percentage(0, 24)).to eq '0%'
+    end
+
+    it 'handles NaN' do
+      expect(helper.formatted_percentage(1, 0)).to eq '-'
+    end
+  end
 end

@@ -1,0 +1,28 @@
+<table class="govuk-table govuk-!-margin-top-2">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header" width="40%">Reason</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="10%">%&nbsp;of&nbsp;<%= @total %><br>choices</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="25%">Total</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric" width="25%">This month</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% sub_reasons.each do |sub_reason, sub_reason_result| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">
+          <%= sub_reason_label(sub_reason) %>
+        </th>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <%= sub_reason_percentage(sub_reason) %>
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <%= sub_reason_result&.all_time || 0 %>
+        </td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <%= sub_reason_result&.this_month || 0 %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

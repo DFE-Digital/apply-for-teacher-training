@@ -8,14 +8,11 @@ module SupportInterface
   private
 
     def current_month_rejection_count(reason)
-      values = @rejection_reasons.find { |h| h['key'] == reason && h['time_period'] == 'this_month' }
-      return 0 if values.nil?
-
-      values['count']
+      @rejection_reasons[reason]&.this_month || 0
     end
 
     def total_rejection_count(reason)
-      current_month_rejection_count(reason) + previous_rejection_count(reason)
+      @rejection_reasons[reason]&.all_time || 0
     end
 
     def percentage_rejected_for_reason(reason)
@@ -26,17 +23,12 @@ module SupportInterface
       @total_structured_rejection_reasons_count ||= ApplicationChoice.where.not(structured_rejection_reasons: nil).count
     end
 
-    def previous_rejection_count(reason)
-      values = @rejection_reasons.find { |h| h['key'] == reason && h['time_period'] == 'before_this_month' }
-      return 0 if values.nil?
-
-      values['count']
+    def sub_reasons_for(reason)
+      @rejection_reasons[reason]&.sub_reasons || {}
     end
 
-    def formatted_percentage(count, total)
-      percentage = percent_of(count, total)
-      precision = (percentage % 1).zero? ? 0 : 2
-      number_to_percentage(percentage, precision: precision)
+    def previous_rejection_count(reason)
+      total_rejection_count(reason) - current_month_rejection_count(reason)
     end
   end
 end
