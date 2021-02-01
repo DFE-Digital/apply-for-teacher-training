@@ -19,10 +19,8 @@ module SupportInterface
       end
 
       if application_choice.different_offer?
-        rows << [
-          { key: 'Course candidate applied for', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) },
-          { key: 'Course offered by provider', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.offered_course_option)) },
-        ]
+        rows << { key: 'Course candidate applied for', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }
+        rows << { key: 'Course offered by provider', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.offered_course_option)) }
       else
         rows << { key: 'Course', value: render(CourseOptionDetailsComponent.new(course_option: application_choice.course_option)) }
       end
