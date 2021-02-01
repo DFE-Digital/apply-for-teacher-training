@@ -1,4 +1,4 @@
-<% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Review Interview cancellation reason" %>
+<% content_for :browser_title,  t('.title') %>
 <% content_for :before_content, govuk_back_link_to(request.referer) %>
 
 <div class="govuk-grid-row">
@@ -9,13 +9,13 @@
         <span class="govuk-caption-l">
           <%= @interview.application_choice.application_form.full_name %>
         </span>
-        Check and send interview cancellation
+        <%= t('.title') %>
       </label>
     </h1>
 
     <%= render SummaryCardComponent.new(editable: true, border: false, rows: [
     {
-      key: 'Reason for cancelling interview',
+      key: t('.cancellation_reason'),
       value: @interview.cancellation_reason
     },
     {}

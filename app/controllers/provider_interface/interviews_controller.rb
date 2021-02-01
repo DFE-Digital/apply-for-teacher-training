@@ -11,32 +11,40 @@ module ProviderInterface
       )
 
       @interviews = @application_choice.interviews.kept.includes([:provider])
+
+      redirect_to provider_interface_application_choice_path if @interviews.none?
     end
 
     def new
-      # TODO: Remove once the user is able to create new interviews
-      # Workaround creating interviews until the interview form is in place.
-      # In order to create new interviews amend the 'Setup interview button' url to include a date parameter
-      # You can optionally specify a location and additional details as well
-      # e.g. ..../interviews/new to .../interviews/new?date_and_time=2021-2-5
-      #
-      date_and_time = params[:date_and_time]&.to_date
-      if date_and_time.blank?
-        flash['info'] = 'Interview creation is not available yet'
-        redirect_back(fallback_location: provider_interface_application_choice_path(@application_choice)) and return
+      @wizard = InterviewWizard.new(store, interview_form_context_params.merge(current_step: 'input'))
+      @wizard.save_state!
+    end
+
+    def check
+      @wizard = InterviewWizard.new(store, interview_params.merge(current_step: 'check'))
+      @wizard.save_state!
+      render :new unless @wizard.valid?
+    end
+
+    def commit
+      @wizard = InterviewWizard.new(store, interview_form_context_params)
+
+      if @wizard.valid?
+        CreateInterview.new(
+          actor: current_provider_user,
+          application_choice: @application_choice,
+          provider: @wizard.provider,
+          date_and_time: @wizard.date_and_time,
+          location: @wizard.location,
+          additional_details: @wizard.additional_details,
+        ).save!
+        @wizard.clear_state!
+
+        flash[:success] = t('.success')
+        redirect_to provider_interface_application_choice_interviews_path(@application_choice)
+      else
+        render :check
       end
-
-      CreateInterview.new(
-        actor: current_provider_user,
-        application_choice: @application_choice,
-        provider: @application_choice.offered_course.provider,
-        date_and_time: date_and_time,
-        location: params[:location],
-        additional_details: params[:additional_details],
-      ).save!
-
-      flash['success'] = 'Interview successfully created'
-      redirect_to provider_interface_application_choice_interviews_path(@application_choice)
     end
 
     def cancel
@@ -59,7 +67,7 @@ module ProviderInterface
         cancellation_reason: cancellation_reason,
       ).save!
 
-      flash['success'] = 'Interview cancelled'
+      flash[:success] = t('.success')
       redirect_to provider_interface_application_choice_path(@application_choice)
     end
 
@@ -74,6 +82,26 @@ module ProviderInterface
         fallback_path = provider_interface_application_choice_path(@application_choice)
         redirect_back(fallback_location: fallback_path)
       end
+    end
+
+    def interview_form_context_params
+      {
+        application_choice: @application_choice,
+        provider_user: current_provider_user,
+      }
+    end
+
+    def interview_params
+      params
+        .require(:provider_interface_interview_wizard)
+        .permit(:date, :time, :location, :additional_details, :provider_id)
+        .transform_values(&:strip)
+        .merge(interview_form_context_params)
+    end
+
+    def store
+      key = "interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+      WizardStateStores::RedisStore.new(key: key)
     end
   end
 end

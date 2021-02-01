@@ -635,10 +635,17 @@ Rails.application.routes.draw do
 
       resources :notes, only: %i[index show new create], as: :application_choice_notes
 
-      resources :interviews, only: %i[index new], as: :application_choice_interviews do
-        get :cancel, on: :member
-        get '/cancel/review/', on: :member, to: 'interviews#review_cancel'
-        post '/cancel/confirm/', on: :member, to: 'interviews#confirm_cancel'
+      resources :interviews, only: %i[new index], as: :application_choice_interviews do
+        collection do
+          get '/new/check', to: 'interviews#check'
+          get '/confirm', to: 'interviews#commit'
+        end
+
+        member do
+          get :cancel
+          get '/cancel/review/', to: 'interviews#review_cancel'
+          post '/cancel/confirm/', to: 'interviews#confirm_cancel'
+        end
       end
     end
 
