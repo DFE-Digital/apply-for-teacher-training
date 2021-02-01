@@ -2,7 +2,6 @@ module SupportInterface
   module ApplicationForms
     class PickCourseForm
       include ActiveModel::Model
-      include ValidationUtils
 
       attr_accessor :course_code, :application_form_id, :candidate_id, :course_option_id
 

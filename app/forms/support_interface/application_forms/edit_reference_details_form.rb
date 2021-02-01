@@ -2,7 +2,6 @@ module SupportInterface
   module ApplicationForms
     class EditReferenceDetailsForm
       include ActiveModel::Model
-      include ValidationUtils
 
       attr_accessor :name, :email_address, :relationship, :audit_comment
 

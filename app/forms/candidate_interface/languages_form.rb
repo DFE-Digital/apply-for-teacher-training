@@ -1,7 +1,6 @@
 module CandidateInterface
   class LanguagesForm
     include ActiveModel::Model
-    include ValidationUtils
 
     attr_accessor :english_main_language,
                   :english_language_details, :other_language_details
