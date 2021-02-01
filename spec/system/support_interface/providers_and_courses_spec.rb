@@ -56,9 +56,6 @@ RSpec.feature 'Providers and courses' do
     then_all_courses_should_be_open_on_apply
     and_when_i_click_on_ratified_courses
     then_all_ratified_courses_should_be_open_on_apply
-
-    and_when_i_click_the_other_providers_tab
-    and_i_should_see_the_list_of_other_providers
   end
 
   def given_i_am_a_support_user
@@ -70,15 +67,15 @@ RSpec.feature 'Providers and courses' do
   end
 
   def and_providers_are_configured_to_be_synced
-    provider = create :provider, code: 'ABC', name: 'Royal Academy of Dance', sync_courses: true
+    provider = create :provider, :with_signed_agreement, code: 'ABC', name: 'Royal Academy of Dance', sync_courses: true
     create(:provider_user, email_address: 'harry@example.com', providers: [provider])
 
     course_option = create(:course_option, course: create(:course, provider: provider))
     create(:application_choice, application_form: create(:application_form, support_reference: 'XYZ123'), course_option: course_option)
 
-    create :provider, code: 'DEF', name: 'Gorse SCITT', sync_courses: true
-    create :provider, code: 'DOF', name: 'An Unsynced Provider', sync_courses: false
-    somerset_scitt = create :provider, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
+    create :provider, :with_signed_agreement, code: 'DEF', name: 'Gorse SCITT', sync_courses: true
+    create :provider, :with_signed_agreement, code: 'DOF', name: 'An Unsynced Provider', sync_courses: false
+    somerset_scitt = create :provider, :with_signed_agreement, code: 'GHI', name: 'Somerset SCITT Consortium', sync_courses: true
 
     create(:course_option, course: create(:course, accredited_provider: provider))
 
@@ -273,15 +270,6 @@ RSpec.feature 'Providers and courses' do
 
   def then_all_courses_should_be_open_on_apply
     expect(page).to have_content '2 courses (2 on DfE Apply)'
-  end
-
-  def and_when_i_click_the_other_providers_tab
-    click_link 'Providers', match: :prefer_exact
-    click_link 'Other providers'
-  end
-
-  def and_i_should_see_the_list_of_other_providers
-    expect(page).to have_content('An Unsynced Provider')
   end
 
   def and_i_click_on_an_accredited_body

@@ -7,7 +7,7 @@ RSpec.feature 'See provider course syncing' do
   scenario 'User switches sync courses on Provider' do
     given_i_am_a_support_user
     and_a_provider_exists
-    when_i_visit_the_other_providers_page
+    when_i_visit_the_providers_page
     then_i_see_that_the_provider_is_not_configured_to_sync_courses
 
     when_i_click_on_a_provider
@@ -28,9 +28,11 @@ RSpec.feature 'See provider course syncing' do
     create :provider, code: 'ABC', name: 'ABC College'
   end
 
-  def when_i_visit_the_other_providers_page
+  def when_i_visit_the_providers_page
     visit support_interface_providers_path
-    click_link 'Other providers'
+    uncheck('Courses synced')
+    uncheck('DSA signed')
+    click_button 'Apply filters'
   end
 
   def then_i_see_that_the_provider_is_not_configured_to_sync_courses
