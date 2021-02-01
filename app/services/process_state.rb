@@ -29,6 +29,14 @@ class ProcessState
       event :no_offers, transitions_to: :ended_without_success
       event :all_rejected, transitions_to: :ended_without_success
       event :all_withdrawn, transitions_to: :ended_without_success
+      event :interview, transitions_to: :interviewing
+    end
+
+    state :interviewing do
+      event :at_least_one_offer, transitions_to: :awaiting_candidate_response
+      event :no_offers, transitions_to: :ended_without_success
+      event :all_rejected, transitions_to: :ended_without_success
+      event :all_withdrawn, transitions_to: :ended_without_success
     end
 
     state :awaiting_candidate_response do
@@ -62,7 +70,7 @@ class ProcessState
       :never_signed_in
     elsif application_choices.empty? || all_states_are?('unsubmitted')
       unchanged?(application_form) ? :unsubmitted_not_started_form : :unsubmitted_in_progress
-    elsif any_state_is?('awaiting_provider_decision')
+    elsif any_state_is?('awaiting_provider_decision') || any_state_is?('interviewing')
       :awaiting_provider_decisions
     elsif any_state_is?('offer')
       # Offer, but no awaiting means we're waiting on the candidate

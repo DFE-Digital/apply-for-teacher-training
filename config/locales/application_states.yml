@@ -449,6 +449,11 @@ en:
       by: candidate
       description: ""
 
+    awaiting_provider_decisions-interview:
+      name: At least one interview
+      by: provider
+      description: ""
+
     awaiting_provider_decisions-at_least_one_offer:
       name: At least one offer
       by: provider
@@ -465,6 +470,26 @@ en:
       description: ""
 
     awaiting_provider_decisions-all_withdrawn:
+      name: Withdraw
+      by: candidate
+      description: ""
+
+    interviewing-at_least_one_offer:
+      name: At least one offer
+      by: provider
+      description: ""
+
+    interviewing-no_offers:
+      name: No offers
+      by: provider
+      description: ""
+
+    interviewing-all_rejected:
+      name: All rejected
+      by: provider
+      description: ""
+
+    interviewing-all_withdrawn:
       name: Withdraw
       by: candidate
       description: ""
