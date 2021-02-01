@@ -18,7 +18,7 @@
               <%= govuk_link_to provider.name_and_code, support_interface_provider_path(provider) %>
             </span>
             <% if provider.no_admin_users? %>
-              <%= render TagComponent.new(text: 'Needs attention', type: :red) %>
+              <span class="govuk-caption-m">No admin user</span>
             <% end %>
           </td>
           <td class="govuk-table__cell">
