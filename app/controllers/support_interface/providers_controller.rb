@@ -3,14 +3,12 @@ module SupportInterface
     def index
       @filter = SupportInterface::ProvidersFilter.new(params: params)
 
-      @providers = Provider.where(sync_courses: true)
-        .includes(:sites, :courses, :provider_agreements, :provider_users)
-        .order(:name)
-        .page(params[:page] || 1).per(30)
-
-      if params[:q]
-        @providers = @providers.where("CONCAT(name, ' ', code) ILIKE ?", "%#{params[:q]}%")
-      end
+      @providers = @filter.filter_records(
+        Provider
+          .includes(:sites, :courses, :provider_agreements, :provider_users)
+          .order(:name)
+          .page(params[:page] || 1).per(30)
+      )
     end
 
     def other_providers
