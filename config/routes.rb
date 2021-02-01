@@ -800,7 +800,6 @@ Rails.application.routes.draw do
     post '/tokens' => 'api_tokens#create'
 
     get '/providers' => 'providers#index', as: :providers
-    get '/providers/other' => 'providers#other_providers', as: :other_providers
 
     scope path: '/providers/:provider_id' do
       get '/' => 'providers#show', as: :provider

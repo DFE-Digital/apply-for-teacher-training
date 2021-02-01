@@ -11,19 +11,6 @@ module SupportInterface
       )
     end
 
-    def other_providers
-      @filter = SupportInterface::ProvidersFilter.new(params: params)
-
-      @providers = Provider
-        .where(sync_courses: false)
-        .order(:name)
-        .page(params[:page] || 1).per(30)
-
-      if params[:q]
-        @providers = @providers.where("CONCAT(name, ' ', code) ILIKE ?", "%#{params[:q]}%")
-      end
-    end
-
     def show
       @provider = Provider.find(params[:provider_id])
       @provider_agreement = ProviderAgreement.data_sharing_agreements.for_provider(@provider).last
