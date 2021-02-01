@@ -245,6 +245,10 @@ Rails.application.routes.draw do
         post '/' => 'restructured_work_history/start#submit_choice'
 
         get '/new' => 'restructured_work_history/job#new', as: :new_restructured_work_history
+        post '/new' => 'restructured_work_history/job#create', as: :create_restructured_work_history
+
+        get '/edit/:id' => 'restructured_work_history/job#edit', as: :edit_restructured_work_history
+        post '/edit/:id' => 'restructured_work_history/job#update'
 
         get '/review' => 'restructured_work_history/review#show', as: :restructured_work_history_review
       end
