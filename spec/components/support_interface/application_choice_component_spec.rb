@@ -67,4 +67,18 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
 
     expect(result.text).not_to include('Decline by default at')
   end
+
+  it 'displays the course offered by the provider when the applied course is different' do
+    application_choice = create(
+      :application_choice,
+      :with_offer,
+      offered_course_option: create(:course_option),
+      offered_at: Time.zone.local(2020, 1, 1, 10),
+      decline_by_default_at: nil,
+    )
+
+    result = render_inline(described_class.new(application_choice))
+
+    expect(result.text).to include('Course offered by provider')
+  end
 end
