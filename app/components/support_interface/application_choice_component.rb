@@ -56,7 +56,7 @@ module SupportInterface
         rows << { key: 'Interviews', value: interview_blocks }
       end
 
-      rows.flatten
+      rows
     end
 
   private

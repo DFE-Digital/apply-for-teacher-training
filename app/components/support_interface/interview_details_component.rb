@@ -15,10 +15,6 @@ module SupportInterface
           value: interview.provider.name,
         },
         {
-          key: 'Meeting details',
-          value: interview.location,
-        },
-        {
           key: 'Created at',
           value: interview.created_at.to_s(:govuk_date_and_time),
         },
@@ -32,7 +28,7 @@ module SupportInterface
   private
 
     def interview_status
-      interview.cancelled_at.present? ? 'Cancelled' : 'Active'
+      interview.cancelled? ? 'Cancelled' : 'Active'
     end
   end
 end
