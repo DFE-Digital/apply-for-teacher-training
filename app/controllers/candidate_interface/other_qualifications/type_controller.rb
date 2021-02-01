@@ -1,13 +1,15 @@
 module CandidateInterface
   class OtherQualifications::TypeController < OtherQualifications::BaseController
     def new
-      reset_intermediate_state!
+      # Clear any data that's left from the previous time the candidate used the
+      # "new qualification" flow.
+      intermediate_data_service.clear_state!
+
       @form = OtherQualificationTypeForm.new(
         current_application,
         intermediate_data_service,
         current_step: :type,
       )
-      @form.save_intermediate!
     end
 
     def create
@@ -17,17 +19,8 @@ module CandidateInterface
         other_qualification_type_params.merge(current_step: :type),
       )
 
-      if @form.valid?
-        @form.save_intermediate!
-
-        next_step = @form.next_step
-
-        if next_step == :details
-          redirect_to candidate_interface_other_qualification_details_path
-        else
-          track_validation_error(@form)
-          render :new
-        end
+      if @form.save_intermediate
+        redirect_to candidate_interface_other_qualification_details_path
       else
         track_validation_error(@form)
         render :new
@@ -66,7 +59,6 @@ module CandidateInterface
           redirect_to candidate_interface_edit_other_qualification_details_path(current_qualification.id)
         elsif next_step == :check
           @form.save!
-          reset_intermediate_state!
           redirect_to candidate_interface_review_other_qualifications_path
         else
           render :edit

@@ -59,7 +59,10 @@ module CandidateInterface
       @intermediate_data_service.write(intermediate_state)
     end
 
-    def save!
+    def save
+      save_intermediate!
+      return unless valid?
+
       @next_step = :check
 
       application_qualification = current_qualification ||
@@ -68,7 +71,7 @@ module CandidateInterface
         )
 
       application_qualification.assign_attributes(attributes_for_persistence)
-      application_qualification.save!
+      application_qualification.save
     end
 
     def initialize_from_last_qualification(qualifications)
@@ -104,11 +107,6 @@ module CandidateInterface
     PERSISTENT_ATTRIBUTES = %w[qualification_type other_uk_qualification_type non_uk_qualification_type subject predicted_grade grade award_year institution_country].freeze
     def persistent_attributes(application_qualification)
       application_qualification.attributes.select { |key, _| PERSISTENT_ATTRIBUTES.include?(key) }
-    end
-
-    def missing_type_validation_error?
-      valid?
-      errors.details[:qualification_type].any? { |e| e[:error] == :blank }
     end
 
     def grade_hint

@@ -42,9 +42,14 @@ module CandidateInterface
       super(options)
     end
 
+    def save_intermediate
+      valid? && save_intermediate!
+    end
+
     def save_intermediate!
       @intermediate_data_service.write(intermediate_state)
       @next_step = editing && !qualification_type_changed? ? :check : :details
+      true
     end
 
     def save!
