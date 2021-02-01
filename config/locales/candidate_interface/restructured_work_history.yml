@@ -6,11 +6,15 @@ en:
         hint_text: You’ll be able to give details of any breaks once you’ve entered your employment history
       full_time_education:
         label: No, I have always been in full time education
+        review_label: Do you have any work history?
+        change_action: explanation of why you’ve been out of the workplace
       can_not_complete:
         label: No, I do not have any work history
       explanation:
         label: Tell us why you’ve been out of the workplace
         hint_text: For example, ‘I have been unemployed’, ‘I have been volunteering’ or ‘I have been caring for a child’
+        review_label: Explanation of why you’ve been out of the workplace
+        change_action: explanation of why you’ve been out of the workplace
       role:
         label: Role
         review_label: Role

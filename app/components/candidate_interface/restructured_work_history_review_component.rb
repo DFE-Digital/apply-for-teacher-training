@@ -16,14 +16,25 @@ module CandidateInterface
     end
 
     def no_work_experience_rows
-      [
-        {
-          key: t('application_form.work_history.explanation.review_label'),
-          value: no_work_experience_value,
-          action: t('application_form.work_history.explanation.change_action'),
-          change_path: candidate_interface_restructured_work_history_path,
-        },
-      ]
+      if application_form.full_time_education?
+        [
+          {
+            key: t('application_form.restructured_work_history.full_time_education.review_label'),
+            value: no_work_experience_value,
+            action: t('application_form.restructured_work_history.full_time_education.change_action'),
+            change_path: candidate_interface_restructured_work_history_path,
+          },
+        ]
+      else
+        [
+          {
+            key: t('application_form.work_history.explanation.review_label'),
+            value: no_work_experience_value,
+            action: t('application_form.restructured_work_history.explanation.change_action'),
+            change_path: candidate_interface_restructured_work_history_path,
+          },
+        ]
+      end
     end
 
   private
