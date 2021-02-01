@@ -32,6 +32,21 @@ module CandidateInterface
       end
     end
 
+    def confirm_destroy
+      @job = current_application.application_work_experiences.find(params[:id])
+    end
+
+    def destroy
+      current_application
+        .application_work_experiences
+        .find(job_params[:id])
+        .destroy!
+
+      current_application.update!(work_history_completed: false)
+
+      redirect_to candidate_interface_restructured_work_history_review_path
+    end
+
   private
 
     def job

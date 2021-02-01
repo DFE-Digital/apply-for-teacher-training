@@ -250,7 +250,23 @@ Rails.application.routes.draw do
         get '/edit/:id' => 'restructured_work_history/job#edit', as: :edit_restructured_work_history
         post '/edit/:id' => 'restructured_work_history/job#update'
 
+        get '/delete/:id' => 'restructured_work_history/job#confirm_destroy', as: :destroy_restructured_work_history
+        delete '/delete/:id' => 'restructured_work_history/job#destroy'
+
+        get '/explain-breaks' => 'restructured_work_history/breaks#edit', as: :restructured_work_history_breaks
+        post '/explain-breaks' => 'restructured_work_history/breaks#update'
+
+        get '/explain-break/new' => 'restructured_work_history/break#new', as: :new_restructured_work_history_break
+        post '/explain-break/new' => 'restructured_work_history/break#create'
+
+        get '/explain-break/edit/:id' => 'restructured_work_history/break#edit', as: :edit_restructured_work_history_break
+        patch '/explain-break/edit/:id' => 'restructured_work_history/break#update'
+
+        get '/explain-break/delete/:id' => 'restructured_work_history/break#confirm_destroy', as: :destroy_restructured_work_history_break
+        delete '/explain-break/delete/:id' => 'restructured_work_history/break#destroy'
+
         get '/review' => 'restructured_work_history/review#show', as: :restructured_work_history_review
+        patch '/review' => 'work_history/review#complete', as: :restructured_work_history_complete
       end
 
       scope '/school-experience' do

@@ -40,6 +40,10 @@ en:
       relevant_skills:
         label: Did you use skills relevant to teaching in this job?
         hint: You can go into more detail about this in your personal statement.
+      delete_job:
+        action: Delete job
+        confirm: Yes I’m sure - delete this job
+        cancel: Cancel
   activemodel:
     errors:
       models:
