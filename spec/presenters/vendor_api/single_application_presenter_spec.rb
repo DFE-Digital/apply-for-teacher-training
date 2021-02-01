@@ -508,16 +508,16 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     it 'adds GCSE science triple award information' do
       science_triple_awards = {
-        biology: 'A',
-        chemistry: 'B',
-        physics: 'C',
+        biology: { grade: 'A' },
+        chemistry: { grade: 'B' },
+        physics: { grade: 'C' },
       }
 
       create(
         :gcse_qualification,
         grade: nil,
         subject: 'science triple award',
-        structured_grades: science_triple_awards,
+        constituent_grades: science_triple_awards,
         application_form: application_choice.application_form,
       )
 
@@ -536,7 +536,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         id: 1,
         subject: 'english',
         grade: nil,
-        structured_grades: '{"english_language":"E","english_literature":"E","Cockney Rhyming Slang":"A*"}',
+        constituent_grades: '{"english_language":{"grade":"E"},"english_literature":{"grade":"E"},"Cockney Rhyming Slang":{"grade":"A*"}}',
         award_year: 2006,
         predicted_grade: false,
         application_form: application_choice.application_form,

@@ -166,7 +166,7 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
       create(
         :application_form,
         application_qualifications: [
-          create(:gcse_qualification, subject: 'english', structured_grades: '{"english_language":"E","english_literature":"E","Cockney Rhyming Slang":"A*"}', award_year: 2006),
+          create(:gcse_qualification, subject: 'english', constituent_grades: '{"english_language":{"grade":"E"},"english_literature":{"grade":"E"},"Cockney Rhyming Slang":{"grade":"A*"}}', award_year: 2006),
         ],
       )
     end
@@ -184,16 +184,16 @@ RSpec.describe GcseQualificationCardsComponent, type: :component do
 
   describe 'rendering multiple Science GCSEs' do
     science_triple_awards = {
-      biology: 'A',
-      chemistry: 'B',
-      physics: 'C',
+      biology: { grade: 'A' },
+      chemistry: { grade: 'B' },
+      physics: { grade: 'C' },
     }
 
     let(:application_form) do
       create(
         :application_form,
         application_qualifications: [
-          create(:gcse_qualification, subject: 'science triple award', structured_grades: science_triple_awards, award_year: 2006),
+          create(:gcse_qualification, subject: 'science triple award', constituent_grades: science_triple_awards, award_year: 2006),
         ],
       )
     end

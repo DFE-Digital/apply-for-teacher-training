@@ -185,7 +185,7 @@ module VendorAPI
       # This is to split structured GCSEs in to separate GCSE qualifications for the API
       # Science triple award grades are already properly formatted and so are left out here
       to_structure, already_structured = gcses.partition do |gcse|
-        gcse[:subject] != 'science triple award' && gcse[:structured_grades].present?
+        gcse[:subject] != 'science triple award' && gcse[:constituent_grades].present?
       end
 
       separated_gcse_hashes = to_structure.flat_map { |q| structured_gcse_to_hashes(q) }
@@ -204,10 +204,10 @@ module VendorAPI
     end
 
     def structured_gcse_to_hashes(gcse)
-      structured_grades = JSON.parse(gcse[:structured_grades])
-      structured_grades.reduce([]) do |array, (subject, grade)|
+      constituent_grades = JSON.parse(gcse[:constituent_grades])
+      constituent_grades.reduce([]) do |array, (subject, hash)|
         array << qualification_to_hash(gcse)
-                     .merge(subject: subject.humanize, grade: grade)
+                     .merge(subject: subject.humanize, grade: hash['grade'])
       end
     end
 
@@ -237,12 +237,12 @@ module VendorAPI
         end
       end
 
-      grades = qualification.structured_grades
+      constituent_grades = qualification.constituent_grades
 
       # For triple award science we need to serialize 'grades' to the 'grade' field
       # in the specified order
-      if qualification.subject == 'science triple award' && grades
-        grade = "#{grades['biology']}#{grades['chemistry']}#{grades['physics']}"
+      if qualification.subject == 'science triple award' && constituent_grades
+        grade = "#{constituent_grades['biology']['grade']}#{constituent_grades['chemistry']['grade']}#{constituent_grades['physics']['grade']}"
       end
 
       grade

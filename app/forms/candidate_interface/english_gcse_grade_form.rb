@@ -6,7 +6,7 @@ module CandidateInterface
     attr_accessor :grade,
                   :qualification,
                   :other_grade,
-                  :structured_grades,
+                  :constituent_grades,
                   :english_gcses,
                   :english_single_award,
                   :grade_english_single,
@@ -28,8 +28,8 @@ module CandidateInterface
     validates :grade, presence: true, on: :grade
     validates :other_grade, presence: true, if: :grade_is_other?
     validate :validate_grade_format, on: :grade, unless: :is_multiple_gcse? || :new_record?
-    validate :validate_grades_format, on: :structured_grades, if: :is_multiple_gcse?, unless: :new_record?
-    validate :gcse_selected, on: :structured_grades, if: :is_multiple_gcse?
+    validate :validate_grades_format, on: :constituent_grades, if: :is_multiple_gcse?, unless: :new_record?
+    validate :gcse_selected, on: :constituent_grades, if: :is_multiple_gcse?
 
     class << self
       def build_from_qualification(qualification)
@@ -51,47 +51,47 @@ module CandidateInterface
           award_year: qualification.award_year,
         }
 
-        if qualification.structured_grades
-          grades = JSON.parse(qualification.structured_grades)
+        if qualification.constituent_grades
+          constituent_grades = JSON.parse(qualification.constituent_grades)
           english_gcses = []
 
           if grades.keys.include? 'english_single_award'
             english_gcses << 'english_single_award'
-            params[:grade_english_single] = grades['english_single_award']
+            params[:grade_english_single] = constituent_grades['english_single_award']['grade']
             params[:english_single_award] = true
           end
 
           if grades.keys.include? 'english_double_award'
             english_gcses << 'english_double_award'
-            params[:grade_english_double] = grades['english_double_award']
+            params[:grade_english_double] = constituent_grades['english_double_award']['grade']
             params[:english_double_award] = true
           end
 
           if grades.keys.include? 'english_language'
             english_gcses << 'english_language'
-            params[:grade_english_language] = grades['english_language']
+            params[:grade_english_language] = constituent_grades['english_language']['grade']
             params[:english_language] = true
           end
 
           if grades.keys.include? 'english_literature'
             english_gcses << 'english_literature'
-            params[:grade_english_literature] = grades['english_literature']
+            params[:grade_english_literature] = constituent_grades['english_literature']['grade']
             params[:english_literature] = true
           end
 
           if grades.keys.include? 'english_studies_single_award'
             english_gcses << 'english_studies_single_award'
-            params[:grade_english_studies_single] = grades['english_studies_single_award']
+            params[:grade_english_studies_single] = constituent_grades['english_studies_single_award']['grade']
             params[:english_studies_single_award] = true
           end
 
           if grades.keys.include? 'english_studies_double_award'
             english_gcses << 'english_studies_double_award'
-            params[:grade_english_studies_double] = grades['english_studies_double_award']
+            params[:grade_english_studies_double] = constituent_grades['english_studies_double_award']['grade']
             params[:english_studies_double_award] = true
           end
 
-          other_english_gcse_name = grades.keys.select { |k|
+          other_english_gcse_name = constituent_grades.keys.select { |k|
             %w[
               english_single_award english_double_award
               english_language
@@ -105,7 +105,7 @@ module CandidateInterface
 
           params[:other_english_gcse] = other_english_gcse_name
           params[:other_english_gcse_name] = other_english_gcse_name if other_english_gcse_name
-          params[:grade_other_english_gcse] = grades[other_english_gcse_name] if other_english_gcse_name
+          params[:grade_other_english_gcse] = constituent_grades[other_english_gcse_name]['grade'] if other_english_gcse_name
         end
 
         params
@@ -156,28 +156,34 @@ module CandidateInterface
         log_validation_errors(:grade)
         return false
       end
-      qualification.update(grade: set_grade, structured_grades: nil)
+      qualification.update(grade: set_grade, constituent_grades: nil)
     end
 
     def save_grades
-      if !valid?(:structured_grades)
-        log_validation_errors(:structured_grades)
+      if !valid?(:constituent_grades)
+        log_validation_errors(:constituent_grades)
         return false
       end
-      qualification.update(structured_grades: build_grades_json, grade: nil)
+      qualification.update(constituent_grades: build_grades_json, grade: nil)
     end
 
     def build_grades_json
       grades = {}.tap do |model|
-        model[:english_single_award] = sanitize(grade_english_single) if english_single_award
-        model[:english_double_award] = sanitize(grade_english_double) if english_double_award
-        model[:english_language] = sanitize(grade_english_language) if english_language
-        model[:english_literature] = sanitize(grade_english_literature) if english_literature
-        model[:english_studies_single_award] = sanitize(grade_english_studies_single) if english_studies_single_award
-        model[:english_studies_double_award] = sanitize(grade_english_studies_double) if english_studies_double_award
-        model[other_english_gcse_name] = sanitize(grade_other_english_gcse) if other_english_gcse
+        model[:english_single_award] = grade_hash(grade_english_single) if english_single_award
+        model[:english_double_award] = grade_hash(grade_english_double) if english_double_award
+        model[:english_language] = grade_hash(grade_english_language) if english_language
+        model[:english_literature] = grade_hash(grade_english_literature) if english_literature
+        model[:english_studies_single_award] = grade_hash(grade_english_studies_single) if english_studies_single_award
+        model[:english_studies_double_award] = grade_hash(grade_english_studies_double) if english_studies_double_award
+        model[other_english_gcse_name] = grade_hash(grade_other_english_gcse) if other_english_gcse
       end
       grades.to_json if grades.any?
+    end
+
+    def grade_hash(grade)
+      {
+        grade: sanitize(grade),
+      }
     end
 
     def gcse_selected
