@@ -16,21 +16,11 @@ module FindSync
 
     def call(run_in_background: true)
       if sync_courses?
-        find_provider = fetch_provider_from_find_api
-
-        @provider = create_or_update_provider(
-          base_provider_attrs.merge(
-            provider_attrs_from(find_provider),
-          ),
-        )
-
         if run_in_background
-          FindSync::SyncCoursesFromFind.perform_async(provider.id, provider_recruitment_cycle_year)
+          FindSync::SyncCoursesFromFind.perform_async(existing_provider.id, provider_recruitment_cycle_year)
         else
-          FindSync::SyncCoursesFromFind.new.perform(provider.id, provider_recruitment_cycle_year)
+          FindSync::SyncCoursesFromFind.new.perform(existing_provider.id, provider_recruitment_cycle_year)
         end
-      else
-        @provider = create_or_update_provider(base_provider_attrs)
       end
     end
 

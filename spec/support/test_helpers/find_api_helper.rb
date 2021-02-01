@@ -675,6 +675,6 @@ private
   def stub_find_api_provider(provider_code)
     stub_request(:get, ENV.fetch('FIND_BASE_URL') +
       "recruitment_cycles/#{stubbed_recruitment_cycle_year}" \
-      "/providers/#{provider_code}?include=sites,courses.sites,courses.subjects,courses.site_statuses.site")
+      "/providers/#{provider_code}?include=courses.subjects")
   end
 end
