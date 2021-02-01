@@ -75,4 +75,60 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       end
     end
   end
+
+  describe 'course vacancy statuses' do
+    context 'when study_mode is part_time' do
+      let(:study_mode) { 'part_time' }
+      [
+          { description: 'no_vacancies', vacancy_status: :no_vacancies },
+          { description: 'both_full_time_and_part_time_vacancies', vacancy_status: :vacancies },
+          { description: 'full_time_vacancies', vacancy_status: :no_vacancies },
+          { description: 'part_time_vacancies', vacancy_status: :vacancies },
+      ].each do |pair|
+        it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
+          derived_status = described_class.new.send(:vacancy_status,
+              pair[:description],
+              study_mode,
+              )
+
+          expect(derived_status).to eq pair[:vacancy_status]
+        end
+      end
+
+      it 'raises an error when description is an unexpected value' do
+        expect {
+          described_class.new.send(:vacancy_status, 'foo', study_mode)
+        }.to raise_error(
+                 TeacherTrainingPublicAPI::SyncSites::InvalidVacancyStatusDescriptionError,
+                 )
+      end
+    end
+
+    context 'when study_mode is full_time' do
+      let(:study_mode) { 'full_time' }
+      [
+          { description: 'no_vacancies', vacancy_status: :no_vacancies },
+          { description: 'both_full_time_and_part_time_vacancies', vacancy_status: :vacancies },
+          { description: 'full_time_vacancies', vacancy_status: :vacancies },
+          { description: 'part_time_vacancies', vacancy_status: :no_vacancies },
+      ].each do |pair|
+        it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
+          derived_status = described_class.new.send(:vacancy_status,
+              pair[:description],
+              study_mode,
+              )
+
+          expect(derived_status).to eq pair[:vacancy_status]
+        end
+      end
+
+      it 'raises an error when description is an unexpected value' do
+        expect {
+          described_class.new.send(:vacancy_status, 'foo', study_mode)
+        }.to raise_error(
+                         TeacherTrainingPublicAPI::SyncSites::InvalidVacancyStatusDescriptionError,
+                 )
+      end
+    end
+  end
 end
