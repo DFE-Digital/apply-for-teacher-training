@@ -1,0 +1,5 @@
+@include govuk-media-query($from: tablet) {
+  .app-grid-column-one-third--actions {
+    text-align: right;
+  }
+}
