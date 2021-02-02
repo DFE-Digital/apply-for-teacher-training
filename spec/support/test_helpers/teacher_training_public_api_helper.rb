@@ -129,6 +129,8 @@ private
       'site_list_response_with_full_time_vacancies.json'
     when 'part_time_vacancies'
       'site_list_response_with_part_time_vacancies.json'
+    when 'both_full_time_and_part_time_vacancies'
+      'site_list_response_with_full_time_and_part_time_vacancies.json'
     end
   end
 end
