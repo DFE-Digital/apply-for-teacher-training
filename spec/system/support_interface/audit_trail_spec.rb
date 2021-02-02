@@ -84,14 +84,14 @@ RSpec.feature 'See application history', with_audited: true do
   end
 
   def then_i_should_be_able_to_see_history_events
-    within('tbody tr:eq(2)') do
+    within('tbody tr:eq(1)') do
       expect(page).to have_content '3 October 2019'
       expect(page).to have_content '09:00'
       expect(page).to have_content 'Update Application Choice'
       expect(page).to have_content 'derek@example.com (Provider user)'
       expect(page).to have_content 'status rejected → offer'
     end
-    within('tbody tr:eq(4)') do
+    within('tbody tr:eq(3)') do
       expect(page).to have_content '2 October 2019'
       expect(page).to have_content '12:00'
       expect(page).to have_content 'Update Application Choice'
