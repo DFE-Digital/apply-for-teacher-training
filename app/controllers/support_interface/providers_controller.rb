@@ -7,7 +7,7 @@ module SupportInterface
         Provider
           .includes(:sites, :courses, :provider_agreements, :provider_users)
           .order(:name)
-          .page(params[:page] || 1).per(30)
+          .page(params[:page] || 1).per(30),
       )
     end
 
