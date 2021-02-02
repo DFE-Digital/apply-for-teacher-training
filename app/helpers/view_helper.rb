@@ -118,19 +118,6 @@ module ViewHelper
     (EndOfCycleTimetable.find_reopens - Time.zone.today).to_i
   end
 
-  # TODO: move this to ProviderUser#display_name
-  def provider_user_name(provider_user)
-    first_name = provider_user.first_name
-    last_name = provider_user.last_name
-    email_address = provider_user.email_address
-
-    if first_name.present? && last_name.present?
-      "#{first_name} #{last_name}" if first_name.present? && last_name.present?
-    else
-      email_address
-    end
-  end
-
   def percent_of(numerator, denominator)
     numerator.to_f / denominator * 100.0
   end
