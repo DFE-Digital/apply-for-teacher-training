@@ -86,7 +86,7 @@ module ProviderInterface
         content = course_option.provider.name
 
         if course_option.course.accredited_provider.present?
-          content << " – ratified by #{course_option.course.accredited_provider.name}"
+          content += " – ratified by #{course_option.course.accredited_provider.name}"
         end
       end
 
