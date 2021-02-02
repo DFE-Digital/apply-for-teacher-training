@@ -10,7 +10,7 @@ RSpec.describe CandidateInterface::DegreeYearForm, type: :model do
         degree_form.validate(:award_year)
 
         expect(degree_form.errors.full_messages_for(:award_year)).to eq(
-          ["Award year #{error_message}"],
+          ['Award year Enter a real graduation year'],
         )
       end
     end
@@ -22,7 +22,7 @@ RSpec.describe CandidateInterface::DegreeYearForm, type: :model do
       degree_form.validate(:award_year)
 
       expect(degree_form.errors.full_messages_for(:award_year)).not_to eq(
-        ["Award year #{error_message}"],
+        ['Award year Enter a real graduation year'],
       )
     end
 

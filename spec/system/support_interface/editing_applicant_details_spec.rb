@@ -81,7 +81,7 @@ RSpec.feature 'Editing application details' do
     expect(page).to have_content 'First name cannot be blank'
     expect(page).to have_content 'Last name cannot be blank'
     expect(page).to have_content 'Email address cannot be blank'
-    expect(page).to have_content 'Enter a date of birth in the correct format'
+    expect(page).to have_content 'Enter a date of birth'
     expect(page).to have_content 'Phone number can’t be blank'
     expect(page).to have_content 'You must provide an audit comment'
   end

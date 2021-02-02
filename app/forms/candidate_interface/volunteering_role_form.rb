@@ -13,11 +13,9 @@ module CandidateInterface
 
     validates :details, word_count: { maximum: 150 }
 
-    validate :start_date_valid
-    validate :start_date_before_current_year_and_month, if: :start_date_valid?
-    validate :end_date_valid, unless: :end_date_blank?
-    validate :end_date_before_current_year_and_month, if: :end_date_valid?
-    validate :start_date_before_end_date, if: :start_date_and_end_date_valid?
+    validates :start_date, date: { future: true, month_and_year: true }
+    validates :end_date, date: { presence: true, future: true, month_and_year: true }, if: :start_date
+    validate :start_date_before_end_date, unless: ->(c) { %i[start_date end_date].any? { |d| c.errors.keys.include?(d) } }, if: %i[start_date end_date]
 
     class << self
       def build_all_from_application(application_form)

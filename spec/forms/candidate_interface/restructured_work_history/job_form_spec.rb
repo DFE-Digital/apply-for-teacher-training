@@ -47,9 +47,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
         form.validate
 
-        expect(form.errors.full_messages_for(:end_date)).to eq(
-          ["End date #{t('activemodel.errors.models.candidate_interface/restructured_work_history/job_form.attributes.end_date.invalid')}"],
-        )
+        expect(form.errors[:end_date]).to contain_exactly('Enter an end date')
       end
 
       it 'is invalid if month left blank' do
@@ -57,9 +55,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
         form.validate
 
-        expect(form.errors.full_messages_for(:end_date)).to eq(
-          ["End date #{t('activemodel.errors.models.candidate_interface/restructured_work_history/job_form.attributes.end_date.invalid')}"],
-        )
+        expect(form.errors[:end_date]).to contain_exactly('The end date must include a month')
       end
 
       it 'is invalid if year left blank' do
@@ -67,9 +63,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
         form.validate
 
-        expect(form.errors.full_messages_for(:end_date)).to eq(
-          ["End date #{t('activemodel.errors.models.candidate_interface/restructured_work_history/job_form.attributes.end_date.invalid')}"],
-        )
+        expect(form.errors[:end_date]).to contain_exactly('The end date must include a year')
       end
 
       it 'is invalid if not well-formed' do
@@ -77,9 +71,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
         form.validate
 
-        expect(form.errors.full_messages_for(:end_date)).to eq(
-          ["End date #{t('activemodel.errors.models.candidate_interface/restructured_work_history/job_form.attributes.end_date.invalid')}"],
-        )
+        expect(form.errors[:end_date]).to contain_exactly('Enter an end date in the correct format, for example 5 2019')
       end
 
       it 'is invalid if year is beyond the current year' do
@@ -88,9 +80,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
           form.validate
 
-          expect(form.errors.full_messages_for(:end_date)).to eq(
-            ["End date #{t('activemodel.errors.models.candidate_interface/restructured_work_history/job_form.attributes.end_date.in_the_future')}"],
-          )
+          expect(form.errors[:end_date]).to contain_exactly('Enter an end date that is not in the future')
         end
       end
 
@@ -100,9 +90,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
           form.validate
 
-          expect(form.errors.full_messages_for(:end_date)).to eq(
-            ["End date #{t('activemodel.errors.models.candidate_interface/restructured_work_history/job_form.attributes.end_date.in_the_future')}"],
-          )
+          expect(form.errors[:end_date]).to contain_exactly('Enter an end date that is not in the future')
         end
       end
 
@@ -134,8 +122,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
       expect(job).not_to be_valid
       errors = job.errors.messages
-      expect(errors[:start_date].pop).to eq 'Enter a start date in the correct format'
-      expect(errors[:end_date].pop).to eq 'Enter an end date in the correct format'
+      expect(errors[:start_date].pop).to eq 'Enter a start date in the correct format, for example 5 2019'
+      expect(errors[:end_date].pop).to eq 'Enter an end date in the correct format, for example 5 2019'
     end
   end
 

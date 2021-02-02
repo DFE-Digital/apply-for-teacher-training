@@ -52,11 +52,13 @@ RSpec.feature 'Entering their personal details' do
     @scope = 'application_form.personal_details'
     fill_in t('first_name.label', scope: @scope), with: 'Lando'
     fill_in t('last_name.label', scope: @scope), with: 'Calrissian'
+    fill_in 'Day', with: 'a'
     fill_in 'Month', with: '11'
+    fill_in 'Year', with: '1975'
   end
 
   def then_i_should_see_validation_errors
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/personal_details_form.attributes.date_of_birth.invalid')
+    expect(page).to have_content t('errors.messages.invalid_date', article: 'a', attribute: 'date of birth')
   end
 
   def and_i_should_see_the_completed_fields

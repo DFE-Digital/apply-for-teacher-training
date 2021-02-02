@@ -56,13 +56,14 @@ RSpec.feature 'Candidate submits restructured work history' do
   def when_i_fill_in_the_job_form_with_incorrect_date_fields
     within('[data-qa="start-date"]') do
       fill_in 'Month', with: '33'
+      fill_in 'Year', with: '1999'
     end
 
     click_button t('save_and_continue')
   end
 
   def then_i_should_see_date_validation_errors
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.start_date.invalid')
+    expect(page).to have_content t('errors.messages.invalid_date', article: 'a', attribute: 'start date')
   end
 
   def and_i_should_see_the_incorrect_date_values

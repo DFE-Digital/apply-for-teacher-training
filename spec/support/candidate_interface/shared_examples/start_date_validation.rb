@@ -6,7 +6,7 @@ RSpec.shared_examples 'validation for a start date' do |error_scope|
       form.validate
 
       expect(form.errors.full_messages_for(:start_date)).to eq(
-        ["Start date #{t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.start_date.invalid")}"],
+        ["Start date #{t('errors.messages.invalid_date_month_and_year', article: 'a', attribute: 'start date')}"],
       )
     end
 
@@ -32,7 +32,7 @@ RSpec.shared_examples 'validation for a start date' do |error_scope|
         form.validate
 
         expect(form.errors.full_messages_for(:start_date)).to eq(
-          ["Start date #{t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.start_date.in_the_future")}"],
+          ["Start date #{t('errors.messages.future', article: 'a', attribute: 'start date')}"],
         )
       end
     end
