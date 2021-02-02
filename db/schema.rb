@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_01_142920) do
+ActiveRecord::Schema.define(version: 2021_02_02_171852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -523,6 +523,7 @@ ActiveRecord::Schema.define(version: 2021_02_01_142920) do
     t.string "postcode"
     t.float "latitude"
     t.float "longitude"
+    t.string "region"
     t.index ["code", "provider_id"], name: "index_sites_on_code_and_provider_id", unique: true
     t.index ["provider_id"], name: "index_sites_on_provider_id"
   end
