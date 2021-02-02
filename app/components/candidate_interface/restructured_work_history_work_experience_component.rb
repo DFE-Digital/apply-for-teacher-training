@@ -13,9 +13,9 @@ module CandidateInterface
 
     def formatted_start_date
       if @work_experience.start_date_unknown
-        "#{@work_experience.start_date.to_s(:month_and_year)} (estimate)"
+        "#{@work_experience.start_date.to_s(:short_month_and_year)} (estimate)"
       else
-        @work_experience.start_date.to_s(:month_and_year)
+        @work_experience.start_date.to_s(:short_month_and_year)
       end
     end
 
@@ -23,9 +23,9 @@ module CandidateInterface
       return 'Present' if @work_experience.currently_working
 
       if @work_experience.end_date_unknown
-        "#{@work_experience.end_date.to_s(:month_and_year)} (estimate)"
+        "#{@work_experience.end_date.to_s(:short_month_and_year)} (estimate)"
       else
-        @work_experience.end_date.to_s(:month_and_year)
+        @work_experience.end_date.to_s(:short_month_and_year)
       end
     end
   end

@@ -169,7 +169,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_to_delete_my_break_between_august_2019_and_november_2019
-    click_link 'Delete entry for break between August 2019 and November 2019'
+    click_link 'Delete entry for break between Aug 2019 and Nov 2019'
   end
 
   def and_i_confirm_i_want_to_delete_my_break_between_august_2019_and_november_2019
@@ -181,7 +181,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   end
 
   def when_i_click_to_change_my_reason_for_my_break_between_august_2019_and_november_2019
-    click_link 'Change entry for break between August 2019 and November 2019'
+    click_link 'Change entry for break between Aug 2019 and Nov 2019'
   end
 
   def and_i_change_my_reason_for_my_break_between_august_2019_and_november_2019

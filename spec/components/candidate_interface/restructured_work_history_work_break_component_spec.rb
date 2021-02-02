@@ -17,7 +17,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryWorkBreakComponent do
     result = render_inline(CandidateInterface::RestructuredWorkHistoryWorkBreakComponent.new(work_break: work_break))
 
     expect(result.text).to include('I fell asleep.')
-    expect(result.text).to include('February 2019 - April 2019')
+    expect(result.text).to include('Feb 2019 to Apr 2019')
   end
 
   it 'renders the component with a delete link' do
@@ -36,14 +36,14 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryWorkBreakComponent do
     it 'renders the component without a delete link' do
       result = render_inline(CandidateInterface::RestructuredWorkHistoryWorkBreakComponent.new(work_break: work_break, editable: false))
 
-      expect(result.text).not_to include('Delete entry for break between February 2019 and April 2019')
+      expect(result.text).not_to include('Delete entry for break between Feb 2019 and Apr 2019')
     end
 
     it 'renders the component without change links' do
       result = render_inline(CandidateInterface::RestructuredWorkHistoryWorkBreakComponent.new(work_break: work_break, editable: false))
 
-      expect(result.text).not_to include('Change description for break between February 2019 and April 2019')
-      expect(result.text).not_to include('Change dates for break between February 2019 and April 2019')
+      expect(result.text).not_to include('Change description for break between Feb 2019 and Apr 2019')
+      expect(result.text).not_to include('Change dates for break between Feb 2019 and Apr 2019')
     end
   end
 end

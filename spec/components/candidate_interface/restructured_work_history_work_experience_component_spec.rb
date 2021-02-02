@@ -16,7 +16,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryWorkExperienceComponen
 
     expect(result.text).to include('Teaching Assistant')
     expect(result.text).to include('Mallowpond Secondary College')
-    expect(result.text).to include('December 2018 - December 2019')
+    expect(result.text).to include('Dec 2018 to Dec 2019')
     expect(result.text).to include('This role used skills relevant to teaching')
     expect(result.css('a').first.text).to include('Change')
     expect(result.css('a').last.text).to include('Delete')
@@ -72,7 +72,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryWorkExperienceComponen
 
       result = render_inline(described_class.new(work_experience: work_experience))
 
-      expect(result.text).to include('December 2018 - Present')
+      expect(result.text).to include('Dec 2018 to Present')
     end
   end
 
@@ -92,7 +92,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryWorkExperienceComponen
 
       result = render_inline(described_class.new(work_experience: work_experience))
 
-      expect(result.text).to include('December 2018 (estimate) - December 2019 (estimate)')
+      expect(result.text).to include('Dec 2018 (estimate) to Dec 2019 (estimate)')
     end
   end
 end

@@ -12,13 +12,13 @@ module CandidateInterface
     attr_reader :application_form
 
     def formatted_start_date
-      @work_break.start_date.to_s(:month_and_year)
+      @work_break.start_date.to_s(:short_month_and_year)
     end
 
     def formatted_end_date
       return 'Present' if @work_break.end_date.nil?
 
-      @work_break.end_date.to_s(:month_and_year)
+      @work_break.end_date.to_s(:short_month_and_year)
     end
   end
 end

@@ -80,7 +80,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryReviewComponent do
 
         application_form_with_no_breaks.application_work_experiences.each do |work|
           expect(result.text).to include(work.role)
-          expect(result.text).to include(work.start_date.to_s(:month_and_year))
+          expect(result.text).to include(work.start_date.to_s(:short_month_and_year))
           if work.relevant_skills
             expect(result.text).to include('This role used skills relevant to teaching')
           end
@@ -93,8 +93,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryReviewComponent do
         result = render_inline(described_class.new(application_form: application_form_with_break))
 
         expect(result.text).to include('WE WERE ON A BREAK!')
-        expect(result.text).to include('Delete entry for break between February 2019 and April 2019')
-        expect(result.text).to include('Change entry for break between February 2019 and April 2019')
+        expect(result.text).to include('Delete entry for break between Feb 2019 and Apr 2019')
+        expect(result.text).to include('Change entry for break between Feb 2019 and Apr 2019')
       end
     end
 
@@ -122,8 +122,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryReviewComponent do
       it 'renders component without an edit link' do
         result = render_inline(described_class.new(application_form: application_form_with_no_breaks, editable: false))
 
-        expect(result.text).not_to include('Change entry for experience between August 2019 and October 2019')
-        expect(result.text).not_to include('Delete entry for experience between August 2019 and October 2019')
+        expect(result.text).not_to include('Change entry for experience between Aug 2019 and Oct 2019')
+        expect(result.text).not_to include('Delete entry for experience between Aug 2019 and Oct 2019')
       end
     end
 
@@ -132,8 +132,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryReviewComponent do
         result = render_inline(described_class.new(application_form: application_form_with_break, editable: false))
 
         expect(result.text).to include('WE WERE ON A BREAK!')
-        expect(result.text).not_to include('Delete entry for break between February 2019 and April 2019')
-        expect(result.text).not_to include('Change entry for break between February 2019 and April 2019')
+        expect(result.text).not_to include('Delete entry for break between Feb 2019 and Apr 2019')
+        expect(result.text).not_to include('Change entry for break between Feb 2019 and Apr 2019')
       end
     end
 
