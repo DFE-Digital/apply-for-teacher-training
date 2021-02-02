@@ -25,6 +25,10 @@ module SupportInterface
       I18n.t("reasons_for_rejection.#{reason}.title")
     end
 
+    def sub_reason_key
+      TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]
+    end
+
     def sub_reason_label(sub_reason)
       I18n.t("reasons_for_rejection.#{TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.#{sub_reason}")
     end

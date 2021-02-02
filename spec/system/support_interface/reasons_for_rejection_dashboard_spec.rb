@@ -19,6 +19,14 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
 
     then_i_should_see_reasons_for_rejection_dashboard
     and_i_should_see_sub_reasons_for_rejection
+
+    when_i_click_on_a_top_level_reason
+    then_i_can_see_a_list_of_applications_for_that_reason
+
+    when_i_visit_the_performance_page_in_support
+    and_i_click_on_the_reasons_for_rejection_dashboard_link
+    and_i_click_on_a_sub_reason
+    then_i_can_see_a_list_of_applications_for_that_sub_reason
   end
 
   def given_i_am_a_support_user
@@ -27,23 +35,23 @@ RSpec.feature 'Structured reasons for rejection dashboard' do
 
   def and_there_are_candidates_and_application_forms_in_the_system
     allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(60.days.ago)
-    application_choice1 = create(:application_choice, :awaiting_provider_decision)
-    application_choice2 = create(:application_choice, :awaiting_provider_decision)
-    application_choice3 = create(:application_choice, :awaiting_provider_decision)
-    application_choice4 = create(:application_choice, :awaiting_provider_decision)
-    application_choice5 = create(:application_choice, :awaiting_provider_decision)
-    application_choice6 = create(:application_choice, :awaiting_provider_decision)
+    @application_choice1 = create(:application_choice, :awaiting_provider_decision)
+    @application_choice2 = create(:application_choice, :awaiting_provider_decision)
+    @application_choice3 = create(:application_choice, :awaiting_provider_decision)
+    @application_choice4 = create(:application_choice, :awaiting_provider_decision)
+    @application_choice5 = create(:application_choice, :awaiting_provider_decision)
+    @application_choice6 = create(:application_choice, :awaiting_provider_decision)
 
     Timecop.freeze(@today - 40.days) do
-      reject_application_for_candidate_behaviour_qualifications_and_safeguarding(application_choice1)
-      reject_application_for_candidate_behaviour_and_qualifications(application_choice2)
-      reject_application_for_candidate_behaviour(application_choice3)
+      reject_application_for_candidate_behaviour_qualifications_and_safeguarding(@application_choice1)
+      reject_application_for_candidate_behaviour_and_qualifications(@application_choice2)
+      reject_application_for_candidate_behaviour(@application_choice3)
     end
 
     Timecop.freeze(@today) do
-      reject_application_for_candidate_behaviour_qualifications_and_safeguarding(application_choice4)
-      reject_application_for_candidate_behaviour(application_choice5)
-      reject_application_without_structured_reasons(application_choice6)
+      reject_application_for_candidate_behaviour_qualifications_and_safeguarding(@application_choice4)
+      reject_application_for_candidate_behaviour(@application_choice5)
+      reject_application_without_structured_reasons(@application_choice6)
     end
   end
 
@@ -258,6 +266,72 @@ private
       expect(page).to have_content('Didn’t reply to our interview offer 40% 2 1')
       expect(page).to have_content('Didn’t attend interview 20% 1 0')
       expect(page).to have_content('Other 0% 0 0')
+    end
+  end
+
+  def when_i_click_on_a_top_level_reason
+    click_on 'Candidate behaviour'
+  end
+
+  def then_i_can_see_a_list_of_applications_for_that_reason
+    expect(page).to have_current_path(
+      support_interface_reasons_for_rejection_application_choices_path(
+        structured_rejection_reasons: { candidate_behaviour_y_n: 'Yes' },
+      ),
+    )
+    expect(page).to have_content('Showing application choices with rejection reason Something you did')
+    [
+      @application_choice1,
+      @application_choice2,
+      @application_choice3,
+      @application_choice4,
+      @application_choice5,
+    ].each { |application_choice| expect(page).to have_link("##{application_choice.id}") }
+    expect(page).not_to have_link("##{@application_choice6.id}")
+
+    within "#application-choice-section-#{@application_choice1.id}" do
+      expect(page).to have_content('Safeguarding issues')
+      expect(page).to have_content('Qualifications No Maths GCSE grade 4 (C) or above, or valid equivalentNo degree')
+      expect(page).to have_content('Something you did Didn’t reply to our interview offer')
+    end
+    within "#application-choice-section-#{@application_choice2.id}" do
+      expect(page).not_to have_content('Safeguarding issues')
+      expect(page).to have_content('Qualifications No English GCSE grade 4 (C) or above, or valid equivalentOther')
+      expect(page).to have_content('Something you did Didn’t attend interview')
+    end
+    within "#application-choice-section-#{@application_choice3.id}" do
+      expect(page).not_to have_content('Safeguarding issues')
+      expect(page).not_to have_content('Qualifications')
+      expect(page).to have_content('Something you did')
+    end
+  end
+
+  def and_i_click_on_a_sub_reason
+    click_on 'Didn’t attend interview'
+  end
+
+  def then_i_can_see_a_list_of_applications_for_that_sub_reason
+    expect(page).to have_current_path(
+      support_interface_reasons_for_rejection_application_choices_path(
+        structured_rejection_reasons: { candidate_behaviour_what_did_the_candidate_do: 'didnt_attend_interview' },
+      ),
+    )
+
+    expect(page).to have_content('Showing application choices with rejection reason Something you did - Didn’t attend interview')
+
+    [
+      @application_choice1,
+      @application_choice3,
+      @application_choice4,
+      @application_choice5,
+      @application_choice6,
+    ].each { |application_choice| expect(page).not_to have_link("##{application_choice.id}") }
+    expect(page).to have_link("##{@application_choice2.id}")
+
+    within "#application-choice-section-#{@application_choice2.id}" do
+      expect(page).not_to have_content('Safeguarding issues')
+      expect(page).to have_content('Qualifications No English GCSE grade 4 (C) or above, or valid equivalentOther')
+      expect(page).to have_content('Something you did Didn’t attend interview')
     end
   end
 end
