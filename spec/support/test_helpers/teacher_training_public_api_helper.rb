@@ -24,6 +24,12 @@ module TeacherTrainingPublicAPIHelper
     )
   end
 
+  def stub_teacher_training_api_providers_with_multiple_pages(recruitment_cycle_year: RecruitmentCycle.current_year)
+    [1, 2, 3].each do |page_number|
+      stub_pagination_request(recruitment_cycle_year, page_number, paginated_response(page_number))
+    end
+  end
+
   def stub_teacher_training_api_courses(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, specified_attributes: [])
     stub_request(
       :get,
@@ -99,6 +105,28 @@ private
   def pagination_error_response
     File.read(
       Rails.root.join('spec/examples/teacher_training_api/pagination_error.json'),
+    )
+  end
+
+  def paginated_response(page_number)
+    JSON.parse(
+      File.read(
+        Rails.root.join("spec/examples/teacher_training_api/provider_pagination_response_page_#{page_number}.json"),
+      ),
+      symbolize_names: true,
+    )
+  end
+
+  def stub_pagination_request(recruitment_cycle_year, page_number, api_response)
+    stub_request(
+      :get,
+      "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers",
+    ).with(
+      query: { page: { page: page_number, per_page: 500 } },
+    ).to_return(
+      status: 200,
+      headers: { 'Content-Type': 'application/vnd.api+json' },
+      body: api_response.to_json,
     )
   end
 end
