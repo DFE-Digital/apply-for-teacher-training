@@ -30,29 +30,29 @@ RSpec.describe 'Sync sites' do
 
   def and_that_course_on_TTAPI_has_multiple_sites
     stub_teacher_training_api_providers(
-        specified_attributes: [
-            {
-                code: 'ABC',
-                name: 'ABC College',
-            },
-        ],
-        )
+      specified_attributes: [
+        {
+          code: 'ABC',
+          name: 'ABC College',
+        },
+      ],
+    )
     stub_teacher_training_api_courses(
-        provider_code: 'ABC',
-        specified_attributes: [{
-                                   code: 'ABC1',
-                               }],
-        )
+      provider_code: 'ABC',
+      specified_attributes: [{
+        code: 'ABC1',
+      }],
+    )
     stub_teacher_training_api_sites(
-        provider_code: 'ABC',
-        course_code: 'ABC1',
-        specified_attributes: [{
-                                   code: 'A',
-                               },
-                               {
-                                   code: 'B',
-                               }],
-        )
+      provider_code: 'ABC',
+      course_code: 'ABC1',
+      specified_attributes: [{
+        code: 'A',
+      },
+                             {
+                               code: 'B',
+                             }],
+    )
   end
   alias_method :given_that_the_course_on_TTAPI_with_multiple_sites, :and_that_course_on_TTAPI_has_multiple_sites
 
@@ -66,26 +66,26 @@ RSpec.describe 'Sync sites' do
 
   def when_find_says_that_a_site_is_no_longer_listed_for_that_course
     stub_teacher_training_api_providers(
-        specified_attributes: [
-            {
-                code: 'ABC',
-                name: 'ABC College',
-            },
-        ],
-        )
+      specified_attributes: [
+        {
+          code: 'ABC',
+          name: 'ABC College',
+        },
+      ],
+    )
     stub_teacher_training_api_courses(
-        provider_code: 'ABC',
-        specified_attributes: [{
-                                   code: 'ABC1',
-                               }],
-        )
+      provider_code: 'ABC',
+      specified_attributes: [{
+        code: 'ABC1',
+      }],
+    )
     stub_teacher_training_api_sites(
-        provider_code: 'ABC',
-        course_code: 'ABC1',
-        specified_attributes: [{
-                                   code: 'A',
-                               }],
-        )
+      provider_code: 'ABC',
+      course_code: 'ABC1',
+      specified_attributes: [{
+        code: 'A',
+      }],
+    )
   end
 
   def then_the_course_option_for_that_site_is_deleted

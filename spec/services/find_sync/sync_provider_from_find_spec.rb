@@ -50,7 +50,7 @@ RSpec.describe FindSync::SyncProviderFromFind, sidekiq: true do
 
     context 'ingesting an existing provider configured to sync courses' do
       before do
-        @existing_provider = create :provider, code: 'ABC', sync_courses: true,  name: 'ABC College'
+        @existing_provider = create :provider, code: 'ABC', sync_courses: true, name: 'ABC College'
         create :course, code: 'ABC1', provider: @existing_provider, subject_codes: %w[01 02 03], description: 'PGCE with QTS full time', exposed_in_find: false
       end
 

@@ -24,9 +24,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       let(:course) do
         create(:course, :part_time) do |course|
           course.course_options = [
-              create(:course_option, :part_time, course: course),
-              create(:course_option, :part_time, course: course),
-              create(:course_option, :part_time, course: course),
+            create(:course_option, :part_time, course: course),
+            create(:course_option, :part_time, course: course),
+            create(:course_option, :part_time, course: course),
           ]
         end
       end
@@ -55,9 +55,9 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
       let(:course) do
         create(:course, :with_both_study_modes) do |course|
           course.course_options = [
-              create(:course_option, :part_time, course: course),
-              create(:course_option, :part_time, course: course),
-              create(:course_option, :full_time, course: course),
+            create(:course_option, :part_time, course: course),
+            create(:course_option, :part_time, course: course),
+            create(:course_option, :full_time, course: course),
           ]
         end
       end
@@ -79,17 +79,17 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
   describe 'course vacancy statuses' do
     context 'when study_mode is part_time' do
       let(:study_mode) { 'part_time' }
+
       [
-          { description: 'no_vacancies', vacancy_status: :no_vacancies },
-          { description: 'both_full_time_and_part_time_vacancies', vacancy_status: :vacancies },
-          { description: 'full_time_vacancies', vacancy_status: :no_vacancies },
-          { description: 'part_time_vacancies', vacancy_status: :vacancies },
+        { description: 'no_vacancies', vacancy_status: :no_vacancies },
+        { description: 'both_full_time_and_part_time_vacancies', vacancy_status: :vacancies },
+        { description: 'full_time_vacancies', vacancy_status: :no_vacancies },
+        { description: 'part_time_vacancies', vacancy_status: :vacancies },
       ].each do |pair|
         it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
           derived_status = described_class.new.send(:vacancy_status,
-              pair[:description],
-              study_mode,
-              )
+                                                    pair[:description],
+                                                    study_mode)
 
           expect(derived_status).to eq pair[:vacancy_status]
         end
@@ -99,24 +99,24 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
         expect {
           described_class.new.send(:vacancy_status, 'foo', study_mode)
         }.to raise_error(
-                 TeacherTrainingPublicAPI::SyncSites::InvalidVacancyStatusDescriptionError,
-                 )
+          TeacherTrainingPublicAPI::SyncSites::InvalidVacancyStatusDescriptionError,
+        )
       end
     end
 
     context 'when study_mode is full_time' do
       let(:study_mode) { 'full_time' }
+
       [
-          { description: 'no_vacancies', vacancy_status: :no_vacancies },
-          { description: 'both_full_time_and_part_time_vacancies', vacancy_status: :vacancies },
-          { description: 'full_time_vacancies', vacancy_status: :vacancies },
-          { description: 'part_time_vacancies', vacancy_status: :no_vacancies },
+        { description: 'no_vacancies', vacancy_status: :no_vacancies },
+        { description: 'both_full_time_and_part_time_vacancies', vacancy_status: :vacancies },
+        { description: 'full_time_vacancies', vacancy_status: :vacancies },
+        { description: 'part_time_vacancies', vacancy_status: :no_vacancies },
       ].each do |pair|
         it "returns #{pair[:vacancy_status]} when description is #{pair[:description]}" do
           derived_status = described_class.new.send(:vacancy_status,
-              pair[:description],
-              study_mode,
-              )
+                                                    pair[:description],
+                                                    study_mode)
 
           expect(derived_status).to eq pair[:vacancy_status]
         end
@@ -126,8 +126,8 @@ RSpec.describe TeacherTrainingPublicAPI::SyncSites, sidekiq: true do
         expect {
           described_class.new.send(:vacancy_status, 'foo', study_mode)
         }.to raise_error(
-                         TeacherTrainingPublicAPI::SyncSites::InvalidVacancyStatusDescriptionError,
-                 )
+          TeacherTrainingPublicAPI::SyncSites::InvalidVacancyStatusDescriptionError,
+        )
       end
     end
   end
