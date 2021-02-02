@@ -3,7 +3,7 @@ begin
 
   performance_test_pattern = 'spec/performance/**/*.rb'
   RSpec::Core::RakeTask.new(:spec_without_performance) do |t|
-    t.rspec_opts = "--exclude-pattern #{performance_test_pattern}"
+    t.rspec_opts = "--exclude-pattern #{performance_test_pattern} --format progress"
   end
 
   RSpec::Core::RakeTask.new(:spec_with_profile) do |t|
@@ -12,15 +12,15 @@ begin
 
   integration_test_pattern = 'spec/{system,requests}/**/*_spec.rb'
   RSpec::Core::RakeTask.new(:acceptance_tests) do |t|
-    t.rspec_opts = "--pattern #{integration_test_pattern}"
+    t.rspec_opts = "--pattern #{integration_test_pattern} --format progress"
   end
 
   RSpec::Core::RakeTask.new(:unit_tests) do |t|
-    t.rspec_opts = "--exclude-pattern '#{integration_test_pattern},#{performance_test_pattern}'"
+    t.rspec_opts = "--exclude-pattern '#{integration_test_pattern},#{performance_test_pattern}' --format progress"
   end
 
   RSpec::Core::RakeTask.new(:performance_tests) do |t|
-    t.rspec_opts = "--profile --pattern #{performance_test_pattern}"
+    t.rspec_opts = "--profile --pattern #{performance_test_pattern} --format progress"
   end
 rescue LoadError
   nil
