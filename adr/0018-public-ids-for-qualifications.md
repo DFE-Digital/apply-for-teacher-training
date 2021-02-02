@@ -36,10 +36,10 @@ A qualification with structured grades could look like this:
     subject: 'english',
     public_id: nil,
     grade: nil,
-    structured_grades: {
-      'English Language': { grade: 'E', public_id: '123' },
-      'English Literature': { grade: 'B', public_id: '1093' },
-      'Cockney Rhyming Slang': { grade: 'A*', public_id: '1094' }
+    constituent_grades: {
+      'English Language': { grade: 'E', public_id: 123 },
+      'English Literature': { grade: 'B', public_id: 1093 },
+      'Cockney Rhyming Slang': { grade: 'A*', public_id: 1094 }
     },
     level: 'gcse'
 }
@@ -51,7 +51,7 @@ and for completeness, a qualification with a single grade could look like this:
     subject: 'french',
     public_id: 1200,
     grade: 'A',
-    structured_grades: nil,
+    constituent_grades: nil,
     level: 'gcse'
 }
 ```
