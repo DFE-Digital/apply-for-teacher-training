@@ -1,5 +1,4 @@
 module FindAPIHelper
-
   def stubbed_recruitment_cycle_year
     @stubbed_recruitment_cycle_year || 2021
   end
@@ -303,8 +302,6 @@ module FindAPIHelper
       )
   end
 
-
-
   def stub_find_api_course_200(provider_code, course_code, course_name)
     stub_find_api_course(provider_code, course_code)
       .to_return(
@@ -347,7 +344,7 @@ module FindAPIHelper
       "/courses/#{course_code}")
   end
 
-  def stub_find_api_provider_200_with_qualifications_and_program_type(
+  def stub_find_api_provider_200_with_subject_codes(
     provider_code: 'ABC',
     provider_name: 'Dummy Provider',
     postcode: 'SW1P 3BT',
