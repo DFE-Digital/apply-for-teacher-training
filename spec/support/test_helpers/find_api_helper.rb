@@ -1,7 +1,4 @@
 module FindAPIHelper
-  def set_stubbed_recruitment_cycle_year!(year)
-    @stubbed_recruitment_cycle_year = year
-  end
 
   def stubbed_recruitment_cycle_year
     @stubbed_recruitment_cycle_year || 2021
@@ -275,166 +272,6 @@ module FindAPIHelper
       )
   end
 
-  def stub_find_api_provider_200_with_multiple_sites(
-    provider_code: 'ABC',
-    provider_name: 'Dummy Provider',
-    postcode: 'SW1P 3BT',
-    provider_type: 'scitt',
-    course_code: 'X130',
-    findable: true,
-    study_mode: 'full_time_or_part_time',
-    description: 'PGCE with QTS full time',
-    start_date: Time.zone.local(stubbed_recruitment_cycle_year, 10, 31),
-    course_length: 'OneYear',
-    region_code: 'north_west',
-    age_range_in_years: '4 to 8',
-    content_status: 'published',
-    latitude: '51.498024',
-    longitude: '0.129919'
-  )
-    response_hash = {
-      status: 200,
-      headers: { 'Content-Type': 'application/vnd.api+json' },
-      body: {
-        'data': {
-          'id': '1',
-          'type': 'providers',
-          'attributes': {
-            'provider_name': provider_name,
-            'provider_code': provider_code,
-            'region_code': region_code,
-            'postcode': postcode,
-            'provider_type': provider_type,
-            'latitude': latitude,
-            'longitude': longitude,
-          },
-          'relationships': {
-            'sites': {
-              'data': [
-                { 'id': '1', 'type': 'sites' },
-                { 'id': '2', 'type': 'sites' },
-              ],
-            },
-            'courses': {
-              'data': [
-                { 'id': '1', 'type': 'courses' },
-              ],
-            },
-          },
-        },
-        'included': [
-          {
-            'id': '1',
-            'type': 'sites',
-            'attributes': {
-              'code': 'X',
-              'location_name': 'Main site',
-              'address1': 'Gorse SCITT ',
-              'address2': 'C/O The Bruntcliffe Academy',
-              'address3': 'Bruntcliffe Lane',
-              'address4': 'MORLEY, Leeds',
-              'postcode': 'LS27 0LZ',
-              'longitude': -1.620208,
-              'latitude': 53.745587,
-            },
-          },
-          {
-            'id': '2',
-            'type': 'sites',
-            'attributes': {
-              'code': 'Y',
-              'location_name': 'Secondary site',
-              'address1': 'Gorse SCITT ',
-              'address2': 'C/O The Bruntcliffe Academy',
-              'address3': 'Another Lane',
-              'address4': 'MORLEY, Leeds',
-              'postcode': 'LS27 5HT',
-              'longitude': -1.62334,
-              'latitude': 53.745028,
-            },
-          },
-          {
-            'id': '1',
-            'type': 'courses',
-            'attributes': {
-              'course_code': course_code,
-              'name': 'Primary',
-              'level': 'primary',
-              'study_mode': study_mode,
-              'description': description,
-              'start_date': start_date,
-              'course_length': course_length,
-              'recruitment_cycle_year': stubbed_recruitment_cycle_year.to_s,
-              'findable?': findable,
-              'accrediting_provider': nil,
-              'funding_type': 'fee',
-              'age_range_in_years': age_range_in_years,
-              'content_status': content_status,
-              'provider_type': provider_type,
-            },
-            'relationships': {
-              'sites': {
-                'data': [
-                  { 'id': '1', 'type': 'sites' },
-                  { 'id': '2', 'type': 'sites' },
-                ],
-              },
-              'subjects': {
-                'data': [
-                  { 'type': 'subjects', 'id': '11' },
-                ],
-              },
-              'site_statuses': {
-                'data': [
-                  { 'id': '222', 'type': 'site_statuses' },
-                  { 'id': '223', 'type': 'site_statuses' },
-                ],
-              },
-            },
-          },
-          {
-            'id': '222',
-            'type': 'site_statuses',
-            'attributes': {
-              'vac_status': 'full_time_vacancies',
-              'publish': 'published',
-              'status': 'running',
-              'has_vacancies?': true,
-            },
-            'relationships': {
-              'site': {
-                'data': {
-                  'type': 'sites',
-                  'id': '1',
-                },
-              },
-            },
-          },
-          {
-            'id': '223',
-            'type': 'site_statuses',
-            'attributes': {
-              'vac_status': 'full_time_vacancies',
-              'publish': 'published',
-              'status': 'running',
-              'has_vacancies?': true,
-            },
-            'relationships': {
-              'site': {
-                'data': {
-                  'type': 'sites',
-                  'id': '2',
-                },
-              },
-            },
-          },
-        ],
-        'jsonapi': { 'version': '1.0' },
-      }.to_json,
-    }
-    stub_find_api_provider(provider_code).to_return response_hash
-  end
-
   def stub_find_api_all_providers_200(provider_data)
     data = provider_data.each_with_index.map do |attributes, index|
       {
@@ -466,17 +303,7 @@ module FindAPIHelper
       )
   end
 
-  def stub_find_api_all_providers_503
-    stub_find_api_all_providers
-      .to_return(
-        status: 503,
-        headers: { 'Content-Type': 'application/vnd.api+json' },
-        body: {
-          data: {},
-          jsonapi: { version: '1.0' },
-        }.to_json,
-      )
-  end
+
 
   def stub_find_api_course_200(provider_code, course_code, course_name)
     stub_find_api_course(provider_code, course_code)
