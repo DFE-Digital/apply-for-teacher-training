@@ -16,53 +16,8 @@
   ]) %>
 <% end %>
 
-<p class="govuk-body">
-  Showing application choices with rejection reason
-  <strong>
-    <%=
-      # TODO: refactor to component
-      key = params[:structured_rejection_reasons].keys.first
-      value = params[:structured_rejection_reasons][key]
-      if value == 'Yes'
-        i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[key].to_s
-        t("reasons_for_rejection.#{i18n_key}.title")
-      else
-        t("reasons_for_rejection.#{key}.title") + ' - ' + t("reasons_for_rejection.#{key}.#{value}")
-      end
-    %>
-  </strong>
-</p>
-
-<% @application_choices.each do |application_choice| %>
-  <section class="app-summary-card govuk-!-margin-bottom-6" id="application-choice-section-<%= application_choice.id %>">
-    <%= render(
-      SummaryCardHeaderComponent.new(
-        title: "Application choice #{govuk_link_to("##{application_choice.id}", support_interface_application_form_path(application_form_id: application_choice.application_form_id))}".html_safe,
-      ),
-    ) %>
-
-    <div class="app-summary-card__body">
-      <table class="govuk-table">
-        <% application_choice.structured_rejection_reasons.each do |reason, details| %>
-          <% sub_reason = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason].to_s %>
-          <% if reason =~ /_y_n$/ && details == 'Yes' %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell govuk-!-width-one-half">
-                <%= t("reasons_for_rejection.#{sub_reason}.title") %>
-              </td>
-              <td class="govuk-table__cell">
-                <%=
-                  application_choice
-                    .structured_rejection_reasons[sub_reason]
-                    &.map { |value| t("reasons_for_rejection.#{sub_reason}.#{value}") }
-                    &.join('<br/>')
-                    &.html_safe
-                %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      </table>
-    </div>
-  </section>
-<% end %>
+<%= render SupportInterface::ReasonsForRejectionSearchResultsComponent.new(
+  search_attribute: params[:structured_rejection_reasons].keys.first,
+  search_value: params[:structured_rejection_reasons].values.first,
+  application_choices: @application_choices,
+) %>

@@ -1,0 +1,30 @@
+<p class="govuk-body">
+  Showing application choices with rejection reason <strong><%= search_value_text %></strong>
+</p>
+
+<% @application_choices.each do |application_choice| %>
+  <section class="app-summary-card govuk-!-margin-bottom-6" id="application-choice-section-<%= application_choice.id %>">
+    <%= render(
+      SummaryCardHeaderComponent.new(
+        title: "Application choice #{govuk_link_to("##{application_choice.id}", support_interface_application_form_path(application_form_id: application_choice.application_form_id))}".html_safe,
+      ),
+    ) %>
+
+    <div class="app-summary-card__body">
+      <table class="govuk-table">
+        <% application_choice.structured_rejection_reasons.each do |reason, value| %>
+          <% if top_level_reason?(reason, value) %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell govuk-!-width-one-half">
+                <%= reason_text_for(reason) %>
+              </td>
+              <td class="govuk-table__cell">
+                <%= sub_reason_text_for(application_choice, reason) %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </div>
+  </section>
+<% end %>
