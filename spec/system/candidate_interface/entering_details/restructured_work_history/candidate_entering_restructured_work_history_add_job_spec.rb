@@ -13,6 +13,7 @@ RSpec.feature 'Candidate submits restructured work history' do
     then_i_should_see_the_start_page
 
     when_i_choose_that_i_have_work_history_to_add
+    and_i_click_add_a_first_job
     then_i_should_see_the_add_a_job_page
 
     when_i_fill_in_the_job_form_with_incorrect_date_fields
@@ -42,6 +43,10 @@ RSpec.feature 'Candidate submits restructured work history' do
   def when_i_choose_that_i_have_work_history_to_add
     choose 'Yes'
     click_button 'Continue'
+  end
+
+  def and_i_click_add_a_first_job
+    click_link 'Add a job'
   end
 
   def then_i_should_see_the_add_a_job_page

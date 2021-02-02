@@ -22,7 +22,7 @@ module CandidateInterface
             key: t('application_form.restructured_work_history.full_time_education.review_label'),
             value: no_work_experience_value,
             action: t('application_form.restructured_work_history.full_time_education.change_action'),
-            change_path: candidate_interface_restructured_work_history_path,
+            change_path: @editable ? candidate_interface_restructured_work_history_path : nil,
           },
         ]
       else
@@ -31,7 +31,7 @@ module CandidateInterface
             key: t('application_form.work_history.explanation.review_label'),
             value: no_work_experience_value,
             action: t('application_form.restructured_work_history.explanation.change_action'),
-            change_path: candidate_interface_restructured_work_history_path,
+            change_path: @editable ? candidate_interface_restructured_work_history_path : nil,
           },
         ]
       end

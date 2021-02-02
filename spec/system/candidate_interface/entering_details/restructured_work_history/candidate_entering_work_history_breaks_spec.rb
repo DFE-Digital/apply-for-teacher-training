@@ -18,6 +18,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     when_i_click_on_work_history
     then_i_should_see_the_start_page
     then_i_choose_that_i_have_work_history_to_add
+    and_i_click_add_a_first_job
     then_i_should_see_the_add_a_job_page
     and_i_add_a_job_between_february_2015_to_august_2019
     then_i_click_on_add_another_job
@@ -60,6 +61,10 @@ RSpec.feature 'Entering reasons for their work history breaks' do
   def then_i_choose_that_i_have_work_history_to_add
     choose 'Yes'
     click_button 'Continue'
+  end
+
+  def and_i_click_add_a_first_job
+    click_link 'Add a job'
   end
 
   def then_i_should_see_the_add_a_job_page
