@@ -1,7 +1,8 @@
 module SupportInterface
   class EqualityAndDiversityExport
     def data_for_export
-      data_for_export = application_forms.map do |application_form|
+      data_for_export = application_forms.includes(:application_choices).map do |application_form|
+        rejected_application_choices = application_form.application_choices.rejected
         output = {
           'Month' => application_form.submitted_at&.strftime('%B'),
           'Recruitment cycle year' => application_form.recruitment_cycle_year,
@@ -9,6 +10,9 @@ module SupportInterface
           'Ethnic group' => application_form.equality_and_diversity['ethnic_group'],
           'Ethnic background' => application_form.equality_and_diversity['ethnic_background'],
           'Application status' => I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
+          'First choices rejection reasons' => rejection_reasons(rejected_application_choices[0]),
+          'Second choices rejection reasons' => rejection_reasons(rejected_application_choices[1]),
+          'Third choices rejection reasons' => rejection_reasons(rejected_application_choices[2]),
         }
 
         disabilities = application_form.equality_and_diversity['disabilities']
@@ -31,6 +35,33 @@ module SupportInterface
       ApplicationForm
         .includes(:application_choices)
         .where.not(equality_and_diversity: nil)
+    end
+
+    def rejection_reasons(choice)
+      return nil if choice.blank?
+
+      if choice.structured_rejection_reasons.present?
+        format_structured_rejection_reasons(choice.structured_rejection_reasons)
+      else
+        choice.rejection_reason
+      end
+    end
+
+    def format_structured_rejection_reasons(structured_rejection_reasons)
+      select_high_level_rejection_reasons(structured_rejection_reasons)
+      .keys
+      .map { |reason| format_reason(reason) }
+      .join("\n")
+    end
+
+    def select_high_level_rejection_reasons(structured_rejection_reasons)
+      structured_rejection_reasons.select { |reason, value| value == 'Yes' && reason.include?('_y_n') }
+    end
+
+    def format_reason(reason)
+      reason
+      .delete_suffix('_y_n')
+      .humanize
     end
   end
 end
