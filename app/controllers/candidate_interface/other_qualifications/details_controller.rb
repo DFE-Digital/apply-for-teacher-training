@@ -7,11 +7,14 @@ module CandidateInterface
         current_step: :details,
       )
 
-      @form.qualification_type ||= params[:qualification_type]
+      unless @form.qualification_type
+        @form.qualification_type = params[:qualification_type]
+        @form.save_intermediate!
+      end
+
       @form.initialize_from_last_qualification(
         current_application.application_qualifications.other.order(:created_at),
       )
-      @form.save_intermediate!
     end
 
     def create
@@ -21,22 +24,15 @@ module CandidateInterface
         other_qualification_params.merge(current_step: :details),
       )
 
-      @form.save_intermediate!
-
-      if @form.valid?
-        @form.save!
-        reset_intermediate_state!
-
+      if @form.save
         if @form.choice == 'same_type'
+          intermediate_data_service.clear_state!
           redirect_to candidate_interface_other_qualification_details_path(qualification_type: current_application.application_qualifications.last.qualification_type)
         elsif @form.choice == 'different_type'
           redirect_to candidate_interface_other_qualification_type_path
         else
           redirect_to candidate_interface_review_other_qualifications_path
         end
-      elsif @form.missing_type_validation_error?
-        flash[:warning] = "To update one of your qualifications use the 'Change' links below."
-        redirect_to candidate_interface_review_other_qualifications_path
       else
         track_validation_error(@form)
         render :new
@@ -51,8 +47,6 @@ module CandidateInterface
         current_step: :details,
         editing: true,
       )
-
-      @form.save_intermediate!
     end
 
     def update
@@ -66,15 +60,8 @@ module CandidateInterface
         ),
       )
 
-      @form.save_intermediate!
-
-      if @form.valid?
-        @form.save!
+      if @form.save
         current_application.update!(other_qualifications_completed: false)
-        reset_intermediate_state!
-        redirect_to candidate_interface_review_other_qualifications_path
-      elsif @form.missing_type_validation_error?
-        flash[:warning] = "To update one of your qualifications use the 'Change' links below."
         redirect_to candidate_interface_review_other_qualifications_path
       else
         track_validation_error(@form)

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Entering their other qualifications' do
   include CandidateHelper
 
-  scenario 'Candidate submits their other qualifications with the prompt_for_additional_qualifications on' do
+  scenario 'Candidate submits their other qualifications' do
     given_i_am_signed_in
     and_i_visit_the_site
 
@@ -15,23 +15,19 @@ RSpec.feature 'Entering their other qualifications' do
     then_i_see_the_qualification_type_error
 
     when_i_select_add_a_level_qualification
-    and_i_click_continue
     then_i_see_the_other_qualifications_form
     and_the_suggested_subject_data_matches_the_as_and_a_level_subjects_data
 
-    when_i_fill_in_some_of_my_qualification_but_omit_some_required_details
-    and_i_submit_the_other_qualification_form
+    when_i_submit_in_some_of_my_qualification_but_omit_some_required_details
     then_i_see_validation_errors_for_my_qualification
 
-    when_i_fill_in_my_qualification
-    and_select_add_another_a_level
-    and_click_save_and_continue
+    when_i_fill_in_my_qualification_details
+    and_i_choose_to_add_another_a_level_qualification
     then_i_see_the_other_qualifications_form
     and_the_year_field_is_pre_populated_with_my_previous_details
 
     when_i_fill_out_the_remainder_of_the_form
     and_i_choose_a_different_type_of_qualification
-    and_click_save_and_continue
     then_i_see_the_select_qualification_type_page
 
     when_i_choose_other
@@ -45,14 +41,9 @@ RSpec.feature 'Entering their other qualifications' do
     and_i_should_see_my_qualifications
     and_my_other_uk_qualification_has_the_correct_format
 
-    when_i_click_the_back_button
-    and_update_the_subject
-    and_click_save_and_continue
-    then_i_should_see_the_review_page_with_a_flash_warning
-
     when_i_select_add_another_qualification
     and_choose_as_level
-    and_i_click_continue
+    then_the_form_is_empty
     and_i_visit_the_other_qualification_review_page
     then_i_should_not_see_an_incomplete_as_level_qualification
 
@@ -68,12 +59,10 @@ RSpec.feature 'Entering their other qualifications' do
     and_no_changes_have_occured
 
     when_i_click_to_change_my_first_qualification
-    then_i_see_the_qualification_type_form
-
     when_i_change_the_qualification_type_to_gcse
     and_i_click_continue
     then_i_see_my_qualification_details_filled_in
-    and_the_suggested_subject_data_matches_the_gcse_subjects_data
+    and_the_suggested_subject_data_matches_the_gcse_subjects_data # move out?
 
     when_i_change_my_qualification
     and_click_save_and_continue
@@ -93,11 +82,9 @@ RSpec.feature 'Entering their other qualifications' do
 
     when_i_delete_my_incomplete_qualification
     and_i_confirm_that_i_want_to_delete_my_additional_qualification
-    then_i_can_only_see_two_updated_qualifications
 
     when_i_mark_this_section_as_completed
     and_i_click_on_continue
-    then_i_should_see_the_form
     and_that_the_section_is_completed
 
     when_i_click_on_other_qualifications
@@ -105,7 +92,6 @@ RSpec.feature 'Entering their other qualifications' do
     then_i_see_the_select_qualification_type_page
 
     when_i_click_back_to_application_form
-    then_i_should_see_the_form
     and_that_the_section_is_not_marked_as_complete_or_incomplete
   end
 
@@ -127,6 +113,7 @@ RSpec.feature 'Entering their other qualifications' do
 
   def when_i_select_add_a_level_qualification
     choose 'A level'
+    click_button t('continue')
   end
 
   def and_i_click_continue
@@ -144,11 +131,8 @@ RSpec.feature 'Entering their other qualifications' do
     expect(JSON[suggested_subjects]).to eq A_AND_AS_LEVEL_SUBJECTS
   end
 
-  def when_i_fill_in_some_of_my_qualification_but_omit_some_required_details
+  def when_i_submit_in_some_of_my_qualification_but_omit_some_required_details
     fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards'
-  end
-
-  def and_i_submit_the_other_qualification_form
     click_button t('save_and_continue')
   end
 
@@ -156,14 +140,15 @@ RSpec.feature 'Entering their other qualifications' do
     expect(page).to have_content t('activemodel.errors.models.candidate_interface/other_qualification_details_form.attributes.award_year.blank')
   end
 
-  def when_i_fill_in_my_qualification
+  def when_i_fill_in_my_qualification_details
     fill_in t('application_form.other_qualification.subject.label'), with: 'Believing in the Heart of the Cards'
     fill_in t('application_form.other_qualification.grade.label'), with: 'A'
     fill_in t('application_form.other_qualification.award_year.label'), with: '2015'
   end
 
-  def and_select_add_another_a_level
+  def and_i_choose_to_add_another_a_level_qualification
     choose 'Yes, add another A level'
+    click_button t('save_and_continue')
   end
 
   def and_click_save_and_continue
@@ -172,6 +157,9 @@ RSpec.feature 'Entering their other qualifications' do
 
   def and_the_year_field_is_pre_populated_with_my_previous_details
     expect(page.find('#candidate-interface-other-qualification-details-form-award-year-field').value).to eq('2015')
+
+    # Test that the wizard data is cleared when starting a new qualification
+    expect(page.find('#candidate-interface-other-qualification-details-form-grade-field').value).to eq(nil)
   end
 
   def when_i_fill_out_the_remainder_of_the_form
@@ -181,6 +169,7 @@ RSpec.feature 'Entering their other qualifications' do
 
   def and_i_choose_a_different_type_of_qualification
     choose 'Yes, add a different qualification'
+    click_button t('save_and_continue')
   end
 
   def when_i_choose_other
@@ -241,6 +230,13 @@ RSpec.feature 'Entering their other qualifications' do
 
   def and_choose_as_level
     choose 'AS level'
+    and_i_click_continue
+  end
+
+  def then_the_form_is_empty
+    # Fix for bug that caused data to be persisted between qualifications
+    expect(page.find('#candidate-interface-other-qualification-details-form-grade-field').value).to eq(nil)
+    expect(page.find('#candidate-interface-other-qualification-details-form-award-year-field').value).to eq(nil)
   end
 
   def and_i_visit_the_other_qualification_review_page
@@ -345,13 +341,6 @@ RSpec.feature 'Entering their other qualifications' do
     within(all('.app-summary-card')[2]) do
       click_link(t('application_form.other_qualification.delete'))
     end
-  end
-
-  def then_i_can_only_see_two_updated_qualifications
-    expect(page).not_to have_content 'A level Losing to Yugi'
-    expect(page).not_to have_content('AS level')
-    expect(page).to have_content('GCSE How to Win Against Kaiba')
-    expect(page).to have_content('Access Course History, English and Psychology')
   end
 
   def then_i_should_see_the_form

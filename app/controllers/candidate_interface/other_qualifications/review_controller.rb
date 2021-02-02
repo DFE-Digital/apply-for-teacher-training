@@ -3,10 +3,6 @@ module CandidateInterface
     def show
       redirect_to candidate_interface_other_qualification_type_path and return if current_application.application_qualifications.other.blank?
 
-      # This to ensure that old state is not merged accidentally when
-      # the user goes on to edit a qualification
-      intermediate_data_service.clear_state!
-
       @application_form = current_application
     end
 
@@ -36,14 +32,6 @@ module CandidateInterface
 
     def section_marked_as_complete?
       application_form_params[:other_qualifications_completed] == 'true'
-    end
-
-    def intermediate_data_service
-      IntermediateDataService.new(
-        WizardStateStores::RedisStore.new(
-          key: persistence_key_for_current_user,
-        ),
-      )
     end
   end
 end

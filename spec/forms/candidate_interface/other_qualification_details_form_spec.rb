@@ -377,27 +377,6 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
     end
   end
 
-  describe '#missing_type_validation_error?' do
-    it 'returns true if `qualification_type` is missing' do
-      qualification = CandidateInterface::OtherQualificationDetailsForm.new(
-        nil,
-        nil,
-        current_step: :details,
-      )
-      expect(qualification.missing_type_validation_error?).to be true
-    end
-
-    it 'returns false if `qualification_type` is missing' do
-      qualification = CandidateInterface::OtherQualificationDetailsForm.new(
-        nil,
-        nil,
-        current_step: :details,
-        qualification_type: 'A level',
-      )
-      expect(qualification.missing_type_validation_error?).to be false
-    end
-  end
-
   describe '#grade_hint' do
     it 'returns a GCSE hint if qualification_type is GCSE_TYPE' do
       qualification = described_class.new(
