@@ -46,6 +46,14 @@ module SupportInterface
         rows << { key: 'API', value: 'This application hasn’t been sent to the provider yet, so it isn’t available over the API' }
       end
 
+      if application_choice.interviews.present?
+        interview_blocks = application_choice.interviews.order('created_at').map do |interview|
+          render(SupportInterface::InterviewDetailsComponent.new(interview: interview))
+        end
+
+        rows << { key: 'Interviews', value: interview_blocks }
+      end
+
       rows
     end
 
