@@ -100,6 +100,12 @@ en:
               too_long: Relationship must be %{count} characters or fewer
             audit_comment:
               blank: You must provide an audit comment
+        support_interface/application_forms/edit_gcse_form:
+          attributes:
+            award_year:
+              blank: Award year cannot be blank
+            audit_comment:
+              blank: You must provide an audit comment
         support_interface/application_forms/edit_reference_feedback_form:
           attributes:
             feedback:
