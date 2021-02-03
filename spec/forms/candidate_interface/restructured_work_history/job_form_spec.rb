@@ -179,6 +179,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
   describe '.build_form' do
     it 'creates an object based on the provided experience' do
+      form_data[:start_date_unknown] = data[:start_date_unknown]
+      form_data[:end_date_unknown] = data[:end_date_unknown]
       application_work_experience = ApplicationWorkExperience.new(data)
       job_form = CandidateInterface::RestructuredWorkHistory::JobForm.build_form(application_work_experience)
 
