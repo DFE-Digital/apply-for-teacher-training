@@ -152,6 +152,31 @@ RSpec.describe ProviderInterface::InterviewWizard do
     end
   end
 
+  describe '#provider' do
+    let(:application_choice) { create(:application_choice, course_option: course_option) }
+    let(:course_option) { create(:course_option, course: course) }
+    let(:provider) { create(:provider) }
+    let(:accredited_provider) { create(:provider) }
+
+    context 'when the application has one provider' do
+      let(:course) { create(:course, provider: provider) }
+      let(:wizard) { described_class.new(store, application_choice: application_choice) }
+
+      it 'defaults to the application provider' do
+        expect(wizard.provider).to eq(application_choice.provider)
+      end
+    end
+
+    context 'when the application has multiple providers and one is selected' do
+      let(:course) { create(:course, provider: provider, accredited_provider: accredited_provider) }
+      let(:wizard) { described_class.new(store, provider_id: accredited_provider.id, application_choice: application_choice) }
+
+      it 'retrieves the selected provider' do
+        expect(wizard.provider).to eq(accredited_provider)
+      end
+    end
+  end
+
   describe '#application_providers' do
     let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
     let(:course_option) { create(:course_option, course: course) }

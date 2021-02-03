@@ -81,12 +81,11 @@ module ProviderInterface
     end
 
     def provider
-      # BUG Different return types break view component
-      #if multiple_application_providers?
-      #  application_providers
-      #else
+      if multiple_application_providers?
+        application_providers.find { |provider| provider.id == provider_id }
+      else
         application_providers.first
-      #end
+      end
     end
 
     def multiple_application_providers?
