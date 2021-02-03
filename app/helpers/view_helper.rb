@@ -1,5 +1,4 @@
 module ViewHelper
-  # TODO: Make `body` param optional if `block` is provided
   def govuk_link_to(body, url, html_options = {}, &_block)
     html_options[:class] = prepend_css_class('govuk-link', html_options[:class])
 
@@ -37,7 +36,6 @@ module ViewHelper
     mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
   end
 
-  # TODO: Make `body` param optional if `block` is provided
   def govuk_button_link_to(body, url, html_options = {}, &_block)
     html_options = {
       class: prepend_css_class('govuk-button', html_options[:class]),
@@ -51,13 +49,11 @@ module ViewHelper
     link_to(body, url, html_options)
   end
 
-  # TODO: move this into component
   def submitted_at_date
     dates = ApplicationDates.new(@application_form)
     dates.submitted_at.to_s(:govuk_date).strip
   end
 
-  # TODO: move this into component
   def respond_by_date
     dates = ApplicationDates.new(@application_form)
     dates.reject_by_default_at.to_s(:govuk_date).strip if dates.reject_by_default_at
