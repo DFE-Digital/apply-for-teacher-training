@@ -11,20 +11,7 @@
     ) %>
 
     <div class="app-summary-card__body">
-      <table class="govuk-table">
-        <% application_choice.structured_rejection_reasons.each do |reason, value| %>
-          <% if top_level_reason?(reason, value) %>
-            <tr class="govuk-table__row">
-              <td class="govuk-table__cell govuk-!-width-one-half">
-                <%= reason_text_for(reason) %>
-              </td>
-              <td class="govuk-table__cell">
-                <%= sub_reason_text_for(application_choice, reason) %>
-              </td>
-            </tr>
-          <% end %>
-        <% end %>
-      </table>
+      <%= render SummaryListComponent.new(rows: summary_list_rows_for(application_choice)) %>
     </div>
   </section>
 <% end %>

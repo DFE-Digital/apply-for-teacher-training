@@ -8,6 +8,17 @@ module SupportInterface
       @application_choices = application_choices
     end
 
+    def summary_list_rows_for(application_choice)
+      rows = application_choice.structured_rejection_reasons.map do |reason, value|
+        if top_level_reason?(reason, value)
+          {
+            key: reason_text_for(reason),
+            value: sub_reason_text_for(application_choice, reason),
+          }
+        end
+      end.compact
+    end
+
     def search_value_text
       if @search_value == 'Yes'
         i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[@search_attribute].to_s
