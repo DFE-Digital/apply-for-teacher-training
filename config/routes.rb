@@ -760,6 +760,9 @@ Rails.application.routes.draw do
       get '/gcses/:gcse_id' => 'application_forms/gcses#edit', as: :application_form_edit_gcse
       post '/gcses/:gcse_id' => 'application_forms/gcses#update', as: :application_form_update_gcse
 
+      get '/degrees/:degree_id' => 'application_forms/degrees#edit', as: :application_form_edit_degree
+      post '/degrees/:degree_id' => 'application_forms/degrees#update', as: :application_form_update_degree
+
       get '/references/:reference_id/details' => 'application_forms/references#edit_reference_details', as: :application_form_edit_reference_details
       post '/references/:reference_id/details' => 'application_forms/references#update_reference_details', as: :application_form_update_reference_details
 
