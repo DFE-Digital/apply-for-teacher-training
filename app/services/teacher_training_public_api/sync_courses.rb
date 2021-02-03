@@ -65,16 +65,11 @@ module TeacherTrainingPublicAPI
 
     def add_accredited_provider(course, accredited_body_code, recruitment_cycle_year)
       if accredited_body_code.present? && course.provider.code != accredited_body_code
-
         accredited_provider = ::Provider.find_by(code: accredited_body_code)
-
-        if accredited_provider.nil?
-          accredited_provider = create_new_accredited_provider(accredited_body_code, recruitment_cycle_year)
-        end
+        accredited_provider = create_new_accredited_provider(accredited_body_code, recruitment_cycle_year) if accredited_provider.nil?
 
         course.accredited_provider = accredited_provider
         add_provider_relationship(course)
-
       else
         course.accredited_provider = nil
       end
@@ -98,8 +93,8 @@ module TeacherTrainingPublicAPI
       accredited_provider.region_code = new_provider.region_code&.strip
       accredited_provider.postcode = new_provider.postcode
       accredited_provider.provider_type = new_provider.provider_type
-      accredited_provider.latitude = new_provider.try(:latitude)
-      accredited_provider.longitude = new_provider.try(:longitude)
+      accredited_provider.latitude = new_provider.latitude
+      accredited_provider.longitude = new_provider.longitude
       accredited_provider.save!
 
       accredited_provider

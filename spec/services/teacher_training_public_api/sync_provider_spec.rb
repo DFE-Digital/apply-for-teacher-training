@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
   include TeacherTrainingPublicAPIHelper
 
-  describe 'call' do
+  describe '.call' do
     context 'ingesting a brand new provider' do
       it 'just creates the provider without any courses' do
         provider_from_api = fake_api_provider({ code: 'ABC' })

@@ -59,7 +59,7 @@ module TeacherTrainingPublicAPI
       )
 
       vacancy_status = vacancy_status(site_status.vacancy_status, study_mode)
-      course_option.update!(vacancy_status: vacancy_status)
+      course_option.update!(vacancy_status: vacancy_status) if course_option.vacancy_status != vacancy_status
     end
 
     def vacancy_status(vacancy_status_from_api, study_mode)
@@ -81,8 +81,8 @@ module TeacherTrainingPublicAPI
 
     def handle_course_options_with_invalid_sites(sites)
       course_options = @course.course_options.joins(:site)
-      canonical_site_codes = sites.map(&:code)
-      invalid_course_options = course_options.where.not(sites: { code: canonical_site_codes })
+      site_codes = sites.map(&:code)
+      invalid_course_options = course_options.where.not(sites: { code: site_codes })
       return if invalid_course_options.blank?
 
       chosen_course_option_ids = ApplicationChoice

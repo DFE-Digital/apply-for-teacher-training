@@ -36,12 +36,7 @@ module FindSync
         code: find_course.code,
         recruitment_cycle_year: @provider_recruitment_cycle_year,
       )
-
-      if course
-        course.update!(
-          subject_codes: find_course.subject_codes,
-        )
-      end
+      course.update!(subject_codes: find_course.subject_codes) if course
     end
   end
 end
