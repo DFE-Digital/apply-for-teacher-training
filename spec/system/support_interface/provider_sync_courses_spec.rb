@@ -66,13 +66,13 @@ RSpec.feature 'See provider course syncing' do
     ])
 
     stub_teacher_training_api_providers(
-        specified_attributes: [
-            {
-                code: 'ABC',
-                name: 'ABC College',
-            },
-        ],
-        )
+      specified_attributes: [
+        {
+          code: 'ABC',
+          name: 'ABC College',
+        },
+      ],
+    )
 
     @request1 = stub_find_api_provider_200(
       provider_code: 'ABC',
@@ -82,19 +82,19 @@ RSpec.feature 'See provider course syncing' do
     )
 
     stub_teacher_training_api_courses(
-        provider_code: 'ABC',
-        specified_attributes: [{
-                                   code: 'ABC-1',
-                                   accredited_body_code: 'ABC',
-                               }],
-        )
+      provider_code: 'ABC',
+      specified_attributes: [{
+        code: 'ABC-1',
+        accredited_body_code: 'ABC',
+      }],
+    )
     stub_teacher_training_api_sites(
-        provider_code: 'ABC',
-        course_code: 'ABC-1',
-        specified_attributes: [{
-                                   code: 'X',
-                               }],
-        )
+      provider_code: 'ABC',
+      course_code: 'ABC-1',
+      specified_attributes: [{
+        code: 'X',
+      }],
+    )
 
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
     SyncAllFromFind.perform_async

@@ -92,25 +92,25 @@ RSpec.feature 'Providers and courses' do
 
   def and_i_click_the_sync_button
     @ttapi_request_all = stub_teacher_training_api_providers(
-        specified_attributes: [
-            {
-                code: 'ABC',
-                name: 'Royal Academy of Dance',
-            },
-            {
-                code: 'DEF',
-                name: 'Gorse SCITT',
-            },
-            {
-                code: 'GHI',
-                name: 'Somerset SCITT Consortium',
-            },
-            {
-                code: 'XYZ',
-                name: 'University of Chester',
-            },
-        ],
-        )
+      specified_attributes: [
+        {
+          code: 'ABC',
+          name: 'Royal Academy of Dance',
+        },
+        {
+          code: 'DEF',
+          name: 'Gorse SCITT',
+        },
+        {
+          code: 'GHI',
+          name: 'Somerset SCITT Consortium',
+        },
+        {
+          code: 'XYZ',
+          name: 'University of Chester',
+        },
+      ],
+    )
 
     @find_request_all = stub_find_api_all_providers_200([
       {
@@ -128,29 +128,29 @@ RSpec.feature 'Providers and courses' do
     ])
 
     stub_teacher_training_api_provider(
-        provider_code: 'XYZ',
-        specified_attributes: [{
-                                   code: 'XYZ',
-                               }],
+      provider_code: 'XYZ',
+      specified_attributes: [{
+        code: 'XYZ',
+      }],
     )
 
     stub_teacher_training_api_courses(
-        provider_code: 'ABC',
-        specified_attributes: [{
-                                   code: 'ABC-1',
-                                   accredited_body_code: 'XYZ',
-                                   qualifications: %w[qts pgce],
-                                   name: 'Primary'
-                               }],
-        )
+      provider_code: 'ABC',
+      specified_attributes: [{
+        code: 'ABC-1',
+        accredited_body_code: 'XYZ',
+        qualifications: %w[qts pgce],
+        name: 'Primary',
+      }],
+    )
     stub_teacher_training_api_sites(
-        provider_code: 'ABC',
-        course_code: 'ABC-1',
-        specified_attributes: [{
-                                   code: 'X',
-                                   name: 'Main site'
-                               }],
-        )
+      provider_code: 'ABC',
+      course_code: 'ABC-1',
+      specified_attributes: [{
+        code: 'X',
+        name: 'Main site',
+      }],
+    )
 
     @find_request1 = stub_find_api_provider_200_with_accredited_provider(
       provider_code: 'ABC',
@@ -164,19 +164,19 @@ RSpec.feature 'Providers and courses' do
     )
 
     stub_teacher_training_api_courses(
-        provider_code: 'DEF',
-        specified_attributes: [{
-                                   code: 'DEF-1',
-                                   accredited_body_code: 'ABC'
-                               }],
-        )
+      provider_code: 'DEF',
+      specified_attributes: [{
+        code: 'DEF-1',
+        accredited_body_code: 'ABC',
+      }],
+    )
     stub_teacher_training_api_sites(
-        provider_code: 'DEF',
-        course_code: 'DEF-1',
-        specified_attributes: [{
-                                   code: 'Y',
-                               }],
-        )
+      provider_code: 'DEF',
+      course_code: 'DEF-1',
+      specified_attributes: [{
+        code: 'Y',
+      }],
+    )
 
     @find_request2 = stub_find_api_provider_200(
       provider_code: 'DEF',
@@ -186,19 +186,19 @@ RSpec.feature 'Providers and courses' do
     )
 
     stub_teacher_training_api_courses(
-        provider_code: 'GHI',
-        specified_attributes: [{
-                                   code: 'GHI-1',
-                                   accredited_body_code: 'GHI'
-                               }],
-        )
+      provider_code: 'GHI',
+      specified_attributes: [{
+        code: 'GHI-1',
+        accredited_body_code: 'GHI',
+      }],
+    )
     stub_teacher_training_api_sites(
-        provider_code: 'GHI',
-        course_code: 'GHI-1',
-        specified_attributes: [{
-                                   code: 'C',
-                               }],
-        )
+      provider_code: 'GHI',
+      course_code: 'GHI-1',
+      specified_attributes: [{
+        code: 'C',
+      }],
+    )
 
     @find_request3 = stub_find_api_provider_200(
       provider_code: 'GHI',

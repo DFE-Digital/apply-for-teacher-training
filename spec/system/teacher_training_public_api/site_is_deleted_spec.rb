@@ -5,7 +5,7 @@ RSpec.describe 'Sync sites' do
 
   scenario 'a site is removed between syncs' do
     given_there_is_a_provider_and_course_on_apply
-    and_that_course_on_TTAPI_has_multiple_sites
+    and_that_course_on_ttapi_has_multiple_sites
 
     when_sync_provider_is_called
     then_the_correct_course_options_are_created_on_apply
@@ -28,7 +28,7 @@ RSpec.describe 'Sync sites' do
     @course = create(:course, code: 'ABC1', provider: @provider, name: 'Secondary')
   end
 
-  def and_that_course_on_TTAPI_has_multiple_sites
+  def and_that_course_on_ttapi_has_multiple_sites
     stub_teacher_training_api_providers(
       specified_attributes: [
         {
@@ -54,7 +54,7 @@ RSpec.describe 'Sync sites' do
                              }],
     )
   end
-  alias_method :given_that_the_course_on_TTAPI_with_multiple_sites, :and_that_course_on_TTAPI_has_multiple_sites
+  alias_method :given_that_the_course_on_TTAPI_with_multiple_sites, :and_that_course_on_ttapi_has_multiple_sites
 
   def when_sync_provider_is_called
     TeacherTrainingPublicAPI::SyncSites.new.perform(@provider.id, stubbed_recruitment_cycle_year, @course.id)
