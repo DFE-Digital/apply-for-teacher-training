@@ -75,7 +75,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
         expect(application_form.equality_and_diversity).to eq(
           'ethnic_group' => 'Asian or Asian British',
           'ethnic_background' => 'Bangladeshi',
-          'hesa_ethnicity' => 33,
+          'hesa_ethnicity' => '33',
         )
       end
 
@@ -89,7 +89,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
           'sex' => 'male',
           'ethnic_group' => 'Asian or Asian British',
           'ethnic_background' => 'Bangladeshi',
-          'hesa_ethnicity' => 33,
+          'hesa_ethnicity' => '33',
         )
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
         expect(application_form.equality_and_diversity).to eq(
           'ethnic_group' => 'Asian or Asian British',
           'ethnic_background' => 'Unlisted ethnic background',
-          'hesa_ethnicity' => 39,
+          'hesa_ethnicity' => '39',
         )
       end
 
@@ -115,7 +115,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
         expect(application_form.equality_and_diversity).to eq(
           'ethnic_group' => 'Asian or Asian British',
           'ethnic_background' => 'Another Asian background',
-          'hesa_ethnicity' => 39,
+          'hesa_ethnicity' => '39',
         )
       end
     end
