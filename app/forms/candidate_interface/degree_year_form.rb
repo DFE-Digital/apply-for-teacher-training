@@ -1,14 +1,13 @@
 module CandidateInterface
   class DegreeYearForm
     include ActiveModel::Model
-    include ValidationUtils
 
     attr_accessor :start_year, :award_year, :degree
 
-    validates :start_year, presence: true
-    validates :award_year, presence: true
-    validate :start_year_is_valid_date, if: :start_year
-    validate :award_year_is_valid_date, if: :award_year
+    validates :start_year, year: true, presence: true
+    validates :award_year, year: true, presence: true
+    validate :start_year_is_before_the_award_year, unless: ->(c) { c.errors.keys.include?(:start_year) }
+    validate :award_year_is_before_the_end_of_next_year, unless: ->(c) { c.errors.keys.include?(:award_year) }
 
     def save
       return false unless valid?
@@ -23,30 +22,6 @@ module CandidateInterface
     end
 
   private
-
-    def start_year_is_valid_date
-      if valid_year?(start_year)
-        start_year_is_before_the_award_year
-      else
-        start_year_is_invalid
-      end
-    end
-
-    def award_year_is_valid_date
-      if valid_year?(award_year)
-        award_year_is_before_the_end_of_next_year
-      else
-        award_year_is_invalid
-      end
-    end
-
-    def start_year_is_invalid
-      errors.add(:start_year, :invalid)
-    end
-
-    def award_year_is_invalid
-      errors.add(:award_year, :invalid)
-    end
 
     def start_year_is_before_the_award_year
       errors.add(:start_year, :greater_than_award_year, date: award_year) if award_year.present? && award_year.to_i < start_year.to_i

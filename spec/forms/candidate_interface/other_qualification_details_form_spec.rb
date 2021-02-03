@@ -114,7 +114,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
       ['a year', '200'].each do |invalid_date|
         it "is invalid if the award year is '#{invalid_date}'" do
           qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, award_year: invalid_date)
-          error_message = t('award_year.invalid', scope: error_message_scope)
+          error_message = t('errors.messages.invalid_year', attribute: 'award year')
 
           qualification.valid?(:details)
 

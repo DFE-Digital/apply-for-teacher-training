@@ -1,7 +1,6 @@
 module CandidateInterface
   class EnglishGcseGradeForm
     include ActiveModel::Model
-    include ValidationUtils
 
     attr_accessor :grade,
                   :qualification,

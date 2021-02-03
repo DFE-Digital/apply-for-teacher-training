@@ -70,7 +70,6 @@ en:
               too_long: The grade must be %{count} characters or fewer
             award_year:
               blank: Enter the year the qualification was awarded
-              invalid: Enter a real year
-              in_the_future: Assessment year must be this year or a previous year
+              future: Assessment year must be this year or a previous year
             choice:
               blank: Do you want to add another qualification?

@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::ToeflForm, type: :mod
       form = valid_form.tap { |f| f.award_year = 111 }
 
       expect(form).not_to be_valid
-      expect(form.errors.full_messages) .to eq ['Award year Enter a real year']
+      expect(form.errors.full_messages) .to eq ['Award year Enter a real award year']
     end
 
     it 'is is future year if given a future year' do

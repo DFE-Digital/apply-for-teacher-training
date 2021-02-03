@@ -2,7 +2,6 @@ module CandidateInterface
   module EnglishForeignLanguage
     class IeltsForm
       include ActiveModel::Model
-      include ValidationUtils
 
       BandScore = Struct.new(:value, :option)
 
@@ -10,8 +9,7 @@ module CandidateInterface
 
       validates :trf_number, presence: true, length: { maximum: 255 }
       validates :band_score, presence: true
-      validates :award_year, presence: true
-      validate :award_year_is_a_valid_year
+      validates :award_year, presence: true, year: { future: true }
       validate :band_score_is_a_valid_score
 
       def save
@@ -39,14 +37,6 @@ module CandidateInterface
       end
 
     private
-
-      def award_year_is_a_valid_year
-        if !valid_year?(award_year)
-          errors.add(:award_year, :invalid)
-        elsif future_year?(award_year)
-          errors.add(:award_year, :in_the_future)
-        end
-      end
 
       def band_score_is_a_valid_score
         unless sanitize(band_score).in? IeltsQualification::VALID_SCORES

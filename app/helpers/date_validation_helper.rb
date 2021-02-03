@@ -16,9 +16,8 @@ module DateValidationHelper
       Struct.new(:day, :month, :year).new(1, month, year)
     end
   end
+
   def start_date_before_end_date
-    if start_date_and_end_date_valid?
-      errors.add(:start_date, :before) unless start_date <= end_date
-    end
+    errors.add(:start_date, :before) unless start_date <= end_date
   end
 end

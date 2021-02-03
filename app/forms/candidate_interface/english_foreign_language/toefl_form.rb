@@ -2,14 +2,12 @@ module CandidateInterface
   module EnglishForeignLanguage
     class ToeflForm
       include ActiveModel::Model
-      include ValidationUtils
 
       attr_accessor :registration_number, :total_score, :award_year, :application_form
 
       validates :registration_number, presence: true, length: { maximum: 255 }
       validates :total_score, numericality: true, presence: true, length: { maximum: 255 }
-      validates :award_year, presence: true
-      validate :award_year_is_a_valid_year
+      validates :award_year, presence: true, year: { future: true }
 
       def save
         return false unless valid?
@@ -36,14 +34,6 @@ module CandidateInterface
       end
 
     private
-
-      def award_year_is_a_valid_year
-        if !valid_year?(award_year)
-          errors.add(:award_year, :invalid)
-        elsif future_year?(award_year)
-          errors.add(:award_year, :in_the_future)
-        end
-      end
 
       def raise_error_unless_application_form
         if application_form.blank?
