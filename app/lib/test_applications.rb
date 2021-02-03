@@ -332,6 +332,9 @@ class TestApplications
           performance_at_interview_y_n: 'Yes',
           performance_at_interview_what_to_improve: 'We felt that pyjamas were a little too casual',
           qualifications_y_n: 'Yes',
+          qualifications_which_qualifications: %w[no_english_gcse no_science_gcse no_maths_gcse no_degree other].sample(2),
+          quality_of_application_y_n: 'Yes',
+          quality_of_application: %w[personal_statement subject_knowledge other].sample(2),
         },
       ).save
       choice.update_columns(rejected_at: time, updated_at: time)
