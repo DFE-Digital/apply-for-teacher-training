@@ -22,10 +22,10 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
       commitment: data[:commitment],
       start_date_month: data[:start_date].month,
       start_date_year: data[:start_date].year,
-      start_date_unknown: data[:start_date_unknown],
+      start_date_unknown: data[:start_date_unknown].to_s,
       end_date_month: data[:end_date].month,
       end_date_year: data[:end_date].year,
-      end_date_unknown: data[:end_date_unknown],
+      end_date_unknown: data[:end_date_unknown].to_s,
       currently_working: data[:currently_working].to_s,
       relevant_skills: data[:relevant_skills].to_s,
     }
