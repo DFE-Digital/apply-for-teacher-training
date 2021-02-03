@@ -77,3 +77,12 @@ task copy_feature_flags_from_production: :environment do
     end
   end
 end
+
+desc 'Set up all ProviderPermissionRelationships to be open'
+task setup_all_provider_relationships: :environment do
+  possible_permissions = ProviderRelationshipPermissions.possible_permissions
+  permissions_config = possible_permissions.index_with { true }
+  ProviderRelationshipPermissions.all.each do |p|
+    p.update(permissions_config.merge(setup_at: Time.zone.now))
+  end
+end

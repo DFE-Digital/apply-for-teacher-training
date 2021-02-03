@@ -7,6 +7,12 @@ class ProviderRelationshipPermissions < ApplicationRecord
   validate :at_least_one_active_permission_in_pair, if: -> { setup_at.present? }
   audited associated_with: :training_provider
 
+  def self.possible_permissions
+    PERMISSIONS.flat_map do |permission|
+      ["ratifying_provider_can_#{permission}", "training_provider_can_#{permission}"]
+    end
+  end
+
   def training_provider_can_view_applications_only?
     PERMISSIONS.map { |permission| send("training_provider_can_#{permission}") }.all?(false)
   end
