@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_29_135146) do
+ActiveRecord::Schema.define(version: 2021_02_01_142920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -181,6 +181,8 @@ ActiveRecord::Schema.define(version: 2021_01_29_135146) do
     t.string "non_uk_qualification_type"
     t.string "comparable_uk_qualification"
     t.jsonb "structured_grades"
+    t.jsonb "constituent_grades"
+    t.bigint "public_id"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
     t.index ["grade_hesa_code"], name: "qualifications_by_grade_hesa_code"
     t.index ["institution_hesa_code"], name: "qualifications_by_institution_hesa_code"
