@@ -8,10 +8,12 @@ module SupportInterface
     end
 
     def self.get_user_from_token!(token:)
-      hashed_token = MagicLinkToken.from_raw(token)
-      AuthenticationToken.where('created_at > ?', TOKEN_DURATION.ago)
-        .find_by!(hashed_token: hashed_token)
-        .user
+      authentication_token = AuthenticationToken.find_by_hashed_token(
+        user_type: 'SupportUser',
+        raw_token: token,
+      )
+
+      authentication_token && authentication_token.still_valid? && authentication_token.user
     end
   end
 end

@@ -18,6 +18,9 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
     when_i_sign_out
     then_i_am_not_signed_in
 
+    when_i_click_an_incorrect_sign_in_link
+    then_i_see_a_404
+
     given_the_feature_flag_is_switched_off
     when_i_click_on_the_link_in_my_email
     then_i_am_not_signed_in
@@ -68,5 +71,13 @@ RSpec.describe 'A support authenticates via the fallback mechanism' do
     within 'header' do
       expect(page).not_to have_content @email
     end
+  end
+
+  def when_i_click_an_incorrect_sign_in_link
+    visit support_interface_authenticate_with_token_path(token: 'NOT_A_REAL_TOKEN')
+  end
+
+  def then_i_see_a_404
+    expect(page).to have_content 'Page not found'
   end
 end
