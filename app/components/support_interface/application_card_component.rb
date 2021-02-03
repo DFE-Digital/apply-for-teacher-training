@@ -15,9 +15,7 @@ module SupportInterface
       application_form.full_name.presence || application_form.candidate.email_address
     end
 
-    def application_choices
-      application_form.application_choices.includes(%i[course provider])
-    end
+    delegate :application_choices, to: :application_form
 
     def overall_status
       process_state = ProcessState.new(application_form).state
