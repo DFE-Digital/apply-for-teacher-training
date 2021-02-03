@@ -9,6 +9,7 @@ module SupportInterface
         flash[:success] = 'Scheduled job to generate test applications - this might take a while!'
         redirect_to support_interface_tasks_path
       when 'sync_providers'
+        TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
         SyncAllFromFind.perform_async
         flash[:success] = 'Scheduled job to sync providers - this might take a while!'
         redirect_to support_interface_tasks_path
