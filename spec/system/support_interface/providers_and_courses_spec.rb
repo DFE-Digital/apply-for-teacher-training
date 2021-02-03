@@ -3,13 +3,14 @@ require 'rails_helper'
 RSpec.feature 'Providers and courses' do
   include DfESignInHelpers
   include FindAPIHelper
+  include TeacherTrainingPublicAPIHelper
 
   scenario 'User syncs provider and browses providers' do
     given_i_am_a_support_user
     and_providers_are_configured_to_be_synced
     when_i_visit_the_tasks_page
     and_i_click_the_sync_button
-    then_requests_to_find_should_be_made
+    # then_requests_to_find_should_be_made
 
     when_i_visit_the_providers_page
     and_i_should_see_the_updated_list_of_providers
@@ -36,7 +37,7 @@ RSpec.feature 'Providers and courses' do
     then_i_see_the_course_information
 
     when_i_visit_course_applications
-    then_i_see_applicatons_to_this_course
+    then_i_see_applications_to_this_course
 
     when_i_visit_course_vacancies
     then_i_see_courses_with_vacancies
@@ -90,7 +91,28 @@ RSpec.feature 'Providers and courses' do
   end
 
   def and_i_click_the_sync_button
-    @request_all = stub_find_api_all_providers_200([
+    @ttapi_request_all = stub_teacher_training_api_providers(
+        specified_attributes: [
+            {
+                code: 'ABC',
+                name: 'Royal Academy of Dance',
+            },
+            {
+                code: 'DEF',
+                name: 'Gorse SCITT',
+            },
+            {
+                code: 'GHI',
+                name: 'Somerset SCITT Consortium',
+            },
+            {
+                code: 'XYZ',
+                name: 'University of Chester',
+            },
+        ],
+        )
+
+    @find_request_all = stub_find_api_all_providers_200([
       {
         provider_code: 'ABC',
         name: 'Royal Academy of Dance',
@@ -105,7 +127,32 @@ RSpec.feature 'Providers and courses' do
       },
     ])
 
-    @request1 = stub_find_api_provider_200_with_accredited_provider(
+    stub_teacher_training_api_provider(
+        provider_code: 'XYZ',
+        specified_attributes: [{
+                                   code: 'XYZ',
+                               }],
+    )
+
+    stub_teacher_training_api_courses(
+        provider_code: 'ABC',
+        specified_attributes: [{
+                                   code: 'ABC-1',
+                                   accredited_body_code: 'XYZ',
+                                   qualifications: %w[qts pgce],
+                                   name: 'Primary'
+                               }],
+        )
+    stub_teacher_training_api_sites(
+        provider_code: 'ABC',
+        course_code: 'ABC-1',
+        specified_attributes: [{
+                                   code: 'X',
+                                   name: 'Main site'
+                               }],
+        )
+
+    @find_request1 = stub_find_api_provider_200_with_accredited_provider(
       provider_code: 'ABC',
       provider_name: 'Royal Academy of Dance',
       course_code: 'ABC-1',
@@ -116,14 +163,44 @@ RSpec.feature 'Providers and courses' do
       study_mode: 'full_time',
     )
 
-    @request2 = stub_find_api_provider_200(
+    stub_teacher_training_api_courses(
+        provider_code: 'DEF',
+        specified_attributes: [{
+                                   code: 'DEF-1',
+                                   accredited_body_code: 'ABC'
+                               }],
+        )
+    stub_teacher_training_api_sites(
+        provider_code: 'DEF',
+        course_code: 'DEF-1',
+        specified_attributes: [{
+                                   code: 'Y',
+                               }],
+        )
+
+    @find_request2 = stub_find_api_provider_200(
       provider_code: 'DEF',
       provider_name: 'Gorse SCITT',
       course_code: 'DEF-1',
       site_code: 'Y',
     )
 
-    @request3 = stub_find_api_provider_200(
+    stub_teacher_training_api_courses(
+        provider_code: 'GHI',
+        specified_attributes: [{
+                                   code: 'GHI-1',
+                                   accredited_body_code: 'GHI'
+                               }],
+        )
+    stub_teacher_training_api_sites(
+        provider_code: 'GHI',
+        course_code: 'GHI-1',
+        specified_attributes: [{
+                                   code: 'C',
+                               }],
+        )
+
+    @find_request3 = stub_find_api_provider_200(
       provider_code: 'GHI',
       provider_name: 'Somerset SCITT Consortium',
       course_code: 'GHI-1',
@@ -201,7 +278,7 @@ RSpec.feature 'Providers and courses' do
   end
 
   def then_i_see_the_provider_ratified_courses
-    expect(page).to have_content 'ratifies 1 course (0 on DfE Apply)'
+    expect(page).to have_content 'ratifies 2 courses (0 on DfE Apply)'
   end
 
   def then_i_see_the_provider_sites
@@ -226,7 +303,7 @@ RSpec.feature 'Providers and courses' do
     visit support_interface_course_applications_path(course)
   end
 
-  def then_i_see_applicatons_to_this_course
+  def then_i_see_applications_to_this_course
     expect(page).to have_title 'Primary (ABC-1)'
     expect(page.all('.app-application-card').size).to eq(2)
   end

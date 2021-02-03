@@ -30,6 +30,38 @@ module TeacherTrainingPublicAPIHelper
     end
   end
 
+  def stub_teacher_training_api_provider(provider_code:, recruitment_cycle_year: RecruitmentCycle.current_year, specified_attributes: [])
+    api_response = JSON.parse(
+        File.read(
+            Rails.root.join("spec/examples/teacher_training_api/single_provider_response.json"),
+            ),
+        symbolize_names: true,
+        )
+
+    if specified_attributes
+      example_resource = api_response[:data]
+      new_data = specified_attributes.map do |attrs|
+        specified_resource = example_resource.dup
+        specified_resource[:attributes] = specified_resource[:attributes].deep_merge(attrs)
+        specified_resource
+      end
+
+      api_response[:data] = new_data
+    end
+
+    response_body = api_response.to_json
+
+    url = "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}"
+    stub_request(
+        :get,
+        url,
+        ).to_return(
+        status: 200,
+        headers: { 'Content-Type': 'application/vnd.api+json' },
+        body: response_body,
+        )
+  end
+
   def stub_teacher_training_api_courses(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, specified_attributes: [])
     response_body = build_response_body('course_list_response.json', specified_attributes)
     stub_teacher_training_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses", response_body)
