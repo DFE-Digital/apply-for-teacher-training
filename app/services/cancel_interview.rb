@@ -28,6 +28,8 @@ class CancelInterview
 
         ApplicationStateChange.new(application_choice).cancel_interview!
       end
+
+      CandidateMailer.interview_cancelled(application_choice, interview, cancellation_reason).deliver_later
     else
       raise "Interview cannot be cancelled when the application_choice is in #{application_choice.status} state"
     end
