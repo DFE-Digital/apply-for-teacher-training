@@ -3,27 +3,12 @@ module SupportInterface
     def index
       @filter = SupportInterface::ProvidersFilter.new(params: params)
 
-      @providers = Provider.where(sync_courses: true)
-        .includes(:sites, :courses, :provider_agreements, :provider_users)
-        .order(:name)
-        .page(params[:page] || 1).per(30)
-
-      if params[:q]
-        @providers = @providers.where("CONCAT(name, ' ', code) ILIKE ?", "%#{params[:q]}%")
-      end
-    end
-
-    def other_providers
-      @filter = SupportInterface::ProvidersFilter.new(params: params)
-
-      @providers = Provider
-        .where(sync_courses: false)
-        .order(:name)
-        .page(params[:page] || 1).per(30)
-
-      if params[:q]
-        @providers = @providers.where("CONCAT(name, ' ', code) ILIKE ?", "%#{params[:q]}%")
-      end
+      @providers = @filter.filter_records(
+        Provider
+          .includes(:sites, :courses, :provider_agreements, :provider_users)
+          .order(:name)
+          .page(params[:page] || 1).per(30),
+      )
     end
 
     def show
@@ -47,7 +32,7 @@ module SupportInterface
     end
 
     def users
-      @provider = Provider.includes(:provider_users).find(params[:provider_id])
+      @provider = Provider.includes(provider_users: [:provider_permissions]).find(params[:provider_id])
       @relationship_diagram = SupportInterface::ProviderRelationshipsDiagram.new(provider: @provider)
     end
 
