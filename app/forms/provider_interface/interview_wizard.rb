@@ -81,11 +81,12 @@ module ProviderInterface
     end
 
     def provider
-      if multiple_application_providers?
-        application_providers
-      else
+      # BUG Different return types break view component
+      #if multiple_application_providers?
+      #  application_providers
+      #else
         application_providers.first
-      end
+      #end
     end
 
     def multiple_application_providers?
@@ -102,6 +103,21 @@ module ProviderInterface
 
     def clear_state!
       @state_store.delete
+    end
+
+    def self.from_model(store, interview, step = 'input')
+      new(
+        store,
+        current_step: step,
+        additional_details: interview.additional_details,
+        application_choice: interview.application_choice,
+        'date(1i)': interview.date_and_time.year,
+        'date(2i)': interview.date_and_time.month,
+        'date(3i)': interview.date_and_time.day,
+        location: interview.location,
+        provider_id: interview.provider_id,
+        time: interview.date_and_time.strftime('%l:%M%P'),
+      )
     end
 
   private
