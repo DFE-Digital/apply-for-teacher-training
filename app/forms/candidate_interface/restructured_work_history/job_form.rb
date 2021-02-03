@@ -44,11 +44,11 @@ module CandidateInterface
           start_date_day: job.start_date&.day,
           start_date_month: job.start_date&.month,
           start_date_year: job.start_date&.year,
-          start_date_unknown: job.start_date_unknown.to_s,
+          start_date_unknown: job.start_date_unknown,
           end_date_day: job.end_date&.day || '',
           end_date_month: job.end_date&.month || '',
           end_date_year: job.end_date&.year || '',
-          end_date_unknown: job.end_date_unknown.to_s,
+          end_date_unknown: job.end_date_unknown,
           currently_working: job.currently_working.to_s,
           relevant_skills: job.relevant_skills.to_s,
         )
