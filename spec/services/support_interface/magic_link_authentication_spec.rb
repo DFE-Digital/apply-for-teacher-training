@@ -28,7 +28,7 @@ RSpec.describe SupportInterface::MagicLinkAuthentication do
     end
 
     context 'when the token has expired' do
-      it 'raises an ActiveRecord::RecordNotFound error' do
+      it 'returns a falsey value' do
         user = create(:support_user)
         create(:authentication_token,
                user: user,
@@ -37,9 +37,7 @@ RSpec.describe SupportInterface::MagicLinkAuthentication do
 
         allow(MagicLinkToken).to receive(:from_raw).and_return('known_token')
 
-        expect {
-          SupportInterface::MagicLinkAuthentication.get_user_from_token!(token: 'known_token')
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(SupportInterface::MagicLinkAuthentication.get_user_from_token!(token: 'known_token')).to be(false)
       end
     end
   end

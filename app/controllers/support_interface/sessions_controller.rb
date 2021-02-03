@@ -41,6 +41,8 @@ module SupportInterface
 
       support_user = SupportInterface::MagicLinkAuthentication.get_user_from_token!(token: params.fetch(:token))
 
+      render_404 and return unless support_user
+
       # Equivalent to calling DfESignInUser.begin_session!
       session['dfe_sign_in_user'] = {
         'email_address' => support_user.email_address,
