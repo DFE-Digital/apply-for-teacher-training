@@ -96,7 +96,7 @@ module CandidateInterface
     end
 
     def present_constituent_grades
-      grades = JSON.parse(application_qualification.constituent_grades)
+      grades = application_qualification.constituent_grades
       grades.map do |k, v,|
         grade = v['grade']
         case k

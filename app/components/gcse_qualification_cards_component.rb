@@ -73,7 +73,7 @@ class GcseQualificationCardsComponent < ViewComponent::Base
   end
 
   def present_constituent_grades(qualification)
-    grades = JSON.parse(qualification.constituent_grades)
+    grades = qualification.constituent_grades
     grades.map do |k, v,|
       grade = v['grade']
       case k

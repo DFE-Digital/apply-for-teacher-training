@@ -102,14 +102,14 @@ module SupportInterface
 
     def english_structured_gcse_grades(qualifications, subject)
       constituent_grades = qualifications.where(level: :gcse, subject: :english).first.constituent_grades
-      JSON.parse(constituent_grades).dig(subject, 'grade')
+      constituent_grades.dig(subject, 'grade')
     rescue StandardError
       nil
     end
 
     def english_other_gcse_grade(qualifications)
       constituent_grades = qualifications.where(level: :gcse, subject: :english).first.constituent_grades
-      JSON.parse(constituent_grades).each do |subject, hash|
+      constituent_grades.each do |subject, hash|
         return hash['grade'] if ENGLISH_GCSE_SUBJECTS.exclude?(subject)
       end
     rescue StandardError

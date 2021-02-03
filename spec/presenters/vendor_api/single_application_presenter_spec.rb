@@ -536,7 +536,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         id: 1,
         subject: 'english',
         grade: nil,
-        constituent_grades: '{"english_language":{"grade":"E"},"english_literature":{"grade":"E"},"Cockney Rhyming Slang":{"grade":"A*"}}',
+        constituent_grades: { english_language: { grade: 'E' }, english_literature: { grade: 'E' }, "Cockney Rhyming Slang": { grade: 'A*' } },
         award_year: 2006,
         predicted_grade: false,
         application_form: application_choice.application_form,

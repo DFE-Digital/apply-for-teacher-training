@@ -52,7 +52,7 @@ module CandidateInterface
         }
 
         if qualification.constituent_grades
-          constituent_grades = JSON.parse(qualification.constituent_grades)
+          constituent_grades = qualification.constituent_grades
           english_gcses = []
 
           if grades.keys.include? 'english_single_award'
@@ -177,7 +177,7 @@ module CandidateInterface
         model[:english_studies_double_award] = grade_hash(grade_english_studies_double) if english_studies_double_award
         model[other_english_gcse_name] = grade_hash(grade_other_english_gcse) if other_english_gcse
       end
-      grades.to_json if grades.any?
+      grades if grades.any?
     end
 
     def grade_hash(grade)

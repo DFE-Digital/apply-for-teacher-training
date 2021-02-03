@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         qualification_type: 'gcse',
         level: 'gcse',
         grade: nil,
-        constituent_grades: '{"english":{"grade":"E"},"english_literature":{"grade":"D"},"Cockney Rhyming Slang":{"grade":"A*"}}',
+        constituent_grades: { english: { grade: 'E' }, english_literature: { grade: 'D' }, 'Cockney Rhyming Slang': { grade: 'A*' } },
         subject: 'english',
       )
 
