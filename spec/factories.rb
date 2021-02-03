@@ -740,10 +740,20 @@ FactoryBot.define do
 
     trait :previous_year do
       course_option { create(:course_option, :previous_year) }
+      after(:create) do |choice, _evaluator|
+        choice.application_form.update_columns(
+          recruitment_cycle_year: RecruitmentCycle.previous_year,
+        )
+      end
     end
 
     trait :previous_year_but_still_available do
       course_option { create(:course_option, :previous_year_but_still_available) }
+      after(:create) do |choice, _evaluator|
+        choice.application_form.update_columns(
+          recruitment_cycle_year: RecruitmentCycle.previous_year,
+        )
+      end
     end
   end
 

@@ -25,6 +25,10 @@ module SupportInterface
         application_forms = application_forms.where('phase IN (?)', applied_filters[:phase])
       end
 
+      if applied_filters[:interviews]
+        application_forms = application_forms.joins(application_choices: [:interviews])
+      end
+
       if applied_filters[:year]
         application_forms = application_forms.where('recruitment_cycle_year IN (?)', applied_filters[:year])
       end
@@ -33,7 +37,7 @@ module SupportInterface
     end
 
     def filters
-      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter]
+      @filters ||= [search_filter, search_by_application_choice_filter, year_filter, phase_filter, interviews_filter]
     end
 
   private
@@ -89,6 +93,21 @@ module SupportInterface
             value: 'apply_2',
             label: 'Apply 2',
             checked: applied_filters[:phase]&.include?('apply_2'),
+          },
+        ],
+      }
+    end
+
+    def interviews_filter
+      {
+        type: :checkboxes,
+        heading: 'Interviews',
+        name: 'interviews',
+        options: [
+          {
+            value: 'has_interviews',
+            label: 'Has interviews',
+            checked: applied_filters[:interviews]&.include?('has_interviews'),
           },
         ],
       }
