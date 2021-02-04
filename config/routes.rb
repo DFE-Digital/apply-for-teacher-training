@@ -632,10 +632,12 @@ Rails.application.routes.draw do
 
       resources :notes, only: %i[index show new create], as: :application_choice_notes
 
-      resources :interviews, only: %i[new index], as: :application_choice_interviews do
+      resources :interviews, only: %i[new edit index], as: :application_choice_interviews do
         collection do
           get '/new/check', to: 'interviews#check'
           get '/confirm', to: 'interviews#commit'
+          get '/check/:id', to: 'interviews#check', as: :check
+          get '/update/:id', to: 'interviews#update', as: :update
         end
 
         member do
