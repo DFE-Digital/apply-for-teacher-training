@@ -233,6 +233,11 @@ class ApplicationForm < ApplicationRecord
       application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
   end
 
+  def ended_with_success?
+    application_choices.present? &&
+      application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status) }
+  end
+
   def can_add_reference?
     application_references.size < MINIMUM_COMPLETE_REFERENCES
   end
