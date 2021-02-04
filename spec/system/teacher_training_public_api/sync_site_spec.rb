@@ -41,6 +41,15 @@ RSpec.describe 'Sync sites', sidekiq: true do
         name: 'Waterloo Road',
       }, {
         code: 'B',
+        name: 'St Bernards High School',
+        street_address_1: 'Milton Road',
+        street_address_2: 'Westcliff on Sea',
+        city: nil,
+        county: 'Essex',
+        postcode: 'SS0 7JS',
+        region_code: 'south_east',
+        latitude: 51.5371634,
+        longitude: 0.69922,
       }],
       vacancy_status: 'part_time_vacancies',
     )
@@ -71,6 +80,15 @@ RSpec.describe 'Sync sites', sidekiq: true do
   def then_it_creates_one_site
     site = get_site_by_provider_code('B', 'ABC')
     expect(site).not_to be_nil
+    expect(site.name).to eql('St Bernards High School')
+    expect(site.address_line1).to eql('Milton Road')
+    expect(site.address_line2).to eql('Westcliff on Sea')
+    expect(site.address_line3).to be_nil
+    expect(site.address_line4).to eql('Essex')
+    expect(site.postcode).to eql('SS0 7JS')
+    expect(site.region).to eql('south_east')
+    expect(site.latitude).to eql(51.5371634)
+    expect(site.longitude).to eql(0.69922)
   end
 
   def and_it_creates_the_corresponding_course_options

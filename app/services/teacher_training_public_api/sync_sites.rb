@@ -25,6 +25,7 @@ module TeacherTrainingPublicAPI
         site.address_line3 = site_from_api.city&.strip
         site.address_line4 = site_from_api.county&.strip
         site.postcode = site_from_api.postcode&.strip
+        site.region = site_from_api.region_code
         site.latitude = site_from_api.latitude
         site.longitude = site_from_api.longitude
         site.save!
