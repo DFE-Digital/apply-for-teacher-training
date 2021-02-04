@@ -87,8 +87,8 @@ RSpec.describe 'Sync sites', sidekiq: true do
     expect(site.address_line4).to eql('Essex')
     expect(site.postcode).to eql('SS0 7JS')
     expect(site.region).to eql('south_east')
-    expect(site.latitude).to eql(51.5371634)
-    expect(site.longitude).to eql(0.69922)
+    expect(site.latitude).to be(51.5371634)
+    expect(site.longitude).to be(0.69922)
   end
 
   def and_it_creates_the_corresponding_course_options
