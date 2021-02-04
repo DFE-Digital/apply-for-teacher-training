@@ -23,6 +23,8 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
           qualifications_y_n: 'Yes',
           qualifications_which_qualifications: %w[no_maths_gcse no_degree],
           quality_of_application_y_n: 'Yes',
+          quality_of_application_which_parts_needed_improvement: %w[other],
+          quality_of_application_other_details: 'Too many emojis',
         },
         application_form_id: 123,
       )
@@ -34,7 +36,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
     end
 
     it 'renders a link to the application form' do
-      expect(@rendered_result.css("a[href='support/application_form/123']"))
+      expect(@rendered_result.css("a[href='support/application_form/123']")).to be_present
     end
 
     it 'renders top-level reasons' do
@@ -47,6 +49,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
     it 'renders sub-reasons' do
       expect(@rendered_result.text).to include('No Maths GCSE')
       expect(@rendered_result.text).to include('No degree')
+      expect(@rendered_result.text).to include('Other - Too many emojis')
       expect(@rendered_result.text).not_to include('No Science GCSE')
       expect(@rendered_result.text).not_to include('No English GCSE')
     end
@@ -68,7 +71,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
 
     it 'renders the correct title' do
       expect(@rendered_result.text).to include(
-        'Showing application choices with rejection reason Qualifications - No degree'
+        'Showing application choices with rejection reason Qualifications - No degree',
       )
     end
   end
