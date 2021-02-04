@@ -9,10 +9,10 @@
       <%= t("#{translation_prefix}.title") %>
     </h1>
 
-    <%= render ProviderInterface::InterviewDetailsComponent.new(@wizard) %>
+    <%= render ProviderInterface::InterviewDetailsComponent.new(@wizard, @interview) %>
 
     <% if @interview.present? %>
-      <%= govuk_link_to t('.update.confirm'), update_provider_interface_application_choice_interviews_path(id: params[:id]), class: 'govuk-button' %>
+      <%= govuk_link_to t('.update.confirm'), update_provider_interface_application_choice_interviews_path(id: @interview.id), class: 'govuk-button' %>
     <% else %>
       <%= govuk_link_to t('.confirm'), confirm_provider_interface_application_choice_interviews_path, class: 'govuk-button' %>
     <% end %>

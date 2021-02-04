@@ -55,7 +55,9 @@ RSpec.describe 'A provider user changes interview details' do
     expect(page).to have_field('Address or online meeting details', with: @interview.location)
     expect(page).to have_field('Additional details (optional)', with: @interview.additional_details)
 
-    fill_in 'Day', with: @interview.date_and_time.day + 2
+    @updated_date_and_time = 1.day.since(@interview.date_and_time).change(hour: 10)
+
+    fill_in 'Day', with: @updated_date_and_time.day.to_s
     fill_in 'Time', with: '10am'
     fill_in 'Address or online meeting details', with: 'Zoom meeting'
     fill_in 'Additional details (optional)', with: 'Business casual'
@@ -65,13 +67,25 @@ RSpec.describe 'A provider user changes interview details' do
 
   def then_i_can_see_interview_was_updated
     expect(page).to have_content('Check and send new interview details')
-    expect(page).to have_content("Date\n#{(@interview.date_and_time.day + 2).to_s(:govuk_date)}")
+    expect(page).to have_content("Date\n#{@updated_date_and_time.to_s(:govuk_date)}")
     expect(page).to have_content("Time\n#{Time.zone.parse('10am').to_s(:govuk_time)}")
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual")
 
+    click_on 'Change', match: :first
+
+    fill_in 'Additional details (optional)', with: 'Business casual, first impressions are important.'
+
+    click_on 'Continue'
+
+    expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
+
     click_on 'Send new interview details'
 
     expect(page).to have_content('Interview changed')
+
+    expect(page).to have_content("Upcoming interviews\n#{@updated_date_and_time.to_s(:govuk_date_and_time)}")
+    expect(page).to have_content("Address or online meeting details\nZoom meeting")
+    expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
   end
 end
