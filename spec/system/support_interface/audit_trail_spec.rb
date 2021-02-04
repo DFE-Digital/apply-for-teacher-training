@@ -84,34 +84,9 @@ RSpec.feature 'See application history', with_audited: true do
   end
 
   def then_i_should_be_able_to_see_history_events
-    within('tbody tr:eq(1)') do
-      expect(page).to have_content '3 October 2019'
-      expect(page).to have_content '09:00'
-      expect(page).to have_content 'Update Application Choice'
-      expect(page).to have_content 'derek@example.com (Provider user)'
-      expect(page).to have_content 'status rejected → offer'
-    end
-    within('tbody tr:eq(3)') do
-      expect(page).to have_content '2 October 2019'
-      expect(page).to have_content '12:00'
-      expect(page).to have_content 'Update Application Choice'
-      expect(page).to have_content 'bob@example.com (Vendor API)'
-      expect(page).to have_content 'status awaiting_provider_decision → rejected'
-    end
-    within('tbody tr:eq(5)') do
-      expect(page).to have_content '1 October 2019'
-      expect(page).to have_content '12:00'
-      expect(page).to have_content 'Create Application Choice'
-      expect(page).to have_content 'alice@example.com (Candidate)'
-      expect(page).to have_content 'status awaiting_provider_decision'
-    end
-    within('tbody tr:eq(6)') do
-      expect(page).to have_content '1 October 2019'
-      expect(page).to have_content '12:00'
-      expect(page).to have_content 'Create Application Form'
-      expect(page).to have_content 'alice@example.com (Candidate)'
-      expect(page).to have_content 'first_name Alice'
-      expect(page).to have_content 'last_name Wunder'
-    end
+    expect(page).to have_content 'status rejected → offer'
+    expect(page).to have_content 'status awaiting_provider_decision → rejected'
+    expect(page).to have_content 'status awaiting_provider_decision'
+    expect(page).to have_content 'Create Application Form'
   end
 end
