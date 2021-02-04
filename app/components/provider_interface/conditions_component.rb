@@ -26,6 +26,8 @@ module ProviderInterface
     end
 
     def conditions_met?
+      return application_choice.status_before_deferral == 'recruited' if application_choice.status == 'offer_deferred'
+
       application_state.current_state >= :recruited
     end
 
