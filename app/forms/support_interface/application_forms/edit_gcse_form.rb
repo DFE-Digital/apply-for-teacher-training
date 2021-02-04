@@ -25,8 +25,6 @@ module SupportInterface
           award_year: award_year,
           audit_comment: audit_comment,
         )
-
-        @gcse.save!
       end
     end
   end
