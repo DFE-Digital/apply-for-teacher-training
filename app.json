@@ -1,7 +1,7 @@
 {
   "name": "apply-for-teacher-training",
   "scripts": {
-    "postdeploy": "bundle exec rake db:schema:load && bundle exec rake setup_local_dev_data"
+    "postdeploy": "bundle exec rake db:schema:load && bundle exec rake setup_local_dev_data setup_all_provider_relationships"
   },
   "env": {
     "AUTHORISED_HOSTS": {
