@@ -16,13 +16,11 @@ class GetAllChangeOptionsFromOfferedOption
 
     @available_study_modes = CourseOption.where(
       course: application_choice.offered_course,
-      # TODO: check vacancy_status, e.g. 'B'
     ).pluck(:study_mode).uniq
 
     @available_course_options = CourseOption.where(
       course: application_choice.offered_course,
       study_mode: application_choice.offered_option.study_mode, # preserving study_mode
-      # TODO: check vacancy_status, e.g. 'B'
     ).includes(:site).order('sites.name')
   end
 

@@ -548,7 +548,7 @@ FactoryBot.define do
 
       after(:build) do |choice, _evaluator|
         choice.status = :interviewing
-        choice.interviews = [create(:interview)]
+        choice.interviews = [create(:interview, application_choice: choice)]
       end
     end
 
@@ -586,7 +586,7 @@ FactoryBot.define do
 
     trait :with_rejection_by_default do
       status { 'rejected' }
-      rejected_at { Time.zone.now }
+      rejected_at { 2.minutes.ago }
       rejected_by_default { true }
     end
 

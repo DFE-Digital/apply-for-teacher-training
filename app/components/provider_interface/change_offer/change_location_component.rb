@@ -20,7 +20,6 @@ module ProviderInterface
         CourseOption.where(
           course_id: change_offer_form.course_id,
           study_mode: change_offer_form.study_mode,
-          # TODO: check vacancy_status, e.g. 'B'
         ).includes(:site).order('sites.name')
       end
 
