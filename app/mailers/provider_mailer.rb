@@ -77,12 +77,8 @@ class ProviderMailer < ApplicationMailer
       provider_user,
       application_choice.application_form,
       subject: I18n.t!('provider_mailer.application_withdrawn.subject', candidate_name: application_choice.application_form.full_name, support_reference: @application_choice.application_form.support_reference),
-      template_name: 'application_withdrawn', # TODO: remove this
     )
   end
-
-  # TODO: remove this
-  alias_method :application_withrawn, :application_withdrawn
 
   def declined(provider_user, application_choice)
     @application_choice = application_choice

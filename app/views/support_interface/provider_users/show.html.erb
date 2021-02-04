@@ -1,4 +1,4 @@
-<% content_for :browser_title, "Provider user #{provider_user_name(@provider_user)}" %>
+<% content_for :browser_title, "Provider user #{@provider_user.display_name}" %>
 
 <%= render 'provider_user_impersonation', provider_user: @provider_user %>
 

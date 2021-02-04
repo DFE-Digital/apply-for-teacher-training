@@ -30,8 +30,7 @@ class ProviderMailerPreview < ActionMailer::Preview
   end
 
   def application_withdrawn
-    # TODO: replace with the correct method call once application_withrawn is gone
-    ProviderMailer.application_withrawn(provider_user, application_choice)
+    ProviderMailer.application_withdrawn(provider_user, application_choice)
   end
 
   def declined

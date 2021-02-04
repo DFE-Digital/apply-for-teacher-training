@@ -141,7 +141,6 @@ module ProviderInterface
     end
 
     def provider_name(provider_user)
-      # TODO: Work out how to display the provider name (it's ambiguous)
       provider_user.full_name
     end
   end

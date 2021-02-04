@@ -1,5 +1,4 @@
 module ViewHelper
-  # TODO: Make `body` param optional if `block` is provided
   def govuk_link_to(body, url, html_options = {}, &_block)
     html_options[:class] = prepend_css_class('govuk-link', html_options[:class])
 
@@ -37,7 +36,6 @@ module ViewHelper
     mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
   end
 
-  # TODO: Make `body` param optional if `block` is provided
   def govuk_button_link_to(body, url, html_options = {}, &_block)
     html_options = {
       class: prepend_css_class('govuk-button', html_options[:class]),
@@ -51,13 +49,11 @@ module ViewHelper
     link_to(body, url, html_options)
   end
 
-  # TODO: move this into component
   def submitted_at_date
     dates = ApplicationDates.new(@application_form)
     dates.submitted_at.to_s(:govuk_date).strip
   end
 
-  # TODO: move this into component
   def respond_by_date
     dates = ApplicationDates.new(@application_form)
     dates.reject_by_default_at.to_s(:govuk_date).strip if dates.reject_by_default_at
@@ -116,19 +112,6 @@ module ViewHelper
 
   def days_until_find_reopens
     (EndOfCycleTimetable.find_reopens - Time.zone.today).to_i
-  end
-
-  # TODO: move this to ProviderUser#display_name
-  def provider_user_name(provider_user)
-    first_name = provider_user.first_name
-    last_name = provider_user.last_name
-    email_address = provider_user.email_address
-
-    if first_name.present? && last_name.present?
-      "#{first_name} #{last_name}" if first_name.present? && last_name.present?
-    else
-      email_address
-    end
   end
 
   def percent_of(numerator, denominator)

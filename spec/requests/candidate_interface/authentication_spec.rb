@@ -4,14 +4,12 @@ RSpec.describe 'Authentication for candidates', type: :request do
   it 'redirects the user if the token is invalid' do
     get candidate_interface_application_form_url(token: '123')
 
-    # TODO: add a better check once we have implemented error messages
     expect(response).to have_http_status(302)
   end
 
   it 'redirects the user if the token is missing from the URL' do
     get candidate_interface_application_form_url
 
-    # TODO: add a better check once we have implemented error messages
     expect(response).to have_http_status(302)
   end
 
@@ -21,7 +19,6 @@ RSpec.describe 'Authentication for candidates', type: :request do
 
     get candidate_interface_application_form_url(token: magic_link_token.raw)
 
-    # TODO: add a better check once we have implemented error messages
     expect(response).to have_http_status(302)
   end
 end
