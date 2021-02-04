@@ -106,6 +106,14 @@ en:
               blank: Award year cannot be blank
             audit_comment:
               blank: You must provide an audit comment
+        support_interface/application_forms/edit_degree_form:
+          attributes:
+            award_year:
+              blank: Award year cannot be blank
+            start_year:
+              blank: Start year cannot be blank
+            audit_comment:
+              blank: You must provide an audit comment
         support_interface/application_forms/edit_reference_feedback_form:
           attributes:
             feedback:

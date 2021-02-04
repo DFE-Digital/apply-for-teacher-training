@@ -1,5 +1,8 @@
 # NOTE: This component is used by both provider and support UIs
 class DegreeQualificationCardsComponent < ViewComponent::Base
+  include ApplicationHelper
+  include ViewHelper
+
   attr_reader :degrees, :application_choice_state, :show_hesa_codes
 
   alias_method :show_hesa_codes?, :show_hesa_codes
@@ -74,5 +77,9 @@ private
 
   def institution(degree)
     degree.institution_name
+  end
+
+  def in_support_console?
+    current_namespace == 'support_interface'
   end
 end
