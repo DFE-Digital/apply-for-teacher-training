@@ -20,7 +20,7 @@ class StateChangeNotifier
     other_applications_outcome = other_events.map { |e| text_for(grouped_applications, e) }.compact.to_sentence
 
     message = I18n.t("slack_notifications.#{event}.message.primary", applicant: candidate_name, providers: providers.to_sentence, count: providers.count)
-    message << " #{candidate_name} previously #{other_applications_outcome}." if other_applications_outcome.present?
+    message << ". #{candidate_name} previously #{other_applications_outcome}." if other_applications_outcome.present?
 
     url = StateChangeNotifier.helpers.support_interface_application_form_url(application_choice.application_form)
 
