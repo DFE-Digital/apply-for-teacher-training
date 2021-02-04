@@ -5,7 +5,7 @@ module SupportInterface
 
       @providers = @filter.filter_records(
         Provider
-          .includes(:sites, :courses, :provider_agreements, :provider_users)
+          .includes(:courses, :provider_agreements, :provider_users)
           .order(:name)
           .page(params[:page] || 1).per(30),
       )
