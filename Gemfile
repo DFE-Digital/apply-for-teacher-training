@@ -33,6 +33,8 @@ gem 'discard'
 gem 'json-schema'
 gem 'json_api_client'
 
+gem 'ar-sequence'
+
 gem 'sentry-raven'
 
 gem 'factory_bot_rails'
