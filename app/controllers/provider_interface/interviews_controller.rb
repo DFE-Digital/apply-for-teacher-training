@@ -20,7 +20,16 @@ module ProviderInterface
       @wizard.save_state!
     end
 
+    def edit
+      @interview = @application_choice.interviews.find(params[:id])
+
+      @wizard = InterviewWizard.from_model(store, @interview, 'input')
+      @wizard.save_state!
+    end
+
     def check
+      @interview = @application_choice.interviews.find(params[:id]) if params[:id]
+
       @wizard = InterviewWizard.new(store, interview_params.merge(current_step: 'check'))
       @wizard.save_state!
       render :new unless @wizard.valid?
@@ -38,6 +47,30 @@ module ProviderInterface
           location: @wizard.location,
           additional_details: @wizard.additional_details,
         ).save!
+
+        @wizard.clear_state!
+
+        flash[:success] = t('.success')
+        redirect_to provider_interface_application_choice_interviews_path(@application_choice)
+      else
+        render :check
+      end
+    end
+
+    def update
+      interview = @application_choice.interviews.find(params[:id])
+      @wizard = InterviewWizard.new(store, interview_form_context_params)
+
+      if @wizard.valid?
+        UpdateInterview.new(
+          actor: current_provider_user,
+          interview: interview,
+          provider: @wizard.provider,
+          date_and_time: @wizard.date_and_time,
+          location: @wizard.location,
+          additional_details: @wizard.additional_details,
+        ).save!
+
         @wizard.clear_state!
 
         flash[:success] = t('.success')

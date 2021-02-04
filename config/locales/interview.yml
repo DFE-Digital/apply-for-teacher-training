@@ -5,13 +5,23 @@ en:
         title: Set up an interview
         interview_preferences:
           title:  Candidate interview preferences
+      edit:
+        title: Change interview details
+        interview_preferences:
+          title:  Candidate interview preferences
       check:
         page_title: Set up Interview
         title: Check and send interview details
         confirm: Send interview details
         cancel: Cancel
+        update:
+          page_title: Change interview details
+          title: Check and send new interview details
+          confirm: Send new interview details
       commit:
         success: Interview set up
+      update:
+        success: Interview changed
       cancel:
         page_title: Cancel Interview
         title: Reason for cancelling interview
