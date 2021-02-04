@@ -18,26 +18,9 @@
           url: new_check_provider_interface_application_choice_interviews_path(@application_choice),
           method: :get do |f| %>
 
-      <%= f.govuk_error_summary %>
+      <%= render 'form', f: f %>
 
-      <%= f.govuk_date_field :date, legend: { size: 'm' } %>
-
-      <%= f.govuk_text_field :time, width: 5, label: { size: 'm' } %>
-
-      <% if @wizard.multiple_application_providers? %>
-        <%= f.govuk_radio_buttons_fieldset :provider_id, legend: { text: 'Organisation carrying out interview', size: 'm' } do %>
-          <% @wizard.application_providers.each do |provider| %>
-            <%= f.govuk_radio_button :provider_id, provider.id, label: { text: provider.name } %>
-          <% end %>
-        <% end %>
       <% end %>
-
-      <%= f.govuk_text_area :location, label: { size: 'm' } %>
-
-      <%= f.govuk_text_area :additional_details, label: { size: 'm' } %>
-
-      <%= f.govuk_submit 'Continue' %>
-    <% end %>
 
     <p class="govuk-body"><%= govuk_link_to 'Cancel', provider_interface_application_choice_interviews_path(@application_choice) %></p>
   </div>
