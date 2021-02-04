@@ -117,8 +117,6 @@ module Hesa
   }.freeze
 
   class SubjectCode
-    # TODO: These are likely incomplete as they are currently based on data we have.
-    # Need to discover the source of these subject codes.
     PRIMARY_CODES = %w[00 01 02 03 04 05 06 07].freeze
     LANGUAGE_CODES = %w[15 17 22 24].freeze
 
