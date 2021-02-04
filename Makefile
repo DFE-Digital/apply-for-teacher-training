@@ -62,3 +62,4 @@ ci.integration-tests: ## Run the tests with results formatted for CI
 	$(call copy_to_host,$(RSPEC_RESULTS_PATH))
 	$(call copy_to_host,$(COVERAGE_RESULT_PATH))
 	docker-compose rm -f -v web
+
