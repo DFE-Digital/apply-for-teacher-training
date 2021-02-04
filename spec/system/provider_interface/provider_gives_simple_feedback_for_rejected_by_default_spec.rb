@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider rejects application' do
+RSpec.feature 'Provider gives feedback for application rejected by default when Structured reasons for rejection on RBD is deactivated' do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
@@ -10,7 +10,9 @@ RSpec.feature 'Provider rejects application' do
     create(:application_choice, :with_rejection_by_default, course_option: course_option, application_form: create(:completed_application_form, first_name: 'Alice', last_name: 'Wunder'))
   end
 
-  scenario 'Provider rejects application' do
+  scenario 'Provider gives feedback for application rejected by default' do
+    FeatureFlag.deactivate(:structured_reasons_for_rejection_on_rbd)
+
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
