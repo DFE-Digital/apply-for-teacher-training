@@ -49,8 +49,11 @@ module SupportInterface
     end
 
     def filter_records(providers)
-      if applied_filters[:q]
+      if applied_filters[:q].present?
         providers = providers.where("CONCAT(providers.name, ' ', providers.code) ILIKE ?", "%#{applied_filters[:q]}%")
+        @search_count = providers.count
+      else
+        @search_count = 0
       end
 
       if applied_filters[:onboarding_stages]&.include?('synced')
@@ -69,7 +72,12 @@ module SupportInterface
         providers = providers.where(provider_type: applied_filters[:provider_types])
       end
 
+      @filtered_count = providers.count
       providers
+    end
+
+    def search_results_filtered_out_count
+      @search_count - @filtered_count
     end
 
   private

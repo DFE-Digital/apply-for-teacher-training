@@ -10,6 +10,12 @@
       </tr>
     </thead>
 
+    <% if @filter.search_results_filtered_out_count.positive? %>
+      <p class="govuk-body">
+      <%= pluralize(@filter.search_results_filtered_out_count, 'search result') %> filtered out.
+      </p>
+    <% end %>
+
     <tbody class="govuk-table__body">
       <% @providers.each do |provider| %>
         <tr class="govuk-table__row">
