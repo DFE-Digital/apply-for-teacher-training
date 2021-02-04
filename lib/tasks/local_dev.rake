@@ -50,8 +50,16 @@ task sync_dev_providers_and_open_courses: :environment do
 
   provider_codes = %w[1JA 24J 24P D39 S72 1JB 4T7 1N1]
   provider_codes.each do |code|
+    provider_from_api = TeacherTrainingPublicAPI::Provider
+        .where(year: RecruitmentCycle.current_year)
+        .find(code).first
+
+    TeacherTrainingPublicAPI::SyncProvider.new(provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.previous_year).call
     FindSync::SyncProviderFromFind.call(run_in_background: false, provider_code: code, sync_courses: true, provider_recruitment_cycle_year: RecruitmentCycle.previous_year)
+
     Provider.find_by_code(code).courses.previous_cycle.exposed_in_find.update_all(open_on_apply: true)
+
+    TeacherTrainingPublicAPI::SyncProvider.new(provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.current_year).call
     FindSync::SyncProviderFromFind.call(run_in_background: false, provider_code: code, sync_courses: true, provider_recruitment_cycle_year: RecruitmentCycle.current_year)
   end
 
