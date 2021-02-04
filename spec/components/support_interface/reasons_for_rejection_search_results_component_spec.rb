@@ -56,6 +56,10 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
       expect(@rendered_result.text).not_to include('No Science GCSE')
       expect(@rendered_result.text).not_to include('No English GCSE')
     end
+
+    it 'highlights the search term' do
+      expect(@rendered_result.css('mark').text).to eq 'Quality of application'
+    end
   end
 
   context 'for a sub-reason' do
@@ -76,6 +80,10 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
       expect(@rendered_result.text).to include(
         'Showing application choices with rejection reason Qualifications - No degree',
       )
+    end
+
+    it 'highlights the search term' do
+      expect(@rendered_result.css('mark').text).to eq 'No degree'
     end
   end
 end

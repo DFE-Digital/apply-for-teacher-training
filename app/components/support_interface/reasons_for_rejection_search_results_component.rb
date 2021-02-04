@@ -45,7 +45,10 @@ module SupportInterface
 
     def sub_reason_detail_text(application_choice, top_level_reason, sub_reason, value)
       i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[top_level_reason].to_s
-      text = t("reasons_for_rejection.#{i18n_key}.#{value}")
+      text = mark_search_term(
+        I18n.t("reasons_for_rejection.#{i18n_key}.#{value}"), 
+        value.to_s == @search_value.to_s,
+      )
 
       detail_questions = ProviderInterface::ReasonsForRejectionWizard::INITIAL_QUESTIONS.dig(
         top_level_reason.to_sym, sub_reason.to_sym, value.to_sym
@@ -62,7 +65,7 @@ module SupportInterface
 
     def reason_text_for(top_level_reason)
       i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[top_level_reason].to_s
-      t("reasons_for_rejection.#{i18n_key}.title")
+      mark_search_term(t("reasons_for_rejection.#{i18n_key}.title"), top_level_reason.to_s == @search_attribute.to_s)
     end
 
     def top_level_reason?(reason, value)
@@ -70,6 +73,10 @@ module SupportInterface
     end
 
   private
+
+    def mark_search_term(text, mark)
+      mark ? "<mark>#{text}</mark>".html_safe : text
+    end
 
     def sub_reason_for(top_level_reason)
       ReasonsForRejectionCountQuery::TOP_LEVEL_REASONS_TO_SUB_REASONS[top_level_reason.to_sym].to_s
