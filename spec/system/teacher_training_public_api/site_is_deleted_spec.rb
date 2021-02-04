@@ -73,19 +73,11 @@ RSpec.describe 'Sync sites' do
         },
       ],
     )
-    stub_teacher_training_api_courses(
-      provider_code: 'ABC',
-      specified_attributes: [{
-        code: 'ABC1',
-      }],
-    )
-    stub_teacher_training_api_sites(
-      provider_code: 'ABC',
-      course_code: 'ABC1',
-      specified_attributes: [{
-        code: 'A',
-      }],
-    )
+
+    stub_course_with_site(provider_code: 'ABC',
+                          course_code: 'ABC1',
+                          site_code: 'A')
+
   end
 
   def then_the_course_option_for_that_site_is_deleted
