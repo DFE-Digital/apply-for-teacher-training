@@ -1,5 +1,7 @@
 # NOTE: This component is used by both provider and support UIs
 class PersonalStatementComponent < ViewComponent::Base
+  include ViewHelper
+
   validates :application_form, presence: true
 
   delegate :becoming_a_teacher,

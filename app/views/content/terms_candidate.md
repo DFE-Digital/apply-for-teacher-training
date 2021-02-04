@@ -23,7 +23,7 @@ If you apply for a course or accept an offer on both, we’ll get in touch with 
 
 You can apply for another course at this stage if you do not get an offer or if you choose not to accept your offers.
 
-[Get Into Teaching](https://beta-getintoteaching.education.gov.uk/helping-you-become-a-teacher) can guide you through the process of applying for more courses. Contact them for free on 0800 389 2500, or [chat to an adviser using the online chat service](https://beta-getintoteaching.education.gov.uk/#talk-to-us).
+[<%= t('service_name.get_into_teaching') %>](<%= t('get_into_teaching.url') %>) can guide you through the process of applying for more courses. Contact them for free on <%= t('get_into_teaching.tel') %>, or [chat to an adviser using the online chat service](<%= t('get_into_teaching.url_online_chat') %>).
 
 ### Making changes to your application
 

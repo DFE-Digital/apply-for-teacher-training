@@ -12,18 +12,18 @@
         <% end %>
         <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet – I will need to apply for permission to work or study in the UK' } do %>
           <p class="govuk-body">
-            Visit <%= govuk_link_to 'Get Into Teaching', 'https://beta-getintoteaching.education.gov.uk/international-candidates' %> for guidance on immigration.
+            Visit <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url_international_candidates') %> for guidance on immigration.
           </p>
           <p class="govuk-body">
-            You can also <%= govuk_link_to 'register to talk to an adviser', 'https://beta-getintoteaching.education.gov.uk/helping-you-become-a-teacher' %> if you need help.
+            You can also <%= govuk_link_to 'register to talk to an adviser', t('get_into_teaching.url_get_an_advisor') %> if you need help.
           </p>
         <% end %>
         <%= f.govuk_radio_button :right_to_work_or_study, 'decide_later', label: { text: 'I do not know' } do %>
           <p class="govuk-body">
-            Visit <%= govuk_link_to 'Get Into Teaching', 'https://beta-getintoteaching.education.gov.uk/international-candidates' %> for guidance on immigration.
+            Visit <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url_international_candidates') %> for guidance on immigration.
           </p>
           <p class="govuk-body">
-            You can also <%= govuk_link_to 'register to talk to an adviser', 'https://beta-getintoteaching.education.gov.uk/helping-you-become-a-teacher' %> if you need help.
+            You can also <%= govuk_link_to 'register to talk to an adviser', t('get_into_teaching.url_get_an_advisor') %> if you need help.
           </p>
         <% end %>
       <% end %>
