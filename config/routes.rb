@@ -757,6 +757,9 @@ Rails.application.routes.draw do
       get '/applicant-details' => 'application_forms/applicant_details#edit', as: :application_form_edit_applicant_details
       post '/applicant-details' => 'application_forms/applicant_details#update', as: :application_form_update_applicant_details
 
+      get '/gcses/:gcse_id' => 'application_forms/gcses#edit', as: :application_form_edit_gcse
+      post '/gcses/:gcse_id' => 'application_forms/gcses#update', as: :application_form_update_gcse
+
       get '/references/:reference_id/details' => 'application_forms/references#edit_reference_details', as: :application_form_edit_reference_details
       post '/references/:reference_id/details' => 'application_forms/references#update_reference_details', as: :application_form_update_reference_details
 

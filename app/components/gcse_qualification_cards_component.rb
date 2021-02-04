@@ -1,5 +1,8 @@
 # NOTE: This component is used by both provider and support UIs
 class GcseQualificationCardsComponent < ViewComponent::Base
+  include ApplicationHelper
+  include ViewHelper
+
   attr_reader :application_form
 
   def initialize(application_form)
@@ -88,5 +91,9 @@ class GcseQualificationCardsComponent < ViewComponent::Base
         "#{v} (#{k.humanize.titleize})"
       end
     end
+  end
+
+  def in_support_console?
+    current_namespace == 'support_interface'
   end
 end
