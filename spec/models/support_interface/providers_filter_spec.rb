@@ -22,6 +22,20 @@ RSpec.describe SupportInterface::ProvidersFilter do
       expect(filter.filter_records(providers)).to eq [provider_with_signed_dsa]
     end
 
+    it 'filters by provider type' do
+      lead_school = create(:provider, provider_type: 'lead_school')
+      scitt = create(:provider, provider_type: 'scitt')
+
+      filter = described_class.new(params: { provider_types: %w[lead_school] })
+      expect(filter.filter_records(Provider.all)).to eq [lead_school]
+
+      filter = described_class.new(params: { provider_types: %w[scitt] })
+      expect(filter.filter_records(Provider.all)).to eq [scitt]
+
+      filter = described_class.new(params: { remove: true })
+      expect(filter.filter_records(Provider.all)).to match_array [scitt, lead_school]
+    end
+
     it 'defaults to showing providers with synced courses and DSAs' do
       synced_and_signed = create(:provider, :with_signed_agreement, sync_courses: true)
       neither_synced_not_signed = create(:provider)
