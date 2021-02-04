@@ -7,7 +7,7 @@ RSpec.describe SupportInterface::ProvidersFilter do
       create(:provider, sync_courses: false)
 
       providers = Provider.all
-      filter = described_class.new(params: { onboarding_stages: %w[synced] })
+      filter = described_class.new(params: { onboarding_stages: %w[synced_only] })
 
       expect(filter.filter_records(providers)).to eq [provider_with_synced_courses]
     end
@@ -17,7 +17,7 @@ RSpec.describe SupportInterface::ProvidersFilter do
       create(:provider)
 
       providers = Provider.all
-      filter = described_class.new(params: { onboarding_stages: %w[dsa_signed] })
+      filter = described_class.new(params: { onboarding_stages: %w[dsa_signed_only] })
 
       expect(filter.filter_records(providers)).to eq [provider_with_signed_dsa]
     end
@@ -64,22 +64,16 @@ RSpec.describe SupportInterface::ProvidersFilter do
       ])
     end
 
-    it 'defaults to showing providers with synced courses and DSAs' do
-      synced_and_signed = create(:provider, :with_signed_agreement, sync_courses: true)
-      neither_synced_not_signed = create(:provider)
+    it 'defaults to showing all providers' do
+      create(:provider, :with_signed_agreement, sync_courses: true)
+      create(:provider)
       create(:provider, sync_courses: true) # only synced
       create(:provider, :with_signed_agreement) # only signed
 
       providers = Provider.all
       filter = described_class.new(params: {})
 
-      expect(filter.filter_records(providers)).to match_array([
-        synced_and_signed,
-      ])
-
-      filter = described_class.new(params: { remove: true })
-
-      expect(filter.filter_records(providers)).to eq [neither_synced_not_signed]
+      expect(filter.filter_records(providers).count).to eq(4)
     end
   end
 end

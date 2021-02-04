@@ -2,23 +2,19 @@ module SupportInterface
   class ProvidersFilter
     attr_reader :applied_filters
     ONBOARDING_STAGES = {
-      'synced' => 'Courses synced',
-      'dsa_signed' => 'DSA signed',
+      'synced_only' => 'With synced courses',
+      'dsa_signed_only' => 'With signed DSAs',
     }.freeze
 
     PROVIDER_TYPES = {
       'lead_school' => 'School Direct',
       'scitt' => 'SCITT',
       'university' => 'HEI',
-    }
+    }.freeze
 
     RATIFIED_BY = {
       'scitt' => 'SCITT',
       'university' => 'HEI',
-    }
-
-    DEFAULT_STATE = {
-      onboarding_stages: ONBOARDING_STAGES.keys,
     }.freeze
 
     def initialize(params:)
@@ -28,7 +24,7 @@ module SupportInterface
         :ratified_by,
         :onboarding_stages,
         :q,
-      ).presence || DEFAULT_STATE
+      )
     end
 
     def filters
@@ -68,16 +64,12 @@ module SupportInterface
         @search_count = 0
       end
 
-      if applied_filters[:onboarding_stages]&.include?('synced')
+      if applied_filters[:onboarding_stages]&.include?('synced_only')
         providers = providers.where(sync_courses: true)
-      else
-        providers = providers.where(sync_courses: false)
       end
 
-      if applied_filters[:onboarding_stages]&.include?('dsa_signed')
+      if applied_filters[:onboarding_stages]&.include?('dsa_signed_only')
         providers = providers.joins(:provider_agreements)
-      else
-        providers = providers.includes(:provider_agreements).where(provider_agreements: { provider_id: nil })
       end
 
       if applied_filters[:provider_types].present?
