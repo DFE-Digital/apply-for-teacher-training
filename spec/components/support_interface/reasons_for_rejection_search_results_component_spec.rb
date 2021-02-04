@@ -17,9 +17,11 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
 
   context 'for a top-level reason' do
     before do
-      application_choice = build(
+      @application_choice = build(
         :application_choice,
         structured_rejection_reasons: {
+          performance_at_interview_y_n: 'Yes',
+          performance_at_interview_what_to_improve: 'Avoid humming',
           qualifications_y_n: 'Yes',
           qualifications_which_qualifications: %w[no_maths_gcse no_degree],
           quality_of_application_y_n: 'Yes',
@@ -28,7 +30,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
         },
         application_form_id: 123,
       )
-      render_result([application_choice])
+      render_result([@application_choice])
     end
 
     it 'renders the correct title' do
@@ -36,13 +38,14 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
     end
 
     it 'renders a link to the application form' do
-      expect(@rendered_result.css("a[href='support/application_form/123']")).to be_present
+      expect(@rendered_result.css("a[href='/support/applications/123']")).to be_present
     end
 
     it 'renders top-level reasons' do
       expect(@rendered_result.text).to include('Qualifications')
       expect(@rendered_result.text).to include('Quality of application')
-      expect(@rendered_result.text).not_to include('Performance at interview')
+      expect(@rendered_result.text).to include('Performance at interview')
+      expect(@rendered_result.text).to include('Avoid humming')
       expect(@rendered_result.text).not_to include('Something you did')
     end
 
@@ -57,7 +60,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
 
   context 'for a sub-reason' do
     before do
-      application_choice = build(
+      @application_choice = build(
         :application_choice,
         structured_rejection_reasons: {
           qualifications_y_n: 'Yes',
@@ -66,7 +69,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
         },
         application_form_id: 123,
       )
-      render_result([application_choice], :qualifications_which_qualifications, :no_degree)
+      render_result([@application_choice], :qualifications_which_qualifications, :no_degree)
     end
 
     it 'renders the correct title' do
