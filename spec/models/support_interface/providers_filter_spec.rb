@@ -36,6 +36,34 @@ RSpec.describe SupportInterface::ProvidersFilter do
       expect(filter.filter_records(Provider.all)).to match_array [scitt, lead_school]
     end
 
+    it 'filters by ratifying relationship' do
+      ratified_by_scitt = create(:provider)
+      scitt = create(:provider, provider_type: 'scitt')
+      create(:provider_relationship_permissions,
+             training_provider: ratified_by_scitt,
+             ratifying_provider: scitt)
+
+      ratified_by_hei = create(:provider)
+      hei = create(:provider, provider_type: 'university')
+      create(:provider_relationship_permissions,
+             training_provider: ratified_by_hei,
+             ratifying_provider: hei)
+
+      filter = described_class.new(params: { ratified_by: %w[scitt] })
+      expect(filter.filter_records(Provider.all)).to eq [ratified_by_scitt]
+
+      filter = described_class.new(params: { ratified_by: %w[university] })
+      expect(filter.filter_records(Provider.all)).to eq [ratified_by_hei]
+
+      filter = described_class.new(params: { remove: true })
+      expect(filter.filter_records(Provider.all)).to match_array([
+        ratified_by_hei,
+        ratified_by_scitt,
+        hei,
+        scitt,
+      ])
+    end
+
     it 'defaults to showing providers with synced courses and DSAs' do
       synced_and_signed = create(:provider, :with_signed_agreement, sync_courses: true)
       neither_synced_not_signed = create(:provider)

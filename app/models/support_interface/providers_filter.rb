@@ -12,6 +12,11 @@ module SupportInterface
       'university' => 'HEI',
     }
 
+    RATIFIED_BY = {
+      'scitt' => 'SCITT',
+      'university' => 'HEI',
+    }
+
     DEFAULT_STATE = {
       onboarding_stages: ONBOARDING_STAGES.keys,
     }.freeze
@@ -20,6 +25,7 @@ module SupportInterface
       @applied_filters = params.slice(
         :remove,
         :provider_types,
+        :ratified_by,
         :onboarding_stages,
         :q,
       ).presence || DEFAULT_STATE
@@ -44,6 +50,12 @@ module SupportInterface
           heading: 'Provider type',
           options: hash_to_checkbox_options(:provider_types, PROVIDER_TYPES),
           name: 'provider_types',
+        },
+        {
+          type: :checkboxes,
+          heading: 'Ratified by (only applies to providers with synced courses)',
+          options: hash_to_checkbox_options(:ratified_by, RATIFIED_BY),
+          name: 'ratified_by',
         },
       ]
     end
@@ -70,6 +82,13 @@ module SupportInterface
 
       if applied_filters[:provider_types].present?
         providers = providers.where(provider_type: applied_filters[:provider_types])
+      end
+
+      if applied_filters[:ratified_by].present?
+        ratifiers = Provider.where(provider_type: applied_filters[:ratified_by])
+        providers = providers.joins(:training_provider_permissions)
+          .where(provider_relationship_permissions: { ratifying_provider_id: ratifiers })
+          .distinct
       end
 
       @filtered_count = providers.count
