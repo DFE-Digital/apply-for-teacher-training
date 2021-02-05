@@ -55,37 +55,37 @@ module CandidateInterface
           constituent_grades = qualification.constituent_grades
           english_gcses = []
 
-          if grades.keys.include? 'english_single_award'
+          if constituent_grades.keys.include? 'english_single_award'
             english_gcses << 'english_single_award'
             params[:grade_english_single] = constituent_grades['english_single_award']['grade']
             params[:english_single_award] = true
           end
 
-          if grades.keys.include? 'english_double_award'
+          if constituent_grades.keys.include? 'english_double_award'
             english_gcses << 'english_double_award'
             params[:grade_english_double] = constituent_grades['english_double_award']['grade']
             params[:english_double_award] = true
           end
 
-          if grades.keys.include? 'english_language'
+          if constituent_grades.keys.include? 'english_language'
             english_gcses << 'english_language'
             params[:grade_english_language] = constituent_grades['english_language']['grade']
             params[:english_language] = true
           end
 
-          if grades.keys.include? 'english_literature'
+          if constituent_grades.keys.include? 'english_literature'
             english_gcses << 'english_literature'
             params[:grade_english_literature] = constituent_grades['english_literature']['grade']
             params[:english_literature] = true
           end
 
-          if grades.keys.include? 'english_studies_single_award'
+          if constituent_grades.keys.include? 'english_studies_single_award'
             english_gcses << 'english_studies_single_award'
             params[:grade_english_studies_single] = constituent_grades['english_studies_single_award']['grade']
             params[:english_studies_single_award] = true
           end
 
-          if grades.keys.include? 'english_studies_double_award'
+          if constituent_grades.keys.include? 'english_studies_double_award'
             english_gcses << 'english_studies_double_award'
             params[:grade_english_studies_double] = constituent_grades['english_studies_double_award']['grade']
             params[:english_studies_double_award] = true
