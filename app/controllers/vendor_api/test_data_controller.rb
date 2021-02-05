@@ -17,6 +17,7 @@ module VendorAPI
         provider: current_provider,
         courses_per_application: courses_per_application_param,
         count: count_param,
+        for_ratified_courses: for_ratified_courses_param,
       )
 
       render json: { data: { ids: application_choices.map { |ac| ac.id.to_s } } }
@@ -52,6 +53,10 @@ module VendorAPI
 
     def courses_per_application_param
       [(params[:courses_per_application] || DEFAULT_COURSES_COUNT).to_i, MAX_COURSES_COUNT].min
+    end
+
+    def for_ratified_courses_param
+      params[:for_ratified_courses].present?
     end
   end
 end
