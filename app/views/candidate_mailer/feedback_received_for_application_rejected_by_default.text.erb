@@ -8,6 +8,4 @@ This was because <%= @course_option.course.provider.name %> did not respond in t
 
 ^<%= @application_choice.rejection_reason&.gsub(/\n/,"\n^") %>
 
-# Get help or report a problem
-
-Contact us at becomingateacher@digital.education.gov.uk
+<%= render 'get_support' %>
