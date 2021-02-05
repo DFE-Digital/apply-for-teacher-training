@@ -25,6 +25,11 @@ paths:
           default: 1
           minimum: 1
           maximum: 3
+      - name: for_ratified_courses
+        description: Generate applications for courses your organisation awards Qualified Teacher Status (QTS) for but does not run. For example, your organisation may be a Higher Education Institution ratifying School Direct courses. Please specify 'true', for example for_ratified_courses=true
+        in: query
+        schema:
+          type: string
       responses:
         '201':
           "$ref": "#/components/responses/TestDataGenerated"

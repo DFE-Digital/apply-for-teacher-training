@@ -56,7 +56,7 @@ module VendorAPI
     end
 
     def for_ratified_courses_param
-      params[:for_ratified_courses].present?
+      params[:for_ratified_courses] == 'true'
     end
   end
 end
