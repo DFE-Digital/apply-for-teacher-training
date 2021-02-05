@@ -1,5 +1,5 @@
 module CandidateInterface
-  class RestructuredWorkHistoryBreakPlaceholderComponent < ViewComponent::Base
+  class RestructuredWorkHistoryGapComponent < ViewComponent::Base
     include ViewHelper
 
     def initialize(break_period:)

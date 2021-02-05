@@ -1,5 +1,5 @@
 module CandidateInterface
-  class RestructuredWorkHistoryWorkExperienceComponent < ViewComponent::Base
+  class RestructuredWorkHistoryJobComponent < ViewComponent::Base
     include ViewHelper
 
     def initialize(work_experience:, editable: true)
