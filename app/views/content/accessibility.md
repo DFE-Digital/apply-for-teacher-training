@@ -10,7 +10,7 @@ We have taken steps to make this service accessible:
 
 ## What to do if you cannot access parts of this website
 
-If you need information on this website in a different format, such as accessible PDF, large print, easy read, audio recording or braille, please email us on <becomingateacher@digital.education.gov.uk>.
+If you need information on this website in a different format, such as accessible PDF, large print, easy read, audio recording or braille, please email us on <%= bat_contact_mail_to %>.
 
 We’ll consider your request and respond to you within 5 working days.
 
@@ -18,7 +18,7 @@ We’ll consider your request and respond to you within 5 working days.
 
 ## Reporting accessibility problems with this website
 
-If you have any problems accessing the service or want to give us feedback, please email us on <becomingateacher@digital.education.gov.uk>.
+If you have any problems accessing the service or want to give us feedback, please email us on <%= bat_contact_mail_to %>.
 
 ## Enforcement procedure
 
