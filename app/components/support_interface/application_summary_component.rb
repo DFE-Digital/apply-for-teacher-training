@@ -17,6 +17,7 @@ module SupportInterface
       [
         recruitment_cycle_year,
         support_reference_row,
+        candidate_id_row,
         submitted_row,
         last_updated_row,
         state_row,
@@ -69,6 +70,13 @@ module SupportInterface
           value: support_reference,
         }
       end
+    end
+
+    def candidate_id_row
+      {
+        key: 'Candidate ID',
+        value: application_form.candidate.id,
+      }
     end
 
     def state_row
