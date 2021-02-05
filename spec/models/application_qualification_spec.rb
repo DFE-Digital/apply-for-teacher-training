@@ -215,4 +215,51 @@ RSpec.describe ApplicationQualification, type: :model do
       expect(gcse.composite_equivalency_details).to be_nil
     end
   end
+
+  describe '#after_save' do
+    let(:constituent_grades_without_public_ids) { { english_language: { grade: 'A' }, english_literature: { grade: 'B' } } }
+    let(:constituent_grades_with_public_ids) { { english_language: { grade: 'C', public_id: 10 }, english_literature: { grade: 'A', public_id: 11 } } }
+
+    describe 'sets the public_id for' do
+      it 'a qualification with no constituent_grades' do
+        qualification = create(:application_qualification, grade: 'A')
+
+        expect(qualification.constituent_grades).to be_nil
+        expect(qualification.public_id).not_to be_nil
+      end
+
+      it 'a qualification with constituent_grades' do
+        qualification = create(:application_qualification, constituent_grades: constituent_grades_without_public_ids)
+
+        expect(qualification.constituent_grades['english_language']['public_id']).not_to be_nil
+        expect(qualification.constituent_grades['english_literature']['public_id']).not_to be_nil
+      end
+    end
+
+    it 'does not overwrite a public_id if it has already been set at the top level' do
+      qualification = create(:application_qualification, public_id: 123)
+
+      qualification.save
+
+      expect(qualification.public_id).to eq(123)
+    end
+
+    it 'does not overwrite public_ids if they have already been set in constituent_grades' do
+      qualification = create(:application_qualification, constituent_grades: constituent_grades_with_public_ids)
+
+      qualification.save
+
+      expect(qualification.constituent_grades['english_language']['public_id']).to eq(10)
+      expect(qualification.constituent_grades['english_literature']['public_id']).to eq(11)
+    end
+
+    it 'fills in missing public_ids in constituent_grades' do
+      constituent_grades_with_partially_complete_public_ids = constituent_grades_with_public_ids.merge({ "Cockney Rhyming Slang": { grade: 'A*' } })
+      qualification = create(:application_qualification, constituent_grades: constituent_grades_with_partially_complete_public_ids)
+
+      expect(qualification.constituent_grades['english_language']['public_id']).to eq(10)
+      expect(qualification.constituent_grades['english_literature']['public_id']).to eq(11)
+      expect(qualification.constituent_grades['Cockney Rhyming Slang']['public_id']).not_to be_nil
+    end
+  end
 end
