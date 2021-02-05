@@ -23,7 +23,7 @@ module SupportInterface
           'Phone number' => application_form.phone_number,
           'Link to first application' => "https://www.apply-for-teacher-training.service.gov.uk/support/applications/#{application_form.id}",
           'First application submitted application on' => application_form.submitted_at&.to_date&.to_s,
-          'First application choice status' => application_form.application_choices[0].status,
+          'First application choice status' => application_form.application_choices[0]&.status,
           'Second application choice status' => application_form.application_choices[1]&.status,
           'Third application choice status' => application_form.application_choices[2]&.status,
           'Applied again' => apply_again_application.present? ? 'Yes' : 'No',
