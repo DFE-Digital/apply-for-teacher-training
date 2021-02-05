@@ -3,13 +3,14 @@ module SupportInterface
     def data_for_export
       application_forms = ApplicationForm.current_cycle.joins(:application_choices).includes(:application_choices, :candidate, :application_qualifications)
 
-      rejected_applicants = application_forms.find_each.select(&:ended_without_success?)
+      rejected_applications = application_forms.find_each.select(&:ended_without_success?)
 
-      rejected_candidates = rejected_applicants.map(&:candidate).uniq
+      rejected_candidates = rejected_applications.map(&:candidate).uniq
 
       output = rejected_candidates.map do |candidate|
-        application_form = candidate.application_forms.current_cycle.first
-        apply_again_application = candidate.application_forms.current_cycle.second
+        application_forms = candidate.application_forms.current_cycle.sort_by(&:id)
+        application_form = application_forms.first
+        apply_again_application = application_forms.second
         qualifications = application_form.application_qualifications
         a_levels = a_levels(qualifications).sort_by(&:subject)
         degrees = degrees(qualifications).sort_by(&:subject)
@@ -21,7 +22,7 @@ module SupportInterface
           'Email address' => application_form.candidate.email_address,
           'Phone number' => application_form.phone_number,
           'Link to first application' => "https://www.apply-for-teacher-training.service.gov.uk/support/applications/#{application_form.id}",
-          'First application sumbitted application on' => application_form&.submitted_at&.to_date&.to_s,
+          'First application submitted application on' => application_form.submitted_at&.to_date&.to_s,
           'First application choice status' => application_form.application_choices[0].status,
           'Second application choice status' => application_form.application_choices[1]&.status,
           'Third application choice status' => application_form.application_choices[2]&.status,
