@@ -18,11 +18,11 @@ We’ll continue to make improvements to the service as we roll out. We’ll kee
 
 [Troubleshooting](#troubleshooting)
 
-[Publicising Apply for teacher training](#publicising-apply)
+[Publicising Apply for teacher training](#publicising-apply-for-teacher-training)
 
 [Help, support and feedback](#help-support-and-feedback)
 
-## <a name="what-you-can-expect-from-us"></a>What you can expect from us
+## What you can expect from us
 
 ### Support for training providers
 
@@ -44,7 +44,7 @@ Apply and Manage are free services for both candidates and providers.
 
 For now, we do not provide fraud and plagiarism checks on candidate applications.
 
-## <a name="onboarding"></a>Onboarding
+## Onboarding
 
 Onboarding is quick and easy, usually taking place over a single working day.
 
@@ -60,7 +60,7 @@ Onboarding is quick and easy, usually taking place over a single working day.
 
 We’re available to give you full support at every stage.
 
-## <a name="using-the-service"></a>Using the service
+## Using the service
 
 [Manage teacher training applications](<%= provider_interface_path %>) allows you to process applications from submission through to conditions met.
 
@@ -181,7 +181,7 @@ You can download and print applications to distribute to your team. Compliance w
 
 For now, interview scheduling is not part of the Manage service.
 
-## <a name="deadlines-and-terms-of-use"></a>Deadlines and terms of use
+## Deadlines and terms of use
 
 For clarity and fairness, while [Apply for teacher training](<%= candidate_interface_path %>) and UCAS Teacher Training run side by side (until October 2021), we’ve kept the rules governing applications closely aligned.
 
@@ -228,7 +228,7 @@ As currently, in this phase candidates can make an unlimited number of single, s
 
 Candidates will also be able to use UCAS’s Apply 2 service for this part of their journey.
 
-## <a name="troubleshooting"></a>Troubleshooting
+## Troubleshooting
 
 ### Informing candidates your courses are on Apply
 
@@ -276,7 +276,7 @@ The Department for Education has not changed delivery timetables for the roll-ou
 For questions related to COVID-19, please email our dedicated helpline on <dfe.coronavirushelpline@education.gov.uk> or call us at <a href="tel:0800 046 8687">0800 046 8687</a>.
 Lines are open 8am to 6pm (Monday to Friday) 10am to 4pm (Saturday and Sunday).
 
-## <a name="publicising-apply"></a>Publicising Apply for teacher training
+## Publicising Apply for teacher training
 
 Some providers find that becoming an early adopter of a streamlined, modern GOV.UK service is a useful marketing aid.
 
@@ -284,7 +284,7 @@ You can direct candidates to the new service by linking from your website to you
 
 Our [marketing tool kit](https://docs.google.com/presentation/d/1dCZ5HF_mpJMAOpmr305VqlUo_wqW2jWmzOWi9vxStI0/edit#slide=id.g73a2eda7b8_0_40) may be helpful for your website and social media feeds.
 
-## <a name="help-support-and-feedback"></a>Help, support and feedback
+## Help, support and feedback
 
 ### See a demo
 
