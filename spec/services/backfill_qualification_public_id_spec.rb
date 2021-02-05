@@ -20,14 +20,15 @@ RSpec.describe BackfillQualificationPublicId do
 
         expect {
           described_class.new(qualification_with_no_public_id).call
-        }.not_to change { qualification_with_no_public_id.public_id }
+        }.not_to(change { qualification_with_no_public_id.public_id })
       end
 
       it 'has no effect on qualifications with a public_id' do
-        qualification = create(:application_qualification)
+        qualification = create(:application_qualification, public_id: 123)
+
         expect {
           described_class.new(qualification).call
-        }.not_to change { qualification.public_id }
+        }.not_to(change { qualification.public_id })
       end
     end
 
@@ -40,7 +41,7 @@ RSpec.describe BackfillQualificationPublicId do
             english_language: { grade: 'A' },
             english_literature: { grade: 'B' },
           },
-          )
+        )
         qualification
       end
 
@@ -57,23 +58,20 @@ RSpec.describe BackfillQualificationPublicId do
 
         expect {
           described_class.new(qualification_without_public_id).call
-        }.not_to change { qualification_without_public_id.constituent_grades['english_language']['public_id'] }
+        }.not_to(change { qualification_without_public_id.constituent_grades['english_language']['public_id'] })
 
         expect {
           described_class.new(qualification_without_public_id).call
-        }.not_to change { qualification_without_public_id.constituent_grades['english_literature']['public_id'] }
+        }.not_to(change { qualification_without_public_id.constituent_grades['english_literature']['public_id'] })
       end
 
       it 'has no effect on qualifications with the public_ids set' do
-        qualification = create(:application_qualification, constituent_grades: { english_language: { grade: 'A' }, english_literature: { grade: 'B' }, })
-        expect {
-          described_class.new(qualification).call
-        }.not_to change {
-          [
-            qualification.constituent_grades['english_language']['public_id'],
-            qualification.constituent_grades['english_literature']['public_id'],
-          ]
-        }
+        qualification = create(:application_qualification, constituent_grades: { english_language: { grade: 'A', public_id: 88 }, english_literature: { grade: 'B', public_id: 89 } })
+
+        described_class.new(qualification).call
+
+        expect(qualification.constituent_grades['english_language']['public_id']).to eq(88)
+        expect(qualification.constituent_grades['english_literature']['public_id']).to eq(89)
       end
     end
   end
