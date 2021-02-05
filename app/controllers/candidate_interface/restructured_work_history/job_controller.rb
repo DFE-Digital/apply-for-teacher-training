@@ -33,14 +33,11 @@ module CandidateInterface
     end
 
     def confirm_destroy
-      @job = current_application.application_work_experiences.find(params[:id])
+      @job = job
     end
 
     def destroy
-      current_application
-        .application_work_experiences
-        .find(job_params[:id])
-        .destroy!
+      job.destroy!
 
       current_application.update!(work_history_completed: false)
 

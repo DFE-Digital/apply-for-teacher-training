@@ -27,6 +27,15 @@ module CandidateInterface
         )
       end
 
+      def self.build_from_date_params(dates)
+        new(
+          start_date_month: dates[:start_date].to_date.month,
+          start_date_year: dates[:start_date].to_date.year,
+          end_date_month: dates[:end_date].to_date.month,
+          end_date_year: dates[:end_date].to_date.year,
+        )
+      end
+
       def save(application_form)
         return false unless valid?
 
