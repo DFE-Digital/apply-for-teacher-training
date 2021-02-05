@@ -28,9 +28,7 @@ module SupportInterface
     end
 
     def reasons_for_rejection_application_choices
-      @application_choices = ReasonsForRejectionApplicationsQuery.new(
-        reasons_for_rejection_filter_params,
-      ).call
+      @application_choices = ReasonsForRejectionApplicationsQuery.new(params).call
     end
 
     def ucas_matches_dashboard; end
@@ -39,10 +37,5 @@ module SupportInterface
       @monitor = SupportInterface::ApplicationMonitor.new
     end
 
-  private
-
-    def reasons_for_rejection_filter_params
-      params.require(:structured_rejection_reasons)
-    end
   end
 end

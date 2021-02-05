@@ -6,7 +6,12 @@ class ReasonsForRejectionApplicationsQuery
   end
 
   def call
-    application_choices = ApplicationChoice.where.not(structured_rejection_reasons: nil)
+    application_choices = ApplicationChoice
+      .where
+      .not(structured_rejection_reasons: nil)
+      .order(created_at: :desc)
+      .page(filters[:page])
+      .per(30)
 
     apply_filters(application_choices)
   end
@@ -14,7 +19,7 @@ class ReasonsForRejectionApplicationsQuery
 private
 
   def apply_filters(application_choices)
-    filters.each do |key, value|
+    filters[:structured_rejection_reasons].each do |key, value|
       if key =~ /_y_n$/
         application_choices = application_choices.where(
           "application_choices.structured_rejection_reasons->>'#{key}' = '#{value}'",

@@ -26,7 +26,7 @@ module SupportInterface
     end
 
     def sub_reason_key
-      TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]
+      ReasonsForRejectionCountQuery::TOP_LEVEL_REASONS_TO_SUB_REASONS[reason]
     end
 
     def sub_reason_label(sub_reason)
