@@ -9,33 +9,16 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryReviewComponent do
 
   let(:february2019) { Time.zone.local(2019, 2, 1) }
   let(:april2019) { Time.zone.local(2019, 4, 1) }
-  let(:data) do
-    {
-      role: 'Teaching Assistant',
-      organisation: Faker::Educator.secondary_school,
-      details: Faker::Lorem.paragraph_by_chars(number: 300),
-      commitment: %w[full_time part_time].sample,
-      relevant_skills: [true, true, true, false].sample,
-    }
-  end
 
   let(:application_form_with_no_breaks) do
-    create(:application_form) do |form|
-      data[:organisation] = 'Vararu School'
-      data[:start_date] = Time.zone.local(2019, 1, 1)
-      data[:end_date] = Time.zone.local(2019, 6, 1)
-      form.application_work_experiences.create(data)
-
-      data[:organisation] = 'Theo School'
-      data[:start_date] = Time.zone.local(2019, 6, 1)
-      data[:end_date] = Time.zone.local(2019, 8, 1)
-      form.application_work_experiences.create(data)
-
-      data[:organisation] = 'Vararu School'
-      data[:start_date] = Time.zone.local(2019, 8, 1)
-      data[:end_date] = Time.zone.local(2019, 10, 1)
-      form.application_work_experiences.create(data)
-    end
+    build_stubbed(
+      :application_form,
+      application_work_experiences: [
+        build_stubbed(:application_work_experience, role: 'Teaching Assistant', organisation: 'Vararu Schools', start_date: Time.zone.local(2019, 1, 1), end_date: Time.zone.local(2019, 6, 1)),
+        build_stubbed(:application_work_experience, role: 'Teaching Assistant', organisation: 'Theo Schools', start_date: Time.zone.local(2019, 6, 1), end_date: Time.zone.local(2019, 8, 1)),
+        build_stubbed(:application_work_experience, role: 'Teaching Assistant', organisation: 'Vararu Schools', start_date: Time.zone.local(2019, 8, 1), end_date: Time.zone.local(2019, 10, 1)),
+      ],
+    )
   end
 
   let(:application_form_with_break) do
@@ -122,8 +105,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryReviewComponent do
       it 'renders component without an edit link' do
         result = render_inline(described_class.new(application_form: application_form_with_no_breaks, editable: false))
 
-        expect(result.text).not_to include('Change entry for experience between Aug 2019 and Oct 2019')
-        expect(result.text).not_to include('Delete entry for experience between Aug 2019 and Oct 2019')
+        expect(result.text).not_to include('Change job Teaching Assistant for Vararu School')
+        expect(result.text).not_to include('Delete job Teaching Assistant for Vararu School')
       end
     end
 

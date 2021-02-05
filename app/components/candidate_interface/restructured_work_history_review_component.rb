@@ -45,20 +45,6 @@ module CandidateInterface
       application_form.full_time_education? ? t('application_form.work_history.full_time_education.label') : application_form.work_history_explanation
     end
 
-    def generate_action(work:, attribute: '')
-      if any_jobs_with_same_role_and_organisation?(work)
-        "#{attribute.presence} for #{work.role}, #{work.organisation}, #{formatted_start_date(work)} to #{formatted_end_date(work)}"
-      else
-        "#{attribute.presence} for #{work.role}, #{work.organisation}"
-      end
-    end
-
-    def working_pattern(work)
-      return work.commitment.humanize if work.working_pattern.blank?
-
-      "#{work.commitment.humanize}\n #{work.working_pattern}"
-    end
-
     def breaks_in_work_history?
       CheckBreaksInWorkHistory.call(@application_form)
     end

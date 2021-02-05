@@ -23,13 +23,13 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryWorkBreakComponent do
   it 'renders the component with a delete link' do
     result = render_inline(CandidateInterface::RestructuredWorkHistoryWorkBreakComponent.new(work_break: work_break))
 
-    expect(result.css('a').first.text).to include('Change')
+    expect(result.css('a').first.text).to include('Change entry for break between Feb 2019 and Apr 2019')
   end
 
   it 'renders the component with change links' do
     result = render_inline(CandidateInterface::RestructuredWorkHistoryWorkBreakComponent.new(work_break: work_break))
 
-    expect(result.css('a').last.text).to include('Delete')
+    expect(result.css('a').last.text).to include('Delete entry for break between Feb 2019 and Apr 2019')
   end
 
   context 'when not editable' do
