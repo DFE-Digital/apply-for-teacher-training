@@ -36,6 +36,5 @@ module SupportInterface
     def unavailable_choices
       @monitor = SupportInterface::ApplicationMonitor.new
     end
-
   end
 end

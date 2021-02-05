@@ -291,13 +291,13 @@ private
 
     within "#application-choice-section-#{@application_choice1.id}" do
       expect(page).to have_content('Safeguarding issues')
-      expect(page).to have_content('Qualifications No Maths GCSE grade 4 (C) or above, or valid equivalentNo degree')
-      expect(page).to have_content('Something you did Didn’t reply to our interview offer')
+      expect(page).to have_content("Qualifications\nNo Maths GCSE grade 4 (C) or above, or valid equivalentNo degree")
+      expect(page).to have_content("Something you did Didn’t reply to our interview offer")
     end
     within "#application-choice-section-#{@application_choice2.id}" do
       expect(page).not_to have_content('Safeguarding issues')
-      expect(page).to have_content('Qualifications No English GCSE grade 4 (C) or above, or valid equivalentOther')
-      expect(page).to have_content('Something you did Didn’t attend interview')
+      expect(page).to have_content("Qualifications\nNo English GCSE grade 4 (C) or above, or valid equivalentOther")
+      expect(page).to have_content("Something you did Didn’t attend interview")
     end
     within "#application-choice-section-#{@application_choice3.id}" do
       expect(page).not_to have_content('Safeguarding issues')
@@ -330,8 +330,8 @@ private
 
     within "#application-choice-section-#{@application_choice2.id}" do
       expect(page).not_to have_content('Safeguarding issues')
-      expect(page).to have_content('Qualifications No English GCSE grade 4 (C) or above, or valid equivalentOther')
-      expect(page).to have_content('Something you did Didn’t attend interview')
+      expect(page).to have_content("Qualifications\nNo English GCSE grade 4 (C) or above, or valid equivalentOther")
+      expect(page).to have_content("Something you did Didn’t attend interview")
     end
   end
 end

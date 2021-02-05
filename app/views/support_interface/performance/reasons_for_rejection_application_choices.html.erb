@@ -22,3 +22,5 @@
   search_value: params[:structured_rejection_reasons].values.first,
   application_choices: @application_choices,
 ) %>
+
+<%= render(PaginatorComponent.new(scope: @application_choices)) %>

@@ -24,9 +24,11 @@ module SupportInterface
         i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[@search_attribute].to_s
         t("reasons_for_rejection.#{i18n_key}.title")
       else
+        top_level_reason = ReasonsForRejectionCountQuery::SUBREASONS_TO_TOP_LEVEL_REASONS[@search_attribute.to_sym]
+        i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[top_level_reason].to_s
         [
-          t("reasons_for_rejection.#{@search_attribute}.title"),
-          t("reasons_for_rejection.#{@search_attribute}.#{@search_value}"),
+          t("reasons_for_rejection.#{i18n_key}.title"),
+          t("reasons_for_rejection.#{i18n_key}.#{@search_value}"),
         ].join(' - ')
       end
     end
@@ -39,14 +41,14 @@ module SupportInterface
             &.map { |value| sub_reason_detail_text(application_choice, top_level_reason, sub_reason, value) },
         )
       else
-        detail_reason = detail_reason_for(application_choice, top_level_reason)
+        detail_reason_for(application_choice, top_level_reason)
       end
     end
 
     def sub_reason_detail_text(application_choice, top_level_reason, sub_reason, value)
       i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[top_level_reason].to_s
       text = mark_search_term(
-        I18n.t("reasons_for_rejection.#{i18n_key}.#{value}"), 
+        I18n.t("reasons_for_rejection.#{i18n_key}.#{value}"),
         value.to_s == @search_value.to_s,
       )
 
@@ -62,7 +64,7 @@ module SupportInterface
           application_choice.structured_rejection_reasons[detail_questions.to_s]
         end
 
-      [text, additional_text].reject(&:blank?).join(' - ')
+      [text, additional_text].reject(&:blank?).join(' - ').html_safe
     end
 
     def reason_text_for(top_level_reason)
@@ -80,10 +82,9 @@ module SupportInterface
       return nil if values.blank?
       return values[0] if values.size == 1
 
-      content_tag(
-        'ul',
-        values.map { |value| content_tag('li', value) }.join.html_safe,
-        class: 'govuk-list govuk-list--bullet govuk-!-margin-left-0 govuk-!-margin-right-0'
+      tag.ul(
+        values.map { |value| tag.li(value) }.join.html_safe,
+        class: 'govuk-list govuk-list--bullet govuk-!-margin-left-0 govuk-!-margin-right-0',
       ).html_safe
     end
 
