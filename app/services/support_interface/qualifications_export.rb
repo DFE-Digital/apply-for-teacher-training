@@ -88,29 +88,29 @@ module SupportInterface
       return unstructured_grade if unstructured_grade.present? && not_single_or_double_award?(unstructured_grade)
 
       science_triple_gcse = qualifications.where(level: :gcse, subject: ApplicationQualification::SCIENCE_TRIPLE_AWARD).first
-      return if science_triple_gcse.try(:structured_grades).blank?
+      return if science_triple_gcse.try(:constituent_grades).blank?
 
-      science_triple_gcse[:structured_grades].values.join
+      science_triple_gcse[:constituent_grades].values.map { |hash| hash['grade'] }.join
     end
 
     def english_unstructured_gcse_grade(qualifications)
       english_unstructured_gcse = qualifications.where(level: :gcse, subject: :english).first
-      return nil if english_unstructured_gcse.try(:structured_grades).present?
+      return nil if english_unstructured_gcse.try(:constituent_grades).present?
 
       english_unstructured_gcse.try(:grade)
     end
 
     def english_structured_gcse_grades(qualifications, subject)
-      structured_grades = qualifications.where(level: :gcse, subject: :english).first.structured_grades
-      JSON.parse(structured_grades).dig(subject)
+      constituent_grades = qualifications.where(level: :gcse, subject: :english).first.constituent_grades
+      constituent_grades.dig(subject, 'grade')
     rescue StandardError
       nil
     end
 
     def english_other_gcse_grade(qualifications)
-      structured_grades = qualifications.where(level: :gcse, subject: :english).first.structured_grades
-      JSON.parse(structured_grades).each do |subject, grade|
-        return grade if ENGLISH_GCSE_SUBJECTS.exclude?(subject)
+      constituent_grades = qualifications.where(level: :gcse, subject: :english).first.constituent_grades
+      constituent_grades.each do |subject, hash|
+        return hash['grade'] if ENGLISH_GCSE_SUBJECTS.exclude?(subject)
       end
     rescue StandardError
       nil

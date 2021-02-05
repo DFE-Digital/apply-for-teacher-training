@@ -78,37 +78,38 @@ module CandidateInterface
     def present_grades
       case application_qualification.subject
       when ApplicationQualification::SCIENCE_TRIPLE_AWARD
-        grades = application_qualification.structured_grades
+        grades = application_qualification.constituent_grades
         [
-          "#{grades['biology']} (Biology)",
-          "#{grades['chemistry']} (Chemistry)",
-          "#{grades['physics']} (Physics)",
+          "#{grades['biology']['grade']} (Biology)",
+          "#{grades['chemistry']['grade']} (Chemistry)",
+          "#{grades['physics']['grade']} (Physics)",
         ]
       when ApplicationQualification::SCIENCE_DOUBLE_AWARD
         "#{application_qualification.grade} (Double award)"
       when ApplicationQualification::SCIENCE_SINGLE_AWARD
         "#{application_qualification.grade} (Single award)"
-      when ->(_n) { application_qualification.structured_grades }
-        present_structured_grades
+      when ->(_n) { application_qualification.constituent_grades }
+        present_constituent_grades
       else
         application_qualification.grade
       end
     end
 
-    def present_structured_grades
-      grades = JSON.parse(application_qualification.structured_grades)
+    def present_constituent_grades
+      grades = application_qualification.constituent_grades
       grades.map do |k, v,|
+        grade = v['grade']
         case k
         when 'english_single_award'
-          "#{v} (English Single award)"
+          "#{grade} (English Single award)"
         when 'english_double_award'
-          "#{v} (English Double award)"
+          "#{grade} (English Double award)"
         when 'english_studies_single_award'
-          "#{v} (English Studies Single award)"
+          "#{grade} (English Studies Single award)"
         when 'english_studies_double_award'
-          "#{v} (English Studies Double award)"
+          "#{grade} (English Studies Double award)"
         else
-          "#{v} (#{k.humanize.titleize})"
+          "#{grade} (#{k.humanize.titleize})"
         end
       end
     end

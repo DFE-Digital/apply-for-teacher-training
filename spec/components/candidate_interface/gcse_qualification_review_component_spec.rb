@@ -91,7 +91,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         qualification_type: 'gcse',
         level: 'gcse',
         grade: nil,
-        structured_grades: { physics: 'A', chemistry: 'B', biology: 'C' },
+        constituent_grades: { physics: { grade: 'A' }, chemistry: { grade: 'B' }, biology: { grade: 'C' } },
         subject: ApplicationQualification::SCIENCE_TRIPLE_AWARD,
       )
 
@@ -117,7 +117,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         qualification_type: 'gcse',
         level: 'gcse',
         grade: nil,
-        structured_grades: '{"english":"E","english_literature":"D","Cockney Rhyming Slang":"A*"}',
+        constituent_grades: { english: { grade: 'E' }, english_literature: { grade: 'D' }, 'Cockney Rhyming Slang': { grade: 'A*' } },
         subject: 'english',
       )
 

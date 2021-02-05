@@ -74,7 +74,7 @@ class ApplicationQualification < ApplicationRecord
   end
 
   def incomplete_gcse_information?
-    return true if grade.nil? && structured_grades.nil?
+    return true if grade.nil? && constituent_grades.nil?
 
     return true if EXPECTED_GCSE_DATA.any? do |field_name|
       send(field_name).blank?

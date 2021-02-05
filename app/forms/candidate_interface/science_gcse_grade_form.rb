@@ -4,7 +4,7 @@ module CandidateInterface
     include ValidationUtils
 
     attr_accessor :grade,
-                  :structured_grades,
+                  :constituent_grades,
                   :award_year,
                   :qualification,
                   :subject,
@@ -49,12 +49,12 @@ module CandidateInterface
         when ApplicationQualification::SCIENCE_DOUBLE_AWARD
           params[:double_award_grade] = qualification.grade
         when ApplicationQualification::SCIENCE_TRIPLE_AWARD
-          grades = qualification.structured_grades
+          grades = qualification.constituent_grades
           return unless grades
 
-          params[:biology_grade] = grades['biology']
-          params[:chemistry_grade] = grades['chemistry']
-          params[:physics_grade] = grades['physics']
+          params[:biology_grade] = grades['biology']['grade']
+          params[:chemistry_grade] = grades['chemistry']['grade']
+          params[:physics_grade] = grades['physics']['grade']
         else
           params[:grade] = qualification.grade
         end
@@ -71,7 +71,7 @@ module CandidateInterface
 
       qualification.update(
         grade: set_grade,
-        structured_grades: set_triple_award_grades,
+        constituent_grades: set_triple_award_grades,
         subject: subject,
       )
     end
@@ -164,7 +164,7 @@ module CandidateInterface
       error_message = {
         field: field.to_s,
         error_messages: errors[field].join(' - '),
-        value: grade || structured_grades,
+        value: grade || constituent_grades,
       }
 
       Rails.logger.info("Validation error: #{error_message.inspect}")
@@ -188,11 +188,17 @@ module CandidateInterface
     def set_triple_award_grades
       if triple_award?
         {
-          biology: sanitize(biology_grade),
-          physics: sanitize(physics_grade),
-          chemistry: sanitize(chemistry_grade),
+          biology: grade_hash(biology_grade),
+          physics: grade_hash(physics_grade),
+          chemistry: grade_hash(chemistry_grade),
         }
       end
+    end
+
+    def grade_hash(grade)
+      {
+        grade: sanitize(grade),
+      }
     end
 
     def sanitize(grade)
