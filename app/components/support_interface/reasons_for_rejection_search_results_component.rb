@@ -34,10 +34,10 @@ module SupportInterface
     def reason_detail_text_for(application_choice, top_level_reason)
       sub_reason = sub_reason_for(top_level_reason)
       if sub_reason.present?
-        application_choice.structured_rejection_reasons[sub_reason]
-          &.map { |value| sub_reason_detail_text(application_choice, top_level_reason, sub_reason, value) }
-          &.join('<br/>')
-          &.html_safe
+        values_as_list(
+          application_choice.structured_rejection_reasons[sub_reason]
+            &.map { |value| sub_reason_detail_text(application_choice, top_level_reason, sub_reason, value) },
+        )
       else
         detail_reason = detail_reason_for(application_choice, top_level_reason)
       end
@@ -55,7 +55,9 @@ module SupportInterface
       )
       additional_text =
         if detail_questions.is_a?(Array)
-          detail_questions.map { |detail_question| application_choice.structured_rejection_reasons[detail_question.to_s] }.compact.join('<br/>')
+          values_as_list(
+            detail_questions.map { |detail_question| application_choice.structured_rejection_reasons[detail_question.to_s] }.compact,
+          )
         else
           application_choice.structured_rejection_reasons[detail_questions.to_s]
         end
@@ -74,6 +76,17 @@ module SupportInterface
 
   private
 
+    def values_as_list(values)
+      return nil if values.blank?
+      return values[0] if values.size == 1
+
+      content_tag(
+        'ul',
+        values.map { |value| content_tag('li', value) }.join.html_safe,
+        class: 'govuk-list govuk-list--bullet govuk-!-margin-left-0 govuk-!-margin-right-0'
+      ).html_safe
+    end
+
     def mark_search_term(text, mark)
       mark ? "<mark>#{text}</mark>".html_safe : text
     end
@@ -84,7 +97,9 @@ module SupportInterface
 
     def detail_reason_for(application_choice, top_level_reason)
       detail_questions = ProviderInterface::ReasonsForRejectionWizard::INITIAL_QUESTIONS[top_level_reason.to_sym].keys
-      detail_questions.map { |detail_question| application_choice.structured_rejection_reasons[detail_question.to_s] }.compact.join('<br/>')
+      values_as_list(
+        detail_questions.map { |detail_question| application_choice.structured_rejection_reasons[detail_question.to_s] }.compact,
+      )
     end
   end
 end
