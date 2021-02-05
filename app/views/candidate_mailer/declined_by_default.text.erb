@@ -4,6 +4,4 @@ Dear <%= @application_form.first_name %>,
 
 We withdrew your application for <%= @declined_course_names.to_sentence %> because you did not respond to the <%= 'offer'.pluralize(@declined_course_names.size) %> within <%= @declined_courses.first.decline_by_default_days %> working days.
 
-# Give feedback or report a problem
-
-Contact us at [becomingateacher@digital.education.gov.uk](mailto:becomingateacher@digital.education.gov.uk)
+<%= render 'get_support' %>
