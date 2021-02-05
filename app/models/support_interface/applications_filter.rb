@@ -31,7 +31,7 @@ module SupportInterface
       end
 
       if applied_filters[:interviews]
-        application_forms = application_forms.joins(application_choices: [:interviews])
+        application_forms = application_forms.joins(application_choices: [:interviews]).group('id')
       end
 
       if applied_filters[:year]

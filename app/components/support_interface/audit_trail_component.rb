@@ -41,7 +41,7 @@ module SupportInterface
       standard_audits.or(
         Audited::Audit.where(
           associated_type: 'ApplicationChoice',
-          associated_id: audited_thing.application_choices.pluck(&:id),
+          associated_id: audited_thing.application_choices.map(&:id),
         ),
       )
     end
