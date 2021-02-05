@@ -149,8 +149,10 @@ module RefereeInterface
       return if reference.blank?
 
       RequestLocals.store[:identity] = { reference_id: reference.id }
-      Raven.user_context(reference_id: reference.id)
-      Raven.extra_context(application_support_url: support_interface_application_form_url(reference.application_form))
+      Raven.extra_context(
+        application_support_url: support_interface_application_form_url(reference.application_form),
+        reference_id: reference.id,
+      )
     end
 
     def reference

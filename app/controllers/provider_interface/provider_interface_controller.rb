@@ -72,7 +72,8 @@ module ProviderInterface
       end
 
       RequestLocals.store[:identity] = useful_debugging_info
-      Raven.user_context(useful_debugging_info)
+      Raven.user_context(id: "provider_#{current_provider_user.id}")
+      Raven.extra_context(useful_debugging_info)
     end
 
     # Set the `@application_choice` instance variable for use in views.

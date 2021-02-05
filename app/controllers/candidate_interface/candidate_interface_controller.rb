@@ -10,7 +10,7 @@ module CandidateInterface
 
     def add_identity_to_log(candidate_id = current_candidate&.id)
       RequestLocals.store[:identity] = { candidate_id: candidate_id }
-      Raven.user_context(candidate_id: candidate_id)
+      Raven.user_context(id: "candidate_#{candidate_id}")
 
       return unless current_candidate
 
