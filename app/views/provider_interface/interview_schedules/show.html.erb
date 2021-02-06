@@ -1,0 +1,20 @@
+<% content_for :browser_title, 'Interview Schedule' %>
+
+<div class="govuk-grid-row govuk-body">
+  <div class="govuk-grid-column-two-third">
+    <h1 class="govuk-heading-l">Interview schedule</h1>
+
+    <% if @grouped_interviews.any? %>
+      <div class="app-interviews">
+        <% @grouped_interviews.each do |date, interviews| %>
+          <h2 class="govuk-heading-s govuk-!-margin-top-7 govuk-!-margin-bottom-3">
+            <%= Date.parse(date).today? ? "Today (#{date})" : date %>
+          </h2>
+          <% interviews.each do |interview| %>
+            <%= render ProviderInterface::InterviewCardComponent.new(interview: interview) %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

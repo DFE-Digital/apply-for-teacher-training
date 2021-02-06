@@ -2,7 +2,7 @@ module ProviderInterface
   class InterviewsController < ProviderInterfaceController
     before_action :set_application_choice
     before_action :interview_flag_enabled?
-    before_action :requires_make_decisions_permission
+    before_action :requires_make_decisions_permission, except: %i[index]
 
     def index
       @provider_can_respond = current_provider_user.authorisation.can_make_decisions?(

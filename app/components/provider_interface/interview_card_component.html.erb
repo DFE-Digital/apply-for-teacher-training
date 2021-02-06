@@ -1,0 +1,30 @@
+<div class="app-interview-card">
+  <div class="app-interview-card__time">
+    <p class="govuk-!-margin-bottom-1 govuk-!-margin-top-0">
+    <%= link_to provider_interface_application_choice_interviews_path(interview.application_choice), class: "govuk-link govuk-link--no-visited-state" do %>
+      <time datetime=<%= interview.date_and_time %>>
+        <%= time %>
+      </time>
+      <span class="govuk-visually-hidden">on <%= date %> with <%= candidate_name %></span>
+
+    <% end %>
+    </p>
+  </div>
+  <div class="app-interview-card__candidate">
+    <p class="govuk-!-margin-bottom-1 govuk-!-margin-top-0">
+      <%= candidate_name %>
+    </p>
+    <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-1 govuk-!-margin-top-0">
+      <%= preferences %>
+    </p>
+  </div>
+
+  <div class="app-interview-card__course">
+    <p class="govuk-!-margin-bottom-1 govuk-!-margin-top-0">
+      <%= application_choice.course.name %>
+    </p>
+    <p class="govuk-caption-m govuk-!-margin-top-0 govuk-!-margin-bottom-1">
+      <%= application_choice.course_option.site.name %>
+    </p>
+  </div>
+</div>

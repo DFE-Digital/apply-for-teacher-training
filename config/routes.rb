@@ -662,6 +662,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resource :interview_schedule, path: 'interview-schedule', only: :show
+
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
 
     get '/sign-in' => 'sessions#new'
