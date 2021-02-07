@@ -30,37 +30,8 @@ module FindSync
       @sync_courses || existing_provider&.sync_courses
     end
 
-    def base_provider_attrs
-      {
-        sync_courses: sync_courses? || false,
-        name: provider_name,
-      }
-    end
-
-    def provider_attrs_from(find_provider)
-      {
-        region_code: find_provider.region_code&.strip,
-        postcode: find_provider.postcode,
-        name: find_provider.provider_name,
-        provider_type: find_provider.courses.first&.provider_type,
-        latitude: find_provider.try(:latitude),
-        longitude: find_provider.try(:longitude),
-      }
-    end
-
     def existing_provider
       Provider.find_by(code: provider_code)
-    end
-
-    def create_or_update_provider(attrs)
-      # Prefer this to find_or_create_by as it results in 3x fewer audits
-      if existing_provider
-        existing_provider.update!(attrs)
-      else
-        new_provider = Provider.new(attrs.merge(code: provider_code)).save!
-      end
-
-      existing_provider || new_provider
     end
 
     def fetch_provider_from_find_api

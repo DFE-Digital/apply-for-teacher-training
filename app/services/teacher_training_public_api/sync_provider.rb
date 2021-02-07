@@ -29,6 +29,7 @@ module TeacherTrainingPublicAPI
       {
         sync_courses: sync_courses? || false,
         region_code: provider_from_api.region_code&.strip,
+        postcode: provider_from_api.postcode&.strip,
         name: provider_from_api.name,
         provider_type: provider_from_api.provider_type,
         latitude: provider_from_api.try(:latitude),

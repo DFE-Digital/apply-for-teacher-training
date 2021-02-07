@@ -35,7 +35,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
       end
 
       it 'correctly creates all the entities' do
-        provider_from_api = fake_api_provider(code: 'ABC', provider_type: 'scitt')
+        provider_from_api = fake_api_provider(code: 'ABC')
         stub_teacher_training_api_courses(
           provider_code: 'ABC',
           specified_attributes: [{
@@ -72,6 +72,8 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
         course_option = CourseOption.last
         expect(course_option.course.provider.code).to eq 'ABC'
         expect(course_option.course.provider.provider_type).to eq 'scitt'
+        expect(course_option.course.provider.region_code).to eq 'south_west'
+        expect(course_option.course.provider.postcode).to eq 'SK2 6AA'
         expect(course_option.course.code).to eq 'ABC1'
         expect(course_option.course.exposed_in_find).to be true
         expect(course_option.course.recruitment_cycle_year).to eql stubbed_recruitment_cycle_year
