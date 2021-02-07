@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.feature 'Entering their contact information' do
   include CandidateHelper
 
-  before { FeatureFlag.activate(:international_addresses) }
-
   scenario 'Candidate submits their contact information' do
     given_i_am_signed_in
     and_i_visit_the_site

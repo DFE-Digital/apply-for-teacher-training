@@ -277,7 +277,10 @@ class ApplicationForm < ApplicationRecord
   def full_address
     if international?
       [
-        international_address,
+        address_line1,
+        address_line2,
+        address_line3,
+        address_line4,
         COUNTRIES[country],
       ].reject(&:blank?)
     else

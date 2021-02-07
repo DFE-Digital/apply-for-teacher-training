@@ -70,5 +70,3 @@ en:
               blank: Select where you live
             country:
               blank: Enter a country
-            international_address:
-              blank: Enter your address

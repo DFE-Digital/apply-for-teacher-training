@@ -3,11 +3,10 @@ module CandidateInterface
     include ActiveModel::Model
 
     attr_accessor :phone_number, :address_line1, :address_line2, :address_line3,
-                  :address_line4, :postcode, :address_type, :country, :international_address
+                  :address_line4, :postcode, :address_type, :country
 
     validates :address_line1, :address_line3, :postcode, presence: true, on: :address, if: :uk?
-    validates :address_line1, presence: true, on: :address, if: ->(form) { form.international? && FeatureFlag.active?(:international_addresses) }
-    validates :international_address, presence: true, on: :address, if: ->(form) { form.international? && !FeatureFlag.active?(:international_addresses) }
+    validates :address_line1, presence: true, on: :address, if: :international?
     validates :address_type, presence: true, on: :address_type
     validates :country, presence: true, on: :address_type, if: :international?
 
@@ -28,7 +27,6 @@ module CandidateInterface
         postcode: application_form.postcode,
         address_type: application_form.address_type || 'GB',
         country: application_form.country,
-        international_address: application_form.international_address,
       )
     end
 
@@ -41,27 +39,15 @@ module CandidateInterface
     def save_address(application_form)
       return false unless valid?(:address)
 
-      if uk? || FeatureFlag.active?(:international_addresses)
-        attrs = {
-          address_line1: address_line1,
-          address_line2: address_line2,
-          address_line3: address_line3,
-          address_line4: address_line4,
-          postcode: postcode&.upcase,
-          international_address: nil,
-        }
-        attrs[:country] = 'GB' if uk?
-        application_form.update(attrs)
-      else
-        application_form.update(
-          address_line1: nil,
-          address_line2: nil,
-          address_line3: nil,
-          address_line4: nil,
-          postcode: nil,
-          international_address: international_address,
-        )
-      end
+      attrs = {
+        address_line1: address_line1,
+        address_line2: address_line2,
+        address_line3: address_line3,
+        address_line4: address_line4,
+        postcode: postcode&.upcase,
+      }
+      attrs[:country] = 'GB' if uk?
+      application_form.update(attrs)
     end
 
     def save_address_type(application_form)
