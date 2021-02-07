@@ -78,7 +78,34 @@
   </div>
 </div>
 
-<h3 class="govuk-heading-m govuk-!-font-size-27">Application form breakdown</h3>
+<h2 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-font-size-27">Course choices</h2>
+
+<div class="govuk-!-margin-bottom-4">
+  <%= render SupportInterface::TileComponent.new(count: @statistics.total_application_choice_count, label: 'courses applied to', colour: :blue) %>
+</div>
+
+<div class="govuk-grid-row govuk-!-margin-bottom-4">
+  <div class="govuk-grid-column-one-half">
+    <%= render SupportInterface::TileComponent.new(count: @statistics.application_choices_by_provider_type['lead_school'], label: 'School Direct courses', size: :reduced) %>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(count: @statistics.application_choices_by_provider_type['scitt'], label: 'SCITT courses', size: :reduced) %>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(count: @statistics.application_choices_by_provider_type['university'], label: 'HEI courses', size: :reduced) %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(count: @statistics.application_choices_by_provider_type['ratified_by_scitt'], label: 'Ratified by SCITTs', size: :reduced) %>
+  </div>
+  <div class="govuk-grid-column-one-quarter">
+    <%= render SupportInterface::TileComponent.new(count: @statistics.application_choices_by_provider_type['ratified_by_university'], label: 'Ratified by HEIs', size: :reduced) %>
+  </div>
+</div>
+
+<h3 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-font-size-27">Application form breakdown</h3>
 
 <h4 class="govuk-heading-s" id="unsubmitted">Unsubmitted applications</h4>
 <p class="govuk-body">

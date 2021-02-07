@@ -165,7 +165,41 @@ class PerformanceStatistics
       end
   end
 
+  def total_application_choice_count
+    application_choices.count
+  end
+
+  def application_choices_by_provider_type
+    defaults = { 'university' => 0, 'scitt' => 0, 'lead_school' => 0, 'ratified_by_scitt' => 0, 'ratified_by_university' => 0 }
+
+    by_ratifier_type = application_choices
+      .joins(course_option: { course: :accredited_provider })
+      .group(:provider_type)
+      .count.to_h
+
+    by_ratifier_type.transform_keys! { |k| "ratified_by_#{k}" }
+
+    by_training_provider_type = application_choices
+        .joins(course_option: { course: :provider })
+        .group(:provider_type)
+        .count.to_h
+
+    [defaults, by_ratifier_type, by_training_provider_type].reduce(:merge)
+  end
+
 private
+
+  def application_choices
+    choices = ApplicationChoice
+      .joins(:application_form)
+      .where(status: ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER)
+
+    if year
+      choices.where('application_forms.recruitment_cycle_year = ?', year)
+    else
+      choices
+    end
+  end
 
   def date_range_query_for_recruitment_cycle_year(cycle_year)
     start_date = EndOfCycleTimetable::CYCLE_DATES[cycle_year][:apply_reopens]
