@@ -1,3 +1,9 @@
+## 5th February
+
+The following experimental/sandbox endpoint has been updated:
+
+- `/test-data/generate` now accepts an optional `for_ratified_courses` query param. If this parameter is supplied and set to a non-empty string, applications will be generated for courses the organisation awards, not runs. This means subsequent calls to `/test-data/clear` will NOT delete these applications.
+
 ## 29th January
 
 - The documented enum values for `Reference.referee_type` have been corrected to remove commas and replace `school-based` with `school_based`.
