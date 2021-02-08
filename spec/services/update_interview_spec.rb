@@ -32,7 +32,7 @@ RSpec.describe UpdateInterview do
       expect(interview.additional_details).to eq('Business casual')
     end
 
-    it 'creates an audit entry', with_audited: true do
+    it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
       UpdateInterview.new(service_params).save!
 
       associated_audit = application_choice.associated_audits.last
@@ -45,6 +45,8 @@ RSpec.describe UpdateInterview do
 
       expect(associated_audit.audited_changes['location'].last).to eq('Zoom call')
       expect(associated_audit.audited_changes['additional_details'].last).to eq('Business casual')
+
+      expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('interview_updated')
     end
   end
 end
