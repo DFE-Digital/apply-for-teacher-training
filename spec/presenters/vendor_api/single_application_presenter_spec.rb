@@ -435,6 +435,21 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     let(:application_choice) { create(:application_choice, :with_offer) }
     let(:presenter) { VendorAPI::SingleApplicationPresenter.new(application_choice) }
 
+    it 'uses the public_id of a qualification as the id' do
+      qualification = create(
+        :other_qualification,
+        application_form: application_choice.application_form,
+      )
+
+      qualification_hash = presenter.as_json.dig(
+        :attributes,
+        :qualifications,
+        :other_qualifications,
+      ).first
+
+      expect(qualification_hash[:id]).to eq qualification.public_id
+    end
+
     it 'contains HESA qualification fields' do
       create(
         :other_qualification,
