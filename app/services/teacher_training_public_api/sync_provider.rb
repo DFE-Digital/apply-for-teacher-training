@@ -5,7 +5,7 @@ module TeacherTrainingPublicAPI
       @recruitment_cycle_year = recruitment_cycle_year
     end
 
-    def call(run_in_background: false)
+    def call(run_in_background: true)
       provider = create_or_update_provider(
         provider_attrs_from(@provider_from_api),
       )
