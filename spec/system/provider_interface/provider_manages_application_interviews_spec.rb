@@ -34,6 +34,9 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_can_set_up_another_interview(days_in_future: 2)
     and_another_interview_has_been_created('3 March 2020')
 
+    when_i_change_the_interview_details
+    then_i_can_see_interview_was_updated
+
     when_i_cancel_an_interview
     i_can_see_the_application_is_still_in_the_interviewing_state
     and_i_can_see_the_second_interview
@@ -103,6 +106,48 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   alias_method :and_another_interview_has_been_created, :and_an_interview_has_been_created
+
+  def when_i_change_the_interview_details
+    click_on 'Change details', match: :first
+
+    expect(page).to have_field('Day', with: '2')
+    expect(page).to have_field('Month', with: '3')
+    expect(page).to have_field('Year', with: '2020')
+    expect(page).to have_field('Time', with: '12:00pm')
+    expect(page).to have_field('Address or online meeting details', with: 'N/A')
+    expect(page).to have_field('Additional details (optional)', with: '')
+
+    fill_in 'Day', with: '4'
+    fill_in 'Time', with: '10am'
+    fill_in 'Address or online meeting details', with: 'Zoom meeting'
+    fill_in 'Additional details (optional)', with: 'Business casual'
+
+    click_on 'Continue'
+  end
+
+  def then_i_can_see_interview_was_updated
+    expect(page).to have_content('Check and send new interview details')
+    expect(page).to have_content("Date\n4 March 2020")
+    expect(page).to have_content("Time\n10:00am")
+    expect(page).to have_content("Address or online meeting details\nZoom meeting")
+    expect(page).to have_content("Additional details\nBusiness casual")
+
+    click_on 'Change', match: :first
+
+    fill_in 'Additional details (optional)', with: 'Business casual, first impressions are important.'
+
+    click_on 'Continue'
+
+    expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
+
+    click_on 'Send new interview details'
+
+    expect(page).to have_content('Interview changed')
+
+    expect(page).to have_content("Upcoming interviews\n4 March 2020 at 10:00am")
+    expect(page).to have_content("Address or online meeting details\nZoom meeting")
+    expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
+  end
 
   def when_i_cancel_an_interview
     first(:link, 'Cancel').click
