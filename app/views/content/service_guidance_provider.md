@@ -1,4 +1,4 @@
-Thank you for signing up to the Department for Education’s [Manage teacher training applications](<%= provider_interface_path %>).
+Thank you for signing up to the Department for Education’s [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider).
 
 The service is now being rolled out to training providers throughout England. By October 2021, all teacher training applications will be made through [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk) and processed through Manage teacher training applications service.
 
@@ -18,11 +18,11 @@ We’ll continue to make improvements to the service as we roll out. We’ll kee
 
 [Troubleshooting](#troubleshooting)
 
-[Publicising Apply for teacher training](#publicising-apply-for-teacher-training)
+[Publicising Apply for teacher training](#publicising-apply)
 
 [Help, support and feedback](#help-support-and-feedback)
 
-## What you can expect from us
+## <a name="what-you-can-expect-from-us"></a>What you can expect from us
 
 ### Support for training providers
 
@@ -44,15 +44,15 @@ Apply and Manage are free services for both candidates and providers.
 
 For now, we do not provide fraud and plagiarism checks on candidate applications.
 
-## Onboarding
+## <a name="onboarding"></a>Onboarding
 
 Onboarding is quick and easy, usually taking place over a single working day.
 
-1. We’ll ask for contact details for your admissions team so we can give them access to [Manage teacher training applications](<%= provider_interface_path %>). We’ll also ask you for the names of any other organisations you partner with – for example, accredited bodies who ratify your courses.
+1. We’ll ask for contact details for your admissions team so we can give them access to [Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider). We’ll also ask you for the names of any other organisations you partner with – for example, accredited bodies who ratify your courses.
 
 2. Taking data from [Publish teacher training courses](https://www.publish-teacher-training-courses.service.gov.uk/), we’ll upload your courses to Manage teacher training applications.
 
-3. We’ll then update [Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) so that candidates know they can apply for your courses through [Apply for teacher training](<%= candidate_interface_path %>).
+3. We’ll then update [Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) so that candidates know they can apply for your courses through [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate).
 
 4. We’ll ask you to sign a data-sharing agreement and create a DfE Sign-in account (if you do not already have one).
 
@@ -60,9 +60,8 @@ Onboarding is quick and easy, usually taking place over a single working day.
 
 We’re available to give you full support at every stage.
 
-## Using the service
-
-[Manage teacher training applications](<%= provider_interface_path %>) allows you to process applications from submission through to conditions met.
+## <a name="using-the-service"></a>Using the service
+[Manage teacher training applications](https://www.apply-for-teacher-training.service.gov.uk/provider) allows you to process applications from submission through to conditions met.
 
 ### Viewing applications
 
@@ -109,11 +108,11 @@ The ‘Manage users’ permission allows you to:
 
 #### ‘Manage users’ for training providers who are already part of our pilot
 
-We have automatically given the person in your organisation who signed the data-sharing agreement ‘Manage users’ permission. (If you’re not sure who signed the agreement, get in touch with us on <%= bat_contact_mail_to %>.)
+We have automatically given the person in your organisation who signed the data-sharing agreement ‘Manage users’ permission. (If you’re not sure who signed the agreement, get in touch with us on <becomingateacher@digital.education.gov.uk>.)
 
 #### ‘Manage users’ for training providers now being onboarded
 
-As part of your onboarding, we asked you to nominate team members to fill the ‘Manage users’ role. (Get in touch with us on <%= bat_contact_mail_to %> if you’ve yet to nominate a person for this role.)
+As part of your onboarding, we asked you to nominate team members to fill the ‘Manage users’ role. (Get in touch with us on <becomingateacher@digital.education.gov.uk> if you’ve yet to nominate a person for this role.)
 
 #### Resetting the ‘Manage users’ permission
 
@@ -145,9 +144,9 @@ We’ve set the following default permissions for accredited bodies:
 * all their users can make decisions on applications
 * none of their users can access sensitive candidate information
 
-Only training providers can change these settings - accredited bodies will not be able to do this themselves. You should agree permissions with your partners before changing their settings.
+Only training providers can change these settings - accredited bodies will not be able to do this themselves. You should agree permissions with your partners before changing their settings. 
 
-Once you assign a permission to an accredited body, they can customise it for their own users. For example, if they have decision-making power at an organisational level, they can switch this on and off for particular colleagues.
+Once you assign a permission to an accredited body, they can customise it for their own users. For example, if they have decision-making power at an organisational level, they can switch this on and off for particular colleagues. 
 
 ### Deferring an offer
 
@@ -155,9 +154,9 @@ You can defer an existing offer to the next cycle. Please bear in mind that you 
 
 Once you’ve agreed on a deferral with the candidate, you’ll need to confirm it in Manage. Search for the relevant application in your applications list, select the ‘Offer’ menu item and click ‘Defer offer’. The application will be marked as deferred and an email will be sent to the candidate confirming this.
 
-You’ll need to review and confirm your offer again at the start of the next cycle. You can also change the details of the offer at that stage - for example, if a location is no longer available. (You’ll be notified within Manage if any course details need to be changed). In addition, you can reset the conditions of the offer, for instance if another criminal record check needs to be carried out.
+You’ll need to review and confirm your offer again at the start of the next cycle. You can also change the details of the offer at that stage - for example, if a location is no longer available. (You’ll be notified within Manage if any course details need to be changed). In addition, you can reset the conditions of the offer, for instance if another criminal record check needs to be carried out. 
 
-Note that you can defer an offer at any point in the cycle, and with conditions in a state of either ‘pending’ or ‘met’.
+Note that you can defer an offer at any point in the cycle, and with conditions in a state of either ‘pending’ or ‘met’. 
 
 ### Email alerts
 
@@ -181,14 +180,14 @@ You can download and print applications to distribute to your team. Compliance w
 
 For now, interview scheduling is not part of the Manage service.
 
-## Deadlines and terms of use
+## <a name="deadlines-and-terms-of-use"></a>Deadlines and terms of use
 
-For clarity and fairness, while [Apply for teacher training](<%= candidate_interface_path %>) and UCAS Teacher Training run side by side (until October 2021), we’ve kept the rules governing applications closely aligned.
+For clarity and fairness, while [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk/candidate) and UCAS Teacher Training run side by side (until October 2021), we’ve kept the rules governing applications closely aligned.
 
 Candidates can:
 
-* submit a new application through either service until 7 September 2021
-* apply again through either service until 21 September 2021
+ - submit a new application through either service until 7 September 2021
+ - apply again through either service until 21 September 2021
 
 Applications will be automatically rejected on 4 October 2021 if you have not responded to them.
 
@@ -210,11 +209,11 @@ The candidate will receive a formal notification of the changed offer, but you s
 
 Once the candidate has accepted your offer, you cannot change the terms of the offer without their permission.
 
-### Confirming the conditions of an offer
+### Confirming the conditions of an offer 
 
 There is no deadline for confirming that a candidate has satisfied the conditions of an offer. You can update the status of the conditions in Manage whenever the candidate meets them.
 
-To do this, find the relevant application in your applications list, select the ‘Offer’ menu item, and click ‘Update status of conditions’. The application will be marked as ‘Conditions met’.
+To do this, find the relevant application in your applications list, select the ‘Offer’ menu item, and click ‘Update status of conditions’. The application will be marked as ‘Conditions met’. 
 
 ### Apply again (Apply 2)
 
@@ -228,11 +227,12 @@ As currently, in this phase candidates can make an unlimited number of single, s
 
 Candidates will also be able to use UCAS’s Apply 2 service for this part of their journey.
 
-## Troubleshooting
+
+## <a name="troubleshooting"></a>Troubleshooting
 
 ### Informing candidates your courses are on Apply
 
-Your courses will automatically be uploaded to [Apply for teacher training](https://www.gov.uk/apply-for-teacher-training) as part of our onboarding process.
+Your courses will automatically be uploaded to [Apply for teacher training](<%= candidate_interface_path %>) as part of our onboarding process.
 
 When candidates use [Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) and select one of your courses, they will have the option to continue via Apply for teacher training. (They will also be able to apply via UCAS, if you’ve decided to keep your courses listed on both services.)
 
@@ -257,13 +257,13 @@ We provide a clear route to UCAS for candidates who choose non-onboarded provide
 
 3. We suggest candidates use Apply for teacher training if all their chosen training providers are available through the service and they are interested in becoming an early adopter. We suggest candidates use UCAS Teacher Training if they’ve already started applying via UCAS, or some of their chosen training providers are not available through Apply for teacher training.
 
-4. Within [Apply for teacher training](<%= candidate_interface_path %>), if candidates select a non-onboarded provider as one of their additional course choices, they are directed back to UCAS to apply using that service.
+4. Within [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk), if candidates select a non-onboarded provider as one of their additional course choices, they are directed back to UCAS to apply using that service.
 
 ### Onboarding for providers with courses ratified by an accredited body
 
 If your courses are ratified by an accredited body, or you are part of a partnership of teacher training organisations, you will need to make sure your partners are ready to be onboarded to Manage.
 
-They may find our [introduction to the service](<%= provider_interface_path %>) helpful. We’re available to answer any questions they may have on <%= bat_contact_mail_to %>.
+They may find our [introduction to the service](https://www.apply-for-teacher-training.service.gov.uk/provider) helpful. We’re available to answer any questions they may have on <becomingateacher@digital.education.gov.uk>.
 
 ### Candidates who apply for your courses through UCAS
 
@@ -276,7 +276,7 @@ The Department for Education has not changed delivery timetables for the roll-ou
 For questions related to COVID-19, please email our dedicated helpline on <dfe.coronavirushelpline@education.gov.uk> or call us at <a href="tel:0800 046 8687">0800 046 8687</a>.
 Lines are open 8am to 6pm (Monday to Friday) 10am to 4pm (Saturday and Sunday).
 
-## Publicising Apply for teacher training
+## <a name="publicising-apply"></a>Publicising Apply for teacher training
 
 Some providers find that becoming an early adopter of a streamlined, modern GOV.UK service is a useful marketing aid.
 
@@ -284,18 +284,17 @@ You can direct candidates to the new service by linking from your website to you
 
 Our [marketing tool kit](https://docs.google.com/presentation/d/1dCZ5HF_mpJMAOpmr305VqlUo_wqW2jWmzOWi9vxStI0/edit#slide=id.g73a2eda7b8_0_40) may be helpful for your website and social media feeds.
 
-## Help, support and feedback
+## <a name="help-support-and-feedback"></a>Help, support and feedback
 
 ### See a demo
-
-To request a remote demonstration of the service as a whole or a particular feature, email us on <%= bat_contact_mail_to %>.
+To request a remote demonstration of the service as a whole or a particular feature, email us on <becomingateacher@digital.education.gov.uk>.
 
 ### Report a problem
 
-To report a problem or get help, email us on <%= bat_contact_mail_to %>.
+To report a problem or get help, email us on <becomingateacher@digital.education.gov.uk>.
 
 ### Take part in user research and give feedback
 
 We welcome feedback on all aspects of Manage teacher training applications. When you participate in user research, you help shape current and future service features.
 
-Please [complete this 30-second form](https://docs.google.com/forms/d/1QgmaQzLsQ9dMcIgnTjr-7faAz7VpKuPXjHoF6hU22Po) and we’ll be in touch. Or, simply give us your feedback over email at <%= bat_contact_mail_to %>.
+Please [complete this 30-second form](https://docs.google.com/forms/d/1QgmaQzLsQ9dMcIgnTjr-7faAz7VpKuPXjHoF6hU22Po) and we’ll be in touch. Or, simply give us your feedback over email at <becomingateacher@digital.education.gov.uk>.
