@@ -769,8 +769,12 @@ FactoryBot.define do
       end
     end
 
-    trait :randomise_date_and_time do
-      date_and_time { (1...10).to_a.sample.business_days.from_now + (0..8).to_a.sample.business_hours.from_now }
+    trait :future_date_and_time do
+      date_and_time { (1...10).to_a.sample.business_days.from_now + (0..8).to_a.sample.hours }
+    end
+
+    trait :past_date_and_time do
+      date_and_time { (2...10).to_a.sample.business_days.ago - (0..8).to_a.sample.hours }
     end
   end
 
