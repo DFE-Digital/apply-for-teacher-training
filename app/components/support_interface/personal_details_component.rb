@@ -123,14 +123,8 @@ module SupportInterface
     def full_address
       if @application_form.address_type == 'uk'
         local_address.reject(&:blank?)
-      elsif @application_form.address_line1.present?
-        local_address.concat([COUNTRIES[@application_form.country]]).reject(&:blank?)
       else
-        [
-          @application_form.international_address,
-          COUNTRIES[@application_form.country],
-        ]
-            .reject(&:blank?)
+        local_address.concat([COUNTRIES[@application_form.country]]).reject(&:blank?)
       end
     end
 

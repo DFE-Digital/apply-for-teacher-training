@@ -117,7 +117,7 @@ RSpec.feature 'Editing address' do
   def when_i_fill_in_an_international_address
     fill_in 'support_interface_application_forms_edit_address_details_form[address_line1]', with: '123 Chandni Chowk'
     fill_in 'support_interface_application_forms_edit_address_details_form[address_line3]', with: 'New Delhi'
-    fill_in 'support_interface_application_forms_edit_address_details_form[postcode]', with: '110006'
+    fill_in 'support_interface_application_forms_edit_address_details_form[address_line4]', with: '110006'
     fill_in 'support_interface_application_forms_edit_address_details_form[audit_comment]', with: 'Updated as part of Zen Desk ticket #56789'
   end
 

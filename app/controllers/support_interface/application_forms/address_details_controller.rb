@@ -26,7 +26,7 @@ module SupportInterface
         StripWhitespace.from_hash params
           .require(:support_interface_application_forms_edit_address_details_form)
           .permit(
-            :address_line1, :address_line2, :address_line3, :address_line4, :postcode, :international_address, :audit_comment
+            :address_line1, :address_line2, :address_line3, :address_line4, :postcode, :audit_comment
           )
       end
 
