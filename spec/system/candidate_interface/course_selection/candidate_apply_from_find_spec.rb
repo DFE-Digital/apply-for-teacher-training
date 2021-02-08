@@ -34,6 +34,13 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     and_i_confirm_i_am_not_already_signed_up
     then_i_see_the_sign_up_page
 
+    when_i_arrive_from_find_to_a_course_that_is_open_on_apply
+    and_i_choose_to_apply_through_ucas
+    then_i_should_see_an_interstitial_page
+    and_i_should_see_the_provider_and_course_codes
+    and_i_should_see_location_details
+    and_i_should_see_a_link_to_ucas
+
     given_the_pilot_is_not_open
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
     then_i_should_be_able_to_apply_through_ucas_only
@@ -123,6 +130,12 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     click_button t('continue')
   end
 
+  def and_i_choose_to_apply_through_ucas
+    choose 'No, I want to apply with UCAS'
+
+    click_button t('continue')
+  end
+
   def and_i_confirm_i_am_not_already_signed_up
     choose 'No, I need to create an account'
     click_button t('continue')
@@ -148,5 +161,17 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
       expect(table_data.first).to have_content 'Site for a UCAS-only course'
       expect(table_data.last).to have_content 'OOO'
     end
+  end
+
+  def then_i_should_see_an_interstitial_page
+    expect(page).to have_content('Apply for this course with UCAS')
+  end
+
+  def and_i_should_see_location_details
+    pending 'not implemented yet'
+  end
+
+  def and_i_should_see_a_link_to_ucas
+    pending 'not implemented yet'
   end
 end
