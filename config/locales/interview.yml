@@ -32,6 +32,8 @@ en:
         cancellation_reason: Reason for cancelling interview
       confirm_cancel:
         success: Interview cancelled
+      form:
+        continue: Continue
   helpers:
     label:
       provider_interface_interview_wizard:
