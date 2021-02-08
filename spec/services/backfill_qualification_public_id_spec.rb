@@ -74,5 +74,58 @@ RSpec.describe BackfillQualificationPublicId do
         expect(qualification.constituent_grades['english_literature']['public_id']).to eq(89)
       end
     end
+
+    context 'triple science' do
+      let(:triple_science_without_public_id) do
+        qualification = create(:application_qualification, subject: ApplicationQualification::SCIENCE_TRIPLE_AWARD)
+        qualification.update_columns(
+          public_id: nil,
+          constituent_grades: {
+            biology: { grade: 'A' },
+            chemistry: { grade: 'B' },
+            physics: { grade: 'B' },
+          },
+        )
+        qualification
+      end
+
+      it 'copies the database id into the public_id column' do
+        described_class.new(triple_science_without_public_id).call
+
+        expect(triple_science_without_public_id.public_id).to eq(triple_science_without_public_id.id)
+        expect(triple_science_without_public_id.constituent_grades['biology']['public_id']).to be_nil
+        expect(triple_science_without_public_id.constituent_grades['chemistry']['public_id']).to be_nil
+        expect(triple_science_without_public_id.constituent_grades['physics']['public_id']).to be_nil
+      end
+
+      it 'is idempotent' do
+        described_class.new(triple_science_without_public_id).call
+
+        expect {
+          described_class.new(triple_science_without_public_id).call
+        }.not_to(change { triple_science_without_public_id.public_id })
+
+        expect {
+          described_class.new(triple_science_without_public_id).call
+        }.not_to(change { triple_science_without_public_id.constituent_grades['chemistry']['public_id'] })
+      end
+
+      it 'has no effect when the public_id is already set' do
+        qualification = create(
+          :application_qualification,
+          subject: ApplicationQualification::SCIENCE_TRIPLE_AWARD,
+          public_id: 123,
+          constituent_grades: {
+            biology: { grade: 'A' },
+            chemistry: { grade: 'B' },
+            physics: { grade: 'B' },
+          },
+        )
+
+        described_class.new(qualification).call
+
+        expect(qualification.public_id).to eq(123)
+      end
+    end
   end
 end

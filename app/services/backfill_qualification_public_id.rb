@@ -4,7 +4,7 @@ class BackfillQualificationPublicId
   end
 
   def call
-    if @qualification.constituent_grades.present?
+    if @qualification.constituent_grades.present? && @qualification.subject != ApplicationQualification::SCIENCE_TRIPLE_AWARD
       grades_with_ids = @qualification.constituent_grades.transform_values.with_index do |grade, index|
         next grade if grade['public_id'].present?
 
