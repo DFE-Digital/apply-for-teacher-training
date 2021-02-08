@@ -16,9 +16,9 @@ Rails.application.routes.draw do
 
   namespace :candidate_interface, path: '/candidate' do
     if HostingEnvironment.production?
-      root to: redirect(GOVUK_APPLY_START_PAGE_URL)
+      get '/' => redirect(GOVUK_APPLY_START_PAGE_URL)
     else
-      root to: redirect('/')
+      get '/' => redirect('/')
     end
 
     get '/accessibility', to: 'content#accessibility'
