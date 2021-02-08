@@ -71,7 +71,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
         qualifications: {
           gcses: [
             {
-              id: @application.english_gcse.id,
+              id: @application.english_gcse.constituent_grades['english_single_award']['public_id'],
               qualification_type: 'gcse',
               non_uk_qualification_type: nil,
               subject: 'English single award',
@@ -90,7 +90,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
               hesa_degtype: nil,
             },
             {
-              id: @application.maths_gcse.id,
+              id: @application.maths_gcse.public_id,
               qualification_type: 'gcse',
               non_uk_qualification_type: nil,
               subject: 'maths',
@@ -111,7 +111,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
           ],
           degrees: [
             {
-              id: @application.qualification_in_subject(:degree, 'Doge').id,
+              id: @application.qualification_in_subject(:degree, 'Doge').public_id,
               qualification_type: 'BA',
               non_uk_qualification_type: nil,
               subject: 'Doge',
@@ -132,7 +132,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
           ],
           other_qualifications: [
             {
-              id: @application.qualification_in_subject(:other, 'Believing in the Heart of the Cards').id,
+              id: @application.qualification_in_subject(:other, 'Believing in the Heart of the Cards').public_id,
               qualification_type: 'A level',
               non_uk_qualification_type: nil,
               subject: 'Believing in the Heart of the Cards',
