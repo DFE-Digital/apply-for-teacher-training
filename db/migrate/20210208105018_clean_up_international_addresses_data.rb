@@ -7,7 +7,7 @@ class CleanUpInternationalAddressesData < ActiveRecord::Migration[6.0]
 
     audit_comment = 'Backfilled while removing the international addresses feature flag. International addresses should not be able to provide a postcode.'
 
-    application_forms.each do |application_form|
+    application_forms.find_each do |application_form|
       if application_form.address_line4.blank?
         application_form.update!(
           address_line4: application_form.postcode,
