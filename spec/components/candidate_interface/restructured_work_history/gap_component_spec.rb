@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::RestructuredWorkHistoryGapComponent do
+RSpec.describe CandidateInterface::RestructuredWorkHistory::GapComponent do
   let(:break_period) { double }
 
   before do
@@ -10,19 +10,19 @@ RSpec.describe CandidateInterface::RestructuredWorkHistoryGapComponent do
   end
 
   it 'renders the component with a link to explain break' do
-    result = render_inline(CandidateInterface::RestructuredWorkHistoryGapComponent.new(break_period: break_period))
+    result = render_inline(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: break_period))
 
     expect(result.css('a').last.text).to eq('add a reason for this break')
   end
 
   it 'renders the component with a link to add another job' do
-    result = render_inline(CandidateInterface::RestructuredWorkHistoryGapComponent.new(break_period: break_period))
+    result = render_inline(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: break_period))
 
     expect(result.css('a').first.text).to eq('Add another job')
   end
 
   it 'renders the component with the break length' do
-    result = render_inline(CandidateInterface::RestructuredWorkHistoryGapComponent.new(break_period: break_period))
+    result = render_inline(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: break_period))
 
     expect(result.text).to include('You have a break in your work history (3 months)')
   end

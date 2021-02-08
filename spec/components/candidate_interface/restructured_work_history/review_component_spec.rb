@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CandidateInterface::RestructuredWorkHistoryReviewComponent do
+RSpec.describe CandidateInterface::RestructuredWorkHistory::ReviewComponent do
   around do |example|
     Timecop.freeze(Time.zone.local(2019, 10, 1)) do
       example.run

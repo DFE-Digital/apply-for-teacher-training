@@ -2,15 +2,15 @@
   <% @work_history_with_breaks.each do |entry| %>
     <% if entry.is_a?(ApplicationWorkExperience) %>
 
-      <%= render(CandidateInterface::RestructuredWorkHistoryJobComponent.new(work_experience: entry, editable: @editable)) %>
+      <%= render(CandidateInterface::RestructuredWorkHistory::JobComponent.new(work_experience: entry, editable: @editable)) %>
 
     <% elsif @editable && entry.is_a?(WorkHistoryWithBreaks::BreakPlaceholder) %>
 
-      <%= render(CandidateInterface::RestructuredWorkHistoryGapComponent.new(break_period: entry)) %>
+      <%= render(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: entry)) %>
 
     <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
 
-      <%= render(CandidateInterface::RestructuredWorkHistoryWorkBreakComponent.new(work_break: entry, editable: @editable)) %>
+      <%= render(CandidateInterface::RestructuredWorkHistory::WorkBreakComponent.new(work_break: entry, editable: @editable)) %>
 
     <% end %>
 
