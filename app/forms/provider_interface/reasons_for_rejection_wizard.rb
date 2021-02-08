@@ -2,54 +2,6 @@ module ProviderInterface
   class ReasonsForRejectionWizard
     include ActiveModel::Model
 
-    INITIAL_TOP_LEVEL_QUESTIONS = %i[
-      candidate_behaviour_y_n
-      quality_of_application_y_n
-      qualifications_y_n
-      performance_at_interview_y_n
-      course_full_y_n
-      offered_on_another_course_y_n
-      honesty_and_professionalism_y_n
-      safeguarding_y_n
-    ].freeze
-
-    INITIAL_QUESTIONS = {
-      candidate_behaviour_y_n: {
-        candidate_behaviour_what_did_the_candidate_do: {
-          other: %i[candidate_behaviour_other candidate_behaviour_what_to_improve],
-        },
-      },
-      quality_of_application_y_n: {
-        quality_of_application_which_parts_needed_improvement: {
-          personal_statement: :quality_of_application_personal_statement_what_to_improve,
-          subject_knowledge: :quality_of_application_subject_knowledge_what_to_improve,
-          other: %i[quality_of_application_other_details quality_of_application_other_what_to_improve],
-        },
-      },
-      qualifications_y_n: {
-        qualifications_which_qualifications: {
-          other: :qualifications_other_details,
-        },
-      },
-      performance_at_interview_y_n: { performance_at_interview_what_to_improve: nil },
-      offered_on_another_course_y_n: { offered_on_another_course_details: nil },
-      honesty_and_professionalism_y_n: {
-        honesty_and_professionalism_concerns: {
-          information_false_or_inaccurate: :honesty_and_professionalism_concerns_information_false_or_inaccurate_details,
-          plagiarism: :honesty_and_professionalism_concerns_plagiarism_details,
-          references: :honesty_and_professionalism_concerns_references_details,
-          other: :honesty_and_professionalism_concerns_other_details,
-        },
-      },
-      safeguarding_y_n: {
-        safeguarding_concerns: {
-          candidate_disclosed_information: :safeguarding_concerns_candidate_disclosed_information_details,
-          vetting_disclosed_information: :safeguarding_concerns_vetting_disclosed_information_details,
-          other: :safeguarding_concerns_other_details,
-        },
-      },
-    }.freeze
-
     class NestedAnswerValidator < ActiveModel::EachValidator
       def validate_each(record, attribute, value)
         return unless options.key?(:collection_name) && options.key?(:selected_option)
@@ -75,7 +27,7 @@ module ProviderInterface
       end
     end
 
-    INITIAL_QUESTIONS.each do |top_level_question, children|
+    ReasonsForRejection::INITIAL_QUESTIONS.each do |top_level_question, children|
       children.each do |options_collection_name, options|
         next unless options.present? && options.is_a?(Hash)
 
@@ -115,7 +67,7 @@ module ProviderInterface
     end
 
     def reason_not_captured_by_initial_questions?
-      INITIAL_TOP_LEVEL_QUESTIONS.all? { |attr| send(attr) == 'No' }
+      ReasonsForRejection::INITIAL_TOP_LEVEL_QUESTIONS.all? { |attr| send(attr) == 'No' }
     end
 
     def needs_other_reasons?
@@ -274,11 +226,11 @@ module ProviderInterface
     end
 
     def clean_answers_for_initial_questions(attrs)
-      INITIAL_QUESTIONS.each_key { |k| clean_initial_question(attrs, k) }
+      ReasonsForRejection::INITIAL_QUESTIONS.each_key { |k| clean_initial_question(attrs, k) }
     end
 
     def clean_initial_question(attrs, key)
-      options_attribute_name, options = INITIAL_QUESTIONS[key].first
+      options_attribute_name, options = ReasonsForRejection::INITIAL_QUESTIONS[key].first
       # Clear the immediate child options if the Yes/No top level answer is No
       attrs.merge!(options_attribute_name => nil) if attrs[key] == 'No'
 
@@ -297,7 +249,7 @@ module ProviderInterface
 
     def clean_answers_for_other_reasons(attrs)
       attrs[:other_advice_or_feedback_details] = nil if attrs[:other_advice_or_feedback_y_n] == 'No'
-      answers_for_initial_top_level_questions = last_saved_state.slice(*INITIAL_TOP_LEVEL_QUESTIONS.map(&:to_s)).values
+      answers_for_initial_top_level_questions = last_saved_state.slice(*ReasonsForRejection::INITIAL_TOP_LEVEL_QUESTIONS.map(&:to_s)).values
       attrs[:why_are_you_rejecting_this_application] = nil unless answers_for_initial_top_level_questions.uniq == %w[No]
     end
 

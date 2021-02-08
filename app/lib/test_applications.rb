@@ -332,6 +332,11 @@ class TestApplications
           performance_at_interview_y_n: 'Yes',
           performance_at_interview_what_to_improve: 'We felt that pyjamas were a little too casual',
           qualifications_y_n: 'Yes',
+          qualifications_which_qualifications: %w[no_maths_gcse no_degree other],
+          qualifications_other_details: 'Cycling proficiency badge',
+          quality_of_application_y_n: 'Yes',
+          quality_of_application_which_parts_needed_improvement: %w[subject_knowledge other],
+          quality_of_application_other_details: 'Too many emojis',
         },
       ).save
       choice.update_columns(rejected_at: time, updated_at: time)

@@ -1,0 +1,17 @@
+<% content_for :context, 'Structured reasons for rejection' %>
+<% content_for :title, 'Search' %>
+
+<% content_for :before_content do %>
+  <%= render SupportInterface::ReasonsForRejectionSearchBreadcrumbComponent.new(
+    search_attribute: params[:structured_rejection_reasons].keys.first,
+    search_value: params[:structured_rejection_reasons].values.first,
+  ) %>
+<% end %>
+
+<%= render SupportInterface::ReasonsForRejectionSearchResultsComponent.new(
+  search_attribute: params[:structured_rejection_reasons].keys.first,
+  search_value: params[:structured_rejection_reasons].values.first,
+  application_choices: @application_choices,
+) %>
+
+<%= render(PaginatorComponent.new(scope: @application_choices)) %>

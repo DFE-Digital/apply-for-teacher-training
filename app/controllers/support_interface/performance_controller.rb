@@ -27,6 +27,10 @@ module SupportInterface
       @reasons_for_rejection = ReasonsForRejectionCountQuery.new.sub_reason_counts
     end
 
+    def reasons_for_rejection_application_choices
+      @application_choices = ReasonsForRejectionApplicationsQuery.new(params).call
+    end
+
     def ucas_matches_dashboard; end
 
     def unavailable_choices
