@@ -58,7 +58,7 @@ and for completeness, a qualification with a single grade could look like this:
 
 In order to keep the change backwards compatible for the API, the first grade inside the structured grades will get the database id of the qualification as its public_id.
 The other grades will get a new public_id which is unique among the other qualifications.
-To generate this new id, we will take the minimum next available integer for public_ids.
+To generate this new id, we will take the minimum next available integer for public_ids. We will do this using a postgres sequence to ensure uniqueness.
 This would have posed a problem if we were still using the database id column for the public id for simple grade qualifications.
 There would have been overlap between database ids and public_ids of qualifications
 However, since the new public_id column exists, when any new qualification is added, the public id will be generated so as to not clash with any ids that have come before.

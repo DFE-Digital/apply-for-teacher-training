@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2021_02_03_160529) do
 
+  # The ar-sequence gem adds these to the schema.
+  # This allows us to add custom sequences for use in e.g. public ids for qualifications
+  # See adr/0018-public-ids-for-qualifications.md
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
   create_sequence "application_feedback_id_seq"
