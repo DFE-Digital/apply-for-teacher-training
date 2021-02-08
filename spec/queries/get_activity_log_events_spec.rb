@@ -186,6 +186,8 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
     let(:application_choice) { create(:application_choice, :with_scheduled_interview) }
 
     it 'returns events associated with interviews' do
+      pending 'excluding interviews until query is faster'
+
       result = GetActivityLogEvents.call(application_choices: [application_choice])
 
       expect(result.first.auditable).to eq(application_choice.interviews.first)
