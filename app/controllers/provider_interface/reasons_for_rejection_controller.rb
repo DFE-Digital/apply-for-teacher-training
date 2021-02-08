@@ -112,5 +112,11 @@ module ProviderInterface
         redirect_to provider_interface_application_choice_path(@application_choice)
       end
     end
+
+    private
+
+    def rbd_application_with_no_feedback?
+      @application_choice.rejected_by_default? && @application_choice.rejection_reason.blank?
+    end
   end
 end
