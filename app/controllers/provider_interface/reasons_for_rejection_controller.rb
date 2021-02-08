@@ -1,6 +1,5 @@
 module ProviderInterface
   class ReasonsForRejectionController < ProviderInterfaceController
-    before_action :ensure_structured_reasons_for_rejection_feature_is_active
     before_action :set_application_choice
     before_action :redirect_if_application_rejected, except: :commit
 
@@ -112,10 +111,6 @@ module ProviderInterface
 
         redirect_to provider_interface_application_choice_path(@application_choice)
       end
-    end
-
-    def ensure_structured_reasons_for_rejection_feature_is_active
-      render_404 unless FeatureFlag.active?(:structured_reasons_for_rejection)
     end
   end
 end

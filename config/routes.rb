@@ -603,9 +603,6 @@ Rails.application.routes.draw do
       get '/respond' => 'decisions#respond', as: :application_choice_respond
       post '/respond' => 'decisions#submit_response', as: :application_choice_submit_response
       get '/offer/new' => 'decisions#new_offer', as: :application_choice_new_offer
-      get '/reject' => 'decisions#new_reject', as: :application_choice_new_reject
-      post '/reject/confirm' => 'decisions#confirm_reject', as: :application_choice_confirm_reject
-      post '/reject' => 'decisions#create_reject', as: :application_choice_create_reject
       post '/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
       post '/offer' => 'decisions#create_offer', as: :application_choice_create_offer
       get '/conditions' => 'conditions#edit', as: :application_choice_edit_conditions

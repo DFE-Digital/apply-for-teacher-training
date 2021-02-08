@@ -188,7 +188,7 @@ module CandidateInterface
     def rejection_reasons_row(application_choice)
       return nil unless application_choice.rejected?
 
-      if FeatureFlag.active?(:structured_reasons_for_rejection) && application_choice.structured_rejection_reasons.present?
+      if application_choice.structured_rejection_reasons.present?
         {
           key: 'Feedback',
           value: render(
