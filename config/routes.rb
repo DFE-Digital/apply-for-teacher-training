@@ -635,15 +635,15 @@ Rails.application.routes.draw do
       resources :interviews, only: %i[new edit index], as: :application_choice_interviews do
         collection do
           get '/new/check', to: 'interviews#check'
-          get '/confirm', to: 'interviews#commit'
-          get '/check/:id', to: 'interviews#check', as: :check
-          get '/update/:id', to: 'interviews#update', as: :update
+          post '/confirm', to: 'interviews#commit'
         end
 
         member do
           get :cancel
           get '/cancel/review/', to: 'interviews#review_cancel'
           post '/cancel/confirm/', to: 'interviews#confirm_cancel'
+          get '/check', to: 'interviews#check'
+          put '/update', to: 'interviews#update'
         end
       end
     end
