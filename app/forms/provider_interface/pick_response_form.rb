@@ -15,6 +15,9 @@ module ProviderInterface
         attrs[:controller] = 'offer_changes'
         attrs[:action] = 'edit_offer'
         attrs[:step] = decision.delete_prefix('edit_')
+      elsif decision == 'new_reject'
+        attrs[:controller] = 'reasons_for_rejection'
+        attrs[:action] = 'edit_initial_questions'
       else
         attrs[:controller] = 'decisions'
         attrs[:action] = decision
