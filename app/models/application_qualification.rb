@@ -147,7 +147,7 @@ class ApplicationQualification < ApplicationRecord
 private
 
   def set_public_id
-    if constituent_grades.present?
+    if constituent_grades.present? && subject != SCIENCE_TRIPLE_AWARD
       set_public_ids_for_constituent_grades
     elsif public_id.blank?
       self.public_id = next_available_public_id

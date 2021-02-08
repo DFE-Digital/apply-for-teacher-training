@@ -228,6 +228,17 @@ RSpec.describe ApplicationQualification, type: :model do
         expect(qualification.public_id).not_to be_nil
       end
 
+      it 'a triple science qualification' do
+        qualification = create(
+          :application_qualification,
+          subject: ApplicationQualification::SCIENCE_TRIPLE_AWARD,
+          constituent_grades: { biology: { grade: 'A' }, chemistry: { grade: 'B' }, physics: { grade: 'A*' } },
+        )
+
+        expect(qualification.constituent_grades).not_to be_nil
+        expect(qualification.public_id).not_to be_nil
+      end
+
       it 'a qualification with constituent_grades' do
         qualification = create(:application_qualification, constituent_grades: constituent_grades_without_public_ids)
 
