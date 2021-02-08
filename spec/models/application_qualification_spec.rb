@@ -216,7 +216,7 @@ RSpec.describe ApplicationQualification, type: :model do
     end
   end
 
-  describe '#after_save' do
+  describe '#before_save' do
     let(:constituent_grades_without_public_ids) { { english_language: { grade: 'A' }, english_literature: { grade: 'B' } } }
     let(:constituent_grades_with_public_ids) { { english_language: { grade: 'C', public_id: 10 }, english_literature: { grade: 'A', public_id: 11 } } }
 

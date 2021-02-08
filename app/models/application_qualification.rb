@@ -58,7 +58,7 @@ class ApplicationQualification < ApplicationRecord
 
   audited associated_with: :application_form
 
-  after_save :set_public_id
+  before_save :set_public_id
 
   def missing_qualification?
     qualification_type == 'missing'
@@ -150,7 +150,7 @@ private
     if constituent_grades.present?
       set_public_ids_for_constituent_grades
     elsif public_id.blank?
-      update_column(:public_id, next_available_public_id)
+      self.public_id = next_available_public_id
     end
   end
 
@@ -161,7 +161,7 @@ private
       grade.merge({ public_id: next_available_public_id })
     end
 
-    update_column(:constituent_grades, grades_with_ids)
+    self.constituent_grades = grades_with_ids
   end
 
   def next_available_public_id
