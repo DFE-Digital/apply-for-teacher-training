@@ -5,7 +5,6 @@ RSpec.feature 'Candidate provides feedback during the application process' do
 
   scenario 'Candidate gives feedback while completing their applications' do
     given_i_am_signed_in
-    and_the_feedback_prompts_flag_is_active
 
     when_i_visit_the_site
     and_i_click_on_the_references_section
@@ -21,10 +20,6 @@ RSpec.feature 'Candidate provides feedback during the application process' do
     @candidate = create(:candidate)
     login_as(@candidate)
     @application = @candidate.current_application
-  end
-
-  def and_the_feedback_prompts_flag_is_active
-    FeatureFlag.activate(:feedback_prompts)
   end
 
   def when_i_visit_the_site
