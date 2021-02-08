@@ -21,11 +21,11 @@ module ProviderInterface
     end
 
     def create
-      SaveAndSendRejectByDefaultFeedback.new(
+      RejectByDefaultFeedback.new(
         actor: current_provider_user,
         application_choice: @application_choice,
         rejection_reason: feedback_params[:rejection_reason],
-      ).call!
+      ).save
 
       flash[:success] = 'Feedback sent'
 
