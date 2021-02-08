@@ -382,6 +382,7 @@ FactoryBot.define do
     address_line2 { Faker::Address.city }
     address_line3 { Faker::Address.county }
     address_line4 { '' }
+    region { 'north_west' }
     postcode { Faker::Address.postcode }
   end
 
