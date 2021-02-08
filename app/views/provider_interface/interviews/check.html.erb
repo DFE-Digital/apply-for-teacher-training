@@ -12,9 +12,9 @@
     <%= render ProviderInterface::InterviewDetailsComponent.new(@wizard, @interview) %>
 
     <% if @interview.present? %>
-      <%= govuk_link_to t('.update.confirm'), update_provider_interface_application_choice_interviews_path(id: @interview.id), class: 'govuk-button' %>
+      <%= govuk_button_to t('.update.confirm'), { action: 'update', id: @interview.id }, method: :put %>
     <% else %>
-      <%= govuk_link_to t('.confirm'), confirm_provider_interface_application_choice_interviews_path, class: 'govuk-button' %>
+      <%= govuk_button_to t('.confirm'), action: 'commit' %>
     <% end %>
 
     <p class="govuk-body">
