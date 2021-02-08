@@ -11,11 +11,11 @@ module SupportInterface
       items = [
         {
           text: 'Performance',
-          path: support_interface_performance_path
+          path: support_interface_performance_path,
         },
         {
           text: 'Structured reasons for rejection',
-          path: support_interface_reasons_for_rejection_dashboard_path
+          path: support_interface_reasons_for_rejection_dashboard_path,
         },
       ]
       if top_level_reason?
@@ -33,7 +33,7 @@ module SupportInterface
           ),
         }
         items << {
-          text: t("reasons_for_rejection.#{i18n_key}.#{@search_value}")
+          text: t("reasons_for_rejection.#{i18n_key}.#{@search_value}"),
         }
       end
 

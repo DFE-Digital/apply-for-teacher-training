@@ -4,7 +4,7 @@ class ReasonsForRejectionFeatureMetrics
     start_time,
     end_time = Time.zone.now.beginning_of_day
   )
-    raise ArgumentError unless ProviderInterface::ReasonsForRejectionWizard::INITIAL_TOP_LEVEL_QUESTIONS.include?(reason)
+    raise ArgumentError unless ReasonsForRejection::INITIAL_TOP_LEVEL_QUESTIONS.include?(reason)
 
     ApplicationChoice
       .rejected

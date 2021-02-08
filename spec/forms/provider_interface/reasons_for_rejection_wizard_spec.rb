@@ -346,7 +346,7 @@ RSpec.describe ProviderInterface::ReasonsForRejectionWizard do
     # candidate_behaviour_what_did_the_candidate_do: [didnt_attend_interview]
     # candidate_behaviour_other: 'Some text' <- this value should be cleared
     it 'ignores nested answers when parent is not selected' do
-      described_class::INITIAL_TOP_LEVEL_QUESTIONS.each { |q| attrs_with_nested_answers[q] = 'Yes' }
+      ReasonsForRejection::INITIAL_TOP_LEVEL_QUESTIONS.each { |q| attrs_with_nested_answers[q] = 'Yes' }
 
       attrs_with_nested_answers[:candidate_behaviour_what_did_the_candidate_do] = %w[didnt_attend_interview]
       attrs_with_nested_answers[:quality_of_application_which_parts_needed_improvement] = %w[personal_statement]
