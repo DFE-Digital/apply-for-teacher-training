@@ -107,7 +107,7 @@ RSpec.feature 'Editing address' do
 
   def then_i_should_see_the_international_address_details_form
     expect(page).to have_content('What is the candidate’s address?')
-    expect(page).to have_content('City, town or village')
+    expect(page).to have_content('Address 1')
   end
 
   def then_i_should_see_blank_error_messages
