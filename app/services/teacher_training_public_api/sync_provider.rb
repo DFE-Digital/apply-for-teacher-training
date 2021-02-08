@@ -10,6 +10,10 @@ module TeacherTrainingPublicAPI
         provider_attrs_from(@provider_from_api),
       )
 
+      sync_courses(run_in_background, provider)
+    end
+
+    def sync_courses(run_in_background, provider)
       if sync_courses?
         if run_in_background
           TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year)

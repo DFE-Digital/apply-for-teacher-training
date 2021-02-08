@@ -56,12 +56,10 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
                               course_code: 'ABC1',
                               course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
         )
-      allow(described_class).to receive(TeacherTrainingPublicAPI::SyncCourses.new.perform(@existing_provider.id,stubbed_recruitment_cycle_year ))
-
-
-      described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
-
-      expect(described_class).to have_received(TeacherTrainingPublicAPI::SyncCourses.new.perform(@existing_provider.id,stubbed_recruitment_cycle_year )).exactly(1).times
+        allow(described_class).to receive(:sync_courses)
+        sync_job = described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year)
+        sync_job.call
+        expect(sync_job).to have_received(:sync_courses).exactly(1).times
       end
     end
   end
