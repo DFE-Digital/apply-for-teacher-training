@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe PerformanceStatistics, type: :model do
+  include CourseOptionHelpers
+
   describe '#[]' do
     it 'does not count candidates without application forms' do
       create(:candidate)
@@ -227,5 +229,82 @@ RSpec.describe PerformanceStatistics, type: :model do
     stats = PerformanceStatistics.new(nil)
 
     expect(stats.total_form_count).to eq(1)
+  end
+
+  describe '#total_application_choice_count' do
+    it 'returns the total number of application choices, respecting the cycle' do
+      create(:application_choice, :awaiting_provider_decision, application_form: create(:application_form, recruitment_cycle_year: 2020))
+      create(:application_choice, :awaiting_provider_decision, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:application_choice, :unsubmitted, application_form: create(:application_form, recruitment_cycle_year: 2019)) # should not be counted bc unsubmitted
+
+      expect(PerformanceStatistics.new(2021).total_application_choice_count).to eq 1
+      expect(PerformanceStatistics.new(2020).total_application_choice_count).to eq 1
+
+      expect(PerformanceStatistics.new(nil).total_application_choice_count).to eq 2
+    end
+  end
+
+  describe '#application_choices_by_provider_type' do
+    it 'returns a hash of provider_type => count' do
+      hei = create(:provider, provider_type: 'university')
+      scitt = create(:provider, provider_type: 'scitt')
+      sd = create(:provider, provider_type: 'lead_school')
+
+      # rubocop:disable Naming/VariableNumber
+      hei_course_2020 = course_option_for_provider(provider: hei, recruitment_cycle_year: 2020)
+      hei_course_2021 = course_option_for_provider(provider: hei, recruitment_cycle_year: 2021)
+      _hei_app_2020 = create(:application_choice, :awaiting_provider_decision,
+                             course_option: hei_course_2020,
+                             application_form: create(:application_form, recruitment_cycle_year: 2020))
+      _hei_app_2021 = create(:application_choice, :awaiting_provider_decision,
+                             course_option: hei_course_2021,
+                             application_form: create(:application_form, recruitment_cycle_year: 2021))
+
+      scitt_course_2020 = course_option_for_provider(provider: scitt, recruitment_cycle_year: 2020)
+      scitt_course_2021 = course_option_for_provider(provider: scitt, recruitment_cycle_year: 2021)
+      _scitt_app_2020 = create(:application_choice, :awaiting_provider_decision,
+                               course_option: scitt_course_2020,
+                               application_form: create(:application_form, recruitment_cycle_year: 2020))
+      _scitt_app_2021 = create(:application_choice, :awaiting_provider_decision,
+                               course_option: scitt_course_2021,
+                               application_form: create(:application_form, recruitment_cycle_year: 2021))
+      _scitt_app_2021 = create(:application_choice, :unsubmitted,
+                               course_option: scitt_course_2021,
+                               application_form: create(:application_form, recruitment_cycle_year: 2021))
+
+      # no SD app in 2020
+      # two 20201 applications ratified by HEI and SCITT respectively
+      sd_hei_course_2021 = course_option_for_accredited_provider(provider: sd, accredited_provider: hei, recruitment_cycle_year: 2021)
+      sd_scitt_course_2021 = course_option_for_accredited_provider(provider: sd, accredited_provider: scitt, recruitment_cycle_year: 2021)
+      _sd_hei_app_2021 = create(:application_choice, :awaiting_provider_decision,
+                                course_option: sd_hei_course_2021,
+                                application_form: create(:application_form, recruitment_cycle_year: 2021))
+      _sd_scitt_app_2021 = create(:application_choice, :awaiting_provider_decision,
+                                  course_option: sd_scitt_course_2021,
+                                  application_form: create(:application_form, recruitment_cycle_year: 2021))
+      # rubocop:enable Naming/VariableNumber
+
+      expect(PerformanceStatistics.new(2021).application_choices_by_provider_type).to eq({
+        'scitt' => 1,
+        'university' => 1,
+        'lead_school' => 2,
+        'ratified_by_scitt' => 1,
+        'ratified_by_university' => 1,
+      })
+      expect(PerformanceStatistics.new(2020).application_choices_by_provider_type).to eq({
+        'scitt' => 1,
+        'university' => 1,
+        'lead_school' => 0,
+        'ratified_by_scitt' => 0,
+        'ratified_by_university' => 0,
+      })
+      expect(PerformanceStatistics.new(nil).application_choices_by_provider_type).to eq({
+        'scitt' => 2,
+        'university' => 2,
+        'lead_school' => 2,
+        'ratified_by_scitt' => 1,
+        'ratified_by_university' => 1,
+      })
+    end
   end
 end
