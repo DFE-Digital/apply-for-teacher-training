@@ -768,6 +768,14 @@ FactoryBot.define do
         interview.provider = interview.application_choice.offered_course.provider
       end
     end
+
+    trait :future_date_and_time do
+      date_and_time { (1...10).to_a.sample.business_days.from_now + (0..8).to_a.sample.hours }
+    end
+
+    trait :past_date_and_time do
+      date_and_time { (2...10).to_a.sample.business_days.ago - (0..8).to_a.sample.hours }
+    end
   end
 
   factory :vendor_api_user, class: 'VendorApiUser' do
@@ -939,6 +947,14 @@ FactoryBot.define do
     trait :with_provider do
       after(:create) do |user, _evaluator|
         create(:provider).provider_users << user
+      end
+    end
+
+    trait :with_dfe_sign_in do
+      dfe_sign_in_uid { 'DFE_SIGN_IN_UID' }
+
+      after(:create) do |user, _evaluator|
+        create(:provider, :with_signed_agreement).provider_users << user
       end
     end
 
