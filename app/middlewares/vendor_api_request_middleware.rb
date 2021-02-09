@@ -11,6 +11,7 @@ class VendorAPIRequestMiddleware
     HTTP_AUTHORIZATION
     HTTP_CONNECTION
     HTTP_CACHE_CONTROL
+    QUERY_STRING
   ].freeze
 
   def initialize(app)
