@@ -1,0 +1,72 @@
+<% content_for :title, t('page_titles.apply_from_find_with_ucas') %>
+<% content_for :service_link, candidate_interface_apply_from_find_path(providerCode: @course.provider.code, courseCode: @course.code) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render CandidateInterface::UCASDowntimeComponent.new  %>
+
+    <h1 class="govuk-heading-xl">
+      <span class="govuk-caption-xl"><%= @course.name_and_code %></span>
+      <%= t('page_titles.apply_from_find_with_ucas') %>
+    </h1>
+
+    <p class="govuk-body">
+      You’ll need to register with UCAS before you can apply.
+      Visit Get Into Teaching for
+      <a class="govuk-link" target="_blank" href="https://beta-getintoteaching.education.gov.uk/steps-to-become-a-teacher#step-5">guidance on applying for teacher training
+      </a>.
+    </p>
+    <p class="govuk-body">
+      When you apply you’ll need these codes for the Choices section of your application form:
+    </p>
+
+    <div class="govuk-inset-text">
+      <ul class="govuk-list">
+        <li class="govuk-!-margin-bottom-2">
+          Training provider code:
+          <span class="govuk-!-display-block govuk-!-font-size-36 govuk-!-font-weight-bold">
+            <%= @course.provider.code %>
+          </span>
+        </li>
+        <li>
+          Training programme code:
+          <span class="govuk-!-display-block govuk-!-font-size-36 govuk-!-font-weight-bold">
+            <%= @course.code %>
+          </span>
+        </li>
+      </ul>
+
+      <p class="govuk-body">
+        You’ll also need to choose a training location – select the relevant location name
+        on the application form.
+      </p>
+
+      <table class="govuk-table app-table--vertical-align-middle">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th class="govuk-table__header" style="width: 70%">Location</th>
+            <th class="govuk-table__header">Code</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% @course.course_options.includes(:site).map(&:site).each do |site| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">
+                <span class="govuk-!-font-weight-bold"><%= site.name %></span><br>
+                <%= site.full_address %> 
+              </td>
+              <td class="govuk-table__cell"><%= site.code %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <a href="<%= UCAS.apply_url %>" class="govuk-button govuk-!-margin-top-4 govuk-!-margin-bottom-3 govuk-button--start">
+      <%= t('apply_from_find.ucas_apply_button') %>
+      <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" role="presentation" focusable="false">
+        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+      </svg>
+    </a>
+  </div>
+</div>

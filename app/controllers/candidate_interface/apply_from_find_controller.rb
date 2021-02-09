@@ -43,11 +43,28 @@ module CandidateInterface
             courseCode: @apply_on_ucas_or_apply.course_code,
           )
         else
-          redirect_to UCAS.apply_url
+          redirect_to candidate_interface_apply_with_ucas_interstitial_path(
+            candidate_interface_apply_on_ucas_or_apply_form: {
+              provider_code: @apply_on_ucas_or_apply.provider_code,
+              course_code: @apply_on_ucas_or_apply.course_code,
+            },
+          )
         end
       else
         render :apply_on_ucas_or_apply
       end
+    end
+
+    def ucas_interstitial
+      @apply_on_ucas_or_apply = CandidateInterface::ApplyOnUCASOrApplyForm.new(
+        apply_on_ucas_or_apply_params.merge(service: 'ucas'),
+      )
+
+      set_service_and_course(@apply_on_ucas_or_apply.provider_code, @apply_on_ucas_or_apply.course_code)
+    end
+
+    def apply_with_ucas
+      redirect_to UCAS.apply_url
     end
 
   private
