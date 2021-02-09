@@ -13,7 +13,7 @@ module CandidateInterface
 
         application_form.update!(
           work_history_status: choice,
-          work_history_explanation: explanation,
+          work_history_explanation: can_not_complete_work_history? ? explanation : nil,
         )
       end
 

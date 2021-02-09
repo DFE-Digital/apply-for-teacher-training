@@ -6,11 +6,15 @@ en:
         hint_text: You’ll be able to give details of any breaks once you’ve entered your employment history
       full_time_education:
         label: No, I have always been in full time education
+        review_label: Do you have any work history?
+        change_action: explanation of why you’ve been out of the workplace
       can_not_complete:
         label: No, I do not have any work history
       explanation:
         label: Tell us why you’ve been out of the workplace
         hint_text: For example, ‘I have been unemployed’, ‘I have been volunteering’ or ‘I have been caring for a child’
+        review_label: Explanation of why you’ve been out of the workplace
+        change_action: explanation of why you’ve been out of the workplace
       role:
         label: Role
         review_label: Role
@@ -40,6 +44,10 @@ en:
       relevant_skills:
         label: Did you use skills relevant to teaching in this job?
         hint: You can go into more detail about this in your personal statement.
+      delete_job:
+        action: Delete job
+        confirm: Yes I’m sure - delete this job
+        cancel: Cancel
   activemodel:
     errors:
       models:
@@ -72,3 +80,15 @@ en:
               in_the_future: Enter an end date that is not in the future
             relevant_skills:
               blank: Select if you use skills relevant to teaching in this job
+        candidate_interface/restructured_work_history/work_history_break_form:
+          attributes:
+            start_date:
+              invalid: Enter a start date in the correct format
+              before: Enter a start date that is before the end date
+              in_the_future: Enter a start date that is not in the future
+            end_date:
+              invalid: Enter an end date in the correct format
+              in_the_future: Enter an end date that is not in the future
+            reason:
+              blank: Enter reasons for break in work history
+              too_many_words: Reasons for break in work history must be %{count} words or fewer

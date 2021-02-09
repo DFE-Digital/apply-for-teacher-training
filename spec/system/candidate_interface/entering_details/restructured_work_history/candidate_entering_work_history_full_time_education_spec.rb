@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.feature 'Entering their work history' do
   include CandidateHelper
 
-  scenario 'Candidate submits their work history when they have none' do
+  scenario 'Candidate submits their work history as full time education' do
     FeatureFlag.activate(:restructured_work_history)
 
     given_i_am_signed_in
@@ -15,15 +15,12 @@ RSpec.feature 'Entering their work history' do
     when_i_choose_that_i_have_been_in_full_time_education
     then_i_should_see_the_work_history_review_page
 
-    # The below methods are reliant on the new review page
-    # and should be uncommented/extended as part of that card
+    and_i_can_see_i_have_selected_i_was_in_full_time_education
 
-    # and_i_can_see_i_have_selected_i_was_in_full_time_education
-    #
-    # when_i_mark_this_section_as_completed
-    # and_i_click_on_continue
-    # then_i_should_see_the_form
-    # and_that_the_section_is_completed
+    when_i_mark_this_section_as_completed
+    and_i_click_on_continue
+    then_i_should_see_the_form
+    and_that_the_section_is_completed
   end
 
   def given_i_am_signed_in
@@ -60,7 +57,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def and_i_click_on_continue
-    click_button t('continue')
+    click_button t('save_and_continue')
   end
 
   def then_i_should_see_the_form

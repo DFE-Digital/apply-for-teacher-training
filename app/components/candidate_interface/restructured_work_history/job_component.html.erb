@@ -1,0 +1,31 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-0"><%=@work_experience.organisation%></h2>
+
+    <% if @work_experience.part_time? %>
+      <p class="govuk-body govuk-!-margin-bottom-0"><%= @work_experience.role %> (Part time)</p>
+    <% else %>
+      <p class="govuk-body govuk-!-margin-bottom-0"><%= @work_experience.role %></p>
+    <% end %>
+
+    <p class="govuk-body">
+      <%= formatted_start_date %> to <%= formatted_end_date %>
+    </p>
+
+    <% if @work_experience.relevant_skills %>
+      <p class="govuk-body-s govuk-!-margin-bottom-1">This role used skills relevant to teaching</p>
+    <% end %>
+  </div>
+
+  <% if @editable %>
+    <div class="govuk-grid-column-one-third govuk-body app-grid-column-one-third--actions">
+      <%= govuk_link_to(nil, candidate_interface_edit_restructured_work_history_path(@work_experience.id), class: 'govuk-!-margin-right-2') do %>
+        Change <span class="govuk-visually-hidden">job <%= @work_experience.role %> for <%= @work_experience.organisation %></span>
+      <% end %>
+
+      <%= govuk_link_to(nil, candidate_interface_destroy_restructured_work_history_path(@work_experience.id)) do %>
+        Delete <span class="govuk-visually-hidden">job <%= @work_experience.role %> for <%= @work_experience.organisation %></span>
+      <% end %>
+    </div>
+  <% end %>
+</div>
