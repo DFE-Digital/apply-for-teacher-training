@@ -19,11 +19,7 @@
 <% end %>
 
 <% unless @application_form.can_complete? && @application_form.application_work_experiences.blank? %>
-  <section class="app-summary-card govuk-!-margin-bottom-6">
-    <div class="app-summary-card__body">
-      <%= render(CandidateInterface::RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form)) %>
-    </div>
-  </section>
+  <%= render(CandidateInterface::RestructuredWorkHistory::ReviewComponent.new(application_form: @application_form)) %>
 
   <%= form_with model: @application_form, url: candidate_interface_restructured_work_history_complete_path do |f| %>
     <div class="govuk-form-group">
