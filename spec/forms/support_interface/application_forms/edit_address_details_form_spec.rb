@@ -9,7 +9,6 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         address_line3: Faker::Address.city,
         address_line4: 'United Kingdom',
         postcode: Faker::Address.postcode,
-        international_address: nil,
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
       details_form = SupportInterface::ApplicationForms::EditAddressDetailsForm.new(data)
@@ -33,7 +32,6 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
         address_line4: 'United Kingdom',
         postcode: 'bn1 1aa',
         address_type: 'uk',
-        international_address: nil,
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
       application_form = build(:application_form)
@@ -50,7 +48,7 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       data = {
         address_line1: '123 Chandni Chowk',
         address_line3: 'Old Delhi',
-        postcode: '110006',
+        address_line4: '110006',
         audit_comment: 'Updated as part of Zendesk ticket 12345',
       }
       application_form = build(:application_form)
@@ -60,7 +58,6 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       expect(details_form.save_address(application_form)).to eq(true)
       expect(application_form).to have_attributes(data)
       expect(application_form.address_line2).to be_nil
-      expect(application_form.address_line4).to be_nil
       expect(application_form.international_address).to be_nil
     end
   end
@@ -110,7 +107,6 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       it { is_expected.to validate_presence_of(:address_line3).on(:address) }
       it { is_expected.to validate_presence_of(:postcode).on(:address) }
       it { is_expected.to validate_presence_of(:audit_comment).on(:address) }
-      it { is_expected.not_to validate_presence_of(:international_address).on(:address) }
       it { is_expected.not_to allow_value('MUCH WOW').for(:postcode).on(:address) }
     end
 
@@ -118,10 +114,9 @@ RSpec.describe SupportInterface::ApplicationForms::EditAddressDetailsForm, type:
       subject(:form) { described_class.new(address_type: 'international') }
 
       it { is_expected.to validate_presence_of(:address_line1).on(:address) }
-      it { is_expected.not_to validate_presence_of(:international_address).on(:address) }
       it { is_expected.not_to validate_presence_of(:address_line3).on(:address) }
       it { is_expected.not_to validate_presence_of(:postcode).on(:address) }
-      it { is_expected.to allow_value('MUCH WOW').for(:postcode).on(:address) }
+      it { is_expected.to validate_absence_of(:postcode).on(:address) }
     end
 
     it { is_expected.to validate_length_of(:address_line1).is_at_most(50).on(:address) }

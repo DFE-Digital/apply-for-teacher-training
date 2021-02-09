@@ -12,23 +12,23 @@ en:
         uk:
           label: Building and street
         international:
-          label: Building and street
+          label: Address 1
         hidden: line 1 of 2
       address_line2:
         uk:
           label: Building and street line 2 of 2
         international:
-          label: Building and street line 2 of 2
+          label: Address 2
       address_line3:
         uk:
           label: Town or city
         international:
-          label: City, town or village
+          label: Address 3
       address_line4:
         uk:
           label: County
         international:
-          label: Region, state or province
+          label: Address 4
       postcode:
         uk:
           label: Postcode
@@ -70,5 +70,3 @@ en:
               blank: Select where you live
             country:
               blank: Enter a country
-            international_address:
-              blank: Enter your address

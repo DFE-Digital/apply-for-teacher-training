@@ -107,7 +107,7 @@ RSpec.feature 'Editing address' do
 
   def then_i_should_see_the_international_address_details_form
     expect(page).to have_content('What is the candidate’s address?')
-    expect(page).to have_content('City, town or village')
+    expect(page).to have_content('Address 1')
   end
 
   def then_i_should_see_blank_error_messages
@@ -117,7 +117,7 @@ RSpec.feature 'Editing address' do
   def when_i_fill_in_an_international_address
     fill_in 'support_interface_application_forms_edit_address_details_form[address_line1]', with: '123 Chandni Chowk'
     fill_in 'support_interface_application_forms_edit_address_details_form[address_line3]', with: 'New Delhi'
-    fill_in 'support_interface_application_forms_edit_address_details_form[postcode]', with: '110006'
+    fill_in 'support_interface_application_forms_edit_address_details_form[address_line4]', with: '110006'
     fill_in 'support_interface_application_forms_edit_address_details_form[audit_comment]', with: 'Updated as part of Zen Desk ticket #56789'
   end
 

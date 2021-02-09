@@ -511,15 +511,18 @@ RSpec.describe ApplicationForm do
       ]
     end
 
-    it 'renders the candidate address and postcode for international addresses' do
+    it 'renders the candidate address for international addresses' do
       application_form = build_stubbed(
         :completed_application_form,
         :international_address,
-        international_address: 'Beverley Hills 90210',
+        address_line1: 'Beverley Hills',
+        address_line2: nil,
+        address_line3: '90210',
+        postcode: nil,
         country: 'US',
       )
 
-      expect(application_form.full_address).to eq ['Beverley Hills 90210', 'United States']
+      expect(application_form.full_address).to eq ['Beverley Hills', '90210', 'United States']
     end
   end
 
