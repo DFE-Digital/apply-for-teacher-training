@@ -28,7 +28,10 @@ module ProviderInterface
     end
 
     def check
-      @interview = @application_choice.interviews.find(params[:id]) if params[:id]
+      if params[:id]
+        @interview = @application_choice.interviews.find(params[:id])
+        @translation_prefix = '.update'
+      end
 
       @wizard = InterviewWizard.new(store, interview_params.merge(current_step: 'check'))
       @wizard.save_state!

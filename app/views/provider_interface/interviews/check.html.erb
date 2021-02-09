@@ -1,12 +1,11 @@
-<% translation_prefix = @interview.present? ? '.update' : '' %>
-<% content_for :browser_title,  t("#{translation_prefix}.page_title") %>
+<% content_for :browser_title,  t("#{@translation_prefix}.page_title") %>
 <% content_for :before_content, govuk_back_link_to(request.referer) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
       <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-      <%= t("#{translation_prefix}.title") %>
+      <%= t("#{@translation_prefix}.title") %>
     </h1>
 
     <%= render ProviderInterface::InterviewDetailsComponent.new(@wizard, @interview) %>
