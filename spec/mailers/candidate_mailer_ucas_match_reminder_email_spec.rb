@@ -31,14 +31,12 @@ RSpec.describe CandidateMailer, type: :mailer do
 
   describe '.ucas_match_reminder_email_multiple_acceptances' do
     let(:email) { mailer.ucas_match_reminder_email_multiple_acceptances(candidate.ucas_match) }
-    let(:ucas_match) { build_stubbed(:ucas_match, candidate_last_contacted_at: Time.zone.local(2020, 11, 16)) }
     let(:candidate) { build_stubbed(:candidate, ucas_match: ucas_match, application_forms: [application_form]) }
 
     it_behaves_like(
       'a mail with subject and content',
       'Withdraw from one of your offers by 30 November 2020',
       'heading' => 'Dear Jane',
-      'initial email date' => '16 November 2020',
       'withdraw by date' => '30 November 2020',
     )
   end
