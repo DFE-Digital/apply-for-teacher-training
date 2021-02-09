@@ -1,28 +1,38 @@
-<section>
-  <% @work_history_with_breaks.each do |entry| %>
-    <% if entry.is_a?(ApplicationWorkExperience) %>
+<% if show_missing_banner? %>
+  <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :work_experience, section_path: CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path, error: @missing_error)) %>
+<% else %>
 
-      <%= render(CandidateInterface::RestructuredWorkHistory::JobComponent.new(work_experience: entry, editable: @editable)) %>
+  <section class="app-summary-card govuk-!-margin-bottom-6">
+    <div class="app-summary-card__body">
+      <section>
+        <% @work_history_with_breaks.each do |entry| %>
+          <% if entry.is_a?(ApplicationWorkExperience) %>
 
-    <% elsif @editable && entry.is_a?(WorkHistoryWithBreaks::BreakPlaceholder) %>
+            <%= render(CandidateInterface::RestructuredWorkHistory::JobComponent.new(work_experience: entry, editable: @editable)) %>
 
-      <%= render(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: entry)) %>
+          <% elsif @editable && entry.is_a?(WorkHistoryWithBreaks::BreakPlaceholder) %>
 
-    <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
+            <%= render(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: entry)) %>
 
-      <%= render(CandidateInterface::RestructuredWorkHistory::WorkBreakComponent.new(work_break: entry, editable: @editable)) %>
+          <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
 
-    <% end %>
+            <%= render(CandidateInterface::RestructuredWorkHistory::WorkBreakComponent.new(work_break: entry, editable: @editable)) %>
 
-    <% if @work_history_with_breaks.last != entry %>
-      <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m ">
-    <% end %>
+          <% end %>
 
-  <% end %>
-</section>
+          <% if @work_history_with_breaks.last != entry %>
+            <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m ">
+          <% end %>
 
-<% if !show_missing_banner? && @application_form.application_work_experiences.empty? && @application_form.application_work_history_breaks.empty? %>
-  <div class="app-summary-card__body govuk-!-padding-0">
-    <%= render SummaryListComponent.new(rows: no_work_experience_rows) %>
-  </div>
+        <% end %>
+      </section>
+
+      <% if !show_missing_banner? && @application_form.application_work_experiences.empty? && @application_form.application_work_history_breaks.empty? %>
+        <div class="app-summary-card__body govuk-!-padding-0">
+          <%= render SummaryListComponent.new(rows: no_work_experience_rows) %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
 <% end %>
