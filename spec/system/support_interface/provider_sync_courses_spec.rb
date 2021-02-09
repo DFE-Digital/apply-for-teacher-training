@@ -31,9 +31,6 @@ RSpec.feature 'See provider course syncing' do
 
   def when_i_visit_the_providers_page
     visit support_interface_providers_path
-    uncheck('Courses synced')
-    uncheck('DSA signed')
-    click_button 'Apply filters'
   end
 
   def then_i_see_that_the_provider_is_not_configured_to_sync_courses
