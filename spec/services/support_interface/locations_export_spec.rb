@@ -40,6 +40,7 @@ private
       'Candidate’s postcode' => application_form.postcode,
       'Provider’s postcode' => application_choice.provider.postcode,
       'Site’s postcode' => application_choice.site.postcode,
+      'Site’s region' => application_choice.site.region,
       'Provider type' => 'lead_school',
       'Accrediting provider type' => 'scitt',
       'Program type' => 'scitt_programme',
