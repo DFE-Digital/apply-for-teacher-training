@@ -94,13 +94,14 @@ private
         honesty_and_professionalism_y_n: 'No',
         performance_at_interview_y_n: 'No',
         qualifications_y_n: 'Yes',
-        qualifications_which_qualifications: %w[no_maths_gcse no_degree],
+        qualifications_which_qualifications: %w[no_maths_gcse no_degree no_phd],
         quality_of_application_y_n: 'No',
         safeguarding_y_n: 'Yes',
         safeguarding_concerns: %w[other],
         offered_on_another_course_y_n: 'No',
         interested_in_future_applications_y_n: 'No',
         other_advice_or_feedback_y_n: 'No',
+        fashion_sense_y_n: 'Yes',
       },
       rejected_at: Time.zone.now,
     )
@@ -293,6 +294,8 @@ private
       expect(page).to have_content('Safeguarding issues')
       expect(page).to have_content("Qualifications\nNo Maths GCSE grade 4 (C) or above, or valid equivalentNo degree")
       expect(page).to have_content('Something you did Didn’t reply to our interview offer')
+      expect(page).not_to have_content('fashion_sense')
+      expect(page).not_to have_content('no_phd')
     end
     within "#application-choice-section-#{@application_choice2.id}" do
       expect(page).not_to have_content('Safeguarding issues')
