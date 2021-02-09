@@ -1,0 +1,107 @@
+{
+  "data": [
+    {
+      "id": "11222249",
+      "type": "locations",
+      "attributes": {
+        "code": "B",
+        "latitude": 51.5371634,
+        "longitude": 0.69922,
+        "postcode": "SS0 7JS",
+        "region_code": "south_east",
+        "name": "St Bernards High School",
+        "city": "",
+        "county": "",
+        "street_address_1": "Milton Road",
+        "street_address_2": "Westcliff on Sea"
+      },
+      "relationships": {
+        "course": {
+          "meta": {
+            "included": false
+          }
+        },
+        "location_status": {
+          "data": {
+            "type": "location_statuses",
+            "id": "22360124"
+          }
+        },
+        "provider": {
+          "meta": {
+            "included": false
+          }
+        },
+        "recruitment_cycle": {
+          "meta": {
+            "included": false
+          }
+        }
+      }
+    },
+    {
+      "id": "11222253",
+      "type": "locations",
+      "attributes": {
+        "code": "F",
+        "latitude": 51.5905,
+        "longitude": 0.6123,
+        "postcode": "SS68EB",
+        "region_code": "eastern",
+        "name": "The Fitzwimarc School",
+        "city": "Essex",
+        "county": "",
+        "street_address_1": "72 Hockley Road",
+        "street_address_2": "Rayleigh"
+      },
+      "relationships": {
+        "course": {
+          "meta": {
+            "included": false
+          }
+        },
+        "location_status": {
+          "data": {
+            "type": "location_statuses",
+            "id": "22360125"
+          }
+        },
+        "provider": {
+          "meta": {
+            "included": false
+          }
+        },
+        "recruitment_cycle": {
+          "meta": {
+            "included": false
+          }
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "22360124",
+      "type": "location_statuses",
+      "attributes": {
+        "publish": "published",
+        "status": "running",
+        "vacancy_status": "both_full_time_and_part_time_vacancies",
+        "has_vacancies": true
+      }
+    },
+    {
+      "id": "22360125",
+      "type": "location_statuses",
+      "attributes": {
+        "publish": "published",
+        "status": "running",
+        "vacancy_status": "both_full_time_and_part_time_vacancies",
+        "has_vacancies": true
+      }
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

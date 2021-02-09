@@ -8,7 +8,7 @@ module TeacherTrainingPublicAPIHelper
     ).to_return(
       status: 200,
       headers: { 'Content-Type': 'application/vnd.api+json' },
-      body: provider_list_response(specified_attributes).to_json,
+      body: build_response_body('provider_list_response.json', specified_attributes),
     )
 
     # Fake the error the API sends on exceeding the pagination limit
@@ -30,17 +30,54 @@ module TeacherTrainingPublicAPIHelper
     end
   end
 
-  def stub_teacher_training_api_courses(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, specified_attributes: [])
+  def stub_teacher_training_api_provider(provider_code:, recruitment_cycle_year: RecruitmentCycle.current_year, specified_attributes: [])
+    api_response = JSON.parse(
+      File.read(
+        Rails.root.join('spec/examples/teacher_training_api/single_provider_response.json'),
+      ),
+      symbolize_names: true,
+    )
+
+    if specified_attributes
+      example_resource = api_response[:data]
+      new_data = specified_attributes.map do |attrs|
+        specified_resource = example_resource.dup
+        specified_resource[:attributes] = specified_resource[:attributes].deep_merge(attrs)
+        specified_resource
+      end
+
+      api_response[:data] = new_data
+    end
+
+    response_body = api_response.to_json
+
+    url = "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}"
     stub_request(
       :get,
-      "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses",
-    ).with(
-      query: { page: { per_page: 500 } },
+      url,
     ).to_return(
       status: 200,
       headers: { 'Content-Type': 'application/vnd.api+json' },
-      body: course_list_response(specified_attributes).to_json,
+      body: response_body,
     )
+  end
+
+  def stub_course_with_site(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, site_code:, vacancy_status: 'full_time_vacancies', course_attributes: [], site_attributes: [])
+    course_attributes = course_attributes.any? ? [course_attributes.first.merge(code: course_code)] : [{ code: course_code }]
+    site_attributes = site_attributes.any? ? [site_attributes.first.merge(code: site_code)] : [{ code: site_code }]
+    stub_teacher_training_api_courses(recruitment_cycle_year: recruitment_cycle_year, provider_code: provider_code, specified_attributes: course_attributes)
+    stub_teacher_training_api_sites(recruitment_cycle_year: recruitment_cycle_year, provider_code: provider_code, course_code: course_code, specified_attributes: site_attributes, vacancy_status: vacancy_status)
+  end
+
+  def stub_teacher_training_api_courses(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, specified_attributes: [])
+    response_body = build_response_body('course_list_response.json', specified_attributes)
+    stub_teacher_training_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses", response_body)
+  end
+
+  def stub_teacher_training_api_sites(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, specified_attributes: [], vacancy_status: 'full_time_vacancies')
+    fixture_file = site_fixture(vacancy_status)
+    response_body = build_response_body(fixture_file, specified_attributes)
+    stub_teacher_training_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}/locations?include=location_status", response_body)
   end
 
   def fake_api_provider(provider_attributes = {})
@@ -56,50 +93,45 @@ module TeacherTrainingPublicAPIHelper
     TeacherTrainingPublicAPI::Provider.new(api_response[:data][:attributes])
   end
 
-private
-
-  def course_list_response(course_attributes = [])
-    api_response = JSON.parse(
-      File.read(
-        Rails.root.join('spec/examples/teacher_training_api/course_list_response.json'),
-      ),
-      symbolize_names: true,
-    )
-
-    if course_attributes
-      example_course = api_response[:data].first
-      new_data = course_attributes.map do |attrs|
-        specified_course = example_course.dup
-        specified_course[:attributes] = specified_course[:attributes].deep_merge(attrs)
-        specified_course
-      end
-
-      api_response[:data] = new_data
-    end
-
-    api_response
+  def stubbed_recruitment_cycle_year
+    @stubbed_recruitment_cycle_year || 2021
   end
 
-  def provider_list_response(provider_attributes = [])
+private
+
+  def stub_teacher_training_api_request(url, response_body)
+    stub_request(
+      :get,
+      url,
+    ).with(
+      query: { page: { per_page: 500 } },
+    ).to_return(
+      status: 200,
+      headers: { 'Content-Type': 'application/vnd.api+json' },
+      body: response_body,
+    )
+  end
+
+  def build_response_body(fixture_file, specified_attributes = [])
     api_response = JSON.parse(
       File.read(
-        Rails.root.join('spec/examples/teacher_training_api/provider_list_response.json'),
+        Rails.root.join("spec/examples/teacher_training_api/#{fixture_file}"),
       ),
       symbolize_names: true,
     )
 
-    if provider_attributes
-      example_provider = api_response[:data].first
-      new_data = provider_attributes.map do |attrs|
-        specified_provider = example_provider.dup
-        specified_provider[:attributes] = specified_provider[:attributes].deep_merge(attrs)
-        specified_provider
+    if specified_attributes
+      example_resource = api_response[:data].first
+      new_data = specified_attributes.map do |attrs|
+        specified_resource = example_resource.dup
+        specified_resource[:attributes] = specified_resource[:attributes].deep_merge(attrs)
+        specified_resource
       end
 
       api_response[:data] = new_data
     end
 
-    api_response
+    api_response.to_json
   end
 
   def pagination_error_response
@@ -128,5 +160,16 @@ private
       headers: { 'Content-Type': 'application/vnd.api+json' },
       body: api_response.to_json,
     )
+  end
+
+  def site_fixture(vacancy_status)
+    case vacancy_status
+    when 'full_time_vacancies'
+      'site_list_response_with_full_time_vacancies.json'
+    when 'part_time_vacancies'
+      'site_list_response_with_part_time_vacancies.json'
+    when 'both_full_time_and_part_time_vacancies'
+      'site_list_response_with_full_time_and_part_time_vacancies.json'
+    end
   end
 end

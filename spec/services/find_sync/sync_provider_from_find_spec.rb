@@ -5,371 +5,90 @@ RSpec.describe FindSync::SyncProviderFromFind, sidekiq: true do
 
   describe '.call' do
     context 'ingesting a brand new provider' do
-      it 'just creates the provider without any courses' do
+      it 'does not create a new provider, or related courses, course options or sites' do
         described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
 
         provider = Provider.find_by_code('ABC')
-        expect(provider).to be_present
-        expect(provider.courses).to be_blank
+        expect(provider).to be_nil
+
+        expect(Course.count).to eq 0
+        expect(CourseOption.count).to eq 0
+        expect(Site.count).to eq 0
       end
     end
 
     context 'ingesting an existing provider not configured to sync courses' do
       before do
-        @existing_provider = create :provider, code: 'ABC', sync_courses: false, name: 'Foobar College'
+        @existing_provider = create :provider, code: 'ABC', sync_courses: false, name: 'ABC College'
+        create :course, code: 'ABC1', provider: @existing_provider, subject_codes: %w[01 02 03]
       end
 
-      it 'correctly updates the provider but does not import any courses' do
-        stub_find_api_provider_200(provider_code: 'ABC', findable: true)
+      it 'does not update the provider details' do
+        stub_find_api_provider_200(
+          provider_name: 'Foobar College',
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          findable: true,
+        )
+
+        described_class.call(provider_name: 'Foobar College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
+        expect(Provider.find_by(code: 'ABC').name).to eq('ABC College')
+      end
+
+      it 'does not update the course subject codes' do
+        stub_find_api_provider_200(
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          findable: true,
+        )
 
         described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        expect(@existing_provider.reload.courses).to be_blank
-        expect(@existing_provider.reload.name).to eq 'ABC College'
+        course = Course.last
+        expect(course.subject_codes).to eq(%w[01 02 03])
       end
     end
 
-    context 'ingesting an existing provider configured to sync courses, sites and course_options' do
+    context 'ingesting an existing provider configured to sync courses' do
       before do
-        @existing_provider = create :provider, code: 'ABC', sync_courses: true
+        @existing_provider = create :provider, code: 'ABC', sync_courses: true, name: 'ABC College'
+        create :course, code: 'ABC1', provider: @existing_provider, subject_codes: %w[01 02 03], description: 'PGCE with QTS full time', exposed_in_find: false
       end
 
-      it 'correctly creates all the entities' do
+      it 'does not update the provider details' do
+        stub_find_api_provider_200(
+          provider_name: 'Foobar College',
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+        )
+
+        described_class.call(provider_name: 'Foobar College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
+        expect(Provider.find_by(code: 'ABC').name).to eq('ABC College')
+      end
+
+      it 'correctly updates the course subject codes' do
         stub_find_api_provider_200(
           provider_code: 'ABC',
-          course_code: '9CBA',
+          course_code: 'ABC1',
           findable: true,
         )
 
         described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        course_option = CourseOption.last
-        expect(course_option.course.provider.code).to eq 'ABC'
-        expect(course_option.course.provider.postcode).to eq 'SW1P 3BT'
-        expect(course_option.course.provider.provider_type).to eq 'scitt'
-        expect(course_option.course.code).to eq '9CBA'
-        expect(course_option.course.exposed_in_find).to be true
-        expect(course_option.course.recruitment_cycle_year).to eql stubbed_recruitment_cycle_year
-        expect(course_option.course.description).to eq 'PGCE with QTS full time'
-        expect(course_option.course.start_date).to eq Time.zone.local(stubbed_recruitment_cycle_year, 10, 31)
-        expect(course_option.course.course_length).to eq 'OneYear'
-        expect(course_option.course.age_range).to eq '4 to 8'
-        expect(course_option.site.name).to eq 'Main site'
-        expect(course_option.site.address_line1).to eq 'Gorse SCITT'
-        expect(course_option.site.address_line2).to eq 'C/O The Bruntcliffe Academy'
-        expect(course_option.site.address_line3).to eq 'Bruntcliffe Lane'
-        expect(course_option.site.address_line4).to eq 'MORLEY, LEEDS'
-        expect(course_option.site.postcode).to eq 'LS27 0LZ'
-        expect(course_option.site.latitude).to eq 53.745587
-        expect(course_option.site.longitude).to eq(-1.620208)
-        expect(course_option.vacancy_status).to eq 'vacancies'
+        course = Course.last
+        expect(course.subject_codes).to eq(%w[08])
       end
 
-      it 'correctly handles missing address info' do
+      it 'does not update other data' do
         stub_find_api_provider_200(
           provider_code: 'ABC',
-          course_code: '9CBA',
+          course_code: 'ABC1',
           findable: true,
-          site_address_line2: nil,
+          description: 'PGCE with QTS full time with salary',
         )
 
         described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        course_option = CourseOption.last
-
-        expect(course_option.site.address_line2).to be_nil
-      end
-
-      it 'correctly updates vacancy status for any existing course options' do
-        stub_find_api_provider_200(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          findable: true,
-        )
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        expect(CourseOption.count).to eq 1
-        CourseOption.first.update!(vacancy_status: 'no_vacancies')
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        expect(CourseOption.count).to eq 1
-        expect(CourseOption.first.vacancy_status).to eq 'vacancies'
-      end
-
-      it 'correctly updates withdrawn attribute for an existing course' do
-        stub_find_api_provider_200(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          content_status: 'withdrawn',
-        )
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        expect(CourseOption.count).to eq 1
-        Course.first.update!(withdrawn: false)
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        expect(Course.first.withdrawn).to eq true
-      end
-
-      it 'sets the accredited provider' do
-        stub_find_api_provider_200_with_accredited_provider(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          study_mode: 'full_time',
-          accredited_provider_code: 'DEF',
-          accredited_provider_name: 'Test Accredited Provider',
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        course_option = CourseOption.last
-        expect(course_option.course.accredited_provider.code).to eq 'DEF'
-        expect(course_option.course.accredited_provider.name).to eq 'Test Accredited Provider'
-      end
-
-      it 'does not set the accredited provider if it is the same as the training provider' do
-        stub_find_api_provider_200_with_accredited_provider(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          study_mode: 'full_time',
-          accredited_provider_code: 'ABC',
-          accredited_provider_name: 'ABC College',
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        expect(Course.find_by(code: '9CBA').accredited_provider).to be_nil
-      end
-
-      it 'resets the accredited provider if it is no longer specified' do
-        course = create(:course, accredited_provider: create(:provider), code: '9CBA', provider: create(:provider, code: 'ABC'))
-
-        stub_find_api_provider_200(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        expect(course.reload.accredited_provider).to be_nil
-      end
-
-      it 'correctly creates provider relationships' do
-        stub_find_api_provider_200_with_accredited_provider(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          study_mode: 'full_time',
-          accredited_provider_code: 'DEF',
-          accredited_provider_name: 'Test Accredited Provider',
-        )
-
-        expect {
-          described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        }.to change(ProviderRelationshipPermissions, :count).by(1)
-
-        permissions = ProviderRelationshipPermissions.last
-        expect(permissions.ratifying_provider.code).to eq('DEF')
-        expect(permissions.training_provider.code).to eq('ABC')
-        expect(permissions.training_provider_can_view_safeguarding_information).to be false
-        expect(permissions.ratifying_provider_can_view_safeguarding_information).to be false
-      end
-
-      it 'does not create provider relationships for self ratifying providers' do
-        stub_find_api_provider_200(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          findable: true,
-        )
-
-        expect {
-          described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        }.not_to change(ProviderRelationshipPermissions, :count)
-      end
-
-      it 'does not create provider relationships when the course accredited_provider attribute points back to the same provider' do
-        stub_find_api_provider_200_with_accredited_provider(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          accredited_provider_code: 'ABC',
-          findable: true,
-        )
-
-        expect {
-          described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        }.not_to change(ProviderRelationshipPermissions, :count)
-      end
-
-      it 'stores full_time/part_time information within courses' do
-        stub_find_api_provider_200_with_accredited_provider(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          study_mode: 'full_time_or_part_time',
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        course = Provider.find_by_code('ABC').courses.find_by_code('9CBA')
-        expect(course.study_mode).to eq 'full_time_or_part_time'
-      end
-
-      it 'creates the correct number of course_options for sites and study_mode' do
-        stub_find_api_provider_200_with_multiple_sites(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          study_mode: 'full_time_or_part_time',
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        provider = Provider.find_by_code('ABC')
-        course_options = provider.courses.find_by_code('9CBA').course_options
-
-        expect(course_options.count).to eq 4
-        provider.sites.each do |site|
-          modes_for_site = course_options.where(site_id: site.id).pluck(:study_mode)
-          expect(modes_for_site).to match_array %w[full_time part_time]
-        end
-      end
-
-      it 'correctly updates the Provider#region_code' do
-        stub_find_api_provider_200(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          findable: true,
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        expect(@existing_provider.reload.region_code).to eq 'north_west'
-      end
-
-      it 'correctly handles existing course options with invalid sites' do
-        stub_find_api_provider_200(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          site_code: 'A',
-          findable: true,
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        expect(Course.count).to eq 1
-        expect(CourseOption.count).to eq 1
-
-        course = Course.first
-        valid_course_option = course.course_options.first
-
-        invalid_site_one = create(:site, provider: course.provider, code: 'B')
-        invalid_site_two = create(:site, provider: course.provider, code: 'C')
-        invalid_site_three = create(:site, provider: course.provider, code: 'D')
-        invalid_course_option_one = create(:course_option, course: course, site: invalid_site_one)
-        invalid_course_option_two = create(:course_option, course: course, site: invalid_site_two)
-        invalid_course_option_three = create(:course_option, course: course, site: invalid_site_three)
-
-        create(:application_choice, course_option: invalid_course_option_two)
-        create(:application_choice, course_option: valid_course_option, offered_course_option: invalid_course_option_three)
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-
-        expect(CourseOption.exists?(invalid_course_option_one.id)).to eq false
-        expect(invalid_course_option_two.reload).not_to be_site_still_valid
-        expect(invalid_course_option_three.reload).not_to be_site_still_valid
-        expect(valid_course_option.reload).to be_site_still_valid
-      end
-
-      it 'correctly updates subject_codes' do
-        stub_find_api_provider_200(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          findable: true,
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        course_option = CourseOption.last
-
-        expect(course_option.course.subject_codes).to eq(%w[08])
-      end
-
-      # These fields are not present in the Find API yet, but will be soon
-      # Our code should set them to nil at first, then the correct values
-      # once they are populated
-      it 'correctly updates qualifications and program_type when they are not present' do
-        stub_find_api_provider_200(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          findable: true,
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        course_option = CourseOption.last
-
-        expect(course_option.course.qualifications).to be_nil
-        expect(course_option.course.program_type).to be_nil
-      end
-
-      it 'does not update qualifications even when qualifications are present' do
-        stub_find_api_provider_200_with_qualifications_and_program_type(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          findable: true,
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        course_option = CourseOption.last
-
-        expect(course_option.course.qualifications).to be_nil
-      end
-
-      it 'correctly updates program_type when program_type is present' do
-        stub_find_api_provider_200_with_qualifications_and_program_type(
-          provider_code: 'ABC',
-          course_code: '9CBA',
-          findable: true,
-          program_type: 'SD',
-        )
-
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        course_option = CourseOption.last
-
-        # the enum field converts the value from the short code to the expanded value
-        expect(course_option.course.program_type).to eq('school_direct_training_programme')
-      end
-    end
-
-    context 'ingesting a provider when it existed in the previous recruitment cycle' do
-      before do
-        set_stubbed_recruitment_cycle_year!(2020)
-        @existing_provider = create :provider, code: 'ABC', sync_courses: true
-
-        stub_find_api_provider_200(provider_code: 'ABC', course_code: '9CBA', findable: true)
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: 2020)
-
-        set_stubbed_recruitment_cycle_year!(2021)
-      end
-
-      it 'creates separate courses for the courses in this cycle' do
-        expect(Course.count).to eq 1
-
-        stub_find_api_provider_200(provider_code: 'ABC', course_code: '9CBA', findable: true)
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: 2021)
-
-        expect(Course.count).to eq 2
-      end
-
-      it 'carries over the previous course’s open_on_apply status the first time it appears in the new cycle but not the second time' do
-        existing_course = Course.find_by(recruitment_cycle_year: 2020)
-        existing_course.update(open_on_apply: true)
-
-        stub_find_api_provider_200(provider_code: 'ABC', course_code: '9CBA', findable: true)
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: 2021)
-
-        new_course = Course.find_by(recruitment_cycle_year: 2021)
-        expect(new_course).to be_open_on_apply
-
-        new_course.update(open_on_apply: false)
-
-        stub_find_api_provider_200(provider_code: 'ABC', course_code: '9CBA', findable: true)
-        described_class.call(provider_name: 'ABC College', provider_code: 'ABC', provider_recruitment_cycle_year: 2021)
-
-        expect(new_course.reload).not_to be_open_on_apply
+        course = Course.last
+        expect(course.description).to eq('PGCE with QTS full time')
+        expect(course.exposed_in_find).to be_falsey
       end
     end
   end
