@@ -5,5 +5,3 @@ Dear <%= @application_form.first_name %>,
 You cannot enrol on <%= @application_choice.course_option.course.name_and_code %> because <%= @application_choice.course_option.course.provider.name %> told us you have not met your conditions.
 
 Get in touch with <%= @application_choice.course_option.course.provider.name %> if you need further advice.
-
-<%= render 'get_support' %>
