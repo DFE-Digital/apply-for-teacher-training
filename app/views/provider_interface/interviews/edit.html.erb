@@ -15,13 +15,13 @@
       <% end %>
 
       <%= form_with model: @wizard,
-          url: new_check_provider_interface_application_choice_interviews_path(@application_choice),
+          url: check_provider_interface_application_choice_interview_path(@application_choice, @interview),
           method: :get do |f| %>
 
       <%= render 'form', f: f %>
 
       <% end %>
 
-    <p class="govuk-body"><%= govuk_link_to 'Cancel', provider_interface_application_choice_interviews_path(@application_choice) %></p>
+    <p class="govuk-body"><%= govuk_link_to 'Cancel', provider_interface_application_choice_interviews_path(@application_choice, @interview) %></p>
   </div>
 </div>

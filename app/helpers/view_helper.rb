@@ -49,6 +49,17 @@ module ViewHelper
     link_to(body, url, html_options)
   end
 
+  def govuk_button_to(name, options = {}, html_options = {})
+    html_options = {
+      class: prepend_css_class('govuk-button', html_options[:class]),
+      role: 'button',
+      data: { module: 'govuk-button' },
+      draggable: false,
+    }.merge(html_options)
+
+    button_to(name, options, html_options)
+  end
+
   def submitted_at_date
     dates = ApplicationDates.new(@application_form)
     dates.submitted_at.to_s(:govuk_date).strip

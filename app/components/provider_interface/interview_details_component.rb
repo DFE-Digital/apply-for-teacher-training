@@ -2,8 +2,9 @@ module ProviderInterface
   class InterviewDetailsComponent < ViewComponent::Base
     include ViewHelper
 
-    def initialize(interview_form)
+    def initialize(interview_form, interview = nil)
       @interview_form = interview_form
+      @interview = interview
     end
 
     def rows
@@ -20,8 +21,16 @@ module ProviderInterface
       {
         key: key,
         value: value,
-        change_path: new_provider_interface_application_choice_interview_path(@interview_form.application_choice),
+        change_path: change_path,
       }
+    end
+
+    def change_path
+      if @interview.present?
+        edit_provider_interface_application_choice_interview_path(@interview_form.application_choice, @interview)
+      else
+        new_provider_interface_application_choice_interview_path(@interview_form.application_choice)
+      end
     end
   end
 end

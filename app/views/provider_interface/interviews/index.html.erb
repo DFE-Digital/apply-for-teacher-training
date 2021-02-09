@@ -41,7 +41,7 @@
                <div class="app-summary-card__actions">
                <ul class= "app-summary-card__actions-list">
                  <li class="app-summary-card__actions-list-item">
-                   <%= govuk_link_to 'Change details', '', class: 'app-summary-card__actions-list-item' %>
+                   <%= govuk_link_to 'Change details', edit_provider_interface_application_choice_interview_path(@application_choice, interview), class: 'app-summary-card__actions-list-item' %>
                  </li>
                  <li class="app-summary-card__actions-list-item">
                    <%= govuk_link_to 'Cancel interview', cancel_provider_interface_application_choice_interview_path(@application_choice, interview), class: 'app-summary-card__actions-list-item' %>
