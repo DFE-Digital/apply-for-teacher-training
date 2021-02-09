@@ -28,19 +28,29 @@ RSpec.describe ProviderInterface::InterviewWizard do
       let(:subject) { described_class.new(store) }
 
       it { is_expected.to validate_presence_of(:time) }
-      it { is_expected.to validate_presence_of(:date) }
       it { is_expected.to validate_presence_of(:provider_user) }
       it { is_expected.to validate_presence_of(:location) }
       it { is_expected.to validate_presence_of(:application_choice) }
     end
 
     describe '#date' do
+      context 'when blank' do
+        let(:day) { '' }
+        let(:month) { '' }
+        let(:year) { '' }
+
+        it 'is invalid with the correct error' do
+          expect(wizard).to be_invalid
+          expect(wizard.errors[:date]).to contain_exactly('Enter a date')
+        end
+      end
+
       context 'when invalid' do
         let(:day) { 100 }
 
         it 'is invalid with the correct error' do
           expect(wizard).to be_invalid
-          expect(wizard.errors[:date]).to contain_exactly('The interview date must be a real date')
+          expect(wizard.errors[:date]).to contain_exactly('Enter a date in the correct format')
         end
       end
 

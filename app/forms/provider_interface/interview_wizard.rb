@@ -12,11 +12,12 @@ module ProviderInterface
     attribute 'date(2i)', :string
     attribute 'date(1i)', :string
 
-    validate :date_is_valid?
-    validate :date_and_time_in_future, if: %i[date_is_valid? time_is_valid?]
-    validate :time_is_valid?, if: ->(wizard) { wizard.time.present? }
-    validate :date_after_rbd_date, if: %i[date_is_valid? date_and_time_in_future]
-    validates :time, :date, :provider_user, :location, :application_choice, presence: true
+    validates :date, date: { presence: true }
+    validate :date_and_time_in_future, if: %i[date_and_time],
+                                       unless: ->(c) { %i[date time].any? { |d| c.errors.keys.include?(d) } }
+    validate :time_is_valid?, if: :time
+    validate :date_after_rbd_date, if: %i[date_and_time date_and_time_in_future]
+    validates :time, :provider_user, :location, :application_choice, presence: true
     validates :provider_id, presence: true, if: %i[application_choice provider_user multiple_application_providers?]
 
     def initialize(state_store, attrs = {})
@@ -35,19 +36,6 @@ module ProviderInterface
       rescue ArgumentError
         @date = Struct.new(:day, :month, :year).new(day, month, year)
       end
-    end
-
-    def date_is_valid?
-      return true if date.is_a?(Date)
-
-      return false if errors.added?(:date)
-
-      empty_keys = date.to_h.select { |_, v| v.blank? }.keys
-      errors.add(:date, :blank) and return(false) if empty_keys == date.to_h.keys
-      errors.add(:date, :missing_values, missing_details: empty_keys.to_sentence) and return(false) if empty_keys.any?
-
-      errors.add(:date, :invalid)
-      false
     end
 
     def date_and_time
