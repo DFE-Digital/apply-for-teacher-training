@@ -36,7 +36,7 @@ You can find candidates’ new DBD dates in [Manage teacher training application
 
 ### Keeping candidates up to date
 
-We’ll let candidates know if they have longer to respond to an offer and tell them their new DBD date.  
+We’ll let candidates know if they have longer to respond to an offer and tell them their new DBD date.
 
 ## What we ask of you during this time
 
@@ -44,10 +44,8 @@ We’ll let candidates know if they have longer to respond to an offer and tell 
 
 Please update the statuses of your training programmes to tell potential applicants if you’re not recruiting at the moment.
 
-
-Providers in England can do this using [Publish teacher training courses](https://www.publish-teacher-training-courses.service.gov.uk/).  
-
+Providers in England can do this using [Publish teacher training courses](https://www.publish-teacher-training-courses.service.gov.uk/).
 
 ## Get help
 
-If you have any questions, you can contact your relationship manager or email us at <becomingateacher@education.gov.uk>
+If you have any questions, you can contact your relationship manager or email us at <%= bat_contact_mail_to %>
