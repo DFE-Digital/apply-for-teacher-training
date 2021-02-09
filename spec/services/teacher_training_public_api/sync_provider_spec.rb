@@ -49,17 +49,15 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
 
     context 'ingesting an existing provider configured to sync courses, sites and course_options' do
       it 'calls the Sync Courses job with the correct parameters' do
-        @existing_provider = create :provider, code: 'ABC', sync_courses: true, name: 'Foobar College'
-        provider_from_api = fake_api_provider(code: 'ABC', name: 'ABC College')
-        stub_course_with_site(provider_code: 'ABC',
-                              site_code: 'A',
-                              course_code: 'ABC1',
-                              course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
-        )
-        allow(described_class).to receive(:sync_courses)
+        existing_provider = create(:provider, sync_courses: true)
+        provider_from_api = fake_api_provider(id: existing_provider.id, code: existing_provider.code)
+
+        allow(TeacherTrainingPublicAPI::SyncCourses).to receive(:perform_async).and_return(true)
+
         sync_job = described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year)
-        sync_job.call
-        expect(sync_job).to have_received(:sync_courses).exactly(1).times
+        sync_job.call(run_in_background: true)
+
+        expect(TeacherTrainingPublicAPI::SyncCourses).to have_received(:perform_async).with(provider_from_api.id, stubbed_recruitment_cycle_year).exactly(1).time
       end
     end
   end
