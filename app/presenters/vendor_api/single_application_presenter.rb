@@ -207,13 +207,13 @@ module VendorAPI
       constituent_grades = gcse[:constituent_grades]
       constituent_grades.reduce([]) do |array, (subject, hash)|
         array << qualification_to_hash(gcse)
-                     .merge(subject: subject.humanize, grade: hash['grade'])
+                     .merge(subject: subject.humanize, grade: hash['grade'], id: hash['public_id'])
       end
     end
 
     def qualification_to_hash(qualification)
       {
-        id: qualification.id,
+        id: qualification.public_id,
         qualification_type: qualification.qualification_type,
         non_uk_qualification_type: qualification.non_uk_qualification_type,
         subject: qualification.subject,
