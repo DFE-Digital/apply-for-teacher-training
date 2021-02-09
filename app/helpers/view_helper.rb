@@ -54,11 +54,6 @@ module ViewHelper
     dates.submitted_at.to_s(:govuk_date).strip
   end
 
-  def respond_by_date
-    dates = ApplicationDates.new(@application_form)
-    dates.reject_by_default_at.to_s(:govuk_date).strip if dates.reject_by_default_at
-  end
-
   def title_with_error_prefix(title, error)
     "#{t('page_titles.error_prefix') if error}#{title}"
   end

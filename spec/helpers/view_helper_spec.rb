@@ -104,12 +104,6 @@ RSpec.describe ViewHelper, type: :helper do
         expect(helper.submitted_at_date).to include('22 October 2019')
       end
     end
-
-    describe '#respond_by_date' do
-      it 'renders with correct respond by date' do
-        expect(helper.respond_by_date).to include('17 December 2019')
-      end
-    end
   end
 
   describe '#format_months_to_years_and_months' do
