@@ -44,8 +44,8 @@ steps:
 
 - powershell: |
     $azureDevOpsAuthorizationHeader = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
-    # APPLY_TEACHER_TRAINING_BUILD_DEFINITION: 953
-    $getApplyTeacherTrainingBuildApi = "$($env:COLLECTION_URL)$env:PROJECT_ID/_apis/build/builds?definitions=953&branchName=$($env:SOURCE_BRANCH)&sourceVersion=$($env:SOURCE_VERSION)&statusFilter=inProgress&api-version=5.1"
+    # APPLY_TEACHER_TRAINING_BUILD_DEFINITION: 962
+    $getApplyTeacherTrainingBuildApi = "$($env:COLLECTION_URL)$env:PROJECT_ID/_apis/build/builds?definitions=962&branchName=$($env:SOURCE_BRANCH)&sourceVersion=$($env:SOURCE_VERSION)&statusFilter=inProgress&api-version=5.1"
     $applyTeacherTrainingBuilds = Invoke-RestMethod -Uri $getApplyTeacherTrainingBuildApi -Headers $azureDevOpsAuthorizationHeader -Method Get -ErrorAction Stop -ErrorVariable $errorVariable
     Write-Host $applyTeacherTrainingBuilds | ConvertTo-Json
     if($applyTeacherTrainingBuilds.count -gt 0){
@@ -107,7 +107,7 @@ steps:
 
 - powershell: |
     $azureDevOpsAuthorizationHeader = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
-    $getApplyTeacherTrainingInprogressBuildsApi = "$($env:COLLECTION_URL)$env:PROJECT_ID/_apis/build/builds?definitions=953&branchName=$($env:SOURCE_BRANCH)&sourceVersion=$($env:SOURCE_VERSION)&statusFilter=inProgress&api-version=5.1"
+    $getApplyTeacherTrainingInprogressBuildsApi = "$($env:COLLECTION_URL)$env:PROJECT_ID/_apis/build/builds?definitions=962&branchName=$($env:SOURCE_BRANCH)&sourceVersion=$($env:SOURCE_VERSION)&statusFilter=inProgress&api-version=5.1"
     $applyTeacherTrainingInprogressBuilds = Invoke-RestMethod -Uri $getApplyTeacherTrainingInprogressBuildsApi -Headers $azureDevOpsAuthorizationHeader -Method Get -ErrorAction Stop -ErrorVariable $errorVariable
     if($applyTeacherTrainingInprogressBuilds.count -gt 0){
         # A build is already in progress for the same commit, no need to trigger a new build
@@ -116,7 +116,7 @@ steps:
     }
     $newBuild = @{
       definition = @{
-        id = 953
+        id = 962
       }
       sourceVersion = $env:SOURCE_VERSION
       sourceBranch = $env:SOURCE_BRANCH
