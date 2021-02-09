@@ -69,4 +69,14 @@ RSpec.describe VendorAPIRequestWorker do
 
     expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_body).to eq('error' => 'request data did not contain valid JSON')
   end
+
+  it 'handles empty POST data' do
+    described_class.new.perform({
+      'body' => '',
+      'path' => '/api/v1/bar',
+      'method' => 'POST',
+    }, {}.to_json, 500, Time.zone.now)
+
+    expect(VendorAPIRequest.find_by(request_path: '/api/v1/bar').request_body).to be_nil
+  end
 end

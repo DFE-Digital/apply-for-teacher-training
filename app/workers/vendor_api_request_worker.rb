@@ -52,6 +52,8 @@ private
 
   def request_body(request_data)
     if request_data['method'] == 'POST'
+      return if request_data['body'].blank?
+
       JSON.parse(request_data['body'])
     else
       request_data['params']
