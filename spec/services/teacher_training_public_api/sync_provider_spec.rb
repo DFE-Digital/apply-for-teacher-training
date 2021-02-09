@@ -44,7 +44,6 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
         expect(Provider.count).to eq 1
         expect(Provider.first.region_code).to eq 'north_west'
       end
-
     end
 
     context 'ingesting an existing provider configured to sync courses, sites and course_options' do

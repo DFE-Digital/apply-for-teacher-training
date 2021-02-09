@@ -11,35 +11,35 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
 
       it 'correctly creates all the entities' do
         stub_teacher_training_api_courses(
-            provider_code: 'ABC',
-            specified_attributes: [{
-                                       code: 'ABC1',
-                                       accredited_body_code: 'ABC',
-                                       study_mode: 'full_time',
-                                       findable: true,
-                                       summary: 'PGCE with QTS full time',
-                                       start_date: '2021-09-01',
-                                       course_length: 'OneYear',
-                                       age_minimum: 4,
-                                       age_maximum: 8,
-                                   }],
-            )
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: 'ABC',
+            study_mode: 'full_time',
+            findable: true,
+            summary: 'PGCE with QTS full time',
+            start_date: '2021-09-01',
+            course_length: 'OneYear',
+            age_minimum: 4,
+            age_maximum: 8,
+          }],
+        )
         stub_teacher_training_api_sites(
-            provider_code: 'ABC',
-            course_code: 'ABC1',
-            specified_attributes: [{
-                                       code: 'A',
-                                       name: 'Main site',
-                                       street_address_1: 'Gorse SCITT',
-                                       street_address_2: 'Bruntcliffe Lane',
-                                       city: 'Morley',
-                                       county: 'Leeds',
-                                       postcode: 'LS27 0LZ',
-                                       latitude: 53.745587,
-                                       longitude: -1.620208,
-                                   }],
-            vacancy_status: 'full_time_vacancies',
-            )
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+            name: 'Main site',
+            street_address_1: 'Gorse SCITT',
+            street_address_2: 'Bruntcliffe Lane',
+            city: 'Morley',
+            county: 'Leeds',
+            postcode: 'LS27 0LZ',
+            latitude: 53.745587,
+            longitude: -1.620208,
+          }],
+          vacancy_status: 'full_time_vacancies',
+        )
 
         described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
 
@@ -68,26 +68,26 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
 
       it 'correctly handles missing address info' do
         stub_teacher_training_api_courses(
-            provider_code: 'ABC',
-            specified_attributes: [{
-                                       code: 'ABC1',
-                                       accredited_body_code: nil,
-                                   }],
-            )
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: nil,
+          }],
+        )
         stub_teacher_training_api_sites(
-            provider_code: 'ABC',
-            course_code: 'ABC1',
-            specified_attributes: [{
-                                       code: 'A',
-                                       name: 'Main site',
-                                       street_address_1: 'Gorse SCITT',
-                                       street_address_2: nil,
-                                       city: 'Morley',
-                                       county: 'Leeds',
-                                       postcode: 'LS27 0LZ',
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+            name: 'Main site',
+            street_address_1: 'Gorse SCITT',
+            street_address_2: nil,
+            city: 'Morley',
+            county: 'Leeds',
+            postcode: 'LS27 0LZ',
 
-                                   }],
-            )
+          }],
+        )
 
         described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
 
@@ -214,23 +214,23 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
 
       it 'creates the correct number of course_options for sites and study_mode' do
         stub_teacher_training_api_courses(
-            provider_code: 'ABC',
-            specified_attributes: [{
-                                       code: 'ABC1',
-                                       accredited_body_code: 'ABC',
-                                       study_mode: 'both',
-                                   }],
-            )
+          provider_code: 'ABC',
+          specified_attributes: [{
+            code: 'ABC1',
+            accredited_body_code: 'ABC',
+            study_mode: 'both',
+          }],
+        )
         stub_teacher_training_api_sites(
-            provider_code: 'ABC',
-            course_code: 'ABC1',
-            specified_attributes: [{
-                                       code: 'A',
-                                   },
-                                   {
-                                       code: 'B',
-                                   }],
-            )
+          provider_code: 'ABC',
+          course_code: 'ABC1',
+          specified_attributes: [{
+            code: 'A',
+          },
+                                 {
+                                   code: 'B',
+                                 }],
+        )
 
         described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
 
