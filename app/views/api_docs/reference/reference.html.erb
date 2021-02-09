@@ -26,6 +26,9 @@
       <% end %>
     </ol>
   </li>
+  <li class="app-contents-list__list-item app-contents-list__list-item--parent">
+    <%= govuk_link_to 'Field lengths summary', '#field-lengths', class: 'app-contents-list__link' %>
+  </li>
 </ol>
 
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-6 govuk-!-margin-bottom-6">
@@ -34,6 +37,10 @@
 
 <p class="govuk-body">
   The OpenAPI spec from which this documentation is generated is <%= govuk_link_to 'available in YAML format', api_docs_spec_url %>.
+</p>
+
+<p class="govuk-body">
+  You can find a  <%= govuk_link_to 'summary of the field length limits', '#field-lengths' %> at the foot of this page.
 </p>
 
 <h3 class="govuk-heading-m">Environments</h3>
@@ -113,3 +120,22 @@
 <% @api_reference.schemas.each do |schema| %>
   <%= render 'schema', schema: schema %>
 <% end %>
+
+<h2 class="govuk-heading-l" id="field-lengths">Field lengths summary</h2>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Rule</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Limit</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% @api_reference.field_lengths_summary.each do |(rule, limit)| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header"><%= rule %></th>
+        <td class="govuk-table__cell govuk-table__cell--numeric"><%=  number_with_delimiter(limit) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
