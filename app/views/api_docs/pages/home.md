@@ -17,6 +17,12 @@ To get an idea of how the API works, we recommend you [review the example usage 
 
 ## Codes and reference data
 
+### Course data
+
+The source of course data such as provider codes, course codes, training locations, vacancy status and study modes for both Apply and UCAS Teacher Training is the DfE [Teacher Training Courses API](https://api.publish-teacher-training-courses.service.gov.uk/api-reference.html#teacher-training-courses-api). This data is managed via [Publish teacher training courses](https://www.publish-teacher-training-courses.service.gov.uk/sign-in).
+
+### Application data
+
 Before each application cycle, UCAS provides vendors with reference data defining how certain values appear in API responses.
 
 DfE Apply will avoid prioprietary codes wherever possible, preferring existing data formats such as ISO-certified standards or HESA codes.
