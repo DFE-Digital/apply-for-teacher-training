@@ -25,7 +25,7 @@ RSpec.describe CreateInterview do
       expect { service.save! }.to change { application_choice.status }.to('interviewing')
     end
 
-    it 'creates an audit entry', with_audited: true do
+    it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
       CreateInterview.new(service_params).save!
 
       associated_audit = application_choice.associated_audits.first
@@ -40,6 +40,8 @@ RSpec.describe CreateInterview do
         'cancelled_at',
       )
       expect(associated_audit.audited_changes['location']).to eq('Zoom call')
+
+      expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('new_interview')
     end
   end
 end

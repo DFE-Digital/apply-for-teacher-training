@@ -29,5 +29,7 @@ class UpdateInterview
       location: location,
       additional_details: additional_details,
     )
+
+    CandidateMailer.interview_updated(interview.application_choice, interview).deliver_later
   end
 end

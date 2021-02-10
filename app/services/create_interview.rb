@@ -26,12 +26,14 @@ class CreateInterview
     ActiveRecord::Base.transaction do
       ApplicationStateChange.new(application_choice).interview!
 
-      interview = Interview.new(application_choice: application_choice,
-                                provider: provider,
-                                date_and_time: date_and_time,
-                                location: location,
-                                additional_details: additional_details)
-      interview.save!
+      @interview = Interview.new(application_choice: application_choice,
+                                 provider: provider,
+                                 date_and_time: date_and_time,
+                                 location: location,
+                                 additional_details: additional_details)
+      @interview.save!
     end
+
+    CandidateMailer.new_interview(application_choice, @interview).deliver_later
   end
 end

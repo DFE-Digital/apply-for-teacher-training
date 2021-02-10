@@ -1,0 +1,17 @@
+Dear <%= @application_form.first_name %>,
+
+# Interview arranged
+
+You have an interview with <%= @provider_name %> about your application to study <%= @course_name %>.
+
+The details are as follows:
+
+^ <%= @interview.date_and_time.to_s(:govuk_date_and_time) %>
+
+^ <%= @interview.location %>
+
+^ <%= @interview.additional_details %>
+
+Contact <%= @provider_name %> if you have any questions or you will not be able to attend the interview.
+
+<%= render 'get_support' %>
