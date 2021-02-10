@@ -38,7 +38,7 @@ module SupportInterface
     def authenticate_with_token
       redirect_to action: :new and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 
-      support_user = SupportInterface::MagicLinkAuthentication.get_user_from_token!(token: params.fetch(:token))
+      support_user = SupportUser.authenticate!(params.fetch(:token))
 
       render_404 and return unless support_user
 
