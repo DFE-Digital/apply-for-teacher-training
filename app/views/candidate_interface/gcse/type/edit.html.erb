@@ -25,8 +25,8 @@
 
           <% elsif option.id == :missing %>
             <%= f.govuk_radio_button :qualification_type, option.id, label: { text: option.label }, link_errors: i.zero? do %>
-              <p class="govuk-hint">You can still apply for teacher training if you are missing this qualification or its equivalent. However, it will need to be in place by the start of your course.</p>
-              <p class="govuk-hint">For advice, contact your chosen training provider or <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url_get_an_advisor') %>.</p>
+              <p class="govuk-hint">You can still apply for teacher training if you are missing this qualification or its equivalent. However, you will need to have completed it by the start of your course.</p>
+              <p class="govuk-hint">For advice, contact your training provider or speak to a <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url_online_chat') %> adviser.</p>
               <%= f.govuk_text_area :missing_explanation, label: { text: t('application_form.gcse.missing_explanation.label'), size: 's' }, rows: 12, max_words: 200 do %>
               <% end %>
             <% end %>
