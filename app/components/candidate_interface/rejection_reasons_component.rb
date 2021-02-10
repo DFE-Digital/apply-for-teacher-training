@@ -39,8 +39,6 @@ module CandidateInterface
     end
 
     def status_row(application_choice)
-      return nil unless FeatureFlag.active?(:structured_reasons_for_rejection)
-
       {
         key: 'Status',
         value: render(ApplicationStatusTagComponent.new(application_choice: application_choice)),
@@ -48,7 +46,7 @@ module CandidateInterface
     end
 
     def rejection_reasons_row(application_choice)
-      if FeatureFlag.active?(:structured_reasons_for_rejection) && application_choice.structured_rejection_reasons.present?
+      if application_choice.structured_rejection_reasons.present?
         {
           key: 'Feedback',
           value: render(
@@ -71,7 +69,7 @@ module CandidateInterface
     def rejected_application_choices
       @rejected_application_choices ||= begin
         rejected_applications = @application_form.application_choices.includes(:course, :provider, [:offered_course_option]).rejected
-        rejected_applications = rejected_applications.where('application_choices.rejection_reason IS NOT NULL OR application_choices.structured_rejection_reasons IS NOT NULL') if FeatureFlag.active?(:structured_reasons_for_rejection)
+        rejected_applications = rejected_applications.where('application_choices.rejection_reason IS NOT NULL OR application_choices.structured_rejection_reasons IS NOT NULL')
         rejected_applications
       end
     end

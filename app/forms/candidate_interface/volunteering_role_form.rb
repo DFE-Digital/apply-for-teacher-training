@@ -1,6 +1,3 @@
-# TODO: The validations have been lifted from `WorkExperienceForm`
-# and needs to be refactored out to remove the duplication.
-
 module CandidateInterface
   class VolunteeringRoleForm
     include ActiveModel::Model

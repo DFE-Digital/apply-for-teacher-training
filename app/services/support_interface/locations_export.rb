@@ -13,6 +13,7 @@ module SupportInterface
           'Candidate’s postcode' => application_form.postcode,
           'Provider’s postcode' => application_choice.provider.postcode,
           'Site’s postcode' => application_choice.site.postcode,
+          'Site’s region' => application_choice.site.region,
           'Provider type' => application_choice.provider.provider_type,
           'Accrediting provider type' => application_choice.course.accredited_provider&.provider_type,
           'Program type' => application_choice.course.program_type,

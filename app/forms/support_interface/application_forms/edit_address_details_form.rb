@@ -4,11 +4,12 @@ module SupportInterface
       include ActiveModel::Model
 
       attr_accessor :address_line1, :address_line2, :address_line3, :address_line4,
-                    :postcode, :address_type, :country, :international_address, :audit_comment
+                    :postcode, :address_type, :country, :audit_comment
 
       validates :address_line1, :address_line3, :postcode, presence: true, on: :address, if: :uk?
 
       validates :address_line1, presence: true, on: :address, if: :international?
+      validates :postcode, absence: true, on: :address, if: :international?
 
       validates :address_type, presence: true, on: :address_type
       validates :country, presence: true, on: :address_type, if: :international?
@@ -28,7 +29,6 @@ module SupportInterface
           postcode: application_form.postcode,
           address_type: application_form.address_type || 'GB',
           country: application_form.country,
-          international_address: application_form.international_address,
           audit_comment: application_form.audit_comment,
         )
       end
@@ -45,7 +45,6 @@ module SupportInterface
           audit_comment: audit_comment,
         }
         attrs[:country] = 'GB' if uk?
-        attrs[:international_address] = international_address if international?
         application_form.update(attrs)
       end
 

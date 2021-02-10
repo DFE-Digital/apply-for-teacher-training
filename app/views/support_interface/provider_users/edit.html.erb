@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix("Update providers and permissions - #{provider_user_name(@form.provider_user)}", @form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix("Update providers and permissions - #{@form.provider_user.display_name}", @form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_provider_user_path(@form.provider_user)) %>
 
 <div class="govuk-grid-row">
@@ -6,7 +6,7 @@
     <%= form_with model: @form, url: support_interface_provider_user_path(@form.provider_user) do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_check_boxes_fieldset :provider, caption: { text: provider_user_name(@form.provider_user), size: 'l' }, legend: { text: 'Update providers and permissions', tag: 'h1', size: 'l' }, classes: 'govuk-!-margin-top-6' do %>
+      <%= f.govuk_check_boxes_fieldset :provider, caption: { text: @form.provider_user.display_name, size: 'l' }, legend: { text: 'Update providers and permissions', tag: 'h1', size: 'l' }, classes: 'govuk-!-margin-top-6' do %>
         <%= render 'provider_options', f: f %>
       <% end %>
 

@@ -42,6 +42,9 @@ RSpec.feature 'Docs' do
       candidate_mailer-ucas_match_resolved_on_apply_email
       provider_mailer-ucas_match_resolved_on_apply_email
       provider_mailer-courses_open_on_apply
+      candidate_mailer-new_interview
+      candidate_mailer-interview_updated
+      candidate_mailer-interview_cancelled
     ]
 
     # extract all the emails that we send into a list of strings like "referee_mailer-reference_request_chaser_email"
@@ -50,10 +53,6 @@ RSpec.feature 'Docs' do
     documented_chaser_emails = I18n.t('application_states').flat_map { |_name, attrs| attrs[:emails] }.compact.uniq
 
     emails_documented = documented_application_choice_emails + documented_chaser_emails + emails_outside_of_states
-
-    # TODO: remove this once application_withrawn is completely gone
-    emails_documented -= %w[provider_mailer-application_withrawn]
-    emails_sent -= %w[provider_mailer-application_withrawn]
 
     expect(emails_documented).to match_array(emails_sent)
   end

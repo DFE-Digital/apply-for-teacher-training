@@ -120,7 +120,8 @@ module CandidateInterface
     end
 
     def btec?
-      other_uk_qualification_type == 'BTEC'
+      qualification_type == OtherQualificationTypeForm::OTHER_TYPE &&
+        other_uk_qualification_type == 'BTEC'
     end
 
     def subjects

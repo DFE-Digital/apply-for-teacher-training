@@ -1,16 +1,20 @@
-<% content_for :browser_title,  t('.page_title')  %>
+<% content_for :browser_title,  t("#{@translation_prefix}.page_title") %>
 <% content_for :before_content, govuk_back_link_to(request.referer) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
       <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-      <%= t('.title') %>
+      <%= t("#{@translation_prefix}.title") %>
     </h1>
 
-    <%= render ProviderInterface::InterviewDetailsComponent.new(@wizard) %>
+    <%= render ProviderInterface::InterviewDetailsComponent.new(@wizard, @interview) %>
 
-    <%= govuk_link_to t('.confirm'), confirm_provider_interface_application_choice_interviews_path, class: 'govuk-button' %>
+    <% if @interview.present? %>
+      <%= govuk_button_to t('.update.confirm'), { action: 'update', id: @interview.id }, method: :put %>
+    <% else %>
+      <%= govuk_button_to t('.confirm'), action: 'commit' %>
+    <% end %>
 
     <p class="govuk-body">
       <%= govuk_link_to t('.cancel'), provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>

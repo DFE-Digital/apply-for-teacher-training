@@ -44,6 +44,12 @@ class ProviderUser < ActiveRecord::Base
     "#{first_name} #{last_name}" if first_name.present? && last_name.present?
   end
 
+  def display_name
+    return full_name if full_name
+
+    email_address
+  end
+
   def authorisation
     @authorisation ||= ProviderAuthorisation.new(actor: self)
   end

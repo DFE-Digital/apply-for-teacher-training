@@ -11,7 +11,12 @@
     <% sub_reasons.each do |sub_reason, sub_reason_result| %>
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">
-          <%= sub_reason_label(sub_reason) %>
+          <%= govuk_link_to(
+            sub_reason_label(sub_reason),
+            support_interface_reasons_for_rejection_application_choices_path(
+              "structured_rejection_reasons[#{sub_reason_key}]": sub_reason,
+            ),
+          ) %>
         </th>
         <td class="govuk-table__cell govuk-table__cell--numeric">
           <%= sub_reason_percentage(sub_reason) %>

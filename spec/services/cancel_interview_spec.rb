@@ -35,7 +35,7 @@ RSpec.describe CancelInterview do
       end
     end
 
-    it 'creates an audit entry', with_audited: true do
+    it 'creates an audit entry and sends an email', with_audited: true, sidekiq: true do
       CancelInterview.new(service_params).save!
 
       associated_audit = application_choice.associated_audits.last
@@ -44,6 +44,8 @@ RSpec.describe CancelInterview do
         cancelled_at cancellation_reason
       ])
       expect(associated_audit.audited_changes['cancellation_reason']).to eq([nil, 'There is a global pandemic going on'])
+
+      expect(ActionMailer::Base.deliveries.first['rails-mail-template'].value).to eq('interview_cancelled')
     end
   end
 end

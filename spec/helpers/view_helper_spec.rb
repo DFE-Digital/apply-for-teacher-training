@@ -89,6 +89,14 @@ RSpec.describe ViewHelper, type: :helper do
     end
   end
 
+  describe '#govuk_button_to' do
+    it 'returns a form and button using the govuk-button class and data module' do
+      button_to_result = helper.govuk_button_to('Hoot', 'https://localhost:0103/owl/hoot')
+
+      expect(button_to_result).to eq('<form class="button_to" method="post" action="https://localhost:0103/owl/hoot"><input class="govuk-button" role="button" data-module="govuk-button" draggable="false" type="submit" value="Hoot" /></form>')
+    end
+  end
+
   describe 'application date helpers' do
     before do
       @application_dates = instance_double(

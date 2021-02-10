@@ -105,7 +105,7 @@ We have a data sharing agreement with providers so they can only use your data t
 
 ### Sharing candidate data with referees
 
-We’ll share candidate names with referees so  the referee can identify the candidate and give a reference.
+We’ll share candidate names with referees so the referee can identify the candidate and give a reference.
 
 We may need to share a bit more information to help the referee identify the candidate, such as how the candidate knows the referee.
 
@@ -161,7 +161,7 @@ You can find more information about how we handle personal data in our [personal
 
 If you want to ask us to remove your data or get access to the data we have about you, you can email us:
 
-<becomingateacher@digital.education.gov.uk>
+<%= bat_contact_mail_to %>
 
 You can also use our contact form to [get in touch with our Data Protection Officer](https://form.education.gov.uk/en/AchieveForms/?form_uri=sandbox-publish://AF-Process-f1453496-7d8a-463f-9f33-1da2ac47ed76/AF-Stage-1e64d4cc-25fb-499a-a8d7-74e98203ac00/definition.json&redirectlink=%2Fen&cancelRedirectLink=%2Fen).
 

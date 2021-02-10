@@ -1,5 +1,8 @@
 # NOTE: This component is used by both provider and support UIs
 class GcseQualificationCardsComponent < ViewComponent::Base
+  include ApplicationHelper
+  include ViewHelper
+
   attr_reader :application_form
 
   def initialize(application_form)
@@ -55,38 +58,43 @@ class GcseQualificationCardsComponent < ViewComponent::Base
   def grade_details(qualification)
     case qualification.subject
     when ApplicationQualification::SCIENCE_TRIPLE_AWARD
-      grades = qualification.structured_grades
+      grades = qualification.constituent_grades
       [
-        "#{grades['biology']} (Biology)",
-        "#{grades['chemistry']} (Chemistry)",
-        "#{grades['physics']} (Physics)",
+        "#{grades['biology']['grade']} (Biology)",
+        "#{grades['chemistry']['grade']} (Chemistry)",
+        "#{grades['physics']['grade']} (Physics)",
       ]
     when ApplicationQualification::SCIENCE_DOUBLE_AWARD
       ["#{qualification.grade} (Double award)"]
     when ApplicationQualification::SCIENCE_SINGLE_AWARD
       ["#{qualification.grade} (Single award)"]
-    when ->(_n) { qualification.structured_grades }
-      present_structured_grades(qualification)
+    when ->(_n) { qualification.constituent_grades }
+      present_constituent_grades(qualification)
     else
       [qualification.grade]
     end
   end
 
-  def present_structured_grades(qualification)
-    grades = JSON.parse(qualification.structured_grades)
+  def present_constituent_grades(qualification)
+    grades = qualification.constituent_grades
     grades.map do |k, v,|
+      grade = v['grade']
       case k
       when 'english_single_award'
-        "#{v} (English Single award)"
+        "#{grade} (English Single award)"
       when 'english_double_award'
-        "#{v} (English Double award)"
+        "#{grade} (English Double award)"
       when 'english_studies_single_award'
-        "#{v} (English Studies Single award)"
+        "#{grade} (English Studies Single award)"
       when 'english_studies_double_award'
-        "#{v} (English Studies Double award)"
+        "#{grade} (English Studies Double award)"
       else
-        "#{v} (#{k.humanize.titleize})"
+        "#{grade} (#{k.humanize.titleize})"
       end
     end
+  end
+
+  def in_support_console?
+    current_namespace == 'support_interface'
   end
 end

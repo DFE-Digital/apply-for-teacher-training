@@ -19,6 +19,7 @@ RSpec.feature 'API docs' do
 
     click_link 'API reference'
     expect(page).to have_content 'Developing on the API'
+    expect(page).to have_content 'Field lengths summary'
 
     click_link 'Release notes'
     expect(page).to have_content 'For a log of pre-release changes, see the alpha release notes'

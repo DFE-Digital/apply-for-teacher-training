@@ -85,7 +85,7 @@ module VendorAPI
       }
 
       RequestLocals.store[:identity] = user_info
-      Raven.user_context(user_info)
+      Raven.user_context(id: "api_token_#{@current_vendor_api_token&.id}")
     end
 
     def validate_metadata!

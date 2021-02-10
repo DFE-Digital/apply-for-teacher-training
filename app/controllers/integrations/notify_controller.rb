@@ -57,7 +57,7 @@ module Integrations
     def log_params
       relevant_parameters = params.permit(:reference, :status).to_h
       RequestLocals.store[:identity] = relevant_parameters
-      Raven.user_context(relevant_parameters)
+      Raven.extra_context(relevant_parameters)
     end
   end
 end

@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.feature 'Providers and courses' do
   include DfESignInHelpers
   include FindAPIHelper
+  include TeacherTrainingPublicAPIHelper
 
   scenario 'User syncs provider and browses providers' do
     given_i_am_a_support_user
     and_providers_are_configured_to_be_synced
     when_i_visit_the_tasks_page
     and_i_click_the_sync_button
-    then_requests_to_find_should_be_made
 
     when_i_visit_the_providers_page
     and_i_should_see_the_updated_list_of_providers
@@ -36,7 +36,7 @@ RSpec.feature 'Providers and courses' do
     then_i_see_the_course_information
 
     when_i_visit_course_applications
-    then_i_see_applicatons_to_this_course
+    then_i_see_applications_to_this_course
 
     when_i_visit_course_vacancies
     then_i_see_courses_with_vacancies
@@ -90,7 +90,28 @@ RSpec.feature 'Providers and courses' do
   end
 
   def and_i_click_the_sync_button
-    @request_all = stub_find_api_all_providers_200([
+    stub_teacher_training_api_providers(
+      specified_attributes: [
+        {
+          code: 'ABC',
+          name: 'Royal Academy of Dance',
+        },
+        {
+          code: 'DEF',
+          name: 'Gorse SCITT',
+        },
+        {
+          code: 'GHI',
+          name: 'Somerset SCITT Consortium',
+        },
+        {
+          code: 'XYZ',
+          name: 'University of Chester',
+        },
+      ],
+    )
+
+    stub_find_api_all_providers_200([
       {
         provider_code: 'ABC',
         name: 'Royal Academy of Dance',
@@ -105,10 +126,23 @@ RSpec.feature 'Providers and courses' do
       },
     ])
 
-    @request1 = stub_find_api_provider_200_with_accredited_provider(
+    stub_teacher_training_api_provider(
+      provider_code: 'XYZ',
+      specified_attributes: [{
+        code: 'XYZ',
+      }],
+    )
+
+    stub_course_with_site(provider_code: 'ABC',
+                          course_code: 'ABC1',
+                          course_attributes: [{ accredited_body_code: 'XYZ', qualifications: %w[qts pgce], name: 'Primary' }],
+                          site_code: 'X',
+                          site_attributes: [{ name: 'Main site' }])
+
+    stub_find_api_provider_200_with_accredited_provider(
       provider_code: 'ABC',
       provider_name: 'Royal Academy of Dance',
-      course_code: 'ABC-1',
+      course_code: 'ABC1',
       site_code: 'X',
       accredited_provider_code: 'XYZ',
       accredited_provider_name: 'University of Chester',
@@ -116,29 +150,33 @@ RSpec.feature 'Providers and courses' do
       study_mode: 'full_time',
     )
 
-    @request2 = stub_find_api_provider_200(
+    stub_course_with_site(provider_code: 'DEF',
+                          course_code: 'DEF1',
+                          course_attributes: [{ accredited_body_code: 'ABC' }],
+                          site_code: 'Y')
+
+    stub_find_api_provider_200(
       provider_code: 'DEF',
       provider_name: 'Gorse SCITT',
-      course_code: 'DEF-1',
+      course_code: 'DEF1',
       site_code: 'Y',
     )
 
-    @request3 = stub_find_api_provider_200(
+    stub_course_with_site(provider_code: 'GHI',
+                          course_code: 'GHI1',
+                          course_attributes: [{ accredited_body_code: 'GHI' }],
+                          site_code: 'C')
+
+    stub_find_api_provider_200(
       provider_code: 'GHI',
       provider_name: 'Somerset SCITT Consortium',
-      course_code: 'GHI-1',
+      course_code: 'GHI1',
       site_code: 'C',
     )
 
     Sidekiq::Testing.inline! do
       click_button 'Sync providers'
     end
-  end
-
-  def then_requests_to_find_should_be_made
-    expect(@request1).to have_been_made.twice
-    expect(@request2).to have_been_made.twice
-    expect(@request3).to have_been_made.twice
   end
 
   def when_i_visit_the_providers_page
@@ -201,7 +239,7 @@ RSpec.feature 'Providers and courses' do
   end
 
   def then_i_see_the_provider_ratified_courses
-    expect(page).to have_content 'ratifies 1 course (0 on DfE Apply)'
+    expect(page).to have_content 'ratifies 2 courses (0 on DfE Apply)'
   end
 
   def then_i_see_the_provider_sites
@@ -209,40 +247,40 @@ RSpec.feature 'Providers and courses' do
   end
 
   def when_i_click_on_a_course_with_applications
-    course = Course.find_by(code: 'ABC-1')
+    course = Course.find_by(code: 'ABC1')
     create(:application_choice, course_option: course.course_options.first)
     create(:application_choice, course_option: course.course_options.first)
     click_link 'Courses'
-    click_link 'ABC-1'
+    click_link 'ABC1'
   end
 
   def then_i_see_the_course_information
-    expect(page).to have_title 'Primary (ABC-1)'
+    expect(page).to have_title 'Primary (ABC1)'
     expect(page).to have_content 'Open on UCAS only'
   end
 
   def when_i_visit_course_applications
-    course = Course.find_by(code: 'ABC-1')
+    course = Course.find_by(code: 'ABC1')
     visit support_interface_course_applications_path(course)
   end
 
-  def then_i_see_applicatons_to_this_course
-    expect(page).to have_title 'Primary (ABC-1)'
+  def then_i_see_applications_to_this_course
+    expect(page).to have_title 'Primary (ABC1)'
     expect(page.all('.app-application-card').size).to eq(2)
   end
 
   def when_i_visit_course_vacancies
-    course = Course.find_by(code: 'ABC-1')
+    course = Course.find_by(code: 'ABC1')
     visit support_interface_course_vacancies_path(course)
   end
 
   def then_i_see_courses_with_vacancies
-    expect(page).to have_title 'Primary (ABC-1)'
-    expect(page).to have_content 'Primary (ABC-1) - Full time at Main site Vacancies'
+    expect(page).to have_title 'Primary (ABC1)'
+    expect(page).to have_content 'Primary (ABC1) - Full time at Main site Vacancies'
   end
 
   def when_i_visit_course
-    course = Course.find_by(code: 'ABC-1')
+    course = Course.find_by(code: 'ABC1')
     visit support_interface_course_path(course)
   end
 
@@ -257,7 +295,7 @@ RSpec.feature 'Providers and courses' do
   end
 
   def then_i_see_the_updated_providers_courses_and_sites
-    expect(page).to have_content 'ABC-1'
+    expect(page).to have_content 'ABC1'
     expect(page).to have_content 'Vacancies'
     expect(page).to have_content '2 courses (1 on DfE Apply)'
     expect(page).to have_content 'Accredited body'

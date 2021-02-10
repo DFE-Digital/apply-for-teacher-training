@@ -23,7 +23,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
 
       it 'returns validation error if no GCSE is selected' do
         form.english_gcses = []
-        form.validate(:structured_grades)
+        form.validate(:constituent_grades)
 
         expect(form.errors[:english_gcses]).to include('Select at least one GCSE')
       end
@@ -31,7 +31,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
       it 'returns validation error if GCSE is selected but no grade is entered' do
         form.english_single_award = true
         form.grade_english_single = ''
-        form.validate(:structured_grades)
+        form.validate(:constituent_grades)
 
         expect(form.errors[:grade_english_single]).to include('Enter your English (Single award) grade')
       end
@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
       it 'returns validation error if GCSE is selected and an invalid grade is entered' do
         form.english_single_award = true
         form.grade_english_single = 'AWESOME'
-        form.validate(:structured_grades)
+        form.validate(:constituent_grades)
 
         expect(form.errors[:grade_english_single]).to include('Enter a real English (Single award) grade')
       end
@@ -47,7 +47,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
       it 'returns no errors if GCSE is selected and a valid grade is entered' do
         form.english_single_award = true
         form.grade_english_single = 'A*'
-        form.validate(:structured_grades)
+        form.validate(:constituent_grades)
 
         expect(form.errors[:grade_english_single]).to be_empty
       end
@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::EnglishGcseGradeForm, type: :model do
         form.other_english_gcse = true
         form.other_english_gcse_name = ''
         form.grade_other_english_gcse = ''
-        form.validate(:structured_grades)
+        form.validate(:constituent_grades)
 
         expect(form.errors[:other_english_gcse_name]).to include('Enter an English GCSE')
         expect(form.errors[:grade_other_english_gcse]).to include('Enter your other English subject grade')

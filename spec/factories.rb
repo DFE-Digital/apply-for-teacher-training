@@ -161,11 +161,7 @@ FactoryBot.define do
 
       trait :international_address do
         address_type { :international }
-        international_address { Faker::Address.city }
         country { Faker::Address.country_code }
-        address_line1 { nil }
-        address_line2 { nil }
-        address_line3 { nil }
       end
 
       trait :with_completed_references do
@@ -382,6 +378,7 @@ FactoryBot.define do
     address_line2 { Faker::Address.city }
     address_line3 { Faker::Address.county }
     address_line4 { '' }
+    region { 'north_west' }
     postcode { Faker::Address.postcode }
   end
 
@@ -548,7 +545,7 @@ FactoryBot.define do
 
       after(:build) do |choice, _evaluator|
         choice.status = :interviewing
-        choice.interviews = [create(:interview)]
+        choice.interviews = [create(:interview, application_choice: choice)]
       end
     end
 
@@ -586,7 +583,7 @@ FactoryBot.define do
 
     trait :with_rejection_by_default do
       status { 'rejected' }
-      rejected_at { Time.zone.now }
+      rejected_at { 2.minutes.ago }
       rejected_by_default { true }
     end
 
@@ -759,17 +756,22 @@ FactoryBot.define do
 
   factory :interview do
     application_choice
-    provider
 
     date_and_time { 7.business_days.from_now }
     location { [Faker::Address.full_address, 'Link to video conference'].sample }
     additional_details { [nil, 'Use staff entrance', 'Ask for John at the reception'].sample }
 
     after(:build) do |interview|
-      if interview.application_choice.present?
-        interview.application_choice.status = 'interviewing'
-        interview.provider = interview.application_choice.offered_course.provider
-      end
+      interview.application_choice.status = 'interviewing'
+      interview.provider ||= interview.application_choice.offered_course.provider
+    end
+
+    trait :future_date_and_time do
+      date_and_time { (1...10).to_a.sample.business_days.from_now + (0..8).to_a.sample.hours }
+    end
+
+    trait :past_date_and_time do
+      date_and_time { (2...10).to_a.sample.business_days.ago - (0..8).to_a.sample.hours }
     end
   end
 
@@ -942,6 +944,14 @@ FactoryBot.define do
     trait :with_provider do
       after(:create) do |user, _evaluator|
         create(:provider).provider_users << user
+      end
+    end
+
+    trait :with_dfe_sign_in do
+      dfe_sign_in_uid { 'DFE_SIGN_IN_UID' }
+
+      after(:create) do |user, _evaluator|
+        create(:provider, :with_signed_agreement).provider_users << user
       end
     end
 

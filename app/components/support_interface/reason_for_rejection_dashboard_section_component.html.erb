@@ -1,5 +1,12 @@
 <section id="<%= @heading.parameterize %>" class="app-section">
-  <h2 class="govuk-heading-m govuk-!-font-size-27"><%= @heading %></h2>
+  <h2 class="govuk-heading-m govuk-!-font-size-27">
+    <%= govuk_link_to(
+      @heading,
+      support_interface_reasons_for_rejection_application_choices_path(
+        "structured_rejection_reasons[#{@reason_key}]" => 'Yes',
+      ),
+    ) %>
+  </h2>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half">
       <%= render SupportInterface::TileComponent.new(
@@ -26,9 +33,9 @@
       ) %>
     </div>
   </div>
-  <% if @sub_reasons_key %>
+  <% if @sub_reasons_result %>
     <%= render SupportInterface::SubReasonsForRejectionTableComponent.new(
-      reason: @sub_reasons_key,
+      reason: @reason_key,
       sub_reasons: @sub_reasons_result,
       total: @total_structured_rejection_reasons_count
     )

@@ -13,19 +13,17 @@ RSpec.feature 'Entering their work history' do
     and_i_choose_i_do_not_have_any_work_history
     and_i_provide_my_reason_for_not_having_worked
     then_i_should_see_the_work_history_review_page
-    # The below methods are reliant on the new review page
-    # and should be uncommented/extended as part of that card
 
-    # and_i_should_see_my_explanation
-    #
-    # when_i_click_on_change
-    # and_i_change_the_explanation
-    # then_i_should_see_my_updated_explanation
-    #
-    # when_i_mark_this_section_as_completed
-    # and_i_click_on_continue
-    # then_i_should_see_the_form
-    # and_that_the_section_is_completed
+    and_i_should_see_my_explanation
+
+    when_i_click_on_change
+    and_i_change_the_explanation
+    then_i_should_see_my_updated_explanation
+
+    when_i_mark_this_section_as_completed
+    and_i_click_on_continue
+    then_i_should_see_the_form
+    and_that_the_section_is_completed
   end
 
   def given_i_am_signed_in
@@ -76,7 +74,7 @@ RSpec.feature 'Entering their work history' do
   end
 
   def and_i_click_on_continue
-    click_button t('continue')
+    click_button t('save_and_continue')
   end
 
   def then_i_should_see_the_form

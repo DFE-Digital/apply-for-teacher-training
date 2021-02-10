@@ -82,7 +82,7 @@ module ProviderInterface
 
     def provider
       if multiple_application_providers?
-        application_providers
+        application_providers.find { |provider| provider.id == provider_id.to_i }
       else
         application_providers.first
       end
@@ -102,6 +102,21 @@ module ProviderInterface
 
     def clear_state!
       @state_store.delete
+    end
+
+    def self.from_model(store, interview, step = 'input')
+      wizard = new(store, { current_step: step })
+
+      wizard.additional_details ||= interview.additional_details
+      wizard.application_choice = interview.application_choice
+      wizard.send('date(1i)=', interview.date_and_time.year) if wizard.send('date(1i)').blank?
+      wizard.send('date(2i)=', interview.date_and_time.month) if wizard.send('date(2i)').blank?
+      wizard.send('date(3i)=', interview.date_and_time.day) if wizard.send('date(3i)').blank?
+      wizard.location ||= interview.location
+      wizard.provider_id ||= interview.provider_id
+      wizard.time ||= interview.date_and_time.strftime('%l:%M%P')
+
+      wizard
     end
 
   private

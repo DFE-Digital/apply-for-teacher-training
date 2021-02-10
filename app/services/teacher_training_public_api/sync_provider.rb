@@ -5,11 +5,15 @@ module TeacherTrainingPublicAPI
       @recruitment_cycle_year = recruitment_cycle_year
     end
 
-    def call(run_in_background: false)
+    def call(run_in_background: true)
       provider = create_or_update_provider(
         provider_attrs_from(@provider_from_api),
       )
 
+      sync_courses(run_in_background, provider)
+    end
+
+    def sync_courses(run_in_background, provider)
       if sync_courses?
         if run_in_background
           TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year)
@@ -29,6 +33,7 @@ module TeacherTrainingPublicAPI
       {
         sync_courses: sync_courses? || false,
         region_code: provider_from_api.region_code&.strip,
+        postcode: provider_from_api.postcode&.strip,
         name: provider_from_api.name,
         provider_type: provider_from_api.provider_type,
         latitude: provider_from_api.try(:latitude),

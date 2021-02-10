@@ -35,7 +35,7 @@ module SupportInterface
       return unless current_support_user
 
       RequestLocals.store[:identity] = { support_user_id: current_support_user.id }
-      Raven.user_context(support_user_id: current_support_user.id)
+      Raven.user_context(id: "support_#{current_support_user.id}")
     end
   end
 end

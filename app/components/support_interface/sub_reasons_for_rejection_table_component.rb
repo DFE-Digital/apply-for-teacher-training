@@ -13,6 +13,7 @@ module SupportInterface
       offered_on_another_course_y_n: :offered_on_another_course,
       performance_at_interview_y_n: :interview_performance,
       interested_in_future_applications_y_n: :interested_in_future_applications,
+      other_advice_or_feedback_y_n: :additional_advice,
     }.with_indifferent_access
 
     def initialize(reason:, sub_reasons:, total:)
@@ -23,6 +24,10 @@ module SupportInterface
 
     def reason_label
       I18n.t("reasons_for_rejection.#{reason}.title")
+    end
+
+    def sub_reason_key
+      ReasonsForRejectionCountQuery::TOP_LEVEL_REASONS_TO_SUB_REASONS[reason]
     end
 
     def sub_reason_label(sub_reason)

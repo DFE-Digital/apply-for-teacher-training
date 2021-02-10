@@ -16,21 +16,11 @@ module FindSync
 
     def call(run_in_background: true)
       if sync_courses?
-        find_provider = fetch_provider_from_find_api
-
-        @provider = create_or_update_provider(
-          base_provider_attrs.merge(
-            provider_attrs_from(find_provider),
-          ),
-        )
-
         if run_in_background
-          FindSync::SyncCoursesFromFind.perform_async(provider.id, provider_recruitment_cycle_year)
+          FindSync::SyncCoursesFromFind.perform_async(existing_provider.id, provider_recruitment_cycle_year)
         else
-          FindSync::SyncCoursesFromFind.new.perform(provider.id, provider_recruitment_cycle_year)
+          FindSync::SyncCoursesFromFind.new.perform(existing_provider.id, provider_recruitment_cycle_year)
         end
-      else
-        @provider = create_or_update_provider(base_provider_attrs)
       end
     end
 
@@ -40,37 +30,8 @@ module FindSync
       @sync_courses || existing_provider&.sync_courses
     end
 
-    def base_provider_attrs
-      {
-        sync_courses: sync_courses? || false,
-        name: provider_name,
-      }
-    end
-
-    def provider_attrs_from(find_provider)
-      {
-        region_code: find_provider.region_code&.strip,
-        postcode: find_provider.postcode,
-        name: find_provider.provider_name,
-        provider_type: find_provider.courses.first&.provider_type,
-        latitude: find_provider.try(:latitude),
-        longitude: find_provider.try(:longitude),
-      }
-    end
-
     def existing_provider
       Provider.find_by(code: provider_code)
-    end
-
-    def create_or_update_provider(attrs)
-      # Prefer this to find_or_create_by as it results in 3x fewer audits
-      if existing_provider
-        existing_provider.update!(attrs)
-      else
-        new_provider = Provider.new(attrs.merge(code: provider_code)).save!
-      end
-
-      existing_provider || new_provider
     end
 
     def fetch_provider_from_find_api

@@ -2,6 +2,7 @@ class RejectApplication
   include ActiveModel::Validations
   include ImpersonationAuditHelper
 
+  # rejection_reason from Vendor API
   attr_accessor :rejection_reason, :structured_rejection_reasons
 
   validate :at_least_one_rejection_reason_format

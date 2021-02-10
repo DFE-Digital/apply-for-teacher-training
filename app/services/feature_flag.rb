@@ -23,12 +23,9 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
-    [:feedback_prompts, 'Candidates can give feedback while completing their application form', 'David Gisbey'],
-    [:structured_reasons_for_rejection, 'Allows providers to give specific reasons for rejecting an application', 'Steve Laing'],
     [:sync_from_public_teacher_training_api, 'Pull data from the public Teacher training API as well as the old "Find" API', 'Duncan Brown'],
     [:provider_activity_log, 'Show provider users a log of all application activity', 'Michael Nacos'],
     [:export_application_data, 'Providers can export a customised selection of application data', 'Ben Swannack'],
-    [:international_addresses, 'Replace the single free text field for international addresses with fields per line', 'Steve Hook'],
     [:interviews, 'Providers can filter applications by interviewing state', 'Despo Pentara'],
     [:restructured_work_history, 'Candidates use the new design for the Work History section', 'David Gisbey'],
   ].freeze

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::SortApplicationChoices do
   around do |example|
-    Timecop.travel(2020, 1, 1) { example.run }
+    Timecop.travel(2021, 1, 1) { example.run }
   end
 
   describe 'decorates models with' do
@@ -111,24 +111,31 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
 
   describe 'sorts application choices' do
     let(:application_choices) do
-      # TODO: groups 1, 3, 9 require the relevant EoC implementation first
       [
         # --- 999
         create(:application_choice, :offer, status: 'offer_withdrawn'),
-        # --- 8
+        # --- 10
+        create(:application_choice, :with_deferred_offer),
+        # --- 9
         create(:application_choice, :recruited),
-        # --- 7
+        # --- 8
         create(:application_choice, :pending_conditions),
-        # --- 6
+        # --- 7
         create(:application_choice, :offer),
-        # --- 5
+        # --- 6
         create(:application_choice, :pending_conditions, :previous_year),
+        # --- 5
+        create(:application_choice, :with_scheduled_interview),
         # --- 4
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now),
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 6.business_days.from_now), # has more recent updated_at, will appear first
+        # --- 3
+        create(:application_choice, :with_rejection_by_default),
         # --- 2
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now),
         create(:application_choice, :awaiting_provider_decision, reject_by_default_at: 5.business_days.from_now), # has more recent updated_at, will appear first
+        # --- 1
+        create(:application_choice, :with_deferred_offer, :previous_year),
       ]
     end
 

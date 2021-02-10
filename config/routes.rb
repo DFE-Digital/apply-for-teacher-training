@@ -16,9 +16,9 @@ Rails.application.routes.draw do
 
   namespace :candidate_interface, path: '/candidate' do
     if HostingEnvironment.production?
-      root to: redirect(GOVUK_APPLY_START_PAGE_URL)
+      get '/' => redirect(GOVUK_APPLY_START_PAGE_URL)
     else
-      root to: redirect('/')
+      get '/' => redirect('/')
     end
 
     get '/accessibility', to: 'content#accessibility'
@@ -245,12 +245,28 @@ Rails.application.routes.draw do
         post '/' => 'restructured_work_history/start#submit_choice'
 
         get '/new' => 'restructured_work_history/job#new', as: :new_restructured_work_history
-        post '/new' => 'restructured_work_history/job#create', as: :create_restructured_work_history
+        post '/new' => 'restructured_work_history/job#create'
 
         get '/edit/:id' => 'restructured_work_history/job#edit', as: :edit_restructured_work_history
-        post '/edit/:id' => 'restructured_work_history/job#update'
+        patch '/edit/:id' => 'restructured_work_history/job#update'
+
+        get '/delete/:id' => 'restructured_work_history/job#confirm_destroy', as: :destroy_restructured_work_history
+        delete '/delete/:id' => 'restructured_work_history/job#destroy'
+
+        get '/explain-breaks' => 'restructured_work_history/breaks#edit', as: :restructured_work_history_breaks
+        post '/explain-breaks' => 'restructured_work_history/breaks#update'
+
+        get '/explain-break/new' => 'restructured_work_history/break#new', as: :new_restructured_work_history_break
+        post '/explain-break/new' => 'restructured_work_history/break#create'
+
+        get '/explain-break/edit/:id' => 'restructured_work_history/break#edit', as: :edit_restructured_work_history_break
+        patch '/explain-break/edit/:id' => 'restructured_work_history/break#update'
+
+        get '/explain-break/delete/:id' => 'restructured_work_history/break#confirm_destroy', as: :destroy_restructured_work_history_break
+        delete '/explain-break/delete/:id' => 'restructured_work_history/break#destroy'
 
         get '/review' => 'restructured_work_history/review#show', as: :restructured_work_history_review
+        patch '/review' => 'work_history/review#complete', as: :restructured_work_history_complete
       end
 
       scope '/school-experience' do
@@ -603,9 +619,6 @@ Rails.application.routes.draw do
       get '/respond' => 'decisions#respond', as: :application_choice_respond
       post '/respond' => 'decisions#submit_response', as: :application_choice_submit_response
       get '/offer/new' => 'decisions#new_offer', as: :application_choice_new_offer
-      get '/reject' => 'decisions#new_reject', as: :application_choice_new_reject
-      post '/reject/confirm' => 'decisions#confirm_reject', as: :application_choice_confirm_reject
-      post '/reject' => 'decisions#create_reject', as: :application_choice_create_reject
       post '/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
       post '/offer' => 'decisions#create_offer', as: :application_choice_create_offer
       get '/conditions' => 'conditions#edit', as: :application_choice_edit_conditions
@@ -635,18 +648,24 @@ Rails.application.routes.draw do
 
       resources :notes, only: %i[index show new create], as: :application_choice_notes
 
-      resources :interviews, only: %i[new index], as: :application_choice_interviews do
+      resources :interviews, only: %i[new edit index], as: :application_choice_interviews do
         collection do
           get '/new/check', to: 'interviews#check'
-          get '/confirm', to: 'interviews#commit'
+          post '/confirm', to: 'interviews#commit'
         end
 
         member do
           get :cancel
           get '/cancel/review/', to: 'interviews#review_cancel'
           post '/cancel/confirm/', to: 'interviews#confirm_cancel'
+          get '/check', to: 'interviews#check'
+          put '/update', to: 'interviews#update'
         end
       end
+    end
+
+    resource :interview_schedule, path: 'interview-schedule', only: :show do
+      get :past, on: :collection
     end
 
     post '/candidates/:candidate_id/impersonate' => 'candidates#impersonate', as: :impersonate_candidate
@@ -757,6 +776,12 @@ Rails.application.routes.draw do
       get '/applicant-details' => 'application_forms/applicant_details#edit', as: :application_form_edit_applicant_details
       post '/applicant-details' => 'application_forms/applicant_details#update', as: :application_form_update_applicant_details
 
+      get '/gcses/:gcse_id' => 'application_forms/gcses#edit', as: :application_form_edit_gcse
+      post '/gcses/:gcse_id' => 'application_forms/gcses#update', as: :application_form_update_gcse
+
+      get '/degrees/:degree_id' => 'application_forms/degrees#edit', as: :application_form_edit_degree
+      post '/degrees/:degree_id' => 'application_forms/degrees#update', as: :application_form_update_degree
+
       get '/references/:reference_id/details' => 'application_forms/references#edit_reference_details', as: :application_form_edit_reference_details
       post '/references/:reference_id/details' => 'application_forms/references#update_reference_details', as: :application_form_update_reference_details
 
@@ -839,6 +864,7 @@ Rails.application.routes.draw do
       get '/course-statistics', to: 'performance#courses_dashboard', as: :courses_dashboard
       get '/feature-metrics' => 'performance#feature_metrics_dashboard', as: :feature_metrics_dashboard
       get '/reasons-for-rejection' => 'performance#reasons_for_rejection_dashboard', as: :reasons_for_rejection_dashboard
+      get '/reasons-for-rejection/application-choices' => 'performance#reasons_for_rejection_application_choices', as: :reasons_for_rejection_application_choices
       get '/service' => 'performance#service_performance_dashboard', as: :service_performance_dashboard
       get '/ucas-matches' => 'performance#ucas_matches_dashboard', as: :ucas_matches_dashboard
 

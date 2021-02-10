@@ -33,6 +33,11 @@ gem 'discard'
 gem 'json-schema'
 gem 'json_api_client'
 
+# We use a postgres sequence to generate public_ids for qualifications
+# See adr/0018-public-ids-for-qualifications.md for details on why this is necessary
+# This gem adds support for sequences in the schema.rb
+gem 'ar-sequence'
+
 gem 'sentry-raven'
 
 gem 'factory_bot_rails'
@@ -67,7 +72,7 @@ gem 'http'
 # For DSI api integration
 gem 'jwt'
 
-gem 'openapi3_parser', '0.8.2'
+gem 'openapi3_parser', '0.9.0'
 gem 'rouge'
 gem 'ruby-graphviz'
 

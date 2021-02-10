@@ -58,9 +58,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
       it 'returns the time that a choice was sent to the provider' do
         application_choice = create(:application_choice, :unsubmitted)
 
-        # TODO: We should use a service that both sets submitted_at and sends the applications
-        application_choice.application_form.update!(submitted_at: Time.zone.now)
-        SendApplicationToProvider.new(application_choice: application_choice).call
+        SubmitApplication.new(application_choice.application_form).call
 
         choice_row = described_class.new.application_choices.first
         expect(choice_row).to include(sent_to_provider_at: application_choice.reload.sent_to_provider_at)

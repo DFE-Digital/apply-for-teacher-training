@@ -11,7 +11,46 @@
 # It's strongly recommended that you check this file into your version control system.
 
 
-ActiveRecord::Schema.define(version: 2021_02_03_130641) do
+ActiveRecord::Schema.define(version: 2021_02_08_105018) do
+
+  create_sequence "application_choices_id_seq"
+  create_sequence "application_experiences_id_seq"
+  create_sequence "application_feedback_id_seq"
+  create_sequence "application_forms_id_seq"
+  create_sequence "application_qualifications_id_seq"
+  create_sequence "application_work_history_breaks_id_seq"
+  create_sequence "audits_id_seq"
+  create_sequence "authentication_tokens_id_seq"
+  create_sequence "candidates_id_seq"
+  create_sequence "chasers_sent_id_seq"
+  create_sequence "course_options_id_seq"
+  create_sequence "courses_id_seq"
+  create_sequence "data_exports_id_seq"
+  create_sequence "emails_id_seq"
+  create_sequence "english_proficiencies_id_seq"
+  create_sequence "features_id_seq"
+  create_sequence "find_feedback_id_seq"
+  create_sequence "ielts_qualifications_id_seq"
+  create_sequence "interviews_id_seq"
+  create_sequence "notes_id_seq"
+  create_sequence "other_efl_qualifications_id_seq"
+  create_sequence "provider_agreements_id_seq"
+  create_sequence "provider_relationship_permissions_id_seq"
+  create_sequence "provider_users_id_seq"
+  create_sequence "provider_users_providers_id_seq"
+  create_sequence "providers_id_seq"
+  create_sequence "qualifications_public_id_seq", start: 196
+  create_sequence "reference_tokens_id_seq"
+  create_sequence "references_id_seq"
+  create_sequence "site_settings_id_seq"
+  create_sequence "sites_id_seq"
+  create_sequence "support_users_id_seq"
+  create_sequence "toefl_qualifications_id_seq"
+  create_sequence "ucas_matches_id_seq"
+  create_sequence "validation_errors_id_seq"
+  create_sequence "vendor_api_requests_id_seq"
+  create_sequence "vendor_api_tokens_id_seq"
+  create_sequence "vendor_api_users_id_seq"
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"

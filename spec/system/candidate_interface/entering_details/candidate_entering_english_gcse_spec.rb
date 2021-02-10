@@ -38,6 +38,13 @@ RSpec.feature 'Candidate entering GCSE English details' do
     and_i_enter_a_valid_other_english_grade
     and_i_click_save_and_continue
     then_i_see_the_grade_year_page
+
+    when_i_fill_in_the_award_year
+    and_i_click_save_and_continue
+    then_i_see_the_check_answers_page
+
+    when_i_click_to_change_my_grades
+    then_i_see_the_grades_i_entered_in_the_form
   end
 
   def given_i_am_signed_in
@@ -127,5 +134,23 @@ RSpec.feature 'Candidate entering GCSE English details' do
 
   def then_i_see_the_grade_year_page
     expect(page).to have_content t('gcse_edit_year.page_title', subject: 'English', qualification_type: 'GCSE')
+  end
+
+  def when_i_fill_in_the_award_year
+    fill_in('Enter year', with: '2010')
+  end
+
+  def then_i_see_the_check_answers_page
+    expect(page).to have_content('A* (Cockney Rhyming Slang)')
+    expect(page).to have_content('Change grade for GCSE')
+  end
+
+  def when_i_click_to_change_my_grades
+    click_on 'Change grade for GCSE'
+  end
+
+  def then_i_see_the_grades_i_entered_in_the_form
+    expect(page).to have_selector("input[value='A*']")
+    expect(page).to have_selector("input[value='Cockney rhyming slang']")
   end
 end
