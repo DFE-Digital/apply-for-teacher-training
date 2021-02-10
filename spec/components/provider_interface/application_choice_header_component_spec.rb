@@ -126,13 +126,15 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
 
   describe '#rejection_reason_required' do
     it 'is true for a rejected by default application without a rejection reason' do
-      application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: true, rejection_reason: nil)
+      application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: true, rejection_reason: nil, structured_rejection_reasons: nil)
+      allow(application_choice).to receive(:feedback_provided?).and_return(false)
 
       expect(described_class.new(application_choice: application_choice).rejection_reason_required).to be true
     end
 
     it 'is false for a rejected by default application with a rejection reason' do
       application_choice = instance_double(ApplicationChoice, status: 'rejected', rejected_by_default: true, rejection_reason: 'NO!')
+      allow(application_choice).to receive(:feedback_provided?).and_return(true)
 
       expect(described_class.new(application_choice: application_choice).rejection_reason_required).to be false
     end

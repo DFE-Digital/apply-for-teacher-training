@@ -132,6 +132,10 @@ class ApplicationChoice < ApplicationRecord
     application_form.application_choices
   end
 
+  def feedback_provided?
+    rejection_reason.present? || structured_rejection_reasons.present?
+  end
+
 private
 
   def generate_alphanumeric_id
