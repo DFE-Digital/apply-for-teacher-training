@@ -14,9 +14,11 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     and_i_should_see_the_provider_and_course_codes
     and_i_should_see_the_course_name
     then_i_should_be_able_to_apply_through_ucas_only
+    and_i_should_see_locations_info_for_a_synced_course
 
     when_i_arrive_from_find_to_a_course_that_is_not_synced_in_apply
     then_i_should_be_able_to_apply_through_ucas_only
+    and_i_should_see_locations_info_for_an_unsynced_course
 
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
     then_i_should_be_able_to_apply_through_apply
@@ -60,7 +62,10 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def when_i_arrive_from_find_to_a_course_that_is_ucas_only
-    create(:course, exposed_in_find: true, open_on_apply: false, code: 'XYZ1', name: 'Biology', provider: create(:provider, code: 'ABC'))
+    course = create(:course, exposed_in_find: true, open_on_apply: false, code: 'XYZ1', name: 'Biology', provider: create(:provider, code: 'ABC'))
+    site = create(:site, name: 'Site for a UCAS-only course', code: 'OOO', provider: course.provider)
+    create(:course_option, course: course, site: site)
+
     visit candidate_interface_apply_from_find_path providerCode: 'ABC', courseCode: 'XYZ1'
   end
 
@@ -84,7 +89,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def then_i_should_be_able_to_apply_through_ucas_only
-    expect(page).to have_content 'You must apply for this course on UCAS'
+    expect(page).to have_content 'You’ll need to register with UCAS before you can apply.'
   end
 
   def then_i_should_be_able_to_apply_through_apply
@@ -125,5 +130,23 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
 
   def then_i_see_the_sign_up_page
     expect(page).to have_content 'Create an Apply for teacher training account'
+  end
+
+  def and_i_should_see_locations_info_for_an_unsynced_course
+    within '[data-qa="locations-table"]' do
+      table_data = all('td')
+
+      expect(table_data.first).to have_content 'Main site'
+      expect(table_data.last).to have_content 'A'
+    end
+  end
+
+  def and_i_should_see_locations_info_for_a_synced_course
+    within '[data-qa="locations-table"]' do
+      table_data = all('td')
+
+      expect(table_data.first).to have_content 'Site for a UCAS-only course'
+      expect(table_data.last).to have_content 'OOO'
+    end
   end
 end
