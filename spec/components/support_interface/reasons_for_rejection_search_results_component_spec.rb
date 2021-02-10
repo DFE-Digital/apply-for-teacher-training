@@ -27,6 +27,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
           quality_of_application_y_n: 'Yes',
           quality_of_application_which_parts_needed_improvement: %w[other],
           quality_of_application_other_details: 'Too many emojis',
+          interested_in_future_applications_y_n: 'Yes',
         },
         application_form_id: 123,
       )
@@ -46,6 +47,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
       expect(@rendered_result.text).to include('Quality of application')
       expect(@rendered_result.text).to include('Performance at interview')
       expect(@rendered_result.text).to include('Avoid humming')
+      expect(@rendered_result.text).to include('Future applications')
       expect(@rendered_result.text).not_to include('Something you did')
     end
 
