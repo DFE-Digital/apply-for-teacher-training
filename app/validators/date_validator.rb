@@ -1,4 +1,6 @@
 class DateValidator < ActiveModel::EachValidator
+  include DateAndYearConcerns
+
   MIN_AGE = 16
 
   def validate_each(record, attribute, value)
@@ -37,20 +39,8 @@ private
     Time.zone.today - MIN_AGE.years
   end
 
-  def humanize(attribute)
-    attribute.to_s.humanize(capitalize: false)
-  end
-
   def is_invalid?(value)
     !value.is_a?(Date) || outside_acceptable_age_range(value.year)
-  end
-
-  def outside_acceptable_age_range(value)
-    !(100.years.ago.year..2999).cover?(value)
-  end
-
-  def article(attribute)
-    %w[a e i o u].include?(attribute.to_s.first) ? 'an' : 'a'
   end
 
   def blank_fields(value)
