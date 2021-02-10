@@ -21,12 +21,14 @@ module CandidateInterface
       end
 
       def formatted_end_date
-        return 'Present' if @work_experience.currently_working
-
-        if @work_experience.end_date_unknown
-          "#{@work_experience.end_date.to_s(:short_month_and_year)} (estimate)"
+        if @work_experience.currently_working
+          'to Present'
+        elsif @work_experience.start_date == @work_experience.end_date
+          nil
+        elsif @work_experience.end_date_unknown
+          "to #{@work_experience.end_date.to_s(:short_month_and_year)} (estimate)"
         else
-          @work_experience.end_date.to_s(:short_month_and_year)
+          "to #{@work_experience.end_date.to_s(:short_month_and_year)}"
         end
       end
     end
