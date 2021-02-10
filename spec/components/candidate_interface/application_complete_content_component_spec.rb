@@ -10,11 +10,6 @@ RSpec.describe CandidateInterface::ApplicationCompleteContentComponent do
     end
   end
 
-  before do
-    view_helper = instance_double(ViewHelper)
-    allow(view_helper).to receive(:respond_by_date).and_return('1 January 2020')
-  end
-
   context 'when the application is waiting for a decision from providers' do
     it 'renders the respond date for providers' do
       stub_application_dates_with_form

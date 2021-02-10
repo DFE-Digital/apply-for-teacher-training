@@ -32,6 +32,11 @@ module CandidateInterface
       application_form.application_choices.size
     end
 
+    def respond_by_date
+      dates = ApplicationDates.new(@application_form)
+      dates.reject_by_default_at.to_s(:govuk_date).strip if dates.reject_by_default_at
+    end
+
   private
 
     attr_reader :application_form
