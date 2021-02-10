@@ -52,7 +52,6 @@ RSpec.describe CandidateMailer, type: :mailer do
         'a mail with subject and content',
         I18n.t!('candidate_mailer.chase_candidate_decision.subject_singular'),
         'heading' => 'Dear Fred',
-        'days left to respond' => '5 working days',
         'dbd date' => 'respond by 8 November',
         'course name and code' => ' Applied Science (Psychology)',
         'provider name' => 'Brighthurst Technical College',

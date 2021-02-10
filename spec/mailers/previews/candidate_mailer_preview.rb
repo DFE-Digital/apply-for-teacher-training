@@ -356,6 +356,11 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.reference_received(reference)
   end
 
+  def offer_accepted
+    application_choice = FactoryBot.build_stubbed(:application_choice)
+    CandidateMailer.offer_accepted(application_choice)
+  end
+
   def declined_by_default_multiple_offers
     application_form = FactoryBot.build_stubbed(
       :application_form,
