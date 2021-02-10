@@ -22,11 +22,11 @@ private
     filters[:structured_rejection_reasons].each do |key, value|
       if key =~ /_y_n$/
         application_choices = application_choices.where(
-          "application_choices.structured_rejection_reasons->>'#{key}' = '#{value}'",
+          'application_choices.structured_rejection_reasons->>:key = :value', { key: key, value: value }
         )
       else
         application_choices = application_choices.where(
-          "application_choices.structured_rejection_reasons->'#{key}' ? '#{value}'",
+          'application_choices.structured_rejection_reasons->:key ? :value', { key: key, value: value }
         )
       end
     end
