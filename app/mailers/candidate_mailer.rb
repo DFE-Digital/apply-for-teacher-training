@@ -1,5 +1,5 @@
 class CandidateMailer < ApplicationMailer
-  layout 'candidate_email_with_footer'
+  layout 'candidate_email_with_support_footer'
 
   def application_submitted(application_form)
     @candidate_magic_link = candidate_magic_link(application_form.candidate)
