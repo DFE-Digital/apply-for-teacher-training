@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2021_02_08_105018) do
   create_sequence "provider_users_id_seq"
   create_sequence "provider_users_providers_id_seq"
   create_sequence "providers_id_seq"
-  create_sequence "qualifications_public_id_seq", start: 196
+  create_sequence "qualifications_public_id_seq", start: 120000
   create_sequence "reference_tokens_id_seq"
   create_sequence "references_id_seq"
   create_sequence "site_settings_id_seq"
