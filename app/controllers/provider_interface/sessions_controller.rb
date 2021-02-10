@@ -26,7 +26,8 @@ module ProviderInterface
       provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address).downcase.strip)
 
       if provider_user && provider_user.dfe_sign_in_uid.present?
-        ProviderInterface::MagicLinkAuthentication.send_token!(provider_user: provider_user)
+        magic_link_token = provider_user.create_magic_link_token!
+        ProviderMailer.fallback_sign_in_email(provider_user, magic_link_token).deliver_later
       end
 
       redirect_to provider_interface_check_your_email_path

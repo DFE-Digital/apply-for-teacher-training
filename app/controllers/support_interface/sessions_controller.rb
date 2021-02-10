@@ -28,7 +28,8 @@ module SupportInterface
       support_user = SupportUser.find_by(email_address: params.dig(:support_user, :email_address).downcase.strip)
 
       if support_user
-        SupportInterface::MagicLinkAuthentication.send_token!(support_user: support_user)
+        magic_link_token = support_user.create_magic_link_token!
+        SupportMailer.fallback_sign_in_email(support_user, magic_link_token).deliver_later
       end
 
       redirect_to support_interface_check_your_email_path
