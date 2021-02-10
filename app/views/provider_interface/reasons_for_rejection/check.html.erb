@@ -6,7 +6,11 @@
       <%= f.govuk_error_summary %>
 
       <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-      <h1 class="govuk-heading-l">Check your feedback and reject application</h1>
+      <% if @application_choice.rejected_by_default? %>
+        <h1 class="govuk-heading-l">Check and send your feedback</h1>
+      <% else %>
+        <h1 class="govuk-heading-l">Check your feedback and reject application</h1>
+      <% end %>
 
       <p class="govuk-body">
         Your feedback will be given to the candidate in the format below.
@@ -20,7 +24,11 @@
         ) %>
       </div>
 
-      <%= f.govuk_submit 'Reject application' %>
+      <% if @application_choice.rejected_by_default? %>
+        <%= f.govuk_submit 'Send feedback' %>
+      <% else %>
+        <%= f.govuk_submit 'Reject application' %>
+      <% end %>
     <% end %>
 
     <p class="govuk-body"><%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice) %></p>

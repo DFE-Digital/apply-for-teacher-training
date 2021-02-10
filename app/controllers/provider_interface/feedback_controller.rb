@@ -3,6 +3,7 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
     before_action :requires_rbd_application_with_no_feedback
+    before_action :redirect_to_structured_reasons_for_rejection_on_rbd_if_enabled
 
     def new
       # feedback_params used in case you arrive here via the Change link
@@ -51,6 +52,10 @@ module ProviderInterface
 
       params.require(:provider_interface_rejected_by_default_feedback_form)
         .permit(:rejection_reason)
+    end
+
+    def redirect_to_structured_reasons_for_rejection_on_rbd_if_enabled
+      redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice) if FeatureFlag.active?(:structured_reasons_for_rejection_on_rbd)
     end
   end
 end
