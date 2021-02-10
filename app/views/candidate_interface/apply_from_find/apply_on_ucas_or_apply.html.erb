@@ -1,4 +1,4 @@
-<% content_for :title, 'Apply for this course' %>
+<% content_for :title, t('page_titles.apply_from_find') %>
 <% content_for :service_link, candidate_interface_apply_from_find_path(providerCode: @course.provider.code, courseCode: @course.code) %>
 
 <div class="govuk-grid-row">
@@ -10,7 +10,7 @@
 
       <h1 class="govuk-heading-xl">
         <span class="govuk-caption-xl"><%= @course.name_and_code %></span>
-          Apply for this course
+          <%= t('page_titles.apply_from_find') %>
       </h1>
 
       <p class="govuk-body">
