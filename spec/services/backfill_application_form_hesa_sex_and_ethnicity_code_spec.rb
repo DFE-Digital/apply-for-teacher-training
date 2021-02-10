@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe BackfillHesaSexAndEthnicityCodes do
+RSpec.describe BackfillApplicationFormHesaSexAndEthnicityCode do
   describe '#change' do
     it 'converts integer hesa codes into strings' do
       application_form = create(:application_form,
