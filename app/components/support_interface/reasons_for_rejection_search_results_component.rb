@@ -22,13 +22,13 @@ module SupportInterface
     def search_title_text
       if @search_value == 'Yes'
         i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[@search_attribute].to_s
-        t("reasons_for_rejection.#{i18n_key}.title")
+        t("reasons_for_rejection.#{i18n_key}.title", default: '')
       else
         top_level_reason = ReasonsForRejectionCountQuery::SUBREASONS_TO_TOP_LEVEL_REASONS[@search_attribute.to_sym]
         i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[top_level_reason].to_s
         [
-          t("reasons_for_rejection.#{i18n_key}.title"),
-          t("reasons_for_rejection.#{i18n_key}.#{@search_value}"),
+          t("reasons_for_rejection.#{i18n_key}.title", default: ''),
+          t("reasons_for_rejection.#{i18n_key}.#{@search_value}", default: ''),
         ].join(' - ')
       end
     end
@@ -38,7 +38,8 @@ module SupportInterface
       if sub_reason.present?
         values_as_list(
           application_choice.structured_rejection_reasons[sub_reason]
-            &.map { |value| sub_reason_detail_text(application_choice, top_level_reason, sub_reason, value) },
+            &.map { |value| sub_reason_detail_text(application_choice, top_level_reason, sub_reason, value) }
+            &.reject(&:blank?),
         )
       else
         detail_reason_for(application_choice, top_level_reason)
@@ -48,7 +49,7 @@ module SupportInterface
     def sub_reason_detail_text(application_choice, top_level_reason, sub_reason, value)
       i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[top_level_reason].to_s
       text = mark_search_term(
-        I18n.t("reasons_for_rejection.#{i18n_key}.#{value}"),
+        I18n.t("reasons_for_rejection.#{i18n_key}.#{value}", default: ''),
         value.to_s == @search_value.to_s,
       )
 
@@ -73,7 +74,8 @@ module SupportInterface
     end
 
     def top_level_reason?(reason, value)
-      reason =~ /_y_n$/ && value == 'Yes'
+      SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS.key?(reason) &&
+        value == 'Yes'
     end
 
   private

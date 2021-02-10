@@ -86,4 +86,27 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
       expect(@rendered_result.css('mark').text).to eq 'No degree'
     end
   end
+
+  context 'error handling' do
+    it 'handles an invalid top-level attribute param' do
+      expect { render_result([], :velocity_of_application_y_n, 'Yes') }.not_to raise_error
+    end
+
+    it 'handles an invalid sub-reason value param' do
+      expect { render_result([], :qualifications_which_qualifications, 'no_pilots_licence') }.not_to raise_error
+    end
+
+    it 'handles an invalid reason and sub-reason' do
+      @application_choice = build(
+        :application_choice,
+        structured_rejection_reasons: {
+          performance_at_singing_y_n: 'Yes',
+          qualifications_y_n: 'Yes',
+          qualifications_which_qualifications: %w[no_cycling_proficiency],
+        },
+        application_form_id: 123,
+      )
+      expect { render_result([@application_choice], :qualifications_which_qualifications, 'no_degree') }.not_to raise_error
+    end
+  end
 end
