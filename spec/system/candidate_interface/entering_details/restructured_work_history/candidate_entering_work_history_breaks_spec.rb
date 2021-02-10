@@ -21,12 +21,10 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     and_i_click_add_a_first_job
     then_i_should_see_the_add_a_job_page
     and_i_add_a_job_between_february_2015_to_august_2019
-
     then_i_click_on_add_another_job
     and_i_add_another_job_between_november_2019_and_december_2019
     then_i_see_a_two_months_break_between_my_first_job_and_my_second_job
     and_i_see_a_one_month_break_between_my_second_job_and_now
-    and_i_cannot_mark_this_section_as_complete
 
     given_i_am_on_review_work_history_page
     when_i_click_to_explain_my_break_between_august_2019_and_november_2019
@@ -139,13 +137,6 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
   def and_i_see_a_one_month_break_between_my_second_job_and_now
     expect(page).to have_content('You have a break in your work history (1 month)')
-  end
-
-  def and_i_cannot_mark_this_section_as_complete
-    check t('application_form.work_history.review.completed_checkbox')
-    click_button t('save_and_continue')
-    expect(page).to have_content 'You cannot mark this section complete with unexplained work breaks.'
-    expect(current_candidate.current_application).not_to be_work_history_completed
   end
 
   def then_i_see_the_start_and_end_date_filled_in_for_my_break_between_august_2019_and_november_2019
