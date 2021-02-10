@@ -99,7 +99,9 @@ module SupportInterface
     end
 
     def detail_reason_for(application_choice, top_level_reason)
-      detail_questions = ReasonsForRejection::INITIAL_QUESTIONS[top_level_reason.to_sym].keys
+      detail_questions = ReasonsForRejection::INITIAL_QUESTIONS[top_level_reason.to_sym]&.keys
+      return '' if detail_questions.nil?
+
       values_as_list(
         detail_questions.map { |detail_question| application_choice.structured_rejection_reasons[detail_question.to_s] }.compact,
       )
