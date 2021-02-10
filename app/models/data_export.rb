@@ -100,11 +100,6 @@ class DataExport < ApplicationRecord
       description: 'A list of qualifications for each application choice',
       class: SupportInterface::QualificationsExport,
     },
-    rejected_candidates_export: {
-      name: 'RejectedCandidatesExport',
-      description: 'A one time export for Monica. A bit too tough to run this one via a container',
-      class: SupportInterface::RejectedCandidatesExport,
-    },
   }.freeze
 
   belongs_to :initiator, polymorphic: true, optional: true
