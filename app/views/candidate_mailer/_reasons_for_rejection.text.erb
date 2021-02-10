@@ -1,4 +1,6 @@
-<%= @course.provider.name %> has decided not to make you an offer to study <%= @course.name_and_code %>. They've given feedback to explain this decision.
+<% unless @application_choice.rejected_by_default? %>
+  <%= @course.provider.name %> has decided not to make you an offer to study <%= @course.name_and_code %>. They've given feedback to explain this decision.
+<% end %>
 
 <% @application_choice.rejection_reasons.each_pair do |title, reasons| %>
 

@@ -125,12 +125,12 @@ class CandidateMailer < ApplicationMailer
   end
 
   def feedback_received_for_application_rejected_by_default(application_choice)
-    @application_choice = application_choice
-    @course_option = @application_choice.offered_option
+    @application_choice = RejectedApplicationChoicePresenter.new(application_choice)
+    @course = @application_choice.offered_option.course
 
     email_for_candidate(
       @application_choice.application_form,
-      subject: I18n.t!('candidate_mailer.feedback_received_for_application_rejected_by_default.subject', provider_name: @course_option.course.provider.name),
+      subject: I18n.t!('candidate_mailer.feedback_received_for_application_rejected_by_default.subject', provider_name: @course.provider.name),
     )
   end
 
