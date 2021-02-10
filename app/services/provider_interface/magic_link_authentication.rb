@@ -1,17 +1,17 @@
 module ProviderInterface
   module MagicLinkAuthentication
-    TOKEN_DURATION = 1.hour
-
     def self.send_token!(provider_user:)
-      magic_link_token = MagicLinkToken.new
-      provider_user.update!(magic_link_token: magic_link_token.encrypted, magic_link_token_sent_at: Time.zone.now)
-      ProviderMailer.fallback_sign_in_email(provider_user, magic_link_token.raw).deliver_later
+      magic_link_token = provider_user.create_magic_link_token!
+      ProviderMailer.fallback_sign_in_email(provider_user, magic_link_token).deliver_later
     end
 
     def self.get_user_from_token!(token:)
-      magic_link_token = MagicLinkToken.from_raw(token)
-      ProviderUser.where('magic_link_token_sent_at > ?', TOKEN_DURATION.ago)
-        .find_by!(magic_link_token: magic_link_token)
+      authentication_token = AuthenticationToken.find_by_hashed_token(
+        user_type: 'ProviderUser',
+        raw_token: token,
+      )
+
+      authentication_token && authentication_token.still_valid? && authentication_token.user
     end
   end
 end

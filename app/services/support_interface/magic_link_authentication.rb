@@ -1,7 +1,5 @@
 module SupportInterface
   module MagicLinkAuthentication
-    TOKEN_DURATION = 1.hour
-
     def self.send_token!(support_user:)
       magic_link_token = support_user.create_magic_link_token!
       SupportMailer.fallback_sign_in_email(support_user, magic_link_token).deliver_later
