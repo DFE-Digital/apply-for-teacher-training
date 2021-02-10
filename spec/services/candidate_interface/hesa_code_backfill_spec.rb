@@ -15,9 +15,9 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
       application_form.reload
 
       expect(application_form.equality_and_diversity).to eq(
-        'hesa_sex' => 2,
+        'hesa_sex' => '2',
         'hesa_disabilities' => %w[58 57],
-        'hesa_ethnicity' => 21,
+        'hesa_ethnicity' => '21',
         'sex' => 'female',
         'ethnic_background' => 'Caribbean',
         'disabilities' => %w[Blind Deaf],
@@ -91,7 +91,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                   },
                                   recruitment_cycle_year: 2020)
 
-        hesa_ethnicity_code_unknown = 90
+        hesa_ethnicity_code_unknown = '90'
 
         described_class.call(2020)
 
@@ -115,7 +115,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                     },
                                     recruitment_cycle_year: 2020)
 
-          hesa_ethnicity_code_refused = 98
+          hesa_ethnicity_code_refused = '98'
 
           described_class.call(2020)
 
@@ -162,7 +162,7 @@ RSpec.describe CandidateInterface::HesaCodeBackfill do
                                     sex: 'intersex',
                                   })
 
-        hesa_sex_code_intersex = 3
+        hesa_sex_code_intersex = '3'
 
         described_class.call(RecruitmentCycle.current_year)
 

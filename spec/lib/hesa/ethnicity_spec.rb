@@ -9,9 +9,9 @@ RSpec.describe Hesa::Ethnicity do
 
         expect(ethnicity_values.size).to eq 18
 
-        chinese = ethnicity_values.find { |e| e.hesa_code == 34 }
+        chinese = ethnicity_values.find { |e| e.hesa_code == '34' }
 
-        expect(chinese.hesa_code).to eq 34
+        expect(chinese.hesa_code).to eq '34'
         expect(chinese.value).to eq HesaEthnicityValues::CHINESE
       end
     end
@@ -23,9 +23,9 @@ RSpec.describe Hesa::Ethnicity do
 
         expect(ethnicity_values.size).to eq 16
 
-        chinese = ethnicity_values.find { |e| e.hesa_code == 34 }
+        chinese = ethnicity_values.find { |e| e.hesa_code == '34' }
 
-        expect(chinese.hesa_code).to eq 34
+        expect(chinese.hesa_code).to eq '34'
         expect(chinese.value).to eq HesaEthnicityValues::CHINESE
       end
     end
@@ -38,7 +38,7 @@ RSpec.describe Hesa::Ethnicity do
         result = described_class.find('Chinese', cycle_year)
 
         expect(result.value).to eq HesaEthnicityValues::CHINESE
-        expect(result.hesa_code).to eq 34
+        expect(result.hesa_code).to eq '34'
       end
     end
 

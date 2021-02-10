@@ -7,9 +7,9 @@ RSpec.describe Hesa::Sex do
 
       expect(sex_types.size).to eq 3
 
-      female = sex_types.find { |s| s.hesa_code == 2 }
+      female = sex_types.find { |s| s.hesa_code == '2' }
 
-      expect(female.hesa_code).to eq 2
+      expect(female.hesa_code).to eq '2'
       expect(female.type).to eq 'female'
     end
   end
@@ -20,7 +20,7 @@ RSpec.describe Hesa::Sex do
         result = described_class.find('female')
 
         expect(result.type).to eq 'female'
-        expect(result.hesa_code).to eq 2
+        expect(result.hesa_code).to eq '2'
       end
     end
 
