@@ -96,4 +96,8 @@ RSpec.configure do |config|
   config.define_derived_metadata(file_path: Regexp.new('/spec/forms/')) do |metadata|
     metadata[:type] = 'model'
   end
+
+  FactoryBot::SyntaxRunner.class_eval do
+    include RSpec::Mocks::ExampleMethods
+  end
 end
