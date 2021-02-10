@@ -37,9 +37,7 @@ module ProviderInterface
     def authenticate_with_token
       redirect_to action: :new and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 
-      render_404 and return unless params[:token]
-
-      provider_user = ProviderInterface::MagicLinkAuthentication.get_user_from_token!(token: params[:token])
+      provider_user = ProviderInterface::MagicLinkAuthentication.get_user_from_token!(token: params.fetch(:token))
 
       render_404 and return unless provider_user
 
