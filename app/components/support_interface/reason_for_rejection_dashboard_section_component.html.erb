@@ -37,7 +37,7 @@
     <%= render SupportInterface::SubReasonsForRejectionTableComponent.new(
       reason: @reason_key,
       sub_reasons: @sub_reasons_result,
-      total: @total_structured_rejection_reasons_count
+      total: @total_structured_rejection_reasons_count,
     ) %>
   <% end %>
 </section>

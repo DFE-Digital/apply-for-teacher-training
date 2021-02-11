@@ -14,7 +14,7 @@
 
       <%= f.govuk_radio_buttons_fieldset :consent_to_be_contacted, inline: true, legend: { text: t('application_feedback.consent_to_be_contacted.label'), size: 'm' } do %>
         <%= f.govuk_radio_button :consent_to_be_contacted, true, label: { text: t('application_feedback.consent_to_be_contacted.yes') }, link_errors: true %>
-        <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text:t('application_feedback.consent_to_be_contacted.no') } %>
+        <%= f.govuk_radio_button :consent_to_be_contacted, false, label: { text: t('application_feedback.consent_to_be_contacted.no') } %>
       <% end %>
 
       <%= f.govuk_submit t('application_feedback.submit') %>

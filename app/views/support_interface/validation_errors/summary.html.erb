@@ -4,22 +4,22 @@
   <%= render BreadcrumbComponent.new(items: [
     {
       text: 'Performance',
-      path: support_interface_performance_path
+      path: support_interface_performance_path,
     },
     {
       text: 'Validation errors',
-      path: support_interface_validation_errors_path
+      path: support_interface_validation_errors_path,
     },
     {
-      text: 'Validation error summary'
-    }
+      text: 'Validation error summary',
+    },
   ]) %>
 <% end %>
 
 <div class="validation-results-header">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <%= form_with(url: support_interface_validation_error_summary_path, method: "get", class: "govuk-form") do |f| %>
+      <%= form_with(url: support_interface_validation_error_summary_path, method: 'get', class: 'govuk-form') do |f| %>
         <div class="govuk-form-group">
           <%= f.govuk_collection_select(
                 :sortby,
@@ -27,21 +27,21 @@
                 :value,
                 :text,
                 label: {
-                  text: "Sorted by",
-                  class: "govuk-label govuk-label--inline sortedby-label"
+                  text: 'Sorted by',
+                  class: 'govuk-label govuk-label--inline sortedby-label',
                 },
                 options: {
-                  selected: params["sortby"] || 'all_time',
+                  selected: params['sortby'] || 'all_time',
                 },
                 html_options: {
                   class: 'sortedby-label',
                   selected: 2,
-                  onchange: "this.form.submit()",
-                  role: "listbox",
-                }
+                  onchange: 'this.form.submit()',
+                  role: 'listbox',
+                },
               ) %>
         </div>
-        <%= f.submit("Update", name: nil, class: "govuk-button") %>
+        <%= f.submit('Update', name: nil, class: 'govuk-button') %>
       <% end %>
     </div>
   </div>

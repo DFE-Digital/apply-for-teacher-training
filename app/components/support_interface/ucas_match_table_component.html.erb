@@ -47,7 +47,7 @@
           <% if table_row[:status_on_apply] == 'N/A' %>
             N/A
           <% elsif table_row[:status_on_apply] == 'invalid_data' %>
-            <%= render TagComponent.new(text: "Invalid data", type: :red) %>
+            <%= render TagComponent.new(text: 'Invalid data', type: :red) %>
           <% else %>
             <%= render SupportInterface::ApplicationStatusTagComponent.new(status: table_row[:status_on_apply]) %>
           <% end %>

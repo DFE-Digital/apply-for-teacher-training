@@ -3,7 +3,7 @@
 <% unless HostingEnvironment.production? %>
   <%= form_with model: SupportInterface::ChangeCycleForm.new, url: support_interface_switch_cycle_schedule_path, method: :post do |f| %>
     <%= f.govuk_radio_buttons_fieldset :cycle_schedule_name,
-      legend: { text: "Current point in the recruitment cycle" } do %>
+      legend: { text: 'Current point in the recruitment cycle' } do %>
 
       <%= f.govuk_radio_button :cycle_schedule_name, 'real', label: { text: t('cycles.real.name') }, hint: { text: t('cycles.real.description') } %>
 

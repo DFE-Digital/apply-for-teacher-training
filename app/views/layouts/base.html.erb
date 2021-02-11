@@ -61,12 +61,10 @@
     <%= content_for?(:body) ? yield(:body) : yield %>
 
   <% if @render_application_feedback_component %>
-    <%= render(
-      CandidateInterface::ApplicationFeedbackComponent.new(
-        path: request.env['PATH_INFO'],
-        page_title: try(:browser_title).split(' - Apply for teacher training - GOV.UK').first,
-      )
-    ) %>
+    <%= render(CandidateInterface::ApplicationFeedbackComponent.new(
+      path: request.env['PATH_INFO'],
+      page_title: try(:browser_title).split(' - Apply for teacher training - GOV.UK').first,
+    )) %>
   <% end %>
 
     <%= render 'layouts/footer' %>

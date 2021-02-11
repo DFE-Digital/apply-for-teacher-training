@@ -36,14 +36,14 @@
             :apply,
             label: { text: 'Yes, I want to apply using the new service', size: 's' },
             hint: -> { render(partial: 'apply_using_new_service_hint') },
-            link_errors: true
+            link_errors: true,
           ) %>
 
           <%= f.govuk_radio_button(
             :service,
             :ucas,
             label: { text: 'No, I want to apply with UCAS', size: 's' },
-            hint: -> { render(partial: 'apply_using_ucas_hint') }
+            hint: -> { render(partial: 'apply_using_ucas_hint') },
           ) %>
         <% end %>
 

@@ -26,7 +26,7 @@
               <ul class="moj-filter-tags">
                 <% tags_for_active_filter(active_filter).each do |tag| %>
                   <li>
-                    <%= link_to(tag[:title], tag[:remove_link], class: "moj-filter__tag", id: "tag-#{tag[:title].parameterize}") %>
+                    <%= link_to(tag[:title], tag[:remove_link], class: 'moj-filter__tag', id: "tag-#{tag[:title].parameterize}") %>
                   </li>
                 <% end %>
               </ul>
@@ -38,7 +38,7 @@
          -->
         <div class="moj-filter__options" tabindex="-1">
           <form method="get">
-            <%= submit_tag "Apply filters", class: "govuk-button" %>
+            <%= submit_tag 'Apply filters', class: 'govuk-button' %>
 
             <%= hidden_field_tag primary_filter[:name], primary_filter[:value] if primary_filter && primary_filter[:value].present? %>
             <% secondary_filters.each do |filter, idx| %>
@@ -53,7 +53,7 @@
                     <% filter[:options].each do |option| %>
                       <div class="govuk-checkboxes govuk-checkboxes--small">
                         <div class="govuk-checkboxes__item">
-                          <input class="govuk-checkboxes__input" id="<%= filter[:name] %>-<%= option[:value] %>" name="<%= filter[:name] %>[]" type="checkbox" <%= "checked" if option[:checked] %> value="<%= option[:value] %>">
+                          <input class="govuk-checkboxes__input" id="<%= filter[:name] %>-<%= option[:value] %>" name="<%= filter[:name] %>[]" type="checkbox" <%= 'checked' if option[:checked] %> value="<%= option[:value] %>">
                           <label class="govuk-label govuk-checkboxes__label" for="<%= filter[:name] %>-<%= option[:value] %>">
                             <%= option[:label] %>
                           </label>

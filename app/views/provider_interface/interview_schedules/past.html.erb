@@ -4,12 +4,10 @@
   <div class="govuk-grid-column-two-third">
     <h1 class="govuk-heading-l">Interview schedule</h1>
 
-    <%= render TabNavigationComponent.new(items:
-      [
-        { name: 'Upcoming interviews', url: provider_interface_interview_schedule_path },
-        { name: 'Past interviews', url: past_provider_interface_interview_schedule_path },
-      ]
-    ) %>
+    <%= render TabNavigationComponent.new(items: [
+      { name: 'Upcoming interviews', url: provider_interface_interview_schedule_path },
+      { name: 'Past interviews', url: past_provider_interface_interview_schedule_path },
+    ]) %>
     <% if @grouped_interviews.any? %>
       <div class="app-interviews">
         <% @grouped_interviews.each do |date, interviews| %>

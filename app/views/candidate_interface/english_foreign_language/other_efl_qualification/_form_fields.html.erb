@@ -3,18 +3,21 @@
 <%= f.govuk_text_field(
   :name,
   label: { text: 'Assessment name', size: 'm' },
-  hint: { text: 'For example, CAE (Cambridge Advanced English), Pearson Test of English' }) %>
+  hint: { text: 'For example, CAE (Cambridge Advanced English), Pearson Test of English' },
+) %>
 
 <%= f.govuk_text_field(
   :grade,
   label: { text: 'Score or grade', size: 'm' },
-  width: 10) %>
+  width: 10,
+) %>
 
 <%= f.govuk_text_field(
   :award_year,
   label: { text: 'When did you complete the assessment?', size: 'm' },
   hint: { text: 'Give the year, for example: ‘2020’' },
   type: :number,
-  width: 4) %>
+  width: 4,
+) %>
 
 <%= f.govuk_submit t('save_and_continue') %>

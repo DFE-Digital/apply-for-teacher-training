@@ -3,7 +3,7 @@
   label: { text: t('application_form.degree.start_year.label'), size: 'm' },
   type: :number,
   hint: { text: t('application_form.degree.start_year.hint_text', example_year: (Date.today.year - 3)) },
-  width: 4
+  width: 4,
 ) %>
 
 <%= f.govuk_text_field(
@@ -11,7 +11,7 @@
   label: { text: t('application_form.degree.award_year.label'), size: 'm' },
   type: :number,
   hint: { text: t('application_form.degree.award_year.hint_text', example_year: Date.today.year) },
-  width: 4
+  width: 4,
 ) %>
 
 <%= f.govuk_submit t('save_and_continue') %>

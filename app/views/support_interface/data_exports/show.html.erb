@@ -1,20 +1,16 @@
 <% content_for :context, "Data export #{@data_export.id}" %>
-<% content_for :title, "#{@data_export.name}" %>
+<% content_for :title, @data_export.name %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Performance',
-      path: support_interface_performance_path
-    },
-    {
-      text: 'Export data',
-      path: support_interface_data_exports_path
-    },
-    {
-      text: @data_export.name
-    }
-  ]) %>
+  <%= render BreadcrumbComponent.new(items: [{
+    text: 'Performance',
+    path: support_interface_performance_path,
+  }, {
+    text: 'Export data',
+    path: support_interface_data_exports_path,
+  }, {
+    text: @data_export.name,
+  }]) %>
 <% end %>
 
 <p class="govuk-body">

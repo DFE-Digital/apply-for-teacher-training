@@ -14,7 +14,7 @@
       <%= govuk_link_to(
         'Download application (PDF)',
         provider_interface_application_choice_path(@application_choice.id, format: :pdf),
-        download: @application_choice.application_form.support_reference
+        download: @application_choice.application_form.support_reference,
       ) %>
     </p>
 
@@ -22,7 +22,7 @@
 
     <% unless HostingEnvironment.production? %>
       <%= render SandboxFeatureComponent.new(
-        description: "See what this application looks like from the candidate side by signing in as #{@application_choice.application_form.full_name}:"
+        description: "See what this application looks like from the candidate side by signing in as #{@application_choice.application_form.full_name}:",
       ) do %>
         <%= button_to 'Sign in as this candidate', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-button govuk-!-margin-bottom-0' %>
       <% end %>
@@ -54,7 +54,7 @@
       <%= render 'references_context' %>
 
       <% @application_choice.application_form.application_references.feedback_provided.each_with_index do |reference, i| %>
-        <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference, index: i ) %>
+        <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference, index: i) %>
       <% end %>
     <% end %>
 

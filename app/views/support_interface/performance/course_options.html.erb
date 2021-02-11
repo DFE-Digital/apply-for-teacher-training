@@ -1,15 +1,12 @@
 <% content_for :title, 'Course options without vacancies' %>
 
 <% content_for :before_content do %>
-  <%= render BreadcrumbComponent.new(items: [
-    {
-      text: 'Performance',
-      path: support_interface_performance_path
-    },
-    {
-      text: 'Course options without vacancies'
-    }
-  ]) %>
+  <%= render BreadcrumbComponent.new(items: [{
+    text: 'Performance',
+    path: support_interface_performance_path,
+  }, {
+    text: 'Course options without vacancies',
+  }]) %>
 <% end %>
 
 <%= render(SupportInterface::CourseChoicesTableComponent.new(course_options: @course_options)) %>

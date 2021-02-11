@@ -4,23 +4,25 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
+    <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+    <h1 class="govuk-heading-l"><%= t('.title') %></h1>
 
-      <% if @application_choice.application_form.interview_preferences.present? %>
-        <div class="app-banner app-banner--details">
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-2"><%= t('.interview_preferences.title') %></h2>
-          <p class="govuk-body"><%= @application_choice.application_form.interview_preferences %></p>
-        </div>
-      <% end %>
+    <% if @application_choice.application_form.interview_preferences.present? %>
+      <div class="app-banner app-banner--details">
+        <h2 class="govuk-heading-m govuk-!-margin-bottom-2"><%= t('.interview_preferences.title') %></h2>
+        <p class="govuk-body"><%= @application_choice.application_form.interview_preferences %></p>
+      </div>
+    <% end %>
 
-      <%= form_with model: @wizard,
-          url: check_provider_interface_application_choice_interview_path(@application_choice, @interview),
-          method: :get do |f| %>
+    <%= form_with(
+      model: @wizard,
+      url: check_provider_interface_application_choice_interview_path(@application_choice, @interview),
+      method: :get,
+    ) do |f| %>
 
       <%= render 'form', f: f %>
 
-      <% end %>
+    <% end %>
 
     <p class="govuk-body"><%= govuk_link_to 'Cancel', provider_interface_application_choice_interviews_path(@application_choice, @interview) %></p>
   </div>

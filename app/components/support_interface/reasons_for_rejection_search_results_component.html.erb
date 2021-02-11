@@ -4,11 +4,9 @@
 
 <% @application_choices.each do |application_choice| %>
   <section class="app-summary-card govuk-!-margin-bottom-6" id="application-choice-section-<%= application_choice.id %>">
-    <%= render(
-      SummaryCardHeaderComponent.new(
-        title: "Application choice #{govuk_link_to("##{application_choice.id}", support_interface_application_form_path(application_form_id: application_choice.application_form_id))}".html_safe,
-      ),
-    ) %>
+    <%= render(SummaryCardHeaderComponent.new(
+      title: "Application choice #{govuk_link_to("##{application_choice.id}", support_interface_application_form_path(application_form_id: application_choice.application_form_id))}".html_safe,
+    )) %>
 
     <div class="app-summary-card__body">
       <%= render SummaryListComponent.new(rows: summary_list_rows_for(application_choice)) %>

@@ -7,9 +7,9 @@
 <% application = @match.candidate.application_forms.first %>
 <% status = [render(TagComponent.new(text: @match.action_taken&.humanize || 'New match', type: @match.resolved? ? :green : :purple))] %>
 <% if @match.invalid_matching_data? %>
-  <% status << render(TagComponent.new(text: "Invalid data", type: :red)) %>
+  <% status << render(TagComponent.new(text: 'Invalid data', type: :red)) %>
 <% elsif @match.action_needed? %>
-  <% status << render(TagComponent.new(text: "Action needed", type: :yellow)) %>
+  <% status << render(TagComponent.new(text: 'Action needed', type: :yellow)) %>
 <% end %>
 
 <%= render SummaryListComponent.new(rows: {

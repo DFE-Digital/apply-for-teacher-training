@@ -6,7 +6,7 @@
     <%= form_with(
       model: @degree_type_form,
       url: candidate_interface_edit_degree_type_path(@degree_type_form.degree),
-      method: :patch
+      method: :patch,
     ) do |f| %>
       <%= f.govuk_error_summary %>
 

@@ -29,7 +29,7 @@
           to discuss alternatives
         </li>
         <li>
-          <%= govuk_link_to 'apply for this course on UCAS', "#{UCAS.apply_url}" %>
+          <%= govuk_link_to 'apply for this course on UCAS', UCAS.apply_url %>
         </li>
       </ul>
     <% elsif application_choice.course_full? %>

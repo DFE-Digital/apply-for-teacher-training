@@ -3,13 +3,11 @@
 
   <ol class="app-task-list">
     <li class="app-task-list__item">
-      <%= render(
-        TaskListItemComponent.new(
-          text: t('section_items.choose_course'),
-          completed: completed?,
-          path: view_courses_path,
-        )
-      ) %>
+      <%= render(TaskListItemComponent.new(
+        text: t('section_items.choose_course'),
+        completed: completed?,
+        path: view_courses_path,
+      )) %>
     </li>
   </ol>
 </section>

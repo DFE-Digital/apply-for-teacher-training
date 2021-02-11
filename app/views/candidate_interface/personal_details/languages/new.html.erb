@@ -2,5 +2,5 @@
 <% content_for :before_content, govuk_back_link_to(candidate_interface_nationalities_path, 'Back') %>
 
 <%= form_with model: @languages_form, url: candidate_interface_languages_path, method: :patch do |f| %>
-  <%= render partial: 'shared_form',  locals: { f: f } %>
+  <%= render partial: 'shared_form', locals: { f: f } %>
 <% end %>

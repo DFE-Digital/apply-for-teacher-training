@@ -21,10 +21,8 @@
           <%= support_user.dfe_sign_in_uid %>
         </td>
         <td class="govuk-table__cell">
-          <%
-            link_action = support_user.discarded? ? 'Restore' : 'Remove'
-            link_path = support_user_account_management_path(support_user)
-          %>
+          <% link_action = support_user.discarded? ? 'Restore' : 'Remove' %>
+          <% link_path = support_user_account_management_path(support_user) %>
           <%= govuk_link_to(link_path) do %>
             <%= link_action %> user<span class="govuk-visually-hidden"> <%= support_user.display_name %></span>
           <% end %>

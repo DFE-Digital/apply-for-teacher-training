@@ -4,15 +4,15 @@
   <%= render BreadcrumbComponent.new(items: [
     {
       text: 'Applications',
-      path: provider_interface_applications_path
+      path: provider_interface_applications_path,
     },
     {
       text: @application_choice.application_form.full_name,
-      path: provider_interface_application_choice_path(@application_choice)
+      path: provider_interface_application_choice_path(@application_choice),
     },
     {
-      text: 'Timeline'
-    }
+      text: 'Timeline',
+    },
   ]) %>
 <% end %>
 

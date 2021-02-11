@@ -15,7 +15,9 @@
 
 <%= render(CandidateInterface::BecomingATeacherReviewComponent.new(application_form: @application_form)) %>
 
-<%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
-                                        path: candidate_interface_becoming_a_teacher_complete_path,
-                                        request_method: :patch,
-                                        field_name: :becoming_a_teacher_completed)) %>
+<%= render(CandidateInterface::CompleteSectionComponent.new(
+  application_form: @application_form,
+  path: candidate_interface_becoming_a_teacher_complete_path,
+  request_method: :patch,
+  field_name: :becoming_a_teacher_completed,
+)) %>

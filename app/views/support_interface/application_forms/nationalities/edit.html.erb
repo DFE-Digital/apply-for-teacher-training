@@ -13,41 +13,41 @@
           multiple: true,
           label: { text: 'British' },
           hint: { text: 'including English, Scottish, Welsh or from Northern Ireland' },
-          link_errors: true
+          link_errors: true,
         ) %>
         <%= f.govuk_check_box(
           :nationalities,
           'Irish',
           multiple: true,
           label: { text: 'Irish' },
-          hint: { text: 'including from Northern Ireland' }
+          hint: { text: 'including from Northern Ireland' },
         ) %>
         <%= f.govuk_check_box(
           :nationalities,
           'other',
           multiple: true,
-          label: { text: 'Citizen of a different country' }
+          label: { text: 'Citizen of a different country' },
         ) do %>
           <%= f.govuk_collection_select(
             :other_nationality1,
             select_nationality_options,
             :id,
             :name,
-            label: ->{ safe_join([tag.span('First ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+            label: -> { safe_join([tag.span('First ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
           ) %>
           <%= f.govuk_collection_select(
             :other_nationality2,
             select_nationality_options,
             :id,
             :name,
-            label: ->{ safe_join([tag.span('Second ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+            label: -> { safe_join([tag.span('Second ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
           ) %>
           <%= f.govuk_collection_select(
             :other_nationality3,
             select_nationality_options,
             :id,
             :name,
-            label: ->{ safe_join([tag.span('Third ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
+            label: -> { safe_join([tag.span('Third ', class: 'govuk-visually-hidden'), t('application_form.personal_details.nationality.label')]) },
           ) %>
         <% end %>
       <% end %>

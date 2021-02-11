@@ -3,15 +3,15 @@
   <%= render BreadcrumbComponent.new(items: [
     {
       text: t('page_titles.provider.account'),
-      path: provider_interface_account_path
+      path: provider_interface_account_path,
     },
     {
       text: t('page_titles.provider.users'),
-      path: provider_interface_provider_users_path
+      path: provider_interface_provider_users_path,
     },
     {
-      text: @provider_user.full_name
-    }
+      text: @provider_user.full_name,
+    },
   ]) %>
 <% end %>
 

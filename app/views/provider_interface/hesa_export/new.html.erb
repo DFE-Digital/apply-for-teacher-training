@@ -4,11 +4,11 @@
     <%= render BreadcrumbComponent.new(items: [
       {
         text: t('page_titles.provider.export_application_data'),
-        path: provider_interface_new_application_data_export_path
+        path: provider_interface_new_application_data_export_path,
       },
       {
-        text: t('page_titles.provider.export_hesa_data', timeframe: '')
-      }
+        text: t('page_titles.provider.export_hesa_data', timeframe: ''),
+      },
     ]) %>
   <% end %>
 <% end %>

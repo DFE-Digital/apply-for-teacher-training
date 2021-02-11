@@ -11,7 +11,7 @@
       <% if @contact_details_form.uk? %>
         <%= f.govuk_text_field(
           :address_line1,
-          label: ->{ safe_join([@contact_details_form.label_for(:address_line1), ' ', tag.span(t('application_form.contact_details.address_line1.hidden'), class: 'govuk-visually-hidden')]) },
+          label: -> { safe_join([@contact_details_form.label_for(:address_line1), ' ', tag.span(t('application_form.contact_details.address_line1.hidden'), class: 'govuk-visually-hidden')]) },
           autocomplete: 'address-line1',
         ) %>
         <%= f.govuk_text_field(
