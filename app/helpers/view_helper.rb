@@ -1,5 +1,12 @@
 module ViewHelper
-  def govuk_link_to(body, url, html_options = {}, &_block)
+  def govuk_link_to(body = nil, url = nil, html_options = nil, &block)
+    if block_given?
+      html_options = url
+      url = body
+      body = block
+    end
+    html_options ||= {}
+
     html_options[:class] = prepend_css_class('govuk-link', html_options[:class])
 
     return link_to(url, html_options) { yield } if block_given?
@@ -36,7 +43,14 @@ module ViewHelper
     mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
   end
 
-  def govuk_button_link_to(body, url, html_options = {}, &_block)
+  def govuk_button_link_to(body = nil, url = nil, html_options = nil, &block)
+    if block_given?
+      html_options = url
+      url = body
+      body = block
+    end
+    html_options ||= {}
+
     html_options = {
       class: prepend_css_class('govuk-button', html_options[:class]),
       role: 'button',

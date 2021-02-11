@@ -29,7 +29,7 @@
         </dd>
         <% if editable %>
           <dd class="govuk-summary-list__actions">
-            <%= govuk_link_to(nil, row[:change_path]) do %>
+            <%= govuk_link_to(row[:change_path]) do %>
               Change<span class="govuk-visually-hidden"><%= row[:action] %></span>
             <% end if row[:change_path] %>
           </dd>

@@ -21,7 +21,7 @@ RSpec.describe ViewHelper, type: :helper do
     end
 
     it 'accepts a block' do
-      anchor_tag = helper.govuk_link_to(nil, 'https://localhost:0103/bee/buzz') do
+      anchor_tag = helper.govuk_link_to('https://localhost:0103/bee/buzz') do
         'Buzz'
       end
       expect(anchor_tag).to eq('<a class="govuk-link" href="https://localhost:0103/bee/buzz">Buzz</a>')
@@ -82,7 +82,7 @@ RSpec.describe ViewHelper, type: :helper do
     end
 
     it 'accepts a block' do
-      anchor_tag = helper.govuk_button_link_to(nil, 'https://localhost:0103/bee/buzz') do
+      anchor_tag = helper.govuk_button_link_to('https://localhost:0103/bee/buzz') do
         'Buzz'
       end
       expect(anchor_tag).to eq('<a class="govuk-button" role="button" data-module="govuk-button" draggable="false" href="https://localhost:0103/bee/buzz">Buzz</a>')
