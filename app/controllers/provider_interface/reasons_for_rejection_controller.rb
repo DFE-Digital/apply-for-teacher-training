@@ -62,7 +62,7 @@ module ProviderInterface
         @wizard.clear_state!
 
         flash[:success] = success_message
-        redirect_to provider_interface_application_choice_path(@application_choice)
+        redirect_to provider_interface_application_choice_feedback_path(@application_choice)
       else
         @wizard.errors.merge!(service.errors)
         render :check

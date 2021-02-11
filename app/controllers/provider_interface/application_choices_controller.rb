@@ -50,6 +50,8 @@ module ProviderInterface
 
     def timeline; end
 
+    def feedback; end
+
     def emails
       if HostingEnvironment.sandbox_mode?
         @emails = Email.includes(:application_form)

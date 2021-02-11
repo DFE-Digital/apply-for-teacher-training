@@ -44,6 +44,12 @@ module ProviderInterface
         { name: 'Timeline', url: provider_interface_application_choice_timeline_path(application_choice) },
       )
 
+      if application_choice.feedback_provided?
+        sub_navigation_items.push(
+          { name: 'Feedback', url: provider_interface_application_choice_feedback_path(application_choice) },
+        )
+      end
+
       if HostingEnvironment.sandbox_mode?
         sub_navigation_items.push(
           { name: 'Emails (Sandbox only)', url: provider_interface_application_choice_emails_path(application_choice) },

@@ -24,7 +24,7 @@ RSpec.feature 'Provider gives feedback for application rejected by default when 
     and_i_click_to_continue
     and_i_check_and_send_my_feedback
 
-    then_i_am_back_to_the_application_page
+    then_i_am_on_the_application_feedback_page
     and_i_can_see_the_feedback_provided
   end
 
@@ -66,15 +66,15 @@ RSpec.feature 'Provider gives feedback for application rejected by default when 
     click_on 'Send feedback'
   end
 
-  def then_i_am_back_to_the_application_page
+  def then_i_am_on_the_application_feedback_page
     expect(page).to have_current_path(
-      provider_interface_application_choice_path(application_rejected_by_default.id),
+      provider_interface_application_choice_feedback_path(application_rejected_by_default),
     )
   end
 
   def and_i_can_see_the_feedback_provided
     expect(application_rejected_by_default.reload.reject_by_default_feedback_sent_at).not_to be_nil
-    expect(page).to have_content 'Rejection details'
+    expect(page).to have_content 'Feedback'
     expect(page).to have_content 'Automatically rejected'
     expect(page).to have_content application_rejected_by_default.rejected_at.to_s(:govuk_date)
     expect(page).to have_content 'Feedback sent'

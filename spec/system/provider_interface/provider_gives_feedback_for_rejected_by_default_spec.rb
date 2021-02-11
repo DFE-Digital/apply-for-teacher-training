@@ -187,9 +187,10 @@ RSpec.feature 'Provider gives feedback for application rejected by default' do
   def then_i_can_see_the_feedback_provided
     expect(page).to have_content('Feedback sent')
 
-    expect(page).to have_content('Rejection details')
+    expect(page).to have_content('Feedback')
+    expect(page).to have_content('This application was automatically rejected')
+    expect(page).to have_content('Feedback was sent')
 
-    expect(page).to have_content('The following feedback was sent to the candidate.')
     expect(page).to have_content('Something you did')
     expect(page).to have_content("There was no need to sing 'Run to the Hills' for us")
     expect(page).to have_content('Leave the singing out next time')

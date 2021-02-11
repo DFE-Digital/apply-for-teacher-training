@@ -30,7 +30,7 @@ module ProviderInterface
 
       flash[:success] = 'Feedback sent'
 
-      redirect_to provider_interface_application_choice_path(
+      redirect_to provider_interface_application_choice_feedback_path(
         application_choice_id: @application_choice.id,
       )
     end

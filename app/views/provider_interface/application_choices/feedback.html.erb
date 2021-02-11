@@ -1,0 +1,5 @@
+<% content_for :browser_title, "#{@application_choice.application_form.full_name} – #{@application_choice.course.name_and_code} - Feedback" %>
+
+<%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>
+
+<%= render ProviderInterface::ApplicationFeedbackComponent.new(application_choice: @application_choice) %>
