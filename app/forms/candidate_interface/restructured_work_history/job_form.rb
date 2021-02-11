@@ -60,7 +60,7 @@ module CandidateInterface
           organisation: organisation,
           commitment: commitment,
           start_date: start_date,
-          end_date: end_date,
+          end_date: not_currently_employed_in_this_role? ? end_date : nil,
           start_date_unknown: ActiveModel::Type::Boolean.new.cast(start_date_unknown),
           end_date_unknown: ActiveModel::Type::Boolean.new.cast(end_date_unknown),
           currently_working: ActiveModel::Type::Boolean.new.cast(currently_working),
