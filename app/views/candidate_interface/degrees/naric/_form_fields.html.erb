@@ -29,7 +29,7 @@
     <% end %>
   <% end %>
   <%= f.govuk_radio_button :have_naric_reference, 'no', label: { text: 'No' } do %>
-    <p class="govuk-body">Ask your training provider if they need a UK NARIC statement of comparability. You can get a free statement (this usually costs £49.50 plus VAT) by calling Get Into Teaching on Freephone 0800 389 2501.</p>
+    <p class="govuk-body">Ask your training provider if they need a UK NARIC statement of comparability. You can get a free statement (this usually costs £49.50 plus VAT) by calling <%= t('service_name.get_into_teaching') %> for free on <%= t('get_into_teaching.tel') %>. Or <%= govuk_link_to 'chat to an adviser using the online chat service', t('get_into_teaching.url_online_chat') %>.</p>
   <% end %>
 <% end %>
 <%= f.govuk_submit t('save_and_continue') %>
