@@ -1,0 +1,8 @@
+---
+EnableDefaultLinters: true
+linters:
+  Rubocop:
+    enabled: false
+    rubocop_config:
+      inherit_from:
+        - .rubocop.yml
