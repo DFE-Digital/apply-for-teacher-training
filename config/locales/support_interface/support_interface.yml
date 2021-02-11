@@ -72,10 +72,6 @@ en:
               blank: Email address cannot be blank
               taken: Email address is already in use
               too_long: Email address must be %{count} characters or fewer
-            date_of_birth:
-              invalid: Enter a date of birth in the correct format
-              future: Enter a date of birth that is in the past, for example 31 3 1980
-              below_lower_age_limit: Enter a date of birth before %{date} – candidate must be over 16 years old to Apply for teacher training
             audit_comment:
               blank: You must provide an audit comment
         support_interface/application_forms/nationalities_form:

@@ -1,13 +1,12 @@
 module CandidateInterface
   class GcseQualificationDetailsForm
     include ActiveModel::Model
-    include ValidationUtils
 
     attr_accessor :grade, :award_year, :qualification, :other_grade
     validates :grade, presence: true, on: :grade
     validates :other_grade, presence: true, if: :grade_is_other?
-    validates :award_year, presence: true, on: :award_year
-    validate :award_year_is_a_valid_date, if: :award_year, on: :award_year
+    validates :award_year, presence: true, year: true, on: :award_year
+    validate :award_year_is_a_valid_date, unless: ->(c) { c.errors.keys.include?(:award_year) }, on: :award_year
     validate :validate_grade_format, unless: :new_record?, on: :grade
 
     Grade = Struct.new(:value, :option)
@@ -61,19 +60,11 @@ module CandidateInterface
       errors.add(:award_year, :gce_o_level_in_future, date: 1989) if award_year.to_i > 1988
     end
 
-    def award_year_is_invalid
-      errors.add(:award_year, :invalid)
-    end
-
     def award_year_is_a_valid_date
-      if valid_year?(award_year)
-        if qualification.present? && qualification.qualification_type == 'gce_o_level'
-          gce_award_year_is_not_after_1988
-        else
-          award_year_is_not_in_the_future
-        end
+      if qualification.present? && qualification.qualification_type == 'gce_o_level'
+        gce_award_year_is_not_after_1988
       else
-        award_year_is_invalid
+        award_year_is_not_in_the_future
       end
     end
 

@@ -6,7 +6,7 @@ RSpec.shared_examples 'validation for an end date that cannot be blank' do |erro
       form.validate
 
       expect(form.errors.full_messages_for(:end_date)).to eq(
-        ["End date #{t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.end_date.invalid")}"],
+        ["End date #{t('errors.messages.blank_date', article: 'an', attribute: 'end date')}"],
       )
     end
 
@@ -28,14 +28,14 @@ RSpec.shared_examples 'validation for an end date that can be blank' do |error_s
   end
 end
 
-RSpec.shared_examples 'validation for an end date' do |error_scope|
+RSpec.shared_examples 'validation for an end date' do |_|
   it 'is invalid if month left blank' do
     form = described_class.new(end_date_month: '', end_date_year: '2019')
 
     form.validate
 
     expect(form.errors.full_messages_for(:end_date)).to eq(
-      ["End date #{t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.end_date.invalid")}"],
+      ["End date #{t('errors.messages.blank_date_fields', attribute: 'end date', fields: 'month')}"],
     )
   end
 
@@ -45,7 +45,7 @@ RSpec.shared_examples 'validation for an end date' do |error_scope|
     form.validate
 
     expect(form.errors.full_messages_for(:end_date)).to eq(
-      ["End date #{t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.end_date.invalid")}"],
+      ["End date #{t('errors.messages.blank_date_fields', attribute: 'end date', fields: 'year')}"],
     )
   end
 
@@ -55,7 +55,7 @@ RSpec.shared_examples 'validation for an end date' do |error_scope|
     form.validate
 
     expect(form.errors.full_messages_for(:end_date)).to eq(
-      ["End date #{t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.end_date.invalid")}"],
+      ["End date #{t('errors.messages.invalid_date_month_and_year', article: 'an', attribute: 'end date')}"],
     )
   end
 
@@ -66,7 +66,7 @@ RSpec.shared_examples 'validation for an end date' do |error_scope|
       form.validate
 
       expect(form.errors.full_messages_for(:end_date)).to eq(
-        ["End date #{t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.end_date.in_the_future")}"],
+        ["End date #{t('errors.messages.future', article: 'an', attribute: 'end date')}"],
       )
     end
   end
@@ -78,7 +78,7 @@ RSpec.shared_examples 'validation for an end date' do |error_scope|
       form.validate
 
       expect(form.errors.full_messages_for(:end_date)).to eq(
-        ["End date #{t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.end_date.in_the_future")}"],
+        ["End date #{t('errors.messages.future', article: 'an', attribute: 'end date')}"],
       )
     end
   end

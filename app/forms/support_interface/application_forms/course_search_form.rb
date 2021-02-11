@@ -2,7 +2,6 @@ module SupportInterface
   module ApplicationForms
     class CourseSearchForm
       include ActiveModel::Model
-      include ValidationUtils
 
       attr_accessor :course_code, :application_form_id
 

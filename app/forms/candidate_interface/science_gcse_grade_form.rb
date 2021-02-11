@@ -1,7 +1,6 @@
 module CandidateInterface
   class ScienceGcseGradeForm
     include ActiveModel::Model
-    include ValidationUtils
 
     attr_accessor :grade,
                   :constituent_grades,

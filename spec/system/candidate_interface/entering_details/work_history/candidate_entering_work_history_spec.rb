@@ -89,9 +89,11 @@ RSpec.feature 'Entering their work history' do
   def when_i_fill_in_the_job_form_with_incorrect_date_fields
     within('[data-qa="start-date"]') do
       fill_in 'Month', with: '33'
+      fill_in 'Year', with: '2010'
     end
 
     within('[data-qa="end-date"]') do
+      fill_in 'Month', with: '11'
       fill_in 'Year', with: '9999'
     end
 
@@ -99,8 +101,8 @@ RSpec.feature 'Entering their work history' do
   end
 
   def then_i_should_see_date_validation_errors
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.start_date.invalid')
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/work_experience_form.attributes.end_date.invalid')
+    expect(page).to have_content t('errors.messages.invalid_date', article: 'a', attribute: 'start date')
+    expect(page).to have_content t('errors.messages.invalid_date', article: 'an', attribute: 'end date')
   end
 
   def and_i_should_see_the_incorrect_date_values

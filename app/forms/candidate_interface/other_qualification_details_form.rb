@@ -3,7 +3,6 @@ module CandidateInterface
     include ActiveModel::Model
     include ActiveModel::Validations::Callbacks
     include ActiveModel::Attributes
-    include ValidationUtils
 
     attr_reader :next_step
     attr_accessor :editing, :id, :current_step
@@ -22,12 +21,11 @@ module CandidateInterface
 
     validates :qualification_type, presence: true
 
-    validates :award_year, presence: true
+    validates :award_year, presence: true, year: { future: true }
     validates :subject, :grade, presence: true, if: -> { should_validate_grade? }
     validates :subject, :grade, length: { maximum: 255 }
     validates :institution_country, presence: true, if: -> { qualification_type == OtherQualificationTypeForm::NON_UK_TYPE }
     validates :institution_country, inclusion: { in: COUNTRIES }, if: -> { qualification_type == OtherQualificationTypeForm::NON_UK_TYPE }
-    validate :award_year_is_date_and_before_current_year, if: :award_year
     validate :grade_format_is_valid, if: :grade, on: :details
 
     def self.build_all(application_form)
@@ -162,14 +160,6 @@ module CandidateInterface
       as_json(
         only: %w[id current_step editing qualification_type other_uk_qualification_type non_uk_qualification_type subject institution_country predicted_grade grade award_year],
       )
-    end
-
-    def award_year_is_date_and_before_current_year
-      if !valid_year?(award_year)
-        errors.add(:award_year, :invalid)
-      elsif future_year?(award_year)
-        errors.add(:award_year, :in_the_future)
-      end
     end
 
     def grade_format_is_valid

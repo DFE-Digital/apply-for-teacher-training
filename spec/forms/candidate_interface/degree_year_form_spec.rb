@@ -5,24 +5,22 @@ RSpec.describe CandidateInterface::DegreeYearForm, type: :model do
     ['a year', '200'].each do |invalid_date|
       it "is invalid if the award year is '#{invalid_date}'" do
         degree_form = described_class.new(award_year: invalid_date)
-        error_message = t('activemodel.errors.models.candidate_interface/degree_year_form.attributes.award_year.invalid')
 
         degree_form.validate(:award_year)
 
         expect(degree_form.errors.full_messages_for(:award_year)).to eq(
-          ["Award year #{error_message}"],
+          ['Award year Enter a real graduation year'],
         )
       end
     end
 
     it 'is valid if the award year is 4 digits' do
       degree_form = described_class.new(award_year: '2009')
-      error_message = t('activemodel.errors.models.candidate_interface/degree_year_form.attributes.award_year.invalid')
 
       degree_form.validate(:award_year)
 
       expect(degree_form.errors.full_messages_for(:award_year)).not_to eq(
-        ["Award year #{error_message}"],
+        ['Award year Enter a real graduation year'],
       )
     end
 

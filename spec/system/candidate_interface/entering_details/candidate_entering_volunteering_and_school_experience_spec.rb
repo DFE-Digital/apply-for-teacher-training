@@ -97,9 +97,11 @@ RSpec.feature 'Entering volunteering and school experience' do
     fill_in t('application_form.volunteering.organisation.label'), with: 'A Noice School'
     within('[data-qa="start-date"]') do
       fill_in 'Month', with: '33'
+      fill_in 'Year', with: '2010'
     end
 
     within('[data-qa="end-date"]') do
+      fill_in 'Month', with: '11'
       fill_in 'Year', with: '9999'
     end
   end
@@ -109,7 +111,8 @@ RSpec.feature 'Entering volunteering and school experience' do
   end
 
   def then_i_see_validation_errors_for_my_volunteering_role
-    expect(page).to have_content t('activemodel.errors.models.candidate_interface/volunteering_role_form.attributes.start_date.invalid')
+    expect(page).to have_content t('errors.messages.invalid_date', article: 'a', attribute: 'start date')
+    expect(page).to have_content t('errors.messages.invalid_date', article: 'an', attribute: 'end date')
   end
 
   def and_i_see_the_incorrect_values
