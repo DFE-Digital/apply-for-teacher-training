@@ -16,14 +16,14 @@ module ProviderInterface
     end
 
     def new
-      @wizard = InterviewWizard.new(store, interview_form_context_params.merge(current_step: 'input'))
+      @wizard = InterviewWizard.new(interview_store, interview_form_context_params.merge(current_step: 'input'))
       @wizard.save_state!
     end
 
     def edit
       @interview = @application_choice.interviews.find(params[:id])
 
-      @wizard = InterviewWizard.from_model(store, @interview, 'input')
+      @wizard = InterviewWizard.from_model(interview_store, @interview, 'input')
       @wizard.save_state!
     end
 
@@ -33,13 +33,13 @@ module ProviderInterface
         @translation_prefix = '.update'
       end
 
-      @wizard = InterviewWizard.new(store, interview_params.merge(current_step: 'check'))
+      @wizard = InterviewWizard.new(interview_store, interview_params.merge(current_step: 'check'))
       @wizard.save_state!
       render :new unless @wizard.valid?
     end
 
     def commit
-      @wizard = InterviewWizard.new(store, interview_form_context_params)
+      @wizard = InterviewWizard.new(interview_store, interview_form_context_params)
 
       if @wizard.valid?
         CreateInterview.new(
@@ -62,7 +62,7 @@ module ProviderInterface
 
     def update
       interview = @application_choice.interviews.find(params[:id])
-      @wizard = InterviewWizard.new(store, interview_form_context_params)
+      @wizard = InterviewWizard.new(interview_store, interview_form_context_params)
 
       if @wizard.valid?
         UpdateInterview.new(
@@ -85,23 +85,31 @@ module ProviderInterface
 
     def cancel
       @interview = @application_choice.interviews.find(params[:id])
+      @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store)
+      @cancellation_wizard.save_state!
     end
 
     def review_cancel
       @interview = @application_choice.interviews.find(params[:id])
-      @interview.cancellation_reason = cancellation_reason
+
+      @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store, cancellation_params)
+      @cancellation_wizard.save_state!
+
+      render :cancel unless @cancellation_wizard.valid?
     end
 
     def confirm_cancel
       @interview = @application_choice.interviews.find(params[:id])
-      @interview.cancellation_reason = cancellation_reason
+      @cancellation_wizard = CancelInterviewWizard.new(cancel_interview_store)
 
       CancelInterview.new(
         actor: current_provider_user,
         application_choice: @application_choice,
         interview: @interview,
-        cancellation_reason: cancellation_reason,
+        cancellation_reason: @cancellation_wizard.cancellation_reason,
       ).save!
+
+      @cancellation_wizard.clear_state!
 
       flash[:success] = t('.success')
       redirect_to provider_interface_application_choice_path(@application_choice)
@@ -109,8 +117,8 @@ module ProviderInterface
 
   private
 
-    def cancellation_reason
-      params.require(:interview).permit(:cancellation_reason)[:cancellation_reason]
+    def cancellation_params
+      params.require(:provider_interface_cancel_interview_wizard).permit(:cancellation_reason)
     end
 
     def interview_flag_enabled?
@@ -135,8 +143,13 @@ module ProviderInterface
         .merge(interview_form_context_params)
     end
 
-    def store
+    def interview_store
       key = "interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+      WizardStateStores::RedisStore.new(key: key)
+    end
+
+    def cancel_interview_store
+      key = "cancel_interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)
     end
   end

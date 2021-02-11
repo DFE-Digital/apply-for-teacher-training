@@ -37,7 +37,14 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     when_i_change_the_interview_details
     then_i_can_see_interview_was_updated
 
-    when_i_cancel_an_interview
+    when_i_click_to_cancel_an_interview
+    and_i_do_not_enter_a_cancellation_reason
+    then_i_see_a_validation_error
+
+    when_i_enter_a_valid_cancellation_reason
+    then_i_see_the_check_page_with_working_edit_links
+
+    when_i_confirm_the_cancellation
     i_can_see_the_application_is_still_in_the_interviewing_state
     and_i_can_see_the_second_interview
 
@@ -149,13 +156,41 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
   end
 
-  def when_i_cancel_an_interview
+  def when_i_click_to_cancel_an_interview
     first(:link, 'Cancel').click
-    fill_in 'interview[cancellation_reason]', with: 'A cancellation reason'
-    click_on 'Continue'
+  end
 
+  def and_i_do_not_enter_a_cancellation_reason
+    click_on 'Continue'
+  end
+
+  def then_i_see_a_validation_error
+    expect(page).to have_content 'Enter a cancellation reason'
+  end
+
+  def when_i_enter_a_valid_cancellation_reason
+    fill_in 'provider_interface_cancel_interview_wizard[cancellation_reason]', with: 'A cancellation reason'
+    click_on 'Continue'
+  end
+
+  def then_i_see_the_check_page_with_working_edit_links
+    expect(page).to have_content 'A cancellation reason'
+    expect(page).to have_content 'Change'
+
+    click_link 'Change'
+    expect(page).to have_field('provider_interface_cancel_interview_wizard[cancellation_reason]', with: 'A cancellation reason')
+    click_on 'Continue'
+  end
+
+  def when_i_confirm_the_cancellation
     click_on 'Send cancellation'
     expect(page).to have_content('Interview cancelled')
+  end
+
+  def when_i_cancel_an_interview
+    when_i_click_to_cancel_an_interview
+    when_i_enter_a_valid_cancellation_reason
+    when_i_confirm_the_cancellation
   end
 
   def i_can_see_the_application_is_still_in_the_interviewing_state

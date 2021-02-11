@@ -60,3 +60,7 @@ en:
               past: The interview time must be in the future
             location:
               blank: Enter the interview location
+        provider_interface/cancel_interview_wizard:
+          attributes:
+            cancellation_reason:
+              blank: Enter a cancellation reason
