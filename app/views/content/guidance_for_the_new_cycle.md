@@ -8,7 +8,7 @@ Close of the 2019 to 2020 cycle — any applications without a response by this 
 
 [Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) opens, featuring courses for 2021 to 2022.
 
-### 13 October 2020
+### 13 October 2020
 
 [Apply for teacher training](<%= candidate_interface_path %>) and UCAS Teacher Training both open for applications.
 
@@ -54,7 +54,7 @@ Candidates who are unsuccessful in the current cycle are strongly encouraged to 
 
 * offering constructive feedback through [Manage teacher training applications](<%= provider_interface_path %>)
 * providing supportive communications through the [Apply for teacher training](<%= candidate_interface_path %>) support team
-* allowing applications to be carried over from the current cycle to the next cycle
+* allowing applications to be carried over from the current cycle to the next cycle
 
 ## UCAS Teacher Training
 
