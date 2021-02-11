@@ -15,7 +15,7 @@ module ProviderInterface
         },
         {
           key: 'Funding type',
-          value: interview.offered_course.funding_type,
+          value: Course.human_attribute_name("funding_type.#{interview.offered_course.funding_type}"),
         },
         {
           key: 'Organisation carrying out interview',

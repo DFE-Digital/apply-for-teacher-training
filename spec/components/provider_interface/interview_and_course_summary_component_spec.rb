@@ -4,6 +4,10 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
   let(:interview) { create(:interview) }
   let(:component) { render_inline(described_class.new(interview: interview)).text }
 
+  it 'capitalises funding type' do
+    expect(component).to include(interview.application_choice.course.funding_type.capitalize)
+  end
+
   it 'displays interview preferences' do
     expect(component).to include(interview.application_choice.application_form.interview_preferences)
   end
