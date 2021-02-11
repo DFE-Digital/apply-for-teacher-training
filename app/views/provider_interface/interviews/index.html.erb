@@ -12,46 +12,7 @@
         </h2>
 
         <% @interviews.each do |interview| %>
-          <div class="app-interviews__interview">
-
-            <%= render SummaryCardComponent.new(editable: true, border: true, rows: [
-              {
-                key: 'Course',
-                value: interview.offered_course.name
-              },
-              {
-                key: 'Funding type',
-                value: interview.offered_course.funding_type
-              },
-              {
-                key: 'Organisation carrying out interview',
-                value: interview.provider.name
-              },
-              {
-                key: 'Address or online meeting details',
-                value: interview.location
-              },
-              {
-                key: 'Additional details',
-                value: interview.additional_details
-              }
-            ].compact
-             ) do %>
-             <%= render SummaryCardHeaderComponent.new(title: interview.date_and_time.to_s(:govuk_date_and_time), heading_level: 2) do %>
-               <div class="app-summary-card__actions">
-               <ul class= "app-summary-card__actions-list">
-                 <li class="app-summary-card__actions-list-item">
-                   <%= govuk_link_to 'Change details', edit_provider_interface_application_choice_interview_path(@application_choice, interview), class: 'app-summary-card__actions-list-item' %>
-                 </li>
-                 <li class="app-summary-card__actions-list-item">
-                   <%= govuk_link_to 'Cancel interview', cancel_provider_interface_application_choice_interview_path(@application_choice, interview), class: 'app-summary-card__actions-list-item' %>
-                 </li>
-               </ul>
-               </div>
-             <% end %>
-            <% end %>
-
-          </div>
+          <%= render ProviderInterface::InterviewAndCourseSummaryComponent.new(interview: interview) %>
         <% end %>
       </div>
     </div>
