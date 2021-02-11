@@ -1,24 +1,7 @@
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8" id="unpaid-experience-and-volunteering">Unpaid experience and volunteering</h2>
-<details class="govuk-details" data-module="govuk-details">
-  <summary class="govuk-details__summary govuk-!-display-none-print">
-    <span class="govuk-details__summary-text">
-      View guidance given to candidate
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <h2 class="govuk-heading-m">Unpaid experience working with children and other volunteering</h2>
-    <p class="govuk-body">Tell us about any unpaid experience you have working with children or in a school. For example:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>one-off observations in a school</li>
-      <li>volunteering at a children’s club</li>
-      <li>being a governor</li>
-    </ul>
-    <p class="govuk-body">You can also tell us about any other volunteering you’ve done, and how this supports your application to become a teacher.</p>
-  </div>
-</details>
+<section class="app-section govuk-!-width-two-thirds" data-qa="volunteering">
+  <h2 class="govuk-heading-m govuk-!-font-size-27" id="unpaid-experience-and-volunteering">Unpaid experience and volunteering</h2>
 
-<div data-qa="volunteering">
   <% history.each do |item| %>
     <%= render WorkHistoryItemComponent.new(item: item) %>
   <% end %>
-</div>
+</section>

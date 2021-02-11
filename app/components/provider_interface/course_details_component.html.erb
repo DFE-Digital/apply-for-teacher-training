@@ -1,10 +1,13 @@
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8" id="course-details">Course applied for</h2>
-<%= render SummaryListComponent.new(rows: [
-  { key: 'Provider', value: provider_name_and_code },
-  { key: 'Accredited body', value: accredited_body },
-  { key: 'Course', value: course_name_and_code },
-  { key: 'Cycle', value: cycle },
-  { key: 'Preferred location', value: preferred_location },
-  { key: 'Full or part time', value: study_mode },
-  { key: 'Funding type', value: funding_type },
-]) %>
+<section class="app-section govuk-!-width-two-thirds">
+  <h2 class="govuk-heading-m govuk-!-font-size-27" id="course-details">Course applied for</h2>
+
+  <%= render SummaryListComponent.new(rows: [
+    { key: 'Provider', value: provider_name_and_code },
+    { key: 'Accredited body', value: accredited_body },
+    { key: 'Course', value: course_name_and_code },
+    { key: 'Cycle', value: cycle },
+    { key: 'Preferred location', value: preferred_location },
+    { key: 'Full or part time', value: study_mode },
+    { key: 'Funding type', value: funding_type },
+  ]) %>
+</section>

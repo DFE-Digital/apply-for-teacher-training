@@ -1,62 +1,60 @@
-<div class="govuk-grid-column-full">
-  <h3 class="govuk-heading-m govuk-!-margin-top-8" id="gcses">GCSEs or equivalent</h3>
+<h3 class="govuk-heading-m govuk-!-margin-top-6" id="gcses">GCSEs or equivalent</h3>
 
-  <div class="govuk-grid">
-    <div class="govuk-grid-row app-grid-row--flex">
-      <% [maths, english, science].compact.each do |qualification| %>
-        <div class="govuk-grid-column-one-third">
-          <div class="app-card app-card--outline" data-qa="gcse-qualification">
+<div class="govuk-grid">
+  <div class="govuk-grid-row app-grid-row--flex">
+    <% [maths, english, science].compact.each do |qualification| %>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card app-card--outline" data-qa="gcse-qualification">
 
-            <% # Missing qualification %>
-            <% if qualification.missing_qualification? %>
-              <h4 class="govuk-heading-s govuk-!-margin-bottom-1"><%= subject(qualification) %></h4>
-              <dl class="app-qualification">
-                <dd class="app-qualification__value"> <%= candidate_does_not_have %> </dd>
-                <dt class="app-qualification__key">Reason given</dt>
-                <dd class="app-qualification__value"><%= qualification.missing_explanation %></dd>
-              </dl>
+          <% # Missing qualification %>
+          <% if qualification.missing_qualification? %>
+            <h4 class="govuk-heading-s govuk-!-margin-bottom-1"><%= subject(qualification) %></h4>
+            <dl class="app-qualification">
+              <dd class="app-qualification__value"> <%= candidate_does_not_have %> </dd>
+              <dt class="app-qualification__key">Reason given</dt>
+              <dd class="app-qualification__value"><%= qualification.missing_explanation %></dd>
+            </dl>
 
-            <% # International qualification %>
-            <% elsif qualification.non_uk_qualification_type.present? %>
-              <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
-                <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
-              </h4>
-              <dl class="app-qualification">
-                <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
-                <dd class="app-qualification__value app-qualification__value--caption">
-                  <%= qualification.award_year %>, <%= institution_country(qualification) %>
-                </dd>
-                <dt class="app-qualification__key">Grade</dt>
-                <dd class="app-qualification__value"><%= qualification.grade %></dd>
-                <% if naric_statement(qualification) %>
-                  <dt class="app-qualification__key">Comparability</dt>
-                  <dd class="app-qualification__value"><%= naric_statement(qualification) %></dd>
-                <% end %>
-              </dl>
+          <% # International qualification %>
+          <% elsif qualification.non_uk_qualification_type.present? %>
+            <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
+              <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
+            </h4>
+            <dl class="app-qualification">
+              <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
+              <dd class="app-qualification__value app-qualification__value--caption">
+                <%= qualification.award_year %>, <%= institution_country(qualification) %>
+              </dd>
+              <dt class="app-qualification__key">Grade</dt>
+              <dd class="app-qualification__value"><%= qualification.grade %></dd>
+              <% if naric_statement(qualification) %>
+                <dt class="app-qualification__key">Comparability</dt>
+                <dd class="app-qualification__value"><%= naric_statement(qualification) %></dd>
+              <% end %>
+            </dl>
 
-            <% # UK or UK Other qualification %>
-            <% else %>
-              <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
-                <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
-              </h4>
-              <dl class="app-qualification">
-                <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
-                <dd class="app-qualification__value app-qualification__value--caption">
-                <%= qualification.award_year %>
-                </dd>
-                <dt class="app-qualification__key">Grade</dt>
-                <% grade_details(qualification).each do |grade| %>
-                  <dd class="app-qualification__value govuk-!-margin-bottom-0"><%= grade %></dd>
-                <% end %>
-              </dl>
-            <% end %>
-            <% if in_support_console? %>
-              <br>
-              <%= govuk_link_to 'Change', support_interface_application_form_edit_gcse_path(gcse_id: qualification.id) %>
-            <% end %>
-          </div>
+          <% # UK or UK Other qualification %>
+          <% else %>
+            <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
+              <%= subject(qualification) %> <span class="govuk-!-font-weight-regular"><%= presentable_qualification_type(qualification) %></span>
+            </h4>
+            <dl class="app-qualification">
+              <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
+              <dd class="app-qualification__value app-qualification__value--caption">
+              <%= qualification.award_year %>
+              </dd>
+              <dt class="app-qualification__key">Grade</dt>
+              <% grade_details(qualification).each do |grade| %>
+                <dd class="app-qualification__value govuk-!-margin-bottom-0"><%= grade %></dd>
+              <% end %>
+            </dl>
+          <% end %>
+          <% if in_support_console? %>
+            <br>
+            <%= govuk_link_to 'Change', support_interface_application_form_edit_gcse_path(gcse_id: qualification.id) %>
+          <% end %>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div>
 </div>

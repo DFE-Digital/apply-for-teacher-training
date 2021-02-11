@@ -1,41 +1,12 @@
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8" id="personal-statement">Personal statement</h2>
-<details class="govuk-details" data-module="govuk-details">
-  <summary class="govuk-details__summary govuk-!-display-none-print">
-    <span class="govuk-details__summary-text">
-      View guidance given to candidate
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <h2 class="govuk-heading-m">Why do you want to be a teacher?</h2>
-    <p class="govuk-body">Use this section to showcase your motivation, commitment and teaching potential, backing up your answer with specific examples.</p>
-    <p class="govuk-body">Give providers an insight into your personality by writing honestly and thoughtfully. Avoid cliché and write in clear, correct, concise English.</p>
-    <p class="govuk-body">You can ask your training provider for examples written by successful applicants, or register with <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url') %> for help from a teacher training adviser.</p>
-    <p class="govuk-body govuk-!-font-weight-bold">Suggested topics to cover include:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>why you want to be a teacher</li>
-      <li>your passion for your subject and the age group you’ve chosen to teach</li>
-      <li>the welfare and education of children and/or young people</li>
-      <li>the demands and rewards of the profession</li>
-      <li>personal qualities that will make you a good teacher</li>
-      <li>your contribution to the life of the school outside the classroom – for example, running extra-curricular activities and clubs</li>
-      <li>if you have school experience or have worked as a volunteer with children or young people, give details of what this has taught you</li>
-    </ul>
-    <h2 class="govuk-heading-m">What do you know about the subject you want to teach?</h2>
-    <p class="govuk-body">Give us detailed evidence for the knowledge and interest you bring to your course choice.</p>
-    <p class="govuk-body">Evidence can include:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>the subject of your undergraduate degree</li>
-      <li>modules you studied as part of your degree</li>
-      <li>postgraduate degrees (for example, a Masters or PhD)</li>
-      <li>your A level subjects</li>
-      <li>expertise you’ve gained at work</li>
-    </ul>
-  </div>
-</details>
+<section class="app-section govuk-!-width-two-thirds">
+  <h2 class="govuk-heading-m govuk-!-font-size-27" id="personal-statement">Personal statement</h2>
 
-<h3 class="govuk-heading-s govuk-!-margin-bottom-0">Vocation</h3>
-<%= simple_format becoming_a_teacher, class: 'govuk-body' %></p>
-<h3 class="govuk-heading-s govuk-!-margin-bottom-0">Subject knowledge</h3>
-<%= simple_format subject_knowledge, class: 'govuk-body' %></p>
-<h3 class="govuk-heading-s govuk-!-margin-bottom-0">Further information</h3>
-<%= simple_format further_information, class: 'govuk-body' %></p>
+  <h3 class="govuk-heading-s">Vocation</h3>
+  <%= simple_format becoming_a_teacher, class: 'govuk-body' %>
+
+  <h3 class="govuk-heading-s">Subject knowledge</h3>
+  <%= simple_format subject_knowledge, class: 'govuk-body' %>
+
+  <h3 class="govuk-heading-s">Further information</h3>
+  <%= simple_format further_information, class: 'govuk-body' %>
+</section>
