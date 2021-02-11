@@ -32,5 +32,4 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
       expect(component).not_to include('Cancel interview')
     end
   end
-
 end

@@ -19,6 +19,10 @@ module ProviderInterface
           value: Course.human_attribute_name("funding_type.#{interview.offered_course.funding_type}"),
         },
         {
+          key: 'Interview preferences',
+          value: @application_choice.application_form.interview_preferences,
+        },
+        {
           key: 'Organisation carrying out interview',
           value: interview.provider.name,
         },
