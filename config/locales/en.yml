@@ -219,6 +219,9 @@ en:
   layout:
     support:
       title: Get support
+      telephone: Telephone
+      online_chat: Online chat
+      talk_to_advisor: Talk to an adviser online
       response_time: We respond within 5 working days, or one working day for more urgent queries
       provider_service_guidance: How to use Manage teacher training applications
     support_links:

@@ -1,7 +1,16 @@
 <aside class="app-related" role="complementary">
   <h2 class="govuk-heading-s govuk-!-margin-bottom-2" id="support-title"><%= t('layout.support.title') %></h2>
+
+  <h3 class="govuk-heading-s govuk-!-font-size-16 govuk-!-margin-bottom-1"><%= t('layout.support.telephone') %></h3>
   <ul class="govuk-list govuk-!-font-size-16">
-    <li>Email: <%= bat_contact_mail_to(html_options: { subject: "Query about application #{support_reference}" }) %></li>
-    <li><%= t('layout.support.response_time') %></li>
+    <li><%= t('get_into_teaching.tel') %></li>
+    <li><%= t('get_into_teaching.opening_times') %></li>
+    <li>Free of charge</li>
+  </ul>
+
+  <h3 class="govuk-heading-s govuk-!-font-size-16 govuk-!-margin-bottom-1"><%= t('layout.support.online_chat') %></h3>
+  <ul class="govuk-list govuk-!-font-size-16">
+    <li><%= govuk_link_to t('layout.support.talk_to_advisor'), t('get_into_teaching.url_online_chat') %></li>
+    <li><%= t('get_into_teaching.opening_times') %></li>
   </ul>
 </aside>
