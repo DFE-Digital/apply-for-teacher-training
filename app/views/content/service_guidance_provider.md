@@ -232,7 +232,7 @@ Candidates will also be able to use UCAS’s Apply 2 service for this part of th
 
 ### Informing candidates your courses are on Apply
 
-Your courses will automatically be uploaded to [Apply for teacher training](https://www.apply-for-teacher-training.service.gov.uk) as part of our onboarding process.
+Your courses will automatically be uploaded to [Apply for teacher training](<%= candidate_interface_path %>) as part of our onboarding process.
 
 When candidates use [Find postgraduate teacher training](https://www.find-postgraduate-teacher-training.service.gov.uk/) and select one of your courses, they will have the option to continue via Apply for teacher training. (They will also be able to apply via UCAS, if you’ve decided to keep your courses listed on both services.)
 
