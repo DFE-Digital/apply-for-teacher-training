@@ -5,7 +5,7 @@ module ProviderInterface
     before_action :requires_make_decisions_permission, except: %i[index]
 
     def index
-      @provider_can_respond = current_provider_user.authorisation.can_make_decisions?(
+      @provider_can_make_decisions = current_provider_user.authorisation.can_make_decisions?(
         application_choice: @application_choice,
         course_option_id: @application_choice.offered_option.id,
       )

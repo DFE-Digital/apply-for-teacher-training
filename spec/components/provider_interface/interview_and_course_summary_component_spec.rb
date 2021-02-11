@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
   let(:interview) { create(:interview) }
-  let(:component) { render_inline(described_class.new(interview: interview)).text }
+  let(:component) { render_inline(described_class.new(interview: interview, user_can_change_interview: true)).text }
 
   it 'capitalises funding type' do
     expect(component).to include(interview.application_choice.course.funding_type.capitalize)
@@ -23,4 +23,14 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
   it 'displays interview location' do
     expect(component).to include(interview.location)
   end
+
+  context 'user_can_change_interview is false' do
+    let(:component) { render_inline(described_class.new(interview: interview, user_can_change_interview: false)).text }
+
+    it 'does not render the edit or cancel buttons' do
+      expect(component).not_to include('Change details')
+      expect(component).not_to include('Cancel interview')
+    end
+  end
+
 end

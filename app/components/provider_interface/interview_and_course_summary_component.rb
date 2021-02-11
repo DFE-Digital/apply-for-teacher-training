@@ -1,10 +1,11 @@
 module ProviderInterface
   class InterviewAndCourseSummaryComponent < ViewComponent::Base
-    attr_reader :interview, :application_choice
+    attr_reader :interview, :application_choice, :user_can_change_interview
 
-    def initialize(interview:)
+    def initialize(interview:, user_can_change_interview:)
       @application_choice = interview.application_choice
       @interview = interview
+      @user_can_change_interview = user_can_change_interview
     end
 
     def rows
