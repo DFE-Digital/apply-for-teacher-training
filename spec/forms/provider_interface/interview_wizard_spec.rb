@@ -61,7 +61,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
         it 'is invalid with the correct error' do
           Timecop.freeze(2021, 1, 13) do
             expect(wizard).to be_invalid
-            expect(wizard.errors[:date]).to contain_exactly('The interview date must be before the application closing date')
+            expect(wizard.errors[:date]).to contain_exactly('Date must be before the application closing date')
           end
         end
       end
@@ -112,7 +112,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
         it 'returns false and adds a date error' do
           Timecop.freeze(2021, 2, 13, 11, 0, 0) do
             expect(wizard).to be_invalid
-            expect(wizard.errors[:date]).to contain_exactly('The interview date must be in the future')
+            expect(wizard.errors[:date]).to contain_exactly('Date must be today or in the future')
           end
         end
       end
@@ -124,7 +124,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
         it 'returns false and adds a time error' do
           Timecop.freeze(2021, 2, 13, 11, 0, 0) do
             expect(wizard).to be_invalid
-            expect(wizard.errors[:time]).to contain_exactly('The interview time must be in the future')
+            expect(wizard.errors[:time]).to contain_exactly('Time must be in the future')
           end
         end
       end

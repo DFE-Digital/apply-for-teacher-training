@@ -165,7 +165,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   def then_i_see_a_validation_error
-    expect(page).to have_content 'Enter a cancellation reason'
+    expect(page).to have_content 'Enter reason for cancelling interview'
   end
 
   def when_i_enter_a_valid_cancellation_reason

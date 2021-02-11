@@ -49,18 +49,17 @@ en:
         provider_interface/interview_wizard:
           attributes:
             date:
-              invalid: The interview date must be a real date
-              missing_values: The interview date must include a %{missing_details}
-              blank: Enter the interview date
-              past: The interview date must be in the future
-              after_rdb: The interview date must be before the application closing date
+              past: Date must be today or in the future
+              after_rdb: Date must be before the application closing date
             time:
               invalid: Enter a time in the correct format
-              blank: Enter the interview time
-              past: The interview time must be in the future
+              blank: Enter time
+              past: Time must be in the future
             location:
-              blank: Enter the interview location
+              blank: Enter address or online meeting details
+            provider_id:
+              blank: Select which organisation is carrying out the interview
         provider_interface/cancel_interview_wizard:
           attributes:
             cancellation_reason:
-              blank: Enter a cancellation reason
+              blank: Enter reason for cancelling interview
