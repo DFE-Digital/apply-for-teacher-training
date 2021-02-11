@@ -26,7 +26,8 @@ module ProviderInterface
       provider_user = ProviderUser.find_by(email_address: params.dig(:provider_user, :email_address).downcase.strip)
 
       if provider_user && provider_user.dfe_sign_in_uid.present?
-        ProviderInterface::MagicLinkAuthentication.send_token!(provider_user: provider_user)
+        magic_link_token = provider_user.create_magic_link_token!
+        ProviderMailer.fallback_sign_in_email(provider_user, magic_link_token).deliver_later
       end
 
       redirect_to provider_interface_check_your_email_path
@@ -37,9 +38,9 @@ module ProviderInterface
     def authenticate_with_token
       redirect_to action: :new and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 
-      render_404 and return unless params[:token]
+      provider_user = ProviderUser.authenticate!(params.fetch(:token))
 
-      provider_user = ProviderInterface::MagicLinkAuthentication.get_user_from_token!(token: params[:token])
+      render_404 and return unless provider_user
 
       # Equivalent to calling DfESignInUser.begin_session!
       session['dfe_sign_in_user'] = {

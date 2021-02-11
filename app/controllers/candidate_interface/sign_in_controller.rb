@@ -49,8 +49,7 @@ module CandidateInterface
         flash[:success] = t('apply_from_find.account_created_message') if candidate.last_signed_in_at.nil?
         sign_in(candidate, scope: :candidate)
         add_identity_to_log(candidate.id)
-        candidate.update!(last_signed_in_at: Time.zone.now)
-        authentication_token.update!(used_at: Time.zone.now)
+        authentication_token.use!
 
         redirect_to candidate_interface_interstitial_path(path: params[:path])
       else

@@ -16,4 +16,11 @@ class AuthenticationToken < ApplicationRecord
       hashed_token: hashed_token,
     )
   end
+
+  def use!
+    transaction do
+      user.update!(last_signed_in_at: Time.zone.now)
+      update!(used_at: Time.zone.now)
+    end
+  end
 end

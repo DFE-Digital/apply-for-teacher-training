@@ -28,7 +28,8 @@ module SupportInterface
       support_user = SupportUser.find_by(email_address: params.dig(:support_user, :email_address).downcase.strip)
 
       if support_user
-        SupportInterface::MagicLinkAuthentication.send_token!(support_user: support_user)
+        magic_link_token = support_user.create_magic_link_token!
+        SupportMailer.fallback_sign_in_email(support_user, magic_link_token).deliver_later
       end
 
       redirect_to support_interface_check_your_email_path
@@ -37,9 +38,7 @@ module SupportInterface
     def authenticate_with_token
       redirect_to action: :new and return unless FeatureFlag.active?('dfe_sign_in_fallback')
 
-      render_404 and return unless params[:token]
-
-      support_user = SupportInterface::MagicLinkAuthentication.get_user_from_token!(token: params.fetch(:token))
+      support_user = SupportUser.authenticate!(params.fetch(:token))
 
       render_404 and return unless support_user
 

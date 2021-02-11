@@ -1,4 +1,6 @@
 class ProviderUser < ActiveRecord::Base
+  include AuthenticatedUsingMagicLinks
+
   has_many :provider_permissions, dependent: :destroy
   has_many :providers, through: :provider_permissions
   has_many :notes, dependent: :destroy
