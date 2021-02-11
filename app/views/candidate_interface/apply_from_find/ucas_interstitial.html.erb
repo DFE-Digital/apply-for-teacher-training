@@ -1,5 +1,6 @@
 <% content_for :title, t('page_titles.apply_from_find_with_ucas') %>
 <% content_for :service_link, candidate_interface_apply_from_find_path(providerCode: @course.provider.code, courseCode: @course.code) %>
+<% content_for :before_content, govuk_back_link_to(candidate_interface_apply_from_find_path(providerCode: @course.provider.code, courseCode: @course.code), 'Back') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
