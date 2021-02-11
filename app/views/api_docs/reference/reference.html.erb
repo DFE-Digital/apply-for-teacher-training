@@ -134,7 +134,7 @@
     <% @api_reference.field_lengths_summary.each do |(rule, limit)| %>
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header"><%= rule %></th>
-        <td class="govuk-table__cell govuk-table__cell--numeric"><%=  number_with_delimiter(limit) %></td>
+        <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(limit) %></td>
       </tr>
     <% end %>
   </tbody>

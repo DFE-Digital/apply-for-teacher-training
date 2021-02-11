@@ -4,7 +4,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @nationalities_form, url: candidate_interface_edit_nationalities_path, class: 'app-nationality', method: :patch do |f| %>
-      <%= render partial: 'shared_form', locals: { f: f }  %>
+      <%= render partial: 'shared_form', locals: { f: f } %>
     <% end %>
   </div>
 </div>

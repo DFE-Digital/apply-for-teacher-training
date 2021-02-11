@@ -20,6 +20,6 @@
   { name: 'All years', url: '?', current: params[:year].nil? },
 ] + year_choices ) %>
 
-<% ucas_matches = params[:year].nil? ? UCASMatch.all : UCASMatch.where(recruitment_cycle_year: params[:year])%>
+<% ucas_matches = params[:year].nil? ? UCASMatch.all : UCASMatch.where(recruitment_cycle_year: params[:year]) %>
 
 <%= render SupportInterface::UCASMatchesStatisticsComponent.new(ucas_matches) %>

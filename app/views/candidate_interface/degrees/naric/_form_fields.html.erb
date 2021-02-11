@@ -18,7 +18,7 @@
       legend: { text: t('application_form.degree.comparable_uk_degree.label'), size: 's' },
       hint: { text: t('application_form.degree.comparable_uk_degree.hint_text') }
     ) do %>
-      <%  ApplicationQualification.comparable_uk_degrees.values.each_with_index do |value, i| %>
+      <% ApplicationQualification.comparable_uk_degrees.values.each_with_index do |value, i| %>
         <%= f.govuk_radio_button(
           :comparable_uk_degree,
           value,

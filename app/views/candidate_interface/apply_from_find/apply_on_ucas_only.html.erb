@@ -3,7 +3,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render CandidateInterface::UCASDowntimeComponent.new  %>
+    <%= render CandidateInterface::UCASDowntimeComponent.new %>
 
     <h1 class="govuk-heading-xl">
       <span class="govuk-caption-xl"><%= @course.name_and_code %></span>
@@ -48,7 +48,7 @@
           <% @course.sites.each do |site| %>
             <tr class="govuk-table__row">
               <td class="govuk-table__cell"><span class='govuk-!-font-weight-bold'><%= site.name %></span>
-                <br/>
+                <br>
                 <%= site.full_address %>
               </td>
               <td class="govuk-table__cell"><%= site.code %></td>
