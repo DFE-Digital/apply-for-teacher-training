@@ -616,6 +616,7 @@ Rails.application.routes.draw do
       get '/offer' => 'application_choices#offer', as: :application_choice_offer
       get '/timeline' => 'application_choices#timeline', as: :application_choice_timeline
       get '/emails' => 'application_choices#emails', as: :application_choice_emails
+      get '/feedback' => 'application_choices#feedback', as: :application_choice_feedback
       get '/respond' => 'decisions#respond', as: :application_choice_respond
       post '/respond' => 'decisions#submit_response', as: :application_choice_submit_response
       get '/offer/new' => 'decisions#new_offer', as: :application_choice_new_offer
@@ -636,9 +637,9 @@ Rails.application.routes.draw do
       get '/offer/defer' => 'decisions#new_defer_offer', as: :application_choice_new_defer_offer
       post '/offer/defer' => 'decisions#defer_offer', as: :application_choice_defer_offer
 
-      get '/feedback' => 'feedback#new', as: :application_choice_new_feedback
+      get '/rbd-feedback' => 'feedback#new', as: :application_choice_new_rbd_feedback
       post '/feedback/check' => 'feedback#check', as: :application_choice_check_feedback
-      post '/feedback' => 'feedback#create', as: :application_choice_feedback
+      post '/rbd-feedback' => 'feedback#create', as: :application_choice_rbd_feedback
       get '/rejection-reasons' => 'reasons_for_rejection#edit_initial_questions', as: :reasons_for_rejection_initial_questions
       post '/rejection-reasons' => 'reasons_for_rejection#update_initial_questions', as: :reasons_for_rejection_update_initial_questions
       get '/rejection-reasons/other-reasons-for-rejection' => 'reasons_for_rejection#edit_other_reasons', as: :reasons_for_rejection_other_reasons

@@ -82,7 +82,7 @@
           <% if FeatureFlag.active?(:structured_reasons_for_rejection_on_rbd) %>
             <%= govuk_button_link_to 'Give feedback', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
           <% else %>
-            <%= govuk_button_link_to 'Give feedback', provider_interface_application_choice_new_feedback_path(application_choice) %>
+            <%= govuk_button_link_to 'Give feedback', provider_interface_application_choice_new_rbd_feedback_path(application_choice) %>
           <% end -%>
         <% end -%>
       </div>

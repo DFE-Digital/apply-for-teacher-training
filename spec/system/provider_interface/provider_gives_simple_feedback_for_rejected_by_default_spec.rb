@@ -42,7 +42,7 @@ RSpec.feature 'Provider gives feedback for application rejected by default when 
 
   def when_i_visit_an_application_that_was_rejected_by_default
     visit provider_interface_application_choice_path(
-      application_rejected_by_default.id,
+      application_rejected_by_default,
     )
   end
 

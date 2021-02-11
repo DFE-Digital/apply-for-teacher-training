@@ -13,7 +13,7 @@ module ProviderInterface
     def check
       @application_feedback = RejectedByDefaultFeedbackForm.new(feedback_params)
       @application_feedback.valid? || render(action: :new)
-      @back_link = Rails.application.routes.url_helpers.provider_interface_application_choice_new_feedback_path(
+      @back_link = Rails.application.routes.url_helpers.provider_interface_application_choice_new_rbd_feedback_path(
         @application_choice.id,
         provider_interface_rejected_by_default_feedback_form: {
           rejection_reason: @application_feedback.rejection_reason,
