@@ -1,6 +1,13 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  if HostingEnvironment.review?
+    # On Heroku we don't have a read replica, so use the main database connection.
+    config.x.read_only_database_url = ENV.fetch('DATABASE_URL')
+  else
+    config.x.read_only_database_url = ENV.fetch('BLAZER_DATABASE_URL')
+  end
+
   # Code is not reloaded between requests.
   config.cache_classes = true
 

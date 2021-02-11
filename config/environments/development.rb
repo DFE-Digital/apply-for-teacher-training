@@ -62,4 +62,6 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
+
+  config.x.read_only_database_url = "postgres://localhost/bat_apply_development"
 end

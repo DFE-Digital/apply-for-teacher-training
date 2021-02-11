@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_10_142048) do
+ActiveRecord::Schema.define(version: 2021_02_10_142049) do
 
-  create_sequence "application_choices_id_seq"
+  create_sequence "application_choices_id_seq1"
   create_sequence "application_experiences_id_seq"
   create_sequence "application_feedback_id_seq"
   create_sequence "application_forms_id_seq"
@@ -20,6 +20,11 @@ ActiveRecord::Schema.define(version: 2021_02_10_142048) do
   create_sequence "application_work_history_breaks_id_seq"
   create_sequence "audits_id_seq"
   create_sequence "authentication_tokens_id_seq"
+  create_sequence "blazer_audits_id_seq"
+  create_sequence "blazer_checks_id_seq"
+  create_sequence "blazer_dashboard_queries_id_seq"
+  create_sequence "blazer_dashboards_id_seq"
+  create_sequence "blazer_queries_id_seq"
   create_sequence "candidates_id_seq"
   create_sequence "chasers_sent_id_seq"
   create_sequence "course_options_id_seq"
@@ -271,6 +276,62 @@ ActiveRecord::Schema.define(version: 2021_02_10_142048) do
     t.string "path"
     t.index ["hashed_token"], name: "index_authentication_tokens_on_hashed_token", unique: true
     t.index ["user_id", "user_type"], name: "index_authentication_tokens_on_id_and_type"
+  end
+
+  create_table "blazer_audits", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "query_id"
+    t.text "statement"
+    t.string "data_source"
+    t.datetime "created_at"
+    t.index ["query_id"], name: "index_blazer_audits_on_query_id"
+    t.index ["user_id"], name: "index_blazer_audits_on_user_id"
+  end
+
+  create_table "blazer_checks", force: :cascade do |t|
+    t.bigint "creator_id"
+    t.bigint "query_id"
+    t.string "state"
+    t.string "schedule"
+    t.text "emails"
+    t.text "slack_channels"
+    t.string "check_type"
+    t.text "message"
+    t.datetime "last_run_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_blazer_checks_on_creator_id"
+    t.index ["query_id"], name: "index_blazer_checks_on_query_id"
+  end
+
+  create_table "blazer_dashboard_queries", force: :cascade do |t|
+    t.bigint "dashboard_id"
+    t.bigint "query_id"
+    t.integer "position"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["dashboard_id"], name: "index_blazer_dashboard_queries_on_dashboard_id"
+    t.index ["query_id"], name: "index_blazer_dashboard_queries_on_query_id"
+  end
+
+  create_table "blazer_dashboards", force: :cascade do |t|
+    t.bigint "creator_id"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
+  end
+
+  create_table "blazer_queries", force: :cascade do |t|
+    t.bigint "creator_id"
+    t.string "name"
+    t.text "description"
+    t.text "statement"
+    t.string "data_source"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
   create_table "candidates", force: :cascade do |t|

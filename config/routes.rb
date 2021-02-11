@@ -947,6 +947,9 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq', constraints: SupportUserConstraint.new
     get '/sidekiq', to: redirect('/support/sign-in'), status: 302
 
+    mount Blazer::Engine => '/blazer', constraints: SupportUserConstraint.new
+    get '/blazer', to: redirect('/support/sign-in'), status: 302
+
     get '*path', to: 'errors#not_found'
   end
 

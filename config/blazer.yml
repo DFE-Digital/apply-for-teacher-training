@@ -1,0 +1,3 @@
+data_sources:
+  main:
+    url: <%= Rails.configuration.x.read_only_database_url %>
