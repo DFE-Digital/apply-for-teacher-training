@@ -6,6 +6,7 @@ ruby '2.7.2'
 gem 'rails', '~> 6.0'
 gem 'puma', '~> 5.2'
 gem 'pg', '~> 1.2.3'
+gem 'blazer'
 
 # do not rely on host’s timezone data, which can be inconsistent
 gem 'tzinfo-data'

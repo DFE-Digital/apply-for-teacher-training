@@ -50,4 +50,6 @@ Rails.application.configure do
 
     Bullet.raise = true # raise an error if n+1 query occurs
   end
+
+  config.x.read_only_database_url = "postgres://localhost/bat_apply_test"
 end
