@@ -135,7 +135,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   def then_i_can_see_interview_was_updated
     expect(page).to have_content('Check and send new interview details')
     expect(page).to have_content("Date\n4 March 2020")
-    expect(page).to have_content("Time\n10:00am")
+    expect(page).to have_content("Time\n10am")
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual")
 
@@ -151,7 +151,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
     expect(page).to have_content('Interview changed')
 
-    expect(page).to have_content("Upcoming interviews\n4 March 2020 at 10:00am")
+    expect(page).to have_content("Upcoming interviews\n4 March 2020 at 10am")
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
   end

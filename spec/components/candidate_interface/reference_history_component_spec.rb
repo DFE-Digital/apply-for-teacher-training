@@ -10,9 +10,9 @@ RSpec.describe CandidateInterface::ReferenceHistoryComponent, type: :component d
 
     list_items = result.css('li')
     expect(list_items[0].text).to include 'Request sent'
-    expect(list_items[0].text.squish).to include '1 January 2020 at 9:00am'
+    expect(list_items[0].text.squish).to include '1 January 2020 at 9am'
     expect(list_items[1].text).to include 'Reference given'
-    expect(list_items[1].text.squish).to include '2 January 2020 at 9:00am'
+    expect(list_items[1].text.squish).to include '2 January 2020 at 9am'
   end
 
   it 'uses a special title format for request_bounced events', with_audited: true do

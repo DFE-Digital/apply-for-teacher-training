@@ -7,7 +7,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     result = render_inline(described_class.new(application_choice))
 
     expect(result.text).to include('Rejected at')
-    expect(result.text).to include('1 January 2020 at 10:00am')
+    expect(result.text).to include('1 January 2020 at 10am')
   end
 
   it 'displays the date an application was rejected by default' do
@@ -16,7 +16,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     result = render_inline(described_class.new(application_choice))
 
     expect(result.text).to include('Rejected by default at')
-    expect(result.text).to include('1 January 2020 at 10:00am')
+    expect(result.text).to include('1 January 2020 at 10am')
   end
 
   it 'displays reasons for rejection on rejected application with structured reasons' do
@@ -49,10 +49,10 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
     result = render_inline(described_class.new(application_choice))
 
     expect(result.text).to include('Offer made at')
-    expect(result.text).to include('1 January 2020 at 10:00am')
+    expect(result.text).to include('1 January 2020 at 10am')
 
     expect(result.text).to include('Decline by default at')
-    expect(result.text).to include('10 January 2020 at 10:00am')
+    expect(result.text).to include('10 January 2020 at 10am')
   end
 
   it 'does not display DBD date for offered applications when it has not yet been set' do

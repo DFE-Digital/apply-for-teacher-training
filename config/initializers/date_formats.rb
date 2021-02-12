@@ -13,6 +13,8 @@ Time::DATE_FORMATS[:govuk_date_and_time] = lambda do |time|
              '%e %B %Y at %l%P (midday)'
            elsif time >= time.midnight && time <= time.midnight.end_of_minute
              '%e %B %Y at %l%P (midnight)'
+           elsif time.min.zero?
+             '%e %B %Y at %l%P'
            else
              '%e %B %Y at %l:%M%P'
            end
@@ -25,6 +27,8 @@ Time::DATE_FORMATS[:govuk_time] = lambda do |time|
              '%l%P (midday)'
            elsif time >= time.midnight && time <= time.midnight.end_of_minute
              '%l%P (midnight)'
+           elsif time.min.zero?
+             '%l%P'
            else
              '%l:%M%P'
            end

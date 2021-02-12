@@ -53,9 +53,9 @@ RSpec.feature 'Reference history on review page' do
     visit candidate_interface_references_review_path
     expect(page).to have_content 'History'
     expected_history = [
-      { event_name: 'Request sent', timestamp: '1 January 2020 at 2:00pm' },
-      { event_name: 'Reminder sent', timestamp: '2 January 2020 at 2:00pm' },
-      { event_name: 'Automated reminder sent', timestamp: '8 January 2020 at 2:00pm' },
+      { event_name: 'Request sent', timestamp: '1 January 2020 at 2pm' },
+      { event_name: 'Reminder sent', timestamp: '2 January 2020 at 2pm' },
+      { event_name: 'Automated reminder sent', timestamp: '8 January 2020 at 2pm' },
     ]
 
     within '[data-qa="reference-history"]' do
