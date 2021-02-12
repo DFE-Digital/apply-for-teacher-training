@@ -23,6 +23,7 @@ module FindAPI
 
     def self.fetch(provider_code, course_code)
       where(year: RecruitmentCycle.current_year)
+        .includes(:sites)
         .where(provider_code: provider_code)
         .find(course_code)
         .first

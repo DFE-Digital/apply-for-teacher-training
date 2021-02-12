@@ -316,7 +316,31 @@ module FindAPIHelper
               'name' => course_name,
               'provider_code' => provider_code,
             },
+            'relationships': {
+              'sites': {
+                'data': [
+                  { 'id': '1', 'type': 'sites' },
+                ],
+              },
+            },
           },
+          'included': [
+            {
+              'id': '1',
+              'type': 'sites',
+              'attributes': {
+                'code': 'A',
+                'location_name': 'Main site',
+                'address1': 'Gorse SCITT ',
+                'address2': '',
+                'address3': 'Bruntcliffe Lane',
+                'address4': 'MORLEY, LEEDS',
+                'postcode': 'LS27 0LZ',
+                'longitude': -1.620208,
+                'latitude': 53.745587,
+              },
+            },
+          ],
           'jsonapi' => { 'version' => '1.0' },
         }.to_json,
       )
@@ -338,10 +362,13 @@ module FindAPIHelper
   end
 
   def stub_find_api_course(provider_code, course_code)
-    stub_request(:get, ENV.fetch('FIND_BASE_URL') +
+    stub_request(
+      :get, ENV.fetch('FIND_BASE_URL') +
       "recruitment_cycles/#{stubbed_recruitment_cycle_year}" \
       "/providers/#{provider_code}" \
-      "/courses/#{course_code}")
+      "/courses/#{course_code}" \
+      '?include=sites'
+    )
   end
 
   def stub_find_api_provider_200_with_subject_codes(
