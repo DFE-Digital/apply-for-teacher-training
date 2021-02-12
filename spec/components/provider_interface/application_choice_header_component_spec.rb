@@ -56,18 +56,31 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     end
 
     describe '#sub_navigation_items' do
-      let(:status) { :interviewing }
-      let(:interview) { build_stubbed(:interview) }
-      let(:interviews) { class_double(Interview, kept: [interview]) }
-      let(:application_choice) { build_stubbed(:application_choice, status: status, reject_by_default_at: reject_by_default_at) }
+      let(:application_choice) { build_stubbed(:application_choice, status: :interviewing, reject_by_default_at: reject_by_default_at) }
 
-      it 'renders the interview tab when the application is in the interviewing state and there are interviews available' do
+      before do
         allow(application_choice).to receive(:interviews).and_return(interviews)
-
         FeatureFlag.activate(:interviews)
-        expect(result.css('.app-tab-navigation li:nth-child(2) a').text).to include(
-          'Interviews',
-        )
+      end
+
+      context 'when there are no interviews' do
+        let(:interviews) { class_double(Interview, kept: []) }
+
+        it 'does not show the interview tab' do
+          expect(result.css('.app-tab-navigation li:nth-child(2) a').text).not_to include(
+            'Interviews',
+          )
+        end
+      end
+
+      context 'when there are interviews' do
+        let(:interviews) { class_double(Interview, kept: [build_stubbed(:interview)]) }
+
+        it 'shows the interview tab' do
+          expect(result.css('.app-tab-navigation li:nth-child(2) a').text).to include(
+            'Interviews',
+          )
+        end
       end
     end
   end
