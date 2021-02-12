@@ -1,9 +1,13 @@
 module SupportInterface
   class EqualityAndDiversityExport
     def data_for_export
-      data_for_export = application_forms.includes(:application_choices).map do |application_form|
+      data_for_export = application_forms.includes(:application_choices, :candidate, :application_feedback).map do |application_form|
         rejected_application_choices = application_form.application_choices.rejected
         output = {
+          'Name' => "#{application_form.first_name} #{application_form.last_name}",
+          'Email' => application_form.candidate.email_address,
+          'Phone number' => application_form.phone_number,
+          'Consent to be contacted' => flatten_consent(application_form.application_feedback),
           'Month' => application_form.submitted_at&.strftime('%B'),
           'Recruitment cycle year' => application_form.recruitment_cycle_year,
           'Sex' => application_form.equality_and_diversity['sex'],
@@ -36,7 +40,7 @@ module SupportInterface
 
     def application_forms
       ApplicationForm
-        .includes(:application_choices)
+        .includes(:application_choices, :candidate, :application_feedback)
         .where.not(equality_and_diversity: nil)
     end
 
@@ -57,6 +61,15 @@ module SupportInterface
       reason
       .delete_suffix('_y_n')
       .humanize
+    end
+
+    def flatten_consent(application_feedback)
+      consent_responses = application_feedback.map(&:consent_to_be_contacted)
+      if consent_responses.include?(false)
+        false
+      elsif consent_responses.include?(true)
+        true
+      end
     end
   end
 end
