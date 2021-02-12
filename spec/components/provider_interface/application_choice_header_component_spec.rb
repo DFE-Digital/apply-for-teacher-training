@@ -56,7 +56,7 @@ RSpec.describe ProviderInterface::ApplicationChoiceHeaderComponent do
     end
 
     describe '#sub_navigation_items' do
-      let(:application_choice) { build_stubbed(:application_choice, status: :interviewing, reject_by_default_at: reject_by_default_at) }
+      let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: reject_by_default_at) }
 
       before do
         allow(application_choice).to receive(:interviews).and_return(interviews)
