@@ -1,3 +1,4 @@
+<a id="interview-<%=interview.id%>"></a>
 <div class="app-interviews__interview">
   <%= render SummaryCardComponent.new(editable: true, border: true, rows: rows) do %>
     <%= render SummaryCardHeaderComponent.new(title: interview.date_and_time.to_s(:govuk_date_and_time), heading_level: 2) do %>
