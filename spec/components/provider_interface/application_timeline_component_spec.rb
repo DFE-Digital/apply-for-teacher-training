@@ -11,7 +11,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
   def application_choice_with_audits(audits)
     application_choice = audits.first&.auditable || create(:application_choice)
     allow(GetActivityLogEvents).to receive(:call).with(
-      application_choices: [application_choice],
+      application_choices: ApplicationChoice.where(id: application_choice.id),
     ).and_return(audits)
     allow(application_choice).to receive(:notes).and_return([])
     application_choice
@@ -127,7 +127,6 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       allow(application_choice_audit).to receive(:auditable).and_return(application_choice)
       allow(interview_audit).to receive(:auditable).and_return(interview)
       allow(GetActivityLogEvents).to receive(:call)
-        .with(application_choices: [application_choice])
         .and_return([interview_audit, application_choice_audit])
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
@@ -145,7 +144,6 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       allow(application_choice_audit).to receive(:auditable).and_return(application_choice)
       allow(interview_audit).to receive(:auditable).and_return(interview)
       allow(GetActivityLogEvents).to receive(:call)
-        .with(application_choices: [application_choice])
         .and_return([interview_audit, application_choice_audit])
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
@@ -163,7 +161,6 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       allow(application_choice_audit).to receive(:auditable).and_return(application_choice)
       allow(interview_audit).to receive(:auditable).and_return(interview)
       allow(GetActivityLogEvents).to receive(:call)
-        .with(application_choices: [application_choice])
         .and_return([interview_audit, application_choice_audit])
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
