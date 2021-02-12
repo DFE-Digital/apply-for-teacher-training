@@ -62,7 +62,7 @@ stages:
       redisCacheFamily: 'P'
       containerImageReference: '$(dockerHubUsername)/$(imageName):$(build.buildNumber)'
       databaseName: 'apply'
-      databaseUsername: 'applyadm512'
+      databaseUsername: '$(databaseUsername)'
       databasePassword: '$(databasePassword)'
       databaseStorageAutoGrow: 'disabled'
       databaseBackupRetentionDays: 7
@@ -121,7 +121,7 @@ stages:
       redisCacheFamily: 'P'
       containerImageReference: '$(dockerHubUsername)/$(imageName):$(build.buildNumber)'
       databaseName: 'apply'
-      databaseUsername: 'applyadm512'
+      databaseUsername: '$(databaseUsername)'
       databasePassword: '$(databasePassword)'
       databaseStorageAutoGrow: 'disabled'
       databaseBackupRetentionDays: 7
@@ -184,7 +184,7 @@ stages:
       redisCacheFamily: 'P'
       containerImageReference: '$(dockerHubUsername)/$(imageName):$(build.buildNumber)'
       databaseName: 'apply'
-      databaseUsername: 'applyadm512'
+      databaseUsername: '$(databaseUsername)'
       databasePassword: '$(databasePassword)'
       databaseStorageAutoGrow: 'enabled'
       databaseBackupRetentionDays: 35
