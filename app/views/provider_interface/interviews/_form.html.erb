@@ -6,8 +6,8 @@
 
 <% if @wizard.multiple_application_providers? %>
   <%= f.govuk_radio_buttons_fieldset :provider_id, legend: { text: 'Organisation carrying out interview', size: 'm' } do %>
-    <% @wizard.application_providers.each do |provider| %>
-      <%= f.govuk_radio_button :provider_id, provider.id, label: { text: provider.name } %>
+    <% @wizard.application_providers.each_with_index do |provider, index| %>
+      <%= f.govuk_radio_button :provider_id, provider.id, label: { text: provider.name }, link_errors: index.zero? %>
     <% end %>
   <% end %>
 <% end %>
