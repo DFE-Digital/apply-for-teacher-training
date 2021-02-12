@@ -5,10 +5,14 @@ module ProviderInterface
     before_action :requires_make_decisions_permission, except: %i[index]
 
     def index
+      application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
+        @application_choice.status.to_sym,
+      )
       @provider_can_make_decisions = current_provider_user.authorisation.can_make_decisions?(
         application_choice: @application_choice,
         course_option_id: @application_choice.offered_option.id,
       )
+      @interviews_can_be_created_and_edited = application_at_interviewable_stage && @provider_can_make_decisions
 
       interviews = @application_choice.interviews.kept.includes(:provider).order(:date_and_time)
 

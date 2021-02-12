@@ -2,11 +2,10 @@
 
 <%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_make_decisions) %>
 
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <div class="app-interviews">
-      <% if @provider_can_make_decisions %>
+      <% if @interviews_can_be_created_and_edited %>
         <%= govuk_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(@application_choice), class: 'govuk-button govuk-button--secondary' %>
       <% end %>
 
@@ -16,7 +15,7 @@
         </h2>
 
         <% @upcoming_interviews.each do |interview| %>
-          <%= render ProviderInterface::InterviewAndCourseSummaryComponent.new(interview: interview, user_can_change_interview: @provider_can_make_decisions) %>
+          <%= render ProviderInterface::InterviewAndCourseSummaryComponent.new(interview: interview, user_can_change_interview: @interviews_can_be_created_and_edited) %>
         <% end %>
       <% end %>
 
@@ -26,7 +25,7 @@
         </h2>
 
         <% @past_interviews.each do |interview| %>
-          <%= render ProviderInterface::InterviewAndCourseSummaryComponent.new(interview: interview, user_can_change_interview: @provider_can_make_decisions) %>
+          <%= render ProviderInterface::InterviewAndCourseSummaryComponent.new(interview: interview, user_can_change_interview: @interviews_can_be_created_and_edited) %>
         <% end %>
       <% end %>
     </div>
