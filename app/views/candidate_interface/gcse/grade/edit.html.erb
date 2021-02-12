@@ -8,10 +8,10 @@
 
       <% if @qualification_type == 'non_uk' %>
         <%= f.govuk_radio_buttons_fieldset :grade, legend: { text: grade_step_title(@subject, @qualification_type), size: 'xl', tag: 'h1' } do %>
-          <%= f.govuk_radio_button :grade, 'not_applicable', label: { text: 'Not applicable' }  %>
-          <%= f.govuk_radio_button :grade, 'unknown', label: { text: 'Unknown' }  %>
+          <%= f.govuk_radio_button :grade, 'not_applicable', label: { text: 'Not applicable' } %>
+          <%= f.govuk_radio_button :grade, 'unknown', label: { text: 'Unknown' } %>
           <%= f.govuk_radio_button :grade, 'other', label: { text: 'Other' } do %>
-            <%=  f.govuk_text_field :other_grade, label: { text: 'Grade' }, hint: { text: 'For example, ‘A’, ‘4.5’, ‘94%’' }, width: 10 %>
+            <%= f.govuk_text_field :other_grade, label: { text: 'Grade' }, hint: { text: 'For example, ‘A’, ‘4.5’, ‘94%’' }, width: 10 %>
           <% end %>
         <% end %>
       <% else %>

@@ -6,7 +6,7 @@
     <%= form_with(
       model: @reference_form,
       url: referee_interface_submit_reference_path(token: @token_param),
-      method: :patch
+      method: :patch,
     ) do |f| %>
       <%= f.govuk_error_summary %>
 

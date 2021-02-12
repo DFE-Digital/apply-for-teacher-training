@@ -4,15 +4,15 @@
   <%= render BreadcrumbComponent.new(items: [
     {
       text: 'Performance',
-      path: support_interface_performance_path
+      path: support_interface_performance_path,
     },
     {
       text: 'Validation errors',
-      path: support_interface_validation_errors_path
+      path: support_interface_validation_errors_path,
     },
     {
-      text: 'Search validation errors'
-    }
+      text: 'Search validation errors',
+    },
   ]) %>
 <% end %>
 
@@ -21,7 +21,7 @@
     Showing validation error #<%= params[:id] %>
   <% else %>
     Showing errors on
-    <strong><%= params[:attribute] ? "the #{params[:attribute].humanize} field" : "all fields" %></strong>
+    <strong><%= params[:attribute] ? "the #{params[:attribute].humanize} field" : 'all fields' %></strong>
     in <strong><%= params[:form_object] ? params[:form_object].demodulize.underscore.humanize : 'all forms' %></strong>
     by <strong><%= params[:user_id] ? "user ##{params[:user_id]}" : 'all users' %></strong>.
   <% end %>
@@ -35,7 +35,7 @@
 
         <% if validation_error.user_id %>
           by user <%= govuk_link_to "##{validation_error.user_id}", support_interface_validation_error_search_path(user_id: validation_error.user_id) %>
-          (<%= govuk_link_to "view application", support_interface_candidate_path(candidate_id: validation_error.user_id) %>)
+          (<%= govuk_link_to 'view application', support_interface_candidate_path(candidate_id: validation_error.user_id) %>)
         <% end %>
       </div>
     <% end %>

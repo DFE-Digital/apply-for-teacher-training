@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
       model: @degree_subject_form,
-      url: candidate_interface_degree_subject_path(@degree_subject_form.degree)
+      url: candidate_interface_degree_subject_path(@degree_subject_form.degree),
     ) do |f| %>
 
       <%= render 'form_fields', f: f %>

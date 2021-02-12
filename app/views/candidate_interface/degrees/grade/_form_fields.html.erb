@@ -7,7 +7,7 @@
       <% if degree.predicted_grade? %>
         <% text_field_options = { label: nil, hint: { text: t('application_form.degree.grade.international.hint_text') } } %>
       <% else %>
-        <% text_field_options =  { label: { text: t('application_form.degree.grade.international.label') } } %>
+        <% text_field_options = { label: { text: t('application_form.degree.grade.international.label') } } %>
       <% end %>
       <% text_field_options.merge(width: 20) %>
       <%= f.govuk_text_field(:other_grade, text_field_options) %>

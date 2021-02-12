@@ -11,7 +11,9 @@
 
 <%= render(SummaryCardComponent.new(rows: @personal_details_review.rows)) %>
 
-<%= render(CandidateInterface::CompleteSectionComponent.new(application_form: @application_form,
-                                        path: candidate_interface_personal_details_complete_path,
-                                        request_method: :patch,
-                                        field_name: :personal_details_completed)) %>
+<%= render(CandidateInterface::CompleteSectionComponent.new(
+  application_form: @application_form,
+  path: candidate_interface_personal_details_complete_path,
+  request_method: :patch,
+  field_name: :personal_details_completed,
+)) %>

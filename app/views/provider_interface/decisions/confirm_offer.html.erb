@@ -7,7 +7,7 @@
   <% if @application_offer.offer_conditions.empty? %>
     No conditions have been set for this offer
   <% else %>
-    <ul class="govuk-list govuk-list--bullet">
+    <ul class="govuk-list govuk-list--bullet">
       <% @application_offer.offer_conditions.each do |value| %>
         <li><%= value %></li>
       <% end %>

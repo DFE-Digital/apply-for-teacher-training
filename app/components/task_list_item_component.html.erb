@@ -1,19 +1,19 @@
 <div class="app-task-list__content">
   <%= govuk_link_to text, path, class: 'app-task-list__task-name', 'aria-describedby': tag_id %>
   <% if submitted %>
-    <strong class="govuk-tag govuk-tag--grey app-tag" id=<%= tag_id %>>
+    <strong class="govuk-tag govuk-tag--grey app-tag" id="<%= tag_id %>">
       Submitted
     </strong>
   <% elsif custom_status %>
-    <strong class="govuk-tag govuk-tag--purple app-tag" id=<%= tag_id %>>
+    <strong class="govuk-tag govuk-tag--purple app-tag" id="<%= tag_id %>">
       <%= custom_status %>
     </strong>
   <% elsif completed %>
-    <strong class="govuk-tag govuk-tag--complete app-tag" id=<%= tag_id %>>
+    <strong class="govuk-tag govuk-tag--complete app-tag" id="<%= tag_id %>">
       Completed
     </strong>
   <% elsif show_incomplete %>
-    <strong class="govuk-tag govuk-tag--grey app-tag" id=<%= tag_id %>>
+    <strong class="govuk-tag govuk-tag--grey app-tag" id="<%= tag_id %>">
       Incomplete
     </strong>
   <% end %>

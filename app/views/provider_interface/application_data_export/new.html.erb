@@ -13,10 +13,10 @@
     <% end %>
 
     <%= form_with(
-    model: @application_data_export_form,
-          url: provider_interface_application_data_export_path,
-          method: :get,
-          ) do |f| %>
+      model: @application_data_export_form,
+      url: provider_interface_application_data_export_path,
+      method: :get,
+    ) do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_check_boxes_fieldset :recruitment_cycle_years, legend: { text: 'Select year', size: 'm' } do %>

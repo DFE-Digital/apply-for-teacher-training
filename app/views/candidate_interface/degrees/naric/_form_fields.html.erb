@@ -11,19 +11,19 @@
       :naric_reference,
       label: { text: t('application_form.degree.naric_reference.label'), size: 's' },
       hint: { text: t('application_form.degree.naric_reference.hint_text') },
-      spellcheck: false
+      spellcheck: false,
     ) %>
     <%= f.govuk_radio_buttons_fieldset(
       :comparable_uk_degree,
       legend: { text: t('application_form.degree.comparable_uk_degree.label'), size: 's' },
-      hint: { text: t('application_form.degree.comparable_uk_degree.hint_text') }
+      hint: { text: t('application_form.degree.comparable_uk_degree.hint_text') },
     ) do %>
-      <%  ApplicationQualification.comparable_uk_degrees.values.each_with_index do |value, i| %>
+      <% ApplicationQualification.comparable_uk_degrees.values.each_with_index do |value, i| %>
         <%= f.govuk_radio_button(
           :comparable_uk_degree,
           value,
           label: { text: t("application_form.degree.comparable_uk_degree.values.#{value}") },
-          link_errors: i.zero?
+          link_errors: i.zero?,
         ) %>
       <% end %>
     <% end %>

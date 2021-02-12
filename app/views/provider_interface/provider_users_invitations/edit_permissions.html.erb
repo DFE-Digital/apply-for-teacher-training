@@ -6,11 +6,11 @@
     <%= form_with model: @wizard, url: provider_interface_update_invitation_provider_permissions_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.fields_for "provider_permissions[]", @permissions_form do |pf| %>
+      <%= f.fields_for 'provider_permissions[]', @permissions_form do |pf| %>
         <%= pf.hidden_field :provider_id %>
         <%= f.govuk_radio_buttons_fieldset :view_applications_only,
-            legend: { text: "Set permissions: #{@provider.name}", size: "l" },
-            caption: { text: 'Invite user', size: "l" } do %>
+            legend: { text: "Set permissions: #{@provider.name}", size: 'l' },
+            caption: { text: 'Invite user', size: 'l' } do %>
           <%= f.govuk_radio_button :view_applications_only, 'true',
               label: { text: 'View applications only' },
               hint: { text: 'The user will be able to view all sections of the application, except sensitive candidate content' },
@@ -18,7 +18,7 @@
           <%= f.govuk_radio_button :view_applications_only, 'false',
               label: { text: 'Extra permissions' },
               hint: { text: 'For example, being able to make offers and access sensitive content' } do %>
-            <%= pf.govuk_check_boxes_fieldset(:permissions, legend: { text: 'Select permissions', size: "m" }) do %>
+            <%= pf.govuk_check_boxes_fieldset(:permissions, legend: { text: 'Select permissions', size: 'm' }) do %>
               <%= pf.govuk_check_box :permissions, 'manage_organisations',
                                     label: { text: 'Manage organisational permissions' },
                                     hint: { text: 'Change permissions between organisations' },

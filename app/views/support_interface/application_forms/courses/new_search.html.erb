@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix("Search for a course code", @course_search.errors.any?) %>
+<% content_for :title, title_with_error_prefix('Search for a course code', @course_search.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(support_interface_application_form_path) %>
 
 <div class="govuk-grid-row">
@@ -6,22 +6,22 @@
     <p class="govuk-body">A candidate can only add up to 3 courses. They cannot add the same course twice.</p>
     <p class="govuk-body">You can find the course code by searching on
       <%= govuk_link_to(
-            'Find postgraduate teacher training',
-            'https://www.find-postgraduate-teacher-training.service.gov.uk/',
-            target: "_blank",
-            rel:    "nofollow"
-          ) %>.
+        'Find postgraduate teacher training',
+        'https://www.find-postgraduate-teacher-training.service.gov.uk/',
+        target: '_blank',
+        rel: 'nofollow',
+      ) %>.
     </p>
     <p class="govuk-body">The code you need is in the title of the course.</p>
     <p class="govuk-body">For example, the course code for York St John University Primary (Q859), is Q859.</p>
     <%= form_with(
-          model: @course_search,
-          url:   support_interface_application_form_search_course_path,
-        ) do |f| %>
+      model: @course_search,
+      url: support_interface_application_form_search_course_path,
+    ) do |f| %>
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_text_field :course_code, label: { text: 'Course code', size: 'm' }, width: 5 %>
-      <%= f.govuk_submit "Search" %>
+      <%= f.govuk_submit 'Search' %>
     <% end %>
   </div>
 </div>

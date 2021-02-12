@@ -14,7 +14,7 @@
       <%= govuk_link_to(
         'Download application (PDF)',
         provider_interface_application_choice_path(@application_choice.id, format: :pdf),
-        download: @application_choice.application_form.support_reference
+        download: @application_choice.application_form.support_reference,
       ) %>
     </p>
 
@@ -22,17 +22,17 @@
 
     <% unless HostingEnvironment.production? %>
       <%= render SandboxFeatureComponent.new(
-        description: "See what this application looks like from the candidate side by signing in as #{@application_choice.application_form.full_name}:"
+        description: "See what this application looks like from the candidate side by signing in as #{@application_choice.application_form.full_name}:",
       ) do %>
         <%= button_to 'Sign in as this candidate', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-button govuk-!-margin-bottom-0' %>
       <% end %>
     <% end %>
 
-    <%= render ProviderInterface::CourseDetailsComponent.new(application_choice: @application_choice)%>
+    <%= render ProviderInterface::CourseDetailsComponent.new(application_choice: @application_choice) %>
 
     <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
 
-    <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user)%>
+    <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>
 
     <%= render InterviewPreferencesComponent.new(application_form: @application_choice.application_form) %>
   </div>
@@ -54,7 +54,7 @@
       <%= render 'references_context' %>
 
       <% @application_choice.application_form.application_references.feedback_provided.each_with_index do |reference, i| %>
-        <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference, index: i ) %>
+        <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference, index: i) %>
       <% end %>
     <% end %>
 

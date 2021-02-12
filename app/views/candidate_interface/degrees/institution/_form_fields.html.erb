@@ -8,7 +8,7 @@
 
   <%= f.govuk_text_field(
     :institution_name,
-    label: { text: t('application_form.degree.international_institution_name.label') }
+    label: { text: t('application_form.degree.international_institution_name.label') },
   ) %>
 
   <%= f.govuk_collection_select(
@@ -16,14 +16,14 @@
     select_country_options,
     :id,
     :name,
-    label: { text: t('application_form.degree.institution_country.label') }
+    label: { text: t('application_form.degree.institution_country.label') },
   ) %>
 
 <% else %>
 
   <%= f.govuk_text_field(
     :institution_name,
-    label: { text: t('application_form.degree.institution_name.label'), size: 'xl', tag: 'h1' }
+    label: { text: t('application_form.degree.institution_name.label'), size: 'xl', tag: 'h1' },
   ) %>
   <%= tag.div(id: 'degree-institution-autosuggest', data: { source: @institutions }) %>
 

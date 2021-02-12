@@ -1,4 +1,4 @@
-<% content_for :title, title_with_error_prefix(t("gcse_edit_institution_country.page_title", subject: @subject.capitalize), @institution_country.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('gcse_edit_institution_country.page_title', subject: @subject.capitalize), @institution_country.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
@@ -6,7 +6,7 @@
     <%= form_with model: @institution_country, url: candidate_interface_gcse_details_edit_institution_country_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t("gcse_edit_institution_country.page_title", subject: @subject.capitalize), size: 'xl', tag: 'h1' } %>
+      <%= f.govuk_collection_select :institution_country, select_country_options, :id, :name, label: { text: t('gcse_edit_institution_country.page_title', subject: @subject.capitalize), size: 'xl', tag: 'h1' } %>
       <%= f.govuk_submit t('save_and_continue') %>
     <% end %>
   </div>

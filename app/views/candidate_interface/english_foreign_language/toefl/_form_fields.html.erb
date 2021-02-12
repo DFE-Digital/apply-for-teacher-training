@@ -5,20 +5,23 @@
   label: { text: 'TOEFL registration number', size: 'm' },
   hint: { text: 'For example, 0000 0000 2500 2147' },
   spellcheck: false,
-  width: 20) %>
+  width: 20,
+) %>
 
 <%= f.govuk_text_field(
   :total_score,
   label: { text: 'Total score', size: 'm' },
   hint: { text: 'For example, 92' },
   type: :number,
-  width: 4) %>
+  width: 4,
+) %>
 
 <%= f.govuk_text_field(
   :award_year,
   label: { text: 'When did you complete the assessment?', size: 'm' },
   hint: { text: 'Give the year, for example: ‘2020’' },
   type: :number,
-  width: 4) %>
+  width: 4,
+) %>
 
 <%= f.govuk_submit t('save_and_continue') %>

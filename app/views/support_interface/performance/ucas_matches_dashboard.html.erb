@@ -4,10 +4,9 @@
   <%= render BreadcrumbComponent.new(items: [
     {
       text: 'Performance',
-      path: support_interface_performance_path
-    },
-    {
-      text: 'UCAS matches'
+      path: support_interface_performance_path,
+    }, {
+      text: 'UCAS matches',
     }
   ]) %>
 <% end %>
@@ -18,8 +17,8 @@
 
 <%= render TabNavigationComponent.new(items: [
   { name: 'All years', url: '?', current: params[:year].nil? },
-] + year_choices ) %>
+] + year_choices) %>
 
-<% ucas_matches = params[:year].nil? ? UCASMatch.all : UCASMatch.where(recruitment_cycle_year: params[:year])%>
+<% ucas_matches = params[:year].nil? ? UCASMatch.all : UCASMatch.where(recruitment_cycle_year: params[:year]) %>
 
 <%= render SupportInterface::UCASMatchesStatisticsComponent.new(ucas_matches) %>

@@ -6,7 +6,7 @@
     <%= form_with(
       model: @degree_subject_form,
       url: candidate_interface_edit_degree_subject_path(@degree_subject_form.degree),
-      method: :patch
+      method: :patch,
     ) do |f| %>
 
       <%= render 'form_fields', f: f %>

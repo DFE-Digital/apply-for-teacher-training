@@ -6,14 +6,15 @@
     <%= form_with model: @application_comment, url: support_interface_application_form_comments_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
-      <%= f.govuk_text_area :comment,
+      <%= f.govuk_text_area(
+        :comment,
         label: {
           text: 'Add a comment about this application',
           tag: 'h1',
-          size: 'xl'
+          size: 'xl',
         },
-        hint: { text: 'Comments appear in the application history and can only be viewed by other support users' }
-      %>
+        hint: { text: 'Comments appear in the application history and can only be viewed by other support users' },
+      ) %>
 
       <%= f.govuk_submit 'Add comment' %>
     <% end %>

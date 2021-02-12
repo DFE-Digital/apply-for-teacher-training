@@ -4,29 +4,28 @@
   <%= render SummaryCardComponent.new(editable: true, border: true, rows: [
     {
       key: 'Description',
-      value: feature_flag.description
+      value: feature_flag.description,
     },
     {
       key: 'Status',
       value: render(
         TagComponent.new(
           text: FeatureFlag.active?(feature_name) ? 'Active' : 'Inactive',
-          type: FeatureFlag.active?(feature_name) ? 'green' : 'grey'
+          type: FeatureFlag.active?(feature_name) ? 'green' : 'grey',
         ),
-      )
+      ),
     },
     {
       key: 'Owner',
-      value: feature_flag.owner
+      value: feature_flag.owner,
     },
     {
       key: 'History',
       value: render(
-        SupportInterface::FeatureAuditTrailComponent.new(feature: feature_flag.feature)
-      )
-    }
-  ].compact
-  ) do %>
+        SupportInterface::FeatureAuditTrailComponent.new(feature: feature_flag.feature),
+      ),
+    },
+  ].compact) do %>
     <%= render SummaryCardHeaderComponent.new(title: feature_name.humanize, heading_level: 2) do %>
       <% if FeatureFlag.active?(feature_name) %>
         <%= button_to support_interface_deactivate_feature_flag_path(feature_name),

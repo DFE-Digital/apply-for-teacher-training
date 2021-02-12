@@ -21,6 +21,7 @@ gem 'govuk_markdown'
 
 # Linting
 gem 'rubocop-govuk'
+gem 'erb_lint', require: false
 
 gem 'devise'
 gem 'omniauth'

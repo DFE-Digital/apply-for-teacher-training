@@ -21,7 +21,7 @@
         </ul>
       </div>
 
-      <%= f.fields_for "provider_relationship_permissions[]", @permissions_form do |pf| %>
+      <%= f.fields_for 'provider_relationship_permissions[]', @permissions_form do |pf| %>
         <% ProviderRelationshipPermissions::PERMISSIONS.each do |permission_name| %>
           <div class="govuk-form-group <%= permission_name.to_s.dasherize %>" id="<%= permission_name %>">
             <%= pf.govuk_check_boxes_fieldset permission_name, legend: { text: "Who can #{permission_name.to_s.humanize.downcase}?" } do %>

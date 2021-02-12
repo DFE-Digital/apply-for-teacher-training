@@ -3,7 +3,7 @@
 <%= f.govuk_text_field(
   :subject,
   label: { text: t('application_form.degree.subject.label'), size: 'xl', tag: 'h1' },
-  hint: { text: t('application_form.degree.subject.hint_text') }
+  hint: { text: t('application_form.degree.subject.hint_text') },
 ) %>
 <% unless @degree_subject_form.international? %>
   <%= tag.div(id: 'degree-subject-autosuggest', data: { source: @subjects }) %>

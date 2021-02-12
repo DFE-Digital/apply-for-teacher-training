@@ -1,4 +1,4 @@
-<% content_for :browser_title, title_with_error_prefix("#{@form.provider_user.full_name}", @form.errors.any?) %>
+<% content_for :browser_title, title_with_error_prefix(@form.provider_user.full_name, @form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_provider_user_path(@form.provider_user)) %>
 
 <div class="govuk-grid-row">
@@ -10,9 +10,9 @@
         @form.providers_that_actor_can_manage_users_for,
         :id,
         :name, {
-          legend: { text: 'Change the organisations this user will have access to' , size: "xl" },
-          caption: { text: @form.provider_user.full_name, size: "xl" }
-          }
+          legend: { text: 'Change the organisations this user will have access to', size: 'xl' },
+          caption: { text: @form.provider_user.full_name, size: 'xl' },
+        }
       ) %>
 
       <%= f.govuk_submit 'Save' %>
