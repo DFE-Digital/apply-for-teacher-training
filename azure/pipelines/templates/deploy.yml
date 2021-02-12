@@ -231,6 +231,8 @@ jobs:
                 -databaseName "${{parameters.databaseName}}"
                 -databaseUsername "${{parameters.databaseUsername}}"
                 -databasePassword "${{parameters.databasePassword}}"
+                -postgresAdminUsername "$(postgresAdminUsername)"
+                -postgresAdminPassword "$(postgresAdminPassword)"
                 -databaseStorageAutoGrow "${{parameters.databaseStorageAutoGrow}}"
                 -databaseBackupRetentionDays "${{parameters.databaseBackupRetentionDays}}"
                 -databaseReplicaExists "$(databaseReplicaExists)"

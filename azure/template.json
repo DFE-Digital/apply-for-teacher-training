@@ -142,6 +142,18 @@
                 "description": "The password used to connect to the database."
             }
         },
+        "postgresAdminUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "The username used to connect to the postgres server."
+            }
+        },
+        "postgresAdminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The configured password for postgres server"
+            }
+        },
         "databaseStorageAutoGrow": {
             "type": "string",
             "metadata": {
@@ -1066,10 +1078,10 @@
                         "value": "[variables('databaseServerName')]"
                     },
                     "postgresAdminLogin": {
-                        "value": "[parameters('databaseUsername')]"
+                        "value": "[parameters('postgresAdminUsername')]"
                     },
                     "postgresAdminPassword": {
-                        "value": "[parameters('databasePassword')]"
+                        "value": "[parameters('postgresAdminPassword')]"
                     },
                     "securityAlertEmailAddress": {
                         "value": "[parameters('securityAlertEmail')]"
