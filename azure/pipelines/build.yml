@@ -272,7 +272,7 @@ stages:
       redisCacheFamily: 'P'
       containerImageReference: '$(dockerHubUsername)/$(imageName):$(build.buildNumber)'
       databaseName: 'apply'
-      databaseUsername: 'applyadm512'
+      databaseUsername: '$(databaseUsername)'
       databasePassword: '$(databasePassword)'
       databaseStorageAutoGrow: 'disabled'
       databaseBackupRetentionDays: 7
@@ -332,7 +332,7 @@ stages:
       ${{ if eq(variables['deployOnly'], false) }}:
         containerImageReference: '$(dockerHubUsername)/$(imageName):$(build.buildNumber)'
       databaseName: 'apply'
-      databaseUsername: 'applyadm512'
+      databaseUsername: '$(databaseUsername)'
       databasePassword: '$(databasePassword)'
       databaseStorageAutoGrow: 'disabled'
       databaseBackupRetentionDays: 7
