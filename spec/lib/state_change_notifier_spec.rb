@@ -107,7 +107,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(:declined, application_choice).application_outcome_notification
 
-        message = /:no_good: #{applicant} has declined offers from #{provider_name} and #{declined_choice.provider.name}/
+        message = /:no_good: #{applicant} declined offers from #{provider_name} and #{declined_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
@@ -120,7 +120,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(:declined_by_default, application_choice).application_outcome_notification
 
-        message = /:no_good: #{applicant} has declined by default offers from #{provider_name} and #{declined_by_default_choice.provider.name}/
+        message = /:no_good: #{applicant} declined by default offers from #{provider_name} and #{declined_by_default_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
@@ -133,7 +133,7 @@ RSpec.describe StateChangeNotifier do
 
         StateChangeNotifier.new(:withdrawn, application_choice).application_outcome_notification
 
-        message = /:runner: #{applicant} has withdrawn their applications from #{provider_name} and #{withdrawn_choice.provider.name}/
+        message = /:runner: #{applicant} withdrew their applications from #{provider_name} and #{withdrawn_choice.provider.name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe StateChangeNotifier do
       it 'and no other applications' do
         StateChangeNotifier.new(:recruited, application_choice).application_outcome_notification
 
-        message = /:handshake: #{applicant} has been recruited to #{provider_name}/
+        message = /:handshake: #{applicant} was recruited to #{provider_name}/
         expect(SlackNotificationWorker).to have_received(:perform_async).with(message, anything)
       end
     end
