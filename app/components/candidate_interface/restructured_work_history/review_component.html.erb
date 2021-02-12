@@ -10,7 +10,7 @@
 
             <%= render(CandidateInterface::RestructuredWorkHistory::JobComponent.new(work_experience: entry, editable: @editable)) %>
 
-          <% elsif @editable && entry.is_a?(WorkHistoryWithBreaks::BreakPlaceholder) %>
+          <% elsif @editable && entry.is_a?(RestructuredWorkHistoryWithBreaks::BreakPlaceholder) %>
 
             <%= render(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: entry)) %>
 
