@@ -18,6 +18,8 @@ module DateValidationHelper
   end
 
   def start_date_before_end_date
+    return unless start_date.is_a?(Date) && end_date.is_a?(Date)
+
     errors.add(:start_date, :before) unless start_date <= end_date
   end
 end
