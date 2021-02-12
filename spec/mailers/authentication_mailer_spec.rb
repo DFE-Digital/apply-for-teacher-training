@@ -41,7 +41,7 @@ RSpec.describe AuthenticationMailer, type: :mailer do
     )
   end
 
-  describe 'the candidate recieves an email when they try to sign in without an existing account' do
+  describe 'the candidate receives an email when they try to sign in without an existing account' do
     let(:email) { mailer.sign_in_without_account_email(to: 'test@example.com') }
 
     it_behaves_like(

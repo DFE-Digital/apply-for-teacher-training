@@ -169,13 +169,6 @@ module CandidateInterface
       end
     end
 
-    def rejection_reason_row(application_choice)
-      {
-        key: 'Feedback',
-        value: application_choice.rejection_reason,
-      }
-    end
-
     def offer_withdrawal_reason_row(application_choice)
       if application_choice.offer_withdrawal_reason.present?
         {
