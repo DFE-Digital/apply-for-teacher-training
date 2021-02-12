@@ -9,6 +9,7 @@ require:
 - rubocop-rspec
 - ./lib/rubocop/cop/govuk/govuk_button_to.rb
 - ./lib/rubocop/cop/govuk/govuk_link_to.rb
+- ./lib/rubocop/cop/govuk/govuk_submit.rb
 
 AllCops:
   Exclude:
