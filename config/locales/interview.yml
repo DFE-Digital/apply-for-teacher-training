@@ -56,6 +56,9 @@ en:
               past: Time must be in the future
             location:
               blank: Enter address or online meeting details
+              too_long: Address or online meeting details must be %{count} characters or fewer
+            additional_details:
+              too_long: Additional details must be %{count} characters or fewer
             provider_id:
               blank: Select which organisation is carrying out the interview
         provider_interface/cancel_interview_wizard:

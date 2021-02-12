@@ -35,6 +35,13 @@ RSpec.describe ProviderInterface::InterviewWizard do
       it { is_expected.to validate_presence_of(:application_choice) }
     end
 
+    context 'field length checks' do
+      let(:subject) { described_class.new(store) }
+
+      it { is_expected.to validate_length_of(:location).is_at_most(10240) }
+      it { is_expected.to validate_length_of(:additional_details).is_at_most(10240) }
+    end
+
     describe '#date' do
       context 'when blank' do
         let(:day) { '' }

@@ -20,7 +20,8 @@ module ProviderInterface
                                        unless: ->(c) { %i[date time].any? { |d| c.errors.keys.include?(d) } }
     validate :date_after_rbd_date, if: %i[date_and_time date_and_time_in_future]
     validates :provider_id, presence: true, if: %i[application_choice provider_user multiple_application_providers?]
-    validates :location, presence: true
+    validates :location, presence: true, length: { maximum: 10240 }
+    validates :additional_details, length: { maximum: 10240 }
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
