@@ -53,7 +53,6 @@ Rails.application.routes.draw do
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find
     post '/apply', to: 'apply_from_find#ucas_or_apply'
     get '/apply/ucas', to: 'apply_from_find#ucas_interstitial', as: :apply_with_ucas_interstitial
-    post '/apply/ucas', to: 'apply_from_find#apply_with_ucas'
 
     get '/interstitial', to: 'after_sign_in#interstitial', as: :interstitial
 
