@@ -463,7 +463,7 @@
         "storageAccountName": "[replace(concat(variables('resourceNamePrefix'), 'str'), '-', '')]",
         "databaseServerName": "[concat(variables('resourceNamePrefix'), '-psql')]",
         "replicaServerName": "[concat(variables('databaseServerName'), '-replica')]",
-        "replicaServerConnectionString": "[concat('postgres://', variables('replicaServerName'), '.postgres.database.azure.com:5432/', parameters('databaseName'), '?user=', parameters('databaseUsername'), '@', variables('replicaServerName'), '&password=', parameters('databasePassword'))]",
+        "replicaServerConnectionString": "[concat('postgres://', parameters('databaseUsername'), '%40', variables('replicaServerName'), ':', uriComponent(parameters('databasePassword')), '@', variables('replicaServerName'), '.postgres.database.azure.com:5432/', parameters('databaseName'))]",
         "useCustomDomains": "[greater(length(parameters('customDomains')), 0)]",
         "databaseReplicaExists": "[bool(parameters('databaseReplicaExists'))]",
         "rubyAuthHosts": "[parameters('authorisedHosts')]",
