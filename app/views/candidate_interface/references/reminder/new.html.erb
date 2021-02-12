@@ -17,9 +17,11 @@
         You can only send one reminder to this referee.
       </p>
 
-      <p class="govuk-body">
-        The referee will also get an automatic reminder on <%= @reference.next_automated_chase_at.strftime('%-d %B %Y') %>.
-      </p>
+      <% if @reference.next_automated_chase_at.present? %>
+        <p class="govuk-body">
+          The referee will also get an automatic reminder on <%= @reference.next_automated_chase_at.strftime('%-d %B %Y') %>.
+        </p>
+      <% end %>
 
       <%= f.govuk_submit t('application_form.references.send_reminder.confirm') %>
 
