@@ -158,6 +158,24 @@ RSpec.describe DateValidator do
           expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.invalid_date_month_and_year', article: 'a', attribute: :date))
         end
       end
+
+      context 'when presence is not set' do
+        let(:test_date_validator) do
+          Class.new do
+            include ActiveModel::Validations
+            include ActiveModel::Model
+
+            attr_accessor :date
+
+            validates :date, date: { month_and_year: true }
+          end
+        end
+
+        it 'returns no error when the month and year are not set' do
+          expect(model).to be_valid
+          expect(model.errors[:date]).to be_empty
+        end
+      end
     end
   end
 end
