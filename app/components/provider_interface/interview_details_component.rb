@@ -21,6 +21,7 @@ module ProviderInterface
       {
         key: key,
         value: value,
+        action: "Change #{key.downcase}",
         change_path: change_path,
       }
     end
