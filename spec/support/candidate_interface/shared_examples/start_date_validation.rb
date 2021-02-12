@@ -1,5 +1,15 @@
-RSpec.shared_examples 'validation for a start date' do |error_scope|
+RSpec.shared_examples 'validation for a start date' do |error_scope, verify_presence|
   describe 'start date' do
+    it 'is invalid if the date is not present', if: verify_presence do
+      form = described_class.new(start_date_month: nil, start_date_year: nil)
+
+      form.validate
+
+      expect(form.errors.full_messages_for(:start_date)).to eq(
+        ["Start date #{t('errors.messages.blank_date', article: 'a', attribute: 'start date')}"],
+      )
+    end
+
     it 'is invalid if not well-formed' do
       form = described_class.new(start_date_month: '99', start_date_year: '99')
 
