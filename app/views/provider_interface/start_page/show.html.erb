@@ -84,11 +84,11 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
         <dl class="app-count">
-          <%= link_to candidate_interface_providers_path, class: 'app-count__item govuk-link govuk-link--no-visited-state' do %>
+          <%= govuk_link_to candidate_interface_providers_path, class: 'app-count__item govuk-link--no-visited-state' do %>
             <dt class="app-count__key">Providers</dt>
             <dd class="app-count__value"><%= number_with_delimiter(@provider_count) %></dd>
           <% end %>
-          <%= link_to candidate_interface_providers_path, class: 'app-count__item govuk-link govuk-link--no-visited-state' do %>
+          <%= govuk_link_to candidate_interface_providers_path, class: 'app-count__item govuk-link--no-visited-state' do %>
             <dt class="app-count__key">Courses</dt>
             <dd class="app-count__value"><%= number_with_delimiter(@course_count) %></dd>
           <% end %>

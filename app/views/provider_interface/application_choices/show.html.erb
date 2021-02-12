@@ -27,7 +27,7 @@
     <%= render SandboxFeatureComponent.new(
       description: "See what this application looks like from the candidate side by signing in as #{@application_choice.application_form.full_name}:",
     ) do %>
-      <%= button_to 'Sign in as this candidate', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-button govuk-!-margin-bottom-0' %>
+      <%= govuk_button_to 'Sign in as this candidate', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-!-margin-bottom-0' %>
     <% end %>
   </div>
 <% end %>

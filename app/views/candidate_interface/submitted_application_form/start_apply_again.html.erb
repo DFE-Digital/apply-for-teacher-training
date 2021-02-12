@@ -16,10 +16,12 @@
     </p>
     <p class="govuk-body">You can only apply to one course at a time at this stage of your application.</p>
 
-    <%= button_to 'Start now', candidate_interface_apply_again_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>
+    <%= govuk_button_to 'Start now', candidate_interface_apply_again_path %>
 
     <p class="govuk-body">or</p>
 
-    <%= govuk_link_to 'Go to your dashboard', candidate_interface_application_form_path, class: 'govuk-body' %>
+    <p class="govuk-body">
+      <%= govuk_link_to 'Go to your dashboard', candidate_interface_application_form_path %>
+    </p>
   </div>
 </div>
