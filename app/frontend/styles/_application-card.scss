@@ -21,13 +21,13 @@
 
   .govuk-grid-column-one-third {
     @include govuk-media-query($from: tablet) {
-      width: 36%;
+      width: 37%;
     }
   }
 
   .govuk-grid-column-two-thirds {
     @include govuk-media-query($from: tablet) {
-      width: 64%;
+      width: 63%;
     }
   }
 
