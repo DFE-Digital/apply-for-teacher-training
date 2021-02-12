@@ -102,7 +102,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include 'Feedback sent'
       expect(rendered.text).to include '11 February 2020 at 10:00pm'
       expect(rendered.css('a').text).to eq 'View feedback'
-      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
+      expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/feedback"
     end
   end
 

@@ -70,7 +70,7 @@ module ProviderInterface
           actor_for(event),
           event.created_at,
           'View feedback',
-          provider_interface_application_choice_path(application_choice),
+          provider_interface_application_choice_feedback_path(application_choice),
         )
       end
     end

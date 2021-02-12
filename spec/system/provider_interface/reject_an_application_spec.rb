@@ -5,7 +5,7 @@ RSpec.describe 'Reject an application' do
   include ProviderUserPermissionsHelper
   include CourseOptionHelpers
 
-  scenario 'giving reasons for rejection' do
+  scenario 'giving reasons for rejection', with_audited: true do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_my_provider
     and_i_am_permitted_to_make_decisions_on_applications_for_my_provider
@@ -24,6 +24,9 @@ RSpec.describe 'Reject an application' do
     and_i_recheck_my_reasons
     and_i_submit_the_reasons_for_rejection
     then_i_can_see_the_reasons_why_the_application_was_rejected
+
+    and_there_is_a_timeline_entry
+    and_there_is_an_activity_log_entry
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -194,5 +197,22 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
     expect(page).to have_content('Honesty and professionalism')
     expect(page).to have_content('We cannot accept references from your gran')
+  end
+
+  def and_there_is_a_timeline_entry
+    click_on 'Timeline'
+
+    expect(page).to have_content('Application rejected')
+    expect(page).to have_link('View application', href: provider_interface_application_choice_path(@application_choice))
+  end
+
+  def and_there_is_an_activity_log_entry
+    FeatureFlag.activate(:provider_activity_log)
+    page.refresh # remove with the above feature flag
+
+    click_on 'Activity log'
+
+    expect(page).to have_content('rejected')
+    expect(page).to have_link('View application', href: provider_interface_application_choice_path(@application_choice))
   end
 end

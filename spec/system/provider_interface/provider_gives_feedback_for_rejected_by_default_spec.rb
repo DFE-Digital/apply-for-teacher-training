@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Provider gives feedback for application rejected by default' do
+RSpec.feature 'Provider gives feedback for application rejected by default', with_audited: true do
   include CourseOptionHelpers
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
@@ -27,6 +27,9 @@ RSpec.feature 'Provider gives feedback for application rejected by default' do
     and_i_submit_the_feedback
 
     then_i_can_see_the_feedback_provided
+
+    and_there_is_a_timeline_entry
+    and_there_is_an_activity_log_entry
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -202,5 +205,22 @@ RSpec.feature 'Provider gives feedback for application rejected by default' do
     expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
     expect(page).to have_content('Honesty and professionalism')
     expect(page).to have_content('We cannot accept references from your gran')
+  end
+
+  def and_there_is_a_timeline_entry
+    click_on 'Timeline'
+
+    expect(page).to have_content('Feedback sent')
+    expect(page).to have_link('View feedback', href: provider_interface_application_choice_feedback_path(@application_choice))
+  end
+
+  def and_there_is_an_activity_log_entry
+    FeatureFlag.activate(:provider_activity_log)
+    page.refresh # remove with the above feature flag
+
+    click_on 'Activity log'
+
+    expect(page).to have_content('sent feedback to')
+    expect(page).to have_link('View feedback', href: provider_interface_application_choice_feedback_path(@application_choice))
   end
 end
