@@ -31,7 +31,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     then_i_see_a_success_message
     and_an_interview_has_been_created('2 March 2020')
 
-    and_i_can_set_up_another_interview(days_in_future: 2)
+    and_i_set_up_another_interview(days_in_future: 2)
     and_another_interview_has_been_created('3 March 2020')
 
     when_the_first_interview_has_happened
@@ -39,7 +39,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_see_the_past_interview_under_the_correct_heading
 
     when_i_change_the_interview_details
-    then_i_can_see_interview_was_updated
+    and_i_confirm_the_interview_details
+    then_i_can_see_the_interview_was_updated
 
     when_i_click_to_cancel_an_interview
     and_i_do_not_enter_a_cancellation_reason
@@ -82,7 +83,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_content('Interview successfully created')
   end
 
-  def and_i_can_set_up_another_interview(days_in_future:)
+  def and_i_set_up_another_interview(days_in_future:)
     and_i_click_set_up_an_interview
     and_i_fill_out_the_interview_form(days_in_future: days_in_future, time: '7pm')
     and_i_click_send_interview_details
@@ -152,7 +153,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     click_on 'Continue'
   end
 
-  def then_i_can_see_interview_was_updated
+  def and_i_confirm_the_interview_details
     expect(page).to have_content('Check and send new interview details')
     expect(page).to have_content("Date\n4 March 2020")
     expect(page).to have_content("Time\n10am")
@@ -168,10 +169,11 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
 
     click_on 'Send new interview details'
+  end
 
+  def then_i_can_see_the_interview_was_updated
     expect(page).to have_content('Interview changed')
-
-    expect(page).to have_content("Upcoming interviews\n4 March 2020 at 10am")
+    expect(page).to have_content('4 March 2020 at 10am')
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
   end
