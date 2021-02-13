@@ -1,0 +1,9 @@
+module DataMigrations
+  class %{service_name}
+    TIMESTAMP = %{timestamp}
+
+    def change
+      # add any changes here
+    end
+  end
+end
