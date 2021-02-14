@@ -132,6 +132,14 @@ Style/EachWithObject:
 Govuk:
   Include:
     - 'app/views/**/*'
+  Exclude:
+    # link_to in manual error summaries
+    - 'app/views/candidate_interface/references/review/show.html.erb'
+    - 'app/views/candidate_interface/unsubmitted_application_form/review.html.erb'
+    - 'app/views/candidate_interface/unsubmitted_application_form/review.html.erb'
+    # kaminari pagination links
+    - 'app/views/kaminari/_next_page.html.erb'
+    - 'app/views/kaminari/_prev_page.html.erb'
 
 # Pending cops
 # These will be enabled by default at Rubocop 1.0

@@ -1,29 +1,21 @@
 <% if show_missing_banner? %>
   <%= render(CandidateInterface::IncompleteSectionComponent.new(section: :work_experience, section_path: CandidateInterface::ApplicationFormPresenter.new(@application_form).work_experience_path, error: @missing_error)) %>
 <% else %>
-
   <section class="app-summary-card govuk-!-margin-bottom-6">
     <div class="app-summary-card__body">
       <section>
         <% @work_history_with_breaks.each do |entry| %>
           <% if entry.is_a?(ApplicationWorkExperience) %>
-
             <%= render(CandidateInterface::RestructuredWorkHistory::JobComponent.new(work_experience: entry, editable: @editable)) %>
-
           <% elsif @editable && entry.is_a?(RestructuredWorkHistoryWithBreaks::BreakPlaceholder) %>
-
             <%= render(CandidateInterface::RestructuredWorkHistory::GapComponent.new(break_period: entry)) %>
-
           <% elsif entry.is_a?(ApplicationWorkHistoryBreak) %>
-
             <%= render(CandidateInterface::RestructuredWorkHistory::WorkBreakComponent.new(work_break: entry, editable: @editable)) %>
-
           <% end %>
 
           <% if @work_history_with_breaks.last != entry %>
             <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m ">
           <% end %>
-
         <% end %>
       </section>
 
@@ -34,5 +26,4 @@
       <% end %>
     </div>
   </section>
-
 <% end %>
