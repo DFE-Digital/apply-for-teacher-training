@@ -11,7 +11,7 @@
   <div class="govuk-grid-column-one-half">
     <h2 class="govuk-heading-s govuk-!-margin-bottom-1"><%= t('layout.support.online_chat') %></h2>
     <ul class="govuk-footer__meta-custom govuk-list govuk-!-font-size-16 govuk-!-margin-bottom-8">
-      <li><%= link_to t('layout.support.talk_to_advisor'), t('get_into_teaching.url_online_chat'), class: 'govuk-footer__link' %></li>
+      <li><%= govuk_footer_link_to t('layout.support.talk_to_advisor'), t('get_into_teaching.url_online_chat') %></li>
       <li><%= t('get_into_teaching.opening_times') %></li>
     </ul>
   </div>
@@ -19,18 +19,18 @@
 <h2 class="govuk-visually-hidden"><%= t('layout.support_links.title') %></h2>
 <ul class="govuk-footer__inline-list govuk-!-margin-bottom-0">
   <li class="govuk-footer__inline-list-item">
-    <%= link_to t('layout.support_links.accessibility'), candidate_interface_accessibility_path, class: 'govuk-footer__link' %>
+    <%= govuk_footer_link_to t('layout.support_links.accessibility'), candidate_interface_accessibility_path %>
   </li>
   <li class="govuk-footer__inline-list-item">
-    <%= link_to t('layout.support_links.cookies'), candidate_interface_cookies_path, class: 'govuk-footer__link' %>
+    <%= govuk_footer_link_to t('layout.support_links.cookies'), candidate_interface_cookies_path %>
   </li>
   <li class="govuk-footer__inline-list-item">
-    <%= link_to t('layout.support_links.complaints'), candidate_interface_complaints_path, class: 'govuk-footer__link' %>
+    <%= govuk_footer_link_to t('layout.support_links.complaints'), candidate_interface_complaints_path %>
   </li>
   <li class="govuk-footer__inline-list-item">
-    <%= link_to t('layout.support_links.privacy_policy'), candidate_interface_privacy_policy_path, class: 'govuk-footer__link' %>
+    <%= govuk_footer_link_to t('layout.support_links.privacy_policy'), candidate_interface_privacy_policy_path %>
   </li>
   <li class="govuk-footer__inline-list-item">
-    <%= link_to t('layout.support_links.terms_of_use'), candidate_interface_terms_path, class: 'govuk-footer__link' %>
+    <%= govuk_footer_link_to t('layout.support_links.terms_of_use'), candidate_interface_terms_path %>
   </li>
 </ul>

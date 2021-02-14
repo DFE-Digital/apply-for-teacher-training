@@ -33,6 +33,11 @@ module ViewHelper
     link_to(body, url, class: classes)
   end
 
+  def govuk_footer_link_to(body = nil, url = nil, html_options = {}, &block)
+    html_options[:class] = prepend_css_class('govuk-footer__link', html_options[:class])
+    govuk_link_to(body, url, html_options, &block)
+  end
+
   def break_email_address(email_address)
     email_address.gsub(/@/, '<wbr>@').html_safe
   end
