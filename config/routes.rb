@@ -266,7 +266,7 @@ Rails.application.routes.draw do
         delete '/explain-break/delete/:id' => 'restructured_work_history/break#destroy'
 
         get '/review' => 'restructured_work_history/review#show', as: :restructured_work_history_review
-        patch '/review' => 'restructured_work_history/review#complete', as: :restructured_work_history_complete
+        patch '/review' => 'work_history/review#complete', as: :restructured_work_history_complete
       end
 
       scope '/school-experience' do
