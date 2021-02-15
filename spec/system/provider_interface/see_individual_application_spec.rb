@@ -183,7 +183,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   def and_i_should_see_the_candidates_work_history
-    within 'div[data-qa="work-history"]' do
+    within '[data-qa="work-history"]' do
       within 'section:eq(1)' do
         expect(page).to have_content 'Unexplained break (2 years and 1 month)'
         expect(page).to have_content 'February 2015 - March 2017'

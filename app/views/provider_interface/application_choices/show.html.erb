@@ -2,12 +2,12 @@
 
 <%= render ProviderInterface::ApplicationChoiceHeaderComponent.new(application_choice: @application_choice, provider_can_respond: @provider_can_respond) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) unless @offer_present %>
+<%= render ProviderInterface::StatusBoxComponent.new(application_choice: @application_choice, options: @status_box_options) unless @offer_present %>
 
-    <h2 class="govuk-heading-m govuk-!-margin-top-6 govuk-!-font-size-27">Application details</h2>
+<section class="app-section">
+  <h2 class="govuk-heading-m govuk-!-font-size-27">Application details</h2>
 
+  <div class="govuk-!-width-two-thirds">
     <%= render ProviderInterface::ApplicationSummaryComponent.new(application_form: @application_choice.application_form) %>
 
     <p class="govuk-body govuk-!-display-none-print">
@@ -17,47 +17,41 @@
         download: @application_choice.application_form.support_reference,
       ) %>
     </p>
-
-    <%= render ProviderInterface::PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
-
-    <% unless HostingEnvironment.production? %>
-      <%= render SandboxFeatureComponent.new(
-        description: "See what this application looks like from the candidate side by signing in as #{@application_choice.application_form.full_name}:",
-      ) do %>
-        <%= button_to 'Sign in as this candidate', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-button govuk-!-margin-bottom-0' %>
-      <% end %>
-    <% end %>
-
-    <%= render ProviderInterface::CourseDetailsComponent.new(application_choice: @application_choice) %>
-
-    <%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
-
-    <%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>
-
-    <%= render InterviewPreferencesComponent.new(application_form: @application_choice.application_form) %>
   </div>
-</div>
+</section>
+
+<%= render ProviderInterface::PersonalDetailsComponent.new(application_form: @application_choice.application_form) %>
+
+<% unless HostingEnvironment.production? %>
+  <div class="govuk-!-width-two-thirds">
+    <%= render SandboxFeatureComponent.new(
+      description: "See what this application looks like from the candidate side by signing in as #{@application_choice.application_form.full_name}:",
+    ) do %>
+      <%= button_to 'Sign in as this candidate', provider_interface_impersonate_candidate_path(@application_choice.application_form.candidate), class: 'govuk-button govuk-!-margin-bottom-0' %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render ProviderInterface::CourseDetailsComponent.new(application_choice: @application_choice) %>
+
+<%= render ProviderInterface::TrainingWithDisabilityComponent.new(application_form: @application_choice.application_form) %>
+
+<%= render ProviderInterface::SafeguardingDeclarationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>
+
+<%= render InterviewPreferencesComponent.new(application_form: @application_choice.application_form) %>
 
 <%= render QualificationsComponent.new(application_form: @application_choice.application_form, application_choice_state: @application_choice.status) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
+<%= render WorkHistoryComponent.new(application_form: @application_choice.application_form) %>
 
-    <%= render VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
+<%= render VolunteeringHistoryComponent.new(application_form: @application_choice.application_form) %>
 
-    <%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
+<%= render LanguageSkillsComponent.new(application_form: @application_choice.application_form) %>
 
-    <%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
+<%= render PersonalStatementComponent.new(application_form: @application_choice.application_form) %>
 
-    <% if @application_choice.application_form.application_references.feedback_provided.any? %>
-      <%= render 'references_context' %>
+<% if @application_choice.application_form.application_references.feedback_provided.any? %>
+  <%= render 'references' %>
+<% end %>
 
-      <% @application_choice.application_form.application_references.feedback_provided.each_with_index do |reference, i| %>
-        <%= render ProviderInterface::ReferenceWithFeedbackComponent.new(reference: reference, index: i) %>
-      <% end %>
-    <% end %>
-
-    <%= render ProviderInterface::DiversityInformationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>
-  </div>
-</div>
+<%= render ProviderInterface::DiversityInformationComponent.new(application_choice: @application_choice, current_provider_user: current_provider_user) %>

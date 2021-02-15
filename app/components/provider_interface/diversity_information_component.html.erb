@@ -1,29 +1,12 @@
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8" id="diversity-information">Diversity information</h2>
-<details class="govuk-details" data-module="govuk-details">
-  <summary class="govuk-details__summary govuk-!-display-none-print">
-    <span class="govuk-details__summary-text">
-      View guidance given to candidate
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <h2 class="govuk-heading-m"><%= t('equality_and_diversity.title') %></h2>
-    <p class="govuk-body">
-      The equality and diversity questionnaire is optional and has no impact on the progress of your application.
-    </p>
-    <p class="govuk-body">
-      We collect this data to reduce discrimination on the basis of sex, disability and ethnicity.
-    </p>
-    <p class="govuk-body">
-      Your data will only be shared with training providers when you have successfully completed your application.
-    </p>
-  </div>
-</details>
+<section class="app-section govuk-!-width-two-thirds">
+  <h2 class="govuk-heading-m govuk-!-font-size-27" id="diversity-information">Diversity information</h2>
 
-<% if display_diversity_information? -%>
-  <%= render SummaryListComponent.new(rows: rows) %>
-<% else -%>
-  <p class="govuk-body"><%= message %></p>
-  <% if diversity_information_declared? -%>
-    <p class="govuk-body"><%= details %></p>
+  <% if display_diversity_information? -%>
+    <%= render SummaryListComponent.new(rows: rows) %>
+  <% else -%>
+    <p class="govuk-body"><%= message %></p>
+    <% if diversity_information_declared? -%>
+      <p class="govuk-body"><%= details %></p>
+    <% end -%>
   <% end -%>
-<% end -%>
+</section>

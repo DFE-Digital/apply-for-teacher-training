@@ -1,51 +1,49 @@
-<div class="govuk-grid-column-full">
-  <h3 class="govuk-heading-m" id="degrees"><%= section_title %></h3>
+<h3 class="govuk-heading-m" id="degrees"><%= section_title %></h3>
 
-  <div class="govuk-grid">
-    <div class="govuk-grid-row app-grid-row--flex">
-      <% degrees.each do |degree| %>
-        <div class="govuk-grid-column-one-third">
-          <div class="app-card app-card--outline" data-qa="degree-qualification">
-            <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
-              <%= degree_type_and_subject(degree) %>
-            </h4>
-            <dl class="app-qualification">
-              <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
-              <dd class="app-qualification__value app-qualification__value--caption">
-                <%= degree.start_year %> to <%= degree.award_year %>
-              </dd>
+<div class="govuk-grid">
+  <div class="govuk-grid-row app-grid-row--flex">
+    <% degrees.each do |degree| %>
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card app-card--outline" data-qa="degree-qualification">
+          <h4 class="govuk-heading-s govuk-!-margin-bottom-1">
+            <%= degree_type_and_subject(degree) %>
+          </h4>
+          <dl class="app-qualification">
+            <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
+            <dd class="app-qualification__value app-qualification__value--caption">
+              <%= degree.start_year %> to <%= degree.award_year %>
+            </dd>
 
-              <dt class="app-qualification__key">Grade</dt>
-              <dd class="app-qualification__value"><%= formatted_grade(degree) %></dd>
+            <dt class="app-qualification__key">Grade</dt>
+            <dd class="app-qualification__value"><%= formatted_grade(degree) %></dd>
 
-              <dt class="app-qualification__key">Institution</dt>
-              <% if show_institution?(degree) %>
-                <dd class="app-qualification__value"><%= formatted_institution(degree) %></dd>
-              <% else %>
-                <dd class="app-qualification__value app-qualification__value--caption">Institution name is withheld at this stage to avoid any unconscious bias in favour of certain institutions.</dd>
+            <dt class="app-qualification__key">Institution</dt>
+            <% if show_institution?(degree) %>
+              <dd class="app-qualification__value"><%= formatted_institution(degree) %></dd>
+            <% else %>
+              <dd class="app-qualification__value app-qualification__value--caption">Institution name is withheld at this stage to avoid any unconscious bias in favour of certain institutions.</dd>
+            <% end %>
+
+            <% if naric(degree) %>
+              <dt class="app-qualification__key">Comparability</dt>
+              <dd class="app-qualification__value"><%= naric(degree) %></dd>
+            <% end %>
+
+            <% if show_hesa_codes? %>
+              <dt class="app-qualification__key">HESA codes</dt>
+              <% hesa_code_values(degree).each do |key, value| %>
+                <dd class="app-qualification__value govuk-!-margin-bottom-0">
+                  <%= key %>: <%= value %>
+                </dd>
               <% end %>
-
-              <% if naric(degree) %>
-                <dt class="app-qualification__key">Comparability</dt>
-                <dd class="app-qualification__value"><%= naric(degree) %></dd>
-              <% end %>
-
-              <% if show_hesa_codes? %>
-                <dt class="app-qualification__key">HESA codes</dt>
-                <% hesa_code_values(degree).each do |key, value| %>
-                  <dd class="app-qualification__value govuk-!-margin-bottom-0">
-                    <%= key %>: <%= value %>
-                  </dd>
-                <% end %>
-              <% end %>
-              <% if in_support_console? %>
-                <br>
-                <%= govuk_link_to 'Change', support_interface_application_form_edit_degree_path(degree_id: degree.id) %>
-              <% end %>
-            </dl>
-          </div>
+            <% end %>
+            <% if in_support_console? %>
+              <br>
+              <%= govuk_link_to 'Change', support_interface_application_form_edit_degree_path(degree_id: degree.id) %>
+            <% end %>
+          </dl>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </div>
 </div>

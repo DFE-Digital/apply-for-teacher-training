@@ -1,19 +1,7 @@
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8" id="work-history">Work history</h2>
-<details class="govuk-details" data-module="govuk-details">
-  <summary class="govuk-details__summary govuk-!-display-none-print">
-    <span class="govuk-details__summary-text">
-      View guidance given to candidate
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <h2 class="govuk-heading-m">Work history</h2>
-    <p class="govuk-body">Training providers need a complete picture of the last 5 years of of your work history, including time out of the workplace, to safeguard children.</p>
-    <p class="govuk-body">Breaks in work history won’t impact your application if you have a reasonable explanation for them (for example, parenting responsibilities, redundancy, illness or personal reasons such as study or travel).</p>
-  </div>
-</details>
+<section class="app-section govuk-!-width-two-thirds" data-qa="work-history">
+  <h2 class="govuk-heading-m govuk-!-font-size-27" id="work-history">Work history</h2>
 
-<div data-qa="work-history">
   <% history.each do |item| %>
     <%= render WorkHistoryItemComponent.new(item: item) %>
   <% end %>
-</div>
+</section>

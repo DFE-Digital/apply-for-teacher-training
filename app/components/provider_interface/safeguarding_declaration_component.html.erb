@@ -1,103 +1,86 @@
 <%= render ProviderInterface::PermissionsDebugCommentComponent.new(auth_analysis: @analysis) %>
 
-<h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8" id="criminal-convictions-and-professional-misconduct">Criminal convictions and professional misconduct</h2>
-<details class="govuk-details" data-module="govuk-details">
-  <summary class="govuk-details__summary govuk-!-display-none-print">
-    <span class="govuk-details__summary-text">
-      View guidance given to candidate
-    </span>
-  </summary>
-  <div class="govuk-details__text">
-    <h3 class="govuk-heading-m"><%= t('page_titles.suitability_to_work_with_children') %></h3>
-    <p class="govuk-body">Teacher training providers need to check that it’s safe for you to work with children and young people.</p>
-    <p class="govuk-body">As well as confirming your identity and your right to work in the UK, providers will check:</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>your criminal record in the UK (they’ll do an enhanced <a href="https://www.gov.uk/government/organisations/disclosure-and-barring-service/about#dbs-checks" class="govuk-link">DBS check)</a> and abroad where relevant</li>
-      <li>whether you’ve been banned from teaching or working with children</li>
-      <li>your professional behaviour, such as whether you’ve been removed from teacher training and what your referees say about you</li>
-    </ul>
-    <p class="govuk-body">Tell your provider about any potential safeguarding issues, such as offences, cautions, reprimands and final warnings. They can give advice about whether this will affect your application.</p>
-    <p class="govuk-body">It won’t necessarily stop you becoming a teacher.</p>
-  </div>
-</details>
+<section class="app-section govuk-!-width-two-thirds">
+  <h2 class="govuk-heading-m govuk-!-font-size-27" id="criminal-convictions-and-professional-misconduct">Criminal convictions and professional misconduct</h2>
 
-<% if message %><p class="govuk-body"><%= message %></p><% end %>
+  <% if message %><p class="govuk-body"><%= message %></p><% end %>
 
-<% if display_safeguarding_issues_details? %>
-  <details class="govuk-details govuk-!-margin-bottom-2" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        View information disclosed by the candidate
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <%= details %>
-    </div>
-  </details>
-<% elsif safeguarding_issues_declared? %>
-  <% if @analysis.provider_relationship_allows_access? %>
-    <p class="govuk-body">
-      The candidate has disclosed information related to safeguarding but you do not have permission to view sensitive material.
-    </p>
-  <% elsif @analysis.provider_relationship_has_been_set_up? %>
-    <% if @analysis.provider_user_has_user_level_access? %>
+  <% if display_safeguarding_issues_details? %>
+    <details class="govuk-details govuk-!-margin-bottom-2" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          View information disclosed by the candidate
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+        <%= details %>
+      </div>
+    </details>
+  <% elsif safeguarding_issues_declared? %>
+    <% if @analysis.provider_relationship_allows_access? %>
       <p class="govuk-body">
-        This candidate has disclosed information related to safeguarding.
+        The candidate has disclosed information related to safeguarding but you do not have permission to view sensitive material.
       </p>
-
-      <% if @analysis.provider_user_associated_with_training_provider? %>
+    <% elsif @analysis.provider_relationship_has_been_set_up? %>
+      <% if @analysis.provider_user_has_user_level_access? %>
         <p class="govuk-body">
-          You have permission to see safeguarding information for <%= @analysis.training_provider.name %>. However, <%= @analysis.training_provider.name %> does not have permission to see safeguarding information for applications to courses ratified by <%= @analysis.ratifying_provider.name %>.
+          This candidate has disclosed information related to safeguarding.
         </p>
+
+        <% if @analysis.provider_user_associated_with_training_provider? %>
+          <p class="govuk-body">
+            You have permission to see safeguarding information for <%= @analysis.training_provider.name %>. However, <%= @analysis.training_provider.name %> does not have permission to see safeguarding information for applications to courses ratified by <%= @analysis.ratifying_provider.name %>.
+          </p>
+        <% else %>
+          <p class="govuk-body">
+            You have permission to see safeguarding information for <%= @analysis.ratifying_provider.name %>. However, <%= @analysis.ratifying_provider.name %> does not have permission to see safeguarding information for applications to courses run by <%= @analysis.training_provider.name %>.
+          </p>
+        <% end %>
       <% else %>
         <p class="govuk-body">
-          You have permission to see safeguarding information for <%= @analysis.ratifying_provider.name %>. However, <%= @analysis.ratifying_provider.name %> does not have permission to see safeguarding information for applications to courses run by <%= @analysis.training_provider.name %>.
+          The candidate has disclosed information related to safeguarding but you do not have permission to view sensitive material.
         </p>
       <% end %>
     <% else %>
       <p class="govuk-body">
-        The candidate has disclosed information related to safeguarding but you do not have permission to view sensitive material.
+        The candidate has disclosed information related to safeguarding but you cannot see it.
       </p>
-    <% end %>
-  <% else %>
-    <p class="govuk-body">
-      The candidate has disclosed information related to safeguarding but you cannot see it.
-    </p>
 
-    <% if @analysis.provider_user_can_manage_organisations? && @analysis.provider_user_associated_with_training_provider? %>
-      <p class="govuk-body">
-        This is because you have not set up organisational permissions.
-        <%= govuk_link_to 'Set organisational permissions', @analysis.fix_org_permissions_path %>
-      </p>
-    <% elsif @analysis.training_provider_users_who_can_manage_organisations.present? %>
-      <% others = @analysis.training_provider_users_who_can_manage_organisations %>
-      <p class="govuk-body">
-        This is because organisational permissions have not been set up. Contact
-        <% if others.one? %>
-          <% user = others.first %>
-          <%= user.full_name %> at
-          <a class="govuk-link" href="mailto:<%= user.email_address %>">
-            <%= user.email_address %>
-          </a>.
-        <% else %>
-          one of the following people:
-          <ul class="govuk-list govuk-list--bullet">
-          <% others.each do |user| %>
-            <li>
-              <%= user.full_name %> at
-              <a class="govuk-link" href="mailto:<%= user.email_address %>">
-                <%= user.email_address %>
-              </a>
-            </li>
+      <% if @analysis.provider_user_can_manage_organisations? && @analysis.provider_user_associated_with_training_provider? %>
+        <p class="govuk-body">
+          This is because you have not set up organisational permissions.
+          <%= govuk_link_to 'Set organisational permissions', @analysis.fix_org_permissions_path %>
+        </p>
+      <% elsif @analysis.training_provider_users_who_can_manage_organisations.present? %>
+        <% others = @analysis.training_provider_users_who_can_manage_organisations %>
+        <p class="govuk-body">
+          This is because organisational permissions have not been set up. Contact
+          <% if others.one? %>
+            <% user = others.first %>
+            <%= user.full_name %> at
+            <a class="govuk-link" href="mailto:<%= user.email_address %>">
+              <%= user.email_address %>
+            </a>.
+          <% else %>
+            one of the following people:
+            <ul class="govuk-list govuk-list--bullet">
+            <% others.each do |user| %>
+              <li>
+                <%= user.full_name %> at
+                <a class="govuk-link" href="mailto:<%= user.email_address %>">
+                  <%= user.email_address %>
+                </a>
+              </li>
+            <% end %>
+            </ul>
           <% end %>
-          </ul>
-        <% end %>
-      </p>
-    <% else %>
-      <p class="govuk-body">
-        This is because organisational permissions have not been set up.
-        Contact support at becomingateacher@digital.education.gov.uk
-      </p>
+        </p>
+      <% else %>
+        <p class="govuk-body">
+          This is because organisational permissions have not been set up.
+          Contact support at <%= bat_contact_mail_to %>
+        </p>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+</section>
