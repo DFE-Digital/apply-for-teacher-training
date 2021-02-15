@@ -10,9 +10,13 @@ module ProviderInterface
         course_option_id: @application_choice.offered_option.id,
       )
 
-      @interviews = @application_choice.interviews.kept.includes([:provider])
+      interviews = @application_choice.interviews.kept.includes(:provider).order(:date_and_time)
 
-      redirect_to provider_interface_application_choice_path if @interviews.none?
+      @upcoming_interviews, @past_interviews = interviews.partition do |interview|
+        interview.date_and_time > Time.zone.now
+      end
+
+      redirect_to provider_interface_application_choice_path if interviews.none?
     end
 
     def new
