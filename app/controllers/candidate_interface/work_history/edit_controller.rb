@@ -1,7 +1,5 @@
 module CandidateInterface
-  class WorkHistory::EditController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
-
+  class WorkHistory::EditController < WorkHistory::BaseController
     def new
       @work_experience_form = if params[:start_date] && params[:end_date]
                                 start_date = params[:start_date].to_date

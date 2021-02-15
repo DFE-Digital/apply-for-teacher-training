@@ -1,7 +1,5 @@
 module CandidateInterface
-  class WorkHistory::BreakController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
-
+  class WorkHistory::BreakController < WorkHistory::BaseController
     def new
       @work_break = if params[:start_date] && params[:end_date]
                       start_date = params[:start_date].to_date

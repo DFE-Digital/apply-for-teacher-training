@@ -1,6 +1,6 @@
 module CandidateInterface
-  class WorkHistory::BreaksController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
+  class WorkHistory::BreaksController < WorkHistory::BaseController
+    before_action :redirect_to_restructured_work_history_when_candidate_should_use_new_flow
 
     def edit
       @work_breaks_form = WorkBreaksForm.build_from_application(

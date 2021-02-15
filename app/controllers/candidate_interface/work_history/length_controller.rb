@@ -1,7 +1,5 @@
 module CandidateInterface
-  class WorkHistory::LengthController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
-
+  class WorkHistory::LengthController < WorkHistory::BaseController
     def show
       @work_details_form = WorkHistoryForm.new
       current_application.update!(feature_restructured_work_history: false)

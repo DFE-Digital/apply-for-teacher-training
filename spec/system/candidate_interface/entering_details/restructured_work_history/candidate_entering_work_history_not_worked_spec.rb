@@ -7,10 +7,11 @@ RSpec.feature 'Entering their work history' do
     FeatureFlag.activate(:restructured_work_history)
 
     given_i_am_signed_in
-    and_i_visit_the_site
 
-    when_i_click_on_work_history
-    and_i_choose_i_do_not_have_any_work_history
+    when_i_try_and_visit_the_old_work_history_flow
+    then_i_should_see_the_start_page
+
+    when_i_choose_i_do_not_have_any_work_history
     and_i_provide_my_reason_for_not_having_worked
     then_i_should_see_the_work_history_review_page
 
@@ -30,15 +31,15 @@ RSpec.feature 'Entering their work history' do
     create_and_sign_in_candidate
   end
 
-  def and_i_visit_the_site
-    visit candidate_interface_application_form_path
+  def when_i_try_and_visit_the_old_work_history_flow
+    visit candidate_interface_work_history_length_path
   end
 
-  def when_i_click_on_work_history
-    click_link t('page_titles.work_history')
+  def then_i_should_see_the_start_page
+    expect(page).to have_current_path candidate_interface_restructured_work_history_path
   end
 
-  def and_i_choose_i_do_not_have_any_work_history
+  def when_i_choose_i_do_not_have_any_work_history
     choose t('application_form.work_history.missing.label')
     click_button t('continue')
   end
