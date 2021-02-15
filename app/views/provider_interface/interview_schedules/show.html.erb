@@ -20,7 +20,7 @@
         <% end %>
       </div>
       <%= render(PaginatorComponent.new(scope: @interviews)) %>
-    <% elsif @grouped_interviews.empty? %>
+    <% else %>
       <p>No upcoming interviews</p>
     <% end %>
   </div>
