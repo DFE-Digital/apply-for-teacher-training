@@ -5,11 +5,18 @@ module TeacherTrainingPublicAPI
       @recruitment_cycle_year = recruitment_cycle_year
     end
 
-    def call(run_in_background: true)
-      provider = create_or_update_provider(
-        provider_attrs_from(@provider_from_api),
-      )
+    def call(run_in_background: true, force_sync_courses: false)
+      @force_sync_courses = force_sync_courses
 
+      provider_attrs = if existing_provider
+                         provider_attrs_from(@provider_from_api)
+                       else
+                         provider_attrs_from(@provider_from_api).merge(
+                           sync_courses: force_sync_courses,
+                         )
+                       end
+
+      provider = create_or_update_provider(provider_attrs)
       sync_courses(run_in_background, provider)
     end
 
@@ -18,7 +25,7 @@ module TeacherTrainingPublicAPI
         if run_in_background
           TeacherTrainingPublicAPI::SyncCourses.perform_async(provider.id, @recruitment_cycle_year)
         else
-          TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year)
+          TeacherTrainingPublicAPI::SyncCourses.new.perform(provider.id, @recruitment_cycle_year, run_in_background: false)
         end
       end
     end
@@ -26,12 +33,12 @@ module TeacherTrainingPublicAPI
   private
 
     def sync_courses?
-      @sync_courses || existing_provider&.sync_courses
+      @force_sync_courses || existing_provider&.sync_courses
     end
 
     def provider_attrs_from(provider_from_api)
       {
-        sync_courses: sync_courses? || false,
+        sync_courses: sync_courses?,
         region_code: provider_from_api.region_code&.strip,
         postcode: provider_from_api.postcode&.strip,
         name: provider_from_api.name,
@@ -52,7 +59,7 @@ module TeacherTrainingPublicAPI
 
         existing_provider
       else
-        ::Provider.new(attrs.merge(code: @provider_from_api.code)).save!
+        ::Provider.create!(attrs.merge(code: @provider_from_api.code))
       end
     end
   end
