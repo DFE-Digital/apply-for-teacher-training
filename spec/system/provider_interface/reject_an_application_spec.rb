@@ -25,6 +25,9 @@ RSpec.describe 'Reject an application' do
     and_i_submit_the_reasons_for_rejection
     then_i_can_see_the_reasons_why_the_application_was_rejected
 
+    and_when_i_click_back_link_in_the_browser
+    then_i_can_see_that_the_application_has_already_been_rejected
+
     and_there_is_a_timeline_entry
     and_there_is_an_activity_log_entry
   end
@@ -197,6 +200,15 @@ RSpec.describe 'Reject an application' do
     expect(page).to have_content("Don't sing 'Run to the Hills' at the start of the interview")
     expect(page).to have_content('Honesty and professionalism')
     expect(page).to have_content('We cannot accept references from your gran')
+  end
+
+  def and_when_i_click_back_link_in_the_browser
+    visit provider_interface_reasons_for_rejection_check_path(@application_choice)
+  end
+
+  def then_i_can_see_that_the_application_has_already_been_rejected
+    expect(page).to have_current_path(provider_interface_application_choice_feedback_path(@application_choice))
+    expect(page).to have_content('This application has already been rejected.')
   end
 
   def and_there_is_a_timeline_entry

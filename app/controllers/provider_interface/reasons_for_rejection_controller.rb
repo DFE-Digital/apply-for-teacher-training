@@ -1,7 +1,7 @@
 module ProviderInterface
   class ReasonsForRejectionController < ProviderInterfaceController
     before_action :set_application_choice
-    before_action :redirect_if_application_aleady_rejected_manually, except: :commit
+    before_action :redirect_if_application_rejected_and_feedback_provided
     before_action :ensure_structured_reasons_for_rejection_on_rbd_feature_is_active
 
     def edit_initial_questions
@@ -113,13 +113,15 @@ module ProviderInterface
       WizardStateStores::RedisStore.new(key: key)
     end
 
-    def redirect_if_application_aleady_rejected_manually
-      return if rbd_application_with_no_feedback?
+    def redirect_if_application_rejected_and_feedback_provided
+      if @application_choice&.rejected? && !@application_choice.no_feedback?
+        if @application_choice.rejected_by_default?
+          flash[:warning] = 'The feedback for this application has already been provided.'
+        else
+          flash[:warning] = 'This application has already been rejected.'
+        end
 
-      if @application_choice&.rejected?
-        flash[:warning] = 'This application has already been rejected.'
-
-        redirect_to provider_interface_application_choice_path(@application_choice)
+        redirect_to provider_interface_application_choice_feedback_path(@application_choice)
       end
     end
 
