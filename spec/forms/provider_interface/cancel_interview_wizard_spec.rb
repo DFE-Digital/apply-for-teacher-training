@@ -6,5 +6,6 @@ RSpec.describe ProviderInterface::CancelInterviewWizard do
 
   describe '.validations' do
     it { is_expected.to validate_presence_of(:cancellation_reason) }
+    it { is_expected.to validate_length_of(:cancellation_reason).is_at_most(10240) }
   end
 end
