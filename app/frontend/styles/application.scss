@@ -40,17 +40,17 @@ $moj-images-path: "~@ministryofjustice/frontend/moj/assets/images/";
 @import "_application-card";
 @import "_autocomplete";
 @import "_banner";
+@import "_button";
 @import "_card";
 @import "_contents-list";
 @import "_diagram";
+@import "_feedback";
 @import "_flex-grid";
 @import "_grid";
 @import "_qualification";
 @import "_section";
 @import "_status-box";
 @import "_summary-card";
-@import "_feedback";
-@import "_cookies-banner";
 
 // Override utilities
 @import "_overrides";

@@ -1,8 +1,9 @@
 <%= render 'support_interface/providers/providers_navigation', title: 'Provider users' %>
 
-<%= govuk_button_link_to 'Add provider user', new_support_interface_provider_user_path %>
-
-<%= govuk_button_link_to 'Download active provider users (CSV)', "#{new_support_interface_data_export_path}#providers_export", class: 'govuk-button--secondary' %>
+<div class="govuk-button-group">
+  <%= govuk_button_link_to 'Add provider user', new_support_interface_provider_user_path %>
+  <%= govuk_button_link_to 'Download active provider users (CSV)', "#{new_support_interface_data_export_path}#providers_export", class: 'govuk-button--secondary' %>
+</div>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @provider_users) do %>
   <%= render(SupportInterface::ProviderUsersTableComponent.new(provider_users: @provider_users)) %>
