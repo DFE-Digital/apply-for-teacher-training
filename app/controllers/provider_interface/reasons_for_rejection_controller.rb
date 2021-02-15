@@ -130,7 +130,7 @@ module ProviderInterface
   private
 
     def rbd_application_with_no_feedback?
-      @application_choice.rejected_by_default? && @application_choice.rejection_reason.blank?
+      @application_choice.rejected_by_default? && @application_choice.no_feedback?
     end
   end
 end

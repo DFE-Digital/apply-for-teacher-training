@@ -40,7 +40,7 @@ module ProviderInterface
     def requires_rbd_application_with_no_feedback
       return if @application_choice.status == 'rejected' &&
         @application_choice.rejected_by_default &&
-        @application_choice.rejection_reason.blank?
+        @application_choice.no_feedback?
 
       redirect_to provider_interface_application_choice_path(
         application_choice_id: @application_choice.id,

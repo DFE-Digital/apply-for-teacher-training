@@ -132,8 +132,8 @@ class ApplicationChoice < ApplicationRecord
     application_form.application_choices
   end
 
-  def feedback_provided?
-    rejection_reason.present? || structured_rejection_reasons.present?
+  def no_feedback?
+    rejection_reason.blank? && structured_rejection_reasons.blank?
   end
 
 private
