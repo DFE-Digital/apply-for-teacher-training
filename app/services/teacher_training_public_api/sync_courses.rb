@@ -1,12 +1,13 @@
 module TeacherTrainingPublicAPI
   class SyncCourses
-    attr_reader :provider
+    attr_reader :provider, :run_in_background
 
     include Sidekiq::Worker
     sidekiq_options retry: 3, queue: :low_priority
 
-    def perform(provider_id, recruitment_cycle_year)
+    def perform(provider_id, recruitment_cycle_year, run_in_background: true)
       @provider = ::Provider.find(provider_id)
+      @run_in_background = run_in_background
 
       TeacherTrainingPublicAPI::Course.where(
         year: recruitment_cycle_year,
@@ -32,7 +33,11 @@ module TeacherTrainingPublicAPI
       add_accredited_provider(course, course_from_api[:accredited_body_code], recruitment_cycle_year)
       course.save!
 
-      TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id)
+      if run_in_background
+        TeacherTrainingPublicAPI::SyncSites.perform_async(provider.id, recruitment_cycle_year, course.id)
+      else
+        TeacherTrainingPublicAPI::SyncSites.new.perform(provider.id, recruitment_cycle_year, course.id)
+      end
     end
 
     def assign_course_attributes(course, course_from_api, recruitment_cycle_year)
