@@ -36,12 +36,17 @@ en:
   helpers:
     label:
       provider_interface_interview_wizard:
+        time: Time
         location: Address or online meeting details
-        additional_details: Additional details (optional)
+        additional_details: Additional details
     hint:
       provider_interface_interview_wizard:
         date: For example, 31 3 2020
         time: For example, 9am or 2:30pm - enter 12pm for midday
+    legend:
+      provider_interface_interview_wizard:
+        date: Date
+        provider_id: Organisation carrying out interview
   activemodel:
     errors:
       models:

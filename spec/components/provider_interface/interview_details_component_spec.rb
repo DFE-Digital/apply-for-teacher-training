@@ -16,34 +16,70 @@ RSpec.describe ProviderInterface::InterviewDetailsComponent do
       application_choice: application_choice,
     )
   end
-  let(:render) { render_inline(described_class.new(interview_form)).text }
+  let(:render) { render_inline(described_class.new(interview_form)) }
 
   it 'renders the interview date' do
-    expect(render).to include('12 January 2020')
+    date_row = find_table_row('Date')
+    expect(date_row.text).to include('12 January 2020')
   end
 
   it 'renders the interview time' do
-    expect(render).to include('3:30pm')
+    time_row = find_table_row('Time')
+    expect(time_row.text).to include('3:30pm')
   end
 
   it 'renders the provider name' do
-    expect(render).to include('Teaching School')
+    provider_row = find_table_row('Organisation carrying out interview')
+    expect(provider_row.text).to include('Teaching School')
   end
 
   it 'renders the interview location' do
-    expect(render).to include('Zoom')
+    location_row = find_table_row('Address or online meeting details')
+    expect(location_row.text).to include('Zoom')
   end
 
   it 'renders additional_details' do
-    expect(render).to include('Do not be late')
+    additional_details_row = find_table_row('Additional details')
+    expect(additional_details_row.text).to include('Do not be late')
   end
 
   context 'no additional_details are set' do
     let(:additional_details) { '' }
 
     it 'renders None in the additional details row' do
-      expect(render).to include('Additional details')
-      expect(render).to include('None')
+      additional_details_row = find_table_row('Additional details')
+      expect(additional_details_row.text).to include('None')
     end
+  end
+
+  describe 'renders change links with the correct anchor for' do
+    it 'date' do
+      date_row = find_table_row('Date')
+      expect(date_row.css('a').attr('href').value).to eq('/provider/applications/1/interviews/new#provider_interface_interview_wizard_date_3i')
+    end
+
+    it 'time' do
+      time_row = find_table_row('Time')
+      expect(time_row.css('a').attr('href').value).to eq('/provider/applications/1/interviews/new#provider-interface-interview-wizard-time-field')
+    end
+
+    it 'provider' do
+      provider_row = find_table_row('Organisation carrying out interview')
+      expect(provider_row.css('a').attr('href').value).to eq("/provider/applications/1/interviews/new#provider-interface-interview-wizard-provider-id-#{provider.id}-field")
+    end
+
+    it 'location' do
+      location_row = find_table_row('Address or online meeting details')
+      expect(location_row.css('a').attr('href').value).to eq('/provider/applications/1/interviews/new#provider-interface-interview-wizard-location-field')
+    end
+
+    it 'additional_details' do
+      additional_details_row = find_table_row('Additional details')
+      expect(additional_details_row.css('a').attr('href').value).to eq('/provider/applications/1/interviews/new#provider-interface-interview-wizard-additional-details-field')
+    end
+  end
+
+  def find_table_row(key)
+    render.css('.govuk-summary-list__row').select { |row| row.to_html.include?(key) }.first
   end
 end
