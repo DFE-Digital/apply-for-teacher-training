@@ -76,6 +76,8 @@ module ViewHelper
       draggable: false,
     }.merge(html_options)
 
+    return button_to(name, options, html_options) { yield } if block_given?
+
     button_to(name, options, html_options)
   end
 
