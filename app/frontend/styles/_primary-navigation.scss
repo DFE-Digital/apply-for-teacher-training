@@ -1,0 +1,104 @@
+.app-primary-navigation {
+  background-color: govuk-colour("light-grey");
+}
+
+.app-primary-navigation__container {
+  @include govuk-width-container;
+  font-size: 0; // Hide whitespace between elements
+  text-align: justify; // Trick to remove the need for floats
+
+  &:after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+  }
+
+}
+
+.app-primary-navigation__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  @include govuk-clearfix;
+}
+
+.app-primary-navigation__item {
+  @include govuk-font($size: 19);
+  margin-right: govuk-spacing(3);
+  float: left;
+  margin-top: 0;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  @include govuk-media-query($from: tablet) {
+    margin-right: govuk-spacing(4);
+  }
+
+}
+
+.app-primary-navigation__item--align-right {
+  @include govuk-media-query($from: tablet) {
+    float: right;
+  }
+}
+
+.app-primary-navigation__link {
+  display: block;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:link,
+  &:visited {
+    color: govuk-colour("blue");
+  }
+
+  &:focus {
+    color: govuk-colour("black"); // Focus colour on yellow should really be black.
+    position: relative; // Ensure focus sits above everything else.
+    z-index: 1;
+    box-shadow: none;
+  }
+
+  &:hover {
+    color: $govuk-link-hover-colour;
+  }
+
+  &[aria-current] {
+    color: govuk-colour("blue");
+    position: relative;
+    text-decoration: none;
+    font-weight: bold;
+    &:before {
+      background-color: govuk-colour("blue");
+      content: "";
+      display: block;
+      height: 5px;
+      position: absolute; bottom: 0; left: 0;
+      width: 100%;
+    }
+
+    &:focus {
+      color: govuk-colour("black"); // Focus colour on yellow should really be black.
+      position: relative; // Ensure focus sits above everything else.
+      border: none;
+
+      &:before {
+        background-color: govuk-colour("black");
+      }
+
+    }
+
+    &:hover {
+      color: $govuk-link-hover-colour;
+      &:before {
+        background-color: $govuk-link-hover-colour;
+      }
+    }
+
+  }
+
+}

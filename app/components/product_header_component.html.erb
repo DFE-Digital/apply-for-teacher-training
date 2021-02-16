@@ -23,9 +23,9 @@
     </div>
     <div class="govuk-header__content app-header__content--provider">
       <% if navigation_items.any? %>
-        <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
-        <nav>
-          <ul id="navigation" class="govuk-header__navigation govuk-header__navigation--end govuk-!-display-none-print" aria-label="Top Level Navigation">
+        <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="show or hide account navigation">Menu</button>
+        <nav aria-label="account menu">
+          <ul id="navigation" class="govuk-header__navigation govuk-header__navigation--end govuk-!-display-none-print">
             <% navigation_items.each do |nav_item| %>
               <li class="govuk-header__navigation-item <%= nav_item.active ? 'govuk-header__navigation-item--active' : '' %>">
                 <% if nav_item.href %>
