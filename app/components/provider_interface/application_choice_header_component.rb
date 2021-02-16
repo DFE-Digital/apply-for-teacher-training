@@ -90,10 +90,9 @@ module ProviderInterface
     end
 
     def show_inset_text?
-      flash.empty? && (
-        respond_to_application? || deferred_offer_wizard_applicable? ||
-        rejection_reason_required? || provider_cannot_respond?
-      ) || waiting_for_interview?
+      respond_to_application? || deferred_offer_wizard_applicable? ||
+        rejection_reason_required? || provider_cannot_respond? ||
+        waiting_for_interview?
     end
   end
 end
