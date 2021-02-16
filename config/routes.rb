@@ -169,8 +169,8 @@ Rails.application.routes.draw do
       end
 
       scope '/contact-information' do
-        get '/' => 'contact_details/base#edit', as: :contact_information_edit_base
-        patch '/' => 'contact_details/base#update'
+        get '/' => 'contact_details/phone_number#edit', as: :contact_information_edit_phone_number
+        patch '/' => 'contact_details/phone_number#update'
 
         get '/address-type' => 'contact_details/address_type#edit', as: :contact_information_edit_address_type
         patch '/address-type' => 'contact_details/address_type#update'
