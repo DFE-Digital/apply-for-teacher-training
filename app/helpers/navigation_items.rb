@@ -1,5 +1,5 @@
 class NavigationItems
-  NavigationItem = Struct.new(:text, :href, :active)
+  NavigationItem = Struct.new(:text, :href, :active, :classes)
 
   class << self
     include Rails.application.routes.url_helpers
@@ -61,7 +61,7 @@ class NavigationItems
         end
 
         if FeatureFlag.active?(:export_application_data) || FeatureFlag.active?(:export_hesa_data)
-          items << NavigationItem.new('Export data', provider_interface_new_application_data_export_path, is_active(current_controller, %w[application_data_export hesa_export]))
+          items << NavigationItem.new('Export data', provider_interface_new_application_data_export_path, is_active(current_controller, %w[application_data_export hesa_export]), 'app-primary-navigation__item--align-right')
         end
       end
 

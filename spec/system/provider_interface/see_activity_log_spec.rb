@@ -55,7 +55,7 @@ RSpec.feature 'See activity log' do
   end
 
   def and_i_should_see_the_applications_menu_item_highlighted
-    link = page.find_link('Applications', class: 'moj-primary-navigation__link')
+    link = page.find_link('Applications', class: 'app-primary-navigation__link')
     expect(link['aria-current']).to eq('page')
   end
 
