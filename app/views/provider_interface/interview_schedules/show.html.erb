@@ -1,12 +1,12 @@
-<% content_for :browser_title, 'Interview schedule - Upcoming interviews' %>
+<% content_for :browser_title, "Interview schedule - #{t('provider_interface.interviews.upcoming')}" %>
 
 <div class="govuk-grid-row govuk-body">
   <div class="govuk-grid-column-two-third">
     <h1 class="govuk-heading-l">Interview schedule</h1>
 
     <%= render TabNavigationComponent.new(items: [
-      { name: 'Upcoming interviews', url: provider_interface_interview_schedule_path },
-      { name: 'Past interviews', url: past_provider_interface_interview_schedule_path },
+      { name: t('provider_interface.interviews.upcoming'), url: provider_interface_interview_schedule_path },
+      { name: t('provider_interface.interviews.past'), url: past_provider_interface_interview_schedule_path },
     ]) %>
     <% if @grouped_interviews.any? %>
       <div class="app-interviews">

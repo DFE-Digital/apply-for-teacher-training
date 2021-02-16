@@ -12,7 +12,7 @@
 
       <% if @upcoming_interviews.any? %>
         <h2 class="govuk-heading-m">
-          Upcoming interviews
+          <%= t('provider_interface.interviews.upcoming') %>
         </h2>
 
         <% @upcoming_interviews.each do |interview| %>
@@ -22,7 +22,7 @@
 
       <% if @past_interviews.any? %>
         <h2 class="govuk-heading-m">
-          Past interviews
+          <%= t('provider_interface.interviews.past') %>
         </h2>
 
         <% @past_interviews.each do |interview| %>
