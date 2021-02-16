@@ -97,8 +97,8 @@ RSpec.describe ProviderInterface::InterviewWizard do
       end
 
       context 'checks if the time is in the correct format' do
-        let(:invalid_times) { %w[noon 1700 12:30 12:3pm 1800pm 6767] }
-        let(:valid_times) { %w[12:30pm 2pm 1.30am 01.24AM 3\ 30am] }
+        let(:invalid_times) { ['noon', '1700', '12:30', '12:3pm', '1800pm', '30am', '800am', '140am', '9 am', '14pm', '6767'] }
+        let(:valid_times) { ['12:30pm', '2pm', '1.30am', '01.24AM', '09am', '9:00am', '9 00am', '9am', '9:30am', '9 30am', '9.30am'] }
 
         it 'the wizard is invalid and contains the right error when time is invalid' do
           invalid_times.each do |time|
@@ -157,17 +157,39 @@ RSpec.describe ProviderInterface::InterviewWizard do
   end
 
   describe '#date_and_time' do
-    let(:time) { '4:30pm' }
     let(:day) { '20' }
     let(:month) { '2' }
     let(:year) { '2022' }
+    let(:valid_times) do
+      [
+        { input: '12:30pm', expected_hour: 12, expected_minute: 30 },
+        { input: '2pm', expected_hour: 14, expected_minute: 0 },
+        { input: '2:30pm', expected_hour: 14, expected_minute: 30 },
+        { input: '2 30pm', expected_hour: 14, expected_minute: 30 },
+        { input: '2.30pm', expected_hour: 14, expected_minute: 30 },
+        { input: '1.30am', expected_hour: 1, expected_minute: 30 },
+        { input: '01.24AM', expected_hour: 1, expected_minute: 24 },
+        { input: '09am', expected_hour: 9, expected_minute: 0 },
+        { input: '9:00am', expected_hour: 9, expected_minute: 0 },
+        { input: '9 00am', expected_hour: 9, expected_minute: 0 },
+        { input: '9am', expected_hour: 9, expected_minute: 0 },
+        { input: '9:30am', expected_hour: 9, expected_minute: 30 },
+        { input: '9 30am', expected_hour: 9, expected_minute: 30 },
+        { input: '9.30am', expected_hour: 9, expected_minute: 30 },
+      ]
+    end
 
-    it 'converts the :date and :time to valid datetime' do
-      expect(wizard.date_and_time.hour).to equal(16)
-      expect(wizard.date_and_time.min).to equal(30)
-      expect(wizard.date_and_time.day).to equal(20)
-      expect(wizard.date_and_time.month).to equal(2)
-      expect(wizard.date_and_time.year).to equal(2022)
+    context 'when the time format is valid' do
+      it 'converts the :date and :time to valid datetime' do
+        valid_times.each do |time|
+          wizard.time = time[:input]
+          expect(wizard.date_and_time.hour).to equal(time[:expected_hour])
+          expect(wizard.date_and_time.min).to equal(time[:expected_minute])
+          expect(wizard.date_and_time.day).to equal(20)
+          expect(wizard.date_and_time.month).to equal(2)
+          expect(wizard.date_and_time.year).to equal(2022)
+        end
+      end
     end
   end
 
