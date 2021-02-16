@@ -43,11 +43,21 @@ module CandidateInterface
             courseCode: @apply_on_ucas_or_apply.course_code,
           )
         else
-          redirect_to UCAS.apply_url
+          redirect_to candidate_interface_apply_with_ucas_interstitial_path(
+            provider_code: @apply_on_ucas_or_apply.provider_code,
+            course_code: @apply_on_ucas_or_apply.course_code,
+          )
         end
       else
         render :apply_on_ucas_or_apply
       end
+    end
+
+    def ucas_interstitial
+      set_service_and_course(
+        ucas_interstitial_params[:provider_code],
+        ucas_interstitial_params[:course_code],
+      )
     end
 
   private
@@ -61,6 +71,10 @@ module CandidateInterface
 
     def render_not_found
       render :not_found, status: :not_found
+    end
+
+    def ucas_interstitial_params
+      params.permit(:provider_code, :course_code)
     end
 
     def apply_on_ucas_or_apply_params

@@ -11,7 +11,7 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
 
     when_i_arrive_from_find_to_a_course_that_is_ucas_only
     then_i_should_see_the_landing_page
-    and_i_should_see_the_provider_and_course_codes
+    and_i_should_see_the_provider_and_course_codes_for_course_only_on_ucas
     and_i_should_see_the_course_name
     then_i_should_be_able_to_apply_through_ucas_only
     and_i_should_see_locations_info_for_a_synced_course
@@ -33,6 +33,13 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     when_i_choose_to_apply_through_apply
     and_i_confirm_i_am_not_already_signed_up
     then_i_see_the_sign_up_page
+
+    when_i_arrive_from_find_to_a_course_that_is_open_on_apply
+    and_i_choose_to_apply_through_ucas
+    then_i_should_see_an_interstitial_page
+    and_i_should_see_the_provider_and_course_codes_for_course_on_apply
+    and_i_should_see_location_details
+    and_i_should_see_a_link_to_ucas
 
     given_the_pilot_is_not_open
     when_i_arrive_from_find_to_a_course_that_is_open_on_apply
@@ -70,8 +77,12 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def when_i_arrive_from_find_to_a_course_that_is_open_on_apply
-    @course_on_apply = create(:course, exposed_in_find: true, open_on_apply: true, name: 'Potions')
-    visit candidate_interface_apply_from_find_path providerCode: @course_on_apply.provider.code, courseCode: @course_on_apply.code
+    unless @course_on_apply
+      @course_on_apply = create(:course, exposed_in_find: true, open_on_apply: true, code: 'DEF1', name: 'Potions', provider: create(:provider, code: 'DEF'))
+      @course_options_on_apply = create_list(:course_option, 3, course: @course_on_apply)
+    end
+    stub_find_api_course_200(@course_on_apply.provider.code, @course_on_apply.code, 'Potions')
+    visit candidate_interface_apply_from_find_path providerCode: 'DEF', courseCode: 'DEF1'
   end
 
   def then_i_should_see_the_landing_page
@@ -79,9 +90,14 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     expect(page).to have_link href: candidate_interface_apply_from_find_path(providerCode: 'ABC', courseCode: 'XYZ1')
   end
 
-  def and_i_should_see_the_provider_and_course_codes
+  def and_i_should_see_the_provider_and_course_codes_for_course_only_on_ucas
     expect(page).to have_content 'ABC'
     expect(page).to have_content 'XYZ1'
+  end
+
+  def and_i_should_see_the_provider_and_course_codes_for_course_on_apply
+    expect(page).to have_content 'DEF'
+    expect(page).to have_content 'DEF1'
   end
 
   def and_i_should_see_the_course_name
@@ -123,6 +139,12 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
     click_button t('continue')
   end
 
+  def and_i_choose_to_apply_through_ucas
+    choose 'No, I want to apply with UCAS'
+
+    click_button t('continue')
+  end
+
   def and_i_confirm_i_am_not_already_signed_up
     choose 'No, I need to create an account'
     click_button t('continue')
@@ -148,5 +170,21 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
       expect(table_data.first).to have_content 'Site for a UCAS-only course'
       expect(table_data.last).to have_content 'OOO'
     end
+  end
+
+  def then_i_should_see_an_interstitial_page
+    expect(page).to have_content('Apply for this course with UCAS')
+  end
+
+  def and_i_should_see_location_details
+    @course_on_apply.course_options.includes(:site).each do |course_option|
+      expect(page).to have_content(course_option.site.name)
+      expect(page).to have_content(course_option.site.code)
+      expect(page).to have_content(course_option.site.full_address)
+    end
+  end
+
+  def and_i_should_see_a_link_to_ucas
+    expect(page).to have_link(href: UCAS.apply_url)
   end
 end
