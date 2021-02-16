@@ -43,6 +43,10 @@ serve: ## Run the service
 ci.lint-ruby: ## Run Rubocop with results formatted for CI
 	docker-compose run --rm web /bin/sh -c "bundle exec rubocop --format clang --parallel"
 
+.PHONY: ci.lint-erb
+ci.lint-erb: ## Run the ERB linter
+	docker-compose run --rm web /bin/sh -c "bundle exec rake erblint"
+
 .PHONY: ci.brakeman
 ci.brakeman: ## Run Brakeman tests
 	docker-compose run --rm web /bin/sh -c "bundle exec rake brakeman"

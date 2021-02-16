@@ -152,7 +152,7 @@ stages:
   - group: APPLY - ENV - QA
   jobs:
   - job: test_docker_image_batch_1
-    displayName: 'Rubocop & Brakeman'
+    displayName: 'Rubocop, Brakeman, ERB lint'
     condition: and(succeeded(), eq(variables['deployOnly'], false))
     pool:
       vmImage: 'Ubuntu-16.04'
@@ -195,6 +195,20 @@ stages:
     - script: make ci.lint-ruby
       name: ci_lint_ruby
       displayName: 'Rubocop'
+      env:
+        dockerHubUsername: $(dockerHubUsername)
+        dockerHubImageName: $(imageName)
+        dockerHubImageTag: $(Build.BuildNumber)
+        RAILS_ENV: test
+        GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
+        AUTHORISED_HOSTS: $(authorisedHosts)
+        FIND_BASE_URL: $(findBaseUrl)
+        GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
+        SANDBOX: $(sandbox)
+
+    - script: make ci.lint-erb
+      name: ci_lint_erb
+      displayName: 'ERB lint'
       env:
         dockerHubUsername: $(dockerHubUsername)
         dockerHubImageName: $(imageName)

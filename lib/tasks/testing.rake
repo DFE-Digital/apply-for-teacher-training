@@ -41,8 +41,13 @@ task :rubocop do
   sh 'bundle exec rubocop --parallel'
 end
 
+desc 'Run ERB Lint'
+task :erblint do
+  sh 'bundle exec erblint --lint-all'
+end
+
 desc 'Run all the linters'
-task linting: %i[rubocop]
+task linting: %i[rubocop erblint]
 
 desc 'Compile assets for testing'
 task :compile_assets do
