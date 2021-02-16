@@ -1,5 +1,5 @@
 module CandidateInterface
-  class ContactDetails::BaseController < CandidateInterfaceController
+  class ContactDetails::PhoneNumberController < CandidateInterfaceController
     before_action :redirect_to_dashboard_if_submitted
 
     def edit
