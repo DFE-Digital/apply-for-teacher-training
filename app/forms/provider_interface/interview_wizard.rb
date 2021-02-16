@@ -102,7 +102,7 @@ module ProviderInterface
       wizard.send('date(3i)=', interview.date_and_time.day) if wizard.send('date(3i)').blank?
       wizard.location ||= interview.location
       wizard.provider_id ||= interview.provider_id
-      wizard.time ||= interview.date_and_time.strftime('%l:%M%P')
+      wizard.time ||= interview.date_and_time.strftime('%-l:%M%P')
 
       wizard
     end

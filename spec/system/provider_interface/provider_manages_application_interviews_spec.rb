@@ -34,6 +34,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_can_set_up_another_interview(days_in_future: 2)
     and_another_interview_has_been_created('3 March 2020')
 
+    when_the_first_interview_has_happened
+    then_i_see_the_upcoming_interview_under_the_correct_heading
+    and_i_see_the_past_interview_under_the_correct_heading
+
     when_i_change_the_interview_details
     then_i_can_see_interview_was_updated
 
@@ -114,13 +118,29 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   alias_method :and_another_interview_has_been_created, :and_an_interview_has_been_created
 
+  def when_the_first_interview_has_happened
+    Timecop.travel(2020, 3, 2, 13, 0, 0)
+    provider_signs_in_using_dfe_sign_in
+    visit provider_interface_application_choice_interviews_path(application_choice)
+  end
+
+  def then_i_see_the_upcoming_interview_under_the_correct_heading
+    expect(page).to have_css('.app-interviews > :nth-child(2)', text: 'Upcoming interviews')
+    expect(page).to have_css('.app-interviews > :nth-child(3)', text: '3 March 2020')
+  end
+
+  def and_i_see_the_past_interview_under_the_correct_heading
+    expect(page).to have_css('.app-interviews > :nth-child(4)', text: 'Past interviews')
+    expect(page).to have_css('.app-interviews > :nth-child(5)', text: '2 March 2020')
+  end
+
   def when_i_change_the_interview_details
     click_on 'Change details', match: :first
 
-    expect(page).to have_field('Day', with: '2')
+    expect(page).to have_field('Day', with: '3')
     expect(page).to have_field('Month', with: '3')
     expect(page).to have_field('Year', with: '2020')
-    expect(page).to have_field('Time', with: '12:00pm')
+    expect(page).to have_field('Time', with: '7:00pm')
     expect(page).to have_field('Address or online meeting details', with: 'N/A')
     expect(page).to have_field('Additional details (optional)', with: '')
 
@@ -200,7 +220,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   def and_i_can_see_the_second_interview
     visit provider_interface_application_choice_interviews_path(application_choice)
 
-    expect(page).to have_content('Upcoming interviews')
+    expect(page).to have_content('Past interviews')
     expect(page).to have_css('.app-interviews__interview')
   end
 

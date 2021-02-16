@@ -1,6 +1,8 @@
 en:
   provider_interface:
     interviews:
+      upcoming: Upcoming interviews
+      past: Past interviews
       new:
         title: Set up an interview
         interview_preferences:
