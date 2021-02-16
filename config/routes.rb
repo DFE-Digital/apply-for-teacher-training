@@ -96,10 +96,10 @@ Rails.application.routes.draw do
       end
 
       scope '/personal-information' do
-        get '/' => 'personal_details/base#new', as: :personal_information
-        patch '/' => 'personal_details/base#create'
-        get '/edit' => 'personal_details/base#edit', as: :edit_personal_information
-        patch '/edit' => 'personal_details/base#update'
+        get '/' => 'personal_details/name_and_dob#new', as: :name_and_dob
+        patch '/' => 'personal_details/name_and_dob#create'
+        get '/edit' => 'personal_details/name_and_dob#edit', as: :edit_name_and_dob
+        patch '/edit' => 'personal_details/name_and_dob#update'
 
         get '/nationality' => 'personal_details/nationalities#new', as: :nationalities
         patch '/nationality' => 'personal_details/nationalities#create'

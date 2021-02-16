@@ -36,7 +36,7 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.name.label'),
         value: @personal_details_form.name,
         action: ('name' if @editable),
-        change_path: candidate_interface_edit_personal_information_path,
+        change_path: candidate_interface_edit_name_and_dob_path,
       }
     end
 
@@ -45,7 +45,7 @@ module CandidateInterface
         key: I18n.t('application_form.personal_details.date_of_birth.label'),
         value: @personal_details_form.date_of_birth.to_s(:govuk_date),
         action: ('date of birth' if @editable),
-        change_path: candidate_interface_edit_personal_information_path,
+        change_path: candidate_interface_edit_name_and_dob_path,
       }
     end
 
