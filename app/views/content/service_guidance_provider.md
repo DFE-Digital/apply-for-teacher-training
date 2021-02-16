@@ -77,11 +77,24 @@ You can filter applications by candidate name, application status, training prov
 Users in your team will be able to:
 
 * make an offer
+* set up interviews
 * set conditions
 * offer a different course, location or provider
 * defer an offer
 * withdraw
 * reject, with reasons
+
+### Setting up interviews
+
+When you set up an interview, you’ll see any preferences the candidate gave in their application.
+
+The candidate will receive an email with details of the interview. They will not need to reply to the email.
+
+The details will also appear in the ‘interview’ page of the candidate’s application and in your organisation’s interview schedule.
+
+The status of the candidate’s application will change to ‘Interviewing’. You cannot mark an interview as completed. The status will change again when you make an offer or the application is either rejected or withdrawn.
+
+The candidate will receive an email if you change or cancel an interview.
 
 ### Setting permissions for your team members
 
