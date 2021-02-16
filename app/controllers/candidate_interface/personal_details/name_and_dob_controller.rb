@@ -1,6 +1,6 @@
 module CandidateInterface
   module PersonalDetails
-    class BaseController < CandidateInterfaceController
+    class NameAndDobController < CandidateInterfaceController
       before_action :redirect_to_dashboard_if_submitted
 
       def new
