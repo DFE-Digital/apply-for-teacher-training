@@ -4,6 +4,8 @@ class AcceptOffer
   end
 
   def save!
+    return AcceptUnconditionalOffer.new(application_choice: @application_choice).save! if unconditional_offer?
+
     ActiveRecord::Base.transaction do
       ApplicationStateChange.new(@application_choice).accept!
       @application_choice.update!(accepted_at: Time.zone.now)
@@ -39,5 +41,9 @@ private
     @application_choice
       .self_and_siblings
       .awaiting_provider_decision
+  end
+
+  def unconditional_offer?
+    @application_choice.offer&.fetch('conditions', []).blank?
   end
 end
