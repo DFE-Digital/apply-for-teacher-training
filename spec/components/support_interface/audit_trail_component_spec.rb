@@ -27,7 +27,7 @@ RSpec.describe SupportInterface::AuditTrailComponent, with_audited: true do
 
   it 'renders a create application form audit record' do
     expect(render_result.text).to include('1 October 2019')
-    expect(render_result.text).to include('12:00')
+    expect(render_result.text).to include('12')
     expect(render_result.text).to include('Create Application Form')
     expect(render_result.text).to include('bob@example.com (Candidate)')
     expect(render_result.text).to match(/candidate_id\s*#{candidate.id}/m)

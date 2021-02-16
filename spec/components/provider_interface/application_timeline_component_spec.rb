@@ -51,7 +51,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Application received'
       expect(rendered.text).to include 'Candidate'
-      expect(rendered.text).to include '6 February 2020 at 10:00pm'
+      expect(rendered.text).to include '6 February 2020 at 10pm'
       expect(rendered.css('a').text).to eq 'View application'
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
     end
@@ -71,7 +71,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       expect(rendered.text).to include 'Timeline'
       expect(rendered.text).to include 'Offer made'
       expect(rendered.text).to include 'Bob Roberts'
-      expect(rendered.text).to include '8 February 2020 at 10:00pm'
+      expect(rendered.text).to include '8 February 2020 at 10pm'
       expect(rendered.css('a').text).to eq 'View offer'
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/offer"
     end
@@ -89,7 +89,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Note added'
       expect(rendered.text).to include 'Bob Roberts'
-      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.text).to include '11 February 2020 at 10pm'
       expect(rendered.css('a').text).to eq 'View note'
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/notes/#{note.id}"
     end
@@ -100,7 +100,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       application_choice = create(:application_choice, :with_rejection_by_default_and_feedback)
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Feedback sent'
-      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.text).to include '11 February 2020 at 10pm'
       expect(rendered.css('a').text).to eq 'View feedback'
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}"
     end
@@ -112,7 +112,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
       create(:application_choice_audit, :with_changed_offer, application_choice: application_choice)
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Offer changed'
-      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.text).to include '11 February 2020 at 10pm'
       expect(rendered.css('a').text).to eq 'View offer'
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/offer"
     end
@@ -131,7 +131,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Interview set up'
-      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.text).to include '11 February 2020 at 10pm'
       expect(rendered.css('a').text).to eq 'View interview'
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
     end
@@ -148,7 +148,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Interview updated'
-      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.text).to include '11 February 2020 at 10pm'
       expect(rendered.css('a').text).to eq 'View interview'
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
     end
@@ -165,7 +165,7 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
 
       rendered = render_inline(described_class.new(application_choice: application_choice))
       expect(rendered.text).to include 'Interview cancelled'
-      expect(rendered.text).to include '11 February 2020 at 10:00pm'
+      expect(rendered.text).to include '11 February 2020 at 10pm'
       expect(rendered.css('a').text).to eq 'View interview'
       expect(rendered.css('a').attr('href').value).to eq "/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}"
     end

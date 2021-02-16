@@ -12,13 +12,16 @@ module ProviderInterface
     attribute 'date(2i)', :string
     attribute 'date(1i)', :string
 
+    validates :provider_user, :application_choice, presence: true
     validates :date, date: { presence: true }
+    validates :time, presence: true
+    validate :time_is_valid, unless: -> { time.blank? }
     validate :date_and_time_in_future, if: %i[date_and_time],
                                        unless: ->(c) { %i[date time].any? { |d| c.errors.keys.include?(d) } }
-    validate :time_is_valid?, if: :time
     validate :date_after_rbd_date, if: %i[date_and_time date_and_time_in_future]
-    validates :time, :provider_user, :location, :application_choice, presence: true
     validates :provider_id, presence: true, if: %i[application_choice provider_user multiple_application_providers?]
+    validates :location, presence: true, length: { maximum: 10240 }
+    validates :additional_details, length: { maximum: 10240 }
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
@@ -39,33 +42,7 @@ module ProviderInterface
     end
 
     def date_and_time
-      Time.zone.local(date.year, date.month, date.day, parsed_time.hour, parsed_time.min) if date.is_a?(Date)
-    end
-
-    def date_and_time_in_future
-      return true if date_and_time > Time.zone.now
-
-      if date.past?
-        errors.add(:date, :past) unless errors.added?(:date, :past)
-      else
-        errors.add(:time, :past) unless errors.added?(:time, :past)
-      end
-      false
-    end
-
-    def date_after_rbd_date
-      errors.add(:date, :after_rdb) if date > application_choice.reject_by_default_at
-    end
-
-    def parsed_time
-      Time.zone.parse(time.gsub(/[ .]/, ':'))
-    end
-
-    def time_is_valid?
-      return true if time.match(VALID_TIME_FORMAT)
-
-      errors.add(:time, :invalid)
-      false
+      Time.zone.local(date.year, date.month, date.day, parsed_time.hour, parsed_time.min) if date.is_a?(Date) && parsed_time.is_a?(Time)
     end
 
     def provider
@@ -108,6 +85,37 @@ module ProviderInterface
     end
 
   private
+
+    def date_and_time_in_future
+      return true if date_and_time > Time.zone.now
+
+      if date.past?
+        errors.add(:date, :past) unless errors.added?(:date, :past)
+      else
+        errors.add(:time, :past) unless errors.added?(:time, :past)
+      end
+      false
+    end
+
+    def date_after_rbd_date
+      errors.add(:date, :after_rdb) if date > application_choice.reject_by_default_at
+    end
+
+    def time_in_correct_format?
+      time.match(VALID_TIME_FORMAT)
+    end
+
+    def parsed_time
+      return unless time_in_correct_format?
+
+      Time.zone.parse(time.gsub(/[ .]/, ':'))
+    end
+
+    def time_is_valid
+      return if time_in_correct_format?
+
+      errors.add(:time, :invalid)
+    end
 
     def last_saved_state
       saved_state = @state_store.read

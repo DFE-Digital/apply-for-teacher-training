@@ -14,16 +14,22 @@ RSpec.describe 'Time::DATE_FORMATS' do
       expect(date_and_time.to_s(:govuk_time)).to eq('12am (midnight)')
     end
 
-    it 'formats time with minutes otherwise' do
+    it 'formats time with minutes if the time is not on the hour' do
       date_and_time = Time.zone.local(2020, 12, 25, 12, 1, 0)
       expect(date_and_time.to_s(:govuk_date_and_time)).to eq('25 December 2020 at 12:01pm')
       expect(date_and_time.to_s(:govuk_time)).to eq('12:01pm')
     end
 
+    it 'formats time without minutes if the time is on the hour' do
+      date_and_time = Time.zone.local(2020, 12, 25, 15)
+      expect(date_and_time.to_s(:govuk_date_and_time)).to eq('25 December 2020 at 3pm')
+      expect(date_and_time.to_s(:govuk_time)).to eq('3pm')
+    end
+
     it 'does not pad single-digit day and hour with whitespace' do
-      date_and_time = Time.zone.local(2020, 12, 5, 6, 0, 0)
-      expect(date_and_time.to_s(:govuk_date_and_time)).to eq('5 December 2020 at 6:00am')
-      expect(date_and_time.to_s(:govuk_time)).to eq('6:00am')
+      date_and_time = Time.zone.local(2020, 12, 5, 6, 10, 0)
+      expect(date_and_time.to_s(:govuk_date_and_time)).to eq('5 December 2020 at 6:10am')
+      expect(date_and_time.to_s(:govuk_time)).to eq('6:10am')
     end
   end
 end

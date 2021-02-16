@@ -6,8 +6,9 @@ RSpec.describe ProviderInterface::InterviewWizard do
   let(:month) { '2' }
   let(:year) { '2021' }
   let(:time) { '10am' }
-  let(:application_choice) { nil }
-  let(:provider_user) { nil }
+  let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 2, 14)) }
+  let(:provider_user) { build_stubbed(:provider_user) }
+  let(:location) { 'Zoom' }
 
   let(:wizard) do
     described_class.new(
@@ -16,6 +17,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
       'date(2i)' => month,
       'date(1i)' => year,
       time: time,
+      location: location,
       application_choice: application_choice,
       provider_user: provider_user,
     )
@@ -31,6 +33,13 @@ RSpec.describe ProviderInterface::InterviewWizard do
       it { is_expected.to validate_presence_of(:provider_user) }
       it { is_expected.to validate_presence_of(:location) }
       it { is_expected.to validate_presence_of(:application_choice) }
+    end
+
+    context 'field length checks' do
+      let(:subject) { described_class.new(store) }
+
+      it { is_expected.to validate_length_of(:location).is_at_most(10240) }
+      it { is_expected.to validate_length_of(:additional_details).is_at_most(10240) }
     end
 
     describe '#date' do
@@ -67,27 +76,43 @@ RSpec.describe ProviderInterface::InterviewWizard do
       end
     end
 
-    describe '#time_is_valid?' do
-      let(:tomorrow) { 1.day.from_now }
-      let(:day) { tomorrow.day }
-      let(:month) { tomorrow.month }
-      let(:year) { tomorrow.year }
+    describe '#time' do
+      let(:time) { '' }
 
-      context 'checks if the time is in the rights format' do
-        let(:invalid_times) { %w[noon 1700 12:30 12:3pm 1800pm] }
+      it 'is invalid with the correct error when blank' do
+        expect(wizard).to be_invalid
+        expect(wizard.errors[:time]).to contain_exactly('Enter time')
+      end
+    end
+
+    describe '#time_is_valid' do
+      let(:day) { '2' }
+      let(:month) { '2' }
+      let(:year) { '2021' }
+
+      around do |example|
+        Timecop.freeze(Time.zone.local(2021, 2, 1)) do
+          example.run
+        end
+      end
+
+      context 'checks if the time is in the correct format' do
+        let(:invalid_times) { %w[noon 1700 12:30 12:3pm 1800pm 6767] }
         let(:valid_times) { %w[12:30pm 2pm 1.30am 01.24AM 3\ 30am] }
 
-        it 'returns false when the time is invalid' do
+        it 'the wizard is invalid and contains the right error when time is invalid' do
           invalid_times.each do |time|
             wizard.time = time
-            expect(wizard.time_is_valid?).to eq(false)
+            expect(wizard).to be_invalid
+            expect(wizard.errors[:time]).to contain_exactly('Enter a time in the correct format')
           end
         end
 
-        it 'returns true when the time is valid' do
+        it 'the wizard is valid when time is valid' do
           valid_times.each do |time|
             wizard.time = time
-            expect(wizard.time_is_valid?).to eq(true)
+            expect(wizard).to be_valid, "Time invalid #{time}, #{day} #{month} #{year} #{Time.zone.now}"
+            expect(wizard.errors[:time]).to be_empty
           end
         end
       end
@@ -100,7 +125,7 @@ RSpec.describe ProviderInterface::InterviewWizard do
 
         it 'returns true and adds no errors' do
           Timecop.freeze(2021, 2, 13, 12, 0, 0) do
-            expect(wizard.date_and_time_in_future).to eq(true)
+            expect(wizard).to be_valid
           end
         end
       end
@@ -147,8 +172,6 @@ RSpec.describe ProviderInterface::InterviewWizard do
   end
 
   describe '#provider_id' do
-    let(:provider_user) { build_stubbed(:provider_user) }
-    let(:application_choice) { build_stubbed(:application_choice) }
     let(:wizard) { described_class.new(store, provider_user: provider_user, application_choice: application_choice) }
 
     context 'when the application has multiple providers' do
