@@ -17,7 +17,7 @@
     <%= form_with(
       model: @wizard,
       url: new_check_provider_interface_application_choice_interviews_path(@application_choice),
-      method: :get,
+      method: :post,
     ) do |f| %>
 
       <%= render 'form', f: f %>
