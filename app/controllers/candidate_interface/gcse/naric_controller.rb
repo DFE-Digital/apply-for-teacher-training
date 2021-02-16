@@ -1,8 +1,6 @@
 module CandidateInterface
-  class Gcse::NaricController < Gcse::DetailsController
+  class Gcse::NaricController < Gcse::BaseController
     include Gcse::ResolveGcseEditPathConcern
-
-    before_action :redirect_to_dashboard_if_submitted, :set_subject
 
     def edit
       @naric_form = find_or_build_qualification_form

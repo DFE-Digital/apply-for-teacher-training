@@ -1,11 +1,7 @@
 module CandidateInterface
-  class Gcse::TypeController < Gcse::DetailsController
+  class Gcse::TypeController < Gcse::BaseController
     include Gcse::ResolveGcseEditPathConcern
 
-    before_action :redirect_to_dashboard_if_submitted
-    before_action :set_subject
-
-    # 1st step - Edit qualification type
     def edit
       @application_qualification = find_or_build_qualification_form
     end
@@ -38,14 +34,6 @@ module CandidateInterface
           level: ApplicationQualification.levels[:gcse],
         )
       end
-    end
-
-    def set_subject
-      @subject = subject_param
-    end
-
-    def subject_param
-      params.require(:subject)
     end
 
     def next_gcse_path
