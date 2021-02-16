@@ -1,23 +1,33 @@
-<% content_for :browser_title, t('.page_title') %>
+<% content_for :browser_title, title_with_error_prefix(t('.page_title'), @cancellation_wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(request.referer) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <%= form_with(
+      model: @cancellation_wizard,
+      url: cancel_review_provider_interface_application_choice_interview_path(@application_choice, @interview),
+      method: :get,
+    ) do |f| %>
 
-    <h1 class="govuk-label-wrapper">
-      <label class="govuk-label govuk-label--l">
-        <span class="govuk-caption-l">
-          <%= @interview.application_choice.application_form.full_name %>
-        </span>
-        <%= t('.title') %>
-      </label>
-    </h1>
+      <%= f.govuk_error_summary %>
 
-    <%= form_with model: @cancellation_wizard, url: cancel_review_provider_interface_application_choice_interview_path(@application_choice, @interview), method: :get do |f| %>
+      <h1 class="govuk-label-wrapper">
+        <label class="govuk-label govuk-label--l">
+          <span class="govuk-caption-l">
+            <%= @interview.application_choice.application_form.full_name %>
+          </span>
+          <%= t('.title') %>
+        </label>
+      </h1>
+
       <div class='govuk-form-group'>
         <%= f.govuk_text_area :cancellation_reason, label: -> { nil } %>
       </div>
       <%= f.govuk_submit 'Continue' %>
     <% end %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to t('cancel'), provider_interface_application_choice_interviews_path(@application_choice), class: 'govuk-link--no-visited-state' %>
+    </p>
   </div>
 </div>

@@ -17,6 +17,7 @@
       {
         key: t('.cancellation_reason'),
         value: @cancellation_wizard.cancellation_reason,
+        action: t('.cancellation_reason').downcase,
         change_path: cancel_provider_interface_application_choice_interview_path(@application_choice, @interview),
       },
       {},
@@ -28,5 +29,9 @@
       </div>
       <%= f.govuk_submit 'Send cancellation' %>
     <% end %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to t('cancel'), provider_interface_application_choice_interviews_path(@application_choice), class: 'govuk-link--no-visited-state' %>
+    </p>
   </div>
 </div>

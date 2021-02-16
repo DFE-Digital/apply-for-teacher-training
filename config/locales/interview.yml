@@ -13,7 +13,6 @@ en:
         page_title: Set up Interview
         title: Check and send interview details
         confirm: Send interview details
-        cancel: Cancel
         update:
           page_title: Change interview details
           title: Check and send new interview details
