@@ -196,6 +196,8 @@ en:
       by: provider
       description: |
         Providers can set up an interview with candidates before making a decision.
+      emails:
+        - candidate_mailer-new_interview
 
     awaiting_provider_decision-make_offer:
       name: Provider makes offer
@@ -292,12 +294,17 @@ en:
       by: provider
       description: |
         Provider cancels the interview with the candidate.
+      emails:
+        - candidate_mailer-interview_cancelled
 
     interviewing-interview:
-      name: Provider sets up an interview
+      name: Provider sets up or updates an interview
       by: provider
       description: |
-        Providers can set up additional interviews with candidates before making a decision.
+        Providers can set up additional interviews or update existing interviews before making a decision.
+      emails:
+        - candidate_mailer-new_interview
+        - candidate_mailer-interview_updated
 
     offer-make_offer:
       name: Provider updates offer
