@@ -20,6 +20,8 @@
         <% end %>
       </div>
       <%= render(PaginatorComponent.new(scope: @interviews)) %>
+    <% else %>
+      <p>No past interviews</p>
     <% end %>
   </div>
 </div>

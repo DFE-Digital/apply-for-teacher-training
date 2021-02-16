@@ -27,4 +27,8 @@ RSpec.describe ProviderInterface::InterviewCardComponent do
   it 'renders text indicating there are interview preferences if any' do
     expect(render.css('.app-interview-card__candidate').text).to include('Has interview preferences')
   end
+
+  it 'renders the application choice interviews anchored url' do
+    expect(render.css('a').attr('href').value).to eq("/provider/applications/#{application_choice.id}/interviews#interview-#{interview.id}")
+  end
 end

@@ -17,6 +17,13 @@ RSpec.describe 'A Provider user' do
     given_i_am_a_provider_user
     and_i_sign_in_to_the_provider_interface
 
+    when_i_visit_the_provider_interface
+    and_i_click_interview_schedule
+    then_i_see_no_upcoming_interviews
+
+    and_i_click_past_interviews
+    then_i_see_no_past_interviews
+
     given_there_are_past_and_present_interviews
     when_i_visit_the_provider_interface
 
@@ -73,6 +80,10 @@ RSpec.describe 'A Provider user' do
     end
   end
 
+  def then_i_see_no_upcoming_interviews
+    expect(page).to have_content('No upcoming interviews')
+  end
+
   def and_i_click_past_interviews
     click_on 'Past interviews'
   end
@@ -81,6 +92,10 @@ RSpec.describe 'A Provider user' do
     within '.app-interviews' do
       expect(page.assert_selector('.app-interview-card', count: @past_interviews.count)).to eq(true)
     end
+  end
+
+  def then_i_see_no_past_interviews
+    expect(page).to have_content('No past interviews')
   end
 
   def and_i_can_verify_that_the_correct_information_is_presented
