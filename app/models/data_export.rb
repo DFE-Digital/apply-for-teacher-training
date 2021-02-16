@@ -65,6 +65,11 @@ class DataExport < ApplicationRecord
       description: 'A list of all offers showing offer conditions alongside the qualifications declared by the candidate. One line per offer.',
       class: SupportInterface::OfferConditionsExport,
     },
+    organisation_permissions: {
+      name: 'Organisation permissions',
+      description: 'A list of changes to organisational permissions and audit information about the changes',
+      class: SupportInterface::OrganisationPermissionsExport,
+    },
     provider_access_controls: {
       name: 'Provider Access Controls',
       description: 'A list of providers and information about their permissions',
@@ -109,6 +114,11 @@ class DataExport < ApplicationRecord
       name: 'Unexplained breaks in work history',
       description: 'A list of candidates with unexplained breaks in their work history.',
       class: SupportInterface::UnexplainedBreaksInWorkHistoryExport,
+    },
+    user_permissions_: {
+      name: 'User permissions',
+      description: 'A list of changes to user permissions and audit information about the changes',
+      class: SupportInterface::UserPermissionsExport,
     },
   }.freeze
 
