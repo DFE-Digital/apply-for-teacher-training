@@ -1,7 +1,6 @@
 module CandidateInterface
   module References
     class RequestController < BaseController
-      before_action :set_reference
       before_action :prompt_for_candidate_name_if_not_already_given, only: :create
       before_action :verify_reference_can_be_requested
 

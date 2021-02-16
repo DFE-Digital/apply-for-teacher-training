@@ -1,8 +1,6 @@
 module CandidateInterface
   module References
     class ReminderController < BaseController
-      before_action :set_reference
-
       def new; end
 
       def create

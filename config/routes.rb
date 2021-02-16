@@ -440,7 +440,7 @@ Rails.application.routes.draw do
       end
 
       scope '/references' do
-        get '/start' => 'references/base#start', as: :references_start
+        get '/start' => 'references/start#show', as: :references_start
 
         get '/type' => 'references/type#new', as: :references_type
         post '/type' => 'references/type#create'
