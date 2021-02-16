@@ -1,6 +1,6 @@
 module ProviderInterface
   class InterviewAndCourseSummaryComponent < ViewComponent::Base
-    attr_reader :interview, :application_choice, :user_can_change_interview
+    attr_reader :interview, :user_can_change_interview, :application_choice
 
     def initialize(interview:, user_can_change_interview:)
       @application_choice = interview.application_choice
@@ -12,7 +12,7 @@ module ProviderInterface
       [
         {
           key: 'Course',
-          value: interview.offered_course.name,
+          value: interview.offered_course.name_and_code,
         },
         {
           key: 'Funding type',
@@ -32,9 +32,13 @@ module ProviderInterface
         },
         {
           key: 'Additional details',
-          value: interview.additional_details,
+          value: get_additional_details,
         },
       ]
+    end
+
+    def get_additional_details
+      interview.additional_details.presence || 'None'
     end
   end
 end
