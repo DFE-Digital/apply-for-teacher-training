@@ -1,10 +1,5 @@
 module CandidateInterface
-  class Gcse::Maths::GradeController < CandidateInterfaceController
-    include Gcse::GradeControllerConcern
-
-    before_action :redirect_to_dashboard_if_submitted
-    before_action :set_subject
-
+  class Gcse::Maths::GradeController < Gcse::BaseController
     def edit
       @gcse_grade_form = maths_gsce_grade_form
       @qualification_type = maths_gsce_grade_form.qualification.qualification_type

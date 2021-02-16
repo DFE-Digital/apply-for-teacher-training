@@ -1,7 +1,5 @@
 module CandidateInterface
-  class Gcse::InstitutionCountryController < Gcse::DetailsController
-    before_action :redirect_to_dashboard_if_submitted, :set_subject
-
+  class Gcse::InstitutionCountryController < Gcse::BaseController
     def edit
       @institution_country = find_or_build_qualification_form
     end

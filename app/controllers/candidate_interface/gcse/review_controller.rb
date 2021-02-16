@@ -1,7 +1,5 @@
 module CandidateInterface
-  class Gcse::ReviewController < Gcse::DetailsController
-    before_action :redirect_to_dashboard_if_submitted
-    before_action :set_subject
+  class Gcse::ReviewController < Gcse::BaseController
     before_action :set_field_name
     before_action :render_application_feedback_component, except: :complete
 
