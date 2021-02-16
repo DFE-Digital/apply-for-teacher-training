@@ -3,16 +3,9 @@
 <% if FeatureFlag.active?('provider_information_banner') %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      <div class="app-banner" aria-labelledby="change-to-working-days-message">
-        <div class="app-banner__message">
-          <h2 class="govuk-heading-m" id="change-to-working-days-message">
-            20 December 2020 to 1 January 2021 do not count as working days
-          </h2>
-          <p class="govuk-body">
-            The Christmas period will not be included when calculating dates for applications to be automatically rejected. This is to match the dates used by UCAS.
-          </p>
-        </div>
-      </div>
+      <%= render NotificationMessageComponent.new(:info,
+                                                  message: '20 December 2020 to 1 January 2021 do not count as working days',
+                                                  secondary_message: 'The Christmas period will not be included when calculating dates for applications to be automatically rejected. This is to match the dates used by UCAS.') %>
     </div>
   </div>
 <% end %>
