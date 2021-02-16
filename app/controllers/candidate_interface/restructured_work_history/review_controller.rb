@@ -9,5 +9,11 @@ module CandidateInterface
 
       redirect_to candidate_interface_application_form_path
     end
+
+  private
+
+    def application_form_params
+      strip_whitespace params.require(:application_form).permit(:work_history_completed)
+    end
   end
 end

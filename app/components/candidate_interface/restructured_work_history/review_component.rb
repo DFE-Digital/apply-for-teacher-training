@@ -9,7 +9,7 @@ module CandidateInterface
         @heading_level = heading_level
         @show_incomplete = show_incomplete
         @missing_error = missing_error
-        @work_history_with_breaks = WorkHistoryWithBreaks.new(@application_form).timeline
+        @work_history_with_breaks = RestructuredWorkHistoryWithBreaks.new(@application_form).timeline
       end
 
       def show_missing_banner?
