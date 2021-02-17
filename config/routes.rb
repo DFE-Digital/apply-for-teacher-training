@@ -218,9 +218,6 @@ Rails.application.routes.draw do
         get '/missing' => 'work_history/explanation#show', as: :work_history_explanation
         post '/missing' => 'work_history/explanation#submit'
 
-        get '/explain-breaks' => 'work_history/breaks#edit', as: :work_history_breaks
-        post '/explain-breaks' => 'work_history/breaks#update'
-
         get '/explain-break/new' => 'work_history/break#new', as: :new_work_history_break
         post '/explain-break/new' => 'work_history/break#create'
         get '/explain-break/edit/:id' => 'work_history/break#edit', as: :edit_work_history_break
@@ -253,9 +250,6 @@ Rails.application.routes.draw do
 
         get '/delete/:id' => 'restructured_work_history/job#confirm_destroy', as: :destroy_restructured_work_history
         delete '/delete/:id' => 'restructured_work_history/job#destroy'
-
-        get '/explain-breaks' => 'restructured_work_history/breaks#edit', as: :restructured_work_history_breaks
-        post '/explain-breaks' => 'restructured_work_history/breaks#update'
 
         get '/explain-break/new' => 'restructured_work_history/break#new', as: :new_restructured_work_history_break
         post '/explain-break/new' => 'restructured_work_history/break#create'

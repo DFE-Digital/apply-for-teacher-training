@@ -145,32 +145,6 @@ RSpec.describe CandidateInterface::WorkHistoryReviewComponent do
         expect(result.text).not_to include('Change dates for break between February 2019 and April 2019')
       end
     end
-
-    context 'when consolidated work history breaks has a value' do
-      it 'renders component with consolidated work breaks and without individual breaks' do
-        result = render(explanation: 'I was sleeping.')
-
-        expect(result.css('.app-summary-card__title').text).not_to include('You have a break in your work history in the last 5 years')
-        expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.work_history.breaks.review_label'))
-        expect(result.css('.govuk-summary-list__actions').text).to include(t('application_form.work_history.breaks.change_action'))
-      end
-    end
-
-    context 'when individual breaks are editable' do
-      it 'renders component without break placeholders' do
-        result = render(editable: true)
-
-        expect(result.css('.app-summary-card__title').text).to include('You have a break in your work history in the last 5 years')
-      end
-    end
-
-    context 'when individual breaks are not editable' do
-      it 'renders component without break placeholders' do
-        result = render(editable: false)
-
-        expect(result.css('.app-summary-card__title').text).not_to include('You have a break in your work history in the last 5 years')
-      end
-    end
   end
 
   context 'when no work experience' do

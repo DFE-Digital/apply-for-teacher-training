@@ -124,7 +124,6 @@ FactoryBot.define do
       subject_knowledge { Faker::Lorem.paragraph_by_chars(number: 300) }
       interview_preferences { Faker::Lorem.paragraph_by_chars(number: 100) }
       work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 400) }
-      work_history_breaks { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
       phase { :apply_1 }
       recruitment_cycle_year { RecruitmentCycle.current_year }
