@@ -23,14 +23,19 @@ benefits like knowledge sharing.
     choices.
   - Step-by-step instructions on how to manually test the change, whether
     running locally or using a review app.
-- Consider extending test application data if it would make the PR easier to test.
+- We strongly recommend extending test application data if it would make the PR
+  easier to test. We rely on test data to provide a solid test platform so it
+  should aim to replicate the features of production data as possible.
 - If a PR is going to be complex to review, affects core functionality, touches
   on application security or is deemed to be risky for some other reason tag
   it as requiring two approvals rather than the normal one.
 - Follow general best practice for raising PR e.g. [How to raise a good pull request](https://www.annashipman.co.uk/jfdi/good-pull-requests.html).
   - Aim for each commit to be atomic, introducing a non-breaking change with all tests and linter passing. Consider arranging your commits into appropriate logical chunks with [git's history rewriting features](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History). This can make the PR easier to review and revert.
   - Try to avoid merge commits and use `git rebase master` instead.
+
 ### Reviewing PRs
+
+#### Process
 
 - Anybody can review a PR. Code reviews from a different team are encouraged as
   well as those from people more familiar with the code being changed. Everyone
@@ -42,3 +47,9 @@ benefits like knowledge sharing.
 - If as a reviewer you have any concerns about being the only reviewer you
   should tag the PR as requiring two approvals so that at least one other
   person checks it.
+
+#### Checklist
+
+These are some of the things that as a reviewer you may wish to check:
+
+- [] Are tests sufficient and robust? It is reasonable to ask for more tests.
