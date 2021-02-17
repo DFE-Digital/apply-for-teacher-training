@@ -22,6 +22,12 @@ module SupportInterface
           'Status' => application_state(application_form),
           'Distance from site to candidate' => distance(application_choice),
           'Average distance from all sites to candidate' => average_distance(application_form),
+          'Rejection reason' => application_choice.rejection_reason,
+          'Structured rejection reasons' => format_structured_rejection_reasons(application_choice.structured_rejection_reasons),
+          'Application status' => I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
+          'Course code' => application_choice.course.code,
+          'Provider code' => application_choice.provider.code,
+          'Nationality' => nationality(application_choice)
         }
       end
     end
@@ -72,6 +78,29 @@ module SupportInterface
         application_form.application_choices.map(&:site),
         with_units: false,
       )
+    end
+
+    def format_structured_rejection_reasons(structured_rejection_reasons)
+      return nil if structured_rejection_reasons.blank?
+
+      select_high_level_rejection_reasons(structured_rejection_reasons)
+          .keys
+          .map { |reason| format_reason(reason) }
+          .join("\n")
+    end
+
+    def select_high_level_rejection_reasons(structured_rejection_reasons)
+      structured_rejection_reasons.select { |reason, value| value == 'Yes' && reason.include?('_y_n') }
+    end
+
+    def format_reason(reason)
+      reason
+          .delete_suffix('_y_n')
+          .humanize
+    end
+
+    def nationality(application_choice)
+      ApplicationChoiceHesaExportDecorator.new(application_choice).nationality
     end
   end
 end
