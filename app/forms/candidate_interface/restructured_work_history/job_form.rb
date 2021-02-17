@@ -18,8 +18,8 @@ module CandidateInterface
                     :end_date_unknown,
                     :relevant_skills
 
-      validates :role,
-                :organisation,
+      validates :organisation,
+                :role,
                 :commitment,
                 :currently_working,
                 :relevant_skills,
