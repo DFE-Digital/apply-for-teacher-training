@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_10_142049) do
+ActiveRecord::Schema.define(version: 2021_02_17_080844) do
 
-  create_sequence "application_choices_id_seq1"
+  create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
   create_sequence "application_feedback_id_seq"
   create_sequence "application_forms_id_seq"
@@ -224,7 +224,6 @@ ActiveRecord::Schema.define(version: 2021_02_10_142049) do
     t.string "comparable_uk_degree"
     t.string "non_uk_qualification_type"
     t.string "comparable_uk_qualification"
-    t.jsonb "structured_grades"
     t.jsonb "constituent_grades"
     t.bigint "public_id"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
