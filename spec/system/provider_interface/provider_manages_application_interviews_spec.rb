@@ -31,7 +31,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     then_i_see_a_success_message
     and_an_interview_has_been_created('2 March 2020')
 
-    and_i_can_set_up_another_interview(days_in_future: 2)
+    and_i_set_up_another_interview(days_in_future: 2)
     and_another_interview_has_been_created('3 March 2020')
 
     when_the_first_interview_has_happened
@@ -39,7 +39,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_see_the_past_interview_under_the_correct_heading
 
     when_i_change_the_interview_details
-    then_i_can_see_interview_was_updated
+    and_i_confirm_the_interview_details
+    then_i_can_see_the_interview_was_updated
 
     when_i_click_to_cancel_an_interview
     and_i_do_not_enter_a_cancellation_reason
@@ -55,6 +56,43 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     when_i_cancel_an_interview
     i_can_see_the_application_is_awaiting_provider_decision
     and_the_interview_tab_is_not_available
+
+    # TODO: the "make decision" prompt does not show here because of the flash message
+    # should be fixed with https://trello.com/c/dI0l2hyl/3364-call-to-action-inset-text-is-hidden-when-flash-banner-is-shown-on-provider-application-page
+    when_i_reload_the_page
+    and_i_set_up_another_interview(days_in_future: 4)
+    and_another_interview_has_been_created('6 March 2020')
+
+    when_i_click_make_decision
+    and_i_make_an_offer
+    then_i_should_see_the_interview_on_the_interview_tab('6 March 2020')
+    but_i_should_not_see_the_set_up_change_or_cancel_interview_controls
+  end
+
+  def when_i_reload_the_page
+    visit current_path
+  end
+
+  def when_i_click_make_decision
+    click_link 'Make decision'
+  end
+
+  def and_i_make_an_offer
+    choose 'Make an offer'
+    click_button 'Continue'
+    click_button 'Continue' # conditions page
+    click_button 'Make offer'
+  end
+
+  def then_i_should_see_the_interview_on_the_interview_tab(date)
+    click_link 'Interviews'
+    and_an_interview_has_been_created(date)
+  end
+
+  def but_i_should_not_see_the_set_up_change_or_cancel_interview_controls
+    expect(page).not_to have_button('Set up interview')
+    expect(page).not_to have_link('Cancel interview')
+    expect(page).not_to have_link('Change interview')
   end
 
   def given_i_am_a_provider_user_with_dfe_sign_in
@@ -82,7 +120,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_content('Interview successfully created')
   end
 
-  def and_i_can_set_up_another_interview(days_in_future:)
+  def and_i_set_up_another_interview(days_in_future:)
     and_i_click_set_up_an_interview
     and_i_fill_out_the_interview_form(days_in_future: days_in_future, time: '7pm')
     and_i_click_send_interview_details
@@ -152,7 +190,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     click_on 'Continue'
   end
 
-  def then_i_can_see_interview_was_updated
+  def and_i_confirm_the_interview_details
     expect(page).to have_content('Check and send new interview details')
     expect(page).to have_content("Date\n4 March 2020")
     expect(page).to have_content("Time\n10am")
@@ -168,10 +206,11 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
 
     click_on 'Send new interview details'
+  end
 
+  def then_i_can_see_the_interview_was_updated
     expect(page).to have_content('Interview changed')
-
-    expect(page).to have_content("Upcoming interviews\n4 March 2020 at 10am")
+    expect(page).to have_content('4 March 2020 at 10am')
     expect(page).to have_content("Address or online meeting details\nZoom meeting")
     expect(page).to have_content("Additional details\nBusiness casual, first impressions are important")
   end
