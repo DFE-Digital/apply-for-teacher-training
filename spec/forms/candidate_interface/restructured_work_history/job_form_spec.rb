@@ -11,7 +11,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
       end_date: Time.zone.local(2019, 5, 1),
       end_date_unknown: false,
       currently_working: false,
-      relevant_skills: [true, false].sample,
+      relevant_skills: true,
     }
   end
 
@@ -140,6 +140,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
       saved_job = job.save(application_form)
       expect(saved_job).to have_attributes(data)
+      expect(saved_job.details).to eq 'I used skills relevant to teaching in this job.'
     end
   end
 
@@ -162,6 +163,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
       expect(saved_job.reload).to have_attributes(role: 'Something else')
       expect(saved_job.reload).to have_attributes(relevant_skills: false)
+      expect(saved_job.reload).to have_attributes(details: 'I did not use skills relevant to teaching in this job.')
     end
   end
 
