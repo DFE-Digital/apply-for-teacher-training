@@ -25,8 +25,8 @@
 
           <% if FeatureFlag.active?(:interviews) %>
             <div class="govuk-button-group">
-              <%= govuk_button_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice) %>
-              <%= govuk_button_link_to 'Make decision', provider_interface_application_choice_respond_path(application_choice), class: 'govuk-button--secondary' %>
+              <%= govuk_button_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(application_choice), class: 'govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
+              <%= govuk_button_link_to 'Make decision', provider_interface_application_choice_respond_path(application_choice), class: 'govuk-button--secondary govuk-!-margin-bottom-0 govuk-!-margin-right-2' %>
             </div>
           <% else %>
             <%= govuk_button_link_to 'Make decision', provider_interface_application_choice_respond_path(application_choice) %>
