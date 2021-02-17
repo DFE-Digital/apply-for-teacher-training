@@ -1,5 +1,5 @@
 module SupportInterface
-  class LocationsExport
+  class PersonaExport
     include GeocodeHelper
 
     def data_for_export

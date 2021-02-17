@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::LocationsExport do
+RSpec.describe SupportInterface::PersonaExport do
   describe '#data_for_export' do
     around do |example|
       Timecop.freeze(Date.new(2020, 1, 2)) do
