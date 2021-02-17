@@ -2,8 +2,12 @@ Dear <%= @application_form.first_name %>,
 
 # Feedback on your application
 
-Your application for <%= @course_option.course.name_and_code %> was automatically rejected on <%= @application_choice.rejected_at.to_s(:govuk_date) %>.
+Your application for <%= @course.name_and_code %> was automatically rejected on <%= @application_choice.rejected_at.to_s(:govuk_date) %>.
 
-This was because <%= @course_option.course.provider.name %> did not respond in time. They’ve now given you the following feedback:
+This was because <%= @course.provider.name %> did not respond in time. They’ve now given you the following feedback:
 
-^<%= @application_choice.rejection_reason&.gsub(/\n/,"\n^") %>
+<% if FeatureFlag.active?(:structured_reasons_for_rejection_on_rbd) %>
+  <%= render 'reasons_for_rejection' %>
+<% else %>
+  ^<%= @application_choice.rejection_reason&.gsub(/\n/,"\n^") %>
+<% end %>

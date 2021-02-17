@@ -132,6 +132,10 @@ class ApplicationChoice < ApplicationRecord
     application_form.application_choices
   end
 
+  def no_feedback?
+    rejection_reason.blank? && structured_rejection_reasons.blank?
+  end
+
 private
 
   def generate_alphanumeric_id

@@ -64,7 +64,7 @@ RSpec.describe ProviderInterface::SortApplicationChoices do
     end
 
     it '#give_feedback_for_rbd' do
-      create(:application_choice, :with_rejection_by_default, rejection_reason: nil, rejected_at: Time.zone.parse(ProviderInterface::SortApplicationChoices::RBD_FEEDBACK_LAUNCH_TIMESTAMP))
+      create(:application_choice, :with_rejection_by_default, rejection_reason: nil, structured_rejection_reasons: nil, rejected_at: Time.zone.parse(ProviderInterface::SortApplicationChoices::RBD_FEEDBACK_LAUNCH_TIMESTAMP))
       expect(application_choice.task_view_group).to eq(3)
     end
 

@@ -1,18 +1,20 @@
-class SaveAndSendRejectByDefaultFeedback
+class RejectByDefaultFeedback
   include ImpersonationAuditHelper
 
-  attr_reader :application_choice, :rejection_reason
+  attr_reader :application_choice, :rejection_reason, :structured_rejection_reasons
 
-  def initialize(actor:, application_choice:, rejection_reason:)
+  def initialize(actor:, application_choice:, rejection_reason: nil, structured_rejection_reasons: nil)
     @actor = actor
     @application_choice = application_choice
     @rejection_reason = rejection_reason
+    @structured_rejection_reasons = structured_rejection_reasons
   end
 
-  def call!
+  def save
     audit(@actor) do
       ActiveRecord::Base.transaction do
         application_choice.rejection_reason = rejection_reason
+        application_choice.structured_rejection_reasons = structured_rejection_reasons
         application_choice.reject_by_default_feedback_sent_at = Time.zone.now
         application_choice.save!
 

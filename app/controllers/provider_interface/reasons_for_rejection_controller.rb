@@ -1,7 +1,8 @@
 module ProviderInterface
   class ReasonsForRejectionController < ProviderInterfaceController
     before_action :set_application_choice
-    before_action :redirect_if_application_rejected, except: :commit
+    before_action :redirect_if_application_rejected_and_feedback_provided
+    before_action :ensure_structured_reasons_for_rejection_on_rbd_feature_is_active
 
     def edit_initial_questions
       @wizard = ReasonsForRejectionWizard.new(store, current_step: 'initial_questions')
@@ -48,13 +49,20 @@ module ProviderInterface
 
     def commit
       @wizard = ReasonsForRejectionWizard.new(store)
-      service = RejectApplication.new(actor: current_provider_user, application_choice: @application_choice, structured_rejection_reasons: @wizard.to_model)
+
+      if rbd_application_with_no_feedback?
+        service = RejectByDefaultFeedback.new(actor: current_provider_user, application_choice: @application_choice, structured_rejection_reasons: @wizard.to_model)
+        success_message = 'Feedback sent'
+      else
+        service = RejectApplication.new(actor: current_provider_user, application_choice: @application_choice, structured_rejection_reasons: @wizard.to_model)
+        success_message = 'Application rejected'
+      end
 
       if service.save
         @wizard.clear_state!
 
-        flash[:success] = 'Application rejected'
-        redirect_to provider_interface_application_choice_path(@application_choice)
+        flash[:success] = success_message
+        redirect_to provider_interface_application_choice_feedback_path(@application_choice)
       else
         @wizard.errors.merge!(service.errors)
         render :check
@@ -105,12 +113,26 @@ module ProviderInterface
       WizardStateStores::RedisStore.new(key: key)
     end
 
-    def redirect_if_application_rejected
-      if @application_choice&.rejected?
-        flash[:warning] = 'This application has already been rejected.'
+    def redirect_if_application_rejected_and_feedback_provided
+      if @application_choice&.rejected? && !@application_choice.no_feedback?
+        if @application_choice.rejected_by_default?
+          flash[:warning] = 'The feedback for this application has already been provided.'
+        else
+          flash[:warning] = 'This application has already been rejected.'
+        end
 
-        redirect_to provider_interface_application_choice_path(@application_choice)
+        redirect_to provider_interface_application_choice_feedback_path(@application_choice)
       end
+    end
+
+    def ensure_structured_reasons_for_rejection_on_rbd_feature_is_active
+      render_404 if rbd_application_with_no_feedback? && !FeatureFlag.active?(:structured_reasons_for_rejection_on_rbd)
+    end
+
+  private
+
+    def rbd_application_with_no_feedback?
+      @application_choice.rejected_by_default? && @application_choice.no_feedback?
     end
   end
 end

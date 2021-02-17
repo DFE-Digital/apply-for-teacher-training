@@ -108,6 +108,26 @@ RSpec.describe ApplicationChoice, type: :model do
     end
   end
 
+  describe '#no_feedback?' do
+    it 'returns false if simple rejection reason is provided' do
+      application_choice = build(:application_choice, :with_rejection)
+
+      expect(application_choice.no_feedback?).to be false
+    end
+
+    it 'returns false if structured rejection reasons are provided' do
+      application_choice = build(:application_choice, :with_structured_rejection_reasons)
+
+      expect(application_choice.no_feedback?).to be false
+    end
+
+    it 'returns true if no feedback for the candidate is provided' do
+      application_choice = build(:application_choice)
+
+      expect(application_choice.no_feedback?).to be true
+    end
+  end
+
   describe 'validations' do
     subject(:application_choice) { create(:application_choice) }
 

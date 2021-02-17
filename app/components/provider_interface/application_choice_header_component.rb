@@ -44,6 +44,12 @@ module ProviderInterface
         { name: 'Timeline', url: provider_interface_application_choice_timeline_path(application_choice) },
       )
 
+      unless application_choice.no_feedback?
+        sub_navigation_items.push(
+          { name: 'Feedback', url: provider_interface_application_choice_feedback_path(application_choice) },
+        )
+      end
+
       if HostingEnvironment.sandbox_mode?
         sub_navigation_items.push(
           { name: 'Emails (Sandbox only)', url: provider_interface_application_choice_emails_path(application_choice) },
@@ -56,7 +62,7 @@ module ProviderInterface
     def rejection_reason_required
       application_choice.status == 'rejected' &&
         application_choice.rejected_by_default &&
-        application_choice.rejection_reason.blank?
+        application_choice.no_feedback?
     end
 
     def offer_present?

@@ -3,6 +3,7 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
     before_action :requires_rbd_application_with_no_feedback
+    before_action :redirect_to_structured_reasons_for_rejection_on_rbd_if_enabled
 
     def new
       # feedback_params used in case you arrive here via the Change link
@@ -12,7 +13,7 @@ module ProviderInterface
     def check
       @application_feedback = RejectedByDefaultFeedbackForm.new(feedback_params)
       @application_feedback.valid? || render(action: :new)
-      @back_link = Rails.application.routes.url_helpers.provider_interface_application_choice_new_feedback_path(
+      @back_link = Rails.application.routes.url_helpers.provider_interface_application_choice_new_rbd_feedback_path(
         @application_choice.id,
         provider_interface_rejected_by_default_feedback_form: {
           rejection_reason: @application_feedback.rejection_reason,
@@ -21,15 +22,15 @@ module ProviderInterface
     end
 
     def create
-      SaveAndSendRejectByDefaultFeedback.new(
+      RejectByDefaultFeedback.new(
         actor: current_provider_user,
         application_choice: @application_choice,
         rejection_reason: feedback_params[:rejection_reason],
-      ).call!
+      ).save
 
       flash[:success] = 'Feedback sent'
 
-      redirect_to provider_interface_application_choice_path(
+      redirect_to provider_interface_application_choice_feedback_path(
         application_choice_id: @application_choice.id,
       )
     end
@@ -39,7 +40,7 @@ module ProviderInterface
     def requires_rbd_application_with_no_feedback
       return if @application_choice.status == 'rejected' &&
         @application_choice.rejected_by_default &&
-        @application_choice.rejection_reason.blank?
+        @application_choice.no_feedback?
 
       redirect_to provider_interface_application_choice_path(
         application_choice_id: @application_choice.id,
@@ -51,6 +52,10 @@ module ProviderInterface
 
       params.require(:provider_interface_rejected_by_default_feedback_form)
         .permit(:rejection_reason)
+    end
+
+    def redirect_to_structured_reasons_for_rejection_on_rbd_if_enabled
+      redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice) if FeatureFlag.active?(:structured_reasons_for_rejection_on_rbd)
     end
   end
 end

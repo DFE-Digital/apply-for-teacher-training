@@ -110,7 +110,7 @@ module ProviderInterface
       else
         if changes['reject_by_default_feedback_sent_at'].present?
           {
-            url: routes.provider_interface_application_choice_path(application_choice),
+            url: routes.provider_interface_application_choice_feedback_path(application_choice),
             text: 'View feedback',
           }
         elsif changes['offer_changed_at'].present? && application_choice.status == 'offer'

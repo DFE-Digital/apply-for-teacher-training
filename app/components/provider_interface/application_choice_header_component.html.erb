@@ -79,7 +79,11 @@
             You did not respond to the application within <%= application_choice.reject_by_default_days %> working days. Tell the candidate why their application was unsuccessful.
           </p>
 
-          <%= govuk_button_link_to 'Give feedback', provider_interface_application_choice_new_feedback_path(application_choice) %>
+          <% if FeatureFlag.active?(:structured_reasons_for_rejection_on_rbd) %>
+            <%= govuk_button_link_to 'Give feedback', provider_interface_reasons_for_rejection_initial_questions_path(application_choice) %>
+          <% else %>
+            <%= govuk_button_link_to 'Give feedback', provider_interface_application_choice_new_rbd_feedback_path(application_choice) %>
+          <% end -%>
         <% end -%>
       </div>
     </div>
