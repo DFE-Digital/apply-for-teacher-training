@@ -191,4 +191,28 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
       )
     end
   end
+
+  describe '.cast_booleans' do
+    let(:cast_attributes) do
+      {
+        start_date_unknown: false,
+        end_date_unknown: true,
+        currently_working: false,
+        relevant_skills: true,
+      }
+    end
+
+    it 'casts booleans for the start_date_unknown, end_date_unknown, currently_working and relevant_skills attrs' do
+      job_form = described_class.new(
+        start_date_unknown: false,
+        end_date_unknown: true,
+        currently_working: false,
+        relevant_skills: true,
+      )
+
+      job_form.cast_booleans
+
+      expect(job_form).to have_attributes(cast_attributes)
+    end
+  end
 end
