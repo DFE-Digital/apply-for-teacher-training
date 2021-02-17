@@ -55,6 +55,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
       expect(@rendered_result.text).to include('No Maths GCSE')
       expect(@rendered_result.text).to include('No degree')
       expect(@rendered_result.text).to include('Other - Too many emojis')
+      expect(@rendered_result.text).to include('Yes')
       expect(@rendered_result.text).not_to include('No Science GCSE')
       expect(@rendered_result.text).not_to include('No English GCSE')
     end
