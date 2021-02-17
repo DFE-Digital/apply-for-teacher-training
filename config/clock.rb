@@ -50,4 +50,9 @@ class Clock
       TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
     end
   end
+
+  every(1.day, 'Generate export for Notifications', at: '23:57') do
+    data_export = DataExport.create!(name: 'Daily export of notifications breakdown')
+    DataExporter.perform_async(SupportInterface::NotificationsExport, data_export.id)
+  end
 end
