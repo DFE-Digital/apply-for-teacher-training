@@ -1,5 +1,18 @@
 module SupportInterface
   class UnexplainedBreaksInWorkHistoryExport
+
+    COLUMN_NAMES = [
+        'Candidate id',
+        'Application id',
+        'Start of working life',
+        'Total unexplained time (months)',
+        'Number of unexplained breaks',
+        'Number of unexplained breaks in last 5 years',
+        'Number of unexplained breaks that coincide with studying for a degree',
+        'Work history completed',
+        'Course choice statuses',
+    ]
+
     class UnexplainedBreak
       def initialize(month_range:)
         @month_range = month_range
