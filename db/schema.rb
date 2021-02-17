@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_17_080844) do
+ActiveRecord::Schema.define(version: 2021_02_17_131741) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 2021_02_17_080844) do
     t.datetime "withdrawn_at"
     t.datetime "declined_at"
     t.boolean "declined_by_default", default: false, null: false
-    t.integer "offered_course_option_id"
+    t.bigint "offered_course_option_id"
     t.datetime "accepted_at"
     t.datetime "recruited_at"
     t.datetime "conditions_not_met_at"
