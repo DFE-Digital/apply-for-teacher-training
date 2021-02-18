@@ -12,7 +12,7 @@ gem 'blazer'
 gem 'tzinfo-data'
 
 gem 'webpacker'
-gem 'govuk_design_system_formbuilder', '~> 2.1.8'
+gem 'govuk_design_system_formbuilder', '~> 2.1.9'
 
 # GOV.UK Notify
 gem 'mail-notify'
