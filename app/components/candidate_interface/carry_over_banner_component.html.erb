@@ -1,35 +1,13 @@
-<div class="app-banner">
-  <div class="app-banner__message">
-    <div class="govuk-heading-m">
-      <% if references_did_not_come_back_in_time? %>
-        <p>
-          Courses for the 2020 to 2021 academic year are now closed
-        </p>
-
-        <p class='govuk-body govuk-!-font-size-24'>
-          Your references did not come back in time, but you can <%= govuk_link_to 'apply again', start_path %>
-        </p>
-      <% elsif between_cycles? %>
-        <p>
-          Courses for the 2020 to 2021 academic year are now closed
-        </p>
-
-        <p class='govuk-body govuk-!-font-size-24'>
-          Your application did not lead to a place, but you can <%= govuk_link_to 'apply again', start_path %>
-        </p>
-      <% else %>
-        <p>
-          Do you want to continue applying?
-        </p>
-
-        <p class='govuk-body govuk-!-font-size-24'>
-          Applications are open for courses starting academic year 2021 to 2022.
-        </p>
-
-        <p class='govuk-body govuk-!-font-size-24'>
-          <%= govuk_link_to 'Continue your application', start_path %>
-        </p>
-      <% end %>
-    </div>
-  </div>
-</div>
+<% if references_did_not_come_back_in_time? %>
+  <%= render NotificationMessageComponent.new(:info,
+                                              message: 'Courses for the 2020 to 2021 academic year are now closed',
+                                              secondary_message: "Your references did not come back in time, but you can #{govuk_link_to('apply again', start_path, class: 'govuk-notification-banner__link')}") %>
+<% elsif between_cycles? %>
+  <%= render NotificationMessageComponent.new(:info,
+                                              message: 'Courses for the 2020 to 2021 academic year are now closed',
+                                              secondary_message: "Your application did not lead to a place, but you can #{govuk_link_to('apply again', start_path, class: 'govuk-notification-banner__link')}") %>
+<% else %>
+  <%= render NotificationMessageComponent.new(:info,
+                                              message: 'Do you want to continue applying?',
+                                              secondary_message: 'Applications are open for courses starting academic year 2021 to 2022.', message_link: { 'text' => 'Continue your application', 'url' => start_path }) %>
+<% end %>
