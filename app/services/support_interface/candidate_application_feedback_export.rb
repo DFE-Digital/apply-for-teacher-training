@@ -1,6 +1,6 @@
 module SupportInterface
   class CandidateApplicationFeedbackExport
-    def data_for_export
+    def data_for_export(run_once_flag = false)
       application_feedback.map do |feedback|
         {
           'Name' => feedback.application_form.full_name,
@@ -13,6 +13,7 @@ module SupportInterface
           'Feedback' => feedback.feedback,
           'Consent to be contacted' => feedback.consent_to_be_contacted,
         }
+        break if run_once_flag
       end
     end
 

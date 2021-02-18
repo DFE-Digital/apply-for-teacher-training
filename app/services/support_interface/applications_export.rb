@@ -1,6 +1,6 @@
 module SupportInterface
   class ApplicationsExport
-    def applications
+    def data_for_export(run_once_flag = false)
       applications_of_interest = ApplicationForm.includes(
         :candidate,
       ).preload(
@@ -69,11 +69,12 @@ module SupportInterface
         end
 
         results << output
+        break if run_once_flag
       end
 
       results
     end
 
-    alias_method :data_for_export, :applications
+    # alias_method :data_for_export, :applications
   end
 end

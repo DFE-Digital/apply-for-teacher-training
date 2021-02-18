@@ -6,7 +6,7 @@ module SupportInterface
         data_for_export = DataExport::EXPORT_TYPES.values.map do |export|
 
           export_class = export[:class].new
-          export_output = export_class.data_for_export
+          export_output = export_class.data_for_export(true)
           columns = export_output[0].keys.map{|x| x.to_s.humanize}
 
           output = {

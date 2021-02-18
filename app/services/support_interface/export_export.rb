@@ -1,11 +1,13 @@
 
 module SupportInterface
   class ExportExport
-    def data_for_export
-      data_for_export = DataExport::EXPORT_TYPES.values.map do |export|
+    def data_for_export(run_once_flag = false)
+      exports = DataExport::EXPORT_TYPES.except(:export_export)
+      data_for_export = exports.values.map do |export|
+        # binding.pry
 
         export_class = export[:class].new
-        export_output = export_class.data_for_export
+        export_output = export_class.data_for_export(true)
         columns = export_output[0].keys.map{|x| x.to_s.humanize}
 
         output = {
@@ -16,6 +18,8 @@ module SupportInterface
         columns.each_with_index.map do |x, i|
           columns_hash.merge( {i => x})
         end
+
+        # binding.pry
 
         output
       end
