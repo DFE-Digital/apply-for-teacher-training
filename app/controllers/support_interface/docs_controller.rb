@@ -1,9 +1,8 @@
 module SupportInterface
   class DocsController < SupportInterfaceController
     def index
-
-
-        data_for_export = DataExport::EXPORT_TYPES.values.map do |export|
+        exports = DataExport::EXPORT_TYPES.except(:export_export)
+        data_for_export = exports.values.map do |export|
 
           export_class = export[:class].new
           export_output = export_class.data_for_export(true)
@@ -12,6 +11,8 @@ module SupportInterface
           output = {
               'Name' => export[:name],
           }
+
+          binding.pry
 
           columns_hash = {}
           columns.each_with_index.map do |x, i|
