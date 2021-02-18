@@ -69,6 +69,11 @@ module ViewHelper
   end
 
   def govuk_button_to(name, options = {}, html_options = {})
+    if block_given?
+      html_options = options
+      options = name
+    end
+
     html_options = {
       class: prepend_css_class('govuk-button', html_options[:class]),
       role: 'button',
@@ -76,7 +81,7 @@ module ViewHelper
       draggable: false,
     }.merge(html_options)
 
-    return button_to(name, options, html_options) { yield } if block_given?
+    return button_to(options, html_options) { yield } if block_given?
 
     button_to(name, options, html_options)
   end
