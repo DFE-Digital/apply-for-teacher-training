@@ -24,7 +24,7 @@ RSpec.describe AcceptOffer do
       ratifying_provider_user = create(:provider_user, send_notifications: true, providers: [ratifying_provider])
 
       course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-      application_choice = create(:application_choice, status: :offer, course_option: course_option)
+      application_choice = create(:application_choice, :with_offer, course_option: course_option)
 
       expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
       expect(ActionMailer::Base.deliveries.first.subject).to match(/has accepted your offer/)
