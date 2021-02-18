@@ -7,14 +7,17 @@ module SupportInterface
 
         export_class = export[:class].new
         export_output = export_class.data_for_export(true)
-        columns = export_output[0].keys.map{|x| x.to_s.humanize}
 
         output = {
-            'Name' => export[:name],
+          'Name' => export[:name],
         }
 
-        columns.each_with_index.map do |x, i|
-          output = output.merge( { i+1 => x })
+        if export_output&.any?
+          columns = export_output.first.keys.map{|x| x.to_s.humanize}
+
+          columns.each_with_index.map do |x, i|
+            output = output.merge( { i+1 => x })
+          end
         end
 
         output
@@ -22,7 +25,7 @@ module SupportInterface
 
       # The DataExport class creates the header row for us so we need to ensure
       # we sort by longest hash length to ensure all headers appear
-      data_for_export.sort_by(&:length).reverse
+      data_for_export.sort_by(&:length).reverse if data_for_export.present?
     end
   end
 end
