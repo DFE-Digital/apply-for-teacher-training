@@ -60,6 +60,12 @@ en:
               gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
             other_grade:
               blank: Enter your grade
+        candidate_interface/gcse_year_form:
+          attributes:
+            award_year:
+              blank: Enter the year you gained your qualification
+              in_future: Enter a year before %{date}
+              gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
         candidate_interface/science_gcse_grade_form:
           attributes:
             single_award_grade:
