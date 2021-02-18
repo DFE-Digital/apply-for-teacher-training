@@ -3,7 +3,7 @@
   @include govuk-font($size: 19);
   background-color: govuk-colour("light-grey");
   display: block;
-  text-decoration: none;
+  position: relative;
 }
 
 .app-card--blue {
@@ -23,6 +23,40 @@
 
 .app-card--white {
   background-color: govuk-colour("white");
+}
+
+.app-card__link {
+  color: inherit;
+  text-decoration: none;
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &::before {
+    bottom: 0;
+    content: "";
+    display: block;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 0;
+  }
+
+  &:focus::before {
+    box-shadow: inset 0 0 0 4px govuk-colour("black");
+    outline: $govuk-focus-width solid $govuk-focus-colour;
+  }
+
+  &:hover::before {
+    background-color: rgba(govuk-colour("black"), 0.05);
+  }
 }
 
 .app-card__count {
