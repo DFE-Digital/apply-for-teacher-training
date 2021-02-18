@@ -16,12 +16,24 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
     expect(component).to include(interview.application_choice.course.provider.name)
   end
 
-  it 'displays the course name' do
-    expect(component).to include(interview.application_choice.course.name)
+  it 'displays the course name and code' do
+    expect(component).to include(interview.application_choice.course.name_and_code)
   end
 
   it 'displays interview location' do
     expect(component).to include(interview.location)
+  end
+
+  context 'additional details' do
+    it 'displays the additional details' do
+      interview.additional_details = 'Test'
+      expect(component).to include('Test')
+    end
+
+    it 'displays additional details as None when no additional details provided' do
+      interview.additional_details = ''
+      expect(component).to include('None')
+    end
   end
 
   context 'user_can_change_interview is false' do
