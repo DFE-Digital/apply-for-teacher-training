@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe UCASMatch do
+  include FactoryStubs::UCASMatch
+
   let(:candidate) { create(:candidate) }
   let(:course) { create(:course) }
   let(:application_form_awaiting_provider_decision) { create(:completed_application_form, candidate_id: candidate.id, application_choices_count: 1) }
@@ -12,6 +14,10 @@ RSpec.describe UCASMatch do
       'Provider code' => course.provider.code.to_s }
   end
   let(:ucas_match) { build_stubbed(:ucas_match) }
+
+  before(:all) do
+    define_dual_application_ucas_match_stub
+  end
 
   describe '#action_needed?' do
     it 'returns false if ucas match has been manually resolved' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe UCASMatchedApplication, create_dual_application_ucas_match_stub: true do
+RSpec.describe UCASMatchedApplication do
   let(:recruitment_cycle_year) { 2020 }
   let(:candidate) { build_stubbed(:candidate) }
   let(:provider) { build_stubbed(:provider) }
