@@ -77,11 +77,6 @@ en:
           attributes:
             work_history:
               blank: Select how long you’ve been working for
-        candidate_interface/work_breaks_form:
-          attributes:
-            work_history_breaks:
-              blank: Please explain any breaks in your work history
-              too_many_words: Explanation for breaks in your work history must be %{count} words or fewer
         candidate_interface/work_explanation_form:
           attributes:
             work_history_explanation:

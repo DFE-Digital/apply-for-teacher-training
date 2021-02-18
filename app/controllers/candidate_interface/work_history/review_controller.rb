@@ -1,7 +1,5 @@
 module CandidateInterface
-  class WorkHistory::ReviewController < CandidateInterfaceController
-    before_action :redirect_to_dashboard_if_submitted
-
+  class WorkHistory::ReviewController < WorkHistory::BaseController
     def show
       redirect_to candidate_interface_work_history_length_path if current_application.application_work_experiences.blank? &&
         current_application.work_history_explanation.nil?

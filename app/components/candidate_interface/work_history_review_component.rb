@@ -35,14 +35,10 @@ module CandidateInterface
     end
 
     def break_in_work_history_rows
-      action_label = t("application_form.work_history.breaks.#{@application_form.work_history_breaks ? 'change' : 'enter'}_action")
-
       [
         {
           key: t('application_form.work_history.breaks.review_label'),
           value: @application_form.work_history_breaks,
-          action: action_label,
-          action_path: Rails.application.routes.url_helpers.candidate_interface_work_history_breaks_path,
         },
       ]
     end

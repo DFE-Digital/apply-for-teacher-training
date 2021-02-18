@@ -65,6 +65,7 @@ module CandidateInterface
           end_date_unknown: ActiveModel::Type::Boolean.new.cast(end_date_unknown),
           currently_working: ActiveModel::Type::Boolean.new.cast(currently_working),
           relevant_skills: ActiveModel::Type::Boolean.new.cast(relevant_skills),
+          details: set_details_field,
         )
       end
 
@@ -81,23 +82,8 @@ module CandidateInterface
           end_date_unknown: end_date_unknown,
           currently_working: currently_working,
           relevant_skills: relevant_skills,
+          details: set_details_field,
         )
-      end
-
-      def blank_form?
-        [
-          role,
-          organisation,
-          commitment,
-          start_date_day,
-          start_date_month,
-          start_date_year,
-          end_date_day,
-          end_date_month,
-          end_date_year,
-          currently_working,
-          relevant_skills,
-        ].all?(&:blank?)
       end
 
       def start_date
@@ -110,6 +96,16 @@ module CandidateInterface
 
       def not_currently_employed_in_this_role?
         currently_working == 'false'
+      end
+
+    private
+
+      def set_details_field
+        if ActiveModel::Type::Boolean.new.cast(relevant_skills)
+          'I used skills relevant to teaching in this job.'
+        else
+          'I did not use skills relevant to teaching in this job.'
+        end
       end
     end
   end
