@@ -26,7 +26,7 @@ module SupportInterface
           'Application status' => I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
           'Course code' => application_choice.course.code,
           'Provider code' => application_choice.provider.code,
-          'Nationality' => nationality(application_choice)
+          'Nationality' => nationality(application_choice),
         }
       end
     end

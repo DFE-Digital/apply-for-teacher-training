@@ -24,19 +24,18 @@ RSpec.describe SupportInterface::PersonaExport do
       create(:degree_qualification, award_year: '2020', application_form: application_form, qualification_type: 'Bachelor of Theology')
       create(:degree_qualification, award_year: '2018', application_form: application_form)
       application_choice = create(
-          :application_choice,
-          :with_structured_rejection_reasons,
-          structured_rejection_reasons: {
-              course_full_y_n: 'No',
-              candidate_behaviour_y_n: 'Yes',
-              candidate_behaviour_other: 'Persistent scratching',
-              honesty_and_professionalism_y_n: 'Yes',
-              honesty_and_professionalism_concerns: %w[references],
-          },
-          course_option: course_option,
-          application_form: application_form,
+        :application_choice,
+        :with_structured_rejection_reasons,
+        structured_rejection_reasons: {
+          course_full_y_n: 'No',
+          candidate_behaviour_y_n: 'Yes',
+          candidate_behaviour_other: 'Persistent scratching',
+          honesty_and_professionalism_y_n: 'Yes',
+          honesty_and_professionalism_concerns: %w[references],
+        },
+        course_option: course_option,
+        application_form: application_form,
       )
-
 
       expect(described_class.new.data_for_export).to eq([expected_hash(application_choice)])
     end
@@ -67,7 +66,7 @@ private
       'Application status' => 'Ended without success',
       'Course code' => application_choice.course.code,
       'Provider code' => application_choice.provider.code,
-      'Nationality' => 'GB'
+      'Nationality' => 'GB',
     }
   end
 end
