@@ -1,6 +1,6 @@
 module SupportInterface
   class RefereeSurveyExport
-    def call
+    def data_for_export(run_once_flag = false)
       references = ApplicationReference.includes(:application_form).where.not(questionnaire: nil)
       references_with_feedback = references.reject do |reference|
         reference.questionnaire.values.all? { |response| response == ' | ' }
@@ -21,12 +21,13 @@ module SupportInterface
         }
 
         output << hash
+        break if run_once_flag
       end
 
       output
     end
 
-    alias_method :data_for_export, :call
+    # alias_method :data_for_export, :call
 
   private
 

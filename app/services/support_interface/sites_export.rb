@@ -2,7 +2,7 @@ module SupportInterface
   class SitesExport
     include GeocodeHelper
 
-    def sites
+    def data_for_export(run_once_flag = false)
       relevant_sites.map do |site|
         {
           'id' => site.id,
@@ -10,10 +10,11 @@ module SupportInterface
           'provider code' => site.provider.code,
           'distance from provider' => format_distance(site, site.provider, with_units: false),
         }
+        break if run_once_flag
       end
     end
 
-    alias_method :data_for_export, :sites
+    # alias_method :data_for_export, :sites
 
   private
 

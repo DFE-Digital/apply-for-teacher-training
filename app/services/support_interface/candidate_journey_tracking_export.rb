@@ -1,6 +1,6 @@
 module SupportInterface
   class CandidateJourneyTrackingExport
-    def application_choices
+    def data_for_export(run_once_flag = false)
       all_application_choices.find_each.map do |choice|
         {
           id: choice.id,
@@ -11,9 +11,10 @@ module SupportInterface
           phase: choice.application_form.phase,
         }.merge(journey_items(choice))
       end
+      break if run_once_flag
     end
 
-    alias_method :data_for_export, :application_choices
+    # alias_method :data_for_export, :application_choices
 
   private
 

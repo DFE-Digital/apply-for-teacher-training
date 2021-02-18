@@ -1,6 +1,6 @@
 module SupportInterface
   class CandidateFeedbackExport
-    def data_for_export
+    def data_for_export(run_once_flag = false)
       application_forms.find_each.map do |application_form|
         {
           'Name' => application_form.full_name,
@@ -12,6 +12,7 @@ module SupportInterface
           'CSAT score' => csat_score(application_form.feedback_satisfaction_level),
           'Suggestions' => application_form.feedback_suggestions,
         }
+        break if run_once_flag
       end
     end
 

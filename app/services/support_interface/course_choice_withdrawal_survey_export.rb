@@ -1,6 +1,6 @@
 module SupportInterface
   class CourseChoiceWithdrawalSurveyExport
-    def data_for_export
+    def data_for_export(run_once_flag = false)
       application_choices = ApplicationChoice.where.not(withdrawal_feedback: nil)
 
       output = []
@@ -13,6 +13,7 @@ module SupportInterface
         }.merge(survey)
 
         output << answer
+        break if run_once_flag
       end
 
       output

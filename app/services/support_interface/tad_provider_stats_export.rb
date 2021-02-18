@@ -1,13 +1,13 @@
 module SupportInterface
   class TADProviderStatsExport
-    def call
+    def data_for_export(run_once_flag = false)
       Course
         .includes(:provider)
-        .map { |c| course_to_row(c) }
+        .map { |c| course_to_row(c) break if run_once_flag }
         .sort_by { |r| r[:provider_code] }
     end
 
-    alias_method :data_for_export, :call
+    # alias_method :data_for_export, :call
 
   private
 

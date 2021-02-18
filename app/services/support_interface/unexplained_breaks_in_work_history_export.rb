@@ -31,7 +31,7 @@ module SupportInterface
       end
     end
 
-    def data_for_export
+    def data_for_export(run_once_flag = false)
       applications = ApplicationForm
                          .where.not(date_of_birth: nil)
                          .select(:id, :candidate_id, :submitted_at, :date_of_birth, :work_history_completed)
@@ -65,6 +65,7 @@ module SupportInterface
           'Course choice statuses' => application_form.application_choices.map(&:status).sort,
         }
         output
+        break if run_once_flag && output.present?
       end
 
       data_for_export.compact

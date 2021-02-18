@@ -1,11 +1,12 @@
 module SupportInterface
   class TADExport
-    def data_for_export
+    def data_for_export(run_once_flag = false)
       relevant_applications.flat_map do |application_form|
         application_form.application_choices.map do |application_choice|
           TADApplicationExport.new(application_choice).as_json
         end
       end
+      break if run_once_flag
     end
 
   private

@@ -2,7 +2,7 @@ module SupportInterface
   class ProvidersExport
     include GeocodeHelper
 
-    def providers
+    def data_for_export(run_once_flag = false)
       relevant_providers.map do |provider|
         {
           'name' => provider.name,
@@ -11,9 +11,10 @@ module SupportInterface
           'Average distance to site' => average_distance_to_site(provider),
         }
       end
+      break if run_once_flag
     end
 
-    alias_method :data_for_export, :providers
+    # alias_method :data_for_export, :providers
 
   private
 

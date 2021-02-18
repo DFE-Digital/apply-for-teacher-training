@@ -1,6 +1,6 @@
 module SupportInterface
   class OfferConditionsExport
-    def offers
+    def data_for_export(run_once_flag = false)
       relevant_choices.flat_map do |choice|
         {
           support_reference: choice.application_form.support_reference,
@@ -28,10 +28,11 @@ module SupportInterface
           application_status: choice.status,
           conditions: conditions(choice),
         }
+        break if run_once_flag
       end
     end
 
-    alias_method :data_for_export, :offers
+    # alias_method :data_for_export, :offers
 
   private
 

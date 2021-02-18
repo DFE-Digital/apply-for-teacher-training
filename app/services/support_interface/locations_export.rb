@@ -2,7 +2,7 @@ module SupportInterface
   class LocationsExport
     include GeocodeHelper
 
-    def data_for_export
+    def data_for_export(run_once_flag = false)
       application_choices.find_each.map do |application_choice|
         application_form = application_choice.application_form
 
@@ -23,6 +23,7 @@ module SupportInterface
           'Distance from site to candidate' => distance(application_choice),
           'Average distance from all sites to candidate' => average_distance(application_form),
         }
+        break if run_once_flag
       end
     end
 

@@ -1,6 +1,6 @@
 module SupportInterface
   class ApplicationChoicesExport
-    def application_choices
+    def data_for_export(run_once_flag = false)
       results = []
 
       relevant_applications.find_each(batch_size: 100) do |application_form|
@@ -26,12 +26,13 @@ module SupportInterface
             structured_rejection_reasons: format_structured_rejection_reasons(choice.structured_rejection_reasons),
           }
         end
+        break if run_once_flag
       end
 
       results
     end
 
-    alias_method :data_for_export, :application_choices
+    # alias_method :data_for_export, :application_choices
 
   private
 

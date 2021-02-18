@@ -1,6 +1,6 @@
 module SupportInterface
   class EqualityAndDiversityExport
-    def data_for_export
+    def data_for_export(run_once_flag = false)
       data_for_export = application_forms.includes(:application_choices).map do |application_form|
         rejected_application_choices = application_form.application_choices.rejected
         output = {
@@ -25,11 +25,12 @@ module SupportInterface
         end
 
         output
+        break if run_once_flag
       end
 
       # The DataExport class creates the header row for us so we need to ensure
       # we sort by longest hash length to ensure all headers appear
-      data_for_export.sort_by(&:length).reverse
+      data_for_export.sort_by(&:length).reverse if data_for_export.present?
     end
 
   private

@@ -1,6 +1,6 @@
 module SupportInterface
   class ApplicationReferencesExport
-    def data_for_export
+    def data_for_export(run_once_flag = false)
       application_forms = ApplicationForm.includes(:application_choices, application_references: :audits)
 
       data_for_export = application_forms.map do |af|
@@ -19,11 +19,12 @@ module SupportInterface
         end
 
         output
+        break if run_once_flag
       end
 
       # The DataExport class creates the header row for us so we need to ensure
       # we sort by longest hash length to ensure all headers appear
-      data_for_export.sort_by(&:length).reverse
+      data_for_export.sort_by(&:length).reverse if data_for_export.present?
     end
 
   private

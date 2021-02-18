@@ -1,6 +1,6 @@
 module SupportInterface
   class ProviderAccessControlsExport
-    def data_for_export
+    def data_for_export(run_once_flag = false)
       providers = Provider.where(sync_courses: true)
 
       providers.map do |provider|
@@ -29,6 +29,7 @@ module SupportInterface
           total_org_relationships_as_trainer: access_controls.total_org_relationships_as_trainer,
           total_org_relationships: access_controls.total_org_relationships,
         }
+        break if run_once_flag
       end
     end
   end

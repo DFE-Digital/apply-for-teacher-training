@@ -1,6 +1,6 @@
 module SupportInterface
   class QualificationsExport
-    def data_for_export
+    def data_for_export(run_once_flag = false)
       application_choices = ApplicationChoice
                                 .select(:id, :application_form_id, :rejection_reason, :structured_rejection_reasons, :status, :course_option_id)
                                 .includes(:course_option, :course, :provider)
@@ -57,6 +57,7 @@ module SupportInterface
           'Number of other qualifications provided' => other_qualification_count(qualifications),
         }
         output
+        break if run_once_flag
       end
     end
 
