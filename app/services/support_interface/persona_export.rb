@@ -19,7 +19,6 @@ module SupportInterface
           'Program type' => application_choice.course.program_type,
           'Degree completed' => return_lastest_degree_award_year(application_form),
           'Degree type' => return_lastest_degree_type(application_form),
-          'Status' => application_state(application_form),
           'Distance from site to candidate' => distance(application_choice),
           'Average distance from all sites to candidate' => average_distance(application_form),
           'Rejection reason' => application_choice.rejection_reason,

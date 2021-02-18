@@ -60,7 +60,6 @@ private
       'Program type' => 'scitt_programme',
       'Degree completed' => '2020',
       'Degree type' => 'Bachelor of Theology',
-      'Status' => :ended_without_success,
       'Distance from site to candidate' => '2.2',
       'Average distance from all sites to candidate' => '2.2',
       'Rejection reason' => nil,
