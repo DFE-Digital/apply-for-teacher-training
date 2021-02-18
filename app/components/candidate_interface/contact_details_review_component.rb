@@ -29,7 +29,7 @@ module CandidateInterface
         key: t('application_form.contact_details.phone_number.label'),
         value: @contact_details_form.phone_number,
         action: t('application_form.contact_details.phone_number.change_action'),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_contact_information_edit_base_path,
+        change_path: Rails.application.routes.url_helpers.candidate_interface_contact_information_edit_phone_number_path,
       }
     end
 

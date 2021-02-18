@@ -29,13 +29,13 @@ RSpec.describe 'Candidate interface - validation error tracking', type: :request
 
   it 'does NOT create validation error when request is valid' do
     expect {
-      patch candidate_interface_contact_information_edit_base_url(valid_attributes)
+      patch candidate_interface_contact_information_edit_phone_number_url(valid_attributes)
     }.not_to(change { ValidationError.count })
   end
 
   it 'creates validation error when request is invalid' do
     expect {
-      patch candidate_interface_contact_information_edit_base_url(invalid_attributes)
+      patch candidate_interface_contact_information_edit_phone_number_url(invalid_attributes)
     }.to(change { ValidationError.count }.by(1))
   end
 end

@@ -1,7 +1,6 @@
 module CandidateInterface
   module References
     class EmailAddressController < BaseController
-      before_action :set_reference
       before_action :verify_email_is_editable
 
       def new

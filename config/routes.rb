@@ -97,10 +97,10 @@ Rails.application.routes.draw do
       end
 
       scope '/personal-information' do
-        get '/' => 'personal_details/base#new', as: :personal_information
-        patch '/' => 'personal_details/base#create'
-        get '/edit' => 'personal_details/base#edit', as: :edit_personal_information
-        patch '/edit' => 'personal_details/base#update'
+        get '/' => 'personal_details/name_and_dob#new', as: :name_and_dob
+        patch '/' => 'personal_details/name_and_dob#create'
+        get '/edit' => 'personal_details/name_and_dob#edit', as: :edit_name_and_dob
+        patch '/edit' => 'personal_details/name_and_dob#update'
 
         get '/nationality' => 'personal_details/nationalities#new', as: :nationalities
         patch '/nationality' => 'personal_details/nationalities#create'
@@ -170,8 +170,8 @@ Rails.application.routes.draw do
       end
 
       scope '/contact-information' do
-        get '/' => 'contact_details/base#edit', as: :contact_information_edit_base
-        patch '/' => 'contact_details/base#update'
+        get '/' => 'contact_details/phone_number#edit', as: :contact_information_edit_phone_number
+        patch '/' => 'contact_details/phone_number#update'
 
         get '/address-type' => 'contact_details/address_type#edit', as: :contact_information_edit_address_type
         patch '/address-type' => 'contact_details/address_type#update'
@@ -279,14 +279,14 @@ Rails.application.routes.draw do
       end
 
       scope '/unpaid-experience' do
-        get '/' => 'volunteering/experience#show', as: :volunteering_experience
-        post '/' => 'volunteering/experience#submit'
+        get '/' => 'volunteering/start#show', as: :volunteering_experience
+        post '/' => 'volunteering/start#submit'
 
-        get '/new' => 'volunteering/base#new', as: :new_volunteering_role
-        post '/new' => 'volunteering/base#create'
+        get '/new' => 'volunteering/role#new', as: :new_volunteering_role
+        post '/new' => 'volunteering/role#create'
 
-        get '/edit/:id' => 'volunteering/base#edit', as: :edit_volunteering_role
-        patch '/edit/:id' => 'volunteering/base#update'
+        get '/edit/:id' => 'volunteering/role#edit', as: :edit_volunteering_role
+        patch '/edit/:id' => 'volunteering/role#update'
 
         get '/review' => 'volunteering/review#show', as: :review_volunteering
         patch '/review' => 'volunteering/review#complete', as: :complete_volunteering
@@ -441,7 +441,7 @@ Rails.application.routes.draw do
       end
 
       scope '/references' do
-        get '/start' => 'references/base#start', as: :references_start
+        get '/start' => 'references/start#show', as: :references_start
 
         get '/type' => 'references/type#new', as: :references_type
         post '/type' => 'references/type#create'

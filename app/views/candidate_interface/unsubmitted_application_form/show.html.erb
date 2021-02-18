@@ -71,14 +71,14 @@
           <%= render(TaskListItemComponent.new(
             text: t('page_titles.personal_information'),
             completed: @application_form_presenter.personal_details_completed?,
-            path: all_sections_completed ? candidate_interface_personal_details_show_path : candidate_interface_personal_information_path,
+            path: all_sections_completed ? candidate_interface_personal_details_show_path : candidate_interface_name_and_dob_path,
           )) %>
         </li>
         <li class="app-task-list__item">
           <%= render(TaskListItemComponent.new(
             text: t('page_titles.contact_information'),
             completed: @application_form_presenter.contact_details_completed?,
-            path: @application_form_presenter.contact_details_valid? ? candidate_interface_contact_information_review_path : candidate_interface_contact_information_edit_base_path,
+            path: @application_form_presenter.contact_details_valid? ? candidate_interface_contact_information_review_path : candidate_interface_contact_information_edit_phone_number_path,
           )) %>
         </li>
       </ol>

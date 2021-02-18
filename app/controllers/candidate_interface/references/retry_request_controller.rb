@@ -1,8 +1,6 @@
 module CandidateInterface
   module References
     class RetryRequestController < BaseController
-      before_action :set_reference
-
       def new
         render_404 and return unless can_retry?
 

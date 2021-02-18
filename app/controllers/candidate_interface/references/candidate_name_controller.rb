@@ -1,7 +1,6 @@
 module CandidateInterface
   module References
     class CandidateNameController < BaseController
-      before_action :set_reference
       before_action :redirect_to_review_page_unless_reference_is_editable
 
       def new

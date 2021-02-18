@@ -29,7 +29,7 @@ RSpec.describe 'Candidate interface - audit trail', type: :request, with_audited
     sign_in candidate
 
     expect {
-      patch candidate_interface_personal_information_url(
+      patch candidate_interface_name_and_dob_url(
         candidate_interface_personal_details_form: valid_attributes,
       )
     }.to(change { candidate.current_application.audits.count })
