@@ -25,6 +25,11 @@ class DataExport < ApplicationRecord
       description: 'This provides the compiled results of all feedback received from prompts throughout the application form.',
       class: SupportInterface::CandidateApplicationFeedbackExport,
     },
+    candidate_email_send_counts: {
+      name: 'Candidate email send counts',
+      description: "A list of all emails sent by the service, and how many we've sent to date",
+      class: SupportInterface::CandidateEmailSendCountsExport,
+    },
     candidate_feedback: {
       name: 'Candidate feedback',
       description: 'This provides the compiled results of all the single-page candidate feedback forms.',
