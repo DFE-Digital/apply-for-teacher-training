@@ -12,7 +12,12 @@ module SupportInterface
         .pluck(
           'audits.created_at',
           'audits.user_id',
-          'audits.username',
+          Arel.sql(
+            "CASE audits.user_type
+              WHEN 'ProviderUser' THEN (SELECT CONCAT(first_name, ' ', last_name) FROM provider_users WHERE id = audits.user_id)
+              WHEN 'SupportUser' THEN (SELECT CONCAT(first_name, ' ', last_name) FROM support_users WHERE id = audits.user_id)
+            END".squish,
+          ),
           'providers.code',
           'providers.name',
           Arel.sql("CONCAT(provider_users.first_name, ' ' , provider_users.last_name)"),
