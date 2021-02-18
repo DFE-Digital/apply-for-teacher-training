@@ -6,7 +6,7 @@ class SupportUser < ActiveRecord::Base
   validates :dfe_sign_in_uid, presence: true
   validates :email_address, presence: true, uniqueness: true
 
-  before_save :downcase_email_address
+  before_validation :downcase_email_address
 
   audited except: [:last_signed_in_at]
 
