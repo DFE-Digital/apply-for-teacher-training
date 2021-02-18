@@ -56,6 +56,8 @@ RSpec.feature 'See applications' do
   alias_method :when_i_visit_the_provider_page, :and_i_visit_the_provider_page
 
   def then_i_should_see_the_applications_from_my_organisation
+    expect(page).to have_title 'Applications (2)'
+    expect(page).to have_content 'Applications (2)'
     expect(page).to have_content @my_provider_choice1.application_form.full_name
     expect(page).to have_content @my_provider_choice2.application_form.full_name
   end

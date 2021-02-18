@@ -1,4 +1,4 @@
-<% content_for :browser_title, 'Applications' %>
+<% content_for :browser_title, "Applications (#{@application_choices_count})" %>
 
 <% if FeatureFlag.active?('provider_information_banner') %>
   <div class="govuk-grid-row">
@@ -17,7 +17,7 @@
   </div>
 <% end %>
 
-<h1 class='govuk-heading-xl'>Applications</h1>
+<h1 class='govuk-heading-xl'>Applications (<%= @application_choices_count %>)</h1>
 
 <%= render PaginatedFilterComponent.new(filter: @filter, collection: @application_choices) do %>
   <% if @application_choices.any? %>

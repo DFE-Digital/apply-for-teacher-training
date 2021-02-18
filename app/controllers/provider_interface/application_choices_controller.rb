@@ -30,6 +30,7 @@ module ProviderInterface
         application_choices: with_includes.where(id: application_choices),
       )
 
+      @application_choices_count = application_choices.count
       @application_choices = application_choices.page(params[:page] || 1).per(30)
     end
 
