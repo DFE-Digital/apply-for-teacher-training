@@ -1,11 +1,13 @@
-<nav class="moj-pagination" role="navigation" aria-label="pagination">
+<nav class="moj-pagination govuk-!-margin-top-7" role="navigation" aria-label="pagination">
+  <p class="govuk-visually-hidden">Pagination navigation</p>
+  
   <%= paginate @scope, paginate_configuration %>
 
   <p class="moj-pagination__results govuk-body">
-  <% if current_page_exceeds_total_pages? %>
+  <% if current_page_exceeds_total_pages? -%>
     <b><%= total %></b> results
-  <% else %>
+  <% else -%>
     Showing <b><%= page_start %></b> to <b><%= page_end %></b> of <b><%= total %></b>
-  <% end %>
+  <% end -%>
   </p>
 </nav>
