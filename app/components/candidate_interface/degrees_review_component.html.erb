@@ -3,7 +3,7 @@
     <%= render(SummaryCardHeaderComponent.new(title: title(degree), heading_level: @heading_level)) do %>
       <% if @editable %>
         <div class="app-summary-card__actions">
-          <%= link_to candidate_interface_confirm_degree_destroy_path(degree.id), class: 'govuk-link' do %>
+          <%= govuk_link_to candidate_interface_confirm_degree_destroy_path(degree.id) do %>
             <%= t('application_form.degree.delete') %><span class="govuk-visually-hidden"><%= generate_action(degree: degree) %></span>
           <% end %>
         </div>

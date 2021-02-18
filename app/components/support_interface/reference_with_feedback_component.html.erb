@@ -3,13 +3,13 @@
     <%= render(SummaryCardHeaderComponent.new(title: title, heading_level: 3)) do %>
       <% if reference.cancelled? || reference.feedback_refused? %>
         <div class='app-summary-card__actions'>
-          <%= link_to support_interface_reinstate_reference_path(reference), class: 'govuk-link' do %>
+          <%= govuk_link_to support_interface_reinstate_reference_path(reference) do %>
           Reinstate reference<span class="govuk-visually-hidden"> for <%= reference.name %></span>
           <% end %>
         </div>
       <% elsif reference.feedback_requested? %>
         <div class='app-summary-card__actions'>
-          <%= link_to support_interface_cancel_reference_path(reference), class: 'govuk-link' do %>
+          <%= govuk_link_to support_interface_cancel_reference_path(reference) do %>
             Cancel reference<span class="govuk-visually-hidden"> for <%= reference.name %></span>
           <% end %>
         </div>

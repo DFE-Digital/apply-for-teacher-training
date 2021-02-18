@@ -3,7 +3,7 @@
     <%= render(SummaryCardHeaderComponent.new(title: volunteering_role.role, heading_level: @heading_level)) do %>
       <% if @editable %>
         <div class="app-summary-card__actions">
-          <%= link_to candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role.id), class: 'govuk-link' do %>
+          <%= govuk_link_to candidate_interface_confirm_destroy_volunteering_role_path(volunteering_role.id) do %>
             <%= t('application_form.volunteering.delete.action') %><span class="govuk-visually-hidden"><%= generate_action(volunteering_role: volunteering_role) %></span>
           <% end %>
         </div>
@@ -21,7 +21,7 @@
     <div class="app-summary-card__body">
       The Department for Education have made it easier for teacher training
       applicants to gain experience in school. Learn more at
-      <%= link_to 'Get school experience', 'https://schoolexperience.education.gov.uk/', class: 'govuk-link', target: :_blank, rel: 'noopener' %>.
+      <%= govuk_link_to 'Get school experience', 'https://schoolexperience.education.gov.uk/', target: :_blank, rel: 'noopener' %>.
     </div>
   </section>
 <% end %>
