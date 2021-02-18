@@ -56,6 +56,7 @@ class ApplicationStateChange
       event :make_offer, transitions_to: :offer
       event :withdraw_offer, transitions_to: :offer_withdrawn
       event :accept, transitions_to: :pending_conditions
+      event :accept_unconditional_offer, transitions_to: :recruited
       event :decline, transitions_to: :declined
       event :decline_by_default, transitions_to: :declined
     end

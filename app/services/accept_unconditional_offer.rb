@@ -5,14 +5,11 @@ class AcceptUnconditionalOffer
 
   def save!
     ActiveRecord::Base.transaction do
-      ApplicationStateChange.new(@application_choice).accept!
-      @application_choice.update!(accepted_at: Time.zone.now)
-
-      ApplicationStateChange.new(@application_choice).confirm_conditions_met!
-      @application_choice.update!(recruited_at: Time.zone.now)
+      ApplicationStateChange.new(@application_choice).accept_unconditional_offer!
+      @application_choice.update!(accepted_at: Time.zone.now, recruited_at: Time.zone.now)
     end
 
-    # TODO: New mailer method for unconditional offers.
+    # TODO: Mailer methods for unconditional offers (needs provider & candidate notifications).
     CandidateMailer.offer_accepted(@application_choice).deliver_later
 
     StateChangeNotifier.new(:recruited, @application_choice).application_outcome_notification
