@@ -419,7 +419,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   end
 
   describe 'attributes.references' do
-    let(:application_choice) { create(:application_choice, :with_offer) }
+    let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer) }
 
     it 'returns only references with feedback' do
       with_feedback = create(
@@ -471,7 +471,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   end
 
   describe 'attributes.qualifications' do
-    let(:application_choice) { create(:application_choice, :with_offer) }
+    let(:application_choice) { create(:application_choice, :with_completed_application_form, :with_offer) }
     let(:presenter) { VendorAPI::SingleApplicationPresenter.new(application_choice) }
 
     it 'uses the public_id of a qualification as the id' do
@@ -632,21 +632,21 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.offer' do
     it 'includes an offer_made_at date for offers' do
-      choice = create(:application_choice, :with_offer)
+      choice = create(:application_choice, :with_completed_application_form, :with_offer)
 
       presenter = VendorAPI::SingleApplicationPresenter.new(choice)
       expect(presenter.as_json[:attributes][:offer][:offer_made_at]).to be_present
     end
 
     it 'includes an accepted_at date for accepted offers' do
-      choice = create(:application_choice, :with_accepted_offer)
+      choice = create(:application_choice, :with_completed_application_form, :with_accepted_offer)
 
       presenter = VendorAPI::SingleApplicationPresenter.new(choice)
       expect(presenter.as_json[:attributes][:offer][:offer_accepted_at]).to be_present
     end
 
     it 'includes a declined_at date for declined offers' do
-      choice = create(:application_choice, :with_declined_offer)
+      choice = create(:application_choice, :with_completed_application_form, :with_declined_offer)
 
       presenter = VendorAPI::SingleApplicationPresenter.new(choice)
       expect(presenter.as_json[:attributes][:offer][:offer_declined_at]).to be_present
@@ -655,7 +655,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.recruited_at' do
     it 'includes the date the candidate was recruited' do
-      choice = create(:application_choice, :with_recruited)
+      choice = create(:application_choice, :with_completed_application_form, :with_recruited)
 
       presenter = VendorAPI::SingleApplicationPresenter.new(choice)
       expect(presenter.as_json[:attributes][:recruited_at]).to be_present
@@ -664,7 +664,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.status' do
     it 'returns awaiting_provider_decision when status is interviewing' do
-      application_choice = build_stubbed(:application_choice, status: :interviewing)
+      application_choice = build_stubbed(:application_choice, :with_completed_application_form, status: :interviewing)
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
       expect(response.dig(:attributes)[:status]).to eq('awaiting_provider_decision')
     end
@@ -681,7 +681,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       )
     end
     let(:non_uk_application_choice) { create(:submitted_application_choice, application_form: non_uk_application_form) }
-    let(:application_choice) { create(:submitted_application_choice) }
+    let(:application_choice) { create(:submitted_application_choice, :with_completed_application_form) }
 
     it 'looks at all fields which cause a touch' do
       # if there is a field on the form that causes a touch but isn't

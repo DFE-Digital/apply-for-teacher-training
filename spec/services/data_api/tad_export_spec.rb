@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe DataAPI::TADExport do
   before do
-    create(:submitted_application_choice, status: 'rejected', rejected_by_default: true)
-    create(:submitted_application_choice, status: 'declined', declined_by_default: true)
-    create(:submitted_application_choice, status: 'rejected')
-    create(:submitted_application_choice, status: 'declined')
+    create(:submitted_application_choice, :with_completed_application_form, status: 'rejected', rejected_by_default: true)
+    create(:submitted_application_choice, :with_completed_application_form, status: 'declined', declined_by_default: true)
+    create(:submitted_application_choice, :with_completed_application_form, status: 'rejected')
+    create(:submitted_application_choice, :with_completed_application_form, status: 'declined')
   end
 
   it_behaves_like 'a data export'

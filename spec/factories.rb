@@ -518,10 +518,18 @@ FactoryBot.define do
   end
 
   factory :application_choice do
-    association :application_form, factory: %i[completed_application_form with_completed_references with_degree]
     course_option
+    application_form
 
     status { ApplicationStateChange.valid_states.sample }
+
+    trait :with_completed_application_form do
+      association :application_form, factory: %i[completed_application_form]
+    end
+
+    trait :application_form_with_degree do
+      association :application_form, factory: %i[completed_application_form with_degree]
+    end
 
     factory :submitted_application_choice do
       status { 'awaiting_provider_decision' }

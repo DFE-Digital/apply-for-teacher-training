@@ -18,7 +18,7 @@ RSpec.describe 'GET /data-api/tad-data-exports/latest', type: :request, sidekiq:
   end
 
   it 'returns the latest data export' do
-    create(:submitted_application_choice, status: 'rejected')
+    create(:submitted_application_choice, :with_completed_application_form, status: 'rejected')
 
     data_export = DataExport.create!(name: 'Daily export of applications for TAD')
     DataExporter.perform_async(DataAPI::TADExport, data_export.id)

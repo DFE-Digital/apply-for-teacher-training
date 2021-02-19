@@ -8,8 +8,13 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
     expect(component).to include(interview.application_choice.course.funding_type.capitalize)
   end
 
-  it 'displays interview preferences' do
-    expect(component).to include(interview.application_choice.application_form.interview_preferences)
+  context 'interview preferences' do
+    let(:application_choice) { create(:application_choice, :with_completed_application_form) }
+    let(:interview) { create(:interview, application_choice: application_choice) }
+
+    it 'displays interview preferences' do
+      expect(component).to include(interview.application_choice.application_form.interview_preferences)
+    end
   end
 
   it 'displays the provider name' do

@@ -62,6 +62,7 @@ RSpec.describe ProviderInterface::HesaDataExport do
       course_option = create(:course_option, course: @course)
       @application_with_offer = create(
         :application_choice,
+        :with_completed_application_form,
         :with_accepted_offer,
         course_option: course_option,
       )

@@ -139,6 +139,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
       it 'returns formatted high level rejection reasons (those that include y_n)' do
         create(
           :application_choice,
+          :with_completed_application_form,
           structured_rejection_reasons: {
             course_full_y_n: 'No',
             candidate_behaviour_y_n: 'Yes',

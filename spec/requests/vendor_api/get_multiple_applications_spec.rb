@@ -8,6 +8,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
     create_list(
       :submitted_application_choice,
       2,
+      :with_completed_application_form,
       course_option: course_option_for_provider(provider: currently_authenticated_provider),
       status: 'awaiting_provider_decision',
     )
@@ -85,6 +86,7 @@ RSpec.describe 'Vendor API - GET /api/v1/applications', type: :request do
     create_list(
       :submitted_application_choice,
       2,
+      :with_completed_application_form,
       course_option: course_option_for_provider(provider: currently_authenticated_provider),
       status: :awaiting_provider_decision,
     )
