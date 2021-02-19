@@ -63,7 +63,7 @@ module ViewHelper
     link_to(body, url, html_options)
   end
 
-  def govuk_button_to(name, options = {}, html_options = {})
+  def govuk_button_to(name, options = {}, html_options = {}, &_block)
     if block_given?
       html_options = options
       options = name
