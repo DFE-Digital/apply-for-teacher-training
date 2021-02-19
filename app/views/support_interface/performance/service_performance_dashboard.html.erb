@@ -1,4 +1,4 @@
-<% if params[:screen] == "1" %>
+<% if params[:screen] == '1' %>
   <% content_for :title, "Service performance for #{params[:year] || 'all cycles'}" %>
 <% else %>
   <% content_for :title, 'Service performance' %>
@@ -19,25 +19,37 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-font-size-27">Candidates</h2>
 
 <div class="govuk-!-margin-bottom-4">
-  <%= render SupportInterface::TileComponent.new(count: @statistics.candidate_count, label: 'unique candidates', colour: :blue) %>
+  <%= render SupportInterface::TileComponent.new(
+    count: @statistics.candidate_count,
+    label: 'unique candidates',
+    colour: :blue,
+  ) %>
 </div>
 
 <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Applications</h3>
 
 <div class="govuk-!-margin-bottom-4">
-  <%= render SupportInterface::TileComponent.new(count: @statistics.total_form_count, label: 'application forms', colour: :blue) %>
+  <%= render SupportInterface::TileComponent.new(
+    count: @statistics.total_form_count,
+    label: 'application forms',
+    colour: :blue,
+  ) %>
 </div>
 
 <div class="govuk-grid-row govuk-!-margin-bottom-4">
   <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted') do %>
-      <%= render SupportInterface::TileComponent.new(count: @statistics.total_form_count(only: %i[unsubmitted_not_started_form unsubmitted_in_progress]), label: 'unsubmitted application forms') %>
-    <% end %>
+    <%= render SupportInterface::TileComponent.new(
+      count: @statistics.total_form_count(only: %i[unsubmitted_not_started_form unsubmitted_in_progress]),
+      label: 'unsubmitted application forms',
+      href: '#unsubmitted',
+    ) %>
   </div>
   <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'being-processed') do %>
-      <%= render SupportInterface::TileComponent.new(count: @statistics.total_submitted_count, label: 'submitted application forms') %>
-    <% end %>
+    <%= render SupportInterface::TileComponent.new(
+      count: @statistics.total_submitted_count,
+      label: 'submitted application forms',
+      href: '#being-processed',
+    ) %>
   </div>
 </div>
 
@@ -45,14 +57,20 @@
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted') do %>
-          <%= render SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_not_started_form], label: 'forms not started', size: :reduced) %>
-        <% end %>
+        <%= render SupportInterface::TileComponent.new(
+          count: @statistics[:unsubmitted_not_started_form],
+          label: 'forms not started',
+          size: :reduced,
+          href: '#unsubmitted',
+        ) %>
       </div>
       <div class="govuk-grid-column-one-half">
-        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsubmitted') do %>
-          <%= render SupportInterface::TileComponent.new(count: @statistics[:unsubmitted_in_progress], label: 'forms in progress', size: :reduced) %>
-        <% end %>
+        <%= render SupportInterface::TileComponent.new(
+          count: @statistics[:unsubmitted_in_progress],
+          label: 'forms in progress',
+          size: :reduced,
+          href: '#unsubmitted',
+        ) %>
       </div>
     </div>
   </div>
@@ -60,19 +78,30 @@
   <div class="govuk-grid-column-one-half">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'being-processed') do %>
-          <%= render SupportInterface::TileComponent.new(count: @statistics.still_being_processed_count, label: 'still being processed', size: :reduced) %>
-        <% end %>
+        <%= render SupportInterface::TileComponent.new(
+          count: @statistics.still_being_processed_count,
+          label: 'still being processed',
+          size: :reduced,
+          href: '#being-processed',
+        ) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'unsuccessful') do %>
-          <%= render SupportInterface::TileComponent.new(count: @statistics.ended_without_success_count, label: 'ended w/o success', size: :reduced, colour: :red) %>
-        <% end %>
+        <%= render SupportInterface::TileComponent.new(
+          count: @statistics.ended_without_success_count,
+          label: 'ended w/o success',
+          size: :reduced,
+          colour: :red,
+          href: '#unsuccessful',
+        ) %>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= render SupportInterface::AnchorLinkComponent.new(link_to_id: 'successful') do %>
-          <%= render SupportInterface::TileComponent.new(count: @statistics.accepted_offer_count, label: 'accepted an offer', size: :reduced, colour: :green) %>
-        <% end %>
+        <%= render SupportInterface::TileComponent.new(
+          count: @statistics.accepted_offer_count,
+          label: 'accepted an offer',
+          size: :reduced,
+          colour: :green,
+          href: '#successful',
+        ) %>
       </div>
     </div>
   </div>
@@ -81,36 +110,60 @@
 <h2 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-font-size-27">Course choices</h2>
 
 <div class="govuk-!-margin-bottom-4">
-  <%= render SupportInterface::TileComponent.new(count: @statistics.total_application_choice_count, label: 'courses applied to', colour: :blue) %>
+  <%= render SupportInterface::TileComponent.new(
+    count: @statistics.total_application_choice_count,
+    label: 'courses applied to',
+    colour: :blue,
+  ) %>
 </div>
 
 <div class="govuk-grid-row govuk-!-margin-bottom-4">
   <div class="govuk-grid-column-one-half">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.application_choices_by_provider_type['lead_school'], label: 'School Direct courses', size: :reduced) %>
+    <%= render SupportInterface::TileComponent.new(
+      count: @statistics.application_choices_by_provider_type['lead_school'],
+      label: 'School Direct courses',
+      size: :reduced,
+    ) %>
   </div>
   <div class="govuk-grid-column-one-quarter">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.application_choices_by_provider_type['scitt'], label: 'SCITT courses', size: :reduced) %>
+    <%= render SupportInterface::TileComponent.new(
+      count: @statistics.application_choices_by_provider_type['scitt'],
+      label: 'SCITT courses',
+      size: :reduced,
+    ) %>
   </div>
   <div class="govuk-grid-column-one-quarter">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.application_choices_by_provider_type['university'], label: 'HEI courses', size: :reduced) %>
+    <%= render SupportInterface::TileComponent.new(
+      count: @statistics.application_choices_by_provider_type['university'],
+      label: 'HEI courses',
+      size: :reduced,
+    ) %>
   </div>
 </div>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-one-quarter">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.application_choices_by_provider_type['ratified_by_scitt'], label: 'Ratified by SCITTs', size: :reduced) %>
+    <%= render SupportInterface::TileComponent.new(
+      count: @statistics.application_choices_by_provider_type['ratified_by_scitt'],
+      label: 'Ratified by SCITTs',
+      size: :reduced,
+    ) %>
   </div>
   <div class="govuk-grid-column-one-quarter">
-    <%= render SupportInterface::TileComponent.new(count: @statistics.application_choices_by_provider_type['ratified_by_university'], label: 'Ratified by HEIs', size: :reduced) %>
+    <%= render SupportInterface::TileComponent.new(
+      count: @statistics.application_choices_by_provider_type['ratified_by_university'],
+      label: 'Ratified by HEIs',
+      size: :reduced,
+    ) %>
   </div>
 </div>
 
 <h3 class="govuk-heading-m govuk-!-margin-top-8 govuk-!-font-size-27">Application form breakdown</h3>
 
 <h4 class="govuk-heading-s" id="unsubmitted">Unsubmitted applications</h4>
-<p class="govuk-body">
-  Application forms that have not been sent to providers yet.
-</p>
+
+<p class="govuk-body">Application forms that have not been sent to providers yet.</p>
+
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
@@ -132,9 +185,9 @@
 </table>
 
 <h4 class="govuk-heading-s" id="being-processed">Applications being processed</h4>
-<p class="govuk-body">
-  Application forms that have been sent to providers and require action from either the candidate or provider to progress.
-</p>
+
+<p class="govuk-body">Application forms that have been sent to providers and require action from either the candidate or provider to progress.</p>
+
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
@@ -156,9 +209,9 @@
 </table>
 
 <h4 class="govuk-heading-s" id="unsuccessful">Unsuccessful applications</h4>
-<p class="govuk-body">
-  Applications that have ended without success. The rejected by default count is included in the ended without success count
-</p>
+
+<p class="govuk-body">Applications that have ended without success. The rejected by default count is included in the ended without success count</p>
+
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
@@ -185,9 +238,9 @@
 </table>
 
 <h4 class="govuk-heading-s" id="successful">Successful applications</h4>
-<p class="govuk-body">
-  Applications that have received an offer and the candidate has accepted.
-</p>
+
+<p class="govuk-body">Applications that have received an offer and the candidate has accepted.</p>
+
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <tr class="govuk-table__row">
@@ -196,7 +249,6 @@
       <th scope="col" class="govuk-table__header govuk-!-width-two-thirds">Description</th>
     </tr>
   </thead>
-
   <tbody class="govuk-table__body">
     <% @statistics.accepted_offer_application_form_status_total_counts.each do |row| %>
       <tr class="govuk-table__row">
@@ -236,7 +288,7 @@
   </tbody>
 </table>
 
-<% if params[:screen] == "1" %>
+<% if params[:screen] == '1' %>
   <style media="screen">
     header, footer, .govuk-phase-banner { display: none; }
     .govuk-width-container { max-width: 99%; }

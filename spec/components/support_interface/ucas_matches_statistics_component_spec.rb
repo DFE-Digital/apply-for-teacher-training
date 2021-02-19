@@ -42,48 +42,48 @@ RSpec.describe SupportInterface::UCASMatchesStatisticsComponent do
   it 'renders number of candidates with dual application or multiple acceptances' do
     result = render_inline(described_class.new(ucas_matches))
 
-    expect(result.css('.app-card--blue')[0].text.strip).to include("7\n  candidates with dual application or multiple acceptances")
+    expect(result.css('.app-card--blue')[0].text.squish).to include('7 candidates with dual application or multiple acceptances')
   end
 
   it 'renders the total number of unresolved matches' do
     result = render_inline(described_class.new(ucas_matches))
 
-    expect(result.css('.app-card--blue')[1].text.strip).to include("3\n  unresolved")
+    expect(result.css('.app-card--blue')[1].text.squish).to include('3 unresolved')
   end
 
   it 'renders the number of matches resolved on UCAS' do
     result = render_inline(described_class.new(ucas_matches))
 
-    expect(result.css('.app-card')[2].text.strip).to include("1\n  resolved on UCAS")
+    expect(result.css('.app-card')[2].text.squish).to include('1 resolved on UCAS')
   end
 
   it 'renders the number of matches resolved on Apply' do
     result = render_inline(described_class.new(ucas_matches))
 
-    expect(result.css('.app-card')[3].text.strip).to include("1\n  resolved on Apply")
+    expect(result.css('.app-card')[3].text.squish).to include('1 resolved on Apply')
   end
 
   it 'renders the number of matches resolved manually' do
     result = render_inline(described_class.new(ucas_matches))
 
-    expect(result.css('.app-card')[4].text.strip).to include("1\n  resolved manually")
+    expect(result.css('.app-card')[4].text.squish).to include('1 resolved manually')
   end
 
   it 'renders the number matches we contacted the candidate and the provider about' do
     result = render_inline(described_class.new(ucas_matches))
 
-    expect(result.css('.app-card')[5].text.strip).to include("1\n  set of initial emails sent")
+    expect(result.css('.app-card')[5].text.squish).to include('1 set of initial emails sent')
   end
 
   it 'renders the number matches we sent the reminder email' do
     result = render_inline(described_class.new(ucas_matches))
 
-    expect(result.css('.app-card')[6].text.strip).to include("1\n  reminder email sent")
+    expect(result.css('.app-card')[6].text.squish).to include('1 reminder email sent')
   end
 
   it 'renders the number matches contacted UCAS to request withdrawal' do
     result = render_inline(described_class.new(ucas_matches))
 
-    expect(result.css('.app-card')[7].text.strip).to include("1\n  UCAS withdrawal requested")
+    expect(result.css('.app-card')[7].text.squish).to include('1 UCAS withdrawal requested')
   end
 end
