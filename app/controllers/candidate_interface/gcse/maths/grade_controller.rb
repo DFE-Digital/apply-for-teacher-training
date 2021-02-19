@@ -1,23 +1,19 @@
 module CandidateInterface
   class Gcse::Maths::GradeController < Gcse::BaseController
     def edit
-      @gcse_grade_form = maths_gsce_grade_form
-      @qualification_type = maths_gsce_grade_form.qualification.qualification_type
+      @gcse_grade_form = MathsGcseGradeForm.build_from_qualification(current_qualification)
+      @qualification_type = @gcse_grade_form.qualification_type
     end
 
     def update
-      @qualification_type = maths_gsce_grade_form.qualification.qualification_type
+      @gcse_grade_form = MathsGcseGradeForm.new(maths_params)
 
-      maths_gsce_grade_form.grade = maths_params[:grade]
-      maths_gsce_grade_form.other_grade = maths_params[:other_grade]
-
-      @gcse_grade_form = maths_gsce_grade_form.save_grade
-
-      if @gcse_grade_form
+      if @gcse_grade_form.save(current_qualification)
         update_gcse_completed(false)
+
         redirect_to next_gcse_path
       else
-        @gcse_grade_form = maths_gsce_grade_form
+        @qualification_type = @gcse_grade_form.qualification_type
         track_validation_error(@gcse_grade_form)
 
         render :edit
@@ -39,13 +35,10 @@ module CandidateInterface
     end
 
     def maths_params
-      strip_whitespace params.require(:candidate_interface_gcse_qualification_details_form).permit(%i[grade award_year other_grade])
-    end
-
-    def maths_gsce_grade_form
-      @maths_gcse_grade_form ||= GcseQualificationDetailsForm.build_from_qualification(
-        current_application.qualification_in_subject(:gcse, @subject),
-      )
+      strip_whitespace params
+                        .require(:candidate_interface_maths_gcse_grade_form)
+                        .permit(%i[grade award_year other_grade])
+                        .merge!(qualification_type: current_qualification.qualification_type)
     end
   end
 end

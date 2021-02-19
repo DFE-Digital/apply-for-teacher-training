@@ -19,12 +19,6 @@ module CandidateInterface
       current_application.update!("#{attribute_to_update}": value)
     end
 
-    def details_form
-      @details_form ||= GcseQualificationDetailsForm.build_from_qualification(
-        current_application.qualification_in_subject(:gcse, subject_param),
-      )
-    end
-
     def current_qualification
       @current_qualification ||= current_application.qualification_in_subject(:gcse, @subject)
     end

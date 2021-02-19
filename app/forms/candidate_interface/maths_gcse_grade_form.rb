@@ -18,12 +18,12 @@ module CandidateInterface
         new(
           grade: qualification.set_grade,
           other_grade: qualification.set_other_grade,
-          qualification_type: qualification.qualification_type
+          qualification_type: qualification.qualification_type,
         )
       else
         new(
           grade: qualification.grade,
-          qualification_type: qualification.qualification_type
+          qualification_type: qualification.qualification_type,
         )
       end
     end
