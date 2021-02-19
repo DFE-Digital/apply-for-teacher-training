@@ -12,7 +12,7 @@ class ReasonsForRejection
     safeguarding_y_n
   ].freeze
 
-  INITIAL_QUESTIONS = {
+  ALL_QUESTIONS = {
     candidate_behaviour_y_n: {
       candidate_behaviour_what_did_the_candidate_do: {
         other: %i[candidate_behaviour_other candidate_behaviour_what_to_improve],
@@ -47,7 +47,9 @@ class ReasonsForRejection
         other: :safeguarding_concerns_other_details,
       },
     },
+    other_advice_or_feedback_y_n: { other_advice_or_feedback_details: nil },
   }.freeze
+  INITIAL_QUESTIONS = ALL_QUESTIONS.select { |key| INITIAL_TOP_LEVEL_QUESTIONS.include?(key) }.freeze
 
   attr_accessor :candidate_behaviour_y_n
   attr_writer :candidate_behaviour_what_did_the_candidate_do
