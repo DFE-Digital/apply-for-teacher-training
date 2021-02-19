@@ -33,16 +33,6 @@ module ViewHelper
     link_to(body, url, class: classes)
   end
 
-  def break_email_address(email_address)
-    email_address.gsub(/@/, '<wbr>@').html_safe
-  end
-
-  def bat_contact_mail_to(name = 'becomingateacher<wbr>@digital.education.gov.uk', html_options: {})
-    html_options[:class] = prepend_css_class('govuk-link', html_options[:class])
-
-    mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
-  end
-
   def govuk_button_link_to(body = nil, url = nil, html_options = nil, &block)
     if block_given?
       html_options = url
@@ -79,6 +69,16 @@ module ViewHelper
     return button_to(options, html_options) { yield } if block_given?
 
     button_to(name, options, html_options)
+  end
+
+  def break_email_address(email_address)
+    email_address.gsub(/@/, '<wbr>@').html_safe
+  end
+
+  def bat_contact_mail_to(name = 'becomingateacher<wbr>@digital.education.gov.uk', html_options: {})
+    html_options[:class] = prepend_css_class('govuk-link', html_options[:class])
+
+    mail_to('becomingateacher@digital.education.gov.uk', name.html_safe, html_options)
   end
 
   def submitted_at_date
