@@ -2,23 +2,23 @@
 <ul class="govuk-footer__meta-custom govuk-list govuk-!-font-size-16">
   <li>Email: <%= bat_contact_mail_to(html_options: { class: 'govuk-footer__link' }) %></li>
   <li><%= t('layout.support.response_time') %></li>
-  <li>Alternatively, <%= govuk_footer_link_to 'give feedback through our survey', ProviderInterface::FEEDBACK_LINK %></li>
+  <li>Alternatively, <%= link_to 'give feedback through our survey', ProviderInterface::FEEDBACK_LINK, class: 'govuk-footer__link' %></li>
 </ul>
 <p class="govuk-body govuk-list govuk-!-font-size-16 govuk-!-margin-bottom-8">
-  <%= govuk_footer_link_to t('layout.support.provider_service_guidance'), provider_interface_service_guidance_path %>
+  <%= link_to t('layout.support.provider_service_guidance'), provider_interface_service_guidance_path, class: 'govuk-footer__link' %>
 </p>
 <h2 class="govuk-visually-hidden"><%= t('layout.support_links.title') %></h2>
 <ul class="govuk-footer__inline-list govuk-!-margin-bottom-0">
   <li class="govuk-footer__inline-list-item">
-    <%= govuk_footer_link_to t('layout.support_links.accessibility'), provider_interface_accessibility_path %>
+    <%= link_to t('layout.support_links.accessibility'), provider_interface_accessibility_path, class: 'govuk-footer__link' %>
   </li>
   <li class="govuk-footer__inline-list-item">
-    <%= govuk_footer_link_to t('layout.support_links.cookies'), provider_interface_cookies_path %>
+    <%= link_to t('layout.support_links.cookies'), provider_interface_cookies_path, class: 'govuk-footer__link' %>
   </li>
   <li class="govuk-footer__inline-list-item">
-    <%= govuk_footer_link_to t('layout.support_links.complaints'), provider_interface_complaints_path %>
+    <%= link_to t('layout.support_links.complaints'), provider_interface_complaints_path, class: 'govuk-footer__link' %>
   </li>
   <li class="govuk-footer__inline-list-item">
-    <%= govuk_footer_link_to t('layout.support_links.privacy_policy'), provider_interface_privacy_policy_path %>
+    <%= link_to t('layout.support_links.privacy_policy'), provider_interface_privacy_policy_path, class: 'govuk-footer__link' %>
   </li>
 </ul>

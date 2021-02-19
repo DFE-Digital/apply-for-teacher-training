@@ -145,6 +145,10 @@ Govuk/GovukLinkTo:
     # link_to in manual error summaries
     - 'app/views/candidate_interface/references/review/show.html.erb'
     - 'app/views/candidate_interface/unsubmitted_application_form/review.html.erb'
+    # link_to in footers
+    - 'app/views/layouts/_footer.html'
+    - 'app/views/layouts/_footer_meta_candidate.html.erb'
+    - 'app/views/layouts/_footer_meta_provider.html.erb'
     # link_to for kaminari pagination links
     - 'app/views/kaminari/_next_page.html.erb'
     - 'app/views/kaminari/_prev_page.html.erb'
