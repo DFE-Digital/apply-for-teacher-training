@@ -2,7 +2,7 @@
 <%= f.govuk_text_field :role, label: { text: t('application_form.restructured_work_history.role.label'), size: 'm' }, hint: { text: t('application_form.restructured_work_history.role.hint_text') } %>
 
 <%= f.govuk_radio_buttons_fieldset :commitment, legend: { text: t('application_form.restructured_work_history.commitment.label'), size: 'm' } do %>
-  <%= f.govuk_radio_button :commitment, 'full_time', label: { text: t('application_form.restructured_work_history.commitment.full_time.label') } %>
+  <%= f.govuk_radio_button :commitment, 'full_time', link_errors: true, label: { text: t('application_form.restructured_work_history.commitment.full_time.label') } %>
   <%= f.govuk_radio_button :commitment, 'part_time', label: { text: t('application_form.restructured_work_history.commitment.part_time.label') } %>
 <% end %>
 

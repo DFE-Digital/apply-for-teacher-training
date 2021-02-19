@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
     it { is_expected.to allow_value(okay_text).for(:reason) }
     it { is_expected.not_to allow_value(long_text).for(:reason) }
 
-    include_examples 'validation for a start date', 'restructured_work_history/work_history_break_form'
+    include_examples 'validation for a start date', 'restructured_work_history/work_history_break_form', verify_presence: true
     include_examples 'validation for an end date that cannot be blank', 'restructured_work_history/work_history_break_form'
   end
 
@@ -53,7 +53,6 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
     it 'creates a new work experience if valid' do
       application_form = create(:application_form)
       work_break = CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm.new(form_data)
-
       saved_work_break = work_break.save(application_form)
 
       expect(saved_work_break).to have_attributes(data)

@@ -6,27 +6,16 @@
     <%= form_with model: @choice_form, url: candidate_interface_restructured_work_history_path do |f| %>
       <%= f.govuk_error_summary %>
 
-      <h1 class="govuk-heading-xl">
-        <%= t('page_titles.work_history') %>
-      </h1>
-
-      <p class="govuk-body">
-        Training providers need a complete picture of your
-        work history, including time out of the workplace, to safeguard
-        children.
-      </p>
-
-      <p class="govuk-body">
-        Breaks in work history will not impact your application if you have an explanation for them.
-        For example this could be raising children, unemployment, redundancy, illness, study or travel.
-      </p>
-
       <div class="govuk-!-margin-top-6">
-        <%= f.govuk_radio_buttons_fieldset :work_history_status, legend: { text: 'Do you have any work history to add?', size: 'm' } do %>
-          <%= f.govuk_radio_button :choice, :can_complete, label: { text: t('application_form.restructured_work_history.can_complete.label') }, hint: { text: t('application_form.restructured_work_history.can_complete.hint_text') }, link_errors: true %>
+        <%= f.govuk_radio_buttons_fieldset :work_history_status, legend: { text: t('page_titles.restructured_work_history_choice'), size: 'xl' } do %>
+          <%= f.govuk_radio_button :choice, :can_complete, label: { text: t('application_form.restructured_work_history.can_complete.label') }, link_errors: true %>
           <%= f.govuk_radio_button :choice, :full_time_education, label: { text: t('application_form.restructured_work_history.full_time_education.label') } %>
           <%= f.govuk_radio_button :choice, :can_not_complete, label: { text: t('application_form.restructured_work_history.can_not_complete.label') } do %>
-            <%= f.govuk_text_area :explanation, label: { text: t('application_form.restructured_work_history.explanation.label') }, hint: { text: t('application_form.restructured_work_history.explanation.hint_text') } %>
+            <%= f.govuk_text_area :explanation,
+                                  label: { text: t('application_form.restructured_work_history.explanation.label') },
+                                  hint: { text: t('application_form.restructured_work_history.explanation.hint_text') },
+                                  max_words: 400,
+                                  threshold: 90 %>
           <% end %>
         <% end %>
 

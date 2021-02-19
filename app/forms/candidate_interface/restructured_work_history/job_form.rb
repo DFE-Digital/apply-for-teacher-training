@@ -18,8 +18,8 @@ module CandidateInterface
                     :end_date_unknown,
                     :relevant_skills
 
-      validates :role,
-                :organisation,
+      validates :organisation,
+                :role,
                 :commitment,
                 :currently_working,
                 :relevant_skills,
@@ -61,10 +61,10 @@ module CandidateInterface
           commitment: commitment,
           start_date: start_date,
           end_date: not_currently_employed_in_this_role? ? end_date : nil,
-          start_date_unknown: ActiveModel::Type::Boolean.new.cast(start_date_unknown),
-          end_date_unknown: ActiveModel::Type::Boolean.new.cast(end_date_unknown),
-          currently_working: ActiveModel::Type::Boolean.new.cast(currently_working),
-          relevant_skills: ActiveModel::Type::Boolean.new.cast(relevant_skills),
+          start_date_unknown: start_date_unknown,
+          end_date_unknown: end_date_unknown,
+          currently_working: currently_working,
+          relevant_skills: relevant_skills,
           details: set_details_field,
         )
       end
@@ -96,6 +96,13 @@ module CandidateInterface
 
       def not_currently_employed_in_this_role?
         currently_working == 'false'
+      end
+
+      def cast_booleans
+        self.start_date_unknown = ActiveModel::Type::Boolean.new.cast(start_date_unknown)
+        self.end_date_unknown = ActiveModel::Type::Boolean.new.cast(end_date_unknown)
+        self.currently_working = ActiveModel::Type::Boolean.new.cast(currently_working)
+        self.relevant_skills = ActiveModel::Type::Boolean.new.cast(relevant_skills)
       end
 
     private

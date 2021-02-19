@@ -3,7 +3,6 @@ en:
     restructured_work_history:
       can_complete:
         label: 'Yes'
-        hint_text: You’ll be able to give details of any breaks once you’ve entered your employment history
       full_time_education:
         label: No, I have always been in full time education
         review_label: Do you have any work history?

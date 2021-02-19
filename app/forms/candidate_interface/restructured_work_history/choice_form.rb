@@ -7,6 +7,7 @@ module CandidateInterface
 
       validates :choice, presence: true
       validates :explanation, presence: true, if: -> { can_not_complete_work_history? }
+      validates :explanation, word_count: { maximum: 400 }
 
       def save(application_form)
         return false unless valid?

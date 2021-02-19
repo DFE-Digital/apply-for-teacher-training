@@ -33,11 +33,19 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     when_i_enter_a_reason_for_my_break_between_august_2019_and_november_2019
     then_i_see_my_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page
 
-    when_i_click_to_change_my_reason_for_my_break_between_august_2019_and_november_2019
+    when_i_mark_this_section_as_completed
+    then_i_should_see_the_section_is_completed
+
+    when_i_click_on_work_history
+    and_i_click_to_change_my_reason_for_my_break_between_august_2019_and_november_2019
     and_i_change_my_reason_for_my_break_between_august_2019_and_november_2019
     then_i_see_my_updated_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page
 
-    when_i_click_to_delete_my_break_between_august_2019_and_november_2019
+    when_i_visit_the_application_form_page
+    then_the_work_history_section_is_incomplete
+
+    when_i_click_on_work_history
+    and_i_click_to_delete_my_break_between_august_2019_and_november_2019
     and_i_confirm_i_want_to_delete_my_break_between_august_2019_and_november_2019
     then_i_no_longer_see_my_reason_on_the_review_page
   end
@@ -154,6 +162,16 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     visit candidate_interface_restructured_work_history_review_path
   end
 
+  def when_i_mark_this_section_as_completed
+    check t('application_form.work_history.review.completed_checkbox')
+    click_button t('save_and_continue')
+    expect(page).to have_content(t('page_titles.application_form'))
+  end
+
+  def then_i_should_see_the_section_is_completed
+    expect(page).to have_css('#work-history-badge-id', text: 'Completed')
+  end
+
   def when_i_click_to_explain_my_break_between_august_2019_and_november_2019
     click_link 'add a reason for this break', match: :first
   end
@@ -168,19 +186,7 @@ RSpec.feature 'Entering reasons for their work history breaks' do
     expect(page).to have_content('Painting is tiring.')
   end
 
-  def when_i_click_to_delete_my_break_between_august_2019_and_november_2019
-    click_link 'Delete entry for break between Aug 2019 and Nov 2019'
-  end
-
-  def and_i_confirm_i_want_to_delete_my_break_between_august_2019_and_november_2019
-    click_button 'Yes I’m sure - delete this entry'
-  end
-
-  def then_i_no_longer_see_my_reason_on_the_review_page
-    expect(page).not_to have_content('Painting is tiring.')
-  end
-
-  def when_i_click_to_change_my_reason_for_my_break_between_august_2019_and_november_2019
+  def and_i_click_to_change_my_reason_for_my_break_between_august_2019_and_november_2019
     click_link 'Change entry for break between Aug 2019 and Nov 2019'
   end
 
@@ -192,5 +198,25 @@ RSpec.feature 'Entering reasons for their work history breaks' do
 
   def then_i_see_my_updated_reason_for_my_break_between_august_2019_and_november_2019_on_the_review_page
     expect(page).to have_content('Some updated reason about painting.')
+  end
+
+  def when_i_visit_the_application_form_page
+    visit candidate_interface_application_form_path
+  end
+
+  def then_the_work_history_section_is_incomplete
+    expect(page).to have_css('#work-history-badge-id', text: 'Incomplete')
+  end
+
+  def and_i_click_to_delete_my_break_between_august_2019_and_november_2019
+    click_link 'Delete entry for break between Aug 2019 and Nov 2019'
+  end
+
+  def and_i_confirm_i_want_to_delete_my_break_between_august_2019_and_november_2019
+    click_button 'Yes I’m sure - delete this entry'
+  end
+
+  def then_i_no_longer_see_my_reason_on_the_review_page
+    expect(page).not_to have_content('Painting is tiring.')
   end
 end
