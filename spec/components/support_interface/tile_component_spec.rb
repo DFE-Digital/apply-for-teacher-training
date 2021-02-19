@@ -19,6 +19,15 @@ RSpec.describe SupportInterface::TileComponent do
     end
   end
 
+  describe 'a tile with a link' do
+    subject { described_class.new(count: 3, label: 'blind mice', href: '#cheese') }
+
+    it 'renders the link' do
+      expect(rendered_result_html).to include('app-card__link')
+      expect(page).to have_link(nil, href: '#cheese')
+    end
+  end
+
   describe 'a secondary tile' do
     subject { described_class.new(count: 3, label: 'blind mice', size: :secondary) }
 
