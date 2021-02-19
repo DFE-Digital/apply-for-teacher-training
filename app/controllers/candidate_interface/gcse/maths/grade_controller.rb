@@ -31,7 +31,7 @@ module CandidateInterface
     end
 
     def next_gcse_path
-      if maths_gsce_grade_form.award_year.nil?
+      if current_qualification.award_year.nil?
         candidate_interface_gcse_details_edit_year_path(subject: @subject)
       else
         candidate_interface_gcse_review_path(subject: @subject)

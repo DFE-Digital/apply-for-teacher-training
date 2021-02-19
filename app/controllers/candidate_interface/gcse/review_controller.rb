@@ -5,12 +5,12 @@ module CandidateInterface
 
     def show
       @application_form = current_application
-      @application_qualification = current_application.qualification_in_subject(:gcse, subject_param)
+      @application_qualification = current_qualification
     end
 
     def complete
       @application_form = current_application
-      @application_qualification = current_application.qualification_in_subject(:gcse, subject_param)
+      @application_qualification = current_qualification
 
       if @application_qualification.incomplete_gcse_information? && !@application_qualification.missing_qualification?
         flash[:warning] = 'You cannot mark this section complete with incomplete GCSE information.'

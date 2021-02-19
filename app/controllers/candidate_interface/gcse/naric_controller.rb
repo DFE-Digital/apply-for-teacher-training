@@ -3,15 +3,15 @@ module CandidateInterface
     include Gcse::ResolveGcseEditPathConcern
 
     def edit
-      @naric_form = find_or_build_qualification_form
+      @naric_form = build_naric_form
     end
 
     def update
-      @naric_form = find_or_build_qualification_form
+      @naric_form = build_naric_form
 
       @naric_form.set_attributes(naric_params)
 
-      if @naric_form.save(@current_qualification)
+      if @naric_form.save(current_qualification)
         update_gcse_completed(false)
 
         redirect_to next_gcse_path
@@ -23,16 +23,12 @@ module CandidateInterface
 
   private
 
-    def find_or_build_qualification_form
-      @current_qualification = current_application.qualification_in_subject(:gcse, subject_param)
-      GcseNaricForm.build_from_qualification(@current_qualification)
+    def build_naric_form
+      GcseNaricForm.build_from_qualification(current_qualification)
     end
 
     def next_gcse_path
-      @details_form = GcseQualificationDetailsForm.build_from_qualification(
-        current_application.qualification_in_subject(:gcse, subject_param),
-      )
-      if @details_form.qualification.grade.nil?
+      if current_qualification.grade.nil?
         resolve_gcse_edit_path(subject_param)
       else
         candidate_interface_gcse_review_path

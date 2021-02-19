@@ -26,9 +26,5 @@ module CandidateInterface
         .permit(:award_year)
         .merge!(qualification_type: current_qualification.qualification_type)
     end
-
-    def current_qualification
-      current_application.qualification_in_subject(:gcse, subject_param)
-    end
   end
 end

@@ -25,6 +25,10 @@ module CandidateInterface
       )
     end
 
+    def current_qualification
+      @current_qualification ||= current_application.qualification_in_subject(:gcse, @subject)
+    end
+
     def details_params
       strip_whitespace params.require(:candidate_interface_gcse_qualification_details_form).permit(%i[grade award_year other_grade])
     end

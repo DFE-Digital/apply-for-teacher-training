@@ -22,6 +22,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
   describe 'validations' do
     it { is_expected.to validate_presence_of(:reason) }
 
+
     okay_text = Faker::Lorem.sentence(word_count: 400)
     long_text = Faker::Lorem.sentence(word_count: 401)
 
