@@ -28,6 +28,8 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
           quality_of_application_which_parts_needed_improvement: %w[other],
           quality_of_application_other_details: 'Too many emojis',
           interested_in_future_applications_y_n: 'Yes',
+          other_advice_or_feedback_y_n: 'Yes',
+          other_advice_or_feedback_details: 'You need a haircut',
         },
         application_form_id: 123,
       )
@@ -56,6 +58,7 @@ RSpec.describe SupportInterface::ReasonsForRejectionSearchResultsComponent do
       expect(@rendered_result.text).to include('No degree')
       expect(@rendered_result.text).to include('Other - Too many emojis')
       expect(@rendered_result.text).to include('Yes')
+      expect(@rendered_result.text).to include('You need a haircut')
       expect(@rendered_result.text).not_to include('No Science GCSE')
       expect(@rendered_result.text).not_to include('No English GCSE')
     end
