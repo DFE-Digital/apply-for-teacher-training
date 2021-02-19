@@ -12,6 +12,7 @@ module CandidateInterface
         redirect_to candidate_interface_restructured_work_history_review_path
       else
         track_validation_error(@job_form)
+        @job_form.cast_booleans
         render :new
       end
     end
