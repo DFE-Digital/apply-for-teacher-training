@@ -19,5 +19,9 @@ module SupportInterface
     def secondary_tile
       render SupportInterface::TileComponent.new(count: 3, label: 'blind mice', size: :secondary)
     end
+
+    def linked_tile
+      render SupportInterface::TileComponent.new(count: 3, label: 'blind mice', href: '#')
+    end
   end
 end
