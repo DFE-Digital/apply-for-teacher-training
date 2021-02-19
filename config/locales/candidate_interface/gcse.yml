@@ -48,24 +48,14 @@ en:
   activemodel:
     errors:
       models:
-        candidate_interface/gcse_qualification_details_form:
+        candidate_interface/maths_gcse_grade_form:
           attributes:
             grade:
               blank: Enter your grade
               invalid: Enter a real grade
               too_long: Grade must be %{count} characters or fewer
-            award_year:
-              blank: Enter the year you gained your qualification
-              in_future: Enter a year before %{date}
-              gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
             other_grade:
               blank: Enter your grade
-        candidate_interface/gcse_year_form:
-          attributes:
-            award_year:
-              blank: Enter the year you gained your qualification
-              in_future: Enter a year before %{date}
-              gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
         candidate_interface/science_gcse_grade_form:
           attributes:
             single_award_grade:
@@ -122,6 +112,12 @@ en:
               invalid: Enter a real other English subject grade
             other_english_gcse_name:
               blank: Enter an English GCSE
+        candidate_interface/gcse_year_form:
+          attributes:
+            award_year:
+              blank: Enter the year you gained your qualification
+              in_future: Enter a year before %{date}
+              gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
         candidate_interface/gcse_qualification_type_form:
           attributes:
             qualification_type:
