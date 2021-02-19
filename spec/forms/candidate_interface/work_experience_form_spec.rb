@@ -55,8 +55,8 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
 
       expect(work_experience).not_to be_valid
       errors = work_experience.errors.messages
-      expect(errors[:start_date].pop).to eq 'Enter a start date in the correct format, for example 5 2019'
-      expect(errors[:end_date].pop).to eq 'Enter an end date in the correct format, for example 5 2019'
+      expect(errors[:start_date].pop).to eq 'Enter a real start date, for example 5 2019'
+      expect(errors[:end_date].pop).to eq 'Enter a real end date, for example 5 2019'
     end
   end
 

@@ -407,8 +407,8 @@ en:
       too_many_course_choices: You cannot have more than 3 course choices. You must delete a choice if you want to apply to #{course_name_and_code}.
       apply_again_course_already_chosen: You cannot choose more than 1 course when you apply again. You must delete your existing choice if you want to apply to %{course_name_and_code}
       invalid_year: Enter a real %{attribute}
-      invalid_date: Enter %{article} %{attribute} in the correct format
-      invalid_date_month_and_year: Enter %{article} %{attribute} in the correct format, for example 5 2019
+      invalid_date: Enter a real %{attribute}
+      invalid_date_month_and_year: Enter a real %{attribute}, for example 5 2019
       future: Enter %{article} %{attribute} that is not in the future
       blank_date_fields: The %{attribute} must include a %{fields}
       blank_date: Enter %{article} %{attribute}

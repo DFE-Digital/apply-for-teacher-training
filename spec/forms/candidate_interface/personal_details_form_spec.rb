@@ -100,7 +100,7 @@ RSpec.describe CandidateInterface::PersonalDetailsForm, type: :model do
         personal_details.validate
 
         expect(personal_details.errors.full_messages_for(:date_of_birth)).to eq(
-          ['Date of birth Enter a date of birth in the correct format'],
+          ['Date of birth Enter a real date of birth'],
         )
       end
 

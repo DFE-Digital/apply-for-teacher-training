@@ -71,7 +71,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
         form.validate
 
-        expect(form.errors[:end_date]).to contain_exactly('Enter an end date in the correct format, for example 5 2019')
+        expect(form.errors[:end_date]).to contain_exactly('Enter a real end date, for example 5 2019')
       end
 
       it 'is invalid if year is beyond the current year' do
@@ -122,8 +122,8 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
       expect(job).not_to be_valid
       errors = job.errors.messages
-      expect(errors[:start_date].pop).to eq 'Enter a start date in the correct format, for example 5 2019'
-      expect(errors[:end_date].pop).to eq 'Enter an end date in the correct format, for example 5 2019'
+      expect(errors[:start_date].pop).to eq 'Enter a real start date, for example 5 2019'
+      expect(errors[:end_date].pop).to eq 'Enter a real end date, for example 5 2019'
     end
   end
 
