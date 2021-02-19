@@ -1,6 +1,3 @@
-<div class="app-banner app-banner--warning">
-  <div class="app-banner__message">
-    <h2 class="govuk-heading-m">UCAS planned maintenance</h2>
-    <p class="govuk-body">UCAS services will not be available from 6pm on Friday 24 April until Sunday 26 April.</p>
-  </div>
-</div>
+<%= render NotificationMessageComponent.new(:info,
+                                            message: 'UCAS planned maintenance',
+                                            secondary_message: 'UCAS services will not be available from 6pm on Friday 24 April until Sunday 26 April.') %>

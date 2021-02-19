@@ -1,10 +1,5 @@
 <% if show_deadline_banner? %>
-  <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
-    <div class="app-banner__message">
-      <h2 class="govuk-heading-m" id="success-message">The deadline for applying to courses starting this academic year is <%= deadline %></h2>
-      <p class='govuk-body govuk-!-font-size-24'>
-        Courses may fill up before then. Check course availability with your provider.
-      </p>
-    </div>
-  </div>
+  <%= render NotificationMessageComponent.new(:info,
+                                              message: "The deadline for applying to courses starting this academic year is #{deadline}",
+                                              secondary_message: 'Courses may fill up before then. Check course availability with your provider.') %>
 <% end %>

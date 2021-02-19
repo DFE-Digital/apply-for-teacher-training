@@ -1,0 +1,5 @@
+en:
+  notification_banner:
+    info: Information
+    warning: Warning
+    success: Success

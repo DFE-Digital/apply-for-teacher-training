@@ -1,10 +1,5 @@
 <% if show? %>
-  <div class="app-banner" aria-labelledby="success-message" data-module="govuk-error-summary" role="alert">
-    <div class="app-banner__message">
-      <h2 class="govuk-heading-m" id="success-message">Applications for courses starting this academic year have now closed</h2>
-      <p class='govuk-body govuk-!-font-size-24'>
-        Submit your application from <%= reopen_date %> for courses starting in the next academic year.
-      </p>
-    </div>
-  </div>
+  <%= render NotificationMessageComponent.new(:info,
+                                              message: 'Applications for courses starting this academic year have now closed',
+                                              secondary_message: "Submit your application from #{reopen_date} for courses starting in the next academic year.") %>
 <% end %>

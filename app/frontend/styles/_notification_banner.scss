@@ -1,0 +1,25 @@
+/* ==========================================================================
+   # NOTIFICATION BANNER
+   ========================================================================== */
+
+.govuk-notification-banner {
+  &.govuk-notification-banner--warning {
+    border-color: govuk-colour("red");
+    background-color: govuk-colour("red");
+    color: govuk-colour("red");
+
+    .govuk-notification-banner__link:link {
+      color: govuk-colour("red");
+    }
+
+    .govuk-notification-banner__link:hover,
+    .govuk-notification-banner__link:visited {
+      color: mix(black, govuk-colour("red"), 25%);
+    }
+  }
+
+  .govuk-notification-banner__content > * {
+    max-width: 100%;
+  }
+}
+
