@@ -26,7 +26,10 @@
               <ul class="moj-filter-tags">
                 <% tags_for_active_filter(active_filter).each do |tag| %>
                   <li>
-                    <%= link_to(tag[:title], tag[:remove_link], class: 'moj-filter__tag', id: "tag-#{tag[:title].parameterize}") %>
+                    <%= link_to(tag[:remove_link], class: 'moj-filter__tag', id: "tag-#{tag[:title].parameterize}") do %>
+                      <span class="govuk-visually-hidden">Remove this filter</span>
+                      <%= tag[:title] %>
+                    <% end %>
                   </li>
                 <% end %>
               </ul>

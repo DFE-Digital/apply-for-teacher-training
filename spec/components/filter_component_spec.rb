@@ -76,7 +76,19 @@ RSpec.describe FilterComponent do
     expect(result.css('#status-offer_withdrawn').attr('checked')).to eq(nil)
   end
 
-  it 'when filters have been selected filters dialogue to appear' do
+  it 'when filters have been selected hidden text is displayed' do
+    filter = ProviderInterface::ProviderApplicationsFilter.new(
+      params: applied_filters,
+      provider_user: current_provider_user,
+      state_store: {},
+    )
+
+    result = render_inline described_class.new(filter: filter)
+
+    expect(result.css('.govuk-visually-hidden').first.text).to include('Remove this filter')
+  end
+
+  it 'selected filters have hidden fields with remove links' do
     filter = ProviderInterface::ProviderApplicationsFilter.new(
       params: applied_filters,
       provider_user: current_provider_user,
