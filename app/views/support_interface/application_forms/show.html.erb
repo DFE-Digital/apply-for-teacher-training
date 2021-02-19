@@ -8,13 +8,13 @@
 
 <div class="govuk-button-group">
   <% unless HostingEnvironment.production? %>
-    <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), class: 'govuk-button', form_class: 'govuk-!-display-inline-block' %>
+    <%= govuk_button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), form_class: 'govuk-!-display-inline-block' %>
   <% end %>
 
   <% if @application_form.candidate.hide_in_reporting? %>
-    <%= button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
+    <%= govuk_button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
   <% else %>
-    <%= button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
+    <%= govuk_button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
   <% end %>
 </div>
 

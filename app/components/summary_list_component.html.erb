@@ -18,13 +18,13 @@
 
       <% if row[:change_path] %>
         <dd class="govuk-summary-list__actions">
-          <%= link_to row[:change_path], class: 'govuk-link govuk-!-display-none-print' do %>
+          <%= govuk_link_to row[:change_path], class: 'govuk-!-display-none-print' do %>
             Change<span class="govuk-visually-hidden"> <%= row[:action] %></span>
           <% end %>
         </dd>
       <% elsif row[:action_path] %>
         <dd class="govuk-summary-list__actions">
-          <%= link_to row[:action], row[:action_path], class: 'govuk-link govuk-!-display-none-print' %>
+          <%= govuk_link_to row[:action], row[:action_path], class: 'govuk-!-display-none-print' %>
         </dd>
       <% elsif any_row_has_action_span? %>
         <dd class="govuk-summary-list__actions"></dd>

@@ -8,8 +8,8 @@
       </h1>
 
       <div class="govuk-inset-text govuk-!-margin-top-0">
-        <%= link_to @course_selection_form.course.find_url,
-                    class: 'govuk-!-font-weight-bold govuk-link',
+        <%= govuk_link_to @course_selection_form.course.find_url,
+                    class: 'govuk-!-font-weight-bold',
                     style: 'text-decoration: none' do %>
         <span class="govuk-!-font-size-19">
           <%= @course_selection_form.course.provider.name %>

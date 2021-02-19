@@ -1,14 +1,14 @@
-<div class="app-interviews__interview" id="interview-<%=interview.id%>">
+<div class="app-interviews__interview" id="interview-<%= interview.id %>">
   <%= render SummaryCardComponent.new(editable: true, border: true, rows: rows) do %>
     <%= render SummaryCardHeaderComponent.new(title: interview.date_and_time.to_s(:govuk_date_and_time), heading_level: 2) do %>
       <% if user_can_change_interview %>
         <div class="app-summary-card__actions">
           <ul class="app-summary-card__actions-list">
             <li class="app-summary-card__actions-list-item">
-              <%= link_to 'Change details', edit_provider_interface_application_choice_interview_path(application_choice, interview), class: 'app-summary-card__actions-list-item govuk-link govuk-link--no-visited-state' %>
+              <%= govuk_link_to 'Change details', edit_provider_interface_application_choice_interview_path(application_choice, interview), class: 'app-summary-card__actions-list-item govuk-link--no-visited-state' %>
             </li>
             <li class="app-summary-card__actions-list-item">
-              <%= link_to 'Cancel interview', cancel_provider_interface_application_choice_interview_path(application_choice, interview), class: 'app-summary-card__actions-list-item govuk-link govuk-link--no-visited-state' %>
+              <%= govuk_link_to 'Cancel interview', cancel_provider_interface_application_choice_interview_path(application_choice, interview), class: 'app-summary-card__actions-list-item govuk-link--no-visited-state' %>
             </li>
           </ul>
         </div>

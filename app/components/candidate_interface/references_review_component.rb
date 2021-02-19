@@ -1,5 +1,6 @@
 module CandidateInterface
   class ReferencesReviewComponent < ViewComponent::Base
+    include ViewHelper
     attr_reader :references, :editable, :show_history, :is_errored
 
     def initialize(references:, editable: true, show_history: false, is_errored: false, heading_level: 2)

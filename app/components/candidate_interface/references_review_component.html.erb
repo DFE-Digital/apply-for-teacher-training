@@ -15,14 +15,14 @@
           <ul class="app-summary-card__actions-list">
             <% if reference.feedback_requested? %>
               <div class="app-summary-card__actions">
-                <%= link_to candidate_interface_confirm_cancel_reference_path(reference.id), class: 'govuk-link' do %>
+                <%= govuk_link_to candidate_interface_confirm_cancel_reference_path(reference.id) do %>
                   <%= t('application_form.references.cancel_request.action') %>
                   <span class="govuk-visually-hidden"> <%= reference.name %></span>
                 <% end %>
               </div>
             <% elsif can_retry?(reference) %>
               <li class="app-summary-card__actions-list-item">
-                <%= link_to candidate_interface_references_retry_request_path(reference.id), class: 'govuk-link' do %>
+                <%= govuk_link_to candidate_interface_references_retry_request_path(reference.id) do %>
                   <%= t('application_form.references.retry_request.action') %>
                   <span class="govuk-visually-hidden"> to <%= reference.name %></span>
                 <% end %>
@@ -31,21 +31,21 @@
 
             <% if reference.not_requested_yet? %>
               <li class="app-summary-card__actions-list-item">
-                <%= link_to candidate_interface_confirm_destroy_referee_path(reference), class: 'govuk-link' do %>
+                <%= govuk_link_to candidate_interface_confirm_destroy_referee_path(reference) do %>
                   <%= t('application_form.references.delete_referee.action') %>
                   <span class="govuk-visually-hidden"> <%= reference.name %></span>
                 <% end %>
               </li>
             <% elsif reference.feedback_provided? %>
               <li class="app-summary-card__actions-list-item">
-                <%= link_to candidate_interface_confirm_destroy_reference_path(reference), class: 'govuk-link' do %>
+                <%= govuk_link_to candidate_interface_confirm_destroy_reference_path(reference) do %>
                   <%= t('application_form.references.delete_reference.action') %>
                   <span class="govuk-visually-hidden"> <%= reference.name %></span>
                 <% end %>
               </li>
             <% elsif request_can_be_deleted?(reference) %>
               <li class="app-summary-card__actions-list-item">
-                <%= link_to candidate_interface_confirm_destroy_reference_request_path(reference), class: 'govuk-link' do %>
+                <%= govuk_link_to candidate_interface_confirm_destroy_reference_request_path(reference) do %>
                   <%= t('application_form.references.delete_request.action') %>
                   <span class="govuk-visually-hidden"> <%= reference.name %></span>
                 <% end %>
@@ -54,14 +54,14 @@
 
             <% if can_send?(reference) %>
               <li class="app-summary-card__actions-list-item">
-                <%= link_to candidate_interface_references_new_request_path(reference.id), class: 'govuk-link' do %>
+                <%= govuk_link_to candidate_interface_references_new_request_path(reference.id) do %>
                   <%= t('application_form.references.send_request.action') %>
                   <span class="govuk-visually-hidden"> <%= reference.name %></span>
                 <% end %>
               </li>
             <% elsif can_resend?(reference) %>
               <li class="app-summary-card__actions-list-item">
-                <%= link_to candidate_interface_references_new_request_path(reference.id), class: 'govuk-link' do %>
+                <%= govuk_link_to candidate_interface_references_new_request_path(reference.id) do %>
                   <%= t('application_form.references.resend_request.action') %>
                   <span class="govuk-visually-hidden"> to <%= reference.name %></span>
                 <% end %>

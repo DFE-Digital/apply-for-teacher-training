@@ -11,10 +11,9 @@
     <p class="govuk-body">You can:</p>
     <ul class="govuk-list govuk-list--bullet govuk-!-padding-bottom-8">
       <li>
-        <%= link_to(
+        <%= govuk_link_to(
           'choose another course',
           candidate_interface_course_choices_course_path(@course.provider),
-          class: 'govuk-link',
         ) %>
       </li>
       <li>
