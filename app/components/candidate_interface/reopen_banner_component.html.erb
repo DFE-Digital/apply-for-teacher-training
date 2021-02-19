@@ -1,5 +1,3 @@
-<% if show? %>
-  <%= render NotificationMessageComponent.new(:info,
-                                              message: 'Applications for courses starting this academic year have now closed',
-                                              secondary_message: "Submit your application from #{reopen_date} for courses starting in the next academic year.") %>
-<% end %>
+<%= render NotificationMessageComponent.new(:info,
+                                            message: 'Applications for courses starting this academic year have now closed',
+                                            secondary_message: "Submit your application from #{reopen_date} for courses starting in the next academic year.") %>

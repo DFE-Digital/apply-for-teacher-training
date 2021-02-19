@@ -20,6 +20,10 @@ module SupportInterface
       provider_user.last_signed_in_at&.to_s(:govuk_date_and_time)
     end
 
+    def render?
+      provider_users.any?
+    end
+
   private
 
     attr_reader :provider_users

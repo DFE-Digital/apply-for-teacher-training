@@ -16,6 +16,10 @@ module CandidateInterface
       viable_references.one?
     end
 
+    def render?
+      !application_form.enough_references_have_been_provided?
+    end
+
   private
 
     def viable_references

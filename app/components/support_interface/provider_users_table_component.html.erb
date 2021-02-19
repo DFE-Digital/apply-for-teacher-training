@@ -1,34 +1,32 @@
-<% if table_rows.any? %>
-  <table class="govuk-table">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-third">Name and email address</th>
-        <th scope="col" class="govuk-table__header">Providers</th>
-        <th scope="col" class="govuk-table__header">Actions</th>
-      </tr>
-    </thead>
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header govuk-!-width-one-third">Name and email address</th>
+      <th scope="col" class="govuk-table__header">Providers</th>
+      <th scope="col" class="govuk-table__header">Actions</th>
+    </tr>
+  </thead>
 
-    <tbody class="govuk-table__body">
-      <% table_rows.each do |row| %>
-        <tr class="govuk-table__row">
-          <td class="govuk-table__cell">
-            <%= govuk_link_to(row[:provider_user].display_name, support_interface_provider_user_path(row[:provider_user])) %><br>
-            <span class="govuk-hint" style="word-break: break-all;"><%= row[:provider_user].email_address %></span>
-          </td>
-          <td class="govuk-table__cell">
-            <ul class="govuk-list govuk-list--spaced">
+  <tbody class="govuk-table__body">
+    <% table_rows.each do |row| %>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= govuk_link_to(row[:provider_user].display_name, support_interface_provider_user_path(row[:provider_user])) %><br>
+          <span class="govuk-hint" style="word-break: break-all;"><%= row[:provider_user].email_address %></span>
+        </td>
+        <td class="govuk-table__cell">
+          <ul class="govuk-list govuk-list--spaced">
             <% row[:provider_user].provider_permissions.each do |permission| %>
               <li><%= permission.provider.name %></li>
             <% end %>
-            </ul>
-          </td>
-          <td class="govuk-table__cell">
-            <%= govuk_link_to(edit_support_interface_provider_user_path(row[:provider_user])) do %>
-              Update permissions<span class="govuk-visually-hidden"> for <%= row[:provider_user].display_name %></span>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+          </ul>
+        </td>
+        <td class="govuk-table__cell">
+          <%= govuk_link_to(edit_support_interface_provider_user_path(row[:provider_user])) do %>
+            Update permissions<span class="govuk-visually-hidden"> for <%= row[:provider_user].display_name %></span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

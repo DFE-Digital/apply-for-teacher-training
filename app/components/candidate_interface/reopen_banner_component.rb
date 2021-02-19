@@ -6,7 +6,7 @@ class CandidateInterface::ReopenBannerComponent < ViewComponent::Base
     @flash_empty = flash_empty
   end
 
-  def show?
+  def render?
     flash_empty &&
       (show_apply_1_reopen_banner? || show_apply_2_reopen_banner?)
   end
