@@ -33,7 +33,7 @@ parameters:
   supportUsername:
   supportPassword:
   authorisedHosts:
-  securityAlertEmail: 'apprenticeshipsdevops@education.gov.uk'
+  securityAlertEmail: 'teacher-services-infra@digital.education.gov.uk'
   sentryDSN:
   logstashEnable:
   logstashRemote:
