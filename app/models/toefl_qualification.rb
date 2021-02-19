@@ -1,5 +1,5 @@
 class ToeflQualification < ApplicationRecord
-  has_one :english_proficiency, as: :efl_qualification
+  has_one :english_proficiency, as: :efl_qualification, touch: true
 
   def name
     'TOEFL'

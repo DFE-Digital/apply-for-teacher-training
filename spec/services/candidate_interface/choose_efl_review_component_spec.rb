@@ -25,7 +25,7 @@ RSpec.describe CandidateInterface::ChooseEflReviewComponent do
     end
 
     context 'when english_proficiency has an Other EFL qualification' do
-      let(:english_proficiency) { build(:english_proficiency, :with_other_qualification) }
+      let(:english_proficiency) { build(:english_proficiency, :with_other_efl_qualification) }
 
       it 'returns an instance of OtherEflQualificationReviewComponent' do
         component = described_class.call(english_proficiency)
