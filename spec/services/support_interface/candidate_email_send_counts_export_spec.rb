@@ -14,11 +14,13 @@ RSpec.describe SupportInterface::CandidateEmailSendCountsExport do
           'Email' => 'application_submitted',
           'Send count' => 2,
           'Last sent at' => most_recent_app_submitted_email.created_at,
+          'Unique recipients' => 1,
         },
         {
           'Email' => 'conditions_met',
           'Send count' => 1,
           'Last sent at' => most_recent_conditions_met_email.created_at,
+          'Unique recipients' => 1,
         },
       ])
     end
