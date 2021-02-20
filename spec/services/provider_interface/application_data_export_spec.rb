@@ -14,7 +14,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
     end
 
     it 'returns data for application_choices with a completed form and a degree' do
-      application_form_with_degree = create(:completed_application_form, with_degree: true)
+      application_form_with_degree = create(:completed_application_form, :with_degree)
       choice = create(:application_choice, application_form: application_form_with_degree)
 
       exported_data = CSV.parse(described_class.call(application_choices: choice), headers: true)

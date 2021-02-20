@@ -8,7 +8,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
 
     it 'cancels any unsubmitted applications from the last cycle' do
       unsubmitted_application_from_last_year = create(
-        :completed_application_form,
+        :application_form,
         submitted_at: nil,
         recruitment_cycle_year: RecruitmentCycle.previous_year,
       )
@@ -20,7 +20,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
       )
 
       hidden_application_from_this_year = create(
-        :completed_application_form,
+        :application_form,
         submitted_at: nil,
         candidate: create(:candidate, hide_in_reporting: true),
         recruitment_cycle_year: RecruitmentCycle.current_year,
@@ -33,7 +33,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
       )
 
       unsubmitted_application_from_this_year = create(
-        :completed_application_form,
+        :application_form,
         submitted_at: nil,
         recruitment_cycle_year: RecruitmentCycle.current_year,
       )
@@ -45,7 +45,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
       )
 
       rejected_application_from_this_year = create(
-        :completed_application_form,
+        :application_form,
         recruitment_cycle_year: RecruitmentCycle.current_year,
       )
       create(
@@ -56,7 +56,7 @@ RSpec.describe CancelUnsubmittedApplicationsWorker do
       )
 
       unsubmitted_cancelled_application_from_this_year = create(
-        :completed_application_form,
+        :application_form,
         submitted_at: nil,
         recruitment_cycle_year: RecruitmentCycle.current_year,
       )

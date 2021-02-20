@@ -6,10 +6,10 @@ RSpec.describe CarryOverApplication do
     @original_application_form ||= Timecop.travel(-1.day) do
       application_form = create(
         :completed_application_form,
+        :with_gcses,
         application_choices_count: 1,
         work_experiences_count: 1,
         volunteering_experiences_count: 1,
-        with_gcses: true,
         full_work_history: true,
       )
       create(:reference, feedback_status: :feedback_provided, application_form: application_form)

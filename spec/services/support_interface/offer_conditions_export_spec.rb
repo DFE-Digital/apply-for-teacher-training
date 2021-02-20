@@ -33,9 +33,10 @@ RSpec.describe SupportInterface::OfferConditionsExport do
     end
 
     it 'returns phase information for each offer' do
-      apply_1_form = create(:completed_application_form)
-      create(:application_choice, :with_declined_offer, application_form: apply_1_form)
-      create(:application_choice, :withdrawn, application_form: apply_1_form)
+      unsuccessful_application_choices = [build(:application_choice, :with_declined_offer),
+                                          build(:application_choice, :withdrawn)]
+      apply_1_form = create(:completed_application_form,
+                            application_choices: unsuccessful_application_choices)
       apply_2_form = ApplyAgain.new(apply_1_form).call
       create(:application_choice, :with_offer, application_form: apply_2_form)
 
@@ -44,7 +45,7 @@ RSpec.describe SupportInterface::OfferConditionsExport do
     end
 
     it 'contains qualification information' do
-      form = create(:completed_application_form, with_gcses: true, with_degree: true)
+      form = create(:completed_application_form, :with_degree_and_gcses)
       create(:application_choice, :with_offer, application_form: form)
       offers = described_class.new.offers
 

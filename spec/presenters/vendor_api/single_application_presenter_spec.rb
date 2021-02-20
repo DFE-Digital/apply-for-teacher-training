@@ -7,7 +7,8 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'attributes.withdrawal' do
     it 'returns a withdrawal object' do
       withdrawn_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
+      application_form = create(:application_form,
+                                :with_completed_references)
       application_choice = create(:application_choice, status: 'withdrawn', application_form: application_form, withdrawn_at: withdrawn_at)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -20,7 +21,8 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'attributes.rejection' do
     it 'returns a rejection object' do
       rejected_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
+      application_form = create(:application_form,
+                                :with_completed_references)
       application_choice = create(:application_choice, status: 'rejected', application_form: application_form, rejected_at: rejected_at, rejection_reason: 'Course full')
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -33,7 +35,8 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'attributes.rejection with a withdrawn offer' do
     it 'returns a rejection object' do
       withdrawn_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
+      application_form = create(:application_form,
+                                :with_completed_references)
       application_choice = create(:application_choice, status: 'rejected', application_form: application_form, offer_withdrawn_at: withdrawn_at, offer_withdrawal_reason: 'Course full')
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -46,7 +49,9 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'attributes.hesa_itt_data' do
     context "when an application choice has status 'recruited'" do
       let(:application_choice) do
-        application_form = create(:completed_application_form, :with_completed_references, :with_equality_and_diversity_data)
+        application_form = create(:application_form,
+                                  :with_completed_references,
+                                  :with_equality_and_diversity_data)
         create(:application_choice, status: 'recruited', application_form: application_form)
       end
 
@@ -65,7 +70,9 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     context "when an application choice does not have status 'recruited'" do
       let(:application_choice) do
-        application_form = create(:completed_application_form, :with_completed_references, :with_equality_and_diversity_data)
+        application_form = create(:application_form,
+                                  :with_completed_references,
+                                  :with_equality_and_diversity_data)
         create(:application_choice, status: 'offer', application_form: application_form)
       end
 
@@ -87,7 +94,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       it 'returns the work_history_breaks attribute of an application' do
         breaks = []
         application_form = build_stubbed(
-          :completed_application_form,
+          :application_form,
           :with_completed_references,
           work_history_breaks: 'I was sleeping.',
           application_work_history_breaks: breaks,
@@ -107,7 +114,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         break2 = build_stubbed(:application_work_history_break, start_date: september2019, end_date: december2019, reason: 'I was playing games.')
         breaks = [break1, break2]
         application_form = build_stubbed(
-          :completed_application_form,
+          :application_form,
           :with_completed_references,
           work_history_breaks: nil,
           application_work_history_breaks: breaks,
@@ -127,7 +134,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       it 'returns an empty string' do
         breaks = []
         application_form = build_stubbed(
-          :completed_application_form,
+          :application_form,
           :with_completed_references,
           work_history_breaks: nil,
           application_work_history_breaks: breaks,
@@ -144,7 +151,10 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.candidate.nationality' do
     it 'compacts two nationalities with the same ISO value' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Welsh', second_nationality: 'Scottish')
+      application_form = create(:application_form,
+                                :with_completed_references,
+                                first_nationality: 'Welsh',
+                                second_nationality: 'Scottish')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -153,8 +163,11 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'returns nationality in the correct format' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'British', second_nationality: 'American')
-      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+      application_form = create(:application_form,
+                                :with_completed_references,
+                                first_nationality: 'British',
+                                second_nationality: 'American')
+      application_choice = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
@@ -163,7 +176,8 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'returns sorted array of nationalties so British or Irish are first' do
-      application_form = create(:completed_application_form,
+      application_form = create(:application_form,
+                                :minimum_info,
                                 first_nationality: 'Canadian',
                                 second_nationality: 'Spanish',
                                 third_nationality: 'Irish',
@@ -178,7 +192,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.candidate.domicile' do
     it 'uses DomicileResolver to return a HESA code' do
-      application_form = create(:completed_application_form, :with_completed_references)
+      application_form = create(:application_form, :with_completed_references)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -189,7 +203,10 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.candidate.uk_residency_status' do
     it 'returns UK Citizen if the candidates nationalties include UK' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Irish', second_nationality: 'British')
+      application_form = create(:application_form,
+                                :with_completed_references,
+                                first_nationality: 'Irish',
+                                second_nationality: 'British')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -198,7 +215,10 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'returns Irish Citizen if the candidates nationalties is Irish' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Canadian', second_nationality: 'Irish')
+      application_form = create(:application_form,
+                                :with_completed_references,
+                                first_nationality: 'Canadian',
+                                second_nationality: 'Irish')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -207,8 +227,11 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'returns details of the residency status if the candidates answered the have the right to work/study in the UK' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Canadian',
-                                                                                         right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have Settled status')
+      application_form = create(:application_form,
+                                :with_completed_references,
+                                first_nationality: 'Canadian',
+                                right_to_work_or_study: 'yes',
+                                right_to_work_or_study_details: 'I have Settled status')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -217,8 +240,10 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'returns correct message if the candidates answered they do not yet have the right to work/study in the UK' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Canadian',
-                                                                                         right_to_work_or_study: 'no')
+      application_form = create(:application_form,
+                                :with_completed_references,
+                                first_nationality: 'Canadian',
+                                right_to_work_or_study: 'no')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -227,8 +252,10 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'returns correct message if the candidates answered they do not know if they have the right to work/study in the UK' do
-      application_form = create(:completed_application_form, :with_completed_references, first_nationality: 'Canadian',
-                                                                                         right_to_work_or_study: 'decide_later')
+      application_form = create(:application_form,
+                                :with_completed_references,
+                                first_nationality: 'Canadian',
+                                right_to_work_or_study: 'decide_later')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -288,7 +315,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         postcode: 'SW1P 3BT',
       }
       application_form = create(
-        :completed_application_form,
+        :application_form,
         :with_completed_references,
         application_form_attributes,
       )
@@ -317,7 +344,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         country: 'IN',
       }
       application_form = create(
-        :completed_application_form,
+        :application_form,
         :with_completed_references,
         application_form_attributes,
       )
@@ -353,7 +380,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
         country: 'IN',
       }
       application_form = create(
-        :completed_application_form,
+        :application_form,
         :with_completed_references,
         application_form_attributes,
       )
@@ -380,7 +407,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.safeguarding_issues_status' do
     it 'returns the safeguarding issues status' do
-      application_form = create(:completed_application_form, :with_safeguarding_issues_disclosed)
+      application_form = create(:application_form, :minimum_info, :with_safeguarding_issues_disclosed)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -391,7 +418,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.safeguarding_issues_details_url' do
     it 'returns the url if the status is has_safeguarding_issues_to_declare' do
-      application_form = create(:completed_application_form, :with_safeguarding_issues_disclosed)
+      application_form = create(:application_form, :minimum_info, :with_safeguarding_issues_disclosed)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -400,7 +427,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'returns nil if the status is no_safeguarding_issues_to_declare' do
-      application_form = create(:completed_application_form, :with_no_safeguarding_issues_to_declare)
+      application_form = create(:application_form, :minimum_info, :with_no_safeguarding_issues_to_declare)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -409,7 +436,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'returns nil if the status is never_asked' do
-      application_form = create(:completed_application_form, :with_safeguarding_issues_never_asked)
+      application_form = create(:application_form, :minimum_info, :with_safeguarding_issues_never_asked)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -673,7 +700,8 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'compliance with models that change updated_at' do
     let(:non_uk_application_form) do
       create(
-        :completed_application_form,
+        :application_form,
+        :minimum_info,
         first_nationality: 'Spanish',
         right_to_work_or_study: :yes,
         address_type: :international,
