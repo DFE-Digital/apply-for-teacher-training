@@ -25,7 +25,7 @@ module DataAPI
     def authorized?
       authenticate_with_http_token do |token|
         @authenticating_token = AuthenticationToken.find_by_hashed_token(user_type: 'DataAPIUser', raw_token: token)
-        @authenticating_token.user_id == 2
+        @authenticating_token.user_id == DataAPIUser.tad_user.id
       end
     end
 
