@@ -248,14 +248,31 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('Name: TOEFL, Grade: 20, Awarded: 1999')
     end
 
-    it 'does not return the english_language_details free text provided by the candidate' do
-      application_form = create(:completed_application_form, english_language_details: 'I have taken some exams but I do not remember the names')
+    it 'prefers to return description of the candidate\'s EFL qualification over the deprecatd english_language_details' do
+      application_form = create(
+        :completed_application_form,
+        english_language_details: 'I have taken some exams but I do not remember the names',
+        english_proficiency: create(:english_proficiency, :with_toefl_qualification),
+      )
 
       application_choice = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
-      expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to be_nil
+      expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('Name: TOEFL, Grade: 20, Awarded: 1999')
+    end
+
+    it 'returns english_language_details is a candidate has not provided an EFL qualification' do
+      application_form = create(
+        :completed_application_form,
+        english_language_details: 'I have taken some exams but I do not remember the names',
+      )
+
+      application_choice = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :english_language_qualifications)).to eq('I have taken some exams but I do not remember the names')
     end
   end
 

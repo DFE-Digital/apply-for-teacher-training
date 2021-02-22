@@ -340,7 +340,7 @@ class ApplicationForm < ApplicationRecord
   end
 
   def english_language_qualification_details
-    english_proficiency&.formatted_qualification_description
+    english_proficiency&.formatted_qualification_description.presence || self[:english_language_details]
   end
 
   def has_rejection_reason?
