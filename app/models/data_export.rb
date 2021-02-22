@@ -98,7 +98,7 @@ class DataExport < ApplicationRecord
     tad_applications: {
       name: 'TAD applications',
       description: 'A list of all applications for TAD.',
-      class: SupportInterface::TADExport,
+      class: DataAPI::TADExport,
     },
     tad_provider_performance: {
       name: 'TAD provider performance',

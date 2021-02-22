@@ -44,6 +44,8 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
+    active_hash (3.1.0)
+      activesupport (>= 5.0.0)
     activejob (6.0.3.5)
       activesupport (= 6.0.3.5)
       globalid (>= 0.3.6)
@@ -563,6 +565,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_hash
   ar-sequence
   archive-zip
   audited!

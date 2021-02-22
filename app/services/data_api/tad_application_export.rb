@@ -1,4 +1,4 @@
-module SupportInterface
+module DataAPI
   class TADApplicationExport
     attr_reader :application_choice
 
