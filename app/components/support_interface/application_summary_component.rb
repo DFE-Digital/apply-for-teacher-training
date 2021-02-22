@@ -122,7 +122,7 @@ module SupportInterface
         key: 'Average distance to sites',
         value: format_average_distance(
           application_form,
-          application_form.application_choices.map(&:site),
+          application_form.application_choices.includes([:course_option, :site, :accredited_provider, :interviews]).map(&:site),
         ),
       }
     end
