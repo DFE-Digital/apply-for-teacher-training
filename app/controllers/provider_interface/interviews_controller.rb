@@ -16,9 +16,8 @@ module ProviderInterface
 
       interviews = @application_choice.interviews.kept.includes(:provider).order(:date_and_time)
 
-      @upcoming_interviews, @past_interviews = interviews.partition do |interview|
-        interview.date_and_time > Time.zone.now
-      end
+      @upcoming_interviews = interviews.upcoming
+      @past_interviews = interviews.past
 
       redirect_to provider_interface_application_choice_path if interviews.none?
     end

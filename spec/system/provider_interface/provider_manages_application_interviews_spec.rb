@@ -34,7 +34,10 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     and_i_set_up_another_interview(days_in_future: 2)
     and_another_interview_has_been_created('3 March 2020')
 
-    when_the_first_interview_has_happened
+    when_the_first_interview_has_only_just_happened
+    then_the_completed_interview_still_shows_as_upcoming
+
+    when_the_first_interview_happened_yesterday
     then_i_see_the_upcoming_interview_under_the_correct_heading
     and_i_see_the_past_interview_under_the_correct_heading
 
@@ -57,10 +60,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     i_can_see_the_application_is_awaiting_provider_decision
     and_the_interview_tab_is_not_available
 
-    # TODO: the "make decision" prompt does not show here because of the flash message
-    # should be fixed with https://trello.com/c/dI0l2hyl/3364-call-to-action-inset-text-is-hidden-when-flash-banner-is-shown-on-provider-application-page
-    when_i_reload_the_page
-    and_i_set_up_another_interview(days_in_future: 4)
+    and_i_set_up_another_interview(days_in_future: 3)
     and_another_interview_has_been_created('6 March 2020')
 
     when_i_click_make_decision
@@ -156,8 +156,20 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
 
   alias_method :and_another_interview_has_been_created, :and_an_interview_has_been_created
 
-  def when_the_first_interview_has_happened
+  def when_the_first_interview_has_only_just_happened
     Timecop.travel(2020, 3, 2, 13, 0, 0)
+    provider_signs_in_using_dfe_sign_in
+    visit provider_interface_application_choice_interviews_path(application_choice)
+  end
+
+  def then_the_completed_interview_still_shows_as_upcoming
+    expect(page).to have_css('.app-interviews > :nth-child(2)', text: 'Upcoming interviews')
+    expect(page).to have_css('.app-interviews > :nth-child(3)', text: '2 March 2020')
+    expect(page).to have_css('.app-interviews > :nth-child(4)', text: '3 March 2020')
+  end
+
+  def when_the_first_interview_happened_yesterday
+    Timecop.travel(2020, 3, 3, 9, 0, 0)
     provider_signs_in_using_dfe_sign_in
     visit provider_interface_application_choice_interviews_path(application_choice)
   end
