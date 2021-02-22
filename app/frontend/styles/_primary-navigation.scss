@@ -60,7 +60,20 @@
     color: govuk-colour("black"); // Focus colour on yellow should really be black.
     position: relative; // Ensure focus sits above everything else.
     z-index: 1;
-    box-shadow: none;
+    outline: 3px solid transparent;
+    background-color: govuk-colour("yellow");
+    text-decoration: none;
+  }
+
+  &:focus:before {
+    background-color: govuk-colour("black");
+    content: "";
+    display: block;
+    height: 5px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
   }
 
   &:hover {
@@ -88,6 +101,7 @@
 
       &:before {
         background-color: govuk-colour("black");
+        height: 7px;
       }
 
     }
