@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::TADExport do
+RSpec.describe DataAPI::TADExport do
   before do
     create(:submitted_application_choice, status: 'rejected', rejected_by_default: true)
     create(:submitted_application_choice, status: 'declined', declined_by_default: true)

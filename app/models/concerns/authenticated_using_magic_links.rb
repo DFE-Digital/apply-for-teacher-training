@@ -7,7 +7,7 @@ module AuthenticatedUsingMagicLinks
 
   def create_magic_link_token!(path: nil)
     magic_link_token = MagicLinkToken.new
-    authentication_tokens.create!(hashed_token: magic_link_token.encrypted, path: path)
+    AuthenticationToken.create!(user: self, hashed_token: magic_link_token.encrypted, path: path)
     magic_link_token.raw
   end
 

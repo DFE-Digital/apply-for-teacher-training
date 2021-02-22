@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Namespace' do
-  namespaces = %w[CandidateInterface ProviderInterface SupportInterface APIDocs RefereeInterface VendorAPI UCASMatching]
+  namespaces = %w[CandidateInterface ProviderInterface SupportInterface APIDocs RefereeInterface VendorAPI UCASMatching DataAPI]
 
   namespaces.each do |namespace|
     describe namespace.constantize do

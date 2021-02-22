@@ -752,6 +752,10 @@ Rails.application.routes.draw do
     get '/performance-dashboard' => redirect('support/performance/service')
   end
 
+  namespace :data_api, path: '/data-api' do
+    get '/tad-data-exports/latest' => 'tad_data_exports#latest'
+  end
+
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/applications')
 
