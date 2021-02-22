@@ -32,14 +32,6 @@ RSpec.feature 'Add course to submitted application' do
     when_i_select_a_course
     and_i_click_add_course_to_application
     then_i_should_see_the_application_with_the_course_added
-
-    when_there_are_two_more_courses_added
-    and_i_visit_the_application_page
-    then_i_should_not_be_able_to_add_further_courses
-
-    when_one_course_is_withdrawn
-    and_i_visit_the_application_page
-    then_i_should_be_able_to_add_further_courses
   end
 
   def given_i_am_a_support_user
@@ -145,28 +137,5 @@ RSpec.feature 'Add course to submitted application' do
   def then_i_should_see_the_application_with_the_course_added
     expect(page).to have_current_path support_interface_application_form_path(application_form_id: @application_form.id)
     expect(page).to have_content("#{RecruitmentCycle.current_year}: #{@course_option.course.name} (#{@course_option.course.code})")
-  end
-
-  def when_there_are_two_more_courses_added
-    create_list(:submitted_application_choice, 2, application_form: @application_form)
-  end
-
-  def and_i_visit_the_application_page
-    visit support_interface_application_form_path(application_form_id: @application_form.id)
-  end
-
-  def then_i_should_not_be_able_to_add_further_courses
-    expect(page).to have_content 'This application already has the maximum number of active course choices'
-    expect(page).not_to have_link 'Add a course'
-  end
-
-  def when_one_course_is_withdrawn
-    application_choice = @application_form.application_choices.last
-    ApplicationStateChange.new(application_choice).withdraw!
-    application_choice.update(withdrawn_at: Time.zone.now)
-  end
-
-  def then_i_should_be_able_to_add_further_courses
-    expect(page).to have_link 'Add a course'
   end
 end
