@@ -84,8 +84,15 @@
 // Fix for focus issue - see https://github.com/DFE-Digital/apply-for-teacher-training/pull/2640
 
 // We're catching the focus on a second element rather than having the filter component itself flash with focus when checkbox labels are clicked.
-.moj-filter__options:focus {
+.moj-filter__content:focus {
   outline: none;
+}
+
+.moj-filter__tag:focus {
+  outline: 3px solid transparent;
+  background-color: govuk-colour("yellow");
+  text-decoration: none;
+  box-shadow: 0 4px govuk-colour("black");
 }
 
 .moj-pagination__item--prev .moj-pagination__link:before {

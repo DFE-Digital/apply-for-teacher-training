@@ -9,7 +9,7 @@
         </div>
       </div>
 
-      <div class="moj-filter__content">
+      <div class="moj-filter__content" tabindex="-1">
         <% if active_filters.any? %>
           <div class="moj-filter__selected">
             <div class="moj-filter__selected-heading">
@@ -36,10 +36,7 @@
             <% end %>
           </div>
         <% end %>
-
-        <!-- Div made focusable to 'catch' focus from checkboxes. see https://github.com/DFE-Digital/apply-for-teacher-training/pull/2640
-         -->
-        <div class="moj-filter__options" tabindex="-1">
+        <div class="moj-filter__options">
           <form method="get">
             <%= submit_tag 'Apply filters', class: 'govuk-button' %>
 
