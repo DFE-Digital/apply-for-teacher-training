@@ -52,6 +52,11 @@ class GetActivityLogEvents
     filtered_statuses = ApplicationStateChange::STATES_VISIBLE_TO_PROVIDER - IGNORE_STATUS
     status_transitions_to_include = filtered_statuses.map { |status| "'#{status}'" }.join(', ')
 
-    application_choice_audits_filter + " OR audited_changes::json#>>'{status, 1}' IN (#{status_transitions_to_include})"
+    application_choice_audits_filter += " OR audited_changes::json#>>'{status, 1}' IN (#{status_transitions_to_include})"
+    application_choice_audits_filter + ignore_interview_cancelled_application_choice_status_change_sql
+  end
+
+  def self.ignore_interview_cancelled_application_choice_status_change_sql
+    %( AND NOT audited_changes @> '{"status" : ["interviewing", "awaiting_provider_decision"]}')
   end
 end

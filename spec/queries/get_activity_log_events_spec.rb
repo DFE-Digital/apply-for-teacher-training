@@ -192,4 +192,30 @@ RSpec.describe GetActivityLogEvents, with_audited: true do
       expect(result.first.associated).to eq(application_choice)
     end
   end
+
+  context 'with a cancelled interview' do
+    let(:application_choice) { create(:application_choice, :with_scheduled_interview) }
+    let(:auth) { instance_double(ProviderAuthorisation, assert_can_make_decisions!: true) }
+
+    before do
+      allow(ProviderAuthorisation).to receive(:new).and_return(auth)
+      CancelInterview.new(
+        actor: provider_user,
+        application_choice: application_choice,
+        interview: application_choice.interviews.first,
+        cancellation_reason: 'test',
+      ).save!
+    end
+
+    it 'filters out the status transition for an application choice when cancelling an interview' do
+      excluded = Audited::Audit.where(
+        auditable: application_choice,
+        audited_changes: { status: %w[interviewing awaiting_provider_decision] },
+      )
+      result = GetActivityLogEvents.call(application_choices: ApplicationChoice.where(id: application_choice.id))
+
+      expect(excluded).to exist
+      expect(result).not_to include(excluded)
+    end
+  end
 end
