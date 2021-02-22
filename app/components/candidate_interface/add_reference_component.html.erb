@@ -1,15 +1,13 @@
-<% unless application_form.enough_references_have_been_provided? %>
-  <div class="govuk-inset-text">
-    <% if no_viable_references? %>
-      <p class="govuk-body">You need 2 references before you can submit your application.</p>
-      <%= govuk_button_link_to 'Add a referee', candidate_interface_references_start_path %>
-    <% elsif one_viable_reference? %>
-      <p class="govuk-body">You need 2 references before you can submit your application.</p>
-      <%= govuk_button_link_to 'Add a second referee', candidate_interface_references_start_path %>
-    <% else %>
-      <p class="govuk-body">You can add more referees to increase the chances of getting 2 references quickly.</p>
-      <p class="govuk-body">We’ll cancel any remaining requests when you’ve received 2 references.</p>
-      <%= govuk_button_link_to 'Add another referee', candidate_interface_references_start_path, class: 'govuk-button--secondary' %>
-    <% end %>
-  </div>
-<% end %>
+<div class="govuk-inset-text">
+  <% if no_viable_references? %>
+    <p class="govuk-body">You need 2 references before you can submit your application.</p>
+    <%= govuk_button_link_to 'Add a referee', candidate_interface_references_start_path %>
+  <% elsif one_viable_reference? %>
+    <p class="govuk-body">You need 2 references before you can submit your application.</p>
+    <%= govuk_button_link_to 'Add a second referee', candidate_interface_references_start_path %>
+  <% else %>
+    <p class="govuk-body">You can add more referees to increase the chances of getting 2 references quickly.</p>
+    <p class="govuk-body">We’ll cancel any remaining requests when you’ve received 2 references.</p>
+    <%= govuk_button_link_to 'Add another referee', candidate_interface_references_start_path, class: 'govuk-button--secondary' %>
+  <% end %>
+</div>
