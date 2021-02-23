@@ -17,7 +17,7 @@ RSpec.describe Clockwork do
     { worker: SendChaseEmailToProvidersWorker, task: 'SendChaseEmailToProviders' },
     { worker: SendChaseEmailToCandidatesWorker, task: 'SendChaseEmailToCandidates' },
   ].each do |worker|
-    describe 'worker schedule' do
+    describe 'worker schedule', clockwork: true do
       it 'runs the job every hour' do
         start_time = Time.zone.local(2020, 1, 2, 0, 0, 0)
         end_time = Time.zone.local(2020, 1, 2, 3, 0, 0)
