@@ -31,15 +31,8 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     then_i_see_a_success_message
     and_an_interview_has_been_created('2 March 2020')
 
-    and_i_set_up_another_interview(days_in_future: 2)
-    and_another_interview_has_been_created('3 March 2020')
-
-    when_the_first_interview_has_only_just_happened
-    then_the_completed_interview_still_shows_as_upcoming
-
-    when_the_first_interview_happened_yesterday
-    then_i_see_the_upcoming_interview_under_the_correct_heading
-    and_i_see_the_past_interview_under_the_correct_heading
+    when_i_set_up_another_interview(days_in_future: 2)
+    then_another_interview_has_been_created('3 March 2020')
 
     when_i_change_the_interview_details
     and_i_confirm_the_interview_details
@@ -60,12 +53,12 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     i_can_see_the_application_is_awaiting_provider_decision
     and_the_interview_tab_is_not_available
 
-    and_i_set_up_another_interview(days_in_future: 3)
-    and_another_interview_has_been_created('6 March 2020')
+    when_i_set_up_another_interview(days_in_future: 4)
+    then_another_interview_has_been_created('5 March 2020')
 
     when_i_click_make_decision
     and_i_make_an_offer
-    then_i_should_see_the_interview_on_the_interview_tab('6 March 2020')
+    then_i_should_see_the_interview_on_the_interview_tab('5 March 2020')
     but_i_should_not_see_the_set_up_change_or_cancel_interview_controls
   end
 
@@ -120,7 +113,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
     expect(page).to have_content('Interview successfully created')
   end
 
-  def and_i_set_up_another_interview(days_in_future:)
+  def when_i_set_up_another_interview(days_in_future:)
     and_i_click_set_up_an_interview
     and_i_fill_out_the_interview_form(days_in_future: days_in_future, time: '7pm')
     and_i_click_send_interview_details
@@ -155,42 +148,15 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   end
 
   alias_method :and_another_interview_has_been_created, :and_an_interview_has_been_created
-
-  def when_the_first_interview_has_only_just_happened
-    Timecop.travel(2020, 3, 2, 13, 0, 0)
-    provider_signs_in_using_dfe_sign_in
-    visit provider_interface_application_choice_interviews_path(application_choice)
-  end
-
-  def then_the_completed_interview_still_shows_as_upcoming
-    expect(page).to have_css('.app-interviews > :nth-child(2)', text: 'Upcoming interviews')
-    expect(page).to have_css('.app-interviews > :nth-child(3)', text: '2 March 2020')
-    expect(page).to have_css('.app-interviews > :nth-child(4)', text: '3 March 2020')
-  end
-
-  def when_the_first_interview_happened_yesterday
-    Timecop.travel(2020, 3, 3, 9, 0, 0)
-    provider_signs_in_using_dfe_sign_in
-    visit provider_interface_application_choice_interviews_path(application_choice)
-  end
-
-  def then_i_see_the_upcoming_interview_under_the_correct_heading
-    expect(page).to have_css('.app-interviews > :nth-child(2)', text: 'Upcoming interviews')
-    expect(page).to have_css('.app-interviews > :nth-child(3)', text: '3 March 2020')
-  end
-
-  def and_i_see_the_past_interview_under_the_correct_heading
-    expect(page).to have_css('.app-interviews > :nth-child(4)', text: 'Past interviews')
-    expect(page).to have_css('.app-interviews > :nth-child(5)', text: '2 March 2020')
-  end
+  alias_method :then_another_interview_has_been_created, :and_an_interview_has_been_created
 
   def when_i_change_the_interview_details
     click_on 'Change details', match: :first
 
-    expect(page).to have_field('Day', with: '3')
+    expect(page).to have_field('Day', with: '2')
     expect(page).to have_field('Month', with: '3')
     expect(page).to have_field('Year', with: '2020')
-    expect(page).to have_field('Time', with: '7:00pm')
+    expect(page).to have_field('Time', with: '12:00pm')
     expect(page).to have_field('Address or online meeting details', with: 'N/A')
     expect(page).to have_field('Additional details (optional)', with: '')
 
@@ -271,7 +237,7 @@ RSpec.describe 'A Provider viewing an individual application', with_audited: tru
   def and_i_can_see_the_second_interview
     visit provider_interface_application_choice_interviews_path(application_choice)
 
-    expect(page).to have_content('Past interviews')
+    expect(page).to have_content('Upcoming interviews')
     expect(page).to have_css('.app-interviews__interview')
   end
 
