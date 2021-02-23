@@ -740,7 +740,8 @@ FactoryBot.define do
     end
 
     trait :previous_year do
-      course_option { create(:course_option, :previous_year) }
+      association :course_option, :previous_year
+
       after(:create) do |choice, _evaluator|
         choice.application_form.update_columns(
           recruitment_cycle_year: RecruitmentCycle.previous_year,
@@ -749,7 +750,8 @@ FactoryBot.define do
     end
 
     trait :previous_year_but_still_available do
-      course_option { create(:course_option, :previous_year_but_still_available) }
+      association :course_option, :previous_year_but_still_available
+
       after(:create) do |choice, _evaluator|
         choice.application_form.update_columns(
           recruitment_cycle_year: RecruitmentCycle.previous_year,
@@ -1052,7 +1054,7 @@ FactoryBot.define do
     end
 
     trait :with_rejection do
-      application_choice { create(:application_choice, :with_rejection) }
+      association(:application_choice, :with_rejection)
 
       changes do
         {
@@ -1076,7 +1078,7 @@ FactoryBot.define do
     end
 
     trait :with_rejection_by_default_and_feedback do
-      application_choice { create(:application_choice, :with_rejection_by_default) }
+      association(:application_choice, :with_rejection_by_default)
 
       changes do
         {
@@ -1090,7 +1092,7 @@ FactoryBot.define do
     end
 
     trait :with_declined_offer do
-      application_choice { create(:application_choice, :with_declined_offer) }
+      association(:application_choice, :with_declined_offer)
 
       changes do
         {
@@ -1100,7 +1102,7 @@ FactoryBot.define do
     end
 
     trait :with_declined_by_default_offer do
-      application_choice { create(:application_choice, :with_declined_by_default_offer) }
+      association(:application_choice, :with_declined_by_default_offer)
 
       changes do
         {
@@ -1114,7 +1116,7 @@ FactoryBot.define do
     end
 
     trait :with_offer do
-      application_choice { create(:application_choice, :with_offer) }
+      association(:application_choice, :with_offer)
 
       changes do
         {
@@ -1125,7 +1127,7 @@ FactoryBot.define do
     end
 
     trait :with_withdrawn_offer do
-      application_choice { create(:application_choice, :with_withdrawn_offer) }
+      association(:application_choice, :with_withdrawn_offer)
 
       changes do
         {
@@ -1135,7 +1137,7 @@ FactoryBot.define do
     end
 
     trait :with_modified_offer do
-      application_choice { create(:application_choice, :with_modified_offer) }
+      association(:application_choice, :with_modified_offer)
 
       changes do
         {
@@ -1146,7 +1148,7 @@ FactoryBot.define do
     end
 
     trait :with_changed_offer do
-      application_choice { create(:application_choice, :with_changed_offer) }
+      association(:application_choice, :with_changed_offer)
 
       changes do
         {
@@ -1157,7 +1159,7 @@ FactoryBot.define do
     end
 
     trait :with_accepted_offer do
-      application_choice { create(:application_choice, :with_accepted_offer) }
+      association(:application_choice, :with_accepted_offer)
 
       changes do
         {
@@ -1167,7 +1169,7 @@ FactoryBot.define do
     end
 
     trait :with_conditions_not_met do
-      application_choice { create(:application_choice, :with_conditions_not_met) }
+      association(:application_choice, :with_conditions_not_met)
 
       changes do
         {
@@ -1177,7 +1179,7 @@ FactoryBot.define do
     end
 
     trait :with_recruited do
-      application_choice { create(:application_choice, :with_recruited) }
+      association(:application_choice, :with_recruited)
 
       changes do
         {
@@ -1187,7 +1189,7 @@ FactoryBot.define do
     end
 
     trait :with_deferred_offer do
-      application_choice { create(:application_choice, :with_deferred_offer) }
+      association(:application_choice, :with_deferred_offer)
 
       changes do
         {
@@ -1197,7 +1199,7 @@ FactoryBot.define do
     end
 
     trait :with_scheduled_interview do
-      application_choice { create(:application_choice, :with_scheduled_interview) }
+      association(:application_choice, :with_scheduled_interview)
 
       changes do
         {
