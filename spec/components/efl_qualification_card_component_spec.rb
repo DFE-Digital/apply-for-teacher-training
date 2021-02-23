@@ -55,7 +55,7 @@ RSpec.describe EflQualificationCardComponent, type: :component do
       end
 
       context 'which is an "Other" qualification' do
-        let(:english_proficiency) { create(:english_proficiency, :with_other_qualification) }
+        let(:english_proficiency) { create(:english_proficiency, :with_other_efl_qualification) }
 
         before { application_form.english_proficiency = english_proficiency }
 

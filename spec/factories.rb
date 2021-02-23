@@ -1215,18 +1215,24 @@ FactoryBot.define do
     end
 
     trait :with_ielts_qualification do
-      association :efl_qualification, factory: :ielts_qualification
-      qualification_status { 'has_qualification' }
+      after(:build) do |english_proficiency|
+        english_proficiency.efl_qualification ||= create(:ielts_qualification, english_proficiency: english_proficiency)
+        english_proficiency.qualification_status = 'has_qualification'
+      end
     end
 
     trait :with_toefl_qualification do
-      association :efl_qualification, factory: :toefl_qualification
-      qualification_status { 'has_qualification' }
+      after(:build) do |english_proficiency|
+        english_proficiency.efl_qualification ||= create(:toefl_qualification, english_proficiency: english_proficiency)
+        english_proficiency.qualification_status = 'has_qualification'
+      end
     end
 
-    trait :with_other_qualification do
-      association :efl_qualification, factory: :other_efl_qualification
-      qualification_status { 'has_qualification' }
+    trait :with_other_efl_qualification do
+      after(:build) do |english_proficiency|
+        english_proficiency.efl_qualification ||= create(:other_efl_qualification, english_proficiency: english_proficiency)
+        english_proficiency.qualification_status = 'has_qualification'
+      end
     end
 
     trait :qualification_not_needed do

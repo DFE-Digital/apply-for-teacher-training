@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::EnglishForeignLanguage::OtherEflQualification
       it 'replaces the record' do
         proficiency = create(
           :english_proficiency,
-          :with_other_qualification,
+          :with_other_efl_qualification,
         )
         expect(proficiency.efl_qualification.grade).to eq '10'
         application_form = proficiency.application_form

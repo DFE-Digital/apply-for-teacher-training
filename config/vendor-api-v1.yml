@@ -601,10 +601,8 @@ components:
           type: string
           maxLength: 10240
           nullable: true
-          description: About this candidate’s English language qualifications, if
-            English is not their main language
-          example: I have a degree in English Language and Literature from the University
-            of Munich
+          description: Details of this candidate's English language qualification, if English is not their main language
+          example: 'Name: TOEFL, Grade: 20, Awarded: 1999'
         other_languages:
           type: string
           maxLength: 10240
