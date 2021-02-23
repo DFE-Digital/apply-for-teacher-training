@@ -18,7 +18,7 @@ module SupportInterface
           'Third structured rejection reasons' => format_structured_rejection_reasons(rejected_application_choices[2]&.structured_rejection_reasons),
         }
 
-        disabilities = application_form.equality_and_diversity['disabilities']
+        disabilities = application_form.equality_and_diversity['disabilities'].to_a
 
         disabilities.map.with_index(1) do |disability, index|
           output["Disability #{index}"] = disability
