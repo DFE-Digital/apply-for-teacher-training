@@ -1294,4 +1294,42 @@ FactoryBot.define do
     mail_template { 'some_mail_template' }
     body { 'Hi' }
   end
+
+  factory :provider_permissions_audit, class: 'Audited::Audit' do
+    action { 'update' }
+    user { create(:provider_user) }
+    version { 1 }
+    request_uuid { SecureRandom.uuid }
+    created_at { Time.zone.now }
+
+    transient do
+      provider_permissions { build_stubbed(:provider_permissions) }
+      changes { {} }
+    end
+
+    after(:build) do |audit, evaluator|
+      audit.auditable_type = 'ProviderPermissions'
+      audit.auditable_id = evaluator.provider_permissions.id
+      audit.audited_changes = evaluator.changes
+    end
+  end
+
+  factory :provider_relationship_permissions_audit, class: 'Audited::Audit' do
+    action { 'update' }
+    user { create(:provider_user) }
+    version { 1 }
+    request_uuid { SecureRandom.uuid }
+    created_at { Time.zone.now }
+
+    transient do
+      provider_relationship_permissions { build_stubbed(:provider_relationship_permissions) }
+      changes { {} }
+    end
+
+    after(:build) do |audit, evaluator|
+      audit.auditable_type = 'ProviderRelationshipPermissions'
+      audit.auditable_id = evaluator.provider_relationship_permissions.id
+      audit.audited_changes = evaluator.changes
+    end
+  end
 end
