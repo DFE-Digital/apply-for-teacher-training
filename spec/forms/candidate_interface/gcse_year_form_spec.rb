@@ -12,7 +12,7 @@ RSpec.describe CandidateInterface::GcseYearForm, type: :model do
 
         details_form.save(gcse)
 
-        expect(details_form.errors[:award_year]).to include('Enter a year before 2021')
+        expect(details_form.errors[:award_year]).to include('Enter an award year that is not in the future')
       end
     end
 

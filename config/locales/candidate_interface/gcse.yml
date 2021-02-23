@@ -116,7 +116,6 @@ en:
           attributes:
             award_year:
               blank: Enter the year you gained your qualification
-              in_future: Enter a year before %{date}
               gce_o_level_in_future: Enter a year before %{date} - GSCEs replaced O levels in 1988
         candidate_interface/gcse_qualification_type_form:
           attributes:
