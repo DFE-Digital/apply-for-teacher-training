@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_17_131741) do
+ActiveRecord::Schema.define(version: 2021_02_23_114041) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2021_02_17_131741) do
   create_sequence "data_exports_id_seq"
   create_sequence "emails_id_seq"
   create_sequence "english_proficiencies_id_seq"
+  create_sequence "feature_metrics_dashboards_id_seq"
   create_sequence "features_id_seq"
   create_sequence "find_feedback_id_seq"
   create_sequence "ielts_qualifications_id_seq"
@@ -433,6 +434,32 @@ ActiveRecord::Schema.define(version: 2021_02_17_131741) do
     t.text "no_qualification_details"
     t.index ["application_form_id"], name: "index_english_proficiencies_on_application_form_id", unique: true
     t.index ["efl_qualification_type", "efl_qualification_id"], name: "index_elp_on_efl_qualification_type_and_id"
+  end
+
+  create_table "feature_metrics_dashboards", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.float "avg_time_to_get_references"
+    t.float "avg_time_to_get_references_this_month"
+    t.float "avg_time_to_get_references_last_month"
+    t.float "pct_references_completed_within_30_days"
+    t.float "pct_references_completed_within_30_days_this_month"
+    t.float "pct_references_completed_within_30_days_last_month"
+    t.float "avg_time_to_complete_work_history"
+    t.float "avg_time_to_complete_work_history_this_month"
+    t.float "avg_time_to_complete_work_history_last_month"
+    t.float "avg_sign_ins_before_submitting"
+    t.float "avg_sign_ins_before_submitting_this_month"
+    t.float "avg_sign_ins_before_submitting_last_month"
+    t.float "avg_sign_ins_before_offer"
+    t.float "avg_sign_ins_before_offer_this_month"
+    t.float "avg_sign_ins_before_offer_last_month"
+    t.float "avg_sign_ins_before_recruitment"
+    t.float "avg_sign_ins_before_recruitment_this_month"
+    t.float "avg_sign_ins_before_recruitment_last_month"
+    t.integer "num_rejections_due_to_qualifications"
+    t.integer "num_rejections_due_to_qualifications_this_month"
+    t.integer "num_rejections_due_to_qualifications_last_month"
   end
 
   create_table "features", force: :cascade do |t|

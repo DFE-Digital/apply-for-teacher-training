@@ -17,10 +17,7 @@ module SupportInterface
     end
 
     def feature_metrics_dashboard
-      @reference_statistics = ReferenceFeatureMetrics.new
-      @work_history_statistics = WorkHistoryFeatureMetrics.new
-      @magic_link_statistics = MagicLinkFeatureMetrics.new
-      @reasons_for_rejection_statistics = ReasonsForRejectionFeatureMetrics.new
+      @dashboard = FeatureMetricsDashboard.last
     end
 
     def reasons_for_rejection_dashboard

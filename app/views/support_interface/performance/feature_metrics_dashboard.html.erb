@@ -14,9 +14,7 @@
   <div class="govuk-grid-column-one-half">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: @reference_statistics.average_time_to_get_references(
-          EndOfCycleTimetable.apply_reopens.beginning_of_day,
-        ),
+        count: @dashboard.avg_time_to_get_references,
         label: 'average time to get reference back',
         colour: :blue,
         size: :reduced,
@@ -25,19 +23,14 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @reference_statistics.average_time_to_get_references(
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.avg_time_to_get_references_this_month,
           label: 'this month',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @reference_statistics.average_time_to_get_references(
-            Time.zone.now.beginning_of_month - 1.month,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.avg_time_to_get_references_last_month,
           label: 'last month',
           size: :reduced,
         ) %>
