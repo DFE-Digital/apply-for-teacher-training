@@ -2,43 +2,58 @@
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
 
 <div class="govuk-grid-row">
+
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @pick_response_form, url: provider_interface_application_choice_submit_response_path(@application_choice.id), method: :post do |f| %>
-      <%- offer_text = 'Make an offer' %>
-      <%- reject_text = 'Reject application' %>
+  <h1 class="govuk-heading-xl">
+    <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+    Make offer
+  </h1>
 
-      <%= f.govuk_error_summary %>
 
-      <%= f.govuk_radio_buttons_fieldset :decision,
-        caption: { text: @application_choice.application_form.full_name, size: 'xl' },
-        legend: { text: t('page_titles.provider.respond'), size: 'xl', tag: 'h1' } do %>
+<%= form_with model: @pick_response_form, url: provider_interface_application_choice_submit_response_path(@application_choice.id), method: :post do |f| %>
+  <%- offer_text = 'Make an offer' %>
+  <%- reject_text = 'Reject application' %>
 
-        <% if ApplicationStateChange.new(@application_choice).can_make_offer? %>
-          <%= f.govuk_radio_button :decision, 'new_offer', label: { text: offer_text }, link_errors: true %>
+  <%= f.govuk_error_summary %>
 
-          <%= f.govuk_radio_button :decision, 'edit_course', label: { text: "#{offer_text} but change course" } %>
+  <% rows = [{
+    key:  "Provider",
+    value: @application_choice.course.provider.name,
+  }, {
+    key: "Course",
+    value: @application_choice.course.name_and_code,
+  }, {
+    key: "Location",
+    value: @application_choice.course.name_and_code,
+  }, {
+    key: "Full time or part time",
+    value: @application_choice.course.name_and_code,
+  }
+  ]%>
+<div class="app-banner app-banner--details">
+  <h2 class="govuk-heading-m">Course details</h2>
+  <%= render SummaryCardComponent.new(rows: rows, border: false) %>
+</div>
 
-          <% if @alternative_study_mode %>
-            <%= f.govuk_radio_button :decision, 'edit_study_mode', label: { text: "#{offer_text} but change to #{@alternative_study_mode.humanize.downcase}" } %>
-          <% end %>
+  <%= f.govuk_radio_buttons_fieldset :decision, legend: { text: 'Select a decision', size: 'm' } do %>
 
-          <%= f.govuk_radio_button :decision, 'edit_course_option', label: { text: "#{offer_text} but change location" } %>
 
-          <% if current_provider_user.providers.size > 1 %>
-            <%= f.govuk_radio_button :decision, 'edit_provider', label: { text: "#{offer_text} but change training provider" } %>
-          <% end %>
-        <% end %>
+    <% if ApplicationStateChange.new(@application_choice).can_make_offer? %>
+      <%= f.govuk_radio_button :decision, 'new_offer', label: { text: offer_text }, link_errors: true %>
 
-        <% if ApplicationStateChange.new(@application_choice).can_reject? %>
-          <%= f.govuk_radio_button :decision, 'new_reject', label: { text: reject_text } %>
-        <% end %>
-      <% end %>
-
-      <%= f.govuk_submit t('continue') %>
-
-      <p class="govuk-body">
-        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
-      </p>
+      <%= f.govuk_radio_button :decision, 'edit_course', label: { text: "Change course" } %>
     <% end %>
+
+    <% if ApplicationStateChange.new(@application_choice).can_reject? %>
+      <%= f.govuk_radio_button :decision, 'new_reject', label: { text: reject_text } %>
+    <% end %>
+  <% end %>
+
+  <%= f.govuk_submit t('continue') %>
+
+  <p class="govuk-body">
+  <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+  </p>
+<% end %>
   </div>
 </div>

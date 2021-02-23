@@ -6,9 +6,25 @@ module ProviderInterface
     def respond
       @pick_response_form = PickResponseForm.new
       @alternative_study_mode = @application_choice.offered_option.alternative_study_mode
+
+      @wizard = OfferWizard.new(offer_store,
+                                offer_context_params(@application_choice.course_option).merge!(current_step: 'select_option'))
+      @wizard.save_state!
     end
 
     def submit_response
+      context = params.dig(:provider_interface_pick_response_form, :decision)
+      @wizard = OfferWizard.new(offer_store, { current_context: context })
+      @wizard.save_state!
+
+      if context == 'rejection'
+        #redirect to reasons for rejection
+      else
+        if @wizard.next_step == 'conditions'
+          redirect [:provider_interface, :decisions, @wizard.next_step ]
+        end
+      end
+
       @pick_response_form = PickResponseForm.new(decision: params.dig(:provider_interface_pick_response_form, :decision))
       if @pick_response_form.valid?
         redirect_to @pick_response_form.redirect_attrs
@@ -18,6 +34,9 @@ module ProviderInterface
     end
 
     def new_offer
+      @wizard = OfferWizard.new(offer_store, {current_step: 'conditions'})
+      @wizard.save_state!
+
       course_option = if params[:course_option_id]
                         CourseOption.find(params[:course_option_id])
                       else
@@ -122,8 +141,22 @@ module ProviderInterface
 
   private
 
+  def offer_context_params(course_option)
+    { course_option_id: course_option.id,
+      provider_id: course_option.provider.id,
+      study_mode: course_option.study_mode,
+      location_id: course_option.site.id,
+      current_context: :default,
+    }
+  end
+
     def make_an_offer_params
       params.require(:make_an_offer)
+    end
+
+    def offer_store
+      key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+      WizardStateStores::RedisStore.new(key: key)
     end
   end
 end
