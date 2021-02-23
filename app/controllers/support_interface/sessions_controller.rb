@@ -55,5 +55,12 @@ module SupportInterface
 
       redirect_to support_interface_candidates_path
     end
+
+    def confirmed_environment
+      if params[:environment] == HostingEnvironment.environment_name
+        session[:confirmed_environment_at] = Time.zone.now
+        redirect_to params[:from]
+      end
+    end
   end
 end

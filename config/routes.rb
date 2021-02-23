@@ -936,6 +936,9 @@ Rails.application.routes.draw do
     get '/sign-in' => 'sessions#new', as: :sign_in
     get '/sign-out' => 'sessions#destroy', as: :sign_out
 
+    get '/confirm-environment' => 'sessions#confirm_environment', as: :confirm_environment
+    post '/confirm-environment' => 'sessions#confirmed_environment'
+
     post '/request-sign-in-by-email' => 'sessions#sign_in_by_email', as: :sign_in_by_email
     get '/sign-in/check-email', to: 'sessions#check_your_email', as: :check_your_email
     get '/sign-in-by-email' => 'sessions#authenticate_with_token', as: :authenticate_with_token

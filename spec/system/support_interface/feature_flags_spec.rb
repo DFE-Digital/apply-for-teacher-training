@@ -40,6 +40,10 @@ RSpec.feature 'Feature flags', with_audited: true do
   end
 
   def when_i_activate_the_feature
+    within(pilot_open_summary_card) { click_link 'Confirm environment to make changes' }
+    fill_in :environment, with: 'test'
+    click_button 'Continue'
+
     within(pilot_open_summary_card) { click_button 'Activate' }
   end
 

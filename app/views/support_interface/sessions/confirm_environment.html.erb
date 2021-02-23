@@ -1,0 +1,13 @@
+<% content_for :title, "Confirm you want to make changes to #{HostingEnvironment.environment_name}" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body-l">This is the <strong><%= HostingEnvironment.environment_name %></strong> environment.</p>
+
+    <%= form_with(url: support_interface_confirm_environment_path) do |f| %>
+      <%= f.hidden_field :from, value: params[:from] %>
+      <%= f.govuk_text_field :environment, label: { text: "Type '#{HostingEnvironment.environment_name}' to confirm that you want to proceed", size: 'm' } %>
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>
