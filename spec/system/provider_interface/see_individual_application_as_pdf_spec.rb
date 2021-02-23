@@ -24,13 +24,13 @@ RSpec.feature 'Provider sees an application as PDF' do
   end
 
   def and_an_application_exists
-    current_provider = create(:provider, :with_signed_agreement, code: 'ABC')
+    current_provider = build(:provider, :with_signed_agreement, code: 'ABC')
     @course_option = course_option_for_provider(
       provider: current_provider,
-      course: create(:course, name: 'Alchemy', provider: current_provider),
+      course: build(:course, name: 'Alchemy', provider: current_provider),
     )
 
-    @application_form = create(:application_form, first_name: 'Sheila', last_name: 'Jones')
+    @application_form = build(:application_form, first_name: 'Sheila', last_name: 'Jones')
 
     @application_choice = create(
       :application_choice,

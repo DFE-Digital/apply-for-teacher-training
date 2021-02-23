@@ -50,7 +50,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
   end
 
   describe '#save' do
-    let(:application_form) { create(:application_form, equality_and_diversity: { 'ethnic_group' => 'Asian or Asian British' }) }
+    let(:application_form) { build(:application_form, equality_and_diversity: { 'ethnic_group' => 'Asian or Asian British' }) }
 
     context 'when ethnic background field is blank' do
       it 'returns false' do
@@ -80,7 +80,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm, t
       end
 
       it 'updates the existing record of equality and diversity information' do
-        application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male', 'ethnic_group' => 'Asian or Asian British' })
+        application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male', 'ethnic_group' => 'Asian or Asian British' })
         form = CandidateInterface::EqualityAndDiversity::EthnicBackgroundForm.new(ethnic_background: 'Bangladeshi')
 
         form.save(application_form)

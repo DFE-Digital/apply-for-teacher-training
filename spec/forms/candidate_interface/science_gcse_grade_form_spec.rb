@@ -240,7 +240,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       end
 
       it 'updates qualification details if valid' do
-        application_form = create(:application_form)
+        application_form = build(:application_form)
         qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
         details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
 
@@ -253,7 +253,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       end
 
       it 'sets grade to other_grade if candidate selected "other"' do
-        application_form = create(:application_form)
+        application_form = build(:application_form)
         qualification = ApplicationQualification.create(level: 'gcse', application_form: application_form)
         details_form = CandidateInterface::ScienceGcseGradeForm.build_from_qualification(qualification)
 
@@ -267,7 +267,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       end
 
       it 'stores a sanitized grade when it is a single or double award' do
-        application_form = create(:application_form)
+        application_form = build(:application_form)
         qualification = ApplicationQualification.create(
           level: 'gcse',
           application_form: application_form,
@@ -285,7 +285,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
       end
 
       it 'stores sanitized grades when it is a triple award' do
-        application_form = create(:application_form)
+        application_form = build(:application_form)
         qualification = ApplicationQualification.create(
           level: 'gcse',
           application_form: application_form,
@@ -310,7 +310,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
       context 'updating a GCSE qualification from single to triple award' do
         it "clears 'grade' and populates 'grades'" do
-          application_form = create(:application_form)
+          application_form = build(:application_form)
           qualification = ApplicationQualification.create(
             level: 'gcse',
             grade: 'A',
@@ -334,7 +334,7 @@ RSpec.describe CandidateInterface::ScienceGcseGradeForm, type: :model do
 
       context 'updating a GCSE qualification from triple to single award' do
         it "clears 'grades' and populates 'grade'" do
-          application_form = create(:application_form)
+          application_form = build(:application_form)
           qualification = ApplicationQualification.create(
             level: 'gcse',
             grade: nil,

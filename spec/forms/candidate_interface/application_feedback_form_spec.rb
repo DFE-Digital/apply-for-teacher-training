@@ -10,9 +10,9 @@ RSpec.describe CandidateInterface::ApplicationFeedbackForm, type: :model do
     )
   end
 
-  let(:application_form) { create(:application_form) }
-
   describe 'validations' do
+    let(:application_form) { build(:application_form) }
+
     it { is_expected.to validate_presence_of(:path) }
     it { is_expected.to validate_presence_of(:page_title) }
     it { is_expected.to validate_presence_of(:consent_to_be_contacted) }
@@ -33,6 +33,8 @@ RSpec.describe CandidateInterface::ApplicationFeedbackForm, type: :model do
   end
 
   describe '#save' do
+    let(:application_form) { create(:application_form) }
+
     it 'returns false if not valid' do
       application_form = double
       expect(described_class.new.save(application_form)).to eq(false)

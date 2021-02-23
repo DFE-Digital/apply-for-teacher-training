@@ -30,7 +30,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicGroupForm, type: 
   end
 
   describe '#save' do
-    let(:application_form) { create(:application_form) }
+    let(:application_form) { build(:application_form) }
 
     context 'when ethnic group is blank' do
       it 'returns false' do
@@ -56,7 +56,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicGroupForm, type: 
       end
 
       it 'updates the existing record of equality and diversity information' do
-        application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male' })
+        application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male' })
         form = CandidateInterface::EqualityAndDiversity::EthnicGroupForm.new(ethnic_group: 'Black, African, Black British or Caribbean')
 
         form.save(application_form)
@@ -67,7 +67,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::EthnicGroupForm, type: 
       end
 
       it 'resets the ethnic background of equality and diversity information if ethnic group is "Prefer not to say"' do
-        application_form = create(
+        application_form = build(
           :application_form,
           equality_and_diversity: {
             'sex' => 'male',

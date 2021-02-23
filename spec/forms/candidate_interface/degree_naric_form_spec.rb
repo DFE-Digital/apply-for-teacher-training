@@ -7,7 +7,7 @@ RSpec.describe CandidateInterface::DegreeNaricForm do
         degree = create(
           :degree_qualification,
           international: true,
-          application_form: create(:application_form),
+          application_form: build(:application_form),
         )
 
         form = described_class.new(
@@ -26,7 +26,7 @@ RSpec.describe CandidateInterface::DegreeNaricForm do
         degree = create(
           :degree_qualification,
           international: true,
-          application_form: create(:application_form),
+          application_form: build(:application_form),
         )
 
         form = described_class.new(
@@ -47,7 +47,7 @@ RSpec.describe CandidateInterface::DegreeNaricForm do
         degree = create(
           :degree_qualification,
           international: true,
-          application_form: create(:application_form),
+          application_form: build(:application_form),
           naric_reference: '0123456789',
           comparable_uk_degree: 'bachelor_ordinary_degree',
         )
