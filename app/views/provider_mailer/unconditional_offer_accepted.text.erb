@@ -1,0 +1,16 @@
+<% content_for :additional_footer_content do %><%= render 'unsubscribe' %><% end %>
+Dear <%= @provider_user.full_name || 'colleague' %>
+
+# Offer accepted
+
+<%= @application_choice.application_form.full_name %> has accepted your offer to study <%= @application_choice.offered_course.name_and_code %>.
+
+# Tell us when the candidate has met their conditions
+
+Sign in to Manage teacher training applications to update the application status when they’ve met their conditions:
+
+<%= provider_interface_application_choice_url(@application_choice) %>
+
+# Update the Database of Teacher Training Providers
+
+Enter the candidate’s details into the Database of Teacher Training Providers (DTTP) when they’ve started the course.

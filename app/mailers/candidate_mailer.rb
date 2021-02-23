@@ -322,6 +322,21 @@ class CandidateMailer < ApplicationMailer
     )
   end
 
+  def unconditional_offer_accepted(application_choice)
+    @course_name_and_code = application_choice.offered_option.course.name_and_code
+    @provider_name = application_choice.offered_option.provider.name
+    @start_date = application_choice.offered_option.course.start_date.to_s(:month_and_year)
+
+    email_for_candidate(
+      application_choice.application_form,
+      subject: I18n.t!('candidate_mailer.unconditional_offer_accepted.subject', {
+        course_name_and_code: @course_name_and_code,
+        provider_name: @provider_name,
+        start_date: @start_date,
+      }),
+    )
+  end
+
   def ucas_match_initial_email_duplicate_applications(application_choice)
     @course_name_and_code = application_choice.course_option.course.name_and_code
     @provider_name = application_choice.course_option.course.provider.name

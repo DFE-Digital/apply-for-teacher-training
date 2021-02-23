@@ -61,6 +61,20 @@ class ProviderMailer < ApplicationMailer
     )
   end
 
+  def unconditional_offer_accepted(provider_user, application_choice)
+    @application_choice = application_choice
+
+    email_for_provider(
+      provider_user,
+      application_choice.application_form,
+      subject: I18n.t!(
+        'provider_mailer.unconditional_offer_accepted.subject',
+        candidate_name: application_choice.application_form.full_name,
+        support_reference: @application_choice.application_form.support_reference,
+      ),
+    )
+  end
+
   def declined_by_default(provider_user, application_choice)
     @application_choice = application_choice
     email_for_provider(
