@@ -14,10 +14,21 @@ module ProviderInterface
         cycle_years = @application_data_export_form.selected_years
         statuses = @application_data_export_form.selected_statuses
 
-        application_choices = GetApplicationChoicesForProviders.call(providers: providers)
-                                .where('courses.recruitment_cycle_year' => cycle_years)
-                                .where('status IN (?)', statuses)
-                                .where('candidates.hide_in_reporting': false)
+        application_choices = GetApplicationChoicesForProviders
+          .call(
+            providers: providers,
+            includes: [
+              :provider,
+              :accredited_provider,
+              :site,
+              course: %i[provider accredited_provider],
+              course_option: %i[course site],
+              application_form: %i[candidate english_proficiency],
+            ],
+          )
+          .where('courses.recruitment_cycle_year' => cycle_years)
+          .where('status IN (?)', statuses)
+          .where('candidates.hide_in_reporting': false)
 
         csv_data = ApplicationDataExport.call(application_choices: application_choices)
         send_data csv_data, filename: csv_filename
