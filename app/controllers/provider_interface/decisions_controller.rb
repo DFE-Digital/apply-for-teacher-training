@@ -17,20 +17,13 @@ module ProviderInterface
       @wizard = OfferWizard.new(offer_store, { current_context: context })
       @wizard.save_state!
 
-      if context == 'rejection'
-        #redirect to reasons for rejection
+      if context == 'new_reject'
+        return redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
       else
-        if @wizard.next_step == 'conditions'
-          redirect [:provider_interface, :decisions, @wizard.next_step ]
-        end
+        return redirect_to [ @wizard.next_step, :provider_interface, :offer]
       end
 
-      @pick_response_form = PickResponseForm.new(decision: params.dig(:provider_interface_pick_response_form, :decision))
-      if @pick_response_form.valid?
-        redirect_to @pick_response_form.redirect_attrs
-      else
-        render action: :respond
-      end
+      render action: :respond
     end
 
     def new_offer
@@ -150,13 +143,13 @@ module ProviderInterface
     }
   end
 
-    def make_an_offer_params
-      params.require(:make_an_offer)
-    end
+  def make_an_offer_params
+    params.require(:make_an_offer)
+  end
 
-    def offer_store
-      key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
-      WizardStateStores::RedisStore.new(key: key)
-    end
+  def offer_store
+    key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+    WizardStateStores::RedisStore.new(key: key)
+  end
   end
 end

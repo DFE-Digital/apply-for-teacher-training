@@ -614,6 +614,12 @@ Rails.application.routes.draw do
       get '/feedback' => 'application_choices#feedback', as: :application_choice_feedback
       get '/respond' => 'decisions#respond', as: :application_choice_respond
       post '/respond' => 'decisions#submit_response', as: :application_choice_submit_response
+
+      resource :offer, only: %[create] do
+        get '/conditions' => 'offers#conditions'
+        post :check
+      end
+
       get '/offer/new' => 'decisions#new_offer', as: :application_choice_new_offer
       post '/offer/confirm' => 'decisions#confirm_offer', as: :application_choice_confirm_offer
       post '/offer' => 'decisions#create_offer', as: :application_choice_create_offer

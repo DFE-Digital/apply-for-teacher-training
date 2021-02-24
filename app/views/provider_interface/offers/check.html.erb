@@ -1,0 +1,51 @@
+<% content_for :browser_title, title_with_error_prefix(t('page_titles.provider.confirm_offer'), @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_offer_path(@application_choice.id)) %>
+
+<%= render(FlashMessageComponent.new(flash: flash)) %>
+
+<% conditions = capture do %>
+  <% if @wizard.conditions.empty? %>
+    No conditions have been set for this offer
+  <% else %>
+    <ul class="govuk-list govuk-list--bullet">
+      <% @wizard.conditions.each do |value| %>
+        <li><%= value %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
+<%= form_with model: @wizard, url: provider_interface_application_choice_create_offer_path(@application_choice.id), method: :post do |f| %>
+  <h1 class="govuk-heading-xl">
+    <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+    <%= t('page_titles.provider.confirm_offer') %>
+  </h1>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_error_summary %>
+
+      <%= render SummaryListComponent.new(rows: [
+        { key: 'Provider', value: @wizard.course_option.provider.name_and_code },
+        { key: 'Course', value: @wizard.course_option.course.name_and_code },
+        { key: 'Full time or part time', value: @wizard.course_option.study_mode.humanize },
+        { key: 'Location', value: @wizard.course_option.site.name },
+        { key: 'Starting', value: @wizard.course_option.course.recruitment_cycle_year },
+        { key: 'Conditions', value: conditions },
+      ]) %>
+
+      <p class="govuk-body">
+        By making this offer, you guarantee this candidate a place on their chosen course, if they meet the conditions you have set out.
+      </p>
+      <p class="govuk-body">
+        Once the candidate has accepted, you can only change the conditions of this offer with their permission.
+      </p>
+
+      <%= f.govuk_submit 'Make offer' %>
+
+      <p class="govuk-body">
+        <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      </p>
+    </div>
+  </div>
+<% end %>

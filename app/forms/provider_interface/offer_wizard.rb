@@ -1,23 +1,27 @@
 module ProviderInterface
   class OfferWizard
     include ActiveModel::Model
-
-    attr_accessor :provider_id, :provider, :course_id, :course_option_id, :study_mode, :location_id, :conditions, :current_step, :current_context
+    STANDARD_CONDITIONS = ['Fitness to train to teach check',
+                           'Disclosure and Barring Service (DBS) check'].freeze
 
     STEPS = {
-      default: [:select_option],
+      default: [:select_option ],
       new_offer: [:select_option,
-                   :conditions,
-                   :preview,
-      ],
+                  :conditions,
+                  :check],
       make_changed_offer: [:select_option,
                            :select_provider,
                            :select_course,
                            :select_study_mode,
                            :select_location,
                            :conditions,
-                           :preview]
-    }
+                           :check]
+    }.freeze
+
+    attr_accessor :provider_id, :provider, :course_id, :course_option_id, :study_mode, :location_id, :conditions, :current_step, :current_context
+
+    validate :validate_conditions_max_length, on: :conditions
+    validate :validate_further_conditions, on: :conditions
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
@@ -39,7 +43,8 @@ module ProviderInterface
 
     def next_step
       index = STEPS[current_context.to_sym].index(current_step.to_sym)
-      if index && index.positive?
+      puts index
+      if index
         STEPS[current_context.to_sym][index + 1]
       end
     end
