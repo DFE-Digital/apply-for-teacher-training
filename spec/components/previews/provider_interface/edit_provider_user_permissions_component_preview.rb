@@ -11,7 +11,7 @@ module ProviderInterface
 
     def render_component_for(model:)
       if model.present?
-        form = ProviderInterface::ProviderUserPermissionsForm.from(model)
+        form = ProviderInterface::ProviderUserEditPermissionsForm.from(model)
 
         render ProviderInterface::EditProviderUserPermissionsComponent.new(form: form)
       else

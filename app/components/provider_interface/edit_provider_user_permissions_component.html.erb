@@ -7,91 +7,88 @@
   ),
 ) do |f| %>
   <%= f.govuk_error_summary %>
-  <%= f.hidden_field :provider_id %>
-  <%= f.govuk_radio_buttons_fieldset(
-    :view_applications_only,
-    legend: { text: "Change permissions: #{permissions_form.provider.name}", size: 'l' },
-    caption: { text: permissions_form.provider_user.full_name, size: 'l' },
-  ) do %>
-
-    <%= f.govuk_radio_button(
+  <%= f.fields_for 'provider_permissions[]', permissions_form.permissions_form do |pf| %>
+    <%= pf.hidden_field :provider_id %>
+    <%= pf.govuk_radio_buttons_fieldset(
       :view_applications_only,
-      'true',
-      label: { text: 'View applications only' },
-      hint: { text: 'The user will be able to view all sections of the application, except sensitive candidate content' },
-      link_errors: true,
-    ) %>
-
-    <%= f.govuk_radio_button(
-      :view_applications_only,
-      'false',
-      label: { text: 'Extra permissions' },
-      hint: { text: 'For example, being able to make offers and access sensitive content' },
+      legend: { text: "Change permissions: #{permissions_form.provider.name}", size: 'l' },
+      caption: { text: permissions_form.provider_user.full_name, size: 'l' },
     ) do %>
 
-      <%= f.govuk_check_boxes_fieldset :permissions, legend: { text: 'Select permissions', size: 'm' } do %>
+      <%= pf.govuk_radio_button(
+        :view_applications_only,
+        'true',
+        label: { text: 'View applications only' },
+        hint: { text: 'The user will be able to view all sections of the application, except sensitive candidate content' },
+        link_errors: true,
+      ) %>
 
-        <%= f.govuk_check_box(
-          :manage_organisations,
-          true,
-          multiple: false,
-          label: { text: 'Manage organisational permissions' },
-          hint: { text: 'Change permissions between organisations' },
-          link_errors: true,
-        ) %>
+      <%= pf.govuk_radio_button(
+        :view_applications_only,
+        'false',
+        label: { text: 'Extra permissions' },
+        hint: { text: 'For example, being able to make offers and access sensitive content' },
+      ) do %>
 
-        <%= f.govuk_check_box(
-          :manage_users,
-          true,
-          multiple: false,
-          label: { text: 'Manage users' },
-          hint: { text: 'Invite or delete users and set their permissions' },
-        ) %>
+        <%= pf.govuk_check_boxes_fieldset :permissions, legend: { text: 'Select permissions', size: 'm' } do %>
 
-        <%= f.govuk_check_box(
-          :make_decisions,
-          true,
-          multiple: false,
-          label: { text: 'Make decisions' },
-          hint: { text: 'Make offers, amend offers and reject applications' },
-        ) %>
-
-        <div class="govuk-body govuk-!-margin-left-6">
-          <%= render AssociatedProvidersPermissionsListComponent.new(
-            provider: permissions_form.provider,
-            permission_name: 'make_decisions',
+          <%= pf.govuk_check_box(
+            :permissions,
+            'manage_organisations',
+            label: { text: 'Manage organisational permissions' },
+            hint: { text: 'Change permissions between organisations' },
+            link_errors: true,
           ) %>
-        </div>
 
-        <%= f.govuk_check_box(
-          :view_safeguarding_information,
-          true,
-          multiple: false,
-          label: { text: 'Access safeguarding information' },
-          hint: { text: 'View sensitive material about the candidate' },
-        ) %>
-
-        <div class="govuk-body govuk-!-margin-left-6">
-          <%= render AssociatedProvidersPermissionsListComponent.new(
-            provider: permissions_form.provider,
-            permission_name: 'view_safeguarding_information',
+          <%= pf.govuk_check_box(
+            :permissions,
+            'manage_users',
+            label: { text: 'Manage users' },
+            hint: { text: 'Invite or delete users and set their permissions' },
           ) %>
-        </div>
 
-        <%= f.govuk_check_box(
-          :view_diversity_information,
-          true,
-          multiple: false,
-          label: { text: 'Access diversity information' },
-          hint: { text: 'View diversity information about the candidate' },
-        ) %>
-
-        <div class="govuk-body govuk-!-margin-left-6">
-          <%= render AssociatedProvidersPermissionsListComponent.new(
-            provider: permissions_form.provider,
-            permission_name: 'view_diversity_information',
+          <%= pf.govuk_check_box(
+            :permissions,
+            'make_decisions',
+            label: { text: 'Make decisions' },
+            hint: { text: 'Make offers, amend offers and reject applications' },
           ) %>
-        </div>
+
+          <div class="govuk-body govuk-!-margin-left-6">
+            <%= render AssociatedProvidersPermissionsListComponent.new(
+              provider: permissions_form.provider,
+              permission_name: 'make_decisions',
+            ) %>
+          </div>
+
+          <%= pf.govuk_check_box(
+            :permissions,
+            'view_safeguarding_information',
+            label: { text: 'Access safeguarding information' },
+            hint: { text: 'View sensitive material about the candidate' },
+          ) %>
+
+          <div class="govuk-body govuk-!-margin-left-6">
+            <%= render AssociatedProvidersPermissionsListComponent.new(
+              provider: permissions_form.provider,
+              permission_name: 'view_safeguarding_information',
+            ) %>
+          </div>
+
+          <%= pf.govuk_check_box(
+            :permissions,
+            'view_diversity_information',
+            label: { text: 'Access diversity information' },
+            hint: { text: 'View diversity information about the candidate' },
+          ) %>
+
+          <div class="govuk-body govuk-!-margin-left-6">
+            <%= render AssociatedProvidersPermissionsListComponent.new(
+              provider: permissions_form.provider,
+              permission_name: 'view_diversity_information',
+            ) %>
+          </div>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
