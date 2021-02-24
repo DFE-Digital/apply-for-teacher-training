@@ -27,7 +27,9 @@ benefits like knowledge sharing.
 - If a PR is going to be complex to review, affects core functionality, touches
   on application security or is deemed to be risky for some other reason tag
   it as requiring two approvals rather than the normal one.
-
+- Follow general best practice for raising PR e.g. [How to raise a good pull request](https://www.annashipman.co.uk/jfdi/good-pull-requests.html).
+  - Aim for each commit to be atomic, introducing a non-breaking change with all tests and linter passing. Consider arranging your commits into appropriate logical chunks with [git's history rewriting features](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History). This can make the PR easier to review and revert.
+  - Try to avoid merge commits and use `git rebase master` instead.
 ### Reviewing PRs
 
 - Anybody can review a PR. Code reviews from a different team are encouraged as
