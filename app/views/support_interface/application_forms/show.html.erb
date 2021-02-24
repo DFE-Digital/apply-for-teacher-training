@@ -1,20 +1,14 @@
 <% content_for :browser_title, title_with_success_prefix("Application details – Application ##{@application_form.id}", flash[:success].present?) %>
-<% content_for :context, @application_form.support_reference %>
-<% content_for :title, break_email_address(@application_form.candidate.email_address) %>
 
 <%= render 'application_navigation', title: 'Details' %>
 
 <%= render SupportInterface::ApplicationSummaryComponent.new(application_form: @application_form) %>
 
 <div class="govuk-button-group">
-  <% unless HostingEnvironment.production? %>
-    <%= govuk_button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), form_class: 'govuk-!-display-inline-block' %>
-  <% end %>
-
   <% if @application_form.candidate.hide_in_reporting? %>
-    <%= govuk_button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
+    <%= govuk_button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button--secondary' %>
   <% else %>
-    <%= govuk_button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
+    <%= govuk_button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button--secondary' %>
   <% end %>
 </div>
 

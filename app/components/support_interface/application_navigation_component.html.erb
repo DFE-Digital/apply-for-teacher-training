@@ -1,0 +1,8 @@
+<div class="govuk-inset-text app-inset-text--important app-inset-text--narrow-border govuk-!-margin-top-0">
+  <h2 class="govuk-heading-s govuk-!-margin-bottom-2">Useful links for this application</h2>
+  <ul class="govuk-list govuk-!-font-size-16">
+    <% links.each do |link| %>
+      <li><%= govuk_link_to link[:title], link[:href], class: 'govuk-link--no-visited-state' %></li>
+    <% end %>
+  </ul>
+</div>

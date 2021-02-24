@@ -15,9 +15,19 @@
   ].concat(title != 'Details' ? [{ text: title }] : [])) %>
 <% end %>
 
-<p class="govuk-body govuk-!-margin-bottom-6">
-  <%= govuk_link_to 'Emails about this application', support_interface_email_log_path(application_form_id: @application_form.id), class: 'govuk-link--no-visited-state' %>
-</p>
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <span class="govuk-caption-l"><%= @application_form.support_reference %></span>
+    <h1 class="govuk-heading-l"><%= break_email_address(@application_form.candidate.email_address) %></h1>
+    <% unless HostingEnvironment.production? %>
+      <%= govuk_button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate) %>
+    <% end %>
+  </div>
+
+  <div class="govuk-grid-column-one-third">
+    <%= render SupportInterface::ApplicationNavigationComponent.new(@application_form) %>
+  </div>
+</div>
 
 <%= render TabNavigationComponent.new(items: [
   { name: 'Details', url: support_interface_application_form_path(@application_form) },
