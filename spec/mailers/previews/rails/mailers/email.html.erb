@@ -29,7 +29,7 @@
 
     dt {
       width: 80px;
-      padding: 1px;
+      padding: 2px;
       float: left;
       clear: left;
       text-align: right;
@@ -38,7 +38,7 @@
 
     dd {
       margin-left: 90px; /* 80px + 10px */
-      padding: 1px;
+      padding: 2px;
     }
 
     dd:empty:before {
@@ -65,8 +65,8 @@
       <dd><%= @email.smtp_envelope_to %></dd>
     <% end %>
 
-    <dt>From:</dt>
-    <dd><%= @email.header['from'] %></dd>
+    <dt>Template:</dt>
+    <dd><%= @email.instance_variable_get(:@action) %> (<%= @email.instance_variable_get(:@mailer_class).instance_variable_get(:@mailer_name).humanize %>)</dd>
 
     <% if @email.reply_to %>
       <dt>Reply-To:</dt>
@@ -94,29 +94,6 @@
           <% filename = a.respond_to?(:original_filename) ? a.original_filename : a.filename %>
           <%= link_to filename, "data:application/octet-stream;charset=utf-8;base64,#{Base64.encode64(a.body.to_s)}", download: filename %>
         <% end %>
-      </dd>
-    <% end %>
-
-    <dt>Format:</dt>
-    <% if @email.multipart? %>
-      <dd>
-        <select id="part" onchange="refreshBody(false);">
-          <option <%= request.format == Mime[:html] ? 'selected' : '' %> value="<%= part_query('text/html') %>">View as HTML email</option>
-          <option <%= request.format == Mime[:text] ? 'selected' : '' %> value="<%= part_query('text/plain') %>">View as plain-text email</option>
-        </select>
-      </dd>
-    <% else %>
-      <dd id="mime_type" data-mime-type="<%= part_query(@email.mime_type) %>"><%= @email.mime_type == 'text/html' ? 'HTML email' : 'plain-text email' %></dd>
-    <% end %>
-
-    <% if I18n.available_locales.count > 1 %>
-      <dt>Locale:</dt>
-      <dd>
-        <select id="locale" onchange="refreshBody(true);">
-          <% I18n.available_locales.each do |locale| %>
-            <option <%= I18n.locale == locale ? 'selected' : '' %> value="<%= locale_query(locale) %>"><%= locale %></option>
-          <% end %>
-        </select>
       </dd>
     <% end %>
   </dl>
