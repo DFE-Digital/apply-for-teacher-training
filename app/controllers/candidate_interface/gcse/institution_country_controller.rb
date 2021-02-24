@@ -1,17 +1,13 @@
 module CandidateInterface
-  class Gcse::InstitutionCountryController < Gcse::DetailsController
-    before_action :redirect_to_dashboard_if_submitted, :set_subject
-
+  class Gcse::InstitutionCountryController < Gcse::BaseController
     def edit
-      @institution_country = find_or_build_qualification_form
+      @institution_country = GcseInstitutionCountryForm.build_from_qualification(current_qualification)
     end
 
     def update
-      @institution_country = find_or_build_qualification_form
+      @institution_country = GcseInstitutionCountryForm.new(institution_country_params)
 
-      @institution_country.institution_country = params.dig('candidate_interface_gcse_institution_country_form', 'institution_country')
-
-      if @institution_country.save(@current_qualification)
+      if @institution_country.save(current_qualification)
         update_gcse_completed(false)
 
         redirect_to next_gcse_path
@@ -23,24 +19,14 @@ module CandidateInterface
 
   private
 
-    def find_or_build_qualification_form
-      @current_qualification = current_application.qualification_in_subject(:gcse, subject_param)
-
-      if @current_qualification
-        GcseInstitutionCountryForm.build_from_qualification(@current_qualification)
-      else
-        GcseInstitutionCountryForm.new(
-          subject: subject_param,
-          level: ApplicationQualification.levels[:gcse],
-        )
-      end
+    def institution_country_params
+      strip_whitespace params
+        .require(:candidate_interface_gcse_institution_country_form)
+        .permit(:institution_country)
     end
 
     def next_gcse_path
-      @details_form = GcseQualificationDetailsForm.build_from_qualification(
-        current_application.qualification_in_subject(:gcse, subject_param),
-      )
-      if @details_form.qualification.grade.nil?
+      if current_qualification.grade.nil?
         candidate_interface_gcse_details_edit_naric_path
       else
         candidate_interface_gcse_review_path

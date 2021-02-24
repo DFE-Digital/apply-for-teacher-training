@@ -1,9 +1,9 @@
-<% content_for :title, title_with_error_prefix(grade_step_title(@subject, @qualification_type), @application_qualification.errors.any?) %>
+<% content_for :title, title_with_error_prefix(grade_step_title(@subject, @qualification_type), @gcse_grade_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_update_grade_path, method: :patch do |f| %>
+    <%= form_with model: @gcse_grade_form, url: candidate_interface_gcse_details_update_grade_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
       <% if @qualification_type == 'non_uk' %>
