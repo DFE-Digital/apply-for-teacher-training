@@ -4,7 +4,7 @@ module DataAPI
 
     def self.run_daily
       data_export = DataExport.create!(name: EXPORT_NAME)
-      DataExporter.perform_async(TADExport::TADExport, data_export.id)
+      DataExporter.perform_async(DataAPI::TADExport, data_export.id)
     end
 
     def self.latest
