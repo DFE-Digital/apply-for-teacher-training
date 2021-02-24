@@ -3,15 +3,6 @@ require 'clockwork/test'
 require 'sidekiq'
 
 RSpec.describe Clockwork do
-  around do |example|
-    Sidekiq::Testing.inline! do
-      timecop_safe_mode = Timecop.safe_mode?
-      Timecop.safe_mode = false # cannot pass a timecop block to clockwork/test
-      example.run
-      Timecop.safe_mode = timecop_safe_mode
-    end
-  end
-
   [
     { worker: DeclineOffersByDefaultWorker, task: 'DeclineOffersByDefault' },
     { worker: SendChaseEmailToProvidersWorker, task: 'SendChaseEmailToProviders' },
