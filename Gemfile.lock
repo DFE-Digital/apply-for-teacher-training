@@ -96,8 +96,9 @@ GEM
     bullet (6.1.3)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
-    business_time (0.9.3)
+    business_time (0.10.0)
       activesupport (>= 3.2.0)
+      sorted_set
       tzinfo
     byebug (11.1.3)
     capybara (3.35.3)
@@ -388,6 +389,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rbtree (0.4.4)
     redcarpet (3.5.1)
     redis (4.2.5)
     regexp_parser (2.0.3)
@@ -474,6 +476,7 @@ GEM
     semantic_range (2.3.0)
     sentry-raven (3.1.1)
       faraday (>= 1.0)
+    set (1.0.1)
     shellany (0.0.1)
     shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
@@ -494,6 +497,9 @@ GEM
     skylight-core (4.3.2)
       activesupport (>= 4.2.0)
     smart_properties (1.15.0)
+    sorted_set (1.0.3)
+      rbtree
+      set (~> 1.0)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
