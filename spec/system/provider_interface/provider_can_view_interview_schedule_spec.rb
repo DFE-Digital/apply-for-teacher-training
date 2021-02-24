@@ -60,8 +60,12 @@ RSpec.describe 'A Provider user' do
              :future_date_and_time,
              application_choice: application_choice)
     end
+
     @application_choice = application_choices[3]
+
+    # Both of these interviews should appear as upcoming, since they are arranged for today
     @interviews << create(:interview, application_choice: @application_choice, date_and_time: 2.hours.from_now)
+    @interviews << create(:interview, application_choice: @application_choice, date_and_time: 2.hours.ago)
 
     @past_interviews = application_choices.map do |application_choice|
       create(:interview,

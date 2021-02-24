@@ -14,6 +14,8 @@ class Interview < ApplicationRecord
   delegate :offered_course, to: :application_choice
 
   scope :for_application_choices, ->(application_choices) { joins(:application_choice).merge(application_choices).kept }
+  scope :upcoming, -> { where('date_and_time >= ?', Time.zone.now.beginning_of_day) }
+  scope :past, -> { where('date_and_time < ?', Time.zone.now.beginning_of_day) }
 
   def date
     date_and_time.to_s(:govuk_date)

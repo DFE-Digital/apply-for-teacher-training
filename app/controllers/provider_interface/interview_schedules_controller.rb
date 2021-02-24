@@ -5,8 +5,8 @@ module ProviderInterface
     def show
       @interviews = Interview.for_application_choices(application_choices_for_user_providers)
         .undiscarded
+        .upcoming
         .includes([:provider, application_choice: [:course_option, application_form: [:candidate]]])
-        .where('date_and_time >= ?', Time.zone.now)
         .order(:date_and_time)
         .page(params[:page] || 1).per(50)
 
@@ -16,8 +16,8 @@ module ProviderInterface
     def past
       @interviews = Interview.for_application_choices(application_choices_for_user_providers)
         .undiscarded
+        .past
         .includes([:provider, application_choice: [:course_option, application_form: [:candidate]]])
-        .where('date_and_time < ?', Time.zone.now)
         .order(date_and_time: :desc)
         .page(params[:page] || 1).per(50)
 

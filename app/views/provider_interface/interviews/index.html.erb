@@ -4,30 +4,6 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div class="app-interviews">
-      <% if @interviews_can_be_created_and_edited %>
-        <%= govuk_link_to 'Set up interview', new_provider_interface_application_choice_interview_path(@application_choice), class: 'govuk-button govuk-button--secondary' %>
-      <% end %>
-
-      <% if @upcoming_interviews.any? %>
-        <h2 class="govuk-heading-m">
-          <%= t('provider_interface.interviews.upcoming') %>
-        </h2>
-
-        <% @upcoming_interviews.each do |interview| %>
-          <%= render ProviderInterface::InterviewAndCourseSummaryComponent.new(interview: interview, user_can_change_interview: @interviews_can_be_created_and_edited) %>
-        <% end %>
-      <% end %>
-
-      <% if @past_interviews.any? %>
-        <h2 class="govuk-heading-m">
-          <%= t('provider_interface.interviews.past') %>
-        </h2>
-
-        <% @past_interviews.each do |interview| %>
-          <%= render ProviderInterface::InterviewAndCourseSummaryComponent.new(interview: interview, user_can_change_interview: @interviews_can_be_created_and_edited) %>
-        <% end %>
-      <% end %>
-    </div>
+    <%= render ProviderInterface::ApplicationChoiceInterviewsListComponent.new(application_choice: @application_choice, user_can_create_or_change_interviews: @interviews_can_be_created_and_edited) %>
   </div>
 </div>

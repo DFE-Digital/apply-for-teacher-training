@@ -14,13 +14,7 @@ module ProviderInterface
       )
       @interviews_can_be_created_and_edited = application_at_interviewable_stage && @provider_can_make_decisions
 
-      interviews = @application_choice.interviews.kept.includes(:provider).order(:date_and_time)
-
-      @upcoming_interviews, @past_interviews = interviews.partition do |interview|
-        interview.date_and_time > Time.zone.now
-      end
-
-      redirect_to provider_interface_application_choice_path if interviews.none?
+      redirect_to provider_interface_application_choice_path if @application_choice.interviews.none?
     end
 
     def new
