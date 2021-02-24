@@ -2,15 +2,13 @@ require 'rails_helper'
 require 'clockwork/test'
 require 'sidekiq'
 
-RSpec.describe Clockwork do
-  after(:each) { Clockwork::Test.clear! }
-
+RSpec.describe Clockwork, clockwork: true do
   [
     { worker: DeclineOffersByDefaultWorker, task: 'DeclineOffersByDefault' },
     { worker: SendChaseEmailToProvidersWorker, task: 'SendChaseEmailToProviders' },
     { worker: SendChaseEmailToCandidatesWorker, task: 'SendChaseEmailToCandidates' },
   ].each do |worker|
-    describe 'worker schedule', clockwork: true do
+    describe 'worker schedule' do
       it 'runs the job every hour' do
         start_time = Time.zone.local(2020, 1, 2, 0, 0, 0)
         end_time = Time.zone.local(2020, 1, 2, 3, 0, 0)
@@ -33,8 +31,8 @@ RSpec.describe Clockwork do
   end
 
   it 'executes all defined jobs without error' do
-    start_time = Time.now.beginning_of_day
-    end_time = Time.now.end_of_day
+    start_time = Time.zone.now.beginning_of_day
+    end_time = Time.zone.now.end_of_day
 
     Clockwork::Test.run(
       start_time: start_time,
