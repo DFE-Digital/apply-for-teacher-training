@@ -39,18 +39,14 @@
 
 <%= render QualificationsComponent.new(application_form: @application_form, show_hesa_codes: true) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render WorkHistoryComponent.new(application_form: @application_form) %>
+<%= render WorkHistoryComponent.new(application_form: @application_form) %>
 
-    <%= render VolunteeringHistoryComponent.new(application_form: @application_form) %>
+<%= render VolunteeringHistoryComponent.new(application_form: @application_form) %>
 
-    <%= render LanguageSkillsComponent.new(application_form: @application_form) %>
+<%= render LanguageSkillsComponent.new(application_form: @application_form) %>
 
-    <%= render PersonalStatementComponent.new(application_form: @application_form) %>
+<%= render PersonalStatementComponent.new(application_form: @application_form) %>
 
-    <%= render InterviewPreferencesComponent.new(application_form: @application_form) %>
+<%= render InterviewPreferencesComponent.new(application_form: @application_form) %>
 
-    <%= render SupportInterface::SafeguardingIssuesComponent.new(application_form: @application_form) %>
-  </div>
-</div>
+<%= render SupportInterface::SafeguardingIssuesComponent.new(application_form: @application_form) %>
