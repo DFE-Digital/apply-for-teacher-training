@@ -8,8 +8,6 @@ class GetChangeOfferOptions
 
   def actionable_courses
     courses_with_org_permission_joins = Course
-      .joins('INNER JOIN providers AS training_provider ON provider_id = training_provider.id')
-      .joins('LEFT OUTER JOIN providers AS ratifying_provider ON accredited_provider_id = ratifying_provider.id')
       .joins(training_provider_make_decisions)
       .joins(ratifying_provider_make_decisions)
 
@@ -46,8 +44,8 @@ private
   def provider_relationship_permissions_sql(join_name, additional_checks)
     <<~PROVIDER_RELATIONSHIP_PERMISSIONS.squish
       LEFT OUTER JOIN provider_relationship_permissions AS #{join_name}
-        ON training_provider.id = #{join_name}.training_provider_id
-        AND ratifying_provider.id = #{join_name}.ratifying_provider_id
+        ON provider_id = #{join_name}.training_provider_id
+        AND accredited_provider_id = #{join_name}.ratifying_provider_id
         AND #{additional_checks}
     PROVIDER_RELATIONSHIP_PERMISSIONS
   end
@@ -65,14 +63,14 @@ private
   def combine_user_and_provider_permissions
     <<~COMBINE_USER_AND_PROVIDER_PERMISSIONS
       (
-        training_provider.id IN (#{permitted_provider_ids.join(',')}) AND
+        provider_id IN (#{permitted_provider_ids.join(',')}) AND
         (
-          ratifying_provider.id IS NULL
+          accredited_provider_id IS NULL
           OR training_provider_make_decisions.id IS NOT NULL
         )
       ) OR
       (
-        ratifying_provider.id IN (#{permitted_provider_ids.join(',')}) AND
+        accredited_provider_id IN (#{permitted_provider_ids.join(',')}) AND
         ratifying_provider_make_decisions.id IS NOT NULL
       )
     COMBINE_USER_AND_PROVIDER_PERMISSIONS
