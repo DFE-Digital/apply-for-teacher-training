@@ -1,19 +1,15 @@
 <div class="app-primary-navigation govuk-!-display-none-print">
-  <div class="app-primary-navigation__container">
-    <div class="app-primary-navigation__nav">
-      <nav class="app-primary-navigation" aria-label="main menu">
-        <ul class="app-primary-navigation__list">
-          <% @navigation_items.each do |nav_item| %>
-            <li class="app-primary-navigation__item <%= nav_item.classes %>">
-              <a class="app-primary-navigation__link"
-                <%= nav_item.active ? 'aria-current=page' : '' %>
-                 href="<%= nav_item.href %>">
-                 <%= nav_item.text %>
-              </a>
-            </li>
-          <% end %>
-        </ul>
-      </nav>
-    </div>
+  <div class="govuk-width-container">
+    <nav class="app-primary-navigation__nav" aria-label="main menu">
+      <ul class="app-primary-navigation__list">
+        <% @navigation_items.each do |nav_item| %>
+          <li class="app-primary-navigation__item <%= nav_item.classes %>">
+            <a class="app-primary-navigation__link"<%= nav_item.active ? ' aria-current=page' : ' ' %>href="<%= nav_item.href %>">
+              <%= nav_item.text %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
   </div>
 </div>

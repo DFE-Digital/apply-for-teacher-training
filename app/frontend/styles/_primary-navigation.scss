@@ -2,19 +2,6 @@
   background-color: govuk-colour("light-grey");
 }
 
-.app-primary-navigation__container {
-  @include govuk-width-container;
-  font-size: 0; // Hide whitespace between elements
-  text-align: justify; // Trick to remove the need for floats
-
-  &:after {
-    content: '';
-    display: inline-block;
-    width: 100%;
-  }
-
-}
-
 .app-primary-navigation__list {
   list-style: none;
   margin: 0;
