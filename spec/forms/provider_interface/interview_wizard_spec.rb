@@ -35,11 +35,16 @@ RSpec.describe ProviderInterface::InterviewWizard do
       it { is_expected.to validate_presence_of(:application_choice) }
     end
 
-    context 'field length checks' do
+    context 'word count checks' do
       let(:subject) { described_class.new(store) }
 
-      it { is_expected.to validate_length_of(:location).is_at_most(10240) }
-      it { is_expected.to validate_length_of(:additional_details).is_at_most(10240) }
+      valid_text = Faker::Lorem.sentence(word_count: 2000)
+      invalid_text = Faker::Lorem.sentence(word_count: 2001)
+
+      it { is_expected.to allow_value(valid_text).for(:location) }
+      it { is_expected.not_to allow_value(invalid_text).for(:location) }
+      it { is_expected.to allow_value(valid_text).for(:additional_details) }
+      it { is_expected.not_to allow_value(invalid_text).for(:additional_details) }
     end
 
     describe '#date' do
