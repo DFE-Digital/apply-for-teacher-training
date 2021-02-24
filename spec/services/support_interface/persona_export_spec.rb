@@ -50,10 +50,10 @@ private
       'Candidate id' => application_form.candidate.id,
       'Support reference' => application_form.support_reference,
       'Age' => 20,
-      'Candidate’s postcode' => application_form.postcode,
-      'Provider’s postcode' => application_choice.provider.postcode,
-      'Site’s postcode' => application_choice.site.postcode,
-      'Site’s region' => application_choice.site.region,
+      'Candidate postcode' => application_form.postcode,
+      'Provider postcode' => application_choice.provider.postcode,
+      'Site postcode' => application_choice.site.postcode,
+      'Site region' => application_choice.site.region,
       'Provider type' => 'lead_school',
       'Accrediting provider type' => 'scitt',
       'Program type' => 'scitt_programme',
@@ -67,6 +67,8 @@ private
       'Course code' => application_choice.course.code,
       'Provider code' => application_choice.provider.code,
       'Nationality' => 'GB',
+      'Rejected by default at' => application_choice.reject_by_default_at,
+      'Link to application' => "https://www.apply-for-teacher-training.service.gov.uk/support/applications/#{application_form.id}"
     }
   end
 end
