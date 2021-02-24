@@ -23,6 +23,7 @@ module SupportInterface
                          .where.not(date_of_birth: nil)
                          .select(:id, :candidate_id, :submitted_at, :date_of_birth, :work_history_completed)
                          .includes(:application_qualifications, :application_work_experiences, :application_work_history_breaks, :application_choices)
+                         .includes(:application_qualifications, :application_work_experiences, :application_volunteering_experiences, :application_work_history_breaks, :application_choices)
                          .order(submitted_at: :desc).uniq(&:candidate_id)
 
       data_for_export = applications.map do |application_form|
@@ -40,16 +41,35 @@ module SupportInterface
           unexplained_break_coincides_with_a_degree(unexplained_break, degrees)
         end
 
+        volunteering_experiences = application_form.application_volunteering_experiences.sort_by(&:start_date)
+        unexplained_breaks_that_coincide_with_volunteering_experiences = unexplained_breaks.count do |unexplained_break|
+          unexplained_break_coincides_with_volunteering_experience(unexplained_break, volunteering_experiences)
+        end
+
+        explained_breaks_that_coincide_with_volunteering_experiences = application_form.application_work_history_breaks.count do |explained_break|
+          explained_break_coincides_with_volunteering_experience(explained_break, volunteering_experiences)
+        end
+
+        explained_breaks_in_last_five_years = application_form.application_work_history_breaks.count do |explained_break|
+          explained_break.start_date > (submitted_at(application_form) - 5.years).to_date
+        end
+
         output = {
           'Candidate id' => application_form.candidate_id,
           'Application id' => application_form.id,
           'Start of working life' => get_start_of_working_life(application_form),
+          'Total time in employment (months)' => total_time_in_employment(application_form),
           'Total unexplained time (months)' => total_unexplained_time,
+          'Total time of explained work breaks' => total_time_of_explained_work_breaks(application_form),
+          'Number of explained breaks' => application_form.application_work_history_breaks.length,
+          'Number of explained breaks in last 5 years' => explained_breaks_in_last_five_years,
           'Number of unexplained breaks' => unexplained_breaks.length,
           'Number of unexplained breaks in last 5 years' => unexplained_breaks_in_last_five_years,
           'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees,
-          'Work history completed' => application_form.work_history_completed,
+          'Number of unexplained breaks that coincide with a volunteering experience' => unexplained_breaks_that_coincide_with_volunteering_experiences,
+          'Number of explained breaks that coincide with a volunteering experience' => explained_breaks_that_coincide_with_volunteering_experiences,
           'Course choice statuses' => application_form.application_choices.map(&:status).sort,
+          'Application submitted' => application_form.submitted_at,
         }
         output
       end
@@ -59,10 +79,39 @@ module SupportInterface
 
   private
 
+    def total_time_in_employment(application_form)
+      time_in_seconds = application_form.application_work_experiences.map { |experience| experience.end_date - experience.start_date }
+      (time_in_seconds.sum / ActiveSupport::Duration::SECONDS_PER_MONTH).round
+    end
+
+    def total_time_of_explained_work_breaks(application_form)
+      time_in_seconds = explained_breaks.map { |work_history_break| work_history_break.end_date - work_history_break.start_date }
+      (time_in_seconds.sum / ActiveSupport::Duration::SECONDS_PER_MONTH).round
+    end
+
     def unexplained_break_coincides_with_a_degree(unexplained_break, degrees)
       degrees.select { |degree|
         Date.new(degree.start_year.to_i, 1, 1) < unexplained_break.end_date &&
           unexplained_break.start_date < Date.new(degree.award_year.to_i, 12, 31)
+      }
+          .any?
+    end
+
+    def unexplained_break_coincides_with_volunteering_experience(unexplained_break, volunteering_experiences)
+      volunteering_experiences.select { |volunteering_experience|
+        volunteering_end_date = volunteering_experience.end_date ||= Time.zone.now
+
+        volunteering_experience.start_date < unexplained_break.end_date &&
+            unexplained_break.start_date < volunteering_end_date
+      }
+          .any?
+    end
+
+    def explained_break_coincides_with_volunteering_experience(explained_break, volunteering_experiences)
+      volunteering_experiences.select { |volunteering_experience|
+        volunteering_end_date = volunteering_experience.end_date ||= Time.zone.now
+        volunteering_experience.start_date < explained_break.end_date &&
+            explained_break.start_date < volunteering_end_date
       }
           .any?
     end
