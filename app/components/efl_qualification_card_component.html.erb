@@ -1,29 +1,28 @@
-<div class="govuk-grid-column-full">
-  <h2 class="govuk-heading-m govuk-!-margin-top-8" id="english-as-a-foreign-language">English as a foreign language</h2>
-  <p class="govuk-body"><%= qualification_status %></p>
+<h3 class="govuk-heading-m govuk-!-margin-top-6" id="english-as-a-foreign-language">English as a foreign language</h3>
 
-  <% if english_proficiency.has_qualification? %>
-    <div class="govuk-grid">
-      <div class="govuk-grid-row app-grid-row--flex">
-        <div class="govuk-grid-column-one-third">
-          <div class="app-card app-card--outline" data-qa="english-proficiency-qualification">
-            <h3 class="govuk-heading-s govuk-!-margin-bottom-1"><%= name %></h3>
-            <dl class="app-qualification">
-              <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
-              <dd class="app-qualification__value app-qualification__value--caption"><%= award_year %></dd>
-              <dt class="app-qualification__key"><%= grade_title %></dt>
-              <dd class="app-qualification__value"><%= grade %></dd>
-              <% if unique_reference_number %>
-                <dt class="app-qualification__key"><%= reference_number_title %></dt>
-                <dd class="app-qualification__value"><%= unique_reference_number %></dd>
-              <% end %>
-            </dl>
-          </div>
+<p class="govuk-body"><%= qualification_status %></p>
+
+<% if english_proficiency.has_qualification? %>
+  <div class="govuk-grid">
+    <div class="govuk-grid-row app-grid-row--flex">
+      <div class="govuk-grid-column-one-third">
+        <div class="app-card app-card--outline" data-qa="english-proficiency-qualification">
+          <h3 class="govuk-heading-s govuk-!-margin-bottom-1"><%= name %></h3>
+          <dl class="app-qualification">
+            <dt class="app-qualification__key govuk-visually-hidden">Awarded</dt>
+            <dd class="app-qualification__value app-qualification__value--caption"><%= award_year %></dd>
+            <dt class="app-qualification__key"><%= grade_title %></dt>
+            <dd class="app-qualification__value"><%= grade %></dd>
+            <% if unique_reference_number %>
+              <dt class="app-qualification__key"><%= reference_number_title %></dt>
+              <dd class="app-qualification__value"><%= unique_reference_number %></dd>
+            <% end %>
+          </dl>
         </div>
       </div>
     </div>
-  <% elsif english_proficiency.no_qualification? %>
-    <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Reason given</h4>
-    <p class="govuk-body govuk-!-margin-bottom-0"><%= no_qualification_details %></p>
-  <% end %>
-</div>
+  </div>
+<% elsif english_proficiency.no_qualification? %>
+  <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Reason given</h4>
+  <p class="govuk-body govuk-!-margin-bottom-0"><%= no_qualification_details %></p>
+<% end %>
