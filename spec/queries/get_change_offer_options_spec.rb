@@ -15,14 +15,26 @@ RSpec.describe GetChangeOfferOptions do
     )
   end
 
+  def allow_all_providers_to_make_decisions(training_provider, ratifying_provider)
+    create(
+      :provider_relationship_permissions,
+      training_provider: training_provider,
+      ratifying_provider: ratifying_provider,
+      training_provider_can_make_decisions: true,
+      ratifying_provider_can_make_decisions: true,
+    )
+  end
+
   describe '#available_providers' do
     it 'returns training providers for courses run or ratified by the user\'s providers' do
+      allow_all_providers_to_make_decisions(accredited_course.provider, accredited_course.accredited_provider)
       provider_user.providers << [course.provider, accredited_course.accredited_provider]
       provider_user.provider_permissions.update_all(make_decisions: true)
       expect(service.available_providers).to match_array([course.provider, accredited_course.provider])
     end
 
     it 'only returns providers for which the user has make_decisions permission' do
+      allow_all_providers_to_make_decisions(accredited_course.provider, accredited_course.accredited_provider)
       provider_user.providers << [course.provider, accredited_course.accredited_provider]
       provider_user.provider_permissions.first.update(make_decisions: true)
       expect(service.available_providers).to eq([course.provider])

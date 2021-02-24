@@ -6,35 +6,23 @@ class GetChangeOfferOptions
     @user = user
   end
 
+  def actionable_courses
+    courses_with_org_permission_joins = Course
+      .joins('INNER JOIN providers AS training_provider ON provider_id = training_provider.id')
+      .joins('LEFT OUTER JOIN providers AS ratifying_provider ON accredited_provider_id = ratifying_provider.id')
+      .joins(training_provider_make_decisions)
+      .joins(ratifying_provider_make_decisions)
+
+    courses_with_org_permission_joins
+      .where(
+        open_on_apply: true,
+        recruitment_cycle_year: application_choice.offered_course.recruitment_cycle_year,
+      )
+      .where(combine_user_and_provider_permissions)
+  end
+
   def available_providers
-    make_decision_providers = user.provider_permissions.where(make_decisions: true).map(&:provider)
-
-# course -> provider            -> provider_relationship_permissions (training side) -> providers
-#        -> accredited_provider -> provider_relationship_permissions (ratifying side) -> providers
-
-    # provider_id IN (1, 2, 3, 5)
-
-    # .with(
-      # provider_ids: user.provider_permissions.where(make_decisions: true).pluck(:provider_id)
-    # )
-    # .with(
-      # training_providers:
-        # Provider.joins('INNER JOIN courses ON courses.provider_id = providers.id AND courses.provider_id IN provider_ids')
-    # )
-
-    # .with(ratifying_providers: Course.where(accredited_provider: make_decision_providers))
-
-    courses = Course.where(open_on_apply: true,
-                          provider: make_decision_providers,
-                          recruitment_cycle_year: application_choice.offered_course.recruitment_cycle_year,
-                           )
-                          .or(
-                              Course.where(open_on_apply: true,
-                              accredited_provider: make_decision_providers,
-                              recruitment_cycle_year: application_choice.offered_course.recruitment_cycle_year,)
-                            )
-
-    courses.map(&:provider)
+    actionable_courses.map(&:provider)
   end
 
   # GetChangeOfferOptions.new(application_choice: ..., user: ...).available_courses(provider: ...)
@@ -47,23 +35,42 @@ class GetChangeOfferOptions
   
   # GetChangeOfferOptions.new(application_choice: ..., user: ...).available_sites(course: ..., study_mode: ...)
 
-  #   @available_courses = Course.where(
-  #     open_on_apply: true,
-  #     provider: application_choice.offered_course.provider,
-  #     study_mode: study_mode_for_other_courses,
-  #     recruitment_cycle_year: application_choice.offered_course.recruitment_cycle_year,
-  #   ).order(:name)
-  #
-  #   @available_study_modes = CourseOption.where(
-  #     course: application_choice.offered_course,
-  #   ).pluck(:study_mode).uniq
-  #
-  #   @available_course_options = CourseOption.where(
-  #     course: application_choice.offered_course,
-  #     study_mode: application_choice.offered_option.study_mode, # preserving study_mode
-  #   ).includes(:site).order('sites.name')
-  # end
-
 private
 
+  def provider_relationship_permissions_sql(join_name, additional_checks)
+    <<~PROVIDER_RELATIONSHIP_PERMISSIONS.squish
+      LEFT OUTER JOIN provider_relationship_permissions AS #{join_name}
+        ON training_provider.id = #{join_name}.training_provider_id
+        AND ratifying_provider.id = #{join_name}.ratifying_provider_id
+        AND #{additional_checks}
+    PROVIDER_RELATIONSHIP_PERMISSIONS
+  end
+
+  def training_provider_make_decisions
+    check = 'training_provider_make_decisions.training_provider_can_make_decisions IS TRUE'
+    provider_relationship_permissions_sql('training_provider_make_decisions', check)
+  end
+
+  def ratifying_provider_make_decisions
+    check = 'ratifying_provider_make_decisions.ratifying_provider_can_make_decisions IS TRUE'
+    provider_relationship_permissions_sql('ratifying_provider_make_decisions', check)
+  end
+
+  def combine_user_and_provider_permissions
+    provider_ids = user.provider_permissions.where(make_decisions: true).pluck(:provider_id)
+
+    <<~COMBINE_USER_AND_PROVIDER_PERMISSIONS
+      (
+        training_provider.id IN (#{provider_ids.join(',')}) AND
+        (
+          ratifying_provider.id IS NULL
+          OR training_provider_make_decisions.id IS NOT NULL
+        )
+      ) OR
+      (
+        ratifying_provider.id IN (#{provider_ids.join(',')}) AND
+        ratifying_provider_make_decisions.id IS NOT NULL
+      )
+    COMBINE_USER_AND_PROVIDER_PERMISSIONS
+  end
 end
