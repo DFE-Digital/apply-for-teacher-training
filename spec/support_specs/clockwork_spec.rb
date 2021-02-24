@@ -3,6 +3,8 @@ require 'clockwork/test'
 require 'sidekiq'
 
 RSpec.describe Clockwork do
+  after(:each) { Clockwork::Test.clear! }
+
   [
     { worker: DeclineOffersByDefaultWorker, task: 'DeclineOffersByDefault' },
     { worker: SendChaseEmailToProvidersWorker, task: 'SendChaseEmailToProviders' },
@@ -27,6 +29,22 @@ RSpec.describe Clockwork do
         Clockwork::Test.block_for(worker[:task]).call
         expect(worker[:worker]).to have_received(:perform_async)
       end
+    end
+  end
+
+  it 'executes all defined jobs without error' do
+    start_time = Time.now.beginning_of_day
+    end_time = Time.now.end_of_day
+
+    Clockwork::Test.run(
+      start_time: start_time,
+      end_time: end_time,
+      tick_speed:
+      1.minute, file: './config/clock.rb'
+    )
+
+    Clockwork::Test.manager.send(:history).jobs.each do |job|
+      expect { Clockwork::Test.block_for(job).call }.not_to raise_error
     end
   end
 end
