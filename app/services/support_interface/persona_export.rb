@@ -27,6 +27,8 @@ module SupportInterface
           'Course code' => application_choice.course.code,
           'Provider code' => application_choice.provider.code,
           'Nationality' => nationality(application_choice),
+          'Rejected by default at' => application_choice.reject_by_default_at,
+          'Link to application' => application_url(application_form)
         }
       end
     end
@@ -42,10 +44,6 @@ module SupportInterface
 
     def return_age(application_form)
       ((Time.zone.now.to_date - application_form.date_of_birth) / 365).floor if application_form.date_of_birth.present?
-    end
-
-    def application_state(application_form)
-      ProcessState.new(application_form).state
     end
 
     def return_lastest_degree_type(application_form)
@@ -100,6 +98,10 @@ module SupportInterface
 
     def nationality(application_choice)
       ApplicationChoiceHesaExportDecorator.new(application_choice).nationality
+    end
+
+    def application_url(application_form)
+      "https://www.apply-for-teacher-training.service.gov.uk/support/applications/#{application_form.id}"
     end
   end
 end
