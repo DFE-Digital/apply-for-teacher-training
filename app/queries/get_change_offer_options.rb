@@ -14,28 +14,34 @@ class GetChangeOfferOptions
       .joins(ratifying_provider_make_decisions)
 
     courses_with_org_permission_joins
+      .where(combine_user_and_provider_permissions)
       .where(
         open_on_apply: true,
         recruitment_cycle_year: application_choice.offered_course.recruitment_cycle_year,
       )
-      .where(combine_user_and_provider_permissions)
   end
 
   def available_providers
-    actionable_courses.map(&:provider)
+    Provider
+      .with(actionable_courses: actionable_courses)
+      .joins('INNER JOIN actionable_courses ON providers.id = actionable_courses.provider_id')
+      .distinct
   end
 
   # GetChangeOfferOptions.new(application_choice: ..., user: ...).available_courses(provider: ...)
-  def available_courses(provider:)
-  end
+  def available_courses(provider:); end
 
   # GetChangeOfferOptions.new(application_choice: ..., user: ...).available_study_modes(course: ...)
-  def available_study_modes(course:)
-  end
-  
+  def available_study_modes(course:); end
+
   # GetChangeOfferOptions.new(application_choice: ..., user: ...).available_sites(course: ..., study_mode: ...)
+  def available_sites(course:, study_mode:); end
 
 private
+
+  def permitted_provider_ids
+    user.provider_permissions.where(make_decisions: true).pluck(:provider_id)
+  end
 
   def provider_relationship_permissions_sql(join_name, additional_checks)
     <<~PROVIDER_RELATIONSHIP_PERMISSIONS.squish
@@ -57,18 +63,16 @@ private
   end
 
   def combine_user_and_provider_permissions
-    provider_ids = user.provider_permissions.where(make_decisions: true).pluck(:provider_id)
-
     <<~COMBINE_USER_AND_PROVIDER_PERMISSIONS
       (
-        training_provider.id IN (#{provider_ids.join(',')}) AND
+        training_provider.id IN (#{permitted_provider_ids.join(',')}) AND
         (
           ratifying_provider.id IS NULL
           OR training_provider_make_decisions.id IS NOT NULL
         )
       ) OR
       (
-        ratifying_provider.id IN (#{provider_ids.join(',')}) AND
+        ratifying_provider.id IN (#{permitted_provider_ids.join(',')}) AND
         ratifying_provider_make_decisions.id IS NOT NULL
       )
     COMBINE_USER_AND_PROVIDER_PERMISSIONS

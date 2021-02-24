@@ -51,5 +51,12 @@ RSpec.describe GetChangeOfferOptions do
       provider_user.provider_permissions.second.update(make_decisions: true)
       expect(service.available_providers.count).to eq(0)
     end
+
+    it 'does not return duplicate providers' do
+      provider_user.providers << course.provider
+      provider_user.provider_permissions.first.update(make_decisions: true)
+      create(:course, :open_on_apply, provider: course.provider)
+      expect(service.available_providers).to eq([course.provider])
+    end
   end
 end

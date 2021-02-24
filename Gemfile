@@ -42,7 +42,7 @@ gem 'ar-sequence'
 
 gem 'active_hash'
 
-# Allows us to use common table expressions / WITH statements
+# Allows the use of common table expressions / WITH statements
 # in active record queries; may eventually be merged into Rails
 gem 'activerecord-cte'
 
