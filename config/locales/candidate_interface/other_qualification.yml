@@ -43,6 +43,7 @@ en:
               blank: Enter the type of qualification
             other_uk_qualification_type:
               blank: Enter the type of qualification
+              too_long: Type of qualification must be %{count} characters or fewer
             qualification_type:
               blank: Enter the type of qualification
               too_long: Type of qualification must be %{count} characters or fewer
@@ -52,6 +53,7 @@ en:
               blank: Enter the type of qualification
             other_uk_qualification_type:
               blank: Enter the type of qualification
+              too_long: Type of qualification must be %{count} characters or fewer
             qualification_type:
               blank: Enter the type of qualification
               too_long: Type of qualification must be %{count} characters or fewer

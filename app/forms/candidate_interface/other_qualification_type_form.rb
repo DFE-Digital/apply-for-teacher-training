@@ -27,6 +27,7 @@ module CandidateInterface
     validates :qualification_type, presence: true
     validates :qualification_type, inclusion: { in: ALL_VALID_TYPES, allow_blank: false }
     validates :other_uk_qualification_type, presence: true, if: -> { qualification_type == OTHER_TYPE }
+    validates :other_uk_qualification_type, length: { maximum: 100 }
     validates :non_uk_qualification_type, presence: true, if: -> { qualification_type == NON_UK_TYPE }
 
     def initialize(current_application = nil, intermediate_data_service = nil, options = nil)

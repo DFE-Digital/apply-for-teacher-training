@@ -10,6 +10,7 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
     it { is_expected.to validate_presence_of(:award_year).on(:details) }
     it { is_expected.to validate_length_of(:subject).is_at_most(255) }
     it { is_expected.to validate_length_of(:grade).is_at_most(255) }
+    it { is_expected.to validate_length_of(:other_uk_qualification_type).is_at_most(100) }
 
     describe 'subject' do
       it 'validates presence except for non-uk and other qualifications' do

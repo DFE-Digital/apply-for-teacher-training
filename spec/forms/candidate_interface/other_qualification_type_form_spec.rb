@@ -7,6 +7,7 @@ RSpec.describe CandidateInterface::OtherQualificationTypeForm do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:qualification_type) }
+    it { is_expected.to validate_length_of(:other_uk_qualification_type).is_at_most(100) }
   end
 
   describe '#initialize' do
