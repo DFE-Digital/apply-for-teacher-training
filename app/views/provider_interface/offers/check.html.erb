@@ -16,7 +16,7 @@
 <% end %>
 
 <%= form_with model: @wizard, url: provider_interface_application_choice_create_offer_path(@application_choice.id), method: :post do |f| %>
-  <h1 class="govuk-heading-xl">
+  <h1 class="govuk-heading-l">
     <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
     <%= t('page_titles.provider.confirm_offer') %>
   </h1>
@@ -25,14 +25,59 @@
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
 
-      <%= render SummaryListComponent.new(rows: [
-        { key: 'Provider', value: @wizard.course_option.provider.name_and_code },
-        { key: 'Course', value: @wizard.course_option.course.name_and_code },
-        { key: 'Full time or part time', value: @wizard.course_option.study_mode.humanize },
-        { key: 'Location', value: @wizard.course_option.site.name },
-        { key: 'Starting', value: @wizard.course_option.course.recruitment_cycle_year },
-        { key: 'Conditions', value: conditions },
-      ]) %>
+      <div class="app-banner app-banner--details">
+        <h2 class="govuk-heading-m">Course details</h2>
+        <%
+          rows = [
+          { key: 'Provider',
+            value: @wizard.course_option.provider.name_and_code,
+            action: 'Change',
+            change_path: [:conditions, :provider_interface, :offer],
+          },
+          { key: 'Course',
+            value: @wizard.course_option.course.name_and_code,
+            action: 'Change',
+            change_path: [:conditions, :provider_interface, :offer],
+          },
+          { key: 'Location',
+            value: @wizard.course_option.site.name_and_address,
+            action: 'Change',
+            change_path: [:conditions, :provider_interface, :offer],
+          },
+          { key: 'Full time or part time',
+            value: @wizard.course_option.study_mode.humanize,
+            action: 'Change',
+            change_path: [:conditions, :provider_interface, :offer],
+          }] %>
+
+        <%= render SummaryCardComponent.new(rows: rows, border: false) %>
+
+        <% if @wizard.conditions && @wizard.conditions.any? %>
+          <h2 class="govuk-heading-m">Conditions of offer</h2>
+
+          <div class='govuk-body'>
+            <%= govuk_link_to 'Add or change conditions', [ :conditions, :provider_interface, :offer] %>
+          </div>
+
+          <table class="govuk-table govuk-!-margin-bottom-2">
+            <tbody class="govuk-table__body">
+              <% @wizard.conditions.compact.each do |condition| %>
+                <tr class="govuk-table__row conditions-row">
+                  <td class="govuk-table__cell"><%= condition %></td>
+                  <td class="govuk-table__cell govuk-table__cell--numeric">
+                    <% if conditions.present? %>
+                      <strong class="govuk-tag govuk-tag--green app-tag">Met</strong>
+                    <% else %>
+                      <strong class="govuk-tag govuk-tag--red app-tag">Not met</strong>
+                      <strong class="govuk-tag govuk-tag--grey app-tag">Pending</strong>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
 
       <p class="govuk-body">
         By making this offer, you guarantee this candidate a place on their chosen course, if they meet the conditions you have set out.

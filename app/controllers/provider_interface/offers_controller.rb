@@ -17,15 +17,6 @@ module ProviderInterface
 
   private
 
-    def offer_context_params(course_option)
-      { course_option_id: course_option.id,
-        provider_id: course_option.provider.id,
-        study_mode: course_option.study_mode,
-        location_id: course_option.site.id,
-        current_context: :default,
-      }
-    end
-
     def offer_store
       key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)

@@ -3,6 +3,10 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
 
+    STANDARD_CONDITIONS = ['Fitness to train to teach check',
+                           'Disclosure and Barring Service (DBS) check'].freeze
+
+
     def respond
       @pick_response_form = PickResponseForm.new
       @alternative_study_mode = @application_choice.offered_option.alternative_study_mode
@@ -140,6 +144,7 @@ module ProviderInterface
       study_mode: course_option.study_mode,
       location_id: course_option.site.id,
       current_context: :default,
+      conditions: STANDARD_CONDITIONS
     }
   end
 

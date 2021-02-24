@@ -1,8 +1,6 @@
 module ProviderInterface
   class OfferWizard
     include ActiveModel::Model
-    STANDARD_CONDITIONS = ['Fitness to train to teach check',
-                           'Disclosure and Barring Service (DBS) check'].freeze
 
     STEPS = {
       default: [:select_option ],
@@ -27,6 +25,10 @@ module ProviderInterface
       @state_store = state_store
 
       super(last_saved_state.deep_merge(attrs))
+    end
+
+    def course_option
+      @course_option ||= CourseOption.find(course_option_id)
     end
 
     def save_state!

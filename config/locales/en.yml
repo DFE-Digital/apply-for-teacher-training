@@ -171,7 +171,7 @@ en:
       lifecycle: Lifecycle
       alpha_release_notes: Alpha release notes
     provider:
-      confirm_offer: Check and confirm offer
+      confirm_offer: Check and send offer
       confirm_reject: Check feedback and reject application
       confirm_withdraw_offer: Check and confirm withdrawal
       new_defer_offer: Check and confirm offer deferral
