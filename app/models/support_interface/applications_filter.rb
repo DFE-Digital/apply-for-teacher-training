@@ -23,7 +23,7 @@ module SupportInterface
       end
 
       if applied_filters[:application_choice_id].present?
-        application_forms = application_forms.joins(:application_choices).where('application_choices.id = ?', applied_filters[:application_choice_id])
+        application_forms = application_forms.joins(:application_choices).where('application_choices.id = ?', applied_filters[:application_choice_id].to_i)
       end
 
       if applied_filters[:phase]
