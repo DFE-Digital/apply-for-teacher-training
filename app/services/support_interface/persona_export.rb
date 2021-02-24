@@ -28,7 +28,7 @@ module SupportInterface
           'Provider code' => application_choice.provider.code,
           'Nationality' => nationality(application_choice),
           'Rejected by default at' => application_choice.reject_by_default_at,
-          'Link to application' => application_url(application_form)
+          'Link to application' => application_url(application_form),
         }
       end
     end

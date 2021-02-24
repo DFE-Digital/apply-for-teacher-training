@@ -68,7 +68,7 @@ private
       'Provider code' => application_choice.provider.code,
       'Nationality' => 'GB',
       'Rejected by default at' => application_choice.reject_by_default_at,
-      'Link to application' => "https://www.apply-for-teacher-training.service.gov.uk/support/applications/#{application_form.id}"
+      'Link to application' => "https://www.apply-for-teacher-training.service.gov.uk/support/applications/#{application_form.id}",
     }
   end
 end

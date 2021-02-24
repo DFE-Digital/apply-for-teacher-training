@@ -76,9 +76,9 @@ class DataExport < ApplicationRecord
       class: SupportInterface::ProvidersExport,
     },
     persona_export: {
-        name: 'Persona data',
-        description: 'A list of application choices with the associated postcodes for the candidate, provider and site. Also includes reasons for rejection, nationality and application status.',
-        class: SupportInterface::PersonaExport,
+      name: 'Persona data',
+      description: 'A list of application choices with the associated postcodes for the candidate, provider and site. Also includes reasons for rejection, nationality and application status.',
+      class: SupportInterface::PersonaExport,
     },
     qualifications: {
       name: 'Qualifications',
