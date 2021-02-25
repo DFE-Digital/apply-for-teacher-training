@@ -16,7 +16,7 @@
     navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user)),
   )) %>
   <%= render(PrimaryNavigationComponent.new(
-    navigation_items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller),
+    items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller),
   )) %>
   <%= yield(:navigation) if content_for?(:navigation) %>
 <% when 'provider_interface' %>
@@ -40,7 +40,7 @@
       feedback_link: ProviderInterface::FEEDBACK_LINK,
     )) %>
     <%= render(PrimaryNavigationComponent.new(
-      navigation_items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, @provider_setup&.pending?),
+      items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, @provider_setup&.pending?),
     )) %>
   <% end %>
 <% when 'api_docs' %>
@@ -52,7 +52,7 @@
     navigation_items: [],
   )) %>
   <%= render(PrimaryNavigationComponent.new(
-    navigation_items: NavigationItems.for_api_docs(controller),
+    items: NavigationItems.for_api_docs(controller),
   )) %>
 <% else %>
   <% components_url = '/rails/view_components' if request.path.match(/^\/rails\/view_components/) %>

@@ -1,5 +1,8 @@
 class PrimaryNavigationComponent < ViewComponent::Base
-  def initialize(navigation_items:)
-    @navigation_items = navigation_items
+  include ViewHelper
+  attr_reader :items
+
+  def initialize(items:)
+    @items = items
   end
 end
