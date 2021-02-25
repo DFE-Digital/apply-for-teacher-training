@@ -14,9 +14,7 @@
   <div class="govuk-grid-column-one-half">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: @reference_statistics.average_time_to_get_references(
-          EndOfCycleTimetable.apply_reopens.beginning_of_day,
-        ),
+        count: @dashboard.read_metric(:avg_time_to_get_references),
         label: 'average time to get reference back',
         colour: :blue,
         size: :reduced,
@@ -25,19 +23,14 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @reference_statistics.average_time_to_get_references(
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:avg_time_to_get_references_this_month),
           label: 'this month',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @reference_statistics.average_time_to_get_references(
-            Time.zone.now.beginning_of_month - 1.month,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:avg_time_to_get_references_last_month),
           label: 'last month',
           size: :reduced,
         ) %>
@@ -48,10 +41,7 @@
   <div class="govuk-grid-column-one-half">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: @reference_statistics.percentage_references_within(
-          30,
-          EndOfCycleTimetable.apply_reopens.beginning_of_day,
-        ),
+        count: @dashboard.read_metric(:pct_references_completed_within_30_days),
         label: 'completed within 30 days',
         colour: :blue,
         size: :reduced,
@@ -60,21 +50,14 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @reference_statistics.percentage_references_within(
-            30,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:pct_references_completed_within_30_days_this_month),
           label: 'this month',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @reference_statistics.percentage_references_within(
-            30,
-            Time.zone.now.beginning_of_month - 1.month,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:pct_references_completed_within_30_days_last_month),
           label: 'last month',
           size: :reduced,
         ) %>
@@ -88,9 +71,7 @@
   <div class="govuk-grid-column-one-half">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: @work_history_statistics.average_time_to_complete(
-          EndOfCycleTimetable.apply_reopens.beginning_of_day,
-        ),
+        count: @dashboard.read_metric(:avg_time_to_complete_work_history),
         label: 'time to complete',
         colour: :blue,
         size: :reduced,
@@ -99,19 +80,14 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @work_history_statistics.average_time_to_complete(
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:avg_time_to_complete_work_history_this_month),
           label: 'this month',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @work_history_statistics.average_time_to_complete(
-            Time.zone.now.beginning_of_month - 1.month,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:avg_time_to_complete_work_history_last_month),
           label: 'last month',
           size: :reduced,
         ) %>
@@ -125,10 +101,7 @@
   <div id="accessing_the_service_to_unsubmitted_dashboard_section" class="govuk-grid-column-one-third">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: @magic_link_statistics.average_magic_link_requests_upto(
-          :created_at,
-          EndOfCycleTimetable.apply_reopens.beginning_of_day,
-        ),
+        count: @dashboard.read_metric(:avg_sign_ins_before_submitting),
         label: 'average number of sign-ins before submitting application',
         colour: :blue,
         size: :reduced,
@@ -137,21 +110,14 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @magic_link_statistics.average_magic_link_requests_upto(
-            :created_at,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:avg_sign_ins_before_submitting_this_month),
           label: 'this month',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @magic_link_statistics.average_magic_link_requests_upto(
-            :created_at,
-            Time.zone.now.beginning_of_month - 1.month,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:avg_sign_ins_before_submitting_last_month),
           label: 'last month',
           size: :reduced,
         ) %>
@@ -161,10 +127,7 @@
   <div id="accessing_the_service_to_offer_dashboard_section" class="govuk-grid-column-one-third">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: @magic_link_statistics.average_magic_link_requests_upto(
-          :offered_at,
-          EndOfCycleTimetable.apply_reopens.beginning_of_day,
-        ),
+        count: @dashboard.read_metric(:avg_sign_ins_before_offer),
         label: 'average number of sign-ins before offer',
         colour: :blue,
         size: :reduced,
@@ -173,21 +136,14 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @magic_link_statistics.average_magic_link_requests_upto(
-            :offered_at,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:avg_sign_ins_before_offer_this_month),
           label: 'this month',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @magic_link_statistics.average_magic_link_requests_upto(
-            :offered_at,
-            Time.zone.now.beginning_of_month - 1.month,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:avg_sign_ins_before_offer_last_month),
           label: 'last month',
           size: :reduced,
         ) %>
@@ -197,10 +153,7 @@
   <div id="accessing_the_service_to_recruitment_dashboard_section" class="govuk-grid-column-one-third">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: @magic_link_statistics.average_magic_link_requests_upto(
-          :recruited_at,
-          EndOfCycleTimetable.apply_reopens.beginning_of_day,
-        ),
+        count: @dashboard.read_metric(:avg_sign_ins_before_recruitment),
         label: 'average number of sign-ins before recruitment',
         colour: :blue,
         size: :reduced,
@@ -209,21 +162,14 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @magic_link_statistics.average_magic_link_requests_upto(
-            :recruited_at,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:avg_sign_ins_before_recruitment_this_month),
           label: 'this month',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @magic_link_statistics.average_magic_link_requests_upto(
-            :recruited_at,
-            Time.zone.now.beginning_of_month - 1.month,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:avg_sign_ins_before_recruitment_last_month),
           label: 'last month',
           size: :reduced,
         ) %>
@@ -237,10 +183,7 @@
   <div class="govuk-grid-column-one-half">
     <div id="headline-stat" class="govuk-!-margin-bottom-4">
       <%= render SupportInterface::TileComponent.new(
-        count: @reasons_for_rejection_statistics.rejections_due_to(
-          :qualifications_y_n,
-          EndOfCycleTimetable.apply_reopens.beginning_of_day,
-        ),
+        count: @dashboard.read_metric(:num_rejections_due_to_qualifications),
         label: 'rejections due to qualifications',
         colour: :blue,
         size: :reduced,
@@ -249,21 +192,14 @@
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @reasons_for_rejection_statistics.rejections_due_to(
-            :qualifications_y_n,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:num_rejections_due_to_qualifications_this_month),
           label: 'this month',
           size: :reduced,
         ) %>
       </div>
       <div class="govuk-grid-column-one-half">
         <%= render SupportInterface::TileComponent.new(
-          count: @reasons_for_rejection_statistics.rejections_due_to(
-            :qualifications_y_n,
-            Time.zone.now.beginning_of_month - 1.month,
-            Time.zone.now.beginning_of_month,
-          ),
+          count: @dashboard.read_metric(:num_rejections_due_to_qualifications_last_month),
           label: 'last month',
           size: :reduced,
         ) %>

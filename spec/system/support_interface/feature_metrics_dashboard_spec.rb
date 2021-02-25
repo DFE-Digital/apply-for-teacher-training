@@ -13,6 +13,7 @@ RSpec.feature 'Feature metrics dashboard' do
   scenario 'View feature metrics', with_audited: true do
     given_i_am_a_support_user
     and_there_are_candidates_and_application_forms_in_the_system
+    and_the_feature_metrics_dashboard_has_been_updated
 
     when_i_visit_the_performance_page_in_support
     and_i_click_on_the_feature_metrics_link
@@ -86,6 +87,10 @@ RSpec.feature 'Feature metrics dashboard' do
       complete_work_history(@application_form4)
       reject_application(@application_form2.application_choices.first)
     end
+  end
+
+  def and_the_feature_metrics_dashboard_has_been_updated
+    UpdateFeatureMetricsDashboard.new.perform
   end
 
   def when_i_visit_the_performance_page_in_support
