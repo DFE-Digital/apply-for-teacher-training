@@ -40,24 +40,5 @@ module SupportInterface
         .includes(:application_choices)
         .where.not(equality_and_diversity: nil)
     end
-
-    # def format_structured_rejection_reasons(structured_rejection_reasons)
-    #   return nil if structured_rejection_reasons.blank?
-
-    #   select_high_level_rejection_reasons(structured_rejection_reasons)
-    #   .keys
-    #   .map { |reason| format_reason(reason) }
-    #   .join("\n")
-    # end
-
-    # def select_high_level_rejection_reasons(structured_rejection_reasons)
-    #   structured_rejection_reasons.select { |reason, value| value == 'Yes' && reason.include?('_y_n') }
-    # end
-
-    # def format_reason(reason)
-    #   reason
-    #   .delete_suffix('_y_n')
-    #   .humanize
-    # end
   end
 end
