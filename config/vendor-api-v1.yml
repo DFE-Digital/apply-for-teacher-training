@@ -586,7 +586,7 @@ components:
         domicile:
           type: string
           maxLength: 2
-          description: The candidate’s domicile, as extracted from their address
+          description: The candidate’s domicile, extracted from their address. Coded according to [the HESA DOMICILE field](https://www.hesa.ac.uk/collection/c20051/a/domicile).
           example: XF
         uk_residency_status:
           type: string
