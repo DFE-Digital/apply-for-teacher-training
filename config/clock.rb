@@ -9,14 +9,14 @@ class Clock
   error_handler { |error| Raven.capture_exception(error) if defined? Raven }
 
   every(15.minutes, 'SyncAllFromFind') { SyncAllFromFind.perform_async }
+
   every(1.hour, 'DetectInvariants') { DetectInvariants.perform_async }
   every(1.hour, 'RejectApplicationsByDefault', at: '**:10') { RejectApplicationsByDefaultWorker.perform_async }
   every(1.hour, 'DeclineOffersByDefault', at: '**:15') { DeclineOffersByDefaultWorker.perform_async }
-
   every(1.hour, 'ChaseReferences', at: '**:20') { ChaseReferences.perform_async }
-
   every(1.hour, 'SendChaseEmailToProviders', at: '**:35') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
+  every(1.hour, 'UpdateFeatureMetricsDashboard', at: '**:45') { UpdateFeatureMetricsDashboard.perform_async }
 
   every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
 
