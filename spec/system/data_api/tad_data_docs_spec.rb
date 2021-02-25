@@ -7,7 +7,7 @@ RSpec.feature 'TAD data docs' do
   end
 
   def when_i_visit_the_tad_data_docs
-    visit '/data-api/tad-data-exports/docs'
+    visit '/data-api/docs/tad-data-exports'
   end
 
   def then_i_can_see_the_docs
