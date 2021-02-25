@@ -1,3 +1,13 @@
+## 26th February
+
+New attributes:
+
+- `Candidate` now has a `fee_payer` attribute of type string, returning a two-digit string corresponding to UCAS Fee Payer codes. It indicates a provisional fee payer status. Its value is derived from the candidate's nationality, residency status and domicile.
+
+Documentation:
+
+- Clarify the description of `Candidate.uk_residency_status` field in the documentation.
+
 ## 25th February
 
 - Documentation updated to indicate that the `Candidate.domicile` field is encoded as a HESA DOMICILE code.
