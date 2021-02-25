@@ -753,6 +753,7 @@ Rails.application.routes.draw do
   end
 
   namespace :data_api, path: '/data-api' do
+    get '/docs/tad-data-exports' => 'tad_docs#docs'
     get '/tad-data-exports/latest' => 'tad_data_exports#latest'
   end
 
