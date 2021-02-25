@@ -617,6 +617,7 @@ Rails.application.routes.draw do
 
       resource :offer, only: %[create] do
         get '/conditions' => 'offers#conditions'
+        get '/provider' => 'offers#provider'
         post :check
       end
 
