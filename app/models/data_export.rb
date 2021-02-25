@@ -50,11 +50,6 @@ class DataExport < ApplicationRecord
       description: 'Anonymised candidate equality and diversity data.',
       class: SupportInterface::EqualityAndDiversityExport,
     },
-    locations_export: {
-      name: 'Locations',
-      description: 'A list of application choices with the associated postcodes for the candidate, provider and site.',
-      class: SupportInterface::LocationsExport,
-    },
     notifications_export: {
       name: 'Notifications',
       description: 'Data to enable performance assesment of Notification feature',
@@ -72,7 +67,7 @@ class DataExport < ApplicationRecord
     },
     provider_access_controls: {
       name: 'Provider Access Controls',
-      description: 'A list of providers and information about their permissions',
+      description: 'A list of providers and information about their permissions.',
       class: SupportInterface::ProviderAccessControlsExport,
     },
     providers_export: {
@@ -80,9 +75,14 @@ class DataExport < ApplicationRecord
       description: 'The list of providers that are being synced from the Find service, along with when they signed the data sharing agreement.',
       class: SupportInterface::ProvidersExport,
     },
+    persona_export: {
+      name: 'Persona data',
+      description: 'A list of application choices with the associated postcodes for the candidate, provider and site. Also includes reasons for rejection, nationality and application status.',
+      class: SupportInterface::PersonaExport,
+    },
     qualifications: {
       name: 'Qualifications',
-      description: 'A list of qualifications for each application choice',
+      description: 'A list of qualifications for each application choice.',
       class: SupportInterface::QualificationsExport,
     },
     referee_survey: {
@@ -92,7 +92,7 @@ class DataExport < ApplicationRecord
     },
     sites_export: {
       name: 'Sites',
-      description: 'A list of sites that are being synced from Find, along with distances to their respective providers',
+      description: 'A list of sites that are being synced from Find, along with distances to their respective providers.',
       class: SupportInterface::SitesExport,
     },
     submitted_application_choices: {
