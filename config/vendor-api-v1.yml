@@ -550,6 +550,7 @@ components:
       - nationality
       - domicile
       - uk_residency_status
+      - fee_payer
       - english_main_language
       - english_language_qualifications
       - other_languages
@@ -593,6 +594,14 @@ components:
           maxLength: 256
           description: The candidate’s UK residency status indicating their right to work and study in the UK
           example: UK Citizen
+        fee_payer:
+          type: string
+          maxLength: 2
+          description: Provisional fee payer status based on a candidate's nationality, residency status and domicile.
+          example: '02'
+          enum:
+          - '02'
+          - '99'
         english_main_language:
           type: boolean
           description: Does this candidate have English as a main language?

@@ -264,6 +264,53 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
   end
 
+  describe 'attributes.candidate.fee_payer' do
+    it 'returns 02 if the nationality is provisionally eligible for government funding' do
+      application_form = create(:application_form, :minimum_info, first_nationality: 'British')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('02')
+    end
+
+    it 'returns 02 if the candidate is EU, EEA or Swiss national, has the right to work/study in the UK and their domicile is the UK' do
+      application_form = create(:application_form, :minimum_info, first_nationality: 'Swiss', right_to_work_or_study: 'yes')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('02')
+    end
+
+    it 'returns 99 if the candidate is not British, Irish, EU, EEA or Swiss national' do
+      application_form = create(:application_form, :minimum_info, first_nationality: 'Canadian')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('99')
+    end
+
+    it 'returns 99 if the candidate does not have the right to work/study in the UK' do
+      application_form = create(:application_form, :minimum_info, first_nationality: 'Swiss', right_to_work_or_study: 'no')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('99')
+    end
+
+    it 'returns 99 if the candidate does not reside in the UK' do
+      application_form = create(:application_form, :minimum_info, :international_address, first_nationality: 'Swiss', right_to_work_or_study: 'yes')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('99')
+    end
+  end
+
   describe 'attributes.candidate.english_language_qualifications' do
     it 'returns a description of the candidate\'s EFL qualification' do
       application_form = create(:completed_application_form, english_proficiency: create(:english_proficiency, :with_toefl_qualification))
