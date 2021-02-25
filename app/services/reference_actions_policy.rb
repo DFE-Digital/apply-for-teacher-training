@@ -3,6 +3,10 @@ class ReferenceActionsPolicy
     @reference = reference
   end
 
+  def reinstatable?
+    reference.cancelled? || reference.feedback_refused?
+  end
+
   def editable?
     reference.not_requested_yet? && needs_more_references?
   end

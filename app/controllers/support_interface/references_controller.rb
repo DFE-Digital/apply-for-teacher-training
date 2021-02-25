@@ -12,10 +12,14 @@ module SupportInterface
       redirect_to support_interface_application_form_path(@reference.application_form)
     end
 
-    def reinstate; end
+    def reinstate
+      render_404 and return unless ReferenceActionsPolicy.new(@reference).reinstatable?
+    end
 
     def confirm_reinstate
-      RequestReference.new.call(@reference)
+      render_404 and return unless ReferenceActionsPolicy.new(@reference).reinstatable?
+
+      ReinstateReference.call(@reference)
       flash[:success] = 'Reference was reinstated'
       redirect_to support_interface_application_form_path(@reference.application_form)
     end

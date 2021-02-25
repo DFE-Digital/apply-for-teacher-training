@@ -189,6 +189,10 @@ module SupportInterface
           value: policy.can_be_destroyed? ? 'Yes' : 'No',
         },
         {
+          key: 'Can be reinstated by support?',
+          value: policy.reinstatable? ? 'Yes' : 'No',
+        },
+        {
           key: 'Can be deleted?',
           value: policy.request_can_be_deleted? ? 'Yes' : 'No',
         },
