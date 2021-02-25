@@ -158,10 +158,6 @@ FactoryBot.define do
       safeguarding_issues { 'I have a criminal conviction.' }
     end
 
-    trait :with_no_safeguarding_issues_to_declare do
-      safeguarding_issues_status { 'no_safeguarding_issues_to_declare' }
-    end
-
     trait :with_safeguarding_issues_never_asked do
       safeguarding_issues_status { 'never_asked' }
     end

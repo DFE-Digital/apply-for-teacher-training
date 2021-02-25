@@ -427,7 +427,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     end
 
     it 'returns nil if the status is no_safeguarding_issues_to_declare' do
-      application_form = create(:application_form, :minimum_info, :with_no_safeguarding_issues_to_declare)
+      application_form = build(:application_form, :minimum_info)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
