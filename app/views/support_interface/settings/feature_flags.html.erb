@@ -30,14 +30,12 @@
       <% protect_against_mistakes do %>
         <% if FeatureFlag.active?(feature_name) %>
           <%= govuk_button_to support_interface_deactivate_feature_flag_path(feature_name),
-                 class: 'app-button--tertiary govuk-!-margin-bottom-0',
-                 data: { confirm: "Are you sure you want to deactivate “#{feature_name.humanize}” in #{HostingEnvironment.environment_name.upcase}?" } do %>
+                 class: 'app-button--tertiary govuk-!-margin-bottom-0' do %>
             Deactivate<span class="govuk-visually-hidden"> ‘<%= feature_name.humanize %>’ feature</span>
           <% end %>
         <% else %>
           <%= govuk_button_to support_interface_activate_feature_flag_path(feature_name),
-                 class: 'app-button--tertiary govuk-!-margin-bottom-0',
-                 data: { confirm: "Are you sure you want to activate “#{feature_name.humanize}” in #{HostingEnvironment.environment_name.upcase}?" } do %>
+                 class: 'app-button--tertiary govuk-!-margin-bottom-0' do %>
             Activate<span class="govuk-visually-hidden"> ‘<%= feature_name.humanize %>’ feature</span>
           <% end %>
         <% end %>
