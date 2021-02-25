@@ -89,7 +89,7 @@ RSpec.feature 'Add course to submitted application' do
       application_form_id: @application_form.id,
       course_code: @non_existent_course_code,
     )
-    expect(page).to have_content 'No results'
+    expect(page).to have_content 'No open courses found for current recruitment cycle'
   end
 
   def when_i_click_search_again
@@ -104,7 +104,7 @@ RSpec.feature 'Add course to submitted application' do
   end
 
   def when_i_enter_a_course_code_for_a_course_that_does_exist
-    @course_option = create(:course_option)
+    @course_option = create(:course_option, course: create(:course, :open_on_apply))
     @course_code = @course_option.course.code
     fill_in('Course code', with: @course_code)
   end
