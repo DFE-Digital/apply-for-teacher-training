@@ -3,18 +3,6 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
 
-    def conditions
-      @wizard = OfferWizard.new(offer_store, {current_step: 'conditions'})
-      @wizard.save_state!
-    end
-
-    def provider
-      @wizard = OfferWizard.new(offer_store, {current_step: 'provider'})
-      @wizard.save_state!
-
-      @providers =  current_provider_user.providers
-    end
-
     def check
       @wizard = OfferWizard.new(offer_store, offer_conditions_params.merge!(current_step: 'check'))
       @wizard.save_state!

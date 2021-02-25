@@ -10,19 +10,12 @@ module ProviderInterface
       @providers = providers.order(:name)
     end
 
+    def full_name
+      application_choice.application_form.full_name
+    end
+
     def page_title
-      if application_choice.offer? && form_object.entry == :provider
-        'Change training provider'
-      else
-        'Select alternative training provider'
-      end
-    end
-
-    def next_step_url
-    end
-
-    def next_step_method
-      :get
+      'Select training provider'
     end
   end
 end

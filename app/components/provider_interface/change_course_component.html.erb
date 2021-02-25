@@ -1,0 +1,20 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: form_object, url: provider_interface_offer_course_path, method: :post do |f| %>
+      <%= f.govuk_radio_buttons_fieldset :course_id,
+        legend: { text: page_title, size: 'l' },
+        caption: { text: application_choice.application_form.full_name, size: 'l' } do %>
+
+        <% courses.each_with_index do |course, i| %>
+          <%= f.govuk_radio_button :course_id, course.id, label: { text: course.name_and_code }, hint: { text: course.description }, link_errors: i.zero? %>
+        <% end %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to 'Cancel', provider_interface_application_choice_path(application_choice), class: 'govuk-link--no-visited-state' %>
+    </p>
+  </div>
+</div>

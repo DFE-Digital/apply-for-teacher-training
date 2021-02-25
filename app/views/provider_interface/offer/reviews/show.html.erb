@@ -32,12 +32,12 @@
           { key: 'Provider',
             value: @wizard.course_option.provider.name_and_code,
             action: 'Change',
-            change_path: [:provider, :provider_interface, :offer],
+            change_path: [:new, :provider_interface, :offer, :provider],
           },
           { key: 'Course',
             value: @wizard.course_option.course.name_and_code,
             action: 'Change',
-            change_path: [:conditions, :provider_interface, :offer],
+            change_path: [:new, :provider_interface, :offer, :course],
           },
           { key: 'Location',
             value: @wizard.course_option.site.name_and_address,
@@ -56,7 +56,7 @@
           <h2 class="govuk-heading-m">Conditions of offer</h2>
 
           <div class='govuk-body'>
-            <%= govuk_link_to 'Add or change conditions', [ :conditions, :provider_interface, :offer] %>
+            <%= govuk_link_to 'Add or change conditions', [ :new, :provider_interface, :offer, :conditions] %>
           </div>
 
           <table class="govuk-table govuk-!-margin-bottom-2">

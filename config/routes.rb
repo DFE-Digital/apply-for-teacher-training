@@ -615,10 +615,16 @@ Rails.application.routes.draw do
       get '/respond' => 'decisions#respond', as: :application_choice_respond
       post '/respond' => 'decisions#submit_response', as: :application_choice_submit_response
 
-      resource :offer, only: %[create] do
+      resource :offer, only: %i[create] do
         get '/conditions' => 'offers#conditions'
-        get '/provider' => 'offers#provider'
         post :check
+      end
+
+      namespace :offer do
+        resource :conditions, only: %i[new create]
+        resource :provider, only: %i[new create]
+        resource :course, only: %i[new create]
+        resource :review, only: %i[show create]
       end
 
       get '/offer/new' => 'decisions#new_offer', as: :application_choice_new_offer

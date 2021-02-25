@@ -18,6 +18,8 @@ module ProviderInterface
 
     attr_accessor :provider_id, :provider, :course_id, :course_option_id, :study_mode, :location_id, :conditions, :current_step, :current_context
 
+    validates :provider_id, :course_id, presence: true
+
     def initialize(state_store, attrs = {})
       @state_store = state_store
 

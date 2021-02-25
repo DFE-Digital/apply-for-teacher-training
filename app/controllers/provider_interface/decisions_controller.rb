@@ -24,7 +24,7 @@ module ProviderInterface
       if context == 'new_reject'
         return redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
       else
-        return redirect_to [ @wizard.next_step, :provider_interface, :offer]
+        return redirect_to [:new , :provider_interface, :offer, @wizard.next_step]
       end
 
       render action: :respond
@@ -140,6 +140,7 @@ module ProviderInterface
 
   def offer_context_params(course_option)
     { course_option_id: course_option.id,
+      course_id: course_option.course.id,
       provider_id: course_option.provider.id,
       study_mode: course_option.study_mode,
       location_id: course_option.site.id,
