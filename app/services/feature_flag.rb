@@ -12,14 +12,14 @@ class FeatureFlag
   end
 
   PERMANENT_SETTINGS = [
-    [:banner_about_problems_with_dfe_sign_in, 'Displays a banner to notify users that DfE-Sign is having problems', 'Jake Benilov'],
-    [:banner_for_ucas_downtime, 'Displays a banner to notify users that UCAS is having problems', 'Theodor Vararu'],
-    [:dfe_sign_in_fallback, 'Use this when DfE Sign-in is down', 'Tijmen Brommet'],
-    [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Michael Nacos'],
-    [:pilot_open, 'Enables the Apply for Teacher Training service', 'Tijmen Brommet'],
-    [:provider_information_banner, 'Displays an information banner for providers on the start page and applications page', 'Ben Swannack'],
-    [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Malcolm Baig'],
-    [:export_hesa_data, 'Providers can export applications including HESA data.', 'Steve Laing'],
+    [:banner_about_problems_with_dfe_sign_in, 'Displays a banner to notify users that DfE-Sign is having problems', 'Apply team'],
+    [:banner_for_ucas_downtime, 'Displays a banner to notify users that UCAS is having problems', 'Apply team'],
+    [:dfe_sign_in_fallback, 'Use this when DfE Sign-in is down', 'Apply team'],
+    [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Apply team'],
+    [:pilot_open, 'Enables the Apply for Teacher Training service', 'Apply team'],
+    [:provider_information_banner, 'Displays an information banner for providers on the start page and applications page', 'Apply team'],
+    [:deadline_notices, 'Show candidates copy related to end of cycle deadlines', 'Apply team'],
+    [:export_hesa_data, 'Providers can export applications including HESA data.', 'Apply team'],
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
