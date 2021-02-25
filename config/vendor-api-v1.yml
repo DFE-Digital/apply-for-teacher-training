@@ -592,7 +592,7 @@ components:
         uk_residency_status:
           type: string
           maxLength: 256
-          description: The candidate’s UK residency status indicating their right to work and study in the UK
+          description: The candidate’s UK residency status indicating their right to work and study in the UK. Possible values include "UK Citizen", "Irish Citizen", "Candidate needs to apply for permission to work and study in the UK" and "Candidate does not know". The candidate can also provide details as free text for example "Settled status".
           example: UK Citizen
         fee_payer:
           type: string
