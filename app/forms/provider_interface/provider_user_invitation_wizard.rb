@@ -53,7 +53,7 @@ module ProviderInterface
     end
 
     def permissions_form
-      @_permissions_form ||= ProviderUserPermissionsForm.new(permissions_for(current_provider_id))
+      @_permissions_form ||= FieldsForProviderUserPermissionsForm.new(permissions_for(current_provider_id))
     end
 
     def valid_for_current_step?

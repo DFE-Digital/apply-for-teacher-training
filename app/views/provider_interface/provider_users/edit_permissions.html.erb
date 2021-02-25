@@ -3,6 +3,20 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= render ProviderInterface::EditProviderUserPermissionsComponent.new(form: @form) %>
+    <%= form_with(
+      model: @form,
+      method: :patch,
+      url: provider_interface_provider_user_edit_permissions_path(
+        provider_id: @form.provider.id,
+        provider_user_id: @form.provider_user.id,
+      ),
+    ) do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= render 'provider_interface/fields_for_permissions', top_level_form: f, permissions_form: @form.permissions_form, provider: @form.provider, provider_user_name: @form.provider_user.full_name %>
+
+      <%= f.govuk_submit 'Save' %>
+    <% end %>
+
   </div>
 </div>
