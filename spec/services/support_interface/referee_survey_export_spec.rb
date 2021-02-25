@@ -30,39 +30,36 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
     end
 
     it 'returns a hash of referees responses' do
-      reference1 = create(:reference, questionnaire: questionnaire1, application_form: create(:application_form, recruitment_cycle_year: 2021))
-      reference2 = create(:reference, questionnaire: questionnaire2, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:reference, name: 'A', email_address: 'a@example.com', questionnaire: questionnaire1, feedback_provided_at: '2021-01-01 15:00:00', application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:reference, name: 'B', email_address: 'b@example.com', questionnaire: questionnaire2, application_form: create(:application_form, recruitment_cycle_year: 2021))
       create(:reference, questionnaire: questionnaire3, application_form: create(:application_form, recruitment_cycle_year: 2021))
 
-      expect(described_class.new.call).to match_array([return_expected_hash(reference1), return_expected_hash(reference2)])
+      expect(described_class.new.call).to match_array([
+        {
+          'Name' => 'A',
+          'Reference provided at' => '2021-01-01T15:00:00+00:00',
+          'Recruitment cycle year' => 2021,
+          'Email_address' => 'a@example.com',
+          'Guidance rating' => 'very_poor',
+          'Guidance explanation' => 'I could not read it.',
+          'Experience rating' => 'very_good',
+          'Experience explanation' => 'I could read it.',
+          'Consent to be contacted' => 'yes',
+          'Contact details' => '02113131',
+        },
+        {
+          'Name' => 'B',
+          'Reference provided at' => nil,
+          'Recruitment cycle year' => 2021,
+          'Email_address' => 'b@example.com',
+          'Guidance rating' => 'good',
+          'Guidance explanation' => nil,
+          'Experience rating' => 'poor',
+          'Experience explanation' => nil,
+          'Consent to be contacted' => nil,
+          'Contact details' => nil,
+        },
+      ])
     end
-  end
-
-private
-
-  def extract_rating(reference, field)
-    get_response(reference.questionnaire[field]).first
-  end
-
-  def extract_explanation(reference, field)
-    get_response(reference.questionnaire[field]).second
-  end
-
-  def get_response(response)
-    response.split(' | ')
-  end
-
-  def return_expected_hash(reference)
-    {
-      'Name' => reference.name,
-      'Recruitment cycle year' => 2021,
-      'Email_address' => reference.email_address,
-      'Guidance rating' => extract_rating(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
-      'Guidance explanation' => extract_explanation(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
-      'Experience rating' => extract_rating(reference, RefereeQuestionnaire::EXPERIENCE_QUESTION),
-      'Experience explanation' => extract_explanation(reference, RefereeQuestionnaire::EXPERIENCE_QUESTION),
-      'Consent to be contacted' => extract_rating(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
-      'Contact details' => extract_explanation(reference, RefereeQuestionnaire::CONSENT_TO_BE_CONTACTED_QUESTION),
-    }
   end
 end
