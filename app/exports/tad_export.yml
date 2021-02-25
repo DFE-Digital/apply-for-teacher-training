@@ -1,3 +1,5 @@
+# TAD rely on this export for analysis and reporting. Let them know if you make
+# changes to the export (a new application status for example).
 common_columns:
 - extract_date
 - candidate_id
@@ -41,6 +43,8 @@ custom_columns:
     - declined
     - declined_by_default
     - offer
+    - offer_deferred
+    - offer_withdrawn
     - pending_conditions
     - recruited
     - rejected
