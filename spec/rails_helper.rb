@@ -78,7 +78,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     unless ENV['TEST_ENV_NUMBER']
       puts "ℹ️  If you change CSS, JS, or Assets - don't forget to run `rake compile_assets` before your test runs"
-      puts "ℹ️  Running tests with all features #{ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on' ? 'ON' : 'OFF'} by default"
+      puts "ℹ️  Running tests with all features #{ENV['DEFAULT_FEATURE_FLAG_STATE'] == 'on' ? 'ON' : 'OFF'} by default (run with DEFAULT_FEATURE_FLAG_STATE=on/off to change)"
     end
   end
 
