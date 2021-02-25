@@ -18,9 +18,6 @@ module ProviderInterface
 
     attr_accessor :provider_id, :provider, :course_id, :course_option_id, :study_mode, :location_id, :conditions, :current_step, :current_context
 
-    validate :validate_conditions_max_length, on: :conditions
-    validate :validate_further_conditions, on: :conditions
-
     def initialize(state_store, attrs = {})
       @state_store = state_store
 
