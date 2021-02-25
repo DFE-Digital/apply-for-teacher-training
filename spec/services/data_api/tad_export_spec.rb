@@ -20,8 +20,13 @@ RSpec.describe DataAPI::TADExport do
 
   describe '#status' do
     it 'only includes states that are documented' do
-      documented_columns = DataSetDocumentation.for(described_class)['status']['enum']
-      possible_states_in_export = ApplicationStateChange.states_visible_to_provider.map(&:to_s) + %w[rejected_by_default declined_by_default]
+      documented_columns = DataSetDocumentation.for(described_class)['status']['enum'].map(&:to_sym)
+
+      unless FeatureFlag.active?(:interviews)
+        documented_columns -= %i[interviewing]
+      end
+
+      possible_states_in_export = ApplicationStateChange.states_visible_to_tad
 
       expect(documented_columns).to match_array(possible_states_in_export)
     end

@@ -42,6 +42,7 @@ custom_columns:
     - conditions_not_met
     - declined
     - declined_by_default
+    - interviewing
     - offer
     - offer_deferred
     - offer_withdrawn

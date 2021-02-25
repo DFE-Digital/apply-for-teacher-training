@@ -111,6 +111,12 @@ class ApplicationStateChange
     STATES_VISIBLE_TO_PROVIDER - [:interviewing]
   end
 
+  # TAD receive the same applications as providers, but the `rejected` and `declined`
+  # states are more specific when they are rejected or declined by default.
+  def self.states_visible_to_tad
+    states_visible_to_provider + %i[rejected_by_default declined_by_default]
+  end
+
   def self.states_visible_to_provider_without_deferred
     states_visible_to_provider - [:offer_deferred]
   end
