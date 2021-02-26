@@ -95,7 +95,7 @@ module ProviderInterface
       )
       if @withdraw_offer.save
         flash[:success] = 'Offer successfully withdrawn'
-        redirect_to provider_interface_application_choice_path(
+        redirect_to provider_interface_application_choice_feedback_path(
           application_choice_id: @application_choice.id,
         )
       else
