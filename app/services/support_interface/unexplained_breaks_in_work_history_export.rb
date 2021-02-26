@@ -30,8 +30,8 @@ module SupportInterface
         volunteering_experiences = application_form.application_volunteering_experiences.sort_by(&:start_date)
         explained_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
         unexplained_breaks = get_unexplained_breaks(application_form)
-        
-        next if unexplained_breaks.nil?
+
+        next if unexplained_breaks.nil? && explained_breaks.nil?
 
         output = {
           'Candidate id' => application_form.candidate_id,
@@ -41,22 +41,34 @@ module SupportInterface
 
           'Start of working life' => start_of_working_life(application_form),
           'Total time in employment (months)' => total_time_in_employment(application_form),
-          'Total time of explained breaks (months)' => total_time_of_explained_breaks(explained_breaks),
-          'Total time of unexplained breaks (months)' => total_time_of_unexplained_breaks(unexplained_breaks),
 
-          'Number of explained breaks' => explained_breaks.length,
-          'Number of explained breaks in last 5 years' => breaks_in_last_five_years(explained_breaks, application_form),
-          'Number of unexplained breaks' => unexplained_breaks.length,
-          'Number of unexplained breaks in last 5 years' => breaks_in_last_five_years(unexplained_breaks, application_form),
-
-          'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees(application_form, unexplained_breaks),
-          'Number of unexplained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(unexplained_breaks, volunteering_experiences),
-          'Number of explained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(explained_breaks, volunteering_experiences),
         }
+
+        if explained_breaks.any?
+          output.merge!({
+            'Total time of explained breaks (months)' => total_time_of_explained_breaks(explained_breaks),
+            'Number of explained breaks' => explained_breaks.length,
+            'Number of explained breaks in last 5 years' => breaks_in_last_five_years(explained_breaks, application_form),
+            'Number of explained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(explained_breaks, volunteering_experiences),
+          })
+        end
+
+        if unexplained_breaks.any?
+          output.merge!({
+            'Total time of unexplained breaks (months)' => total_time_of_unexplained_breaks(unexplained_breaks),
+            'Number of unexplained breaks' => unexplained_breaks.length,
+            'Number of unexplained breaks in last 5 years' => breaks_in_last_five_years(unexplained_breaks, application_form),
+            'Number of unexplained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(unexplained_breaks, volunteering_experiences),
+            'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees(application_form, unexplained_breaks),
+          })
+        end
+
         output
       end
 
-      data_for_export.compact
+      # The DataExport class creates the header row for us so we need to ensure
+      # we sort by longest hash length to ensure all headers appear
+      data_for_export.compact.sort_by(&:length).reverse
     end
 
   private
