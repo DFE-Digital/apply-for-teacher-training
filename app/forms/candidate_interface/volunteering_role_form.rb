@@ -7,15 +7,15 @@ module CandidateInterface
                   :start_date_day, :start_date_month, :start_date_year,
                   :end_date_day, :end_date_month, :end_date_year
 
-    validates :role, :organisation, :details, :working_with_children, presence: true
+    validates :role, :organisation, :working_with_children, presence: true
 
     validates :role, :organisation, length: { maximum: 60 }
-
-    validates :details, word_count: { maximum: 150 }
 
     validates :start_date, date: { presence: true, future: true, month_and_year: true }
     validates :end_date, date: { presence: true, future: true, month_and_year: true }, if: :start_date
     validate :start_date_before_end_date, unless: ->(c) { %i[start_date end_date].any? { |d| c.errors.keys.include?(d) } }, if: %i[start_date end_date]
+
+    validates :details, presence: true, word_count: { maximum: 150 }
 
     class << self
       def build_all_from_application(application_form)
