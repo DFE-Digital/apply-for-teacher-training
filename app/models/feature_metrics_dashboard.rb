@@ -17,6 +17,14 @@ class FeatureMetricsDashboard < ApplicationRecord
     load_num_rejections_due_to_qualifications
   end
 
+  def last_updated_at
+    updated_at.to_s(:govuk_date_and_time)
+  end
+
+  def next_update_exepected_at
+    (updated_at + 1.hour).to_s(:govuk_date_and_time)
+  end
+
 private
 
   def reference_statistics

@@ -12,6 +12,10 @@
 <% if @dashboard.nil? %>
   <p class="govuk-body">No dashboard data available. Ask a dev to run the UpdateFeatureMetricsDashboard worker.</p>
 <% else %>
+  <p class="govuk-hint govuk-!-font-size-14 govuk-!-margin-bottom-0"> Last updated on <%= @dashboard.last_updated_at %> </p>
+  <p class="govuk-hint govuk-!-font-size-14 govuk-!-margin-top-0"> Next update expected on <%= @dashboard.next_update_exepected_at %> </p>
+
+
   <h2 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">References</h2>
   <div id="references_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
     <div class="govuk-grid-column-one-half">
