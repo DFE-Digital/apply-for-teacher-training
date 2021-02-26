@@ -10,6 +10,7 @@ module SupportInterface
       references_with_feedback.each do |reference|
         hash = {
           'Name' => reference.name,
+          'Reference provided at' => reference.feedback_provided_at&.iso8601,
           'Recruitment cycle year' => reference.application_form.recruitment_cycle_year,
           'Email_address' => reference.email_address,
           'Guidance rating' => extract_rating(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),
