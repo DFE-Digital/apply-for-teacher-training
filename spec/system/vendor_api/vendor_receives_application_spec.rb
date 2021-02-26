@@ -189,7 +189,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
             {
               id: @application.application_work_experiences.first.id,
               start_date: '2014-05-01',
-              end_date: '2019-01-01',
+              end_date: nil,
               role: 'Teacher',
               organisation_name: 'Oakleaf Primary School',
               working_with_children: false,
