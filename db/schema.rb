@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_24_115745) do
+ActiveRecord::Schema.define(version: 2021_02_26_142457) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -209,7 +209,6 @@ ActiveRecord::Schema.define(version: 2021_02_24_115745) do
     t.string "award_year"
     t.string "institution_name"
     t.string "institution_country"
-    t.string "awarding_body"
     t.string "equivalency_details"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
