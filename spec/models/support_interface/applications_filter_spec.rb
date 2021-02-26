@@ -33,6 +33,15 @@ RSpec.describe SupportInterface::ApplicationsFilter do
       )
     end
 
+    it 'handles non-integer application choice ids' do
+      verify_filtered_applications_for_params(
+        [],
+        params: {
+          application_choice_id: "ABC#{application_choice_with_offer.id}",
+        },
+      )
+    end
+
     it 'can filter by year' do
       expected_form = application_choice_with_offer.application_form
 
