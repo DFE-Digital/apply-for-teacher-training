@@ -63,6 +63,7 @@ RSpec.feature 'Vendor receives the application', recruitment_cycle: 2020 do
           nationality: %w[GB US],
           domicile: @application.domicile,
           uk_residency_status: 'UK Citizen',
+          fee_payer: '02',
           english_main_language: true,
           other_languages: nil,
           english_language_qualifications: nil,

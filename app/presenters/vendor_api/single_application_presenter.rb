@@ -2,6 +2,11 @@ module VendorAPI
   class SingleApplicationPresenter
     include Rails.application.routes.url_helpers
 
+    UCAS_FEE_PAYER_CODES = {
+      'SLC,SAAS,NIBd,EU,Chl,IoM' => '02',
+      'Not Known' => '99',
+    }.freeze
+
     def initialize(application_choice)
       @application_choice = ApplicationChoiceExportDecorator.new(application_choice)
       @application_form = application_choice.application_form
@@ -29,6 +34,7 @@ module VendorAPI
             nationality: application_choice.nationalities,
             domicile: application_form.domicile,
             uk_residency_status: uk_residency_status,
+            fee_payer: provisional_fee_payer_status,
             english_main_language: application_form.english_main_language,
             english_language_qualifications: application_form.english_language_qualification_details,
             other_languages: application_form.other_language_details,
@@ -108,6 +114,20 @@ module VendorAPI
       return 'Candidate needs to apply for permission to work and study in the UK' if application_form.right_to_work_or_study_no?
 
       'Candidate does not know'
+    end
+
+    def provisional_fee_payer_status
+      return UCAS_FEE_PAYER_CODES['SLC,SAAS,NIBd,EU,Chl,IoM'] if provisionally_eligible_for_gov_funding?
+
+      UCAS_FEE_PAYER_CODES['Not Known']
+    end
+
+    def provisionally_eligible_for_gov_funding?
+      return true if (PROVISIONALLY_ELIGIBLE_FOR_GOV_FUNDING_COUNTRY_CODES & application_choice.nationalities).any?
+
+      (EU_EEA_SWISS_COUNTRY_CODES & application_choice.nationalities).any? &&
+        application_form.right_to_work_or_study_yes? &&
+        application_form.uk?
     end
 
     def course_info_for(course_option)

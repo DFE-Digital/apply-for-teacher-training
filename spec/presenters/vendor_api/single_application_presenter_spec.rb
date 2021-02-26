@@ -8,7 +8,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     it 'returns a withdrawal object' do
       withdrawn_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
       application_form = create(:application_form,
-                                :with_completed_references)
+                                :minimum_info)
       application_choice = create(:application_choice, status: 'withdrawn', application_form: application_form, withdrawn_at: withdrawn_at)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -22,7 +22,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     it 'returns a rejection object' do
       rejected_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
       application_form = create(:application_form,
-                                :with_completed_references)
+                                :minimum_info)
       application_choice = create(:application_choice, status: 'rejected', application_form: application_form, rejected_at: rejected_at, rejection_reason: 'Course full')
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -36,7 +36,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     it 'returns a rejection object' do
       withdrawn_at = Time.zone.local(2019, 1, 1, 0, 0, 0)
       application_form = create(:application_form,
-                                :with_completed_references)
+                                :minimum_info)
       application_choice = create(:application_choice, status: 'rejected', application_form: application_form, offer_withdrawn_at: withdrawn_at, offer_withdrawal_reason: 'Course full')
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -50,7 +50,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     context "when an application choice has status 'recruited'" do
       let(:application_choice) do
         application_form = create(:application_form,
-                                  :with_completed_references,
+                                  :minimum_info,
                                   :with_equality_and_diversity_data)
         create(:application_choice, status: 'recruited', application_form: application_form)
       end
@@ -71,7 +71,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
     context "when an application choice does not have status 'recruited'" do
       let(:application_choice) do
         application_form = create(:application_form,
-                                  :with_completed_references,
+                                  :minimum_info,
                                   :with_equality_and_diversity_data)
         create(:application_choice, status: 'offer', application_form: application_form)
       end
@@ -152,7 +152,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'attributes.candidate.nationality' do
     it 'compacts two nationalities with the same ISO value' do
       application_form = create(:application_form,
-                                :with_completed_references,
+                                :minimum_info,
                                 first_nationality: 'Welsh',
                                 second_nationality: 'Scottish')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
@@ -164,7 +164,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     it 'returns nationality in the correct format' do
       application_form = create(:application_form,
-                                :with_completed_references,
+                                :minimum_info,
                                 first_nationality: 'British',
                                 second_nationality: 'American')
       application_choice = create(:application_choice, :awaiting_provider_decision, application_form: application_form)
@@ -192,7 +192,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
   describe 'attributes.candidate.domicile' do
     it 'uses DomicileResolver to return a HESA code' do
-      application_form = create(:application_form, :with_completed_references)
+      application_form = create(:application_form, :minimum_info)
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
@@ -204,7 +204,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   describe 'attributes.candidate.uk_residency_status' do
     it 'returns UK Citizen if the candidates nationalties include UK' do
       application_form = create(:application_form,
-                                :with_completed_references,
+                                :minimum_info,
                                 first_nationality: 'Irish',
                                 second_nationality: 'British')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
@@ -216,7 +216,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     it 'returns Irish Citizen if the candidates nationalties is Irish' do
       application_form = create(:application_form,
-                                :with_completed_references,
+                                :minimum_info,
                                 first_nationality: 'Canadian',
                                 second_nationality: 'Irish')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
@@ -228,7 +228,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     it 'returns details of the residency status if the candidates answered the have the right to work/study in the UK' do
       application_form = create(:application_form,
-                                :with_completed_references,
+                                :minimum_info,
                                 first_nationality: 'Canadian',
                                 right_to_work_or_study: 'yes',
                                 right_to_work_or_study_details: 'I have Settled status')
@@ -241,7 +241,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     it 'returns correct message if the candidates answered they do not yet have the right to work/study in the UK' do
       application_form = create(:application_form,
-                                :with_completed_references,
+                                :minimum_info,
                                 first_nationality: 'Canadian',
                                 right_to_work_or_study: 'no')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
@@ -253,7 +253,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
     it 'returns correct message if the candidates answered they do not know if they have the right to work/study in the UK' do
       application_form = create(:application_form,
-                                :with_completed_references,
+                                :minimum_info,
                                 first_nationality: 'Canadian',
                                 right_to_work_or_study: 'decide_later')
       application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
@@ -261,6 +261,53 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate does not know')
+    end
+  end
+
+  describe 'attributes.candidate.fee_payer' do
+    it 'returns 02 if the nationality is provisionally eligible for government funding' do
+      application_form = create(:application_form, :minimum_info, first_nationality: 'British')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('02')
+    end
+
+    it 'returns 02 if the candidate is EU, EEA or Swiss national, has the right to work/study in the UK and their domicile is the UK' do
+      application_form = create(:application_form, :minimum_info, first_nationality: 'Swiss', right_to_work_or_study: 'yes')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('02')
+    end
+
+    it 'returns 99 if the candidate is not British, Irish, EU, EEA or Swiss national' do
+      application_form = create(:application_form, :minimum_info, first_nationality: 'Canadian')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('99')
+    end
+
+    it 'returns 99 if the candidate does not have the right to work/study in the UK' do
+      application_form = create(:application_form, :minimum_info, first_nationality: 'Swiss', right_to_work_or_study: 'no')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('99')
+    end
+
+    it 'returns 99 if the candidate does not reside in the UK' do
+      application_form = create(:application_form, :minimum_info, :international_address, first_nationality: 'Swiss', right_to_work_or_study: 'yes')
+      application_choice = create(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :fee_payer)).to eq('99')
     end
   end
 
@@ -316,7 +363,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       }
       application_form = create(
         :application_form,
-        :with_completed_references,
+        :minimum_info,
         application_form_attributes,
       )
       application_choice = create(
@@ -345,7 +392,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       }
       application_form = create(
         :application_form,
-        :with_completed_references,
+        :minimum_info,
         application_form_attributes,
       )
       application_choice = create(
@@ -381,7 +428,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       }
       application_form = create(
         :application_form,
-        :with_completed_references,
+        :minimum_info,
         application_form_attributes,
       )
       application_choice = create(
