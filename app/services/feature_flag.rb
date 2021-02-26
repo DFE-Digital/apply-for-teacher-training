@@ -12,7 +12,6 @@ class FeatureFlag
   end
 
   PERMANENT_SETTINGS = [
-    [:banner_about_problems_with_dfe_sign_in, 'Displays a banner to notify users that DfE-Sign is having problems', 'Apply team'],
     [:banner_for_ucas_downtime, 'Displays a banner to notify users that UCAS is having problems', 'Apply team'],
     [:dfe_sign_in_fallback, 'Use this when DfE Sign-in is down', 'Apply team'],
     [:force_ok_computer_to_fail, 'OK Computer implements a health check endpoint, this flag forces it to fail for testing purposes', 'Apply team'],
