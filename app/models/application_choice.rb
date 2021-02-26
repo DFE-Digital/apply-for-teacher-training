@@ -136,6 +136,11 @@ class ApplicationChoice < ApplicationRecord
     rejection_reason.blank? && structured_rejection_reasons.blank?
   end
 
+  def display_provider_feedback?
+    rejected? && (rejection_reason.present? || structured_rejection_reasons.present?) ||
+      offer_withdrawn? && offer_withdrawal_reason.present?
+  end
+
 private
 
   def generate_alphanumeric_id
