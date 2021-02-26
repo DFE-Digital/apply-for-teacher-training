@@ -78,7 +78,7 @@ RSpec.feature 'Decline by default' do
     open_email(@application_form.candidate.email_address)
 
     expect(current_email.subject).to include('You did not respond to your offer: next steps')
-    expect(current_email.text).to include('You did not pursue your teacher training application')
+    expect(current_email.text).to include('If now’s the right time for you, you can apply for teacher training again this year.')
   end
 
   def and_i_have_a_rejection
