@@ -38,16 +38,22 @@ RSpec.feature 'Provider user exports applications to a csv' do
     course = create(:course, provider: providers.first)
     course_option = create(:course_option, course: course)
 
-    @application_accepted = create(:application_choice, :with_accepted_offer, course_option: course_option)
-    @application_deferred = create(:application_choice, :with_deferred_offer, course_option: course_option)
-    @application_declined = create(:application_choice, :with_declined_offer, course_option: course_option)
-    @application_withdrawn = create(:application_choice, :with_withdrawn_offer, course_option: course_option)
+    @application_accepted = create(:application_choice, :application_form_with_degree, :with_accepted_offer, course_option: course_option)
+    @application_deferred = create(:application_choice, :application_form_with_degree, :with_deferred_offer, course_option: course_option)
+    @application_declined = create(:application_choice, :application_form_with_degree, :with_declined_offer, course_option: course_option)
+    @application_withdrawn = create(:application_choice, :application_form_with_degree, :with_withdrawn_offer, course_option: course_option)
 
     course_previous_year = create(:course, :previous_year, provider: providers.first)
-    @application_accepted_previous_cycle = create(:application_choice, :with_accepted_offer, course_option: create(:course_option, course: course_previous_year))
+    @application_accepted_previous_cycle = create(:application_choice,
+                                                  :application_form_with_degree,
+                                                  :with_accepted_offer,
+                                                  course_option: create(:course_option, course: course_previous_year))
 
     course_second_provider = create(:course, provider: providers.second)
-    @application_second_provider = create(:application_choice, :with_accepted_offer, course_option: create(:course_option, course: course_second_provider))
+    @application_second_provider = create(:application_choice,
+                                          :application_form_with_degree,
+                                          :with_accepted_offer,
+                                          course_option: create(:course_option, course: course_second_provider))
   end
 
   def when_i_visit_the_export_applications_page

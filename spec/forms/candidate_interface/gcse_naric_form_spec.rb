@@ -54,7 +54,7 @@ RSpec.describe CandidateInterface::GcseNaricForm do
       end
 
       it 'updates the provided ApplicationQualification if valid' do
-        qualification = create(:gcse_qualification)
+        qualification = build(:gcse_qualification)
         naric_form = CandidateInterface::GcseNaricForm.new(form_data)
 
         expect(naric_form.save(qualification)).to eq(true)

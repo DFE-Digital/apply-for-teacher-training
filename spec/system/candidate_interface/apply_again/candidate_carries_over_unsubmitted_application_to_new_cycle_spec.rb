@@ -54,9 +54,9 @@ RSpec.feature 'Manually carry over unsubmitted applications' do
   def when_i_have_an_unsubmitted_application
     @application_form = create(
       :completed_application_form,
+      :with_gcses,
       submitted_at: nil,
       candidate: @candidate,
-      with_gcses: true,
       safeguarding_issues_status: :no_safeguarding_issues_to_declare,
     )
     @application_choice = create(

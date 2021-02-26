@@ -29,7 +29,7 @@ RSpec.describe 'A Provider can sign in as a candidate' do
 
   def and_my_organisation_has_received_an_application
     course_option = course_option_for_provider_code(provider_code: @provider.code)
-    @application_choice = create(:submitted_application_choice, course_option: course_option)
+    @application_choice = create(:submitted_application_choice, :with_completed_application_form, course_option: course_option)
     @candidate = @application_choice.application_form.candidate
   end
 

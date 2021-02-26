@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CandidateMailer, type: :mailer do
   subject(:mailer) { described_class }
 
-  let(:application_form) { build_stubbed(:completed_application_form, application_references: references, references_count: references.count, with_gcses: true) }
+  let(:application_form) { build_stubbed(:completed_application_form, :with_gcses, application_references: references, references_count: references.count) }
   let(:reference) { build_stubbed(:reference, name: 'Scott Knowles') }
   let(:references) { [reference] }
 

@@ -64,8 +64,8 @@ class TestApplications
 
     Audited.audit_class.as_user(candidate) do
       traits = [%i[with_safeguarding_issues_disclosed
-                   with_no_safeguarding_issues_to_declare
-                   with_safeguarding_issues_never_asked].sample]
+                   with_safeguarding_issues_never_asked
+                   minimum_info]].sample
       traits << :with_equality_and_diversity_data if rand < 0.55
 
       simulate_signin(candidate)
@@ -73,11 +73,11 @@ class TestApplications
       @application_form = FactoryBot.create(
         :completed_application_form,
         *traits,
+        :with_degree,
+        :with_gcses,
         application_choices_count: 0,
         full_work_history: true,
         volunteering_experiences_count: 1,
-        with_gcses: true,
-        with_degree: true,
         submitted_at: nil,
         candidate: candidate,
         first_name: first_name,
@@ -94,20 +94,14 @@ class TestApplications
       @application_form.application_work_history_breaks.each { |experience| experience.update!(created_at: time) }
 
       # One reference that will never be requested
-      FactoryBot.create(:reference, :not_requested_yet, application_form: @application_form)
+      @application_form.application_references << FactoryBot.build(:reference, :not_requested_yet)
 
       # 4 will be requested
-      4.times do
-        reference = FactoryBot.create(
-          :reference,
-          :not_requested_yet,
-          application_form: @application_form,
-          created_at: time,
-          updated_at: time,
-        )
-        RequestReference.new.call(reference)
-        reference.update!(requested_at: time)
-      end
+      @application_form.application_references << FactoryBot.build_list(:reference,
+                                                                        4,
+                                                                        :feedback_requested,
+                                                                        created_at: time,
+                                                                        updated_at: time)
 
       fast_forward
 

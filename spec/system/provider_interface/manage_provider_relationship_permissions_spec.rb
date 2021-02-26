@@ -49,7 +49,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
     @provider_user = ProviderUser.last
     @provider_user.provider_permissions.update_all(manage_organisations: true)
     @training_provider = Provider.find_by(code: 'ABC')
-    @ratifying_provider = create(:provider)
+    @ratifying_provider = build(:provider)
   end
 
   def and_i_am_permitted_to_view_safeguarding_information
@@ -68,7 +68,7 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
   end
 
   def and_the_provider_has_an_open_application_with_safeguarding_issues_declared
-    @application_form = create(
+    @application_form = build(
       :application_form,
       safeguarding_issues: 'I have a criminal conviction.',
       safeguarding_issues_status: 'has_safeguarding_issues_to_declare',
@@ -76,9 +76,9 @@ RSpec.feature 'Managing provider to provider relationship permissions' do
     @application_choice = create(
       :application_choice,
       status: :unsubmitted,
-      course_option: create(
+      course_option: build(
         :course_option,
-        course: create(:course, accredited_provider_id: @ratifying_provider.id, provider_id: @training_provider.id),
+        course: build(:course, accredited_provider: @ratifying_provider, provider: @training_provider),
       ),
       reject_by_default_at: 20.days.from_now,
       application_form: @application_form,

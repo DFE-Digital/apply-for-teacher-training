@@ -53,7 +53,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
     end
 
     it 'updates the provided ApplicationForm if valid' do
-      application_form = FactoryBot.create(:application_form)
+      application_form = FactoryBot.build(:application_form)
       interview_preferences = CandidateInterface::InterviewPreferencesForm.new(form_data)
 
       expect(interview_preferences.save(application_form)).to eq(true)
@@ -61,7 +61,7 @@ RSpec.describe CandidateInterface::InterviewPreferencesForm, type: :model do
     end
 
     it 'updates the provided ApplicationForm with an empty string if no is selected' do
-      application_form = create(:application_form)
+      application_form = build(:application_form)
       interview_preferences = CandidateInterface::InterviewPreferencesForm.new(
         any_preferences: 'no',
         interview_preferences: '',

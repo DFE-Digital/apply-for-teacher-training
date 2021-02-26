@@ -2,15 +2,15 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model do
   describe '#course_options' do
-    let(:first_site) { create(:site) }
-    let(:second_site) { create(:site) }
-    let(:provider) { create(:provider, sites: [first_site, second_site]) }
-    let(:course) { create(:course, code: 'ABC', provider: provider) }
+    let(:first_site) { build(:site) }
+    let(:second_site) { build(:site) }
+    let(:provider) { build(:provider, sites: [first_site, second_site]) }
+    let(:course) { build(:course, code: 'ABC', provider: provider) }
 
     it 'returns only course options that have vacancies' do
-      course_option_with_vacancies = create(:course_option, site_id: first_site.id, course_id: course.id)
-      create(:course_option, course_id: course.id, site_id: second_site.id, vacancy_status: 'no_vacancies')
-      application_form = create(:completed_application_form)
+      course_option_with_vacancies = create(:course_option, site: first_site, course: course)
+      create(:course_option, course: course, site: second_site, vacancy_status: 'no_vacancies')
+      application_form = create(:application_form)
 
       form_data = {
         application_form_id: application_form.id,
@@ -24,9 +24,9 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     end
 
     it 'does not return course options that have already been added to an application form' do
-      course_option = create(:course_option, site_id: first_site.id, course_id: course.id)
-      application_choice = create(:application_choice, course_option_id: course_option.id)
-      application_form = create(:completed_application_form, application_choices: [application_choice])
+      course_option = build(:course_option, site: first_site, course: course)
+      application_choice = build(:application_choice, course_option: course_option)
+      application_form = create(:application_form, application_choices: [application_choice])
 
       form_data = {
         application_form_id: application_form.id,
@@ -55,7 +55,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
       }
 
       expect(described_class.new(form_data).save).to be_truthy
-      expect(application_form.reload.application_choices.last.course_option_id).to eq form_data[:course_option_id]
+      expect(application_form.application_choices.last.course_option_id).to eq form_data[:course_option_id]
     end
   end
 

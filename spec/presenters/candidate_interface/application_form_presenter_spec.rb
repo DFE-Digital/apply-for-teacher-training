@@ -66,7 +66,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe '#maths_gcse_added?' do
     it 'returns true if maths gcse has been added' do
-      application_form = FactoryBot.build(:completed_application_form, with_gcses: true)
+      application_form = FactoryBot.create(:application_form, :with_gcses)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_maths_gcse_added
@@ -98,7 +98,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe '#english_gcse_added?' do
     it 'returns true if english gcse has been added' do
-      application_form = FactoryBot.build(:completed_application_form, with_gcses: true)
+      application_form = FactoryBot.create(:application_form, :with_gcses)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_english_gcse_added
@@ -130,7 +130,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe '#science_gcse_added?' do
     it 'returns true if science gcse has been added' do
-      application_form = FactoryBot.build(:completed_application_form, with_gcses: true)
+      application_form = FactoryBot.create(:application_form, :with_gcses)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_science_gcse_added
@@ -223,7 +223,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe '#application_choices_added?' do
     it 'returns true if application choices are added' do
-      application_form = FactoryBot.build(:completed_application_form, application_choices_count: 1)
+      application_form = create(:completed_application_form, application_choices_count: 1)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_application_choices_added
@@ -287,7 +287,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
 
   describe '#volunteering_added?' do
     it 'returns true if volunteering have been added' do
-      application_form = build(:completed_application_form, volunteering_experiences_count: 1)
+      application_form = create(:completed_application_form, volunteering_experiences_count: 1)
       presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
       expect(presenter).to be_volunteering_added
@@ -368,7 +368,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
 
       it 'returns the review path if work experience' do
-        application_form = build(:completed_application_form, work_experiences_count: 1, work_history_explanation: '')
+        application_form = create(:completed_application_form, work_experiences_count: 1, work_history_explanation: '')
         presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
         expect(presenter.work_experience_path).to eq(
@@ -401,7 +401,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
 
       it 'returns the review path if work experience and feature_restructured_work_history is "false"' do
-        application_form = build(:completed_application_form, work_experiences_count: 1, work_history_explanation: '', feature_restructured_work_history: false)
+        application_form = create(:completed_application_form, work_experiences_count: 1, work_history_explanation: '', feature_restructured_work_history: false)
         presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
         expect(presenter.work_experience_path).to eq(
@@ -428,7 +428,7 @@ RSpec.describe CandidateInterface::ApplicationFormPresenter do
       end
 
       it 'returns the review path if work experience' do
-        application_form = build(:completed_application_form, work_experiences_count: 1, work_history_explanation: '')
+        application_form = create(:completed_application_form, work_experiences_count: 1, work_history_explanation: '')
         presenter = CandidateInterface::ApplicationFormPresenter.new(application_form)
 
         expect(presenter.work_experience_path).to eq(

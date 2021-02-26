@@ -4,11 +4,11 @@ RSpec.describe DeleteTestApplications do
   it 'removes an application for bob@example.com' do
     application_form = create(
       :completed_application_form,
+      :with_degree,
       application_choices_count: 1,
       work_experiences_count: 1,
       volunteering_experiences_count: 1,
       references_count: 2,
-      with_degree: true,
       full_work_history: true,
     )
     create(

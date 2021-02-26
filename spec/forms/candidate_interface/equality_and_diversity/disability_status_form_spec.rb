@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
   end
 
   describe '#save' do
-    let(:application_form) { create(:application_form) }
+    let(:application_form) { build(:application_form) }
 
     context 'when disabilty status is blank' do
       it 'returns false' do
@@ -73,7 +73,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
       end
 
       it 'updates the existing record of equality and diversity information' do
-        application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male' })
+        application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male' })
         form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'yes')
         form.save(application_form)
 
@@ -83,7 +83,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
       end
 
       it 'updates the existing disabilities of equality and diversity information' do
-        application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => %w[Blind] })
+        application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => %w[Blind] })
         form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'yes')
         form.save(application_form)
 
@@ -93,7 +93,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
       end
 
       it 'resets the disabilities of equality and diversity information if disability status is no' do
-        application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => %w[Blind] })
+        application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => %w[Blind] })
         form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'no')
         form.save(application_form)
 
@@ -103,7 +103,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
       end
 
       it 'resets the disabilities of equality and diversity information if disability status is Prefer not to say' do
-        application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => %w[Blind] })
+        application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => %w[Blind] })
         form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'Prefer not to say')
         form.save(application_form)
 
@@ -113,7 +113,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::DisabilityStatusForm, t
       end
 
       it 'resets the disabilities of equality and diversity information if disability status is yes' do
-        application_form = create(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => ['Prefer not to say'] })
+        application_form = build(:application_form, equality_and_diversity: { 'sex' => 'male', 'disabilities' => ['Prefer not to say'] })
         form = CandidateInterface::EqualityAndDiversity::DisabilityStatusForm.new(disability_status: 'yes')
         form.save(application_form)
 

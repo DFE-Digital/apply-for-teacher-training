@@ -4,11 +4,11 @@ RSpec.describe ProviderInterface::ChangeOfferForm do
   include CourseOptionHelpers
   let(:provider_user) { create(:provider_user, :with_provider) }
   let(:provider) { provider_user.providers.first }
-  let(:course) { create(:course, :open_on_apply, :with_both_study_modes, provider: provider) }
+  let(:course) { build(:course, :open_on_apply, :with_both_study_modes, provider: provider) }
   let(:study_mode) { course_option.study_mode }
   let(:course_option) { course_option_for_provider(provider: provider, course: course) }
 
-  let(:application_choice) { create(:application_choice, :with_modified_offer, course_option: course_option) }
+  let(:application_choice) { build(:application_choice, :with_modified_offer, course_option: course_option) }
   let(:form_with_application_choice) { described_class.new(application_choice: application_choice, step: step) }
 
   def invalid_for_missing(attribute)

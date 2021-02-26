@@ -42,7 +42,7 @@ RSpec.feature 'Candidate applying again' do
   end
 
   def when_i_have_an_unsuccessful_application_with_references
-    @application_form = create(:completed_application_form, candidate: @candidate, with_gcses: true, safeguarding_issues_status: :no_safeguarding_issues_to_declare)
+    @application_form = create(:completed_application_form, :with_gcses, candidate: @candidate, safeguarding_issues_status: :no_safeguarding_issues_to_declare)
     create(:application_choice, status: :rejected, application_form: @application_form)
     @completed_references = create_list(:reference, 2, feedback_status: :feedback_provided, application_form: @application_form)
     @refused_reference = create(:reference, feedback_status: :feedback_refused, application_form: @application_form)

@@ -28,7 +28,7 @@ RSpec.describe ApplicationForm do
 
   describe 'after_touch' do
     it 'touches the application choice when touched by a related model' do
-      application_form = create(:completed_application_form, with_gcses: true, application_choices_count: 1)
+      application_form = create(:completed_application_form, :with_gcses, application_choices_count: 1)
 
       expect { application_form.maths_gcse.update!(grade: 'D') }
         .to(change { application_form.application_choices.first.updated_at })
@@ -47,7 +47,7 @@ RSpec.describe ApplicationForm do
 
       it 'invokes geocoding of UK addresses on update' do
         allow(GeocodeApplicationAddressWorker).to receive(:perform_async)
-        application_form = create(:completed_application_form)
+        application_form = create(:application_form, :minimum_info)
 
         address_attributes = %i[address_line1 address_line2 address_line3 address_line4 postcode country]
         address_attributes.each do |address_attr|
@@ -63,7 +63,7 @@ RSpec.describe ApplicationForm do
 
       it 'does not invoke geocoding for international addresses' do
         allow(GeocodeApplicationAddressWorker).to receive(:perform_async)
-        application_form = build(:completed_application_form, :international_address)
+        application_form = build(:application_form, :international_address)
         application_form.save!
 
         expect(GeocodeApplicationAddressWorker).not_to have_received(:perform_async).with(application_form.id)
@@ -150,7 +150,7 @@ RSpec.describe ApplicationForm do
   describe '#science_gcse_needed?' do
     context 'when a candidate has no course choices' do
       it 'returns false' do
-        application_form = build_stubbed(:application_form)
+        application_form = build(:application_form)
 
         expect(application_form.science_gcse_needed?).to eq(false)
       end
@@ -291,7 +291,7 @@ RSpec.describe ApplicationForm do
   describe '#equality_and_diversity_answers_provided?' do
     context 'when minimal expected attributes are present' do
       it 'is true' do
-        application_form = build(:completed_application_form, :with_equality_and_diversity_data)
+        application_form = build(:application_form, :with_equality_and_diversity_data)
         expect(application_form.equality_and_diversity_answers_provided?).to be true
       end
     end
@@ -484,7 +484,7 @@ RSpec.describe ApplicationForm do
   end
 
   describe '#references_did_not_come_back_in_time?' do
-    let(:application_form) { create(:completed_application_form) }
+    let(:application_form) { create(:application_form) }
 
     it 'returns true if all references were cancelled at end of cycle' do
       create(:reference, application_form: application_form, feedback_status: :cancelled_at_end_of_cycle)

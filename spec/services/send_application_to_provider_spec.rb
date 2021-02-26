@@ -10,6 +10,7 @@ RSpec.describe SendApplicationToProvider do
   def application_choice(status: 'unsubmitted')
     @application_choice ||= create(
       :submitted_application_choice,
+      :with_completed_application_form,
       status: status,
     )
   end
@@ -17,7 +18,7 @@ RSpec.describe SendApplicationToProvider do
   it 'sets the status to `awaiting_provider_decision`' do
     SendApplicationToProvider.new(application_choice: application_choice).call
 
-    expect(application_choice.reload.status).to eq 'awaiting_provider_decision'
+    expect(application_choice.status).to eq 'awaiting_provider_decision'
   end
 
   it 'sets the `sent_to_provider` date' do

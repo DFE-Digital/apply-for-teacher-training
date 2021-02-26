@@ -4,11 +4,11 @@ RSpec.feature 'Providers should be able to filter applications' do
   include CourseOptionHelpers
   include DfESignInHelpers
 
-  let(:site) { create(:site, name: 'Test site name') }
-  let(:site2) { create(:site, name: 'Second test site') }
-  let(:site3) { create(:site, name: 'Second test site') }
-  let(:site4) { create(:site, name: 'Second test site') }
-  let(:site5) { create(:site, name: 'Second test site') }
+  let(:site) { build(:site, name: 'Test site name') }
+  let(:site2) { build(:site, name: 'Second test site') }
+  let(:site3) { build(:site, name: 'Second test site') }
+  let(:site4) { build(:site, name: 'Second test site') }
+  let(:site5) { build(:site, name: 'Second test site') }
 
   let(:current_provider) { create(:provider, :with_signed_agreement, code: 'ABC', name: 'Hoth Teacher Training', sites: [site, site2]) }
   let(:second_provider) { create(:provider, :with_signed_agreement, code: 'DEF', name: 'Caladan University', sites: [site3, site4]) }
@@ -105,17 +105,17 @@ RSpec.feature 'Providers should be able to filter applications' do
   def and_my_organisation_has_courses_with_applications_without_accredited_providers
     course_option_one = course_option_for_provider(provider: current_provider,
                                                    site: site,
-                                                   course: create(:course,
-                                                                  name: 'Alchemy',
-                                                                  provider: current_provider))
+                                                   course: build(:course,
+                                                                 name: 'Alchemy',
+                                                                 provider: current_provider))
 
-    course_option_two = course_option_for_provider(provider: second_provider, course: create(:course, name: 'Science', provider: second_provider))
+    course_option_two = course_option_for_provider(provider: second_provider, course: build(:course, name: 'Science', provider: second_provider))
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_one, status: 'withdrawn', application_form:
-           create(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 5.days.ago)
+           build(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 5.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer', application_form:
-           create(:application_form, first_name: 'Greg', last_name: 'Taft'), updated_at: 4.days.ago)
+           build(:application_form, first_name: 'Greg', last_name: 'Taft'), updated_at: 4.days.ago)
   end
 
   def then_i_do_not_expect_to_see_the_accredited_providers_filter_heading
@@ -185,50 +185,50 @@ RSpec.feature 'Providers should be able to filter applications' do
   def and_my_organisation_has_courses_with_applications
     course_option_one = course_option_for_provider(provider: current_provider,
                                                    site: site,
-                                                   course: create(:course,
-                                                                  name: 'Alchemy',
-                                                                  provider: current_provider,
-                                                                  accredited_provider: accredited_provider1))
+                                                   course: build(:course,
+                                                                 name: 'Alchemy',
+                                                                 provider: current_provider,
+                                                                 accredited_provider: accredited_provider1))
 
-    course_option_two = course_option_for_provider(provider: current_provider, course: create(:course, name: 'Divination', provider: current_provider, accredited_provider: accredited_provider2))
-    course_option_three = course_option_for_provider(provider: current_provider, course: create(:course, name: 'English', provider: current_provider))
+    course_option_two = course_option_for_provider(provider: current_provider, course: build(:course, name: 'Divination', provider: current_provider, accredited_provider: accredited_provider2))
+    course_option_three = course_option_for_provider(provider: current_provider, course: build(:course, name: 'English', provider: current_provider))
 
-    course_option_four = course_option_for_provider(provider: second_provider, course: create(:course, name: 'Science', provider: second_provider))
-    course_option_five = course_option_for_provider(provider: second_provider, course: create(:course, name: 'History', provider: second_provider))
+    course_option_four = course_option_for_provider(provider: second_provider, course: build(:course, name: 'Science', provider: second_provider))
+    course_option_five = course_option_for_provider(provider: second_provider, course: build(:course, name: 'History', provider: second_provider))
 
-    course_option_six = course_option_for_provider(provider: third_provider, course: create(:course, name: 'Maths', provider: third_provider))
-    course_option_seven = course_option_for_provider(provider: third_provider, course: create(:course, name: 'Engineering', provider: third_provider))
-    course_option_from_previous_year = course_option_for_provider(provider: current_provider, course: create(:course, :previous_year, name: 'Engineering', provider: current_provider))
+    course_option_six = course_option_for_provider(provider: third_provider, course: build(:course, name: 'Maths', provider: third_provider))
+    course_option_seven = course_option_for_provider(provider: third_provider, course: build(:course, name: 'Engineering', provider: third_provider))
+    course_option_from_previous_year = course_option_for_provider(provider: current_provider, course: build(:course, :previous_year, name: 'Engineering', provider: current_provider))
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_one, status: 'withdrawn', application_form:
-           create(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 1.day.ago)
+           build(:application_form, first_name: 'Jim', last_name: 'James'), updated_at: 1.day.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer', application_form:
-           create(:application_form, first_name: 'Adam', last_name: 'Jones'), updated_at: 2.days.ago)
+           build(:application_form, first_name: 'Adam', last_name: 'Jones'), updated_at: 2.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'rejected', application_form:
-           create(:application_form, first_name: 'Tom', last_name: 'Jones'), updated_at: 2.days.ago)
+           build(:application_form, first_name: 'Tom', last_name: 'Jones'), updated_at: 2.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_three, status: 'declined', application_form:
-           create(:application_form, first_name: 'Bill', last_name: 'Bones'), updated_at: 3.days.ago)
+           build(:application_form, first_name: 'Bill', last_name: 'Bones'), updated_at: 3.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_four, status: 'offer', application_form:
-           create(:application_form, first_name: 'Greg', last_name: 'Taft'), updated_at: 4.days.ago)
+           build(:application_form, first_name: 'Greg', last_name: 'Taft'), updated_at: 4.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_five, status: 'rejected', application_form:
-           create(:application_form, first_name: 'Paul', last_name: 'Atreides'), updated_at: 5.days.ago)
+           build(:application_form, first_name: 'Paul', last_name: 'Atreides'), updated_at: 5.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_six, status: 'withdrawn', application_form:
-           create(:application_form, first_name: 'Duncan', last_name: 'Idaho'), updated_at: 6.days.ago)
+           build(:application_form, first_name: 'Duncan', last_name: 'Idaho'), updated_at: 6.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_seven, status: 'declined', application_form:
-           create(:application_form, first_name: 'Luke', last_name: 'Smith'), updated_at: 7.days.ago)
+           build(:application_form, first_name: 'Luke', last_name: 'Smith'), updated_at: 7.days.ago)
 
     create(:application_choice, :awaiting_provider_decision, course_option: course_option_two, status: 'offer_withdrawn', offer_withdrawn_at: 2.days.ago, application_form:
-           create(:application_form, first_name: 'John', last_name: 'Smith'), updated_at: 8.days.ago)
+           build(:application_form, first_name: 'John', last_name: 'Smith'), updated_at: 8.days.ago)
 
     create(:application_choice, :offer, course_option: course_option_from_previous_year, status: 'offer', application_form:
-           create(:application_form, first_name: 'Anne', last_name: 'Blast'), updated_at: 366.days.ago)
+           build(:application_form, first_name: 'Anne', last_name: 'Blast'), updated_at: 366.days.ago)
   end
 
   def then_i_can_see_applications_from_the_previous_year_too

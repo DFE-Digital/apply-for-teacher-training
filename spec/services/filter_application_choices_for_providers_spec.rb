@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe FilterApplicationChoicesForProviders do
   describe '.call' do
     let(:application_choices) do
-      create_list(:application_choice, 2)
+      create_list(:application_choice, 2, :with_completed_application_form)
       ApplicationChoice.all
     end
 

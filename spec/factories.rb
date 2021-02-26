@@ -98,28 +98,113 @@ FactoryBot.define do
     candidate
     address_type { 'uk' }
 
-    factory :completed_application_form do
-      support_reference { GenerateSupportReference.call }
+    trait :minimum_info do
       first_name { Faker::Name.first_name }
       last_name { Faker::Name.last_name }
       date_of_birth { Faker::Date.birthday }
+      phone_number { Faker::PhoneNumber.cell_phone }
       first_nationality { 'British' }
       second_nationality { 'American' }
+      address_line1 { Faker::Address.street_address }
+      country { 'GB' }
+      interview_preferences { Faker::Lorem.paragraph_by_chars(number: 100) }
+      safeguarding_issues_status { 'no_safeguarding_issues_to_declare' }
+      submitted_at { Faker::Time.backward(days: 7, period: :day) }
+    end
+
+    trait :international_address do
+      address_type { :international }
+      country { Faker::Address.country_code }
+    end
+
+    trait :with_completed_references do
+      minimum_info
+
+      support_reference { GenerateSupportReference.call }
+      transient do
+        references_state { :feedback_provided }
+      end
+    end
+
+    trait :with_feedback_completed do
+      feedback_satisfaction_level { ApplicationForm.feedback_satisfaction_levels.values.sample }
+      feedback_suggestions { Faker::Lorem.paragraph_by_chars(number: 200) }
+    end
+
+    trait :with_equality_and_diversity_data do
+      equality_and_diversity do
+        ethnicity = Class.new.extend(EthnicBackgroundHelper).all_combinations.sample
+        other_disability = 'Acquired brain injury'
+        all_disabilities = CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map(&:second) << other_disability
+        disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
+        hesa_sex = %w[1 2 3].sample
+        hesa_disabilities = disabilities ? [HESA_DISABILITIES.map(&:first).sample] : %w[00]
+        hesa_ethnicity = HESA_ETHNICITIES_2020_2021.map(&:first).sample
+
+        {
+          sex: ['male', 'female', 'intersex', 'Prefer not to say'].sample,
+          ethnic_group: ethnicity.first,
+          ethnic_background: ethnicity.last,
+          disabilities: disabilities,
+          hesa_sex: hesa_sex,
+          hesa_disabilities: hesa_disabilities,
+          hesa_ethnicity: hesa_ethnicity,
+        }
+      end
+    end
+
+    trait :with_safeguarding_issues_disclosed do
+      safeguarding_issues_status { 'has_safeguarding_issues_to_declare' }
+      safeguarding_issues { 'I have a criminal conviction.' }
+    end
+
+    trait :with_safeguarding_issues_never_asked do
+      safeguarding_issues_status { 'never_asked' }
+    end
+
+    trait :with_degree do
+      application_qualifications { [association(:degree_qualification, application_form: instance)] }
+    end
+
+    trait :with_gcses do
+      application_qualifications do
+        %i[maths english science].map do |subject|
+          association(:gcse_qualification, application_form: instance, subject: subject)
+        end
+      end
+    end
+
+    trait :with_degree_and_gcses do
+      application_qualifications do
+        [association(:gcse_qualification, application_form: instance, subject: 'maths'),
+         association(:gcse_qualification, application_form: instance, subject: 'english'),
+         association(:gcse_qualification, application_form: instance, subject: 'science'),
+         association(:degree_qualification, application_form: instance)]
+      end
+    end
+
+    trait :with_ucas_match do
+      after(:create) do |application_form, _|
+        create(:ucas_match, candidate: application_form.candidate)
+      end
+    end
+
+    factory :completed_application_form do
+      minimum_info
+
+      support_reference { GenerateSupportReference.call }
+      english_main_language { %w[true false].sample }
+      english_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
+      other_language_details { Faker::Lorem.paragraph_by_chars(number: 200) }
       further_information { Faker::Lorem.paragraph_by_chars(number: 300) }
       disclose_disability { %w[true false].sample }
       disability_disclosure { Faker::Lorem.paragraph_by_chars(number: 300) }
-      safeguarding_issues_status { 'no_safeguarding_issues_to_declare' }
-      submitted_at { Faker::Time.backward(days: 7, period: :day) }
-      phone_number { Faker::PhoneNumber.cell_phone }
-      address_line1 { Faker::Address.street_address }
       address_line2 { Faker::Address.city }
       address_line3 { Faker::Address.county }
       address_line4 { '' }
-      country { 'GB' }
       postcode { Faker::Address.postcode }
       becoming_a_teacher { Faker::Lorem.paragraph_by_chars(number: 500) }
       subject_knowledge { Faker::Lorem.paragraph_by_chars(number: 300) }
-      interview_preferences { Faker::Lorem.paragraph_by_chars(number: 100) }
       work_history_explanation { Faker::Lorem.paragraph_by_chars(number: 400) }
       volunteering_experience { [true, false, nil].sample }
       phase { :apply_1 }
@@ -149,124 +234,35 @@ FactoryBot.define do
         volunteering_experiences_count { 0 }
         references_count { 0 }
         references_state { :feedback_requested }
-        with_gcses { false }
         full_work_history { false }
-        with_degree { false }
-        with_ucas_match { false }
       end
 
-      trait :international_address do
-        address_type { :international }
-        country { Faker::Address.country_code }
-      end
-
-      trait :with_completed_references do
-        transient do
-          references_state { :feedback_provided }
-        end
-      end
-
-      trait :with_feedback_completed do
-        feedback_satisfaction_level { ApplicationForm.feedback_satisfaction_levels.values.sample }
-        feedback_suggestions { Faker::Lorem.paragraph_by_chars(number: 200) }
-      end
-
-      trait :with_equality_and_diversity_data do
-        equality_and_diversity do
-          ethnicity = Class.new.extend(EthnicBackgroundHelper).all_combinations.sample
-          other_disability = 'Acquired brain injury'
-          all_disabilities = CandidateInterface::EqualityAndDiversity::DisabilitiesForm::DISABILITIES.map(&:second) << other_disability
-          disabilities = rand < 0.85 ? all_disabilities.sample([*0..3].sample) : ['Prefer not to say']
-          hesa_sex = %w[1 2 3].sample
-          hesa_disabilities = disabilities ? [HESA_DISABILITIES.map(&:first).sample] : %w[00]
-          hesa_ethnicity = HESA_ETHNICITIES_2020_2021.map(&:first).sample
-
-          {
-            sex: ['male', 'female', 'intersex', 'Prefer not to say'].sample,
-            ethnic_group: ethnicity.first,
-            ethnic_background: ethnicity.last,
-            disabilities: disabilities,
-            hesa_sex: hesa_sex,
-            hesa_disabilities: hesa_disabilities,
-            hesa_ethnicity: hesa_ethnicity,
-          }
-        end
-      end
-
-      trait :with_safeguarding_issues_disclosed do
-        safeguarding_issues_status { 'has_safeguarding_issues_to_declare' }
-        safeguarding_issues { 'I have a criminal conviction.' }
-      end
-
-      trait :with_no_safeguarding_issues_to_declare do
-        safeguarding_issues_status { 'no_safeguarding_issues_to_declare' }
-      end
-
-      trait :with_safeguarding_issues_never_asked do
-        safeguarding_issues_status { 'never_asked' }
-      end
-
-      trait :with_degree do
-        with_degree { true }
-      end
-
-      after(:build) do |application_form, evaluator|
-        if evaluator.with_gcses
-          create(:gcse_qualification, application_form: application_form, subject: 'maths')
-          create(:gcse_qualification, application_form: application_form, subject: 'english')
-          create(:gcse_qualification, application_form: application_form, subject: 'science')
-        end
-
-        if evaluator.with_degree
-          create(:degree_qualification, application_form: application_form)
-        end
-
-        create_list(:application_choice, evaluator.application_choices_count, application_form: application_form, status: 'unsubmitted')
-        create_list(:submitted_application_choice, evaluator.submitted_application_choices_count, application_form: application_form)
-        create_list(:reference, evaluator.references_count, evaluator.references_state, application_form: application_form)
-        # The application_form validates the length of this collection when
-        # it is created, which is BEFORE we create the references here.
-        # This then *caches* the association on the  application_form, and means
-        # you have to explicitly reload it to pick up the created references.
-        # We do this here, so we only have to do it in one place, rather than
-        # everywhere we refer to application_form.application_references in tests.
-        # See https://github.com/thoughtbot/factory_bot/issues/549 for details.
-        if evaluator.references_count > 0
-          application_form.application_references.reload
-        end
+      after(:create) do |application_form, evaluator|
+        application_form.application_choices << build_list(:application_choice, evaluator.application_choices_count, status: 'unsubmitted')
+        application_form.application_choices << build_list(:submitted_application_choice, evaluator.submitted_application_choices_count, application_form: application_form)
+        application_form.application_references << build_list(:reference, evaluator.references_count, evaluator.references_state)
 
         if evaluator.full_work_history
-          first_start_date = rand(63..70).months.ago
-          first_end_date = rand(50..58).months.ago
-          second_start_date = rand(36..47).months.ago
-          second_end_date = rand(6..12).months.ago
-          create(
-            :application_work_experience,
-            application_form: application_form,
-            start_date: first_start_date,
-            end_date: first_end_date,
-          )
-          create(
-            :application_work_history_break,
-            application_form: application_form,
-            start_date: first_end_date,
-            end_date: second_start_date,
-          )
-          create(
-            :application_work_experience,
-            application_form: application_form,
-            start_date: second_start_date,
-            end_date: second_end_date,
-          )
+          current_year = Date.today.year
+          first_start_date = Faker::Date.in_date_period(year: current_year - 5)
+          first_end_date = Faker::Date.in_date_period(year: current_year - 4)
+          first_job = build(:application_work_experience, start_date: first_start_date, end_date: first_end_date)
+
+          second_start_date = Faker::Date.in_date_period(year: current_year - 3)
+          second_end_date = Faker::Date.between(from: 1.year.ago, to: 6.months.ago)
+          second_job = build(:application_work_experience, start_date: second_start_date, end_date: second_end_date)
+
+          work_break = build(:application_work_history_break, start_date: second_start_date, end_date: second_end_date)
+
+          application_form.application_work_experiences << [first_job, second_job]
+          application_form.application_work_history_breaks << work_break
         else
-          create_list(:application_work_experience, evaluator.work_experiences_count, application_form: application_form)
+          jobs = build_list(:application_work_experience, evaluator.work_experiences_count)
+          application_form.application_work_experiences << jobs
         end
 
-        if evaluator.with_ucas_match
-          create(:ucas_match, candidate: application_form.candidate)
-        end
-
-        create_list(:application_volunteering_experience, evaluator.volunteering_experiences_count, application_form: application_form)
+        volunteering_experience = build_list(:application_volunteering_experience, evaluator.volunteering_experiences_count)
+        application_form.application_volunteering_experiences << volunteering_experience
       end
     end
   end
@@ -502,8 +498,8 @@ FactoryBot.define do
   end
 
   factory :provider_relationship_permissions do
-    ratifying_provider { create(:provider) }
-    training_provider { create(:provider) }
+    ratifying_provider { build(:provider) }
+    training_provider { build(:provider) }
     training_provider_can_make_decisions { true }
     training_provider_can_view_safeguarding_information { true }
     training_provider_can_view_diversity_information { true }
@@ -518,10 +514,18 @@ FactoryBot.define do
   end
 
   factory :application_choice do
-    association :application_form, factory: %i[completed_application_form with_completed_references with_degree]
     course_option
+    application_form
 
     status { ApplicationStateChange.valid_states.sample }
+
+    trait :with_completed_application_form do
+      association :application_form, factory: %i[completed_application_form]
+    end
+
+    trait :application_form_with_degree do
+      association :application_form, factory: %i[completed_application_form with_degree]
+    end
 
     factory :submitted_application_choice do
       status { 'awaiting_provider_decision' }
@@ -539,9 +543,9 @@ FactoryBot.define do
     trait :with_scheduled_interview do
       awaiting_provider_decision
 
-      after(:build) do |choice, _evaluator|
-        choice.status = :interviewing
-        choice.interviews = [create(:interview, application_choice: choice)]
+      after(:build) do |application_choice, _evaluator|
+        application_choice.status = :interviewing
+        application_choice.interviews << build(:interview, provider: application_choice.provider)
       end
     end
 
@@ -732,7 +736,8 @@ FactoryBot.define do
     end
 
     trait :previous_year do
-      course_option { create(:course_option, :previous_year) }
+      association :course_option, :previous_year
+
       after(:create) do |choice, _evaluator|
         choice.application_form.update_columns(
           recruitment_cycle_year: RecruitmentCycle.previous_year,
@@ -741,7 +746,8 @@ FactoryBot.define do
     end
 
     trait :previous_year_but_still_available do
-      course_option { create(:course_option, :previous_year_but_still_available) }
+      association :course_option, :previous_year_but_still_available
+
       after(:create) do |choice, _evaluator|
         choice.application_form.update_columns(
           recruitment_cycle_year: RecruitmentCycle.previous_year,
@@ -1044,7 +1050,7 @@ FactoryBot.define do
     end
 
     trait :with_rejection do
-      application_choice { create(:application_choice, :with_rejection) }
+      association(:application_choice, :with_rejection)
 
       changes do
         {
@@ -1068,7 +1074,7 @@ FactoryBot.define do
     end
 
     trait :with_rejection_by_default_and_feedback do
-      application_choice { create(:application_choice, :with_rejection_by_default) }
+      association(:application_choice, :with_rejection_by_default)
 
       changes do
         {
@@ -1082,7 +1088,7 @@ FactoryBot.define do
     end
 
     trait :with_declined_offer do
-      application_choice { create(:application_choice, :with_declined_offer) }
+      association(:application_choice, :with_declined_offer)
 
       changes do
         {
@@ -1092,7 +1098,7 @@ FactoryBot.define do
     end
 
     trait :with_declined_by_default_offer do
-      application_choice { create(:application_choice, :with_declined_by_default_offer) }
+      association(:application_choice, :with_declined_by_default_offer)
 
       changes do
         {
@@ -1106,7 +1112,7 @@ FactoryBot.define do
     end
 
     trait :with_offer do
-      application_choice { create(:application_choice, :with_offer) }
+      association(:application_choice, :with_offer)
 
       changes do
         {
@@ -1117,7 +1123,7 @@ FactoryBot.define do
     end
 
     trait :with_withdrawn_offer do
-      application_choice { create(:application_choice, :with_withdrawn_offer) }
+      association(:application_choice, :with_withdrawn_offer)
 
       changes do
         {
@@ -1127,7 +1133,7 @@ FactoryBot.define do
     end
 
     trait :with_modified_offer do
-      application_choice { create(:application_choice, :with_modified_offer) }
+      association(:application_choice, :with_modified_offer)
 
       changes do
         {
@@ -1138,7 +1144,7 @@ FactoryBot.define do
     end
 
     trait :with_changed_offer do
-      application_choice { create(:application_choice, :with_changed_offer) }
+      association(:application_choice, :with_changed_offer)
 
       changes do
         {
@@ -1149,7 +1155,7 @@ FactoryBot.define do
     end
 
     trait :with_accepted_offer do
-      application_choice { create(:application_choice, :with_accepted_offer) }
+      association(:application_choice, :with_accepted_offer)
 
       changes do
         {
@@ -1159,7 +1165,7 @@ FactoryBot.define do
     end
 
     trait :with_conditions_not_met do
-      application_choice { create(:application_choice, :with_conditions_not_met) }
+      association(:application_choice, :with_conditions_not_met)
 
       changes do
         {
@@ -1169,7 +1175,7 @@ FactoryBot.define do
     end
 
     trait :with_recruited do
-      application_choice { create(:application_choice, :with_recruited) }
+      association(:application_choice, :with_recruited)
 
       changes do
         {
@@ -1179,7 +1185,7 @@ FactoryBot.define do
     end
 
     trait :with_deferred_offer do
-      application_choice { create(:application_choice, :with_deferred_offer) }
+      association(:application_choice, :with_deferred_offer)
 
       changes do
         {
@@ -1189,7 +1195,7 @@ FactoryBot.define do
     end
 
     trait :with_scheduled_interview do
-      application_choice { create(:application_choice, :with_scheduled_interview) }
+      association(:application_choice, :with_scheduled_interview)
 
       changes do
         {

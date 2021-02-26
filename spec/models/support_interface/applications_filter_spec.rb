@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationsFilter do
-  let!(:application_choice_with_offer) { create(:application_choice, :with_offer, :previous_year) }
+  let!(:application_choice_with_offer) do
+    create(:application_choice, :with_completed_application_form, :with_offer, :previous_year)
+  end
   let!(:application_choice_with_interview) { create(:application_choice, :with_scheduled_interview) }
 
   def verify_filtered_applications_for_params(expected_applications, params:)

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ApplicationChoiceExportDecorator do
   describe 'gcse_qualifications_summary' do
     it 'returns a summary of maths, science and english GCSEs for an application form' do
-      application_form = create(:completed_application_form, with_gcses: true)
+      application_form = create(:application_form, :with_gcses)
       application_choice = create(:application_choice, application_form: application_form)
 
       summary = described_class.new(application_choice).gcse_qualifications_summary
@@ -12,7 +12,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
     end
 
     it 'does not include gcses in other subjects' do
-      application_form = create(:completed_application_form, with_gcses: true)
+      application_form = create(:application_form, :with_gcses)
       application_choice = create(:application_choice, application_form: application_form)
       create(:application_qualification, level: :gcse, subject: :french, application_form: application_form)
 
@@ -23,7 +23,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
     end
 
     it 'includes qualifications that are equivalent to gcses' do
-      application_form = create(:completed_application_form)
+      application_form = create(:application_form)
       application_choice = create(:application_choice, application_form: application_form)
       o_level = create(:application_qualification, level: :gcse, qualification_type: 'gce_o_level', subject: :maths, application_form: application_form)
 
@@ -54,7 +54,7 @@ RSpec.describe ApplicationChoiceExportDecorator do
     end
 
     it 'returns nil if a form has no missing gcses' do
-      application_form = create(:completed_application_form, with_gcses: true)
+      application_form = create(:application_form, :with_gcses)
       application_choice = create(:application_choice, application_form: application_form)
 
       explanation = described_class.new(application_choice).missing_gcses_explanation

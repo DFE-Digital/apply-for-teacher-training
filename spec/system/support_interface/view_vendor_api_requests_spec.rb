@@ -37,7 +37,7 @@ RSpec.feature 'Vendor API Requests' do
   end
 
   def and_some_applications_exist
-    applications = create_list(:submitted_application_choice, 2)
+    applications = create_list(:submitted_application_choice, 2, :with_completed_application_form)
     @first_application_choice = applications.first
     @last_application_choice = applications.last
   end

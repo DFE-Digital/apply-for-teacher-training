@@ -6,9 +6,9 @@ RSpec.describe ApplyAgain do
     Timecop.travel(-1.day) do
       @original_application_form ||= create(
         :completed_application_form,
+        :with_gcses,
         work_experiences_count: 1,
         volunteering_experiences_count: 1,
-        with_gcses: true,
         full_work_history: true,
         recruitment_cycle_year: RecruitmentCycle.current_year,
       )

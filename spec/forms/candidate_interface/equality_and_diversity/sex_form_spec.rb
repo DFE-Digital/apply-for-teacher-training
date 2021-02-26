@@ -18,7 +18,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::SexForm, type: :model d
   end
 
   describe '#save' do
-    let(:application_form) { create(:application_form) }
+    let(:application_form) { build(:application_form) }
 
     context 'when sex is blank' do
       it 'returns false' do
@@ -43,7 +43,7 @@ RSpec.describe CandidateInterface::EqualityAndDiversity::SexForm, type: :model d
       end
 
       it 'updates the existing record of equality and diversity information' do
-        application_form = create(:application_form, equality_and_diversity: { 'disabilities' => [] })
+        application_form = build(:application_form, equality_and_diversity: { 'disabilities' => [] })
         form = CandidateInterface::EqualityAndDiversity::SexForm.new(sex: 'female')
         form.save(application_form)
 

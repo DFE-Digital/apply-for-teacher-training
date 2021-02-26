@@ -95,7 +95,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
       end
 
       it 'updates the provided ApplicationForms nationalities and resets the right to work fields to nil' do
-        application_form = FactoryBot.create(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
+        application_form = FactoryBot.build(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
         nationalities = CandidateInterface::NationalitiesForm.new(form_data)
 
         expect(nationalities.save(application_form)).to eq(true)
@@ -120,7 +120,7 @@ RSpec.describe CandidateInterface::NationalitiesForm, type: :model do
       end
 
       it 'updates the provided ApplicationForms nationalities and retains the right to work fields' do
-        application_form = FactoryBot.create(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
+        application_form = FactoryBot.build(:application_form, right_to_work_or_study: 'yes', right_to_work_or_study_details: 'I have a visa.')
         nationalities = CandidateInterface::NationalitiesForm.new(form_data)
 
         expect(nationalities.save(application_form)).to eq(true)
