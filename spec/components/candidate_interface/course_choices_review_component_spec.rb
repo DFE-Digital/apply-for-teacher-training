@@ -320,6 +320,23 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
   end
 
+  context 'when an offer has been made for a different course' do
+    let(:application_choice) do
+      create(:application_choice,
+             status: 'offer',
+             course_option: create(:course_option, :full_time),
+             offered_course_option: create(:course_option, :part_time, course: create(:course, description: 'PGCE with QTS part time')))
+    end
+    let(:application_form) { create(:application_form, application_choices: [application_choice]) }
+
+    it 'renders component with the status as offer and offered course details' do
+      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Type')
+      expect(result.css('.govuk-summary-list__value').to_html).to include('PGCE with QTS part time')
+    end
+  end
+
   context 'when an offer has been accepted i.e. pending conditions to a course choice' do
     let(:application_form) { create_application_form_with_course_choices(statuses: %w[pending_conditions]) }
 
