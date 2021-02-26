@@ -29,6 +29,16 @@ RSpec.describe ProviderInterface::InterviewAndCourseSummaryComponent do
     expect(component).to include(interview.location)
   end
 
+  it 'change link has a hidden field to improve accessibility for visually impaired users' do
+    component = render_inline(described_class.new(interview: interview, user_can_change_interview: true))
+    expect(component.css('.govuk-visually-hidden').first.text).to include(interview.date_and_time.to_s(:govuk_date_and_time))
+  end
+
+  it 'cancel link has a hidden field to improve accessibility for visually impaired users' do
+    component = render_inline(described_class.new(interview: interview, user_can_change_interview: true))
+    expect(component.css('.govuk-visually-hidden').last.text).to include(interview.date_and_time.to_s(:govuk_date_and_time))
+  end
+
   context 'additional details' do
     it 'displays the additional details' do
       interview.additional_details = 'Test'
