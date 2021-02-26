@@ -1,6 +1,7 @@
 module DataMigrations
   class %{service_name}
     TIMESTAMP = %{timestamp}
+    MANUAL_RUN = false
 
     def change
       # add any changes here
