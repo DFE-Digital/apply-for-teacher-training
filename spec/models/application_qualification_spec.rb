@@ -14,7 +14,6 @@ RSpec.describe ApplicationQualification, type: :model do
       'award_year',
       'institution_name',
       'institution_country',
-      'awarding_body',
       'equivalency_details',
     )
   end

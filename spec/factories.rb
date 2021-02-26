@@ -298,7 +298,6 @@ FactoryBot.define do
     award_year { Faker::Date.between(from: 60.years.ago, to: 3.years.from_now).year }
     institution_name { Faker::University.name }
     institution_country { Faker::Address.country_code }
-    awarding_body { Faker::University.name }
     equivalency_details { Faker::Lorem.paragraph_by_chars(number: 200) }
 
     factory :gcse_qualification do
@@ -306,7 +305,6 @@ FactoryBot.define do
       qualification_type { 'gcse' }
       subject { %w[maths english science].sample }
       grade { %w[A B C].sample }
-      awarding_body { Faker::Educator.secondary_school }
 
       trait :non_uk do
         qualification_type { 'non_uk' }
@@ -320,7 +318,6 @@ FactoryBot.define do
       trait :missing do
         qualification_type { 'missing' }
         grade { nil }
-        awarding_body { nil }
         missing_explanation { 'I will be taking an equivalency test in a few weeks' }
       end
     end

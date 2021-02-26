@@ -241,7 +241,7 @@ module VendorAPI
         start_year: qualification.start_year,
         award_year: qualification.award_year,
         institution_details: institution_details(qualification),
-        awarding_body: qualification.awarding_body,
+        awarding_body: nil,
         equivalency_details: qualification.composite_equivalency_details,
       }.merge HesaQualificationFieldsPresenter.new(qualification).to_hash
     end
