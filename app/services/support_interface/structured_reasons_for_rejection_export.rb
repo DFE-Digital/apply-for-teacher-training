@@ -1,7 +1,7 @@
 module SupportInterface
   class StructuredReasonsForRejectionExport
     def data_for_export
-      data_for_export = application_choices.map do |application_choice|
+      data_for_export = application_choices.order(:id).map do |application_choice|
         structured_reasons_for_rejection = FlatReasonsForRejectionExtract.new(application_choice.structured_rejection_reasons)
 
         output = {
@@ -45,11 +45,7 @@ module SupportInterface
         output
       end
 
-
-      # The DataExport class creates the header row for us so we need to ensure
-      # we sort by longest hash length to ensure all headers appear
-      # data_for_export.sort_by(&:length).reverse
-      data_for_export.sort_by { |application| application["Candidate ID"] }
+      data_for_export
     end
 
   private

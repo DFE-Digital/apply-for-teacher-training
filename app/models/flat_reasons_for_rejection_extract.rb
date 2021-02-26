@@ -142,16 +142,16 @@ class FlatReasonsForRejectionExtract
   end
 
   # These three methods are copied from the application_choices_export.rb .... currently doesn't provide enough granularity
-  def format_structured_rejection_reasons
+  def formatted
     return nil if @structured_rejection_reasons.blank?
 
-    select_high_level_rejection_reasons(@structured_rejection_reasons)
+    select_top_level_rejection_reasons(@structured_rejection_reasons)
     .keys
     .map { |reason| format_reason(reason) }
     .join("\n")
   end
 
-  def select_high_level_rejection_reasons(structured_rejection_reasons)
+  def select_top_level_rejection_reasons(structured_rejection_reasons)
     structured_rejection_reasons.select { |reason, value| value == 'Yes' && reason.include?('_y_n') }
   end
 
@@ -161,23 +161,23 @@ class FlatReasonsForRejectionExtract
     .humanize
   end
 
-  private
+private
 
   def top_level_reasons(key)
-    return nil if @structured_rejection_reasons["#{key}"].blank?
+    return nil if @structured_rejection_reasons[key.to_s].blank?
 
-    @structured_rejection_reasons.select { |reason, value| value == 'Yes' && reason == "#{key}" }.present?
+    @structured_rejection_reasons.select { |reason, value| value == 'Yes' && reason == key.to_s }.present?
   end
 
   def sub_level_reasons(key, value)
-    return nil if @structured_rejection_reasons["#{key}"].blank?
+    return nil if @structured_rejection_reasons[key.to_s].blank?
 
-    @structured_rejection_reasons["#{key}"].include?("#{value}")
+    @structured_rejection_reasons[key.to_s].include?(value.to_s)
   end
 
   def other_detail_or_what_to_improve(key)
-    return nil if @structured_rejection_reasons["#{key}"].blank?
+    return nil if @structured_rejection_reasons[key.to_s].blank?
 
-    @structured_rejection_reasons["#{key}"]
+    @structured_rejection_reasons[key.to_s]
   end
 end
