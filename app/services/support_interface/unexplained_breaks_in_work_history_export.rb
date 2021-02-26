@@ -27,49 +27,31 @@ module SupportInterface
                          .order(submitted_at: :desc).uniq(&:candidate_id)
 
       data_for_export = applications.map do |application_form|
-        unexplained_breaks = get_unexplained_breaks(application_form)
-        next if unexplained_breaks.nil?
-
-        total_unexplained_time = unexplained_breaks.sum(&:length)
-
-        unexplained_breaks_in_last_five_years = unexplained_breaks.count do |unexplained_break|
-          unexplained_break.start_date > (submitted_at(application_form) - 5.years).to_date
-        end
-
-        degrees = application_form.application_qualifications.degrees
-        unexplained_breaks_that_coincide_with_degrees = unexplained_breaks.count do |unexplained_break|
-          unexplained_break_coincides_with_a_degree(unexplained_break, degrees)
-        end
-
         volunteering_experiences = application_form.application_volunteering_experiences.sort_by(&:start_date)
-        unexplained_breaks_that_coincide_with_volunteering_experiences = unexplained_breaks.count do |unexplained_break|
-          unexplained_break_coincides_with_volunteering_experience(unexplained_break, volunteering_experiences)
-        end
-
-        explained_breaks_that_coincide_with_volunteering_experiences = application_form.application_work_history_breaks.count do |explained_break|
-          explained_break_coincides_with_volunteering_experience(explained_break, volunteering_experiences)
-        end
-
-        explained_breaks_in_last_five_years = application_form.application_work_history_breaks.count do |explained_break|
-          explained_break.start_date > (submitted_at(application_form) - 5.years).to_date
-        end
+        explained_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
+        unexplained_breaks = get_unexplained_breaks(application_form)
+        
+        next if unexplained_breaks.nil?
 
         output = {
           'Candidate id' => application_form.candidate_id,
           'Application id' => application_form.id,
-          'Start of working life' => get_start_of_working_life(application_form),
-          'Total time in employment (months)' => total_time_in_employment(application_form),
-          'Total unexplained time (months)' => total_unexplained_time,
-          'Total time of explained work breaks' => total_time_of_explained_work_breaks(application_form),
-          'Number of explained breaks' => application_form.application_work_history_breaks.length,
-          'Number of explained breaks in last 5 years' => explained_breaks_in_last_five_years,
-          'Number of unexplained breaks' => unexplained_breaks.length,
-          'Number of unexplained breaks in last 5 years' => unexplained_breaks_in_last_five_years,
-          'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees,
-          'Number of unexplained breaks that coincide with a volunteering experience' => unexplained_breaks_that_coincide_with_volunteering_experiences,
-          'Number of explained breaks that coincide with a volunteering experience' => explained_breaks_that_coincide_with_volunteering_experiences,
-          'Course choice statuses' => application_form.application_choices.map(&:status).sort,
           'Application submitted' => application_form.submitted_at,
+          'Course choice statuses' => application_form.application_choices.map(&:status).sort,
+
+          'Start of working life' => start_of_working_life(application_form),
+          'Total time in employment (months)' => total_time_in_employment(application_form),
+          'Total time of explained breaks (months)' => total_time_of_explained_breaks(explained_breaks),
+          'Total time of unexplained breaks (months)' => total_time_of_unexplained_breaks(unexplained_breaks),
+
+          'Number of explained breaks' => explained_breaks.length,
+          'Number of explained breaks in last 5 years' => breaks_in_last_five_years(explained_breaks, application_form),
+          'Number of unexplained breaks' => unexplained_breaks.length,
+          'Number of unexplained breaks in last 5 years' => breaks_in_last_five_years(unexplained_breaks, application_form),
+
+          'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees(application_form, unexplained_breaks),
+          'Number of unexplained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(unexplained_breaks, volunteering_experiences),
+          'Number of explained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(explained_breaks, volunteering_experiences),
         }
         output
       end
@@ -79,41 +61,52 @@ module SupportInterface
 
   private
 
+    def start_of_working_life(application_form)
+      application_form.date_of_birth.beginning_of_month + 18.years
+    end
+
     def total_time_in_employment(application_form)
       time_in_seconds = application_form.application_work_experiences.map { |experience| experience.end_date - experience.start_date }
       (time_in_seconds.sum / ActiveSupport::Duration::SECONDS_PER_MONTH).round
     end
 
-    def total_time_of_explained_work_breaks(application_form)
+    def total_time_of_explained_breaks(explained_breaks)
       time_in_seconds = explained_breaks.map { |work_history_break| work_history_break.end_date - work_history_break.start_date }
       (time_in_seconds.sum / ActiveSupport::Duration::SECONDS_PER_MONTH).round
     end
 
+    def total_time_of_unexplained_breaks(unexplained_breaks)
+      unexplained_breaks.sum(&:length)
+    end
+
+    def breaks_in_last_five_years(breaks, application_form)
+      breaks.count { |b| b.start_date > (submitted_at(application_form) - 5.years).to_date }
+    end
+
+    def unexplained_breaks_that_coincide_with_degrees(application_form, unexplained_breaks)
+      degrees = application_form.application_qualifications.degrees
+      unexplained_breaks.count { |unexplained_break| unexplained_break_coincides_with_a_degree(unexplained_break, degrees) }
+    end
+
     def unexplained_break_coincides_with_a_degree(unexplained_break, degrees)
       degrees.select { |degree|
-        Date.new(degree.start_year.to_i, 1, 1) < unexplained_break.end_date &&
-          unexplained_break.start_date < Date.new(degree.award_year.to_i, 12, 31)
-      }
-          .any?
+        coincides?(Date.new(degree.start_year.to_i, 1, 1), Date.new(degree.award_year.to_i, 12, 31), unexplained_break.start_date, unexplained_break.end_date)
+      }.any?
     end
 
-    def unexplained_break_coincides_with_volunteering_experience(unexplained_break, volunteering_experiences)
-      volunteering_experiences.select { |volunteering_experience|
-        volunteering_end_date = volunteering_experience.end_date ||= Time.zone.now
-
-        volunteering_experience.start_date < unexplained_break.end_date &&
-            unexplained_break.start_date < volunteering_end_date
-      }
-          .any?
+    def breaks_that_coincide_with_volunteering_experiences(breaks, volunteering_experiences)
+      breaks.count { |b| break_coincides_with_volunteering_experience(b, volunteering_experiences) }
     end
 
-    def explained_break_coincides_with_volunteering_experience(explained_break, volunteering_experiences)
+    def break_coincides_with_volunteering_experience(work_break, volunteering_experiences)
       volunteering_experiences.select { |volunteering_experience|
         volunteering_end_date = volunteering_experience.end_date ||= Time.zone.now
-        volunteering_experience.start_date < explained_break.end_date &&
-            explained_break.start_date < volunteering_end_date
-      }
-          .any?
+        coincides?(volunteering_experience.start_date, volunteering_end_date, work_break.start_date, work_break.end_date)
+      }.any?
+    end
+
+    def coincides?(event_1_start_date, event_1_end_date, event_2_start_date, event_2_end_date)
+      event_1_start_date < event_2_end_date && event_2_start_date < event_1_end_date
     end
 
     def get_unexplained_breaks(application_form)
@@ -126,7 +119,7 @@ module SupportInterface
 
       if work_history.any?
         timeline_in_months = month_range(
-          start_date: get_start_of_working_life(application_form),
+          start_date: start_of_working_life(application_form),
           end_date: submitted_at(application_form) - 1.month,
         )
         break_months_in_timeline = remove_months(timeline: timeline_in_months, entries: work_history, application_form: application_form)
@@ -134,10 +127,6 @@ module SupportInterface
 
         create_unexplained_breaks(remaining_months)
       end
-    end
-
-    def get_start_of_working_life(application_form)
-      application_form.date_of_birth.beginning_of_month + 18.years
     end
 
     def submitted_at(application_form)
