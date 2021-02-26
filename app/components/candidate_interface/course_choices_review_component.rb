@@ -29,8 +29,8 @@ module CandidateInterface
         course_row(application_choice),
         study_mode_row(application_choice),
         location_row(application_choice),
-        type_row(application_choice.course),
-        course_length_row(application_choice.course),
+        type_row(application_choice),
+        course_length_row(application_choice),
         start_date_row(application_choice),
         status_row(application_choice),
         rejection_reasons_row(application_choice),
@@ -128,17 +128,17 @@ module CandidateInterface
       }
     end
 
-    def type_row(course)
+    def type_row(application_choice)
       {
         key: 'Type',
-        value: course.description,
+        value: application_choice.offered_course.description,
       }
     end
 
-    def course_length_row(course)
+    def course_length_row(application_choice)
       {
         key: 'Course length',
-        value: DisplayCourseLength.call(course_length: course.course_length),
+        value: DisplayCourseLength.call(course_length: application_choice.offered_course.course_length),
       }
     end
 
