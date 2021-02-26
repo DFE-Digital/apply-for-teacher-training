@@ -4,12 +4,6 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
 
-    <% if FeatureFlag.active?('banner_about_problems_with_dfe_sign_in') %>
-      <%= render NotificationMessageComponent.new(:info,
-                                                  message: 'You might have problems signing in ',
-                                                  secondary_message: 'Some of our users are having trouble signing in. We’re working on the problem now. If you cannot sign in, try again soon.') %>
-    <% end %>
-
     <h1 class="govuk-heading-xl">
       <%= t('page_titles.sign_in') %>
     </h1>
