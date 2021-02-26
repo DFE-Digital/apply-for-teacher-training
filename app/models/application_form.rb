@@ -83,7 +83,7 @@ class ApplicationForm < ApplicationRecord
     first_name last_name support_reference phase submitted_at
     becoming_a_teacher subject_knowledge interview_preferences
     date_of_birth domicile right_to_work_or_study_details
-    english_main_language english_language_details other_language_details
+    english_main_language other_language_details
     disability_disclosure further_information safeguarding_issues_status
     address_line1 address_line2 address_line3 address_line4
     international_address country postcode equality_and_diversity
@@ -298,6 +298,10 @@ class ApplicationForm < ApplicationRecord
     application_choices.count >= maximum_number_of_course_choices
   end
 
+  def support_cannot_add_course_choice?
+    application_choices.where.not(status: :withdrawn).count >= maximum_number_of_course_choices
+  end
+
   def maximum_number_of_course_choices
     if apply_1?
       MAXIMUM_PHASE_ONE_COURSE_CHOICES
@@ -337,6 +341,10 @@ class ApplicationForm < ApplicationRecord
 
   def english_language_details
     self[:english_language_details].presence || english_proficiency&.formatted_qualification_description
+  end
+
+  def english_language_qualification_details
+    english_proficiency&.formatted_qualification_description.presence || self[:english_language_details]
   end
 
   def has_rejection_reason?

@@ -1,13 +1,8 @@
 module CandidateInterface
-  class Gcse::Science::GradeController < CandidateInterfaceController
-    include Gcse::GradeControllerConcern
-
-    before_action :redirect_to_dashboard_if_submitted
-    before_action :set_subject
-
+  class Gcse::Science::GradeController < Gcse::BaseController
     def edit
       @gcse_grade_form = science_gcse_grade_form
-      @qualification_type = gcse_science_qualification.qualification_type
+      @qualification_type = current_qualification.qualification_type
 
       render view_path
     end
@@ -35,7 +30,7 @@ module CandidateInterface
     end
 
     def next_path
-      if science_gcse_grade_form.award_year.nil?
+      if current_qualification.award_year.nil?
         candidate_interface_gcse_details_edit_year_path(subject: @subject)
       else
         candidate_interface_gcse_review_path(subject: @subject)
@@ -43,7 +38,7 @@ module CandidateInterface
     end
 
     def gcse_qualification?
-      gcse_science_qualification.qualification_type == 'gcse'
+      current_qualification.qualification_type == 'gcse'
     end
 
     def set_subject
@@ -56,12 +51,8 @@ module CandidateInterface
         .permit(%i[gcse_science grade single_award_grade double_award_grade biology_grade chemistry_grade physics_grade])
     end
 
-    def gcse_science_qualification
-      @gcse_science_qualification ||= current_application.qualification_in_subject(:gcse, @subject)
-    end
-
     def science_gcse_grade_form
-      @science_gcse_grade_form ||= ScienceGcseGradeForm.build_from_qualification(gcse_science_qualification)
+      @science_gcse_grade_form ||= ScienceGcseGradeForm.build_from_qualification(current_qualification)
     end
   end
 end

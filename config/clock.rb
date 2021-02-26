@@ -18,10 +18,7 @@ class Clock
   every(1.hour, 'SendChaseEmailToProviders', at: '**:35') { SendChaseEmailToProvidersWorker.perform_async }
   every(1.hour, 'SendChaseEmailToCandidates', at: '**:40') { SendChaseEmailToCandidatesWorker.perform_async }
 
-  every(1.day, 'Generate export for TAD', at: '23:59') do
-    data_export = DataExport.create!(name: 'Daily export of applications for TAD')
-    DataExporter.perform_async(SupportInterface::TADExport, data_export.id)
-  end
+  every(1.day, 'Generate export for TAD', at: '23:59') { DataAPI::TADExport.run_daily }
 
   every(1.day, 'UCASMatching::UploadMatchingData', at: '06:23') do
     if Time.zone.today.weekday?

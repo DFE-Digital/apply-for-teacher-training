@@ -1,18 +1,16 @@
 module CandidateInterface
-  class Gcse::ReviewController < Gcse::DetailsController
-    before_action :redirect_to_dashboard_if_submitted
-    before_action :set_subject
+  class Gcse::ReviewController < Gcse::BaseController
     before_action :set_field_name
     before_action :render_application_feedback_component, except: :complete
 
     def show
       @application_form = current_application
-      @application_qualification = current_application.qualification_in_subject(:gcse, subject_param)
+      @application_qualification = current_qualification
     end
 
     def complete
       @application_form = current_application
-      @application_qualification = current_application.qualification_in_subject(:gcse, subject_param)
+      @application_qualification = current_qualification
 
       if @application_qualification.incomplete_gcse_information? && !@application_qualification.missing_qualification?
         flash[:warning] = 'You cannot mark this section complete with incomplete GCSE information.'

@@ -1,19 +1,18 @@
 <% if qualifications.any? %>
-  <div class="govuk-grid-column-two-thirds">
-    <h3 class="govuk-heading-m govuk-!-margin-top-8" id="other-qualifications"><%= header %></h3>
-    <table class="govuk-table" data-qa="qualifications-table-<%= header.parameterize %>">
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th class="govuk-table__header govuk-table__header">Qualification</th>
-          <th class="govuk-table__header govuk-table__header">Awarded</th>
-          <th class="govuk-table__header govuk-table__header">Grade</th>
-        </tr>
-      </thead>
-      <tbody class="govuk-table__body">
-        <% qualifications.each do |qualification| %>
-          <%= render QualificationRowComponent.new(qualification: qualification) %>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+  <h3 class="govuk-heading-m govuk-!-margin-top-6" id="other-qualifications"><%= header %></h3>
+
+  <table class="govuk-table govuk-!-width-two-thirds" data-qa="qualifications-table-<%= header.parameterize %>">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header govuk-table__header">Qualification</th>
+        <th class="govuk-table__header govuk-table__header">Awarded</th>
+        <th class="govuk-table__header govuk-table__header">Grade</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <% qualifications.each do |qualification| %>
+        <%= render QualificationRowComponent.new(qualification: qualification) %>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>

@@ -65,9 +65,9 @@
       <ol class="app-task-list">
         <li class="app-task-list__item">
           <% all_sections_completed = @application_form.first_name.present? &&
-            @application_form.first_nationality.present? &&
-            (!@application_form.english_main_language.nil? ||
-            @application_form.right_to_work_or_study.present?) %>
+               @application_form.first_nationality.present? &&
+               (!@application_form.english_main_language.nil? ||
+                 @application_form.right_to_work_or_study.present?) %>
           <%= render(TaskListItemComponent.new(
             text: t('page_titles.personal_information'),
             completed: @application_form_presenter.personal_details_completed?,

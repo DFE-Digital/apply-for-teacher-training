@@ -1,4 +1,11 @@
-<div class="app-card<%= colour == :default ? '' : " app-card--#{colour}" %>">
-  <span class="<%= count_class %>"><%= number_with_delimiter(count) %></span>
-  <%= label %>
+<div class="<%= card_classes %>">
+  <% if href.present? %>
+    <%= link_to href, class: 'app-card__link' do %>
+      <span class="<%= count_class %>"><%= number_with_delimiter(count) %></span>
+      <%= label %>
+    <% end %>
+  <% else %>
+    <span class="<%= count_class %>"><%= number_with_delimiter(count) %></span>
+    <%= label %>
+  <% end %>
 </div>

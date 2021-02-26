@@ -39,7 +39,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_an_application_exists
-    @form = create(:completed_application_form, :with_completed_references)
+    @form = create(:application_form, :with_completed_references)
     create(:reference, :feedback_requested, name: 'Dumbledore', email_address: 'a.dumbledore@hogwarts.ac.uk', relationship: 'Headmaster', application_form: @form)
   end
 

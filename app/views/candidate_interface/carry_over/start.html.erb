@@ -14,10 +14,12 @@
       Your courses have been removed. You can add them again now.
     </p>
 
-    <%= button_to 'Apply again', candidate_interface_carry_over_path, class: 'govuk-button govuk-button govuk-!-margin-bottom-5' %>
+    <%= govuk_button_to 'Apply again', candidate_interface_carry_over_path, class: 'govuk-!-margin-bottom-5' %>
 
     <p class="govuk-body">or</p>
 
-    <%= govuk_link_to 'Go to dashboard', candidate_interface_application_form_path, class: 'govuk-body' %>
+    <p class="govuk-body">
+      <%= govuk_link_to 'Go to dashboard', candidate_interface_application_form_path %>
+    </p>
   </div>
 </div>

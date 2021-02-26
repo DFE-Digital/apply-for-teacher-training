@@ -23,12 +23,14 @@ class UpdateInterview
       course_option_id: interview.application_choice.offered_option.id,
     )
 
-    interview.update!(
-      provider: provider,
-      date_and_time: date_and_time,
-      location: location,
-      additional_details: additional_details,
-    )
+    interview.provider = provider
+    interview.date_and_time = date_and_time
+    interview.location = location
+    interview.additional_details = additional_details
+
+    return unless interview.changed?
+
+    interview.save!
 
     CandidateMailer.interview_updated(interview.application_choice, interview).deliver_later
   end

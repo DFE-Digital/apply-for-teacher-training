@@ -1,4 +1,6 @@
 class EnglishProficiency < ApplicationRecord
+  include PublishedInAPI
+
   audited associated_with: :application_form
 
   belongs_to :application_form

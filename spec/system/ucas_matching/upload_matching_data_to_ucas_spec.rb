@@ -18,7 +18,7 @@ RSpec.feature 'Uploading of matching data to UCAS', sidekiq: true do
   end
 
   def given_there_is_an_application_in_the_system
-    @application_choice = create(:submitted_application_choice)
+    @application_choice = create(:submitted_application_choice, :with_completed_application_form)
   end
 
   def given_the_access_token_can_not_be_acquired

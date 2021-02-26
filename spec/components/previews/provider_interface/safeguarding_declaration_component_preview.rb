@@ -8,7 +8,7 @@ module ProviderInterface
 
     def can_view__with_no_safeguarding_issues
       find_user_and_course safeguarding_access: true
-      build_application_choice :with_no_safeguarding_issues_to_declare
+      build_application_choice :minimum_info
       render_component
     end
 

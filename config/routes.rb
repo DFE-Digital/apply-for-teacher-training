@@ -752,6 +752,11 @@ Rails.application.routes.draw do
     get '/performance-dashboard' => redirect('support/performance/service')
   end
 
+  namespace :data_api, path: '/data-api' do
+    get '/docs/tad-data-exports' => 'tad_docs#docs'
+    get '/tad-data-exports/latest' => 'tad_data_exports#latest'
+  end
+
   namespace :support_interface, path: '/support' do
     get '/' => redirect('/support/applications')
 
@@ -931,6 +936,9 @@ Rails.application.routes.draw do
 
     get '/sign-in' => 'sessions#new', as: :sign_in
     get '/sign-out' => 'sessions#destroy', as: :sign_out
+
+    get '/confirm-environment' => 'sessions#confirm_environment', as: :confirm_environment
+    post '/confirm-environment' => 'sessions#confirmed_environment'
 
     post '/request-sign-in-by-email' => 'sessions#sign_in_by_email', as: :sign_in_by_email
     get '/sign-in/check-email', to: 'sessions#check_your_email', as: :check_your_email

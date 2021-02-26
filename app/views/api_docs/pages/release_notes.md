@@ -1,3 +1,7 @@
+## 25th February
+
+- Documentation updated to indicate that the `Candidate.domicile` field is encoded as a HESA DOMICILE code.
+
 ## 5th February
 
 The following experimental/sandbox endpoint has been updated:

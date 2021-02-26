@@ -5,7 +5,11 @@ inherit_gem:
     - config/default.yml
     - config/rails.yml
 
-require: rubocop-rspec
+require:
+- rubocop-rspec
+- ./lib/rubocop/cop/govuk/govuk_button_to.rb
+- ./lib/rubocop/cop/govuk/govuk_link_to.rb
+- ./lib/rubocop/cop/govuk/govuk_submit.rb
 
 AllCops:
   Exclude:
@@ -124,6 +128,30 @@ Naming/MemoizedInstanceVariableName:
 # sometimes reduce is fine
 Style/EachWithObject:
   Enabled: false
+
+Govuk:
+  Include:
+    - 'app/views/**/*'
+    - 'app/components/**/*'
+
+Govuk/GovukLinkTo:
+  Exclude:
+    # link_to in components that use their own link classes
+    - 'app/components/breadcrumb_component.html.erb'
+    - 'app/components/header_component.html.erb'
+    - 'app/components/product_header_component.html.erb'
+    # link_to in filter component
+    - 'app/components/filter_component.html.erb'
+    # link_to in manual error summaries
+    - 'app/views/candidate_interface/references/review/show.html.erb'
+    - 'app/views/candidate_interface/unsubmitted_application_form/review.html.erb'
+    # link_to in footers
+    - 'app/views/layouts/_footer.html'
+    - 'app/views/layouts/_footer_meta_candidate.html.erb'
+    - 'app/views/layouts/_footer_meta_provider.html.erb'
+    # link_to for kaminari pagination links
+    - 'app/views/kaminari/_next_page.html.erb'
+    - 'app/views/kaminari/_prev_page.html.erb'
 
 # Pending cops
 # These will be enabled by default at Rubocop 1.0

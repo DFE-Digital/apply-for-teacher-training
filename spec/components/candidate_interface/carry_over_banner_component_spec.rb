@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::CarryOverBannerComponent do
-  let(:application_form) { create(:completed_application_form) }
+  let(:application_form) { build(:completed_application_form) }
 
   before { allow(RecruitmentCycle).to receive(:current_year).and_return(2021) }
 
@@ -110,8 +110,9 @@ RSpec.describe CandidateInterface::CarryOverBannerComponent do
 
     it 'renders component when references did not come back in time' do
       create(:application_choice, :with_rejection, application_form: application_form)
-      create(:reference, application_form: application_form, feedback_status: :cancelled_at_end_of_cycle)
+      application_form.application_references << build(:reference, feedback_status: :cancelled_at_end_of_cycle)
       application_form.recruitment_cycle_year = 2021
+
       result = render_inline(described_class.new(application_form: application_form))
 
       expect(result.text).to include('Your references did not come back in time')

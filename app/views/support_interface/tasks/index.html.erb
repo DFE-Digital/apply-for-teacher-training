@@ -7,7 +7,7 @@
       <p class="govuk-body">This task downloads providers, and the related entities (courses, course options etc.) from the Teacher Training API and Find.</p>
     </div>
     <div class="govuk-grid-column-one-third">
-      <%= button_to 'Sync providers', support_interface_run_task_path('sync_providers'), class: 'govuk-button govuk-button--secondary' %>
+      <%= govuk_button_to 'Sync providers', support_interface_run_task_path('sync_providers'), class: 'govuk-button--secondary' %>
     </div>
   </div>
 </section>
@@ -19,7 +19,7 @@
       <p class="govuk-body">This task runs the <code>RecalculateDates</code> worker when we add or remove business time holidays in response to things like COVID-19.</p>
     </div>
     <div class="govuk-grid-column-one-third">
-      <%= button_to 'Recalculate dates', support_interface_run_task_path('recalculate_dates'), class: 'govuk-button govuk-button--secondary' %>
+      <%= govuk_button_to 'Recalculate dates', support_interface_run_task_path('recalculate_dates'), class: 'govuk-button--secondary' %>
     </div>
   </div>
 </section>
@@ -32,7 +32,7 @@
       <p class="govuk-body">It should be run shortly after the cycle begins.</p>
     </div>
     <div class="govuk-grid-column-one-third">
-      <%= button_to 'Send reminder emails', support_interface_run_task_path('send_deferred_offer_reminder_emails'), class: 'govuk-button govuk-button--secondary' %>
+      <%= govuk_button_to 'Send reminder emails', support_interface_run_task_path('send_deferred_offer_reminder_emails'), class: 'govuk-button--secondary' %>
     </div>
   </div>
 </section>
@@ -72,7 +72,7 @@
         <p class="govuk-body">This task generates ~10 mostly-random test applications in all of the states.</p>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= button_to 'Generate test applications', support_interface_run_task_path('generate_test_applications'), class: 'govuk-button govuk-button--secondary' %>
+        <%= govuk_button_to 'Generate test applications', support_interface_run_task_path('generate_test_applications'), class: 'govuk-button--secondary' %>
       </div>
     </div>
   </section>
@@ -84,7 +84,7 @@
         <p class="govuk-body">This task creates a fake provider with 10 courses and 3 ratified courses. You will be shown their name, code and vendor API token.</p>
       </div>
       <div class="govuk-grid-column-one-third">
-        <%= button_to 'Create a fake provider', support_interface_tasks_create_fake_provider_path, class: 'govuk-button govuk-button--secondary' %>
+        <%= govuk_button_to 'Create a fake provider', support_interface_tasks_create_fake_provider_path, class: 'govuk-button--secondary' %>
       </div>
     </div>
   </section>

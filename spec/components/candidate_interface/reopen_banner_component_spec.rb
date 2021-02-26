@@ -41,7 +41,7 @@ RSpec.describe CandidateInterface::ReopenBannerComponent do
       expect(result.text).to include('Submit your application from 13 October 2020 for courses starting in the next academic year.')
     end
 
-    it 'does NOT render when we are not between cycles' do
+    it 'does not render when we are not between cycles' do
       set_conditions_for_rendering_banner('apply_1')
       allow(EndOfCycleTimetable).to receive(:between_cycles_apply_1?).and_return(false)
 

@@ -30,7 +30,7 @@ module VendorAPI
             domicile: application_form.domicile,
             uk_residency_status: uk_residency_status,
             english_main_language: application_form.english_main_language,
-            english_language_qualifications: application_form.english_language_details,
+            english_language_qualifications: application_form.english_language_qualification_details,
             other_languages: application_form.other_language_details,
             disability_disclosure: application_form.disability_disclosure,
           },

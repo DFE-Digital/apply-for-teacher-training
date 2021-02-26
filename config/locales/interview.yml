@@ -55,12 +55,15 @@ en:
         provider_interface/interview_wizard:
           attributes:
             date:
-              past: Date must be today or in the future
-              after_rdb: Date must be before the application closing date
+              past: Interview date must be today or in the future
+              after_rdb: Interview date must be before the application closing date
+              invalid_date: Interview date must be a real date
+              blank_date_fields: Interview date must include a %{fields}
+              blank_date: Enter interview date
             time:
-              invalid: Enter a time in the correct format
-              blank: Enter time
-              past: Time must be in the future
+              invalid: Enter an interview time in the correct format
+              blank: Enter interview time
+              past: Interview time must be in the future
             location:
               blank: Enter address or online meeting details
               too_long: Address or online meeting details must be %{count} characters or fewer

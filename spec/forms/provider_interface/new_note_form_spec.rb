@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe ProviderInterface::NewNoteForm do
-  let(:application_choice) { create(:application_choice) }
-  let(:provider_user) { create(:provider_user) }
+  let(:application_choice) { build(:application_choice) }
+  let(:provider_user) { build(:provider_user) }
 
   describe 'validations' do
     it 'validates presence of :application_choice' do

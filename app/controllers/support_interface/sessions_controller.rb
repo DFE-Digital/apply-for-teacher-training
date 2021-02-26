@@ -55,5 +55,20 @@ module SupportInterface
 
       redirect_to support_interface_candidates_path
     end
+
+    def confirm_environment
+      @confirmation = SupportInterface::ConfirmEnvironment.new(from: params[:from])
+    end
+
+    def confirmed_environment
+      @confirmation = SupportInterface::ConfirmEnvironment.new(params.require(:support_interface_confirm_environment).permit(:from, :environment))
+
+      if @confirmation.valid?
+        session[:confirmed_environment_at] = Time.zone.now
+        redirect_to @confirmation.from
+      else
+        render :confirm_environment
+      end
+    end
   end
 end

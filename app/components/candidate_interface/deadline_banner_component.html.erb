@@ -1,5 +1,3 @@
-<% if show_deadline_banner? %>
-  <%= render NotificationMessageComponent.new(:info,
-                                              message: "The deadline for applying to courses starting this academic year is #{deadline}",
-                                              secondary_message: 'Courses may fill up before then. Check course availability with your provider.') %>
-<% end %>
+<%= render NotificationMessageComponent.new(:info,
+                                            message: "The deadline for applying to courses starting this academic year is #{deadline}",
+                                            secondary_message: 'Courses may fill up before then. Check course availability with your provider.') %>

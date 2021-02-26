@@ -1,0 +1,20 @@
+<%= content_for :title, 'TAD export documentation' %>
+
+<h1 class="govuk-heading-l">TAD export documentation</h1>
+
+<p class="govuk-body">
+  This page describes the columns that are exported as part of the TAD data export.
+</p>
+
+<% DataSetDocumentation.for(DataAPI::TADExport).each do |column_name, column| %>
+  <%= render DataSetAttributeComponent.new(column_name: column_name, column: column) %>
+<% end %>
+
+<%# Add some cheeky styling here directly, to avoid having to set up stylesheets just for this page %>
+<style>
+.app-data-set-documentation--datatype {
+  color: #505a5f;
+  margin: 0;
+  font-weight: normal;
+}
+</style>

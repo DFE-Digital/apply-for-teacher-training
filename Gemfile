@@ -40,6 +40,8 @@ gem 'json_api_client'
 # This gem adds support for sequences in the schema.rb
 gem 'ar-sequence'
 
+gem 'active_hash'
+
 gem 'sentry-raven'
 
 gem 'factory_bot_rails'

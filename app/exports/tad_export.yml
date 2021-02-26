@@ -40,10 +40,19 @@ custom_columns:
     - conditions_not_met
     - declined
     - declined_by_default
+    - interviewing
     - offer
+    - offer_deferred
+    - offer_withdrawn
     - pending_conditions
     - recruited
     - rejected
     - rejected_by_default
     - withdrawn
     example: awaiting_provider_decision
+
+  submitted_at:
+    type: string
+    format: date-time
+    description: When the candidate submitted their application
+    example: 2019-06-13T10:44:31Z

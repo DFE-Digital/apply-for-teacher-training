@@ -6,13 +6,13 @@ class CandidateInterface::DeadlineBannerComponent < ViewComponent::Base
     @flash_empty = flash_empty
   end
 
-  def show_deadline_banner?
-    flash_empty &&
-      (show_apply_1_deadline_banner? || show_apply_2_deadline_banner?)
-  end
-
   def deadline
     apply_1? ? apply_1_deadline : apply_2_deadline
+  end
+
+  def render?
+    flash_empty &&
+      (show_apply_1_deadline_banner? || show_apply_2_deadline_banner?)
   end
 
 private

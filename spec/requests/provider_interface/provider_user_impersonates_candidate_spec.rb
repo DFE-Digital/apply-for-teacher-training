@@ -7,7 +7,12 @@ RSpec.describe 'POST /provider/candidates/:id/impersonate' do
     let(:provider) { create(:provider, :with_signed_agreement) }
     let(:provider_user) { create(:provider_user, providers: [provider], dfe_sign_in_uid: 'DFE_SIGN_IN_UID') }
     let(:course_option) { course_option_for_provider_code(provider_code: provider.code) }
-    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
+    let(:application_choice) do
+      create(:application_choice,
+             :with_completed_application_form,
+             :awaiting_provider_decision,
+             course_option: course_option)
+    end
 
     before do
       allow(DfESignInUser).to receive(:load_from_session)

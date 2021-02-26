@@ -9,7 +9,7 @@
         </div>
       </div>
 
-      <div class="moj-filter__content">
+      <div class="moj-filter__content" tabindex="-1">
         <% if active_filters.any? %>
           <div class="moj-filter__selected">
             <div class="moj-filter__selected-heading">
@@ -26,17 +26,17 @@
               <ul class="moj-filter-tags">
                 <% tags_for_active_filter(active_filter).each do |tag| %>
                   <li>
-                    <%= link_to(tag[:title], tag[:remove_link], class: 'moj-filter__tag', id: "tag-#{tag[:title].parameterize}") %>
+                    <%= link_to(tag[:remove_link], class: 'moj-filter__tag', id: "tag-#{tag[:title].parameterize}") do %>
+                      <span class="govuk-visually-hidden">Remove this filter</span>
+                      <%= tag[:title] %>
+                    <% end %>
                   </li>
                 <% end %>
               </ul>
             <% end %>
           </div>
         <% end %>
-
-        <!-- Div made focusable to 'catch' focus from checkboxes. see https://github.com/DFE-Digital/apply-for-teacher-training/pull/2640
-         -->
-        <div class="moj-filter__options" tabindex="-1">
+        <div class="moj-filter__options">
           <form method="get">
             <%= submit_tag 'Apply filters', class: 'govuk-button' %>
 
@@ -95,7 +95,7 @@
       </div>
       <% if primary_filter[:value].present? %>
         <p class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-7">
-          <%= link_to('Clear search', remove_search_tag_link(primary_filter[:name]), class: 'govuk-link govuk-link--no-visited-state') %>
+          <%= govuk_link_to('Clear search', remove_search_tag_link(primary_filter[:name]), class: 'govuk-link--no-visited-state') %>
         </p>
       <% end %>
     <% end %>

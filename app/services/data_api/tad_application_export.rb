@@ -1,4 +1,4 @@
-module SupportInterface
+module DataAPI
   class TADApplicationExport
     attr_reader :application_choice
 
@@ -9,12 +9,12 @@ module SupportInterface
       @application_choice = application_choice
     end
 
+    # Documented in app/exports/tad_export.yml
     def as_json
       accrediting_provider = application_choice.accredited_provider || application_choice.provider
       degree = application_form.application_qualifications.find { |q| q.level == 'degree' }
       equality_and_diversity = application_form.equality_and_diversity.to_h
 
-      # https://docs.google.com/spreadsheets/d/1TBQiWpx7Nks4lD2JyXCYp6M69VIGpf-Oi0s_nGK8arA
       {
         extract_date: Time.zone.now.iso8601,
 
@@ -26,6 +26,7 @@ module SupportInterface
         # State
         status: status,
         phase: application_form.phase,
+        submitted_at: application_form.submitted_at.iso8601,
 
         # Personal information
         first_name: application_form.first_name,

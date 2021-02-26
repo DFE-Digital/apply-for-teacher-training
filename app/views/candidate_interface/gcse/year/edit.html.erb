@@ -1,14 +1,14 @@
-<% content_for :title, title_with_error_prefix(year_step_title(@subject, @qualification_type), @application_qualification.errors.any?) %>
+<% content_for :title, title_with_error_prefix(year_step_title(@subject, @year_form.qualification_type), @year_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @application_qualification, url: candidate_interface_gcse_details_edit_year_path, method: :patch do |f| %>
+    <%= form_with model: @year_form, url: candidate_interface_gcse_details_edit_year_path, method: :patch do |f| %>
 
       <%= f.govuk_error_summary %>
-      <h1 class="govuk-heading-xl"><%= year_step_title(@subject, @qualification_type) %></h1>
+      <h1 class="govuk-heading-xl"><%= year_step_title(@subject, @year_form.qualification_type) %></h1>
 
-      <% if @qualification_type == 'gce_o_level' %>
+      <% if @year_form.qualification_type == 'gce_o_level' %>
         <%= f.govuk_text_field :award_year, label: { text: t('application_form.gcse.award_year.label'), size: 'm' }, hint: { text: t('application_form.gcse.award_year.gce_o_level_hint_text') }, width: 4 %>
       <% else %>
         <%= f.govuk_text_field :award_year, label: { text: t('application_form.gcse.award_year.label'), size: 'm' }, hint: { text: t('application_form.gcse.award_year.hint_text') }, width: 4 %>

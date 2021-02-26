@@ -49,6 +49,7 @@ module VendorAPISpecHelpers
   def create_application_choice_for_currently_authenticated_provider(attributes = {})
     create(
       :submitted_application_choice,
+      :with_completed_application_form,
       { course_option: course_option_for_provider(provider: currently_authenticated_provider) }.merge(attributes),
     )
   end

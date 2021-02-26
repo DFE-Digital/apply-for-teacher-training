@@ -8,6 +8,7 @@ RSpec.describe 'Vendor API - POST /api/v1/test-data/clear', type: :request do
     create(
       :application_choice,
       :awaiting_provider_decision,
+      :with_completed_application_form,
       course_option: course_option_for_provider(provider: currently_authenticated_provider),
     )
 

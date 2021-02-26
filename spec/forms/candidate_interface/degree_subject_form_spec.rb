@@ -14,7 +14,7 @@ RSpec.describe CandidateInterface::DegreeSubjectForm do
     context 'when subject matches a HESA entry' do
       it 'updates the degree subject and HESA code' do
         form = described_class.new(
-          degree: create(:degree_qualification), subject: 'Metallurgy',
+          degree: build(:degree_qualification), subject: 'Metallurgy',
         )
 
         form.save
@@ -27,7 +27,7 @@ RSpec.describe CandidateInterface::DegreeSubjectForm do
     context 'when subject does not match a HESA entry' do
       it 'updates the degree subject' do
         form = described_class.new(
-          degree: create(:degree_qualification), subject: 'Non-HESA subject',
+          degree: build(:degree_qualification), subject: 'Non-HESA subject',
         )
 
         form.save

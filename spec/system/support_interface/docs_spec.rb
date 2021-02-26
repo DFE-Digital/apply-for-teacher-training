@@ -6,11 +6,13 @@ RSpec.feature 'Docs' do
   scenario 'Support user visits process documentation' do
     given_i_am_a_support_user
     when_i_visit_the_process_documentation
-    then_i_see_the_provider_flow_documentation
+    then_the_application_state_diagram_is_generated
+    and_i_see_the_provider_flow_documentation
     and_it_contains_documentation_for_all_emails
 
     when_i_click_on_candidate_flow_documentation
-    then_i_see_the_candidate_flow_documentation
+    then_the_process_state_diagram_is_generated
+    and_i_see_the_candidate_flow_documentation
   end
 
   def given_i_am_a_support_user
@@ -18,10 +20,16 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_visit_the_process_documentation
+    allow(ApplicationStateChange).to receive(:workflow_spec).and_return(Struct.new(:states).new([]))
+
     visit support_interface_docs_provider_flow_path
   end
 
-  def then_i_see_the_provider_flow_documentation
+  def then_the_application_state_diagram_is_generated
+    expect(ApplicationStateChange).to have_received(:workflow_spec).exactly(3).times
+  end
+
+  def and_i_see_the_provider_flow_documentation
     expect(page).to have_title 'Provider application flow'
   end
 
@@ -55,10 +63,16 @@ RSpec.feature 'Docs' do
   end
 
   def when_i_click_on_candidate_flow_documentation
+    allow(ProcessState).to receive(:workflow_spec).and_return(Struct.new(:states).new([]))
+
     click_on 'Candidate flow'
   end
 
-  def then_i_see_the_candidate_flow_documentation
+  def then_the_process_state_diagram_is_generated
+    expect(ProcessState).to have_received(:workflow_spec).exactly(3).times
+  end
+
+  def and_i_see_the_candidate_flow_documentation
     expect(page).to have_title 'Candidate application flow'
   end
 end

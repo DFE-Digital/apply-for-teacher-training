@@ -11,7 +11,9 @@
       </p>
       <div class="app-timeline__event_link">
         <% if event.link_name && event.link_path %>
-          <%= link_to event.link_name, event.link_path, class: 'govuk-link govuk-link--no-visited-state' %>
+          <%= govuk_link_to event.link_path, class: 'govuk-link--no-visited-state' do %>
+            <%= event.link_name %> <span class="govuk-visually-hidden"><%= event.date.to_s(:govuk_date_and_time) %></span>
+          <% end %>
         <% end %>
       </div>
     </div>

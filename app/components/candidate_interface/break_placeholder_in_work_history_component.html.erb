@@ -3,7 +3,7 @@
     <div class="app-summary-card__actions">
       <ul class="app-summary-card__actions-list">
         <li class="app-summary-card__actions-list-item">
-          <%= link_to candidate_interface_new_work_history_break_path(start_date: work_break.start_date, end_date: work_break.end_date), class: 'govuk-link' do %>
+          <%= govuk_link_to candidate_interface_new_work_history_break_path(start_date: work_break.start_date, end_date: work_break.end_date) do %>
             Explain break <span class="govuk-visually-hidden"><%= between_formatted_dates %></span>
           <% end %>
         </li>
@@ -11,7 +11,7 @@
           or
         </li>
         <li class="app-summary-card__actions-list-item">
-          <%= link_to candidate_interface_new_work_history_path(start_date: work_break.start_date, end_date: work_break.end_date), class: 'govuk-link' do %>
+          <%= govuk_link_to candidate_interface_new_work_history_path(start_date: work_break.start_date, end_date: work_break.end_date) do %>
             add another job <span class="govuk-visually-hidden"><%= between_formatted_dates %></span>
           <% end %>
         </li>

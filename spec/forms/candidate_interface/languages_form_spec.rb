@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
         english_language_details: 'I have English qualifications',
         other_language_details: 'I also speak French',
       }
-      application_form = FactoryBot.create(:application_form)
+      application_form = FactoryBot.build(:application_form)
       languages_form = CandidateInterface::LanguagesForm.new(form_data)
 
       languages_form.save(application_form)
@@ -57,7 +57,7 @@ RSpec.describe CandidateInterface::LanguagesForm, type: :model do
         english_language_details: 'I have English qualifications',
         other_language_details: 'I also speak French',
       }
-      application_form = FactoryBot.create(:application_form)
+      application_form = FactoryBot.build(:application_form)
       languages_form = CandidateInterface::LanguagesForm.new(form_data)
 
       languages_form.save(application_form)

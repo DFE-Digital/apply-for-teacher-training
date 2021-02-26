@@ -1,4 +1,5 @@
 class SummaryListComponent < ViewComponent::Base
+  include ViewHelper
   validates :rows, presence: true
 
   def initialize(rows:)

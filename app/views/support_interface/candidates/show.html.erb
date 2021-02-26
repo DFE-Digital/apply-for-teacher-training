@@ -14,13 +14,13 @@
 <% end %>
 
 <% unless HostingEnvironment.production? %>
-  <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@candidate), class: 'govuk-button', form_class: 'govuk-!-display-inline-block' %>
+  <%= govuk_button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@candidate), form_class: 'govuk-!-display-inline-block' %>
 <% end %>
 
 <% if @candidate.hide_in_reporting? %>
-  <%= button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@candidate), class: 'govuk-button govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
+  <%= govuk_button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@candidate), class: 'govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
 <% else %>
-  <%= button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@candidate), class: 'govuk-button govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
+  <%= govuk_button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@candidate), class: 'govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
 <% end %>
 
 <% unless @application_forms.empty? %>

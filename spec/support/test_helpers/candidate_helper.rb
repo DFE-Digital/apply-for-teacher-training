@@ -270,11 +270,6 @@ module CandidateHelper
         fill_in 'Year', with: '2014'
       end
 
-      within('[data-qa="end-date"]') do
-        fill_in 'Month', with: '1'
-        fill_in 'Year', with: '2019'
-      end
-
       fill_in locale.t('details.label'), with: 'I learned a lot about teaching'
 
       choose 'No'

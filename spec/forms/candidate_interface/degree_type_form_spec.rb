@@ -61,9 +61,9 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
   describe '#update' do
     context 'when the type description matches an entry in the HESA data' do
       let(:degree) do
-        create(
+        build(
           :degree_qualification,
-          application_form: create(:application_form),
+          application_form: build(:application_form),
           qualification_type: 'BSc',
         )
       end
@@ -81,9 +81,9 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
 
     context 'when the type description does not match an entry in the HESA data' do
       let(:degree) do
-        create(
+        build(
           :degree_qualification,
-          application_form: create(:application_form),
+          application_form: build(:application_form),
           qualification_type: 'BSc',
         )
       end
@@ -119,9 +119,9 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
 
     context 'when UK degree is selected' do
       let(:degree) do
-        create(
+        build(
           :degree_qualification,
-          application_form: create(:application_form),
+          application_form: build(:application_form),
           qualification_type: 'BSc',
         )
       end
@@ -141,9 +141,9 @@ RSpec.describe CandidateInterface::DegreeTypeForm do
 
     context 'when non-UK degree is selected' do
       let(:degree) do
-        create(
+        build(
           :degree_qualification,
-          application_form: create(:application_form),
+          application_form: build(:application_form),
           qualification_type: 'BSc',
         )
       end

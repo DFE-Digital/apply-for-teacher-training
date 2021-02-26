@@ -11,7 +11,7 @@ RSpec.describe SendNewApplicationEmailToProvider, sidekiq: true do
     ratifying_provider_user = create(:provider_user, send_notifications: true, providers: [ratifying_provider])
 
     option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-    choice = create(:application_choice, :awaiting_provider_decision, course_option: option)
+    choice = create(:application_choice, :with_completed_application_form, :awaiting_provider_decision, course_option: option)
 
     SendNewApplicationEmailToProvider.new(application_choice: choice).call
 

@@ -8,13 +8,13 @@
 
 <div class="govuk-button-group">
   <% unless HostingEnvironment.production? %>
-    <%= button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), class: 'govuk-button', form_class: 'govuk-!-display-inline-block' %>
+    <%= govuk_button_to 'Sign in as this candidate', support_interface_impersonate_candidate_path(@application_form.candidate), form_class: 'govuk-!-display-inline-block' %>
   <% end %>
 
   <% if @application_form.candidate.hide_in_reporting? %>
-    <%= button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
+    <%= govuk_button_to 'Include this candidate in service performance data', support_interface_show_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
   <% else %>
-    <%= button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
+    <%= govuk_button_to 'Exclude this candidate from service performance data', support_interface_hide_candidate_path(@application_form.candidate, from_application_form_id: @application_form.id), class: 'govuk-button--secondary', form_class: 'govuk-!-display-inline-block' %>
   <% end %>
 </div>
 
@@ -39,18 +39,14 @@
 
 <%= render QualificationsComponent.new(application_form: @application_form, show_hesa_codes: true) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= render WorkHistoryComponent.new(application_form: @application_form) %>
+<%= render WorkHistoryComponent.new(application_form: @application_form) %>
 
-    <%= render VolunteeringHistoryComponent.new(application_form: @application_form) %>
+<%= render VolunteeringHistoryComponent.new(application_form: @application_form) %>
 
-    <%= render LanguageSkillsComponent.new(application_form: @application_form) %>
+<%= render LanguageSkillsComponent.new(application_form: @application_form) %>
 
-    <%= render PersonalStatementComponent.new(application_form: @application_form) %>
+<%= render PersonalStatementComponent.new(application_form: @application_form) %>
 
-    <%= render InterviewPreferencesComponent.new(application_form: @application_form) %>
+<%= render InterviewPreferencesComponent.new(application_form: @application_form) %>
 
-    <%= render SupportInterface::SafeguardingIssuesComponent.new(application_form: @application_form) %>
-  </div>
-</div>
+<%= render SupportInterface::SafeguardingIssuesComponent.new(application_form: @application_form) %>

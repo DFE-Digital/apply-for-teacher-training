@@ -10,15 +10,15 @@ module SupportInterface
           'Ethnic group' => application_form.equality_and_diversity['ethnic_group'],
           'Ethnic background' => application_form.equality_and_diversity['ethnic_background'],
           'Application status' => I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
-          'First rejection reason' => rejected_application_choices[0]&.rejection_reason,
-          'Second rejection reason' => rejected_application_choices[1]&.rejection_reason,
-          'Third rejection reason' => rejected_application_choices[2]&.rejection_reason,
-          'First structured rejection reasons' => format_structured_rejection_reasons(rejected_application_choices[0]&.structured_rejection_reasons),
-          'Second structured rejection reasons' => format_structured_rejection_reasons(rejected_application_choices[1]&.structured_rejection_reasons),
-          'Third structured rejection reasons' => format_structured_rejection_reasons(rejected_application_choices[2]&.structured_rejection_reasons),
+          'Application choice 1 unstructured rejection reasons' => rejected_application_choices[0]&.rejection_reason,
+          'Application choice 2 unstructured rejection reasons' => rejected_application_choices[1]&.rejection_reason,
+          'Application choice 3 unstructured rejection reasons' => rejected_application_choices[2]&.rejection_reason,
+          'Application choice 1 structured rejection reasons' => format_structured_rejection_reasons(rejected_application_choices[0]&.structured_rejection_reasons),
+          'Application choice 2 structured rejection reasons' => format_structured_rejection_reasons(rejected_application_choices[1]&.structured_rejection_reasons),
+          'Application choice 3 structured rejection reasons' => format_structured_rejection_reasons(rejected_application_choices[2]&.structured_rejection_reasons),
         }
 
-        disabilities = application_form.equality_and_diversity['disabilities']
+        disabilities = application_form.equality_and_diversity['disabilities'].to_a
 
         disabilities.map.with_index(1) do |disability, index|
           output["Disability #{index}"] = disability

@@ -1,12 +1,11 @@
 <div class="app-interview-card">
   <div class="app-interview-card__time">
     <p class="govuk-!-margin-bottom-1 govuk-!-margin-top-0">
-    <%= link_to provider_interface_application_choice_interviews_path(interview.application_choice, anchor: "interview-#{interview.id}"), class: 'govuk-link govuk-link--no-visited-state' do %>
+    <%= govuk_link_to provider_interface_application_choice_interviews_path(interview.application_choice, anchor: "interview-#{interview.id}"), class: 'govuk-link--no-visited-state' do %>
       <time datetime="<%= interview.date_and_time %>">
         <%= time %>
       </time>
       <span class="govuk-visually-hidden">on <%= date %> with <%= candidate_name %></span>
-
     <% end %>
     </p>
   </div>

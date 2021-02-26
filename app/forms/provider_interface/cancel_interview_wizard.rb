@@ -4,7 +4,7 @@ module ProviderInterface
 
     attr_accessor :cancellation_reason
 
-    validates :cancellation_reason, presence: true, length: { maximum: 10240 }
+    validates :cancellation_reason, presence: true, word_count: { maximum: 2000 }
 
     def initialize(state_store, attrs = {})
       @state_store = state_store

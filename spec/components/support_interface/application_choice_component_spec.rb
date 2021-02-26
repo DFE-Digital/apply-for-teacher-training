@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationChoiceComponent do
   it 'displays the date an application was rejected' do
-    application_choice = create(:application_choice, :with_rejection, rejected_at: Time.zone.local(2020, 1, 1, 10, 0, 0))
+    application_choice = create(:application_choice,
+                                :with_completed_application_form,
+                                :with_rejection,
+                                rejected_at: Time.zone.local(2020, 1, 1, 10, 0, 0))
 
     result = render_inline(described_class.new(application_choice))
 
@@ -11,7 +14,10 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   end
 
   it 'displays the date an application was rejected by default' do
-    application_choice = create(:application_choice, :with_rejection_by_default, rejected_at: Time.zone.local(2020, 1, 1, 10, 0, 0))
+    application_choice = create(:application_choice,
+                                :with_completed_application_form,
+                                :with_rejection_by_default,
+                                rejected_at: Time.zone.local(2020, 1, 1, 10, 0, 0))
 
     result = render_inline(described_class.new(application_choice))
 
@@ -20,7 +26,9 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   end
 
   it 'displays reasons for rejection on rejected application with structured reasons' do
-    application_choice = create(:application_choice, :with_structured_rejection_reasons)
+    application_choice = create(:application_choice,
+                                :with_completed_application_form,
+                                :with_structured_rejection_reasons)
 
     result = render_inline(described_class.new(application_choice))
 
@@ -30,7 +38,9 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   end
 
   it 'displays reasons for rejection on rejected application without structured reasons' do
-    application_choice = create(:application_choice, :with_rejection)
+    application_choice = create(:application_choice,
+                                :with_completed_application_form,
+                                :with_rejection)
 
     result = render_inline(described_class.new(application_choice))
 
@@ -41,6 +51,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   it 'displays offer date and DBD date for offered applications' do
     application_choice = create(
       :application_choice,
+      :with_completed_application_form,
       :with_offer,
       offered_at: Time.zone.local(2020, 1, 1, 10),
       decline_by_default_at: Time.zone.local(2020, 1, 10, 10),
@@ -58,6 +69,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   it 'does not display DBD date for offered applications when it has not yet been set' do
     application_choice = create(
       :application_choice,
+      :with_completed_application_form,
       :with_offer,
       offered_at: Time.zone.local(2020, 1, 1, 10),
       decline_by_default_at: nil,
@@ -71,6 +83,7 @@ RSpec.describe SupportInterface::ApplicationChoiceComponent do
   it 'displays the course offered by the provider when the applied course is different' do
     application_choice = create(
       :application_choice,
+      :with_completed_application_form,
       :with_offer,
       offered_course_option: create(:course_option),
       offered_at: Time.zone.local(2020, 1, 1, 10),

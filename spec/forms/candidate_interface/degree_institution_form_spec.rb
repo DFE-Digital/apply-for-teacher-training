@@ -42,7 +42,7 @@ RSpec.describe CandidateInterface::DegreeInstitutionForm do
         degree = create(
           :degree_qualification,
           international: true,
-          application_form: create(:application_form),
+          application_form: build(:application_form),
         )
         form = described_class.new(
           degree: degree,
