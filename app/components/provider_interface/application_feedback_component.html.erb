@@ -2,23 +2,7 @@
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-m govuk-!-font-size-27">Feedback</h2>
 
-    <% if @application_choice.structured_rejection_reasons.present? %>
-      <p class="govuk-body">
-        This application was <%= ('automatically' if @application_choice.rejected_by_default?) %> rejected on <%= @application_choice.rejected_at.to_s(:govuk_date) %>.
-        <% if @application_choice.reject_by_default_feedback_sent_at.present? -%>
-          Feedback was sent on <%= @application_choice.reject_by_default_feedback_sent_at.to_s(:govuk_date) %>.
-        <% else -%>
-          The following feedback was sent to the candidate.
-        <% end -%>
-      </p>
-      <div class="govuk-inset-text">
-        <%= render ReasonsForRejectionComponent.new(
-          application_choice: @application_choice,
-          reasons_for_rejection: ReasonsForRejection.new(@application_choice.structured_rejection_reasons),
-        ) %>
-      </div>
-    <% else %>
-      <%= render SummaryListComponent.new(rows: rejected_rows) %>
-    <% end %>
+    <%= render ProviderInterface::ApplicationRejectionFeedbackComponent.new(application_choice: application_choice) %>
+
   </div>
 </div>
