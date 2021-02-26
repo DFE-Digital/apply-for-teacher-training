@@ -1,8 +1,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m govuk-!-font-size-27">Feedback</h2>
-
+    <h2 class="govuk-heading-l govuk-!-margin-bottom govuk-!-font-size-36">Feedback</h2>
     <%= render ProviderInterface::ApplicationRejectionFeedbackComponent.new(application_choice: application_choice) %>
-
+    <%= render ProviderInterface::ApplicationOfferWithdrawnFeedbackComponent.new(application_choice: application_choice) %>
   </div>
 </div>
