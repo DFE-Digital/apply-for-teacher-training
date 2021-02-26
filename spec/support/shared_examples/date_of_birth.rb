@@ -1,5 +1,4 @@
 RSpec.shared_examples 'date_of_birth validations' do |verify_presence|
-  let(:model) { described_class.new(day: day, month: month, year: year) }
   let(:day) { date_of_birth.day }
   let(:month) { date_of_birth.month }
   let(:year) { date_of_birth.year }
