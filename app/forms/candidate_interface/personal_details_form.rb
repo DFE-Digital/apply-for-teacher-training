@@ -5,7 +5,7 @@ module CandidateInterface
     attr_accessor :first_name, :last_name, :day, :month, :year
 
     validates :first_name, :last_name, presence: true, length: { maximum: 60 }
-    validates :date_of_birth, date: { date_of_birth: true }
+    validates :date_of_birth, date: { date_of_birth: true, presence: true }
 
     def self.build_from_application(application_form)
       new(
