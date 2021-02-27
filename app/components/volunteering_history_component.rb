@@ -1,7 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
 class VolunteeringHistoryComponent < ViewComponent::Base
-  validates :application_form, presence: true
-
   def initialize(application_form:)
     self.application_form = application_form
   end

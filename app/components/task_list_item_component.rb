@@ -1,8 +1,6 @@
 class TaskListItemComponent < ViewComponent::Base
   include ViewHelper
 
-  validates :path, presence: true
-
   def initialize(
     completed:,
     path:,

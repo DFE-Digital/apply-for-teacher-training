@@ -3,8 +3,6 @@ module CandidateInterface
     include ViewHelper
     attr_reader :application_form
 
-    validates :application_form, presence: true
-
     def initialize(application_form:)
       @application_form = application_form
     end

@@ -1,7 +1,5 @@
 module CandidateInterface
   class UnsubmittedReferenceReviewComponent < SummaryListComponent
-    validates :reference, presence: true
-
     def initialize(reference:)
       @reference = reference
     end

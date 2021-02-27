@@ -1,7 +1,5 @@
 module CandidateInterface
   class OfferReviewComponent < SummaryListComponent
-    validates :course_choice, presence: true
-
     def initialize(course_choice:)
       @course_choice = course_choice
     end

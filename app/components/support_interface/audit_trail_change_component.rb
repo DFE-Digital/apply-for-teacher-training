@@ -4,9 +4,6 @@ module SupportInterface
 
     REDACTED_ATTRIBUTES = %w[sex disabilities ethnic_group ethnic_background].freeze
 
-    validates :attribute, presence: true
-    validates :values, presence: true
-
     def initialize(attribute:, values:, last_change:)
       @attribute = attribute
       @values = values

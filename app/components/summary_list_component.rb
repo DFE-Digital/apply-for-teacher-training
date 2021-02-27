@@ -1,6 +1,5 @@
 class SummaryListComponent < ViewComponent::Base
   include ViewHelper
-  validates :rows, presence: true
 
   def initialize(rows:)
     rows = transform_hash(rows) if rows.is_a?(Hash)

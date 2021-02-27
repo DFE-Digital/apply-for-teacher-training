@@ -2,8 +2,6 @@
 class PersonalStatementComponent < ViewComponent::Base
   include ViewHelper
 
-  validates :application_form, presence: true
-
   delegate :becoming_a_teacher,
            :subject_knowledge,
            :further_information,

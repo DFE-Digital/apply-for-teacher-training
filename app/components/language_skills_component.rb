@@ -1,7 +1,5 @@
 # NOTE: This component is used by both provider and support UIs
 class LanguageSkillsComponent < ViewComponent::Base
-  validates :application_form, presence: true
-
   delegate :english_main_language,
            :english_language_details,
            :other_language_details,

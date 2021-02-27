@@ -2,8 +2,6 @@ module CandidateInterface
   class CourseOptionReviewComponent < ViewComponent::Base
     include ViewHelper
 
-    validates :course_option, presence: true
-
     def initialize(course_option:)
       @course_option = course_option
     end

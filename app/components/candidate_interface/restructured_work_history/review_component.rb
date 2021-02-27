@@ -1,8 +1,6 @@
 module CandidateInterface
   module RestructuredWorkHistory
     class ReviewComponent < ViewComponent::Base
-      validates :application_form, presence: true
-
       def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
         @application_form = application_form
         @editable = editable

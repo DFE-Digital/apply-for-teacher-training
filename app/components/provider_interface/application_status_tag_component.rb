@@ -1,6 +1,5 @@
 module ProviderInterface
   class ApplicationStatusTagComponent < ViewComponent::Base
-    validates :application_choice, presence: true
     delegate :status, to: :application_choice
 
     def initialize(application_choice:)

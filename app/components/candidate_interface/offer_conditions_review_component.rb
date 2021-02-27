@@ -1,7 +1,5 @@
 module CandidateInterface
   class OfferConditionsReviewComponent < ViewComponent::Base
-    validates :conditions, :provider, presence: true
-
     def initialize(conditions:, provider:)
       @conditions = conditions
       @provider = provider

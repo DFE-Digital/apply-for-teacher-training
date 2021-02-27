@@ -2,8 +2,6 @@ module SupportInterface
   class AuditTrailItemComponent < ViewComponent::Base
     include ViewHelper
 
-    validates :audit, presence: true
-
     def initialize(audit:)
       @audit = audit
     end
