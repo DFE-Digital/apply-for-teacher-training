@@ -8,7 +8,7 @@ class SummaryListComponent < ViewComponent::Base
   end
 
   def any_row_has_action_span?
-    @rows.select { |row| row.key?(:action) }.any?
+    rows.select { |row| row.key?(:action) }.any?
   end
 
 private
