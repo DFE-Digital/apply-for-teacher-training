@@ -45,18 +45,24 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
     it { is_expected.to allow_value(okay_text).for(:details) }
     it { is_expected.not_to allow_value(long_text).for(:details) }
 
-    include_examples 'validation for a start date', 'work_experience_form', verify_presence: true
-    include_examples 'validation for an end date that can be blank', 'work_experience_form'
+    context 'start_date validations' do
+      let(:model) do
+        described_class.new(start_date_day: start_date_day,
+                            start_date_month: start_date_month,
+                            start_date_year: start_date_year)
+      end
 
-    it 'does not accept negative integers in the year field' do
-      form_data[:start_date_year] = -1999
-      form_data[:end_date_year] = -1999
-      work_experience = CandidateInterface::WorkExperienceForm.new(form_data)
+      include_examples 'month and year date validations', :start_date, verify_presence: true, future: true
+    end
 
-      expect(work_experience).not_to be_valid
-      errors = work_experience.errors.messages
-      expect(errors[:start_date].pop).to eq 'Enter a real start date, for example 5 2019'
-      expect(errors[:end_date].pop).to eq 'Enter a real end date, for example 5 2019'
+    context 'end_date validations' do
+      let(:model) do
+        described_class.new(end_date_day: end_date_day,
+                            end_date_month: end_date_month,
+                            end_date_year: end_date_year)
+      end
+
+      include_examples 'month and year date validations', :end_date, future: true
     end
   end
 

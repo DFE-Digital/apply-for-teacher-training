@@ -28,8 +28,36 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
     it { is_expected.to allow_value(okay_text).for(:reason) }
     it { is_expected.not_to allow_value(long_text).for(:reason) }
 
-    include_examples 'validation for a start date', 'work_history_break_form', validate_presence: true
-    include_examples 'validation for an end date that cannot be blank', 'work_history_break_form', validate_presence: true
+    context 'start_date validations' do
+      let(:model) do
+        described_class.new(start_date_day: start_date_day,
+                            start_date_month: start_date_month,
+                            start_date_year: start_date_year)
+      end
+
+      include_examples 'month and year date validations', :start_date, verify_presence: true, future: true
+
+      describe 'when after the end date' do
+        it 'returns a :before error' do
+          model = described_class.new(start_date_month: '5', start_date_year: '2018',
+                                      end_date_month: '5', end_date_year: '2017')
+
+          expect(model).to be_invalid
+
+          expect(model.errors.added?(:start_date, :before)).to eq(true)
+        end
+      end
+    end
+
+    context 'end_date validations' do
+      let(:model) do
+        described_class.new(end_date_day: end_date_day,
+                            end_date_month: end_date_month,
+                            end_date_year: end_date_year)
+      end
+
+      include_examples 'month and year date validations', :end_date, verify_presence: true, future: true
+    end
   end
 
   describe '.build_from_break' do
