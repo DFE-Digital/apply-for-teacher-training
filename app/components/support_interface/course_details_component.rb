@@ -1,5 +1,5 @@
 module SupportInterface
-  class CourseDetailsComponent < ViewComponent::Base
+  class CourseDetailsComponent < SummaryListComponent
     include ViewHelper
 
     attr_reader :course

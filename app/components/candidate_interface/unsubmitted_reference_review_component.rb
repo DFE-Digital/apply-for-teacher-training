@@ -1,12 +1,12 @@
 module CandidateInterface
-  class UnsubmittedReferenceReviewComponent < ViewComponent::Base
+  class UnsubmittedReferenceReviewComponent < SummaryListComponent
     validates :reference, presence: true
 
     def initialize(reference:)
       @reference = reference
     end
 
-    def reference_rows(reference)
+    def rows
       [
         name_row(reference),
         email_address_row(reference),
