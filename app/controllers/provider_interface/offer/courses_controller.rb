@@ -5,6 +5,12 @@ module ProviderInterface
         @wizard = OfferWizard.new(offer_store, {current_step: 'course'})
         @wizard.save_state!
         set_courses
+
+        # if logic is on wizard
+        if @courses.length == 1
+          @wizard = OfferWizard.new(offer_store, course_id: @courses.first.id)
+          return redirect_to [:new , :provider_interface, :offer, @wizard.next_step] # where next step is sites
+        end
       end
 
       def create
@@ -13,7 +19,7 @@ module ProviderInterface
         @wizard.save_state!
 
         if @wizard.valid?
-          redirect_to []
+          return redirect_to [:new , :provider_interface, :offer, @wizard.next_step]
         else
           set_courses
           render 'new'

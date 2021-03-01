@@ -13,9 +13,9 @@ module ProviderInterface
         @wizard.save_state!
 
         if @wizard.valid?
-          redirect_to new_provider_interface_offer_course_path
+          return redirect_to [:new , :provider_interface, :offer, @wizard.next_step]
         else
-          @providers =  current_provider_user.providers
+          @providers = current_provider_user.providers
           render 'new'
         end
       end

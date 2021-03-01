@@ -42,12 +42,39 @@ module ProviderInterface
       valid?(current_step.to_sym)
     end
 
-    def next_step
+    def next_step(current_step = current_setp)
       index = STEPS[current_context.to_sym].index(current_step.to_sym)
-      puts index
-      if index
-        STEPS[current_context.to_sym][index + 1]
+
+      #if index
+        #STEPS[current_context.to_sym][index + 1]
+      #end
+
+      # if logic about next step is on wizard
+      if current_step == :select_provider
+        next_step = :select_courses
+
+        #index = index + 1
+        courses = Course.where(
+          open_on_apply: true,
+          provider_id: provider_id,
+          recruitment_cycle_year: course_option.course.recruitment_cycle_year,
+        ).count
+
+        if courses.count == 1
+          course_id = courses.first.id
+          next_step(:select_location)
+        end
+      elsif current_step == :select_location
+        locations = courses.locations
+
+        if locations.count == 1
+          location_id = locations.first.id
+          if courses.sites.count == 1
+            site = courses.sites.first # call some service that returns available sites?
+          end
+        end
       end
+
     end
 
     private
