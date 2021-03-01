@@ -21,17 +21,19 @@ module CandidateInterface
       validates :organisation,
                 :role,
                 :commitment,
-                :currently_working,
-                :relevant_skills,
                 presence: true
       validates :role, :organisation, length: { maximum: 60 }
-      validates :start_date_unknown, inclusion: { in: %w[true false] }
-      validates :end_date_unknown, inclusion: { in: %w[true false] }
-      validates :currently_working, inclusion: { in: %w[true false] }
-      validates :relevant_skills, inclusion: { in: %w[true false] }
-
       validates :start_date, date: { future: true, month_and_year: true, presence: true, before: :end_date }
       validates :end_date, date: { future: true, month_and_year: true, presence: true }, if: :not_currently_employed_in_this_role?
+      validates :start_date_unknown, inclusion: { in: %w[true false] }
+      validates :end_date_unknown, inclusion: { in: %w[true false] }
+      # Force the order in which these appear in govuk_error_summary by declaring
+      # separately from presence validations above:
+      validates :currently_working,
+                :relevant_skills,
+                presence: true
+      validates :currently_working, inclusion: { in: %w[true false] }
+      validates :relevant_skills, inclusion: { in: %w[true false] }
 
       def self.build_form(job)
         new(
