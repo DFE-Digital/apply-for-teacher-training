@@ -24,7 +24,7 @@ module ProviderInterface
           'domicile' => application.application_form.domicile,
           'uk_residency_status' => application.application_form.uk_residency_status,
           'english_main_language' => application.application_form.english_main_language,
-          'english_language_qualifications' => application.application_form.english_language_details,
+          'english_language_qualifications' => replace_smart_quotes(application.application_form.english_language_details),
           'email' => application.application_form.candidate.email_address,
           'phone_number' => application.application_form.phone_number,
           'address_line1' => application.application_form.address_line1,
@@ -49,16 +49,20 @@ module ProviderInterface
           'start_year' => application.first_degree.start_year,
           'award_year' => application.first_degree.award_year,
           'institution_details' => application.first_degree.institution_name,
-          'equivalency_details' => application.first_degree.composite_equivalency_details,
+          'equivalency_details' => replace_smart_quotes(application.first_degree.composite_equivalency_details),
           'awarding_body' => application.first_degree.awarding_body,
-          'gcse_qualifications_summary' => application.gcse_qualifications_summary,
-          'missing_gcses_explanation' => application.missing_gcses_explanation,
+          'gcse_qualifications_summary' => replace_smart_quotes(application.gcse_qualifications_summary),
+          'missing_gcses_explanation' => replace_smart_quotes(application.missing_gcses_explanation),
           'disability_disclosure' => application.application_form.disability_disclosure,
         }
       end
 
       header_row ||= rows.first&.keys
       SafeCSV.generate(rows.map(&:values), header_row)
+    end
+
+    def self.replace_smart_quotes(text)
+      text&.gsub(/(“|”)/, '"')&.gsub(/(‘|’)/, "'")
     end
   end
 end

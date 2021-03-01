@@ -82,4 +82,10 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
       end
     end
   end
+
+  describe 'replace_smart_quotes' do
+    it 'replaces smart quotes in text' do
+      expect(described_class.replace_smart_quotes(%(“double-quote” ‘single-quote’))).to eq(%("double-quote" 'single-quote'))
+    end
+  end
 end
