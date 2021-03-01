@@ -2,8 +2,6 @@
 class WorkHistoryItemComponent < ViewComponent::Base
   include ViewHelper
 
-  validates :item, presence: true
-
   def initialize(item:)
     self.item = item
   end

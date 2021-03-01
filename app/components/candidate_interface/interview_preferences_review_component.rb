@@ -1,7 +1,5 @@
 module CandidateInterface
   class InterviewPreferencesReviewComponent < ViewComponent::Base
-    validates :application_form, presence: true
-
     def initialize(application_form:, editable: true, missing_error: false, submitting_application: false)
       @application_form = application_form
       @interview_preferences_form = CandidateInterface::InterviewPreferencesForm.build_from_application(

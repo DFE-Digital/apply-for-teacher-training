@@ -1,5 +1,5 @@
 module ProviderInterface
-  class InterviewDetailsComponent < ViewComponent::Base
+  class InterviewDetailsComponent < SummaryListComponent
     include ViewHelper
 
     def initialize(interview_form, interview = nil)

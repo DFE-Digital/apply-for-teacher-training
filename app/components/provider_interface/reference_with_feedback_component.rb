@@ -1,7 +1,5 @@
 module ProviderInterface
   class ReferenceWithFeedbackComponent < ViewComponent::Base
-    validates :reference, presence: true
-
     delegate :feedback,
              :name,
              :email_address,

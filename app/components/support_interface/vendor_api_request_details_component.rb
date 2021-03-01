@@ -1,5 +1,5 @@
 module SupportInterface
-  class VendorAPIRequestDetailsComponent < ViewComponent::Base
+  class VendorAPIRequestDetailsComponent < SummaryListComponent
     include ViewHelper
     attr_reader :vendor_api_request
 

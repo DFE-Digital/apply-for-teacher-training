@@ -1,7 +1,6 @@
 module SupportInterface
   class ReferenceWithFeedbackComponent < ViewComponent::Base
     include ViewHelper
-    validates :reference, presence: true
 
     delegate :feedback,
              :name,

@@ -1,7 +1,5 @@
 module CandidateInterface
   class SubjectKnowledgeReviewComponent < ViewComponent::Base
-    validates :application_form, presence: true
-
     def initialize(application_form:, editable: true, missing_error: false, submitting_application: false)
       @application_form = application_form
       @subject_knowledge_form = CandidateInterface::SubjectKnowledgeForm.build_from_application(

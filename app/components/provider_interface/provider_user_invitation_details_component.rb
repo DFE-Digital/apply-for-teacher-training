@@ -1,5 +1,5 @@
 module ProviderInterface
-  class ProviderUserInvitationDetailsComponent < ViewComponent::Base
+  class ProviderUserInvitationDetailsComponent < SummaryListComponent
     include ViewHelper
     attr_reader :header
 

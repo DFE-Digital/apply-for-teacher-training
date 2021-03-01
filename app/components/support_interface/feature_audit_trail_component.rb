@@ -2,8 +2,6 @@ module SupportInterface
   class FeatureAuditTrailComponent < ViewComponent::Base
     include ViewHelper
 
-    validates :feature, presence: true
-
     ACTIVE_LABEL = 'Active'.freeze
     INACTIVE_LABEL = 'Inactive'.freeze
 

@@ -2,8 +2,6 @@ module CandidateInterface
   class IncompleteSectionComponent < ViewComponent::Base
     include ViewHelper
 
-    validates :section, :section_path, presence: true
-
     def initialize(
       section:,
       section_path:,

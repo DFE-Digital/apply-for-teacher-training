@@ -1,6 +1,4 @@
 class SummaryCardComponent < ViewComponent::Base
-  validates :rows, presence: true
-
   def initialize(rows:, border: true, editable: true, ignore_editable: [])
     rows = transform_hash(rows) if rows.is_a?(Hash)
     @rows = rows_including_actions_if_editable(rows, editable, ignore_editable)

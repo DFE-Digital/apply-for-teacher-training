@@ -1,5 +1,5 @@
 module ProviderInterface
-  class FeedbackPreviewComponent < ViewComponent::Base
+  class FeedbackPreviewComponent < SummaryListComponent
     include ViewHelper
 
     attr_reader :rejection_reason
