@@ -51,7 +51,9 @@ module ProviderInterface
 
     def timeline; end
 
-    def feedback; end
+    def feedback
+      redirect_to provider_interface_application_choice_path(@application_choice) unless @application_choice.display_provider_feedback?
+    end
 
     def emails
       if HostingEnvironment.sandbox_mode?

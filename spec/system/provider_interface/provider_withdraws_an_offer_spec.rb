@@ -23,7 +23,7 @@ RSpec.feature 'Provider withdraws an offer' do
     then_i_am_asked_to_confirm_withdrawal_of_the_offer
 
     when_i_confirm_withdrawal_of_the_offer
-    then_i_am_back_to_the_application_page
+    then_i_am_sent_to_the_application_feedback_tab
     and_i_can_see_the_application_offer_is_withdrawn
   end
 
@@ -89,14 +89,13 @@ RSpec.feature 'Provider withdraws an offer' do
     click_on 'Withdraw offer'
   end
 
-  def then_i_am_back_to_the_application_page
+  def then_i_am_sent_to_the_application_feedback_tab
     expect(page).to have_current_path(
-      provider_interface_application_choice_path(
+      provider_interface_application_choice_feedback_path(
         @application_offered.id,
       ),
     )
-    expect(page).to have_content @application_offered.application_form.first_name
-    expect(page).to have_content @application_offered.application_form.last_name
+    expect(page).to have_content @application_offered.offer_withdrawal_reason
   end
 
   def and_i_can_see_the_application_offer_is_withdrawn

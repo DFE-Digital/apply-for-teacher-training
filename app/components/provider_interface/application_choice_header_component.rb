@@ -44,7 +44,7 @@ module ProviderInterface
         { name: 'Timeline', url: provider_interface_application_choice_timeline_path(application_choice) },
       )
 
-      unless application_choice.no_feedback?
+      if application_choice.display_provider_feedback?
         sub_navigation_items.push(
           { name: 'Feedback', url: provider_interface_application_choice_feedback_path(application_choice) },
         )
