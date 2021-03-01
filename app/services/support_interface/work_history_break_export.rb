@@ -1,5 +1,5 @@
 module SupportInterface
-  class UnexplainedBreaksInWorkHistoryExport
+  class WorkHistoryBreakExport
     class UnexplainedBreak
       def initialize(month_range:)
         @month_range = month_range

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SupportInterface::UnexplainedBreaksInWorkHistoryExport do
+RSpec.describe SupportInterface::WorkHistoryBreakExport do
   describe '#data_for_export' do
     it 'returns an array of hashes for candidates with unexplained breaks in their work history' do
       create(:candidate)
