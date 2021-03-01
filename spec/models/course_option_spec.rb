@@ -122,22 +122,4 @@ RSpec.describe CourseOption, type: :model do
       end
     end
   end
-
-  describe '#get_alternative_study_mode' do
-    let!(:course_option) { create(:course_option, :full_time) }
-
-    context 'when a course option has a sibling course_option' do
-      it 'returns the sibling course_option' do
-        course_option2 = create(:course_option, :part_time, course: course_option.course, site: course_option.site)
-
-        expect(course_option.get_alternative_study_mode).to eq course_option2
-      end
-    end
-
-    context 'when a course options course does not have another study mode' do
-      it 'returns nil' do
-        expect(course_option.get_alternative_study_mode).to eq nil
-      end
-    end
-  end
 end

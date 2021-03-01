@@ -43,10 +43,6 @@ class CourseOption < ApplicationRecord
     (course.available_study_modes_from_options - [study_mode]).first
   end
 
-  def get_alternative_study_mode
-    CourseOption.find_by(site: site, course: course, study_mode: alternative_study_mode)
-  end
-
   def in_previous_cycle
     equivalent_course = course.in_previous_cycle
 
