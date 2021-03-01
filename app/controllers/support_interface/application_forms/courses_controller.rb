@@ -47,10 +47,6 @@ module SupportInterface
 
     private
 
-      def application_form
-        @application_form ||= ApplicationForm.find(application_form_id)
-      end
-
       def course_option_id
         params.dig(:support_interface_application_forms_pick_course_form, :course_option_id)
       end

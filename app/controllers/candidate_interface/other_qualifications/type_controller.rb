@@ -77,19 +77,6 @@ module CandidateInterface
       )
     end
 
-    def form_for(options)
-      options[:editing] = true if params[:editing] == 'true'
-      if options.delete(:initialize_from_db)
-        options.merge!(type_attributes(current_qualification)) if params[:id]
-      end
-
-      OtherQualificationTypeForm.new(
-        current_application,
-        intermediate_data_service,
-        options,
-      )
-    end
-
     def other_qualification_type_params
       strip_whitespace params
         .fetch(:candidate_interface_other_qualification_type_form, {})
