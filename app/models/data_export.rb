@@ -116,9 +116,9 @@ class DataExport < ApplicationRecord
       class: SupportInterface::UserPermissionsExport,
     },
     work_history_break: {
-        name: 'Work history break',
-        description: 'A list of candidates with breaks in their work history.',
-        class: SupportInterface::WorkHistoryBreakExport,
+      name: 'Work history break',
+      description: 'A list of candidates with breaks in their work history.',
+      class: SupportInterface::WorkHistoryBreakExport,
     },
   }.freeze
 

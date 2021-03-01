@@ -36,12 +36,10 @@ module SupportInterface
         output = {
           'Candidate id' => application_form.candidate_id,
           'Application id' => application_form.id,
-          'Application submitted' => application_form.submitted_at,
+          'Application submitted' => application_form.submitted_at.to_date,
           'Course choice statuses' => application_form.application_choices.map(&:status).sort,
-
           'Start of working life' => start_of_working_life(application_form),
           'Total time in employment (months)' => total_time_in_employment(application_form),
-
         }
 
         if explained_breaks.any?
