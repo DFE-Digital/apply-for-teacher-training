@@ -54,8 +54,9 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
       application_form_four = create(:application_form,
                                      candidate: candidate_four,
                                      date_of_birth: Date.new(1994, 7, 8),
-                                     submitted_at: Date.new(2020, 10, 30),
-                                     work_history_completed: false)
+                                     submitted_at: Date.new(2020, 10, 30))
+      create(:application_choice, application_form: application_form_four, status: :cancelled)
+      create(:application_choice, application_form: application_form_four, status: :recruited)
       create(:application_qualification,
              application_form: application_form_four,
              level: 'degree',
@@ -65,8 +66,30 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
              application_form: application_form_four,
              start_date: Date.new(2015, 10, 19),
              end_date: Date.new(2020, 10, 30))
-      create(:application_choice, application_form: application_form_four, status: :cancelled)
-      create(:application_choice, application_form: application_form_four, status: :recruited)
+
+      candidate_five = create(:candidate)
+      application_form_five = create(:application_form,
+                                     candidate: candidate_five,
+                                     date_of_birth: Date.new(1982, 1, 1),
+                                     submitted_at: Date.new(2020, 12, 31))
+      create(:application_choice, application_form: application_form_five, status: :offer)
+      create(:application_work_experience,
+             application_form: application_form_five,
+             start_date: Date.new(2000, 1, 1),
+             end_date: Date.new(2005, 12, 31))
+      create(:application_work_experience,
+             application_form: application_form_five,
+             start_date: Date.new(2010, 1, 1),
+             end_date: Date.new(2015, 12, 31))
+      create(:application_work_history_break,
+             application_form: application_form_five,
+             reason: 'Volunteering',
+             start_date: Date.new(2016, 1, 1),
+             end_date: Date.new(2020, 12, 31))
+      create(:application_volunteering_experience,
+             application_form: application_form_five,
+             start_date: Date.new(2017, 1, 1),
+             end_date: Date.new(2020, 12, 31))
 
       expect(described_class.new.data_for_export).to contain_exactly(
         {
@@ -126,6 +149,27 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
           'Number of unexplained breaks' => 1,
           'Number of unexplained breaks in last 5 years' => 0,
           'Number of unexplained breaks that coincide with studying for a degree' => 1,
+          'Number of unexplained breaks that coincide with a volunteering experience' => 0,
+          'Number of unexplained breaks that were over 50% volunteering' => 0,
+        },
+        {
+          'Candidate id' => candidate_five.id,
+          'Application id' => application_form_five.id,
+          'Application submitted' => Date.new(2020, 12, 31),
+          'Course choice statuses' => %w[offer],
+          'Start of working life' => Date.new(2000, 1, 1),
+          'Total time in employment (months)' => 144,
+          'Total time of explained breaks (months)' => 60,
+          'Total time volunteering during explained breaks (months)' => 48,
+          'Number of explained breaks' => 1,
+          'Number of explained breaks in last 5 years' => 1,
+          'Number of explained breaks that coincide with a volunteering experience' => 1,
+          'Number of explained breaks that were over 50% volunteering' => 1,
+          'Total time of unexplained breaks (months)' => 49,
+          'Total time volunteering during unexplained breaks (months)' => 0,
+          'Number of unexplained breaks' => 1,
+          'Number of unexplained breaks in last 5 years' => 0,
+          'Number of unexplained breaks that coincide with studying for a degree' => 0,
           'Number of unexplained breaks that coincide with a volunteering experience' => 0,
           'Number of unexplained breaks that were over 50% volunteering' => 0,
         },
