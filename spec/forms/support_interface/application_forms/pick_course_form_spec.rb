@@ -5,7 +5,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
     let(:first_site) { build(:site) }
     let(:second_site) { build(:site) }
     let(:provider) { build(:provider, sites: [first_site, second_site]) }
-    let(:course) { build(:course, code: 'ABC', provider: provider) }
+    let(:course) { build(:course, :open_on_apply, code: 'ABC', provider: provider) }
 
     it 'returns only course options that have vacancies' do
       course_option_with_vacancies = create(:course_option, site: first_site, course: course)
@@ -37,6 +37,21 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
 
       expect(course_options.length).to eq(0)
     end
+
+    it 'does not return course options for courses not open on apply' do
+      course = create(:course)
+      create(:course_option, course: create(:course))
+      application_form = create(:completed_application_form)
+
+      form_data = {
+        application_form_id: application_form.id,
+        course_code: course.code,
+      }
+
+      course_options = described_class.new(form_data).course_options
+
+      expect(course_options).to be_empty
+    end
   end
 
   describe '#save' do
@@ -46,7 +61,7 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
 
     it 'updates the application form with the course choice' do
       application_form = create(:application_form)
-      course_option = create(:course_option)
+      course_option = create(:course_option, course: create(:course, :open_on_apply))
 
       form_data = {
         application_form_id: application_form.id,
@@ -62,5 +77,11 @@ RSpec.describe SupportInterface::ApplicationForms::PickCourseForm, type: :model 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:course_option_id) }
     it { is_expected.to validate_presence_of(:application_form_id) }
+
+    it 'checks that the course is open on Apply' do
+      form = described_class.new(course_option_id: '123', course_code: 'ABC')
+      expect(form.valid?(:save)).to be false
+      expect(form.errors[:course_option_id]).to eq(['This course is not open on the Apply service'])
+    end
   end
 end

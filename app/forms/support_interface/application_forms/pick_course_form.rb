@@ -8,6 +8,7 @@ module SupportInterface
       validates :course_option_id, presence: true
       validates :application_form_id, presence: true
       validates :course_code, presence: true
+      validate :course_is_open_on_apply, on: :save
 
       RadioOption = Struct.new(:course_option_id, :course_name, :course_code, :site_name)
 
@@ -26,7 +27,7 @@ module SupportInterface
       end
 
       def save
-        return false unless valid?
+        return false unless valid?(:save)
 
         SupportInterface::AddCourseChoiceAfterSubmission.new(
           application_form: application_form,
@@ -53,12 +54,13 @@ module SupportInterface
       def courses
         Course
           .current_cycle
+          .open_on_apply
           .includes(course_options: [:site])
           .where(code: sanitize(course_code))
       end
 
       def sanitize(course_code)
-        course_code.strip.upcase
+        course_code&.strip&.upcase
       end
 
       def existing_course_ids
@@ -66,6 +68,12 @@ module SupportInterface
           .application_choices
           .map(&:course_option)
           .pluck(:course_id)
+      end
+
+      def course_is_open_on_apply
+        return if Course.open_on_apply.exists?(code: sanitize(course_code))
+
+        errors.add(:course_option_id, 'This course is not open on the Apply service')
       end
     end
   end

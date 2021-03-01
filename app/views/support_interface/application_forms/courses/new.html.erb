@@ -14,7 +14,7 @@
         <%= f.govuk_submit 'Add course to application' %>
       <% end %>
     <% else %>
-      <p class="govuk-body">No results</p>
+      <p class="govuk-body">No open courses found for current recruitment cycle.</p>
       <%= govuk_link_to('Search again', support_interface_application_form_search_course_new_path(course_code: @pick_course.course_code)) %>
     <% end %>
   </div>
