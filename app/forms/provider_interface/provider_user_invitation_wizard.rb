@@ -3,7 +3,7 @@ module ProviderInterface
     include ActiveModel::Model
     STATE_STORE_KEY = :provider_user_invitation_wizard
 
-    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :checking_answers, :single_provider, :view_applications_only
+    attr_accessor :current_step, :current_provider_id, :first_name, :last_name, :checking_answers, :single_provider
     attr_reader :email_address
     attr_writer :providers, :provider_permissions, :state_store
 
@@ -15,21 +15,11 @@ module ProviderInterface
     end
 
     validates :providers, presence: true, on: :providers
-    validates :view_applications_only, presence: { message: 'Choose whether this user has extra permissions' }, on: :permissions
-    validate :at_least_one_extra_permission_is_set_if_necessary, on: :permissions
 
-    class PermissionsForm
-      include ActiveModel::Model
-
-      attr_accessor :provider_id, :permissions
-
-      alias_method :id, :provider_id
-    end
+    validate :permission_form_is_valid, on: :permissions
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
-
-      delete_permissions_if_view_applications_only(attrs)
 
       super(last_saved_state.deep_merge(attrs))
 
@@ -60,6 +50,10 @@ module ProviderInterface
 
     def permissions_for(provider_id)
       provider_permissions[provider_id].presence || { provider_id: provider_id, permissions: [] }
+    end
+
+    def permissions_form
+      @_permissions_form ||= FieldsForProviderUserPermissionsForm.new(permissions_for(current_provider_id))
     end
 
     def valid_for_current_step?
@@ -125,23 +119,16 @@ module ProviderInterface
 
   private
 
-    def at_least_one_extra_permission_is_set_if_necessary
-      return if ActiveModel::Type::Boolean.new.cast(view_applications_only)
+    def permission_form_is_valid
+      return if permissions_form.valid?
 
-      selected_permissions = permissions_for(current_provider_id).fetch('permissions', []).reject(&:blank?)
-      if selected_permissions.none?
-        errors[:provider_permissions] << 'Select extra permissions'
-      end
-    end
-
-    def delete_permissions_if_view_applications_only(attrs)
-      attrs.fetch(:provider_permissions, {}).each_key do |k|
-        attrs[:provider_permissions][k].delete(:permissions) if attrs[:view_applications_only] == 'true'
+      permissions_form.errors.map do |key, message|
+        errors.add("provider_permissions[#{permissions_form.id}][#{key}]", message)
       end
     end
 
     def state
-      as_json(except: %w[state_store errors validation_context current_step current_provider_id]).to_json
+      as_json(except: %w[state_store errors validation_context current_step current_provider_id _permissions_form]).to_json
     end
 
     def last_saved_state

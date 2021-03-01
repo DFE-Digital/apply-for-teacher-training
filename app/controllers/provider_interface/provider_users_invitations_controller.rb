@@ -39,10 +39,8 @@ module ProviderInterface
 
     def edit_permissions
       @wizard = wizard_for(current_step: 'permissions', current_provider_id: params[:provider_id])
-      @provider = current_provider_user.providers.find(params[:provider_id])
       @wizard.save_state!
-
-      setup_permission_form
+      @provider = current_provider_user.providers.find(params[:provider_id])
     end
 
     def update_permissions
@@ -52,7 +50,7 @@ module ProviderInterface
         @wizard.save_state!
         redirect_to next_redirect
       else
-        setup_permission_form
+        @provider = current_provider_user.providers.find(params[:provider_id])
         render :edit_permissions
       end
     end
@@ -142,24 +140,15 @@ module ProviderInterface
 
     def permissions_params
       params.require(:provider_interface_provider_user_invitation_wizard)
-        .permit(:view_applications_only, provider_permissions: {})
+        .permit(provider_permissions: {})
     end
 
     def require_manage_user_permission!
       render_404 unless current_provider_user.authorisation.can_manage_users_for_at_least_one_provider?
     end
 
-    def setup_permission_form
-      @provider = Provider.find(params[:provider_id])
-
-      @permissions_form = ProviderInterface::ProviderUserInvitationWizard::PermissionsForm.new(
-        provider_id: @provider.id,
-        permissions: @wizard.permissions_for_provider(@provider.id),
-      )
-    end
-
     def persistence_key_for_current_user
-      "provider_user_invitation_wizard-#{current_provider_user.id}"
+      "provider_user_invitation_wizard_store-#{current_provider_user.id}"
     end
   end
 end

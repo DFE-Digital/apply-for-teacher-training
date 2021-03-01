@@ -1,20 +1,12 @@
-<%= form_with(
-  model: permissions_form,
-  method: :patch,
-  url: provider_interface_provider_user_edit_permissions_path(
-    provider_id: permissions_form.provider.id,
-    provider_user_id: permissions_form.provider_user.id,
-  ),
-) do |f| %>
-  <%= f.govuk_error_summary %>
-  <%= f.hidden_field :provider_id %>
-  <%= f.govuk_radio_buttons_fieldset(
+<%= top_level_form.fields_for 'provider_permissions[]', permissions_form do |pf| %>
+  <%= pf.hidden_field :provider_id %>
+  <%= pf.govuk_radio_buttons_fieldset(
     :view_applications_only,
-    legend: { text: "Change permissions: #{permissions_form.provider.name}", size: 'l' },
-    caption: { text: permissions_form.provider_user.full_name, size: 'l' },
+    legend: { text: "Change permissions: #{provider.name}", size: 'l' },
+    caption: { text: provider_user_name, size: 'l' },
   ) do %>
 
-    <%= f.govuk_radio_button(
+    <%= pf.govuk_radio_button(
       :view_applications_only,
       'true',
       label: { text: 'View applications only' },
@@ -22,79 +14,72 @@
       link_errors: true,
     ) %>
 
-    <%= f.govuk_radio_button(
+    <%= pf.govuk_radio_button(
       :view_applications_only,
       'false',
       label: { text: 'Extra permissions' },
       hint: { text: 'For example, being able to make offers and access sensitive content' },
     ) do %>
 
-      <%= f.govuk_check_boxes_fieldset :permissions, legend: { text: 'Select permissions', size: 'm' } do %>
+      <%= pf.govuk_check_boxes_fieldset :permissions, legend: { text: 'Select permissions', size: 'm' } do %>
 
-        <%= f.govuk_check_box(
-          :manage_organisations,
-          true,
-          multiple: false,
+        <%= pf.govuk_check_box(
+          :permissions,
+          'manage_organisations',
           label: { text: 'Manage organisational permissions' },
           hint: { text: 'Change permissions between organisations' },
           link_errors: true,
         ) %>
 
-        <%= f.govuk_check_box(
-          :manage_users,
-          true,
-          multiple: false,
+        <%= pf.govuk_check_box(
+          :permissions,
+          'manage_users',
           label: { text: 'Manage users' },
           hint: { text: 'Invite or delete users and set their permissions' },
         ) %>
 
-        <%= f.govuk_check_box(
-          :make_decisions,
-          true,
-          multiple: false,
+        <%= pf.govuk_check_box(
+          :permissions,
+          'make_decisions',
           label: { text: 'Make decisions' },
           hint: { text: 'Make offers, amend offers and reject applications' },
         ) %>
 
         <div class="govuk-body govuk-!-margin-left-6">
           <%= render AssociatedProvidersPermissionsListComponent.new(
-            provider: permissions_form.provider,
+            provider: provider,
             permission_name: 'make_decisions',
           ) %>
         </div>
 
-        <%= f.govuk_check_box(
-          :view_safeguarding_information,
-          true,
-          multiple: false,
+        <%= pf.govuk_check_box(
+          :permissions,
+          'view_safeguarding_information',
           label: { text: 'Access safeguarding information' },
           hint: { text: 'View sensitive material about the candidate' },
         ) %>
 
         <div class="govuk-body govuk-!-margin-left-6">
           <%= render AssociatedProvidersPermissionsListComponent.new(
-            provider: permissions_form.provider,
+            provider: provider,
             permission_name: 'view_safeguarding_information',
           ) %>
         </div>
 
-        <%= f.govuk_check_box(
-          :view_diversity_information,
-          true,
-          multiple: false,
+        <%= pf.govuk_check_box(
+          :permissions,
+          'view_diversity_information',
           label: { text: 'Access diversity information' },
           hint: { text: 'View diversity information about the candidate' },
         ) %>
 
         <div class="govuk-body govuk-!-margin-left-6">
           <%= render AssociatedProvidersPermissionsListComponent.new(
-            provider: permissions_form.provider,
+            provider: provider,
             permission_name: 'view_diversity_information',
           ) %>
         </div>
       <% end %>
     <% end %>
   <% end %>
-
-  <%= f.govuk_submit 'Save' %>
 <% end %>

@@ -21,7 +21,7 @@ module ProviderInterface
       provider_permissions = find_provider_permissions_model!
       assert_current_user_can_manage_users_for provider_permissions.provider
 
-      @form = ProviderInterface::ProviderUserPermissionsForm.from provider_permissions
+      @form = ProviderInterface::ProviderUserEditPermissionsForm.build_from_model provider_permissions
       if @form.invalid?
         redirect_to provider_interface_provider_user_path(@provider_user)
       end
@@ -31,7 +31,7 @@ module ProviderInterface
       provider_permissions = find_provider_permissions_model!
       assert_current_user_can_manage_users_for provider_permissions.provider
 
-      @form = ProviderInterface::ProviderUserPermissionsForm.from provider_permissions
+      @form = ProviderInterface::ProviderUserEditPermissionsForm.build_from_model provider_permissions
       @form.update_from_params provider_update_permissions_params
 
       if @form.save
@@ -79,8 +79,8 @@ module ProviderInterface
   private
 
     def provider_update_permissions_params
-      params.require(:provider_interface_provider_user_permissions_form)
-            .permit(*ProviderPermissions::VALID_PERMISSIONS, :view_applications_only)
+      params.require(:provider_interface_provider_user_edit_permissions_form)
+            .permit(provider_permissions: {})
     end
 
     def require_manage_users_permission!
