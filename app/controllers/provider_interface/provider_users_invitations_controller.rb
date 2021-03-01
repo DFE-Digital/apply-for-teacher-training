@@ -148,7 +148,7 @@ module ProviderInterface
     end
 
     def persistence_key_for_current_user
-      "provider_user_invitation_wizard-#{current_provider_user.id}"
+      "provider_user_invitation_wizard_store-#{current_provider_user.id}"
     end
   end
 end
