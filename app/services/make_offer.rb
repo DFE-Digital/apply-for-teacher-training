@@ -18,7 +18,7 @@ class MakeOffer
                                     offer_conditions: conditions)
     make_an_offer.save
 
-    if make_an_offer.errors[:base].include?(I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'))
+    if make_an_offer.errors[:base].include?(MakeAnOffer::STATE_TRANSITION_ERROR)
       ApplicationStateChange.new(application_choice).make_offer!
     end
   end
