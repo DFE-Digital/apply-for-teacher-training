@@ -220,10 +220,6 @@ class ApplicationForm < ApplicationRecord
     choices_left_to_make.positive?
   end
 
-  def can_edit_after_submission?
-    apply_1?
-  end
-
   def unique_provider_list
     application_choices.includes([:provider]).map(&:provider).uniq
   end
@@ -233,21 +229,8 @@ class ApplicationForm < ApplicationRecord
       application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::UNSUCCESSFUL_END_STATES.include?(status) }
   end
 
-  def ended_with_success?
-    application_choices.present? &&
-      application_choices.map(&:status).map(&:to_sym).all? { |status| ApplicationStateChange::ACCEPTED_STATES.include?(status) }
-  end
-
-  def can_add_reference?
-    application_references.size < MINIMUM_COMPLETE_REFERENCES
-  end
-
   def too_many_complete_references?
     application_references.feedback_provided.size > MINIMUM_COMPLETE_REFERENCES
-  end
-
-  def ready_to_be_sent_to_provider?
-    !can_edit_after_submission? && enough_references_have_been_provided?
   end
 
   def incomplete_degree_information?
@@ -347,10 +330,6 @@ class ApplicationForm < ApplicationRecord
     english_proficiency&.formatted_qualification_description.presence || self[:english_language_details]
   end
 
-  def has_rejection_reason?
-    application_choices.any? { |application_choice| application_choice.rejection_reason? || application_choice.offer_withdrawal_reason }
-  end
-
   def references_did_not_come_back_in_time?
     application_references.any?(&:cancelled_at_end_of_cycle?)
   end
@@ -391,18 +370,6 @@ private
       saved_change_to_country? ||
       saved_change_to_postcode? ||
       saved_change_to_address_type?
-  end
-
-  def withdrawn_course_choices
-    application_choices.includes(%i[provider course]).select { |choice| choice.course.withdrawn == true }
-  end
-
-  def full_course_choices
-    application_choices.includes(%i[course_option]).select { |choice| choice.course_option.no_vacancies? }
-  end
-
-  def courses_not_on_apply
-    application_choices.includes(%i[course]).reject { |choice| choice.course.open_on_apply }
   end
 
   def add_support_reference
