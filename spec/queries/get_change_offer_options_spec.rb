@@ -10,8 +10,9 @@ RSpec.describe GetChangeOfferOptions do
 
   let(:service) do
     GetChangeOfferOptions.new(
-      application_choice: application_choice,
       user: provider_user,
+      ratifying_provider: accredited_course.accredited_provider,
+      recruitment_cycle_year: RecruitmentCycle.current_year,
     )
   end
 
@@ -23,6 +24,24 @@ RSpec.describe GetChangeOfferOptions do
       training_provider_can_make_decisions: true,
       ratifying_provider_can_make_decisions: true,
     )
+  end
+
+  describe '#actionable_courses' do
+    it 'returns only courses which are open on apply' do
+
+    end
+
+    it 'returns only courses which are in the same recruitment cycle' do
+
+    end
+
+    it 'returns all courses which the user has make decisions for' do
+
+    end
+
+    it 'returns courses which have the same ratifying provider as the original' do
+
+    end
   end
 
   describe '#available_providers' do

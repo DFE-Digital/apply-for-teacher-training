@@ -1,9 +1,10 @@
 class GetChangeOfferOptions
-  attr_accessor :application_choice, :user
+  attr_accessor :user, :ratifying_provider, :recruitment_cycle_year
 
-  def initialize(application_choice:, user:)
-    @application_choice = application_choice
+  def initialize(user:, ratifying_provider:, recruitment_cycle_year:)
     @user = user
+    @ratifying_provider = ratifying_provider
+    @recruitment_cycle_year = recruitment_cycle_year
   end
 
   def actionable_courses
@@ -11,12 +12,14 @@ class GetChangeOfferOptions
       .joins(training_provider_make_decisions)
       .joins(ratifying_provider_make_decisions)
 
-    courses_with_org_permission_joins
+    same_year_open_courses_with_make_decisions = courses_with_org_permission_joins
       .where(combine_user_and_provider_permissions)
       .where(
         open_on_apply: true,
-        recruitment_cycle_year: application_choice.offered_course.recruitment_cycle_year,
+        recruitment_cycle_year: recruitment_cycle_year,
       )
+
+    same_year_open_courses_with_make_decisions.where(accredited_provider: ratifying_provider)
   end
 
   def available_providers
@@ -25,15 +28,6 @@ class GetChangeOfferOptions
       .joins('INNER JOIN actionable_courses ON providers.id = actionable_courses.provider_id')
       .distinct
   end
-
-  # GetChangeOfferOptions.new(application_choice: ..., user: ...).available_courses(provider: ...)
-  def available_courses(provider:); end
-
-  # GetChangeOfferOptions.new(application_choice: ..., user: ...).available_study_modes(course: ...)
-  def available_study_modes(course:); end
-
-  # GetChangeOfferOptions.new(application_choice: ..., user: ...).available_sites(course: ..., study_mode: ...)
-  def available_sites(course:, study_mode:); end
 
 private
 
