@@ -140,6 +140,7 @@ Govuk/GovukLinkTo:
     - 'app/components/breadcrumb_component.html.erb'
     - 'app/components/header_component.html.erb'
     - 'app/components/product_header_component.html.erb'
+    - 'app/components/support_interface/tile_component.html.erb'
     # link_to in filter component
     - 'app/components/filter_component.html.erb'
     # link_to in manual error summaries
