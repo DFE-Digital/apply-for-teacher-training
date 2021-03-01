@@ -1,4 +1,9 @@
 class MakeAnOffer
+  STATE_TRANSITION_ERROR = I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition')
+  MAX_CONDITIONS_COUNT = 20
+  MAX_CONDITION_LENGTH = 255
+  STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check'].freeze
+
   attr_accessor :standard_conditions
   attr_accessor :further_conditions0, :further_conditions1, :further_conditions2, :further_conditions3
   attr_accessor :auth
@@ -6,10 +11,6 @@ class MakeAnOffer
 
   include ActiveModel::Validations
   include ImpersonationAuditHelper
-
-  MAX_CONDITIONS_COUNT = 20
-  MAX_CONDITION_LENGTH = 255
-  STANDARD_CONDITIONS = ['Fitness to train to teach check', 'Disclosure and Barring Service (DBS) check'].freeze
 
   validates :course_option, presence: true
   validate :validate_course_option_is_open_on_apply
@@ -53,7 +54,7 @@ class MakeAnOffer
       else
         errors.add(
           :base,
-          I18n.t('activerecord.errors.models.application_choice.attributes.status.invalid_transition'),
+          STATE_TRANSITION_ERROR,
         )
         false
       end
