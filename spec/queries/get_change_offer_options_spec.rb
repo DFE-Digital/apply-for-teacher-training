@@ -3,15 +3,15 @@ require 'rails_helper'
 RSpec.describe GetChangeOfferOptions do
   include CourseOptionHelpers
 
-  let(:course) { create(:course, :open_on_apply) }
-  let(:accredited_course) { create(:course, :with_accredited_provider, :open_on_apply) }
+  let(:for_provider) { create(:provider) }
+  let(:course) { create(:course, :open_on_apply, provider: for_provider) }
+  let(:accredited_course) { create(:course, :open_on_apply, accredited_provider: for_provider) }
   let(:provider_user) { create(:provider_user) }
-  let(:application_choice) { create(:application_choice, :with_offer, course_option: create(:course_option, course: accredited_course)) }
 
   let(:service) do
     GetChangeOfferOptions.new(
       user: provider_user,
-      ratifying_provider: accredited_course.accredited_provider,
+      for_provider: for_provider,
       recruitment_cycle_year: RecruitmentCycle.current_year,
     )
   end
@@ -26,56 +26,51 @@ RSpec.describe GetChangeOfferOptions do
     )
   end
 
-  describe '#actionable_courses' do
-    it 'returns only courses which are open on apply' do
-
+  describe '#make_decisions_courses' do
+    it 'returns courses run or ratified by the user\'s providers' do
+      allow_all_providers_to_make_decisions(accredited_course.provider, accredited_course.accredited_provider)
+      provider_user.providers << for_provider
+      provider_user.provider_permissions.update_all(make_decisions: true)
+      expect(service.make_decisions_courses).to match_array([course, accredited_course])
     end
 
-    it 'returns only courses which are in the same recruitment cycle' do
-
+    it 'only returns courses for which the user has make_decisions permission' do
+      allow_all_providers_to_make_decisions(accredited_course.provider, accredited_course.accredited_provider)
+      new_course = create(:course, :open_on_apply)
+      provider_user.providers << [for_provider, new_course.provider]
+      provider_user.provider_permissions.first.update(make_decisions: true)
+      expect(service.make_decisions_courses).to match_array([course, accredited_course])
     end
 
-    it 'returns all courses which the user has make decisions for' do
-
-    end
-
-    it 'returns courses which have the same ratifying provider as the original' do
-
+    it 'excludes courses for which the user lacks org-level make_decisions' do
+      provider_user.providers << for_provider
+      provider_user.provider_permissions.first.update(make_decisions: true)
+      expect(service.make_decisions_courses.count).to eq(0)
     end
   end
 
+  describe '#offerable_courses' do
+    it 'returns only courses which are open on apply' do; end
+
+    it 'returns only courses which are in the same recruitment cycle' do; end
+
+    it 'returns ratified courses accredited by the same provider' do; end
+
+    it 'returns self-ratified courses accredited by the same provider' do; end
+  end
+
   describe '#available_providers' do
-    it 'returns training providers for courses run or ratified by the user\'s providers' do
-      allow_all_providers_to_make_decisions(accredited_course.provider, accredited_course.accredited_provider)
-      provider_user.providers << [course.provider, accredited_course.accredited_provider]
-      provider_user.provider_permissions.update_all(make_decisions: true)
-      expect(service.available_providers).to match_array([course.provider, accredited_course.provider])
-    end
-
-    it 'only returns providers for which the user has make_decisions permission' do
-      allow_all_providers_to_make_decisions(accredited_course.provider, accredited_course.accredited_provider)
-      provider_user.providers << [course.provider, accredited_course.accredited_provider]
-      provider_user.provider_permissions.first.update(make_decisions: true)
-      expect(service.available_providers).to eq([course.provider])
-    end
-
-    it 'returns a self-ratified course' do
-      provider_user.providers << course.provider
-      provider_user.provider_permissions.first.update(make_decisions: true)
-      expect(service.available_providers).to eq([course.provider])
-    end
-
-    it 'excludes providers lacking org-level make_decisions for ratified courses' do
-      provider_user.providers << [course.provider, accredited_course.accredited_provider]
-      provider_user.provider_permissions.second.update(make_decisions: true)
-      expect(service.available_providers.count).to eq(0)
-    end
-
     it 'does not return duplicate providers' do
-      provider_user.providers << course.provider
+      allow_all_providers_to_make_decisions(accredited_course.provider, accredited_course.accredited_provider)
+      provider_user.providers << for_provider
       provider_user.provider_permissions.first.update(make_decisions: true)
-      create(:course, :open_on_apply, provider: course.provider)
-      expect(service.available_providers).to eq([course.provider])
+      create(
+        :course,
+        :open_on_apply,
+        provider: accredited_course.provider,
+        accredited_provider: for_provider
+      )
+      expect(service.available_providers).to eq([accredited_course.provider])
     end
   end
 end

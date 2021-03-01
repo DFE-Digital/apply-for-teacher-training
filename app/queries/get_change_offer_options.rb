@@ -1,31 +1,32 @@
 class GetChangeOfferOptions
-  attr_accessor :user, :ratifying_provider, :recruitment_cycle_year
+  attr_accessor :user, :for_provider, :recruitment_cycle_year
 
-  def initialize(user:, ratifying_provider:, recruitment_cycle_year:)
+  def initialize(user:, for_provider:, recruitment_cycle_year:)
     @user = user
-    @ratifying_provider = ratifying_provider
+    @for_provider = for_provider
     @recruitment_cycle_year = recruitment_cycle_year
   end
 
-  def actionable_courses
-    courses_with_org_permission_joins = Course
+  def make_decisions_courses
+    Course
       .joins(training_provider_make_decisions)
       .joins(ratifying_provider_make_decisions)
-
-    same_year_open_courses_with_make_decisions = courses_with_org_permission_joins
       .where(combine_user_and_provider_permissions)
+  end
+
+  def offerable_courses
+    make_decisions_courses
       .where(
         open_on_apply: true,
         recruitment_cycle_year: recruitment_cycle_year,
       )
-
-    same_year_open_courses_with_make_decisions.where(accredited_provider: ratifying_provider)
+      .where(ratifying_provider_is_preserved)
   end
 
   def available_providers
     Provider
-      .with(actionable_courses: actionable_courses)
-      .joins('INNER JOIN actionable_courses ON providers.id = actionable_courses.provider_id')
+      .with(offerable_courses: offerable_courses)
+      .joins('INNER JOIN offerable_courses ON providers.id = offerable_courses.provider_id')
       .distinct
   end
 
@@ -68,5 +69,13 @@ private
         ratifying_provider_make_decisions.id IS NOT NULL
       )
     COMBINE_USER_AND_PROVIDER_PERMISSIONS
+  end
+
+  def ratifying_provider_is_preserved
+    # accredited_provider_id is nil for self-ratified courses
+    <<~RATIFYING_PROVIDER_IS_PRESERVED
+      (provider_id = #{for_provider.id} AND accredited_provider_id IS NULL)
+      OR accredited_provider_id = #{for_provider.id}
+    RATIFYING_PROVIDER_IS_PRESERVED
   end
 end
