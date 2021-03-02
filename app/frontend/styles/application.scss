@@ -36,6 +36,8 @@ $moj-images-path: "~@ministryofjustice/frontend/moj/assets/images/";
 @import "_tag";
 @import "_back_link";
 
+@import "dfe_component/_all";
+
 // Shared (custom components)
 @import "_application-card";
 @import "_autocomplete";

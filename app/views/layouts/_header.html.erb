@@ -15,7 +15,7 @@
     phase_tag: true,
     navigation_items: NavigationItems.for_support_account_nav(try(:current_support_user)),
   )) %>
-  <%= render(PrimaryNavigationComponent.new(
+  <%= render(DfEComponent::PrimaryNavigation::Component.new(
     items: NavigationItems.for_support_primary_nav(try(:current_support_user), controller),
   )) %>
   <%= yield(:navigation) if content_for?(:navigation) %>
@@ -39,7 +39,7 @@
       no_border: true,
       feedback_link: ProviderInterface::FEEDBACK_LINK,
     )) %>
-    <%= render(PrimaryNavigationComponent.new(
+    <%= render(DfEComponent::PrimaryNavigation::Component.new(
       items: NavigationItems.for_provider_primary_nav(try(:current_provider_user), controller, @provider_setup&.pending?),
     )) %>
   <% end %>
@@ -51,7 +51,7 @@
     phase_tag: true,
     navigation_items: [],
   )) %>
-  <%= render(PrimaryNavigationComponent.new(
+  <%= render(DfEComponent::PrimaryNavigation::Component.new(
     items: NavigationItems.for_api_docs(controller),
   )) %>
 <% else %>
