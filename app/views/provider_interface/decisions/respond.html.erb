@@ -3,6 +3,11 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <%= t('page_titles.provider.respond') %>
+    </h1>
+    <%= render ProviderInterface::CourseSummaryComponent.new(course_option: @application_choice.course_option) %>
     <%= form_with model: @pick_response_form, url: provider_interface_application_choice_submit_response_path(@application_choice.id), method: :post do |f| %>
       <%- offer_text = 'Make an offer' %>
       <%- reject_text = 'Reject application' %>
@@ -10,8 +15,7 @@
       <%= f.govuk_error_summary %>
 
       <%= f.govuk_radio_buttons_fieldset :decision,
-        caption: { text: @application_choice.application_form.full_name, size: 'xl' },
-        legend: { text: t('page_titles.provider.respond'), size: 'xl', tag: 'h1' } do %>
+        legend: { text: t('page_titles.provider.select_decision'), size: 'm' } do %>
 
         <% if ApplicationStateChange.new(@application_choice).can_make_offer? %>
           <%= f.govuk_radio_button :decision, 'new_offer', label: { text: offer_text }, link_errors: true %>
