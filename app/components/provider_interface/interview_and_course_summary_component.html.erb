@@ -6,14 +6,14 @@
           <ul class="app-summary-card__actions-list">
             <li class="app-summary-card__actions-list-item">
               <%= govuk_link_to edit_provider_interface_application_choice_interview_path(application_choice, interview), class: 'app-summary-card__actions-list-item  govuk-link--no-visited-state' do %>
-                <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_s(:govuk_date_and_time) %> </span>
                 Change details
+                <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_s(:govuk_date_and_time) %> </span>
               <% end %>
             </li>
             <li class="app-summary-card__actions-list-item">
               <%= govuk_link_to cancel_provider_interface_application_choice_interview_path(application_choice, interview), class: 'app-summary-card__actions-list-item  govuk-link--no-visited-state' do %>
-                <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_s(:govuk_date_and_time) %> </span>
                 Cancel interview
+                <span class="govuk-visually-hidden"> <%= interview.date_and_time.to_s(:govuk_date_and_time) %> </span>
               <% end %>
             </li>
           </ul>
