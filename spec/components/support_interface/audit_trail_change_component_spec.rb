@@ -49,5 +49,10 @@ RSpec.describe SupportInterface::AuditTrailChangeComponent do
       expect(render_result(attribute: 'sex', values: [nil, 'male']).text)
         .to include('[REDACTED]')
     end
+
+    it 'redacts HESA codes for sensitive information' do
+      expect(render_result(values: [{ 'hesa_sex' => 2 }, { 'hesa_sex' => 2, 'hesa_ethnicity' => 32 }]).text)
+        .to include('{"hesa_sex"=>"[REDACTED]"} → {"hesa_sex"=>"[REDACTED]", "hesa_ethnicity"=>"[REDACTED]"}')
+    end
   end
 end
