@@ -1,3 +1,7 @@
+## 29th February
+
+- deprecate `Qualification.awarding_body` as this field has always been null.
+
 ## 26th February
 
 New attributes:

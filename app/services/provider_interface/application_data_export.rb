@@ -50,7 +50,7 @@ module ProviderInterface
           'award_year' => application.first_degree.award_year,
           'institution_details' => application.first_degree.institution_name,
           'equivalency_details' => replace_smart_quotes(application.first_degree.composite_equivalency_details),
-          'awarding_body' => application.first_degree.awarding_body,
+          'awarding_body' => nil,
           'gcse_qualifications_summary' => replace_smart_quotes(application.gcse_qualifications_summary),
           'missing_gcses_explanation' => replace_smart_quotes(application.missing_gcses_explanation),
           'disability_disclosure' => application.application_form.disability_disclosure,

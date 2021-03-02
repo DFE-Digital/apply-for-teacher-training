@@ -71,7 +71,7 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'award_year' => first_degree&.award_year,
         'institution_details' => first_degree&.institution_name,
         'equivalency_details' => first_degree&.equivalency_details,
-        'awarding_body' => first_degree&.awarding_body,
+        'awarding_body' => nil,
         'gcse_qualifications_summary' => nil,
         'missing_gcses_explanation' => nil,
         'disability_disclosure' => application_choice.application_form.disability_disclosure,
