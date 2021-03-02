@@ -1,10 +1,10 @@
 class GetChangeOfferOptions
-  attr_accessor :user, :for_provider, :recruitment_cycle_year
+  attr_accessor :user, :accredited_provider, :recruitment_cycle_year
 
-  def initialize(user:, for_provider:, recruitment_cycle_year:)
+  def initialize(user:, current_course:)
     @user = user
-    @for_provider = for_provider
-    @recruitment_cycle_year = recruitment_cycle_year
+    @accredited_provider = current_course.accredited_provider || current_course.provider
+    @recruitment_cycle_year = current_course.recruitment_cycle_year
   end
 
   def make_decisions_courses
@@ -27,7 +27,7 @@ class GetChangeOfferOptions
     Provider
       .with(offerable_courses: offerable_courses)
       .joins('INNER JOIN offerable_courses ON providers.id = offerable_courses.provider_id')
-      .distinct
+      .group('providers.id')
   end
 
 private
@@ -56,6 +56,8 @@ private
   end
 
   def combine_user_and_provider_permissions
+    return '1 != 1' if permitted_provider_ids.blank? # valid SQL which returns no results
+
     <<~COMBINE_USER_AND_PROVIDER_PERMISSIONS
       (
         provider_id IN (#{permitted_provider_ids.join(',')}) AND
@@ -74,8 +76,8 @@ private
   def ratifying_provider_is_preserved
     # accredited_provider_id is nil for self-ratified courses
     <<~RATIFYING_PROVIDER_IS_PRESERVED
-      (provider_id = #{for_provider.id} AND accredited_provider_id IS NULL)
-      OR accredited_provider_id = #{for_provider.id}
+      (provider_id = #{accredited_provider.id} AND accredited_provider_id IS NULL)
+      OR accredited_provider_id = #{accredited_provider.id}
     RATIFYING_PROVIDER_IS_PRESERVED
   end
 end
