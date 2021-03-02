@@ -18,7 +18,7 @@ module ProviderInterface
 
         redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
       else
-        redirect_to [:new, :provider_interface, :offer, @wizard.next_step]
+        redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
       end
     end
 

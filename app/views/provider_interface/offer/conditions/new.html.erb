@@ -3,7 +3,7 @@
 
 <%= render(FlashMessageComponent.new(flash: flash)) %>
 
-<%= form_with model: @wizard, url: provider_interface_offer_conditions_path(@application_choice), method: :post do |f| %>
+<%= form_with model: @wizard, url: provider_interface_application_choice_offer_conditions_path(@application_choice), method: :post do |f| %>
   <%= f.govuk_error_summary %>
 
   <h1 class="govuk-heading-xl">

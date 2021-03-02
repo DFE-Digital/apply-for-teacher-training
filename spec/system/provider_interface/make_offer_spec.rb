@@ -104,7 +104,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_send_the_offer
-    click 'Send offer'
+    click_on 'Send offer'
   end
 
   def then_i_see_that_the_offer_was_successfuly_made

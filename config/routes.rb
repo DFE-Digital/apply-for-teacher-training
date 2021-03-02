@@ -634,8 +634,10 @@ Rails.application.routes.draw do
 
       resource :decision, only: %i[new create], as: :application_choice_decision
 
-      namespace :offer do
+      resource :offers, only: :create, as: :application_choice_offers
+      namespace :offer, as: :application_choice_offer do
         resource :conditions, only: %i[new create]
+        resource :check, only: %i[new]
       end
 
       get '/rbd-feedback' => 'feedback#new', as: :application_choice_new_rbd_feedback
