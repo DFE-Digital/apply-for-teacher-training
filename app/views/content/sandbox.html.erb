@@ -16,6 +16,13 @@
 
     <p class="govuk-body">Throughout, you’ll be able to give us feedback so we can improve the service.</p>
 
+    <h2 class="govuk-heading-l">Course data in the sandbox</h2>
+    <p class="govuk-body"><strong>The live Apply service</strong> gets its course data from the <%= govuk_link_to 'Teacher training courses API', t('teacher_training_courses_api.documentation_url') %>. Training providers update those courses using <%= govuk_link_to 'Publish teacher training courses', t('publish_teacher_training_courses.production_url') %>.</p>
+
+    <p class="govuk-body"><strong>The Apply sandbox</strong> gets its course data from a sandbox version of the Teacher training courses API. As a training provider you can access <%= govuk_link_to 'a sandbox version of Publish', t('publish_teacher_training_courses.sandbox_url') %> where you’ll be able to create and edit courses just as you would on the live service, and see them on the <%= govuk_link_to 'sandbox version of Find postgraduate teacher training', t('find_postgraduate_teacher_training.sandbox_url') %>.</p>
+
+    <p class="govuk-body">To request access to the Publish sandbox, email us at <%= bat_contact_mail_to %>.</p>
+
     <h2 class="govuk-heading-l">Get started as a candidate</h2>
 
     <p class="govuk-body">You’ll be asked to enter your email address to open a candidate account in the Apply sandbox.</p>
