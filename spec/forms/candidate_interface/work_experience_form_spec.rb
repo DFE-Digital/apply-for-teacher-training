@@ -45,7 +45,7 @@ RSpec.describe CandidateInterface::WorkExperienceForm, type: :model do
     it { is_expected.to allow_value(okay_text).for(:details) }
     it { is_expected.not_to allow_value(long_text).for(:details) }
 
-    include_examples 'validation for a start date', verify_presence: true
+    include_examples 'validation for a start date'
     include_examples 'validation for an end date that can be blank'
 
     it 'does not accept negative integers in the year field' do

@@ -28,7 +28,7 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
     it { is_expected.to allow_value(okay_text).for(:reason) }
     it { is_expected.not_to allow_value(long_text).for(:reason) }
 
-    include_examples 'validation for a start date', validate_presence: true
+    include_examples 'validation for a start date'
     include_examples 'validation for an end date that cannot be blank'
   end
 
