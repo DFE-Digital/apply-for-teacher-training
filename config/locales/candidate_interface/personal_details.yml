@@ -32,7 +32,7 @@ en:
         label: Other languages spoken
         change_action: other languages
       right_to_work:
-        label: Residency status
+        label: Immigration status
         change_action: Right to work or study
 
   activemodel:

@@ -97,7 +97,7 @@ module CandidateInterface
       return nil if british_or_irish?
 
       {
-        key: 'Residency status',
+        key: 'Immigration status',
         value: formatted_right_to_work_or_study,
         action: ('Right to work or study' if @editable),
         change_path: candidate_interface_edit_right_to_work_or_study_path,
