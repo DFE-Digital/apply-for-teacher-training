@@ -2,19 +2,22 @@ module SupportInterface
   class StructuredReasonsForRejectionExport
     def data_for_export
       data_for_export = application_choices.order(:id).map do |application_choice|
+        # structured_reasons_for_rejection = FlatReasonsForRejectionExtractCopy.build_hash(application_choice.structured_rejection_reasons)
         structured_reasons_for_rejection = FlatReasonsForRejectionExtract.new(application_choice.structured_rejection_reasons)
+        structured_reasons_for_rejection.build_hash
 
         output = {
-          'Candidate ID' => application_choice.id,
+          'Candidate ID' => application_choice.application_form_id,
+          'Application ID' => application_choice.id,
           'Candidate behaviour' => structured_reasons_for_rejection.candidate_behaviour?,
-          'Candidate behaviour - Didn’t reply to our interview offer' => structured_reasons_for_rejection.didnt_reply_to_interview_offer?,
-          'Candidate behaviour - Didn’t attend an interview' => structured_reasons_for_rejection.didnt_attend_interview?,
+          "Candidate behaviour - Didn't reply to our interview offer" => structured_reasons_for_rejection.didnt_reply_to_interview_offer?,
+          "Candidate behaviour - Didn't attend an interview" => structured_reasons_for_rejection.didnt_attend_interview?,
           'Candidate behaviour - Other detail' => structured_reasons_for_rejection.candidate_behaviour_other_details,
           'Quality of application (y/n)' => structured_reasons_for_rejection.quality_of_application?,
           'Quality of personal statement' => structured_reasons_for_rejection.personal_statement?,
           'Quality of personal statement details' => structured_reasons_for_rejection.quality_of_application_personal_statement_what_to_improve,
           'Quality of subject knowledge' => structured_reasons_for_rejection.subject_knowledge?,
-          'Quality of subject knowledge details' => structured_reasons_for_rejection.quality_of_application_subject_knowledge_what_to_improve,
+          'Quality of subject knowledge details' => structured_reasons_for_rejection.quality_of_application_subject_knowledge_what_to_improve_details,
           'Quality of application other' => structured_reasons_for_rejection.quality_of_application_other_details,
           'Qualifications (y/n)' => structured_reasons_for_rejection.qualifications?,
           'No Maths GCSE grade 4 (C) or above, or valid equivalent' => structured_reasons_for_rejection.no_maths_gcse?,
@@ -23,7 +26,7 @@ module SupportInterface
           'No degree' => structured_reasons_for_rejection.no_degree?,
           'Qualifications other' => structured_reasons_for_rejection.qualifications_other_details,
           'Performance at interview' => structured_reasons_for_rejection.performance_at_interview?,
-          'Performance at interview - What to improve' => structured_reasons_for_rejection.performance_at_interview_what_to_improve,
+          'Performance at interview - What to improve' => structured_reasons_for_rejection.performance_at_interview_what_to_improve_details,
           'Course was full?' => structured_reasons_for_rejection.course_full?,
           'Offered another course' => structured_reasons_for_rejection.offered_on_another_course?,
           'Concerns about honesty and professionalism' => structured_reasons_for_rejection.honesty_and_professionalism?,
