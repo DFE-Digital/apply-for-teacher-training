@@ -179,7 +179,8 @@ en:
       new_offer: Conditions of offer
       new_reject: Reject application
       new_withdraw_offer: Withdraw offer
-      respond: Respond to application
+      respond: Make a decision
+      select_decision: Select decision
       account: Your account
       profile: Profile
       org_permissions: Organisational permissions

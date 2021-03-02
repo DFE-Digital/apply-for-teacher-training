@@ -32,7 +32,8 @@ RSpec.feature 'Provider responds to application' do
     and_i_can_respond_to_the_application
 
     when_i_click_to_respond_to_the_application
-    then_i_am_given_the_option_to_make_an_offer
+    then_i_can_see_the_course_details
+    and_i_am_given_the_option_to_make_an_offer
     and_i_am_given_the_option_to_reject_the_application
   end
 
@@ -90,7 +91,11 @@ RSpec.feature 'Provider responds to application' do
     click_on 'Make decision'
   end
 
-  def then_i_am_given_the_option_to_make_an_offer
+  def then_i_can_see_the_course_details
+    expect(page).to have_content 'Course details'
+  end
+
+  def and_i_am_given_the_option_to_make_an_offer
     expect(page).to have_content 'Make an offer'
   end
 
