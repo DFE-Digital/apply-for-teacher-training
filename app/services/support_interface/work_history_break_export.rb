@@ -95,9 +95,9 @@ module SupportInterface
 
     def total_time_volunteering_during_breaks(breaks, volunteering_experiences)
       total_time = 0
-      breaks.each do |b|
-        volunteering_experiences_during_break(b, volunteering_experiences).each do |v|
-          total_time += volunteering_time_during_break(b, v)
+      breaks.each do |work_break|
+        volunteering_experiences_during_break(work_break, volunteering_experiences).each do |volunteering_experience|
+          total_time += volunteering_time_during_break(work_break, volunteering_experience)
         end
       end
       convert_seconds_to_months(total_time)
@@ -112,7 +112,7 @@ module SupportInterface
     end
 
     def breaks_in_last_five_years(breaks, application_form)
-      breaks.count { |b| b.start_date > (submitted_at(application_form) - 5.years).to_date }
+      breaks.count { |work_break| work_break.start_date > (submitted_at(application_form) - 5.years).to_date }
     end
 
     def unexplained_breaks_that_coincide_with_degrees(application_form, unexplained_breaks)
@@ -127,7 +127,7 @@ module SupportInterface
     end
 
     def breaks_that_coincide_with_volunteering_experiences(breaks, volunteering_experiences)
-      breaks.count { |b| volunteering_experiences_during_break(b, volunteering_experiences).any? }
+      breaks.count { |work_break| volunteering_experiences_during_break(work_break, volunteering_experiences).any? }
     end
 
     def volunteering_experiences_during_break(work_break, volunteering_experiences)
@@ -142,15 +142,15 @@ module SupportInterface
     end
 
     def breaks_with_over_fifty_percent_volunteering(breaks, volunteering_experiences)
-      breaks.count { |b| volunteering_percentage_in_break(b, volunteering_experiences) > 0.5 }
+      breaks.count { |work_break| volunteering_percentage_in_break(work_break, volunteering_experiences) > 0.5 }
     end
 
     def volunteering_percentage_in_break(work_break, volunteering_experiences)
       break_length = work_break.end_date - work_break.start_date
       volunteering_experiences_during_break = volunteering_experiences_during_break(work_break, volunteering_experiences)
       volunteering_during_break = 0
-      volunteering_experiences_during_break.each do |v|
-        volunteering_during_break += volunteering_time_during_break(work_break, v)
+      volunteering_experiences_during_break.each do |volunteering_experience|
+        volunteering_during_break += volunteering_time_during_break(work_break, volunteering_experience)
       end
       volunteering_during_break / break_length
     end
