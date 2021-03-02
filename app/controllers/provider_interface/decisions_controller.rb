@@ -157,7 +157,7 @@ module ProviderInterface
         study_mode: course_option.study_mode,
         location_id: course_option.site.id,
         current_context: :default,
-        conditions: MakeAnOffer::STANDARD_CONDITIONS,
+        standard_conditions: MakeAnOffer::STANDARD_CONDITIONS,
       }
     end
 

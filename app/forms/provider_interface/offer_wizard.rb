@@ -5,12 +5,18 @@ module ProviderInterface
     STEPS = { make_offer: %i[select_option conditions check] }.freeze
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
-                  :conditions, :current_step, :current_context
+                  :standard_conditions, :further_condition_1, :further_condition_2,
+                  :further_condition_3, :further_condition_4, :current_step, :current_context
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
 
       super(last_saved_state.deep_merge(attrs))
+    end
+
+    def conditions
+      @conditions = (standard_conditions + [further_condition_1, further_condition_2,
+                                            further_condition_3, further_condition_4]).reject!(&:blank?)
     end
 
     def save_state!
