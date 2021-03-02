@@ -53,7 +53,7 @@ module ProviderInterface
     end
 
     def state
-      as_json(except: %w[state_store errors validation_context]).to_json
+      as_json(except: %w[state_store errors validation_context course_option]).to_json
     end
   end
 end

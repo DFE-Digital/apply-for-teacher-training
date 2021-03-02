@@ -108,8 +108,8 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def then_i_see_that_the_offer_was_successfuly_made
-    within('.govuk-notification_banner--success') do
-      expect(page).to have_content('Offer succesffuly made')
+    within('.govuk-notification-banner--success') do
+      expect(page).to have_content('Offer successffuly made')
     end
   end
 end
