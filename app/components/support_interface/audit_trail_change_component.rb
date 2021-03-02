@@ -2,7 +2,10 @@ module SupportInterface
   class AuditTrailChangeComponent < ViewComponent::Base
     include ViewHelper
 
-    REDACTED_ATTRIBUTES = %w[sex disabilities ethnic_group ethnic_background].freeze
+    REDACTED_ATTRIBUTES = %w[
+      sex disabilities ethnic_group ethnic_background
+      hesa_sex hesa_disabilities hesa_ethnicity
+    ].freeze
 
     def initialize(attribute:, values:, last_change:)
       @attribute = attribute
