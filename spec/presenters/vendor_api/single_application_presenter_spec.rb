@@ -226,7 +226,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Irish Citizen')
     end
 
-    it 'returns details of the residency status if the candidates answered the have the right to work/study in the UK' do
+    it 'returns details of the immigration status if the candidates answered the have the right to work/study in the UK' do
       application_form = create(:application_form,
                                 :minimum_info,
                                 first_nationality: 'Canadian',

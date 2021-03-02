@@ -132,7 +132,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
 
       row_data = rows(languages_form: languages_form)
       keys = row_data.map { |row| row[:key] }
-      expect(keys).to match_array ['Name', 'Date of birth', 'Nationality', 'Residency status']
+      expect(keys).to match_array ['Name', 'Date of birth', 'Nationality', 'Immigration status']
     end
   end
 
@@ -149,7 +149,7 @@ RSpec.describe CandidateInterface::PersonalDetailsReviewPresenter do
       )
 
       expect(rows(nationalities_form: nationalities_form, right_to_work_form: right_to_work_form)).to include(
-        row_for(:right_to_work, "I have the right to work or study in the UK \b<br> <p>I have the right.</p>", candidate_interface_edit_right_to_work_or_study_path),
+        row_for(:right_to_work, 'I have the right to work or study in the UK<br> <p>I have the right.</p>', candidate_interface_edit_right_to_work_or_study_path),
       )
     end
   end

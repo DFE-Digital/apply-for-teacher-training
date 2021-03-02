@@ -61,7 +61,7 @@ RSpec.feature 'International candidate submits the application' do
     click_button t('save_and_continue')
 
     # Right to work
-    choose 'I do not know'
+    choose 'Not yet, or not sure'
     click_button t('save_and_continue')
 
     # Mark Personal Details complete
