@@ -415,6 +415,7 @@ en:
       blank_date: Enter %{article} %{attribute}
       dob_future: Enter a %{attribute} that is in the past, for example 31 3 1980
       dob_below_min_age: Enter a date of birth before %{date} – you must be over %{min_age} years old to Apply for teacher training
+      before: Enter a start date that is before the end date
     application_choices:
       course_not_available: You cannot apply to ‘%{descriptor}’ because it is not running
       course_full: You cannot apply to ‘%{descriptor}’ because it has no vacancies

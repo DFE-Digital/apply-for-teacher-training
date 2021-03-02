@@ -47,7 +47,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
         form.validate
 
-        expect(form.errors[:end_date]).to contain_exactly('Enter an end date')
+        expect(form.errors[:end_date]).to contain_exactly('Enter the month and year you left this job')
       end
 
       it 'is invalid if month left blank' do
@@ -80,7 +80,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
           form.validate
 
-          expect(form.errors[:end_date]).to contain_exactly('Enter an end date that is not in the future')
+          expect(form.errors[:end_date]).to contain_exactly('The month and year you left must not be in the future')
         end
       end
 
@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
 
           form.validate
 
-          expect(form.errors[:end_date]).to contain_exactly('Enter an end date that is not in the future')
+          expect(form.errors[:end_date]).to contain_exactly('The month and year you left must not be in the future')
         end
       end
 

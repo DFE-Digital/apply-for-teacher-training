@@ -5,8 +5,14 @@ RSpec.shared_examples 'validation for an end date that cannot be blank' do |erro
 
       form.validate
 
+      expected_message =
+        if error_scope
+          t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.end_date.blank_date")
+        else
+          t('errors.messages.blank_date', article: 'an', attribute: 'end date')
+        end
       expect(form.errors.full_messages_for(:end_date)).to eq(
-        ["End date #{t('errors.messages.blank_date', article: 'an', attribute: 'end date')}"],
+        ["End date #{expected_message}"],
       )
     end
 
@@ -28,7 +34,7 @@ RSpec.shared_examples 'validation for an end date that can be blank' do |error_s
   end
 end
 
-RSpec.shared_examples 'validation for an end date' do |_|
+RSpec.shared_examples 'validation for an end date' do |error_scope|
   it 'is invalid if month left blank' do
     form = described_class.new(end_date_month: '', end_date_year: '2019')
 
@@ -65,8 +71,14 @@ RSpec.shared_examples 'validation for an end date' do |_|
 
       form.validate
 
+      expected_message =
+        if error_scope
+          t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.end_date.future")
+        else
+          t('errors.messages.future', article: 'an', attribute: 'end date')
+        end
       expect(form.errors.full_messages_for(:end_date)).to eq(
-        ["End date #{t('errors.messages.future', article: 'an', attribute: 'end date')}"],
+        ["End date #{expected_message}"],
       )
     end
   end
@@ -77,8 +89,14 @@ RSpec.shared_examples 'validation for an end date' do |_|
 
       form.validate
 
+      expected_message =
+        if error_scope
+          t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.end_date.future")
+        else
+          t('errors.messages.future', article: 'an', attribute: 'end date')
+        end
       expect(form.errors.full_messages_for(:end_date)).to eq(
-        ["End date #{t('errors.messages.future', article: 'an', attribute: 'end date')}"],
+        ["End date #{expected_message}"],
       )
     end
   end

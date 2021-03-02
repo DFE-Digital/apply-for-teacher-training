@@ -5,8 +5,14 @@ RSpec.shared_examples 'validation for a start date' do |error_scope, verify_pres
 
       form.validate
 
+      expected_message =
+        if error_scope
+          t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.start_date.blank_date")
+        else
+          t('errors.messages.blank_date', article: 'a', attribute: 'start date')
+        end
       expect(form.errors.full_messages_for(:start_date)).to eq(
-        ["Start date #{t('errors.messages.blank_date', article: 'a', attribute: 'start date')}"],
+        ["Start date #{expected_message}"],
       )
     end
 
@@ -28,8 +34,14 @@ RSpec.shared_examples 'validation for a start date' do |error_scope, verify_pres
 
       form.validate
 
+      expected_message =
+        if error_scope
+          t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.start_date.before")
+        else
+          t('errors.messages.before')
+        end
       expect(form.errors.full_messages_for(:start_date)).to eq(
-        ["Start date #{t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.start_date.before")}"],
+        ["Start date #{expected_message}"],
       )
     end
 
@@ -41,8 +53,15 @@ RSpec.shared_examples 'validation for a start date' do |error_scope, verify_pres
 
         form.validate
 
+        expected_message =
+          if error_scope
+            t("activemodel.errors.models.candidate_interface/#{error_scope}.attributes.start_date.future")
+          else
+            t('errors.messages.future', article: 'a', attribute: 'start date')
+          end
+
         expect(form.errors.full_messages_for(:start_date)).to eq(
-          ["Start date #{t('errors.messages.future', article: 'a', attribute: 'start date')}"],
+          ["Start date #{expected_message}"],
         )
       end
     end
