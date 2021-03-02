@@ -1,0 +1,32 @@
+<% content_for :browser_title, title_with_error_prefix(t('page_titles.provider.respond'), @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_path(@application_choice.id)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
+      <%= t('page_titles.provider.respond') %>
+    </h1>
+    <%= render ProviderInterface::CourseSummaryComponent.new(course_option: @application_choice.course_option) %>
+
+    <%= form_with model: @wizard, url: '', method: :post do |f| %>
+      <%= f.govuk_error_summary %>
+
+      <%= f.govuk_radio_buttons_fieldset :decision, legend: { text: t('page_titles.provider.select_decision'), size: 'm' } do %>
+        <%= f.govuk_radio_button :decision,
+          'make_offer',
+          label: { text: 'Make an offer' },
+          link_errors: true %>
+
+        <%= f.govuk_radio_button :decision, 'new_reject', label: { text: 'Reject application' } %>
+      <% end %>
+
+      <%= f.govuk_submit t('continue') %>
+
+    <% end %>
+
+    <p class="govuk-body">
+      <%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice), class: 'govuk-link--no-visited-state' %>
+    </p>
+  </div>
+</div>

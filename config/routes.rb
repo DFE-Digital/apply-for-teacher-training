@@ -632,6 +632,8 @@ Rails.application.routes.draw do
       get '/offer/defer' => 'decisions#new_defer_offer', as: :application_choice_new_defer_offer
       post '/offer/defer' => 'decisions#defer_offer', as: :application_choice_defer_offer
 
+      resource :decision, only: %i[new], as: :application_choice_decision
+
       get '/rbd-feedback' => 'feedback#new', as: :application_choice_new_rbd_feedback
       post '/feedback/check' => 'feedback#check', as: :application_choice_check_feedback
       post '/rbd-feedback' => 'feedback#create', as: :application_choice_rbd_feedback

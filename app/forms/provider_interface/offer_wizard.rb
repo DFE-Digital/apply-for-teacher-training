@@ -4,7 +4,7 @@ module ProviderInterface
 
     STEPS = { make_offer: %i[select_option conditions check] }.freeze
 
-    attr_accessor :provider_id, :course_id, :study_mode, :location_id,
+    attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
                   :conditions, :current_step, :current_context
 
     def initialize(state_store, attrs = {})

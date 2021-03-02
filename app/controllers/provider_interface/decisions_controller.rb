@@ -3,7 +3,17 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :requires_make_decisions_permission
 
+    def new
+      @wizard = OfferWizard.new(offer_store,
+                                offer_context_params(@application_choice.course_option).merge!(current_step: 'select_option'))
+      @wizard.save_state!
+    end
+
     def respond
+      if FeatureFlag.active?(:updated_offer_flow)
+        redirect_to new_provider_interface_application_choice_decision_path(@application_choice) and return
+      end
+
       @pick_response_form = PickResponseForm.new
       @alternative_study_mode = @application_choice.offered_option.alternative_study_mode
     end
@@ -124,6 +134,23 @@ module ProviderInterface
 
     def make_an_offer_params
       params.require(:make_an_offer)
+    end
+
+    def offer_context_params(course_option)
+      {
+        course_id: course_option.course.id,
+        course_option_id: course_option.id,
+        provider_id: course_option.provider.id,
+        study_mode: course_option.study_mode,
+        location_id: course_option.site.id,
+        current_context: :default,
+        conditions: MakeAnOffer::STANDARD_CONDITIONS,
+      }
+    end
+
+    def offer_store
+      key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+      WizardStateStores::RedisStore.new(key: key)
     end
   end
 end
