@@ -1,16 +1,35 @@
 <%= f.govuk_error_summary %>
 
-<%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { size: 'xl', text: t('page_titles.right_to_work'), tag: 'h1' } do %>
-  <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes – I have the right to work or study in the UK' }, link_errors: true do %>
-    <%= f.govuk_text_area :right_to_work_or_study_details, label: { text: 'Give details' }, hint: { text: 'For example, you have settled status or a permanent residence card' } %>
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.right_to_work') %>
+</h1>
+<p class="govuk-body">
+  To get help with student visas and your immigration status, speak to a
+  <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url_get_an_advisor') %> adviser.
+</p>
+<p class="govuk-body">
+  Universities providing initial teacher training can usually sponsor student visas for courses without a salary.
+</p>
+<p class="govuk-body">
+  State funded schools, including those that are School Centred Initial Teacher Training (SCITT) providers, cannot
+  sponsor student visas for courses without a salary.
+</p>
+<p class="govuk-body">
+  <a href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-students" class="govuk-link">
+    Check if a provider has a student visa sponsor licence.
+  </a>
+</p>
+<p class="govuk-body">
+  You may be eligible for another type of visa that does not need your training provider to act as sponsor.
+</p>
+<p class="govuk-body">
+  <%= govuk_link_to 'Find out about student visas, visa routes that do not need a sponsor and visa options for trainees on courses with a salary.', t('get_into_teaching.url_international_candidates') %>
+</p>
+<%= f.govuk_radio_buttons_fieldset :right_to_work_or_study, legend: { size: 'm', text: 'Do you already have the right to work or study in the UK?' } do %>
+  <%= f.govuk_radio_button :right_to_work_or_study, 'yes', label: { text: 'Yes' }, link_errors: true do %>
+    <%= f.govuk_text_area :right_to_work_or_study_details, label: { text: 'What is your immigration status?' }, hint: { text: 'For example, “I have settled status” or “I have permanent residence”' } %>
   <% end %>
-
-  <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet – I will need to apply for permission to work or study in the UK' } do %>
-    <p class="govuk-body">Visit <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url_international_candidates') %> for guidance on immigration. You can also <%= govuk_link_to 'speak to an adviser', t('get_into_teaching.url_online_chat') %> if you need help.</p>
-  <% end %>
-  <%= f.govuk_radio_button :right_to_work_or_study, 'decide_later', label: { text: 'I do not know' } do %>
-    <p class="govuk-body">Visit <%= govuk_link_to t('service_name.get_into_teaching'), t('get_into_teaching.url_international_candidates') %> for guidance on immigration. You can also <%= govuk_link_to 'speak to an adviser', t('get_into_teaching.url_online_chat') %> if you need help.</p>
-  <% end %>
+  <%= f.govuk_radio_button :right_to_work_or_study, 'no', label: { text: 'Not yet, or not sure' } %>
 <% end %>
 
 <%= f.govuk_submit t('save_and_continue') %>
