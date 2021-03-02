@@ -8,7 +8,10 @@ en:
       conditions:
         new:
           title: Conditions of offer
-  provider_interface:
+      checks:
+        new:
+          title: Check and send offer
+          submit: Send offer
     decisions:
       new:
         title: Make a decision

@@ -1,0 +1,80 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
+<% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_new_offer_path(@application_choice.id)) %>
+
+<%= render(FlashMessageComponent.new(flash: flash)) %>
+
+<%= form_with model: @wizard, url: provider_interface_application_choice_offers_path(@application_choice), method: :post do |f| %>
+  <h1 class="govuk-heading-l">
+    <span class="govuk-caption-xl"><%= @application_choice.application_form.full_name %></span>
+    <%= t('.title') %>
+  </h1>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <%= f.govuk_error_summary %>
+      <div class="app-offer-panel app-banner app-banner--details">
+        <h2 class="govuk-heading-m">Course details</h2>
+        <% rows = [
+          { key: 'Provider',
+            value: @wizard.course_option.provider.name_and_code,
+            action: 'Change',
+            change_path: nil },
+          { key: 'Course',
+            value: @wizard.course_option.course.name_and_code,
+            action: 'Change',
+            change_path: nil },
+          { key: 'Location',
+            value: @wizard.course_option.site.name_and_address,
+            action: 'Change',
+            change_path: nil },
+          { key: 'Full time or part time',
+            value: @wizard.course_option.study_mode.humanize,
+            action: 'Change',
+            change_path: nil },
+          ] %>
+
+        <%= render SummaryCardComponent.new(rows: rows, border: false) %>
+
+        <h2 class="govuk-heading-m">Conditions of offer</h2>
+
+        <div class='govuk-body'>
+          <%= govuk_link_to 'Add or change conditions', [:new, :provider_interface, @application_choice, :offer, :conditions] %>
+        </div>
+
+        <% if @wizard.conditions.any? %>
+          <table class="govuk-table govuk-!-margin-bottom-2">
+            <tbody class="govuk-table__body">
+              <% @wizard.conditions.each do |condition| %>
+                <tr class="govuk-table__row conditions-row">
+                  <td class="govuk-table__cell"><%= condition %></td>
+                  <td class="govuk-table__cell govuk-table__cell--numeric">
+                    <strong class="govuk-tag govuk-tag--grey app-tag">Pending</strong>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <div class='govuk-body'>
+            No conditions have been set for this offer
+          </div>
+        <% end %>
+
+      </div>
+
+      <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+          <span class="govuk-warning-text__assistive"></span>
+          When you send this offer, you guarantee a place on this course as long as the candidate meets the conditions.
+        </strong>
+      </div>
+
+      <%= f.govuk_submit t('.submit') %>
+
+      <p class="govuk-body">
+      <%= govuk_link_to t('cancel'), provider_interface_application_choice_path(@application_choice.id), class: 'govuk-link--no-visited-state' %>
+      </p>
+    </div>
+  </div>
+<% end %>

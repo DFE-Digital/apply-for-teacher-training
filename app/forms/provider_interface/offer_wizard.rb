@@ -19,6 +19,10 @@ module ProviderInterface
                                             further_condition_3, further_condition_4]).reject!(&:blank?)
     end
 
+    def course_option
+      @course_option = CourseOption.find(course_option_id)
+    end
+
     def save_state!
       @state_store.write(state)
     end
