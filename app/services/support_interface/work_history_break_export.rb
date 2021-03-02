@@ -22,8 +22,7 @@ module SupportInterface
       applications = ApplicationForm
                          .where.not(date_of_birth: nil)
                          .select(:id, :candidate_id, :submitted_at, :date_of_birth, :work_history_completed)
-                         .includes(:application_qualifications, :application_work_experiences, :application_work_history_breaks, :application_choices)
-                         .includes(:application_qualifications, :application_work_experiences, :application_volunteering_experiences, :application_work_history_breaks, :application_choices)
+                         .includes(:application_qualifications, :application_work_experiences, :application_work_history_breaks, :application_volunteering_experiences, :application_choices)
                          .order(submitted_at: :desc).uniq(&:candidate_id)
 
       data_for_export = applications.map do |application_form|
@@ -42,28 +41,8 @@ module SupportInterface
           'Total time in employment (months)' => total_time_in_employment(application_form),
         }
 
-        if explained_breaks.any?
-          output.merge!({
-            'Total time of explained breaks (months)' => total_time_of_explained_breaks(explained_breaks),
-            'Total time volunteering during explained breaks (months)' => total_time_volunteering_during_breaks(explained_breaks, volunteering_experiences),
-            'Number of explained breaks' => explained_breaks.length,
-            'Number of explained breaks in last 5 years' => breaks_in_last_five_years(explained_breaks, application_form),
-            'Number of explained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(explained_breaks, volunteering_experiences),
-            'Number of explained breaks that were over 50% volunteering' => breaks_with_over_fifty_percent_volunteering(explained_breaks, volunteering_experiences),
-          })
-        end
-
-        if unexplained_breaks.any?
-          output.merge!({
-            'Total time of unexplained breaks (months)' => total_time_of_unexplained_breaks(unexplained_breaks),
-            'Total time volunteering during unexplained breaks (months)' => total_time_volunteering_during_breaks(unexplained_breaks, volunteering_experiences),
-            'Number of unexplained breaks' => unexplained_breaks.length,
-            'Number of unexplained breaks in last 5 years' => breaks_in_last_five_years(unexplained_breaks, application_form),
-            'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees(application_form, unexplained_breaks),
-            'Number of unexplained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(unexplained_breaks, volunteering_experiences),
-            'Number of unexplained breaks that were over 50% volunteering' => breaks_with_over_fifty_percent_volunteering(unexplained_breaks, volunteering_experiences),
-          })
-        end
+        output.merge!(explained_breaks_columns(application_form, explained_breaks, volunteering_experiences)) if explained_breaks.any?
+        output.merge!(unexplained_breaks_columns(application_form, unexplained_breaks, volunteering_experiences)) if unexplained_breaks.any?
 
         output
       end
@@ -74,6 +53,29 @@ module SupportInterface
     end
 
   private
+
+    def explained_breaks_columns(application_form, explained_breaks, volunteering_experiences)
+      {
+        'Total time of explained breaks (months)' => total_time_of_explained_breaks(explained_breaks),
+        'Total time volunteering during explained breaks (months)' => total_time_volunteering_during_breaks(explained_breaks, volunteering_experiences),
+        'Number of explained breaks' => explained_breaks.length,
+        'Number of explained breaks in last 5 years' => breaks_in_last_five_years(explained_breaks, application_form),
+        'Number of explained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(explained_breaks, volunteering_experiences),
+        'Number of explained breaks that were over 50% volunteering' => breaks_with_over_fifty_percent_volunteering(explained_breaks, volunteering_experiences),
+      }
+    end
+
+    def unexplained_breaks_columns(application_form, unexplained_breaks, volunteering_experiences)
+      {
+        'Total time of unexplained breaks (months)' => total_time_of_unexplained_breaks(unexplained_breaks),
+        'Total time volunteering during unexplained breaks (months)' => total_time_volunteering_during_breaks(unexplained_breaks, volunteering_experiences),
+        'Number of unexplained breaks' => unexplained_breaks.length,
+        'Number of unexplained breaks in last 5 years' => breaks_in_last_five_years(unexplained_breaks, application_form),
+        'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees(application_form, unexplained_breaks),
+        'Number of unexplained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(unexplained_breaks, volunteering_experiences),
+        'Number of unexplained breaks that were over 50% volunteering' => breaks_with_over_fifty_percent_volunteering(unexplained_breaks, volunteering_experiences),
+      }
+    end
 
     def start_of_working_life(application_form)
       application_form.date_of_birth.beginning_of_month + 18.years
