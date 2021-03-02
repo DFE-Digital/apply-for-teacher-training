@@ -9,6 +9,19 @@ module ProviderInterface
       @wizard.save_state!
     end
 
+    def create
+      @wizard = OfferWizard.new(offer_store, { current_context: selected_decision })
+      @wizard.save_state!
+
+      if @wizard.current_context == 'rejection'
+        @wizard.clear_state!
+
+        redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
+      else
+        redirect_to [:new, :provider_interface, :offer, @wizard.next_step]
+      end
+    end
+
     def respond
       if FeatureFlag.active?(:updated_offer_flow)
         redirect_to new_provider_interface_application_choice_decision_path(@application_choice) and return
@@ -146,6 +159,10 @@ module ProviderInterface
         current_context: :default,
         conditions: MakeAnOffer::STANDARD_CONDITIONS,
       }
+    end
+
+    def selected_decision
+      params.require(:provider_interface_offer_wizard).permit(:decision)[:decision]
     end
 
     def offer_store

@@ -1,0 +1,24 @@
+en:
+  provider_interface:
+    decisions:
+      new:
+        title: Make a decision
+        select:  Select decision
+    offer:
+      conditions:
+        new:
+          title: Conditions of offer
+  provider_interface:
+    decisions:
+      new:
+        title: Make a decision
+  helpers:
+    label:
+      provider_interface_offer_wizard:
+        further_condition_1: 'Condition 1'
+        further_condition_2: 'Condition 2'
+        further_condition_3: 'Condition 3'
+        further_condition_4: 'Condition 4'
+    legend:
+      provider_interface_offer_wizard:
+        standard_conditions: 'Standard conditions'
