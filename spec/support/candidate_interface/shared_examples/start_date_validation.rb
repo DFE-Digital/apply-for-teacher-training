@@ -1,4 +1,4 @@
-RSpec.shared_examples 'validation for a start date' do |error_scope, verify_presence|
+RSpec.shared_examples 'validation for a start date' do |verify_presence, error_scope|
   describe 'start date' do
     it 'is invalid if the date is not present', if: verify_presence do
       form = described_class.new(start_date_month: nil, start_date_year: nil)

@@ -39,7 +39,7 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
     it { is_expected.to validate_length_of(:role).is_at_most(60) }
     it { is_expected.to validate_length_of(:organisation).is_at_most(60) }
 
-    include_examples 'validation for a start date', 'restructured_work_history/job_form', verify_presence: true
+    include_examples 'validation for a start date', true, 'restructured_work_history/job_form'
 
     context "'currently working' is 'false'" do
       it 'is invalid if left completely blank' do
