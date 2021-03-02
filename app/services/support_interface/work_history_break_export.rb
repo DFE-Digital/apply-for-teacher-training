@@ -41,8 +41,8 @@ module SupportInterface
           'Total time in employment (months)' => total_time_in_employment(application_form),
         }
 
-        output.merge!(explained_breaks_columns(application_form, explained_breaks, volunteering_experiences)) if explained_breaks.any?
-        output.merge!(unexplained_breaks_columns(application_form, unexplained_breaks, volunteering_experiences)) if unexplained_breaks.any?
+        output.merge!(explained_breaks_columns(application_form, explained_breaks, volunteering_experiences)) if explained_breaks.present?
+        output.merge!(unexplained_breaks_columns(application_form, unexplained_breaks, volunteering_experiences)) if unexplained_breaks.present?
 
         output
       end
