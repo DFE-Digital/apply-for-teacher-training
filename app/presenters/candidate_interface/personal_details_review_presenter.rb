@@ -123,7 +123,7 @@ module CandidateInterface
     def formatted_right_to_work_or_study
       case @right_to_work_or_study_form.right_to_work_or_study
       when 'yes'
-        "I have the right to work or study in the UK <br> #{tag.p(@right_to_work_or_study_form.right_to_work_or_study_details)}".html_safe
+        "I have the right to work or study in the UK<br> #{tag.p(@right_to_work_or_study_form.right_to_work_or_study_details)}".html_safe
       when 'no'
         'I will need to apply for permission to work or study in the UK'
       else
