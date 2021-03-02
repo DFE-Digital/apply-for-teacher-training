@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 <html><head>
-  <meta name="viewport" content="width=device-width" />
+  <meta name="viewport" content="width=device-width">
   <style type="text/css">
     html, body, iframe {
       height: 100%;
@@ -82,7 +82,7 @@
     <% end %>
 
     <dt>Date:</dt>
-    <dd><%= Time.current.rfc2822 %></dd>
+    <dd><%= Time.zone.now.rfc2822 %></dd>
 
     <dt>Subject:</dt>
     <dd><strong><%= @email.subject %></strong></dd>
