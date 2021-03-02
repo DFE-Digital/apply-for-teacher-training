@@ -30,7 +30,7 @@ RSpec.describe SupportInterface::ApplicationAddCourseComponent do
     it "does not render the 'add a course' button" do
       application_form = create(:completed_application_form)
 
-      create_list(:application_choice, 4, application_form_id: application_form.id)
+      create_list(:submitted_application_choice, 4, application_form_id: application_form.id)
 
       application_form.reload
 
