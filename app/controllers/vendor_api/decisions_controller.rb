@@ -110,7 +110,7 @@ module VendorAPI
         errors: [
           {
             error: 'NotAuthorisedError',
-            message: "#{e.message} failed",
+            message: e.message,
           },
         ],
       }
