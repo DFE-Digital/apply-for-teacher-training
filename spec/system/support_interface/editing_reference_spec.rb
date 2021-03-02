@@ -48,7 +48,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_click_the_change_link_next_to_referee_name
-    all('.govuk-summary-list__actions')[11].click_link 'Change'
+    all('.govuk-summary-list__actions')[12].click_link 'Change'
   end
 
   def then_i_should_see_a_prepopulated_details_form
@@ -90,7 +90,7 @@ RSpec.feature 'Editing reference' do
   end
 
   def and_i_click_the_change_link_next_to_feedback
-    all('.govuk-summary-list__actions')[14].click_link 'Change'
+    all('.govuk-summary-list__actions')[15].click_link 'Change'
   end
 
   def then_i_should_see_the_feedback_form

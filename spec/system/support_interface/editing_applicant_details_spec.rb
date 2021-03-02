@@ -8,7 +8,7 @@ RSpec.feature 'Editing application details' do
     and_an_application_exists
 
     when_i_visit_the_application_page
-    and_i_click_the_change_link_next_to_full_name
+    and_i_click_the_change_link_next_to_first_name
     and_i_fill_in_all_fields_with_blank_values
     and_i_submit_the_update_form
     then_i_should_see_relevant_blank_error_messages
@@ -62,7 +62,7 @@ RSpec.feature 'Editing application details' do
     visit support_interface_application_form_path(@form)
   end
 
-  def and_i_click_the_change_link_next_to_full_name
+  def and_i_click_the_change_link_next_to_first_name
     all('.govuk-summary-list__actions')[0].click_link 'Change'
   end
 
@@ -125,7 +125,8 @@ RSpec.feature 'Editing application details' do
   end
 
   def and_i_should_see_the_new_name_in_full
-    expect(page).to have_content 'Steven Seagal'
+    expect(page).to have_content 'Steven'
+    expect(page).to have_content 'Seagal'
   end
 
   def and_i_should_see_the_new_date_of_birth

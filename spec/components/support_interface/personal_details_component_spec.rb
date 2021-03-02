@@ -15,13 +15,17 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
   subject(:result) { render_inline(SupportInterface::PersonalDetailsComponent.new(application_form: application_form)) }
 
   it 'renders component with correct labels' do
-    ['Full name', 'Date of birth', 'Nationality', 'Phone number', 'Email address', 'Address'].each do |key|
+    ['First name', 'Last name', 'Date of birth', 'Nationality', 'Phone number', 'Email address', 'Address'].each do |key|
       expect(result.css('.govuk-summary-list__key').text).to include(key)
     end
   end
 
-  it 'renders the candidate name' do
-    expect(result.css('.govuk-summary-list__value').text).to include("#{application_form.first_name} #{application_form.last_name}")
+  it 'renders the candidate first name' do
+    expect(result.css('.govuk-summary-list__value').text).to include(application_form.first_name)
+  end
+
+  it 'renders the candidate last name' do
+    expect(result.css('.govuk-summary-list__value').text).to include(application_form.last_name)
   end
 
   it 'renders the candidate date of birth' do
@@ -63,8 +67,8 @@ RSpec.describe SupportInterface::PersonalDetailsComponent do
       SupportInterface::PersonalDetailsComponent::RIGHT_TO_WORK_OR_STUDY_DISPLAY_VALUES.each do |key, value|
         application_form.right_to_work_or_study = key
         result = render_inline(SupportInterface::PersonalDetailsComponent.new(application_form: application_form))
-        row_title = result.css('.govuk-summary-list__row')[4].css('dt').text
-        row_value = result.css('.govuk-summary-list__row')[4].css('dd').text
+        row_title = result.css('.govuk-summary-list__row')[5].css('dt').text
+        row_value = result.css('.govuk-summary-list__row')[5].css('dd').text
         expect(row_title).to include 'Has the right to work or study in the UK?'
         expect(row_value).to include value
       end

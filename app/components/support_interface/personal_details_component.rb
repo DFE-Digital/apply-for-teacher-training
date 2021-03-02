@@ -23,7 +23,8 @@ module SupportInterface
 
     def rows
       [
-        name_row,
+        first_name_row,
+        last_name_row,
         date_of_birth_row,
         nationality_row,
         domicile_row,
@@ -37,11 +38,20 @@ module SupportInterface
 
   private
 
-    def name_row
+    def first_name_row
       {
-        key: 'Full name',
-        value: "#{first_name} #{last_name}",
-        action: 'name',
+        key: 'First name',
+        value: first_name,
+        action: 'first name',
+        change_path: support_interface_application_form_edit_applicant_details_path(application_form),
+      }
+    end
+
+    def last_name_row
+      {
+        key: 'Last name',
+        value: last_name,
+        action: 'last name',
         change_path: support_interface_application_form_edit_applicant_details_path(application_form),
       }
     end
