@@ -20,9 +20,4 @@ Contact <%= @course.provider.name %> directly if you have any questions about th
   You’ve now had decisions about all the courses you applied for. You did not get any offers, so you can apply again.
 <% end %>
 
-If now’s the right time for you, you can apply for teacher training again this year. 
-
-Your last application has been saved. You can make changes and choose a different course before you submit a new application.
-
-Sign in to apply again:
-<%= @candidate_magic_link %>
+<%= render 'still_interested_content' %>
