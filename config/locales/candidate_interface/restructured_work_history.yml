@@ -68,16 +68,12 @@ en:
               blank: Select if this job involves working in a school or with children
             commitment:
               blank: Select if this job is full time or part time
-            start_date:
-              before: Enter a start date that is before the end date
             currently_working:
               blank: Select if you are still working in this job
             relevant_skills:
               blank: Select if you use skills relevant to teaching in this job
         candidate_interface/restructured_work_history/work_history_break_form:
           attributes:
-            start_date:
-              before: Enter a start date that is before the end date
             reason:
               blank: Enter reasons for break in work history
               too_many_words: Reasons for break in work history must be %{count} words or fewer
