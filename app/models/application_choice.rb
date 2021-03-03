@@ -94,10 +94,6 @@ class ApplicationChoice < ApplicationRecord
     I18n.t('errors.application_choices.course_full', descriptor: course.provider_and_name_code)
   end
 
-  def course_option_full?
-    course_option.no_vacancies?
-  end
-
   def site_full?
     course.course_options.where(site: course_option.site).vacancies.blank?
   end
@@ -142,10 +138,6 @@ class ApplicationChoice < ApplicationRecord
   end
 
 private
-
-  def generate_alphanumeric_id
-    SecureRandom.hex(5)
-  end
 
   def set_initial_status
     self.status ||= 'unsubmitted'

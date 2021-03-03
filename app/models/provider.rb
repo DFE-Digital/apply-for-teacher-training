@@ -36,10 +36,6 @@ class Provider < ApplicationRecord
       .where(ProviderPermissions.table_name => { provider_user_id: provider_user.id, manage_users: true })
   end
 
-  def users_with_make_decisions
-    provider_users.merge provider_permissions.make_decisions
-  end
-
   def name_and_code
     "#{name} (#{code})"
   end

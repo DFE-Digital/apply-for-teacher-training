@@ -40,11 +40,5 @@ module ProviderInterface
 
       redirect_to provider_interface_application_choice_path(@application_choice.id)
     end
-
-    def check_application_status
-      unless @application_choice.pending_conditions?
-        redirect_to provider_interface_application_choice_path(@application_choice.id) and return
-      end
-    end
   end
 end

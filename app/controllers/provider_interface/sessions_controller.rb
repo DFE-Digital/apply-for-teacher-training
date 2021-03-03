@@ -55,19 +55,5 @@ module ProviderInterface
 
       redirect_to provider_interface_applications_path
     end
-
-  private
-
-    def default_authenticated_path
-      if authorized_for_support_interface?
-        support_interface_path
-      else
-        provider_interface_path
-      end
-    end
-
-    def authorized_for_support_interface?
-      SupportUser.load_from_session(session)
-    end
   end
 end

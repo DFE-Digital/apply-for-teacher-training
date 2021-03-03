@@ -35,8 +35,6 @@ class ApplicationReference < ApplicationRecord
     never_asked: 'never_asked',
   }
 
-  scope :minimum_feedback_provided?, -> { where(feedback_status: 'feedback_provided').count >= 2 }
-
   def self.pending_feedback_or_failed
     where.not(feedback_status: %i[not_requested_yet feedback_provided])
   end

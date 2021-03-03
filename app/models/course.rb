@@ -17,8 +17,6 @@ class Course < ApplicationRecord
   scope :in_cycle, ->(year) { where(recruitment_cycle_year: year) }
 
   scope :with_course_options, -> { left_outer_joins(:course_options).where('course_options.id IS NOT NULL') }
-  scope :without_course_options, -> { left_outer_joins(:course_options).where('course_options.id IS NULL') }
-
   CODE_LENGTH = 4
 
   # This enum is copied verbatim from Find to maintain consistency
@@ -52,10 +50,6 @@ class Course < ApplicationRecord
 
   def name_and_description
     "#{name} #{description}"
-  end
-
-  def name_and_provider
-    "#{name} #{accredited_provider&.name}"
   end
 
   def name_provider_and_description

@@ -250,24 +250,6 @@ RSpec.describe ApplicationForm do
     end
   end
 
-  describe '#can_add_reference?' do
-    it 'returns true if there are fewer than 2 references' do
-      application_reference = build :reference
-      application_form = build :application_form, application_references: [application_reference]
-      expect(application_form.can_add_reference?).to be true
-    end
-
-    it 'returns false if there are already 2 references' do
-      application_reference1 = build :reference
-      application_reference2 = build :reference
-      application_form = build(
-        :application_form,
-        application_references: [application_reference1, application_reference2],
-      )
-      expect(application_form.can_add_reference?).to be false
-    end
-  end
-
   describe '#too_many_complete_references?' do
     it 'returns true if there are more than 2 references' do
       application_form = create :application_form
@@ -470,16 +452,6 @@ RSpec.describe ApplicationForm do
       create(:application_choice, :withdrawn, application_form: application_form)
 
       expect(application_form.all_applications_not_sent?).to eq false
-    end
-  end
-
-  describe '#has_rejection_reason?' do
-    let(:application_form) { create(:completed_application_form) }
-
-    it 'returns true if any of the choices are rejected' do
-      create(:application_choice, :with_rejection, application_form: application_form)
-
-      expect(application_form.has_rejection_reason?).to eq true
     end
   end
 

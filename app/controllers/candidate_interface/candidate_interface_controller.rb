@@ -39,10 +39,6 @@ module CandidateInterface
       redirect_to candidate_interface_application_complete_path if current_application.submitted?
     end
 
-    def redirect_to_dashboard_if_not_amendable
-      redirect_to candidate_interface_application_complete_path if current_application.submitted? && !current_application.amendable?
-    end
-
     def redirect_to_application_form_unless_submitted
       redirect_to candidate_interface_application_form_path unless current_application.submitted?
     end
