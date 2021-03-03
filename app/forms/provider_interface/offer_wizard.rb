@@ -6,7 +6,9 @@ module ProviderInterface
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
                   :standard_conditions, :further_condition_1, :further_condition_2,
-                  :further_condition_3, :further_condition_4, :current_step, :current_context
+                  :further_condition_3, :further_condition_4, :current_step, :decision
+
+    validates :decision, presence: true
 
     def initialize(state_store, attrs = {})
       @state_store = state_store
@@ -36,10 +38,10 @@ module ProviderInterface
     end
 
     def next_step
-      index = STEPS[current_context.to_sym].index(current_step.to_sym)
+      index = STEPS[decision.to_sym].index(current_step.to_sym)
 
       if index
-        STEPS[current_context.to_sym][index + 1] if index
+        STEPS[decision.to_sym][index + 1] if index
       else
         :select_option
       end

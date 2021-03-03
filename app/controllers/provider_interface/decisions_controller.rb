@@ -10,15 +10,21 @@ module ProviderInterface
     end
 
     def create
-      @wizard = OfferWizard.new(offer_store, { current_context: selected_decision })
-      @wizard.save_state!
+      @wizard = OfferWizard.new(offer_store, { decision: selected_decision })
 
-      if @wizard.current_context == 'rejection'
-        @wizard.clear_state!
+      if @wizard.valid?
 
-        redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
+        @wizard.save_state!
+
+        if @wizard.decision == 'rejection'
+          @wizard.clear_state!
+
+          redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
+        else
+          redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
+        end
       else
-        redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
+        render 'new'
       end
     end
 
@@ -156,13 +162,17 @@ module ProviderInterface
         provider_id: course_option.provider.id,
         study_mode: course_option.study_mode,
         location_id: course_option.site.id,
-        current_context: :default,
+        decision: :default,
         standard_conditions: MakeAnOffer::STANDARD_CONDITIONS,
       }
     end
 
+    def provider_interface_offer_params
+      params[:provider_interface_offer_wizard] || ActionController::Parameters.new
+    end
+
     def selected_decision
-      params.require(:provider_interface_offer_wizard).permit(:decision)[:decision]
+      provider_interface_offer_params.permit(:decision)[:decision]
     end
 
     def offer_store

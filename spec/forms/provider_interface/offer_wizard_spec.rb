@@ -1,8 +1,6 @@
 require 'rails_helper'
 RSpec.describe ProviderInterface::OfferWizard do
-  let(:store) { instance_double(WizardStateStores::RedisStore) }
-
-  let(:wizard) do
+  subject(:wizard) do
     described_class.new(store,
                         provider_id: provider_id,
                         course_id: course_id,
@@ -15,9 +13,10 @@ RSpec.describe ProviderInterface::OfferWizard do
                         further_condition_3: further_condition_3,
                         further_condition_4: further_condition_4,
                         current_step: current_step,
-                        current_context: current_context)
+                        decision: decision)
   end
 
+  let(:store) { instance_double(WizardStateStores::RedisStore) }
   let(:provider_id) { nil }
   let(:course_id) { nil }
   let(:course_option_id) { nil }
@@ -29,13 +28,17 @@ RSpec.describe ProviderInterface::OfferWizard do
   let(:further_condition_3) { nil }
   let(:further_condition_4) { nil }
   let(:current_step) { nil }
-  let(:current_context) { nil }
+  let(:decision) { nil }
 
   before { allow(store).to receive(:read) }
 
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:decision) }
+  end
+
   describe '#next_step' do
-    context 'make offer context' do
-      let(:current_context) { :make_offer }
+    context 'make offer decision' do
+      let(:decision) { :make_offer }
 
       context 'when current_step is :select_option' do
         let(:current_step) { :select_option }
