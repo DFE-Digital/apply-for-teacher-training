@@ -24,7 +24,9 @@ class DateValidator < ActiveModel::EachValidator
 
     return record.errors.add(attribute, invalid_date_locale(options), article: article(attribute), attribute: humanize(attribute)) if is_invalid?(value)
 
-    record.errors.add(attribute, :future, article: article(attribute), attribute: humanize(attribute)) if value > Time.zone.today && options[:future]
+    return record.errors.add(attribute, :future, article: article(attribute), attribute: humanize(attribute)) if value > Time.zone.today && options[:future]
+
+    record.errors.add(attribute, :before, article: article(attribute), attribute: humanize(attribute), compared_attribute: options[:before]) if options[:before] && !before?(record, value, options[:before])
   end
 
 private
@@ -54,5 +56,12 @@ private
 
   def invalid_date_locale(options)
     options[:month_and_year] ? :invalid_date_month_and_year : :invalid_date
+  end
+
+  def before?(record, value, field_to_compare)
+    value_to_compare = record.send(field_to_compare)
+    return true unless value_to_compare.is_a?(Date)
+
+    value <= value_to_compare
   end
 end
