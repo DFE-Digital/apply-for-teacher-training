@@ -12,7 +12,7 @@ module CandidateInterface
     validates :role, :organisation, length: { maximum: 60 }
 
     validates :start_date, date: { presence: true, future: true, month_and_year: true }
-    validates :end_date, date: { presence: true, future: true, month_and_year: true }, unless: :start_date_blank?
+    validates :end_date, date: { future: true, month_and_year: true }, unless: :start_date_blank?
     validate :start_date_before_end_date, unless: ->(c) { %i[start_date end_date].any? { |d| c.errors.keys.include?(d) } }, if: %i[start_date end_date]
 
     validates :details, presence: true, word_count: { maximum: 150 }

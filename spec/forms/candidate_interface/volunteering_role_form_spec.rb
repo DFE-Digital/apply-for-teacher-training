@@ -168,7 +168,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
                             start_date_year: start_date.year)
       end
 
-      include_examples 'month and year date validations', :end_date, verify_presence: true, future: true
+      include_examples 'month and year date validations', :end_date, future: true
 
       describe 'when start date is not set' do
         let(:model) do
