@@ -23,7 +23,8 @@ module ProviderInterface
 
     def rows
       [
-        name_row,
+        first_name_row,
+        last_name_row,
         date_of_birth_row,
         nationality_row,
         right_to_work_or_study_row,
@@ -36,10 +37,17 @@ module ProviderInterface
 
   private
 
-    def name_row
+    def first_name_row
       {
-        key: 'Full name',
-        value: "#{first_name} #{last_name}",
+        key: 'First name',
+        value: first_name,
+      }
+    end
+
+    def last_name_row
+      {
+        key: 'Last name',
+        value: last_name,
       }
     end
 
