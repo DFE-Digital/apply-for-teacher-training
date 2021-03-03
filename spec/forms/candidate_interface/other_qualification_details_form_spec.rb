@@ -104,37 +104,14 @@ RSpec.describe CandidateInterface::OtherQualificationDetailsForm do
     end
 
     describe 'award year' do
-      it 'is valid if the award year is 4 digits' do
-        qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, award_year: '2009')
-
-        qualification.valid?(:details)
-
-        expect(qualification.errors.full_messages_for(:award_year)).to be_empty
-      end
-
-      ['a year', '200'].each do |invalid_date|
-        it "is invalid if the award year is '#{invalid_date}'" do
-          qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, award_year: invalid_date)
-          error_message = t('errors.messages.invalid_year', attribute: 'award year')
-
-          qualification.valid?(:details)
-
-          expect(qualification.errors.full_messages_for(:award_year)).to eq(
-            ["Award year #{error_message}"],
-          )
+      context 'year validations' do
+        let(:model) do
+          described_class.new(nil, nil, award_year: award_year)
         end
-      end
 
-      it 'is invalid if the award year is in the future' do
-        Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
-          qualification = CandidateInterface::OtherQualificationDetailsForm.new(nil, nil, award_year: '2029')
-
-          qualification.valid?(:details)
-
-          expect(qualification.errors.full_messages_for(:award_year)).to eq(
-            ['Award year Assessment year must be this year or a previous year'],
-          )
-        end
+        include_examples 'year validations',
+                         :award_year,
+                         future: true
       end
     end
   end
