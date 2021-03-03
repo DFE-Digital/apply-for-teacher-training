@@ -12,7 +12,7 @@ module CandidateInterface
     validates :role, :organisation, length: { maximum: 60 }
 
     validates :start_date, date: { presence: true, future: true, month_and_year: true }
-    validates :end_date, date: { presence: true, future: true, month_and_year: true }, if: :start_date
+    validates :end_date, date: { presence: true, future: true, month_and_year: true }, unless: :start_date_blank?
     validate :start_date_before_end_date, unless: ->(c) { %i[start_date end_date].any? { |d| c.errors.keys.include?(d) } }, if: %i[start_date end_date]
 
     validates :details, presence: true, word_count: { maximum: 150 }
@@ -67,7 +67,7 @@ module CandidateInterface
     end
 
     def end_date
-      valid_date_or_nil(end_date_year, end_date_month)
+      valid_or_invalid_date(end_date_year, end_date_month)
     end
 
   private
@@ -81,6 +81,10 @@ module CandidateInterface
         start_date: start_date,
         end_date: end_date,
       }
+    end
+
+    def start_date_blank?
+      month_and_year_blank?(start_date)
     end
   end
 end
