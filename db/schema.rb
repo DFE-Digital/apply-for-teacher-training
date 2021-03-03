@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_08_172728) do
+ActiveRecord::Schema.define(version: 2021_03_08_223028) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_172728) do
   create_sequence "other_efl_qualifications_id_seq"
   create_sequence "provider_agreements_id_seq"
   create_sequence "provider_relationship_permissions_id_seq"
+  create_sequence "provider_user_notifications_id_seq"
   create_sequence "provider_users_id_seq"
   create_sequence "provider_users_providers_id_seq"
   create_sequence "providers_id_seq"
@@ -525,6 +526,18 @@ ActiveRecord::Schema.define(version: 2021_03_08_172728) do
     t.index ["training_provider_id", "ratifying_provider_id"], name: "index_relationships_on_training_and_ratifying_provider_ids", unique: true
   end
 
+  create_table "provider_user_notifications", force: :cascade do |t|
+    t.bigint "provider_user_id", null: false
+    t.boolean "application_received", default: true, null: false
+    t.boolean "application_withdrawn", default: true, null: false
+    t.boolean "application_rejected_by_default", default: true, null: false
+    t.boolean "offer_accepted", default: true, null: false
+    t.boolean "offer_declined", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["provider_user_id"], name: "index_provider_user_notifications_on_provider_user_id"
+  end
+
   create_table "provider_users", force: :cascade do |t|
     t.string "email_address", null: false
     t.string "dfe_sign_in_uid"
@@ -730,6 +743,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_172728) do
   add_foreign_key "provider_agreements", "providers"
   add_foreign_key "provider_relationship_permissions", "providers", column: "ratifying_provider_id"
   add_foreign_key "provider_relationship_permissions", "providers", column: "training_provider_id"
+  add_foreign_key "provider_user_notifications", "provider_users", on_delete: :cascade
   add_foreign_key "reference_tokens", "\"references\"", column: "application_reference_id", on_delete: :cascade
   add_foreign_key "references", "application_forms", on_delete: :cascade
   add_foreign_key "sites", "providers"
