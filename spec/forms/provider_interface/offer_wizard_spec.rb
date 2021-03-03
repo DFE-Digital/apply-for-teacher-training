@@ -34,6 +34,10 @@ RSpec.describe ProviderInterface::OfferWizard do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:decision) }
+    it { is_expected.to validate_length_of(:further_condition_1).is_at_most(255) }
+    it { is_expected.to validate_length_of(:further_condition_2).is_at_most(255) }
+    it { is_expected.to validate_length_of(:further_condition_3).is_at_most(255) }
+    it { is_expected.to validate_length_of(:further_condition_4).is_at_most(255) }
   end
 
   describe '#next_step' do

@@ -9,6 +9,7 @@ module ProviderInterface
                   :further_condition_3, :further_condition_4, :current_step, :decision
 
     validates :decision, presence: true
+    validates :further_condition_1, :further_condition_2, :further_condition_3, :further_condition_4, length: { maximum: 255 }
 
     def initialize(state_store, attrs = {})
       @state_store = state_store

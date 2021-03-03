@@ -8,9 +8,14 @@ module ProviderInterface
 
       def create
         @wizard = OfferWizard.new(offer_store, conditions_params.to_h)
-        @wizard.save_state!
 
-        redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
+        if @wizard.valid?
+          @wizard.save_state!
+
+          redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
+        else
+          render :new
+        end
       end
 
     private
