@@ -151,7 +151,7 @@ module CandidateInterface
     end
 
     def interview_row(application_choice)
-      if application_choice.interviews.present?
+      if application_choice.interviews.kept.any?
         {
           key: 'Interview'.pluralize(application_choice.interviews.size),
           value: render(InterviewBookingsComponent.new(application_choice)),

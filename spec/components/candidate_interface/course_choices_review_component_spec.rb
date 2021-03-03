@@ -353,6 +353,28 @@ RSpec.describe CandidateInterface::CourseChoicesReviewComponent do
     end
   end
 
+  context 'when an interview has been scheduled' do
+    it 'renders the component with interview details' do
+      application_choice = create(:application_choice, :with_completed_application_form, :with_scheduled_interview)
+      application_form = application_choice.application_form
+
+      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+
+      expect(result.css('.govuk-summary-list__key').text).to include('Interview')
+    end
+  end
+
+  context 'when an interview has been cancelled' do
+    it 'renders the component without interview details' do
+      application_choice = create(:application_choice, :with_completed_application_form, :with_cancelled_interview)
+      application_form = application_choice.application_form
+
+      result = render_inline(described_class.new(application_form: application_form, editable: false, show_status: true))
+
+      expect(result.css('.govuk-summary-list__key').text).not_to include('Interview')
+    end
+  end
+
   def create_application_form_with_course_choices(statuses:)
     application_form = create(:application_form)
 

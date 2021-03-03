@@ -551,8 +551,7 @@ FactoryBot.define do
 
       after(:build) do |application_choice, _evaluator|
         application_choice.status = :awaiting_provider_decision
-        application_choice.interviews << build(:interview, provider: application_choice.provider)
-        application_choice.interviews.each(&:discard)
+        application_choice.interviews << build(:interview, provider: application_choice.provider, cancelled_at: Time.zone.now)
       end
     end
 
