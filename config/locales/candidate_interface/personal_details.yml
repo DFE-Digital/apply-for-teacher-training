@@ -32,7 +32,7 @@ en:
         label: Other languages spoken
         change_action: other languages
       right_to_work:
-        label: Residency status
+        label: Immigration status
         change_action: Right to work or study
 
   activemodel:
@@ -76,4 +76,4 @@ en:
               blank: Select if you have the right to work or study in the UK
             right_to_work_or_study_details:
               blank: Please provide details of your right to work or study in the UK.
-              too_many_words: Other languages spoken must be %{count} words or fewer
+              too_many_words: Your immigration status must be %{count} words or fewer
