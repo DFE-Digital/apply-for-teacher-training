@@ -43,15 +43,13 @@ namespace :data do
     desc "Executes specified migration if it's pending"
     task :manual, [:service_name] => :environment do |_, args|
       abort('You must specify a migration service e.g. rake data:migrate:manual[DataMigrations::UpdateApplicationChoiceData]') if args[:service_name].blank?
+      service = Object.const_get(args[:service_name])
+      abort('Migration already executed') if migration_ran?(service)
 
       STDOUT.puts 'Hello! Who are you? This name will be used in the audit log for any changes you make.'
       user = STDIN.gets.strip
       STDOUT.puts 'Type your audit comment or hit return to continue'
       audit_comment = STDIN.gets.strip
-
-      service = Object.const_get(args[:service_name])
-
-      abort('Migration already executed') if migration_ran?(service)
 
       puts "Executing #{service}..."
       ActiveRecord::Base.transaction do
@@ -59,6 +57,9 @@ namespace :data do
         service.new.change
       end
       puts "#{service}##{service::TIMESTAMP} data migration completed successfully"
+
+    rescue StandardError => e
+      abort("Something went wrong and the migration was not executed: #{e}")
     end
   end
 end
