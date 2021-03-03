@@ -10,7 +10,7 @@
     "@rails/webpacker": "^5.2.1",
     "accessible-autocomplete": "^2.0.3",
     "govuk-frontend": "^3.11.0",
-    "jquery": "^3.5.1"
+    "jquery": "^3.6.0"
   },
   "devDependencies": {
     "jest": "^26.6.3",
