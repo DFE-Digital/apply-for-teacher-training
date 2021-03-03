@@ -173,6 +173,7 @@ class CandidateMailer < ApplicationMailer
   def declined_by_default(application_form)
     @declined_courses = application_form.application_choices.select(&:declined_by_default?)
     @declined_course_names = @declined_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
+    @candidate_magic_link = candidate_magic_link(application_form.candidate)
 
     if application_form.ended_without_success? && application_form.application_choices.select(&:rejected?).present?
       template_name = :declined_by_default_with_rejections
@@ -265,6 +266,7 @@ class CandidateMailer < ApplicationMailer
     @withdrawn_courses = application_form.application_choices.select(&:withdrawn?)
     @withdrawn_course_names = @withdrawn_courses.map { |application_choice| "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}" }
     @rejected_course_choices_count = application_form.application_choices.select(&:rejected?).count
+    @candidate_magic_link = candidate_magic_link(application_form.candidate)
 
     email_for_candidate(
       application_form,
@@ -276,6 +278,7 @@ class CandidateMailer < ApplicationMailer
     @declined_course = application_choice
     @declined_course_name = "#{application_choice.course_option.course.name_and_code} at #{application_choice.course_option.course.provider.name}"
     @rejected_course_choices_count = application_choice.self_and_siblings.select(&:rejected?).count
+    @candidate_magic_link = candidate_magic_link(application_choice.application_form.candidate)
 
     email_for_candidate(
       application_choice.application_form,

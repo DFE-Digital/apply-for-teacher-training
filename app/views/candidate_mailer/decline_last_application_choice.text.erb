@@ -1,11 +1,7 @@
 Dear <%= @application_form.first_name %>,
 
-# Application declined
+# Offer declined
 
 You’ve declined your offer to study <%= @declined_course_name %>.
 
-<% if @rejected_course_choices_count.zero? %>
-  <%= render 'interested_without_rejections' %>
-<% else %>
-  <%= render 'interested_with_rejections' %>
-<% end %>
+<%= render 'still_interested_in_teaching' %>

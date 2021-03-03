@@ -20,6 +20,4 @@ Contact <%= @course.provider.name %> directly if you have any questions about th
   You’ve now had decisions about all the courses you applied for. You did not get any offers, so you can apply again.
 <% end %>
 
-Your last application has been saved. You can make changes before you submit your new application.
-
-<%= @candidate_magic_link %>
+<%= render 'still_interested_content' %>
