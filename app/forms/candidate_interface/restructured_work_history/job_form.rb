@@ -30,9 +30,8 @@ module CandidateInterface
       validates :currently_working, inclusion: { in: %w[true false] }
       validates :relevant_skills, inclusion: { in: %w[true false] }
 
-      validates :start_date, date: { future: true, month_and_year: true, presence: true }
+      validates :start_date, date: { future: true, month_and_year: true, presence: true, before: :end_date }
       validates :end_date, date: { future: true, month_and_year: true, presence: true }, if: :not_currently_employed_in_this_role?
-      validate :start_date_before_end_date, unless: ->(c) { %i[start_date end_date].any? { |d| c.errors.keys.include?(d) } }
 
       def self.build_form(job)
         new(

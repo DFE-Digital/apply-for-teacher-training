@@ -35,18 +35,7 @@ RSpec.describe CandidateInterface::WorkHistoryBreakForm, type: :model do
                             start_date_year: start_date_year)
       end
 
-      include_examples 'month and year date validations', :start_date, verify_presence: true, future: true
-
-      describe 'when after the end date' do
-        it 'returns a :before error' do
-          model = described_class.new(start_date_month: '5', start_date_year: '2018',
-                                      end_date_month: '5', end_date_year: '2017')
-
-          expect(model).to be_invalid
-
-          expect(model.errors.added?(:start_date, :before)).to eq(true)
-        end
-      end
+      include_examples 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
     end
 
     context 'end_date validations' do
