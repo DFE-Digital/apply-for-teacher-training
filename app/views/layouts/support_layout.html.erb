@@ -1,3 +1,5 @@
+<% content_for :body_class, 'app-template--support' %>
+
 <% content_for :content do %>
   <% if yield(:context).present? %>
     <span class="govuk-caption-l"><%= yield :context %></span>
