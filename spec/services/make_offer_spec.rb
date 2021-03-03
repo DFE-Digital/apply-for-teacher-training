@@ -20,7 +20,10 @@ RSpec.describe MakeOffer do
       it 'throws an exception' do
         expect {
           make_offer.save!
-        }.to raise_error(ProviderAuthorisation::NotAuthorisedError, 'You are not allowed to make decisions')
+        }.to raise_error(
+          ProviderAuthorisation::NotAuthorisedError,
+          'You are not permitted to view this application. The specified course is not associated with any of your organisations. You do not have the required user level permissions to make decisions on applications.',
+        )
       end
     end
 
