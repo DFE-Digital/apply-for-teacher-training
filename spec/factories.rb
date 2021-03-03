@@ -546,6 +546,16 @@ FactoryBot.define do
       end
     end
 
+    trait :with_cancelled_interview do
+      awaiting_provider_decision
+
+      after(:build) do |application_choice, _evaluator|
+        application_choice.status = :awaiting_provider_decision
+        application_choice.interviews << build(:interview, provider: application_choice.provider)
+        application_choice.interviews.each(&:discard)
+      end
+    end
+
     trait :withdrawn do
       status { :withdrawn }
       withdrawn_at { Time.zone.now }
@@ -1197,6 +1207,16 @@ FactoryBot.define do
       changes do
         {
           'status' => %w[awaiting_provider_decision interviewing],
+        }
+      end
+    end
+
+    trait :with_cancelled_interview do
+      association(:application_choice, :with_cancelled_interview)
+
+      changes do
+        {
+          'status' => %w[awaiting_provider_decision],
         }
       end
     end
