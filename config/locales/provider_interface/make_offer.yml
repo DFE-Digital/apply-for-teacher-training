@@ -31,6 +31,12 @@ en:
         decision: 'Select decision'
         standard_conditions: 'Standard conditions'
   activemodel:
+    attributes:
+      provider_interface/offer_wizard:
+        further_condition_1: 'Condition 1'
+        further_condition_2: 'Condition 2'
+        further_condition_3: 'Condition 3'
+        further_condition_4: 'Condition 4'
     errors:
       models:
         provider_interface/offer_wizard:
