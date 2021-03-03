@@ -54,16 +54,16 @@ benefits like knowledge sharing.
 
 These are some of the things that as a reviewer you may wish to check:
 
-- [] Are tests sufficient and robust? It is reasonable to ask for more tests.
-- [] Does the change make the code harder to understand/maintain?
-- [] Should the change be behind a feature flag? If it is behind a feature flag
+- [ ] Are tests sufficient and robust? It is reasonable to ask for more tests.
+- [ ] Does the change make the code harder to understand/maintain?
+- [ ] Should the change be behind a feature flag? If it is behind a feature flag
   is it watertight?
-- [] Does the change break backward compatibility?
-- [] Does the code introduce any security vulnerabilities? (e.g. are queries
+- [ ] Does the change break backward compatibility?
+- [ ] Does the code introduce any security vulnerabilities? (e.g. are queries
   scoped to the current user?)
-- [] Have migrations been tested? Do they follow zero downtime patterns? (e.g.
+- [ ] Have migrations been tested? Do they follow zero downtime patterns? (e.g.
   migrations are deployed before code that depends on them).
-- [] Is the change consistent with established conventions? (e.g. use of
+- [ ] Is the change consistent with established conventions? (e.g. use of
   components, test style etc.)
-- [] Should documentation be updated as a result of this change? (Including
+- [ ] Should documentation be updated as a result of this change? (Including
   developer/support docs as well as API docs).
