@@ -56,4 +56,24 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
                                  fields: 'year')).to eq(true)
     end
   end
+
+  describe "when after the #{validations[:before]}", if: validations[:before] do
+    let(:date) { Time.zone.now }
+    let(:compared_value) { date - 1.month }
+    let(:compared_attribute) { validations[:before] }
+
+    it 'returns :before error' do
+      model.send("#{compared_attribute}_day=".to_sym, compared_value.day)
+      model.send("#{compared_attribute}_month=", compared_value.month)
+      model.send("#{compared_attribute}_year=", compared_value.year)
+
+      expect(model).to be_invalid
+
+      expect(model.errors.added?(date_field,
+                                 :before,
+                                 article: article(date_field),
+                                 attribute: humanize(date_field),
+                                 compared_attribute: compared_attribute)).to eq(true)
+    end
+  end
 end
