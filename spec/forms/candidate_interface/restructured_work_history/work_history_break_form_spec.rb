@@ -50,13 +50,30 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::WorkHistoryBreakForm
     end
 
     context 'end_date validations' do
+      let(:start_date) { 2.years.ago }
       let(:model) do
         described_class.new(end_date_day: end_date_day,
                             end_date_month: end_date_month,
-                            end_date_year: end_date_year)
+                            end_date_year: end_date_year,
+                            start_date_day: start_date.day,
+                            start_date_month: start_date.month,
+                            start_date_year: start_date.year)
       end
 
       include_examples 'month and year date validations', :end_date, verify_presence: true, future: true
+
+      describe 'when start date is not set' do
+        let(:model) do
+          described_class.new(end_date_day: nil, end_date_month: nil, end_date_year: 2000,
+                              start_date_day: nil, start_date_month: nil, start_date_year: nil)
+        end
+
+        it 'end_date is not validated' do
+          model.valid?
+
+          expect(model.errors.added?(:end_date)).to eq(false)
+        end
+      end
     end
   end
 
