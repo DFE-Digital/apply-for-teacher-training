@@ -3,8 +3,8 @@ module APIDocs
     attr_reader :document
     delegate :servers, to: :document
 
-    def initialize
-      @document = Openapi3Parser.load(VendorAPISpecification.as_hash)
+    def initialize(spec)
+      @document = Openapi3Parser.load(spec)
     end
 
     def operations

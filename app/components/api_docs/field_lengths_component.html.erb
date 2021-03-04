@@ -1,0 +1,18 @@
+<h2 class="govuk-heading-l" id="field-lengths">Field lengths summary</h2>
+
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Rule</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Limit</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% @api_reference.field_lengths_summary.each do |(rule, limit)| %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header"><%= rule %></th>
+        <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(limit) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
