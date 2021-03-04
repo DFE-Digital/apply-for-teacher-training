@@ -191,10 +191,8 @@ private
   end
 
   def full_error_messages
-    [].tap do |ary|
-      @errors.each do |permission, msg_keys|
-        msg_keys.each { |key| ary << I18n.t("provider_authorisation.errors.#{permission}.#{key}") }
-      end
+    @errors.flat_map do |permission, msg_keys|
+      msg_keys.map { |key| I18n.t("provider_authorisation.errors.#{permission}.#{key}") }
     end
   end
 end
