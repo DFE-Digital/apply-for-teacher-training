@@ -29,15 +29,16 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
       }
     end
 
-    it 'returns a hash of referees responses' do
+    it 'returns a hash of non-duplicate referees responses' do
       create(:reference, name: 'A', email_address: 'a@example.com', questionnaire: questionnaire1, feedback_provided_at: '2021-01-01 15:00:00', application_form: create(:application_form, recruitment_cycle_year: 2021))
-      create(:reference, name: 'B', email_address: 'b@example.com', questionnaire: questionnaire2, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:reference, name: 'B', email_address: 'b@example.com', questionnaire: questionnaire2, feedback_provided_at: '2021-02-01 15:00:00', application_form: create(:application_form, recruitment_cycle_year: 2021))
       create(:reference, questionnaire: questionnaire3, application_form: create(:application_form, recruitment_cycle_year: 2021))
+      create(:reference, name: 'A', email_address: 'a@example.com', questionnaire: questionnaire1, duplicate: true, application_form: create(:application_form, recruitment_cycle_year: 2021))
 
       expect(described_class.new.call).to match_array([
         {
           'Name' => 'A',
-          'Reference provided at' => '2021-01-01T15:00:00+00:00',
+          'Reference provided at' => '01/01/21',
           'Recruitment cycle year' => 2021,
           'Email_address' => 'a@example.com',
           'Guidance rating' => 'very_poor',
@@ -49,7 +50,7 @@ RSpec.describe SupportInterface::RefereeSurveyExport do
         },
         {
           'Name' => 'B',
-          'Reference provided at' => nil,
+          'Reference provided at' => '01/02/21',
           'Recruitment cycle year' => 2021,
           'Email_address' => 'b@example.com',
           'Guidance rating' => 'good',

@@ -823,6 +823,7 @@ FactoryBot.define do
     relationship { Faker::Lorem.paragraph(sentence_count: 3) }
     referee_type { %i[academic professional school_based character].sample }
     questionnaire { nil }
+    duplicate { false }
 
     trait :not_requested_yet do
       feedback_status { 'not_requested_yet' }
