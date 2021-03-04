@@ -5,6 +5,10 @@ RSpec.feature 'Provider makes an offer' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
+  before do
+    FeatureFlag.deactivate(:updated_offer_flow)
+  end
+
   scenario 'Provider fails to select a response (offer/reject)' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_application_choices_exist_for_my_provider
