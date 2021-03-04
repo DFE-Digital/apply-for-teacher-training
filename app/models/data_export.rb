@@ -50,6 +50,11 @@ class DataExport < ApplicationRecord
       description: 'Anonymised candidate equality and diversity data.',
       class: SupportInterface::EqualityAndDiversityExport,
     },
+    interviews_export: {
+      name: 'Interview changes',
+      description: 'A list of changes made to interviews for analysis of the Interviews feature',
+      class: SupportInterface::InterviewChangesExport,
+    },
     notifications_export: {
       name: 'Notifications',
       description: 'Data to enable performance assesment of Notification feature.',
