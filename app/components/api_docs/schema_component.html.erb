@@ -4,4 +4,4 @@
 
 <%= markdown_to_html schema.description %>
 
-<%= render 'properties_list', properties: schema.properties %>
+<%= render APIDocs::PropertyListComponent.new(schema.properties) %>

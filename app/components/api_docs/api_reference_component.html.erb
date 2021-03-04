@@ -1,0 +1,11 @@
+<h2 class="govuk-heading-l" id="endpoints">Endpoints</h2>
+
+<% @api_reference.operations.each do |operation| %>
+  <%= render APIDocs::OperationComponent.new(operation) %>
+<% end %>
+
+<h2 class="govuk-heading-l" id="objects">Objects</h2>
+
+<% @api_reference.schemas.each do |schema| %>
+  <%= render APIDocs::SchemaComponent.new(schema) %>
+<% end %>

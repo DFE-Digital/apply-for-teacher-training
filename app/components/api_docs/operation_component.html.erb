@@ -51,7 +51,7 @@
 
   <%= markdown_to_html operation.request_body.description %>
 
-  <%= render 'properties_list', properties: operation.request_body.schema.properties %>
+  <%= render APIDocs::PropertyListComponent.new(operation.request_body.schema.properties) %>
 
   <details class="govuk-details" data-module="govuk-details">
     <summary class="govuk-details__summary">
