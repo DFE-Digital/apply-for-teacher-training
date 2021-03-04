@@ -22,6 +22,7 @@ module SupportInterface
             decided_at: choice.offered_at || choice.rejected_at,
             offer_response: offer_response_interpretation(choice: choice),
             offer_response_at: choice.accepted_at || choice.declined_at,
+            recruited_at: choice.recruited_at,
             rejection_reason: choice.rejection_reason,
             structured_rejection_reasons: format_structured_rejection_reasons(choice.structured_rejection_reasons),
           }
