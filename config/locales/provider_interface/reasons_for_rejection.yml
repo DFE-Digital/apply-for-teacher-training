@@ -47,6 +47,7 @@ en:
       no_english_gcse: 'No English GCSE grade 4 (C) or above, or valid equivalent'
       no_science_gcse: 'No Science GCSE grade 4 (C) or above, or valid equivalent (for primary applicants)'
       no_degree: 'No degree'
+      no_phd: 'No PhD'
       other: Other
   activemodel:
     errors:
