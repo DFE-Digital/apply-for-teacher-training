@@ -7,7 +7,6 @@ class DateValidator < ActiveModel::EachValidator
     return if value.blank? || (blank?(value) && !options[:presence])
 
     date_validations(record, attribute, value) if !record.errors.keys.include?(attribute)
-
     date_of_birth_validations(record, attribute, value) if options[:date_of_birth] && !record.errors.keys.include?(attribute)
   end
 
@@ -19,11 +18,8 @@ class DateValidator < ActiveModel::EachValidator
 
   def date_validations(record, attribute, value)
     return record.errors.add(attribute, :blank_date, article: article(attribute), attribute: humanize(attribute)) if options[:presence] && blank?(value)
-
     return record.errors.add(attribute, :blank_date_fields, attribute: humanize(attribute), fields: blank_fields(value).to_sentence) if !blank?(value) && blank_fields(value).any?
-
     return record.errors.add(attribute, invalid_date_locale(options), article: article(attribute), attribute: humanize(attribute)) if is_invalid?(value)
-
     return record.errors.add(attribute, :future, article: article(attribute), attribute: humanize(attribute)) if value > Time.zone.today && options[:future]
 
     record.errors.add(attribute, :before, article: article(attribute), attribute: humanize(attribute), compared_attribute: options[:before]) if options[:before] && !before?(record, value, options[:before])
