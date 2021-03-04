@@ -1,6 +1,7 @@
 module ProviderInterface
   class DecisionsController < ProviderInterfaceController
     before_action :set_application_choice
+    before_action :confirm_application_is_in_decision_pending_state, only: %i[new create]
     before_action :requires_make_decisions_permission
 
     def new
@@ -165,6 +166,12 @@ module ProviderInterface
         decision: :default,
         standard_conditions: MakeAnOffer::STANDARD_CONDITIONS,
       }
+    end
+
+    def confirm_application_is_in_decision_pending_state
+      return if ApplicationStateChange::DECISION_PENDING_STATUSES.include?(@application_choice.status.to_sym)
+
+      redirect_back(fallback_location: provider_interface_application_choice_path(@application_choice))
     end
 
     def provider_interface_offer_params
