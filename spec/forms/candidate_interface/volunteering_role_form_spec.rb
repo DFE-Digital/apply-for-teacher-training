@@ -136,7 +136,41 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
     it { is_expected.to allow_value(okay_text).for(:details) }
     it { is_expected.not_to allow_value(long_text).for(:details) }
 
-    include_examples 'validation for a start date', 'volunteering_role_form', verify_presence: true
-    include_examples 'validation for an end date that can be blank', 'volunteering_role_form'
+    context 'start_date validations' do
+      let(:model) do
+        described_class.new(start_date_day: start_date_day,
+                            start_date_month: start_date_month,
+                            start_date_year: start_date_year)
+      end
+
+      include_examples 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
+    end
+
+    context 'end_date validations' do
+      let(:start_date) { 2.years.ago }
+      let(:model) do
+        described_class.new(end_date_day: end_date_day,
+                            end_date_month: end_date_month,
+                            end_date_year: end_date_year,
+                            start_date_day: start_date.day,
+                            start_date_month: start_date.month,
+                            start_date_year: start_date.year)
+      end
+
+      include_examples 'month and year date validations', :end_date, future: true
+
+      describe 'when start date is not set' do
+        let(:model) do
+          described_class.new(end_date_day: nil, end_date_month: nil, end_date_year: 2000,
+                              start_date_day: nil, start_date_month: nil, start_date_year: nil)
+        end
+
+        it 'end_date is not validated' do
+          model.valid?
+
+          expect(model.errors.added?(:end_date)).to eq(false)
+        end
+      end
+    end
   end
 end

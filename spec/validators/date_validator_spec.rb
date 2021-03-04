@@ -177,5 +177,30 @@ RSpec.describe DateValidator do
         end
       end
     end
+
+    context 'when before: :field' do
+      let(:test_date_validator) do
+        Class.new do
+          include ActiveModel::Validations
+          include ActiveModel::Model
+
+          attr_accessor :date, :other_date
+
+          validates :date, date: { month_and_year: true, before: :other_date }
+        end
+      end
+
+      let(:model) { TestDateValidator.new(date: date, other_date: other_date) }
+
+      context 'when the date is after the provided field date' do
+        let(:date) { Time.zone.today - 2.months }
+        let(:other_date) { Time.zone.today - 5.months }
+
+        it 'returns :before error' do
+          expect(model).to be_invalid
+          expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.before', article: 'a', attribute: :date, compared_attribute: :other_date))
+        end
+      end
+    end
   end
 end

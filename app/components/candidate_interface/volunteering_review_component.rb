@@ -1,6 +1,7 @@
 module CandidateInterface
   class VolunteeringReviewComponent < ViewComponent::Base
     include ViewHelper
+    include DateValidationHelper
 
     def initialize(application_form:, editable: true, heading_level: 2, show_incomplete: false, missing_error: false)
       @application_form = application_form
@@ -89,7 +90,7 @@ module CandidateInterface
     end
 
     def formatted_end_date(volunteering_role)
-      return 'Present' if volunteering_role.end_date.nil? || volunteering_role.end_date == Time.zone.now
+      return 'Present' if month_and_year_blank?(volunteering_role.end_date) || volunteering_role.end_date == Time.zone.now
 
       volunteering_role.end_date.to_s(:month_and_year)
     end

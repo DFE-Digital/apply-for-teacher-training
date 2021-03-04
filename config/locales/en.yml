@@ -413,6 +413,7 @@ en:
       future: Enter %{article} %{attribute} that is not in the future
       blank_date_fields: The %{attribute} must include a %{fields}
       blank_date: Enter %{article} %{attribute}
+      before: Enter %{article} %{attribute} that is before the %{compared_attribute}
       dob_future: Enter a %{attribute} that is in the past, for example 31 3 1980
       dob_below_min_age: Enter a date of birth before %{date} – you must be over %{min_age} years old to Apply for teacher training
     application_choices:

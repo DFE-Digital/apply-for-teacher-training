@@ -14,9 +14,8 @@ module CandidateInterface
 
     validates :working_with_children, inclusion: { in: %w[true false] }
 
-    validates :start_date, date: { future: true, month_and_year: true, presence: true }
+    validates :start_date, date: { future: true, month_and_year: true, presence: true, before: :end_date }
     validates :end_date, date: { future: true, month_and_year: true }
-    validate :start_date_before_end_date, unless: ->(c) { %i[start_date end_date].any? { |d| c.errors.keys.include?(d) } }
 
     validates :role, :organisation,
               length: { maximum: 60 }
@@ -84,7 +83,7 @@ module CandidateInterface
     end
 
     def end_date
-      valid_date_or_nil(end_date_year, end_date_month)
+      valid_or_invalid_date(end_date_year, end_date_month)
     end
   end
 end

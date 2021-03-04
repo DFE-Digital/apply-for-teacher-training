@@ -39,70 +39,25 @@ RSpec.describe CandidateInterface::RestructuredWorkHistory::JobForm, type: :mode
     it { is_expected.to validate_length_of(:role).is_at_most(60) }
     it { is_expected.to validate_length_of(:organisation).is_at_most(60) }
 
-    include_examples 'validation for a start date', 'restructured_work_history/job_form', verify_presence: true
-
-    context "'currently working' is 'false'" do
-      it 'is invalid if left completely blank' do
-        form = described_class.new(end_date_month: '', end_date_year: '', currently_working: 'false')
-
-        form.validate
-
-        expect(form.errors[:end_date]).to contain_exactly('Enter an end date')
+    context 'start_date validations' do
+      let(:model) do
+        described_class.new(start_date_day: start_date_day,
+                            start_date_month: start_date_month,
+                            start_date_year: start_date_year)
       end
 
-      it 'is invalid if month left blank' do
-        form = described_class.new(end_date_month: '', end_date_year: '2019', currently_working: 'false')
+      include_examples 'month and year date validations', :start_date, verify_presence: true, future: true, before: :end_date
+    end
 
-        form.validate
-
-        expect(form.errors[:end_date]).to contain_exactly('The end date must include a month')
+    context 'end_date validations when currently_working is `false`' do
+      let(:model) do
+        described_class.new(end_date_day: end_date_day,
+                            end_date_month: end_date_month,
+                            end_date_year: end_date_year,
+                            currently_working: 'false')
       end
 
-      it 'is invalid if year left blank' do
-        form = described_class.new(end_date_month: '5', end_date_year: '', currently_working: 'false')
-
-        form.validate
-
-        expect(form.errors[:end_date]).to contain_exactly('The end date must include a year')
-      end
-
-      it 'is invalid if not well-formed' do
-        form = described_class.new(end_date_month: '99', end_date_year: '2019', currently_working: 'false')
-
-        form.validate
-
-        expect(form.errors[:end_date]).to contain_exactly('Enter a real end date, for example 5 2019')
-      end
-
-      it 'is invalid if year is beyond the current year' do
-        Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
-          form = described_class.new(end_date_month: '1', end_date_year: '2029', currently_working: 'false')
-
-          form.validate
-
-          expect(form.errors[:end_date]).to contain_exactly('Enter an end date that is not in the future')
-        end
-      end
-
-      it 'is invalid if year is the current year but month is after the current month' do
-        Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
-          form = described_class.new(end_date_month: '11', end_date_year: '2019', currently_working: 'false')
-
-          form.validate
-
-          expect(form.errors[:end_date]).to contain_exactly('Enter an end date that is not in the future')
-        end
-      end
-
-      it 'is valid if year and month are before the current year and month' do
-        Timecop.freeze(Time.zone.local(2019, 10, 1, 12, 0, 0)) do
-          form = described_class.new(end_date_month: '9', end_date_year: '2019', currently_working: 'false')
-
-          form.validate
-
-          expect(form.errors.full_messages_for(:end_date)).to be_empty
-        end
-      end
+      include_examples 'month and year date validations', :end_date, verify_presence: true, future: true
     end
 
     context "'currently_working' is true" do

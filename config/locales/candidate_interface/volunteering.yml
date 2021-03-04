@@ -65,5 +65,3 @@ en:
               too_many_words: Skills and experience must be %{count} words or fewer
             working_with_children:
               blank: Select if this role involves working in a school or with children
-            start_date:
-              before: Enter a start date that is before the end date
