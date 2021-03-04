@@ -27,7 +27,7 @@ class DataExport < ApplicationRecord
     },
     candidate_email_send_counts: {
       name: 'Candidate email send counts',
-      description: "A list of all emails sent by the service, and how many we've sent to date",
+      description: "A list of all emails sent by the service, and how many we've sent to date.",
       class: SupportInterface::CandidateEmailSendCountsExport,
     },
     candidate_feedback: {
@@ -52,7 +52,7 @@ class DataExport < ApplicationRecord
     },
     notifications_export: {
       name: 'Notifications',
-      description: 'Data to enable performance assesment of Notification feature',
+      description: 'Data to enable performance assesment of Notification feature.',
       class: SupportInterface::NotificationsExport,
     },
     offer_conditions: {
@@ -62,7 +62,7 @@ class DataExport < ApplicationRecord
     },
     organisation_permissions: {
       name: 'Organisation permissions',
-      description: 'A list of changes to organisational permissions and audit information about the changes',
+      description: 'A list of changes to organisational permissions and audit information about the changes.',
       class: SupportInterface::OrganisationPermissionsExport,
     },
     provider_access_controls: {
@@ -110,15 +110,15 @@ class DataExport < ApplicationRecord
       description: 'A list of all application/offered/accepted counts for all courses in Apply.',
       class: SupportInterface::TADProviderStatsExport,
     },
-    unexplained_breaks_in_work_history: {
-      name: 'Unexplained breaks in work history',
-      description: 'A list of candidates with unexplained breaks in their work history.',
-      class: SupportInterface::UnexplainedBreaksInWorkHistoryExport,
-    },
     user_permissions_: {
       name: 'User permissions',
-      description: 'A list of changes to user permissions and audit information about the changes',
+      description: 'A list of changes to user permissions and audit information about the changes.',
       class: SupportInterface::UserPermissionsExport,
+    },
+    work_history_break: {
+      name: 'Work history break',
+      description: 'A list of candidates with breaks in their work history.',
+      class: SupportInterface::WorkHistoryBreakExport,
     },
   }.freeze
 
