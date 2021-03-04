@@ -1,0 +1,74 @@
+common_columns:
+- provider_code
+- course_code
+
+custom_columns:
+  audit_id:
+    type: integer
+    description: The id of the audit for the change to the interview
+  audit_created_at:
+    type: datetime
+    description: The time the change was made
+  audit_type:
+    type: string
+    description: Whether the change was a create or an update action
+    enum:
+      - create
+      - update
+  interview_id:
+    type: integer
+    description: The id of the interview being changed
+  candidate_id:
+    type: integer
+    description: The id of the candidate being interviewed
+  application_form_id:
+    type: integer
+    description: The id of the application form of the candidate being interviewed
+  provider_user:
+    type: string
+    description: Email address of the user who made the change, or 'Support' if done by support
+  interview_status:
+    type: string
+    description: Whether the interview was upcoming or past when the change was made
+    enum:
+      - upcoming
+      - past
+  date_and_time:
+    type: datetime
+    description: |
+      The new date_and_time value for the interview, after the change.
+      Left as a blank string if there was no change.
+  cancelled_at:
+    type: datetime
+    description: |
+      The new cancelled_at value for the interview, after the change.
+      Left as a blank string if there was no change.
+  cancellation_reason:
+    type: string
+    description: |
+      The new cancellation_reason value for the interview, after the change.
+      Left as a blank string if there was no change.
+  provider_id:
+    type: interger
+    description: |
+      The new provider_id value for the interview, after the change.
+      Left as a blank string if there was no change.
+  location:
+    type: string
+    description: |
+      The new location value for the interview, after the change.
+      Left as a blank string if there was no change.
+  additional_details:
+    type: string
+    description: |
+      The new additional_details value for the interview, after the change.
+      Left as a blank string if there was no change.
+  interview_preferences:
+    type: string
+    description: The interview preferences given by the candidate
+  application_submitted_at:
+    type: datetime
+    description: When the candidate submitted their application form
+  course_location:
+    type: string
+    description: The name and code of the site the course will take place at
