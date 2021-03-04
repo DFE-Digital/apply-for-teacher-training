@@ -19,13 +19,7 @@ module SupportInterface
     end
 
     def data_for_export
-      applications = ApplicationForm
-                         .where.not(date_of_birth: nil)
-                         .select(:id, :candidate_id, :submitted_at, :date_of_birth, :work_history_completed)
-                         .includes(:application_qualifications, :application_work_experiences, :application_work_history_breaks, :application_volunteering_experiences, :application_choices)
-                         .order(submitted_at: :desc).uniq(&:candidate_id)
-
-      data_for_export = applications.map do |application_form|
+      data_for_export = application_forms.map do |application_form|
         volunteering_experiences = application_form.application_volunteering_experiences.sort_by(&:start_date)
         explained_breaks = application_form.application_work_history_breaks.sort_by(&:start_date)
         unexplained_breaks = get_unexplained_breaks(application_form)
@@ -53,6 +47,14 @@ module SupportInterface
     end
 
   private
+
+    def application_forms
+      ApplicationForm
+         .where.not(date_of_birth: nil)
+         .select(:id, :candidate_id, :submitted_at, :date_of_birth, :work_history_completed)
+         .includes(:application_qualifications, :application_work_experiences, :application_work_history_breaks, :application_volunteering_experiences, :application_choices)
+         .order(submitted_at: :desc).uniq(&:candidate_id)
+    end
 
     def explained_breaks_columns(application_form, explained_breaks, volunteering_experiences)
       {
@@ -96,10 +98,9 @@ module SupportInterface
     end
 
     def total_time_volunteering_during_breaks(breaks, volunteering_experiences)
-      total_time = 0
-      breaks.each do |work_break|
-        volunteering_experiences_during_break(work_break, volunteering_experiences).each do |volunteering_experience|
-          total_time += volunteering_time_during_break(work_break, volunteering_experience)
+      total_time = breaks.map.sum do |work_break|
+        volunteering_experiences_during_break(work_break, volunteering_experiences).inject(0) do |_time, volunteering_experience|
+          volunteering_time_during_break(work_break, volunteering_experience)
         end
       end
       convert_seconds_to_months(total_time)
@@ -186,16 +187,11 @@ module SupportInterface
     end
 
     def remove_months(timeline:, entries:, application_form:)
-      remaining_months_in_timeline = timeline
-
-      entries.each do |entry|
+      months_in_entry_periods = entries.flat_map do |entry|
         entry_end_date = entry.end_date.nil? ? submitted_at(application_form) : entry.end_date
-        months_in_entry_period = month_range(start_date: entry.start_date, end_date: entry_end_date)
-
-        remaining_months_in_timeline -= months_in_entry_period
+        month_range(start_date: entry.start_date, end_date: entry_end_date)
       end
-
-      remaining_months_in_timeline
+      timeline - months_in_entry_periods
     end
 
     def create_unexplained_breaks(break_months_in_timeline)

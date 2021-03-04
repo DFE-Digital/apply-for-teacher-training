@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe SupportInterface::WorkHistoryBreakExport do
   describe '#data_for_export' do
-    let(:candidate) { create(:candidate) }
+    let(:candidate) { build(:candidate) }
     let(:application_form) do
-      create(:completed_application_form,
-             candidate: candidate,
-             date_of_birth: Date.new(1982, 1, 1),
-             submitted_at: Date.new(2020, 12, 31))
+      build(:completed_application_form,
+            candidate: candidate,
+            date_of_birth: Date.new(1982, 1, 1),
+            submitted_at: Date.new(2020, 12, 31))
     end
 
     before do
