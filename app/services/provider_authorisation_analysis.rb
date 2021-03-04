@@ -42,10 +42,12 @@ class ProviderAuthorisationAnalysis
   end
 
   def provider_relationship_allows_access?
+    valid_relationship_present = !auth.errors.include?(:requires_training_or_ratifying_provider_permission)
+
     if provider_user_associated_with_training_provider?
-      !auth.errors.include?(:requires_training_provider_permission)
+      valid_relationship_present && !auth.errors.include?(:requires_training_provider_permission)
     else
-      !auth.errors.include?(:requires_ratifying_provider_permission)
+      valid_relationship_present && !auth.errors.include?(:requires_ratifying_provider_permission)
     end
   end
 

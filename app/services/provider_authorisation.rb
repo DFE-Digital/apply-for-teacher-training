@@ -149,8 +149,7 @@ private
       if @actor.providers.include?(ratifying_provider) && @actor.providers.include?(training_provider)
         # If not, there is something wrong with the setup
         if [training_provider_can, ratifying_provider_can].none?
-          add_error(permission, :requires_training_provider_permission)
-          add_error(permission, :requires_ratifying_provider_permission)
+          add_error(permission, :requires_training_or_ratifying_provider_permission)
         # Check org-level and user-level permissions match for ratifying provider
         elsif !training_provider_can
           add_error(permission, :requires_provider_user_permission) unless

@@ -22,7 +22,7 @@ RSpec.describe MakeOffer do
           make_offer.save!
         }.to raise_error(
           ProviderAuthorisation::NotAuthorisedError,
-          'You are not permitted to view this application. The specified course is not associated with any of your organisations. You do not have the required user level permissions to make decisions on applications.',
+          'You are not permitted to view this application. The specified course is not associated with any of your organisations. You do not have the required user level permissions to make decisions on applications for this provider.',
         )
       end
     end
