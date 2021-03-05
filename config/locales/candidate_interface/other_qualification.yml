@@ -15,6 +15,7 @@ en:
         change_action: subject
       institution_country:
         label: Country where you studied
+        change_action: institution country
       country:
         label: Country
         change_action: country

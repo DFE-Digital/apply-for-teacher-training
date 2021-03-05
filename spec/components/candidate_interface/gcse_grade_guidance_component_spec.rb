@@ -15,7 +15,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
       result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
 
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_science'))
+      expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
     end
 
     it 'does not display the guidance around english literature and multiple english qualifications' do
@@ -23,8 +23,8 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
       result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
 
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.english_literature_only.details'))
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_qualifications.details'))
+      expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
+      expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
     end
   end
 
@@ -42,8 +42,8 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
       result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
 
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.english_literature_only.details'))
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_qualifications.details'))
+      expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
+      expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
     end
 
     context 'and a GCSE' do
@@ -78,7 +78,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
         result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
 
         expect(result.text).to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_gcse_science'))
+        expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
       end
     end
 
@@ -90,7 +90,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
         result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
 
         expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_scottish_national_science'))
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_gcse_science'))
+        expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
       end
     end
   end
@@ -110,7 +110,7 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
       result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, nil))
 
-      expect(result.text).not_to include(t('gcse_edit_grade.guidance.triple_science'))
+      expect(result.text).not_to include(t('gcse_edit_grade.guidance.o_level_triple_gcse_science'))
     end
 
     context 'and a Scottish National 5' do
@@ -120,8 +120,8 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
         result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
 
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.english_literature_only.details'))
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_qualifications.details'))
+        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
+        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
       end
     end
 
@@ -132,8 +132,8 @@ RSpec.describe CandidateInterface::GcseGradeGuidanceComponent do
 
         result = render_inline(CandidateInterface::GcseGradeGuidanceComponent.new(subject, qualification_type))
 
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.english_literature_only.details'))
-        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_qualifications.details'))
+        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.main'))
+        expect(result.text).not_to include(t('gcse_edit_grade.guidance.multiple_english_gcses.secondary'))
       end
     end
   end
