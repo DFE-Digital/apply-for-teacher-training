@@ -25,6 +25,11 @@ class DataExport < ApplicationRecord
       description: 'This provides the compiled results of all feedback received from prompts throughout the application form.',
       class: SupportInterface::CandidateApplicationFeedbackExport,
     },
+    candidate_autosuggest_usage: {
+      name: 'Candidate autosuggest usage',
+      description: 'A summary of values stored in the database via autosuggest components within the candidate application form (Apply 1 only)',
+      class: SupportInterface::CandidateAutofillUsageExport,
+    },
     candidate_email_send_counts: {
       name: 'Candidate email send counts',
       description: "A list of all emails sent by the service, and how many we've sent to date.",
