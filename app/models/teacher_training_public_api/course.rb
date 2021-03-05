@@ -21,11 +21,11 @@ module TeacherTrainingPublicAPI
     end
 
     def sites
-      Location.where(
+      @sites_cache ||= Location.where(
         year: ::RecruitmentCycle.current_year,
         provider_code: provider_code,
         course_code: code,
-      ).includes(:location_status).paginate(per_page: 500)
+      ).includes(:location_status).paginate(per_page: 500).all
     end
 
     def self.fetch(provider_code, course_code)
