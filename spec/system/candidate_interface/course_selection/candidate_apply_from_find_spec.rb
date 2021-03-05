@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'A candidate arriving from Find with a course and provider code' do
-  include FindAPIHelper
+  include TeacherTrainingPublicAPIHelper
 
   scenario 'seeing their course information on the landing page' do
     given_the_pilot_is_open
@@ -55,12 +55,14 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
   end
 
   def when_i_arrive_from_find_with_invalid_course_parameters
-    stub_find_api_course_404('NOT', 'REAL')
+    stub_teacher_training_api_course_404(provider_code: 'NOT', course_code: 'REAL')
     visit candidate_interface_apply_from_find_path providerCode: 'NOT', courseCode: 'REAL'
   end
 
   def when_i_arrive_from_find_to_a_course_that_is_not_synced_in_apply
-    stub_find_api_course_200('FINDABLE', 'COURSE', 'Biology')
+    stub_teacher_training_api_course(provider_code: 'FINDABLE', course_code: 'COURSE', specified_attributes: { name: 'Biology' })
+    stub_teacher_training_api_sites(provider_code: 'FINDABLE', course_code: 'COURSE', specified_attributes: [{ name: 'Main site', code: 'A' }])
+
     visit candidate_interface_apply_from_find_path providerCode: 'FINDABLE', courseCode: 'COURSE'
   end
 
@@ -81,7 +83,10 @@ RSpec.describe 'A candidate arriving from Find with a course and provider code' 
       @course_on_apply = create(:course, exposed_in_find: true, open_on_apply: true, code: 'DEF1', name: 'Potions', provider: create(:provider, code: 'DEF'))
       @course_options_on_apply = create_list(:course_option, 3, course: @course_on_apply)
     end
-    stub_find_api_course_200(@course_on_apply.provider.code, @course_on_apply.code, 'Potions')
+
+    stub_teacher_training_api_course(provider_code: 'DEF', course_code: 'DEF1', specified_attributes: { name: 'Potions' })
+    stub_teacher_training_api_sites(provider_code: 'DEF', course_code: 'DEF1')
+
     visit candidate_interface_apply_from_find_path providerCode: 'DEF', courseCode: 'DEF1'
   end
 

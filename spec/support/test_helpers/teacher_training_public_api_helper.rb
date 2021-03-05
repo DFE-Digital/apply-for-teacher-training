@@ -62,6 +62,10 @@ module TeacherTrainingPublicAPIHelper
     stub_teacher_training_list_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}/locations?include=location_status", response_body)
   end
 
+  def stub_teacher_training_api_course_404(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:)
+    stub_404("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}")
+  end
+
   def fake_api_provider(provider_attributes = {})
     api_response = JSON.parse(
       File.read(
@@ -161,6 +165,14 @@ private
       status: 200,
       headers: { 'Content-Type': 'application/vnd.api+json' },
       body: api_response.to_json,
+    )
+  end
+
+  def stub_404(url)
+    stub_request(
+      :get, url
+    ).to_return(
+      status: 404,
     )
   end
 
