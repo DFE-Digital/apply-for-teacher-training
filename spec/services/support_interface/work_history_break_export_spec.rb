@@ -49,7 +49,7 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
           {
             'Candidate id' => candidate.id,
             'Application id' => application_form.id,
-            'Application submitted' => Date.new(2020, 12, 31),
+            'Application submitted' => '31/12/2020',
             'Course choice statuses' => %w[offer],
             'Start of working life' => Date.new(2000, 1, 1),
             'Total time in employment (months)' => 72,
