@@ -31,34 +31,11 @@ module TeacherTrainingPublicAPIHelper
   end
 
   def stub_teacher_training_api_provider(provider_code:, recruitment_cycle_year: RecruitmentCycle.current_year, specified_attributes: [])
-    api_response = JSON.parse(
-      File.read(
-        Rails.root.join('spec/examples/teacher_training_api/single_provider_response.json'),
-      ),
-      symbolize_names: true,
-    )
+    response_body = build_response_body('single_provider_response.json', specified_attributes)
 
-    if specified_attributes
-      example_resource = api_response[:data]
-      new_data = specified_attributes.map do |attrs|
-        specified_resource = example_resource.dup
-        specified_resource[:attributes] = specified_resource[:attributes].deep_merge(attrs)
-        specified_resource
-      end
-
-      api_response[:data] = new_data
-    end
-
-    response_body = api_response.to_json
-
-    url = "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}"
-    stub_request(
-      :get,
-      url,
-    ).to_return(
-      status: 200,
-      headers: { 'Content-Type': 'application/vnd.api+json' },
-      body: response_body,
+    stub_teacher_training_single_api_request(
+      "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}",
+      response_body,
     )
   end
 
@@ -69,15 +46,20 @@ module TeacherTrainingPublicAPIHelper
     stub_teacher_training_api_sites(recruitment_cycle_year: recruitment_cycle_year, provider_code: provider_code, course_code: course_code, specified_attributes: site_attributes, vacancy_status: vacancy_status)
   end
 
+  def stub_teacher_training_api_course(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, specified_attributes: [])
+    response_body = build_response_body('course_single_response.json', specified_attributes.merge(code: course_code))
+    stub_teacher_training_single_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}", response_body)
+  end
+
   def stub_teacher_training_api_courses(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, specified_attributes: [])
     response_body = build_response_body('course_list_response.json', specified_attributes)
-    stub_teacher_training_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses", response_body)
+    stub_teacher_training_list_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses", response_body)
   end
 
   def stub_teacher_training_api_sites(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, specified_attributes: [], vacancy_status: 'full_time_vacancies')
     fixture_file = site_fixture(vacancy_status)
     response_body = build_response_body(fixture_file, specified_attributes)
-    stub_teacher_training_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}/locations?include=location_status", response_body)
+    stub_teacher_training_list_api_request("#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers/#{provider_code}/courses/#{course_code}/locations?include=location_status", response_body)
   end
 
   def fake_api_provider(provider_attributes = {})
@@ -99,7 +81,18 @@ module TeacherTrainingPublicAPIHelper
 
 private
 
-  def stub_teacher_training_api_request(url, response_body)
+  def stub_teacher_training_single_api_request(url, response_body)
+    stub_request(
+      :get,
+      url,
+    ).to_return(
+      status: 200,
+      headers: { 'Content-Type': 'application/vnd.api+json' },
+      body: response_body,
+    )
+  end
+
+  def stub_teacher_training_list_api_request(url, response_body)
     stub_request(
       :get,
       url,
@@ -121,12 +114,21 @@ private
     )
 
     if specified_attributes
-      example_resource = api_response[:data].first
-      new_data = specified_attributes.map do |attrs|
-        specified_resource = example_resource.dup
-        specified_resource[:attributes] = specified_resource[:attributes].deep_merge(attrs)
-        specified_resource
-      end
+      record_or_array = api_response[:data]
+
+      new_data = if record_or_array.is_a? Array
+                   example_resource = api_response[:data].first
+                   specified_attributes.map do |attrs|
+                     specified_resource = example_resource.dup
+                     specified_resource[:attributes] = specified_resource[:attributes].deep_merge(attrs)
+                     specified_resource
+                   end
+                 else
+                   example_resource = api_response[:data]
+                   specified_resource = example_resource.dup
+                   specified_resource[:attributes] = specified_resource[:attributes].deep_merge(specified_attributes)
+                   specified_resource
+                 end
 
       api_response[:data] = new_data
     end

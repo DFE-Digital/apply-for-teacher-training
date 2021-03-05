@@ -128,9 +128,9 @@ RSpec.feature 'Providers and courses' do
 
     stub_teacher_training_api_provider(
       provider_code: 'XYZ',
-      specified_attributes: [{
+      specified_attributes: {
         code: 'XYZ',
-      }],
+      },
     )
 
     stub_course_with_site(provider_code: 'ABC',
