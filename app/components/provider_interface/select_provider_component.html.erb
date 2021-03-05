@@ -1,0 +1,8 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: form_object, url: form_path, method: :post do |f| %>
+      <%= f.govuk_collection_radio_buttons :provider_id, providers, :id, :name_and_code, legend: { text: page_title, size: 'l' } %>
+      <%= f.govuk_submit t('continue') %>
+    <% end %>
+  </div>
+</div>
