@@ -2,26 +2,12 @@ require 'rails_helper'
 
 RSpec.describe CandidateInterface::DegreeYearForm, type: :model do
   describe 'award year' do
-    ['a year', '200'].each do |invalid_date|
-      it "is invalid if the award year is '#{invalid_date}'" do
-        degree_form = described_class.new(award_year: invalid_date)
-
-        degree_form.validate(:award_year)
-
-        expect(degree_form.errors.full_messages_for(:award_year)).to eq(
-          ['Award year Enter a real graduation year'],
-        )
+    context 'year validations' do
+      let(:model) do
+        described_class.new(award_year: award_year)
       end
-    end
 
-    it 'is valid if the award year is 4 digits' do
-      degree_form = described_class.new(award_year: '2009')
-
-      degree_form.validate(:award_year)
-
-      expect(degree_form.errors.full_messages_for(:award_year)).not_to eq(
-        ['Award year Enter a real graduation year'],
-      )
+      include_examples 'year validations', :award_year
     end
 
     it 'is invalid if the award year is more than one year into the future' do
