@@ -18,11 +18,21 @@ RSpec.describe YearValidator do
     stub_const('TestYearValidator', test_date_validator)
   end
 
-  context 'when year is nil' do
-    let(:date) { nil }
+  describe 'is valid' do
+    context 'when year is nil' do
+      let(:date) { nil }
 
-    it 'returns valid' do
-      expect(model).to be_valid
+      it 'returns no error' do
+        expect(model).to be_valid
+      end
+    end
+
+    context 'when year is in the correct format' do
+      let(:year) { Time.zone.now.year }
+
+      it 'returns no error' do
+        expect(model).to be_valid
+      end
     end
   end
 
