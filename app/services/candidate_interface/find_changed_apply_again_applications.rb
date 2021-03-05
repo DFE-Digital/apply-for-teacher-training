@@ -14,7 +14,7 @@ module CandidateInterface
           phase: 'apply_2',
           recruitment_cycle_year: RecruitmentCycle.current_year,
         )
-        .includes(previous_application_form: [:application_qualifications], application_qualifications: [])
+        .includes(:application_qualifications, previous_application_form: [:application_qualifications])
     end
 
     def changed?(application_form)
@@ -43,11 +43,9 @@ module CandidateInterface
       new_qualifications.all? { |new_qualification| !qualifications_match?(original_qualification, new_qualification) }
     end
 
-    IGNORED_QUALIFICATION_ATTRIBUTES = DuplicateApplication::IGNORED_ATTRIBUTES + %i[application_form_id public_id]
-
     def qualifications_match?(original_qualification, new_qualifications)
-      original_attributes = original_qualification.attributes.reject { |k, _| IGNORED_QUALIFICATION_ATTRIBUTES.include?(k) }
-      new_attributes = new_qualifications.attributes.reject { |k, _| IGNORED_QUALIFICATION_ATTRIBUTES.include?(k) }
+      original_attributes = original_qualification.attributes.reject { |k, _| DuplicateApplication::IGNORED_CHILD_ATTRIBUTES.include?(k) }
+      new_attributes = new_qualifications.attributes.reject { |k, _| DuplicateApplication::IGNORED_CHILD_ATTRIBUTES.include?(k) }
       original_attributes == new_attributes
     end
   end

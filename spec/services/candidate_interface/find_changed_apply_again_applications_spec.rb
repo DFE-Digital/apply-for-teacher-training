@@ -36,10 +36,10 @@ RSpec.describe CandidateInterface::FindChangedApplyAgainApplications do
     expect(described_class.new.call.count).to be(1)
   end
 
-  it 'returns applications for which a new qualification was added' do
+  it 'returns applications for which a qualification was changed' do
     setup_apply_again_application
     @apply_again_application.application_qualifications.first.update(
-      awarding_body: 'University of South Oxfordshire',
+      institution_name: 'University of South Oxfordshire',
     )
     expect(described_class.new.call.count).to be(1)
   end
