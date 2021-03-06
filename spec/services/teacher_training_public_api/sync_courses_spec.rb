@@ -114,7 +114,7 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
       it 'correctly updates withdrawn attribute for an existing course' do
         stub_course_with_site(provider_code: 'ABC',
                               course_code: 'ABC1',
-                              course_attributes: [{ accredited_body_code: nil, state: 'withdrawn' }],
+                              course_attributes: [{ study_mode: 'full_time', accredited_body_code: nil, state: 'withdrawn' }],
                               site_code: 'A')
 
         described_class.new.perform(@existing_provider.id, stubbed_recruitment_cycle_year)
