@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Syncing providers', sidekiq: true do
-  include FindAPIHelper
+  include TeacherTrainingPublicAPIHelper
 
   scenario 'Updates course subject codes' do
     given_there_is_an_existing_provider_and_course_in_apply
@@ -18,18 +18,25 @@ RSpec.describe 'Syncing providers', sidekiq: true do
   end
 
   def and_there_is_a_provider_with_a_course_in_find
-    stub_find_api_all_providers_200([
+    stub_teacher_training_api_providers(specified_attributes: [
       {
-        provider_code: 'ABC',
+        code: 'ABC',
         name: 'ABC College',
       },
     ])
 
-    stub_find_api_provider_200_with_subject_codes(provider_code: 'ABC', provider_name: 'ABC College', course_code: 'ABC1')
+    stub_teacher_training_api_courses(
+      provider_code: 'ABC',
+      specified_attributes: [{ code: 'ABC1', accredited_body_code: nil, subject_codes: %w[08] }],
+    )
+    stub_teacher_training_api_sites(
+      provider_code: 'ABC',
+      course_code: 'ABC1',
+    )
   end
 
   def when_the_sync_runs
-    SyncAllFromFind.perform_async
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
   end
 
   def then_it_updates_the_course_subject_codes
@@ -39,6 +46,6 @@ RSpec.describe 'Syncing providers', sidekiq: true do
   end
 
   def and_it_sets_the_last_synced_timestamp
-    expect(FindSyncCheck.last_sync).not_to be_blank
+    expect(TeacherTrainingPublicAPI::SyncCheck.last_sync).not_to be_blank
   end
 end
