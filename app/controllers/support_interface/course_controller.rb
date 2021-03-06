@@ -10,6 +10,7 @@ module SupportInterface
 
     def vacancies
       @course = Course.find(params[:course_id])
+      @course_options = CourseOption.where(course: @course).includes(:site, :course)
     end
 
     def update
