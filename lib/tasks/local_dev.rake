@@ -1,4 +1,4 @@
-desc 'Set up your local development environment with data from Find'
+desc 'Set up your local development environment with data from the Teacher training public API'
 task setup_local_dev_data: %i[environment copy_feature_flags_from_production sync_dev_providers_and_open_courses] do
   puts 'Creating a provider-only user with DfE Sign-in UID `dev-provider` and email `provider@example.com`...'
   ProviderUser.create!(
@@ -46,7 +46,7 @@ end
 
 desc 'Sync some pilot-enabled providers and open all their courses'
 task sync_dev_providers_and_open_courses: :environment do
-  puts 'Syncing data from Find...'
+  puts 'Syncing data from TTAPI...'
 
   provider_codes = %w[1JA 24J 24P D39 S72 1JB 4T7 1N1]
   provider_codes.each do |code|
@@ -55,12 +55,10 @@ task sync_dev_providers_and_open_courses: :environment do
         .find(code).first
 
     TeacherTrainingPublicAPI::SyncProvider.new(provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.previous_year).call(run_in_background: false, force_sync_courses: true)
-    FindSync::SyncProviderFromFind.call(run_in_background: false, provider_code: code, sync_courses: true, provider_recruitment_cycle_year: RecruitmentCycle.previous_year)
 
     Provider.find_by_code(code).courses.previous_cycle.exposed_in_find.update_all(open_on_apply: true)
 
     TeacherTrainingPublicAPI::SyncProvider.new(provider_from_api: provider_from_api, recruitment_cycle_year: RecruitmentCycle.current_year).call(run_in_background: false, force_sync_courses: true)
-    FindSync::SyncProviderFromFind.call(run_in_background: false, provider_code: code, sync_courses: true, provider_recruitment_cycle_year: RecruitmentCycle.current_year)
   end
 
   puts 'Making all the courses open on Apply...'
