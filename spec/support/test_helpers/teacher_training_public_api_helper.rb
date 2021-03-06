@@ -39,7 +39,7 @@ module TeacherTrainingPublicAPIHelper
     )
   end
 
-  def stub_course_with_site(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, site_code:, vacancy_status: 'full_time_vacancies', course_attributes: [], site_attributes: [])
+  def stub_teacher_training_api_course_with_site(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, site_code:, vacancy_status: 'full_time_vacancies', course_attributes: [], site_attributes: [])
     course_attributes = course_attributes.any? ? [course_attributes.first.merge(code: course_code)] : [{ code: course_code }]
     site_attributes = site_attributes.any? ? [site_attributes.first.merge(code: site_code)] : [{ code: site_code }]
     stub_teacher_training_api_courses(recruitment_cycle_year: recruitment_cycle_year, provider_code: provider_code, specified_attributes: course_attributes)
