@@ -10,7 +10,6 @@ module SupportInterface
         redirect_to support_interface_tasks_path
       when 'sync_providers'
         TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
-        SyncAllFromFind.perform_async
         flash[:success] = 'Scheduled job to sync providers - this might take a while!'
         redirect_to support_interface_tasks_path
       when 'recalculate_dates'

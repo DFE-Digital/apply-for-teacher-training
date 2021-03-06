@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature 'Providers and courses' do
   include DfESignInHelpers
-  include FindAPIHelper
   include TeacherTrainingPublicAPIHelper
 
   scenario 'User syncs provider and browses providers' do
@@ -111,21 +110,6 @@ RSpec.feature 'Providers and courses' do
       ],
     )
 
-    stub_find_api_all_providers_200([
-      {
-        provider_code: 'ABC',
-        name: 'Royal Academy of Dance',
-      },
-      {
-        provider_code: 'DEF',
-        name: 'Gorse SCITT',
-      },
-      {
-        provider_code: 'GHI',
-        name: 'Somerset SCITT Consortium',
-      },
-    ])
-
     stub_teacher_training_api_provider(
       provider_code: 'XYZ',
       specified_attributes: {
@@ -139,40 +123,15 @@ RSpec.feature 'Providers and courses' do
                           site_code: 'X',
                           site_attributes: [{ name: 'Main site' }])
 
-    stub_find_api_provider_200_with_accredited_provider(
-      provider_code: 'ABC',
-      provider_name: 'Royal Academy of Dance',
-      course_code: 'ABC1',
-      site_code: 'X',
-      accredited_provider_code: 'XYZ',
-      accredited_provider_name: 'University of Chester',
-      findable: true,
-      study_mode: 'full_time',
-    )
-
     stub_course_with_site(provider_code: 'DEF',
                           course_code: 'DEF1',
                           course_attributes: [{ accredited_body_code: 'ABC' }],
                           site_code: 'Y')
 
-    stub_find_api_provider_200(
-      provider_code: 'DEF',
-      provider_name: 'Gorse SCITT',
-      course_code: 'DEF1',
-      site_code: 'Y',
-    )
-
     stub_course_with_site(provider_code: 'GHI',
                           course_code: 'GHI1',
                           course_attributes: [{ accredited_body_code: 'GHI' }],
                           site_code: 'C')
-
-    stub_find_api_provider_200(
-      provider_code: 'GHI',
-      provider_name: 'Somerset SCITT Consortium',
-      course_code: 'GHI1',
-      site_code: 'C',
-    )
 
     Sidekiq::Testing.inline! do
       click_button 'Sync providers'
