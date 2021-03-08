@@ -52,7 +52,7 @@
     navigation_items: [],
   )) %>
   <%= render(PrimaryNavigationComponent.new(
-    items: NavigationItems.for_api_docs(controller),
+    items: NavigationItems.for_vendor_api_docs(controller),
   )) %>
 <% else %>
   <% components_url = '/rails/view_components' if request.path.match(/^\/rails\/view_components/) %>
