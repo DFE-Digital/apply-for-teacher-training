@@ -1,6 +1,4 @@
 <% content_for :browser_title, "Application history – Application ##{@application_form.id}" %>
-<% content_for :context, @application_form.support_reference %>
-<% content_for :title, break_email_address(@application_form.candidate.email_address) %>
 
 <%= render 'application_navigation', title: 'History' %>
 
