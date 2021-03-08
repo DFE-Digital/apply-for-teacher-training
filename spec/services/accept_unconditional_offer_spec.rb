@@ -3,13 +3,14 @@ require 'rails_helper'
 RSpec.describe AcceptUnconditionalOffer do
   include CourseOptionHelpers
 
-  it 'sets the accepted_at date for the application_choice' do
+  it 'sets the accepted_at and recruited_at dates for the application_choice' do
     application_choice = build(:application_choice, status: :offer)
 
     Timecop.freeze do
       expect {
         described_class.new(application_choice: application_choice).save!
       }.to change { application_choice.accepted_at }.to(Time.zone.now)
+      .and change { application_choice.recruited_at }.to(Time.zone.now)
     end
   end
 
