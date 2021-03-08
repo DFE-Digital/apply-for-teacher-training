@@ -59,6 +59,16 @@ RSpec.describe CandidateInterface::EndOfCyclePolicy do
         end
       end
     end
+
+    context 'application form is from a previous recruitment cycle' do
+      let(:application_form) { build_stubbed(:application_form, recruitment_cycle_year: 2020) }
+
+      it 'returns false' do
+        Timecop.travel('2021-02-03') do
+          expect(execute_service).to eq false
+        end
+      end
+    end
   end
 
   describe '.can_submit?' do
