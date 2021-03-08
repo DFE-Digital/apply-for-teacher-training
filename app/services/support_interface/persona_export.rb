@@ -22,7 +22,7 @@ module SupportInterface
           'Distance from site to candidate' => distance(application_choice),
           'Average distance from all sites to candidate' => average_distance(application_form),
           'Rejection reason' => application_choice.rejection_reason,
-          'Structured rejection reasons' => FlatReasonsForRejectionPresenter.build_high_level(application_choice.structured_rejection_reasons),
+          'Structured rejection reasons' => FlatReasonsForRejectionPresenter.build_top_level_reasons(application_choice.structured_rejection_reasons),
           'Application status' => I18n.t!("candidate_flow_application_states.#{ProcessState.new(application_form).state}.name"),
           'Course code' => application_choice.course.code,
           'Provider code' => application_choice.provider.code,

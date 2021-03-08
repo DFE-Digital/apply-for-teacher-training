@@ -13,7 +13,7 @@ class FlatReasonsForRejectionPresenter
                 :safeguarding_concerns_candidate_disclosed_information_details, :vetting_disclosed_information, :safeguarding_concerns_vetting_disclosed_information_details,
                 :safeguarding_concerns_other_details, :other_advice_or_feedback, :interested_in_future_applications, :why_are_you_rejecting_this_application_details
 
-  def self.build_from_hash(structured_rejection_reasons)
+  def self.build_from_structured_rejection_reasons(structured_rejection_reasons)
     new(
       candidate_behaviour: word_to_boolean(structured_rejection_reasons['candidate_behaviour_y_n']),
       didnt_reply_to_interview_offer: subreason_exists?(structured_rejection_reasons['candidate_behaviour_what_did_the_candidate_do'], 'didnt_reply_to_interview_offer'),
@@ -57,7 +57,7 @@ class FlatReasonsForRejectionPresenter
     )
   end
 
-  def self.build_high_level(structured_rejection_reasons)
+  def self.build_top_level_reasons(structured_rejection_reasons)
     return nil if structured_rejection_reasons.blank?
 
     structured_rejection_reasons.select { |reason, value| ReasonsForRejection::INITIAL_TOP_LEVEL_QUESTIONS.include?(reason.to_sym) && value == 'Yes' }

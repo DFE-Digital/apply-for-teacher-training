@@ -10,9 +10,9 @@ RSpec.describe FlatReasonsForRejectionPresenter, type: :presenter do
 
   describe '.build_from_hash' do
     it 'creates an object based on the provided rejected ApplicationChoice' do
-      rejection_export = FlatReasonsForRejectionPresenter.build_from_hash(application_choice.structured_rejection_reasons)
+      flat_rejection_reasons = FlatReasonsForRejectionPresenter.build_from_structured_rejection_reasons(application_choice.structured_rejection_reasons)
 
-      expect(rejection_export).to have_attributes(
+      expect(flat_rejection_reasons).to have_attributes(
         candidate_behaviour: true,
         didnt_reply_to_interview_offer: true,
         didnt_attend_interview: true,
@@ -56,9 +56,9 @@ RSpec.describe FlatReasonsForRejectionPresenter, type: :presenter do
     end
   end
 
-  describe '.build_high_level' do
+  describe '.build_top_level_reasons' do
     it 'creates a string containing the rejection reasons' do
-      rejection_export_line = FlatReasonsForRejectionPresenter.build_high_level(application_choice.structured_rejection_reasons)
+      rejection_export_line = FlatReasonsForRejectionPresenter.build_top_level_reasons(application_choice.structured_rejection_reasons)
 
       expect(rejection_export_line).to eq(
         "Something you did\nHonesty and professionalism\nPerformance at interview\nQualifications\nQuality of application\nSafeguarding issues",

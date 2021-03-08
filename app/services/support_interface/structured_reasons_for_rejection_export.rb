@@ -2,7 +2,7 @@ module SupportInterface
   class StructuredReasonsForRejectionExport
     def data_for_export
       data_for_export = application_choices.order(:id).map do |application_choice|
-        structured_reasons_for_rejection = FlatReasonsForRejectionPresenter.build_from_hash(application_choice.structured_rejection_reasons)
+        structured_reasons_for_rejection = FlatReasonsForRejectionPresenter.build_from_structured_rejection_reasons(application_choice.structured_rejection_reasons)
 
         output = {
           'Candidate ID' => application_choice.application_form_id,
