@@ -1,8 +1,6 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to(provider_interface_application_choice_respond_path(@application_choice)) %>
 
-<%= render(FlashMessageComponent.new(flash: flash)) %>
-
 <%= form_with model: @wizard, url: provider_interface_application_choice_offer_conditions_path(@application_choice), method: :post do |f| %>
   <%= f.govuk_error_summary %>
 
