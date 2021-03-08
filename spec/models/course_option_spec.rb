@@ -20,6 +20,11 @@ RSpec.describe CourseOption, type: :model do
     end
   end
 
+  describe 'delegators' do
+    it { is_expected.to delegate_method(:name).to(:site).with_prefix }
+    it { is_expected.to delegate_method(:full_address).to(:site).with_prefix }
+  end
+
   describe '.selectable' do
     subject(:course_option) { create(:course_option) }
 

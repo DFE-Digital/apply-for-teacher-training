@@ -26,6 +26,7 @@ class CourseOption < ApplicationRecord
   }
 
   delegate :full?, :withdrawn?, :closed_on_apply?, :not_available?, to: :course, prefix: true
+  delegate :name, :full_address, to: :site, prefix: true
 
   def no_vacancies?
     vacancy_status == 'no_vacancies'
