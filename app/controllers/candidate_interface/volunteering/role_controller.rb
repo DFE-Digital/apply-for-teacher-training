@@ -41,9 +41,20 @@ module CandidateInterface
       strip_whitespace(
         params.require(:candidate_interface_volunteering_role_form)
         .permit(
-          :id, :role, :organisation, :details, :working_with_children,
-          :"start_date(3i)", :"start_date(2i)", :"start_date(1i)",
-          :"end_date(3i)", :"end_date(2i)", :"end_date(1i)"
+          :id,
+          :role,
+          :organisation,
+          :details,
+          :working_with_children,
+          :"start_date(3i)",
+          :"start_date(2i)",
+          :"start_date(1i)",
+          :start_date_unknown,
+          :currently_working,
+          :"end_date(3i)",
+          :"end_date(2i)",
+          :"end_date(1i)",
+          :end_date_unknown,
         )
           .transform_keys { |key| start_date_field_to_attribute(key) }
           .transform_keys { |key| end_date_field_to_attribute(key) },
