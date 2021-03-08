@@ -92,7 +92,7 @@ jobs:
 
           - task: AzurePowerShell@4
             displayName: 'Azure PowerShell Script - Set Deployment Type for Resource Group $(resourceGroupName)'
-            condition: and(succeeded(), eq(variables['buildCancelled'], false))
+            condition: eq(variables['disableAzDeploymentCheck'], true)
             env:
               SYSTEM_ACCESSTOKEN: $(system.accesstoken)
               COMMIT_HASH: $(build.sourceVersion)
