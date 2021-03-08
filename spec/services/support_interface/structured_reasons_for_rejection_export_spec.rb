@@ -61,7 +61,7 @@ RSpec.describe SupportInterface::StructuredReasonsForRejectionExport do
           "Candidate behaviour - Didn't reply to our interview offer" => true,
           "Candidate behaviour - Didn't attend an interview" => true,
           'Candidate behaviour - Other detail' => application_choice_one.structured_rejection_reasons['candidate_behaviour_other'],
-          'Quality of application (y/n)' => true,
+          'Quality of application' => true,
           'Quality of personal statement' => true,
           'Quality of personal statement details' => application_choice_one.structured_rejection_reasons['quality_of_application_personal_statement_what_to_improve'],
           'Quality of subject knowledge' => true,
