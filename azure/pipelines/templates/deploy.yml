@@ -53,8 +53,10 @@ parameters:
   logRetentionDays: 365
   sandbox:
   commonResourceTags: '{
-    "Parent Business": "Teacher Training and Qualifications",
-    "Service Offering": "Apply for postgraduate teacher training"
+    "Portfolio": "Early Years and Schools Group",
+    "Product": "Apply for postgraduate teacher training",
+    "Service": "Teacher services",
+    "Service Line": "Teaching Workforce"
   }'
   govukNotifyCallbackAPIKey:
   dsiApiUrl:
