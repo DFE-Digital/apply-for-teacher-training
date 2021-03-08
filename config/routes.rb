@@ -967,16 +967,18 @@ Rails.application.routes.draw do
     get '*path', to: 'errors#not_found'
   end
 
-  namespace :api_docs, path: '/api-docs' do
-    get '/' => 'pages#home', as: :home
-    get '/usage-scenarios' => 'pages#usage', as: :usage
-    get '/reference' => 'reference#reference', as: :reference
-    get '/release-notes' => 'pages#release_notes', as: :release_notes
-    get '/alpha-release-notes' => 'pages#alpha_release_notes'
-    get '/lifecycle' => 'pages#lifecycle'
-    get '/when-emails-are-sent' => 'pages#when_emails_are_sent'
-    get '/help' => 'pages#help', as: :help
-    get '/spec.yml' => 'openapi#spec', as: :spec
+  namespace :api_docs, path: nil do
+    scope module: :vendor_api_docs, path: '/api-docs' do
+      get '/' => 'pages#home', as: :home
+      get '/usage-scenarios' => 'pages#usage', as: :usage
+      get '/reference' => 'reference#reference', as: :reference
+      get '/release-notes' => 'pages#release_notes', as: :release_notes
+      get '/alpha-release-notes' => 'pages#alpha_release_notes'
+      get '/lifecycle' => 'pages#lifecycle'
+      get '/when-emails-are-sent' => 'pages#when_emails_are_sent'
+      get '/help' => 'pages#help', as: :help
+      get '/spec.yml' => 'openapi#spec', as: :spec
+    end
   end
 
   get '/check', to: 'healthcheck#show'
