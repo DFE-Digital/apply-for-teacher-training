@@ -23,6 +23,15 @@ RSpec.describe AcceptUnconditionalOffer do
     expect(notifier_double).to have_received(:application_outcome_notification)
   end
 
+  it 'returns false on state transition errors' do
+    state_change_double = instance_double(ApplicationStateChange)
+    allow(state_change_double).to receive(:accept_unconditional_offer!).and_raise(Workflow::NoTransitionAllowed)
+    allow(ApplicationStateChange).to receive(:new).and_return(state_change_double)
+
+    expect(described_class.new(application_choice: build(:application_choice)).save!).to be false
+    expect(state_change_double).to have_received(:accept_unconditional_offer!)
+  end
+
   describe 'emails' do
     around { |example| perform_enqueued_jobs(&example) }
 
