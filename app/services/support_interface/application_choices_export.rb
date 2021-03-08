@@ -24,7 +24,7 @@ module SupportInterface
             offer_response_at: choice.accepted_at || choice.declined_at,
             recruited_at: choice.recruited_at,
             rejection_reason: choice.rejection_reason,
-            structured_rejection_reasons: FlatReasonsForRejectionExtract.build_high_level(choice.structured_rejection_reasons),
+            structured_rejection_reasons: FlatReasonsForRejectionPresenter.build_high_level(choice.structured_rejection_reasons),
           }
         end
       end

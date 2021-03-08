@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FlatReasonsForRejectionExtract, type: :model do
+RSpec.describe FlatReasonsForRejectionPresenter, type: :presenter do
   let(:application_choice) do
     create(
       :application_choice,
@@ -10,7 +10,7 @@ RSpec.describe FlatReasonsForRejectionExtract, type: :model do
 
   describe '.build_from_hash' do
     it 'creates an object based on the provided rejected ApplicationChoice' do
-      rejection_export = FlatReasonsForRejectionExtract.build_from_hash(application_choice.structured_rejection_reasons)
+      rejection_export = FlatReasonsForRejectionPresenter.build_from_hash(application_choice.structured_rejection_reasons)
 
       expect(rejection_export).to have_attributes(
         candidate_behaviour: true,
@@ -58,7 +58,7 @@ RSpec.describe FlatReasonsForRejectionExtract, type: :model do
 
   describe '.build_high_level' do
     it 'creates a string containing the rejection reasons' do
-      rejection_export_line = FlatReasonsForRejectionExtract.build_high_level(application_choice.structured_rejection_reasons)
+      rejection_export_line = FlatReasonsForRejectionPresenter.build_high_level(application_choice.structured_rejection_reasons)
 
       expect(rejection_export_line).to eq(
         "Candidate behaviour\nHonesty and professionalism\nPerformance at interview\nQualifications\nQuality of application\nSafeguarding",

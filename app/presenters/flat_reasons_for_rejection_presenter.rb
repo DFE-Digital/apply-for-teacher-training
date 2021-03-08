@@ -1,4 +1,4 @@
-class FlatReasonsForRejectionExtract
+class FlatReasonsForRejectionPresenter
   include ActiveModel::Model
 
   attr_accessor :structured_rejection_reasons_hash, :candidate_behaviour, :didnt_reply_to_interview_offer, :didnt_attend_interview,
