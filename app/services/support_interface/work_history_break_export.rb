@@ -29,7 +29,7 @@ module SupportInterface
         output = {
           'Candidate id' => application_form.candidate_id,
           'Application id' => application_form.id,
-          'Application submitted' => application_form.submitted_at.present? ? application_form.submitted_at.strftime('%d/%m/%Y') : nil,
+          'Application submitted' => submitted_at(application_form).strftime('%d/%m/%Y'),
           'Course choice statuses' => application_form.application_choices.map(&:status).sort,
           'Start of working life' => start_of_working_life(application_form),
           'Total time in employment (months)' => total_time_in_employment(application_form),
@@ -59,23 +59,23 @@ module SupportInterface
     def explained_breaks_columns(application_form, explained_breaks, volunteering_experiences)
       {
         'Total time of explained breaks (months)' => total_time_of_explained_breaks(explained_breaks),
-        'Total time volunteering during explained breaks (months)' => total_time_volunteering_during_breaks(explained_breaks, volunteering_experiences),
+        'Total time volunteering during explained breaks (months)' => total_time_volunteering_during_breaks(explained_breaks, volunteering_experiences, application_form),
         'Number of explained breaks' => explained_breaks.length,
         'Number of explained breaks in last 5 years' => breaks_in_last_five_years(explained_breaks, application_form),
-        'Number of explained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(explained_breaks, volunteering_experiences),
-        'Number of explained breaks that were over 50% volunteering' => breaks_with_over_fifty_percent_volunteering(explained_breaks, volunteering_experiences),
+        'Number of explained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(explained_breaks, volunteering_experiences, application_form),
+        'Number of explained breaks that were over 50% volunteering' => breaks_with_over_fifty_percent_volunteering(explained_breaks, volunteering_experiences, application_form),
       }
     end
 
     def unexplained_breaks_columns(application_form, unexplained_breaks, volunteering_experiences)
       {
         'Total time of unexplained breaks (months)' => total_time_of_unexplained_breaks(unexplained_breaks),
-        'Total time volunteering during unexplained breaks (months)' => total_time_volunteering_during_breaks(unexplained_breaks, volunteering_experiences),
+        'Total time volunteering during unexplained breaks (months)' => total_time_volunteering_during_breaks(unexplained_breaks, volunteering_experiences, application_form),
         'Number of unexplained breaks' => unexplained_breaks.length,
         'Number of unexplained breaks in last 5 years' => breaks_in_last_five_years(unexplained_breaks, application_form),
         'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees(application_form, unexplained_breaks),
-        'Number of unexplained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(unexplained_breaks, volunteering_experiences),
-        'Number of unexplained breaks that were over 50% volunteering' => breaks_with_over_fifty_percent_volunteering(unexplained_breaks, volunteering_experiences),
+        'Number of unexplained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(unexplained_breaks, volunteering_experiences, application_form),
+        'Number of unexplained breaks that were over 50% volunteering' => breaks_with_over_fifty_percent_volunteering(unexplained_breaks, volunteering_experiences, application_form),
       }
     end
 
@@ -84,7 +84,10 @@ module SupportInterface
     end
 
     def total_time_in_employment(application_form)
-      time_in_seconds = application_form.application_work_experiences.map { |experience| experience.end_date - experience.start_date }
+      time_in_seconds = application_form.application_work_experiences.map do |experience|
+        end_date = experience_end_date(experience, application_form)
+        end_date - experience.start_date
+      end
       convert_seconds_to_months(time_in_seconds.sum)
     end
 
@@ -97,17 +100,17 @@ module SupportInterface
       unexplained_breaks.sum(&:length)
     end
 
-    def total_time_volunteering_during_breaks(breaks, volunteering_experiences)
+    def total_time_volunteering_during_breaks(breaks, volunteering_experiences, application_form)
       total_time = breaks.map.sum do |work_break|
-        volunteering_experiences_during_break(work_break, volunteering_experiences).inject(0) do |_time, volunteering_experience|
-          volunteering_time_during_break(work_break, volunteering_experience)
+        volunteering_experiences_during_break(work_break, volunteering_experiences, application_form).inject(0) do |_time, volunteering_experience|
+          volunteering_time_during_break(work_break, volunteering_experience, application_form)
         end
       end
       convert_seconds_to_months(total_time)
     end
 
-    def volunteering_time_during_break(work_break, volunteering_experience)
-      volunteering_end_date = volunteering_experience.end_date ||= Time.zone.now
+    def volunteering_time_during_break(work_break, volunteering_experience, application_form)
+      volunteering_end_date = experience_end_date(volunteering_experience, application_form)
 
       start_date = work_break.start_date < volunteering_experience.start_date ? volunteering_experience.start_date : work_break.start_date
       end_date = work_break.end_date > volunteering_end_date ? volunteering_end_date : work_break.end_date
@@ -129,13 +132,13 @@ module SupportInterface
       }.any?
     end
 
-    def breaks_that_coincide_with_volunteering_experiences(breaks, volunteering_experiences)
-      breaks.count { |work_break| volunteering_experiences_during_break(work_break, volunteering_experiences).any? }
+    def breaks_that_coincide_with_volunteering_experiences(breaks, volunteering_experiences, application_form)
+      breaks.count { |work_break| volunteering_experiences_during_break(work_break, volunteering_experiences, application_form).any? }
     end
 
-    def volunteering_experiences_during_break(work_break, volunteering_experiences)
+    def volunteering_experiences_during_break(work_break, volunteering_experiences, application_form)
       volunteering_experiences.select do |volunteering_experience|
-        volunteering_end_date = volunteering_experience.end_date ||= Time.zone.now
+        volunteering_end_date = experience_end_date(volunteering_experience, application_form)
         coincides?(volunteering_experience.start_date, volunteering_end_date, work_break.start_date, work_break.end_date)
       end
     end
@@ -144,16 +147,16 @@ module SupportInterface
       event_1_start_date < event_2_end_date && event_2_start_date < event_1_end_date
     end
 
-    def breaks_with_over_fifty_percent_volunteering(breaks, volunteering_experiences)
-      breaks.count { |work_break| volunteering_percentage_in_break(work_break, volunteering_experiences) > 0.5 }
+    def breaks_with_over_fifty_percent_volunteering(breaks, volunteering_experiences, application_form)
+      breaks.count { |work_break| volunteering_percentage_in_break(work_break, volunteering_experiences, application_form) > 0.5 }
     end
 
-    def volunteering_percentage_in_break(work_break, volunteering_experiences)
+    def volunteering_percentage_in_break(work_break, volunteering_experiences, application_form)
       break_length = work_break.end_date - work_break.start_date
-      volunteering_experiences_during_break = volunteering_experiences_during_break(work_break, volunteering_experiences)
+      volunteering_experiences_during_break = volunteering_experiences_during_break(work_break, volunteering_experiences, application_form)
       volunteering_during_break = 0
       volunteering_experiences_during_break.each do |volunteering_experience|
-        volunteering_during_break += volunteering_time_during_break(work_break, volunteering_experience)
+        volunteering_during_break += volunteering_time_during_break(work_break, volunteering_experience, application_form)
       end
       volunteering_during_break / break_length
     end
@@ -176,6 +179,10 @@ module SupportInterface
 
         create_unexplained_breaks(remaining_months)
       end
+    end
+
+    def experience_end_date(experience, application_form)
+      experience.end_date ||= submitted_at(application_form)
     end
 
     def submitted_at(application_form)
