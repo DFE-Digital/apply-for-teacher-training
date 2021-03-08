@@ -342,6 +342,14 @@ en:
         - provider_mailer-offer_accepted
         - candidate_mailer-offer_accepted
 
+    offer-accept_unconditional_offer:
+      name: Candidate accepts an unconditional offer
+      by: candidate
+      description: The candidate can accept the offer. All other application choices will be withdrawn.
+      emails:
+        - provider_mailer-offer_accepted
+        - candidate_mailer-offer_accepted
+
     offer-decline:
       name: Candidate declines offer
       by: candidate

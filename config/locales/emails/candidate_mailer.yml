@@ -22,6 +22,8 @@ en:
       subject: "%{referee_name} has not responded yet"
     offer_accepted:
       subject: "You’ve accepted %{provider_name}’s offer to study %{course_name_and_code}"
+    unconditional_offer_accepted:
+      subject: "You’ve accepted %{provider_name}’s offer to study %{course_name_and_code}"
     new_referee_request:
       not_responded:
         subject: "%{referee_name} has not responded yet"

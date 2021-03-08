@@ -2,6 +2,8 @@ en:
   provider_mailer:
     offer_accepted:
       subject: "%{candidate_name} (%{support_reference}) has accepted your offer"
+    unconditional_offer_accepted:
+      subject: "%{candidate_name} (%{support_reference}) has accepted your offer"
     decline_by_default:
       subject: "%{candidate_name}’s (%{support_reference}) application withdrawn automatically"
     declined:

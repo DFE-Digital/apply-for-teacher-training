@@ -104,6 +104,25 @@ RSpec.describe ProviderMailer, type: :mailer do
     end
   end
 
+  describe '.unconditional_offer_accepted' do
+    let(:email) { ProviderMailer.unconditional_offer_accepted(provider_user, application_choice) }
+
+    it_behaves_like('a mail with subject and content',
+                    'Harry Potter (123A) has accepted your offer',
+                    'provider name' => 'Dear Johny English',
+                    'course name and code' => 'Computer Science (6IND)')
+
+    context 'with an alternative course offer' do
+      let(:alternative_course) { build_stubbed(:course, provider: provider, name: 'Welding', code: '9ABC') }
+      let(:offered_course_option) { build_stubbed(:course_option, course: alternative_course, site: site) }
+
+      it_behaves_like('a mail with subject and content',
+                      'Harry Potter (123A) has accepted your offer',
+                      'provider name' => 'Dear Johny English',
+                      'course name and code' => 'Welding (9ABC)')
+    end
+  end
+
   describe '.declined_by_default' do
     let(:email) { ProviderMailer.declined_by_default(provider_user, application_choice) }
 

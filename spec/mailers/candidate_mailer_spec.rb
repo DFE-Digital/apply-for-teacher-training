@@ -242,6 +242,37 @@ RSpec.describe CandidateMailer, type: :mailer do
     )
   end
 
+  describe '.unconditional_offer_accepted' do
+    let(:email) { described_class.unconditional_offer_accepted(application_form.application_choices.first) }
+    let(:application_choices) do
+      [build_stubbed(
+        :application_choice,
+        status: 'pending_conditions',
+        course_option: build_stubbed(
+          :course_option,
+          course: build_stubbed(
+            :course,
+            name: 'Mathematics',
+            code: 'M101',
+            start_date: Time.zone.local(2021, 9, 6),
+            provider: build_stubbed(
+              :provider,
+              name: 'Arithmetic College',
+            ),
+          ),
+        ),
+      )]
+    end
+
+    it_behaves_like(
+      'a mail with subject and content',
+      'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      'greeting' => 'Dear Fred,',
+      'offer_details' => 'You’ve accepted Arithmetic College’s offer to study Mathematics (M101)',
+      'course start' => 'September 2021',
+    )
+  end
+
   context 'Interview emails' do
     let(:provider)  { create(:provider, name: 'Hogwards') }
     let(:interview) do
