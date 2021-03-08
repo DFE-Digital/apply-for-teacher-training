@@ -41,11 +41,7 @@ module ProviderInterface
     def next_step
       index = STEPS[decision.to_sym].index(current_step.to_sym)
 
-      if index
-        STEPS[decision.to_sym][index + 1] if index
-      else
-        :select_option
-      end
+      STEPS[decision.to_sym][index + 1] if index
     end
 
   private

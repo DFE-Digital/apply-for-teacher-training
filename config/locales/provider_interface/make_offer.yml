@@ -13,9 +13,9 @@ en:
           title: Check and send offer
           submit: Send offer
     offers:
+      failure: Sorry, there is a problem with the service.
       create:
         success: Offer successffuly made
-        failure: Something went wrong. Please start over.
   helpers:
     label:
       provider_interface_offer_wizard:

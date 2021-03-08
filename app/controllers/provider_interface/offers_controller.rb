@@ -4,6 +4,11 @@ module ProviderInterface
     before_action :application_choice_allowed_to_make_decision
     before_action :requires_make_decisions_permission
 
+    def new
+      flash[:warning] = t('.failure')
+      redirect_to new_provider_interface_application_choice_decision_path(@application_choice)
+    end
+
     def create
       @wizard = OfferWizard.new(offer_store)
       if @wizard.valid?

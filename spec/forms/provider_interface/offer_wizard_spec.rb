@@ -59,14 +59,6 @@ RSpec.describe ProviderInterface::OfferWizard do
           expect(wizard.next_step).to eq(:check)
         end
       end
-
-      context 'when the current step does not exist' do
-        let(:current_step) { :not_existing }
-
-        it 'returns :select_option' do
-          expect(wizard.next_step).to eq(:select_option)
-        end
-      end
     end
   end
 
