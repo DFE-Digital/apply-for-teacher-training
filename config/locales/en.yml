@@ -10,6 +10,14 @@ en:
     support: Support for Apply
     api: Apply for teacher training API
     get_into_teaching: Get Into Teaching
+  teacher_training_courses_api:
+    documentation_url: https://api.publish-teacher-training-courses.service.gov.uk/
+  publish_teacher_training_courses:
+    production_url: https://www.publish-teacher-training-courses.service.gov.uk/
+    sandbox_url: https://sandbox.publish-teacher-training-courses.service.gov.uk/
+  find_postgraduate_teacher_training:
+    production_url: https://www.find-postgraduate-teacher-training.service.gov.uk/
+    sandbox_url: https://sandbox.find-postgraduate-teacher-training.service.gov.uk/
   get_into_teaching:
     # TODO: Update to 0800 389 2500 when GIT leaves beta
     tel: 0800 389 2501
