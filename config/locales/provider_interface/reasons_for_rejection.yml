@@ -7,12 +7,17 @@ en:
     quality_of_application:
       title: 'Quality of application'
       personal_statement: Personal statement
+      personal_statement_what_to_improve_details: Personal statement - what to improve
       subject_knowledge: Subject knowledge
+      subject_knowledge_what_to_improve_details: Subject knowledge - what to improve
       other: Other
+      other_details: Quality of application other reason - details
+      other_what_to_improve_details: Quality of application - what to improve
     qualifications:
       title: 'Qualifications'
     interview_performance:
       title: 'Performance at interview'
+      what_to_improve_details: Performance at interview - what to improve
     full_course:
       title: 'Course full'
       reason: "We're sorry to tell you the course you applied to was full"
@@ -21,14 +26,21 @@ en:
     honesty_and_professionalism:
       title: 'Honesty and professionalism'
       information_false_or_inaccurate: Information given on application form false or inaccurate
+      information_false_or_inaccurate_details: Information given on application form false or inaccurate - details
       plagiarism: Evidence of plagiarism in personal statement or elsewhere
+      plagiarism_details: Evidence of plagiarism in personal statement or elsewhere - details
       references: References didn’t support application
+      references_details: References didn’t support application - details
       other: Other
+      other_details: Honesty and professionalism other reason - details
     safeguarding_issues:
       title: 'Safeguarding issues'
       candidate_disclosed_information: 'Information disclosed by candidate makes them unsuitable to work with children'
+      candidate_disclosed_information_details: Information disclosed by candidate makes them unsuitable to work with children - details
       vetting_disclosed_information: 'Information revealed by our vetting process makes the candidate unsuitable to work with children'
+      vetting_disclosed_information_details: Information revealed by our vetting process makes the candidate unsuitable to work with children - details
       other: Other
+      other_details: Safeguarding issues other reason - details
     additional_advice:
       title: 'Additional advice'
     interested_in_future_applications:
@@ -41,6 +53,8 @@ en:
       didnt_reply_to_interview_offer: 'Didn’t reply to our interview offer'
       didnt_attend_interview: 'Didn’t attend interview'
       other: Other
+      other_details: Something you did other reason - details
+      what_to_improve_details: Candidate behaviour - what to improve
     qualifications_which_qualifications:
       title: 'Qualifications'
       no_maths_gcse: 'No Maths GCSE grade 4 (C) or above, or valid equivalent'
@@ -49,6 +63,7 @@ en:
       no_degree: 'No degree'
       no_phd: 'No PhD'
       other: Other
+      other_details: Qualifications other reason - details
   activemodel:
     errors:
       models:

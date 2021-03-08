@@ -125,6 +125,11 @@ class DataExport < ApplicationRecord
       description: 'A list of candidates with breaks in their work history.',
       class: SupportInterface::WorkHistoryBreakExport,
     },
+    structured_reasons_for_rejection: {
+      name: 'Structured reasons for rejection',
+      description: 'Structured reasons for rejection.',
+      class: SupportInterface::StructuredReasonsForRejectionExport,
+    },
   }.freeze
 
   belongs_to :initiator, polymorphic: true, optional: true
