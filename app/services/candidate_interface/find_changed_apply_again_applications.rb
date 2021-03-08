@@ -1,9 +1,21 @@
 module CandidateInterface
   class FindChangedApplyAgainApplications
-    def call
+    def all_forms
+      apply_again_forms
+    end
+
+    def changed_forms
       apply_again_forms.find_each.lazy.select do |application_form|
         changed?(application_form)
       end
+    end
+
+    def all_candidate_count
+      all_forms.map(&:candidate_id).uniq.count
+    end
+
+    def changed_candidate_count
+      changed_forms.map(&:candidate_id).uniq.count
     end
 
   private
