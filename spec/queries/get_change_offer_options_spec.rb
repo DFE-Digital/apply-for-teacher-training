@@ -12,14 +12,14 @@ RSpec.describe GetChangeOfferOptions do
     described_class.new(user: provider_user, current_course: course)
   end
 
-  def set_provider(provider, make_decisions: true)
+  def set_provider_with_make_decisions(provider, make_decisions:)
     provider_user
       .provider_permissions
       .find_or_create_by(provider: provider)
       .update(make_decisions: make_decisions)
   end
 
-  def set_provider_permissions(training_provider, make_d1, ratifying_provider, make_d2)
+  def set_org_level_make_decisions(training_provider, make_d1, ratifying_provider, make_d2)
     create(
       :provider_relationship_permissions,
       training_provider: training_provider,
@@ -34,45 +34,48 @@ RSpec.describe GetChangeOfferOptions do
       expect(service(provider_user, self_ratified_course).make_decisions_courses).to be_empty
     end
 
-    it 'returns a self-ratified course when a user has user-level make decisions' do
-      set_provider(self_ratified_course.provider, make_decisions: false)
+    it 'returns no courses if user lacks user-level make decisions' do
+      set_provider_with_make_decisions(self_ratified_course.provider, make_decisions: false)
       expect(service(provider_user, self_ratified_course).make_decisions_courses).to be_empty
+    end
 
-      set_provider(self_ratified_course.provider, make_decisions: true)
+    it 'returns a self-ratified course when a user has user-level make decisions' do
+      set_provider_with_make_decisions(self_ratified_course.provider, make_decisions: true)
       expect(service(provider_user, self_ratified_course).make_decisions_courses)
         .to eq([self_ratified_course])
     end
 
-    it 'returns an externally ratified course when a training provider user has org-level make decisions' do
-      set_provider(externally_ratified_course.provider)
+    it 'returns no externally ratified courses when a training provider lacks org-level make decisions' do
+      set_provider_with_make_decisions(externally_ratified_course.provider, make_decisions: true)
       expect(service(provider_user, externally_ratified_course).make_decisions_courses).to be_empty
+    end
 
-      set_provider_permissions(externally_ratified_course.provider, true,
-                               externally_ratified_course.accredited_provider, false)
-
+    it 'returns an externally ratified course when a training provider user has org-level make decisions' do
+      set_provider_with_make_decisions(externally_ratified_course.provider, make_decisions: true)
+      set_org_level_make_decisions(externally_ratified_course.provider, true,
+                                   externally_ratified_course.accredited_provider, false)
       expect(service(provider_user, externally_ratified_course).make_decisions_courses)
         .to eq([externally_ratified_course])
     end
 
-    it 'returns an externally ratified course when a ratifying provider user has org-level make decisions' do
-      set_provider(externally_ratified_course.accredited_provider)
+    it 'returns no externally ratified courses when a ratifying provider lacks org-level make decisions' do
+      set_provider_with_make_decisions(externally_ratified_course.accredited_provider, make_decisions: true)
       expect(service(provider_user, externally_ratified_course).make_decisions_courses).to be_empty
+    end
 
-      set_provider_permissions(externally_ratified_course.provider, false,
-                               externally_ratified_course.accredited_provider, true)
-
+    it 'returns an externally ratified course when a ratifying provider user has org-level make decisions' do
+      set_provider_with_make_decisions(externally_ratified_course.accredited_provider, make_decisions: true)
+      set_org_level_make_decisions(externally_ratified_course.provider, false,
+                                   externally_ratified_course.accredited_provider, true)
       expect(service(provider_user, externally_ratified_course).make_decisions_courses)
         .to eq([externally_ratified_course])
     end
 
     it 'externally ratified course (both providers)' do
-      set_provider(externally_ratified_course.provider)
-      set_provider(externally_ratified_course.accredited_provider)
-      expect(service(provider_user, externally_ratified_course).make_decisions_courses).to be_empty
-
-      set_provider_permissions(externally_ratified_course.provider, true,
-                               externally_ratified_course.accredited_provider, true)
-
+      set_provider_with_make_decisions(externally_ratified_course.provider, make_decisions: true)
+      set_provider_with_make_decisions(externally_ratified_course.accredited_provider, make_decisions: true)
+      set_org_level_make_decisions(externally_ratified_course.provider, true,
+                                   externally_ratified_course.accredited_provider, true)
       expect(service(provider_user, externally_ratified_course).make_decisions_courses)
         .to eq([externally_ratified_course])
     end
@@ -109,10 +112,10 @@ RSpec.describe GetChangeOfferOptions do
   end
 
   describe '#available_providers' do
-    it 'only returns training providers, even if user is not associated with them' do
-      set_provider(externally_ratified_course.accredited_provider)
-      set_provider_permissions(externally_ratified_course.provider, true,
-                               externally_ratified_course.accredited_provider, true)
+    it 'only returns training providers, even if the user is associated with an accredited provider' do
+      set_provider_with_make_decisions(externally_ratified_course.accredited_provider, make_decisions: true)
+      set_org_level_make_decisions(externally_ratified_course.provider, true,
+                                   externally_ratified_course.accredited_provider, true)
 
       service = service(provider_user, externally_ratified_course)
       expect(service.available_providers).to eq([externally_ratified_course.provider])
@@ -126,6 +129,53 @@ RSpec.describe GetChangeOfferOptions do
       training_provider = externally_ratified_course.provider
       expect(service.offerable_courses.map(&:provider)).to eq([training_provider] * 2)
       expect(service.available_providers).to eq([training_provider])
+    end
+  end
+
+  describe '#available_courses' do
+    it 'returns offerable_courses for a specific training provider' do
+      service = service(provider_user, externally_ratified_course)
+      create(:course)
+      allow(service).to receive(:offerable_courses).and_return(Course.all)
+      expect(service.available_courses(provider: externally_ratified_course.provider))
+        .to eq([externally_ratified_course])
+    end
+  end
+
+  context 'study modes and sites' do
+    let(:course_options) do
+      [
+        create(:course_option, :part_time, course: self_ratified_course),
+        create(:course_option, :part_time, course: self_ratified_course),
+        create(:course_option, :full_time, course: self_ratified_course),
+      ]
+    end
+
+    let(:service) { described_class.new(user: provider_user, current_course: self_ratified_course) }
+
+    before { allow(service).to receive(:offerable_courses).and_return(Course.all) }
+
+    describe '#available_study_modes' do
+      it 'returns an array of study modes' do
+        course_options
+
+        expect(service.available_study_modes(course: self_ratified_course))
+          .to match_array(%w[full_time part_time])
+      end
+    end
+
+    describe '#available_course_options' do
+      it 'returns a collection of course options for a given course/study_mode' do
+        expect(service.available_course_options(course: self_ratified_course, study_mode: 'part_time'))
+          .to match_array([course_options.first, course_options.second])
+      end
+    end
+
+    describe '#available_sites' do
+      it 'returns a collection of sites for a given course/study_mode' do
+        expect(service.available_sites(course: self_ratified_course, study_mode: 'part_time'))
+          .to match_array([course_options.first.site, course_options.second.site])
+      end
     end
   end
 end

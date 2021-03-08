@@ -7,11 +7,39 @@ class GetChangeOfferOptions
     @recruitment_cycle_year = current_course.recruitment_cycle_year
   end
 
-  def make_decisions_courses
-    Course
-      .joins(training_provider_make_decisions)
-      .joins(ratifying_provider_make_decisions)
-      .where(combine_user_and_provider_permissions)
+  def available_providers
+    Provider
+      .with(offerable_courses: offerable_courses)
+      .joins('INNER JOIN offerable_courses ON providers.id = offerable_courses.provider_id')
+      .group('providers.id')
+  end
+
+  def available_courses(provider:)
+    offerable_courses.where(provider: provider)
+  end
+
+  def available_study_modes(course:)
+    CourseOption
+      .where(course: offerable_courses.find(course.id))
+      .group('study_mode')
+      .pluck(:study_mode)
+  end
+
+  def available_course_options(course:, study_mode:)
+    CourseOption
+      .where(
+        course: offerable_courses.find(course.id),
+        study_mode: study_mode,
+      )
+  end
+
+  def available_sites(course:, study_mode:)
+    Site
+      .with(available_course_options: available_course_options(
+        course: course,
+        study_mode: study_mode,
+      ))
+      .joins('INNER JOIN available_course_options ON sites.id = available_course_options.site_id')
   end
 
   def offerable_courses
@@ -23,11 +51,11 @@ class GetChangeOfferOptions
       .where(ratifying_provider_is_preserved)
   end
 
-  def available_providers
-    Provider
-      .with(offerable_courses: offerable_courses)
-      .joins('INNER JOIN offerable_courses ON providers.id = offerable_courses.provider_id')
-      .group('providers.id')
+  def make_decisions_courses
+    Course
+      .joins(training_provider_make_decisions)
+      .joins(ratifying_provider_make_decisions)
+      .where(combine_user_and_provider_permissions)
   end
 
 private
@@ -56,7 +84,7 @@ private
   end
 
   def combine_user_and_provider_permissions
-    return '1 != 1' if permitted_provider_ids.blank? # valid SQL which returns no results
+    return 'FALSE' if permitted_provider_ids.blank?
 
     <<~COMBINE_USER_AND_PROVIDER_PERMISSIONS
       (
