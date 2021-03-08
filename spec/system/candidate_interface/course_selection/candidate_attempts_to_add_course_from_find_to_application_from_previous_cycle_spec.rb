@@ -38,13 +38,14 @@ RSpec.feature 'Candidate attempts to add course via Find to application from pre
   end
 
   def when_i_visit_the_site_with_a_course_id_from_find
-    @current_candidate.update!(course_from_find_id: @course.id)
-    visit candidate_interface_interstitial_path
+    visit candidate_interface_apply_from_find_path(providerCode: @provider.code, courseCode: @course.code)
   end
 
   def then_i_see_that_my_application_must_be_carried_over
     expect(page).to have_content('Carry on with your application for courses starting in the 2021 to 2022 academic year.')
     expect(page).to have_content('Your courses have been removed. You can add them again now.')
+    # Normally we'd avoid a trip directly to the db in a system spec,
+    # this is here to prove a particular bug has been solved.
     expect(@previous_application_form.application_choices).to be_empty
   end
 end
