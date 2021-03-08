@@ -4,6 +4,7 @@ RSpec.feature 'Vendor makes unconditional offer' do
   include CandidateHelper
 
   scenario 'A vendor makes an unconditional offer and this is accepted by the candidate' do
+    FeatureFlag.activate(:unconditional_offers_via_api)
     given_a_candidate_has_submitted_their_application
     when_i_make_an_unconditional_offer_for_the_application_over_the_api
     then_i_can_see_the_offer_was_made_successfully
