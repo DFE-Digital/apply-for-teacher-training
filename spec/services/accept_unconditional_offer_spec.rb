@@ -4,13 +4,23 @@ RSpec.describe AcceptUnconditionalOffer do
   include CourseOptionHelpers
 
   it 'sets the accepted_at date for the application_choice' do
-    application_choice = create(:application_choice, status: :offer)
+    application_choice = build(:application_choice, status: :offer)
 
     Timecop.freeze do
       expect {
         described_class.new(application_choice: application_choice).save!
       }.to change { application_choice.accepted_at }.to(Time.zone.now)
     end
+  end
+
+  it 'generates an application outcome message via the state change notifier' do
+    application_choice = build(:application_choice, status: :offer)
+    notifier_double = instance_double(StateChangeNotifier, application_outcome_notification: true)
+    allow(StateChangeNotifier).to receive(:new).with(:recruited, application_choice).and_return(notifier_double)
+
+    described_class.new(application_choice: application_choice).save!
+
+    expect(notifier_double).to have_received(:application_outcome_notification)
   end
 
   describe 'emails' do
@@ -24,7 +34,7 @@ RSpec.describe AcceptUnconditionalOffer do
       ratifying_provider_user = create(:provider_user, send_notifications: true, providers: [ratifying_provider])
 
       course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-      application_choice = create(:application_choice, :with_offer, course_option: course_option)
+      application_choice = build(:application_choice, :with_offer, course_option: course_option)
 
       expect { described_class.new(application_choice: application_choice).save! }.to change { ActionMailer::Base.deliveries.count }.by(3)
       expect(ActionMailer::Base.deliveries.first.subject).to match(/has accepted your offer/)
