@@ -6,7 +6,7 @@ module TeacherTrainingPublicAPI
     sidekiq_options retry: 3, queue: :low_priority
 
     def perform(provider_id, recruitment_cycle_year, run_in_background: true)
-      @provider = ::Provider.find(provider_id)
+      @provider = ::Provider.find_by!(id: provider_id)
       @run_in_background = run_in_background
 
       TeacherTrainingPublicAPI::Course.where(
@@ -17,6 +17,8 @@ module TeacherTrainingPublicAPI
       end
     rescue JsonApiClient::Errors::ApiError
       raise TeacherTrainingPublicAPI::SyncError
+    rescue ActiveRecord::RecordNotFound
+      Rails.logger.info("Unable to SyncCourses as provider with id #{provider_id} can't be found")
     end
 
   private

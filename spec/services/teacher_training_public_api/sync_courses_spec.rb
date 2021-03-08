@@ -4,6 +4,19 @@ RSpec.describe TeacherTrainingPublicAPI::SyncCourses, sidekiq: true do
   include TeacherTrainingPublicAPIHelper
 
   describe '.call' do
+    context 'when there is no provider for the given id' do
+      it 'logs the missing provider details and does not raise an error' do
+        allow(Rails.logger).to receive(:info)
+
+        expect {
+          described_class.new.perform(999, Time.zone.now.year)
+        }.not_to raise_error
+
+        expect(Rails.logger)
+          .to have_received(:info).with('Unable to SyncCourses as provider with id 999 can\'t be found')
+      end
+    end
+
     context 'ingesting an existing provider configured to sync courses, sites and course_options' do
       before do
         @existing_provider = create :provider, code: 'ABC', sync_courses: true, provider_type: 'scitt', region_code: 'south_west', postcode: 'SK2 6AA'
