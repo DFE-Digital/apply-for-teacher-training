@@ -60,9 +60,9 @@ class FlatReasonsForRejectionPresenter
   def self.build_high_level(structured_rejection_reasons)
     return nil if structured_rejection_reasons.blank?
 
-    structured_rejection_reasons.select { |reason, value| value == 'Yes' && reason.include?('_y_n') }
+    structured_rejection_reasons.select { |reason, value| ReasonsForRejection::INITIAL_TOP_LEVEL_QUESTIONS.include?(reason.to_sym) && value == 'Yes' }
     .keys
-    .map { |reason| reason.delete_suffix('_y_n').humanize }
+    .map { |reason| I18n.t("reasons_for_rejection.#{ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.title") }
     .join("\n")
   end
 

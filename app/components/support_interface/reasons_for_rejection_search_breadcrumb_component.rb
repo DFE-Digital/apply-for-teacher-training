@@ -19,13 +19,13 @@ module SupportInterface
         },
       ]
       if top_level_reason?
-        i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[@search_attribute].to_s
+        i18n_key = ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[@search_attribute].to_s
         items << {
           text: t("reasons_for_rejection.#{i18n_key}.title"),
         }
       else
         top_level_reason = ::ReasonsForRejectionCountQuery::SUBREASONS_TO_TOP_LEVEL_REASONS[@search_attribute]
-        i18n_key = SupportInterface::SubReasonsForRejectionTableComponent::TOP_LEVEL_REASONS_TO_I18N_KEYS[top_level_reason].to_s
+        i18n_key = ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[top_level_reason].to_s
         items << {
           text: t("reasons_for_rejection.#{i18n_key}.title"),
           path: support_interface_reasons_for_rejection_application_choices_path(

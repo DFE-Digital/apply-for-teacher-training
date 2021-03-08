@@ -61,7 +61,7 @@ RSpec.describe FlatReasonsForRejectionPresenter, type: :presenter do
       rejection_export_line = FlatReasonsForRejectionPresenter.build_high_level(application_choice.structured_rejection_reasons)
 
       expect(rejection_export_line).to eq(
-        "Candidate behaviour\nHonesty and professionalism\nPerformance at interview\nQualifications\nQuality of application\nSafeguarding",
+        "Something you did\nHonesty and professionalism\nPerformance at interview\nQualifications\nQuality of application\nSafeguarding issues",
       )
     end
   end
