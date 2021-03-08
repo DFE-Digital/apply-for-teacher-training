@@ -115,7 +115,7 @@ GEM
     chartkick (3.4.2)
     childprocess (3.0.0)
     choice (0.2.0)
-    climate_control (0.2.0)
+    climate_control (1.0.0)
     clockwork (2.0.4)
       activesupport
       tzinfo
