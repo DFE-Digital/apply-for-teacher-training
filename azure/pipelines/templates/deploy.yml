@@ -349,23 +349,6 @@ jobs:
                   }
                 }
 
-          - task: AzurePowerShell@4
-            displayName: 'Azure PowerShell Script - Tag resource group: $(resourceGroupName)'
-            condition: and(succeeded(), eq(variables['buildCancelled'], false))
-            inputs:
-              azureSubscription: '${{parameters.subscriptionName}}'
-              ScriptType: InlineScript
-              azurePowerShellVersion: LatestVersion
-              Inline: |
-                Param(
-                  [string] $resourceGroupName = "$(resourceGroupName)",
-                  [string] $commonResourceTags = '${{parameters.commonResourceTags}}',
-                  [string] $environment = "${{parameters.environment}}"
-                )
-                $tags = @{}
-                (ConvertFrom-Json $commonResourceTags).psobject.properties | Foreach { $tags[$_.Name] = $_.Value }
-                Set-AzResourceGroup -Name $resourceGroupName -Tag $tags
-
           - template: cancel-build-if-not-latest.yml
             parameters:
               sourceBranchName: $(Build.SourceBranchName)
