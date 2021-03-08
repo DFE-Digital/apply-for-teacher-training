@@ -362,22 +362,8 @@ jobs:
                   [string] $commonResourceTags = '${{parameters.commonResourceTags}}',
                   [string] $environment = "${{parameters.environment}}"
                 )
-
-                $environment_tags = @{
-                  qa = "development";
-                  devops = "development";
-                  staging = "test";
-                  sandbox = "test";
-                  production = "production"
-                }
-
-                $tags = @{
-                  Version = "$(Build.SourceVersion)";
-                  Environment = $environment_tags[$environment]
-                }
-
+                $tags = @{}
                 (ConvertFrom-Json $commonResourceTags).psobject.properties | Foreach { $tags[$_.Name] = $_.Value }
-
                 Set-AzResourceGroup -Name $resourceGroupName -Tag $tags
 
           - template: cancel-build-if-not-latest.yml
