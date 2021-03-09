@@ -39,6 +39,8 @@ RSpec.describe SupportInterface::InterviewChangesExport do
       Timecop.freeze(2021, 11, 5, 15) { example.run }
     end
 
+    it_behaves_like 'a data export'
+
     it 'returns a list of hashes with the correct values' do
       expect(described_class.new.data_for_export).to match_array([
         {
