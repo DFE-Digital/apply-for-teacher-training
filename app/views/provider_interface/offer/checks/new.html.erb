@@ -10,55 +10,9 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <%= f.govuk_error_summary %>
-      <div class="app-offer-panel app-banner app-banner--details">
-        <h2 class="govuk-heading-m">Course details</h2>
-        <% rows = [
-          { key: 'Provider',
-            value: @wizard.course_option.provider.name_and_code,
-            action: 'Change',
-            change_path: nil },
-          { key: 'Course',
-            value: @wizard.course_option.course.name_and_code,
-            action: 'Change',
-            change_path: nil },
-          { key: 'Location',
-            value: @wizard.course_option.site.name_and_address,
-            action: 'Change',
-            change_path: nil },
-          { key: 'Full time or part time',
-            value: @wizard.course_option.study_mode.humanize,
-            action: 'Change',
-            change_path: nil },
-          ] %>
-
-        <%= render SummaryCardComponent.new(rows: rows, border: false) %>
-
-        <h2 class="govuk-heading-m">Conditions of offer</h2>
-
-        <div class='govuk-body'>
-          <%= govuk_link_to 'Add or change conditions', [:new, :provider_interface, @application_choice, :offer, :conditions] %>
-        </div>
-
-        <% if @wizard.conditions.any? %>
-          <table class="govuk-table govuk-!-margin-bottom-2">
-            <tbody class="govuk-table__body">
-              <% @wizard.conditions.each do |condition| %>
-                <tr class="govuk-table__row conditions-row">
-                  <td class="govuk-table__cell"><%= condition %></td>
-                  <td class="govuk-table__cell govuk-table__cell--numeric">
-                    <strong class="govuk-tag govuk-tag--grey app-tag">Pending</strong>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        <% else %>
-          <div class='govuk-body'>
-            No conditions have been set for this offer
-          </div>
-        <% end %>
-
-      </div>
+      <%= render ProviderInterface::OfferSummaryComponent.new(application_choice: @application_choice,
+                                                              course_option: @wizard.course_option,
+                                                              conditions: @wizard.conditions) %>
 
       <div class="govuk-warning-text">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
