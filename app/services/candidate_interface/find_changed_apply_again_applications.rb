@@ -11,7 +11,7 @@ module CandidateInterface
     end
 
     def all_candidate_count
-      all_forms.map(&:candidate_id).uniq.count
+      all_forms.select(:candidate_id).distinct.count
     end
 
     def changed_candidate_count
