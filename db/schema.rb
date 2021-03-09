@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_26_142457) do
+ActiveRecord::Schema.define(version: 2021_03_08_172728) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -600,6 +600,7 @@ ActiveRecord::Schema.define(version: 2021_02_26_142457) do
     t.datetime "email_bounced_at"
     t.datetime "cancelled_at"
     t.datetime "cancelled_at_end_of_cycle_at"
+    t.boolean "duplicate", default: false
     t.index ["application_form_id", "email_address"], name: "index_references_on_application_form_id_and_email_address", unique: true
     t.index ["application_form_id"], name: "index_references_on_application_form_id"
     t.index ["feedback_status"], name: "index_references_on_feedback_status"
