@@ -41,7 +41,7 @@ class DuplicateApplication
 
     original_application_form.application_references.where(feedback_status: %w[feedback_provided not_requested_yet cancelled_at_end_of_cycle]).reject(&:feedback_overdue?).each do |w|
       new_application_form.application_references.create!(
-        w.attributes.except(*IGNORED_CHILD_ATTRIBUTES),
+        w.attributes.except(*IGNORED_CHILD_ATTRIBUTES).merge!(duplicate: true),
       )
 
       references_cancelled_at_eoc = new_application_form.application_references.select(&:cancelled_at_end_of_cycle?)
