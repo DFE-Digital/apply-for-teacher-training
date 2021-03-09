@@ -2,10 +2,10 @@ module SupportInterface
   class QualificationsExport
     def data_for_export
       application_choices = ApplicationChoice
-                                .select(:id, :application_form_id, :rejection_reason, :structured_rejection_reasons, :status, :course_option_id)
-                                .includes(:course_option, :course, :provider)
+        .select(:id, :application_form_id, :rejection_reason, :structured_rejection_reasons, :status, :course_option_id)
+        .includes(:course_option, :course, :provider)
 
-      application_choices.map do |application_choice|
+      application_choices.find_each(batch_size: 100).lazy.map do |application_choice|
         application_form = application_choice.application_form
         course = application_choice.course_option.course
         qualifications = application_form.application_qualifications
@@ -56,6 +56,7 @@ module SupportInterface
 
           'Number of other qualifications provided' => other_qualification_count(qualifications),
         }
+
         output
       end
     end
