@@ -108,6 +108,9 @@ module SupportInterface
             recruitment_cycle_year: RecruitmentCycle.current_year,
           },
         )
+        .where.not(application_forms: {
+          submitted_at: nil,
+        })
         .all
     end
 

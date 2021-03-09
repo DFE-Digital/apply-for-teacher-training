@@ -24,8 +24,17 @@ RSpec.describe SupportInterface::CandidateAutofillUsageExport do
     end
 
     context 'Phase 2 applications' do
-      it "does not return a hash of candidates' autofill info" do
+      it "does not return a hash of candidates' autofill usage" do
         application_form = create(:application_form, :minimum_info, phase: 'apply_2')
+        create(:degree_qualification, application_form: application_form)
+
+        expect(described_class.new.data_for_export).to be_empty
+      end
+    end
+
+    context 'Unsubmitted applications' do
+      it "does not return a hash of candidates' autofill usage" do
+        application_form = create(:application_form, :minimum_info, phase: 'apply_1', submitted_at: nil)
         create(:degree_qualification, application_form: application_form)
 
         expect(described_class.new.data_for_export).to be_empty
