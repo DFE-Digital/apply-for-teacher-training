@@ -4,6 +4,12 @@ module TeacherTrainingPublicAPI
     belongs_to :provider, param: :provider_code
     belongs_to :course, param: :course_code
 
+    def full_address
+      [street_address_1, street_address_2, city, county, postcode]
+        .reject(&:blank?)
+        .join(', ')
+    end
+
     def self.fetch(provider_code, course_code)
       where(recruitment_cycle_year: RecruitmentCycle.current_year)
         .where(provider_code: provider_code)

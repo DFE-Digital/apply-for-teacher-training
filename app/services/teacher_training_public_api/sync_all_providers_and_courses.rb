@@ -6,7 +6,7 @@ module TeacherTrainingPublicAPI
       until is_last_page
         page_number += 1
         response = TeacherTrainingPublicAPI::Provider
-          .where(year: RecruitmentCycle.current_year)
+          .where(year: ::RecruitmentCycle.current_year)
           .paginate(page: page_number, per_page: 500)
           .all
         sync_providers(response)
@@ -22,7 +22,7 @@ module TeacherTrainingPublicAPI
       providers_from_api.each do |provider_from_api|
         TeacherTrainingPublicAPI::SyncProvider.new(
           provider_from_api: provider_from_api,
-          recruitment_cycle_year: RecruitmentCycle.current_year,
+          recruitment_cycle_year: ::RecruitmentCycle.current_year,
         ).call
       end
     end
