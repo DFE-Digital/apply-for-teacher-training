@@ -15,6 +15,7 @@ class FeatureMetricsDashboard < ApplicationRecord
     load_avg_sign_ins_before_offer
     load_avg_sign_ins_before_recruitment
     load_num_rejections_due_to_qualifications
+    load_apply_again_success_rate
   end
 
   def last_updated_at
@@ -41,6 +42,10 @@ private
 
   def reasons_for_rejection_statistics
     ReasonsForRejectionFeatureMetrics.new
+  end
+
+  def apply_again_statistics
+    ApplyAgainFeatureMetrics.new
   end
 
   def load_avg_time_to_get_references
@@ -178,6 +183,28 @@ private
       :num_rejections_due_to_qualifications_last_month,
       reasons_for_rejection_statistics.rejections_due_to(
         :qualifications_y_n, Time.zone.now.beginning_of_month - 1.month, Time.zone.now.beginning_of_month
+      ),
+    )
+  end
+
+  def load_apply_again_success_rate
+    write_metric(
+      :apply_again_success_rate,
+      apply_again_statistics.success_rate(
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
+      ),
+    )
+    write_metric(
+      :apply_again_success_rate_this_month,
+      apply_again_statistics.success_rate(
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+    write_metric(
+      :apply_again_success_rate_last_month,
+      apply_again_statistics.success_rate(
+        Time.zone.now.beginning_of_month - 1.month,
+        Time.zone.now.beginning_of_month,
       ),
     )
   end
