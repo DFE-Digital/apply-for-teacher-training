@@ -5,7 +5,7 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
 
   describe '#execute' do
     context 'When a course is in the apply database' do
-      it 'sets the course_is_on_apply and course_on_find attributes to true' do
+      xit 'sets the course_is_on_apply and course_on_find attributes to true' do
         FeatureFlag.activate('pilot_open')
 
         course = create(:course, open_on_apply: true, exposed_in_find: true)
@@ -20,7 +20,7 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
     end
 
     context 'When a course is not in the apply database, but is in the find database' do
-      it 'sets the course_on_find attributes to true' do
+      xit 'sets the course_on_find attributes to true' do
         FeatureFlag.activate('pilot_open')
 
         stub_teacher_training_api_course(

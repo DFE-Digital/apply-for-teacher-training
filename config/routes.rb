@@ -51,7 +51,7 @@ Rails.application.routes.draw do
     get '/authenticate', to: 'sign_in#expired'
 
     get '/apply', to: 'apply_from_find#show', as: :apply_from_find
-    post '/apply', to: 'apply_from_find#ucas_or_apply'
+    post '/apply', to: 'apply_from_find#choose_service'
     get '/apply/ucas', to: 'apply_from_find#ucas_interstitial', as: :apply_with_ucas_interstitial
 
     get '/interstitial', to: 'after_sign_in#interstitial', as: :interstitial

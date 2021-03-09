@@ -1,43 +1,54 @@
 module CandidateInterface
   class ApplyFromFindPage
-    attr_accessor :course, :provider
-
-    def initialize(provider_code:, course_code:)
+    def initialize(provider_code:, course_code:, current_candidate: nil)
       @provider_code = provider_code
       @course_code = course_code
-      @can_apply_on_apply = false
-      @course_on_find = false
-      @course = nil
-      @provider = nil
+      @current_candidate = current_candidate
     end
 
-    def determine_whether_course_is_on_find_or_apply
-      @provider = Provider.find_by!(code: @provider_code)
-      @course = provider.courses.current_cycle.where(exposed_in_find: true).find_by!(code: @course_code)
+    def candidate_has_application_in_wrong_cycle?
+      return false if course.blank? || @current_candidate.blank?
 
-      if @course&.open_on_apply? && pilot_open?
-        @can_apply_on_apply = true
-        @course_on_find = true
-      elsif @course.present?
-        @course_on_find = true
-      end
-    rescue ActiveRecord::RecordNotFound
-      @course = fetch_course_from_api
-      @course_on_find = true if @course.present?
+      @current_candidate.current_application.recruitment_cycle_year != course.recruitment_cycle_year
     end
 
-    def can_apply_on_apply?
-      @can_apply_on_apply
+    def course_available_on_apply?
+      course.present? && \
+        course_in_apply_database? && \
+        course.open_on_apply? && \
+        FeatureFlag.active?('pilot_open')
     end
 
-    def course_on_find?
-      @course_on_find
+    def ucas_only?
+      course.present? && !course_available_on_apply?
+    end
+
+    def provider_not_accepting_applications_via_ucas?
+      provider&.not_accepting_appplications_on_ucas?
+    end
+
+    def course
+      @_course ||= load_course
     end
 
   private
 
-    def pilot_open?
-      FeatureFlag.active?('pilot_open')
+    def course_in_apply_database?
+      !(course.is_a? TeacherTrainingPublicAPI::Course)
+    end
+
+    def load_course
+      if !provider
+        fetch_course_from_api
+      else
+        provider.courses.current_cycle.where(exposed_in_find: true).find_by!(code: @course_code)
+      end
+    rescue ActiveRecord::RecordNotFound
+      fetch_course_from_api
+    end
+
+    def provider
+      @_provider ||= Provider.find_by(code: @provider_code)
     end
 
     def fetch_course_from_api
