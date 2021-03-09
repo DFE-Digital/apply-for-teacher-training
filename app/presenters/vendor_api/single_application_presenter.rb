@@ -34,6 +34,7 @@ module VendorAPI
             nationality: application_choice.nationalities,
             domicile: application_form.domicile,
             uk_residency_status: uk_residency_status,
+            uk_residency_status_code: uk_residency_status_code,
             fee_payer: provisional_fee_payer_status,
             english_main_language: application_form.english_main_language,
             english_language_qualifications: application_form.english_language_qualification_details,
@@ -112,6 +113,14 @@ module VendorAPI
       return application_form.right_to_work_or_study_details if application_form.right_to_work_or_study_yes?
 
       'Candidate needs to apply for permission to work and study in the UK'
+    end
+
+    def uk_residency_status_code
+      return 'A' if application_choice.nationalities.include?('GB')
+      return 'B' if application_choice.nationalities.include?('IE')
+      return 'D' if application_form.right_to_work_or_study_yes?
+
+      'C'
     end
 
     def provisional_fee_payer_status

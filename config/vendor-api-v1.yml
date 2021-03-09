@@ -592,8 +592,24 @@ components:
         uk_residency_status:
           type: string
           maxLength: 256
-          description: The candidate’s UK residency status indicating their right to work and study in the UK. Possible values include "UK Citizen", "Irish Citizen", "Candidate needs to apply for permission to work and study in the UK" and "Candidate does not know". The candidate can also provide details as free text for example "Settled status".
+          description: The candidate’s UK residency status indicating their right to work and study in the UK. Possible values include "UK Citizen", "Irish Citizen" and "Candidate needs to apply for permission to work and study in the UK". The candidate can also provide details as free text for example "Settled status".
           example: UK Citizen
+        uk_residency_status_code:
+          type: string
+          maxLength: 1
+          description: |
+            Single alphabetical character code for the candidate’s UK residency status indicating their right to work and study in the UK:
+
+            - A - UK Citizen
+            - B - Irish Citizen
+            - C - Candidate needs to apply for permission to work and study in the UK
+            - D - Candidate's free text response
+          example: 'B'
+          enum:
+            - 'A'
+            - 'B'
+            - 'C'
+            - 'D'
         fee_payer:
           type: string
           maxLength: 2
