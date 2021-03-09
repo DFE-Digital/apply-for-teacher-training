@@ -18,8 +18,6 @@ module ProviderInterface
         @wizard.save_state!
 
         if @wizard.decision == 'rejection'
-          @wizard.clear_state!
-
           redirect_to provider_interface_reasons_for_rejection_initial_questions_path(@application_choice)
         else
           redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
