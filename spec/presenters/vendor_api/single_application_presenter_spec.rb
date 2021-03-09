@@ -251,7 +251,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate needs to apply for permission to work and study in the UK')
     end
 
-    it 'returns correct message if the candidates answered they do not know if they have the right to work/study in the UK' do
+    it 'returns correct message if the candidate has answered they do not know if they have the right to work/study in the UK' do
       application_form = create(:application_form,
                                 :minimum_info,
                                 first_nationality: 'Canadian',
@@ -260,7 +260,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
-      expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate does not know')
+      expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate needs to apply for permission to work and study in the UK')
     end
   end
 

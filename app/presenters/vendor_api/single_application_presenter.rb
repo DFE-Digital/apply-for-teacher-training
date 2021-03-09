@@ -111,9 +111,7 @@ module VendorAPI
 
       return application_form.right_to_work_or_study_details if application_form.right_to_work_or_study_yes?
 
-      return 'Candidate needs to apply for permission to work and study in the UK' if application_form.right_to_work_or_study_no?
-
-      'Candidate does not know'
+      'Candidate needs to apply for permission to work and study in the UK'
     end
 
     def provisional_fee_payer_status
