@@ -1,0 +1,39 @@
+---
+openapi: 3.0.0
+info:
+  version: v1
+  title: Apply data exports API
+  contact:
+    name: DfE
+    email: becomingateacher@digital.education.gov.uk
+  description: |
+    API for data extracts from DfE’s Apply for teacher training service.
+servers:
+- description: Sandbox (test environment)
+  url: https://sandbox.apply-for-teacher-training.service.gov.uk/data-api
+- description: Production
+  url: https://www.apply-for-teacher-training.service.gov.uk/data-api
+paths:
+  "/tad-data-exports/latest":
+    get:
+      summary: Get the latest TAD data export
+      description: |
+        This endpoint returns a CSV consisting of the latest TAD data. Reports are generated daily
+      responses:
+        '200':
+          description: The CSV of the latest report
+          content:
+            text/csv:
+              schema:
+                "$ref": "#/components/schemas/TADCSVSchema"
+components:
+  schemas:
+    TADCSVSchema:
+      type: object
+      properties: # this is automatically populated from the CSV definition by DataAPISpecification
+  securitySchemes:
+    tokenAuth:
+      type: http
+      scheme: bearer
+security:
+- tokenAuth: []
