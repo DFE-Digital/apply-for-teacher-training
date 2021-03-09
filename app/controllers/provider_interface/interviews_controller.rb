@@ -3,6 +3,7 @@ module ProviderInterface
     before_action :set_application_choice
     before_action :interview_flag_enabled?
     before_action :requires_make_decisions_permission, except: %i[index]
+    before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
 
     def index
       application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
@@ -153,6 +154,12 @@ module ProviderInterface
     def cancel_interview_store
       key = "cancel_interview_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)
+    end
+
+    def confirm_application_is_in_decision_pending_state
+      return if ApplicationStateChange::DECISION_PENDING_STATUSES.include?(@application_choice.status.to_sym)
+
+      redirect_back(fallback_location: provider_interface_application_choice_path(@application_choice))
     end
   end
 end
