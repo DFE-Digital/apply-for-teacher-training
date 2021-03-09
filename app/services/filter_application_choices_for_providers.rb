@@ -25,7 +25,7 @@ class FilterApplicationChoicesForProviders
     def recruitment_cycle_year(application_choices, years)
       return application_choices if years.blank?
 
-      application_choices.where('courses.recruitment_cycle_year' => years)
+      application_choices.where('current_course_year' => years)
     end
 
     def status(application_choices, statuses)
@@ -37,19 +37,19 @@ class FilterApplicationChoicesForProviders
     def provider(application_choices, providers)
       return application_choices if providers.blank?
 
-      application_choices.where('courses.provider_id' => providers)
+      application_choices.where('current_training_provider_id' => providers)
     end
 
     def accredited_provider(application_choices, accredited_providers)
       return application_choices if accredited_providers.blank?
 
-      application_choices.where('courses.accredited_provider_id' => accredited_providers)
+      application_choices.where('current_ratifying_provider_id' => accredited_providers)
     end
 
     def provider_location(application_choices, provider_location)
       return application_choices if provider_location.blank?
 
-      application_choices.where('sites.id' => provider_location)
+      application_choices.where('current_site_id' => provider_location)
     end
 
     def create_filter_query(application_choices, filters)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_08_172728) do
+ActiveRecord::Schema.define(version: 2021_03_09_153713) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -735,4 +735,55 @@ ActiveRecord::Schema.define(version: 2021_03_08_172728) do
   add_foreign_key "sites", "providers"
   add_foreign_key "ucas_matches", "candidates", on_delete: :cascade
   add_foreign_key "vendor_api_tokens", "providers", on_delete: :cascade
+
+  create_view "application_choices_with_courses", sql_definition: <<-SQL
+      SELECT application_choices.application_form_id,
+      application_choices.created_at,
+      application_choices.updated_at,
+      application_choices.status,
+      application_choices.offer,
+      application_choices.rejection_reason,
+      application_choices.course_option_id,
+      application_choices.id,
+      application_choices.reject_by_default_at,
+      application_choices.rejected_by_default,
+      application_choices.reject_by_default_days,
+      application_choices.decline_by_default_at,
+      application_choices.decline_by_default_days,
+      application_choices.offered_at,
+      application_choices.rejected_at,
+      application_choices.withdrawn_at,
+      application_choices.declined_at,
+      application_choices.declined_by_default,
+      application_choices.offered_course_option_id,
+      application_choices.accepted_at,
+      application_choices.recruited_at,
+      application_choices.conditions_not_met_at,
+      application_choices.offer_withdrawal_reason,
+      application_choices.offer_withdrawn_at,
+      application_choices.sent_to_provider_at,
+      application_choices.structured_rejection_reasons,
+      application_choices.withdrawal_feedback,
+      application_choices.offer_deferred_at,
+      application_choices.status_before_deferral,
+      application_choices.reject_by_default_feedback_sent_at,
+      application_choices.offer_changed_at,
+      original_course.id AS original_course_id,
+      original_option.id AS original_option_id,
+      original_option.site_id AS original_site_id,
+      original_course.recruitment_cycle_year AS original_course_year,
+      original_course.provider_id AS original_training_provider_id,
+      COALESCE((original_course.accredited_provider_id)::bigint, original_course.provider_id) AS original_ratifying_provider_id,
+      current_course.id AS current_course_id,
+      current_option.id AS current_option_id,
+      current_option.site_id AS current_site_id,
+      current_course.recruitment_cycle_year AS current_course_year,
+      current_course.provider_id AS current_training_provider_id,
+      COALESCE((current_course.accredited_provider_id)::bigint, current_course.provider_id) AS current_ratifying_provider_id
+     FROM ((((application_choices
+       JOIN course_options original_option ON ((application_choices.course_option_id = original_option.id)))
+       JOIN course_options current_option ON ((COALESCE(application_choices.offered_course_option_id, application_choices.course_option_id) = current_option.id)))
+       JOIN courses original_course ON ((original_option.course_id = original_course.id)))
+       JOIN courses current_course ON ((current_option.course_id = current_course.id)));
+  SQL
 end

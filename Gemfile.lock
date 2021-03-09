@@ -472,6 +472,9 @@ GEM
     rubyzip (2.3.0)
     safely_block (0.3.0)
       errbase (>= 0.1.1)
+    scenic (1.5.4)
+      activerecord (>= 4.0.0)
+      railties (>= 4.0.0)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -632,6 +635,7 @@ DEPENDENCIES
   rubocop-govuk
   ruby-graphviz
   ruby-jmeter
+  scenic
   selenium-webdriver
   sentry-raven
   shoulda-matchers (~> 4.5)

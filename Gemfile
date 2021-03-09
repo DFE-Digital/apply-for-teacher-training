@@ -46,6 +46,9 @@ gem 'active_hash'
 # in active record queries; may eventually be merged into Rails
 gem 'activerecord-cte'
 
+# Create/manage database views through Rails migrations
+gem 'scenic'
+
 gem 'sentry-raven'
 
 gem 'factory_bot_rails'

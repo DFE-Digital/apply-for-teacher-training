@@ -18,33 +18,28 @@ class GetApplicationChoicesForProviders
 
     statuses = vendor_api ? ApplicationStateChange.states_visible_to_provider_without_deferred : ApplicationStateChange.states_visible_to_provider
 
-    with_course_joins = ApplicationChoice
-      .joins('INNER JOIN course_options AS current_option ON COALESCE(offered_course_option_id, course_option_id) = current_option.id')
-      .joins('INNER JOIN course_options AS original_option ON course_option_id = original_option.id')
-      .joins('INNER JOIN courses AS current_course ON current_option.course_id = current_course.id')
-      .joins('INNER JOIN courses AS original_course ON original_option.course_id = original_course.id')
+    with_courses = ApplicationChoice.annotate_with_courses
 
-    applications =
-      with_course_joins.where(
-        'original_course.provider_id' => providers,
-        'original_course.recruitment_cycle_year' => recruitment_cycle_year,
-      ).or(
-        with_course_joins.where(
-          'original_course.accredited_provider_id' => providers,
-          'original_course.recruitment_cycle_year' => recruitment_cycle_year,
-        ),
-      ).or(
-        with_course_joins.where(
-          'current_course.provider_id' => providers,
-          'current_course.recruitment_cycle_year' => recruitment_cycle_year,
-        ),
-      ).or(
-        with_course_joins.where(
-          'current_course.accredited_provider_id' => providers,
-          'current_course.recruitment_cycle_year' => recruitment_cycle_year,
-        ),
-      )
-      .where('status IN (?)', statuses)
+    applications = with_courses.where(
+      'original_training_provider_id' => providers,
+      'original_course_year' => recruitment_cycle_year,
+    ).or(
+      with_courses.where(
+        'original_ratifying_provider_id' => providers,
+        'original_course_year' => recruitment_cycle_year,
+      ),
+    ).or(
+      with_courses.where(
+        'current_training_provider_id' => providers,
+        'current_course_year' => recruitment_cycle_year,
+      ),
+    ).or(
+      with_courses.where(
+        'current_ratifying_provider_id' => providers,
+        'current_course_year' => recruitment_cycle_year,
+      ),
+    )
+    .where('status IN (?)', statuses)
 
     applications.includes(*includes)
   end

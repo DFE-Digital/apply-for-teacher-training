@@ -39,6 +39,9 @@ class ApplicationChoice < ApplicationRecord
     offer_deferred: 'offer_deferred',
   }
 
+  COURSES_VIEW = '(SELECT * FROM application_choices_with_courses) AS application_choices'.freeze
+  scope :annotate_with_courses, -> { from(COURSES_VIEW) }
+
   def different_offer?
     offered_course_option_id && offered_course_option_id != course_option_id
   end
