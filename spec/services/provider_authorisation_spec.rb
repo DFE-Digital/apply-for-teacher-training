@@ -309,7 +309,7 @@ RSpec.describe ProviderAuthorisation do
 
         it 'the user cannot view safeguarding information' do
           expect(service.can_view_safeguarding_information?(course: course)).to be false
-          expect(service.errors).to eq(%i[requires_training_provider_permission requires_ratifying_provider_permission])
+          expect(service.errors).to eq(%i[requires_training_or_ratifying_provider_permission])
         end
       end
 

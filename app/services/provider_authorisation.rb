@@ -1,9 +1,9 @@
 class ProviderAuthorisation
-  attr_reader :errors, :actor
+  attr_reader :actor
 
   def initialize(actor:)
     @actor = actor
-    @errors = []
+    @errors = {}
   end
 
   # Queries/lookups ----------------------------------------------------------------
@@ -76,10 +76,10 @@ class ProviderAuthorisation
   def can_make_decisions?(application_choice:, course_option_id:)
     course = CourseOption.find(course_option_id).course
 
-    errors << :requires_application_choice_visibility unless
+    add_error(:make_decisions, :requires_application_choice_visibility) unless
       application_choice_visible_to_user?(application_choice: application_choice)
 
-    errors << :requires_user_course_association unless
+    add_error(:make_decisions, :requires_user_course_association) unless
       course_associated_with_user_providers?(course: course)
 
     full_authorisation? permission: :make_decisions, course: course
@@ -90,7 +90,11 @@ class ProviderAuthorisation
   def assert_can_make_decisions!(application_choice:, course_option_id:)
     return if can_make_decisions?(application_choice: application_choice, course_option_id: course_option_id)
 
-    raise NotAuthorisedError, 'You are not allowed to make decisions'
+    raise NotAuthorisedError, full_error_messages.join(' ')
+  end
+
+  def errors
+    @errors.values.flatten
   end
 
   class NotAuthorisedError < StandardError; end
@@ -131,7 +135,7 @@ private
     ratifying_provider = course.accredited_provider
 
     # enforce user-level permissions
-    errors << :requires_provider_user_permission unless
+    add_error(permission, :requires_provider_user_permission) unless
       @actor.is_a?(VendorApiUser) ||
         user_level_can?(permission: permission, provider: training_provider) ||
         user_level_can?(permission: permission, provider: ratifying_provider)
@@ -145,22 +149,21 @@ private
       if @actor.providers.include?(ratifying_provider) && @actor.providers.include?(training_provider)
         # If not, there is something wrong with the setup
         if [training_provider_can, ratifying_provider_can].none?
-          errors << :requires_training_provider_permission
-          errors << :requires_ratifying_provider_permission
+          add_error(permission, :requires_training_or_ratifying_provider_permission)
         # Check org-level and user-level permissions match for ratifying provider
         elsif !training_provider_can
-          errors << :requires_provider_user_permission unless
+          add_error(permission, :requires_provider_user_permission) unless
             user_level_can?(permission: permission, provider: ratifying_provider)
         # Same for training provider
         elsif !ratifying_provider_can
-          errors << :requires_provider_user_permission unless
+          add_error(permission, :requires_provider_user_permission) unless
             user_level_can?(permission: permission, provider: training_provider)
         end
         # No additional checks if both providers have org-level access
       elsif @actor.providers.include?(ratifying_provider)
-        errors << :requires_ratifying_provider_permission unless ratifying_provider_can
+        add_error(permission, :requires_ratifying_provider_permission) unless ratifying_provider_can
       else
-        errors << :requires_training_provider_permission unless training_provider_can
+        add_error(permission, :requires_training_provider_permission) unless training_provider_can
       end
     end
 
@@ -178,6 +181,17 @@ private
 
     [course.provider, course.accredited_provider].compact.any? do |provider|
       @actor.providers.include?(provider)
+    end
+  end
+
+  def add_error(permission, error)
+    @errors[permission] ||= []
+    @errors[permission] << error
+  end
+
+  def full_error_messages
+    @errors.flat_map do |permission, msg_keys|
+      msg_keys.map { |key| I18n.t("provider_authorisation.errors.#{permission}.#{key}") }
     end
   end
 end
