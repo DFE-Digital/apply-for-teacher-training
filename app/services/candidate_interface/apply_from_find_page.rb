@@ -12,9 +12,20 @@ module CandidateInterface
       @current_candidate.current_application.recruitment_cycle_year != course.recruitment_cycle_year
     end
 
+    def course_available_on_apply_and_candidate_signed_in?
+      course_available_on_apply? && @current_candidate.present?
+    end
+
+    def course_available_on_apply_and_candidate_not_signed_in?
+      course_available_on_apply? && @current_candidate.blank?
+    end
+
+    def course_available_on_apply_and_provider_not_on_ucas?
+      course_available_on_apply? && provider_not_accepting_applications_via_ucas?
+    end
+
     def course_available_on_apply?
-      course.present? && \
-        course_in_apply_database? && \
+      course_in_apply_database? && \
         course.open_on_apply? && \
         FeatureFlag.active?('pilot_open')
     end
@@ -34,7 +45,7 @@ module CandidateInterface
   private
 
     def course_in_apply_database?
-      !(course.is_a? TeacherTrainingPublicAPI::Course)
+      course.present? && course.is_a?(Course)
     end
 
     def load_course
