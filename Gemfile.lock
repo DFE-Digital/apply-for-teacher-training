@@ -54,6 +54,8 @@ GEM
     activerecord (6.0.3.5)
       activemodel (= 6.0.3.5)
       activesupport (= 6.0.3.5)
+    activerecord-cte (0.1.1)
+      activerecord
     activestorage (6.0.3.5)
       actionpack (= 6.0.3.5)
       activejob (= 6.0.3.5)
@@ -570,6 +572,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_hash
+  activerecord-cte
   ar-sequence
   archive-zip
   audited!

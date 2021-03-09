@@ -42,6 +42,10 @@ gem 'ar-sequence'
 
 gem 'active_hash'
 
+# Allows the use of common table expressions / WITH statements
+# in active record queries; may eventually be merged into Rails
+gem 'activerecord-cte'
+
 gem 'sentry-raven'
 
 gem 'factory_bot_rails'
