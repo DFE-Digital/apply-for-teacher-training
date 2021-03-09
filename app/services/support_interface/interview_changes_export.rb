@@ -1,7 +1,7 @@
 module SupportInterface
   class InterviewChangesExport
     def data_for_export
-      interview_audits.map do |audit|
+      interview_audits.find_each(batch_size: 100).map do |audit|
         row_for_audit(audit)
       end
     end
