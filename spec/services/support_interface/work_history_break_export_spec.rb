@@ -71,6 +71,44 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
       end
     end
 
+    describe 'end date calculations' do
+      it 'uses today’s date for submission date if application form is unsubmitted' do
+        create(:completed_application_form,
+               candidate: candidate,
+               date_of_birth: Date.new(1982, 1, 1),
+               submitted_at: nil)
+
+        data = described_class.new.data_for_export[0]
+        expect(data['Application submitted']).to eq(Time.zone.now.strftime('%d/%m/%Y'))
+      end
+
+      it 'uses application submitted date for experience end date if experience is ongoing' do
+        create(:application_work_experience,
+               application_form: application_form,
+               start_date: Date.new(2000, 1, 1),
+               end_date: nil)
+
+        data = described_class.new.data_for_export[0]
+        expect(data['Total time in employment (months)']).to eq(252)
+      end
+
+      it 'uses today’s date for experience end date if experience is ongoing and application form is unsubmitted' do
+        new_application_form = create(:completed_application_form,
+                                      candidate: candidate,
+                                      date_of_birth: Date.new(1982, 1, 1),
+                                      submitted_at: nil)
+
+        create(:application_work_experience,
+               application_form: new_application_form,
+               start_date: Date.new(2000, 1, 1),
+               end_date: nil)
+
+        expected_number_of_months = (((Time.zone.now - Time.zone.local(2000, 1, 1, 0, 0, 0))) / ActiveSupport::Duration::SECONDS_PER_MONTH).round
+        data = described_class.new.data_for_export[0]
+        expect(data['Total time in employment (months)']).to eq(expected_number_of_months)
+      end
+    end
+
     describe 'creates explained breaks data' do
       it 'calculates details of explained breaks' do
         create(:application_work_history_break,
