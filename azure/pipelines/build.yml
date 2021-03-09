@@ -1,5 +1,5 @@
 trigger:
-  batch: true
+  batch: false
   # excluding these paths as this build will be trigged after gems-node-modules-image build is completed.
   paths:
     exclude:
