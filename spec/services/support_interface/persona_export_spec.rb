@@ -62,7 +62,7 @@ private
       'Distance from site to candidate' => '2.2',
       'Average distance from all sites to candidate' => '2.2',
       'Rejection reason' => nil,
-      'Structured rejection reasons' => "Candidate behaviour\nHonesty and professionalism",
+      'Structured rejection reasons' => "Something you did\nHonesty and professionalism",
       'Application status' => 'Ended without success',
       'Course code' => application_choice.course.code,
       'Provider code' => application_choice.provider.code,

@@ -152,7 +152,7 @@ RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
         )
 
         choice_row = described_class.new.application_choices.first
-        expect(choice_row).to include(structured_rejection_reasons: "Candidate behaviour\nHonesty and professionalism")
+        expect(choice_row).to include(structured_rejection_reasons: "Something you did\nHonesty and professionalism")
       end
     end
   end
