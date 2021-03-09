@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe TestApplications do
-  include DateComparisonHelper
-
   it 'generates an application with choices in the given states' do
     create(:course_option, course: create(:course, :open_on_apply))
     create(:course_option, course: create(:course, :open_on_apply))
