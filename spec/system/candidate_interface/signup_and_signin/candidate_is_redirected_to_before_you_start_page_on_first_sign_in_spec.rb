@@ -13,7 +13,7 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     then_i_should_see_the_before_you_start_page
     and_i_should_see_an_account_created_flash_message
     when_i_click_choose_a_course
-    then_i_should_see_the_course_choices_index_page
+    then_i_should_see_the_course_choices_choose_page
 
     when_i_sign_out
     when_i_visit_apply
@@ -76,8 +76,8 @@ RSpec.feature 'A new candidate is encouraged to select a course' do
     click_link 'Choose a course'
   end
 
-  def then_i_should_see_the_course_choices_index_page
-    expect(page).to have_current_path(candidate_interface_course_choices_index_path)
+  def then_i_should_see_the_course_choices_choose_page
+    expect(page).to have_current_path(candidate_interface_course_choices_choose_path)
   end
 
   def when_i_visit_the_before_you_start_page
