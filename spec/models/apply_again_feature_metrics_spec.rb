@@ -45,6 +45,7 @@ RSpec.describe ApplyAgainFeatureMetrics do
       end
 
       it 'returns 0.5 when 50% of apply again applications are successful' do
+        create_apply_again_application
         reject(create_apply_again_application)
         make_offer_for(create_apply_again_application)
         expect(feature_metrics.success_rate(1.month.ago)).to eq(0.5)
