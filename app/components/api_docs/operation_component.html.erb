@@ -81,7 +81,11 @@
         <% end %>
 
         <% if response.schema.example %>
-          <%= json_code_sample(response.schema.example) %>
+          <% if response.mime_type == 'application/json' %>
+            <%= json_code_sample(response.schema.example) %>
+          <% elsif response.mime_type == 'text/csv' %>
+            <%= csv_sample(response.schema.example) %>
+          <% end %>
         <% end %>
       </div>
     </details>

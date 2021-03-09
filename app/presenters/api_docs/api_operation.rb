@@ -32,7 +32,6 @@ module APIDocs
 
   class DescriptionAndSchema
     attr_reader :definition
-
     delegate :description, to: :definition
 
     def initialize(definition)
@@ -40,7 +39,11 @@ module APIDocs
     end
 
     def schema
-      APIDocs::APISchema.new(definition.content['application/json'].schema)
+      APIDocs::APISchema.new(definition.content[mime_type].schema)
+    end
+
+    def mime_type
+      definition.content.keys.first
     end
   end
 end

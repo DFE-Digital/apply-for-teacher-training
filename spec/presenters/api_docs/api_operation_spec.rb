@@ -8,6 +8,8 @@ RSpec.describe APIDocs::APIOperation do
     reference.operations.first
   end
 
+  let(:response_mime_type) { 'application/json' }
+
   let :spec do
     OpenAPIExampleSpec.build_with <<~YAML
       paths:
@@ -29,7 +31,7 @@ RSpec.describe APIDocs::APIOperation do
               200:
                 description: A string
                 content:
-                  application/json:
+                  #{response_mime_type}:
                     schema:
                       type: object
                       properties:
@@ -39,7 +41,7 @@ RSpec.describe APIDocs::APIOperation do
               422:
                 description: An error
                 content:
-                  application/json:
+                  #{response_mime_type}:
                     schema:
                       "$ref": "#/components/schemas/ErrorResponse"
       components:
@@ -86,6 +88,18 @@ RSpec.describe APIDocs::APIOperation do
 
     it 'returns an anonymous schema for an inline schema' do
       expect(api_operation.responses['200'].schema.name).to be nil
+    end
+
+    it 'returns an application/json mime type' do
+      expect(api_operation.responses['200'].mime_type).to eq 'application/json'
+    end
+
+    context 'when the response mime type is text/csv' do
+      let(:response_mime_type) { 'text/csv' }
+
+      it 'knows the mime type of the response' do
+        expect(api_operation.responses['200'].mime_type).to eq 'text/csv'
+      end
     end
   end
 end
