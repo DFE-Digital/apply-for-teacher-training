@@ -251,7 +251,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate needs to apply for permission to work and study in the UK')
     end
 
-    it 'returns correct message if the candidates answered they do not know if they have the right to work/study in the UK' do
+    it 'returns correct message if the candidate has answered they do not know if they have the right to work/study in the UK' do
       application_form = create(:application_form,
                                 :minimum_info,
                                 first_nationality: 'Canadian',
@@ -260,7 +260,70 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
 
       response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
 
-      expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate does not know')
+      expect(response.dig(:attributes, :candidate, :uk_residency_status)).to eq('Candidate needs to apply for permission to work and study in the UK')
+    end
+  end
+
+  describe 'uk_residency_status_code' do
+    it 'returns A if one of the candidate nationalities is GB' do
+      application_form = build_stubbed(:application_form,
+                                       :minimum_info,
+                                       first_nationality: 'Irish',
+                                       second_nationality: 'British')
+      application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :uk_residency_status_code)).to eq('A')
+    end
+
+    it 'returns B if one of the candidate nationalities is IE' do
+      application_form = build_stubbed(:application_form,
+                                       :minimum_info,
+                                       first_nationality: 'Canadian',
+                                       second_nationality: 'Irish')
+      application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :uk_residency_status_code)).to eq('B')
+    end
+
+    it 'returns C if the candidate does not have residency or right to work in UK' do
+      application_form = build_stubbed(:application_form,
+                                       :minimum_info,
+                                       first_nationality: 'Canadian',
+                                       right_to_work_or_study: 'no')
+      application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :uk_residency_status_code)).to eq('C')
+    end
+
+    it 'returns C if the candidate wishes to answer residency questions later' do
+      application_form = build_stubbed(:application_form,
+                                       :minimum_info,
+                                       first_nationality: 'Canadian',
+                                       right_to_work_or_study: 'decide_later')
+      application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :uk_residency_status_code)).to eq('C')
+    end
+
+    it 'returns D if the candidate has UK residency' do
+      application_form = build_stubbed(:application_form,
+                                       :minimum_info,
+                                       first_nationality: 'Canadian',
+                                       right_to_work_or_study: 'yes',
+                                       right_to_work_or_study_details: 'I have Settled status')
+      application_choice = build_stubbed(:application_choice, status: 'awaiting_provider_decision', application_form: application_form)
+
+      response = VendorAPI::SingleApplicationPresenter.new(application_choice).as_json
+
+      expect(response.dig(:attributes, :candidate, :uk_residency_status_code)).to eq('D')
     end
   end
 

@@ -1,3 +1,13 @@
+## 9th March
+
+Changes to existing attributes:
+
+- Update return values of `uk_residency_status` to correspond with candidate application options. Removes 'Candidate does not know' and the value 'Candidate needs to apply for permission to work and study in the UK' is returned where the candidate has answered `no` or `decide_later`.
+
+New attributes:
+
+- Adds `uk_residency_status_code` field. Single alphabetical character code for the candidate’s UK residency status indicating their right to work and study in the UK.
+
 ## 29th February
 
 - deprecate `Qualification.awarding_body` as this field has always been null.
