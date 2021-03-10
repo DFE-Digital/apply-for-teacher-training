@@ -11,6 +11,10 @@ class ProviderUserNotificationPreferences < ActiveRecord::Base
     offer_declined
   ].freeze
 
+  def update_all_preferences(value)
+    NOTIFICATION_PREFERENCES.each { |n| update(n => value) }
+  end
+
   def self.notification_preference_exists?(notification_name)
     NOTIFICATION_PREFERENCES.include? notification_name
   end
