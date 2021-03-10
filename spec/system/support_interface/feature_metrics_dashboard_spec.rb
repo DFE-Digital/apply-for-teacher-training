@@ -22,6 +22,7 @@ RSpec.feature 'Feature metrics dashboard' do
     and_i_should_see_work_history_metrics
     and_i_should_see_accessing_the_service_metrics
     and_i_should_see_reasons_for_rejection_metrics
+    and_i_should_see_apply_again_metrics
   end
 
   def given_i_am_a_support_user
@@ -56,6 +57,34 @@ RSpec.feature 'Feature metrics dashboard' do
     )
   end
 
+  def apply_again_and_reject_application(application_form)
+    apply_again_application_form = DuplicateApplication.new(
+      application_form,
+      target_phase: 'apply_2',
+    ).duplicate
+    application_choice = create(
+      :application_choice,
+      :awaiting_provider_decision,
+      application_form: apply_again_application_form,
+    )
+    ApplicationStateChange.new(application_choice).make_offer!
+    apply_again_application_form
+  end
+
+  def apply_again_and_offer_application(application_form)
+    apply_again_application_form = DuplicateApplication.new(
+      application_form,
+      target_phase: 'apply_2',
+    ).duplicate
+    application_choice = create(
+      :application_choice,
+      :awaiting_provider_decision,
+      application_form: apply_again_application_form,
+    )
+    ApplicationStateChange.new(application_choice).reject!
+    apply_again_application_form
+  end
+
   def and_there_are_candidates_and_application_forms_in_the_system
     allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(60.days.ago)
     Timecop.freeze(@today - 50.days) do
@@ -86,6 +115,8 @@ RSpec.feature 'Feature metrics dashboard' do
       complete_work_history(@application_form3)
       complete_work_history(@application_form4)
       reject_application(@application_form2.application_choices.first)
+      apply_again_and_reject_application(@application_form1)
+      apply_again_and_offer_application(@application_form2)
     end
   end
 
@@ -134,6 +165,14 @@ RSpec.feature 'Feature metrics dashboard' do
       expect(page).to have_content('2 rejections due to qualifications')
       expect(page).to have_content('1 last month')
       expect(page).to have_content('1 this month')
+    end
+  end
+
+  def and_i_should_see_apply_again_metrics
+    within('#apply_again_dashboard_section') do
+      expect(page).to have_content('50% apply again success rate')
+      expect(page).to have_content('n/a last month')
+      expect(page).to have_content('50% this month')
     end
   end
 end
