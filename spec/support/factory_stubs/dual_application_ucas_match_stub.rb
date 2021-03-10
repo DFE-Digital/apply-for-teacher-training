@@ -1,5 +1,5 @@
 RSpec.configure do |config|
-  config.before(:suite, :create_dual_application_ucas_match_stub) do
+  config.before(:suite) do
     FactoryBot.define do
       factory :dual_application_ucas_match, class: 'UCASMatch' do
         trait :need_to_send_reminder_emails do

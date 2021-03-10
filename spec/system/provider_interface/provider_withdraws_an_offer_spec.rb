@@ -95,7 +95,8 @@ RSpec.feature 'Provider withdraws an offer' do
         @application_offered.id,
       ),
     )
-    expect(page).to have_content @application_offered.offer_withdrawal_reason
+
+    expect(page).to have_content 'We are very sorry but...'
   end
 
   def and_i_can_see_the_application_offer_is_withdrawn
