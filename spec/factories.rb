@@ -949,6 +949,10 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     send_notifications { Faker::Boolean.boolean(true_ratio: 0.5) }
 
+    after(:create) do |user, _evaluator|
+      user.send_notifications ? create(:provider_user_notification_preferences, provider_user: user) : create(:provider_user_notification_preferences, :all_off, provider_user: user)
+    end
+
     trait :with_provider do
       after(:create) do |user, _evaluator|
         create(:provider).provider_users << user
@@ -1003,6 +1007,24 @@ FactoryBot.define do
   factory :provider_permissions do
     provider
     provider_user
+  end
+
+  factory :provider_user_notification_preferences do
+    provider_user
+
+    application_received { true }
+    application_withdrawn { true }
+    application_rejected_by_default { true }
+    offer_accepted { true }
+    offer_declined { true }
+
+    trait :all_off do
+      application_received { false }
+      application_withdrawn { false }
+      application_rejected_by_default { false }
+      offer_accepted { false }
+      offer_declined { false }
+    end
   end
 
   factory :validation_error do
