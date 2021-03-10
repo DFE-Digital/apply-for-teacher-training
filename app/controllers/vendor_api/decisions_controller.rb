@@ -18,7 +18,7 @@ module VendorAPI
                       end
 
       if application_choice.offer?
-        change_offer = ChangeOffer.new(
+        change_offer = ChangeAnOffer.new(
           actor: audit_user,
           application_choice: application_choice,
           course_option: course_option,
