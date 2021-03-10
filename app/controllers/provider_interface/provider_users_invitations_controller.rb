@@ -27,7 +27,7 @@ module ProviderInterface
 
     def update_providers
       @wizard = wizard_for(providers_params.merge(current_step: 'providers'))
-      @available_providers = current_provider_user.providers
+      @available_providers = available_providers
 
       if @wizard.valid_for_current_step?
         @wizard.save_state!

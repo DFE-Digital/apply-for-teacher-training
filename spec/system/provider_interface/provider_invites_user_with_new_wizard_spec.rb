@@ -27,6 +27,8 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
     when_i_fill_in_email_address_and_name
     and_i_press_continue
     then_i_see_the_select_organisations_form
+    and_i_press_continue
+    and_i_see_an_error_telling_me_to_select_a_provider
     and_select_organisations_only_lists_providers_i_can_manage
 
     when_i_select_one_provider
@@ -128,6 +130,10 @@ RSpec.feature 'Provider invites a new provider user using wizard interface' do
 
   def then_i_see_the_select_organisations_form
     expect(page).to have_content('Select organisations this user will have access to')
+  end
+
+  def and_i_see_an_error_telling_me_to_select_a_provider
+    expect(page).to have_content('Error: Select which organisations this user will have access to')
   end
 
   def and_select_organisations_only_lists_providers_i_can_manage
