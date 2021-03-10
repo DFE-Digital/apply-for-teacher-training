@@ -4,7 +4,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   include CandidateHelper
 
   scenario 'Candidate adds or deletes a role after completing the section' do
-    FeatureFlag.deactivate('restructured_work_history')
+    FeatureFlag.activate('restructured_work_history')
 
     given_i_am_signed_in
     and_i_have_completed_the_volunteering_section
@@ -41,7 +41,11 @@ RSpec.feature 'Candidate edits their volunteering section' do
 
   def and_i_have_completed_the_volunteering_section
     @application_form = create(:application_form, candidate: @candidate)
-    create(:application_volunteering_experience, application_form: @application_form)
+    create(:application_volunteering_experience,
+           application_form: @application_form,
+           start_date: 10.months.ago,
+           end_date: nil,
+           currently_working: true)
     @application_form.update!(volunteering_completed: true)
   end
 
@@ -50,7 +54,7 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def then_the_volunteering_section_should_be_marked_as_complete
-    expect(page.text).to include 'Unpaid experience'
+    expect(page.text).to include 'Unpaid experience Completed'
   end
 
   def when_i_click_the_volunteering_section_link
@@ -58,10 +62,12 @@ RSpec.feature 'Candidate edits their volunteering section' do
   end
 
   def and_i_click_to_change_my_role
+    expect(page.text).to include 'Add another role'
     click_change_link('role')
   end
 
   def and_i_change_my_role
+    expect(page.text).to include 'Edit role'
     fill_in t('application_form.volunteering.organisation.label'), with: 'Much Wow School'
   end
 
