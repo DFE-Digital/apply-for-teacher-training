@@ -9,7 +9,9 @@ module CandidateInterface
     def show
       set_service_and_course(params[:providerCode], params[:courseCode])
 
-      if @service.can_apply_on_apply? && current_candidate.present?
+      if candidate_has_application_in_different_recruitment_cycle_year?
+        redirect_to candidate_interface_application_form_path
+      elsif @service.can_apply_on_apply? && current_candidate.present?
         current_candidate.update!(course_from_find_id: @course.id)
 
         redirect_to candidate_interface_interstitial_path
@@ -80,6 +82,13 @@ module CandidateInterface
     def apply_on_ucas_or_apply_params
       params.require(:candidate_interface_apply_on_ucas_or_apply_form)
         .permit(:service, :provider_code, :course_code)
+    end
+
+    def candidate_has_application_in_different_recruitment_cycle_year?
+      return false if @course.blank?
+      return false if current_candidate.blank?
+
+      current_candidate.current_application.recruitment_cycle_year != @course.recruitment_cycle_year
     end
   end
 end
