@@ -1,16 +1,26 @@
 class ApplyAgainFeatureMetrics
   def success_rate(
     start_time,
-    end_time = Time.zone.now.beginning_of_day
+    end_time = Time.zone.now.end_of_day
   )
     application_forms = ApplicationForm
       .where(
         phase: 'apply_2',
         recruitment_cycle_year: RecruitmentCycle.current_year,
       )
+      .joins(:application_choices)
+      .joins(
+        "inner join (select auditable_id, max(created_at) as status_last_updated_at
+          from audits
+          where auditable_type = 'ApplicationChoice'
+            and action = 'update'
+            and audited_changes#>>'{status, 1}' is not null
+          group by auditable_id
+        ) as status_audits on status_audits.auditable_id = application_choices.id
+          and status_last_updated_at between '#{start_time}' and '#{end_time}'",
+      )
       .includes(:application_choices)
 
-    # TODO: work out how to implement date filter
     success_count = 0.0
     fail_count = 0.0
     application_forms.find_each do |application_form|
