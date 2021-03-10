@@ -108,9 +108,12 @@ module SupportInterface
             recruitment_cycle_year: RecruitmentCycle.current_year,
           },
         )
-        .where.not(application_forms: {
-          submitted_at: nil,
-        })
+        .where.not(
+          qualification_type: 'non_uk',
+          application_forms: {
+            submitted_at: nil,
+          },
+        )
         .all
     end
 
