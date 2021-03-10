@@ -81,6 +81,26 @@
       "note": ""
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "38104ade37d5c61659409d037de157949b23a917a7f5b504534ac0a46fa5cf8f",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/notifications_list.rb",
+      "line": 18,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"#{{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first} IS true\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "NotificationsList",
+        "method": "s(:self).for"
+      },
+      "user_input": "{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first",
+      "confidence": "Weak",
+      "note": "not a user input"
+    },
+    {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
       "fingerprint": "4c106936481ffa09c60383aed2a7b8e931b1672602d3f5a69ccaf9bd688cbf62",
@@ -147,7 +167,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `CourseOption#find`",
       "file": "app/controllers/provider_interface/decisions_controller.rb",
-      "line": 35,
+      "line": 63,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "CourseOption.find(params[:course_option_id])",
       "render_path": null,
@@ -181,13 +201,33 @@
       "note": ""
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "8b9afd450cdaed47a32fe72f50753a5a92d16a04993c636d8eac438f9f4079a1",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/notifications_list.rb",
+      "line": 15,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "application_choice.provider.provider_users.joins(:notification_preferences).where(\"#{{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first} IS true\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "NotificationsList",
+        "method": "s(:self).for"
+      },
+      "user_input": "{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first",
+      "confidence": "Weak",
+      "note": "not a user input"
+    },
+    {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
       "fingerprint": "c156deb252a43bc828b89928a0bccce9f8d8e776f8e742ed012929f3211205f4",
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `CourseOption#find`",
       "file": "app/controllers/provider_interface/decisions_controller.rb",
-      "line": 22,
+      "line": 50,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "CourseOption.find(params[:course_option_id])",
       "render_path": null,
@@ -207,7 +247,7 @@
       "check_name": "UnscopedFind",
       "message": "Unscoped call to `CourseOption#find`",
       "file": "app/controllers/provider_interface/decisions_controller.rb",
-      "line": 53,
+      "line": 81,
       "link": "https://brakemanscanner.org/docs/warning_types/unscoped_find/",
       "code": "CourseOption.find(params[:course_option_id])",
       "render_path": null,
@@ -221,6 +261,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-02-12 10:44:14 +0000",
+  "updated": "2021-03-10 15:05:49 +0000",
   "brakeman_version": "5.0.0"
 }
