@@ -43,3 +43,7 @@ en:
           attributes:
             decision:
               blank: Select if you want to make an offer or reject the application
+            course_option_id:
+              blank: Select location
+            study_mode:
+              blank: Select full time or part time

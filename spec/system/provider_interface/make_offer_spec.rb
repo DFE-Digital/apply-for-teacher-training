@@ -12,7 +12,7 @@ RSpec.feature 'Provider makes an offer' do
            application_form: application_form,
            course_option: course_option)
   end
-  let(:course) { build(:course, :open_on_apply, provider: provider) }
+  let(:course) { build(:course, :open_on_apply, :full_time, provider: provider) }
   let(:course_option) { build(:course_option, course: course) }
 
   before do
@@ -49,6 +49,23 @@ RSpec.feature 'Provider makes an offer' do
     then_the_conditions_page_is_loaded
     and_i_click_continue
     then_the_review_page_is_loaded
+    and_i_can_confirm_the_new_location_selection
+
+    given_the_course_has_course_options_with_both_study_modes
+    when_i_click_change_study_mode
+    then_i_am_taken_to_the_change_study_mode_page
+
+    when_i_select_a_different_study_mode
+    and_i_click_continue
+
+    when_i_select_a_new_location
+    and_i_click_continue
+
+    then_the_conditions_page_is_loaded
+    and_i_click_continue
+    then_the_review_page_is_loaded
+
+    and_i_can_confirm_the_new_study_mode_selection
     and_i_can_confirm_the_new_location_selection
 
     when_i_send_the_offer
@@ -117,7 +134,7 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def given_the_course_has_multiple_course_options
-    course_options = create_list(:course_option, 3, course: course)
+    course_options = create_list(:course_option, 3, :full_time, course: course)
     @selected_course_option = course_options.sample
   end
 
@@ -138,6 +155,34 @@ RSpec.feature 'Provider makes an offer' do
   def and_i_can_confirm_the_new_location_selection
     within(:xpath, "////div[@class='govuk-summary-list__row'][3]") do
       expect(page).to have_content(@selected_course_option.site.name_and_address)
+    end
+  end
+
+  def when_i_click_change_study_mode
+    within(:xpath, "////div[@class='govuk-summary-list__row'][4]") do
+      click_on 'Change'
+    end
+  end
+
+  def given_the_course_has_course_options_with_both_study_modes
+    course_options = [create(:course_option, :part_time, course: course),
+                      create(:course_option, :full_time, course: course)]
+    course.update(study_mode: :full_time_or_part_time)
+
+    @selected_course_option = course_options.first
+  end
+
+  def then_i_am_taken_to_the_change_study_mode_page
+    expect(page).to have_content('Select full time or part time')
+  end
+
+  def when_i_select_a_different_study_mode
+    choose @selected_course_option.study_mode.humanize
+  end
+
+  def and_i_can_confirm_the_new_study_mode_selection
+    within(:xpath, "////div[@class='govuk-summary-list__row'][4]") do
+      expect(page).to have_content(@selected_course_option.study_mode.humanize)
     end
   end
 
