@@ -25,7 +25,7 @@ private
   attr_reader :application_choice
 
   def send_email_notification_to_provider_users(application_choice)
-    NotificationsList.for(application_choice, include_ratifying_provider: true).each do |provider_user|
+    NotificationsList.for(application_choice, event: :application_withdrawn, include_ratifying_provider: true).each do |provider_user|
       ProviderMailer.application_withdrawn(provider_user, application_choice).deliver_later
     end
   end

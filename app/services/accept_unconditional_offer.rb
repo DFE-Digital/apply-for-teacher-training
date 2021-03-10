@@ -9,7 +9,7 @@ class AcceptUnconditionalOffer
       @application_choice.update!(accepted_at: Time.zone.now, recruited_at: Time.zone.now)
     end
 
-    NotificationsList.for(@application_choice, include_ratifying_provider: true).each do |provider_user|
+    NotificationsList.for(@application_choice, event: :unconditional_offer_accepted, include_ratifying_provider: true).each do |provider_user|
       ProviderMailer.unconditional_offer_accepted(provider_user, @application_choice).deliver_later
     end
 

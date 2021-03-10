@@ -12,7 +12,7 @@ class DeclineOffer
       StateChangeNotifier.new(:declined, @application_choice).application_outcome_notification
     end
 
-    NotificationsList.for(@application_choice, include_ratifying_provider: true).each do |provider_user|
+    NotificationsList.for(@application_choice, event: :declined, include_ratifying_provider: true).each do |provider_user|
       ProviderMailer.declined(provider_user, @application_choice).deliver_later
     end
   end

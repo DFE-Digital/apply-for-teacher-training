@@ -24,6 +24,7 @@ RSpec.feature 'Reject by default' do
 
   def and_the_provider_user_has_send_notifications_enabled
     @provider_user.update(send_notifications: true)
+    create(:provider_user_notification_preferences, provider_user: @provider_user)
   end
 
   def and_there_is_a_candidate
