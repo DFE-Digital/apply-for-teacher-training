@@ -639,6 +639,7 @@ Rails.application.routes.draw do
 
       namespace :offer, as: :application_choice_offer do
         resource :locations, only: %i[new create]
+        resource :study_modes, only: %i[new create], path: 'study-modes'
         resource :conditions, only: %i[new create]
         resource :check, only: %i[new]
       end

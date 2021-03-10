@@ -27,7 +27,7 @@ module ProviderInterface
         { key: 'Full time or part time',
           value: course_option.study_mode.humanize,
           action: 'Change',
-          change_path: nil },
+          change_path: new_provider_interface_application_choice_offer_study_modes_path(application_choice) },
       ]
     end
   end

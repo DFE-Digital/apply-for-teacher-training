@@ -5,9 +5,7 @@ module ProviderInterface
         @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'locations' })
         @wizard.save_state!
 
-        @course_options = CourseOption.where( course_id: @wizard.course_id,
-                                             study_mode: @wizard.study_mode).
-                                             includes(:site).order('sites.name')
+        @course_options = available_course_options(@wizard.course_id, @wizard.study_mode)
       end
 
       def create
@@ -18,6 +16,8 @@ module ProviderInterface
 
           redirect_to [:new, :provider_interface, @application_choice, :offer, @wizard.next_step]
         else
+          @course_options = available_course_options(@wizard.course_id, @wizard.study_mode)
+
           render :new
         end
       end
@@ -26,6 +26,11 @@ module ProviderInterface
 
       def course_option_params
         params.require(:provider_interface_offer_wizard).permit(:course_option_id)
+      end
+
+      def available_course_options(course_id, study_mode)
+        CourseOption.where(course_id: course_id, study_mode: study_mode)
+                    .includes(:site).order('sites.name')
       end
     end
   end
