@@ -7,6 +7,7 @@ class MagicLinkFeatureMetrics
     end_time = Time.zone.now.beginning_of_day
   )
     records = ApplicationForm
+      .apply_1
       .select(
         'count(DISTINCT audits.id) as audit_count',
         'count(DISTINCT authentication_tokens.id) as token_count',

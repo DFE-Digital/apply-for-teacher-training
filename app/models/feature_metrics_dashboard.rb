@@ -190,19 +190,19 @@ private
   def load_apply_again_success_rate
     write_metric(
       :apply_again_success_rate,
-      apply_again_statistics.success_rate(
+      apply_again_statistics.formatted_success_rate(
         EndOfCycleTimetable.apply_reopens.beginning_of_day,
       ),
     )
     write_metric(
       :apply_again_success_rate_this_month,
-      apply_again_statistics.success_rate(
+      apply_again_statistics.formatted_success_rate(
         Time.zone.now.beginning_of_month,
       ),
     )
     write_metric(
       :apply_again_success_rate_last_month,
-      apply_again_statistics.success_rate(
+      apply_again_statistics.formatted_success_rate(
         Time.zone.now.beginning_of_month - 1.month,
         Time.zone.now.beginning_of_month,
       ),
