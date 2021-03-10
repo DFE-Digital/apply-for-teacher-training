@@ -1,0 +1,29 @@
+<div class="app-offer-panel app-banner app-banner--details">
+  <h2 class="govuk-heading-m">Course details</h2>
+  <%= render SummaryCardComponent.new(rows: rows, border: false) %>
+
+  <h2 class="govuk-heading-m">Conditions of offer</h2>
+
+  <div class='govuk-body'>
+    <%= govuk_link_to 'Add or change conditions', [:new, :provider_interface, @application_choice, :offer, :conditions] %>
+  </div>
+
+  <% if conditions.any? %>
+    <table class="govuk-table govuk-!-margin-bottom-2 conditions">
+      <tbody class="govuk-table__body">
+        <% conditions.each do |condition| %>
+          <tr class="govuk-table__row conditions-row">
+            <td class="govuk-table__cell"><%= condition %></td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <strong class="govuk-tag govuk-tag--grey app-tag">Pending</strong>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class='govuk-body'>
+      No conditions have been set for this offer
+    </div>
+  <% end %>
+</div>

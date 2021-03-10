@@ -60,6 +60,7 @@ module ProviderInterface
 
       if service.save
         @wizard.clear_state!
+        OfferWizard.new(offer_store).clear_state!
 
         flash[:success] = success_message
         redirect_to provider_interface_application_choice_feedback_path(@application_choice)
@@ -133,6 +134,11 @@ module ProviderInterface
 
     def rbd_application_with_no_feedback?
       @application_choice.rejected_by_default? && @application_choice.no_feedback?
+    end
+
+    def offer_store
+      key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
+      WizardStateStores::RedisStore.new(key: key)
     end
   end
 end

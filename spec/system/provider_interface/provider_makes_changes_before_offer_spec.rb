@@ -5,6 +5,10 @@ RSpec.feature 'Provider makes changes before making an offer' do
   include DfESignInHelpers
   include ProviderUserPermissionsHelper
 
+  before do
+    FeatureFlag.deactivate(:updated_offer_flow)
+  end
+
   scenario 'Provider makes changes to course and location' do
     given_i_am_a_provider_user_with_dfe_sign_in
     and_i_am_permitted_to_see_applications_for_a_provider

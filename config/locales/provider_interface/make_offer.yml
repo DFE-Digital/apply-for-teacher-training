@@ -1,0 +1,45 @@
+en:
+  provider_interface:
+    decisions:
+      new:
+        title: Make a decision
+        select:  Select decision
+    offer:
+      conditions:
+        new:
+          title: Conditions of offer
+      checks:
+        new:
+          title: Check and send offer
+          submit: Send offer
+    offers:
+      failure: Sorry, there is a problem with the service.
+      create:
+        success: Offer successffuly made
+  helpers:
+    label:
+      provider_interface_offer_wizard:
+        decision_options:
+          make_offer: Make an offer
+          rejection: Reject application
+        further_condition_1: 'Condition 1'
+        further_condition_2: 'Condition 2'
+        further_condition_3: 'Condition 3'
+        further_condition_4: 'Condition 4'
+    legend:
+      provider_interface_offer_wizard:
+        decision: 'Select decision'
+        standard_conditions: 'Standard conditions'
+  activemodel:
+    attributes:
+      provider_interface/offer_wizard:
+        further_condition_1: 'Condition 1'
+        further_condition_2: 'Condition 2'
+        further_condition_3: 'Condition 3'
+        further_condition_4: 'Condition 4'
+    errors:
+      models:
+        provider_interface/offer_wizard:
+          attributes:
+            decision:
+              blank: Select if you want to make an offer or reject the application
