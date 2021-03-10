@@ -15,6 +15,7 @@ class Candidate < ApplicationRecord
   has_one :ucas_match
   has_many :application_forms
   has_many :application_choices, through: :application_forms
+  has_many :application_references, through: :application_forms
   belongs_to :course_from_find, class_name: 'Course', optional: true
 
   def self.for_email(email)
