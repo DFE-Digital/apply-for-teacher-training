@@ -36,6 +36,7 @@ private
 
   def time_to_get_references(start_time, end_time = Time.zone.now)
     applications = ApplicationForm
+      .apply_1
       .joins(:application_references)
       .where('"references".feedback_provided_at BETWEEN ? AND ? AND "references".duplicate = ?', start_time, end_time, false)
       .group('application_forms.id')
