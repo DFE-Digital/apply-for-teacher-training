@@ -94,40 +94,20 @@ module ProviderInterface
     end
 
     def link
-      routes = Rails.application.routes.url_helpers
-
       case event.application_status_at_event
       when 'offer'
-        {
-          url: routes.provider_interface_application_choice_offer_path(application_choice),
-          text: 'View offer',
-        }
+        offer_link
       when 'pending_conditions'
-        {
-          url: routes.provider_interface_application_choice_offer_path(application_choice),
-          text: 'View offer',
-        }
+        offer_link
       else
         if changes['reject_by_default_feedback_sent_at'].present?
-          {
-            url: routes.provider_interface_application_choice_feedback_path(application_choice),
-            text: 'View feedback',
-          }
+          feedback_link
         elsif changes['offer_changed_at'].present? && application_choice.status == 'offer'
-          {
-            url: routes.provider_interface_application_choice_offer_path(application_choice),
-            text: 'View offer',
-          }
+          offer_link
         elsif event.audit.auditable.is_a?(Interview)
-          {
-            url: routes.provider_interface_application_choice_interviews_path(event.audit.associated, anchor: "interview-#{event.audit.auditable.id}"),
-            text: 'View interview',
-          }
+          interview_link(event.audit)
         else
-          {
-            url: routes.provider_interface_application_choice_path(application_choice),
-            text: 'View application',
-          }
+          application_link
         end
       end
     end
@@ -137,6 +117,40 @@ module ProviderInterface
       return "#{user} cancelled interview with #{candidate}" if event.audit.audited_changes.key?('cancelled_at')
 
       "#{user} updated interview with #{candidate}"
+    end
+
+  private
+
+    def routes
+      @_routes ||= Rails.application.routes.url_helpers
+    end
+
+    def application_link
+      {
+        url: routes.provider_interface_application_choice_path(application_choice),
+        text: 'View application',
+      }
+    end
+
+    def offer_link
+      {
+        url: routes.provider_interface_application_choice_offer_path(application_choice),
+        text: 'View offer',
+      }
+    end
+
+    def feedback_link
+      {
+        url: routes.provider_interface_application_choice_feedback_path(application_choice),
+        text: 'View feedback',
+      }
+    end
+
+    def interview_link(audit)
+      {
+        url: routes.provider_interface_application_choice_interviews_path(audit.associated, anchor: "interview-#{audit.auditable.id}"),
+        text: 'View interview',
+      }
     end
   end
 end
