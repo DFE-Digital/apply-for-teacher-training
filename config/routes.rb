@@ -638,6 +638,7 @@ Rails.application.routes.draw do
       resource :offers, only: %i[create], as: :application_choice_offers
 
       namespace :offer, as: :application_choice_offer do
+        resource :locations, only: %i[new create]
         resource :conditions, only: %i[new create]
         resource :check, only: %i[new]
       end

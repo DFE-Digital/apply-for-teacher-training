@@ -2,13 +2,15 @@ module ProviderInterface
   class OfferWizard
     include ActiveModel::Model
 
-    STEPS = { make_offer: %i[select_option conditions check] }.freeze
+    STEPS = { make_offer: %i[select_option conditions check],
+              change_offer: %i[select_option locations conditions check] }.freeze
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
                   :standard_conditions, :further_condition_1, :further_condition_2,
                   :further_condition_3, :further_condition_4, :current_step, :decision
 
     validates :decision, presence: true
+    validates :course_option_id, presence: true, on: :locations
     validates :further_condition_1, :further_condition_2, :further_condition_3, :further_condition_4, length: { maximum: 255 }
 
     def initialize(state_store, attrs = {})

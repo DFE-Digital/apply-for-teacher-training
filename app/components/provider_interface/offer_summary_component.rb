@@ -23,7 +23,7 @@ module ProviderInterface
         { key: 'Location',
           value: course_option.site.name_and_address,
           action: 'Change',
-          change_path: nil },
+          change_path: new_provider_interface_application_choice_offer_locations_path(application_choice) },
         { key: 'Full time or part time',
           value: course_option.study_mode.humanize,
           action: 'Change',
