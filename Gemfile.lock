@@ -183,7 +183,7 @@ GEM
     geocoder (1.6.6)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    govuk_design_system_formbuilder (2.1.9)
+    govuk_design_system_formbuilder (2.2.0)
       actionview (>= 5.2)
       activemodel (>= 5.2)
       activesupport (>= 5.2)
@@ -595,7 +595,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   geocoder
-  govuk_design_system_formbuilder (~> 2.1.9)
+  govuk_design_system_formbuilder (~> 2.2.0)
   govuk_markdown
   guard-rspec
   holidays
