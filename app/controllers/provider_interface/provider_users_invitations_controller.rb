@@ -40,7 +40,7 @@ module ProviderInterface
     def edit_permissions
       @wizard = wizard_for(current_step: 'permissions', current_provider_id: params[:provider_id])
       @wizard.save_state!
-      @provider = current_provider_user.providers.find(params[:provider_id])
+      @provider = available_providers.find(params[:provider_id])
     end
 
     def update_permissions
@@ -50,7 +50,7 @@ module ProviderInterface
         @wizard.save_state!
         redirect_to next_redirect
       else
-        @provider = current_provider_user.providers.find(params[:provider_id])
+        @provider = available_providers.find(params[:provider_id])
         render :edit_permissions
       end
     end
