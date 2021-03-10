@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplyAgainFeatureMetrics do
+RSpec.describe ApplyAgainFeatureMetrics, with_audited: true do
   subject(:feature_metrics) { described_class.new }
 
   describe '#success_rate' do
@@ -19,24 +19,26 @@ RSpec.describe ApplyAgainFeatureMetrics do
           original_application,
           target_phase: 'apply_2',
         ).duplicate
-        
+
         apply_again_application_form
       end
 
       def make_offer_for(application_form)
-        create(
+        application_choice = create(
           :application_choice,
-          :with_offer,
+          :awaiting_provider_decision,
           application_form: application_form,
         )
+        ApplicationStateChange.new(application_choice).make_offer!
       end
 
       def reject(application_form)
-        create(
+        application_choice = create(
           :application_choice,
-          :with_rejection,
+          :awaiting_provider_decision,
           application_form: application_form,
         )
+        ApplicationStateChange.new(application_choice).reject!
       end
 
       it 'returns 0 when there are no successful apply again applications' do
@@ -49,6 +51,23 @@ RSpec.describe ApplyAgainFeatureMetrics do
         reject(create_apply_again_application)
         make_offer_for(create_apply_again_application)
         expect(feature_metrics.success_rate(1.month.ago)).to eq(0.5)
+      end
+
+      it 'returns 1.0 when 100% of apply again applications are successful within given time range' do
+        @today = Time.zone.local(2020, 12, 31, 12)
+        Timecop.freeze(@today - 20.days) do
+          create_apply_again_application
+          reject(create_apply_again_application)
+        end
+        Timecop.freeze(@today - 10.days) do
+          make_offer_for(create_apply_again_application)
+        end
+        Timecop.freeze(@today - 5.days) do
+          reject(create_apply_again_application)
+        end
+        expect(feature_metrics.success_rate(@today - 12.days, @today - 8.days)).to eq(1.0)
+        expect(feature_metrics.success_rate(@today - 12.days, @today - 3.days)).to eq(0.5)
+        expect(feature_metrics.success_rate(@today - 22.days, @today - 3.days)).to be_within(0.01).of(0.33)
       end
     end
   end
