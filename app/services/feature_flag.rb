@@ -22,7 +22,6 @@ class FeatureFlag
   ].freeze
 
   TEMPORARY_FEATURE_FLAGS = [
-    [:sync_from_public_teacher_training_api, 'Pull data from the public Teacher training API as well as the old "Find" API', 'Duncan Brown'],
     [:provider_activity_log, 'Show provider users a log of all application activity', 'Michael Nacos'],
     [:export_application_data, 'Providers can export a customised selection of application data', 'Ben Swannack'],
     [:interviews, 'Providers can filter applications by interviewing state', 'Despo Pentara'],

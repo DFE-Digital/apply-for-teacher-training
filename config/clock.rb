@@ -43,9 +43,7 @@ class Clock
   end
 
   every(1.hour, 'SyncAllFromTeacherTrainingPublicAPI') do
-    if FeatureFlag.active?(:sync_from_public_teacher_training_api)
-      TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
-    end
+    TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
   end
 
   every(1.day, 'Generate export for Notifications', at: '23:57') do
