@@ -49,6 +49,10 @@ RSpec.describe ReferenceFeatureMetrics, with_audited: true do
       Timecop.freeze(@today + 1.day) do
         SubmitReference.new(reference: @references3.first, send_emails: false).save!
       end
+
+      create(:application_choice, :with_rejection, application_form: @application_form1)
+
+      ApplyAgain.new(@application_form1).call
     end
 
     describe '#average_time_to_get_references' do

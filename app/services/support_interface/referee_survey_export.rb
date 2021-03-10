@@ -1,8 +1,8 @@
 module SupportInterface
   class RefereeSurveyExport
     def call
-      references = ApplicationReference.includes(:application_form).where.not(questionnaire: nil)
-      references_with_feedback = references.reject do |reference|
+      non_duplicate_references = ApplicationReference.includes(:application_form).where.not(questionnaire: nil, duplicate: true)
+      references_with_feedback = non_duplicate_references.reject do |reference|
         reference.questionnaire.values.all? { |response| response == ' | ' }
       end
 
@@ -10,7 +10,7 @@ module SupportInterface
       references_with_feedback.each do |reference|
         hash = {
           'Name' => reference.name,
-          'Reference provided at' => reference.feedback_provided_at&.iso8601,
+          'Reference provided at' => reference.feedback_provided_at&.strftime('%d/%m/%y'),
           'Recruitment cycle year' => reference.application_form.recruitment_cycle_year,
           'Email_address' => reference.email_address,
           'Guidance rating' => extract_rating(reference, RefereeQuestionnaire::GUIDANCE_QUESTION),

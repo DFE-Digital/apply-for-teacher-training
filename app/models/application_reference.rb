@@ -8,6 +8,7 @@ class ApplicationReference < ApplicationRecord
 
   belongs_to :application_form, touch: true
   has_many :reference_tokens, dependent: :destroy
+  has_one :candidate, through: :application_form
 
   audited associated_with: :application_form
 

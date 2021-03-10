@@ -35,9 +35,11 @@ RSpec.shared_examples 'duplicates application form' do |expected_phase, expected
     expect(duplicate_application_form.recruitment_cycle_year).to eq expected_cycle
   end
 
-  it 'copies application references' do
+  it 'copies application references and marks them as duplicates' do
     expect(duplicate_application_form.application_references.count).to eq 2
     expect(duplicate_application_form.application_references).to all(be_feedback_provided.or(be_not_requested_yet))
+    expect(duplicate_application_form.application_references.first.duplicate).to eq true
+    expect(duplicate_application_form.application_references.second.duplicate).to eq true
   end
 
   it 'copies work and volunteering experiences' do
