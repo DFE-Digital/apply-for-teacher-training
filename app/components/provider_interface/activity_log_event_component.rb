@@ -147,6 +147,8 @@ module ProviderInterface
     end
 
     def interview_link(audit)
+      return if audit.auditable.cancelled?
+
       {
         url: routes.provider_interface_application_choice_interviews_path(audit.associated, anchor: "interview-#{audit.auditable.id}"),
         text: 'View interview',

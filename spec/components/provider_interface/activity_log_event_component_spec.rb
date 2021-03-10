@@ -43,11 +43,12 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
 
   describe '#event_description for an interview audit' do
     it 'presents interview details' do
-      audit = build_stubbed(:interview_audit)
-      application_choice = build_stubbed(:application_choice)
-      interview = build_stubbed(:interview)
-      allow(audit).to receive(:auditable).and_return(interview)
-      allow(audit).to receive(:associated).and_return(application_choice)
+      audit = build_stubbed(
+        :interview_audit,
+        audited_changes: {},
+        auditable: build_stubbed(:interview),
+        associated: build_stubbed(:application_choice),
+      )
 
       expected = "#{audit.user.full_name} set up an interview with #{audit.associated.application_form.full_name}"
       expect(component_for(audit).event_description).to eq(expected)
@@ -103,16 +104,49 @@ RSpec.describe ProviderInterface::ActivityLogEventComponent do
     end
 
     it 'links to the interview tab for an interview audit' do
-      audit = build_stubbed(:interview_audit, audited_changes: {})
-      application_choice = build_stubbed(:application_choice)
       interview = build_stubbed(:interview)
-      allow(audit).to receive(:auditable).and_return(interview)
-      allow(audit).to receive(:associated).and_return(application_choice)
+      application_choice = build_stubbed(:application_choice)
+      audit = build_stubbed(
+        :interview_audit,
+        audited_changes: {},
+        auditable: interview,
+        associated: application_choice,
+      )
 
       expect(component_for(audit).link).to eq({
         url: routes.provider_interface_application_choice_interviews_path(application_choice, anchor: "interview-#{interview.id}"),
         text: 'View interview',
       })
+    end
+
+    it 'hides the interview link for an interview which has been cancelled' do
+      audit = build_stubbed(
+        :interview_audit,
+        audited_changes: {},
+        auditable: build_stubbed(:interview, :cancelled),
+        associated: build_stubbed(:application_choice),
+      )
+
+      expect(component_for(audit).link).to be_nil
+    end
+
+    context 'rendering' do
+      it 'nothing is rendered if there is no link to display' do
+        audit = build_stubbed(
+          :interview_audit,
+          audited_changes: {},
+          auditable: build_stubbed(:interview, :cancelled),
+          associated: build_stubbed(:application_choice),
+        )
+
+        expect(render_inline(component_for(audit)).css('a')).to be_empty
+      end
+
+      it 'the link is rendered if there is a link to display' do
+        with_audit(:with_accepted_offer) do |audit, _user, _candidate|
+          expect(render_inline(component_for(audit)).css('a').first.text).to eq('View offer')
+        end
+      end
     end
   end
 

@@ -551,7 +551,7 @@ FactoryBot.define do
 
       after(:build) do |application_choice, _evaluator|
         application_choice.status = :awaiting_provider_decision
-        application_choice.interviews << build(:interview, provider: application_choice.provider, cancelled_at: Time.zone.now)
+        application_choice.interviews << build(:interview, :cancelled, provider: application_choice.provider)
       end
     end
 
@@ -780,6 +780,11 @@ FactoryBot.define do
 
     trait :past_date_and_time do
       date_and_time { (2...10).to_a.sample.business_days.ago - (0..8).to_a.sample.hours }
+    end
+
+    trait :cancelled do
+      cancelled_at { 1.day.ago }
+      cancellation_reason { Faker::Lorem.paragraph(sentence_count: 2) }
     end
   end
 
