@@ -32,6 +32,7 @@ RSpec.describe ReferenceFeatureMetrics, with_audited: true do
         @application_form3 = create(:application_form)
         @references3 = create_list(:reference, 2, application_form: @application_form3)
         @references3.each { |reference| RequestReference.new.call(reference) }
+
       end
       Timecop.freeze(@today - 10.days) do
         SubmitReference.new(reference: @references1.first, send_emails: false).save!
@@ -41,6 +42,7 @@ RSpec.describe ReferenceFeatureMetrics, with_audited: true do
       end
       Timecop.freeze(@today - 1.day) do
         SubmitReference.new(reference: @references2.second, send_emails: false).save!
+        @apply_again_application_form = DuplicateApplication.new(@application_form1, target_phase: :apply_2).clone
       end
       Timecop.freeze(@today) do
         SubmitReference.new(reference: @references2.first, send_emails: false).save!
