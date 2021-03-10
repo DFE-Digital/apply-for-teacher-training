@@ -5,6 +5,7 @@ RSpec.feature 'Entering volunteering and school experience' do
 
   scenario 'Candidate submits their volunteering and school experience' do
     given_i_am_signed_in
+    and_the_restructured_work_history_flag_is_off
     and_i_visit_the_site
 
     when_i_click_on_volunteering_with_children_and_young_people
@@ -66,6 +67,10 @@ RSpec.feature 'Entering volunteering and school experience' do
 
   def given_i_am_signed_in
     create_and_sign_in_candidate
+  end
+
+  def and_the_restructured_work_history_flag_is_off
+    FeatureFlag.deactivate('restructured_work_history')
   end
 
   def and_i_visit_the_site

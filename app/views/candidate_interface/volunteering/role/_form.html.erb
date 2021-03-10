@@ -4,10 +4,12 @@
 
 <%= f.govuk_text_field :organisation, label: { text: t('application_form.volunteering.organisation.label'), size: 'm' } %>
 
-<%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: t('application_form.volunteering.working_with_children.label'), size: 'm' }, inline: true do %>
-  <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' }, link_errors: true %>
-  <%= f.govuk_radio_button :working_with_children, false, label: { text: 'No' } %>
-<% end %>
+<div class="app-work-experience__working-with-children" data-qa="working-with-children">
+  <%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: t('application_form.volunteering.working_with_children.label'), size: 'm' }, inline: true do %>
+    <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' }, link_errors: true %>
+    <%= f.govuk_radio_button :working_with_children, false, label: { text: 'No' } %>
+  <% end %>
+</div>
 
 <% if FeatureFlag.active?(:restructured_work_history) %>
   <div class="app-work-experience__start-date" data-qa="start-date">
