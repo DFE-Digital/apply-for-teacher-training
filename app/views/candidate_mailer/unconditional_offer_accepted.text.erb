@@ -2,11 +2,9 @@ Dear <%= @application_form.first_name %>,
 
 #You’ve accepted <%= @provider_name %>’s offer to study <%= @course_name_and_code %>
 
-If everything goes well with meeting your conditions, you’ll start <%= @course_name_and_code %> <%= @provider_name %> on <%= @start_date %>.
+The course will start on <%= @start_date %>.
 
-You can check your conditions anytime by signing in to your account:
-
-<%= candidate_magic_link(@application_form.candidate) %>
+<%= @provider_name %> will let you know if they need further information before you can start training.
 
 #What to do if you’re unable to start training in <%= @start_date %>
 

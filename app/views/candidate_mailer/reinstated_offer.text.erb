@@ -7,7 +7,7 @@ You have an offer from <%= @course_option.course.provider.name %> to study <%= @
 <% if @conditions.any? %>
   <%= render "candidate_mailer/offer_conditions" %>
 <% else %>
-  There are no conditions for this offer.
+  <%= @course_option.course.provider.name %> will let you know if they need further information before you can start training.
 <% end %>
 
 # Next steps
