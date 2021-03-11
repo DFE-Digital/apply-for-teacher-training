@@ -1,0 +1,14 @@
+<%= form_with model: notification_preferences, url: form_path, method: :put do |f| %>
+  <div class='govuk-form-group'>
+    <% ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |notification_preference| %>
+      <%= f.govuk_collection_radio_buttons notification_preference,
+        on_off_options,
+        :value,
+        :name,
+        inline: true,
+        legend: { text: t("provider_user_notification_preferences.#{notification_preference}.legend") } %>
+    <% end %>
+  </div>
+
+  <%= f.govuk_submit 'Save settings' %>
+<% end %>
