@@ -1,10 +1,12 @@
 class FeatureMetricsDashboard < ApplicationRecord
+  MISSING_VALUE = 'n/a'.freeze
+
   def write_metric(key, value)
     self.metrics = (metrics || {}).merge(key.to_s => value)
   end
 
   def read_metric(key)
-    metrics.fetch(key.to_s)
+    metrics[key.to_s] || MISSING_VALUE
   end
 
   def load_updated_metrics

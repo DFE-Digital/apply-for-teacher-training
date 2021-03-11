@@ -40,11 +40,8 @@ RSpec.describe FeatureMetricsDashboard do
       expect(dashboard.read_metric(:test)).to eq 'value'
     end
 
-    it 'raises if the key is not found' do
-      expect { dashboard.read_metric('testttt') }.to raise_error(
-        KeyError,
-        /key not found: "testttt"/,
-      )
+    it 'returns a placeholder "missing value" if the key is not found' do
+      expect(dashboard.read_metric(:testttt)).to eq 'n/a'
     end
   end
 
