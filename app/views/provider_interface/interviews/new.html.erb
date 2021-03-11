@@ -3,27 +3,12 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with(
-      model: @wizard,
-      url: new_check_provider_interface_application_choice_interviews_path(@application_choice),
-      method: :post,
-    ) do |f| %>
-
-      <%= f.govuk_error_summary %>
-
-      <span class="govuk-caption-l"><%= @application_choice.application_form.full_name %></span>
-      <h1 class="govuk-heading-l"><%= t('.title') %></h1>
-
-      <% if @application_choice.application_form.interview_preferences.present? %>
-        <div class="app-banner app-banner--details">
-          <h2 class="govuk-heading-m govuk-!-margin-bottom-2"><%= t('.interview_preferences.title') %></h2>
-          <p class="govuk-body govuk-!-margin-bottom-0"><%= @application_choice.application_form.interview_preferences %></p>
-        </div>
-      <% end %>
-
-      <%= render 'form', f: f %>
-
-    <% end %>
+    <%= render ProviderInterface::InterviewFormComponent.new(
+      application_choice: @application_choice,
+      form_model: @wizard,
+      form_url: new_check_provider_interface_application_choice_interviews_path(@application_choice),
+      form_heading: t('.title'),
+    ) %>
 
     <p class="govuk-body"><%= govuk_link_to t('cancel'), provider_interface_application_choice_interviews_path(@application_choice) %></p>
   </div>

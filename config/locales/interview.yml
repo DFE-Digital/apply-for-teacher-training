@@ -5,12 +5,8 @@ en:
       past: Past interviews
       new:
         title: Set up an interview
-        interview_preferences:
-          title:  Candidate interview preferences
       edit:
         title: Change interview details
-        interview_preferences:
-          title:  Candidate interview preferences
       check:
         page_title: Set up Interview
         title: Check and send interview details
@@ -33,8 +29,8 @@ en:
         cancellation_reason: Reason for cancelling interview
       confirm_cancel:
         success: Interview cancelled
-      form:
-        continue: Continue
+    interview_form_component:
+      interview_preferences: Candidate interview preferences
   helpers:
     label:
       provider_interface_interview_wizard:
