@@ -24,8 +24,8 @@ en:
       incomplete: Volunteering with children and young people is not marked as completed
       complete_section: Do you have any experience working with children and young people?
     degrees:
-      incomplete: Degree(s) section not marked as completed
-      complete_section: Enter your degree(s)
+      incomplete: Degree section not marked as completed
+      complete_section: Enter your degrees
     maths_gcse:
       incomplete: Maths GCSE or equivalent not entered
       complete_section: Enter your Maths GCSE or equivalent
