@@ -268,5 +268,31 @@
         </div>
       </div>
     </div>
+    <div class="govuk-grid-column-one-half">
+      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+        <%= render SupportInterface::TileComponent.new(
+          count: @dashboard.read_metric(:apply_again_application_rate),
+          label: 'candidates that applied again after an unsuccessful first application',
+          colour: :blue,
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-column-one-half">
+          <%= render SupportInterface::TileComponent.new(
+            count: @dashboard.read_metric(:apply_again_application_rate_this_month),
+            label: 'this month',
+            size: :reduced,
+          ) %>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <%= render SupportInterface::TileComponent.new(
+            count: @dashboard.read_metric(:apply_again_application_rate_upto_this_month),
+            label: 'upto this month',
+            size: :reduced,
+          ) %>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>
