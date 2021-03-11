@@ -1,8 +1,6 @@
 module CandidateInterface
   module EnglishForeignLanguage
     module EflReviewHelper
-      include Rails.application.routes.url_helpers
-
       def do_you_have_a_qualification_row(value:)
         {
           key: 'Have you done an English as a foreign language assessment?',

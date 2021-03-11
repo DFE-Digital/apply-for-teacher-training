@@ -20,7 +20,7 @@ module SupportInterface
       if application_choice_id.present?
         rows << {
           key: 'Application details',
-          value: govuk_link_to('View in support', Rails.application.routes.url_helpers.support_interface_application_choice_path(application_choice_id)),
+          value: govuk_link_to('View in support', support_interface_application_choice_path(application_choice_id)),
         }
       end
 

@@ -127,11 +127,11 @@ module CandidateInterface
     end
 
     def edit_other_qualification_details_path(qualification)
-      Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_details_path(qualification.id)
+      candidate_interface_edit_other_qualification_details_path(qualification.id)
     end
 
     def edit_other_qualification_type_path(qualification)
-      Rails.application.routes.url_helpers.candidate_interface_edit_other_qualification_type_path(qualification.id)
+      candidate_interface_edit_other_qualification_type_path(qualification.id)
     end
 
     def generate_action(qualification:, attribute: '')

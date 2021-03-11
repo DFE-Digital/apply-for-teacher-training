@@ -44,13 +44,9 @@ module ProviderInterface
 
     private
 
-      def paths
-        Rails.application.routes.url_helpers
-      end
-
       def change_path(target)
         if show_link?(target)
-          paths.provider_interface_application_choice_edit_offer_path(
+          provider_interface_application_choice_edit_offer_path(
             application_choice.id,
             step: target.to_s,
           )

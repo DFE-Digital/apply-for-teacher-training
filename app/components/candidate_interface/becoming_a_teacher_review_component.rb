@@ -27,7 +27,7 @@ module CandidateInterface
         key: t('application_form.personal_statement.becoming_a_teacher.label'),
         value: @becoming_a_teacher_form.becoming_a_teacher,
         action: t('application_form.personal_statement.becoming_a_teacher.change_action'),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_becoming_a_teacher_path,
+        change_path: candidate_interface_edit_becoming_a_teacher_path,
       }
     end
   end

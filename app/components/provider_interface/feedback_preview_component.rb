@@ -25,7 +25,7 @@ module ProviderInterface
     end
 
     def change_feedback_path
-      Rails.application.routes.url_helpers.provider_interface_application_choice_new_rbd_feedback_path(
+      provider_interface_application_choice_new_rbd_feedback_path(
         @application_choice.id,
         provider_interface_rejected_by_default_feedback_form: { rejection_reason: rejection_reason },
       )
