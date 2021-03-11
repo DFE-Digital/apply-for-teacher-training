@@ -100,4 +100,31 @@ RSpec.describe ApplyAgainFeatureMetrics, with_audited: true do
       end
     end
   end
+
+  describe '#formatted_change_rate' do
+    context 'without any data' do
+      it 'returns n/a' do
+        expect(feature_metrics.formatted_change_rate(1.month.ago)).to eq('n/a')
+      end
+    end
+
+    context 'with apply again applications' do
+      it 'returns correctly formatted values within given time ranges' do
+        @today = Time.zone.local(2021, 3, 10, 12)
+        Timecop.freeze(@today - 20.days) do
+          apply_again_application_form = create_apply_again_application
+          apply_again_application_form.update!(submitted_at: Time.zone.now)
+        end
+        Timecop.freeze(@today - 5.days) do
+          apply_again_application_form = create_apply_again_application
+          apply_again_application_form.update!(submitted_at: Time.zone.now, becoming_a_teacher: 'New statement')
+        end
+        Timecop.freeze(@today) do
+          expect(feature_metrics.formatted_change_rate(25.days.ago, 10.days.ago)).to eq('0%')
+          expect(feature_metrics.formatted_change_rate(10.days.ago)).to eq('100%')
+          expect(feature_metrics.formatted_change_rate(25.days.ago)).to eq('50%')
+        end
+      end
+    end
+  end
 end
