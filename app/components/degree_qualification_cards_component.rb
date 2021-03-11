@@ -44,7 +44,7 @@ class DegreeQualificationCardsComponent < ViewComponent::Base
   def enic(degree)
     if degree.enic_reference.present? && degree.comparable_uk_degree.present?
       degree_name = t("application_form.degree.comparable_uk_degree.values.#{degree.comparable_uk_degree}")
-      "#{t("service_name.enic.short_name")} statement #{degree.enic_reference} says this is comparable to a #{degree_name}"
+      "#{t('service_name.enic.short_name')} statement #{degree.enic_reference} says this is comparable to a #{degree_name}"
     end
   end
 

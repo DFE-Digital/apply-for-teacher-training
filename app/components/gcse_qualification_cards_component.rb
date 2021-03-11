@@ -51,7 +51,7 @@ class GcseQualificationCardsComponent < ViewComponent::Base
 
   def enic_statement(qualification)
     if qualification.enic_reference.present? && qualification.comparable_uk_qualification.present?
-      "#{t("service_name.enic.short_name")} statement #{qualification.enic_reference} says this is comparable to a #{qualification.comparable_uk_qualification}."
+      "#{t('service_name.enic.short_name')} statement #{qualification.enic_reference} says this is comparable to a #{qualification.comparable_uk_qualification}."
     end
   end
 
