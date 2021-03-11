@@ -1,4 +1,4 @@
-class ChangeOffer
+class ChangeAnOffer
   include ActiveModel::Validations
   include ImpersonationAuditHelper
 

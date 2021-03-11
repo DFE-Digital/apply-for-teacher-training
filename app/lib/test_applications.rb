@@ -311,7 +311,7 @@ class TestApplications
       year = choice.offered_course.recruitment_cycle_year
       new_course = choice.offered_course.provider.courses
                          .in_cycle(year).with_course_options.sample
-      ChangeOffer.new(
+      ChangeAnOffer.new(
         actor: actor,
         application_choice: choice,
         course_option: new_course.course_options.first,

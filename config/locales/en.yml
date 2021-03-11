@@ -306,7 +306,7 @@ en:
               blank: Enter the user’s last name
             provider_permissions:
               blank: Please specify a provider
-        change_offer:
+        change_an_offer:
           attributes:
             course_option:
               blank: could not be found

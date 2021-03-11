@@ -37,7 +37,7 @@ module ProviderInterface
       change_offer_form.step = :update
 
       if change_offer_form.valid?
-        ::ChangeOffer.new(
+        ::ChangeAnOffer.new(
           actor: current_provider_user,
           application_choice: @application_choice,
           course_option: change_offer_form.selected_course_option,
