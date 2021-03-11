@@ -201,8 +201,8 @@ Rails.application.routes.draw do
         get '/country' => 'gcse/institution_country#edit', as: :gcse_details_edit_institution_country
         patch '/country' => 'gcse/institution_country#update'
 
-        get '/naric' => 'gcse/naric#edit', as: :gcse_details_edit_naric
-        patch '/naric' => 'gcse/naric#update'
+        get '/enic' => 'gcse/enic#edit', as: :gcse_details_edit_enic
+        patch '/enic' => 'gcse/enic#update'
 
         get '/year' => 'gcse/year#edit', as: :gcse_details_edit_year
         patch '/year' => 'gcse/year#update'
@@ -313,10 +313,10 @@ Rails.application.routes.draw do
         get '/:id/completion-status/edit' => 'degrees/completion_status#edit', as: :edit_degree_completion_status
         patch '/:id/completion-status/edit' => 'degrees/completion_status#update'
 
-        get '/:id/naric' => 'degrees/naric#new', as: :degree_naric
-        post '/:id/naric' => 'degrees/naric#create'
-        get '/:id/naric/edit' => 'degrees/naric#edit', as: :edit_degree_naric
-        patch '/:id/naric/edit' => 'degrees/naric#update'
+        get '/:id/enic' => 'degrees/enic#new', as: :degree_enic
+        post '/:id/enic' => 'degrees/enic#create'
+        get '/:id/enic/edit' => 'degrees/enic#edit', as: :edit_degree_enic
+        patch '/:id/enic/edit' => 'degrees/enic#update'
 
         get '/:id/grade' => 'degrees/grade#new', as: :degree_grade
         post '/:id/grade' => 'degrees/grade#create'

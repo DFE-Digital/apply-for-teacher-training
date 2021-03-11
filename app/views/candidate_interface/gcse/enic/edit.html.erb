@@ -1,19 +1,19 @@
-<% content_for :title, title_with_error_prefix(t('gcse_edit_naric.page_title', subject: @subject.capitalize), @naric_form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('gcse_edit_enic.page_title', subject: @subject.capitalize), @enic_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: @naric_form, url: candidate_interface_gcse_details_edit_naric_path, method: :patch do |f| %>
+    <%= form_with model: @enic_form, url: candidate_interface_gcse_details_edit_enic_path, method: :patch do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
-        <%= t('gcse_edit_naric.page_title', subject: @subject.capitalize) %>
+        <%= t('gcse_edit_enic.page_title', subject: @subject.capitalize) %>
       </h1>
 
-      <p class="govuk-body">You can get a statement from the National Recognition Information Centre for the United Kingdom (UK NARIC) which shows how your qualifications compare to UK qualifications. Not all providers need this.</p>
-      <%= f.govuk_radio_buttons_fieldset :naric_details, legend: { text: t('application_form.gcse.naric_statement.label'), size: 'm' } do %>
-        <%= f.govuk_radio_button :have_naric_reference, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
-          <%= f.govuk_text_field :naric_reference, label: { text: 'UK NARIC reference number', size: 's' }, hint: { text: 'For example ‘4000228363’' }, width: 20, spellcheck: false %>
+      <p class="govuk-body">You can get a statement from the <%= t('service_name.enic.full_name') %> which shows how your qualifications compare to UK qualifications. Not all providers need this.</p>
+      <%= f.govuk_radio_buttons_fieldset :enic_details, legend: { text: t('application_form.gcse.enic_statement.label'), size: 'm' } do %>
+        <%= f.govuk_radio_button :have_enic_reference, 'Yes', label: { text: 'Yes' }, link_errors: true do %>
+          <%= f.govuk_text_field :enic_reference, label: { text: "#{t('service_name.enic.short_name')} reference number", size: 's' }, hint: { text: 'For example ‘4000228363’' }, width: 20, spellcheck: false %>
           <%= f.govuk_radio_buttons_fieldset :comparable_uk_qualification, legend: { text: t('application_form.gcse.comparable_uk_qualification.label'), size: 's' }, hint: { text: t('application_form.gcse.comparable_uk_qualification.hint_text') } do %>
             <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.gcse'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.gcse') }, link_errors: true %>
             <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.gcse_aslevel'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.gcse_aslevel') } %>
@@ -21,8 +21,8 @@
             <%= f.govuk_radio_button :comparable_uk_qualification, t('application_form.gcse.comparable_uk_qualification.values.alevel'), label: { text: t('application_form.gcse.comparable_uk_qualification.values.alevel') } %>
           <% end %>
         <% end %>
-        <%= f.govuk_radio_button :have_naric_reference, 'No', label: { text: 'No' } do %>
-          <p class="govuk-body">Ask your training provider if they need a UK NARIC statement of comparability. You can get a free statement (this usually costs £49.50 plus VAT) by calling <%= t('service_name.get_into_teaching') %> for free on <%= t('get_into_teaching.tel') %>. Or <%= govuk_link_to 'chat to an adviser using the online chat service', t('get_into_teaching.url_online_chat') %>.</p>
+        <%= f.govuk_radio_button :have_enic_reference, 'No', label: { text: 'No' } do %>
+          <p class="govuk-body">Ask your training provider if they need a <%= t('service_name.enic.short_name') %> statement of comparability. You can get a free statement (this usually costs £49.50 plus VAT) by calling <%= t('service_name.get_into_teaching') %> for free on <%= t('get_into_teaching.tel') %>. Or <%= govuk_link_to 'chat to an adviser using the online chat service', t('get_into_teaching.url_online_chat') %>.</p>
         <% end %>
       <% end %>
 

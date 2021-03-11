@@ -197,7 +197,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         subject: 'Woof',
         institution_name: 'University of Doge',
         institution_country: 'DE',
-        naric_reference: '0123456789',
+        enic_reference: '0123456789',
         comparable_uk_degree: 'bachelor_honours_degree',
         grade: 'erste Klasse',
         predicted_grade: false,
@@ -226,22 +226,22 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       expect(result.css('.app-summary-card__title').text).to include('Bachelor of Arts Woof')
     end
 
-    context 'when a UK NARIC reference number has been provided' do
-      it 'renders component with correct values for UK NARIC statement' do
+    context 'when a UK ENIC reference number has been provided' do
+      it 'renders component with correct values for UK ENIC statement' do
         result = render_inline(described_class.new(application_form: application_form))
 
         expect(result.css('.govuk-summary-list__key').text).to include(t('application_form.degree.institution_name.review_label'))
         expect(result.css('.govuk-summary-list__value')[3].text.strip).to eq('Yes')
         expect(result.css('.govuk-summary-list__actions a')[3].attr('href')).to include(
-          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_path(degree1),
+          Rails.application.routes.url_helpers.candidate_interface_edit_degree_enic_path(degree1),
         )
         expect(result.css('.govuk-summary-list__value')[4].text.strip).to eq('0123456789')
         expect(result.css('.govuk-summary-list__actions a')[4].attr('href')).to include(
-          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_path(degree1),
+          Rails.application.routes.url_helpers.candidate_interface_edit_degree_enic_path(degree1),
         )
         expect(result.css('.govuk-summary-list__value')[5].text.strip).to eq('Bachelor (Honours) degree')
         expect(result.css('.govuk-summary-list__actions a')[5].attr('href')).to include(
-          Rails.application.routes.url_helpers.candidate_interface_edit_degree_naric_path(degree1),
+          Rails.application.routes.url_helpers.candidate_interface_edit_degree_enic_path(degree1),
         )
         expect(result.css('.govuk-summary-list__actions').text).to include(
           "Change #{t('application_form.degree.qualification.change_action')} for Bachelor of Arts, Woof, University of Doge, 2008",
@@ -249,7 +249,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
       end
     end
 
-    context 'when the candidate has not provided a UK NARIC reference number' do
+    context 'when the candidate has not provided a UK ENIC reference number' do
       let(:degree1) do
         build_stubbed(
           :degree_qualification,
@@ -257,7 +257,7 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
           subject: 'Woof',
           institution_name: 'University of Doge',
           institution_country: 'DE',
-          naric_reference: '',
+          enic_reference: '',
           comparable_uk_degree: nil,
           grade: 'erste Klasse',
           predicted_grade: false,
@@ -267,12 +267,12 @@ RSpec.describe CandidateInterface::DegreesReviewComponent do
         )
       end
 
-      it 'does not render a row for comparable UK degree and sets UK NARIC reference number to "Not provided"' do
+      it 'does not render a row for comparable UK degree and sets UK ENIC reference number to "Not provided"' do
         result = render_inline(described_class.new(application_form: application_form))
 
-        expect(result.css('.govuk-summary-list__key')[3].text).to include(t('application_form.degree.naric_statment.review_label'))
+        expect(result.css('.govuk-summary-list__key')[3].text).to include(t('application_form.degree.enic_statement.review_label'))
         expect(result.css('.govuk-summary-list__value')[3].text.strip).to eq('No')
-        expect(result.css('.govuk-summary-list__key').text).not_to include(t('application_form.degree.naric_reference.review_label'))
+        expect(result.css('.govuk-summary-list__key').text).not_to include(t('application_form.degree.enic_reference.review_label'))
         expect(result.css('.govuk-summary-list__key').text).not_to include(t('application_form.degree.comparable_uk_degree.review_label'))
       end
     end

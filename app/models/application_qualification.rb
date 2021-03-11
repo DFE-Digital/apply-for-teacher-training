@@ -107,10 +107,10 @@ class ApplicationQualification < ApplicationRecord
     end
   end
 
-  def have_naric_reference
-    if naric_reference.present?
+  def have_enic_reference
+    if enic_reference.present?
       'Yes'
-    elsif naric_reference.nil? && grade.present?
+    elsif enic_reference.nil? && grade.present?
       'No'
     end
   end
@@ -136,7 +136,7 @@ class ApplicationQualification < ApplicationRecord
 
   def composite_equivalency_details
     details = [
-      ("Naric: #{naric_reference}" if naric_reference),
+      ("Enic: #{enic_reference}" if enic_reference),
       comparable_uk_qualification || comparable_uk_degree,
       equivalency_details,
     ].compact.join(' - ')

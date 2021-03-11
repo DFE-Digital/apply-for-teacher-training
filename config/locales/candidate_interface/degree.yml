@@ -64,15 +64,15 @@ en:
         button: Add another degree
       delete: Delete degree
       confirm_delete: Yes I’m sure - delete this degree
-      naric_statment:
-        label: Do you have a statement of comparability from the National Recognition Information Centre?
-        review_label: Do you have a UK NARIC statement of comparability?
-        change_action: UK NARIC statement
-      naric_reference:
-        label: UK NARIC reference number
+      enic_statement:
+        label: Do you have a statement of comparability from UK ENIC (the UK agency for international qualifications and skills)?
+        review_label: Do you have a UK ENIC statement of comparability?
+        change_action: UK ENIC statement
+      enic_reference:
+        label: UK ENIC reference number
         hint_text: For example ‘4000228363’
-        review_label: UK NARIC reference number
-        change_action: UK NARIC reference number
+        review_label: UK ENIC reference number
+        change_action: UK ENIC reference number
       comparable_uk_degree:
         label: Select the comparable UK degree
         hint_text: As shown on your statement
@@ -112,12 +112,12 @@ en:
             institution_country:
               blank: Enter the country where the institution is based
               too_long: The country where you studied must be %{count} characters or fewer
-        candidate_interface/degree_naric_form:
+        candidate_interface/degree_enic_form:
           attributes:
-            have_naric_reference:
-              blank: Select whether you have a UK NARIC reference number or not
-            naric_reference:
-              blank: Enter the UK NARIC reference number
+            have_enic_reference:
+              blank: Select whether you have a UK ENIC reference number or not
+            enic_reference:
+              blank: Enter the UK ENIC reference number
             comparable_uk_degree:
               blank: Select the comparable UK degree
         candidate_interface/degree_completion_status_form:

@@ -10,6 +10,10 @@ en:
     support: Support for Apply
     api: Apply for teacher training API
     get_into_teaching: Get Into Teaching
+    enic:
+      short_name: UK ENIC
+      full_name: UK ENIC (the UK agency for international qualifications and skills)
+      url: https://www.enic.org.uk
   teacher_training_courses_api:
     documentation_url: https://api.publish-teacher-training-courses.service.gov.uk/
   publish_teacher_training_courses:
@@ -92,7 +96,7 @@ en:
     degree_grade_international_predicted: Will your degree give a grade?
     degree_institution: Which institution did you study at?
     degree_subject: What subject is your degree?
-    degree_naric: How your degree compares to a UK degree
+    degree_enic: How your degree compares to a UK degree
     add_undergraduate_degree: Add undergraduate degree
     when_did_you_study_for_your_degree: When did you study for your degree?
     what_year_did_you_graduate: What year did you graduate?

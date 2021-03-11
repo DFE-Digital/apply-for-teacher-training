@@ -132,20 +132,20 @@ RSpec.describe ApplicationQualification, type: :model do
     end
   end
 
-  describe '#have_naric_reference' do
-    it 'returns No when naric reference is nil and grade is present' do
-      qualification = build_stubbed(:application_qualification, naric_reference: nil, grade: 'c')
-      expect(qualification.have_naric_reference).to eq('No')
+  describe '#have_enic_reference' do
+    it 'returns No when enic reference is nil and grade is present' do
+      qualification = build_stubbed(:application_qualification, enic_reference: nil, grade: 'c')
+      expect(qualification.have_enic_reference).to eq('No')
     end
 
     it 'returns Yes when reference number provided' do
-      qualification = build_stubbed(:application_qualification, naric_reference: '12345')
-      expect(qualification.have_naric_reference).to eq('Yes')
+      qualification = build_stubbed(:application_qualification, enic_reference: '12345')
+      expect(qualification.have_enic_reference).to eq('Yes')
     end
 
     it 'returns nil when field not submitted' do
-      qualification = build_stubbed(:application_qualification, naric_reference: nil, grade: nil)
-      expect(qualification.have_naric_reference).to eq(nil)
+      qualification = build_stubbed(:application_qualification, enic_reference: nil, grade: nil)
+      expect(qualification.have_enic_reference).to eq(nil)
     end
   end
 
@@ -190,12 +190,12 @@ RSpec.describe ApplicationQualification, type: :model do
         qualification_type: 'Bachelor degree',
         international: true,
         institution_country: 'US',
-        naric_reference: '0123456789',
+        enic_reference: '0123456789',
         comparable_uk_degree: 'bachelor_honours_degree',
         equivalency_details: 'equivalent to a UK BSc',
       )
 
-      expect(degree.composite_equivalency_details).to eq('Naric: 0123456789 - bachelor_honours_degree - equivalent to a UK BSc')
+      expect(degree.composite_equivalency_details).to eq('Enic: 0123456789 - bachelor_honours_degree - equivalent to a UK BSc')
     end
 
     it 'returns a sentence describing equivalency details for a GCSE level qualification' do

@@ -16,8 +16,8 @@ module CandidateInterface
         degree_type_row(degree),
         subject_row(degree),
         institution_row(degree),
-        naric_statment_row(degree),
-        naric_reference_row(degree),
+        enic_statement_row(degree),
+        enic_reference_row(degree),
         comparable_uk_degree_row(degree),
         completion_status_row(degree),
         grade_row(degree),
@@ -91,36 +91,36 @@ module CandidateInterface
       degree.international?
     end
 
-    def naric_statment_row(degree)
+    def enic_statement_row(degree)
       return nil unless international?(degree)
 
       {
-        key: t('application_form.degree.naric_statment.review_label'),
-        value: degree.naric_reference.present? ? 'Yes' : 'No',
-        action: generate_action(degree: degree, attribute: t('application_form.degree.naric_statment.change_action')),
-        change_path: candidate_interface_edit_degree_naric_path(degree.id),
+        key: t('application_form.degree.enic_statement.review_label'),
+        value: degree.enic_reference.present? ? 'Yes' : 'No',
+        action: generate_action(degree: degree, attribute: t('application_form.degree.enic_statement.change_action')),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_enic_path(degree.id),
       }
     end
 
-    def naric_reference_row(degree)
-      return nil unless international?(degree) && degree.naric_reference.present?
+    def enic_reference_row(degree)
+      return nil unless international?(degree) && degree.enic_reference.present?
 
       {
-        key: t('application_form.degree.naric_reference.review_label'),
-        value: degree.naric_reference,
-        action: generate_action(degree: degree, attribute: t('application_form.degree.naric_reference.change_action')),
-        change_path: candidate_interface_edit_degree_naric_path(degree.id),
+        key: t('application_form.degree.enic_reference.review_label'),
+        value: degree.enic_reference,
+        action: generate_action(degree: degree, attribute: t('application_form.degree.enic_reference.change_action')),
+        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_degree_enic_path(degree.id),
       }
     end
 
     def comparable_uk_degree_row(degree)
-      return nil unless international?(degree) && degree.naric_reference.present?
+      return nil unless international?(degree) && degree.enic_reference.present?
 
       {
         key: t('application_form.degree.comparable_uk_degree.review_label'),
         value: t("application_form.degree.comparable_uk_degree.values.#{degree.comparable_uk_degree}", default: ''),
         action: generate_action(degree: degree, attribute: t('application_form.degree.comparable_uk_degree.change_action')),
-        change_path: candidate_interface_edit_degree_naric_path(degree.id),
+        change_path: candidate_interface_edit_degree_enic_path(degree.id),
       }
     end
 

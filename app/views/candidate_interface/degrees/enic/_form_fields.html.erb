@@ -1,0 +1,35 @@
+<%= f.govuk_error_summary %>
+
+<h1 class="govuk-heading-xl">
+  <%= t('page_titles.degree_enic') %>
+</h1>
+
+<p class="govuk-body">You can get a statement from <%= t('service_name.enic.full_name') %> which shows how your qualifications compare to UK qualifications. Not all providers need this.</p>
+<%= f.govuk_radio_buttons_fieldset :have_enic_reference, legend: { text: t('application_form.degree.enic_statement.label'), size: 'm' } do %>
+  <%= f.govuk_radio_button :have_enic_reference, 'yes', label: { text: 'Yes' }, link_errors: true do %>
+    <%= f.govuk_text_field(
+      :enic_reference,
+      label: { text: t('application_form.degree.enic_reference.label'), size: 's' },
+      hint: { text: t('application_form.degree.enic_reference.hint_text') },
+      spellcheck: false,
+    ) %>
+    <%= f.govuk_radio_buttons_fieldset(
+      :comparable_uk_degree,
+      legend: { text: t('application_form.degree.comparable_uk_degree.label'), size: 's' },
+      hint: { text: t('application_form.degree.comparable_uk_degree.hint_text') },
+    ) do %>
+      <% ApplicationQualification.comparable_uk_degrees.values.each_with_index do |value, i| %>
+        <%= f.govuk_radio_button(
+          :comparable_uk_degree,
+          value,
+          label: { text: t("application_form.degree.comparable_uk_degree.values.#{value}") },
+          link_errors: i.zero?,
+        ) %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= f.govuk_radio_button :have_enic_reference, 'no', label: { text: 'No' } do %>
+    <p class="govuk-body">Ask your training provider if they need a <%= t('service_name.enic.short_name') %> statement of comparability. You can get a free statement (this usually costs £49.50 plus VAT) by calling <%= t('service_name.get_into_teaching') %> for free on <%= t('get_into_teaching.tel') %>. Or <%= govuk_link_to 'chat to an adviser using the online chat service', t('get_into_teaching.url_online_chat') %>.</p>
+  <% end %>
+<% end %>
+<%= f.govuk_submit t('save_and_continue') %>
