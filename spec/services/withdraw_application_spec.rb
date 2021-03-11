@@ -7,7 +7,7 @@ RSpec.describe WithdrawApplication do
     it 'changes the state of the application_choice to "withdrawn"' do
       choice = create(:application_choice, status: :awaiting_provider_decision)
 
-      WithdrawApplication.new(application_choice: choice).save!
+      described_class.new(application_choice: choice).save!
 
       expect(choice.reload.status).to eq 'withdrawn'
     end
@@ -17,28 +17,55 @@ RSpec.describe WithdrawApplication do
       withdrawing_application = create(:application_choice, status: :awaiting_provider_decision)
       allow(SetDeclineByDefault).to receive(:new).and_return(decline_by_default)
 
-      WithdrawApplication.new(application_choice: withdrawing_application).save!
+      described_class.new(application_choice: withdrawing_application).save!
 
       expect(SetDeclineByDefault).to have_received(:new).with(application_form: withdrawing_application.application_form)
     end
 
-    it 'sends emails to the training provider and ratyfing provider', sidekiq: true do
-      training_provider = create(:provider)
-      training_provider_user = create(:provider_user, send_notifications: true, providers: [training_provider])
+    context 'when the configurable provider notifications feature flag is off' do
+      before { FeatureFlag.deactivate(:configurable_provider_notifications) }
 
-      ratifying_provider = create(:provider)
-      ratifying_provider_user = create(:provider_user, send_notifications: true, providers: [ratifying_provider])
+      it 'sends a notification email to the training provider and ratifying provider', sidekiq: true do
+        training_provider = create(:provider)
+        training_provider_user = create(:provider_user, send_notifications: true, providers: [training_provider])
 
-      course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
-      application_choice = create(:submitted_application_choice, course_option: course_option)
+        ratifying_provider = create(:provider)
+        ratifying_provider_user = create(:provider_user, send_notifications: true, providers: [ratifying_provider])
 
-      WithdrawApplication.new(application_choice: application_choice).save!
+        course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
+        application_choice = create(:submitted_application_choice, course_option: course_option)
 
-      training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
-      ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
+        described_class.new(application_choice: application_choice).save!
 
-      expect(training_provider_email['rails-mail-template'].value).to eq('application_withdrawn')
-      expect(ratifying_provider_email['rails-mail-template'].value).to eq('application_withdrawn')
+        training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
+        ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
+
+        expect(training_provider_email['rails-mail-template'].value).to eq('application_withdrawn')
+        expect(ratifying_provider_email['rails-mail-template'].value).to eq('application_withdrawn')
+      end
+    end
+
+    context 'when the configurable provider notifications feature flag is on' do
+      before { FeatureFlag.activate(:configurable_provider_notifications) }
+
+      it 'sends a notification email to the training provider and ratifying provider', sidekiq: true do
+        training_provider = create(:provider)
+        training_provider_user = create(:provider_user, send_notifications: true, providers: [training_provider])
+
+        ratifying_provider = create(:provider)
+        ratifying_provider_user = create(:provider_user, send_notifications: true, providers: [ratifying_provider])
+
+        course_option = course_option_for_accredited_provider(provider: training_provider, accredited_provider: ratifying_provider)
+        application_choice = create(:submitted_application_choice, course_option: course_option)
+
+        described_class.new(application_choice: application_choice).save!
+
+        training_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == training_provider_user.email_address }
+        ratifying_provider_email = ActionMailer::Base.deliveries.find { |e| e.header['to'].value == ratifying_provider_user.email_address }
+
+        expect(training_provider_email['rails-mail-template'].value).to eq('application_withdrawn')
+        expect(ratifying_provider_email['rails-mail-template'].value).to eq('application_withdrawn')
+      end
     end
 
     describe 'retrieving a UCASMatch' do
@@ -57,7 +84,7 @@ RSpec.describe WithdrawApplication do
       it 'when there is a not ready to resolve it does nothing' do
         ucas_match_not_ready
 
-        WithdrawApplication.new(application_choice: application_choice).save!
+        described_class.new(application_choice: application_choice).save!
       end
 
       it 'when there is a match ready to resolve it resolves it' do
@@ -66,7 +93,7 @@ RSpec.describe WithdrawApplication do
         resolve_on_apply = instance_double(UCASMatches::ResolveOnApply, call: nil)
         allow(UCASMatches::ResolveOnApply).to receive(:new).and_return(resolve_on_apply)
 
-        WithdrawApplication.new(application_choice: application_choice).save!
+        described_class.new(application_choice: application_choice).save!
 
         expect(UCASMatches::ResolveOnApply).to have_received(:new)
       end

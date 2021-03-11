@@ -17,7 +17,7 @@ class DeclineOfferByDefault
     end
 
     application_choices.each do |application_choice|
-      NotificationsList.for(application_choice, include_ratifying_provider: true).each do |provider_user|
+      NotificationsList.for(application_choice, event: :declined_by_default, include_ratifying_provider: true).each do |provider_user|
         ProviderMailer.declined_by_default(provider_user, application_choice).deliver_later
       end
     end

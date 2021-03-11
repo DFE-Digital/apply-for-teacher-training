@@ -29,6 +29,7 @@ class FeatureFlag
     [:structured_reasons_for_rejection_on_rbd, 'Allows providers to give specific feedback for applications rejected by default', 'Aga Dufrat'],
     [:updated_offer_flow, 'Activates the new make offer flow for providers', 'Despo Pentara'],
     [:unconditional_offers_via_api, 'Activates the ability to accept unconditional offers via the API', 'Steve Laing'],
+    [:configurable_provider_notifications, 'Providers can manage individual email notifications', 'Aga Dufrat'],
   ].freeze
 
   FEATURES = (PERMANENT_SETTINGS + TEMPORARY_FEATURE_FLAGS).map { |name, description, owner|

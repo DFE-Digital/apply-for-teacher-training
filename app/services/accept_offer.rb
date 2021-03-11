@@ -23,7 +23,7 @@ class AcceptOffer
       end
     end
 
-    NotificationsList.for(@application_choice, include_ratifying_provider: true).each do |provider_user|
+    NotificationsList.for(@application_choice, event: :offer_accepted, include_ratifying_provider: true).each do |provider_user|
       ProviderMailer.offer_accepted(provider_user, @application_choice).deliver_later
     end
 
