@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe DateValidator do
+  include DateAndYearConcerns
+
   let(:test_date_validator) do
     Class.new do
       include ActiveModel::Validations
@@ -198,7 +200,7 @@ RSpec.describe DateValidator do
 
         it 'returns :before error' do
           expect(model).to be_invalid
-          expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.before', article: 'a', attribute: :date, compared_attribute: :other_date))
+          expect(model.errors[:date]).to contain_exactly(I18n.t('errors.messages.before', article: 'a', attribute: :date, compared_attribute: humanize(:other_date)))
         end
       end
     end

@@ -73,7 +73,7 @@ RSpec.shared_examples 'month and year date validations' do |date_field, validati
                                  :before,
                                  article: article(date_field),
                                  attribute: humanize(date_field),
-                                 compared_attribute: compared_attribute)).to eq(true)
+                                 compared_attribute: humanize(compared_attribute))).to eq(true)
     end
   end
 end
