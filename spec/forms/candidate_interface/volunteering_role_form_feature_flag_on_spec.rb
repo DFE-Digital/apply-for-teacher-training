@@ -1,27 +1,35 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
+  FeatureFlag.activate('restructured_work_history')
+
   let(:data) do
     {
-        role: 'School Experience Intern',
-        organisation: Faker::Educator.secondary_school,
-        details: Faker::Lorem.paragraph_by_chars(number: 300),
-        working_with_children: true,
-        start_date: Time.zone.local(2018, 5, 1),
-        end_date: Time.zone.local(2019, 5, 1),
+      role: 'School Experience Intern',
+      organisation: Faker::Educator.secondary_school,
+      details: Faker::Lorem.paragraph_by_chars(number: 300),
+      working_with_children: true,
+      start_date: Time.zone.local(2018, 5, 1),
+      end_date: Time.zone.local(2019, 5, 1),
+      currently_working: false,
+      start_date_unknown: false,
+      end_date_unknown: false,
     }
   end
 
   let(:form_data) do
     {
-        role: data[:role],
-        organisation: data[:organisation],
-        details: data[:details],
-        working_with_children: data[:working_with_children],
-        start_date_month: data[:start_date].month,
-        start_date_year: data[:start_date].year,
-        end_date_month: data[:end_date].month,
-        end_date_year: data[:end_date].year,
+      role: data[:role],
+      organisation: data[:organisation],
+      details: data[:details],
+      working_with_children: data[:working_with_children],
+      start_date_month: data[:start_date].month,
+      start_date_year: data[:start_date].year,
+      end_date_month: data[:end_date].month,
+      end_date_year: data[:end_date].year,
+      currently_working: data[:currently_working].to_s,
+      start_date_unknown: data[:start_date_unknown].to_s,
+      end_date_unknown: data[:end_date_unknown].to_s,
     }
   end
 
@@ -30,30 +38,36 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
       application_form = create(:application_form) do |form|
         form.application_volunteering_experiences.create(attributes: data)
         form.application_volunteering_experiences.create(
-            role: 'School Experience Intern',
-            organisation: 'A Noice School',
-            details: 'I interned.',
-            working_with_children: true,
-            start_date: Time.zone.local(2018, 8, 1),
-            end_date: Time.zone.local(2019, 10, 1),
-            )
+          role: 'School Experience Intern',
+          organisation: 'A Noice School',
+          details: 'I interned.',
+          working_with_children: true,
+          start_date: Time.zone.local(2018, 8, 1),
+          end_date: Time.zone.local(2019, 10, 1),
+          currently_working: false,
+          start_date_unknown: false,
+          end_date_unknown: false,
+        )
       end
 
       volunteering_roles = CandidateInterface::VolunteeringRoleForm.build_all_from_application(application_form)
 
       expect(volunteering_roles).to match_array([
-                                                    have_attributes(form_data),
-                                                    have_attributes(
-                                                        role: 'School Experience Intern',
-                                                        organisation: 'A Noice School',
-                                                        details: 'I interned.',
-                                                        working_with_children: true,
-                                                        start_date_month: 8,
-                                                        start_date_year: 2018,
-                                                        end_date_month: 10,
-                                                        end_date_year: 2019,
-                                                        ),
-                                                ])
+        have_attributes(form_data),
+        have_attributes(
+          role: 'School Experience Intern',
+          organisation: 'A Noice School',
+          details: 'I interned.',
+          working_with_children: true,
+          start_date_month: 8,
+          start_date_year: 2018,
+          end_date_month: 10,
+          end_date_year: 2019,
+          currently_working: 'false',
+          start_date_unknown: 'false',
+          end_date_unknown: 'false',
+        ),
+      ])
     end
   end
 
@@ -76,7 +90,8 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
 
     context 'when a valid volunteering role' do
       let(:application_form) { create(:application_form, volunteering_experience: false) }
-      let(:volunteering_role) { CandidateInterface::VolunteeringRoleForm.new(form_data) }
+      let(:application_experience) { build(:application_volunteering_experience, attributes: data) }
+      let(:volunteering_role) { CandidateInterface::VolunteeringRoleForm.build_from_experience(application_experience) }
 
       it 'creates a new work experience if valid' do
         expect(volunteering_role.save(application_form)).to eq(true)
@@ -94,9 +109,8 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
 
   describe '#update' do
     let(:application_form) { create(:application_form) }
-    let(:existing_volunteering) do
-      application_form.application_volunteering_experiences.create(attributes: data)
-    end
+    let(:existing_volunteering) { application_form.application_volunteering_experiences.create(attributes: data) }
+
     let(:volunteering_role) { CandidateInterface::VolunteeringRoleForm.new(id: existing_volunteering.id) }
 
     it 'returns false if not valid' do
@@ -111,13 +125,16 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
       expect(volunteering_role.update(application_form)).to eq(true)
       expect(application_form.application_volunteering_experiences.first)
           .to have_attributes(
-                  role: 'Classroom Volunteer',
-                  organisation: 'Some Other School',
-                  details: data[:details],
-                  working_with_children: data[:working_with_children],
-                  start_date: data[:start_date],
-                  end_date: data[:end_date],
-                  )
+            role: 'Classroom Volunteer',
+            organisation: 'Some Other School',
+            details: data[:details],
+            working_with_children: data[:working_with_children],
+            start_date: data[:start_date],
+            end_date: data[:end_date],
+            currently_working: false,
+            start_date_unknown: false,
+            end_date_unknown: false,
+          )
     end
   end
 
@@ -154,15 +171,19 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
                             end_date_year: end_date_year,
                             start_date_day: start_date.day,
                             start_date_month: start_date.month,
-                            start_date_year: start_date.year)
+                            start_date_year: start_date.year,
+                            currently_working: 'false',
+        )
       end
 
       include_examples 'month and year date validations', :end_date, future: true
 
-      describe 'when start date is not set' do
+      describe 'when currently working is true' do
         let(:model) do
-          described_class.new(end_date_day: nil, end_date_month: nil, end_date_year: 2000,
-                              start_date_day: nil, start_date_month: nil, start_date_year: nil)
+          described_class.new(end_date_day: nil,
+                              end_date_month: nil,
+                              end_date_year: 2000,
+                              currently_working: true)
         end
 
         it 'end_date is not validated' do

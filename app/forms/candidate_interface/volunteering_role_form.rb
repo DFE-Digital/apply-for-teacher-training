@@ -60,10 +60,10 @@ module CandidateInterface
           working_with_children: volunteering_role.working_with_children,
           start_date_month: volunteering_role.start_date.month,
           start_date_year: volunteering_role.start_date.year,
-          start_date_unknown: volunteering_role.start_date_unknown,
+          start_date_unknown: volunteering_role.start_date_unknown.to_s,
           end_date_month: volunteering_role.end_date&.month || '',
           end_date_year: volunteering_role.end_date&.year || '',
-          end_date_unknown: volunteering_role.end_date_unknown,
+          end_date_unknown: volunteering_role.end_date_unknown.to_s,
           currently_working: volunteering_role.currently_working.to_s,
         )
       end
