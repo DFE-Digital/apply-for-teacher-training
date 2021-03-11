@@ -1,0 +1,8 @@
+<%= render CollectionSelectComponent.new(attribute: :course_id,
+                                         collection: @courses,
+                                         value_method: :id,
+                                         text_method: :name_and_code,
+                                         hint_method: :description,
+                                         form_object: @wizard,
+                                         form_path: provider_interface_application_choice_offer_courses_path,
+                                         page_title: 'Select course') %>
