@@ -3,9 +3,9 @@ class CollectionSelectComponent < ViewComponent::Base
 
   attr_reader :attribute, :collection,
               :value_method, :text_method, :hint_method,
-              :form_object, :form_path, :page_title
+              :form_object, :form_path, :page_title, :caption
 
-  def initialize(attribute:, collection:, value_method:, text_method:, hint_method:, form_object:, form_path:, page_title:)
+  def initialize(attribute:, collection:, value_method:, text_method:, hint_method:, form_object:, form_path:, page_title:, caption:)
     @attribute = attribute
     @collection = collection
     @value_method = value_method
@@ -14,5 +14,6 @@ class CollectionSelectComponent < ViewComponent::Base
     @form_object = form_object
     @form_path = form_path
     @page_title = page_title
+    @caption = caption
   end
 end
