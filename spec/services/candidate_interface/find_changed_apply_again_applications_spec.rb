@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::FindChangedApplyAgainApplications do
+  around do |example|
+    Timecop.freeze(Time.zone.local(2021, 3, 1)) do
+      example.run
+    end
+  end
+
   def setup_apply_again_application
     @original_application = create(
       :completed_application_form,
@@ -11,6 +17,7 @@ RSpec.describe CandidateInterface::FindChangedApplyAgainApplications do
       @original_application,
       target_phase: 'apply_2',
     ).duplicate
+    @apply_again_application.update(submitted_at: Time.zone.now)
   end
 
   def setup_multiple_apply_again_applications
@@ -27,6 +34,8 @@ RSpec.describe CandidateInterface::FindChangedApplyAgainApplications do
       @apply_again_application,
       target_phase: 'apply_2',
     ).duplicate
+    @apply_again_application.update(submitted_at: Time.zone.now)
+    @second_apply_again_application.update(submitted_at: Time.zone.now)
   end
 
   context 'with two apply again applications' do
