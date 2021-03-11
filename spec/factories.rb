@@ -1308,7 +1308,8 @@ FactoryBot.define do
     after(:build) do |audit, evaluator|
       audit.auditable_type = 'Interview'
       audit.auditable_id = evaluator.interview.id
-      audit.associated = evaluator.application_choice
+      audit.associated = evaluator.interview.application_choice
+      audit.user_type = evaluator.user.class.to_s
       audit.audited_changes = evaluator.changes
     end
   end
