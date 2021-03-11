@@ -202,9 +202,9 @@ private
       ),
     )
     write_metric(
-      :apply_again_success_rate_last_month,
+      :apply_again_success_rate_upto_this_month,
       apply_again_statistics.formatted_success_rate(
-        Time.zone.now.beginning_of_month - 1.month,
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
         Time.zone.now.beginning_of_month,
       ),
     )

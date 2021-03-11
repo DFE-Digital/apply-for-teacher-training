@@ -235,8 +235,8 @@
         </div>
         <div class="govuk-grid-column-one-half">
           <%= render SupportInterface::TileComponent.new(
-            count: @dashboard.read_metric(:apply_again_success_rate_last_month),
-            label: 'last month',
+            count: @dashboard.read_metric(:apply_again_success_rate_upto_this_month),
+            label: 'upto this month',
             size: :reduced,
           ) %>
         </div>

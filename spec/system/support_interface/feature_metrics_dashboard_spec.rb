@@ -171,7 +171,7 @@ RSpec.feature 'Feature metrics dashboard' do
   def and_i_should_see_apply_again_metrics
     within('#apply_again_dashboard_section') do
       expect(page).to have_content('50% apply again success rate')
-      expect(page).to have_content('n/a last month')
+      expect(page).to have_content('n/a upto this month')
       expect(page).to have_content('50% this month')
     end
   end
