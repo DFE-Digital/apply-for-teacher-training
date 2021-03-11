@@ -3,9 +3,11 @@ require 'rails_helper'
 RSpec.feature 'Entering volunteering experience' do
   include CandidateHelper
 
-  scenario 'Candidate adds volunteering experience' do
+  before do
     FeatureFlag.activate('restructured_work_history')
+  end
 
+  scenario 'Candidate adds volunteering experience' do
     given_i_am_signed_in
     and_i_visit_the_site
 

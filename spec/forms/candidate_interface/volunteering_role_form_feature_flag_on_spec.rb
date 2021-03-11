@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
-  FeatureFlag.activate('restructured_work_history')
+  before do
+    FeatureFlag.activate('restructured_work_history')
+  end
 
   let(:data) do
     {

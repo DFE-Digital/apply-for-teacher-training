@@ -3,9 +3,11 @@ require 'rails_helper'
 RSpec.feature 'Candidate edits their volunteering section' do
   include CandidateHelper
 
-  scenario 'Candidate adds or deletes a role after completing the section' do
+  before do
     FeatureFlag.deactivate('restructured_work_history')
+  end
 
+  scenario 'Candidate adds or deletes a role after completing the section' do
     given_i_am_signed_in
     and_i_have_completed_the_volunteering_section
 
