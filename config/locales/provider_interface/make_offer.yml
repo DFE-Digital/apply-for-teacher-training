@@ -47,3 +47,5 @@ en:
               blank: Select location
             study_mode:
               blank: Select full time or part time
+            course_id:
+              blank: Select course

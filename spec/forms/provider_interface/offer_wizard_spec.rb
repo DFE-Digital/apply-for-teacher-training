@@ -36,6 +36,7 @@ RSpec.describe ProviderInterface::OfferWizard do
     it { is_expected.to validate_presence_of(:decision) }
     it { is_expected.to validate_presence_of(:course_option_id).on(:locations) }
     it { is_expected.to validate_presence_of(:study_mode).on(:study_modes) }
+    it { is_expected.to validate_presence_of(:course_id).on(:courses) }
     it { is_expected.to validate_length_of(:further_condition_1).is_at_most(255) }
     it { is_expected.to validate_length_of(:further_condition_2).is_at_most(255) }
     it { is_expected.to validate_length_of(:further_condition_3).is_at_most(255) }

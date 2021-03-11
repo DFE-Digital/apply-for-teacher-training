@@ -3,7 +3,7 @@ module ProviderInterface
     include ActiveModel::Model
 
     STEPS = { make_offer: %i[select_option conditions check],
-              change_offer: %i[select_option study_modes locations conditions check] }.freeze
+              change_offer: %i[select_option courses study_modes locations conditions check] }.freeze
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
                   :standard_conditions, :further_condition_1, :further_condition_2,
@@ -12,6 +12,7 @@ module ProviderInterface
     validates :decision, presence: true
     validates :course_option_id, presence: true, on: :locations
     validates :study_mode, presence: true, on: :study_modes
+    validates :course_id, presence: true, on: :courses
     validates :further_condition_1, :further_condition_2, :further_condition_3, :further_condition_4, length: { maximum: 255 }
 
     def initialize(state_store, attrs = {})

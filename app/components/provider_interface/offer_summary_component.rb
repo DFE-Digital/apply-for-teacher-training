@@ -19,7 +19,7 @@ module ProviderInterface
         { key: 'Course',
           value: course_option.course.name_and_code,
           action: 'Change',
-          change_path: nil },
+          change_path: new_provider_interface_application_choice_offer_courses_path(application_choice) },
         { key: 'Location',
           value: course_option.site.name_and_address,
           action: 'Change',
