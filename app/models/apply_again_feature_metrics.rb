@@ -19,11 +19,35 @@ class ApplyAgainFeatureMetrics
     success_count / (fail_count + success_count)
   end
 
+  def change_rate(
+    start_time,
+    end_time = Time.zone.now.end_of_day
+  )
+    finder = CandidateInterface::FindChangedApplyAgainApplications.new
+    changed = finder.changed_candidate_count(start_time, end_time)
+    total = finder.all_candidate_count(start_time, end_time)
+    return nil if total.zero?
+
+    changed.to_f / total
+  end
+
   def formatted_success_rate(
     start_time,
     end_time = Time.zone.now.end_of_day
   )
-    ratio = success_rate(start_time, end_time)
+    format_as_percentage(success_rate(start_time, end_time))
+  end
+
+  def formatted_change_rate(
+    start_time,
+    end_time = Time.zone.now.end_of_day
+  )
+    format_as_percentage(change_rate(start_time, end_time))
+  end
+
+private
+
+  def format_as_percentage(ratio)
     return 'n/a' if ratio.nil?
 
     percentage = number_with_precision(
@@ -33,8 +57,6 @@ class ApplyAgainFeatureMetrics
     )
     "#{percentage}%"
   end
-
-private
 
   def application_forms(start_time, end_time)
     ApplicationForm
