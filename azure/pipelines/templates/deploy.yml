@@ -42,7 +42,6 @@ parameters:
   logstashSsl:
   googleMapsAPIKey:
   govukNotifyAPIKey:
-  findBaseUrl:
   dfeSignInClientId:
   dfeSignInSecret:
   dfeSignInIssuer:
@@ -169,7 +168,6 @@ jobs:
                 -logstashPort "${{parameters.logstashPort}}"
                 -logstashSsl "${{parameters.logstashSsl}}"
                 -logitApikey "$(logitApikey)"
-                -findBaseUrl "${{parameters.findBaseUrl}}"
                 -redisCacheName "$(redisCacheName)"
                 -containerInstanceNamePrefix "$(containerInstanceNamePrefix)"
                 -dfeSignInClientId "${{parameters.dfeSignInClientId}}"
