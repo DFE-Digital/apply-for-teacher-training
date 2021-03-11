@@ -4,18 +4,43 @@
 
 <%= f.govuk_text_field :organisation, label: { text: t('application_form.volunteering.organisation.label'), size: 'm' } %>
 
-<%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: t('application_form.volunteering.working_with_children.label'), size: 'm' }, inline: true do %>
-  <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' }, link_errors: true %>
-  <%= f.govuk_radio_button :working_with_children, false, label: { text: 'No' } %>
+<div class="app-work-experience__working-with-children" data-qa="working-with-children">
+  <%= f.govuk_radio_buttons_fieldset :working_with_children, legend: { text: t('application_form.volunteering.working_with_children.label'), size: 'm' }, inline: true do %>
+    <%= f.govuk_radio_button :working_with_children, true, label: { text: 'Yes' }, link_errors: true %>
+    <%= f.govuk_radio_button :working_with_children, false, label: { text: 'No' } %>
+  <% end %>
+</div>
+
+<% if FeatureFlag.active?(:restructured_work_history) %>
+  <div class="app-work-experience__start-date" data-qa="start-date">
+    <%= f.govuk_date_field :start_date, omit_day: true, legend: { text: t('application_form.volunteering.start_date_restructured_work_history.label'), size: 'm' }, hint: { text: t('application_form.volunteering.start_date_restructured_work_history.hint_text') } %>
+    <div class="govuk-form-group">
+      <%= f.hidden_field :start_date_unknown, value: false %>
+      <%= f.govuk_check_box :start_date_unknown, true, multiple: false, label: { text: t('application_form.volunteering.start_date_unknown_checkbox') } %>
+    </div>
+  </div>
+  <div class="app-work-experience__currently_working" data-qa="currently-working">
+    <%= f.govuk_radio_buttons_fieldset :currently_working, legend: { text: t('application_form.volunteering.currently_working.label'), size: 'm' } do %>
+      <%= f.govuk_radio_button :currently_working, true, label: { text: 'Yes' }, link_errors: true %>
+      <%= f.govuk_radio_button :currently_working, false, label: { text: 'No' } do %>
+        <div class="app-work-experience__start-date" data-qa="end-date">
+          <%= f.govuk_date_field :end_date, omit_day: true, legend: { text: t('application_form.volunteering.end_date_restructured_work_history.label'), size: 'm' }, hint: { text: t('application_form.volunteering.end_date_restructured_work_history.hint_text') } %>
+          <div class="govuk-form-group">
+            <%= f.hidden_field :end_date_unknown, value: false %>
+            <%= f.govuk_check_box :end_date_unknown, true, multiple: false, label: { text: t('application_form.volunteering.end_date_unknown_checkbox') } %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="app-work-experience__start-date" data-qa="start-date">
+    <%= f.govuk_date_field :start_date, omit_day: true, legend: { text: t('application_form.volunteering.start_date.label'), size: 'm' }, hint: { text: t('application_form.volunteering.start_date.hint_text') } %>
+  </div>
+  <div class="app-work-experience__end-date" data-qa="end-date">
+    <%= f.govuk_date_field :end_date, omit_day: true, legend: { text: t('application_form.volunteering.end_date.label'), size: 'm' }, hint: { text: t('application_form.volunteering.end_date.hint_text') } %>
+  </div>
 <% end %>
-
-<div class="app-work-experience__start-date" data-qa="start-date">
-  <%= f.govuk_date_field :start_date, omit_day: true, legend: { text: t('application_form.volunteering.start_date.label'), size: 'm' }, hint: { text: t('application_form.volunteering.start_date.hint_text') } %>
-</div>
-
-<div class="app-work-experience__end-date" data-qa="end-date">
-  <%= f.govuk_date_field :end_date, omit_day: true, legend: { text: t('application_form.volunteering.end_date.label'), size: 'm' }, hint: { text: t('application_form.volunteering.end_date.hint_text') } %>
-</div>
 
 <%= f.govuk_text_area :details, label: { text: t('application_form.volunteering.details.label'), size: 'm' }, hint: { text: t('application_form.volunteering.details.hint_text') }, max_words: 150 %>
 
