@@ -41,7 +41,7 @@ en:
     page_title: When was your %{subject} %{qualification_type} awarded?
   gcse_edit_institution_country:
     page_title: In which country did you study for your %{subject} qualification?
-  gcse_edit_naric:
+  gcse_edit_enic:
     page_title: How your %{subject} qualification compares to a UK qualification
   gcse_summary:
     page_titles:

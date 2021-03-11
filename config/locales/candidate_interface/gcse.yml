@@ -25,15 +25,15 @@ en:
         label: Enter year
         hint_text: For example, 1996
         gce_o_level_hint_text: For example, 1978
-      naric_statement:
-        label: Do you have a statement of comparability from the National Recognition Information Centre?
-        review_label: Do you have a UK NARIC statement of comparability?
-        change_action: UK NARIC statement
-      naric_reference:
-        label: UK NARIC reference number
+      enic_statement:
+        label: Do you have a statement of comparability from UK ENIC (the UK agency for international qualifications and skills)?
+        review_label: Do you have a UK ENIC statement of comparability?
+        change_action: UK ENIC statement
+      enic_reference:
+        label: UK ENIC reference number
         hint_text: For example ‘4000228363’
-        review_label: UK NARIC reference number
-        change_action: UK NARIC reference number
+        review_label: UK ENIC reference number
+        change_action: UK ENIC reference number
       comparable_uk_qualification:
         label: Select the comparable UK qualification
         hint_text: As shown on your statement
@@ -134,11 +134,11 @@ en:
             institution_country:
               blank: Enter the country you studied in
               inclusion: Select the country you studied in from the list
-        candidate_interface/gcse_naric_form:
+        candidate_interface/gcse_enic_form:
           attributes:
-            have_naric_reference:
-              blank: Select if you have a UK NARIC statement of comparability
-            naric_reference:
-              blank: Enter your UK NARIC reference number
+            have_enic_reference:
+              blank: Select if you have a UK ENIC statement of comparability
+            enic_reference:
+              blank: Enter your UK ENIC reference number
             comparable_uk_qualification:
               blank: Choose a comparable UK qualification
