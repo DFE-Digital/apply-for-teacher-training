@@ -114,10 +114,6 @@ module CandidateInterface
       month_and_year_blank?(start_date)
     end
 
-    def not_currently_working_in_this_role?
-      currently_working == 'false'
-    end
-
     def dont_validate_end_date
       restructured_work_history_flag_active? || start_date_blank?
     end
