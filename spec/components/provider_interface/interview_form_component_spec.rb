@@ -50,6 +50,32 @@ RSpec.describe ProviderInterface::InterviewFormComponent do
     end
   end
 
+  describe '#example_date' do
+    around do |example|
+      Timecop.freeze(2021, 11, 1) { example.run }
+    end
+
+    context 'reject by default is today' do
+      let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 11, 1)) }
+
+      it 'returns today’s date' do
+        expect(component.example_date).to eq('1 11 2021')
+      end
+    end
+
+    context 'reject by default is at least one day in the future' do
+      let(:application_choice) { build_stubbed(:application_choice, reject_by_default_at: Time.zone.local(2021, 11, 5)) }
+
+      it 'returns tomorrow’s date' do
+        expect(component.example_date).to eq('2 11 2021')
+      end
+    end
+
+    it 'renders the hint text correctly' do
+      expect(render.css('.govuk-hint').first.text).to eq('For example, 2 11 2021')
+    end
+  end
+
   context 'when there are multiple providers for an application' do
     let(:application_choice) do
       application_choice = build_stubbed(:submitted_application_choice)

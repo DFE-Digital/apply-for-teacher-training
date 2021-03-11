@@ -39,7 +39,7 @@ en:
         additional_details: Additional details
     hint:
       provider_interface_interview_wizard:
-        date: For example, 31 3 2020
+        date: For example, %{example_date}
         time: For example, 9am or 2:30pm - enter 12pm for midday
     legend:
       provider_interface_interview_wizard:

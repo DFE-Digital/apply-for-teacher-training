@@ -16,7 +16,7 @@
     </div>
   <% end %>
 
-  <%= f.govuk_date_field :date %>
+  <%= f.govuk_date_field :date, hint: { text: t('helpers.hint.provider_interface_interview_wizard.date', example_date: example_date) } %>
 
   <%= f.govuk_text_field :time, width: 5, label: { size: 'm' } %>
 
