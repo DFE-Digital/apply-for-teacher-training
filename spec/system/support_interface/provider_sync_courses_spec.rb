@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.feature 'See provider course syncing' do
   include DfESignInHelpers
-  include FindAPIHelper
   include TeacherTrainingPublicAPIHelper
 
   scenario 'User switches sync courses on Provider' do
@@ -55,13 +54,6 @@ RSpec.feature 'See provider course syncing' do
   end
 
   def when_provider_syncing_runs
-    stub_find_api_all_providers_200([
-      {
-        provider_code: 'ABC',
-        name: 'ABC College',
-      },
-    ])
-
     stub_teacher_training_api_providers(
       specified_attributes: [
         {
@@ -71,19 +63,13 @@ RSpec.feature 'See provider course syncing' do
       ],
     )
 
-    stub_find_api_provider_200(
+    stub_teacher_training_api_courses(provider_code: 'ABC', specified_attributes: [{ code: 'ABC1', accredited_body_code: nil }])
+    stub_teacher_training_api_sites(
       provider_code: 'ABC',
-      provider_name: 'ABC College',
       course_code: 'ABC1',
-      site_code: 'X',
     )
-    stub_course_with_site(provider_code: 'ABC',
-                          course_code: 'ABC1',
-                          course_attributes: [{ accredited_body_code: 'ABC' }],
-                          site_code: 'X')
 
     TeacherTrainingPublicAPI::SyncAllProvidersAndCoursesWorker.perform_async
-    SyncAllFromFind.perform_async
 
     refresh
   end

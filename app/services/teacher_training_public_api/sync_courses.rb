@@ -54,6 +54,7 @@ module TeacherTrainingPublicAPI
       course.age_range = age_range_in_years(course_from_api)
       course.withdrawn = course_from_api.state == 'withdrawn'
       course.qualifications = course_from_api.qualifications
+      course.subject_codes = course_from_api.subject_codes
     end
 
     def study_mode(course_from_api)

@@ -14,10 +14,10 @@ Raven.configure do |config|
     'ActionDispatch::Http::Parameters::ParseError',
     'Mime::Type::InvalidMimeType',
 
-    # Errors in the Find sync are often transient errors with the Find API. We
+    # Errors in the TTAPI sync are often transient errors with the API. We
     # have monitoring in place to make sure the sync succeeds every couple of
     # hours, so we don't need to be notified of individual failures.
-    'FindSync::SyncError',
+    'TeacherTrainingPublicAPI::SyncError',
 
     # These Postgres errors often occur when Azure has maintenance and drops
     # connections. Most of the time they aren't actionable. We are able to filter

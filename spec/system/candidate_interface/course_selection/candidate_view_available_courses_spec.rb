@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'A candidate can view all providers and courses on Apply' do
-  include FindAPIHelper
-
   scenario 'seeing the list of courses grouped by provider and region' do
     given_the_pilot_is_open
     and_there_are_providers_with_courses_on_apply

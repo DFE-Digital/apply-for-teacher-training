@@ -148,13 +148,6 @@ The course and training provider data in the Apply service comes from its
 sister service `Publish`. To populate your local database with course data from
 `Publish`, first start the redis service (`redis-server`) and then run `bundle exec rake setup_local_dev_data`.
 
-We’re in the process of moving to Publish’s new public [Teacher training
-API](https://api.publish-teacher-training-courses.service.gov.uk/#about). At
-the moment the public API _complements_ the old API but does not replace it —
-some data is only available in the public API. To receive public-api-only data
-such as `program_type` and `qualifications` turn on the
-`sync_from_public_teacher_training_api` feature flag.
-
 Among other things, this task also creates a support user with DfE Sign-in UID
 `dev-support` that you can use to sign in to the Support interface in your
 development environment, and a provider user with the UID `dev-provider`.
