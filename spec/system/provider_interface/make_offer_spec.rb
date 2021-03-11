@@ -92,6 +92,33 @@ RSpec.feature 'Provider makes an offer' do
     and_i_can_confirm_the_new_study_mode_selection
     and_i_can_confirm_the_new_location_selection
 
+    # provider
+
+    given_the_provider_user_can_offer_multiple_provider_courses
+    when_i_click_change_provider
+    then_i_am_taken_to_the_change_provider_page
+
+    when_i_select_a_different_provider
+    and_i_click_continue
+
+    when_i_select_a_different_course
+    and_i_click_continue
+
+    when_i_select_a_different_study_mode
+    and_i_click_continue
+
+    when_i_select_a_new_location
+    and_i_click_continue
+
+    then_the_conditions_page_is_loaded
+    and_i_click_continue
+    then_the_review_page_is_loaded
+
+    and_i_can_confirm_the_new_provider_selection
+    and_i_can_confirm_the_new_course_selection
+    and_i_can_confirm_the_new_study_mode_selection
+    and_i_can_confirm_the_new_location_selection
+
     when_i_send_the_offer
     then_i_see_that_the_offer_was_successfuly_made
   end
@@ -237,6 +264,41 @@ RSpec.feature 'Provider makes an offer' do
   def and_i_can_confirm_the_new_course_selection
     within(:xpath, "////div[@class='govuk-summary-list__row'][2]") do
       expect(page).to have_content(@selected_course.name_and_code)
+    end
+  end
+
+  def given_the_provider_user_can_offer_multiple_provider_courses
+    @selected_provider = create(:provider, :with_signed_agreement)
+    create(:provider_permissions, provider: @selected_provider, provider_user: provider_user, make_decisions: true)
+    courses = [create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider),
+               create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider)]
+    @selected_course = courses.sample
+
+    course_options = [create(:course_option, :part_time, course: @selected_course),
+                      create(:course_option, :full_time, course: @selected_course),
+                      create(:course_option, :full_time, course: @selected_course),
+                      create(:course_option, :part_time, course: @selected_course)]
+
+    @selected_course_option = course_options.sample
+  end
+
+  def when_i_click_change_provider
+    within(:xpath, "////div[@class='govuk-summary-list__row'][1]") do
+      click_on 'Change'
+    end
+  end
+
+  def then_i_am_taken_to_the_change_provider_page
+    expect(page).to have_content('Select provider')
+  end
+
+  def when_i_select_a_different_provider
+    choose @selected_provider.name_and_code
+  end
+
+  def and_i_can_confirm_the_new_provider_selection
+    within(:xpath, "////div[@class='govuk-summary-list__row'][1]") do
+      expect(page).to have_content(@selected_provider.name_and_code)
     end
   end
 
