@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
+  FeatureFlag.deactivate('restructured_work_history')
+
   let(:data) do
     {
       role: 'School Experience Intern',

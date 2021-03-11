@@ -172,8 +172,7 @@ RSpec.describe CandidateInterface::VolunteeringRoleForm, type: :model do
                             start_date_day: start_date.day,
                             start_date_month: start_date.month,
                             start_date_year: start_date.year,
-                            currently_working: 'false',
-        )
+                            currently_working: 'false')
       end
 
       include_examples 'month and year date validations', :end_date, future: true
