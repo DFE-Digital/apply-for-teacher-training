@@ -97,7 +97,7 @@ RSpec.describe FeatureMetricsDashboard do
         'num_rejections_due_to_qualifications_last_month' => 5,
         'apply_again_success_rate' => '42.8%',
         'apply_again_success_rate_this_month' => '42.8%',
-        'apply_again_success_rate_last_month' => '42.8%',
+        'apply_again_success_rate_upto_this_month' => '42.8%',
         'apply_again_change_rate' => '33.3%',
         'apply_again_change_rate_this_month' => '33.3%',
         'apply_again_change_rate_last_month' => '33.3%',
