@@ -30,7 +30,7 @@ module CandidateInterface
         key: t('application_form.training_with_a_disability.disclose_disability.label'),
         value: boolean_display_value(@training_with_a_disability_form.disclose_disability),
         action: t('application_form.training_with_a_disability.disclose_disability.change_action'),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_training_with_a_disability_path,
+        change_path: candidate_interface_edit_training_with_a_disability_path,
       }
     end
 
@@ -39,7 +39,7 @@ module CandidateInterface
         key: t('application_form.training_with_a_disability.disability_disclosure.review_label'),
         value: @training_with_a_disability_form.disability_disclosure,
         action: t('application_form.training_with_a_disability.disability_disclosure.change_action'),
-        change_path: Rails.application.routes.url_helpers.candidate_interface_edit_training_with_a_disability_path,
+        change_path: candidate_interface_edit_training_with_a_disability_path,
       }
     end
 

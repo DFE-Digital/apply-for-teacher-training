@@ -96,7 +96,7 @@ module CandidateInterface
     end
 
     def edit_path(volunteering_role)
-      Rails.application.routes.url_helpers.candidate_interface_edit_volunteering_role_path(volunteering_role.id)
+      candidate_interface_edit_volunteering_role_path(volunteering_role.id)
     end
 
     def generate_action(volunteering_role:, attribute: '')

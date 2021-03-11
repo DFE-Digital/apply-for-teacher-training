@@ -19,7 +19,7 @@ module SupportInterface
     def email_log_link
       {
         title: 'Emails about this application',
-        href: paths.support_interface_email_log_path(application_form_id: @application_form.id),
+        href: support_interface_email_log_path(application_form_id: @application_form.id),
       }
     end
 
@@ -41,10 +41,6 @@ module SupportInterface
         title: 'Logit logs for this candidate',
         href: link,
       }
-    end
-
-    def paths
-      Rails.application.routes.url_helpers
     end
   end
 end
