@@ -12,7 +12,8 @@
       <%= f.govuk_error_summary %>
       <%= render ProviderInterface::OfferSummaryComponent.new(application_choice: @application_choice,
                                                               course_option: @wizard.course_option,
-                                                              conditions: @wizard.conditions) %>
+                                                              conditions: @wizard.conditions,
+                                                              course: @wizard.course_option.course) %>
 
       <div class="govuk-warning-text">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
