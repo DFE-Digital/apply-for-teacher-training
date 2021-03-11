@@ -31,6 +31,18 @@ class ApplyAgainFeatureMetrics
     changed.to_f / total
   end
 
+  def application_rate(
+    start_time,
+    end_time = Time.zone.now.end_of_day
+  )
+    not_applied_count = applications_eligible_for_apply_again_not_applied
+    applied_count = applications_eligible_for_apply_again_applied
+
+    return nil if (not_applied_count + applied_count).zero?
+
+    applied_count.to_f / (not_applied_count + applied_count)
+  end
+
   def formatted_success_rate(
     start_time,
     end_time = Time.zone.now.end_of_day
@@ -43,6 +55,13 @@ class ApplyAgainFeatureMetrics
     end_time = Time.zone.now.end_of_day
   )
     format_as_percentage(change_rate(start_time, end_time))
+  end
+
+  def formatted_application_rate(
+    start_time,
+    end_time = Time.zone.now.end_of_day
+  )
+    format_as_percentage(application_rate(start_time, end_time))
   end
 
 private
@@ -76,5 +95,34 @@ private
           and status_last_updated_at between '#{start_time}' and '#{end_time}'",
       )
       .includes(:application_choices)
+  end
+
+  def applications_eligible_for_apply_again
+    ApplicationForm
+      .apply_1
+      .joins(:application_choices)
+      .where('NOT EXISTS (:pending_or_successful)',
+        pending_or_successful: ApplicationChoice.select(1).where(
+          status: ApplicationStateChange.valid_states - ApplicationStateChange::UNSUCCESSFUL_END_STATES,
+        )
+        .where('application_choices.application_form_id = application_forms.id')
+      )
+  end
+
+  def applications_eligible_for_apply_again_not_applied
+    applications_eligible_for_apply_again
+      .joins('LEFT OUTER JOIN application_forms AS subsequent_application_form ON application_forms.id = subsequent_application_form.previous_application_form_id')
+      .where(subsequent_application_form: { id: nil })
+      .distinct
+      .pluck(:id)
+      .count
+  end
+
+  def applications_eligible_for_apply_again_applied
+    applications_eligible_for_apply_again
+      .joins(:subsequent_application_form)
+      .distinct
+      .pluck(:id)
+      .count
   end
 end

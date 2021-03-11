@@ -19,6 +19,7 @@ class FeatureMetricsDashboard < ApplicationRecord
     load_num_rejections_due_to_qualifications
     load_apply_again_success_rate
     load_apply_again_change_rate
+    load_apply_again_application_rate
   end
 
   def last_updated_at
@@ -229,6 +230,28 @@ private
       :apply_again_change_rate_last_month,
       apply_again_statistics.formatted_change_rate(
         Time.zone.now.beginning_of_month - 1.month,
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+  end
+
+  def load_apply_again_application_rate
+    write_metric(
+      :apply_again_application_rate,
+      apply_again_statistics.formatted_application_rate(
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
+      ),
+    )
+    write_metric(
+      :apply_again_application_rate_this_month,
+      apply_again_statistics.formatted_application_rate(
+        Time.zone.now.beginning_of_month,
+      ),
+    )
+    write_metric(
+      :apply_again_application_rate_upto_this_month,
+      apply_again_statistics.formatted_application_rate(
+        EndOfCycleTimetable.apply_reopens.beginning_of_day,
         Time.zone.now.beginning_of_month,
       ),
     )

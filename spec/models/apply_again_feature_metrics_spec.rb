@@ -3,10 +3,9 @@ require 'rails_helper'
 RSpec.describe ApplyAgainFeatureMetrics, with_audited: true do
   subject(:feature_metrics) { described_class.new }
 
-  def create_apply_again_application
-    original_application = create(
-      :completed_application_form,
-    )
+  def create_apply_again_application(
+    original_application = create(:completed_application_form)
+  )
     apply_again_application_form = DuplicateApplication.new(
       original_application,
       target_phase: 'apply_2',
@@ -123,6 +122,50 @@ RSpec.describe ApplyAgainFeatureMetrics, with_audited: true do
           expect(feature_metrics.formatted_change_rate(25.days.ago, 10.days.ago)).to eq('0%')
           expect(feature_metrics.formatted_change_rate(10.days.ago)).to eq('100%')
           expect(feature_metrics.formatted_change_rate(25.days.ago)).to eq('50%')
+        end
+      end
+    end
+  end
+
+  describe '#formatted_application_rate' do
+    context 'without any data' do
+      it 'returns n/a' do
+        expect(feature_metrics.formatted_application_rate(1.month.ago)).to eq('n/a')
+      end
+    end
+
+    context 'with apply again applications' do
+      it 'returns correctly formatted values within given time ranges' do
+        @today = Time.zone.local(2021, 3, 10, 12)
+        Timecop.freeze(@today - 20.days) do
+          @application_forms = create_list(:completed_application_form, 3)
+          create(
+            :application_choice,
+            :with_rejection,
+            application_form: @application_forms[0],
+          )
+        end
+        Timecop.freeze(@today - 10.days) do
+          create(
+            :application_choice,
+            :with_rejection,
+            application_form: @application_forms[1],
+          )
+        end
+        Timecop.freeze(@today - 5.days) do
+          create(
+            :application_choice,
+            :with_rejection,
+            application_form: @application_forms[2],
+          )
+        end
+        Timecop.freeze(@today) do
+          create_apply_again_application(@application_forms[1])
+          create_apply_again_application(@application_forms[2])
+
+          expect(feature_metrics.formatted_application_rate(25.days.ago)).to eq('66.7%')
+          # expect(feature_metrics.formatted_application_rate(15.days.ago)).to eq('100%')
+          # expect(feature_metrics.formatted_application_rate(2.days.ago)).to eq('n/a')
         end
       end
     end

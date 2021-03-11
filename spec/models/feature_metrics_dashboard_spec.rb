@@ -66,6 +66,7 @@ RSpec.describe FeatureMetricsDashboard do
       allow(rfr_metrics_double).to receive(:rejections_due_to).and_return(5)
       allow(apply_again_metrics_double).to receive(:formatted_success_rate).and_return('42.8%')
       allow(apply_again_metrics_double).to receive(:formatted_change_rate).and_return('33.3%')
+      allow(apply_again_metrics_double).to receive(:formatted_application_rate).and_return('18.7%')
 
       dashboard = described_class.new
       dashboard.load_updated_metrics
@@ -98,6 +99,9 @@ RSpec.describe FeatureMetricsDashboard do
         'apply_again_change_rate' => '33.3%',
         'apply_again_change_rate_this_month' => '33.3%',
         'apply_again_change_rate_last_month' => '33.3%',
+        'apply_again_application_rate' => '18.7%',
+        'apply_again_application_rate_this_month' => '18.7%',
+        'apply_again_application_rate_upto_this_month' => '18.7%',
       })
     end
   end
