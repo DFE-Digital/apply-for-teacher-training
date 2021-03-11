@@ -3,7 +3,7 @@ module ProviderInterface
     include ActiveModel::Model
 
     STEPS = { make_offer: %i[select_option conditions check],
-              change_offer: %i[select_option courses study_modes locations conditions check] }.freeze
+              change_offer: %i[select_option providers courses study_modes locations conditions check] }.freeze
 
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
                   :standard_conditions, :further_condition_1, :further_condition_2,

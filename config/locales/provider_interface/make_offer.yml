@@ -49,3 +49,5 @@ en:
               blank: Select full time or part time
             course_id:
               blank: Select course
+            provider_id:
+              blank: Select provider
