@@ -5,9 +5,9 @@ Dear <%= @provider_user.full_name || 'colleague' %>
 
 <%= @application_choice.application_form.full_name %> has accepted your offer to study <%= @application_choice.offered_course.name_and_code %>.
 
-# Tell us when the candidate has met their conditions
+You did not set any conditions for this offer.
 
-Sign in to Manage teacher training applications to update the application status when they’ve met their conditions:
+You can view <%= @application_choice.application_form.full_name %>’s application:
 
 <%= provider_interface_application_choice_url(@application_choice) %>
 
