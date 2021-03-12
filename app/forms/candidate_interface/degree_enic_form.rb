@@ -17,7 +17,6 @@ module CandidateInterface
 
       degree.update!(
         enic_reference: have_enic_reference? == 'yes' ? enic_reference : nil,
-        naric_reference: have_enic_reference? == 'yes' ? enic_reference : nil,
         comparable_uk_degree: have_enic_reference? == 'yes' ? comparable_uk_degree : nil,
       )
     end
