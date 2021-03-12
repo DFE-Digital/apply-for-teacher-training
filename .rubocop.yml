@@ -42,6 +42,8 @@ Metrics/BlockLength:
 RSpec/NestedGroups:
   Enabled: true
   Max: 4
+  Exclude:
+    - 'spec/forms/provider_interface/offer_wizard_spec.rb'
 
 RSpec/ExampleLength:
   Enabled: false

@@ -42,13 +42,43 @@ module ProviderInterface
       valid?(current_step.to_sym)
     end
 
-    def next_step
-      index = STEPS[decision.to_sym].index(current_step.to_sym)
+    def next_step(step = current_step)
+      index = STEPS[decision.to_sym].index(step.to_sym)
+      return unless index
 
-      STEPS[decision.to_sym][index + 1] if index
+      next_step = STEPS[decision.to_sym][index + 1]
+
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:courses) && available_courses.one?
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:study_modes) && available_study_modes.one?
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && available_course_options.one?
+
+      next_step
     end
 
   private
+
+    def save_and_go_to_next_step(step)
+      attrs = { course_id: available_courses.first.id } if step.eql?(:courses)
+      attrs = { study_mode: available_study_modes.first } if step.eql?(:study_modes)
+      attrs = { course_option_id: available_course_options.first.id } if step.eql?(:locations)
+
+      assign_attributes(last_saved_state.deep_merge(attrs))
+      save_state!
+
+      next_step(step)
+    end
+
+    def available_study_modes
+      Course.find(course_id).available_study_modes_from_options
+    end
+
+    def available_course_options
+      CourseOption.where(course_id: course_id, study_mode: study_mode)
+    end
+
+    def available_courses
+      Course.where(provider_id: provider_id)
+    end
 
     def last_saved_state
       saved_state = @state_store.read

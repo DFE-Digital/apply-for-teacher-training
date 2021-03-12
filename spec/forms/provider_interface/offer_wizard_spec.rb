@@ -58,7 +58,7 @@ RSpec.describe ProviderInterface::OfferWizard do
       context 'when current_step is :conditions' do
         let(:current_step) { :conditions }
 
-        it 'returns :conditions' do
+        it 'returns :check' do
           expect(wizard.next_step).to eq(:check)
         end
       end
@@ -78,24 +78,90 @@ RSpec.describe ProviderInterface::OfferWizard do
       context 'when current_step is :providers' do
         let(:current_step) { :providers }
 
-        it 'returns :courses' do
-          expect(wizard.next_step).to eq(:courses)
+        context 'when there are multiple available courses' do
+          before do
+            allow(Course).to receive(:where).and_return(class_double(Course, one?: false))
+          end
+
+          it 'returns :courses' do
+            expect(wizard.next_step).to eq(:courses)
+          end
+        end
+
+        context 'when there is only one available course' do
+          before do
+            course = instance_double(Course, id: :stub_id)
+
+            allow(course).to receive(:available_study_modes_from_options).and_return(%i[full_time part_time])
+            allow(Course).to receive(:where).and_return([course])
+            allow(Course).to receive(:find).and_return(course)
+            allow(store).to receive(:write)
+          end
+
+          it 'returns :study_modes' do
+            expect(wizard.next_step).to eq(:study_modes)
+          end
         end
       end
 
       context 'when current_step is :courses' do
         let(:current_step) { :courses }
 
-        it 'returns :study_modes' do
-          expect(wizard.next_step).to eq(:study_modes)
+        context 'when there are multiple available study modes' do
+          before do
+            course = instance_double(Course)
+            allow(course).to receive(:available_study_modes_from_options).and_return(%i[full_time part_time])
+            allow(Course).to receive(:find).and_return(course)
+          end
+
+          it 'returns :study_modes' do
+            expect(wizard.next_step).to eq(:study_modes)
+          end
+        end
+
+        context 'when there is only one study mode' do
+          before do
+            course = instance_double(Course)
+            course_option = class_double(CourseOption, one?: false)
+
+            allow(course).to receive(:available_study_modes_from_options).and_return([:full_time])
+            allow(Course).to receive(:find).and_return(course)
+            allow(CourseOption).to receive(:where).and_return(course_option)
+            allow(store).to receive(:write)
+          end
+
+          it 'returns :study_modes' do
+            expect(wizard.next_step).to eq(:locations)
+          end
         end
       end
 
       context 'when current_step is :study_modes' do
         let(:current_step) { :study_modes }
 
-        it 'returns :locations' do
-          expect(wizard.next_step).to eq(:locations)
+        context 'when there are multiple locations available' do
+          before do
+            course_option = class_double(CourseOption, one?: false)
+
+            allow(CourseOption).to receive(:where).and_return(course_option)
+          end
+
+          it 'returns :locations' do
+            expect(wizard.next_step).to eq(:locations)
+          end
+        end
+
+        context 'when there is only one available location' do
+          before do
+            course_option = instance_double(CourseOption, id: :stub_id)
+
+            allow(CourseOption).to receive(:where).and_return([course_option])
+            allow(store).to receive(:write)
+          end
+
+          it 'returns :conditions' do
+            expect(wizard.next_step).to eq(:conditions)
+          end
         end
       end
 
