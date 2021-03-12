@@ -24,6 +24,11 @@ RSpec.feature 'Provider makes an offer' do
     and_i_am_permitted_to_make_decisions_for_my_provider
     and_i_sign_in_to_the_provider_interface
 
+    given_the_course_has_multiple_course_options
+    given_the_course_has_course_options_with_both_study_modes
+    given_the_selected_provider_has_multiple_courses
+    given_the_provider_user_can_offer_multiple_provider_courses
+
     when_i_visit_the_provider_interface
     and_i_click_an_application_choice_awaiting_decision
     and_i_click_on_make_decision
@@ -39,7 +44,6 @@ RSpec.feature 'Provider makes an offer' do
     and_i_can_confirm_my_answers
 
     # locations
-    given_the_course_has_multiple_course_options
     when_i_click_change_location
     then_i_am_taken_to_the_change_location_page
 
@@ -186,10 +190,12 @@ RSpec.feature 'Provider makes an offer' do
 
   def given_the_course_has_multiple_course_options
     course_options = create_list(:course_option, 3, :full_time, course: course)
-    @selected_course_option = course_options.sample
+    @course_available_course_option = course_options.sample
   end
 
   def when_i_click_change_location
+    @selected_course_option = @course_available_course_option
+
     within(:xpath, "////div[@class='govuk-summary-list__row'][3]") do
       click_on 'Change'
     end
@@ -210,6 +216,8 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_click_change_study_mode
+    @selected_course_option = @study_mode_course_option
+
     within(:xpath, "////div[@class='govuk-summary-list__row'][4]") do
       click_on 'Change'
     end
@@ -220,7 +228,7 @@ RSpec.feature 'Provider makes an offer' do
                       create(:course_option, :full_time, course: course)]
     course.update(study_mode: :full_time_or_part_time)
 
-    @selected_course_option = course_options.first
+    @study_mode_course_option = course_options.first
   end
 
   def then_i_am_taken_to_the_change_study_mode_page
@@ -238,13 +246,13 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def given_the_selected_provider_has_multiple_courses
-    @selected_course = create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: provider)
-    course_options = [create(:course_option, :part_time, course: @selected_course),
-                      create(:course_option, :full_time, course: @selected_course),
-                      create(:course_option, :full_time, course: @selected_course),
-                      create(:course_option, :part_time, course: @selected_course)]
+    @provider_available_course = create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: provider)
+    course_options = [create(:course_option, :part_time, course: @provider_available_course),
+                      create(:course_option, :full_time, course: @provider_available_course),
+                      create(:course_option, :full_time, course: @provider_available_course),
+                      create(:course_option, :part_time, course: @provider_available_course)]
 
-    @selected_course_option = course_options.sample
+    @provider_available_course_option = course_options.sample
   end
 
   def when_i_select_a_different_course
@@ -252,6 +260,9 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def when_i_click_change_course
+    @selected_course = @provider_available_course
+    @selected_course_option = @provider_available_course_option
+
     within(:xpath, "////div[@class='govuk-summary-list__row'][2]") do
       click_on 'Change'
     end
@@ -268,21 +279,25 @@ RSpec.feature 'Provider makes an offer' do
   end
 
   def given_the_provider_user_can_offer_multiple_provider_courses
-    @selected_provider = create(:provider, :with_signed_agreement)
-    create(:provider_permissions, provider: @selected_provider, provider_user: provider_user, make_decisions: true)
-    courses = [create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider),
-               create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @selected_provider)]
-    @selected_course = courses.sample
+    @available_provider = create(:provider, :with_signed_agreement)
+    create(:provider_permissions, provider: @available_provider, provider_user: provider_user, make_decisions: true)
+    courses = [create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @available_provider),
+               create(:course, :open_on_apply, study_mode: :full_time_or_part_time, provider: @available_provider)]
+    @provider_available_course = courses.sample
 
-    course_options = [create(:course_option, :part_time, course: @selected_course),
-                      create(:course_option, :full_time, course: @selected_course),
-                      create(:course_option, :full_time, course: @selected_course),
-                      create(:course_option, :part_time, course: @selected_course)]
+    course_options = [create(:course_option, :part_time, course: @provider_available_course),
+                      create(:course_option, :full_time, course: @provider_available_course),
+                      create(:course_option, :full_time, course: @provider_available_course),
+                      create(:course_option, :part_time, course: @provider_available_course)]
 
-    @selected_course_option = course_options.sample
+    @provider_available_course_option = course_options.sample
   end
 
   def when_i_click_change_provider
+    @selected_provider = @available_provider
+    @selected_course = @provider_available_course
+    @selected_course_option = @provider_available_course_option
+
     within(:xpath, "////div[@class='govuk-summary-list__row'][1]") do
       click_on 'Change'
     end
