@@ -44,11 +44,63 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '#next_step' do
-    context 'make offer decision' do
+    context 'when making an offer' do
       let(:decision) { :make_offer }
 
       context 'when current_step is :select_option' do
         let(:current_step) { :select_option }
+
+        it 'returns :conditions' do
+          expect(wizard.next_step).to eq(:conditions)
+        end
+      end
+
+      context 'when current_step is :conditions' do
+        let(:current_step) { :conditions }
+
+        it 'returns :conditions' do
+          expect(wizard.next_step).to eq(:check)
+        end
+      end
+    end
+
+    context 'when changing an offer' do
+      let(:decision) { :change_offer }
+
+      context 'when current_step is :select_option' do
+        let(:current_step) { :select_option }
+
+        it 'returns :providers' do
+          expect(wizard.next_step).to eq(:providers)
+        end
+      end
+
+      context 'when current_step is :providers' do
+        let(:current_step) { :providers }
+
+        it 'returns :courses' do
+          expect(wizard.next_step).to eq(:courses)
+        end
+      end
+
+      context 'when current_step is :courses' do
+        let(:current_step) { :courses }
+
+        it 'returns :study_modes' do
+          expect(wizard.next_step).to eq(:study_modes)
+        end
+      end
+
+      context 'when current_step is :study_modes' do
+        let(:current_step) { :study_modes }
+
+        it 'returns :locations' do
+          expect(wizard.next_step).to eq(:locations)
+        end
+      end
+
+      context 'when current_step is :locations' do
+        let(:current_step) { :locations }
 
         it 'returns :conditions' do
           expect(wizard.next_step).to eq(:conditions)
