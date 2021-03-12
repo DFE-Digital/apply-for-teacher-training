@@ -1,3 +1,6 @@
+<% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
+<% content_for :before_content, '' %>
+
 <%= render CollectionSelectComponent.new(attribute: :study_mode,
                                          collection: @study_modes,
                                          value_method: :id,
@@ -5,5 +8,5 @@
                                          hint_method: nil,
                                          form_object: @wizard,
                                          form_path: provider_interface_application_choice_offer_study_modes_path,
-                                         page_title: 'Select full time or part time',
+                                         page_title: t('.title'),
                                          caption: @application_choice.application_form.full_name) %>

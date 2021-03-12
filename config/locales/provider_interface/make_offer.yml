@@ -5,6 +5,18 @@ en:
         title: Make a decision
         select:  Select decision
     offer:
+      providers:
+        new:
+          title: Select provider
+      courses:
+        new:
+          title: Select course
+      locations:
+        new:
+          title: Select location
+      study_modes:
+        new:
+          title: Select full time or part time
       conditions:
         new:
           title: Conditions of offer
