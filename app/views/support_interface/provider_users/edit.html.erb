@@ -13,15 +13,21 @@
       <%= f.govuk_submit 'Update permissions' %>
     <% end %>
 
-    <%= form_with model: @form, url: support_interface_provider_user_toggle_notifications_path(@form.provider_user) do |f| %>
-      <%= render SummaryListComponent.new(rows: {
-        'Send notifications?' => boolean_to_word(@form.provider_user.send_notifications?),
-      }) %>
+    <h1 class='govuk-heading-l' id='update-email-notifications'>Update email notifications</h1>
 
-      <% if @form.provider_user.send_notifications? %>
-        <%= f.govuk_submit 'Disable notifications' %>
-      <% else %>
-        <%= f.govuk_submit 'Enable notifications' %>
+    <% if FeatureFlag.active?(:configurable_provider_notifications) %>
+      <%= render ProviderUserNotificationPreferencesComponent.new(@form.provider_user.notification_preferences, form_path: support_interface_provider_user_update_notifications_path(@form.provider_user)) %>
+    <% else %>
+      <%= form_with model: @form, url: support_interface_provider_user_toggle_notifications_path(@form.provider_user) do |f| %>
+        <%= render SummaryListComponent.new(rows: {
+          'Send notifications?' => boolean_to_word(@form.provider_user.send_notifications?),
+        }) %>
+
+        <% if @form.provider_user.send_notifications? %>
+          <%= f.govuk_submit 'Disable notifications' %>
+        <% else %>
+          <%= f.govuk_submit 'Enable notifications' %>
+        <% end %>
       <% end %>
     <% end %>
   </div>
