@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_223028) do
   create_sequence "course_options_id_seq"
   create_sequence "courses_id_seq"
   create_sequence "data_exports_id_seq"
+  create_sequence "data_migrations_id_seq"
   create_sequence "emails_id_seq"
   create_sequence "english_proficiencies_id_seq"
   create_sequence "feature_metrics_dashboards_id_seq"
@@ -408,6 +409,14 @@ ActiveRecord::Schema.define(version: 2021_03_08_223028) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["initiator_type", "initiator_id"], name: "index_data_exports_on_initiator_type_and_initiator_id"
+  end
+
+  create_table "data_migrations", force: :cascade do |t|
+    t.string "service_name"
+    t.string "timestamp"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_name", "timestamp"], name: "index_data_migrations_on_service_name_and_timestamp", unique: true
   end
 
   create_table "emails", force: :cascade do |t|

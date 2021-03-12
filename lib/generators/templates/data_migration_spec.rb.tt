@@ -1,0 +1,5 @@
+require 'rails_helper'
+
+RSpec.describe DataMigrations::%{service_name} do
+  pending "add some examples to  #{__FILE__}"
+end
