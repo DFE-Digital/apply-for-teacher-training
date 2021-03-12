@@ -431,6 +431,11 @@ FactoryBot.define do
       exposed_in_find { true }
     end
 
+    trait :ucas_only do
+      open_on_apply { false }
+      exposed_in_find { true }
+    end
+
     trait :with_accredited_provider do
       accredited_provider { create(:provider) }
     end

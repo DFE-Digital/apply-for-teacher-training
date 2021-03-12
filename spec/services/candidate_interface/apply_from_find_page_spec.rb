@@ -3,26 +3,44 @@ require 'rails_helper'
 RSpec.describe CandidateInterface::ApplyFromFindPage do
   include TeacherTrainingPublicAPIHelper
 
-  describe '#execute' do
-    context 'When a course is in the apply database' do
-      it 'sets the course_is_on_apply and course_on_find attributes to true' do
-        FeatureFlag.activate('pilot_open')
+  before do
+    FeatureFlag.activate(:pilot_open)
+    create(:course, :open_on_apply, code: 'ABC1', provider: create(:provider, code: 'ABC'))
+  end
 
-        course = create(:course, open_on_apply: true, exposed_in_find: true)
-        service = described_class.new(provider_code: course.provider.code,
-                                      course_code: course.code)
-        service.determine_whether_course_is_on_find_or_apply
+  describe '#candidate_has_application_in_wrong_cycle?' do
+    context 'when the application is not in the wrong cycle' do
+      it 'is false' do
+        candidate = create(:candidate)
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.current_year, candidate: candidate)
 
-        expect(service.can_apply_on_apply?).to be_truthy
-        expect(service.course_on_find?).to be_truthy
-        expect(service.course).to eq(course)
+        service = described_class.new(
+          course_code: 'ABC1',
+          provider_code: 'ABC',
+          current_candidate: candidate,
+        )
+
+        expect(service.candidate_has_application_in_wrong_cycle?).to be false
       end
     end
 
-    context 'When a course is not in the apply database, but is in the find database' do
-      it 'sets the course_on_find attributes to true' do
-        FeatureFlag.activate('pilot_open')
+    context 'when the course is in the Apply database already' do
+      it 'is true' do
+        candidate = create(:candidate)
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: candidate)
 
+        service = described_class.new(
+          course_code: 'ABC1',
+          provider_code: 'ABC',
+          current_candidate: candidate,
+        )
+
+        expect(service.candidate_has_application_in_wrong_cycle?).to be true
+      end
+    end
+
+    context 'when the course is not in the Apply database' do
+      before do
         stub_teacher_training_api_course(
           provider_code: 'A999',
           course_code: 'B999',
@@ -32,14 +50,105 @@ RSpec.describe CandidateInterface::ApplyFromFindPage do
           provider_code: 'A999',
           course_code: 'B999',
         )
-        service = described_class.new(provider_code: 'A999',
-                                      course_code: 'B999')
+      end
 
-        service.determine_whether_course_is_on_find_or_apply
+      it 'is true' do
+        candidate = create(:candidate)
+        create(:application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, candidate: candidate)
 
-        expect(service.course_on_find?).to be_truthy
-        expect(service.can_apply_on_apply?).to be_falsey
-        expect(service.course['name']).to eq('potions')
+        service = described_class.new(
+          course_code: 'B999',
+          provider_code: 'A999',
+          current_candidate: candidate,
+        )
+
+        expect(service.candidate_has_application_in_wrong_cycle?).to be true
+      end
+    end
+  end
+
+  describe '#course_available_on_apply_and_candidate_signed_in?' do
+    it 'is correct' do
+      service = described_class.new(
+        course_code: 'ABC1',
+        provider_code: 'ABC',
+        current_candidate: double,
+      )
+
+      expect(service.course_available_on_apply_and_candidate_signed_in?).to be true
+    end
+  end
+
+  describe '#course_available_on_apply_and_candidate_not_signed_in?' do
+    it 'is correct' do
+      service = described_class.new(
+        course_code: 'ABC1',
+        provider_code: 'ABC',
+        current_candidate: nil,
+      )
+
+      expect(service.course_available_on_apply_and_candidate_not_signed_in?).to be true
+    end
+  end
+
+  describe '#course_available_on_apply_and_provider_not_on_ucas?' do
+    it 'is correct' do
+      create(:course, :open_on_apply, code: 'ABC1', provider: create(:provider, code: Provider::NOT_ACCEPTING_APPLICATIONS_ON_UCAS.first))
+
+      service = described_class.new(
+        course_code: 'ABC1',
+        provider_code: Provider::NOT_ACCEPTING_APPLICATIONS_ON_UCAS.first,
+      )
+
+      expect(service.course_available_on_apply_and_provider_not_on_ucas?).to be true
+    end
+  end
+
+  describe '#course_available_on_apply?' do
+    it 'is correct' do
+      service = described_class.new(
+        course_code: 'ABC1',
+        provider_code: 'ABC',
+      )
+
+      expect(service.course_available_on_apply?).to be true
+    end
+  end
+
+  describe '#ucas_only?' do
+    context 'the course is on apply' do
+      it 'returns true' do
+        create(:course, :ucas_only, code: 'DEF1', provider: create(:provider, code: 'ABC'))
+
+        service = described_class.new(provider_code: 'ABC', course_code: 'DEF1')
+
+        expect(service.ucas_only?).to be true
+      end
+    end
+
+    context 'the course is not on apply' do
+      before do
+        stub_teacher_training_api_course(
+          provider_code: 'A999',
+          course_code: 'B999',
+          specified_attributes: { name: 'potions' },
+        )
+        stub_teacher_training_api_sites(
+          provider_code: 'A999',
+          course_code: 'B999',
+        )
+      end
+
+      it 'returns true' do
+        service = described_class.new(provider_code: 'A999', course_code: 'B999')
+
+        expect(service.ucas_only?).to be true
+      end
+
+      it 'loads the course details' do
+        service = described_class.new(provider_code: 'A999', course_code: 'B999')
+
+        expect(service.course.name).to eq('potions')
       end
     end
   end

@@ -5,7 +5,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= render CandidateInterface::UCASDowntimeComponent.new %>
 
-    <%= form_with model: @apply_on_ucas_or_apply, url: candidate_interface_apply_from_find_path, method: :post do |f| %>
+    <%= form_with model: @choice, url: candidate_interface_apply_from_find_path, method: :post do |f| %>
       <%= f.govuk_error_summary %>
 
       <h1 class="govuk-heading-xl">
