@@ -43,7 +43,6 @@ jobs:
       RAILS_ENV: test
       GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
       AUTHORISED_HOSTS: $(authorisedHosts)
-      FIND_BASE_URL: $(findBaseUrl)
       GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
       SANDBOX: $(sandbox)
 

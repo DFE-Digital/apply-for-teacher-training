@@ -89,7 +89,6 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
-        FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
@@ -184,7 +183,6 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
-        FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
@@ -202,7 +200,6 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
-        FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
@@ -216,7 +213,6 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
-        FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
@@ -230,7 +226,6 @@ stages:
         RAILS_ENV: test
         GOVUK_NOTIFY_API_KEY: $(govukNotifyAPIKey)
         AUTHORISED_HOSTS: $(authorisedHosts)
-        FIND_BASE_URL: $(findBaseUrl)
         GOVUK_NOTIFY_CALLBACK_API_KEY: $(govukNotifyCallbackAPIKey)
         SANDBOX: $(sandbox)
 
@@ -307,7 +302,6 @@ stages:
       logstashPort: '$(logstashPort)'
       logstashSsl: '$(logstashSsl)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
-      findBaseUrl: '$(findBaseUrl)'
       dfeSignInClientId: '$(dfeSignInClientId)'
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'
@@ -367,7 +361,6 @@ stages:
       logstashPort: '$(logstashPort)'
       logstashSsl: '$(logstashSsl)'
       govukNotifyAPIKey: '$(govukNotifyAPIKey)'
-      findBaseUrl: '$(findBaseUrl)'
       dfeSignInClientId: '$(dfeSignInClientId)'
       dfeSignInSecret: '$(dfeSignInSecret)'
       dfeSignInIssuer: '$(dfeSignInIssuer)'

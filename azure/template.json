@@ -295,12 +295,6 @@
             "defaultValue": "false",
             "type": "string"
         },
-        "findBaseUrl": {
-            "type": "string",
-            "metadata": {
-                "description": "The base URL to manage-courses-backend, Find's backend."
-            }
-        },
         "redisCacheName": {
             "type": "string",
             "metadata": {
@@ -675,7 +669,7 @@
                                 "name": "DB_DATABASE",
                                 "value": "[parameters('databaseName')]"
                             },
-                            { 
+                            {
                                 "name": "BLAZER_DATABASE_URL",
                                 "value": "[variables('replicaServerConnectionString')]"
                             },
@@ -766,10 +760,6 @@
                             {
                                 "name": "SKYLIGHT_ENV",
                                 "value": "[parameters('environment')]"
-                            },
-                            {
-                                "name": "FIND_BASE_URL",
-                                "value": "[parameters('findBaseUrl')]"
                             },
                             {
                                 "name": "STATE_CHANGE_SLACK_URL",
