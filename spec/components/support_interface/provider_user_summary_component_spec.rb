@@ -24,7 +24,27 @@ RSpec.describe SupportInterface::ProviderUserSummaryComponent do
     expect(rendered_component).to include('provider@example.com')
     expect(rendered_component).to include('ABC-UID')
     expect(rendered_component).to include('15 March 2021')
-    expect(rendered_component).to include('Yes')
     expect(rendered_component).to include('The Provider')
+  end
+
+  context 'when the configurable provider notification feature flag is on' do
+    before { FeatureFlag.activate(:configurable_provider_notifications) }
+
+    it 'renders configurable provider notifications' do
+      ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |notification_preference|
+        expect(rendered_component.squish).to include(t("provider_user_notification_preferences.#{notification_preference}.legend"))
+      end
+    end
+  end
+
+  context 'when the configurable provider notification feature flag is off' do
+    before { FeatureFlag.deactivate(:configurable_provider_notifications) }
+
+    it 'renders global provider notifications details' do
+      ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.each do |notification_preference|
+        expect(rendered_component.squish).not_to include(t("provider_user_notification_preferences.#{notification_preference}.legend"))
+      end
+      expect(rendered_component).to include('Yes')
+    end
   end
 end
