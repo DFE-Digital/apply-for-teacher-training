@@ -18,7 +18,7 @@ module SupportInterface
         { key: 'Last sign in at', value: provider_user.last_signed_in_at&.to_s(:govuk_date_and_time) || 'Not signed in yet' },
         {
           key: 'Email notifications',
-          value: boolean_to_word(provider_user.send_notifications?),
+          value: email_notifications_value,
           action: 'notifications',
           change_path: edit_support_interface_provider_user_path(provider_user, anchor: 'update-email-notifications'),
         },
@@ -29,6 +29,19 @@ module SupportInterface
           change_path: edit_support_interface_provider_user_path(provider_user),
         },
       ]
+    end
+
+  private
+
+    def email_notifications_value
+      FeatureFlag.active?(:configurable_provider_notifications) ? render(SummaryCardComponent.new(rows: notification_preferences_rows, border: false)) : boolean_to_word(provider_user.send_notifications?)
+    end
+
+    def notification_preferences_rows
+      rows = ProviderUserNotificationPreferences::NOTIFICATION_PREFERENCES.map do |type|
+        [t("provider_user_notification_preferences.#{type}.legend"), provider_user.notification_preferences.send(type) ? 'On' : 'Off']
+      end
+      rows.to_h
     end
   end
 end
