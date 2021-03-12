@@ -13,7 +13,10 @@
       <%= render ProviderInterface::OfferSummaryComponent.new(application_choice: @application_choice,
                                                               course_option: @wizard.course_option,
                                                               conditions: @wizard.conditions,
-                                                              course: @wizard.course_option.course) %>
+                                                              course: @wizard.course_option.course,
+                                                              available_providers: @providers,
+                                                              available_courses: @courses,
+                                                              available_course_options: @course_options) %>
 
       <div class="govuk-warning-text">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>

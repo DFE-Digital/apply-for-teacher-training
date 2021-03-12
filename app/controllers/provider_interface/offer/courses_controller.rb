@@ -27,10 +27,6 @@ module ProviderInterface
       def course_params
         params.require(:provider_interface_offer_wizard).permit(:course_id)
       end
-
-      def available_courses(provider_id)
-        Course.where(provider_id: provider_id)
-      end
     end
   end
 end

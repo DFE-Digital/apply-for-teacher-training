@@ -27,11 +27,6 @@ module ProviderInterface
       def course_option_params
         params.require(:provider_interface_offer_wizard).permit(:course_option_id)
       end
-
-      def available_course_options(course_id, study_mode)
-        CourseOption.where(course_id: course_id, study_mode: study_mode)
-                    .includes(:site).order('sites.name')
-      end
     end
   end
 end

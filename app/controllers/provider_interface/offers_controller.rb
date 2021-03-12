@@ -40,5 +40,18 @@ module ProviderInterface
 
       redirect_to(provider_interface_application_choice_path(@application_choice))
     end
+
+    def available_providers
+      current_provider_user.providers
+    end
+
+    def available_courses(provider_id)
+      Course.where(provider_id: provider_id)
+    end
+
+    def available_course_options(course_id, study_mode)
+      CourseOption.where(course_id: course_id, study_mode: study_mode)
+                  .includes(:site).order('sites.name')
+    end
   end
 end

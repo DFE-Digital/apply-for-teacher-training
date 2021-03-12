@@ -27,10 +27,6 @@ module ProviderInterface
       def provider_params
         params.require(:provider_interface_offer_wizard).permit(:provider_id)
       end
-
-      def available_providers
-        current_provider_user.providers
-      end
     end
   end
 end
