@@ -22,7 +22,7 @@ class DateValidator < ActiveModel::EachValidator
     return record.errors.add(attribute, invalid_date_locale(options), article: article(attribute), attribute: humanize(attribute)) if is_invalid?(value)
     return record.errors.add(attribute, :future, article: article(attribute), attribute: humanize(attribute)) if value > Time.zone.today && options[:future]
 
-    record.errors.add(attribute, :before, article: article(attribute), attribute: humanize(attribute), compared_attribute: options[:before]) if options[:before] && !before?(record, value, options[:before])
+    record.errors.add(attribute, :before, article: article(attribute), attribute: humanize(attribute), compared_attribute: humanize(options[:before])) if options[:before] && !before?(record, value, options[:before])
   end
 
 private
