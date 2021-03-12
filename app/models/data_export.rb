@@ -105,6 +105,11 @@ class DataExport < ApplicationRecord
       description: 'A list of sites that are being synced from Find, along with distances to their respective providers.',
       class: SupportInterface::SitesExport,
     },
+    structured_reasons_for_rejection: {
+      name: 'Structured reasons for rejection',
+      description: 'Structured reasons for rejection.',
+      class: SupportInterface::StructuredReasonsForRejectionExport,
+    },
     submitted_application_choices: {
       name: 'Submitted application choices',
       description: 'The submitted application choices export provides data about which courses candidates applied to, as well as info about offers and candidate decisions.',
@@ -129,11 +134,6 @@ class DataExport < ApplicationRecord
       name: 'Work history break',
       description: 'A list of candidates with breaks in their work history.',
       class: SupportInterface::WorkHistoryBreakExport,
-    },
-    structured_reasons_for_rejection: {
-      name: 'Structured reasons for rejection',
-      description: 'Structured reasons for rejection.',
-      class: SupportInterface::StructuredReasonsForRejectionExport,
     },
   }.freeze
 
