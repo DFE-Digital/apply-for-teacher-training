@@ -16,6 +16,7 @@ class CollectionSelectComponentPreview < ViewComponent::Preview
                                          hint_method: nil,
                                          form_object: form_object,
                                          form_path: '',
-                                         page_title: 'Select provider')
+                                         page_title: 'Select provider',
+                                         caption: 'Jane Doe')
   end
 end

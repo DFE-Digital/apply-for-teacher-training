@@ -21,15 +21,20 @@ RSpec.describe CollectionSelectComponent do
                                       hint_method: nil,
                                       form_object: form_object,
                                       form_path: '',
-                                      page_title: 'Select provider'))
+                                      page_title: 'Select provider',
+                                      caption: 'Jane Doe'))
   end
 
   before do
     stub_const('FormObjectClass', form_object_class)
   end
 
+  it 'renders the correct caption' do
+    expect(render.css('.govuk-caption-l').text).to eq('Jane Doe')
+  end
+
   it 'renders the correct page title' do
-    expect(render.css('.govuk-fieldset__legend').text).to eq('Select provider')
+    expect(render.css('.govuk-fieldset__legend').text).to include('Select provider')
   end
 
   it 'renders all collection items' do
