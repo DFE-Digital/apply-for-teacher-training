@@ -101,6 +101,46 @@
       "note": "not a user input"
     },
     {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "37b3066632afad7b480ce45f1b9d1263a923f29bba5edd3afd3e2f78e2cd425e",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/magic_link_feature_metrics.rb",
+      "line": 16,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ApplicationForm.apply_1.select(\"count(DISTINCT audits.id) as audit_count\", \"count(DISTINCT authentication_tokens.id) as token_count\").joins(:application_choices).joins(\"LEFT OUTER JOIN audits ON audits.auditable_id = application_forms.candidate_id AND audits.auditable_type = 'Candidate' AND audits.action = 'update' AND audits.audited_changes#>>'{magic_link_token, 1}' IS NOT NULL AND audits.created_at <= application_choices.#{timestamp}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MagicLinkFeatureMetrics",
+        "method": "average_magic_link_requests_upto"
+      },
+      "user_input": "timestamp",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "471859383ef3e9fba03933907e1bb043a8a57520241d275846126e6a2425f2e1",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/apply_again_feature_metrics.rb",
+      "line": 76,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ApplicationForm.where(:phase => \"apply_2\", :recruitment_cycle_year => RecruitmentCycle.current_year).joins(:application_choices).joins(\"inner join (select auditable_id, max(created_at) as status_last_updated_at\\n          from audits\\n          where auditable_type = 'ApplicationChoice'\\n            and action = 'update'\\n            and audited_changes#>>'{status, 1}' is not null\\n          group by auditable_id\\n        ) as status_audits on status_audits.auditable_id = application_choices.id\\n          and status_last_updated_at between '#{start_time}' and '#{end_time}'\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplyAgainFeatureMetrics",
+        "method": "application_forms"
+      },
+      "user_input": "start_time",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
       "warning_type": "Unscoped Find",
       "warning_code": 82,
       "fingerprint": "4c106936481ffa09c60383aed2a7b8e931b1672602d3f5a69ccaf9bd688cbf62",
@@ -261,6 +301,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-03-10 15:05:49 +0000",
+  "updated": "2021-03-15 09:28:21 +0000",
   "brakeman_version": "5.0.0"
 }
