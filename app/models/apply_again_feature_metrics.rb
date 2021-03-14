@@ -35,8 +35,8 @@ class ApplyAgainFeatureMetrics
     start_time,
     end_time = Time.zone.now.end_of_day
   )
-    not_applied_count = applications_eligible_for_apply_again_not_applied
-    applied_count = applications_eligible_for_apply_again_applied
+    not_applied_count = applications_eligible_for_apply_again_not_applied(start_time, end_time)
+    applied_count = applications_eligible_for_apply_again_applied(start_time, end_time)
 
     return nil if (not_applied_count + applied_count).zero?
 
@@ -97,7 +97,7 @@ private
       .includes(:application_choices)
   end
 
-  def applications_eligible_for_apply_again
+  def applications_eligible_for_apply_again(start_time, end_time)
     ApplicationForm
       .apply_1
       .joins(:application_choices)
@@ -107,10 +107,20 @@ private
         )
         .where('application_choices.application_form_id = application_forms.id')
       )
+      .joins(
+        "inner join (select auditable_id, max(created_at) as status_last_updated_at
+          from audits
+          where auditable_type = 'ApplicationChoice'
+            and action = 'update'
+            and audited_changes#>>'{status, 1}' is not null
+          group by auditable_id
+        ) as status_audits on status_audits.auditable_id = application_choices.id
+          and status_last_updated_at between '#{start_time}' and '#{end_time}'",
+      )
   end
 
-  def applications_eligible_for_apply_again_not_applied
-    applications_eligible_for_apply_again
+  def applications_eligible_for_apply_again_not_applied(start_time, end_time)
+    applications_eligible_for_apply_again(start_time, end_time)
       .joins('LEFT OUTER JOIN application_forms AS subsequent_application_form ON application_forms.id = subsequent_application_form.previous_application_form_id')
       .where(subsequent_application_form: { id: nil })
       .distinct
@@ -118,8 +128,8 @@ private
       .count
   end
 
-  def applications_eligible_for_apply_again_applied
-    applications_eligible_for_apply_again
+  def applications_eligible_for_apply_again_applied(start_time, end_time)
+    applications_eligible_for_apply_again(start_time, end_time)
       .joins(:subsequent_application_form)
       .distinct
       .pluck(:id)
