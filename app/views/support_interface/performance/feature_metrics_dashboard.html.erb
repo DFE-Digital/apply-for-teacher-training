@@ -272,7 +272,7 @@
       <div id="headline-stat" class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:apply_again_application_rate),
-          label: 'candidates that applied again after an unsuccessful first application',
+          label: 'candidates applied again after an unsuccessful first application',
           colour: :blue,
           size: :reduced,
         ) %>
