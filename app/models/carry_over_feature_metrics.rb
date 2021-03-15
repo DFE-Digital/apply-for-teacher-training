@@ -13,6 +13,7 @@ class CarryOverFeatureMetrics
         recruitment_cycle_year: RecruitmentCycle.current_year,
         'previous_application_forms.recruitment_cycle_year': RecruitmentCycle.previous_year,
       )
+      .where('application_forms.created_at BETWEEN ? AND ?', start_time, end_time)
       .count
   end
 end
