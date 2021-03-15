@@ -15,12 +15,12 @@ module SupportInterface
           name: provider_user.full_name,
           email_address: provider_user.email_address,
           provider: provider.name,
-          last_signed_in_at: provider_user.last_signed_in_at,
-          has_make_decisions: permissions.make_decisions.exists?(provider: provider),
-          has_view_safeguarding: permissions.view_safeguarding_information.exists?(provider: provider),
-          has_view_diversity: permissions.view_diversity_information.exists?(provider: provider),
-          has_manage_users: permissions.manage_users.exists?(provider: provider),
-          has_manage_organisations: permissions.manage_organisations.exists?(provider: provider),
+          last_signed_in_at: provider_user.last_signed_in_at.iso8601,
+          has_make_decisions: permissions.make_decisions.exists?(provider: provider).to_s,
+          has_view_safeguarding: permissions.view_safeguarding_information.exists?(provider: provider).to_s,
+          has_view_diversity: permissions.view_diversity_information.exists?(provider: provider).to_s,
+          has_manage_users: permissions.manage_users.exists?(provider: provider).to_s,
+          has_manage_organisations: permissions.manage_organisations.exists?(provider: provider).to_s,
         }
       end
     end

@@ -2,7 +2,7 @@ extract_date:
   type: string
   format: date-time
   description: Time when the report ran
-  example: 2019-06-13T10:44:31Z
+  example: 2020-11-01T00:00:00+00:00
 
 candidate_id:
   type: string
@@ -38,7 +38,7 @@ submitted_at:
   type: string
   format: date-time
   description: When the candidate submitted their application
-  example: 2020-06-13T10:44:31Z
+  example: 2020-11-01T00:00:00+00:00
 
 # # Personal information
 first_name:
