@@ -6,7 +6,7 @@ module ProviderInterface
 
     def new
       @wizard = OfferWizard.new(offer_store,
-                                offer_context_params(@application_choice.course_option).merge!(current_step: 'select_option'))
+                                offer_context_params(@application_choice.course_option).merge!(current_step: 'select_option', action: action))
       @wizard.save_state!
     end
 
@@ -183,6 +183,10 @@ module ProviderInterface
     def offer_store
       key = "offer_wizard_store_#{current_provider_user.id}_#{@application_choice.id}"
       WizardStateStores::RedisStore.new(key: key)
+    end
+
+    def action
+      'back' if !!params[:back]
     end
   end
 end
