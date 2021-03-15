@@ -8,24 +8,15 @@ RSpec.describe SupportInterface::ReferenceWithFeedbackComponent do
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
       expect(rendered_component).to include('Cancel reference')
-      expect(rendered_component).not_to include('Reinstate reference')
+      expect(rendered_component).not_to include('Undo refusal')
     end
 
-    it 'Reinstate link is present when the reference is cancelled' do
-      reference = create(:reference, feedback_status: 'cancelled')
-
-      render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
-
-      expect(rendered_component).to include('Reinstate reference')
-      expect(rendered_component).not_to include('Cancel reference')
-    end
-
-    it 'Reinstate link is present when the reference is refused' do
+    it '"Undo refusal" link is present when the reference is refused' do
       reference = create(:reference, feedback_status: 'feedback_refused')
 
       render_inline(SupportInterface::ReferenceWithFeedbackComponent.new(reference: reference, reference_number: 1))
 
-      expect(rendered_component).to include('Reinstate reference')
+      expect(rendered_component).to include('Undo refusal')
       expect(rendered_component).not_to include('Cancel reference')
     end
   end

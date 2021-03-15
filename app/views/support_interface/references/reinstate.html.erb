@@ -4,20 +4,15 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      Are you sure you want to reinstate this reference?
+      Are you sure you want to undo the referee's refusal to provide a reference?
     </h1>
 
     <p class="govuk-body">
-      Reinstating a reference will:
+      This will allow this referee to provide a reference
     </p>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>allow this referee to provide a reference</li>
-      <li>prevent the candidate from providing a replacement referee</li>
-    </ul>
-
     <p class="govuk-body">
-      Reinstating a reference does <strong>not send email notifications</strong>.
+      Undoing a refusal does <strong>not send email notifications</strong>.
     </p>
 
     <%= render(SummaryCardComponent.new(rows: [
@@ -32,7 +27,7 @@
     ])) %>
 
     <%= form_with model: @reference, url: support_interface_reinstate_reference_path(@reference), method: :post do |f| %>
-      <%= f.govuk_submit 'Reinstate reference' %>
+      <%= f.govuk_submit 'Undo refusal' %>
     <% end %>
   </div>
 </div>
