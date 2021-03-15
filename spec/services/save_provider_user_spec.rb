@@ -63,5 +63,9 @@ RSpec.describe SaveProviderUser do
 
       expect(result.authorisation.providers_that_actor_can_manage_users_for).to eq([another_provider])
     end
+
+    it 'adds ProviderUserNotificationPreferences records' do
+      expect { service.call! }.to change(ProviderUserNotificationPreferences, :count).by(1)
+    end
   end
 end

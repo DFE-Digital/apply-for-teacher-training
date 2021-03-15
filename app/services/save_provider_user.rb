@@ -8,6 +8,7 @@ class SaveProviderUser
   def call!
     @provider_user.save!
     update_provider_permissions!
+    @provider_user.create_notification_preferences
     @provider_user.reload
   end
 
