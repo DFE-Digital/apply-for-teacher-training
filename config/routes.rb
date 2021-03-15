@@ -895,6 +895,8 @@ Rails.application.routes.draw do
       get '/validation-errors/summary' => 'validation_errors#summary', as: :validation_error_summary
 
       get '/data-export/documentation/:export_type_id' => 'data_exports#data_set_documentation', as: :data_set_documentation
+      get '/data-exports/history' => 'data_exports#index', as: :data_exports_history
+      get '/data-directory' => 'data_exports#directory', as: :data_directory
 
       resources :data_exports, path: '/data-exports' do
         member do

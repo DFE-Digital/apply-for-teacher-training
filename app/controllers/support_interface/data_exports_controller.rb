@@ -8,6 +8,10 @@ module SupportInterface
       @data_exports = DataExport.includes(:initiator).order(id: :desc).page(params[:page] || 1).per(30)
     end
 
+    def directory
+      @export_types = DataExport::EXPORT_TYPES
+    end
+
     def create
       export_type = DataExport::EXPORT_TYPES.fetch(params.fetch(:export_type_id).to_sym)
       data_export = DataExport.create!(name: export_type.fetch(:name), initiator: current_support_user)
