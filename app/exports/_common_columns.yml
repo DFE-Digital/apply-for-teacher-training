@@ -38,7 +38,7 @@ submitted_at:
   type: string
   format: date-time
   description: When the candidate submitted their application
-  example: 2019-06-13T10:44:31Z
+  example: 2020-06-13T10:44:31Z
 
 # # Personal information
 first_name:
