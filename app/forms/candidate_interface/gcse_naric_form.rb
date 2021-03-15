@@ -21,6 +21,7 @@ module CandidateInterface
 
       qualification.update!(
         naric_reference: naric_reference,
+        enic_reference: naric_reference,
         comparable_uk_qualification: comparable_uk_qualification,
       )
     end
