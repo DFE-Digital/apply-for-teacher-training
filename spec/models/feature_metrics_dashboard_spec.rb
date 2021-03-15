@@ -52,12 +52,16 @@ RSpec.describe FeatureMetricsDashboard do
       magic_link_metrics_double = instance_double(MagicLinkFeatureMetrics)
       rfr_metrics_double = instance_double(ReasonsForRejectionFeatureMetrics)
       apply_again_metrics_double = instance_double(ApplyAgainFeatureMetrics)
+      carry_over_metrics_double = instance_double(CarryOverFeatureMetrics)
+      qualifications_metrics_double = instance_double(QualificationsFeatureMetrics)
 
       allow(ReferenceFeatureMetrics).to receive(:new).and_return(reference_metrics_double)
       allow(WorkHistoryFeatureMetrics).to receive(:new).and_return(work_history_metrics_double)
       allow(MagicLinkFeatureMetrics).to receive(:new).and_return(magic_link_metrics_double)
       allow(ReasonsForRejectionFeatureMetrics).to receive(:new).and_return(rfr_metrics_double)
       allow(ApplyAgainFeatureMetrics).to receive(:new).and_return(apply_again_metrics_double)
+      allow(CarryOverFeatureMetrics).to receive(:new).and_return(carry_over_metrics_double)
+      allow(QualificationsFeatureMetrics).to receive(:new).and_return(qualifications_metrics_double)
 
       allow(reference_metrics_double).to receive(:average_time_to_get_references).and_return(1)
       allow(reference_metrics_double).to receive(:percentage_references_within).and_return(2)
@@ -67,6 +71,8 @@ RSpec.describe FeatureMetricsDashboard do
       allow(apply_again_metrics_double).to receive(:formatted_success_rate).and_return('42.8%')
       allow(apply_again_metrics_double).to receive(:formatted_change_rate).and_return('33.3%')
       allow(apply_again_metrics_double).to receive(:formatted_application_rate).and_return('18.7%')
+      allow(carry_over_metrics_double).to receive(:carry_over_count).and_return(20)
+      allow(qualifications_metrics_double).to receive(:formatted_a_level_percentage).and_return('30%')
 
       dashboard = described_class.new
       dashboard.load_updated_metrics
@@ -102,9 +108,15 @@ RSpec.describe FeatureMetricsDashboard do
         'apply_again_application_rate' => '18.7%',
         'apply_again_application_rate_this_month' => '18.7%',
         'apply_again_application_rate_upto_this_month' => '18.7%',
-        'carry_over_count' => 0,
-        'carry_over_count_this_month' => 0,
-        'carry_over_count_last_month' => 0,
+        'carry_over_count' => 20,
+        'carry_over_count_this_month' => 20,
+        'carry_over_count_last_month' => 20,
+        'pct_applications_with_one_a_level' => '30%',
+        'pct_applications_with_one_a_level_this_month' => '30%',
+        'pct_applications_with_one_a_level_last_month' => '30%',
+        'pct_applications_with_three_a_levels' => '30%',
+        'pct_applications_with_three_a_levels_this_month' => '30%',
+        'pct_applications_with_three_a_levels_last_month' => '30%',
       })
     end
   end
