@@ -23,14 +23,15 @@ RSpec.feature 'Feature metrics dashboard' do
     and_i_should_see_accessing_the_service_metrics
     and_i_should_see_reasons_for_rejection_metrics
     and_i_should_see_apply_again_metrics
+    and_i_should_see_carry_over_metrics
   end
 
   def given_i_am_a_support_user
     sign_in_as_support_user
   end
 
-  def create_application_form_with_references
-    application_form = create(:application_form)
+  def create_application_form_with_references(attrs = {})
+    application_form = create(:application_form, attrs)
     create(:application_choice, application_form: application_form)
     references = create_list(:reference, 2, application_form: application_form)
     references.each { |reference| RequestReference.new.call(reference) }
@@ -55,6 +56,13 @@ RSpec.feature 'Feature metrics dashboard' do
       structured_rejection_reasons: { qualifications_y_n: 'Yes' },
       rejected_at: Time.zone.now,
     )
+  end
+
+  def carry_over_application(application_form)
+    DuplicateApplication.new(
+      application_form,
+      target_phase: 'apply_1',
+    ).duplicate
   end
 
   def apply_again_and_offer_application(application_form)
@@ -87,6 +95,9 @@ RSpec.feature 'Feature metrics dashboard' do
 
   def and_there_are_candidates_and_application_forms_in_the_system
     allow(EndOfCycleTimetable).to receive(:apply_reopens).and_return(60.days.ago)
+    Timecop.freeze(@today - 65.days) do
+      @previous_application_form = create_application_form_with_references(recruitment_cycle_year: 2020).first
+    end
     Timecop.freeze(@today - 50.days) do
       @application_form1, @references1 = create_application_form_with_references
       @application_form2, @references2 = create_application_form_with_references
@@ -117,6 +128,7 @@ RSpec.feature 'Feature metrics dashboard' do
       reject_application(@application_form2.application_choices.first)
       apply_again_and_reject_application(@application_form1)
       apply_again_and_offer_application(@application_form2)
+      carry_over_application(@previous_application_form)
     end
   end
 
@@ -173,6 +185,14 @@ RSpec.feature 'Feature metrics dashboard' do
       expect(page).to have_content('50% apply again success rate')
       expect(page).to have_content('n/a upto this month')
       expect(page).to have_content('50% this month')
+    end
+  end
+
+  def and_i_should_see_carry_over_metrics
+    within('#carry_over_dashboard_section') do
+      expect(page).to have_content('1 candidates carried over applications from previous cycle')
+      expect(page).to have_content('0 last month')
+      expect(page).to have_content('1 this month')
     end
   end
 end
