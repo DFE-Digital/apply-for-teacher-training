@@ -1,5 +1,5 @@
 <% content_for :browser_title, title_with_error_prefix(t('.title'), @wizard.errors.any?) %>
-<% content_for :before_content, '' %>
+<% content_for :before_content, govuk_back_link_to(offer_path_for(@application_choice, @wizard.previous_step, back: true)) %>
 
 <%= render CollectionSelectComponent.new(attribute: :study_mode,
                                          collection: @study_modes,

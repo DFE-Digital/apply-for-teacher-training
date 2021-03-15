@@ -2,7 +2,7 @@ module ProviderInterface
   module Offer
     class ProvidersController < OffersController
       def new
-        @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'providers' })
+        @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'providers', action: action })
         @wizard.save_state!
 
         @providers = available_providers

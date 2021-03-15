@@ -41,6 +41,10 @@ module ProviderInterface
       redirect_to(provider_interface_application_choice_path(@application_choice))
     end
 
+    def action
+      'back' if !!params[:back]
+    end
+
     def available_providers
       current_provider_user.providers
     end

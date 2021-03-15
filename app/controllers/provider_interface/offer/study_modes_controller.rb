@@ -2,7 +2,7 @@ module ProviderInterface
   module Offer
     class StudyModesController < OffersController
       def new
-        @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'study_modes' })
+        @wizard = OfferWizard.new(offer_store, { decision: 'change_offer', current_step: 'study_modes', action: action })
         @wizard.save_state!
 
         @course = Course.find(@wizard.course_id)

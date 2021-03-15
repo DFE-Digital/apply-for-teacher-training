@@ -183,6 +183,17 @@ RSpec.describe ProviderInterface::OfferWizard do
     end
   end
 
+  describe '#previous_step' do
+    before do
+      wizard.path_history = %i[provider courses locations]
+      wizard.current_step = :locations
+    end
+
+    it 'returns the step before the current_step' do
+      expect(wizard.previous_step).to eq(:courses)
+    end
+  end
+
   describe '#conditions' do
     let(:standard_conditions) { ['', MakeAnOffer::STANDARD_CONDITIONS.last] }
     let(:further_condition_3) { 'They must graduate from their current course with an Honors' }
