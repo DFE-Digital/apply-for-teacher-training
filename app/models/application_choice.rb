@@ -137,6 +137,10 @@ class ApplicationChoice < ApplicationRecord
       offer_withdrawn? && offer_withdrawal_reason.present?
   end
 
+  def associated_providers
+    [provider, accredited_provider].compact.uniq
+  end
+
 private
 
   def set_initial_status

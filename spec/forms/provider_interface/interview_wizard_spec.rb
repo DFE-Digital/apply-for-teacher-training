@@ -237,38 +237,6 @@ RSpec.describe ProviderInterface::InterviewWizard do
     end
   end
 
-  describe '#application_providers' do
-    let(:application_choice) { create(:application_choice, :awaiting_provider_decision, course_option: course_option) }
-    let(:course_option) { create(:course_option, course: course) }
-    let(:provider) { create(:provider) }
-    let(:provider_user) { create(:provider_user, :with_make_decisions, providers: [provider]) }
-    let(:accredited_provider) { create(:provider) }
-
-    context 'when the application course has both a provider and an accredited provider' do
-      let(:course) { create(:course, provider: provider) }
-
-      it 'retrieves both providers' do
-        expect(wizard.application_providers).to contain_exactly(provider)
-      end
-    end
-
-    context 'when the application course only has a provider set' do
-      let(:course) { create(:course, provider: provider, accredited_provider: accredited_provider) }
-
-      it 'retrieves the ratifying provider' do
-        expect(wizard.application_providers).to contain_exactly(provider, accredited_provider)
-      end
-    end
-
-    context 'when the application course provider and accredited provider are the same' do
-      let(:course) { create(:course, provider: provider, accredited_provider: provider) }
-
-      it 'retrieves the training provider' do
-        expect(wizard.application_providers).to contain_exactly(provider)
-      end
-    end
-  end
-
   describe '.from_model' do
     let(:store) { instance_double(WizardStateStores::RedisStore, read: {}) }
     let(:interview) { build_stubbed(:interview) }

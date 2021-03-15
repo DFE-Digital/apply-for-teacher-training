@@ -53,14 +53,6 @@ module ProviderInterface
       end
     end
 
-    def multiple_application_providers?
-      @multiple_application_providers ||= application_providers.count > 1
-    end
-
-    def application_providers
-      @application_providers ||= [application_choice.provider, application_choice.accredited_provider].compact.uniq
-    end
-
     def save_state!
       @state_store.write(state)
     end
@@ -115,6 +107,14 @@ module ProviderInterface
       return if time_in_correct_format?
 
       errors.add(:time, :invalid)
+    end
+
+    def multiple_application_providers?
+      @_multiple_application_providers ||= application_providers.count > 1
+    end
+
+    def application_providers
+      @_application_providers ||= application_choice.associated_providers
     end
 
     def last_saved_state
