@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_08_223028) do
+ActiveRecord::Schema.define(version: 2021_03_15_120553) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -228,6 +228,7 @@ ActiveRecord::Schema.define(version: 2021_03_08_223028) do
     t.string "comparable_uk_qualification"
     t.jsonb "constituent_grades"
     t.bigint "public_id"
+    t.string "enic_reference"
     t.index ["application_form_id"], name: "index_application_qualifications_on_application_form_id"
     t.index ["grade_hesa_code"], name: "qualifications_by_grade_hesa_code"
     t.index ["institution_hesa_code"], name: "qualifications_by_institution_hesa_code"
