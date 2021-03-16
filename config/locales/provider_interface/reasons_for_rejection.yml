@@ -23,6 +23,7 @@ en:
       reason: "We're sorry to tell you the course you applied to was full"
     offered_on_another_course:
       title: 'They offered you a place on another course'
+      other_details: Offered on another course - details
     honesty_and_professionalism:
       title: 'Honesty and professionalism'
       information_false_or_inaccurate: Information given on application form false or inaccurate

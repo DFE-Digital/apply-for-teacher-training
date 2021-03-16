@@ -23,6 +23,7 @@ class FlatReasonsForRejectionPresenter
       label_for_subreason_detail('performance_at_interview_y_n', 'what_to_improve_details') => reasons_for_rejection.performance_at_interview_what_to_improve,
       title_for_top_level_reason('course_full_y_n') => y_n_to_boolean(reasons_for_rejection.course_full_y_n),
       title_for_top_level_reason('offered_on_another_course_y_n') => y_n_to_boolean(reasons_for_rejection.offered_on_another_course_y_n),
+      label_for_subreason_detail('offered_on_another_course_y_n', 'other_details') => reasons_for_rejection.offered_on_another_course_details,
       title_for_top_level_reason('honesty_and_professionalism_y_n') => y_n_to_boolean(reasons_for_rejection.honesty_and_professionalism_y_n),
       label_for_subreason('honesty_and_professionalism_y_n', 'information_false_or_inaccurate') => subreason_exists?(reasons_for_rejection.honesty_and_professionalism_concerns, 'information_false_or_inaccurate'),
       label_for_subreason_detail('honesty_and_professionalism_y_n', 'information_false_or_inaccurate_details') => reasons_for_rejection.honesty_and_professionalism_concerns_information_false_or_inaccurate_details,
@@ -65,7 +66,7 @@ class FlatReasonsForRejectionPresenter
   end
 
   def self.label_for_subreason(reason, subreason)
-    I18n.t("reasons_for_rejection.#{ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.#{subreason}")
+    I18n.t("reasons_for_rejection.#{ReasonsForRejection::TOP_LEVEL_REASONS_TO_I18N_KEYS[reason]}.#{subreason}").gsub('’', "'")
   end
 
   singleton_class.send(:alias_method, :label_for_subreason_detail, :label_for_subreason)
