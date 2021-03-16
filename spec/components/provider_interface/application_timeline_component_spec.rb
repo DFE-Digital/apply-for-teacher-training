@@ -179,6 +179,53 @@ RSpec.describe ProviderInterface::ApplicationTimelineComponent do
     end
   end
 
+  describe 'user who made the changes' do
+    let(:user) { build_stubbed(:support_user) }
+    let(:username) { nil }
+    let(:audit) do
+      create(
+        :application_choice_audit,
+        :with_offer,
+        user: user,
+        username: username,
+        created_at: 3.days.ago,
+      )
+    end
+
+    context 'when change was done by a support user' do
+      it 'renders Apply support' do
+        application_choice = application_choice_with_audits [audit]
+
+        rendered = render_inline(described_class.new(application_choice: application_choice))
+        expect(rendered.css('.app-timeline__actor_and_date').text).to include 'Apply support'
+      end
+    end
+
+    context 'when change was done in the rails console' do
+      let(:user) { nil }
+      let(:username) { 'John Smith via the Rails console' }
+
+      it 'renders Apply support' do
+        application_choice = application_choice_with_audits [audit]
+
+        rendered = render_inline(described_class.new(application_choice: application_choice))
+        expect(rendered.css('.app-timeline__actor_and_date').text).to include 'Apply support'
+      end
+    end
+
+    context 'when change was done by an automated process' do
+      let(:user) { nil }
+      let(:username) { '(Automated process)' }
+
+      it 'renders System' do
+        application_choice = application_choice_with_audits [audit]
+
+        rendered = render_inline(described_class.new(application_choice: application_choice))
+        expect(rendered.css('.app-timeline__actor_and_date').text).to include 'System'
+      end
+    end
+  end
+
   it 'has a title for all state transitions' do
     FeatureFlag.activate(:interviews)
     expect(ApplicationStateChange.states_visible_to_provider).to match_array(ProviderInterface::ApplicationTimelineComponent::TITLES.keys.map(&:to_sym))
