@@ -10,6 +10,7 @@ class ProviderUser < ActiveRecord::Base
   validates :dfe_sign_in_uid, uniqueness: true, allow_nil: true
 
   before_save :downcase_email_address
+  after_save :update_notification_preferences
 
   audited except: [:last_signed_in_at]
   has_associated_audits
@@ -65,5 +66,12 @@ private
 
   def downcase_email_address
     self.email_address = email_address.downcase
+  end
+
+  def update_notification_preferences
+    if saved_change_to_attribute?(:send_notifications)
+      self.notification_preferences ||= ProviderUserNotificationPreferences.create!(provider_user: self)
+      notification_preferences.update_all_preferences(send_notifications)
+    end
   end
 end

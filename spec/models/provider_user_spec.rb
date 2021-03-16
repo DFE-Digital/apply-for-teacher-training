@@ -8,6 +8,28 @@ RSpec.describe ProviderUser, type: :model do
     end
   end
 
+  describe '#update_notification_preferences' do
+    it 'updates the associated ProviderUserNotificationPreferences record using #send_notifications' do
+      provider_user = create(:provider_user, send_notifications: false)
+
+      expect {
+        provider_user.update(send_notifications: true)
+      }.to change(provider_user.notification_preferences, :application_received).from(false).to(true)
+        .and change(provider_user.notification_preferences, :application_withdrawn).from(false).to(true)
+        .and change(provider_user.notification_preferences, :application_rejected_by_default).from(false).to(true)
+        .and change(provider_user.notification_preferences, :offer_accepted).from(false).to(true)
+        .and change(provider_user.notification_preferences, :offer_declined).from(false).to(true)
+    end
+
+    it 'creates an associated ProviderUserNotificationPreferences record if it does not exist' do
+      provider_user = create(:provider_user, notification_preferences: nil)
+
+      provider_user.update(send_notifications: true)
+
+      expect(provider_user.reload.notification_preferences).to be_present
+    end
+  end
+
   describe '.onboard!' do
     it 'sets the DfE Sign-in ID on an existing user' do
       provider_user = create :provider_user, dfe_sign_in_uid: nil
