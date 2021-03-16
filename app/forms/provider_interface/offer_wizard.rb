@@ -8,7 +8,7 @@ module ProviderInterface
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
                   :standard_conditions, :further_condition_1, :further_condition_2,
                   :further_condition_3, :further_condition_4, :current_step, :decision,
-                  :path_history, :action
+                  :path_history, :action, :provider_user_id
 
     validates :decision, presence: true
     validates :course_option_id, presence: true, on: :locations
@@ -51,6 +51,7 @@ module ProviderInterface
 
       next_step = STEPS[decision.to_sym][index + 1]
 
+      return save_and_go_to_next_step(next_step) if next_step.eql?(:providers) && available_providers.one?
       return save_and_go_to_next_step(next_step) if next_step.eql?(:courses) && available_courses.one?
       return save_and_go_to_next_step(next_step) if next_step.eql?(:study_modes) && available_study_modes.one?
       return save_and_go_to_next_step(next_step) if next_step.eql?(:locations) && available_course_options.one?
@@ -65,6 +66,7 @@ module ProviderInterface
   private
 
     def save_and_go_to_next_step(step)
+      attrs = { provider_id: available_providers.first.id } if step.eql?(:providers)
       attrs = { course_id: available_courses.first.id } if step.eql?(:courses)
       attrs = { study_mode: available_study_modes.first } if step.eql?(:study_modes)
       attrs = { course_option_id: available_course_options.first.id } if step.eql?(:locations)
@@ -85,6 +87,11 @@ module ProviderInterface
 
     def available_courses
       Course.where(provider_id: provider_id)
+    end
+
+    def available_providers
+      provider_user = ProviderUser.find(provider_user_id)
+      provider_user.providers
     end
 
     def last_saved_state
