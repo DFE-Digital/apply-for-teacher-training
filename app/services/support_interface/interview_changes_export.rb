@@ -3,11 +3,13 @@ module SupportInterface
     def data_for_export
       interview_audits.find_each(batch_size: 100).map do |audit|
         row_for_audit(audit)
-      end
+      end.compact
     end
 
     def row_for_audit(audit)
       interview = audit.auditable
+      return if interview.blank?
+
       application_choice = interview.application_choice
       {
         audit_id: audit.id,

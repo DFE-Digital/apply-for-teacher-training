@@ -34,6 +34,15 @@ RSpec.describe SupportInterface::InterviewChangesExport do
         created_at: 1.day.ago,
       )
     end
+    let!(:orphaned_audit) do
+      # This represents an audit for a hard-deleted interview, and should be ignored in the export
+      create(
+        :interview_audit,
+        auditable_id: 123,
+        action: 'create',
+        created_at: 2.days.ago,
+      )
+    end
 
     around do |example|
       Timecop.freeze(2021, 11, 5, 15) { example.run }
