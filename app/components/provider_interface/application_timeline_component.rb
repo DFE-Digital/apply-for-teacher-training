@@ -117,6 +117,8 @@ module ProviderInterface
         'Candidate'
       elsif change.user.is_a?(ProviderUser)
         provider_name(change.user)
+      elsif change.user.is_a?(SupportUser) || change.audit.username =~ /via the Rails console/
+        'Apply support'
       else
         'System'
       end
