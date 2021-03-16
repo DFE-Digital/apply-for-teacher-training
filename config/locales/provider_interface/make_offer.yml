@@ -33,6 +33,7 @@ en:
       provider_interface_offer_wizard:
         decision_options:
           make_offer: Make an offer
+          change_offer: Change course details and make an offer
           rejection: Reject application
         further_condition_1: 'Condition 1'
         further_condition_2: 'Condition 2'

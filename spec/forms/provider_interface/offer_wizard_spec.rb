@@ -70,8 +70,29 @@ RSpec.describe ProviderInterface::OfferWizard do
       context 'when current_step is :select_option' do
         let(:current_step) { :select_option }
 
-        it 'returns :providers' do
-          expect(wizard.next_step).to eq(:providers)
+        context 'when there are multiple available providers' do
+          before do
+            provider_user = instance_double(ProviderUser, providers: build_stubbed_list(:provider, 2))
+            allow(ProviderUser).to receive(:find).and_return(provider_user)
+          end
+
+          it 'returns :providers' do
+            expect(wizard.next_step).to eq(:providers)
+          end
+        end
+
+        context 'when there is only one available provider' do
+          before do
+            courses = build_stubbed_list(:course, 2)
+            provider = instance_double(Provider, id: :stub_id, courses: courses)
+            provider_user = instance_double(ProviderUser, providers: [provider])
+            allow(ProviderUser).to receive(:find).and_return(provider_user)
+            allow(store).to receive(:write)
+          end
+
+          it 'returns :courses' do
+            expect(wizard.next_step).to eq(:courses)
+          end
         end
       end
 

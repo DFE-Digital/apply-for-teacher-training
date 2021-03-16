@@ -156,6 +156,7 @@ module ProviderInterface
 
     def offer_context_params(course_option)
       {
+        provider_user_id: current_provider_user.id,
         course_id: course_option.course.id,
         course_option_id: course_option.id,
         provider_id: course_option.provider.id,

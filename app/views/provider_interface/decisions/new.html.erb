@@ -14,9 +14,8 @@
 
       <%= render ProviderInterface::CourseSummaryComponent.new(course_option: @application_choice.course_option) %>
       <%= f.govuk_radio_buttons_fieldset :decision, legend: { size: 'm' } do %>
-        <%= f.govuk_radio_button :decision,
-          'make_offer',
-          link_errors: true %>
+        <%= f.govuk_radio_button :decision, 'make_offer', link_errors: true %>
+        <%= f.govuk_radio_button :decision, 'change_offer' %>
 
         <%= f.govuk_radio_button :decision, 'rejection' %>
       <% end %>
