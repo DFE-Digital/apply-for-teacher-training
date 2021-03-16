@@ -311,7 +311,7 @@ FactoryBot.define do
         non_uk_qualification_type { 'High School Diploma' }
         grade { %w[pass merit distinction].sample }
         institution_country { Faker::Address.country_code }
-        naric_reference { '4000123456' }
+        enic_reference { '4000123456' }
         comparable_uk_qualification { 'Between GCSE and GCSE AS Level' }
       end
 

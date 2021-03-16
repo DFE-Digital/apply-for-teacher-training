@@ -68,13 +68,13 @@ RSpec.describe DegreeQualificationCardsComponent, type: :component do
       end
     end
 
-    context 'when UK NARIC details are provided' do
-      before { degree.update(naric_reference: '1234', comparable_uk_degree: 'masters_degree') }
+    context 'when UK ENIC details are provided' do
+      before { degree.update(enic_reference: '1234', comparable_uk_degree: 'masters_degree') }
 
-      it 'renders a UK NARIC statement' do
+      it 'renders a UK ENIC statement' do
         result = render_inline described_class.new([degree])
         expect(result.text).to include(
-          'UK NARIC statement 1234 says this is comparable to a Master’s degree / Integrated Master’s degree',
+          'UK ENIC statement 1234 says this is comparable to a Master’s degree / Integrated Master’s degree',
         )
       end
     end

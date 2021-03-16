@@ -25,18 +25,18 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
 
     when_i_fill_in_a_valid_country
     and_i_click_save_and_continue
-    then_i_see_the_add_naric_reference_page
+    then_i_see_the_add_enic_reference_page
 
-    when_i_do_not_input_my_naric_reference_or_choose_an_equivalency
+    when_i_do_not_input_my_enic_reference_or_choose_an_equivalency
     and_i_click_save_and_continue
-    then_i_see_the_do_you_have_a_naric_reference_error
+    then_i_see_the_do_you_have_a_enic_reference_error
 
     when_i_choose_yes
     and_i_click_save_and_continue
-    then_i_see_the_naric_reference_blank_error
+    then_i_see_the_enic_reference_blank_error
     and_i_see_the_choose_a_equivalency_option_error
 
-    when_i_fill_in_my_naric_reference_and_choose_an_equivalency
+    when_i_fill_in_my_enic_reference_and_choose_an_equivalency
     and_i_click_save_and_continue
     then_i_see_the_add_grade_page
 
@@ -104,30 +104,30 @@ RSpec.feature 'Candidate entering Non UK GCSE equivalency details' do
     select 'United States'
   end
 
-  def then_i_see_the_add_naric_reference_page
-    expect(page).to have_current_path candidate_interface_gcse_details_edit_naric_path('maths')
+  def then_i_see_the_add_enic_reference_page
+    expect(page).to have_current_path candidate_interface_gcse_details_edit_enic_path('maths')
   end
 
-  def when_i_do_not_input_my_naric_reference_or_choose_an_equivalency; end
+  def when_i_do_not_input_my_enic_reference_or_choose_an_equivalency; end
 
-  def then_i_see_the_do_you_have_a_naric_reference_error
-    expect(page).to have_content 'Select if you have a UK NARIC statement of comparability'
+  def then_i_see_the_do_you_have_a_enic_reference_error
+    expect(page).to have_content 'Select if you have a UK ENIC statement of comparability'
   end
 
   def when_i_choose_yes
     choose 'Yes'
   end
 
-  def then_i_see_the_naric_reference_blank_error
-    expect(page).to have_content 'Enter your UK NARIC reference number'
+  def then_i_see_the_enic_reference_blank_error
+    expect(page).to have_content 'Enter your UK ENIC reference number'
   end
 
   def and_i_see_the_choose_a_equivalency_option_error
     expect(page).to have_content 'Choose a comparable UK qualification'
   end
 
-  def when_i_fill_in_my_naric_reference_and_choose_an_equivalency
-    fill_in 'candidate-interface-gcse-naric-form-naric-reference-field-error', with: '12345'
+  def when_i_fill_in_my_enic_reference_and_choose_an_equivalency
+    fill_in 'candidate-interface-gcse-enic-form-enic-reference-field-error', with: '12345'
     choose 'GCSE (grades A*-C / 9-4)'
   end
 

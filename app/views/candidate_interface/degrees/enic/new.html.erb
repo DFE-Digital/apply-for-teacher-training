@@ -1,11 +1,11 @@
-<% content_for :title, title_with_error_prefix(t('page_titles.degree_naric'), @degree_naric_form.errors.any?) %>
+<% content_for :title, title_with_error_prefix(t('page_titles.degree_enic'), @degree_enic_form.errors.any?) %>
 <% content_for :before_content, govuk_back_link_to %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(
-      model: @degree_naric_form,
-      url: candidate_interface_degree_naric_path(@degree_naric_form.degree),
+      model: @degree_enic_form,
+      url: candidate_interface_degree_enic_path(@degree_enic_form.degree),
     ) do |f| %>
       <%= render 'form_fields', f: f %>
     <% end %>

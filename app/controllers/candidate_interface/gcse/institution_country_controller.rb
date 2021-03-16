@@ -27,7 +27,7 @@ module CandidateInterface
 
     def next_gcse_path
       if current_qualification.grade.nil?
-        candidate_interface_gcse_details_edit_naric_path
+        candidate_interface_gcse_details_edit_enic_path
       else
         candidate_interface_gcse_review_path
       end

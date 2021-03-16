@@ -13,7 +13,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         grade: 'C',
         award_year: '2020',
         institution_country: 'US',
-        naric_reference: '12345',
+        enic_reference: '12345',
         comparable_uk_qualification: 'Between GCSE and GCE AS level',
       )
       result = render_inline(
@@ -24,9 +24,9 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__value')[0].text).to include('High school diploma')
       expect(result.css('.govuk-summary-list__key')[1].text).to include('Country')
       expect(result.css('.govuk-summary-list__value')[1].text).to include('United States')
-      expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a UK NARIC statement of comparability?')
+      expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a UK ENIC statement of comparability?')
       expect(result.css('.govuk-summary-list__value')[2].text).to include('Yes')
-      expect(result.css('.govuk-summary-list__key')[3].text).to include('UK NARIC reference number')
+      expect(result.css('.govuk-summary-list__key')[3].text).to include('UK ENIC reference number')
       expect(result.css('.govuk-summary-list__value')[3].text).to include('12345')
       expect(result.css('.govuk-summary-list__key')[4].text).to include('Comparable UK qualification')
       expect(result.css('.govuk-summary-list__value')[4].text).to include('Between GCSE and GCE AS level')
@@ -36,7 +36,7 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
       expect(result.css('.govuk-summary-list__value')[6].text).to include('2020')
     end
 
-    it 'displays the naric_statment row and hides the naric_reference and comparable_uk_qualification when nil' do
+    it 'displays the enic_statment row and hides the enic_reference and comparable_uk_qualification when nil' do
       application_form = build :application_form
       @qualification = application_qualification = build(
         :application_qualification,
@@ -46,16 +46,16 @@ RSpec.describe CandidateInterface::GcseQualificationReviewComponent do
         level: 'gcse',
         grade: 'c',
         institution_country: 'United States',
-        naric_reference: nil,
+        enic_reference: nil,
         comparable_uk_qualification: nil,
       )
       result = render_inline(
         described_class.new(application_form: application_form, application_qualification: application_qualification, subject: 'maths'),
       )
 
-      expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a UK NARIC statement of comparability?')
+      expect(result.css('.govuk-summary-list__key')[2].text).to include('Do you have a UK ENIC statement of comparability?')
       expect(result.css('.govuk-summary-list__value')[2].text).to include('No')
-      expect(result.css('.govuk-summary-list__key').text).not_to include('UK NARIC reference number')
+      expect(result.css('.govuk-summary-list__key').text).not_to include('UK ENIC reference number')
       expect(result.css('.govuk-summary-list__key').text).not_to include('Comparable UK qualification')
     end
   end

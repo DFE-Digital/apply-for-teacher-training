@@ -33,14 +33,14 @@ RSpec.feature 'Entering their degrees' do
     and_i_fill_in_the_country
     and_i_click_on_save_and_continue
 
-    # Add UK NARIC statement
-    then_i_can_see_the_naric_page
+    # Add UK ENIC statement
+    then_i_can_see_the_enic_page
     when_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_naric_question
-    when_i_check_yes_for_naric_statement
+    then_i_see_validation_errors_for_enic_question
+    when_i_check_yes_for_enic_statement
     and_i_click_on_save_and_continue
-    then_i_see_validation_errors_for_naric_reference_and_comparable_uk_degree
-    and_i_fill_in_naric_reference
+    then_i_see_validation_errors_for_enic_reference_and_comparable_uk_degree
+    and_i_fill_in_enic_reference
     and_i_fill_in_comparable_uk_degree_type
     and_i_click_on_save_and_continue
 
@@ -78,11 +78,11 @@ RSpec.feature 'Entering their degrees' do
     and_i_click_on_save_and_continue
     then_i_can_check_my_revised_undergraduate_degree_institution
 
-    when_i_click_to_change_my_naric_details
-    then_i_see_my_original_naric_details_filled_in
+    when_i_click_to_change_my_enic_details
+    then_i_see_my_original_enic_details_filled_in
     when_i_change_my_reference_number_and_comparable_uk_degree_type
     and_i_click_on_save_and_continue
-    then_i_can_check_my_revised_naric_details
+    then_i_can_check_my_revised_enic_details
 
     # Mark section as complete
     when_i_mark_this_section_as_completed
@@ -160,25 +160,25 @@ RSpec.feature 'Entering their degrees' do
     select('India', from: 'In which country is this institution based?')
   end
 
-  def then_i_can_see_the_naric_page
-    expect(page).to have_content 'Do you have a statement of comparability from the National Recognition Information Centre?'
+  def then_i_can_see_the_enic_page
+    expect(page).to have_content 'Do you have a statement of comparability from UK ENIC (the UK agency for international qualifications and skills)?'
   end
 
-  def then_i_see_validation_errors_for_naric_question
-    expect_validation_error 'Select whether you have a UK NARIC reference number or not'
+  def then_i_see_validation_errors_for_enic_question
+    expect_validation_error 'Select whether you have a UK ENIC reference number or not'
   end
 
-  def when_i_check_yes_for_naric_statement
+  def when_i_check_yes_for_enic_statement
     choose 'Yes'
   end
 
-  def then_i_see_validation_errors_for_naric_reference_and_comparable_uk_degree
-    expect_validation_error 'Enter the UK NARIC reference number'
+  def then_i_see_validation_errors_for_enic_reference_and_comparable_uk_degree
+    expect_validation_error 'Enter the UK ENIC reference number'
     expect_validation_error 'Select the comparable UK degree'
   end
 
-  def and_i_fill_in_naric_reference
-    fill_in 'UK NARIC reference number', with: '0123456789'
+  def and_i_fill_in_enic_reference
+    fill_in 'UK ENIC reference number', with: '0123456789'
   end
 
   def and_i_fill_in_comparable_uk_degree_type
@@ -256,11 +256,11 @@ RSpec.feature 'Entering their degrees' do
     expect(page).to have_content('University of Bochum, Germany')
   end
 
-  def when_i_click_to_change_my_naric_details
-    click_change_link('UK NARIC statement')
+  def when_i_click_to_change_my_enic_details
+    click_change_link('UK ENIC statement')
   end
 
-  def then_i_see_my_original_naric_details_filled_in
+  def then_i_see_my_original_enic_details_filled_in
     expect(page).to have_selector("input[value='0123456789']")
   end
 
@@ -270,11 +270,11 @@ RSpec.feature 'Entering their degrees' do
   end
 
   def when_i_change_my_reference_number_and_comparable_uk_degree_type
-    fill_in 'UK NARIC reference number', with: '9876543210'
+    fill_in 'UK ENIC reference number', with: '9876543210'
     choose 'Post Doctoral award'
   end
 
-  def then_i_can_check_my_revised_naric_details
+  def then_i_can_check_my_revised_enic_details
     expect(page).to have_content '9876543210'
     expect(page).to have_content 'Post Doctoral award'
   end

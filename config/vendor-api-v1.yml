@@ -862,7 +862,7 @@ components:
         equivalency_details:
           type: string
           description: Details of equivalency, if this qualification was awarded overseas
-          example: 'Naric: 4000123456 - Between GCSE and GCSE AS Level - Equivalent to GCSE C'
+          example: 'Enic: 4000123456 - Between GCSE and GCSE AS Level - Equivalent to GCSE C'
           maxLength: 256
           nullable: true
         awarding_body:

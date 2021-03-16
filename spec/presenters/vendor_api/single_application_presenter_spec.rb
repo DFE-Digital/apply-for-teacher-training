@@ -658,7 +658,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       expect(equivalency_details).to eq(qualification.equivalency_details)
     end
 
-    it 'adds NARIC information, if present, to equivalency_details' do
+    it 'adds ENIC information, if present, to equivalency_details' do
       qualification = create(
         :gcse_qualification,
         :non_uk,
@@ -672,7 +672,7 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       ).first[:equivalency_details]
 
       composite_equivalency_details = [
-        "Naric: #{qualification.naric_reference}",
+        "Enic: #{qualification.enic_reference}",
         qualification.comparable_uk_qualification,
         qualification.equivalency_details,
       ].join(' - ')
