@@ -1,6 +1,7 @@
 module ProviderInterface
   class ApplicationTimelineComponent < ViewComponent::Base
     include ViewHelper
+    include AuditHelper
     attr_reader :application_choice
 
     def initialize(application_choice:)
@@ -117,7 +118,7 @@ module ProviderInterface
         'Candidate'
       elsif change.user.is_a?(ProviderUser)
         provider_name(change.user)
-      elsif change.user.is_a?(SupportUser) || change.audit.username =~ /via the Rails console/
+      elsif change_by_support?(change.audit)
         'Apply support'
       else
         'System'

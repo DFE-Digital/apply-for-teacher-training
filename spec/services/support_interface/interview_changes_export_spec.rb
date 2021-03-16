@@ -100,6 +100,7 @@ RSpec.describe SupportInterface::InterviewChangesExport do
 
   describe '#row_for_audit' do
     let(:user) { create(:provider_user) }
+    let(:username) { nil }
     let(:changes) do
       {
         'location' => 'Zoom',
@@ -118,6 +119,7 @@ RSpec.describe SupportInterface::InterviewChangesExport do
         :interview_audit,
         interview: interview,
         user: user,
+        username: username,
         changes: changes,
         action: action,
         created_at: audit_created_at,
@@ -234,6 +236,15 @@ RSpec.describe SupportInterface::InterviewChangesExport do
         let(:user) { create(:support_user) }
 
         it 'sets provider_user to Support' do
+          expect(row[:provider_user]).to eq('Support')
+        end
+      end
+
+      context 'when the change was done in the rails console' do
+        let(:user) { nil }
+        let(:username) { 'Ben 10 via the Rails console' }
+
+        it 'sets provider_user to Automated process' do
           expect(row[:provider_user]).to eq('Support')
         end
       end

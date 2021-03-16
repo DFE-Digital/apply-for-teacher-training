@@ -1,5 +1,7 @@
 module SupportInterface
   class InterviewChangesExport
+    include AuditHelper
+
     def data_for_export
       rows = interview_audits.find_each(batch_size: 100).lazy.map do |audit|
         row_for_audit(audit)
@@ -95,7 +97,7 @@ module SupportInterface
     end
 
     def audit_user(audit)
-      if audit.user_type == 'SupportUser'
+      if change_by_support?(audit)
         'Support'
       elsif audit.user.present?
         audit.user.email_address
