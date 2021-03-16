@@ -1,9 +1,11 @@
 module SupportInterface
   class InterviewChangesExport
     def data_for_export
-      interview_audits.find_each(batch_size: 100).map do |audit|
+      rows = interview_audits.find_each(batch_size: 100).lazy.map do |audit|
         row_for_audit(audit)
-      end.compact
+      end
+
+      rows.reject(&:nil?)
     end
 
     def row_for_audit(audit)
