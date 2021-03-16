@@ -15,7 +15,7 @@ module SupportInterface
     def reinstate; end
 
     def confirm_reinstate
-      RequestReference.new.call(@reference)
+      UndoReferenceRefusal.new(@reference).call
       flash[:success] = 'Reference was reinstated'
       redirect_to support_interface_application_form_path(@reference.application_form)
     end

@@ -11,10 +11,6 @@ RSpec.feature 'Cancelling references' do
     when_i_click_to_cancel_the_reference
     and_i_confirm_i_really_want_to_cancel_the_reference
     then_the_reference_is_cancelled
-
-    when_i_click_to_reinstate_the_reference
-    and_i_confirm_i_really_want_to_reinstate_the_reference
-    then_the_reference_is_reinstated
   end
 
   def given_i_am_a_support_user
@@ -41,18 +37,5 @@ RSpec.feature 'Cancelling references' do
   def then_the_reference_is_cancelled
     expect(page).to have_content 'Reference was cancelled'
     expect(page).to have_content 'Cancelled'
-  end
-
-  def when_i_click_to_reinstate_the_reference
-    click_on 'Reinstate reference for Harry'
-  end
-
-  def and_i_confirm_i_really_want_to_reinstate_the_reference
-    click_on 'Reinstate reference'
-  end
-
-  def then_the_reference_is_reinstated
-    expect(page).to have_content 'Reference was reinstated'
-    expect(page).to have_content 'Requested'
   end
 end
