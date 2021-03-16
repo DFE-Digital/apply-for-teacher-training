@@ -603,6 +603,11 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.ucas_match_resolved_on_apply_email(application_choice)
   end
 
+  def unconditional_offer_accepted
+    application_choice = FactoryBot.build_stubbed(:application_choice)
+    CandidateMailer.unconditional_offer_accepted(application_choice)
+  end
+
 private
 
   def candidate
