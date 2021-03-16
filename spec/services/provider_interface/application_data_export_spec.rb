@@ -15,7 +15,8 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
 
     it 'returns data for application_choices with a completed form and a degree' do
       application_form_with_degree = create(:completed_application_form, :with_degree)
-      choice = create(:application_choice, application_form: application_form_with_degree)
+      offered_course_option = create(:course_option)
+      choice = create(:application_choice, application_form: application_form_with_degree, offered_course_option: offered_course_option)
 
       exported_data = CSV.parse(described_class.call(application_choices: choice), headers: true)
       row = exported_data.first
@@ -55,13 +56,13 @@ RSpec.describe ProviderInterface::ApplicationDataExport do
         'postcode' => application_choice.application_form.postcode,
         'country' => application_choice.application_form.country,
         'recruitment_cycle_year' => application_choice.application_form.recruitment_cycle_year&.to_s,
-        'provider_code' => application_choice.provider.code,
+        'provider_code' => application_choice.offered_provider.code,
         'accredited_provider_name' => application_choice.accredited_provider&.name,
         'accredited_provider_code' => application_choice.accredited_provider&.code,
-        'course_code' => application_choice.course.code,
-        'site_code' => application_choice.site.code,
-        'study_mode' => application_choice.course.study_mode,
-        'start_date' => application_choice.course.start_date&.to_s,
+        'course_code' => application_choice.offered_course.code,
+        'site_code' => application_choice.offered_site.code,
+        'study_mode' => application_choice.offered_course.study_mode,
+        'start_date' => application_choice.offered_course.start_date&.to_s,
         'FIRSTDEG' => application_choice.application_form.degrees_completed ? '1' : '0',
         'qualification_type' => first_degree&.qualification_type,
         'non_uk_qualification_type' => first_degree&.non_uk_qualification_type,

@@ -21,6 +21,7 @@ module ProviderInterface
               :provider,
               :accredited_provider,
               :site,
+              :offered_course_option,
               course: %i[provider accredited_provider],
               course_option: %i[course site],
               application_form: %i[candidate english_proficiency],
