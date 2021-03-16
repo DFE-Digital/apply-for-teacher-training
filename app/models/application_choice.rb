@@ -47,6 +47,10 @@ class ApplicationChoice < ApplicationRecord
     offered_course_option || course_option
   end
 
+  def offered_provider
+    offered_option.provider
+  end
+
   def offered_course
     offered_option.course
   end
