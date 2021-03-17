@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_15_120553) do
+ActiveRecord::Schema.define(version: 2021_03_16_154831) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -222,7 +222,6 @@ ActiveRecord::Schema.define(version: 2021_03_15_120553) do
     t.bigint "institution_hesa_code"
     t.bigint "grade_hesa_code"
     t.boolean "international", default: false, null: false
-    t.string "naric_reference"
     t.string "comparable_uk_degree"
     t.string "non_uk_qualification_type"
     t.string "comparable_uk_qualification"
