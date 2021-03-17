@@ -92,7 +92,7 @@ RSpec.feature 'Provider responds to application' do
   end
 
   def then_i_can_see_the_course_details
-    expect(page).to have_content 'Course details'
+    expect(page).to have_content 'Course applied for'
   end
 
   def and_i_am_given_the_option_to_make_an_offer

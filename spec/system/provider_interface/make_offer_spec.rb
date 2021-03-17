@@ -68,7 +68,7 @@ RSpec.feature 'Provider makes an offer' do
 
   def then_i_see_the_decision_page
     expect(page).to have_content('Make a decision')
-    expect(page).to have_content('Course details')
+    expect(page).to have_content('Course applied for')
   end
 
   def when_i_choose_to_make_an_offer
@@ -109,7 +109,7 @@ RSpec.feature 'Provider makes an offer' do
 
   def then_i_see_that_the_offer_was_successfuly_made
     within('.govuk-notification-banner--success') do
-      expect(page).to have_content('Offer successffuly made')
+      expect(page).to have_content('Offer sent')
     end
   end
 end

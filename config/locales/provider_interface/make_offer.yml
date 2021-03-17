@@ -15,7 +15,7 @@ en:
     offers:
       failure: Sorry, there is a problem with the service.
       create:
-        success: Offer successffuly made
+        success: Offer sent
   helpers:
     label:
       provider_interface_offer_wizard:
