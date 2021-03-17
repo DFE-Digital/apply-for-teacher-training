@@ -302,21 +302,6 @@ RSpec.describe SupportInterface::CandidateJourneyTracker, with_audited: true do
     end
   end
 
-  describe '#pending_conditions' do
-    it 'returns nil if the status has never been set' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
-
-      expect(described_class.new(application_choice).pending_conditions).to be_nil
-    end
-
-    it 'returns time when application moved to pending_conditions status' do
-      application_form = create(:application_form)
-      application_choice = create(:application_choice, status: :awaiting_provider_decision, application_form: application_form)
-      application_choice.update(status: :pending_conditions, accepted_at: now + 5.days)
-    end
-  end
-
   describe '#provider_decision' do
     it 'returns nil if application has never been offered or rejected' do
       application_form = create(:application_form)

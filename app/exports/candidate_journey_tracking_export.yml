@@ -122,12 +122,6 @@ custom_columns:
     description: Date the candidate accepted an offer
     example: 2020-11-01T00:00:00+00:00
 
-  pending_conditions:
-    type: string
-    format: date-time
-    description: Date the candidate accepted an offer
-    example: 2020-11-01T00:00:00+00:00
-
   conditions_outcome:
     type: string
     format: date-time
