@@ -19,8 +19,5 @@ custom_columns:
     description: Feedback left by candidate
 
   consent_to_be_contacted:
-    type: string
+    type: boolean
     description: Has the candidate given consent to be contacted about this feedback?
-    enum:
-      - true
-      - false

@@ -7,7 +7,7 @@ common_columns:
 
 custom_columns:
   satisfaction_level:
-    type: integer
+    type: string
     description: Satisfaction level
     enum:
       - very_satisfied

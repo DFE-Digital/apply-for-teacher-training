@@ -14,31 +14,16 @@ custom_columns:
     example: 2020-11-01T00:00:00+00:00
 
   has_make_decisions:
-    type: string
-    enum:
-      - true
-      - false
+    type: boolean
 
   has_view_safeguarding:
-    type: string
-    enum:
-      - true
-      - false
+    type: boolean
 
   has_view_diversity:
-    type: string
-    enum:
-      - true
-      - false
+    type: boolean
 
   has_manage_users:
-    type: string
-    enum:
-      - true
-      - false
+    type: boolean
 
   has_manage_organisations:
-    type: string
-    enum:
-      - true
-      - false
+    type: boolean
