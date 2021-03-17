@@ -11,7 +11,7 @@ module ProviderInterface
 
     def create
       @wizard = OfferWizard.new(offer_store)
-      if @wizard.valid?
+      if @wizard.valid?(:save)
         MakeOffer.new(actor: current_provider_user,
                       application_choice: @application_choice,
                       course_option: @wizard.course_option,

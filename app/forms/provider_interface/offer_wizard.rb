@@ -10,10 +10,10 @@ module ProviderInterface
                   :further_condition_3, :further_condition_4, :current_step, :decision,
                   :path_history, :action, :provider_user_id
 
-    validates :decision, presence: true
-    validates :course_option_id, presence: true, on: :locations
-    validates :study_mode, presence: true, on: :study_modes
-    validates :course_id, presence: true, on: :courses
+    validates :decision, presence: true, on: %i[select_option]
+    validates :course_option_id, presence: true, on: %i[locations save]
+    validates :study_mode, presence: true, on: %i[study_modes save]
+    validates :course_id, presence: true, on: %i[courses save]
     validates :further_condition_1, :further_condition_2, :further_condition_3, :further_condition_4, length: { maximum: 255 }
 
     def initialize(state_store, attrs = {})
