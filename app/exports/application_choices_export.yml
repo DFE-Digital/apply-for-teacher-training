@@ -1,0 +1,73 @@
+common_columns:
+  - candidate_id
+  - application_choice_id
+  - submitted_at
+  - provider_code
+  - course_code
+  - recruitment_cycle_year
+  - choice_status
+  - support_reference
+  - phase
+
+custom_columns:
+  sent_to_provider_at:
+    type: string
+    format: date-time
+    description: Date the application choice was sent to the provider
+    example: 2020-11-01T00:00:00+00:00
+
+  reject_by_default_at:
+    type: string
+    format: date-time
+    description: Date the application choice was rejected by default
+    example: 2020-11-01T00:00:00+00:00
+
+  decline_by_default_at:
+    type: string
+    format: date-time
+    description: Date the application choice was declined by default
+    example: 2020-11-01T00:00:00+00:00
+
+  decision:
+    type: string
+    description: Application choice decision
+    enum:
+      - rejected_by_default
+      - offered
+
+  decided_at:
+    type: string
+    format: date-time
+    description: Date the application choice was decided
+    example: 2020-11-01T00:00:00+00:00
+
+  offer_response:
+    type: string
+    description: Offer response
+    enum:
+      - accepted
+      - declined
+      - declined_by_default
+
+  offer_response_at:
+    type: string
+    format: date-time
+    description: Date the offer response was received
+    example: 2020-11-01T00:00:00+00:00
+
+  recruited_at:
+    type: string
+    format: date-time
+    description: Date the candidate was recruited
+    example: 2020-11-01T00:00:00+00:00
+
+  rejection_reason:
+    type: string
+    description: The reason the provider gave for rejecting the candidate
+    example: Absence of English GCSE
+
+  structured_rejection_reasons:
+    type: string
+    description: Structured reasons for rejection
+    example: { "qualifications_y_n": "Yes", "quality_of_application_y_n": "Yes", "performance_at_interview_y_n": "Yes", "qualifications_other_details": "Cycling proficiency badge", "qualifications_which_qualifications": [ "no_maths_gcse", "no_degree", "other" ], "quality_of_application_other_details": "Too many emojis", "performance_at_interview_what_to_improve": "We felt that pyjamas were a little too casual", "quality_of_application_which_parts_needed_improvement": [ "subject_knowledge", "other" ] }
+

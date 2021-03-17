@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe SupportInterface::ApplicationChoicesExport, with_audited: true do
+  describe 'documentation' do
+    before do
+      create(:completed_application_form, application_choices_count: 2)
+    end
+
+    it_behaves_like 'a data export'
+  end
+
   describe '#application_choices' do
     it 'returns submitted application choices with timings' do
       unsubmitted_form = create(:application_form)

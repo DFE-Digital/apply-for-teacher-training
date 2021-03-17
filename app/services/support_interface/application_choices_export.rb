@@ -10,7 +10,7 @@ module SupportInterface
             recruitment_cycle_year: application_form.recruitment_cycle_year,
             support_reference: application_form.support_reference,
             phase: application_form.phase,
-            choice_id: choice.id,
+            application_choice_id: choice.id,
             submitted_at: application_form.submitted_at,
             choice_status: choice.status,
             provider_code: choice.provider.code,
