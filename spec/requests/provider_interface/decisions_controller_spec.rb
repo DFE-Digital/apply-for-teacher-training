@@ -35,5 +35,13 @@ RSpec.describe ProviderInterface::DecisionsController, type: :request do
         expect(response.status).to eq(302)
       end
     end
+
+    context 'POST create' do
+      it 'responds with 302' do
+        post provider_interface_application_choice_decision_path(application_choice)
+
+        expect(response.status).to eq(302)
+      end
+    end
   end
 end
