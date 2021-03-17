@@ -1,4 +1,4 @@
-<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.reference') %></h1>
+<h1 class="govuk-heading-xl"><%= t('page_titles.api_docs.vendor_api_docs.reference') %></h1>
 
 <h2 class="app-contents-list__title">Contents</h2>
 
@@ -109,33 +109,6 @@
   present the API will return <code>422</code> with an appropriate error message.
 </p>
 
-<h2 class="govuk-heading-l" id="endpoints">Endpoints</h2>
+<%= render(APIDocs::APIReferenceComponent.new(@api_reference)) %>
 
-<% @api_reference.operations.each do |operation| %>
-  <%= render 'operation', operation: operation %>
-<% end %>
-
-<h2 class="govuk-heading-l" id="objects">Objects</h2>
-
-<% @api_reference.schemas.each do |schema| %>
-  <%= render 'schema', schema: schema %>
-<% end %>
-
-<h2 class="govuk-heading-l" id="field-lengths">Field lengths summary</h2>
-
-<table class="govuk-table">
-  <thead class="govuk-table__head">
-    <tr class="govuk-table__row">
-      <th scope="col" class="govuk-table__header">Rule</th>
-      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Limit</th>
-    </tr>
-  </thead>
-  <tbody class="govuk-table__body">
-    <% @api_reference.field_lengths_summary.each do |(rule, limit)| %>
-      <tr class="govuk-table__row">
-        <th scope="row" class="govuk-table__header"><%= rule %></th>
-        <td class="govuk-table__cell govuk-table__cell--numeric"><%= number_with_delimiter(limit) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render(APIDocs::FieldLengthsComponent.new(@api_reference)) %>
