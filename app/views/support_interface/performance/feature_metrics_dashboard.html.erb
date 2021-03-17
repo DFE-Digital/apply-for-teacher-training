@@ -246,7 +246,7 @@
       <div id="headline-stat" class="govuk-!-margin-bottom-4">
         <%= render SupportInterface::TileComponent.new(
           count: @dashboard.read_metric(:apply_again_change_rate),
-          label: 'candidates that make changes to application when applying again',
+          label: 'candidates made changes to their application when applying again',
           colour: :blue,
           size: :reduced,
         ) %>

@@ -57,7 +57,7 @@ RSpec.feature 'Feature metrics dashboard' do
     )
   end
 
-  def apply_again_and_reject_application(application_form)
+  def apply_again_and_offer_application(application_form)
     apply_again_application_form = DuplicateApplication.new(
       application_form,
       target_phase: 'apply_2',
@@ -71,7 +71,7 @@ RSpec.feature 'Feature metrics dashboard' do
     apply_again_application_form
   end
 
-  def apply_again_and_offer_application(application_form)
+  def apply_again_and_reject_application(application_form)
     apply_again_application_form = DuplicateApplication.new(
       application_form,
       target_phase: 'apply_2',

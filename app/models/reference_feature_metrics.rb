@@ -36,7 +36,6 @@ private
 
   def time_to_get_references(start_time, end_time = Time.zone.now)
     applications = ApplicationForm
-      .apply_1
       .joins(:application_references)
       .where('"references".feedback_provided_at BETWEEN ? AND ? AND "references".duplicate = ?', start_time, end_time, false)
       .group('application_forms.id')
@@ -46,7 +45,7 @@ private
   def time_to_get_for(application, end_time)
     return nil unless application.enough_references_have_been_provided?
 
-    times = application.application_references.feedback_provided.map do |reference|
+    times = application.application_references.feedback_provided.where(duplicate: false).map do |reference|
       [reference.requested_at, reference.feedback_provided_at]
     end
     requested_at_time = times.map(&:first).compact.min
