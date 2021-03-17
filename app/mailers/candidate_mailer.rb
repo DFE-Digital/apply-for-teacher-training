@@ -217,6 +217,8 @@ class CandidateMailer < ApplicationMailer
 
   def changed_offer(application_choice)
     @application_choice = application_choice
+    @conditions = @application_choice.offer&.dig('conditions') || []
+
     @course_option = @application_choice.course_option
     @offered_course_option = @application_choice.offered_course_option
     @is_awaiting_decision = application_choice.self_and_siblings.any?(&:awaiting_provider_decision?)

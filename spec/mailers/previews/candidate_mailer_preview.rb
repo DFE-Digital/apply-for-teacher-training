@@ -33,6 +33,22 @@ class CandidateMailerPreview < ActionMailer::Preview
     CandidateMailer.changed_offer(application_choice)
   end
 
+  def changed_unconditional_offer
+    application_form = application_form_with_course_choices([application_choice_with_offer, application_choice_with_offer])
+    application_choice = FactoryBot.build_stubbed(
+      :submitted_application_choice,
+      status: :offer,
+      offer: { 'conditions' => [] },
+      offered_at: Time.zone.now,
+      offered_course_option: course_option,
+      course_option: course_option,
+      application_form: application_form,
+      decline_by_default_at: 10.business_days.from_now,
+    )
+
+    CandidateMailer.changed_offer(application_choice)
+  end
+
   def chase_reference
     CandidateMailer.chase_reference(reference)
   end
@@ -128,6 +144,24 @@ class CandidateMailerPreview < ActionMailer::Preview
       course_option: course_option,
       status: :offer,
       offer: { conditions: ['DBS check', 'Pass exams'] },
+      offered_at: Time.zone.now,
+      offered_course_option: course_option,
+      decline_by_default_at: 10.business_days.from_now,
+    )
+    other_course_option = FactoryBot.build_stubbed(:course_option, site: site)
+    application_form.application_choices.build(
+      course_option: other_course_option,
+      status: :awaiting_provider_decision,
+    )
+    CandidateMailer.new_offer_decisions_pending(application_choice)
+  end
+
+  def new_unconditional_offer_decisions_pending
+    course_option = FactoryBot.build_stubbed(:course_option, site: site)
+    application_choice = application_form.application_choices.build(
+      course_option: course_option,
+      status: :offer,
+      offer: { 'conditions' => [] },
       offered_at: Time.zone.now,
       offered_course_option: course_option,
       decline_by_default_at: 10.business_days.from_now,
@@ -601,6 +635,11 @@ class CandidateMailerPreview < ActionMailer::Preview
     )
 
     CandidateMailer.ucas_match_resolved_on_apply_email(application_choice)
+  end
+
+  def unconditional_offer_accepted
+    application_choice = FactoryBot.build_stubbed(:application_choice)
+    CandidateMailer.unconditional_offer_accepted(application_choice)
   end
 
 private

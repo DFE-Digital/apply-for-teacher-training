@@ -11,7 +11,11 @@ Course: <%= @offered_course_option.course.name_and_code %>
 Location: <%= @offered_course_option.site.name %>
 Full time or part time: <%= @offered_course_option.course.study_mode.humanize %>
 
-The conditions of your offer have not been changed.
+<% if @conditions.blank? %>
+  <%= @course_option.course.provider.name %> will let you know if they need further information before you can start training.
+<% else %>
+  The conditions of your offer have not been changed.
+<% end %>
 
 If you were not expecting this change, contact <%= @course_option.course.provider.name %> to find out more.
 
