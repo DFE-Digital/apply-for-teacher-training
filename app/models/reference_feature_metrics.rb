@@ -45,7 +45,7 @@ private
   def time_to_get_for(application, end_time)
     return nil unless application.enough_references_have_been_provided?
 
-    times = application.application_references.feedback_provided.map do |reference|
+    times = application.application_references.feedback_provided.where(duplicate: false).map do |reference|
       [reference.requested_at, reference.feedback_provided_at]
     end
     requested_at_time = times.map(&:first).compact.min

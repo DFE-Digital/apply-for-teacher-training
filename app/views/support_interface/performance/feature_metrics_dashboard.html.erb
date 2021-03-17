@@ -213,4 +213,60 @@
       </div>
     </div>
   </div>
+
+  <h3 class="govuk-heading-m govuk-!-font-size-27 govuk-!-margin-top-8">Apply again</h3>
+  <div id="apply_again_dashboard_section" class="govuk-grid-row govuk-!-margin-bottom-4">
+    <div class="govuk-grid-column-one-half">
+      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+        <%= render SupportInterface::TileComponent.new(
+          count: @dashboard.read_metric(:apply_again_success_rate),
+          label: 'apply again success rate',
+          colour: :blue,
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-column-one-half">
+          <%= render SupportInterface::TileComponent.new(
+            count: @dashboard.read_metric(:apply_again_success_rate_this_month),
+            label: 'this month',
+            size: :reduced,
+          ) %>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <%= render SupportInterface::TileComponent.new(
+            count: @dashboard.read_metric(:apply_again_success_rate_upto_this_month),
+            label: 'upto this month',
+            size: :reduced,
+          ) %>
+        </div>
+      </div>
+    </div>
+    <div class="govuk-grid-column-one-half">
+      <div id="headline-stat" class="govuk-!-margin-bottom-4">
+        <%= render SupportInterface::TileComponent.new(
+          count: @dashboard.read_metric(:apply_again_change_rate),
+          label: 'candidates made changes to their application when applying again',
+          colour: :blue,
+          size: :reduced,
+        ) %>
+      </div>
+      <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-column-one-half">
+          <%= render SupportInterface::TileComponent.new(
+            count: @dashboard.read_metric(:apply_again_change_rate_this_month),
+            label: 'this month',
+            size: :reduced,
+          ) %>
+        </div>
+        <div class="govuk-grid-column-one-half">
+          <%= render SupportInterface::TileComponent.new(
+            count: @dashboard.read_metric(:apply_again_change_rate_last_month),
+            label: 'last month',
+            size: :reduced,
+          ) %>
+        </div>
+      </div>
+    </div>
+  </div>
 <% end %>

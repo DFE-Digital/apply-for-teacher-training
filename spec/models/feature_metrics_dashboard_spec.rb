@@ -40,11 +40,8 @@ RSpec.describe FeatureMetricsDashboard do
       expect(dashboard.read_metric(:test)).to eq 'value'
     end
 
-    it 'raises if the key is not found' do
-      expect { dashboard.read_metric('testttt') }.to raise_error(
-        KeyError,
-        /key not found: "testttt"/,
-      )
+    it 'returns a placeholder "missing value" if the key is not found' do
+      expect(dashboard.read_metric(:testttt)).to eq 'n/a'
     end
   end
 
@@ -54,15 +51,21 @@ RSpec.describe FeatureMetricsDashboard do
       work_history_metrics_double = instance_double(WorkHistoryFeatureMetrics)
       magic_link_metrics_double = instance_double(MagicLinkFeatureMetrics)
       rfr_metrics_double = instance_double(ReasonsForRejectionFeatureMetrics)
+      apply_again_metrics_double = instance_double(ApplyAgainFeatureMetrics)
+
       allow(ReferenceFeatureMetrics).to receive(:new).and_return(reference_metrics_double)
       allow(WorkHistoryFeatureMetrics).to receive(:new).and_return(work_history_metrics_double)
       allow(MagicLinkFeatureMetrics).to receive(:new).and_return(magic_link_metrics_double)
       allow(ReasonsForRejectionFeatureMetrics).to receive(:new).and_return(rfr_metrics_double)
+      allow(ApplyAgainFeatureMetrics).to receive(:new).and_return(apply_again_metrics_double)
+
       allow(reference_metrics_double).to receive(:average_time_to_get_references).and_return(1)
       allow(reference_metrics_double).to receive(:percentage_references_within).and_return(2)
       allow(work_history_metrics_double).to receive(:average_time_to_complete).and_return(3)
       allow(magic_link_metrics_double).to receive(:average_magic_link_requests_upto).and_return(4)
       allow(rfr_metrics_double).to receive(:rejections_due_to).and_return(5)
+      allow(apply_again_metrics_double).to receive(:formatted_success_rate).and_return('42.8%')
+      allow(apply_again_metrics_double).to receive(:formatted_change_rate).and_return('33.3%')
 
       dashboard = described_class.new
       dashboard.load_updated_metrics
@@ -89,6 +92,12 @@ RSpec.describe FeatureMetricsDashboard do
         'num_rejections_due_to_qualifications' => 5,
         'num_rejections_due_to_qualifications_this_month' => 5,
         'num_rejections_due_to_qualifications_last_month' => 5,
+        'apply_again_success_rate' => '42.8%',
+        'apply_again_success_rate_this_month' => '42.8%',
+        'apply_again_success_rate_upto_this_month' => '42.8%',
+        'apply_again_change_rate' => '33.3%',
+        'apply_again_change_rate_this_month' => '33.3%',
+        'apply_again_change_rate_last_month' => '33.3%',
       })
     end
   end
