@@ -897,6 +897,7 @@ Rails.application.routes.draw do
       get '/data-export/documentation/:export_type_id' => 'data_exports#data_set_documentation', as: :data_set_documentation
       get '/data-exports/history' => 'data_exports#index', as: :data_exports_history
       get '/data-directory' => 'data_exports#directory', as: :data_directory
+      get '/data-directoy/export/:data_export_id' => 'data_exports#view_export', as: :view_export
 
       resources :data_exports, path: '/data-exports' do
         member do

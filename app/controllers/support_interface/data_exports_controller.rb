@@ -12,6 +12,10 @@ module SupportInterface
       @export_types = DataExport::EXPORT_TYPES
     end
 
+    def view_export
+      @data_export = DataExport::EXPORT_TYPES[params[:data_export_id].to_sym]
+    end
+
     def create
       export_type = DataExport::EXPORT_TYPES.fetch(params.fetch(:export_type_id).to_sym)
       data_export = DataExport.create!(name: export_type.fetch(:name), initiator: current_support_user)

@@ -1,5 +1,7 @@
 <%= render 'support_interface/performance/performance_navigation', title: 'Data directory' %>
 
+<h2 class="govuk-heading-m"> GDPR GDPR GDPR </h2>
+<%= render 'shared/support_user_gdpr_guidance' %>
 
 <% @export_types.each do |id, export| %>
   <section class="app-section app-section--with-top-border">
@@ -8,13 +10,7 @@
         <h2 class="govuk-heading-m"><%= export.fetch(:name) %></h2>
         <p class="govuk-body"><%= export.fetch(:description) %></p>
 
-        <% if DataSetDocumentation.for(export.fetch(:class)) %>
-          <p class="govuk-body">
-            <%= govuk_link_to "View documentation for #{export.fetch(:name)}", support_interface_data_set_documentation_path(id) %>
-          </p>
-        <% end %>
-
-        <%= govuk_button_to "Generate #{export.fetch(:name)} export", support_interface_data_exports_path(export_type_id: id), class: 'govuk-button--secondary' %>
+        <%= govuk_link_to "View export", support_interface_view_export_path(data_export_id: id) %>
       </div>
     </div>
   </section>

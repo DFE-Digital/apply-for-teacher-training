@@ -1,0 +1,18 @@
+<% content_for :title, @data_export[:name] %>
+
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-heading-m"><%= @data_export.fetch(:name) %></h2>
+    <p class="govuk-body"><%= @data_export.fetch(:description) %></p>
+
+    <%= govuk_button_to "Generate new export", support_interface_data_exports_path(export_type_id: params[:data_export_id]), class: 'govuk-button--secondary' %>
+
+    <% if DataSetDocumentation.for(@data_export.fetch(:class)) %>
+      <p class="govuk-body">
+        <%= govuk_link_to "View documentation for #{@data_export.fetch(:name)}", support_interface_data_set_documentation_path(params[:data_export_id]) %>
+      </p>
+    <% end %>
+
+  </div>
+</div>
