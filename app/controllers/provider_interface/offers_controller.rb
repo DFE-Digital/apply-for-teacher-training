@@ -1,7 +1,7 @@
 module ProviderInterface
   class OffersController < ProviderInterfaceController
     before_action :set_application_choice
-    before_action :application_choice_allowed_to_make_decision
+    before_action :confirm_application_is_in_decision_pending_state
     before_action :requires_make_decisions_permission
 
     def new
@@ -35,10 +35,10 @@ module ProviderInterface
       WizardStateStores::RedisStore.new(key: key)
     end
 
-    def application_choice_allowed_to_make_decision
-      return unless ApplicationStateChange::DECISION_PENDING_STATUSES.include?(@application_choice.status)
+    def confirm_application_is_in_decision_pending_state
+      return if ApplicationStateChange::DECISION_PENDING_STATUSES.include?(@application_choice.status.to_sym)
 
-      redirect_back(fallback_location: provider_interface_application_choice_path(@application_choice))
+      redirect_to(provider_interface_application_choice_path(@application_choice))
     end
   end
 end
