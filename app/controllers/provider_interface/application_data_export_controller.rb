@@ -23,6 +23,7 @@ module ProviderInterface
               :site,
               course: %i[provider accredited_provider],
               course_option: %i[course site],
+              offered_course_option: %i[course site],
               application_form: %i[candidate english_proficiency],
             ],
           )
