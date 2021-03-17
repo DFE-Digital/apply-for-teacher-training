@@ -1,6 +1,6 @@
 module CandidateInterface
   module CourseChoices
-    class HaveYouChosenController < BaseController
+    class CourseDecisionController < BaseController
       def ask
         @choice_form = CandidateInterface::CourseChosenForm.new
       end
