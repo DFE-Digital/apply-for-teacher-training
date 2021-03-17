@@ -52,6 +52,6 @@ RSpec.feature 'Data export', sidekiq: false do
   end
 
   def then_the_export_is_downloaded
-    expect(page).to have_content 'id,status,recruitment_cycle_year'
+    expect(page).to have_content 'application_choice_id,choice_status,recruitment_cycle_year'
   end
 end

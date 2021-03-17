@@ -62,8 +62,8 @@ RSpec.describe SupportInterface::WorkHistoryBreakExport do
 
         expect(described_class.new.data_for_export).to contain_exactly(
           {
-            candidate_id: candidate.id.to_s,
-            application_form_id: application_form.id.to_s,
+            candidate_id: candidate.id,
+            application_form_id: application_form.id,
             submitted_at: Time.zone.local(2020, 12, 31, 0, 0, 0).iso8601,
             course_choice_statuses: %w[offer],
             start_of_working_life: Time.zone.local(2000, 1, 1, 0, 0, 0).iso8601,

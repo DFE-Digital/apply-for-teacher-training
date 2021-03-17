@@ -27,8 +27,8 @@ module SupportInterface
         next if unexplained_breaks.nil? && explained_breaks.nil?
 
         output = {
-          candidate_id: application_form.candidate_id.to_s,
-          application_form_id: application_form.id.to_s,
+          candidate_id: application_form.candidate_id,
+          application_form_id: application_form.id,
           submitted_at: submitted_at(application_form).iso8601,
           course_choice_statuses: application_form.application_choices.map(&:status).sort,
           start_of_working_life: start_of_working_life(application_form),
