@@ -3,8 +3,8 @@ module SupportInterface
     def application_choices
       all_application_choices.find_each.map do |choice|
         {
-          id: choice.id,
-          status: choice.status,
+          application_choice_id: choice.id,
+          choice_status: choice.status,
           recruitment_cycle_year: choice.application_form.recruitment_cycle_year,
           candidate_id: choice.application_form.candidate_id,
           support_reference: choice.application_form.support_reference,

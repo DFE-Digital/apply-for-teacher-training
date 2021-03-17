@@ -7,7 +7,7 @@ module SupportInterface
     DATA_POINTS = %i[
       form_not_started
       form_started_and_not_submitted
-      submitted
+      submitted_at
       completed_reference_1_requested_at
       completed_reference_1_received_at
       completed_reference_2_requested_at
@@ -43,7 +43,7 @@ module SupportInterface
       ].compact.min
     end
 
-    def submitted
+    def submitted_at
       @application_choice.application_form.submitted_at
     end
 

@@ -1,0 +1,157 @@
+common_columns:
+  - application_choice_id
+  - choice_status
+  - recruitment_cycle_year
+  - candidate_id
+  - support_reference
+  - phase
+  - submitted_at
+
+custom_columns:
+  form_not_started:
+    type: string
+    format: date-time
+    description: Date the candidate first signs in
+    example: 2020-11-01T00:00:00+00:00
+
+  form_started_and_not_submitted:
+    type: string
+    format: date-time
+    description: Date the application choice was updated
+    example: 2020-11-01T00:00:00+00:00
+
+  completed_reference_1_requested_at:
+    type: string
+    format: date-time
+    description: Date the first completed reference was requested
+    example: 2020-11-01T00:00:00+00:00
+
+  completed_reference_1_received_at:
+    type: string
+    format: date-time
+    description: Date the first completed reference was received
+    example: 2020-11-01T00:00:00+00:00
+
+  completed_reference_2_requested_at:
+    type: string
+    format: date-time
+    description: Date the second completed reference was requested
+    example: 2020-11-01T00:00:00+00:00
+
+  completed_reference_2_received_at:
+    type: string
+    format: date-time
+    description: Date the second completed reference was received
+    example: 2020-11-01T00:00:00+00:00
+
+  reference_reminder_email_sent:
+    type: string
+    format: date-time
+    description: Date the earliest reference reminder email was sent
+    example: 2020-11-01T00:00:00+00:00
+
+  new_reference_request_email_sent:
+    type: string
+    format: date-time
+    description: Date the earliest new reference request email was sent
+    example: 2020-11-01T00:00:00+00:00
+
+  new_reference_added:
+    type: string
+    format: date-time
+    description: Date a new reference was added
+    example: 2020-11-01T00:00:00+00:00
+
+  rbd_date:
+    type: string
+    format: date-time
+    description: Date the application choice will be rejected by default
+    example: 2020-11-01T00:00:00+00:00
+
+  rbd_reminder_sent:
+    type: string
+    format: date-time
+    description: Date the earliest RBD reminder email was sent
+    example: 2020-11-01T00:00:00+00:00
+
+  application_rbd:
+    type: string
+    format: date-time
+    description: Date the application choice was rejected by default
+    example: 2020-11-01T00:00:00+00:00
+
+  provider_decision:
+    type: string
+    format: date-time
+    description: Date the provider gave an offer or rejected an application
+    example: 2020-11-01T00:00:00+00:00
+
+  offer_made:
+    type: string
+    format: date-time
+    description: Date the provider gave an offer
+    example: 2020-11-01T00:00:00+00:00
+
+  dbd_date:
+    type: string
+    format: date-time
+    description: Date the application choice will be declined by default
+    example: 2020-11-01T00:00:00+00:00
+
+  dbd_reminder_sent:
+    type: string
+    format: date-time
+    description: Date the earliest DBD reminder email was sent
+    example: 2020-11-01T00:00:00+00:00
+
+  candidate_decision:
+    type: string
+    format: date-time
+    description: Date the candidate accepted or declined an offer
+    example: 2020-11-01T00:00:00+00:00
+
+  offer_declined:
+    type: string
+    format: date-time
+    description: Date the candidate declined an offer
+    example: 2020-11-01T00:00:00+00:00
+
+  offer_accepted:
+    type: string
+    format: date-time
+    description: Date the candidate accepted an offer
+    example: 2020-11-01T00:00:00+00:00
+
+  pending_conditions:
+    type: string
+    format: date-time
+    description: Date the candidate accepted an offer
+    example: 2020-11-01T00:00:00+00:00
+
+  conditions_outcome:
+    type: string
+    format: date-time
+    description: Date the candidate was recruited or the conditions were not met
+    example: 2020-11-01T00:00:00+00:00
+
+  conditions_met:
+    type: string
+    format: date-time
+    description: Date the candidate was recruited
+    example: 2020-11-01T00:00:00+00:00
+
+  conditions_not_met:
+    type: string
+    format: date-time
+    description: Date the conditions were not met
+    example: 2020-11-01T00:00:00+00:00
+
+  ended_without_success:
+    type: string
+    format: date-time
+    description: Date the application choice ended without success
+    example: 2020-11-01T00:00:00+00:00
+
+
+
+
