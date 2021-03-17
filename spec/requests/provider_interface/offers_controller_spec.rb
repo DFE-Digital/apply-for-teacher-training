@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderInterface::DecisionsController, type: :request do
+RSpec.describe ProviderInterface::OffersController, type: :request do
   include DfESignInHelpers
 
   let(:provider_user) { create(:provider_user, :with_dfe_sign_in, :with_make_decisions) }
@@ -30,7 +30,7 @@ RSpec.describe ProviderInterface::DecisionsController, type: :request do
 
     context 'GET new' do
       it 'responds with 302' do
-        get new_provider_interface_application_choice_decision_path(application_choice)
+        get new_provider_interface_application_choice_offer_path(application_choice)
 
         expect(response.status).to eq(302)
       end
@@ -38,7 +38,7 @@ RSpec.describe ProviderInterface::DecisionsController, type: :request do
 
     context 'POST create' do
       it 'responds with 302' do
-        post provider_interface_application_choice_decision_path(application_choice)
+        post provider_interface_application_choice_offers_path(application_choice)
 
         expect(response.status).to eq(302)
       end
