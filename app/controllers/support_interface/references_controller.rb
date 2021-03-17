@@ -4,14 +4,6 @@ module SupportInterface
     before_action :redirect_to_application_form_path_unless_feedback_requested_and_test_environment,
                   only: %i[impersonate_and_give impersonate_and_decline]
 
-    def cancel; end
-
-    def confirm_cancel
-      CancelReferee.new.call(reference: @reference)
-      flash[:success] = 'Reference was cancelled'
-      redirect_to support_interface_application_form_path(@reference.application_form)
-    end
-
     def reinstate; end
 
     def confirm_reinstate
