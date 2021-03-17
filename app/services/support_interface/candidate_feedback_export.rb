@@ -3,14 +3,14 @@ module SupportInterface
     def data_for_export
       application_forms.find_each.map do |application_form|
         {
-          'Name' => application_form.full_name,
-          'Recruitment cycle year' => application_form.recruitment_cycle_year,
-          'Email_address' => application_form.candidate.email_address,
-          'Phone number' => application_form.phone_number,
-          'Submitted at' => application_form.submitted_at&.iso8601,
-          'Satisfaction level' => application_form.feedback_satisfaction_level,
-          'CSAT score' => csat_score(application_form.feedback_satisfaction_level),
-          'Suggestions' => application_form.feedback_suggestions,
+          full_name: application_form.full_name,
+          recruitment_cycle_year: application_form.recruitment_cycle_year,
+          email: application_form.candidate.email_address,
+          phone_number: application_form.phone_number,
+          submitted_at: application_form.submitted_at&.iso8601,
+          satisfaction_level: application_form.feedback_satisfaction_level,
+          csat_score: csat_score(application_form.feedback_satisfaction_level),
+          suggestions: application_form.feedback_suggestions,
         }
       end
     end

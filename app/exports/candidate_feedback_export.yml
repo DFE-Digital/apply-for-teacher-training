@@ -1,0 +1,25 @@
+common_columns:
+  - full_name
+  - recruitment_cycle_year
+  - email
+  - phone_number
+  - submitted_at
+
+custom_columns:
+  satisfaction_level:
+    type: integer
+    description: Satisfaction level
+    enum:
+      - very_satisfied
+      - satisfied
+      - neither_satisfied_or_dissatisfied
+      - dissatisfied
+      - very_dissatisfied
+
+  csat_score:
+    type: integer
+    description: A score from 1 (very dissatisfied) to 5 (very satisfied)
+
+  suggestions:
+    type: string
+    description: Candidate suggestions
