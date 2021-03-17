@@ -1,0 +1,26 @@
+common_columns:
+  - full_name
+  - recruitment_cycle_year
+  - email
+  - submitted_at
+  - phone_number
+
+custom_columns:
+  path:
+    type: string
+    description: URL path for page
+
+  page_title:
+    type: string
+    description: Page title
+
+  feedback:
+    type: string
+    description: Feedback left by candidate
+
+  consent_to_be_contacted:
+    type: string
+    description: Has the candidate given consent to be contacted about this feedback?
+    enum:
+      - true
+      - false
