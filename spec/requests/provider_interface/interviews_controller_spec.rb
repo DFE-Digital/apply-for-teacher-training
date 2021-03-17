@@ -10,19 +10,19 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
   let(:course_option) { build(:course_option, course: course) }
   let(:interview) { create(:interview, application_choice: application_choice) }
 
+  before do
+    allow(DfESignInUser).to receive(:load_from_session).and_return(provider_user)
+
+    FeatureFlag.activate(:interviews)
+
+    user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+  end
+
   describe 'if application choice is not in a pending decision state' do
     let!(:application_choice) do
       create(:application_choice, :withdrawn,
              application_form: application_form,
              course_option: course_option)
-    end
-
-    before do
-      allow(DfESignInUser).to receive(:load_from_session).and_return(provider_user)
-
-      FeatureFlag.activate(:interviews)
-
-      user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
     end
 
     context 'GET new' do
@@ -70,6 +70,34 @@ RSpec.describe ProviderInterface::InterviewsController, type: :request do
         post cancel_confirm_provider_interface_application_choice_interview_path(application_choice, interview)
 
         expect(response.status).to eq(302)
+      end
+    end
+  end
+
+  describe 'going back when the interview store has been cleared' do
+    let!(:application_choice) do
+      create(:application_choice, :awaiting_provider_decision, application_form: application_form, course_option: course_option)
+    end
+
+    let(:store) { instance_double(WizardStateStores::RedisStore, read: nil) }
+
+    before { allow(WizardStateStores::RedisStore).to receive(:new).and_return(store) }
+
+    context 'POST to commit' do
+      it 'redirects to the interviews index' do
+        post confirm_provider_interface_application_choice_interviews_path(application_choice)
+
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_application_choice_interviews_url(application_choice))
+      end
+    end
+
+    context 'POST to check' do
+      it 'redirects to the interviews index' do
+        post new_check_provider_interface_application_choice_interviews_path(application_choice)
+
+        expect(response.status).to eq(302)
+        expect(response.redirect_url).to eq(provider_interface_application_choice_interviews_url(application_choice))
       end
     end
   end
