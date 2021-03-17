@@ -1,0 +1,106 @@
+common_columns:
+  - recruitment_cycle_year
+  - sex
+
+custom_columns:
+  month:
+    type: string
+    description: The month in which the application form was submitted
+    example: October
+
+  ethnic_group:
+    type: string
+    description: The candidates ethnic group
+    example: Asian or Asian British
+
+  ethnic_background:
+    type: string
+    description: The candidates ethnic background
+    example: Indian
+
+  application_status:
+    type: string
+    description: Application form status
+    enum:
+      - not_signed_up
+      - sign_up_email_bounced
+      - never_signed_in
+      - unsubmitted_not_started_form
+      - unsubmitted_in_progress
+      - awaiting_provider_decisions
+      - interviewing
+      - awaiting_candidate_response
+      - pending_conditions
+      - recruited
+      - offer_deferred
+      - ended_without_success
+      - unknown_state
+
+  application_choice_1_unstructured_rejection_reasons:
+    type: string
+    description: Unstructured reasons for rejection for the candidate’s first application choice
+    example: Absence of English GCSE
+
+  application_choice_2_unstructured_rejection_reasons:
+    type: string
+    description: Unstructured reasons for rejection for the candidate’s second application choice
+    example: Absence of English GCSE
+
+  application_choice_3_unstructured_rejection_reasons:
+    type: string
+    description: Unstructured reasons for rejection for the candidate’s third application choice
+    example: Absence of English GCSE
+
+  application_choice_1_structured_rejection_reasons:
+    type: string
+    description: Structured reasons for rejection for the candidate’s first application choice
+    example: {"qualifications_y_n": "Yes", "quality_of_application_y_n": "Yes", "performance_at_interview_y_n": "Yes", "qualifications_other_details": "Cycling proficiency badge", "qualifications_which_qualifications": ["no_maths_gcse", "no_degree", "other"], "quality_of_application_other_details": "Too many emojis", "performance_at_interview_what_to_improve": "We felt that pyjamas were a little too casual", "quality_of_application_which_parts_needed_improvement": ["subject_knowledge", "other"]}
+
+  application_choice_2_structured_rejection_reasons:
+    type: string
+    description: Structured reasons for rejection for the candidate’s second application choice
+    example: {"qualifications_y_n": "Yes", "quality_of_application_y_n": "Yes", "performance_at_interview_y_n": "Yes", "qualifications_other_details": "Cycling proficiency badge", "qualifications_which_qualifications": ["no_maths_gcse", "no_degree", "other"], "quality_of_application_other_details": "Too many emojis", "performance_at_interview_what_to_improve": "We felt that pyjamas were a little too casual", "quality_of_application_which_parts_needed_improvement": ["subject_knowledge", "other"]}
+
+  application_choice_3_structured_rejection_reasons:
+    type: string
+    description: Structured reasons for rejection for the candidate’s third application choice
+    example: {"qualifications_y_n": "Yes", "quality_of_application_y_n": "Yes", "performance_at_interview_y_n": "Yes", "qualifications_other_details": "Cycling proficiency badge", "qualifications_which_qualifications": ["no_maths_gcse", "no_degree", "other"], "quality_of_application_other_details": "Too many emojis", "performance_at_interview_what_to_improve": "We felt that pyjamas were a little too casual", "quality_of_application_which_parts_needed_improvement": ["subject_knowledge", "other"]}
+
+  disability_1:
+    type: string
+    description: Candidate’s first disability
+    enum:
+      - Learning difficulty
+      - Social or communication impairment
+      - Long-standing illness
+      - Mental health condition
+      - Physical disability or mobility issue
+      - Deaf
+      - Blind
+      - Other
+
+  disability_2:
+    type: string
+    description: Candidate’s second disability
+    enum:
+      - Learning difficulty
+      - Social or communication impairment
+      - Long-standing illness
+      - Mental health condition
+      - Physical disability or mobility issue
+      - Deaf
+      - Blind
+      - Other
+
+  disability_3:
+    type: string
+    description: Candidate’s third disability
+    enum:
+      - Learning difficulty
+      - Social or communication impairment
+      - Long-standing illness
+      - Mental health condition
+      - Physical disability or mobility issue
+      - Deaf
+      - Blind
+      - Other
