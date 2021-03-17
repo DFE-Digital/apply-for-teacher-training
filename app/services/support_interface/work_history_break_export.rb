@@ -27,12 +27,12 @@ module SupportInterface
         next if unexplained_breaks.nil? && explained_breaks.nil?
 
         output = {
-          'Candidate id' => application_form.candidate_id,
-          'Application id' => application_form.id,
-          'Application submitted' => submitted_at(application_form).strftime('%d/%m/%Y'),
-          'Course choice statuses' => application_form.application_choices.map(&:status).sort,
-          'Start of working life' => start_of_working_life(application_form),
-          'Total time in employment (months)' => total_time_in_employment(application_form),
+          candidate_id: application_form.candidate_id.to_s,
+          application_form_id: application_form.id.to_s,
+          submitted_at: submitted_at(application_form).iso8601,
+          course_choice_statuses: application_form.application_choices.map(&:status).sort,
+          start_of_working_life: start_of_working_life(application_form),
+          total_time_in_employment: total_time_in_employment(application_form),
         }
 
         output.merge!(explained_breaks_columns(application_form, explained_breaks, volunteering_experiences)) if explained_breaks.present?
@@ -58,29 +58,30 @@ module SupportInterface
 
     def explained_breaks_columns(application_form, explained_breaks, volunteering_experiences)
       {
-        'Total time of explained breaks (months)' => total_time_of_explained_breaks(explained_breaks),
-        'Total time volunteering during explained breaks (months)' => total_time_volunteering_during_breaks(explained_breaks, volunteering_experiences, application_form),
-        'Number of explained breaks' => explained_breaks.length,
-        'Number of explained breaks in last 5 years' => breaks_in_last_five_years(explained_breaks, application_form),
-        'Number of explained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(explained_breaks, volunteering_experiences, application_form),
-        'Number of explained breaks that were over 50% volunteering' => breaks_with_over_fifty_percent_volunteering(explained_breaks, volunteering_experiences, application_form),
+        total_time_of_explained_breaks: total_time_of_explained_breaks(explained_breaks),
+        total_time_volunteering_during_explained_breaks: total_time_volunteering_during_breaks(explained_breaks, volunteering_experiences, application_form),
+        number_of_explained_breaks: explained_breaks.length,
+        number_of_explained_breaks_in_last_five_years: breaks_in_last_five_years(explained_breaks, application_form),
+        number_of_explained_breaks_that_coincide_with_a_volunteering_experience: breaks_that_coincide_with_volunteering_experiences(explained_breaks, volunteering_experiences, application_form),
+        number_of_explained_breaks_that_were_over_fifty_percent_volunteering: breaks_with_over_fifty_percent_volunteering(explained_breaks, volunteering_experiences, application_form),
       }
     end
 
     def unexplained_breaks_columns(application_form, unexplained_breaks, volunteering_experiences)
       {
-        'Total time of unexplained breaks (months)' => total_time_of_unexplained_breaks(unexplained_breaks),
-        'Total time volunteering during unexplained breaks (months)' => total_time_volunteering_during_breaks(unexplained_breaks, volunteering_experiences, application_form),
-        'Number of unexplained breaks' => unexplained_breaks.length,
-        'Number of unexplained breaks in last 5 years' => breaks_in_last_five_years(unexplained_breaks, application_form),
-        'Number of unexplained breaks that coincide with studying for a degree' => unexplained_breaks_that_coincide_with_degrees(application_form, unexplained_breaks),
-        'Number of unexplained breaks that coincide with a volunteering experience' => breaks_that_coincide_with_volunteering_experiences(unexplained_breaks, volunteering_experiences, application_form),
-        'Number of unexplained breaks that were over 50% volunteering' => breaks_with_over_fifty_percent_volunteering(unexplained_breaks, volunteering_experiences, application_form),
+        total_time_of_unexplained_breaks: total_time_of_unexplained_breaks(unexplained_breaks),
+        total_time_volunteering_during_unexplained_breaks: total_time_volunteering_during_breaks(unexplained_breaks, volunteering_experiences, application_form),
+        number_of_unexplained_breaks: unexplained_breaks.length,
+        number_of_unexplained_breaks_in_last_five_years: breaks_in_last_five_years(unexplained_breaks, application_form),
+        number_of_unexplained_breaks_that_coincide_with_studying_for_a_degree: unexplained_breaks_that_coincide_with_degrees(application_form, unexplained_breaks),
+        number_of_unexplained_breaks_that_coincide_with_a_volunteering_experience: breaks_that_coincide_with_volunteering_experiences(unexplained_breaks, volunteering_experiences, application_form),
+        number_of_unexplained_breaks_that_were_over_fifty_percent_volunteering: breaks_with_over_fifty_percent_volunteering(unexplained_breaks, volunteering_experiences, application_form),
       }
     end
 
     def start_of_working_life(application_form)
-      application_form.date_of_birth.beginning_of_month + 18.years
+      date = application_form.date_of_birth.beginning_of_month + 18.years
+      date.to_time.iso8601
     end
 
     def total_time_in_employment(application_form)
