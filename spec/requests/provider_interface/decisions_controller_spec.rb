@@ -17,7 +17,15 @@ RSpec.describe ProviderInterface::DecisionsController, type: :request do
     end
 
     before do
-      user_exists_in_dfe_sign_in(email_address: provider_user.email_address)
+      allow(DfESignInUser).to receive(:load_from_session)
+        .and_return(
+          DfESignInUser.new(
+            email_address: provider_user.email_address,
+            dfe_sign_in_uid: provider_user.dfe_sign_in_uid,
+            first_name: provider_user.first_name,
+            last_name: provider_user.last_name,
+          ),
+        )
     end
 
     context 'GET new' do

@@ -169,7 +169,7 @@ module ProviderInterface
     def confirm_application_is_in_decision_pending_state
       return if ApplicationStateChange::DECISION_PENDING_STATUSES.include?(@application_choice.status.to_sym)
 
-      redirect_back(fallback_location: provider_interface_application_choice_path(@application_choice))
+      redirect_to(provider_interface_application_choice_path(@application_choice))
     end
 
     def provider_interface_offer_params
