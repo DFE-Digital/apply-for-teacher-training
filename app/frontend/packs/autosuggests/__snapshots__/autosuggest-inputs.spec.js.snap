@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`autosuggestInputs should return degreeGradeAutosuggestInputs 1`] = `
+Object {
+  "containerId": "degree-grade-autosuggest",
+  "inputIds": Array [
+    "candidate-interface-degree-grade-form-other-grade-field",
+    "candidate-interface-degree-grade-form-other-grade-field-error",
+  ],
+}
+`;
+
+exports[`autosuggestInputs should return degreeGradeAutosuggestInputs 2`] = `
+Object {
+  "containerId": "degree-institution-autosuggest",
+  "inputIds": Array [
+    "candidate-interface-degree-institution-form-institution-name-field",
+    "candidate-interface-degree-institution-form-institution-name-field-error",
+  ],
+}
+`;
+
+exports[`autosuggestInputs should return degreeSubjectAutosuggestInputs 1`] = `
+Object {
+  "containerId": "degree-subject-autosuggest",
+  "inputIds": Array [
+    "candidate-interface-degree-subject-form-subject-field",
+    "candidate-interface-degree-subject-form-subject-field-error",
+  ],
+}
+`;
+
+exports[`autosuggestInputs should return degreeTypeAutosuggestInputs 1`] = `
+Object {
+  "containerId": "degree-type-autosuggest",
+  "inputIds": Array [
+    "candidate-interface-degree-type-form-type-description-field",
+    "candidate-interface-degree-type-form-type-description-field-error",
+  ],
+  "templates": Object {
+    "inputTemplate": [Function],
+    "suggestionTemplate": [Function],
+  },
+}
+`;
+
+exports[`autosuggestInputs should return otherQualificationsGradeAutosuggestInputs 1`] = `
+Object {
+  "containerId": "grade-autosuggest-data",
+  "inputIds": Array [
+    "candidate-interface-other-qualification-details-form-grade-field",
+    "candidate-interface-other-qualification-details-form-grade-field-error",
+  ],
+  "styles": [Function],
+}
+`;
+
+exports[`autosuggestInputs should return otherQualificationsSubjectAutosuggestInputs 1`] = `
+Object {
+  "containerId": "subject-autosuggest-data",
+  "inputIds": Array [
+    "candidate-interface-other-qualification-details-form-subject-field",
+    "candidate-interface-other-qualification-details-form-subject-field-error",
+  ],
+}
+`;
+
+exports[`autosuggestInputs should return otherQualificationsTypeAutosuggestInputs 1`] = `
+Object {
+  "containerId": "other-uk-qualifications-autosuggest",
+  "inputIds": Array [
+    "candidate-interface-other-qualification-type-form-other-uk-qualification-type-field",
+    "candidate-interface-other-qualification-type-form-other-uk-qualification-type-field-error",
+  ],
+}
+`;

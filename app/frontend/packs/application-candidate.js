@@ -1,12 +1,10 @@
-
-
 require.context("govuk-frontend/govuk/assets");
 
 import { initAll as govUKFrontendInitAll } from "govuk-frontend";
 import initWarnOnUnsavedChanges from "./warn-on-unsaved-changes";
 import {initAutosuggest} from "./autosuggests/init-autosuggest";
 import {
-  degreeGradeAutosuggestionInputs,
+  degreeGradeAutosuggestInputs,
   degreeInstitutionAutosuggestInputs,
   degreeSubjectAutosuggestInputs,
   degreeTypeAutosuggestInputs,
@@ -30,7 +28,7 @@ initProvidersAutocomplete();
 initCoursesAutocomplete();
 initCountryAutocomplete();
 
-initAutosuggest(degreeGradeAutosuggestionInputs);
+initAutosuggest(degreeGradeAutosuggestInputs);
 initAutosuggest(degreeInstitutionAutosuggestInputs);
 initAutosuggest(degreeSubjectAutosuggestInputs);
 initAutosuggest(degreeTypeAutosuggestInputs);

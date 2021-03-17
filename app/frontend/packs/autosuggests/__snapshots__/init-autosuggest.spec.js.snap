@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`initAutoSuggest should instantiate an autosuggest 1`] = `
+<div
+  id="outer-container"
+>
+  
+            
+  <div>
+    
+              
+    <label
+      for="form-field-id"
+    >
+      Enter something
+    </label>
+    
+              
+    
+            
+    <div
+      data-source="[\\"A\\", \\"B\\", \\"C\\"]"
+      id="autosuggest-containerId"
+    >
+      <div
+        class="autocomplete__wrapper govuk-input--width-10"
+      >
+        <div
+          style="border: 0px; height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;"
+        >
+          <div
+            aria-atomic="true"
+            aria-live="polite"
+            id="form-field-id__status--A"
+            role="status"
+          >
+            
+          </div>
+          <div
+            aria-atomic="true"
+            aria-live="polite"
+            id="form-field-id__status--B"
+            role="status"
+          >
+            
+          </div>
+        </div>
+        
+        <input
+          aria-autocomplete="list"
+          aria-describedby="form-field-id__assistiveHint"
+          aria-expanded="false"
+          aria-owns="form-field-id__listbox"
+          autocomplete="off"
+          class="autocomplete__input autocomplete__input--default"
+          id="form-field-id"
+          name=""
+          placeholder=""
+          role="combobox"
+          type="text"
+        />
+        
+        <ul
+          class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden"
+          id="form-field-id__listbox"
+          role="listbox"
+        >
+          
+        </ul>
+        <span
+          id="form-field-id__assistiveHint"
+          style="display: none;"
+        >
+          When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.
+        </span>
+      </div>
+    </div>
+  </div>
+  
+            
+  
+        
+</div>
+`;

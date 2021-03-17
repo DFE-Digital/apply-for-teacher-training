@@ -1,9 +1,6 @@
 import {accessibleAutosuggestFromSource} from "./helpers";
 
 export const initAutosuggest = ({inputIds, containerId, templates = {}, styles = () => {}}) => {
-
-  console.log(templates)
-
   try {
     inputIds.forEach(inputId => {
       const input = document.getElementById(inputId);
