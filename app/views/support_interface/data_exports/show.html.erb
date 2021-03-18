@@ -6,10 +6,13 @@
     text: 'Performance',
     path: support_interface_performance_path,
   }, {
-    text: 'Export data',
-    path: support_interface_data_exports_path,
+    text: 'Data directory',
+    path: support_interface_data_directory_path,
   }, {
     text: @data_export.name,
+    path: support_interface_view_export_path(@data_export_id),
+  }, {
+    text: "#{@data_export.name} new export",
   }]) %>
 <% end %>
 

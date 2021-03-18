@@ -30,6 +30,7 @@ module SupportInterface
 
     def show
       @data_export = DataExport.find(params[:id])
+      @data_export_id = @data_export.name.parameterize.underscore
     end
 
     def download
