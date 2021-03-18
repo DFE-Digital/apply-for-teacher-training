@@ -4,6 +4,7 @@ module ProviderInterface
     before_action :interview_flag_enabled?
     before_action :requires_make_decisions_permission, except: %i[index]
     before_action :confirm_application_is_in_decision_pending_state, except: %i[index]
+    before_action :redirect_to_index_if_store_cleared, only: %i[check commit]
 
     def index
       application_at_interviewable_stage = ApplicationStateChange::INTERVIEWABLE_STATES.include?(
@@ -160,6 +161,10 @@ module ProviderInterface
       return if ApplicationStateChange::DECISION_PENDING_STATUSES.include?(@application_choice.status.to_sym)
 
       redirect_back(fallback_location: provider_interface_application_choice_path(@application_choice))
+    end
+
+    def redirect_to_index_if_store_cleared
+      redirect_to provider_interface_application_choice_interviews_path(@application_choice) if interview_store.read.blank?
     end
   end
 end
