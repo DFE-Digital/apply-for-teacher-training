@@ -5,7 +5,7 @@ module VendorAPI
         since: since_param,
       )
 
-      render json: { data: MultipleApplicationsPresenter.new(application_choices).as_json }
+      render json: { data: MultipleApplicationsPresenter.new(application_choices, api: VendorAPI).as_json }
     end
 
     def show
