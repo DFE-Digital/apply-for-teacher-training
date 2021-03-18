@@ -1,16 +1,33 @@
 <% content_for :title, @data_export[:name] %>
 
+<% content_for :before_content do %>
+  <%= render BreadcrumbComponent.new(items: [{
+    text: 'Performance',
+    path: support_interface_performance_path,
+  }, {
+    text: 'Data directory',
+    path: support_interface_data_directory_path,
+  }, {
+    text: @data_export.fetch(:name),
+  }]) %>
+<% end %>
+
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m"><%= @data_export.fetch(:name) %></h2>
     <p class="govuk-body"><%= @data_export.fetch(:description) %></p>
 
     <%= govuk_button_to "Generate new export", support_interface_data_exports_path(export_type_id: params[:data_export_id]), class: 'govuk-button--secondary' %>
 
+    <%= govuk_link_to "View export history", support_interface_view_export_history_path(data_export_id: params[:data_export_id]) %>
+
+    <h2 class="govuk-heading-m">Documentation</h2>
+
     <% if DataSetDocumentation.for(@data_export.fetch(:class)) %>
       <p class="govuk-body">
-        <%= govuk_link_to "View documentation for #{@data_export.fetch(:name)}", support_interface_data_set_documentation_path(params[:data_export_id]) %>
+        <% DataSetDocumentation.for(@data_export.fetch(:class)).each do |column_name, column| %>
+          <%= render DataSetAttributeComponent.new(column_name: column_name, column: column) %>
+        <% end %>
       </p>
     <% end %>
 

@@ -16,6 +16,10 @@ module SupportInterface
       @data_export = DataExport::EXPORT_TYPES[params[:data_export_id].to_sym]
     end
 
+    def view_history
+      @data_exports = DataExport.includes(:initiator).where(name: params[:data_export_id].humanize).order(id: :desc).page(params[:page] || 1).per(30)
+    end
+
     def create
       export_type = DataExport::EXPORT_TYPES.fetch(params.fetch(:export_type_id).to_sym)
       data_export = DataExport.create!(name: export_type.fetch(:name), initiator: current_support_user)
