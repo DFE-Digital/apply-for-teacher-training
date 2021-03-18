@@ -1,3 +1,7 @@
+## 19th March
+
+Fix a bug where HESA ITT data was not being returned for applications with accepted offers.
+
 ## 9th March
 
 Changes to existing attributes:
