@@ -1,6 +1,6 @@
 <%= render 'support_interface/performance/performance_navigation', title: 'Data directory' %>
 
-<h2 class="govuk-heading-m"> GDPR GDPR GDPR </h2>
+<h3 class="govuk-heading-m"> User Guidance </h3>
 <%= render 'shared/support_user_gdpr_guidance' %>
 
 <% @export_types.each do |id, export| %>
@@ -10,7 +10,7 @@
         <h2 class="govuk-heading-m"><%= export.fetch(:name) %></h2>
         <p class="govuk-body"><%= export.fetch(:description) %></p>
 
-        <%= govuk_link_to "View export", support_interface_view_export_path(data_export_id: id) %>
+        <p class="govuk-body"><%= govuk_link_to 'View export information', support_interface_view_export_information_path(data_export_id: id) %></p>
       </div>
     </div>
   </section>

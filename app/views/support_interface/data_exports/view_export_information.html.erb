@@ -12,14 +12,13 @@
   }]) %>
 <% end %>
 
-
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p class="govuk-body"><%= @data_export.fetch(:description) %></p>
 
-    <%= govuk_button_to "Generate new export", support_interface_data_exports_path(export_type_id: params[:data_export_id]), class: 'govuk-button--secondary' %>
+    <%= govuk_button_to 'Generate new export', support_interface_data_exports_path(export_type_id: params[:data_export_id]), class: 'govuk-button--secondary' %>
 
-    <%= govuk_link_to "View export history", support_interface_view_export_history_path(data_export_id: params[:data_export_id]) %>
+    <p class="govuk-body"><%= govuk_link_to 'View download history', support_interface_view_download_history_path(data_export_id: params[:data_export_id]) %></p>
 
     <h2 class="govuk-heading-m">Documentation</h2>
 

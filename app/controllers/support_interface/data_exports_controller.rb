@@ -12,11 +12,11 @@ module SupportInterface
       @export_types = DataExport::EXPORT_TYPES
     end
 
-    def view_export
+    def view_export_information
       @data_export = DataExport::EXPORT_TYPES[params[:data_export_id].to_sym]
     end
 
-    def view_history
+    def view_download_history
       @data_exports = DataExport.includes(:initiator).where(name: params[:data_export_id].humanize).order(id: :desc).page(params[:page] || 1).per(30)
     end
 
