@@ -31,24 +31,14 @@ module CandidateInterface
         render :new and return unless @pick_study_mode.valid?
 
         if @pick_study_mode.single_site_course?
-          if params[:course_choice_id]
-            PickReplacementCourseOption.new(
-              @pick_study_mode.course_id,
-              @pick_study_mode.first_site_id,
-              current_application,
-              params.fetch(:provider_id),
-              self,
-              old_course_option_id: params[:course_choice_id],
-            ).call
-          else
-            PickCourseOption.new(
-              @pick_study_mode.course_id,
-              @pick_study_mode.first_site_id,
-              current_application,
-              params.fetch(:provider_id),
-              self,
-            ).call
-          end
+          PickCourseOption.new(
+            @pick_study_mode.course_id,
+            @pick_study_mode.first_site_id,
+            current_application,
+            params.fetch(:provider_id),
+            self,
+            old_course_option_id: params[:course_choice_id],
+          ).call
         else
           redirect_to candidate_interface_course_choices_site_path(
             @pick_study_mode.provider_id,
