@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`autosuggestInputs should return autosuggestInputs 1`] = `
+exports[`candidateAutosuggestInputs should return candidateAutosuggestInputs 1`] = `
 Array [
   Object {
     "containerId": "degree-grade-autosuggest",
@@ -15,6 +15,17 @@ Array [
       "candidate-interface-degree-institution-form-institution-name-field",
       "candidate-interface-degree-institution-form-institution-name-field-error",
     ],
+  },
+  Object {
+    "containerId": "degree-type-autosuggest",
+    "inputIds": Array [
+      "candidate-interface-degree-type-form-type-description-field",
+      "candidate-interface-degree-type-form-type-description-field-error",
+    ],
+    "templates": Object {
+      "inputTemplate": [Function],
+      "suggestionTemplate": [Function],
+    },
   },
   Object {
     "containerId": "degree-subject-autosuggest",

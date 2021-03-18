@@ -8,8 +8,6 @@ const countryAutocompleteInputs = {
     "#candidate-interface-gcse-institution-country-form-institution-country-field-error",
     "#candidate-interface-other-qualification-details-form-institution-country-field",
     "#candidate-interface-other-qualification-form-institution-country-field-error",
-    "#support-interface-application-forms-edit-address-details-form-country-field",
-    "#support-interface-application-forms-edit-address-details-form-country-field-error",
   ],
   autocompleteId: 'country-autocomplete'
 }
@@ -44,17 +42,9 @@ const courseAutocompleteInputs = {
   autocompleteId: 'course-autocomplete'
 }
 
-const apiTokenAutocomplete = {
-  inputIds: [
-    "#vendor-api-token-provider-id-field.govuk-select"
-  ],
-  autocompleteId: 'api-token-autocomplete'
-}
-
-export const autocompleteInputs = [
+export const candidateAutocompleteInputs = [
   countryAutocompleteInputs,
   nationalityAutocompleteInputs,
   providerAutocompleteInputs,
   courseAutocompleteInputs,
-  apiTokenAutocomplete
 ]

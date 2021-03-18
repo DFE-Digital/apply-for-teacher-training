@@ -70,9 +70,10 @@ const otherQualificationsTypeAutosuggestInputs = {
   containerId: "other-uk-qualifications-autosuggest",
 }
 
-export const autosuggestInputs = [
+export const candidateAutosuggestInputs = [
   degreeGradeAutosuggestInputs,
   degreeInstitutionAutosuggestInputs,
+  degreeTypeAutosuggestInputs,
   degreeSubjectAutosuggestInputs,
   otherQualificationsSubjectAutosuggestInputs,
   otherQualificationsGradeAutosuggestInputs,
