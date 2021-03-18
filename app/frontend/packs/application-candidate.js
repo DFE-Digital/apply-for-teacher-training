@@ -3,6 +3,8 @@ require.context("govuk-frontend/govuk/assets");
 import { initAll as govUKFrontendInitAll } from "govuk-frontend";
 import initWarnOnUnsavedChanges from "./warn-on-unsaved-changes";
 import {initAutosuggest} from "./autosuggests/init-autosuggest";
+import {autocompleteInputs} from "./autocompletes/autocomplete-inputs";
+import {initAutocomplete} from "./autocompletes/init-autocomplete";
 import {
   degreeGradeAutosuggestInputs,
   degreeInstitutionAutosuggestInputs,
@@ -12,10 +14,6 @@ import {
   otherQualificationsSubjectAutosuggestInputs,
   otherQualificationsTypeAutosuggestInputs
 } from "./autosuggests/autosuggest-inputs";
-import initNationalityAutocomplete from "./autocompletes/nationality-autocomplete";
-import initProvidersAutocomplete from "./autocompletes/providers-autocomplete";
-import initCoursesAutocomplete from "./autocompletes/courses-autocomplete";
-import initCountryAutocomplete from "./autocompletes/country-autocomplete";
 import nationalitiesComponent from "./nationalities-component";
 import initBackLinks from "./app-back-link";
 import "accessible-autocomplete/dist/accessible-autocomplete.min.css";
@@ -23,10 +21,9 @@ import "../styles/application-candidate.scss";
 
 govUKFrontendInitAll();
 
-initNationalityAutocomplete();
-initProvidersAutocomplete();
-initCoursesAutocomplete();
-initCountryAutocomplete();
+autocompleteInputs.forEach((autocompleteInput) => {
+  initAutocomplete(autocompleteInput)
+});
 
 initAutosuggest(degreeGradeAutosuggestInputs);
 initAutosuggest(degreeInstitutionAutosuggestInputs);

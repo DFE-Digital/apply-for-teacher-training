@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`autocompleteInputs should return autocompleteInputs 1`] = `
+Array [
+  Object {
+    "autocompleteId": "country-autocomplete",
+    "inputIds": Array [
+      "#candidate-interface-contact-details-form-country-field",
+      "#candidate-interface-contact-details-form-country-field-error",
+      "#candidate-interface-degree-institution-form-institution-country-field",
+      "#candidate-interface-degree-institution-form-institution-country-field-error",
+      "#candidate-interface-gcse-institution-country-form-institution-country-field",
+      "#candidate-interface-gcse-institution-country-form-institution-country-field-error",
+      "#candidate-interface-other-qualification-details-form-institution-country-field",
+      "#candidate-interface-other-qualification-form-institution-country-field-error",
+      "#support-interface-application-forms-edit-address-details-form-country-field",
+      "#support-interface-application-forms-edit-address-details-form-country-field-error",
+    ],
+  },
+  Object {
+    "autocompleteId": "nationality-autocomplete",
+    "inputIds": Array [
+      "candidate-interface-nationalities-form-first-nationality-field",
+      "candidate-interface-nationalities-form-first-nationality-field-error",
+      "candidate-interface-nationalities-form-second-nationality-field",
+      "candidate-interface-nationalities-form-second-nationality-field-error",
+      "candidate-interface-nationalities-form-other-nationality1-field",
+      "candidate-interface-nationalities-form-other-nationality1-field-error",
+      "candidate-interface-nationalities-form-other-nationality2-field",
+      "candidate-interface-nationalities-form-other-nationality2-field-error",
+      "candidate-interface-nationalities-form-other-nationality3-field",
+      "candidate-interface-nationalities-form-other-nationality3-field-error",
+    ],
+  },
+  Object {
+    "autocompleteId": "provider-autocomplete",
+    "inputIds": Array [
+      "#pick-provider-form .govuk-select",
+    ],
+  },
+  Object {
+    "autocompleteId": "course-autocomplete",
+    "inputIds": Array [
+      "#pick-course-form .govuk-select",
+    ],
+  },
+  Object {
+    "autocompleteId": "api-token-autocomplete",
+    "inputIds": Array [
+      "#vendor-api-token-provider-id-field.govuk-select",
+    ],
+  },
+]
+`;
