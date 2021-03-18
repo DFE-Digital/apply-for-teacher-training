@@ -75,6 +75,7 @@ class TestApplications
         *traits,
         :with_degree,
         :with_gcses,
+        :with_a_levels,
         application_choices_count: 0,
         full_work_history: true,
         volunteering_experiences_count: 1,
