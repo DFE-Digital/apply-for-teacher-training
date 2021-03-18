@@ -205,14 +205,7 @@ RSpec.describe ProviderInterface::OfferWizard do
   end
 
   describe '#previous_step' do
-    before do
-      wizard.path_history = %i[provider courses locations]
-      wizard.current_step = :locations
-    end
-
-    it 'returns the step before the current_step' do
-      expect(wizard.previous_step).to eq(:courses)
-    end
+    it { is_expected.to delegate_method(:previous_step).to(:wizard_path_history) }
   end
 
   describe '#conditions' do

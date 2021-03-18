@@ -8,7 +8,7 @@ module ProviderInterface
     attr_accessor :provider_id, :course_id, :course_option_id, :study_mode, :location_id,
                   :standard_conditions, :further_condition_1, :further_condition_2,
                   :further_condition_3, :further_condition_4, :current_step, :decision,
-                  :path_history, :action, :provider_user_id
+                  :path_history, :action, :provider_user_id, :wizard_path_history
 
     validates :decision, presence: true, on: %i[select_option]
     validates :course_option_id, presence: true, on: %i[locations save]
@@ -20,7 +20,6 @@ module ProviderInterface
       @state_store = state_store
 
       super(last_saved_state.deep_merge(attrs))
-
       update_path_history(attrs)
     end
 
@@ -59,9 +58,7 @@ module ProviderInterface
       next_step
     end
 
-    def previous_step
-      path_history[path_history.rindex(current_step) - 1]
-    end
+    delegate :previous_step, to: :wizard_path_history
 
   private
 
@@ -100,17 +97,15 @@ module ProviderInterface
     end
 
     def state
-      as_json(except: %w[state_store errors validation_context course_option]).to_json
+      as_json(except: %w[state_store errors validation_context course_option wizard_path_history]).to_json
     end
 
     def update_path_history(attrs)
-      @path_history ||= []
-
-      if attrs[:action] == 'back'
-        @path_history.pop
-      elsif attrs.key?(:current_step)
-        @path_history << attrs[:current_step]
-      end
+      @wizard_path_history = WizardPathHistory.new(path_history,
+                                                   step: attrs[:current_step].presence,
+                                                   action: attrs[:action].presence)
+      @wizard_path_history.update
+      @path_history = @wizard_path_history.path_history
     end
   end
 end
