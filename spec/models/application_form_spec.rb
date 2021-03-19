@@ -24,6 +24,22 @@ RSpec.describe ApplicationForm do
       expect { application_form.update(latitude: '0.12343') }
         .not_to(change { application_form.application_choices.first.updated_at })
     end
+
+    context 'when the form belongs to a previous recruitment cycle' do
+      it 'throws an exception rather than touch an application choice' do
+        application_form = create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, application_choices_count: 1)
+
+        expect { application_form.update(first_name: 'Maria') }
+          .to raise_error('Tried to mark an application choice from a previous cycle as changed')
+      end
+
+      it 'does nothing when there are no application choices' do
+        application_form = create(:completed_application_form, recruitment_cycle_year: RecruitmentCycle.previous_year, application_choices_count: 0)
+
+        expect { application_form.update(first_name: 'Maria') }
+          .not_to raise_error
+      end
+    end
   end
 
   describe 'after_touch' do

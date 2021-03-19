@@ -93,11 +93,21 @@ class ApplicationForm < ApplicationRecord
 
   before_save do |form|
     if (form.changed & PUBLISHED_FIELDS).any?
-      application_choices.touch_all
+      touch_choices
     end
   end
 
   after_commit :geocode_address_if_required
+
+  def touch_choices
+    return unless application_choices.any?
+
+    if recruitment_cycle_year < RecruitmentCycle.current_year
+      raise 'Tried to mark an application choice from a previous cycle as changed'
+    end
+
+    application_choices.touch_all
+  end
 
   def submitted?
     submitted_at.present?
