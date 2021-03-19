@@ -91,7 +91,7 @@ RSpec.feature 'Data export', sidekiq: false do
   end
 
   def and_i_click_on_the_export_history
-    click_link 'View download history'
+    click_link 'View history'
   end
 
   def then_i_see_a_record_of_my_completed_export

@@ -16,7 +16,7 @@ module SupportInterface
       @data_export = DataExport::EXPORT_TYPES[params[:data_export_id].to_sym]
     end
 
-    def view_download_history
+    def view_history
       @data_exports = DataExport.includes(:initiator).where(name: params[:data_export_id].humanize).order(id: :desc).page(params[:page] || 1).per(30)
     end
 

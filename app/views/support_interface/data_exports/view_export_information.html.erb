@@ -18,7 +18,7 @@
 
     <%= govuk_button_to 'Generate new export', support_interface_data_exports_path(export_type_id: params[:data_export_id]), class: 'govuk-button--secondary' %>
 
-    <p class="govuk-body"><%= govuk_link_to 'View download history', support_interface_view_download_history_path(data_export_id: params[:data_export_id]) %></p>
+    <p class="govuk-body"><%= govuk_link_to 'View history', support_interface_view_history_path(data_export_id: params[:data_export_id]) %></p>
 
     <h2 class="govuk-heading-m">Documentation</h2>
 
