@@ -1,4 +1,4 @@
-class ProviderUser < ActiveRecord::Base
+class ProviderUser < ApplicationRecord
   include AuthenticatedUsingMagicLinks
 
   has_many :provider_permissions, dependent: :destroy

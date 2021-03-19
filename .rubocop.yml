@@ -104,10 +104,6 @@ Lint/AmbiguousBlockAssociation:
 Rails/ApplicationController:
   Enabled: false
 
-# We do not use ApplicationRecord
-Rails/ApplicationRecord:
-  Enabled: false
-
 # Rails does not actually allow "dynamic find_by", so this cop yields false positives
 # like `VendorApiToken.find_by_unhashed_token` (which we implement ourselves)
 Rails/DynamicFindBy:

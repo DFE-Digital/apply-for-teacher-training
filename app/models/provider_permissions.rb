@@ -1,4 +1,4 @@
-class ProviderPermissions < ActiveRecord::Base
+class ProviderPermissions < ApplicationRecord
   VALID_PERMISSIONS = %i[
     manage_users
     manage_organisations

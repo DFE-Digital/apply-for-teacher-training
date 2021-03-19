@@ -1,4 +1,4 @@
-class SupportUser < ActiveRecord::Base
+class SupportUser < ApplicationRecord
   include Discard::Model
   include AuthenticatedUsingMagicLinks
 
