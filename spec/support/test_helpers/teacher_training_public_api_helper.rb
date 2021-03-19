@@ -10,18 +10,6 @@ module TeacherTrainingPublicAPIHelper
       headers: { 'Content-Type': 'application/vnd.api+json' },
       body: build_response_body('provider_list_response.json', specified_attributes),
     )
-
-    # Fake the error the API sends on exceeding the pagination limit
-    stub_request(
-      :get,
-      "#{ENV.fetch('TEACHER_TRAINING_API_BASE_URL')}recruitment_cycles/#{recruitment_cycle_year}/providers",
-    ).with(
-      query: { page: { page: 2, per_page: 500 } },
-    ).to_return(
-      status: 400,
-      headers: { 'Content-Type': 'application/vnd.api+json' },
-      body: pagination_error_response,
-    )
   end
 
   def stub_teacher_training_api_providers_with_multiple_pages(recruitment_cycle_year: RecruitmentCycle.current_year)
@@ -39,7 +27,7 @@ module TeacherTrainingPublicAPIHelper
     )
   end
 
-  def stub_course_with_site(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, site_code:, vacancy_status: 'full_time_vacancies', course_attributes: [], site_attributes: [])
+  def stub_teacher_training_api_course_with_site(recruitment_cycle_year: RecruitmentCycle.current_year, provider_code:, course_code:, site_code:, vacancy_status: 'full_time_vacancies', course_attributes: [], site_attributes: [])
     course_attributes = course_attributes.any? ? [course_attributes.first.merge(code: course_code)] : [{ code: course_code }]
     site_attributes = site_attributes.any? ? [site_attributes.first.merge(code: site_code)] : [{ code: site_code }]
     stub_teacher_training_api_courses(recruitment_cycle_year: recruitment_cycle_year, provider_code: provider_code, specified_attributes: course_attributes)
@@ -138,12 +126,6 @@ private
     end
 
     api_response.to_json
-  end
-
-  def pagination_error_response
-    File.read(
-      Rails.root.join('spec/examples/teacher_training_api/pagination_error.json'),
-    )
   end
 
   def paginated_response(page_number)

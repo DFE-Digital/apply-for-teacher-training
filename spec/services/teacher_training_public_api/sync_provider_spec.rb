@@ -30,11 +30,11 @@ RSpec.describe TeacherTrainingPublicAPI::SyncProvider, sidekiq: true do
 
       it 'correctly updates the Provider#region_code' do
         provider_from_api = fake_api_provider(code: 'ABC', region_code: 'north_west')
-        stub_course_with_site(provider_code: 'ABC',
-                              course_code: 'ABC1',
-                              course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
-                              site_code: 'A',
-                              vacancy_status: 'full_time_vacancies')
+        stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                                   course_code: 'ABC1',
+                                                   course_attributes: [{ accredited_body_code: nil, study_mode: 'full_time' }],
+                                                   site_code: 'A',
+                                                   vacancy_status: 'full_time_vacancies')
 
         described_class.new(provider_from_api: provider_from_api, recruitment_cycle_year: stubbed_recruitment_cycle_year).call
         expect(Provider.count).to eq 1

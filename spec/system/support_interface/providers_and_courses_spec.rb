@@ -117,21 +117,21 @@ RSpec.feature 'Providers and courses' do
       },
     )
 
-    stub_course_with_site(provider_code: 'ABC',
-                          course_code: 'ABC1',
-                          course_attributes: [{ accredited_body_code: 'XYZ', qualifications: %w[qts pgce], name: 'Primary' }],
-                          site_code: 'X',
-                          site_attributes: [{ name: 'Main site' }])
+    stub_teacher_training_api_course_with_site(provider_code: 'ABC',
+                                               course_code: 'ABC1',
+                                               course_attributes: [{ accredited_body_code: 'XYZ', qualifications: %w[qts pgce], name: 'Primary' }],
+                                               site_code: 'X',
+                                               site_attributes: [{ name: 'Main site' }])
 
-    stub_course_with_site(provider_code: 'DEF',
-                          course_code: 'DEF1',
-                          course_attributes: [{ accredited_body_code: 'ABC' }],
-                          site_code: 'Y')
+    stub_teacher_training_api_course_with_site(provider_code: 'DEF',
+                                               course_code: 'DEF1',
+                                               course_attributes: [{ accredited_body_code: 'ABC' }],
+                                               site_code: 'Y')
 
-    stub_course_with_site(provider_code: 'GHI',
-                          course_code: 'GHI1',
-                          course_attributes: [{ accredited_body_code: 'GHI' }],
-                          site_code: 'C')
+    stub_teacher_training_api_course_with_site(provider_code: 'GHI',
+                                               course_code: 'GHI1',
+                                               course_attributes: [{ accredited_body_code: 'GHI' }],
+                                               site_code: 'C')
 
     Sidekiq::Testing.inline! do
       click_button 'Sync providers'

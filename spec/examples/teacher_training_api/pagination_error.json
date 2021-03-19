@@ -1,9 +1,0 @@
-{
-  "errors": [
-    {
-      "status": 400,
-      "title": "BAD REQUEST",
-      "detail": "The requested page param was out of range and invalid for this request."
-    }
-  ]
-}
