@@ -83,26 +83,6 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "38104ade37d5c61659409d037de157949b23a917a7f5b504534ac0a46fa5cf8f",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/services/notifications_list.rb",
-      "line": 18,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"#{{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first} IS true\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "NotificationsList",
-        "method": "s(:self).for"
-      },
-      "user_input": "{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first",
-      "confidence": "Weak",
-      "note": "not a user input"
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "37b3066632afad7b480ce45f1b9d1263a923f29bba5edd3afd3e2f78e2cd425e",
       "check_name": "SQL",
       "message": "Possible SQL injection",
@@ -123,11 +103,31 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "38104ade37d5c61659409d037de157949b23a917a7f5b504534ac0a46fa5cf8f",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/services/notifications_list.rb",
+      "line": 18,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "application_choice.provider.provider_users.or(application_choice.accredited_provider.provider_users).joins(:notification_preferences).where(\"#{{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first} IS true\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "NotificationsList",
+        "method": "s(:self).for"
+      },
+      "user_input": "{ :application_received => ([:application_submitted, :chase_provider_decision]), :application_withdrawn => ([:application_withdrawn]), :application_rejected_by_default => ([:application_rejected_by_default]), :offer_accepted => ([:offer_accepted, :unconditional_offer_accepted]), :offer_declined => ([:declined, :declined_by_default]) }.select do\n k if event.in?(v)\n end.keys.first",
+      "confidence": "Weak",
+      "note": "not a user input"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "471859383ef3e9fba03933907e1bb043a8a57520241d275846126e6a2425f2e1",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/models/apply_again_feature_metrics.rb",
-      "line": 76,
+      "line": 95,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "ApplicationForm.where(:phase => \"apply_2\", :recruitment_cycle_year => RecruitmentCycle.current_year).joins(:application_choices).joins(\"inner join (select auditable_id, max(created_at) as status_last_updated_at\\n          from audits\\n          where auditable_type = 'ApplicationChoice'\\n            and action = 'update'\\n            and audited_changes#>>'{status, 1}' is not null\\n          group by auditable_id\\n        ) as status_audits on status_audits.auditable_id = application_choices.id\\n          and status_last_updated_at between '#{start_time}' and '#{end_time}'\")",
       "render_path": null,
@@ -299,8 +299,28 @@
       "user_input": "params[:course_option_id]",
       "confidence": "Weak",
       "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "dee8e3d32c167d6090d7a67d1bc9add167f8ef7b154fcc1d1311fc7aad779a84",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/apply_again_feature_metrics.rb",
+      "line": 121,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "ApplicationForm.apply_1.joins(:application_choices).where(\"NOT EXISTS (:pending_or_successful)\", :pending_or_successful => ApplicationChoice.select(1).where(:status => (ApplicationStateChange.valid_states - [:withdrawn, :cancelled, :rejected, :declined, :conditions_not_met, :offer_withdrawn, :application_not_sent])).where(\"application_choices.application_form_id = application_forms.id\")).joins(\"inner join (select auditable_id, max(created_at) as status_last_updated_at\\n          from audits\\n          where auditable_type = 'ApplicationChoice'\\n            and action = 'update'\\n            and audited_changes#>>'{status, 1}' is not null\\n          group by auditable_id\\n        ) as status_audits on status_audits.auditable_id = application_choices.id\\n          and status_last_updated_at between '#{start_time}' and '#{end_time}'\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ApplyAgainFeatureMetrics",
+        "method": "applications_eligible_for_apply_again"
+      },
+      "user_input": "start_time",
+      "confidence": "Medium",
+      "note": ""
     }
   ],
-  "updated": "2021-03-15 09:28:21 +0000",
+  "updated": "2021-03-17 16:17:09 +0000",
   "brakeman_version": "5.0.0"
 }
