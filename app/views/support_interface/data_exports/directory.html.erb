@@ -10,7 +10,7 @@
         <h2 class="govuk-heading-m"><%= export.fetch(:name) %></h2>
         <p class="govuk-body"><%= export.fetch(:description) %></p>
 
-        <p class="govuk-body"><%= govuk_link_to 'View export information', support_interface_view_export_information_path(data_export_id: id) %></p>
+        <p class="govuk-body"><%= govuk_link_to 'View export information', support_interface_view_export_information_path(data_export_type: id) %></p>
       </div>
     </div>
   </section>

@@ -13,11 +13,11 @@ module SupportInterface
     end
 
     def view_export_information
-      @data_export = DataExport::EXPORT_TYPES[params[:data_export_id].to_sym]
+      @data_export = DataExport::EXPORT_TYPES[params[:data_export_type].to_sym]
     end
 
     def view_history
-      @data_exports = DataExport.includes(:initiator).where(name: params[:data_export_id].humanize).order(id: :desc).page(params[:page] || 1).per(30)
+      @data_exports = DataExport.includes(:initiator).where(name: params[:data_export_type].humanize).order(id: :desc).page(params[:page] || 1).per(30)
     end
 
     def create
@@ -30,7 +30,7 @@ module SupportInterface
 
     def show
       @data_export = DataExport.find(params[:id])
-      @data_export_id = @data_export.name.parameterize.underscore
+      @data_export_type = @data_export.name.parameterize.underscore
     end
 
     def download

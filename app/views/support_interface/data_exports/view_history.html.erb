@@ -1,4 +1,4 @@
-<% content_for :title, "#{params[:data_export_id].humanize} download history" %>
+<% content_for :title, "#{params[:data_export_type].humanize} download history" %>
 
 <% content_for :before_content do %>
   <%= render BreadcrumbComponent.new(items: [{
@@ -8,10 +8,10 @@
     text: 'Data directory',
     path: support_interface_data_directory_path,
   }, {
-    text: params[:data_export_id].humanize,
+    text: params[:data_export_type].humanize,
     path: support_interface_view_export_information_path,
   }, {
-    text: "#{params[:data_export_id].humanize} download history",
+    text: "#{params[:data_export_type].humanize} download history",
   }]) %>
 <% end %>
 
