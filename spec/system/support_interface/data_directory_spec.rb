@@ -95,7 +95,7 @@ RSpec.feature 'Data export', sidekiq: false do
   end
 
   def then_i_see_a_record_of_my_completed_export
-    expect(page).to have_content 'Active provider user permissions download history'
+    expect(page).to have_content 'Active provider user permissions history'
     expect(page).to have_content 'completed'
   end
 end

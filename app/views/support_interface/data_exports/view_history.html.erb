@@ -1,4 +1,4 @@
-<% content_for :title, "#{params[:data_export_type].humanize} download history" %>
+<% content_for :title, "#{params[:data_export_type].humanize} history" %>
 
 <% content_for :before_content do %>
   <%= render BreadcrumbComponent.new(items: [{
@@ -11,11 +11,13 @@
     text: params[:data_export_type].humanize,
     path: support_interface_view_export_information_path,
   }, {
-    text: "#{params[:data_export_type].humanize} download history",
+    text: "#{params[:data_export_type].humanize} history",
   }]) %>
 <% end %>
 
-<% if !@data_exports.empty? %>
+<% if @data_exports.empty? %>
+  <p class="govuk-body">No exports have been generated</p>
+<% else %>
   <table class="govuk-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">

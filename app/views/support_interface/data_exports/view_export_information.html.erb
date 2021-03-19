@@ -22,13 +22,15 @@
 
     <h2 class="govuk-heading-m">Documentation</h2>
 
-    <% if DataSetDocumentation.for(@data_export.fetch(:class)) %>
-      <p class="govuk-body">
-        <% DataSetDocumentation.for(@data_export.fetch(:class)).each do |column_name, column| %>
-          <%= render DataSetAttributeComponent.new(column_name: column_name, column: column) %>
-        <% end %>
-      </p>
-    <% end %>
+    <p class="govuk-body">
+      <% if DataSetDocumentation.for(@data_export.fetch(:class)) %>
+          <% DataSetDocumentation.for(@data_export.fetch(:class)).each do |column_name, column| %>
+            <%= render DataSetAttributeComponent.new(column_name: column_name, column: column) %>
+          <% end %>
+      <% else %>
+        No documentation available
+      <% end %>
+    </p>
 
   </div>
 </div>
