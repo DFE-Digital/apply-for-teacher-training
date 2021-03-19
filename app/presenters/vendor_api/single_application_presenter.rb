@@ -58,11 +58,13 @@ module VendorAPI
           safeguarding_issues_details_url: safeguarding_issues_details_url,
         },
       }
-      if application_choice.status == 'recruited'
+
+      if ApplicationStateChange::ACCEPTED_STATES.include? application_choice.status.to_sym
         hash[:attributes][:hesa_itt_data] = hesa_itt_data
       else
         hash[:attributes][:hesa_itt_data] = nil
       end
+
       hash
     end
 

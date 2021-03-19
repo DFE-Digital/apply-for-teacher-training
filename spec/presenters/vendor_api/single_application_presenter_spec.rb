@@ -47,12 +47,12 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
   end
 
   describe 'attributes.hesa_itt_data' do
-    context "when an application choice has status 'recruited'" do
+    context 'when an application choice has had an accepted offer' do
       let(:application_choice) do
         application_form = create(:application_form,
                                   :minimum_info,
                                   :with_equality_and_diversity_data)
-        create(:application_choice, status: 'recruited', application_form: application_form)
+        create(:application_choice, :with_accepted_offer, application_form: application_form)
       end
 
       it 'returns the hesa_itt_data attribute of an application' do
@@ -68,12 +68,12 @@ RSpec.describe VendorAPI::SingleApplicationPresenter do
       end
     end
 
-    context "when an application choice does not have status 'recruited'" do
+    context 'when an application choice has not had an accepted offer' do
       let(:application_choice) do
         application_form = create(:application_form,
                                   :minimum_info,
                                   :with_equality_and_diversity_data)
-        create(:application_choice, status: 'offer', application_form: application_form)
+        create(:application_choice, :with_offer, application_form: application_form)
       end
 
       it 'the hesa_itt_data attribute of an application is nil' do
