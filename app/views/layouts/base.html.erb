@@ -72,14 +72,17 @@
     <% case try(:current_namespace) %>
     <% when 'candidate_interface' %>
       <%= javascript_pack_tag 'application-candidate' %>
+      <%= render 'shared/zendesk_snippet' if HostingEnvironment.test_environment? %>
     <% when 'support_interface' %>
       <%= javascript_pack_tag 'application-support' %>
     <% when 'provider_interface' %>
       <%= javascript_pack_tag 'application-provider' %>
+      <%= render 'shared/zendesk_snippet' if HostingEnvironment.test_environment? %>
     <% when 'api_docs' %>
       <%= javascript_pack_tag 'application-api-docs' %>
     <% else %>
       <%= javascript_pack_tag 'application' %>
     <% end %>
+
   </body>
 </html>
