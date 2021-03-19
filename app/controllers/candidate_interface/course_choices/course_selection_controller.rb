@@ -26,6 +26,7 @@ module CandidateInterface
           course_id: course_id,
           application_form: current_application,
         )
+        redirect_to_review_page_with_already_added_message and return if @pick_course.already_picked_this_one?
         render :new and return unless @pick_course.valid?
 
         if !@pick_course.open_on_apply?
@@ -73,6 +74,13 @@ module CandidateInterface
 
       def full
         @course = Course.find(params[:course_id])
+      end
+
+    private
+
+      def redirect_to_review_page_with_already_added_message
+        flash[:info] = @pick_course.already_added_error
+        redirect_to candidate_interface_course_choices_review_path
       end
     end
   end
