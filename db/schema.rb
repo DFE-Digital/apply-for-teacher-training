@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_16_154831) do
+ActiveRecord::Schema.define(version: 2021_03_19_163050) do
 
   create_sequence "application_choices_id_seq"
   create_sequence "application_experiences_id_seq"
@@ -262,6 +262,7 @@ ActiveRecord::Schema.define(version: 2021_03_16_154831) do
     t.datetime "created_at"
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
+    t.index ["auditable_type", "id"], name: "index_audits_on_auditable_type_and_id"
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid"
     t.index ["user_id", "user_type"], name: "user_index"
