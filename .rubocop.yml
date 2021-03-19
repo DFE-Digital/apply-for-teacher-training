@@ -55,7 +55,7 @@ RSpec/ContextWording:
 # we have a property called "subject" in some factories
 RSpec/EmptyLineAfterSubject:
   Exclude:
-    - 'spec/factories.rb'
+    - 'spec/factories/*.rb'
 
 RSpec/LetSetup:
   Enabled: false
