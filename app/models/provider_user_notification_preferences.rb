@@ -1,4 +1,4 @@
-class ProviderUserNotificationPreferences < ActiveRecord::Base
+class ProviderUserNotificationPreferences < ApplicationRecord
   belongs_to :provider_user
 
   self.table_name = :provider_user_notifications

@@ -1,4 +1,4 @@
-class ProviderAgreement < ActiveRecord::Base
+class ProviderAgreement < ApplicationRecord
   belongs_to :provider
   belongs_to :provider_user
   attr_accessor :accept_agreement
