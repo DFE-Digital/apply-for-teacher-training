@@ -27,9 +27,9 @@ module DataMigrations
         )
 
         application_form.application_choices.each do |application_choice|
-          latest_application_choices_audits_created_at = application_choice.audits.last.created_at
+          latest_application_choices_audits_created_at = application_choice.audits.order(:created_at).last.created_at
 
-          if application_form.audits.last == audit && latest_application_choice_audits_created_at < audit.created_at
+          if application_form.audits.order(:created_at).last == audit && latest_application_choice_audits_created_at < audit.created_at
             application_choice.update_column('updated_at', latest_application_choices_audits_created_at)
           end
         end
