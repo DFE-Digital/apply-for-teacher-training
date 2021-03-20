@@ -76,12 +76,12 @@
         </span>
       </summary>
       <div class="govuk-details__text">
-        <% if response.schema_name %>
-          This request will return a <%= govuk_link_to response.schema_name, "##{response.schema_name.parameterize}-object" %> object.
+        <% if response.schema.name %>
+          This request will return a <%= govuk_link_to response.schema.name, "##{response.schema.name.parameterize}-object" %> object.
         <% end %>
 
-        <% if response.example %>
-          <%= json_code_sample(response.example) %>
+        <% if response.schema.example %>
+          <%= json_code_sample(response.schema.example) %>
         <% end %>
       </div>
     </details>

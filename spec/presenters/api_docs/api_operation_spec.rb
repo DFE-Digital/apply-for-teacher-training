@@ -68,24 +68,24 @@ RSpec.describe APIDocs::APIOperation do
   end
 
   describe '#request_body' do
-    it 'provides a schema and example for the request body' do
-      expect(api_operation.request_body.example).to eq('my_string' => 'I AM A STRING FROM THE CLIENT')
-      expect(api_operation.request_body.schema).to be_a APIDocs::APISchema
+    it 'provides a schema for the request body' do
+      expect(api_operation.request_body.schema.example).to eq('my_string' => 'I AM A STRING FROM THE CLIENT')
+      expect(api_operation.request_body.schema.name).to be_nil
     end
   end
 
   describe '#responses' do
     it 'returns all the responses in a hash' do
-      expect(api_operation.responses['200'].example).to eq('my_string' => 'I AM A STRING FROM THE API')
-      expect(api_operation.responses['422'].example).to eq('error_messages' => ['Bad word', 'Misspelled'])
+      expect(api_operation.responses['200'].schema.example).to eq('my_string' => 'I AM A STRING FROM THE API')
+      expect(api_operation.responses['422'].schema.example).to eq('error_messages' => ['Bad word', 'Misspelled'])
     end
 
-    it 'returns a meaningful schema_name for an referenced schema' do
-      expect(api_operation.responses['422'].schema_name).to eq 'ErrorResponse'
+    it 'returns a named schema for an referenced schema' do
+      expect(api_operation.responses['422'].schema.name).to eq 'ErrorResponse'
     end
 
-    it 'returns no schema_name for an inline schema' do
-      expect(api_operation.responses['200'].schema_name).to be nil
+    it 'returns an anonymous schema for an inline schema' do
+      expect(api_operation.responses['200'].schema.name).to be nil
     end
   end
 end

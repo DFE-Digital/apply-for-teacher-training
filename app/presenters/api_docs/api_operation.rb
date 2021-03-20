@@ -41,20 +41,8 @@ module APIDocs
       @response = response
     end
 
-    def example
-      SchemaExample.new(schema).as_json
-    end
-
     def schema
-      response.content['application/json'].schema
-    end
-
-    def schema_name
-      referenced_schema_regex = /#\/components\/schemas\//
-      location = schema.node_context.source_location.to_s
-      if location.match(referenced_schema_regex)
-        location.gsub(referenced_schema_regex, '')
-      end
+      APISchema.new(name: nil, schema: response.content['application/json'].schema)
     end
   end
 
@@ -69,10 +57,6 @@ module APIDocs
 
     def schema
       APISchema.new(name: nil, schema: request_body.content['application/json'].schema)
-    end
-
-    def example
-      SchemaExample.new(request_body.content['application/json'].schema).as_json
     end
   end
 end
