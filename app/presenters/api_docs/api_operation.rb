@@ -35,7 +35,7 @@ module APIDocs
   class Response
     attr_reader :code, :response
 
-    delegate :description, :content, to: :response
+    delegate :description, to: :response
 
     def initialize(code, response)
       @code = code
@@ -62,6 +62,7 @@ module APIDocs
 
   class RequestBody
     attr_reader :request_body
+
     delegate :description, to: :request_body
 
     def initialize(request_body)
