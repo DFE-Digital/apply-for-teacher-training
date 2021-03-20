@@ -60,7 +60,7 @@
       </span>
     </summary>
     <div class="govuk-details__text">
-      <%= json_code_sample(operation.request_body.example) %>
+      <%= json_code_sample(operation.request_body.schema.example) %>
     </div>
   </details>
 <% end %>

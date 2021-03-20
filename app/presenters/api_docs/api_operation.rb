@@ -17,9 +17,7 @@ module APIDocs
     end
 
     def request_body
-      return unless operation.request_body
-
-      RequestBody.new(operation.request_body)
+      DescriptionAndSchema.new(operation.request_body) if operation.request_body
     end
 
     delegate :summary,
@@ -28,35 +26,21 @@ module APIDocs
              to: :operation
 
     def responses
-      operation.responses.to_h.transform_values { |response_definition| Response.new(response_definition) }
+      operation.responses.to_h.transform_values { |response| DescriptionAndSchema.new(response) }
     end
   end
 
-  class Response
-    attr_reader :response
+  class DescriptionAndSchema
+    attr_reader :definition
 
-    delegate :description, to: :response
+    delegate :description, to: :definition
 
-    def initialize(response)
-      @response = response
+    def initialize(definition)
+      @definition = definition
     end
 
     def schema
-      APISchema.new(name: nil, schema: response.content['application/json'].schema)
-    end
-  end
-
-  class RequestBody
-    attr_reader :request_body
-
-    delegate :description, to: :request_body
-
-    def initialize(request_body)
-      @request_body = request_body
-    end
-
-    def schema
-      APISchema.new(name: nil, schema: request_body.content['application/json'].schema)
+      APISchema.new(name: nil, schema: definition.content['application/json'].schema)
     end
   end
 end
