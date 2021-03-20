@@ -54,8 +54,11 @@ module APIDocs
     end
 
     def schema_name
+      referenced_schema_regex = /#\/components\/schemas\//
       location = schema.node_context.source_location.to_s
-      location.gsub(/#\/components\/schemas\//, '')
+      if location.match(referenced_schema_regex)
+        location.gsub(referenced_schema_regex, '')
+      end
     end
   end
 

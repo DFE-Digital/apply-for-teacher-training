@@ -41,13 +41,17 @@ RSpec.describe APIDocs::APIOperation do
                 content:
                   application/json:
                     schema:
-                      type: object
-                      properties:
-                        error_messages:
-                          type: array
-                          example: ['Bad word', 'Misspelled']
-                          items:
-                            type: string
+                      "$ref": "#/components/schemas/ErrorResponse"
+      components:
+        schemas:
+          ErrorResponse:
+            type: object
+            properties:
+              error_messages:
+                type: array
+                example: ['Bad word', 'Misspelled']
+                items:
+                  type: string
     YAML
   end
 
@@ -74,6 +78,14 @@ RSpec.describe APIDocs::APIOperation do
     it 'returns all the responses in a hash' do
       expect(api_operation.responses['200'].example).to eq('my_string' => 'I AM A STRING FROM THE API')
       expect(api_operation.responses['422'].example).to eq('error_messages' => ['Bad word', 'Misspelled'])
+    end
+
+    it 'returns a meaningful schema_name for an referenced schema' do
+      expect(api_operation.responses['422'].schema_name).to eq 'ErrorResponse'
+    end
+
+    it 'returns no schema_name for an inline schema' do
+      expect(api_operation.responses['200'].schema_name).to be nil
     end
   end
 end

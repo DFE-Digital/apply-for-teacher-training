@@ -76,7 +76,9 @@
         </span>
       </summary>
       <div class="govuk-details__text">
-        This request will return a <%= govuk_link_to response.schema_name, "##{response.schema_name.parameterize}-object" %> object.
+        <% if response.schema_name %>
+          This request will return a <%= govuk_link_to response.schema_name, "##{response.schema_name.parameterize}-object" %> object.
+        <% end %>
 
         <% if response.example %>
           <%= json_code_sample(response.example) %>
